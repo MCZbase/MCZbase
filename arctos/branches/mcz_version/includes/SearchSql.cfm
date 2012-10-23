@@ -260,7 +260,7 @@
 	<cfset mapurl = "#mapurl#&encumbering_agent_id=#encumbering_agent_id#">
 </cfif>	
 <cfif isdefined("collection_id") AND isnumeric(collection_id)>
-	<cfset basQual = "#basQual#  AND #session.flatTableName#.collection_id = #collection_id#" >
+	<cfset basQual = "#basQual#  AND #session.flatTableName#.collection_id in (#collection_id#, 11)" >
 	<cfset mapurl = "#mapurl#&collection_id=#collection_id#">
 </cfif>		
 <cfif isdefined("session.collection") and len(session.collection) gt 0>
@@ -272,7 +272,7 @@
 		<cfif len(collcde) is 0>
 			<cfset collcde = "'#i#'">
 		<cfelse>
-			<cfset collcde = "#collcde#,'#i#'">
+			<cfset collcde = "#collcde#,'#i#','Cryo'">
 		</cfif>
 	</cfloop>
 	<cfset basQual = "#basQual#  AND cataloged_item.collection_cde IN (#collcde#)" >
