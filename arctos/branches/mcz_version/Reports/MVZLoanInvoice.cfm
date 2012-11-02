@@ -284,7 +284,7 @@ Change to: <select name="format">
       where identification.accepted_id_fg = 1 AND
             coll_obj_cont_hist.current_container_fg = 1 AND
 	    loan_item.transaction_id = #transaction_id#
-	ORDER BY cat_num
+	ORDER BY container, cat_num
 </cfquery>
 <cfelse>
 <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -338,7 +338,7 @@ Change to: <select name="format">
 	<cfset maxRow = 7>
 </cfif>
 <cfif format is "Cryo">
-	<cfset maxRow = 10>
+	<cfset maxRow = 9>
         <cfset maxCol = 2>
         <cfset labelWidth = 'width: 368px;'>
 	<cfset orientiation = 'portrait'>
