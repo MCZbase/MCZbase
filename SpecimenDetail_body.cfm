@@ -56,7 +56,14 @@
 		locality.minimum_elevation,
 		locality.maximum_elevation,
 		locality.orig_elev_units,
-		locality.spec_locality,		
+		case when 
+			#oneOfUs# != 1 and 
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					locality.spec_locality is not null
+				then 'Masked'
+		else
+		locality.spec_locality
+		end spec_locality,		
 		case when 
 			#oneOfUs# != 1 and 
 				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
@@ -118,8 +125,22 @@
 		accn_number accession,
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-		locality.locality_remarks,
-		verbatim_locality,
+		case when 
+			#oneOfUs# != 1 and 
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					locality.locality_remarks is not null
+				then 'Masked'
+		else
+				locality.locality_remarks
+		end locality_remarks,
+		case when 
+			#oneOfUs# != 1 and 
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					verbatim_locality is not null
+				then 'Masked'
+		else
+			verbatim_locality
+		end verbatim_locality,
 		min_depth,
 		max_depth,
 		depth_units,
@@ -577,40 +598,47 @@
 								<cfif one.min_depth neq one.max_depth>to #one.max_depth# </cfif> #one.depth_units#</td>
 						</tr>
 					</cfif>
-					<cfif (len(verbatimLatitude) gt 0 and len(verbatimLongitude) gt 0)>
+					<cfif verbatimLatitude EQ 'Masked'>
 						<tr class="detailData">
 							<td id="SDCellLeft" class="innerDetailLabel">Coordinates:</td>
-							<td id="SDCellRight">#one.VerbatimLatitude# #one.verbatimLongitude#
-								<cfif len(one.datum) gt 0>
-									(#one.datum#)
-								</cfif>
-								<cfif len(one.max_error_distance) gt 0>
-									, Error: #one.max_error_distance# #one.max_error_units#
-								</cfif>
-							</td>
+							<td id="SDCellRight">Masked</td>
 						</tr>
-						<cfif len(one.latLongDeterminer) gt 0>
-							<cfset determination = one.latLongDeterminer>
-							<cfif len(one.latLongDeterminedDate) gt 0>
-								<cfset determination = '#determination#; #dateformat(one.latLongDeterminedDate, "yyyy-mm-dd")#'>
-							</cfif>
-							<cfif len(one.lat_long_ref_source) gt 0>
-								<cfset determination = '#determination#; #one.lat_long_ref_source#'>
-							</cfif>
-							<tr>
-								<td></td>
-								<td id="SDCellRight" class="detailCellSmall">
-									#determination#
+					<cfelse>					
+						<cfif (len(verbatimLatitude) gt 0 and len(verbatimLongitude) gt 0)>
+							<tr class="detailData">
+								<td id="SDCellLeft" class="innerDetailLabel">Coordinates:</td>
+								<td id="SDCellRight">#one.VerbatimLatitude# #one.verbatimLongitude#
+									<cfif len(one.datum) gt 0>
+										(#one.datum#)
+									</cfif>
+									<cfif len(one.max_error_distance) gt 0>
+										, Error: #one.max_error_distance# #one.max_error_units#
+									</cfif>
 								</td>
 							</tr>
-						</cfif>
-						<cfif len(one.lat_long_remarks) gt 0>
-							<tr class="detailCellSmall">
-								<td></td>
-								<td class="innerDetailLabel">Coordinate Remarks:
-									#one.lat_long_remarks#
-								</td>
-							</tr>
+							<cfif len(one.latLongDeterminer) gt 0>
+								<cfset determination = one.latLongDeterminer>
+								<cfif len(one.latLongDeterminedDate) gt 0>
+									<cfset determination = '#determination#; #dateformat(one.latLongDeterminedDate, "yyyy-mm-dd")#'>
+								</cfif>
+								<cfif len(one.lat_long_ref_source) gt 0>
+									<cfset determination = '#determination#; #one.lat_long_ref_source#'>
+								</cfif>
+								<tr>
+									<td></td>
+									<td id="SDCellRight" class="detailCellSmall">
+										#determination#
+									</td>
+								</tr>
+							</cfif>
+							<cfif len(one.lat_long_remarks) gt 0>
+								<tr class="detailCellSmall">
+									<td></td>
+									<td class="innerDetailLabel">Coordinate Remarks:
+										#one.lat_long_remarks#
+									</td>
+								</tr>
+							</cfif>
 						</cfif>
 					</cfif>
 						<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1335,7 +1363,13 @@
 <cfif media.recordcount gt 0>
     <div class="detailCell">
 		<div class="detailLabel">Media
-			<cfif oneOfUs is 1>
+		<cfquery name="wrlCount" dbtype="query">
+			select * from media where mime_type = 'model/vrml'
+		</cfquery>
+		<cfif wrlCount.recordcount gt 0>
+			<br>Note: CT scans with mime type "image/wrl" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>
+		</cfif> 
+		 		<cfif oneOfUs is 1>
 				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT count(*) c
 					FROM
