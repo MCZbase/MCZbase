@@ -47,9 +47,38 @@
 </cfif>
 
 <cfif isdefined("catnum") and len(catnum) gt 0>
-
-    <cfset basQual = basQual & " AND " & listcatnumToBasQualTable(catnum,#session.flatTableName#) & " ">
-    <cfset mapurl = "#mapurl#&catnum=#catnum#">
+	<cfif isdefined("searchOtherIDs") and searchOtherIDs EQ "Yes">
+			<cfif not isdefined("oid2Oper") OR len(oid2Oper) is 0>
+				<cfset oid2Oper = "LIKE">
+			</cfif>
+			<cfset mapurl = "#mapurl#&searchOtherIDs=#searchOtherIDs#">
+			<cfif basJoin does not contain " otherIdSearch ">
+				<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num otherIdSearch ON 
+				(cataloged_item.collection_object_id = otherIdSearch.collection_object_id)">
+			</cfif>
+			<cfset oid2List="">
+			<cfloop list="#catnum#" delimiters="," index="i">
+				<cfif oid2Oper is "LIKE">
+					<cfif len(oid2List) is 0>
+						<cfset oid2List = "OR ( upper(otherIdSearch.display_value) LIKE '%#ucase(i)#%'">
+					<cfelse>
+						<cfset oid2List = "#oid2List# OR upper(otherIdSearch.display_value) LIKE '%#ucase(i)#%'">
+					</cfif>
+				<cfelse>
+					<cfif len(oid2List) is 0>
+						<cfset oid2List = "OR ( otherIdSearch.display_value = '#i#'">
+					<cfelse>
+						<cfset oid2List = "#oid2List# OR otherIdSearch.display_value = '#i#'">
+					</cfif>
+				</cfif>
+			</cfloop>
+			<cfset oid2List = "#oid2List# )">
+			<!--cfset basQual = " #basQual# #oid2List#"-->
+			<cfset basQual = basQual & " AND (" & listcatnumToBasQualTable(catnum,#session.flatTableName#) & oid2List &  ") ">
+	<cfelse>
+	    <cfset basQual = basQual & " AND " & listcatnumToBasQualTable(catnum,#session.flatTableName#) & " ">
+	    <cfset mapurl = "#mapurl#&catnum=#catnum#">
+	</cfif>
 
     <!--- 
 	<cfset catnum=replace(catnum," ","","all")>

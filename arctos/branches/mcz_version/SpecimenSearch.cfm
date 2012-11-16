@@ -235,6 +235,9 @@
                         	---> 
 			</td>
 		</tr>
+		<tr>
+			<td colspan = 2 align=right><input type="checkbox" name="searchOtherIds" value="Yes">Include Other Identifiers in search (original number, previous number, etc.)</td>
+		</tr>
 	<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
 			<td class="lbl">
