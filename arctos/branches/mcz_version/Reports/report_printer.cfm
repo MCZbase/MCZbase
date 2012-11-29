@@ -52,8 +52,9 @@
 	    select * from cf_report_sql where report_id=#report_id#
 	</cfquery>
 	<cfif len(e.sql_text) gt 0>
+                <!--- The query to obtain the report data is in cf_report_sql.sql_text ---> 
 		<cfset sql=e.sql_text>
-         <cfif sql contains "##transaction_id##">
+                <cfif sql contains "##transaction_id##">
 			yeppers
 			<cfset sql=replace(sql,"##transaction_id##",#transaction_id#,"all")>
 		<cfelse>
@@ -96,20 +97,32 @@
 		</cfcatch>
 		</cftry>
     <cfelse>
-        <!--- need soemthing to pass to the function --->
+        <!--- cf_report_sql.sql_text is null ---> 
+        <!--- need something to pass to the function --->
         <cfset d="">
     </cfif>
-    <!---  Can call a custom function here to transform the query --->
+
+    <!---  Can call a custom function here to obtain or transform the query --->
     <cfif len(e.pre_function) gt 0>
+        <!---  e.sql may be empty and e.pre_function may point to a query from a CustomTag --->
+        <!---  The query for loan invoices comes from a CustomTag --->
+        <!---  Other reports may have a query in e.sql and have it modified by e.pre_function --->
         <cfset d=evaluate(e.pre_function & "(d)")>
     </cfif>
-	<cfif e.report_format is "pdf">
+
+    <!---  Add the sort if one isn't present (to add a sort to a query from CustomTags ---> 
+    <!---  Supports sort order on loan invoice ---> 
+    <cfif len(#sort#) gt 0 and #d.getMetaData().getExtendedMetaData().sql# does not contain " order by ">
+          <cfset d.sort(d.findColumn(#sort#),TRUE)>
+    </cfif>
+
+    <cfif e.report_format is "pdf">
 		<cfset extension="pdf">
-	<cfelseif e.report_format is "RTF">
+    <cfelseif e.report_format is "RTF">
 		<cfset extension="rtf">
-	<cfelse>
+    <cfelse>
 		<cfset extension="rtf">
-	</cfif>
+    </cfif>
     <cfreport format="#e.report_format#"
     	template="#application.webDirectory#/Reports/templates/#e.report_template#"
         query="d"
