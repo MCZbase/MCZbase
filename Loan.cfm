@@ -450,7 +450,8 @@
 				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#">Any Report</option>
 			<cfelseif #cgi.HTTP_HOST# contains "harvard.edu">
                 <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
-                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items">MCZ Item Invoice</option>
+                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
+                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
                 <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
             <cfelse>
    			        <option value="">Host not recognized.</option>
