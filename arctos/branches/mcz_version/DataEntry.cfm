@@ -1084,7 +1084,7 @@ Some Totally Random String Data .....
 											 <input type="hidden" name="attribute_1" value="sex">
 											 <select name="attribute_value_1" size="1" onChange="changeSex(this.value)"
 												id="attribute_value_1"
-												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo">
+												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
 													class="reqdClr d11a"
 												<cfelse>
 													class="d11a"
@@ -1099,7 +1099,7 @@ Some Totally Random String Data .....
 											 </select>
 											<span class="f11a">Date</span>
 											<input type="text" name="attribute_date_1" value="#attribute_date_1#" id="attribute_date_1" size="10" 
-											<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo">
+											<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
 														class="reqdClr"
 											</cfif>
 											>
@@ -1108,7 +1108,7 @@ Some Totally Random String Data .....
 											<input type="text" 
 												name="attribute_determiner_1" 
 												value="#attribute_determiner_1#" 
-												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo">
+												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
 													class="reqdClr" 
 												</cfif>
 												onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
