@@ -344,7 +344,7 @@ function getSpecResultsData (startrow,numrecs,orderBy,orderOrder) {
 }
 function success_getSpecResultsData(result){
 	var data = result.DATA;
-	var attributes="SNV_results,abundance,age,age_class,appraised_value,axillary_girth,body_condition,body_width,breadth,bursa,carapace_length,caste,clutch_size,clutch_size_nest_parasite,colors,crown_rump_length,curvilinear_length,diploid_number,ear_from_crown,ear_from_notch,egg_content_weight,eggshell_thickness,fat_deposition,forearm_length,gonad,head_length,head_width,height,hind_foot_with_claw,hind_foot_without_claw,image_confirmed,incubation_stage,molt_condition,neck_width,nest_description,number_of_labels,numeric_age,ovum,reproductive_condition,reproductive_data,skull_ossification,snout_vent_length,soft_part_colors,soft_parts,stomach_contents,tail_base_width,tail_condition,tail_length,title,total_length,tragus_length,trap_identifier,trap_type,unformatted_measurements,verbatim_host_ID,verbatim_preservation_date,weight,width,wing_span,storage,number_of_specimens";
+	var attributes="number_of_specimens,age_class,altitude_ft,altitude_m,cataloger,citation,cruise,curation,current_name,ear_from_notch,entered_from_ledger,expedition,field_number,forearm_length,group_number,hind_foot_with_claw,host,incubation,ledger_verbatim_horizon,malacology_accn_number,muse_collect_date,newgenusspecies,numeric_age,range,rdt_jar_number,reference,replica,reproductive_data,section,sex,sex_IZ_migration,size_fish,standard_length,station_number,storage,survey_study,tail_length,total_length,total_size,township,tragus_length,unformatted_measurements,valves,verbatim_horizon,weight,whoi_jar_number,total_parts";
 	var attAry=attributes.split(",");
 	var nAtt=attAry.length;
 	var collection_object_id = data.COLLECTION_OBJECT_ID[0];
