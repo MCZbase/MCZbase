@@ -344,7 +344,7 @@ function getSpecResultsData (startrow,numrecs,orderBy,orderOrder) {
 }
 function success_getSpecResultsData(result){
 	var data = result.DATA;
-	var attributes="number_of_specimens,age_class,altitude_ft,altitude_m,cataloger,citation,cruise,curation,current_name,ear_from_notch,entered_from_ledger,expedition,field_number,forearm_length,group_number,hind_foot_with_claw,host,incubation,ledger_verbatim_horizon,malacology_accn_number,muse_collect_date,newgenusspecies,numeric_age,range,rdt_jar_number,reference,replica,reproductive_data,section,sex,sex_IZ_migration,size_fish,standard_length,station_number,storage,survey_study,tail_length,total_length,total_size,township,tragus_length,unformatted_measurements,valves,verbatim_horizon,weight,whoi_jar_number,total_parts";
+	var attributes="number_of_specimens,age_class,cataloger,citation,curation,current_name,ear_from_notch,field_number,forearm_length,group_number,hind_foot_with_claw,host,incubation,ledger_verbatim_horizon,malacology_accn_number,newgenusspecies,numeric_age,range,reference,replica,reproductive_data,section,sex,sex_IZ_migration,size_fish,standard_length,storage,survey_study,tail_length,total_length,total_size,township,tragus_length,unformatted_measurements,valves,verbatim_horizon,weight,total_parts";
 	var attAry=attributes.split(",");
 	var nAtt=attAry.length;
 	var collection_object_id = data.COLLECTION_OBJECT_ID[0];
