@@ -30,7 +30,7 @@ function newIdFormula (f) {
 		b_val.className='reqdClr';
 		b_val.value='';
 		b_id.className='reqdClr';
-	} else if (f == 'A' || f == 'A ?' || f == 'A cf.' || f == 'A sp.' || f == 'A aff.' || f == 'A ssp.' || f == 'A sp. nov.' ||  f == 'A ssp. nov.' ||f=='A \{string\}') {
+	} else if (f == 'A' || f == 'A ?' || f == 'A cf.' || f == 'A sp.' || f == 'A aff.' || f == 'A ssp.' || f == 'A sp. nov.' ||  f == 'A ssp. nov.' ||f=='A \{string\}' || f=='A (Group)') {
 		bTr.style.display='none';
 		b_val.style.value='';
 		b_val.className='';
