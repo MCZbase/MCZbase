@@ -525,6 +525,8 @@
 	<cfset scientific_name = "#taxona# cf.">
 <cfelseif taxa_formula is "A aff.">
 	<cfset scientific_name = "#taxona# aff.">
+<cfelseif taxa_formula is "A (Group)">
+	<cfset scientific_name = "#taxona# (Group)">
 <cfelseif taxa_formula is "A / B intergrade">
 	<cfset scientific_name = "#taxona# / #taxonb# intergrade">
 <cfelse>
