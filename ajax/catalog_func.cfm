@@ -221,8 +221,10 @@
 <cfargument name="collection_object_id" type="numeric" required="yes">
 
 <cfargument name="part_name" type="string" required="yes">
+<cfargument name="preserve_method" type="string" required="no">
 <cfargument name="part_disposition" type="string" required="yes">
 <cfargument name="part_condition" type="string" required="yes">
+<cfargument name="part_count_modifier" type="string" required="no">
 <cfargument name="part_count" type="string" required="yes">
 <cfargument name="label" type="string" required="yes">
 <cfargument name="print_fg" type="string" required="yes">
@@ -280,6 +282,7 @@
 			COLL_OBJECT_ENTERED_DATE,
 			LAST_EDITED_PERSON_ID,
 			COLL_OBJ_DISPOSITION,
+			LOT_COUNT_MODIFIER,
 			LOT_COUNT,
 			CONDITION,
 			FLAGS )
@@ -290,6 +293,7 @@
 			'#thisDate#',
 			#enteredbyid#,
 			'#part_disposition#',
+			'#part_count_modifier#'
 			#part_count#,
 			'#part_condition#',
 			0 )
@@ -297,12 +301,14 @@
 	<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO specimen_part (
 			  COLLECTION_OBJECT_ID,
-			  PART_NAME
+			  PART_NAME,
+			  preserve_method
 				,DERIVED_FROM_cat_item )
 			VALUES (
 				sq_collection_object_id.currval,
-			  '#PART_NAME#'
-				,#collection_object_id# )
+			  '#PART_NAME#',
+			  '#PRESERVE_METHOD#,
+			  #collection_object_id# )
 		</cfquery>
 			
 			<cfif len(#part_remark#) gt 0>

@@ -7,12 +7,14 @@
 		SELECT
 			specimen_part.collection_object_id as partID,
 			part_name,
+			preserve_method,
 			collection.institution_acronym,
 			coll_obj_disposition,
 			condition,
 			sampled_from_obj_id,
 			cataloged_item.collection_cde,
 			cat_num,
+			lot_count_modifier,
 			lot_count,
 			parentContainer.barcode,
 			parentContainer.label,
@@ -35,6 +37,15 @@
 	</cfquery>
 	<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select coll_obj_disposition from ctcoll_obj_disp order by coll_obj_disposition
+	</cfquery>
+	<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select modifier from ctnumeric_modifiers order by modifier desc
+	</cfquery>
+	<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select preserve_method 
+		from ctspecimen_preserv_method 
+		where collection_cde = '#getParts.collection_cde#'
+		order by preserve_method 
 	</cfquery>
  	<b>Edit #getParts.recordcount# Specimen Parts</b>&nbsp;<span class="infoLink" onClick="getDocs('parts')">help</span>
 	<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#">Part Locations</a>
@@ -80,6 +91,18 @@
 							onkeypress="return noenter(event);">
 					</td>
 					<td>
+						<label for="preserve_method#i#">
+							Preserve Method
+							&nbsp;<span class="likeLink" style="font-weight:100" onClick="getCtDoc('ctspecimen_preserv_method')">[ Define values ]</span>
+						</label>
+						<select name="preserve_method#i#" size="1" style="width:200px";>
+			              <option value=""></option>
+			              <cfloop query="ctPreserveMethod">
+				              <option <cfif ctPreserveMethod.preserve_method is getParts.preserve_method> selected </cfif>value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+			              </cfloop>
+			            </select>
+					</td>
+					<td>
 						<label for="coll_obj_disposition#i#">Disposition</label>
 						<select name="coll_obj_disposition#i#" size="1" class="reqdClr" style="width:150px";>
 			              <cfloop query="ctDisp">
@@ -89,7 +112,15 @@
 					</td>
 					<td>
 						<label for="condition#i#">Condition&nbsp;<span class="likeLink" style="font-weight:100" onClick="chgCondition('#getParts.partID#')">[ History ]</span></label>
-						<input type="text" name="condition#i#" id="condition#i#" value="#getparts.condition#"  class="reqdClr">
+						<input type="text" name="condition#i#" id="condition#i#" value="#getparts.condition#"  class="reqdClr" style="width:150px">
+					</td>
+					<td>
+						<label for="lot_count_modifier#i#">Count Modifier</label>
+						<select name="lot_count_modifier#i#" size="1" style="width:150px";>
+			              <cfloop query="ctModifiers">
+				              <option <cfif ctModifiers.modifier is getParts.lot_count_modifier> selected </cfif>value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
+			              </cfloop>
+			            </select>
 					</td>
 					<td>
 						<label for="lot_count#i#">##</label>
@@ -232,9 +263,25 @@
 				onkeypress="return noenter(event);">
 		</td>
       </tr>
+	<tr> 
+        <td><div align="right">Preserve Method: </div></td>
+        <td>
+			<select name="preserve_method" size="1"  class="reqdClr">
+            <cfloop query="ctPreserveMethod">
+              <option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+            </cfloop>
+          </select>
+		</td>
+      </tr>
 	   <tr> 
         <td><div align="right">Count:</div></td>
-        <td><input type="text" name="lot_count" class="reqdClr" size="2"></td>
+        <td>
+			<select name="lot_count_modifier" size="1">
+	            <cfloop query="ctModifiers">
+	              <option value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
+	            </cfloop>
+          	</select>
+			<input type="text" name="lot_count" class="reqdClr" size="2"></td>
       </tr>
       <tr> 
         <td><div align="right">Disposition:</div></td>
@@ -300,8 +347,10 @@
 	<cfloop from="1" to="#numberOfParts#" index="n">
 		<cfset thisPartId = #evaluate("partID" & n)#>
 		<cfset thisPartName = #evaluate("Part_name" & n)#>
+		<cfset thisPreserveMethod = #evaluate("preserve_method" & n)#>
 		<cfset thisDisposition = #evaluate("coll_obj_disposition" & n)#>
 		<cfset thisCondition = #evaluate("condition" & n)#>
+		<cfset thisLotCountModifier = #evaluate("lot_count_modifier" & n)#>
 		<cfset thisLotCount = #evaluate("lot_count" & n)#>
 		<cfset thiscoll_object_remarks = #evaluate("coll_object_remarks" & n)#>
 		<cfset thisnewCode = #evaluate("newCode" & n)#>
@@ -311,13 +360,15 @@
 		<cfset thispartContainerId = #evaluate("partContainerId" & n)#>
 		<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE specimen_part SET 
-				Part_name = '#thisPartName#'
+				Part_name = '#thisPartName#',
+				preserve_method = '#thisPreserveMethod#'
 			WHERE collection_object_id = #thisPartId#
 		</cfquery>
 		<cfquery name="upPartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE coll_object SET 
 				coll_obj_disposition = '#thisDisposition#'
 				,condition = '#thisCondition#',
+				lot_count_modifier= '#thisLotCountModifier#',
 				lot_count = #thisLotCount#
 			WHERE collection_object_id = #thisPartId#
 		</cfquery>
@@ -433,6 +484,7 @@
 			COLL_OBJECT_ENTERED_DATE,
 			LAST_EDITED_PERSON_ID,
 			COLL_OBJ_DISPOSITION,
+			LOT_COUNT_MODIFIER,
 			LOT_COUNT,
 			CONDITION,
 			FLAGS )
@@ -443,6 +495,7 @@
 			sysdate,
 			#enteredbyid#,
 			'#COLL_OBJ_DISPOSITION#',
+			'#lot_count_modifier#',
 			#lot_count#,
 			'#condition#',
 			0 )		
@@ -450,12 +503,14 @@
 	<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO specimen_part (
 			  COLLECTION_OBJECT_ID,
-			  PART_NAME
-				,DERIVED_FROM_cat_item)
+			  PART_NAME,
+			  preserve_method,
+			DERIVED_FROM_cat_item)
 			VALUES (
 				sq_collection_object_id.currval,
-			  '#PART_NAME#'
-				,#collection_object_id#)
+			  '#PART_NAME#',
+			  '#preserve_method#',
+			#collection_object_id#)
 	</cfquery>
 	<cfif len(#coll_object_remarks#) gt 0>
 			<!---- new remark --->

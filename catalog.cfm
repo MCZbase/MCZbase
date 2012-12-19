@@ -59,10 +59,12 @@
 		publication.publication_id,
 		specimen_part.collection_object_id as partID,
 		part_name,
+		preserve_method,
 		partcollobj.coll_obj_disposition as part_disposition,
 		partcollobj.condition as part_condition,
 		sampled_from_obj_id,
 		partcollobj.lot_count as part_count,
+		partcollobj.lot_count_modifier as part_count_modifier,
 		parentContainer.barcode,
 		parentContainer.label,
 		parentContainer.container_id AS parentContainerId,
@@ -228,10 +230,12 @@
 	select 
 		partID,
 		part_name,
+		preserve_method,
 		part_disposition,
 		part_condition,
 		sampled_from_obj_id,
 		part_count,
+		part_count_modifier,
 		barcode,
 		label,
 		parentContainerId,
@@ -241,10 +245,12 @@
 	from detail group by
 		partID,
 		part_name,
+		preserve_method,
 		part_disposition,
 		part_condition,
 		sampled_from_obj_id,
 		part_count,
+		part_count_modifier,
 		barcode,
 		label,
 		parentContainerId,
@@ -317,6 +323,15 @@
 			SELECT distinct(part_name) FROM ctSpecimen_part_name
 				WHERE collection_cde='#detail.collection_cde#'
 				order by part_name
+        </cfquery>
+		<cfquery name="cPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
+			SELECT distinct(preserve_method) FROM ctSpecimen_preserv_method
+				WHERE collection_cde='#detail.collection_cde#'
+				order by preserve_method
+        </cfquery>
+		<cfquery name="cNumericModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
+			SELECT distinct(modifier) FROM ctNumeric_modifiers
+				order by modifier
         </cfquery>
 		<cfquery name="ctLength_Units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
 			select length_units from ctLength_Units
@@ -528,8 +543,10 @@
 				<td>
 					<span class="d11a">Part</span>
 				</td>
+				<td><span class="d11a">Preserve Method</span></td>
 				<td><span class="d11a">Disposition</span></td>
 				<td><span class="d11a">Condition</span></td>
+				<td><span class="d11a">Count Modifier</span></td>
 				<td><span class="d11a">##</span></td>
 				<td><span class="d11a">Container</span></td>
 				<td><span class="d11a">Print</span></td>
@@ -552,6 +569,18 @@
 						</select>
 					</td>
 					<td>	
+						<cfset pm = #preserve_method#>
+						<select name="preserver_method_#i#" id="preserver_method_#i#" size="1"
+							onchange="this.className='saving';upPartDisp(#i#);">
+							<cfloop query="cPreserveMethod">
+								<option 
+									<cfif #pm# is #preserve_method#> selected </cfif>
+								value="#preserve_method#">#preserve_method#</option>
+							</cfloop>
+						</select>
+					
+					</td>
+					<td>	
 						<cfset pd = #part_disposition#>
 						<select name="part_disposition_#i#" id="part_disposition_#i#" size="1" class="d11a reqdClr"
 							onchange="this.className='saving';upPartDisp(#i#);">
@@ -567,6 +596,18 @@
 						<input type="text" name="part_condition_#i#" id="part_condition_#i#" 
 							class="d11a reqdClr" value="#part_condition#" 
 							onchange="this.className='saving';upPartCond(#i#);" />
+					</td>
+					<td>	
+						<cfset cm = #part_count_modifier#>
+						<select name="part_count_modifier_#i#" id="part_count_modifier_#i#" size="1" class="d11a reqdClr"
+							onchange="this.className='saving';upPartDisp(#i#);">
+							<cfloop query="cNumericModifiers">
+								<option 
+									<cfif #cm# is #modifier#> selected </cfif>
+								value="#modifier#">#modifier#</option>
+							</cfloop>
+						</select>
+					
 					</td>
 					<td>
 						<input type="text" name="part_count_#i#" id="part_count_#i#" class="d11a reqdClr" 
@@ -609,6 +650,14 @@
 						</select>
 					</td>
 					<td>	
+						<select name="preserve_method_n" id="preserve_method_n" size="1" class="d11a">
+							<cfloop query="cPreserveMethod">
+								<option value="#preserve_method#">#preserve_method#</option>
+							</cfloop>
+						</select>
+					
+					</td>
+					<td>	
 						<select name="part_disposition_n" id="part_disposition_n" size="1" class="d11a">
 							<cfloop query="CTCOLL_OBJ_DISP">
 								<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
@@ -618,6 +667,14 @@
 					</td>
 					<td>
 						<input type="text" name="part_condition_n" id="part_condition_n" class="d11a"  />
+					</td>
+					<td>	
+						<select name="part_count_modifier_n" id="part_count_modifier_n" size="1" class="d11a">
+							<cfloop query="cNumericModifiers">
+								<option value="#modifier#">#modifier#</option>
+							</cfloop>
+						</select>
+					
 					</td>
 					<td>
 						<input type="text" name="part_count_n" id="part_count_n" class="d11a" size="1" />
