@@ -117,6 +117,7 @@
 					<td>
 						<label for="lot_count_modifier#i#">Count Modifier</label>
 						<select name="lot_count_modifier#i#" size="1" style="width:150px";>
+						  <option value=""></option>
 			              <cfloop query="ctModifiers">
 				              <option <cfif ctModifiers.modifier is getParts.lot_count_modifier> selected </cfif>value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
 			              </cfloop>
@@ -277,6 +278,7 @@
         <td><div align="right">Count:</div></td>
         <td>
 			<select name="lot_count_modifier" size="1">
+				<option value=""></option>
 	            <cfloop query="ctModifiers">
 	              <option value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
 	            </cfloop>
