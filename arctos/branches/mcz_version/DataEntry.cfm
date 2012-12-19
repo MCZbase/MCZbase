@@ -174,7 +174,7 @@ Some Totally Random String Data .....
 			</cfquery> 
 			<cfset loadedMsg=chk.rslt>
 		<cfelse>
-			<cfset loadedMsg = "">
+			<cfset loadedMsg = "something">
 		</cfif>
 
 <!--- TODO: Evaluate if hybrid handling is present in bulk_check_one.  ---> 
@@ -268,6 +268,9 @@ Some Totally Random String Data .....
 				</cfif>
 				order by part_name
         </cfquery>
+		<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select modifier from ctnumeric_modifiers order by modifier desc
+		</cfquery>
 		<cfquery name="ctPartModifier" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT distinct(part_modifier) FROM ctSpecimen_part_modifier
 			order by part_modifier
@@ -705,6 +708,12 @@ Some Totally Random String Data .....
 											</cfloop>
 										</select> 
 									</td>
+									<td valign="top">
+                                                                            <span style="font-size:small" class="likeLink" onclick="geolocate()">geolocate</span>
+                                                                        </td>
+                                                                        <td valign="top">
+                                                                        	<div id="geoLocateResults" style="font-size:small"></div>
+                                                                        </td>
 								</tr>
 							</table>
 						</td>
@@ -1408,8 +1417,10 @@ Some Totally Random String Data .....
 							<img src="/images/info.gif" border="0" onClick="getDocs('parts')" class="likeLink" alt="[ help ]">
 						</td>
 						<th><span class="f11a">Part Name</span></th>
+						<th><span class="f11a">Preserve Method</span></th>
 						<th><span class="f11a">Condition</span></th>
 						<th><span class="f11a">Disposition</span></th>
+						<th><span class="f11a">Count Modifier</span></th>
 						<th><span class="f11a">##</span></th>
 						<th><span class="f11a">Barcode</span></th>
 						<th><span class="f11a">Vial Label</span></th>
@@ -1425,6 +1436,16 @@ Some Totally Random String Data .....
 									onkeypress="return noenter(event);">
 							</td>
 							<td>
+								<select id="preserv_method_#i#" name="preserv_method_#i#" <cfif i is 1>class="reqdClr"</cfif>>
+									<option value=""></option>
+									<cfloop query="ctPresMeth">
+										<option
+											<cfif evaluate("data.preserv_method_" & i) is ctPresMeth.PRESERVE_METHOD> selected="selected" </cfif>
+										 	value="#PRESERVE_METHOD#">#PRESERVE_METHOD#</option>
+									</cfloop>
+								</select>
+							</td>
+							<td>
 								<input type="text" name="part_condition_#i#" id="part_condition_#i#"
 									<cfif i is 1>class="reqdClr" </cfif>value="#evaluate("data.part_condition_" & i)#">
 							</td>
@@ -1435,6 +1456,16 @@ Some Totally Random String Data .....
 										<option
 											<cfif evaluate("data.part_disposition_" & i) is CTCOLL_OBJ_DISP.COLL_OBJ_DISPOSITION> selected="selected" </cfif>
 										 	value="#COLL_OBJ_DISPOSITION#">#COLL_OBJ_DISPOSITION#</option>
+									</cfloop>
+								</select>
+							</td>
+							<td>
+								<select id="part_lot_cnt_mod_#i#" name="part_lot_cnt_mod_#i#">
+									<option value=""></option>
+									<cfloop query="ctModifiers">
+										<option
+											<cfif evaluate("data.part_lot_cnt_mod_" & i) is ctModifiers.MODIFIER> selected="selected" </cfif>
+										 	value="#MODIFIER#">#MODIFIER#</option>
 									</cfloop>
 								</select>
 							</td>
@@ -1539,6 +1570,7 @@ Some Totally Random String Data .....
 <cfif len(loadedMsg) gt 0>
 	<cfset pMode = 'edit'>
 </cfif>
+
 <cfset loadedMsg = replace(loadedMsg,"'","`","all")>
 <script language="javascript" type="text/javascript">
 	switchActive('#orig_lat_long_units#');

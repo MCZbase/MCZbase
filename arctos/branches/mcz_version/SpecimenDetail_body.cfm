@@ -871,11 +871,11 @@
 	select
 		specimen_part.collection_object_id part_id,
 		pc.label,
-		part_name,
+		nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 		sampled_from_obj_id,
 		coll_object.COLL_OBJ_DISPOSITION part_disposition,
 		coll_object.CONDITION part_condition,
-		lot_count,
+		nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
 		coll_object_remarks part_remarks,
 		attribute_type,
 		attribute_value,

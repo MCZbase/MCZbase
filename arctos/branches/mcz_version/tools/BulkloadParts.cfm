@@ -37,7 +37,7 @@ Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,part_modifier,preserve_method,disposition,lot_count,remarks,use_existing,container_barcode,condition</textarea>
+		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,remarks,use_existing,container_barcode,condition</textarea>
 	</div> 
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
@@ -47,7 +47,9 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li style="color:red">other_id_type ("catalog number" is OK)</li>
 	<li style="color:red">other_id_number</li>
 	<li style="color:red">part_name</li>
+	<li style="color:red">preserve_method</li>
 	<li style="color:red">disposition</li>
+	<li>lot_count_modifier</li>
 	<li style="color:red">lot_count</li>
 	<li>remarks</li>		
 	<li style="color:red">use_existing
@@ -171,6 +173,13 @@ validate
 			)
 			OR part_name is null
 	</cfquery>
+	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		update cf_temp_parts set validated_status = validated_status || ';Invalid preserve_method'
+		where preserve_method|| '|' ||collection_cde NOT IN (
+			select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
+			)
+			OR preserve_method is null
+	</cfquery>
 	<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_parts set validated_status = validated_status || ';Invalid use_existing flag'
 			where use_existing not in ('0','1') OR
@@ -200,6 +209,12 @@ validate
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_parts set validated_status = validated_status || ';Invalid CONDITION'
 		where CONDITION is null
+	</cfquery>
+	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		update cf_temp_parts set validated_status = validated_status || ';invalid lot_count_modifier'
+		where lot_count_modifier NOT IN (
+			select modifier from ctnumeric_modifiers
+			)
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_parts set validated_status = validated_status || ';Invalid LOT_COUNT'
@@ -323,7 +338,9 @@ validate
 			<td>OTHER_ID_TYPE</td>
 			<td>OTHER_ID_NUMBER</td>
 			<td>part_name</td>
+			<td>preserve_method</td>
 			<td>disposition</td>
+			<td>lot_count_modifier</td>
 			<td>lot_count</td>
 			<td>remarks</td>
 			<td>condition</td>
@@ -351,7 +368,9 @@ validate
 				<td>#OTHER_ID_TYPE#</td>
 				<td>#OTHER_ID_NUMBER#</td>
 				<td>#part_name#</td>
+				<td>#preserve_method#</td>
 				<td>#disposition#</td>
+				<td>#lot_count_modifier#</td>
 				<td>#lot_count#</td>
 				<td>#remarks#</td>
 				<td>#condition#</td>
@@ -405,6 +424,7 @@ validate
 				COLL_OBJECT_ENTERED_DATE,
 				LAST_EDITED_PERSON_ID,
 				COLL_OBJ_DISPOSITION,
+				LOT_COUNT_MODIFIER,
 				LOT_COUNT,
 				CONDITION,
 				FLAGS )
@@ -415,6 +435,7 @@ validate
 				sysdate,
 				#enteredbyid#,
 				'#DISPOSITION#',
+				'#lot_count_modifier#',
 				#lot_count#,
 				'#condition#',
 				0 )		
@@ -422,11 +443,13 @@ validate
 		<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO specimen_part (
 				  COLLECTION_OBJECT_ID,
-				  PART_NAME
+				  PART_NAME,
+				  PRESERVE_METHOD,
 					,DERIVED_FROM_cat_item )
 				VALUES (
 					#NEXTID.NEXTID#,
-				  '#PART_NAME#'
+				  '#PART_NAME#',
+				  '#PRESERVE_METHOD#'
 					,#collection_object_id# )
 		</cfquery>	
 		<cfif len(#remarks#) gt 0>

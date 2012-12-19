@@ -1128,6 +1128,31 @@
 		<cfset basQual = " #basQual# AND upper(PARTS) LIKE '%#ucase(part_name)#%'">
 	</cfif>
 </cfif>
+<cfif isdefined("preservemethod") AND len(preservemethod) gt 0>
+	<cfset preserve_method=preservemethod>
+</cfif>		
+<cfif isdefined("preserve_method") AND len(preserve_method) gt 0>
+	<cfset mapurl = "#mapurl#&preserve_method=#preserve_method#">
+	<cfif preserve_method contains "|">
+		<cfset i=1>
+		<cfloop list="#preserve_method#" delimiters="|" index="p">
+			<cfif basJoin does not contain " specimen_part ">
+				<cfset basJoin = " #basJoin# INNER JOIN specimen_part sp#i# ON 
+					(cataloged_item.collection_object_id = sp#i#.derived_from_cat_item)">
+			</cfif>
+			<cfset basQual = " #basQual# AND sp#i#.preserve_method = '#p#'">
+			<cfset i=i+1>
+		</cfloop>
+	<cfelseif left(preserve_method,1) is '='>
+		<cfif basJoin does not contain " specimen_part ">
+			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON 
+			(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
+		</cfif>
+		<cfset basQual = " #basQual# AND specimen_part.preserve_method = '#right(preserve_method,len(preserve_method)-1)#'">
+	<cfelse><!--- part name only --->		
+		<cfset basQual = " #basQual# AND upper(PARTS) LIKE '%#ucase(preserve_method)#%'">
+	</cfif>
+</cfif>
 <cfif isdefined("is_tissue") AND is_tissue is 1>
 	<cfset mapurl = "#mapurl#&is_tissue=#is_tissue#">
 	<cfset basJoin = " #basJoin# INNER JOIN specimen_part spt ON (cataloged_item.collection_object_id = spt.derived_from_cat_item)

@@ -392,6 +392,16 @@
 	group by part_name order by part_name
 </cfquery>
 <cfset partlist=#valuelist(Part.part_name,"\")#>
+<cfquery name="PreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select preserve_method from 
+		<cfif len(#session.exclusive_collection_id#) gt 0>
+			cctspecimen_preserv_method#session.exclusive_collection_id#
+		<cfelse>
+			ctspecimen_preserv_method
+		</cfif>
+	group by preserve_method order by preserve_method
+</cfquery>
+<cfset presmethlist=#valuelist(PreserveMethod.preserve_method,"\")#>
 <div class="secDiv">
 	<table class="ssrch">
 		<tr>
@@ -411,6 +421,18 @@
 	
 				<span class="infoLink" onclick="getCtDoc('ctspecimen_part_name',SpecData.partname.value);">Define</span>
 				<span class="infoLink" onclick="var e=document.getElementById('partname');e.value='='+e.value;">Add = for exact match</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="lbl">
+				Preserve Method:
+			</td>
+			<td class="srch">
+				<input type="text" autosuggest="#presmethlist#" name="preservemethod" delimiter="\">
+				
+	
+				<span class="infoLink" onclick="getCtDoc('ctspecimen_preserv_method',SpecData.preservemethod.value);">Define</span>
+				<span class="infoLink" onclick="var e=document.getElementById('preservemethod');e.value='='+e.value;">Add = for exact match</span>
 			</td>
 		</tr>
 	</table>

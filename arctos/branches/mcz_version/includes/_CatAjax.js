@@ -1048,8 +1048,10 @@ function success_delPart(result) {
 function newpart() {
 	//alert('makin a new part');
 	var part_name = document.getElementById('part_name_n').value;
+	var preserve_method = document.getElementById('preserve_method_n').value;
 	var part_disposition = document.getElementById('part_disposition_n').value;
 	var part_condition = document.getElementById('part_condition_n').value;
+	var part_count_modifier = document.getElementById('part_count_modifier_n').value;
 	var part_count = document.getElementById('part_count_n').value;
 	var label = document.getElementById('label_n').value;
 	var print_fg = document.getElementById('print_fg_n').value;
@@ -1059,7 +1061,7 @@ function newpart() {
 	if (part_name.length < 1 || part_condition.length < 1 || part_count.length < 1) {
 		alert('Part Name, Condition and Count are required.');
 	} else {
-		DWREngine._execute(_catalog_func, null, 'newpart', collection_object_id,part_name,part_disposition,part_condition,part_count,label,print_fg,part_remark, success_newpart);
+		DWREngine._execute(_catalog_func, null, 'newpart', collection_object_id,part_name, preserve_method, part_disposition,part_condition,part_count_modifier,part_count,label,print_fg,part_remark, success_newpart);
 		//alert('somethin should happen bout now.....');
 	}
 }
