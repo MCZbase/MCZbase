@@ -51,9 +51,9 @@
 			<cfif not isdefined("oid2Oper") OR len(oid2Oper) is 0>
 				<cfset oid2Oper = "LIKE">
 			</cfif>
-			<cfset mapurl = "#mapurl#&searchOtherIDs=#searchOtherIDs#">
+			<cfset mapurl = "#mapurl#&catnum=#catnum#&searchOtherIDs=#searchOtherIDs#">
 			<cfif basJoin does not contain " otherIdSearch ">
-				<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num otherIdSearch ON 
+				<cfset basJoin = " #basJoin# LEFT JOIN coll_obj_other_id_num otherIdSearch ON 
 				(cataloged_item.collection_object_id = otherIdSearch.collection_object_id)">
 			</cfif>
 			<cfset oid2List="">
