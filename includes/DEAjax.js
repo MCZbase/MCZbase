@@ -60,7 +60,7 @@ function DEuseGL(glat,glon,gerr){
         var dt2=dt.substring(0,10);
         $("#determined_date").val(dt2); 
         $("#lat_long_ref_source").val('GeoLocate');     
-        $("#georefmethod").val('GeoLocate');    
+        $("#georefmethod").val('GEOLocate');    
         $("#verificationstatus").val('unverified');     
         $("#lat_long_remarks").val(''); 
         $("#dec_lat").val(glat);        
