@@ -221,6 +221,7 @@ select
 				'Fish','Ichthyology',
 				'Bird','Ornithology',
 				'Cryo','Cryogenic',
+				'Ent','Entomology',
 				'[Unable to identify collection from loan number]' || substr(loan_number, instr(loan_number, '-',1, 2)+1) 
 				) as collection,
 				num_specimens, num_lots
