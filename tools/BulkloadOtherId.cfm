@@ -192,7 +192,7 @@ Include column headings, spelled exactly as below.
 						cataloged_item.collection_id = collection.collection_id and
 						collection.collection_cde = '#collection_cde#' and
 						collection.institution_acronym = '#institution_acronym#' and
-						cat_num=#existing_other_id_number#
+						cat_num='#existing_other_id_number#'
 				</cfquery>
 			</cfif>
 			<cfif #collObj.recordcount# is not 1>
