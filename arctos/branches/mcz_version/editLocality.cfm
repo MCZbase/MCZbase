@@ -628,7 +628,7 @@
 					<label for="georefMethod#i#">
 						Georeference Method
 					</label>
-					<select name="georefMethod" id="georefMethod#i#" size="1" class="reqdClr">
+					<select name="georefMethod" id="georefMethod#i#" size="1" class="reqdClr" style="width: 300px">
 				   		<cfloop query="ctGeorefMethod">
 							<option 
 								<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>

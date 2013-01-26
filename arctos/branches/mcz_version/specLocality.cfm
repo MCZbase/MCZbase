@@ -597,7 +597,7 @@
 					Georeference Method
 				</label>
 				<cfset thisGeoMeth = #l.georefMethod#>
-				<select name="georefMethod" id="georefMethod" size="1" class="reqdClr">
+				<select name="georefMethod" id="georefMethod" size="1" class="reqdClr" style="width: 300px">
 					<cfloop query="ctGeorefMethod">
 						<option 
 						<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
