@@ -1626,7 +1626,7 @@
 			</cfquery>
 			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select cataloged_item.collection_object_id,
-				cat_num,collection,part_name
+				cat_num,collection,part_name, preserve_method
 				from
 				cataloged_item,
 				collection,
@@ -1642,6 +1642,7 @@
 					coll_obj_disposition, 
 					condition,
 					part_name,
+					preserve_method,
 					derived_from_cat_item
 				FROM
 					coll_object, specimen_part
@@ -1675,11 +1676,13 @@
 				INSERT INTO specimen_part (
 					COLLECTION_OBJECT_ID
 					,PART_NAME
+					,PRESERVE_METHOD
 					,SAMPLED_FROM_OBJ_ID
 					,DERIVED_FROM_CAT_ITEM)
 				VALUES (
 					#n.n#
 					,'#parentData.part_name#'
+					,'#parentData.preserve_method#'
 					,#partID#
 					,#parentData.derived_from_cat_item#)				
 			</cfquery>
@@ -1707,7 +1710,7 @@
 				</cfif>		
 				#session.myagentid#,
 				sysdate
-				,'#meta.collection# #meta.cat_num# #meta.part_name#'
+				,'#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)'
 				<cfif len(#instructions#) gt 0>
 					,'#instructions#'
 				</cfif>
