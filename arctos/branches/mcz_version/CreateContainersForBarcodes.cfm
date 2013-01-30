@@ -31,6 +31,7 @@ This form does nothing to labels that already exist. Don't try.
 			<option value="#institution_acronym#">#institution_acronym#</option>
 		</cfloop>
 	</select> 
+	<input type="checkbox" name="cryoBarcode" value="cryoBarcode">Create "PLACE" barcodes for Cryo Collection</input>
     <label for="beginBarcode">Low number in series</label>
     <input type="text" name="beginBarcode" id="beginBarcode">
     <label for="endBarcode">High number in series</label>
@@ -64,7 +65,7 @@ This form does nothing to labels that already exist. Don't try.
 <cfoutput>
 <cfset num = #num# + 1>
 <cftransaction>
-<cfif #institution_acronym# EQ "MCZ">
+<cfif isdefined("cryoBarcode")>
 	<cfloop index="index" from="1" to = "#num#">
 	<cfset mczbarcode=left(numberFormat(barcode,00000000),4) & "PLACE" & right(numberFormat(barcode,00000000),4)>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -76,6 +77,12 @@ This form does nothing to labels that already exist. Don't try.
 	</cfloop>	
 <cfelse>
 	<cfloop index="index" from="1" to = "#num#">
+	<cfif #label_prefix# EQ "" and LEN(#prefix#) GT 0> 
+		<cfset label_prefix=prefix>
+	</cfif>
+	<cfif #label_suffix# EQ "" and LEN(#suffix#) GT 0> 
+		<cfset label_suffix=suffix>
+	</cfif>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO container (container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
 			VALUES (sq_container_id.nextval, 0, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
