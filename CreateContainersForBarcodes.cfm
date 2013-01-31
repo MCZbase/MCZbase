@@ -83,6 +83,10 @@ This form does nothing to labels that already exist. Don't try.
 	<cfif #label_suffix# EQ "" and LEN(#suffix#) GT 0> 
 		<cfset label_suffix=suffix>
 	</cfif>
+	<cfif left(#beginBarcode#,1) EQ "0" and isNumeric(#beginBarcode#)>
+		<cfset numberMask=RepeatString("0",len(#beginBarcode#))>
+		<cfset barcode=NumberFormat(barcode, numberMask)>
+	</cfif>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO container (container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
 			VALUES (sq_container_id.nextval, 0, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
