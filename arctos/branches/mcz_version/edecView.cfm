@@ -1,4 +1,4 @@
-<cfcontent type="text/plain; charset=utf-8"><cfobject type="Java" class="edu.harvard.mcz.edec.mczbase.EDecBuilder" name="builder"><cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfcontent type="text/plain; charset=utf-8"><cfif len(session.roles) gt 0 and session.roles is not "public"><cfobject type="Java" class="edu.harvard.mcz.edec.mczbase.EDecBuilder" name="builder"><cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                 select
                         agent_name,
                         trans_agent_role
@@ -39,4 +39,4 @@
 	  	loan_item.transaction_id = #transaction_id#
 	group by scientific_name, country
 	ORDER BY scientific_name, country
-</cfquery><cfset res = builder.init(#loanAgents#,#loanSpecies#)><cfset returnVal = builder.getEDecFile()><cfoutput>#returnVal#</cfoutput>
+</cfquery><cfset res = builder.init(#loanAgents#,#loanSpecies#)><cfset returnVal = builder.getEDecFile()><cfoutput>#returnVal#</cfoutput></cfif>
