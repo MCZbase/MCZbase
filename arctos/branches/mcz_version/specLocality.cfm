@@ -1477,6 +1477,10 @@ got cankill.....
 		</cfif>
 	</cftransaction>
 done.....
+	fix last edited by...
+	<cfquery name="fixLastEdited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		update locality set locality_id=locality_id where locality_id = #nLocalityId#
+	</cfquery>
 
 	<cflocation url="specLocality.cfm?collection_object_id=#collection_object_id#">		
 
