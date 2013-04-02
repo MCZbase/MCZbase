@@ -198,7 +198,7 @@ select
                	return_due_date,
                 replace(nature_of_material,'&','&amp;') nature_of_material,
                 replace(trans_remarks,'&','&amp;') trans_remarks,
-                replace(loan_instructions,'&','&amp;') loan_instructions,
+                replace(replace(loan_instructions,'&','&amp;'), chr(32)||chr(28) ,'"') loan_instructions,
                 replace(loan_description,'&','&amp;') loan_description,
                 loan_type,
                 loan_number,
