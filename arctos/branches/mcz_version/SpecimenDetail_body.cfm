@@ -145,7 +145,8 @@
 		max_depth,
 		depth_units,
 		collecting_method,
-		collecting_source
+		collecting_source,
+		decode(trans.transaction_id, null, 0, 1) vpdaccn
 	FROM 
 		cataloged_item,
 		collection,
@@ -175,7 +176,7 @@
 		coll_object.entered_person_id = enteredPerson.agent_id AND
 		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 		cataloged_item.accn_id =  accn.transaction_id  AND
-		accn.transaction_id = trans.transaction_id AND
+		accn.transaction_id = trans.transaction_id(+) AND
 	cataloged_item.collection_object_id = #collection_object_id#
 	">
 <cfset checkSql(detSelect)>
@@ -1247,7 +1248,7 @@
 					media_relations.media_relationship like '% accn' and
 					media_relations.related_primary_key=#one.accn_id#
 			</cfquery>
-			<cfif oneOfUs is 1>
+			<cfif oneOfUs is 1 and vpdaccn is 1>
 			<div class="detailCell">
 				<div class="detailLabel">Accession
 					<cfif oneOfUs is 1>
