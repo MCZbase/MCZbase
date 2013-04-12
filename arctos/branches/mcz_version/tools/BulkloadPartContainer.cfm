@@ -29,7 +29,7 @@ sho err
 ------------------------------------->
 <cfinclude template="/includes/_header.cfm">
 <cfif action is "makeTemplate">
-	<cfset header="OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRINT_FG,NEW_CONTAINER_TYPE,BARCODE">
+	<cfset header="OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_TYPE,BARCODE">
 	<cffile action = "write" 
     file = "#Application.webDirectory#/download/BulkPartContainer.csv"
     output = "#header#"
@@ -48,19 +48,17 @@ sho err
 					PRINT_FG,,">
 		</li>
 		<li>Collection_Cde is case-sensitive, e.g., "Mamm"</li>
-		<li>Institution_Acronym is case-sensitive, e.g., "UAM"</li>
+		<li>Institution_Acronym is case-sensitive, e.g., "MCZ"</li>
 		
 		<li>
 			Part_Name is case-sensitive and collection-specific	
 			<br><a href="/info/ctDocumentation.cfm?table=ctspecimen_part_name" target="_blank">part_name values</a>
 		</li>
-		<li>BARCODE is the barcode of the container (usually a NUNC tube) into which you want to place the part</li>
 		<li>
-			PRINT_FG - a UAM Mammals thing? What is this? 
-			<br>0 - nothing, remove all print flags
-	 		<br>1 - container
-			<br> 2 - vial
+			Preserve_Method is case-sensitive and collection-specific	
+			<br><a href="/info/ctDocumentation.cfm?table=ctspecimen_preserv_method" target="_blank">preserve_method values</a>
 		</li>
+		<li>BARCODE is the barcode of the container (usually a NUNC tube) into which you want to place the part</li>
 		<li>
 			NEW_CONTAINER_TYPE - the container into which you wish to place the part may be a label of some sort.
 			Use this to change it to a 
@@ -119,6 +117,7 @@ sho err
 			OTHER_ID_TYPE,
 			OTHER_ID_NUMBER oidNum,
 			part_name,
+			preserve_method,
 			barcode parent_barcode,
 			print_fg,
 			new_container_type
@@ -145,7 +144,8 @@ sho err
 						collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
 						collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
 						cat_num='#oidnum#' AND
-						part_name='#part_name#'
+						part_name='#part_name#' AND
+						preserve_method = '#preserve_method#'
 				</cfquery>
 			<cfelse>
 				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -162,7 +162,8 @@ sho err
 						collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
 						other_id_type='#other_id_type#' AND
 						display_value= '#oidnum#' AND
-						part_name='#part_name#'
+						part_name='#part_name#' AND
+						preserve_method = '#preserve_method#'
 				</cfquery>
 			</cfif>
 			<cfif coll_obj.recordcount is not 1>
