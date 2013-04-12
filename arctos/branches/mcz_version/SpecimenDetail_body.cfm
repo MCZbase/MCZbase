@@ -871,7 +871,11 @@
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id,
-		pc.label,
+		Case 
+			when #oneOfus#= 1 
+			then pc.label
+			else null
+		End label,
 		nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 		sampled_from_obj_id,
 		coll_object.COLL_OBJ_DISPOSITION part_disposition,
@@ -947,7 +951,9 @@
 								<th><span class="innerDetailLabel">Condition</span></th>
 								<th><span class="innerDetailLabel">Disposition</span></th>
 								<th><span class="innerDetailLabel">##</span></th>
-								<th><span class="innerDetailLabel">Label</span></th>
+								<cfif oneOfus is "1">
+									<th><span class="innerDetailLabel">Label</span></th>
+								</cfif>
 								<th><span class="innerDetailLabel">Remarks</span></th>
 							</tr>
 							<cfloop query="mPart">
@@ -958,7 +964,9 @@
 									<td>#part_condition#</td>
 									<td>#part_disposition#</td>
 									<td>#lot_count#</td>
-									<td>#label#</td>
+									<cfif oneOfus is 1>
+										<td>#label#</td>
+									</cfif>
 									<td>#part_remarks#</td>
 								</tr>
 							<cfquery name="patt" dbtype="query">
@@ -1017,7 +1025,9 @@
 										<td>#part_condition#</td>
 										<td>#part_disposition#</td>
 										<td>#lot_count#</td>
-										<td>#label#</td>
+										<cfif oneOfus is 1>
+											<td>#label#</td>
+										</cfif>
 										<td>#part_remarks#</td>
 									</tr>
 								</cfloop>
