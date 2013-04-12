@@ -686,7 +686,7 @@
 	         	</cfloop> 
 			</select>
 			<label for="barcode">Barcode</label>
-			<input name="barcode" type="text" value="#barcode#">
+			<input name="barcode" type="text" value="#barcode#" class="reqdClr">
 			<label for="label">Label</label>
 			<input name="label" type="text" value="#label#" class="reqdClr">
 			<label for="parent_install_date">Install Date</label>
