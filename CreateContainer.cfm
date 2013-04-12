@@ -303,7 +303,7 @@ select fluid_type from ctFluid_Type ORDER BY fluid_type
 	</tr>
 	<tr>
 		<td align="right"><b>Barcode:</b></td>
-		<td><input name="barcode" type="text" value=""></td>
+		<td><input name="barcode" type="text" value="" class="reqdClr"></td>
 	</tr>
 	<tr>
 		<td align="right"><b>Label:</b></td>
