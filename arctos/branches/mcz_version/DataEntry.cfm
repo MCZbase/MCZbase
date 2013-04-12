@@ -160,7 +160,7 @@ Some Totally Random String Data .....
 
 </div>
 ---->
-
+		<!---#collection_object_id#--->
 		<cfif not isdefined("collection_object_id") or len(collection_object_id) is 0>
 			you don't have an ID. <cfabort>
 		</cfif>
@@ -1423,7 +1423,6 @@ Some Totally Random String Data .....
 						<th><span class="f11a">Count Modifier</span></th>
 						<th><span class="f11a">##</span></th>
 						<th><span class="f11a">Barcode</span></th>
-						<th><span class="f11a">Vial Label</span></th>
 						<th><span class="f11a">Remark</span></th>
 					</tr>
 					<cfloop from="1" to="12" index="i">
@@ -1476,10 +1475,6 @@ Some Totally Random String Data .....
 							<td>
 								<input type="text" name="part_barcode_#i#" id="part_barcode_#i#" value="#evaluate("data.part_barcode_" & i)#" 
 									 size="6" onchange="part_container_label_#i#.className='reqdClr';setPartLabel(this.id);">
-							</td>
-							<td>
-								<input type="text" name="part_container_label_#i#" id="part_container_label_#i#"
-									value="#evaluate("data.part_container_label_" & i)#" size="10">
 							</td>
 							<td>
 								<input type="text" name="part_remark_#i#" id="part_remark_#i#"
@@ -1591,7 +1586,7 @@ Some Totally Random String Data .....
 			var cid = document.getElementById('other_id_num_5').value='#cVal#';
 		</script>
 	<cfcatch>
-		<cfmail to="arctos.database@gmail.com" subject="data entry catch" from="wtf@#Application.fromEmail#" type="html">
+		<cfmail to="bhaley@oeb.harvard.edu" subject="data entry catch" from="wtf@#Application.fromEmail#" type="html">
 			other_id_num_5: #other_id_num_5#
 			<cfdump var=#cfcatch#>
 		</cfmail>
