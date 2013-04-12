@@ -16,6 +16,7 @@ CREATE TABLE cf_temp_parts (
 	preserve_method VARCHAR2(60),
 	disposition VARCHAR2(60),
 	condition VARCHAR2(60),
+	lot_count_modifier VARCHAR2(5 CHAR),
 	lot_count VARCHAR2(60),
 	remarks VARCHAR2(60),
 	use_existing varchar2(1),
