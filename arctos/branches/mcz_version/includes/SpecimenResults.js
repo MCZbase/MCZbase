@@ -510,11 +510,11 @@ function success_getSpecResultsData(result){
 			if (data.COLUMNLIST[0].indexOf('MAX_DEPTH_IN_M')> -1) {
 				theInnerHtml += '<th>Max&nbsp;Depth&nbsp;(m)</th>';
 			}
-			if (data.COLUMNLIST[0].indexOf('MINIMUM_DEPTH')> -1) {
-				theInnerHtml += '<th>Min&nbsp;Depth</th>';
+			if (data.COLUMNLIST[0].indexOf('MIN_DEPTH')> -1) {
+				theInnerHtml += '<th>Minimum&nbsp;Depth</th>';
 			}
-			if (data.COLUMNLIST[0].indexOf('MAXIMUM_DEPTH')> -1) {
-				theInnerHtml += '<th>Max&nbsp;Depth</th>';
+			if (data.COLUMNLIST[0].indexOf('MAX_DEPTH')> -1) {
+				theInnerHtml += '<th>Maximum&nbsp;Depth</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('DEPTH_UNITS')> -1) {
 				theInnerHtml += '<th>Depth&nbsp;Units</th>';
@@ -769,11 +769,11 @@ function success_getSpecResultsData(result){
 				if (data.COLUMNLIST[0].indexOf('MAX_DEPTH_IN_M')> -1) {
 					theInnerHtml += '<td>' + data.MAX_DEPTH_IN_M[i] + '</td>';
 				}
-				if (data.COLUMNLIST[0].indexOf('MINIMUM_DEPTH')> -1) {
-					theInnerHtml += '<td>' + data.MINIMUM_DEPTH[i] + '</td>';
+				if (data.COLUMNLIST[0].indexOf('MIN_DEPTH')> -1) {
+					theInnerHtml += '<td>' + data.MIN_DEPTH[i] + '</td>';
 				}
-				if (data.COLUMNLIST[0].indexOf('MAXIMUM_DEPTH')> -1) {
-					theInnerHtml += '<td>' + data.MAXIMUM_DEPTH[i] + '</td>';
+				if (data.COLUMNLIST[0].indexOf('MAX_DEPTH')> -1) {
+					theInnerHtml += '<td>' + data.MAX_DEPTH[i] + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('DEPTH_UNITS')> -1) {
 					theInnerHtml += '<td>' + data.DEPTH_UNITS[i] + '</td>';
