@@ -504,6 +504,21 @@ function success_getSpecResultsData(result){
 			if (data.COLUMNLIST[0].indexOf('ORIG_ELEV_UNITS')> -1) {
 				theInnerHtml += '<th>Elevation&nbsp;Units</th>';
 			}
+			if (data.COLUMNLIST[0].indexOf('MIN_DEPTH_IN_M')> -1) {
+				theInnerHtml += '<th>Min&nbsp;Depth&nbsp;(m)</th>';
+			}
+			if (data.COLUMNLIST[0].indexOf('MAX_ELEV_IN_M')> -1) {
+				theInnerHtml += '<th>Max&nbsp;Depth&nbsp;(m)</th>';
+			}
+			if (data.COLUMNLIST[0].indexOf('MINIMUM_DEPTH')> -1) {
+				theInnerHtml += '<th>Min&nbsp;Depth</th>';
+			}
+			if (data.COLUMNLIST[0].indexOf('MAXIMUM_DEPTH')> -1) {
+				theInnerHtml += '<th>Max&nbsp;Depth</th>';
+			}
+			if (data.COLUMNLIST[0].indexOf('DEPTH_UNITS')> -1) {
+				theInnerHtml += '<th>Depth&nbsp;Units</th>';
+			}
 			if (data.COLUMNLIST[0].indexOf('SPEC_LOCALITY')> -1) {
 				theInnerHtml += '<th>Specific&nbsp;Locality</th>';
 			}			
@@ -746,6 +761,21 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '<td>' + data.MAXIMUM_ELEVATION[i] + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('ORIG_ELEV_UNITS')> -1) {
+					theInnerHtml += '<td>' + data.ORIG_ELEV_UNITS[i] + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('MIN_DEPTH_IN_M')> -1) {
+					theInnerHtml += '<td>' + data.MIN_DEPTH_IN_M[i] + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('MAX_DEPTH_IN_M')> -1) {
+					theInnerHtml += '<td>' + data.MAX_DEPTH_IN_M[i] + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('MINIMUM_DEPTH')> -1) {
+					theInnerHtml += '<td>' + data.MINIMUM_DEPTH[i] + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('MAXIMUM_DEPTH')> -1) {
+					theInnerHtml += '<td>' + data.MAXIMUM_DEPTH[i] + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('DEPTH_UNITS')> -1) {
 					theInnerHtml += '<td>' + data.ORIG_ELEV_UNITS[i] + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('SPEC_LOCALITY')> -1) {
