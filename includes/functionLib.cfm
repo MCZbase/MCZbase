@@ -223,7 +223,7 @@
 	<cfset session.resultColumnList="">
 	<cfset session.schParam = "">
 	<cfset session.target=''>
-	<cfset session.block_suggest=''>
+	<cfset session.block_suggest=1>
 	<cfset session.meta_description=''>
 	<cfset temp=cfid & '_' & cftoken & '_' & RandRange(0, 9999)>
 	<cfset session.SpecSrchTab="SpecSrch" & temp>
@@ -263,7 +263,8 @@
 			<cfset session.fancyCOID = "">
 		</cfif>
 		<cfif len(getPrefs.block_suggest) gt 0>
-			<cfset session.block_suggest = getPrefs.block_suggest>
+			<!---cfset session.block_suggest = getPrefs.block_suggest--->
+			<cfset session.block_suggest = 1>
 		</cfif>
 		<cfif len(getPrefs.result_sort) gt 0>
 			<cfset session.result_sort = getPrefs.result_sort>
