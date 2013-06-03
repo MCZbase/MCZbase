@@ -507,7 +507,7 @@ function success_getSpecResultsData(result){
 			if (data.COLUMNLIST[0].indexOf('MIN_DEPTH_IN_M')> -1) {
 				theInnerHtml += '<th>Min&nbsp;Depth&nbsp;(m)</th>';
 			}
-			if (data.COLUMNLIST[0].indexOf('MAX_ELEV_IN_M')> -1) {
+			if (data.COLUMNLIST[0].indexOf('MAX_DEPTH_IN_M')> -1) {
 				theInnerHtml += '<th>Max&nbsp;Depth&nbsp;(m)</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('MINIMUM_DEPTH')> -1) {
@@ -776,7 +776,7 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '<td>' + data.MAXIMUM_DEPTH[i] + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('DEPTH_UNITS')> -1) {
-					theInnerHtml += '<td>' + data.ORIG_ELEV_UNITS[i] + '</td>';
+					theInnerHtml += '<td>' + data.DEPTH_UNITS[i] + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('SPEC_LOCALITY')> -1) {
 					theInnerHtml += '<td id="SpecLocality_'+data.COLLECTION_OBJECT_ID[i] + '">';
