@@ -1051,6 +1051,34 @@
 	<cfset basQual = " #basQual# AND MAX_ELEV_IN_M <= #getMeters(maximum_elevation,orig_elev_units)#" >
 	<cfset mapurl = "#mapurl#&maximum_elevation=#maximum_elevation#">
 </cfif>
+<cfif isdefined("minimum_depth") and len(minimum_depth) gt 0>
+	<cfif not isdefined("depth_units") OR len(#depth_units#) is 0>
+		<div class="error">You must supply units to search by depth.</div>
+		<script>hidePageLoad();</script>
+		<cfabort>
+	</cfif>
+	<cfif not isnumeric(minimum_depth)>
+		<div class="error">Minimum depth must be numeric.</div>
+		<script>hidePageLoad();</script>
+		<cfabort>
+	</cfif>
+	<cfset basQual = " #basQual# AND MIN_DEPTH_IN_M >= #getMeters(minimum_depth,orig_elev_units)#" >
+	<cfset mapurl = "#mapurl#&minimum_depth=#minimum_depth#&depth_units=#depth_units#">
+</cfif>
+<cfif isdefined("maximum_depth") and len(maximum_depth) gt 0>
+	<cfif not isdefined("depth_units") OR len(depth_units) is 0>
+		<div class="error">You must supply units to search by depth.</div>
+		<script>hidePageLoad();</script>
+		<cfabort>
+	</cfif>
+	<cfif not isnumeric(maximum_depth)>
+		<div class="error">Maximum depth must be numeric.</div>
+		<script>hidePageLoad();</script>
+		<cfabort>
+	</cfif>
+	<cfset basQual = " #basQual# AND MAX_DEPTH_IN_M <= #getMeters(maximum_depth,orig_elev_units)#" >
+	<cfset mapurl = "#mapurl#&maximum_depth=#maximum_depth#&depth_units=#depth_units#">
+</cfif>
 <cfif isdefined("feature") AND len(feature) gt 0>
 	<cfif compare(feature,"NULL") is 0>
 		<cfset basQual = " #basQual# AND feature is null">
