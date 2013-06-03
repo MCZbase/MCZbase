@@ -200,7 +200,7 @@
 		<td class="srch">
 			<input type="text" name="minimum_depth" id="minimum_depth" size="5"> - 
 			<input type="text" name="maximum_depth" id="maximum_depth" size="5">
-			<select name="orig_elev_units" id="depth_units" size="1">
+			<select name="depth_units" id="depth_units" size="1">
 				<option value=""></option>
 				<cfloop query="ctDepthUnits">
 					<option value="#ctDepthUnits.depth_units#">#ctDepthUnits.depth_units#</option>
