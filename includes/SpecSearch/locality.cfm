@@ -14,6 +14,9 @@
 <cfquery name="ctElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select orig_elev_units from CTORIG_ELEV_UNITS
 </cfquery>
+<cfquery name="ctDepthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select depth_units from ctDepth_Units
+</cfquery>
 <cfquery name="ContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select continent_ocean from ctContinent ORDER BY continent_ocean
 </cfquery>
@@ -190,6 +193,21 @@
 			</select>
 		</td>
 	</tr>
+	<tr>
+		<td class="lbl">
+			<span class="helpLink" id="depth">Depth:</span>
+		</td>
+		<td class="srch">
+			<input type="text" name="minimum_depth" id="minimum_depth" size="5"> - 
+			<input type="text" name="maximum_depth" id="maximum_depth" size="5">
+			<select name="orig_elev_units" id="depth_units" size="1">
+				<option value=""></option>
+				<cfloop query="ctDepthUnits">
+					<option value="#ctDepthUnits.depth_units#">#ctDepthUnits.depth_units#</option>
+				</cfloop>
+			</select>
+		</td>
+	</tr>	
 	<tr>
 		<td class="lbl">
 			<span class="helpLink" id="_verificationstatus">Verification Status:</span>
