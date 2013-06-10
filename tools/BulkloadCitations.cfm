@@ -165,8 +165,9 @@ Include column headings, spelled exactly as below.
 					key = #key#
 				</cfquery>
 			</cfif>
+			<cfset noHTMLpubstr = REreplace(#publication_title#,"(<[/]{0,1}[i|b|sup|sub]>)", "", "ALL")>
 			<cfquery name="isPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select publication_id from publication where publication_title = '#publication_title#'
+				select publication_id from publication where regexp_replace(publication_title, '(<[/]{0,1}[i|b|sup|sub]>)', '') = '#noHTMLpubstr#'
 				group by publication_id
 			</cfquery>
 			<cfif #isPub.recordcount# is not 1>
