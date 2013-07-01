@@ -23,7 +23,7 @@
         update cf_report_sql set     
         report_name ='#report_name#',
         report_template  ='#report_template#',
-        sql_text = <CFQUERYPARAM VALUE="#escapeQuotes(sql_text)#" CFSQLTYPE="CF_SQL_CLOB"> ,
+        sql_text = <CFQUERYPARAM VALUE="#sql_text#" CFSQLTYPE="CF_SQL_CLOB"> ,
         pre_function ='#pre_function#',
         report_format ='#report_format#'
         where report_id=#report_id#
