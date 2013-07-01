@@ -23,7 +23,7 @@
         update cf_report_sql set     
         report_name ='#report_name#',
         report_template  ='#report_template#',
-        sql_text ='#escapeQuotes(sql_text)#',
+        sql_text = <CFQUERYPARAM VALUE="#escapeQuotes(sql_text)#" CFSQLTYPE="CF_SQL_CLOB"> ,
         pre_function ='#pre_function#',
         report_format ='#report_format#'
         where report_id=#report_id#
@@ -123,7 +123,7 @@
         values (
             'Clone_Of_#e.report_name#_#tc#',
             '#e.report_template#',
-            '#e.sql_text#')
+            <CFQUERYPARAM VALUE="#e.sql_text#" CFSQLTYPE="CF_SQL_CLOB"> )
     </cfquery>
     <cflocation url="reporter.cfm">
 </cfif>
