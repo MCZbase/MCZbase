@@ -405,6 +405,9 @@ function success_getSpecResultsData(result){
 			if (data.COLUMNLIST[0].indexOf('SCI_NAME_WITH_AUTH')> -1) {
 				theInnerHtml += '<th>Scientific&nbsp;Name</th>';
 			}
+			if (data.COLUMNLIST[0].indexOf('CITED_AS')> -1) {
+				theInnerHtml += '<th>Cited&nbsp;As</th>';
+			}
 			if (data.COLUMNLIST[0].indexOf('ID_HISTORY')> -1) {
 				theInnerHtml += '<th>Identification&nbsp;History</th>';
 			}
@@ -658,6 +661,11 @@ function success_getSpecResultsData(result){
 				if (data.COLUMNLIST[0].indexOf('SCI_NAME_WITH_AUTH')> -1) {
 					theInnerHtml += '<td>';
 						theInnerHtml += spaceStripper(data.SCI_NAME_WITH_AUTH[i]);
+					theInnerHtml += '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('CITED_AS')> -1) {
+					theInnerHtml += '<td>';
+						theInnerHtml += spaceStripper(data.CITED_AS[i]);
 					theInnerHtml += '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('ID_HISTORY')> -1) {
