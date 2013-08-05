@@ -201,6 +201,24 @@ div.one_thumb p {
 	max-width:120px;
 	max-height:120px;
 }
+div.one_thumb_small {
+ 	float: left;
+ 	width: 180px;
+ 	padding: 1px;
+	height:100px;
+	overflow:hidden;
+	text-align: center;
+}
+div.one_thumb_small p {
+	font-size:.6em;
+	font-weight:normal;
+	color: #444444;
+	margin-top:0px;
+ }
+.theThumbSmall{
+	max-width:60px;
+	max-height:60px;
+}
 
 
 /* TAG style */
