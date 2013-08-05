@@ -424,6 +424,18 @@
 				<div class="detailCell">
 					<div class="detailLabel">Citations</div>
 					<cfloop query="citations">
+						<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select 
+								mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type 
+							from 
+								media_relations mr, media_labels ml, media m
+							where 
+								RELATED_PRIMARY_KEY=#publication_id# and
+								mr.media_id = ml.media_id and 
+								mr.media_id = m.media_id and
+								ml.media_label = 'description' and
+								MEDIA_RELATIONSHIP like '% publication'
+						</cfquery>	
 						<div class="detailBlock">
 							<span class="detailData">
 								<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" 
@@ -442,9 +454,25 @@
 									</cfif>
 								</cfif>
 								<div class="detailCellSmall">
-									#CITATION_REMARKS#
+									#CITATION_REMARKS#<BR>
 								</div>
-							</span>
+								<cfif publicationMedia.recordcount gt 0>
+									<div class="thumbs">
+										<div class="thumb_spcr">&nbsp;</div>
+										<cfloop query="publicationMedia">
+											<div class="one_thumb_small">
+								            	<a href="#media_uri#" target="_blank">
+									               <img src="#getMediaPreview(preview_uri,media_type)#" alt="#descr#" class="theThumbSmall">
+												</a>
+							                   	<p>
+								                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
+													<br>#descr#
+												</p>
+											</div>
+										</cfloop>
+										<div class="thumb_spcr">&nbsp;</div>
+									</div>
+						</cfif>							</span>
 						</div>
 					</cfloop>
 				</div>
