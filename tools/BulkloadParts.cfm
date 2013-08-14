@@ -62,7 +62,6 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 						<li>
 							A part of the same type exists
 						</li>
-						<li>That part is not already in a container</li>
 					</ul>
 				</li>
 			</ul>
