@@ -38,7 +38,7 @@ Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,remarks,use_existing,container_barcode,condition</textarea>
+		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,remarks,use_existing,container_barcode,change_container_type,condition</textarea>
 	</div> 
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
@@ -301,7 +301,8 @@ validate
 			specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
 			coll_obj_cont_hist.container_id = container.container_id AND
 			derived_from_cat_item = cf_temp_parts.collection_object_id AND
-			cf_temp_parts.part_name=specimen_part.part_name
+			cf_temp_parts.part_name=specimen_part.part_name AND
+			cf_temp_parts.preserve_method=specimen_part.preserve_method
 			group by parent_container_id)
 			where validated_status='VALID' 
 		</cfquery>
@@ -316,8 +317,10 @@ validate
 			update cf_temp_parts set (use_part_id) = (
 			select min(specimen_part.collection_object_id)			
 			from specimen_part where
-			cf_temp_parts.part_name=specimen_part.part_name)
-			where validated_status = 'NOTE: PART EXISTS' AND
+			cf_temp_parts.part_name=specimen_part.part_name and 
+			cf_temp_parts.preserve_method=specimen_part.preserve_method and
+			cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item)
+			where validated_status like '%NOTE: PART EXISTS%' AND
 			use_existing = 1
 		</cfquery>
 		<cflocation url="BulkloadParts.cfm?action=checkValidate">
@@ -446,7 +449,7 @@ validate
 				  COLLECTION_OBJECT_ID,
 				  PART_NAME,
 				  PRESERVE_METHOD,
-					,DERIVED_FROM_cat_item )
+				  DERIVED_FROM_cat_item )
 				VALUES (
 					#NEXTID.NEXTID#,
 				  '#PART_NAME#',
@@ -479,17 +482,57 @@ validate
 	<cfelse>
 	<!--- there is an existing matching container that is not in a parent_container;
 		all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
-		<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update container set parent_container_id=#parent_container_id# 
-			where container_id = #use_part_id#
-		</cfquery>
+		<cfif len(#disposition#) gt 0>
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update coll_object set COLL_OBJ_DISPOSITION = '#disposition#' where collection_object_id = #use_part_id#
+			</cfquery>
+		</cfif>
+		<cfif len(#condition#) gt 0>
+			<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update coll_object set condition = '#condition#' where collection_object_id = #use_part_id#
+			</cfquery>
+		</cfif>
+		<cfif len(#lot_count#) gt 0>
+			<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update coll_object set lot_count = #lot_count#, lot_count_modifier='#lot_count_modifier#' where collection_object_id = #use_part_id#
+			</cfquery>
+		</cfif>
+		<cfif len(#remarks#) gt 0>
+			<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select * from coll_object_remark where collection_object_id = #use_part_id#
+			</cfquery>
+			<cfif remarksCount.recordcount is 0>
+				<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
+					VALUES (#use_part_id#, '#remarks#')
+				</cfquery>
+			<cfelse>
+				<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update coll_object_remark					
+					set coll_object_remarks = DECODE(coll_object_remarks, null, '#remarks#', coll_object_remarks || '; #remarks#')
+					where collection_object_id = #use_part_id#
+				</cfquery>		
+			</cfif>			
+		</cfif>
+		<cfif len(#container_barcode#) gt 0>
+			<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
+			</cfquery>
+				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update container set parent_container_id=#parent_container_id# 
+					where container_id = #part_container_id.container_id#
+				</cfquery>
+			<cfif #len(change_container_type)# gt 0>
+				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update container set 
+					container_type='#change_container_type#'
+					where container_id=#parent_container_id# 
+				</cfquery>
+			</cfif>
+		</cfif>
 	</cfif>
 	</cfloop>
 	</cftransaction>
-	
-
-	
-	
 	
 	Spiffy, all done.
 	<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#">
