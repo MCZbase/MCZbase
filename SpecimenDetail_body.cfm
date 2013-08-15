@@ -444,6 +444,7 @@
 								<div class="detailCellSmall">
 									#CITATION_REMARKS#<BR>
 								</div>
+							</span>
 						</div>
 													
 
@@ -465,9 +466,7 @@
 								order by substr(formatted_publication, -4)									
 							</cfquery>
 									<cfif publicationMedia.recordcount gt 0>
-										<div class="detailBlock">
-								            <span class="detailData">
-									            <div class="thumbs">			
+								            <span class="detailData">			
 													<div class="thumb_spcr">&nbsp;</div>
 													<cfloop query="publicationMedia">
 														<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -497,13 +496,9 @@
 														</div>
 													</cfloop>
 													<div class="thumb_spcr">&nbsp;</div>
-												</div>
 											</span>		
-										</div>
-									</cfif>		
-							</span>
-						</div>
-				</div>
+									</cfif>
+					</div>
 			</cfif>
 <!------------------------------------ locality ---------------------------------------------->
 			<div class="detailCell">
