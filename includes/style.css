@@ -201,12 +201,15 @@ div.one_thumb p {
 	max-width:120px;
 	max-height:120px;
 }
+.theThumbSmall{
+	max-width:80px;
+	max-height:80px;
+}
 div.one_thumb_small {
  	float: left;
  	width: 180px;
  	padding: 1px;
 	height:100px;
-	overflow:hidden;
 	text-align: center;
 }
 div.one_thumb_small p {
