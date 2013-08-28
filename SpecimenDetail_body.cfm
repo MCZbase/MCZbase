@@ -1456,7 +1456,7 @@
 		</div>
 		<div class="detailBlock">
             <span class="detailData">			
-				<div class="thumbs">
+				<!---div class="thumbs"--->
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="media">
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -1486,7 +1486,7 @@
 						</div>
 					</cfloop>
 					<div class="thumb_spcr">&nbsp;</div>
-				</div>
+				<!--/div--->
 	        </span>		
 		</div>
 		<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
