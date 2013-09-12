@@ -70,7 +70,7 @@
 							</cfloop>
 						</select>
 						<label for="journal">Journal Name</label>
-						<select name="journal" id="journal" size="1">
+						<select name="journal" id="journal" size="1" style="width: 300px">
 							<option value=""></option>
 							<cfloop query="ctjournal_name">
 								<option value="#journal_name#">#journal_name#</option>
