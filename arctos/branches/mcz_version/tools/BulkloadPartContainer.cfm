@@ -43,9 +43,9 @@ sho err
 		<li>
 			<a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">[ OTHER_ID_TYPE values ]</a>
 			<br>"catalog number" is also a valid other_id_type.
-		<cfset header=",,
+		<!---cfset header=",,
 				
-					PRINT_FG,,">
+					PRINT_FG,,"--->
 		</li>
 		<li>Collection_Cde is case-sensitive, e.g., "Mamm"</li>
 		<li>Institution_Acronym is case-sensitive, e.g., "MCZ"</li>
@@ -112,15 +112,15 @@ sho err
 <cfif action is "validateFromFile">
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select KEY,
-			INSTITutION_ACRONYM,
-			COLLECTION_CDE,
-			OTHER_ID_TYPE,
-			OTHER_ID_NUMBER oidNum,
-			part_name,
-			preserve_method,
-			barcode parent_barcode,
+			trim(INSTITutION_ACRONYM) INSTITUTION_ACRONYM,
+			trim(COLLECTION_CDE) COLLECTION_CDE,
+			trim(OTHER_ID_TYPE) OTHER_ID_TYPE,
+			trim(OTHER_ID_NUMBER) oidNum,
+			trim(part_name) part_name,
+			trim(preserve_method) preserve_method,
+			trim(barcode) parent_barcode,
 			print_fg,
-			new_container_type
+			trim(new_container_type) new_container_type
 		from 
 			cf_temp_barcode_parts
 	</cfquery>
@@ -208,7 +208,7 @@ sho err
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_barcode_parts
 	</cfquery>
-	<cfif len(valuelist(d.status)) gt 0>
+	<cfif len(valuelist(d.status,'')) gt 0>
 		Fix this and reload - nothing's been saved.
 		<cfdump var=#d#>
 	<cfelse>
@@ -218,7 +218,6 @@ sho err
 					update 
 						container 
 					set 
-						print_fg=#print_fg#,
 						container_type='#NEW_CONTAINER_TYPE#'
 					where 
 						container_id = #parent_container_id#						
@@ -232,7 +231,8 @@ sho err
 					container_id=#part_container_id#
 				</cfquery>
 			</cfloop>
-		</cftransaction>	
+		</cftransaction>
+		woo hoo, it worked 	
 	</cfif>
 </cfif>
 <!------------------------------------------------------------------->
