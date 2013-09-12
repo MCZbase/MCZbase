@@ -59,7 +59,7 @@
     </table>
 <br>
 <ul>
-	<li>Database content &copy; Copyright 2012 President and Fellows of Harvard College</li>
+	<li>Database content &copy; Copyright 2013 President and Fellows of Harvard College</li>
 	<li><a href="http://www.mcz.harvard.edu/privacy/index.html">Privacy Statement</a></li>
 	<li><a href="http://www.mcz.harvard.edu/privacy/user.html">User Agreement</a></li>
 </ul>
