@@ -255,6 +255,9 @@ Some Totally Random String Data .....
 	      	select BIOL_INDIV_RELATIONSHIP from ctbiol_relations
 			order by BIOL_INDIV_RELATIONSHIP
 	    </cfquery>
+	    <cfquery name="ctAge_class" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			select age_class from ctAge_class where collection_cde = '#collection_cde#' order by age_class
+		</cfquery>
 		<cfquery name="ctLength_Units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			select length_units from ctLength_Units order by length_units
 		</cfquery>
@@ -1212,17 +1215,24 @@ Some Totally Random String Data .....
 									</tr>
 								<cfelseif collection_cde is "Bird">
 									<tr>
-										<td><span class="f11a">Age</span></td>
-										<td><span class="f11a">Fat</span></td>
-										<td><span class="f11a">Molt</span></td>
+										<td><span class="f11a">Age Class</span></td>
+										<td><span class="f11a">Fat Deposition</span></td>
+										<td><span class="f11a">Molt Condition</span></td>
 										<td><span class="f11a">Ossification</span></td>
 										<td colspan="2" align="center"><span class="f11a">Weight</span></td>
 										<td><span class="f11a">Date</span></td>
 										<td><span class="f11a">Determiner</span></td>
 									<tr>
 										<td>
-											<input type="hidden" name="attribute_2" value="age" />
-											<input type="text" name="attribute_value_2" value="#attribute_value_2#" size="3" id="attribute_value_2">
+											<input type="hidden" name="attribute_date_2" value="#attribute_date_2#" id="attribute_date_2" />
+											<input type="hidden" name="attribute_determiner_2" value="#attribute_determiner_2#" id="attribute_determiner_2" />
+											<input type="hidden" name="attribute_2" value="age class" />
+											<select name="attribute_value_2" size="1" id="attribute_value_2" >
+												<option></option>
+												<cfloop query="ctAge_Class">
+													<option <cfif #data.attribute_value_2# is #Age_Class#> selected </cfif>value="#Age_class#">#Age_class#</option>
+												</cfloop>
+											</select>
 										</td>
 										<td>
 											<input type="hidden" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" />
@@ -1239,7 +1249,7 @@ Some Totally Random String Data .....
 										<td>
 											<input type="hidden" name="attribute_date_5" value="#attribute_date_5#" id="attribute_date_5" />
 											<input type="hidden" name="attribute_determiner_5" value="#attribute_determiner_5#" id="attribute_determiner_5" />
-											<input type="hidden" name="attribute_5" value="skull ossification" />
+											<input type="hidden" name="attribute_5" value="ossification" />
 											<input type="text" name="attribute_value_5" value="#attribute_value_5#" size="15" id="attribute_value_5">
 										</td>
 										<td>
