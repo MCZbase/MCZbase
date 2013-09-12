@@ -516,7 +516,6 @@
 				$('#mediaToggle').html('[ Remove Media ]');
 				$('#media').show();
 				$('#media_uri').addClass('reqdClr');
-				$('#preview_uri').addClass('reqdClr');
 				$('#mime_type').addClass('reqdClr');
 				$('#media_type').addClass('reqdClr');
 				$('#media_desc').addClass('reqdClr');
@@ -524,7 +523,6 @@
 				$('#mediaToggle').html('[ Add Media ]');
 				$('#media').hide();
 				$('#media_uri').val('').removeClass('reqdClr');
-				$('#preview_uri').val('').removeClass('reqdClr');
 				$('#mime_type').val('').removeClass('reqdClr');
 				$('#media_type').val('').removeClass('reqdClr');
 				$('#media_desc').val('').removeClass('reqdClr');
