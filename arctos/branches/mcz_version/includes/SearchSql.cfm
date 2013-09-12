@@ -1271,6 +1271,12 @@
 <cfif isdefined("type_status") and len(type_status) gt 0>
 	<cfif #type_status# is "any">
 		<cfset basQual = " #basQual# AND #session.flatTableName#.TYPESTATUS IS NOT NULL">
+	<cfelseif #type_status# is "Genotype">
+		<cfset basQual = " #basQual# AND (upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%' OR upper(#session.flatTableName#.TYPESTATUS) LIKE '%GENOHOLOTYPE%')">
+	<cfelseif #type_status# is "Allotype">
+		<cfset basQual = " #basQual# AND (upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%' OR upper(#session.flatTableName#.TYPESTATUS) LIKE '%ALLOLECTOTYPE%')">
+	<cfelseif #type_status# is "Paratype">
+		<cfset basQual = " #basQual# AND (upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%' OR upper(#session.flatTableName#.TYPESTATUS) LIKE '%PARATOPOTYPE%')">
 	<cfelse>
 		<cfset basQual = " #basQual# AND upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%'">
 	</cfif>
