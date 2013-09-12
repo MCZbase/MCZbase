@@ -38,7 +38,7 @@ Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,remarks,use_existing,container_barcode,change_container_type,condition</textarea>
+		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks</textarea>
 	</div> 
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
@@ -52,7 +52,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li style="color:red">disposition</li>
 	<li>lot_count_modifier</li>
 	<li style="color:red">lot_count</li>
-	<li>remarks</li>		
+	<li>current_remarks</li>		
 	<li style="color:red">use_existing
 		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
 			<ul>
@@ -75,7 +75,8 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		</span>	
 	</li>	
 	<li>change_container_type</li>
-	<li style="color:red">condition</li>		 
+	<li style="color:red">condition</li>
+	<li>append_to_remarks</li>		 
 </ul>
 
 
@@ -296,12 +297,14 @@ validate
 			decode(parent_container_id,
 			0,'NOTE: PART EXISTS',
 			'NOTE: PART EXISTS IN PARENT CONTAINER')			
-			from specimen_part,coll_obj_cont_hist,container where
+			from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
 			specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
 			coll_obj_cont_hist.container_id = container.container_id AND
+			coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
 			derived_from_cat_item = cf_temp_parts.collection_object_id AND
 			cf_temp_parts.part_name=specimen_part.part_name AND
-			cf_temp_parts.preserve_method=specimen_part.preserve_method
+			cf_temp_parts.preserve_method=specimen_part.preserve_method AND
+			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
 			group by parent_container_id)
 			where validated_status='VALID' 
 		</cfquery>
@@ -315,10 +318,12 @@ validate
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set (use_part_id) = (
 			select min(specimen_part.collection_object_id)			
-			from specimen_part where
+			from specimen_part, coll_object_remark where
+			specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
 			cf_temp_parts.part_name=specimen_part.part_name and 
 			cf_temp_parts.preserve_method=specimen_part.preserve_method and
-			cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item)
+			cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
+			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
 			where validated_status like '%NOTE: PART EXISTS%' AND
 			use_existing = 1
 		</cfquery>
@@ -345,12 +350,12 @@ validate
 			<td>disposition</td>
 			<td>lot_count_modifier</td>
 			<td>lot_count</td>
-			<td>remarks</td>
+			<td>current_remarks</td>
 			<td>condition</td>
 			<td>Container_Barcode</td>
 			<td>use_existing</td>
 			<td>change_container_type</td>
-			
+			<td>append_to_remarks</td>
 		</tr>
 		<cfloop query="inT">
 			<tr>
@@ -375,11 +380,12 @@ validate
 				<td>#disposition#</td>
 				<td>#lot_count_modifier#</td>
 				<td>#lot_count#</td>
-				<td>#remarks#</td>
+				<td>#current_remarks#</td>
 				<td>#condition#</td>
 				<td>#Container_Barcode#</td>
 				<td>#use_existing#</td>
-				<td>#change_container_type#</td>				
+				<td>#change_container_type#</td>		
+				<td>#append_to_remarks#</td>		
 			</tr>
 		</cfloop>
 	</table>
@@ -455,11 +461,11 @@ validate
 				  '#PRESERVE_METHOD#'
 					,#collection_object_id# )
 		</cfquery>	
-		<cfif len(#remarks#) gt 0>
+		<cfif len(#current_remarks#) gt 0>
 				<!---- new remark --->
 				<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-					VALUES (sq_collection_object_id.currval, '#remarks#')
+					VALUES (sq_collection_object_id.currval, '#current_remarks#')
 				</cfquery>
 		</cfif>
 		<cfif len(#container_barcode#) gt 0>
@@ -496,19 +502,19 @@ validate
 				update coll_object set lot_count = #lot_count#, lot_count_modifier='#lot_count_modifier#' where collection_object_id = #use_part_id#
 			</cfquery>
 		</cfif>
-		<cfif len(#remarks#) gt 0>
+		<cfif len(#append_to_remarks#) gt 0>
 			<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from coll_object_remark where collection_object_id = #use_part_id#
 			</cfquery>
 			<cfif remarksCount.recordcount is 0>
 				<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-					VALUES (#use_part_id#, '#remarks#')
+					VALUES (#use_part_id#, '#append_to_remarks#')
 				</cfquery>
 			<cfelse>
 				<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update coll_object_remark					
-					set coll_object_remarks = DECODE(coll_object_remarks, null, '#remarks#', coll_object_remarks || '; #remarks#')
+					set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
 					where collection_object_id = #use_part_id#
 				</cfquery>		
 			</cfif>			
