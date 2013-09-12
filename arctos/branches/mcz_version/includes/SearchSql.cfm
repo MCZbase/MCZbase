@@ -1062,8 +1062,11 @@
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
-	<cfset basQual = " #basQual# AND MIN_DEPTH_IN_M >= #getMeters(minimum_depth,orig_elev_units)#" >
-	<cfset mapurl = "#mapurl#&minimum_depth=#minimum_depth#&depth_units=#depth_units#">
+	<cfset basQual = " #basQual# AND MIN_DEPTH_IN_M >= #getMeters(minimum_depth,depth_units)#" >
+	<cfset mapurl = "#mapurl#&minimum_depth=#minimum_depth#">
+	<cfif mapurl does not contain "depth_units">
+		<cfset mapurl = "#mapurl#&depth_units=#depth_units#">
+	</cfif>
 </cfif>
 <cfif isdefined("maximum_depth") and len(maximum_depth) gt 0>
 	<cfif not isdefined("depth_units") OR len(depth_units) is 0>
@@ -1076,8 +1079,11 @@
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
-	<cfset basQual = " #basQual# AND MAX_DEPTH_IN_M <= #getMeters(maximum_depth,orig_elev_units)#" >
-	<cfset mapurl = "#mapurl#&maximum_depth=#maximum_depth#&depth_units=#depth_units#">
+	<cfset basQual = " #basQual# AND MAX_DEPTH_IN_M <= #getMeters(maximum_depth,depth_units)#" >
+	<cfset mapurl = "#mapurl#&maximum_depth=#maximum_depth#">
+	<cfif mapurl does not contain "depth_units">
+                <cfset mapurl = "#mapurl#&depth_units=#depth_units#">
+        </cfif>
 </cfif>
 <cfif isdefined("feature") AND len(feature) gt 0>
 	<cfif compare(feature,"NULL") is 0>
