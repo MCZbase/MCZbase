@@ -336,11 +336,11 @@ Some Totally Random String Data .....
 			You have group issues! You must be in a Data Entry group to use this form.
 			<cfabort>
 		</cfif>
-		<div id="splash"align="center">
+		<!----div id="splash"align="center">
 			<span style="background-color:##FF0000; font-size:large;">
 				Page Loading....
 			</span>
-		</div>
+		</div--->
 <!--- Splash Screen --->
 <!--- Initially displayed, turned off by javascript function changeMode()
 <div id="splash"align="center">
@@ -356,7 +356,7 @@ Some Totally Random String Data .....
 			<input type="hidden" name="institution_acronym" value="#institution_acronym#" id="institution_acronym">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#"  id="collection_object_id"/>  
 			<input type="hidden" name="loaded" value="waiting approval"  id="loaded"/>
-			<table width="100%" cellspacing="0" cellpadding="0" id="theTable" style="display:none;"> <!--- whole page table --->
+			<table width="100%" cellspacing="0" cellpadding="0" id="theTable" style="display:show;"> <!--- whole page table --->
 				<tr>
 					<td colspan="2" style="border-bottom: 1px solid black; " align="center">
 						<div id="loadedMsgDiv">
@@ -653,7 +653,7 @@ Some Totally Random String Data .....
 							</td>
 						</tr>
 						<!---  Hide depth from this form for some departments (it is still accessible if needed on the grid views) --->
-						<cfif collection_cde is not "VP" and collection_cde is not "IP" and collection_cde is not "Bird" and collection_cde is not "Model">
+						<cfif collection_cde is not "VP" and collection_cde is not "IP" and collection_cde is not "Orn" and collection_cde is not "Model">
 						<tr>
 							<td colspan="2" id="d_orig_depth_units">
 								<label for="min_depth">Depth (shallowest-deepest)</label>
@@ -1082,7 +1082,7 @@ Some Totally Random String Data .....
 					<tr>
 						<td>
 							<cfif collection_cde is not "Crus" and collection_cde is not "Herb"
-								and collection_cde is not "ES" and collection_cde is not "Fish"
+								and collection_cde is not "ES" and collection_cde is not "Ich"
 								and collection_cde is not "Para" and collection_cde is not "Art" and not
 								(collection_cde is "Herp" and institution_acronym is "UAM") and not
 								(collection_cde is "Herp" and institution_acronym is "MCZ")>
@@ -1096,7 +1096,7 @@ Some Totally Random String Data .....
 											 <input type="hidden" name="attribute_1" value="sex">
 											 <select name="attribute_value_1" size="1" onChange="changeSex(this.value)"
 												id="attribute_value_1"
-												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
+												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Orn" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Ich" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
 													class="reqdClr d11a"
 												<cfelse>
 													class="d11a"
@@ -1111,7 +1111,7 @@ Some Totally Random String Data .....
 											 </select>
 											<span class="f11a">Date</span>
 											<input type="text" name="attribute_date_1" value="#attribute_date_1#" id="attribute_date_1" size="10" 
-											<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
+											<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Orn" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Ich" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
 														class="reqdClr"
 											</cfif>
 											>
@@ -1120,7 +1120,7 @@ Some Totally Random String Data .....
 											<input type="text" 
 												name="attribute_determiner_1" 
 												value="#attribute_determiner_1#" 
-												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Bird" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Fish" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
+												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Orn" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "Ich" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
 													class="reqdClr" 
 												</cfif>
 												onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
@@ -1213,7 +1213,7 @@ Some Totally Random String Data .....
 											
 										</td>
 									</tr>
-								<cfelseif collection_cde is "Bird">
+								<cfelseif collection_cde is "Orn">
 									<tr>
 										<td><span class="f11a">Age Class</span></td>
 										<td><span class="f11a">Fat Deposition</span></td>

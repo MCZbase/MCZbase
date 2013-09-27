@@ -218,8 +218,8 @@ select
 				'VP','Vertebrate Paleontology',
 				'SC','Special Collections',
 				'IP','Invertebrate Paleontology',
-				'Fish','Ichthyology',
-				'Bird','Ornithology',
+				'Ich','Ichthyology',
+				'Orn','Ornithology',
 				'Cryo','Cryogenic',
 				'Ent','Entomology',
 				'[Unable to identify collection from loan number]' || substr(loan_number, instr(loan_number, '-',1, 2)+1) 
