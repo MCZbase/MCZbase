@@ -235,7 +235,7 @@ select
 				preferred_agent_name inside_contact,								
 				(select * from electronic_address where address_type ='email') inside_email,
 				(select * from electronic_address where address_type ='email') outside_email,
-				(select * from electronic_address where address_type ='work phone number') inside_phone,
+				(select * from electronic_address where address_type ='work phone number' and rownum <=1) inside_phone,
 				(select * from addr where addr_type='Correspondence') outside_addr,
 				(select * from addr where addr_type='Correspondence') inside_addr,
 				shipment,
