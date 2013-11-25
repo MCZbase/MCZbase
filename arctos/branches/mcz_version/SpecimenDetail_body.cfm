@@ -141,6 +141,8 @@
 		else
 			verbatim_locality
 		end verbatim_locality,
+		collecting_time,
+		fish_field_number,
 		min_depth,
 		max_depth,
 		depth_units,
@@ -741,6 +743,18 @@
 						<td id="SDCellLeft" class="innerDetailLabel">Collecting Date:</td>
 						<td id="SDCellRight">#thisDate#</td>
 					</tr>
+					<cfif len(one.collecting_time) gt 0>
+					<tr class="detailData">
+						<td id="SDCellLeft" class="innerDetailLabel">Collecting Time:</td>
+						<td id="SDCellRight">#collecting_time#</td>
+					</tr>
+					</cfif>
+					<cfif len(one.fish_field_number) gt 0>
+					<tr class="detailData">
+						<td id="SDCellLeft" class="innerDetailLabel">Ich. Field Number:</td>
+						<td id="SDCellRight">#fish_field_number#</td>
+					</tr>
+					</cfif>
 				</table>
 			</div>
 			
