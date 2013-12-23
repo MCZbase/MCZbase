@@ -143,7 +143,9 @@
 			COLL_EVENT_REMARKS,
 			COLLECTING_SOURCE,
 			COLLECTING_METHOD,
-			HABITAT_DESC
+			HABITAT_DESC,
+			COLLECTING_TIME,
+			FISH_FIELD_NUMBER
 		from 
 			spec_with_loc
 		where 
@@ -200,7 +202,9 @@
 			COLL_EVENT_REMARKS,
 			COLLECTING_SOURCE,
 			COLLECTING_METHOD,
-			HABITAT_DESC
+			HABITAT_DESC,
+			COLLECTING_TIME,
+			FISH_FIELD_NUMBER
 	</cfquery>
 	<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -332,6 +336,31 @@
 					required="true" 
 					message="Verbatim Date is a required text field.">
 			</td>
+		</tr>
+		<tr>
+			<td>
+			<table>
+				<td>
+				<label for="collecting time">
+					Collecting Time
+				</label>
+				<cfinput type="text" 
+					name="collecting_time"
+					id="collecting_time" 
+					value="#stripQuotes(l.collecting_time)#"  
+					size="20">
+				</td>
+				<td>
+				<label for="ich field number">
+					Ich. Field Number
+				</label>
+				<cfinput type="text" 
+					name="ich_field_number"
+					id="ich_field_number" 
+					value="#stripQuotes(l.fish_field_number)#"  
+					size="20">
+				</td>
+			</table>
 		</tr>
 		<tr>
 			<td>
@@ -1392,7 +1421,9 @@ inserted coordinates......
 				NVL(COLL_EVENT_REMARKS,'NULL') = NVL('#escapeQuotes(COLL_EVENT_REMARKS)#','NULL') AND
 				NVL(COLLECTING_SOURCE,'NULL') = NVL('#escapeQuotes(COLLECTING_SOURCE)#','NULL') AND
 				NVL(COLLECTING_METHOD,'NULL') = NVL('#escapeQuotes(COLLECTING_METHOD)#','NULL') AND
-				NVL(HABITAT_DESC,'NULL') = NVL('#escapeQuotes(HABITAT_DESC)#','NULL')
+				NVL(HABITAT_DESC,'NULL') = NVL('#escapeQuotes(HABITAT_DESC)#','NULL') AND
+				NVL(COLLECTING_TIME,'NULL') = NVL('#escapeQuotes(COLLECTING_TIME)#','NULL') AND
+				NVL(FISH_FIELD_NUMBER,'NULL') = NVL('#escapeQuotes(ICH_FIELD_NUMBER)#','NULL')
 		</cfquery>
 gor event....
 		<cfif hasColl.collecting_event_id is -1>
@@ -1413,7 +1444,9 @@ making event....
 					COLL_EVENT_REMARKS,
 					COLLECTING_SOURCE,
 					COLLECTING_METHOD,
-					HABITAT_DESC
+					HABITAT_DESC,
+					COLLECTING_TIME, 
+					FISH_FIELD_NUMBER
 				) values (
 					#ncollecting_event_id#,
 					#nLocalityId#,
@@ -1424,7 +1457,9 @@ making event....
 					'#escapeQuotes(coll_event_remarks)#',
 					'#escapeQuotes(collecting_source)#',
 					'#escapeQuotes(collecting_method)#',
-					'#escapeQuotes(habitat_desc)#'
+					'#escapeQuotes(habitat_desc)#',
+					'#escapeQuotes(COLLECTING_TIME)#',
+					'#escapeQuotes(ich_field_number)#'
 				)
 			</cfquery>	
 		<cfelse>
