@@ -549,7 +549,9 @@
 					WHEN 'deg. min. sec.' THEN long_deg || 'd ' || long_min || 'm ' || long_sec || 's ' || long_dir
 				END as VerbatimLongitude,
 			max_error_distance,
-			max_error_units
+			max_error_units,
+			collecting_time,
+			fish_field_number
 		from 
 			locality
 			inner join geog_auth_rec on (locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id)
@@ -649,6 +651,18 @@
 		<table>
 			<tr>
 				<td>
+					<label for="collecting_time">Collecting Time</label>
+					<input type="text" name="collecting_time" id="collecting_time" value="#locDet.collecting_time#" size="20">
+				</td>
+				<td>
+					<label for="ich_field_number">Ich. Field Number</label>
+					<input type="text" name="ich_field_number" id="ich_field_number" value="#locDet.fish_field_number#" size="20">
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td>
 					<label for="began_date" class="likeLink" onclick="getDocs('collecting_event','began_date')">
 						Began Date/Time
 					</label>
@@ -723,6 +737,12 @@
 			>
 			<span class="infoLink"onClick="newCollEvnt.began_date.value=newCollEvnt.verbatim_date.value;
 				newCollEvnt.ended_date.value=newCollEvnt.verbatim_date.value;">[ copy ]</span>
+			<label for="collecting_time">Collecting Time</label>
+			<input type="text" name="collecting_time" id="collecting_time" 
+			  	<cfif isdefined("collecting_time")>
+					value="#collecting_time#"
+				</cfif>
+			>
 			<label for="began_date">Began Date</label>
 	      	<input type="text" name="began_date" id="began_date" 
 			  	<cfif isdefined("began_date")>
@@ -741,7 +761,7 @@
 					value="#coll_event_remarks#"
 				</cfif>
 			size="50">
-			<label for="coll_event_remarks">Collecting Source</label>
+			<label for="collecting_source">Collecting Source</label>
 			<cfif isdefined("collecting_source")>
 				<cfset collsrc = collecting_source>
 			<cfelse>
@@ -754,13 +774,13 @@
 						value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
 				</cfloop>
 			</select>
-			<label for="coll_event_remarks">Collecting Method</label>
+			<label for="collecting_method">Collecting Method</label>
 			<input type="text" name="collecting_method" id="collecting_method"
 			  	<cfif isdefined("collecting_method")>
 					value="#collecting_method#"
 				</cfif>
 			>
-			<label for="coll_event_remarks">Habitat</label>
+			<label for="habitat">Habitat</label>
 			<input type="text" name="habitat_desc" id="habitat_desc" 
 				<cfif isdefined("HABITAT_DESC")>
 					value="#HABITAT_DESC#"
@@ -917,6 +937,16 @@ You deleted a collecting event.
 		<cfset sql = "#sql#,HABITAT_DESC = '#escapeQuotes(HABITAT_DESC)#'">
 	<cfelse>
 		<cfset sql = "#sql#,HABITAT_DESC = null">
+	</cfif>
+	<cfif len(#COLLECTING_TIME#) gt 0>
+		<cfset sql = "#sql#,COLLECTING_TIME = '#escapeQuotes(COLLECTING_TIME)#'">
+	<cfelse>
+		<cfset sql = "#sql#,COLLECTING_TIME = null">
+	</cfif>
+	<cfif len(#ICH_FIELD_NUMBER#) gt 0>
+		<cfset sql = "#sql#,FISH_FIELD_NUMBER = '#escapeQuotes(ICH_FIELD_NUMBER)#'">
+	<cfelse>
+		<cfset sql = "#sql#,FISH_FIELD_NUMBER = null">
 	</cfif>
 	<cfset sql = "#sql# where collecting_event_id = #collecting_event_id#">
 	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
