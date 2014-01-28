@@ -289,8 +289,13 @@
 	<cfset mapurl = "#mapurl#&encumbering_agent_id=#encumbering_agent_id#">
 </cfif>	
 <cfif isdefined("collection_id") AND isnumeric(collection_id)>
-	<cfset basQual = "#basQual#  AND #session.flatTableName#.collection_id in (#collection_id#, 11)" >
-	<cfset mapurl = "#mapurl#&collection_id=#collection_id#">
+	<cfif collection_id NEQ 10 and collection_id NEQ 6 and collection_id NEQ 7 and (not isdefined("catnum") or not len(catnum) gt 0)>
+		<cfset basQual = "#basQual#  AND #session.flatTableName#.collection_id in (#collection_id#, 11)" >
+		<cfset mapurl = "#mapurl#&collection_id=#collection_id#">
+	<cfelse>
+		<cfset basQual = "#basQual#  AND #session.flatTableName#.collection_id in (#collection_id#)" >
+		<cfset mapurl = "#mapurl#&collection_id=#collection_id#">
+	</cfif>
 </cfif>		
 <cfif isdefined("session.collection") and len(session.collection) gt 0>
 	<cfset collection_cde=session.collection>
@@ -301,9 +306,12 @@
 		<cfif len(collcde) is 0>
 			<cfset collcde = "'#i#'">
 		<cfelse>
-			<cfset collcde = "#collcde#,'#i#','Cryo'">
+			<cfset collcde = "#collcde#,'#i#'">
 		</cfif>
 	</cfloop>
+	<cfif collcde NEQ "SC" and collcde NEQ "IP" and collcde NEQ "VP" and (not isdefined("catnum") or not len(catnum) gt 0)>
+			<cfset collcde = "#collcde#,'Cryo'">
+	</cfif>
 	<cfset basQual = "#basQual#  AND cataloged_item.collection_cde IN (#collcde#)" >
 	<cfset mapurl = "#mapurl#&collection_cde=#collection_cde#">
 </cfif>
