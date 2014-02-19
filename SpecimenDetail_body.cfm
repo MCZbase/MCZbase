@@ -52,6 +52,14 @@
 			collecting_event.verbatim_date  
 		end verbatim_date,
 		collecting_event.habitat_desc,
+		case when 
+			#oneOfUs# != 1 and 
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					collecting_event.coll_event_remarks is not null
+				then 'Masked'
+		else
+				collecting_event.coll_event_remarks
+		end COLL_EVENT_REMARKS,
 		locality.locality_id,
 		locality.minimum_elevation,
 		locality.maximum_elevation,
@@ -755,6 +763,12 @@
 						<td id="SDCellRight">#fish_field_number#</td>
 					</tr>
 					</cfif>
+					<cfif len(one.coll_event_remarks) gt 0>
+					<tr class="detailData">
+						<td id="SDCellLeft" class="innerDetailLabel">Collecting Event Remarks:</td>
+						<td id="SDCellRight">#coll_event_remarks#</td>
+					</tr>
+					</cfif>					
 				</table>
 			</div>
 			
