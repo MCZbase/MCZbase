@@ -765,7 +765,7 @@
 					</cfif>
 					<cfif len(one.coll_event_remarks) gt 0>
 					<tr class="detailData">
-						<td id="SDCellLeft" class="innerDetailLabel">Collecting Event Remarks:</td>
+						<td id="SDCellLeft" class="innerDetailLabel" nowrap>Collecting Event Remarks:</td>
 						<td id="SDCellRight">#coll_event_remarks#</td>
 					</tr>
 					</cfif>					
