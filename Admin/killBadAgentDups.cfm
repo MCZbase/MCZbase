@@ -9,7 +9,10 @@
 		agent_relations.agent_id,
 		badname.agent_name bad_name,
 		related_agent_id,
-		goodname.agent_name good_name
+		goodname.agent_name good_name,
+		to_char(date_to_merge, 'YYYY-MM-DD') merge_date,
+		DECODE(on_hold, 1, 'X', '') on_hold, 
+		held_by
 	from
 		agent_relations,
 		preferred_agent_name badname,
@@ -21,23 +24,27 @@
 </cfquery>
 <table border>
 	<tr>
-		<td>
-			Bad Name
-		</td>
+		<td>Bad Name</td>
 		<td>Good Name</td>
+		<td>Date to be Merged</td>
+		<td>On Hold</td>
 	</tr>
 	<cfoutput>
 		<cfloop query="bads">
 			<tr>
 				<td>
-					<a href="/agents.cfm?agent_id=#bads.agent_id#">#bad_name#</a>
-					
+					<a href="/agents.cfm?agent_id=#bads.agent_id#" target="_blank">#bad_name#</a>
 				</td>
 				<td>
-				<a href="/agents.cfm?agent_id=#bads.related_agent_id#">#good_name#</a>
+					<a href="/agents.cfm?agent_id=#bads.related_agent_id#" target="_blank">#good_name#</a>
+				</td>
+				<td>
+					#merge_date#
+				</td>
+				<td align=center>
+					<strong>#on_hold#</strong>
 				</td>
 			</tr>
-			
 		</cfloop>
 	</cfoutput>
 </table>
@@ -63,6 +70,8 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 		agent_relations
 	where 
 		agent_relationship = 'bad duplicate of'
+		and on_hold <> 1
+		and date_to_merge > sysdate
 </cfquery>
 
 <cfloop query="bads">
