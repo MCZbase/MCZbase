@@ -215,6 +215,9 @@
 											<cfif listfind(formList,"/agents.cfm")>
 												<li><a target="_top" href="/agents.cfm">Agents</a></li>
 											</cfif>
+											<cfif listfind(formList,"/Admin/agentMergeReview.cfm")>
+												<li><a target="_top" href="/Admin/agentMergeReview.cfm">Review pending agent merges</a></li>
+											</cfif>
 											<cfif listfind(formList,"/Admin/killBadAgentDups.cfm")>
 												<li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge bad dup agents</a></li>
 											</cfif>
