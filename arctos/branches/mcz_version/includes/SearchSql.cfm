@@ -16,7 +16,7 @@
 <cfif isdefined("ocr_text") AND len(ocr_text) gt 0>
 	<cfset mapurl = "#mapurl#&ocr_text=#ocr_text#">
 	<cfif basJoin does not contain "ocr_text">
-		<cfset basJoin = " #basJoin# INNER JOIN ocr_text ON 
+		<cfset basJoin = " #basJoin# INNER JOIN ocr_text ON
 			(cataloged_item.collection_object_id = ocr_text.collection_object_id)">
 	</cfif>
 	<cfset basQual = "#basQual# AND upper(ocr_text.ocr_text) like '%#ucase(ocr_text)#%'" >
@@ -24,7 +24,7 @@
 <cfif isdefined("mime_type") AND len(mime_type) gt 0>
 	<cfset mapurl = "#mapurl#&mime_type=#mime_type#">
 	<cfif basJoin does not contain "media_relations">
-		<cfset basJoin = " #basJoin# INNER JOIN media_relations ON 
+		<cfset basJoin = " #basJoin# INNER JOIN media_relations ON
 			(cataloged_item.collection_object_id = media_relations.related_primary_key)">
 	</cfif>
 	<cfset basQual = "#basQual#  AND media_relations.media_relationship like '% cataloged_item'" >
@@ -35,7 +35,7 @@
 </cfif>
 <cfif isdefined("ImgNoConfirm") and len(ImgNoConfirm) gt 0>
 	<cfset mapurl = "#mapurl#&ImgNoConfirm=#ImgNoConfirm#">
-   	<cfset basQual = "#basQual#  AND cataloged_item.collection_object_id not in (select 
+   	<cfset basQual = "#basQual#  AND cataloged_item.collection_object_id not in (select
 		collection_object_id from attributes where attribute_type='image confirmed' and attribute_value='yes')" >
 </cfif>
 
@@ -53,7 +53,7 @@
 			</cfif>
 			<cfset mapurl = "#mapurl#&catnum=#catnum#&searchOtherIDs=#searchOtherIDs#">
 			<cfif basJoin does not contain " otherIdSearch ">
-				<cfset basJoin = " #basJoin# LEFT JOIN coll_obj_other_id_num otherIdSearch ON 
+				<cfset basJoin = " #basJoin# LEFT JOIN coll_obj_other_id_num otherIdSearch ON
 				(cataloged_item.collection_object_id = otherIdSearch.collection_object_id)">
 			</cfif>
 			<cfset oid2List="">
@@ -80,7 +80,7 @@
 	    <cfset mapurl = "#mapurl#&catnum=#catnum#">
 	</cfif>
 
-    <!--- 
+    <!---
 	<cfset catnum=replace(catnum," ","","all")>
 	<cfset mapurl = "#mapurl#&catnum=#catnum#">
 	<cfif catnum contains "-">
@@ -109,48 +109,48 @@
 		<cfset basQual = " #basQual# AND #session.flatTableName#.cat_num IN ( #ListQualify(ListChangeDelims(catnum,','),'''')# ) " >
 	</cfif>
    --->
-</cfif>	
+</cfif>
 <cfif isdefined("geology_attribute") AND len(geology_attribute) gt 0>
 	<cfset mapurl = "#mapurl#&geology_attribute=#geology_attribute#">
 	<cfif basJoin does not contain " geology_attributes ">
 		<cfset basJoin = " #basJoin# INNER JOIN geology_attributes ON (#session.flatTableName#.locality_id = geology_attributes.locality_id)">
-	</cfif>	
+	</cfif>
 	<cfif isdefined("geology_hierarchies") and geology_hierarchies is true>
 		<cfset basQual = "#basQual# AND geology_attributes.geology_attribute IN (
-				SELECT  
-	 				attribute	
+				SELECT
+	 				attribute
 	 			FROM
 					geology_attribute_hierarchy
-				start with 
+				start with
 					attribute = '#geology_attribute#'
-				CONNECT BY PRIOR 
+				CONNECT BY PRIOR
 					geology_attribute_hierarchy_id = parent_id
 				)">
 	<cfelse>
 		<cfset basQual = "#basQual# AND geology_attributes.geology_attribute = '#geology_attribute#'">
-	</cfif>				
-</cfif>		
+	</cfif>
+</cfif>
 <cfif isdefined("geology_attribute_value") AND len(geology_attribute_value) gt 0>
 	<cfset mapurl = "#mapurl#&geology_attribute_value=#geology_attribute_value#">
 	<cfif basJoin does not contain " geology_attributes ">
-		<cfset basJoin = " #basJoin# INNER JOIN geology_attributes ON 
+		<cfset basJoin = " #basJoin# INNER JOIN geology_attributes ON
 			(#session.flatTableName#.locality_id = geology_attributes.locality_id)">
-	</cfif>	
+	</cfif>
 	<cfif isdefined("geology_hierarchies") and geology_hierarchies is 1>
 		<cfset basQual = "#basQual# AND geology_attributes.geo_att_value IN (
-				SELECT  
-	 				attribute_value	
+				SELECT
+	 				attribute_value
 	 			FROM
 					geology_attribute_hierarchy
-				start with 
+				start with
 					upper(attribute_value) like '%#ucase(geology_attribute_value)#%'
-				CONNECT BY PRIOR 
+				CONNECT BY PRIOR
 					geology_attribute_hierarchy_id = parent_id
 				)">
 	<cfelse>
 		<cfset basQual = "#basQual# AND upper(geology_attributes.geo_att_value) like '%#ucase(geology_attribute_value)#%'">
-	</cfif>				
-</cfif>		
+	</cfif>
+</cfif>
 <cfif isdefined("entered_by") AND len(entered_by) gt 0>
 	<cfset mapurl = "#mapurl#&entered_by=#entered_by#">
 	<cfif basJoin does not contain "CatItemCollObject">
@@ -169,7 +169,7 @@
 <cfif isdefined("media_type") AND len(#media_type#) gt 0>
 	<cfset mapurl = "#mapurl#&media_type=#media_type#">
 	<cfif basJoin does not contain "media_relations">
-		<cfset basJoin = " #basJoin# INNER JOIN media_relations ON 
+		<cfset basJoin = " #basJoin# INNER JOIN media_relations ON
 			(cataloged_item.collection_object_id = media_relations.related_primary_key)">
 	</cfif>
 	<cfset basQual = "#basQual#  AND media_relations.media_relationship like '%shows cataloged_item%'" >
@@ -180,7 +180,7 @@
 </cfif>
 <cfif isdefined("coll_obj_flags") AND len(coll_obj_flags) gt 0>
 	<cfif basJoin does not contain "CatItemCollObject">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 			(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
 	<cfset basQual = "#basQual#  AND CatItemCollObject.flags = '#coll_obj_flags#'" >
@@ -193,7 +193,7 @@
 	<cfset beEntDate = dateformat(beg_entered_date,"yyyy-mm-dd")>
 	<cfset edEntDate = dateformat(end_entered_date,"yyyy-mm-dd")>
 	<cfif basJoin does not contain "CatItemCollObject">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 			(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
 	<cfset basQual = "#basQual#  AND CatItemCollObject.COLL_OBJECT_ENTERED_DATE BETWEEN '#beEntDate#' and '#edEntDate#'" >
@@ -205,7 +205,7 @@
 		<cfset end_last_edit_date=beg_last_edit_date>
 	</cfif>
 	<cfset basQual = "#basQual#  AND (
-					to_date(to_char(#session.flatTableName#.last_edited_date,'dd-mon-yyy')) between 
+					to_date(to_char(#session.flatTableName#.last_edited_date,'dd-mon-yyy')) between
 						to_date('#dateformat(beg_last_edit_date,"yyyy-mm-dd")#')
 						and to_date('#dateformat(end_last_edit_date,"yyyy-mm-dd")#')
 				)" >
@@ -245,7 +245,7 @@
 			parent_container.barcode IN ('#ListChangeDelims(thisBC,',')#') )
 		" >
 	<cfset mapurl = "#mapurl#&barcode=#barcode#">
-</cfif>	
+</cfif>
 <cfif isdefined("session.ShowObservations") AND session.ShowObservations is true>
 	<cfset mapurl = "#mapurl#&ShowObservations=#session.ShowObservations#">
 <cfelse>
@@ -254,7 +254,7 @@
 </cfif>
 <cfif isdefined("edited_by_id") AND len(edited_by_id) gt 0>
 	<cfif basJoin does not contain "CatItemCollObject">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 		(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
 	<cfset basQual = "#basQual#  AND CatItemCollObject.last_edited_person_id = #edited_by_id#" >
@@ -262,44 +262,39 @@
 </cfif>
 <cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
 	<cfif basJoin does not contain "CatItemCollObject">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 		(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
 	<cfset basQual = "#basQual#  AND CatItemCollObject.coll_obj_disposition = '#coll_obj_disposition#'" >
 	<cfset mapurl = "#mapurl#&coll_obj_disposition=#coll_obj_disposition#">
-</cfif>	
+</cfif>
 <cfif isdefined("encumbrance_id") AND isnumeric(encumbrance_id)>
 	<cfif basJoin does not contain "coll_object_encumbrance">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_object_encumbrance ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_object_encumbrance ON
 		(cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id)">
 	</cfif>
 	<cfset basQual = "#basQual#  AND coll_object_encumbrance.encumbrance_id = #encumbrance_id#" >
 	<cfset mapurl = "#mapurl#&encumbrance_id=#encumbrance_id#">
-</cfif>	
+</cfif>
 <cfif isdefined("encumbering_agent_id") AND isnumeric(encumbering_agent_id)>
 	<cfif basJoin does not contain " coll_object_encumbrance ">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_object_encumbrance ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_object_encumbrance ON
 		(cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id)">
 	</cfif>
 	<cfif basJoin does not contain " encumbrance ">
-		<cfset basJoin = " #basJoin# INNER JOIN encumbrance ON 
+		<cfset basJoin = " #basJoin# INNER JOIN encumbrance ON
 		(coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id)">
 	</cfif>
 	<cfset basQual = "#basQual#  AND encumbering_agent_id = #encumbering_agent_id#" >
 	<cfset mapurl = "#mapurl#&encumbering_agent_id=#encumbering_agent_id#">
-</cfif>	
-<cfif isdefined("collection_id") AND isnumeric(collection_id)>
-	<cfif collection_id NEQ 10 and collection_id NEQ 6 and collection_id NEQ 7 and (not isdefined("catnum") or not len(catnum) gt 0)>
-		<cfset basQual = "#basQual#  AND #session.flatTableName#.collection_id in (#collection_id#, 11)" >
-		<cfset mapurl = "#mapurl#&collection_id=#collection_id#">
-	<cfelse>
-		<cfset basQual = "#basQual#  AND #session.flatTableName#.collection_id in (#collection_id#)" >
-		<cfset mapurl = "#mapurl#&collection_id=#collection_id#">
-	</cfif>
-</cfif>		
+</cfif>
+<cfif isdefined("collection_id") AND len(collection_id) gt 0>
+        <cfset basQual = "#basQual#  AND (#session.flatTableName#.collection_id IN ( #collection_id# ) or #session.flatTableName#.associated_collection IN ( #collection_id# ))" >
+        <cfset mapurl = "#mapurl#&collection_id=#collection_id#">
+</cfif>
 <cfif isdefined("session.collection") and len(session.collection) gt 0>
 	<cfset collection_cde=session.collection>
-</cfif>		
+</cfif>
 <cfif isdefined("collection_cde") and len(collection_cde) gt 0>
 	<cfset collcde = "">
 	<cfloop list="#collection_cde#" index="i">
@@ -309,9 +304,6 @@
 			<cfset collcde = "#collcde#,'#i#'">
 		</cfif>
 	</cfloop>
-	<cfif collcde NEQ "SC" and collcde NEQ "IP" and collcde NEQ "VP" and (not isdefined("catnum") or not len(catnum) gt 0)>
-			<cfset collcde = "#collcde#,'Cryo'">
-	</cfif>
 	<cfset basQual = "#basQual#  AND cataloged_item.collection_cde IN (#collcde#)" >
 	<cfset mapurl = "#mapurl#&collection_cde=#collection_cde#">
 </cfif>
@@ -320,7 +312,7 @@
 		<cfset coll_role="c">
 	</cfif>
 	<cfif coll_role is "p">
-		<cfset basJoin = " #basJoin# INNER JOIN collector ON 
+		<cfset basJoin = " #basJoin# INNER JOIN collector ON
 			(cataloged_item.collection_object_id = collector.collection_object_id)
 			INNER JOIN agent_name srchColl ON (collector.agent_id = srchColl.agent_id)">
 		<cfSet basQual = " #basQual# AND UPPER(srchColl.Agent_Name) LIKE '%#UCASE(coll)#%'
@@ -328,17 +320,17 @@
 	<cfelse>
 		<cfSet basQual = " #basQual# AND UPPER(#session.flatTableName#.COLLECTORS) LIKE '%#UCASE(escapeQuotes(coll))#%'">
 	</cfif>
-	<cfset mapurl = "#mapurl#&coll=#coll#">  
+	<cfset mapurl = "#mapurl#&coll=#coll#">
 	<cfset mapurl = "#mapurl#&coll_role=#coll_role#">
 </cfif>
 <cfif isDefined ("notCollector") and len(notCollector) gt 0>
-	<cfset mapurl = "#mapurl#&notCollector=#notCollector#"> 
+	<cfset mapurl = "#mapurl#&notCollector=#notCollector#">
 	<cfSet basQual = " #basQual# AND UPPER(#session.flatTableName#.COLLECTORS) NOT LIKE '%#UCASE(notCollector)#%'">
 </cfif>
 <cfif isdefined("collector_agent_id") AND len(collector_agent_id) gt 0>
-	<cfset mapurl = "#mapurl#&collector_agent_id=#collector_agent_id#"> 
+	<cfset mapurl = "#mapurl#&collector_agent_id=#collector_agent_id#">
 	<cfif basJoin does not contain "srchColl">
-		<cfset basJoin = " #basJoin# INNER JOIN collector ON 
+		<cfset basJoin = " #basJoin# INNER JOIN collector ON
 			(cataloged_item.collection_object_id = collector.collection_object_id)
 			INNER JOIN agent_name srchColl ON (collector.agent_id = srchColl.agent_id)">
 	</cfif>
@@ -385,7 +377,7 @@
 				<cfabort>
 			</cfcatch>
 		</cftry>
-		<cfset basQual = " #basQual# )">		
+		<cfset basQual = " #basQual# )">
 	<cfelseif sciNameOper is "=">
 		<cfset basQual = " #basQual# AND #session.flatTableName#.scientific_name = '#scientific_name#'">
 	<cfelseif sciNameOper is "NOT LIKE">
@@ -396,37 +388,37 @@
 <cfif isdefined("anyTaxId") AND len(anyTaxId) gt 0>
 	<cfset mapurl = "#mapurl#&anyTaxId=#anyTaxId#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 		(cataloged_item.collection_object_id = identification.collection_object_id)">
 	</cfif>
 	<cfif basJoin does not contain " identification_taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND identification_taxonomy.taxon_name_id=#anyTaxId#">
-</cfif>	
+</cfif>
 
 <cfif isdefined("HighTaxa") AND len(HighTaxa) gt 0>
 	<cfset mapurl = "#mapurl#&HighTaxa=#HighTaxa#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 		(cataloged_item.collection_object_id = identification.collection_object_id)">
 	</cfif>
 	<cfif basJoin does not contain " identification_taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
 	<cfif basJoin does not contain " taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
 	<cfset basQual = "#basQual# AND identification.accepted_id_fg=1">
 	<cfset basQual = " #basQual# AND UPPER(taxonomy.Full_Taxon_Name) LIKE '%#ucase(HighTaxa)#%'">
-</cfif>	
+</cfif>
 <cfif isdefined("AnySciName") AND len(AnySciName) gt 0>
 	<cfset mapurl = "#mapurl#&AnySciName=#AnySciName#">
 		<cfset basQual = " #basQual# AND ( cataloged_item.collection_object_id IN
-			(select collection_object_id FROM identification where 
+			(select collection_object_id FROM identification where
 				UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
 			OR cataloged_item.collection_object_id IN
 				(select collection_object_id FROM
@@ -454,16 +446,16 @@
 <cfif isdefined("genus") AND len(genus) gt 0>
 	<cfset mapurl = "#mapurl#&genus=#genus#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 			(cataloged_item.collection_object_id = identification.collection_object_id)">
 		<cfset basQual = " #basQual# AND identification.accepted_id_fg=1 ">
 	</cfif>
 	<cfif basJoin does not contain " identification_taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
 	<cfif basJoin does not contain " taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
 	<cfif left(genus,1) is '='>
@@ -475,57 +467,57 @@
 <cfif isdefined("species") AND len(species) gt 0>
 	<cfset mapurl = "#mapurl#&species=#species#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 			(cataloged_item.collection_object_id = identification.collection_object_id)">
 		<cfset basQual = " #basQual# AND identification.accepted_id_fg=1 ">
 	</cfif>
 	<cfif basJoin does not contain " identification_taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
 	<cfif basJoin does not contain " taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
 	<cfif left(species,1) is '='>
 		<cfset basQual = " #basQual# AND upper(taxonomy.species) = '#ucase(right(species,len(species)-1))#'">
 	<cfelse>
 		<cfset basQual = " #basQual# AND upper(taxonomy.species) like '%#ucase(species)#%'">
-	</cfif>		
+	</cfif>
 </cfif>
 <cfif isdefined("subspecies") AND len(subspecies) gt 0>
 	<cfset mapurl = "#mapurl#&subspecies=#subspecies#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 			(cataloged_item.collection_object_id = identification.collection_object_id)">
 		<cfset basQual = " #basQual# AND identification.accepted_id_fg=1 ">
 	</cfif>
 	<cfif basJoin does not contain " identification_taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
 	<cfif basJoin does not contain " taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
 	<cfif left(subspecies,1) is '='>
 		<cfset basQual = " #basQual# AND upper(taxonomy.subspecies) = '#ucase(right(subspecies,len(subspecies)-1))#'">
 	<cfelse>
 		<cfset basQual = " #basQual# AND upper(taxonomy.subspecies) like '%#ucase(subspecies)#%'">
-	</cfif>		
+	</cfif>
 </cfif>
 <cfif isdefined("Phylclass") AND len(Phylclass) gt 0>
 	<cfset mapurl = "#mapurl#&Phylclass=#Phylclass#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 		(cataloged_item.collection_object_id = identification.collection_object_id)">
 	</cfif>
 	<cfif basJoin does not contain " identification_taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
 	<cfif basJoin does not contain " taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
 	<cfif left(phylclass,1) is '='>
@@ -535,78 +527,78 @@
 	<cfelse>
 		<cfset basQual = " #basQual# AND upper(taxonomy.phylclass) like '%#ucase(phylclass)#%'">
 	</cfif>
-</cfif>	
+</cfif>
 <cfif isdefined("any_taxa_term") AND len(any_taxa_term) gt 0>
 	<cfif isdefined("searchUnaccepted") AND searchUnaccepted EQ "Yes">
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#&searchUnaccepted=Yes">
 		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (#session.flatTableName#.collection_object_id = taxa_terms_all.collection_object_id)">
 		<cfset basQual = " #basQual# AND taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
-	<cfelse>		
+	<cfelse>
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#">
 		<cfset basJoin = " #basJoin# inner join taxa_terms on (#session.flatTableName#.collection_object_id = taxa_terms.collection_object_id)">
 		<cfset basQual = " #basQual# AND taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
-	</cfif>		
+	</cfif>
 </cfif>
 <cfif isdefined("identified_agent_id") AND len(identified_agent_id) gt 0>
 	<cfset mapurl = "#mapurl#&identified_agent_id=#identified_agent_id#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 		(cataloged_item.collection_object_id = identification.collection_object_id)
-		INNER JOIN identification_agent ON 
+		INNER JOIN identification_agent ON
 		(identification.identification_id = identification_agent.identification_id)	">
 	</cfif>
-	<cfset basQual = " #basQual# AND identification_agent.agent_id = #identified_agent_id#">			
+	<cfset basQual = " #basQual# AND identification_agent.agent_id = #identified_agent_id#">
 </cfif>
 <cfif isdefined("identification_remarks") AND len(identification_remarks) gt 0>
 	<cfset mapurl = "#mapurl#&identification_remarks=#identification_remarks#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 		(cataloged_item.collection_object_id = identification.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND identification.accepted_id_fg=1 AND 
-		upper(identification.identification_remarks) like '%#ucase(identification_remarks)#%'">			
+	<cfset basQual = " #basQual# AND identification.accepted_id_fg=1 AND
+		upper(identification.identification_remarks) like '%#ucase(identification_remarks)#%'">
 </cfif>
 <cfif isdefined("nature_of_id") AND len(nature_of_id) gt 0>
 	<cfset mapurl = "#mapurl#&nature_of_id=#nature_of_id#">
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 		(cataloged_item.collection_object_id = identification.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND identification.accepted_id_fg=1 AND identification.nature_of_id = '#nature_of_id#'">			
+	<cfset basQual = " #basQual# AND identification.accepted_id_fg=1 AND identification.nature_of_id = '#nature_of_id#'">
 </cfif>
 <cfif isdefined("identified_agent") AND len(identified_agent) gt 0>
 	<cfset mapurl = "#mapurl#&identified_agent=#identified_agent#">
-	<cfset basQual = " #basQual# AND upper(#session.flatTableName#.IDENTIFIEDBY) LIKE '%#ucase(identified_agent)#%'">			
+	<cfset basQual = " #basQual# AND upper(#session.flatTableName#.IDENTIFIEDBY) LIKE '%#ucase(identified_agent)#%'">
 </cfif>
-<cfif isdefined("begDate") AND len(begDate) gt 0>		
+<cfif isdefined("begDate") AND len(begDate) gt 0>
 	<cfset mapurl = "#mapurl#&begDate=#begDate#">
 	<cfquery name="isdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select is_iso8601('#begDate#') isdate from dual
 	</cfquery>
 	<cfif isdate.isdate is not "valid">
 		<div class="error">
-			The begin date you entered is not a valid ISO8601 date. 
+			The begin date you entered is not a valid ISO8601 date.
 			See <a target="_blank" href="http://g-arctos.appspot.com/arctosdoc/date.html">About Arctos Dates</a>
 		</div>
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
-	<cfset basQual = " #basQual# AND #session.flatTableName#.began_date >= '#begDate#'">		
+	<cfset basQual = " #basQual# AND #session.flatTableName#.began_date >= '#begDate#'">
 </cfif>
-<cfif isdefined("endDate") AND len(endDate) gt 0>	
+<cfif isdefined("endDate") AND len(endDate) gt 0>
 	<cfset mapurl = "#mapurl#&endDate=#endDate#">
 	<cfquery name="isdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select is_iso8601('#endDate#') isdate from dual
 	</cfquery>
 	<cfif isdate.isdate is not "valid">
 		<div class="error">
-			The ended date you entered is not a valid ISO8601 date. 
+			The ended date you entered is not a valid ISO8601 date.
 			See <a target="_blank" href="http://g-arctos.appspot.com/arctosdoc/date.html">About Arctos Dates</a>
 		</div>
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
-	<cfset basQual = " #basQual# AND #session.flatTableName#.ended_date <= '#endDate#'">		
+	<cfset basQual = " #basQual# AND #session.flatTableName#.ended_date <= '#endDate#'">
 </cfif>
 
 <cfif isdefined("begYear") AND len(begYear) gt 0>
@@ -666,19 +658,19 @@
 <cfif isdefined("accn_trans_id") AND len(accn_trans_id) gt 0>
 	<cfset mapurl = "#mapurl#&accn_trans_id=#accn_trans_id#">
 	<cfif basJoin does not contain " accn ">
-		<cfset basJoin = " #basJoin# INNER JOIN accn ON 
+		<cfset basJoin = " #basJoin# INNER JOIN accn ON
 		(cataloged_item.accn_id = accn.transaction_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND accn.transaction_id IN (#accn_trans_id#)">
-</cfif>	
+</cfif>
 <cfif isdefined("accn_inst") and len(accn_inst) gt 0>
 	<cfset mapurl = "#mapurl#&accn_inst=#accn_inst#">
 	<cfif basJoin does not contain " accn ">
-		<cfset basJoin = " #basJoin# INNER JOIN accn ON 
+		<cfset basJoin = " #basJoin# INNER JOIN accn ON
 		(cataloged_item.accn_id = accn.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN trans ON
 		(accn.transaction_id=trans.transaction_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND upper(trans.institution_acronym) like '%#ucase(accn_inst)#%'">
@@ -695,7 +687,7 @@
 	<cfset mapurl = "#mapurl#&loan_number=#loan_number#">
 	<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON (#session.flatTableName#.collection_object_id=specimen_part.derived_from_cat_item)
 		INNER JOIN loan_item ON (specimen_part.collection_object_id=loan_item.collection_object_id)
-		INNER JOIN loan ON (loan_item.transaction_id=loan.transaction_id)">	
+		INNER JOIN loan ON (loan_item.transaction_id=loan.transaction_id)">
 	<cfif left(loan_number,1) is '='>
 		<cfset basQual = " #basQual# AND upper(loan.loan_number) = '#ucase(right(loan_number,len(loan_number)-1))#'">
 	<cfelse>
@@ -705,7 +697,7 @@
 <cfif isdefined("accn_list") and len(accn_list) gt 0>
 	<cfset mapurl = "#mapurl#&accn_list=#accn_list#">
 	<cfif basJoin does not contain " accn ">
-		<cfset basJoin = " #basJoin# INNER JOIN accn ON 
+		<cfset basJoin = " #basJoin# INNER JOIN accn ON
 		(cataloged_item.accn_id = accn.transaction_id)">
 	</cfif>
 	<cfset qal="">
@@ -716,22 +708,22 @@
 			<cfset qal="#qal#,'#a#'">
 		</cfif>
 	</cfloop>
-	<cfset basQual = " #basQual# AND upper(accn.accn_number) IN (#ucase(qal)#)">				
+	<cfset basQual = " #basQual# AND upper(accn.accn_number) IN (#ucase(qal)#)">
 </cfif>
 <cfif isdefined("accn_agency") and len(accn_agency) gt 0>
 	<cfset mapurl = "#mapurl#&accn_agency=#accn_agency#">
 	<cfif basJoin does not contain " accn ">
-		<cfset basJoin = " #basJoin# INNER JOIN accn ON 
+		<cfset basJoin = " #basJoin# INNER JOIN accn ON
 		(cataloged_item.accn_id = accn.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN trans ON
 		(accn.transaction_id=trans.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " accn_agency ">
 		<cfset basJoin = " #basJoin# inner join trans_agent on (
 			trans.transaction_id = trans_agent.transaction_id)
-			INNER JOIN agent_name accn_agency ON 
+			INNER JOIN agent_name accn_agency ON
 				(trans_agent.AGENT_ID = accn_agency.agent_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND trans_agent.TRANS_AGENT_ROLE='associated with agency' and
@@ -740,7 +732,7 @@
 <cfif isdefined("custom_id_prefix") and len(custom_id_prefix) gt 0>
 	<cfset mapurl = "#mapurl#&custom_id_prefix=#custom_id_prefix#">
 	<cfif basJoin does not contain " customIdentifier ">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON
 		(cataloged_item.collection_object_id = customIdentifier.collection_object_id)">
 	</cfif>
 	<cfif #basQual# does not contain "customIdentifier.other_id_type">
@@ -751,7 +743,7 @@
 <cfif isdefined("custom_id_suffix") and len(custom_id_suffix) gt 0>
 	<cfset mapurl = "#mapurl#&custom_id_suffix=#custom_id_suffix#">
 	<cfif basJoin does not contain " customIdentifier ">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON
 		(cataloged_item.collection_object_id = customIdentifier.collection_object_id)">
 	</cfif>
 	<cfif basQual does not contain "customIdentifier.other_id_type">
@@ -762,7 +754,7 @@
 <cfif isdefined("custom_id_number") and len(custom_id_number) gt 0>
 	<cfset mapurl = "#mapurl#&custom_id_number=#custom_id_number#">
 	<cfif basJoin does not contain " customIdentifier ">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON
 		(cataloged_item.collection_object_id = customIdentifier.collection_object_id)">
 	</cfif>
 	<cfif basQual does not contain "customIdentifier.other_id_type">
@@ -797,7 +789,7 @@
 		</div>
 		<script>hidePageLoad();</script>
 		<cfabort>
-	</cfif>			
+	</cfif>
 </cfif>
 <cfif isdefined("CustomIdentifierValue") and len(CustomIdentifierValue) gt 0>
 	<cfif not isdefined("CustomOidOper")>
@@ -806,7 +798,7 @@
 	<cfset mapurl = "#mapurl#&CustomIdentifierValue=#CustomIdentifierValue#">
 	<cfset mapurl = "#mapurl#&CustomOidOper=#CustomOidOper#">
 	<cfif basJoin does not contain " customIdentifier ">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON
 		(cataloged_item.collection_object_id = customIdentifier.collection_object_id)">
 	</cfif>
 	<cfif basQual does not contain "customIdentifier.other_id_type">
@@ -834,9 +826,9 @@
 	</cfif>
 </cfif>
 <cfif isdefined("OIDType") AND len(OIDType) gt 0>
-	<cfset mapurl = "#mapurl#&OIDType=#OIDType#">	
+	<cfset mapurl = "#mapurl#&OIDType=#OIDType#">
 	<cfif basJoin does not contain " otherIdSearch ">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num otherIdSearch ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num otherIdSearch ON
 		(cataloged_item.collection_object_id = otherIdSearch.collection_object_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND otherIdSearch.other_id_type = '#OIDType#'">
@@ -845,10 +837,10 @@
 	<cfif not isdefined("oidOper") OR len(oidOper) is 0>
 		<cfset oidOper = "LIKE">
 	</cfif>
-	<cfset mapurl = "#mapurl#&OIDNum=#OIDNum#">	
-	<cfset mapurl = "#mapurl#&oidOper=#oidOper#">	
+	<cfset mapurl = "#mapurl#&OIDNum=#OIDNum#">
+	<cfset mapurl = "#mapurl#&oidOper=#oidOper#">
 	<cfif basJoin does not contain " otherIdSearch ">
-		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num otherIdSearch ON 
+		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num otherIdSearch ON
 		(cataloged_item.collection_object_id = otherIdSearch.collection_object_id)">
 	</cfif>
 	<cfset oidList="">
@@ -875,23 +867,23 @@
 		<cfset basQual = " #basQual# AND continent_ocean is null">
 	<cfelse>
 		<cfset basQual = " #basQual# AND continent_ocean = '#continent_ocean#'">
-	</cfif>					
-	<cfset mapurl = "#mapurl#&continent_ocean=#continent_ocean#">			
+	</cfif>
+	<cfset mapurl = "#mapurl#&continent_ocean=#continent_ocean#">
 </cfif>
 <cfif isdefined("sea") AND len(sea) gt 0>
 	<cfif compare(sea,"NULL") is 0>
 		<cfset basQual = " #basQual# AND sea is null">
 	<cfelse>
 		<cfset basQual = " #basQual# AND sea LIKE '#sea#'">
-	</cfif>					
-	<cfset mapurl = "#mapurl#&sea=#sea#">			
+	</cfif>
+	<cfset mapurl = "#mapurl#&sea=#sea#">
 </cfif>
 <cfif isdefined("Country") AND len(Country) gt 0>
 	<cfif compare(country,"NULL") is 0>
 		<cfset basQual = " #basQual# AND country is null">
 	<cfelse>
 		<cfset basQual = " #basQual# AND country = '#Country#'">
-	</cfif>					
+	</cfif>
 	<cfset mapurl = "#mapurl#&Country=#Country#">
 </cfif>
 <cfif isdefined("state_prov") AND len(state_prov) gt 0>
@@ -910,7 +902,7 @@
 		<cfset basQual = " #basQual# ) ">
 	<cfelse>
 		<cfset basQual = " #basQual# AND UPPER(state_prov) LIKE '%#UCASE(state_prov)#%'">
-	</cfif>				
+	</cfif>
 	<cfset mapurl = "#mapurl#&state_prov=#state_prov#">
 </cfif>
 <cfif isdefined("island_group") AND len(island_group) gt 0>
@@ -926,7 +918,7 @@
 		<cfset basQual = " #basQual# AND Island is null">
 	<cfelse>
 		<cfset basQual = " #basQual# AND UPPER(Island) LIKE '%#UCASE(Island)#%'">
-	</cfif>			
+	</cfif>
 	<cfset mapurl = "#mapurl#&island=#island#">
 </cfif>
 <cfif (isdefined("min_max_error") AND len(min_max_error) gt 0) or (isdefined("max_max_error") AND len(max_max_error) gt 0)>
@@ -937,7 +929,7 @@
 		<div class="error">
 			Maximum Error must be numeric.
 		</div>
-		<script>hidePageLoad();</script>	  
+		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
 	<cfif len(min_max_error) is 0>
@@ -951,13 +943,13 @@
 		<cfset basJoin = " #basJoin# INNER JOIN lat_long ON (#session.flatTableName#.locality_id = lat_long.locality_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND lat_long.accepted_lat_long_fg=1">
-	<cfset basQual = " #basQual# AND to_meters(lat_long.max_error_distance,max_error_units) between 
+	<cfset basQual = " #basQual# AND to_meters(lat_long.max_error_distance,max_error_units) between
 		to_meters(#min_max_error#,'#max_error_units#') and to_meters(#max_max_error#,'#max_error_units#')">
 </cfif>
 <cfif isdefined("max_error_in_meters") AND len(max_error_in_meters) gt 0>
 	<cfif not isnumeric(max_error_in_meters)>
 		<div class="error">max_error_in_meters must be numeric.</div>
-		<script>hidePageLoad();</script>		  
+		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
   	<cfset mapurl = "#mapurl#&max_error_in_meters=#max_error_in_meters#">
@@ -969,15 +961,15 @@
 <cfif isdefined("chronological_extent") AND len(chronological_extent) gt 0>
 	<cfif not isnumeric(chronological_extent)>
 		<div class="error">chronological_extent must be numeric.</div>
-		<script>hidePageLoad();</script>	  
+		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
 	<cfset mapurl = "#mapurl#&chronological_extent=#chronological_extent#">
 	<cfset basQual = " #basQual# AND
 					length(#session.flatTableName#.ended_date)>=10 and
 					length(#session.flatTableName#.began_date)>=10 and
-					(				
-						to_number(to_char(to_date(substr(#session.flatTableName#.ended_date,1,10),'yyyy-mm-dd'),'J')) - 
+					(
+						to_number(to_char(to_date(substr(#session.flatTableName#.ended_date,1,10),'yyyy-mm-dd'),'J')) -
 						to_number(to_char(to_date(substr(#session.flatTableName#.began_date,1,10),'yyyy-mm-dd'),'J'))
 					)
 					<= #chronological_extent#">
@@ -1018,7 +1010,7 @@
 		<cfelse>
 			<cfset basQual = " #basQual# AND upper(#session.flatTableName#.spec_locality) like '%#ucase(escapeQuotes(spec_locality))#%'">
 		</cfif>
-	</cfif>	
+	</cfif>
 </cfif>
 <cfif isdefined("verbatim_locality") and len(verbatim_locality) gt 0>
 	<cfset mapurl = "#mapurl#&verbatim_locality=#verbatim_locality#">
@@ -1029,7 +1021,7 @@
 		<cfset basQual = " #basQual# AND upper(collecting_event.verbatim_locality) = '#ucase(escapeQuotes(right(verbatim_locality,len(verbatim_locality)-1)))#'">
 	<cfelse>
 		<cfset basQual = " #basQual# AND upper(collecting_event.verbatim_locality) like '%#ucase(escapeQuotes(verbatim_locality))#%'">
-	</cfif>	
+	</cfif>
 </cfif>
 <cfif isdefined("minimum_elevation") and len(minimum_elevation) gt 0>
 	<cfif not isdefined("orig_elev_units") OR len(#orig_elev_units#) is 0>
@@ -1098,16 +1090,16 @@
 		<cfset basQual = " #basQual# AND feature is null">
 	<cfelse>
 		<cfset basQual = " #basQual# AND feature LIKE '#escapeQuotes(feature)#'">
-	</cfif>		
+	</cfif>
 	<cfset mapurl = "#mapurl#&feature=#feature#">
 </cfif>
 <cfif isdefined("any_geog") AND len(any_geog) gt 0>
 	<cfset mapurl = "#mapurl#&any_geog=#any_geog#">
 	<cfif replace(basJoin,"collecting_event flatCollEvent","","all") does not contain " collecting_event ">
-		<cfset basJoin = " #basJoin# INNER JOIN collecting_event ON 
+		<cfset basJoin = " #basJoin# INNER JOIN collecting_event ON
 		(cataloged_item.collecting_event_id = collecting_event.collecting_event_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND 
+	<cfset basQual = " #basQual# AND
 		upper(#session.flatTableName#.higher_geog) || ' ' || upper(#session.flatTableName#.spec_locality)
 			|| ' ' || upper(collecting_event.verbatim_locality)  LIKE '%#ucase(escapeQuotes(any_geog))#%'">
 </cfif>
@@ -1124,7 +1116,7 @@
 		<cfset basQual = " #basQual# AND County is null">
 	<cfelse>
 		<cfset basQual = " #basQual# AND upper(County) LIKE '%#UCASE(County)#%'">
-	</cfif>				
+	</cfif>
 	<cfset mapurl = "#mapurl#&county=#county#">
 </cfif>
 <cfif isdefined("inCounty") AND len(inCounty) gt 0>
@@ -1149,37 +1141,37 @@
 </cfif>
 <cfif isdefined("partname") AND len(partname) gt 0>
 	<cfset part_name=partname>
-</cfif>		
+</cfif>
 <cfif isdefined("part_name") AND len(part_name) gt 0>
 	<cfset mapurl = "#mapurl#&part_name=#part_name#">
 	<cfif part_name contains "|">
 		<cfset i=1>
 		<cfloop list="#part_name#" delimiters="|" index="p">
-			<cfset basJoin = " #basJoin# INNER JOIN specimen_part sp#i# ON 
+			<cfset basJoin = " #basJoin# INNER JOIN specimen_part sp#i# ON
 				(cataloged_item.collection_object_id = sp#i#.derived_from_cat_item)">
 			<cfset basQual = " #basQual# AND sp#i#.part_name = '#p#'">
 			<cfset i=i+1>
 		</cfloop>
 	<cfelseif left(part_name,1) is '='>
 		<cfif basJoin does not contain " specimen_part ">
-			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON 
+			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 			(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 		</cfif>
 		<cfset basQual = " #basQual# AND specimen_part.part_name = '#right(part_name,len(part_name)-1)#'">
-	<cfelse><!--- part name only --->		
+	<cfelse><!--- part name only --->
 		<cfset basQual = " #basQual# AND upper(PARTS) LIKE '%#ucase(part_name)#%'">
 	</cfif>
 </cfif>
 <cfif isdefined("preservemethod") AND len(preservemethod) gt 0>
 	<cfset preserve_method=preservemethod>
-</cfif>		
+</cfif>
 <cfif isdefined("preserve_method") AND len(preserve_method) gt 0>
 	<cfset mapurl = "#mapurl#&preserve_method=#preserve_method#">
 	<cfif preserve_method contains "|">
 		<cfset i=1>
 		<cfloop list="#preserve_method#" delimiters="|" index="p">
 			<cfif basJoin does not contain " specimen_part ">
-				<cfset basJoin = " #basJoin# INNER JOIN specimen_part sp#i# ON 
+				<cfset basJoin = " #basJoin# INNER JOIN specimen_part sp#i# ON
 					(cataloged_item.collection_object_id = sp#i#.derived_from_cat_item)">
 			</cfif>
 			<cfset basQual = " #basQual# AND sp#i#.preserve_method = '#p#'">
@@ -1187,11 +1179,11 @@
 		</cfloop>
 	<cfelseif left(preserve_method,1) is '='>
 		<cfif basJoin does not contain " specimen_part ">
-			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON 
+			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 			(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 		</cfif>
 		<cfset basQual = " #basQual# AND specimen_part.preserve_method = '#right(preserve_method,len(preserve_method)-1)#'">
-	<cfelse><!--- part name only --->		
+	<cfelse><!--- part name only --->
 		<cfset basQual = " #basQual# AND upper(PARTS) LIKE '%#ucase(preserve_method)#%'">
 	</cfif>
 </cfif>
@@ -1199,11 +1191,11 @@
 	<cfset mapurl = "#mapurl#&is_tissue=#is_tissue#">
 	<cfset basJoin = " #basJoin# INNER JOIN specimen_part spt ON (cataloged_item.collection_object_id = spt.derived_from_cat_item)
 		inner join collection spcn on (cataloged_item.collection_id=spcn.collection_id)
-		inner join ctspecimen_part_name on (spt.part_name=ctspecimen_part_name.part_name)">	
+		inner join ctspecimen_part_name on (spt.part_name=ctspecimen_part_name.part_name)">
 	<cfset basQual = " #basQual# AND ctspecimen_part_name.is_tissue = 1">
 </cfif>
 <cfif isdefined("part_disposition") AND len(part_disposition) gt 0>
-	<cfset basJoin = " #basJoin# 
+	<cfset basJoin = " #basJoin#
 			INNER JOIN specimen_part spdisp ON (#session.flatTableName#.collection_object_id = spdisp.derived_from_cat_item)
 			inner join coll_object partCollObj on (spdisp.collection_object_id=partCollObj.collection_object_id)">
 	<cfset basQual = " #basQual# AND partCollObj.coll_obj_disposition='#part_disposition#'">
@@ -1211,10 +1203,10 @@
 </cfif>
 <cfif isdefined("srchParts") AND len(srchParts) gt 0>
 	<cfif basJoin does not contain " specimen_part ">
-		<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON 
+		<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 		(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 	</cfif>
-	<cfset basQual = " #basQual# 
+	<cfset basQual = " #basQual#
 		AND specimen_part.part_name in (
 			SELECT part_name FROM
 			part_hierarchy
@@ -1224,15 +1216,15 @@
 </cfif>
 <cfif isdefined("Common_Name") AND len(Common_Name) gt 0>
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 		(cataloged_item.collection_object_id = identification.collection_object_id)">
 	</cfif>
 	<cfif basJoin does not contain " identification_taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
 	<cfif basJoin does not contain " common_name ">
-		<cfset basJoin = " #basJoin# INNER JOIN common_name ON 
+		<cfset basJoin = " #basJoin# INNER JOIN common_name ON
 		(identification_taxonomy.taxon_name_id = common_name.taxon_name_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND identification.accepted_id_fg = 1 AND
@@ -1241,7 +1233,7 @@
 </cfif>
 <cfif isdefined("cited_taxon_name_id") AND len(cited_taxon_name_id) gt 0>
 	<cfif basJoin does not contain " citation ">
-		<cfset basJoin = " #basJoin# INNER JOIN citation ON 
+		<cfset basJoin = " #basJoin# INNER JOIN citation ON
 		(cataloged_item.collection_object_id = citation.collection_object_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND citation.cited_taxon_name_id = #cited_taxon_name_id#">
@@ -1249,7 +1241,7 @@
 </cfif>
 <cfif isdefined("publication_id") AND len(publication_id) gt 0>
 	<cfif basJoin does not contain " citation ">
-		<cfset basJoin = " #basJoin# INNER JOIN citation ON 
+		<cfset basJoin = " #basJoin# INNER JOIN citation ON
 		(cataloged_item.collection_object_id = citation.collection_object_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND publication_id = #publication_id#">
@@ -1257,7 +1249,7 @@
 </cfif>
 <cfif isdefined("relationship") AND len(relationship) gt 0>
 	<cfif basJoin does not contain " biol_indiv_relations ">
-		<cfset basJoin = " #basJoin# INNER JOIN biol_indiv_relations ON 
+		<cfset basJoin = " #basJoin# INNER JOIN biol_indiv_relations ON
 		(cataloged_item.collection_object_id = biol_indiv_relations.collection_object_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND biol_indiv_relations.biol_indiv_relationship = '#relationship#'">
@@ -1267,7 +1259,7 @@
 	<cfif derived_relationship is "offspring of">
 		<cfset srchReln = "parent of">
 		<cfif basJoin does not contain " invRelns ">
-			<cfset basJoin = " #basJoin# INNER JOIN biol_indiv_relations invRelns ON 
+			<cfset basJoin = " #basJoin# INNER JOIN biol_indiv_relations invRelns ON
 			(cataloged_item.collection_object_id = invRelns.collection_object_id)">
 		</cfif>
 		<cfset basQual = " #basQual# AND invRelns.BIOL_INDIV_RELATIONSHIP = '#srchReln#'">
@@ -1302,11 +1294,11 @@
 </cfif>
 <cfif isdefined("taxon_name_id") AND len(taxon_name_id) gt 0>
 	<cfif basJoin does not contain " identification ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
 		(cataloged_item.collection_object_id = identification.collection_object_id)">
 	</cfif>
 	<cfif basJoin does not contain " identification_taxonomy ">
-		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON 
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND identification_taxonomy.taxon_name_id = #taxon_name_id#
@@ -1316,11 +1308,11 @@
 
 <cfif isdefined("project_id") AND len(project_id) gt 0>
 	<cfif basJoin does not contain " projAccn ">
-		<cfset basJoin = " #basJoin# INNER JOIN accn projAccn ON 
+		<cfset basJoin = " #basJoin# INNER JOIN accn projAccn ON
 		(cataloged_item.accn_id = projAccn.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " project_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN project_trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN project_trans ON
 		(projAccn.transaction_id = project_trans.transaction_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND project_trans.project_id = #project_id#">
@@ -1332,26 +1324,26 @@
 		(cataloged_item.accn_id = sProjTrans.transaction_id)
 		INNER JOIN project_sponsor ON (
 			sProjTrans.project_id = project_sponsor.project_id)
-		INNER JOIN agent_name sAgentName ON (project_sponsor.agent_name_id = sAgentName.agent_name_id)"> 
+		INNER JOIN agent_name sAgentName ON (project_sponsor.agent_name_id = sAgentName.agent_name_id)">
 	<cfset basQual = " #basQual# AND upper(sAgentName.agent_name) LIKE '%#ucase(project_sponsor)#%'">
 	<cfset mapurl = "#mapurl#&project_sponsor=#project_sponsor#">
 </cfif>
 
 <cfif isdefined("loan_project_name") AND len(loan_project_name) gt 0>
 	<cfif basJoin does not contain " specimen_part ">
-		<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON 
+		<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 		(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 	</cfif>
 	<cfif basJoin does not contain " loan_item ">
-		<cfset basJoin = " #basJoin# INNER JOIN loan_item ON 
+		<cfset basJoin = " #basJoin# INNER JOIN loan_item ON
 		(specimen_part.collection_object_id = loan_item.collection_object_id)">
 	</cfif>
 	<cfif basJoin does not contain " project_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN project_trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN project_trans ON
 		(loan_item.transaction_id = project_trans.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " project ">
-		<cfset basJoin = " #basJoin# INNER JOIN project ON 
+		<cfset basJoin = " #basJoin# INNER JOIN project ON
 		(project_trans.project_id = project.project_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND upper(regexp_replace(project.project_name,'<[^>]*>')) like '%#ucase(loan_project_name)#%'">
@@ -1361,9 +1353,9 @@
 <cfif isdefined("loan_project_id") AND len(loan_project_id) gt 0>
 	<cfset mapurl = "#mapurl#&loan_project_id=#loan_project_id#">
 	<cfset basQual = " #basQual# AND cataloged_item.collection_object_id IN (
-		SELECT 
+		SELECT
 			cataloged_item.collection_object_id
-		FROM 
+		FROM
 			cataloged_item,
 			specimen_part,
 			loan_item,
@@ -1374,9 +1366,9 @@
 			loan_item.transaction_id = project_trans.transaction_id AND
 			project_trans.project_id = #loan_project_id#
 		UNION -- data loans
-		SELECT 
+		SELECT
 			cataloged_item.collection_object_id
-		FROM 
+		FROM
 			cataloged_item,
 			collection,
 			loan_item,
@@ -1389,15 +1381,15 @@
 </cfif>
 <cfif isdefined("project_name") AND len(project_name) gt 0>
 	<cfif basJoin does not contain " projAccn ">
-		<cfset basJoin = " #basJoin# INNER JOIN accn projAccn ON 
+		<cfset basJoin = " #basJoin# INNER JOIN accn projAccn ON
 		(cataloged_item.accn_id = projAccn.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " project_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN project_trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN project_trans ON
 		(projAccn.transaction_id = project_trans.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " project ">
-		<cfset basJoin = " #basJoin# INNER JOIN project ON 
+		<cfset basJoin = " #basJoin# INNER JOIN project ON
 		(project_trans.project_id = project.project_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND upper(regexp_replace(project.project_name,'<[^>]*>')) like '%#ucase(project_name)#%'">
@@ -1416,7 +1408,7 @@
 
 <cfif isdefined("subject") AND len(subject) gt 0>
 	<cfif basJoin does not contain " binary_object ">
-		<cfset basJoin = " #basJoin# INNER JOIN binary_object ON 
+		<cfset basJoin = " #basJoin# INNER JOIN binary_object ON
 		(cataloged_item.collection_object_id = binary_object.derived_from_cat_item)">
 	</cfif>
 	<cfset basQual = " #basQual# AND binary_object.subject = '#subject#'">
@@ -1425,7 +1417,7 @@
 <cfif isdefined("loan_trans_id") and len(loan_trans_id) gt 0>
 	<cfset mapurl = "#mapurl#&loan_trans_id=#loan_trans_id#">
 	<cfset basQual = " #basQual# AND cataloged_item.collection_object_id IN (
-		select derived_from_cat_item from specimen_part,loan_item where 
+		select derived_from_cat_item from specimen_part,loan_item where
 			specimen_part.collection_object_id=loan_item.collection_object_id and loan_item.transaction_id=#loan_trans_id#
 			)">
 </cfif>
@@ -1433,10 +1425,10 @@
 <cfif isdefined("loan_permit_trans_id") and len(loan_permit_trans_id) gt 0>
 	<cfset mapurl = "#mapurl#&loan_permit_trans_id=#loan_permit_trans_id#">
 	<cfif basJoin does not contain " loan_permit_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN specimen_part loan_part ON 
+		<cfset basJoin = " #basJoin# INNER JOIN specimen_part loan_part ON
 				(cataloged_item.collection_object_id = loan_part.derived_from_cat_item)
 				INNER JOIN loan_item ON (loan_part.collection_object_id = loan_item.collection_object_id)
-				INNER JOIN permit_trans loan_permit_trans ON 
+				INNER JOIN permit_trans loan_permit_trans ON
 					(loan_item.transaction_id = loan_permit_trans.transaction_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND loan_permit_trans.transaction_id IN (#loan_permit_trans_id#)">
@@ -1444,7 +1436,7 @@
 <cfif isdefined("accn_permit_trans_id") and len(accn_permit_trans_id) gt 0>
 	<cfset mapurl = "#mapurl#&accn_permit_trans_id=#accn_permit_trans_id#">
 	<cfif basJoin does not contain " permit_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON
 		(cataloged_item.accn_id = permit_trans.transaction_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND permit_trans.transaction_id IN (#accn_permit_trans_id#)">
@@ -1452,15 +1444,15 @@
 <cfif isdefined("permit_issued_by") AND len(permit_issued_by) gt 0>
 	<cfset mapurl = "#mapurl#&permit_issued_by=#permit_issued_by#">
 	<cfif basJoin does not contain " permit_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON
 		(cataloged_item.accn_id = permit_trans.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " permit ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit ON
 		(permit_trans.permit_id = permit.permit_id)">
 	</cfif>
 	<cfif basJoin does not contain " permit_issued ">
-		<cfset basJoin = " #basJoin# INNER JOIN agent_name permit_issued ON 
+		<cfset basJoin = " #basJoin# INNER JOIN agent_name permit_issued ON
 		(permit.issued_by_agent_id = permit_issued.agent_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND upper(permit_issued.agent_name) like '%#ucase(permit_issued_by)#%'">
@@ -1468,15 +1460,15 @@
 <cfif isdefined("permit_issued_to") AND len(permit_issued_to) gt 0>
 	<cfset mapurl = "#mapurl#&permit_issued_to=#permit_issued_to#">
 	<cfif basJoin does not contain " permit_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON
 		(cataloged_item.accn_id = permit_trans.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " permit ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit ON
 		(permit_trans.permit_id = permit.permit_id)">
 	</cfif>
 	<cfif basJoin does not contain " permit_to ">
-		<cfset basJoin = " #basJoin# INNER JOIN agent_name permit_to ON 
+		<cfset basJoin = " #basJoin# INNER JOIN agent_name permit_to ON
 		(permit.issued_by_agent_id = permit_to.agent_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND upper(permit_to.agent_name) like '%#ucase(permit_issued_to)#%'">
@@ -1485,11 +1477,11 @@
 <cfif isdefined("permit_type") AND len(permit_type) gt 0>
 <cfset mapurl = "#mapurl#&permit_type=#permit_type#">
 	<cfif basJoin does not contain " permit_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON
 		(cataloged_item.accn_id = permit_trans.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " permit ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit ON
 		(permit_trans.permit_id = permit.permit_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND permit_type='#escapeQuotes(permit_type)#'">
@@ -1498,11 +1490,11 @@
 <cfif isdefined("permit_num") AND len(permit_num) gt 0>
 	<cfset mapurl = "#mapurl#&permit_num=#permit_num#">
 	<cfif basJoin does not contain " permit_trans ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit_trans ON
 		(cataloged_item.accn_id = permit_trans.transaction_id)">
 	</cfif>
 	<cfif basJoin does not contain " permit ">
-		<cfset basJoin = " #basJoin# INNER JOIN permit ON 
+		<cfset basJoin = " #basJoin# INNER JOIN permit ON
 		(permit_trans.permit_id = permit.permit_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND permit_num='#permit_num#'">
@@ -1519,7 +1511,7 @@
 <cfif isdefined("attributed_determiner_agent_id") AND len(attributed_determiner_agent_id) gt 0>
 	<cfset mapurl = "#mapurl#&attributed_determiner_agent_id=#attributed_determiner_agent_id#">
 	<cfif basJoin does not contain " attributes ">
-		<cfset basJoin = " #basJoin# INNER JOIN attributes ON 
+		<cfset basJoin = " #basJoin# INNER JOIN attributes ON
 		(cataloged_item.collection_object_id = attributes.collection_object_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND attributes.determined_by_agent_id = #attributed_determiner_agent_id#">
@@ -1536,7 +1528,7 @@
 <cfif isdefined("attribute_type_1") AND len(attribute_type_1) gt 0>
 	<cfset mapurl = "#mapurl#&attribute_type_1=#attribute_type_1#">
 	<cfif basJoin does not contain " attributes_1 ">
-		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_1 ON 
+		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_1 ON
 		(cataloged_item.collection_object_id = attributes_1.collection_object_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND attributes_1.attribute_type = '#attribute_type_1#'">
@@ -1580,7 +1572,7 @@
 <cfif isdefined("attribute_type_2") AND len(attribute_type_2) gt 0>
 	<cfset mapurl = "#mapurl#&attribute_type_2=#attribute_type_2#">
 	<cfif basJoin does not contain " attributes_2 ">
-		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_2 ON 
+		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_2 ON
 		(cataloged_item.collection_object_id = attributes_2.collection_object_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND attributes_2.attribute_type = '#attribute_type_2#'">
@@ -1624,7 +1616,7 @@
 <cfif isdefined("attribute_type_3") AND len(attribute_type_3) gt 0>
 	<cfset mapurl = "#mapurl#&attribute_type_3=#attribute_type_3#">
 	<cfif basJoin does not contain " attributes_3 ">
-		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_3 ON 
+		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_3 ON
 		(cataloged_item.collection_object_id = attributes_3.collection_object_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND attributes_3.attribute_type = '#attribute_type_3#'">
@@ -1680,7 +1672,7 @@
 		<cfset exclCollObjId = replace(exclCollObjId,",,",",","all")>
 		<cfif exclCollObjId does not contain ",,">
 			<cfset brkPnt=999999>
-		</cfif>			
+		</cfif>
 	</CFLOOP>
 	<cfset basQual = " #basQual# AND cataloged_item.collection_object_id NOT IN (#exclCollObjId#)">
 </cfif>
@@ -1690,5 +1682,5 @@
 	</cfquery>
 	<cfset goodCollIds = valuelist(whatInst.collection_id,",")>
 	<cfset basQual = " #basQual# AND cataloged_item.collection_id  IN (#goodCollIds#)">
-</cfif>	
+</cfif>
 <cfset mapurl = replace(mapurl, "%", "%25","All")>
