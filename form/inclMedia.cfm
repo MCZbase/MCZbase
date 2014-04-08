@@ -25,7 +25,7 @@
 				     preview_uri,
 				     related_primary_key
 				from (
-			   		select  
+			   		select
 				        media.media_id,
 				        media.media_uri,
 				        media.mime_type,
@@ -40,13 +40,14 @@
 				     where
 				        media.media_id=media_relations.media_id and
 				        media_relations.media_relationship like '% cataloged_item' and
+				        media_relations.media_relationship <> 'ledger entry for cataloged_item' and
 				        identification.accepted_id_fg=1 and
 				        media_relations.related_primary_key = identification.collection_object_id and
 				        identification.identification_id=identification_taxonomy.identification_id and
 				        --media.preview_uri is not null and
 				        identification_taxonomy.taxon_name_id=#q#
 				    UNION
-				    select 
+				    select
 				        media.media_id,
 				        media.media_uri,
 				        media.mime_type,
@@ -67,7 +68,7 @@
 				    media_type,
 				    preview_uri,
 				    related_primary_key
-			) 
+			)
 			--where rownum <= 500">
 	<cfelseif typ is "accn">
 		<cfset sql="
@@ -78,7 +79,7 @@
 			        media.media_type,
 			        media.preview_uri,
 			        media_relations.related_primary_key
-				from 
+				from
 					media,
 					media_relations
 				where
@@ -117,10 +118,10 @@
 	<cfset np=pg+1>
 	<cfset pp=pg-1>
 	<div style="width:100%;text-align:center;" id="imgBrowserCtlDiv">
-		Showing Media results #start# - <cfif stop GT cnt> #cnt# <cfelse> #stop# </cfif> of #cnt# 
-		<cfif cnt GT rpp> 
-			<br> 
-			<cfif (pg*rpp) GT rpp> 
+		BOO! Showing Media results #start# - <cfif stop GT cnt> #cnt# <cfelse> #stop# </cfif> of #cnt#
+		<cfif cnt GT rpp>
+			<br>
+			<cfif (pg*rpp) GT rpp>
 				<span class="likeLink" onclick="getMedia('#typ#','#q#','#tgt#','#rpp#','#pp#');"> &lt;&lt;Previous </span>
 			</cfif>
 			<cfif stop lt cnt>
