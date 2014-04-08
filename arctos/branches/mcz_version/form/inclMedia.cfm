@@ -118,7 +118,7 @@
 	<cfset np=pg+1>
 	<cfset pp=pg-1>
 	<div style="width:100%;text-align:center;" id="imgBrowserCtlDiv">
-		BOO! Showing Media results #start# - <cfif stop GT cnt> #cnt# <cfelse> #stop# </cfif> of #cnt#
+		Showing Media results #start# - <cfif stop GT cnt> #cnt# <cfelse> #stop# </cfif> of #cnt#
 		<cfif cnt GT rpp>
 			<br>
 			<cfif (pg*rpp) GT rpp>
