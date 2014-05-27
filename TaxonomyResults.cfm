@@ -107,6 +107,8 @@
 		<cfif isdefined("genus") AND len(genus) gt 0>
 			<cfif left(genus,1) is "=">
 				<CFSET SQL = "#SQL# AND upper(genus) = '#ucase(right(genus,len(genus)-1))#'">
+			<cfelseif trim(ucase(genus)) is "NULL">
+				<CFSET SQL = "#SQL# AND genus is null">
 			<cfelse>
 				<CFSET SQL = "#SQL# AND upper(genus) LIKE '%#ucase(genus)#%'">
 			</cfif>
