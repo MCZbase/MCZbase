@@ -538,6 +538,12 @@ function success_getSpecResultsData(result){
 			if (data.COLUMNLIST[0].indexOf('ENDED_DATE')> -1) {
 				theInnerHtml += '<th>Ended&nbsp;Date</th>';
 			}
+			if (data.COLUMNLIST[0].indexOf('COLLECTING_TIME')> -1) {
+				theInnerHtml += '<th>Collecting&nbsp;Time</th>';
+			}
+			if (data.COLUMNLIST[0].indexOf('COLLECTING_METHOD')> -1) {
+				theInnerHtml += '<th>Collecting&nbsp;Method</th>';
+			}
 			if (data.COLUMNLIST[0].indexOf('YEARCOLL')> -1) {
 				theInnerHtml += '<th>Year</th>';
 			}
@@ -803,6 +809,12 @@ function success_getSpecResultsData(result){
 				}
 				if (data.COLUMNLIST[0].indexOf('ENDED_DATE')> -1) {
 					theInnerHtml += '<td>' + data.ENDED_DATE[i] + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('COLLECTING_TIME')> -1) {
+					theInnerHtml += '<td>' + data.COLLECTING_TIME[i] + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('COLLECTING_METHOD')> -1) {
+					theInnerHtml += '<td>' + data.COLLECTING_METHOD[i] + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('YEARCOLL')> -1) {
 					theInnerHtml += '<td>' + data.YEARCOLL[i] + '</td>';
