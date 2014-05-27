@@ -344,7 +344,7 @@ function getSpecResultsData (startrow,numrecs,orderBy,orderOrder) {
 }
 function success_getSpecResultsData(result){
 	var data = result.DATA;
-	var attributes="number_of_specimens,age_class,cataloger,citation,curation,current_name,ear_from_notch,field_number,forearm_length,group_number,hind_foot_with_claw,host,incubation,ledger_verbatim_horizon,malacology_accn_number,newgenusspecies,numeric_age,range,reference,replica,reproductive_data,section,sex,sex_IZ_migration,size_fish,standard_length,storage,survey_study,tail_length,total_length,total_size,township,tragus_length,unformatted_measurements,valves,verbatim_horizon,weight,total_parts";
+	var attributes="number_of_specimens,age_class,ear_from_notch,field_number,forearm_length,hind_foot_with_claw,host,incubation,ledger_verbatim_horizon,numeric_age,reference,reproductive_data,sex,size_fish,standard_length,storage,tail_length,total_length,total_size,tragus_length,unformatted_measurements,verbatim_horizon,weight,total_parts";
 	var attAry=attributes.split(",");
 	var nAtt=attAry.length;
 	var collection_object_id = data.COLLECTION_OBJECT_ID[0];
@@ -408,11 +408,11 @@ function success_getSpecResultsData(result){
 			if (data.COLUMNLIST[0].indexOf('CITED_AS')> -1) {
 				theInnerHtml += '<th>Cited&nbsp;As</th>';
 			}
-			if (data.COLUMNLIST[0].indexOf('ID_HISTORY')> -1) {
-				theInnerHtml += '<th>Identification&nbsp;History</th>';
-			}
 			if (data.COLUMNLIST[0].indexOf('CITATIONS')> -1) {
 				theInnerHtml += '<th>Citations</th>';
+			}
+			if (data.COLUMNLIST[0].indexOf('ID_HISTORY')> -1) {
+				theInnerHtml += '<th>Identification&nbsp;History</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('IDENTIFIED_BY')> -1) {
 				theInnerHtml += '<th>Identified&nbsp;By</th>';
@@ -674,14 +674,14 @@ function success_getSpecResultsData(result){
 						theInnerHtml += spaceStripper(data.CITED_AS[i]);
 					theInnerHtml += '</td>';
 				}
+				if (data.COLUMNLIST[0].indexOf('CITATIONS')> -1) {
+					theInnerHtml += '<td>';
+						theInnerHtml += spaceStripper(data.CITATIONS[i]);
+					theInnerHtml += '</td>';
+				}
 				if (data.COLUMNLIST[0].indexOf('ID_HISTORY')> -1) {
 					theInnerHtml += '<td>';
 						theInnerHtml += data.ID_HISTORY[i];
-					theInnerHtml += '</td>';
-				}
-				if (data.COLUMNLIST[0].indexOf('CITATIONS')> -1) {
-					theInnerHtml += '<td>';
-						theInnerHtml += data.CITATIONS[i];
 					theInnerHtml += '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('IDENTIFIED_BY')> -1) {
