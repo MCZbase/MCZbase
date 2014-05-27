@@ -1528,7 +1528,7 @@
 <cfif isdefined("attribute_type_1") AND len(attribute_type_1) gt 0>
 	<cfset mapurl = "#mapurl#&attribute_type_1=#attribute_type_1#">
 	<cfif basJoin does not contain " attributes_1 ">
-		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_1 ON
+		<cfset basJoin = " #basJoin# LEFT JOIN attributes attributes_1 ON
 		(cataloged_item.collection_object_id = attributes_1.collection_object_id)
 		LEFT JOIN part_attributes_by_catitem part_attributes_1 ON
 		(cataloged_item.collection_object_id = part_attributes_1.collection_object_id)">
@@ -1574,24 +1574,26 @@
 <cfif isdefined("attribute_type_2") AND len(attribute_type_2) gt 0>
 	<cfset mapurl = "#mapurl#&attribute_type_2=#attribute_type_2#">
 	<cfif basJoin does not contain " attributes_2 ">
-		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_2 ON
-		(cataloged_item.collection_object_id = attributes_2.collection_object_id)">
+		<cfset basJoin = " #basJoin# LEFT JOIN attributes attributes_2 ON
+		(cataloged_item.collection_object_id = attributes_2.collection_object_id)
+		LEFT JOIN part_attributes_by_catitem part_attributes_2 ON
+		(cataloged_item.collection_object_id = part_attributes_2.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND attributes_2.attribute_type = '#attribute_type_2#'">
-	<cfif not isdefined("attOper_2") or len(attOper_2) is 0>
+	<cfset basQual = " #basQual# AND (attributes_2.attribute_type = '#attribute_type_2#' or part_attributes_2.attribute_type = '#attribute_type_2#')">
+	<cfif not isdefined("attOper_2") or len(#attOper_2#) is 0>
 		<cfset attOper_2 = "equals">
 	</cfif>
 	<cfset mapurl = "#mapurl#&attOper_2=#attOper_2#">
-	<cfif isdefined("attribute_value_2") and len(#attribute_value_2#) gt 0>
+	<cfif isdefined("attribute_value_2") and len(attribute_value_2) gt 0>
 		<cfset mapurl = "#mapurl#&attribute_value_2=#attribute_value_2#">
 		<cfset attribute_value_2 = #replace(attribute_value_2,"'","''","all")#>
 		<cfif attOper_2 is "like">
-			<cfset basQual = " #basQual# AND upper(attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%'">
+			<cfset basQual = " #basQual# AND (upper(attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%' OR attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%')">
 		<cfelseif attOper_2 is "equals" >
-			<cfset basQual = " #basQual# AND attributes_2.attribute_value = '#attribute_value_2#'">
+			<cfset basQual = " #basQual# AND (attributes_2.attribute_value = '#attribute_value_2#' OR part_attributes_2.attribute_value = '#attribute_value_2#')">
 		<cfelseif attOper_2 is "greater" >
 			<cfif isnumeric(attribute_value_2)>
-				<cfset basQual = " #basQual# AND to_number(attributes_2.attribute_value) > #attribute_value_2#">
+				<cfset basQual = " #basQual# AND (to_number(attributes_2.attribute_value) > #attribute_value_2# OR to_number(part_attributes_2.attribute_value) > #attribute_value_2#)">
 			<cfelse>
 			  	<div class="error">
 					You tried to search for attribute values greater than a non-numeric value.
@@ -1600,29 +1602,30 @@
 				<cfabort>
 			</cfif>
 		<cfelseif attOper_2 is "less" >
-			<cfif isnumeric(attribute_value_2)>
-				<cfset basQual = " #basQual# AND attributes_2.attribute_value < #attribute_value_2#">
+			<cfif isnumeric(#attribute_value_2#)>
+				<cfset basQual = " #basQual# AND (attributes_2.attribute_value < #attribute_value_2# OR part_attributes_2.attribute_value < #attribute_value_2#)">
 			<cfelse>
 				<div class="error">
 					You tried to search for attribute values less than a non-numeric value.
 				</div>
 				<script>hidePageLoad();</script>
-				<cfabort>
 			</cfif>
 		</cfif>
 	</cfif>
 	<cfif isdefined("attribute_units_2") AND len(attribute_units_2) gt 0>
-		<cfset basQual = " #basQual# AND attributes_2.attribute_units = '#attribute_units_2#'">
+		<cfset basQual = " #basQual# AND (attributes_2.attribute_units = '#attribute_units_2#' OR part_attributes_2.attribute_units = '#attribute_units_2#')">
 	</cfif>
 </cfif>
 <cfif isdefined("attribute_type_3") AND len(attribute_type_3) gt 0>
 	<cfset mapurl = "#mapurl#&attribute_type_3=#attribute_type_3#">
 	<cfif basJoin does not contain " attributes_3 ">
-		<cfset basJoin = " #basJoin# INNER JOIN attributes attributes_3 ON
-		(cataloged_item.collection_object_id = attributes_3.collection_object_id)">
+		<cfset basJoin = " #basJoin# LEFT JOIN attributes attributes_3 ON
+		(cataloged_item.collection_object_id = attributes_3.collection_object_id)
+		LEFT JOIN part_attributes_by_catitem part_attributes_3 ON
+		(cataloged_item.collection_object_id = part_attributes_3.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND attributes_3.attribute_type = '#attribute_type_3#'">
-	<cfif not isdefined("attOper_3") or len(attOper_3) is 0>
+	<cfset basQual = " #basQual# AND (attributes_3.attribute_type = '#attribute_type_3#' or part_attributes_3.attribute_type = '#attribute_type_3#')">
+	<cfif not isdefined("attOper_3") or len(#attOper_3#) is 0>
 		<cfset attOper_3 = "equals">
 	</cfif>
 	<cfset mapurl = "#mapurl#&attOper_3=#attOper_3#">
@@ -1630,12 +1633,12 @@
 		<cfset mapurl = "#mapurl#&attribute_value_3=#attribute_value_3#">
 		<cfset attribute_value_3 = #replace(attribute_value_3,"'","''","all")#>
 		<cfif attOper_3 is "like">
-			<cfset basQual = " #basQual# AND upper(attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%'">
+			<cfset basQual = " #basQual# AND (upper(attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%' OR attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%')">
 		<cfelseif attOper_3 is "equals" >
-			<cfset basQual = " #basQual# AND attributes_3.attribute_value = '#attribute_value_3#'">
+			<cfset basQual = " #basQual# AND (attributes_3.attribute_value = '#attribute_value_3#' OR part_attributes_3.attribute_value = '#attribute_value_3#')">
 		<cfelseif attOper_3 is "greater" >
-			<cfif isnumeric(#attribute_value_3#)>
-				<cfset basQual = " #basQual# AND to_number(attributes_3.attribute_value) > #attribute_value_3#">
+			<cfif isnumeric(attribute_value_3)>
+				<cfset basQual = " #basQual# AND (to_number(attributes_3.attribute_value) > #attribute_value_3# OR to_number(part_attributes_3.attribute_value) > #attribute_value_3#)">
 			<cfelse>
 			  	<div class="error">
 					You tried to search for attribute values greater than a non-numeric value.
@@ -1645,18 +1648,17 @@
 			</cfif>
 		<cfelseif attOper_3 is "less" >
 			<cfif isnumeric(#attribute_value_3#)>
-				<cfset basQual = " #basQual# AND attributes_3.attribute_value < #attribute_value_3#">
+				<cfset basQual = " #basQual# AND (attributes_3.attribute_value < #attribute_value_3# OR part_attributes_3.attribute_value < #attribute_value_3#)">
 			<cfelse>
 				<div class="error">
 					You tried to search for attribute values less than a non-numeric value.
 				</div>
 				<script>hidePageLoad();</script>
-				<cfabort>
 			</cfif>
 		</cfif>
 	</cfif>
 	<cfif isdefined("attribute_units_3") AND len(attribute_units_3) gt 0>
-		<cfset basQual = " #basQual# AND attributes_3.attribute_units = '#attribute_units_3#'">
+		<cfset basQual = " #basQual# AND (attributes_3.attribute_units = '#attribute_units_3#' OR part_attributes_3.attribute_units = '#attribute_units_3#')">
 	</cfif>
 </cfif>
 <cfif isdefined("exclCollObjId") and len(exclCollObjId) gt 0>
