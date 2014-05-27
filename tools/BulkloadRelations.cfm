@@ -146,7 +146,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 					cataloged_item.collection_id = collection.collection_id and
 					collection.collection_cde = '#collection_cde#' and
 					collection.institution_acronym = '#institution_acronym#' and
-					cat_num=#other_id_val#
+					cat_num='#other_id_val#'
 			</cfquery>
 		<cfelse>
 			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -189,7 +189,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 					cataloged_item.collection_id = collection.collection_id and
 					collection.collection_cde = '#related_collection_cde#' and
 					collection.institution_acronym = '#related_institution_acronym#' and
-					cat_num=#related_other_id_val#
+					cat_num='#related_other_id_val#'
 			</cfquery>
 		<cfelse>
 			<cfquery name="rcollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
