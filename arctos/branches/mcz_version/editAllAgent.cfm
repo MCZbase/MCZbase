@@ -303,30 +303,32 @@
 								</select>
 							</td>
 						</tr>
-						<tr>
-							<td colspan="2">
-								<label for="birth_date">Birth Date</label>
-								<input type="text" name="birth_date" id="birth_date" value="#dateformat(birth_date,'yyyy-mm-dd')#" size="10">
-							</td>
-							<td colspan="3">
-								<label for="death_date">Death Date</label>
-								<input type="text" name="death_date" id="death_date" value="#dateformat(death_date,'yyyy-mm-dd')#" size="10">
-							</td>
-						</tr>
-						<tr>
-							<td colspan="4">
-								<label for="agent_remarks">Agent Remark</label>
-								<input type="text" value="#agent_remarks#" name="agent_remarks" id="agent_remarks" size="100">
-								<br>
-								<input type="submit" class="savBtn" value="Update Person">
-							</td>
-											<td>Edited:
-				<select name="editedPerson" size="1">
-					<option value=1 <cfif #edited# EQ 1>selected</cfif>>yes</option>
-					<option value=0 <cfif #edited# EQ 0 or #edited# EQ "">selected</cfif>>no</option>
-				</select>
-				</td>
-						</tr>
+ 						<tr>
+							<td>
+ 								<label for="birth_date">Birth Date</label>
+ 								<input type="text" name="birth_date" id="birth_date" value="#dateformat(birth_date,'yyyy-mm-dd')#" size="10">
+ 							</td>
+							<td>
+ 								<label for="death_date">Death Date</label>
+ 								<input type="text" name="death_date" id="death_date" value="#dateformat(death_date,'yyyy-mm-dd')#" size="10">
+ 							</td>
+						        <td colspan="2">
+                                                            <label for="editedPerson">Edited</label>
+				                            <select name="editedPerson" size="1">
+					                       <option value=1 <cfif #edited# EQ 1>selected</cfif>>yes *</option>
+					                       <option value=0 <cfif #edited# EQ 0 or #edited# EQ "">selected</cfif>>no</option>
+				                            </select>
+				                        </td>
+ 						</tr>
+ 						<tr>
+							<td colspan="5">
+ 								<label for="agent_remarks">Agent Remark</label>
+ 								<input type="text" value="#agent_remarks#" name="agent_remarks" id="agent_remarks" size="100">
+ 								<br>
+ 								<input type="submit" class="savBtn" value="Update Person">
+ 							</td>
+ 						</tr>
+
 					</table>
 				</div>
 			</form>
