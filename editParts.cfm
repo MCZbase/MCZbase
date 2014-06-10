@@ -30,7 +30,7 @@
 			LEFT OUTER JOIN coll_obj_cont_hist ON (specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id)
 			LEFT OUTER JOIN container thisContainer ON (coll_obj_cont_hist.container_id = thisContainer.container_id)
 			LEFT OUTER JOIN container parentContainer ON (thisContainer.parent_container_id = parentContainer.container_id)
-			LEFT OUTER JOIN coll_object_remark ON (specimen_part.collection_object_id = coll_object_remark.collection_object_id)		
+			LEFT OUTER JOIN coll_object_remark ON (specimen_part.collection_object_id = coll_object_remark.collection_object_id)
 		WHERE
 			cataloged_item.collection_object_id = #collection_object_id#
 		ORDER BY sampled_from_obj_id DESC,part_name ASC
@@ -42,27 +42,28 @@
 		select modifier from ctnumeric_modifiers order by modifier desc
 	</cfquery>
 	<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select preserve_method 
-		from ctspecimen_preserv_method 
+		select preserve_method
+		from ctspecimen_preserv_method
 		where collection_cde = '#getParts.collection_cde#'
-		order by preserve_method 
+		order by preserve_method
 	</cfquery>
  	<b>Edit #getParts.recordcount# Specimen Parts</b>&nbsp;<span class="infoLink" onClick="getDocs('parts')">help</span>
 	<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#">Part Locations</a>
-	<br><a href="##newPart">New</a>
+	<br><a href="/EditContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#">New Container</a>
+	<br><a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#">Print Labels</a>
 	<cfset i = 1>
 	<cfset listedParts = "">
 	<form name="parts" method="post" action="editParts.cfm">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		<input type="hidden" name="institution_acronym" value="#getParts.institution_acronym#">
-	
+
 	<table border>
 	<cfloop query="getParts">
 		<cfif len(getParts.partID) gt 0>
 			<input type="hidden" name="partID#i#" value="#getParts.partID#">
-			<!--- next couple lines and the if statement stop us from putting the same part in the 
-			grid twice, which seems to happen when tehre are 2 parts in different containers - 
+			<!--- next couple lines and the if statement stop us from putting the same part in the
+			grid twice, which seems to happen when tehre are 2 parts in different containers -
 			voodoo solution, but it works.....
 			---->
 			<cfif not #listcontains(listedParts, getParts.partID)#>
@@ -87,7 +88,7 @@
 						</label>
 						<input type="text" name="part_name#i#" id="part_name#i#" class="reqdClr"
 							value="#getParts.part_name#" size="25"
-							onchange="findPart(this.id,this.value,'#getParts.collection_cde#');" 
+							onchange="findPart(this.id,this.value,'#getParts.collection_cde#');"
 							onkeypress="return noenter(event);">
 					</td>
 					<td>
@@ -128,10 +129,16 @@
 						<input type="text" id="lot_count#i#" name="lot_count#i#" value="#getparts.lot_count#"  class="reqdClr" size="2">
 					</td>
 					<td>
-						<label for="label#i#">In Container Label</label>
+						<label for="coll_object_remarks#i#">Remark</label>
+						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#getparts.coll_object_remarks#">
+					</td>
+					<td>
+						<label for="label#i#">In&nbsp;Container</label>
 						<span style="font-size:small">
-							<cfif len(getparts.label) gt 0>
-								#getparts.label#	
+							<cfif len(getparts.barcode) gt 0>
+								#getparts.barcode#
+							<cfelseif len(getparts.label) gt 0>
+								#getparts.label#
 							<cfelse>
 								-NONE-
 							</cfif>
@@ -141,34 +148,35 @@
 						<input type="hidden" name="partContainerId#i#" value="#getparts.partContainerId#">
 					</td>
 					<td>
-						<label for="newCode#i#">Add to barcode</label>
-						<input type="text" name="newCode#i#" id="newCode#i#" size="10">
-					</td>
-					<td>
-						<label for="coll_object_remarks#i#">Remark</label>
-						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#getparts.coll_object_remarks#">
-					</td>
-					<td>
-						<label for="print_fg#i#">PrtFg</label>
-						<select name="print_fg#i#" id="print_fg#i#" style="width:60px;">
-							<option <cfif getParts.print_fg is 0>selected="selected" </cfif>value="0">no print flag</option>
-							<option <cfif getParts.print_fg is 1>selected="selected" </cfif>value="1">box</option>
+						<label for="print_fg#i#">Container Label Type</label>
+						<select name="print_fg#i#" id="print_fg#i#">
+							<option <cfif getParts.print_fg is 0>selected="selected" </cfif>value="0"></option>
+							<option <cfif getParts.print_fg is 1>selected="selected" </cfif>value="1">dry</option>
+							<option <cfif getParts.print_fg is 3>selected="selected" </cfif>value="3">thermal</option>
 							<option <cfif getParts.print_fg is 2>selected="selected" </cfif>value="2">vial</option>
 						</select>
+					</td>
+					<td>
+						<label for="newCode#i#">Container barcode</label>
+						<input type="text" name="newCode#i#" id="newCode#i#" size="10" value="#getparts.barcode#">
+					</td>
+					<td>
+						<label for="newCode#i#">Container label</label>
+						<input type="text" name="newParentContLabel#i#" id="newParentContLabel#i#" value="#getparts.label#" size="10">
 					</td>
 					<td align="middle">
 						<input type="button" value="Delete" class="delBtn"
 							onclick="parts.action.value='deletePart';parts.partID.value='#partID#';confirmDelete('parts','#part_name#');">
 						<br>
 						<span class="infoLink"
-						<input type="button" 
-							value="Copy" 
+						<input type="button"
+							value="Copy"
 							class="insBtn"
 							onClick="newPart.part_name.value='#part_name#';
 								newPart.lot_count.value='#lot_count#';
 								newPart.coll_obj_disposition.value='#coll_obj_disposition#';
 								newPart.condition.value='#condition#';
-								newPart.coll_object_remarks.value='#coll_object_remarks#';">	
+								newPart.coll_object_remarks.value='#coll_object_remarks#';">
 					</td>
 				</tr>
 				<cfquery name="pAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -226,7 +234,7 @@
 						--no attributes--
 					</cfif>
 					<td><input type="button" value="Manage Attributes" class="savBtn"
-			   			onclick="mgPartAtts(#partID#);">
+			   			onclick="mgPartAtts(#partID#, '#getParts.collection_cde#');">
 					</td>
 				</tr>
 				<cfset i = i+1>
@@ -256,15 +264,15 @@
 	<input type="hidden" name="institution_acronym" value="#getParts.institution_acronym#">
 
     <table>
-      <tr> 
+      <tr>
         <td><div align="right">Part Name: </div></td>
         <td>
 			<input type="text" name="part_name" id="part_name" class="reqdClr"
-				onchange="findPart(this.id,this.value,'#getParts.collection_cde#');" 
+				onchange="findPart(this.id,this.value,'#getParts.collection_cde#');"
 				onkeypress="return noenter(event);">
 		</td>
       </tr>
-	<tr> 
+	<tr>
         <td><div align="right">Preserve Method: </div></td>
         <td>
 			<select name="preserve_method" size="1"  class="reqdClr">
@@ -274,7 +282,7 @@
           </select>
 		</td>
       </tr>
-	   <tr> 
+	   <tr>
         <td><div align="right">Count:</div></td>
         <td>
 			<select name="lot_count_modifier" size="1">
@@ -285,7 +293,7 @@
           	</select>
 			<input type="text" name="lot_count" class="reqdClr" size="2"></td>
       </tr>
-      <tr> 
+      <tr>
         <td><div align="right">Disposition:</div></td>
         <td><select name="coll_obj_disposition" size="1"  class="reqdClr">
             <cfloop query="ctDisp">
@@ -293,22 +301,22 @@
             </cfloop>
           </select></td>
       </tr>
-      <tr> 
+      <tr>
         <td><div align="right">Condition:</div></td>
         <td><input type="text" name="condition" class="reqdClr"></td>
       </tr>
-	    <tr> 
+	    <tr>
         <td><div align="right">Remarks:</div></td>
         <td><input type="text" name="coll_object_remarks"></td>
       </tr>
-      <tr> 
-        <td colspan="2"><div align="center"> 
+      <tr>
+        <td colspan="2"><div align="center">
            <input type="submit" value="Create" class="insBtn">
           </div></td>
       </tr>
-	  
+
     </table>
-   
+
   </form>
 
 </td></tr></table>
@@ -319,10 +327,10 @@
 
 <!----------------------------------------------------------------------------------->
 <cfif #Action# is "deletePart">
-	
+
 <cfoutput>
-	
-	
+
+
 	<cftransaction>
 	<cfquery name="delePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		DELETE FROM coll_object_remark WHERE collection_object_id = #partID#
@@ -361,13 +369,13 @@
 		<cfset thisparentContainerId = #evaluate("parentContainerId" & n)#>
 		<cfset thispartContainerId = #evaluate("partContainerId" & n)#>
 		<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE specimen_part SET 
+			UPDATE specimen_part SET
 				Part_name = '#thisPartName#',
 				preserve_method = '#thisPreserveMethod#'
 			WHERE collection_object_id = #thisPartId#
 		</cfquery>
 		<cfquery name="upPartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE coll_object SET 
+			UPDATE coll_object SET
 				coll_obj_disposition = '#thisDisposition#'
 				,condition = '#thisCondition#',
 				lot_count_modifier= '#thisLotCountModifier#',
@@ -418,15 +426,15 @@
 			</cfif>
 			<cfif isCont.recordcount is 1>
 				<cfquery name="thisCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						container_id 
-					FROM 
-						coll_obj_cont_hist 
-					WHERE 
+					SELECT
+						container_id
+					FROM
+						coll_obj_cont_hist
+					WHERE
 					collection_object_id = #thisPartId#
 				</cfquery>
 				<cfquery name="upPartBC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE 
+					UPDATE
 						container
 					SET
 						parent_install_date = sysdate,
@@ -445,7 +453,7 @@
 				<cfabort>
 			</cfif>
 			<cfif #isCont.recordcount# gt 1>
-				That barcode has multiple matches!! Something really bad has happened!! Please  
+				That barcode has multiple matches!! Something really bad has happened!! Please
 			 	<a href="mailto:#application.technicalEmail#">contact us</a>!
 				<cfabort>
 			</cfif>
@@ -459,9 +467,9 @@
 		<cfif len(#thislabel#) is 0 AND len(#thisparentContainerId#) gt 0 AND #thisprint_fg# gt 0>
 			<font color="##FF0000" size="+1">
 				You tried to flag a part for labels, but that part isn't in a container. There's nothing to print!
-			</font>		  
+			</font>
 			<cfabort>
-		</cfif>		
+		</cfif>
 	</cfloop>
 	<cflocation url="editParts.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
@@ -500,7 +508,7 @@
 			'#lot_count_modifier#',
 			#lot_count#,
 			'#condition#',
-			0 )		
+			0 )
 	</cfquery>
 	<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO specimen_part (
