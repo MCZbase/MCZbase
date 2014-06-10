@@ -61,12 +61,13 @@ function saveNewPartAtt () {
 		}
 	);
 }
-function setPartAttOptions(id,patype) {
+function setPartAttOptions(id,patype,collectionCDE) {
 	jQuery.getJSON("/component/functions.cfc",
 		{
 			method : "getPartAttOptions",
 			returnformat : "json",
-			patype      : patype
+			patype      : patype,
+			collectionCDE	:collectionCDE
 		},
 		function (data) {
 			var cType=data.TYPE;
@@ -99,14 +100,14 @@ function setPartAttOptions(id,patype) {
 		}
 	);
 }
-function mgPartAtts(partID) {
+function mgPartAtts(partID, collectionCDE) {
 	addBGDiv('closePartAtts()');
 	var theDiv = document.createElement('iFrame');
 	theDiv.id = 'partsAttDiv';
 	theDiv.className = 'annotateBox';
 	theDiv.innerHTML='<br>Loading...';
 	document.body.appendChild(theDiv);
-	var ptl="/form/partAtts.cfm?partID=" + partID;
+	var ptl="/form/partAtts.cfm?partID=" + partID + "&collectionCde=" + collectionCDE;
 	theDiv.src=ptl;
 	viewport.init("#partsAttDiv");
 }

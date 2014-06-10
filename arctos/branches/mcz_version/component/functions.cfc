@@ -10,10 +10,10 @@
 	<cfargument name="barcode" type="string" required="yes">
 	<cfargument name="i" type="string" required="yes">
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			1 C,
 			#i# I,
-			cat_num, 
+			cat_num,
 			cataloged_item.collection_object_id,
 			collection,
 			part_name,
@@ -24,9 +24,9 @@
 			concatEncumbrances(cataloged_item.collection_object_id) encumbrances,
 			specimen_part.collection_object_id as partID,
 			concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
-			p1.barcode	 			 
-		 from 
-			specimen_part, 
+			p1.barcode
+		 from
+			specimen_part,
 			coll_object,
 			cataloged_item,
 			identification,
@@ -68,7 +68,7 @@
 	<cfset temp = QuerySetCell(result, "I", str, 1)>
 	<cfset temp = QuerySetCell(result, "B", began, 1)>
 	<cfset temp = QuerySetCell(result, "E", end, 1)>
-	
+
 	<cfreturn result>
 </cffunction>
 <!------------------------------------------------------------------->
@@ -91,7 +91,7 @@
 			<cfset temp = QuerySetCell(result, "GOOD", "#good#", 1)>
 			<cfset temp = QuerySetCell(result, "BAD", "#bad#", 1)>
 			<cfset temp = QuerySetCell(result, "MSG", "#cfcatch.message#: #cfcatch.detail#", 1)>
-		</cfcatch>		
+		</cfcatch>
 	</cftry>
 	<cfreturn result>
 </cffunction>
@@ -142,7 +142,7 @@
 				<cfset temp = QuerySetCell(result, "v", "#valCodes#",#i#)>
 				<cfset i=#i#+1>
 			</cfloop>
-			
+
 		<cfelseif #isCtControlled.UNITS_CODE_TABLE# gt 0>
 			<cfquery name="getCols" datasource="uam_god">
 				select column_name from sys.user_tab_columns where table_name='#ucase(isCtControlled.UNITS_CODE_TABLE)#'
@@ -169,7 +169,7 @@
 				<cfquery name="valCodes" dbtype="query">
 					SELECT #columnName# as valCodes from valCT
 				</cfquery>
-			</cfif>			
+			</cfif>
 			<cfset result = "unit - #isCtControlled.UNITS_CODE_TABLE#">
 			<cfset result = QueryNew("V")>
 			<cfset newRow = QueryAddRow(result, 1)>
@@ -228,7 +228,7 @@
 			<cfset r.transaction_id=transaction_id>
 			<cfset r.barcode=barcode>
 			<cfset r.error=cfcatch.message & '; ' & cfcatch.detail>
-		</cfcatch>		
+		</cfcatch>
 	</cftry>
 	<cfreturn r>
 </cffunction>
@@ -248,7 +248,7 @@
 				) values (
 					#transaction_id#,
 					'#c.container_id#'
-				)	
+				)
 			</cfquery>
 			<cfset r=structNew()>
 			<cfset r.status="success">
@@ -266,7 +266,7 @@
 			<cfset r.transaction_id=transaction_id>
 			<cfset r.barcode=barcode>
 			<cfset r.error=cfcatch.message & '; ' & cfcatch.detail>
-		</cfcatch>		
+		</cfcatch>
 	</cftry>
 	<cfreturn r>
 </cffunction>
@@ -280,7 +280,7 @@
 	<cfargument name="determined_by_agent_id" type="string" required="no">
 	<cfargument name="attribute_remark" type="string" required="no">
 	<cfargument name="determined_agent" type="string" required="no">
-	
+
 	<cftry>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into specimen_part_attribute (
@@ -299,7 +299,7 @@
 				'#determined_date#',
 				'#determined_by_agent_id#',
 				'#attribute_remark#'
-			)	
+			)
 		</cfquery>
 		<cfset r=structNew()>
 		<cfset r.status="spiffy">
@@ -315,7 +315,7 @@
 			<cfset r=structNew()>
 			<cfset r.status="fail">
 			<cfset r.error=cfcatch.message & '; ' & cfcatch.detail>
-		</cfcatch>		
+		</cfcatch>
 	</cftry>
 	<cfreturn r>
 </cffunction>
@@ -329,7 +329,7 @@
 	</cfquery>
 	<cfif len(k.VALUE_code_table) gt 0>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from #k.VALUE_code_table#
+			select * from #k.VALUE_code_table# where collection_cde = '#collectionCDE#'
 		</cfquery>
 		<cfloop list="#d.columnlist#" index="i">
 			<cfif i is not "description" and i is not "collection_cde">
@@ -385,7 +385,7 @@
 </cffunction>
 <!------------------------------------------------------->
 <cffunction name="insertAgentName" access="remote">
-	<cfargument name="name" type="string" required="yes">	
+	<cfargument name="name" type="string" required="yes">
 	<cfargument name="id" type="numeric" required="yes">
 	<cftry>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -402,7 +402,7 @@
 </cffunction>
 <!------------------------------------------------------->
 <cffunction name="encumberThis" access="remote">
-	<cfargument name="cid" type="numeric" required="yes">	
+	<cfargument name="cid" type="numeric" required="yes">
 	<cfargument name="eid" type="numeric" required="yes">
 	<cftry>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -417,7 +417,7 @@
 </cffunction>
 
 <cffunction name="cloneCatalogedItem" access="remote">
-	<cfargument name="collection_object_id" type="numeric" required="yes">	
+	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
 			<cfset problem="">
@@ -470,10 +470,11 @@
 						cataloged_item.collection_object_id = #collection_object_id#
 				)
 			</cfquery>
+			<cfset debugmsg="record inserted">
 			<cfquery name="idby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
-					agent_name 
-				from 
+				select
+					agent_name
+				from
 					identification,
 					identification_agent,
 					preferred_agent_name
@@ -482,7 +483,7 @@
 					identification_agent.agent_id=preferred_agent_name.agent_id and
 					identification.collection_object_id = #collection_object_id#
 				order by IDENTIFIER_ORDER
-			</cfquery>					
+			</cfquery>
 			<cfif idby.recordcount is 1>
 				<cfquery name="iidby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update bulkloader set ID_MADE_BY_AGENT='#idby.agent_name#'
@@ -490,16 +491,16 @@
 				</cfquery>
 			<cfelse>
 				<cfset problem="too many identifiers: #valuelist(idby.agent_name)#">
-			</cfif>	
+			</cfif>
 			<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					other_id_type,
-					display_value 
+					display_value
 				from coll_obj_other_id_num
 				where collection_object_id=#collection_object_id#
 			</cfquery>
-			
-			
+
+
 			<cfif oid.recordcount gt 0>
 				<cfset i=1>
 				<cfset sql="update bulkloader set ">
@@ -522,23 +523,23 @@
 					<cfset ids=listappend(ids,"#other_id_type#=#display_value#",";")>
 				</cfloop>
 				<cfset problem="too many IDs: #ids#">
-			</cfif>		
-			
+			</cfif>
+
 			<cfquery name="col" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					agent_name,
 					COLLECTOR_ROLE
-				from 
+				from
 					collector,
 					preferred_agent_name
-				where 
+				where
 					collector.agent_id=preferred_agent_name.agent_id and
 					collector.collection_object_id=#collection_object_id#
 				order by
 					COLLECTOR_ROLE,
 					COLL_ORDER
 			</cfquery>
-			
+
 			<cfif col.recordcount gt 0>
 				<cfset i=1>
 				<cfset sql="update bulkloader set ">
@@ -561,11 +562,11 @@
 					<cfset ids=listappend(ids,"#other_id_type#=#display_value#",";")>
 				</cfloop>
 				<cfset problem="too many collectors: #valuelist(col.agent_name)#">
-			</cfif>		
-			
-			
+			</cfif>
+
+
 			<cfquery name="part" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					part_name,
 					condition,
 					p.barcode,
@@ -588,7 +589,7 @@
 					c.parent_container_id=p.container_id (+) and
 					specimen_part.derived_from_cat_item=#collection_object_id#
 			</cfquery>
-			
+
 			<cfif part.recordcount gt 0>
 				<cfset i=1>
 				<cfset sql="update bulkloader set ">
@@ -612,12 +613,12 @@
 			</cfif>
 			<cfif part.recordcount gt 12>
 				<cfset problem="too many part: #valuelist(part.part_name)#">
-			</cfif>		
-			
-	
-	
+			</cfif>
+
+
+
 			<cfquery name="att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					ATTRIBUTE_TYPE,
 					ATTRIBUTE_VALUE,
 					ATTRIBUTE_UNITS,
@@ -629,7 +630,7 @@
 					attributes,
 					preferred_agent_name
 				where
-					attributes.DETERMINED_BY_AGENT_ID=preferred_agent_name.agent_id and				
+					attributes.DETERMINED_BY_AGENT_ID=preferred_agent_name.agent_id and
 					attributes.collection_object_id=#collection_object_id#
 			</cfquery>
 			<!--- attributes 1 through 6 are customizable and we can't use them here --->
@@ -656,17 +657,17 @@
 			</cfif>
 			<cfif att.recordcount gt 4>
 				<cfset problem="too many attribute: #valuelist(att.ATTRIBUTE_TYPE)#">
-			</cfif>		
+			</cfif>
 			<cfquery name="irel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update bulkloader set 
+				update bulkloader set
 					COLL_OBJECT_REMARKS='#problem#',
 					RELATIONSHIP='child record of',
 					RELATED_TO_NUMBER= (
-										select 
-											collection.institution_acronym || ' ' || collection.collection_cde || ' ' || cat_num 
-										from 
+										select
+											collection.institution_acronym || ' ' || collection.collection_cde || ' ' || cat_num
+										from
 											cataloged_item,collection
-										where cataloged_item.collection_id=collection.collection_id and 
+										where cataloged_item.collection_id=collection.collection_id and
 										cataloged_item.collection_object_id=#collection_object_id#
 										),
 					RELATED_TO_NUM_TYPE='catalog number'
@@ -675,7 +676,7 @@
 		</cftransaction>
 			<cfreturn "spiffy:#key#">
 		<cfcatch>
-			<cfreturn "fail: #cfcatch.message#">
+			<cfreturn "fail: #cfcatch.message# #problem#">
 		</cfcatch>
 	</cftry>
 </cffunction>
@@ -683,11 +684,11 @@
 <cffunction name="getGeologyValues" access="remote">
 	<cfargument name="attribute" type="string" required="yes">
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT 
+		SELECT
 			attribute_value
-		FROM 
+		FROM
 			geology_attribute_hierarchy
-		WHERE 
+		WHERE
 			USABLE_VALUE_FG=1 and
 			attribute='#attribute#'
 		group by attribute_value
@@ -698,8 +699,8 @@
 
 <!------------------------------------------------------->
 <cffunction name="saveAgentRank" access="remote">
-	<cfargument name="agent_id" type="numeric" required="yes">	
-	<cfargument name="agent_rank" type="string" required="yes">	
+	<cfargument name="agent_id" type="numeric" required="yes">
+	<cfargument name="agent_rank" type="string" required="yes">
 	<cfargument name="remark" type="string" required="yes">
 	<cfargument name="transaction_type" type="string" required="yes">
 	<cfinclude template="/includes/functionLib.cfm">
@@ -873,7 +874,7 @@
 		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
 		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
 	</cfcatch>
-	
+
 	</cftry>
 		<cfreturn result>
 </cffunction>
@@ -887,7 +888,7 @@
 				delete from loan_item where
 				collection_object_id = #part_id# and
 				transaction_id=#transaction_id#
-			</cfquery>		
+			</cfquery>
 			<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				delete from specimen_part where collection_object_id = #part_id#
 			</cfquery>
@@ -901,7 +902,7 @@
 		<cfset temp = queryaddrow(result,1)>
 		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
 		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
-	</cfcatch>	
+	</cfcatch>
 	</cftry>
 		<cfreturn result>
 </cffunction>
@@ -930,7 +931,7 @@
 		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
 		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
 	</cfcatch>
-	
+
 	</cftry>
 		<cfreturn result>
 </cffunction>
@@ -959,7 +960,7 @@
 		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
 		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
 	</cfcatch>
-	
+
 	</cftry>
 		<cfreturn result>
 </cffunction>
@@ -986,7 +987,7 @@
 		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
 		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
 	</cfcatch>
-	
+
 	</cftry>
 		<cfreturn result>
 </cffunction>
@@ -999,12 +1000,12 @@
 	<CFTRY>
 		<cfquery name="thisID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select container_id,label from container where barcode='#barcode#'
-			AND container_type = 'cryovial'		
+			AND container_type = 'cryovial'
 		</cfquery>
 		<cfif #thisID.recordcount# is 0>
 			<cfquery name="thisID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id,label from container where barcode='#barcode#'
-				AND container_type = 'cryovial label'		
+				AND container_type = 'cryovial label'
 			</cfquery>
 			<cfif #thisID.recordcount# is 1>
 				<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1014,9 +1015,9 @@
 				<cfset thisContainerId = #thisID.container_id#>
 			</cfif>
 		<cfelse>
-			<cfset thisContainerId = #thisID.container_id#>	
+			<cfset thisContainerId = #thisID.container_id#>
 		</cfif>
-		
+
 		<cfif len(#thisContainerId#) gt 0>
 			<cfquery name="putItIn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update container set
@@ -1039,12 +1040,12 @@
 <cffunction name="getCatalogedItemCitation" access="remote">
 	<cfargument name="collection_id" type="numeric" required="yes">
 	<cfargument name="theNum" type="string" required="yes">
-	<cfargument name="type" type="string" required="yes">		
+	<cfargument name="type" type="string" required="yes">
 	<cfoutput>
 	<cftry>
 		<cfif type is "cat_num">
 			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					cataloged_item.COLLECTION_OBJECT_ID,
 					cataloged_item.cat_num,
 					scientific_name
@@ -1059,7 +1060,7 @@
 			</cfquery>
 		<cfelse>
 			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					cataloged_item.COLLECTION_OBJECT_ID,
 					cataloged_item.cat_num,
 					scientific_name
@@ -1102,7 +1103,7 @@
 				role_name = '#role#'
 		</cfquery>
 	<cfelse>
-		<cfreturn "Error:invalid state">			 
+		<cfreturn "Error:invalid state">
 	</cfif>
 	<cfreturn "Success:#form#:#role#:#onoff#">
 </cffunction>
@@ -1114,7 +1115,7 @@
 	<cfargument name="noBarcode" type="string" required="yes">
 	<cfargument name="noSubsample" type="string" required="yes">
 	<cftry>
-		<cfset t="select 
+		<cfset t="select
 				cataloged_item.collection_object_id,
 				specimen_part.collection_object_id partID,
 				decode(p.barcode,'0',null,p.barcode) barcode,
@@ -1125,16 +1126,16 @@
 				collection,
 				concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 				'#session.CustomOtherIdentifier#' as CustomIdType
-			from 
+			from
 				specimen_part,
 				cataloged_item,
 				collection,
 				coll_obj_cont_hist,
 				container c,
 				container p">
-		<cfset w = "where 
-				specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and 
-				cataloged_item.collection_id=collection.collection_id and 
+		<cfset w = "where
+				specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
+				cataloged_item.collection_id=collection.collection_id and
 				specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
 				coll_obj_cont_hist.container_id=c.container_id and
 				c.parent_container_id=p.container_id (+) and
@@ -1191,9 +1192,9 @@
 	<cfargument name="other_id_type" type="string" required="yes">
 	<cfargument name="oidnum" type="string" required="yes">
 	<cftry>
-		<cfset t="select 
+		<cfset t="select
 				cataloged_item.collection_object_id
-			from 
+			from
 				cataloged_item">
 		<cfset w = "where cataloged_item.collection_id=#collection_id#">
 		<cfif other_id_type is not "catalog_number">
@@ -1231,7 +1232,7 @@
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="part_id2" type="string" required="no">
 	<cfargument name="parent_barcode" type="string" required="yes">
-	<cfargument name="new_container_type" type="string" required="yes">		
+	<cfargument name="new_container_type" type="string" required="yes">
 	<cfoutput>
 	<cftry>
 		<cftransaction>
@@ -1268,7 +1269,7 @@
 			</cfif>
 		</cftransaction>
 		<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 
+			select
 				cat_num,
 				institution_acronym,
 				collection.collection_cde,
@@ -1297,10 +1298,10 @@
 		<cfset r="#r# to container barcode #parent_barcode# (#new_container_type#)">
 		<cfreturn '1|#r#'>>
 		<cfcatch>
-			<cfreturn "0|#cfcatch.message# #cfcatch.detail#"> 
-		</cfcatch>		
+			<cfreturn "0|#cfcatch.message# #cfcatch.detail#">
+		</cfcatch>
 	</cftry>
-	</cfoutput>	
+	</cfoutput>
 </cffunction>
 <!------------------------------------------------------------------>
 <cffunction name="changefancyCOID" access="remote">
@@ -1308,7 +1309,7 @@
 	<cftry>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
-					fancyCOID = 
+					fancyCOID =
 					<cfif #tgt# is 1>
 						#tgt#
 					<cfelse>
@@ -1335,7 +1336,7 @@
 	<cftry>
 		<cfquery name="up" datasource="cf_dbuser">
 			UPDATE cf_users SET
-				exclusive_collection_id = 
+				exclusive_collection_id =
 				<cfif #tgt# gt 0>
 					#tgt#
 				<cfelse>
@@ -1357,7 +1358,7 @@
 	<cftry>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
-					customOtherIdentifier = 
+					customOtherIdentifier =
 					<cfif len(#tgt#) gt 0>
 						'#tgt#'
 					<cfelse>
@@ -1385,7 +1386,7 @@
 			<cfcatch><!-- nada --></cfcatch>
 		</cftry>
 	</cfif>
-	<cfreturn "cookie">	
+	<cfreturn "cookie">
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="findAccession"  access="remote">
@@ -1395,8 +1396,8 @@
 		<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT accn.TRANSACTION_ID FROM accn,trans WHERE
 			accn.TRANSACTION_ID=trans.TRANSACTION_ID AND
-			accn_number = '#accn_number#' 
-			and collection_id = #collection_id#			
+			accn_number = '#accn_number#'
+			and collection_id = #collection_id#
 		</cfquery>
 		<cfif accn.recordcount is 1 and len(accn.transaction_id) gt 0>
 			<cfreturn accn.transaction_id>
@@ -1429,7 +1430,7 @@
 		<cfset collObjIdList = valuelist(result.collection_object_id)>
 		<cfset session.collObjIdList=collObjIdList>
 		<cfquery name="cols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			 select column_name from user_tab_cols where 
+			 select column_name from user_tab_cols where
 			 upper(table_name)=upper('#session.SpecSrchTab#') order by internal_column_id
 		</cfquery>
 		<cfset clist = result.COLUMNLIST>
@@ -1507,7 +1508,7 @@
 					'#COLL_OBJ_DISPOSITION#',
 					#lot_count#,
 					'#condition#',
-					0 )		
+					0 )
 			</cfquery>
 			<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO specimen_part (
@@ -1539,7 +1540,7 @@
 					<cfquery name="uct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update container set container_type='#new_container_type#' where
 						container_id=#pc.container_id#
-					</cfquery>					
+					</cfquery>
 				</cfif>
 			</cfif>
 			<cfset q=queryNew("STATUS,PART_NAME,LOT_COUNT,COLL_OBJ_DISPOSITION,CONDITION,COLL_OBJECT_REMARKS,BARCODE,NEW_CONTAINER_TYPE")>
@@ -1560,14 +1561,14 @@
 			<cfset t = QuerySetCell(q, "msg", "#cfcatch.message# #cfcatch.detail#:: #ccid.nv#", 1)>
 		</cfcatch>
 	</cftry>
-	<cfreturn q>	
+	<cfreturn q>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getLoanPartResults" access="remote">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfoutput>
 	<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			cataloged_item.COLLECTION_OBJECT_ID,
 			specimen_part.collection_object_id partID,
 			coll_object.COLL_OBJ_DISPOSITION,
@@ -1590,12 +1591,12 @@
 		where
 			#session.SpecSrchTab#.collection_object_id = cataloged_item.collection_object_id AND
 			cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-			specimen_part.collection_object_id = coll_object.collection_object_id and 
+			specimen_part.collection_object_id = coll_object.collection_object_id and
 			specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id (+) and
 			coll_obj_cont_hist.container_id=p0.container_id (+) and
 			p0.parent_container_id=p1.container_id (+) and
 			specimen_part.SAMPLED_FROM_OBJ_ID is null and
-			specimen_part.collection_object_id = loan_item.collection_object_id (+) 
+			specimen_part.collection_object_id = loan_item.collection_object_id (+)
 		order by
 			cataloged_item.collection_object_id, specimen_part.part_name
 	</cfquery>
@@ -1630,7 +1631,7 @@
 				from
 				cataloged_item,
 				collection,
-				specimen_part 
+				specimen_part
 				where
 				cataloged_item.collection_id=collection.collection_id and
 				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
@@ -1638,15 +1639,15 @@
 			</cfquery>
 			<cfif #subsample# is 1>
 			<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					coll_obj_disposition, 
+				SELECT
+					coll_obj_disposition,
 					condition,
 					part_name,
 					preserve_method,
 					derived_from_cat_item
 				FROM
 					coll_object, specimen_part
-				WHERE 
+				WHERE
 					coll_object.collection_object_id = specimen_part.collection_object_id AND
 					coll_object.collection_object_id = #partID#
 			</cfquery>
@@ -1684,7 +1685,7 @@
 					,'#parentData.part_name#'
 					,'#parentData.preserve_method#'
 					,#partID#
-					,#parentData.derived_from_cat_item#)				
+					,#parentData.derived_from_cat_item#)
 			</cfquery>
 		</cfif>
 		<cfquery name="addLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1707,7 +1708,7 @@
 					#n.n#,
 				<cfelse>
 					#partID#,
-				</cfif>		
+				</cfif>
 				#session.myagentid#,
 				sysdate
 				,'#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)'
@@ -1718,10 +1719,10 @@
 					,'#remark#'
 				</cfif>
 				)
-		</cfquery>		
+		</cfquery>
 		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE coll_object SET coll_obj_disposition = 'on loan'
-			where collection_object_id = 
+			where collection_object_id =
 		<cfif #subsample# is 1>
 				#n.n#
 			<cfelse>
@@ -1756,7 +1757,7 @@
 				<cfset t = QuerySetCell(theResult, "media_relationship", "#tabl#", r)>
 				<cfset r=r+1>
 			</cfif>
-		</cfloop>		
+		</cfloop>
 	</cfloop>
 	<cfcatch>
 				<cfset craps=queryNew("media_id,collection_object_id,media_relationship")>
@@ -1782,13 +1783,13 @@
 		<cfif ts.recordcount gt 0>
 			<cfset tl="">
 			<cfloop query="ts">
-				<cfset tl=listappend(tl,ts.type_status,";")> 
+				<cfset tl=listappend(tl,ts.type_status,";")>
 			</cfloop>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "collection_object_id", "#cid#", r)>
 			<cfset t = QuerySetCell(theResult, "typeList", "#tl#", r)>
 			<cfset r=r+1>
-		</cfif>		
+		</cfif>
 	</cfloop>
 	<cfcatch>
 		<cfset t = queryaddrow(theResult,1)>
@@ -1813,7 +1814,7 @@
 		<cfquery name="alreadyGotOne" datasource="cf_dbuser">
 			select search_name
 			from cf_canned_search
-			where search_name='#srchName#' 
+			where search_name='#srchName#'
 				and user_id='#me.user_id#'
 				and url like '#urlRoot#%'
 		</cfquery>
@@ -1875,7 +1876,7 @@
 	</cftry>
 	<cfreturn result>
 </cffunction>
-<!----------------------------------------------------------------------------------------->	
+<!----------------------------------------------------------------------------------------->
 <cffunction name="changeBlockSuggest" access="remote">
 	<cfargument name="onoff" type="string" required="yes">
 	<cftry>
@@ -1892,7 +1893,7 @@
 	</cftry>
 	<cfreturn result>
 </cffunction>
-<!----------------------------------------------------------------------------------------->	
+<!----------------------------------------------------------------------------------------->
 <cffunction name="changedisplayRows" access="remote">
 	<cfargument name="tgt" type="string" required="yes">
 	<cftry>
@@ -1909,14 +1910,14 @@
 	</cftry>
 	<cfreturn result>
 </cffunction>
-<!----------------------------------------------------------------------------------------->	
+<!----------------------------------------------------------------------------------------->
 <cffunction name="setSrchVal" access="remote">
 	<cfargument name="name" type="string" required="yes">
 	<cfargument name="tgt" type="numeric" required="yes">
 	<cftry>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
-					#name# = 
+					#name# =
 					#tgt#
 				WHERE username = '#session.username#'
 			</cfquery>
@@ -1951,13 +1952,13 @@
 			<cftry>
 				<cfquery name="upatt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update attributes set DETERMINED_BY_AGENT_ID = #names.agent_id#
-					where attribute_id = #attribute_id#		 
+					where attribute_id = #attribute_id#
 				</cfquery>
 				<cfset result = '#i#::#names.agent_name#'>
 			<cfcatch>
 				<cfset result = 'A database error occured!'>
 			</cfcatch>
-			</cftry>			
+			</cftry>
 		<cfelse>
 			<cfset result = "#i#::">
 			<cfloop query="names">
@@ -1984,13 +1985,13 @@
 		<cftry>
 			<cfquery name="upatt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update attributes set DETERMINED_BY_AGENT_ID = #names.agent_id#
-				where attribute_id = #attribute_id#		 
+				where attribute_id = #attribute_id#
 			</cfquery>
 			<cfset result = '#i#::#names.agent_name#'>
 		<cfcatch>
 			<cfset result = 'A database error occured!'>
 		</cfcatch>
-		</cftry>			
+		</cftry>
 	<cfelse>
 		<cfset result = "#i#::">
 		<cfloop query="names">
@@ -2036,29 +2037,29 @@
 					cataloged_item.collection_object_id=#idvalue#
 				<cfelse>
 					1=0
-				</cfif>				
+				</cfif>
 		</cfquery>
 		<cfset mailTo = valuelist(whoTo.address)>
 		<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
 		<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
-			Arctos User #session.username# has submitted an annotation. 
-			
+			Arctos User #session.username# has submitted an annotation.
+
 			<blockquote>
 				#annotation#
 			</blockquote>
-				
+
 			View details at
 			<a href="#Application.ServerRootUrl#/info/reviewAnnotation.cfm?action=show&type=#idType#&id=#idvalue#">
 			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#idType#&id=#idvalue#
 			</a>
-		</cfmail>	
+		</cfmail>
 	<cfcatch>
 		<cfset result = "A database error occured: #cfcatch.message# #cfcatch.detail#">
 		<cfreturn result>
 	</cfcatch>
 	</cftry>
 	<cfset result = "success">
-	<cfreturn result>	
+	<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="changeshowObservations" access="remote">

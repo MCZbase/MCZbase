@@ -86,7 +86,7 @@
 		where
 			specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
 			collection_object_id=#partID#
-	</cfquery>	
+	</cfquery>
 	<form name="f" method="post" action="partAtts.cfm">
 		<input type="hidden" name="partID" value="#partID#">
 		<input type="hidden" name="action">
@@ -116,7 +116,7 @@
 				<td>
 					<input type="hidden" name="determined_by_agent_id_#part_attribute_id#">
 					<input type="text" name="determined_agent_#part_attribute_id#" id="determined_agent_#part_attribute_id#"
-						onchange="getAgent('determined_by_agent_id_#part_attribute_id#',this.id,'f',this.value);" 
+						onchange="getAgent('determined_by_agent_id_#part_attribute_id#',this.id,'f',this.value);"
 						onkeypress="return noenter(event);"
 						value="#agent_name#">
 					</td>
@@ -131,7 +131,7 @@
 		</cfloop>
 		<input type="hidden" name="patidlist" value="#valuelist(pAtt.part_attribute_id)#">
 		<cfset np=np-1>
-		<input type="hidden" name="numPAtt" value="#np#">	
+		<input type="hidden" name="numPAtt" value="#np#">
 		<tr>
 			<td colspan="6" align="center">
 				<input type="button" onclick="f.action.value='saveEdit';submit();" value="Save Edits" class="savBtn">
@@ -140,7 +140,7 @@
 		</tr>
 		<tr id="r_new" class="newRec">
 			<td>
-				<select id="attribute_type_new" name="attribute_type_new" onchange="setPartAttOptions('new',this.value)">
+				<select id="attribute_type_new" name="attribute_type_new" onchange="setPartAttOptions('new',this.value,'#collectionCDE#')">
 					<option value="">Create New Part Attribute....</option>
 					<cfloop query="ctspecpart_attribute_type">
 						<option value="#attribute_type#">#attribute_type#</option>
@@ -170,7 +170,7 @@
 		</tr>
 	</table>
 	</form>
-</cfoutput>	
+</cfoutput>
 </cfif>
 <cfif action is "insPart">
 	<cfif not isdefined("attribute_value_new")>
@@ -196,7 +196,7 @@
 			'#determined_date_new#',
 			'#determined_id_new#',
 			'#attribute_remark_new#'
-		)	
+		)
 	</cfquery>
 	<cflocation url="partAtts.cfm?partID=#partID#" addtoken="false">
 </cfif>
