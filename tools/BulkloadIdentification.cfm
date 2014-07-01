@@ -1,6 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="Bulkload Identification">
-<!---- make the table 
+<!---- make the table
 
 drop table cf_temp_id;
 drop public synonym cf_temp_id;
@@ -28,25 +28,25 @@ create table cf_temp_id (
 create public synonym cf_temp_id for cf_temp_id;
 grant select,insert,update,delete on cf_temp_id to manage_specimens;
 
-CREATE OR REPLACE TRIGGER cf_temp_id_key                                         
- before insert  ON cf_temp_id  
- for each row 
-    begin     
-    	if :NEW.key is null then                                                                                      
+CREATE OR REPLACE TRIGGER cf_temp_id_key
+ before insert  ON cf_temp_id
+ for each row
+    begin
+    	if :NEW.key is null then
     		select somerandomsequence.nextval into :new.key from dual;
-    	end if;                                
-    end;                                                                                            
+    	end if;
+    end;
 /
 sho err
 ------>
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv). 
-Include column headings, spelled exactly as below. 
+Step 1: Upload a comma-delimited text file (csv).
+Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the following code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">collection_cde,institution_acronym,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2</textarea>
-	</div> 
+	</div>
 <p></p>
 <ul>
 	<li style="color:red">institution_acronym</li>
@@ -82,9 +82,9 @@ Include column headings, spelled exactly as below.
 	</cfquery>
 
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-	
+
 	<cfset fileContent=replace(fileContent,"'","''","all")>
-	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />	
+	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 	<cfset colNames="">
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
@@ -98,15 +98,15 @@ Include column headings, spelled exactly as below.
 			</cfloop>
 		<cfif #o# is 1>
 			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
+		</cfif>
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
 			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				insert into cf_temp_id (#colNames#) values (#preservesinglequotes(colVals)#)
 			</cfquery>
 		</cfif>
-	</cfloop>	
-	<cflocation url="BulkloadIdentification.cfm?action=validate" addtoken="false">	
+	</cfloop>
+	<cflocation url="BulkloadIdentification.cfm?action=validate" addtoken="false">
 </cfoutput>
 </cfif>
 <!------------------------------------------------------->
@@ -126,7 +126,7 @@ Include column headings, spelled exactly as below.
 		accepted_fg is null or
 		agent_1 is null
 	</cfquery>
-	
+
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_id where status is null
 	</cfquery>
@@ -134,7 +134,7 @@ Include column headings, spelled exactly as below.
 		<cfset problem="">
 		<cfif #other_id_type# is not "catalog number">
 			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+					SELECT
 						coll_obj_other_id_num.collection_object_id
 					FROM
 						coll_obj_other_id_num,
@@ -150,7 +150,7 @@ Include column headings, spelled exactly as below.
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+					SELECT
 						collection_object_id
 					FROM
 						cataloged_item,
@@ -164,7 +164,7 @@ Include column headings, spelled exactly as below.
 			</cfif>
 			<cfif #collObj.recordcount# is not 1>
 				<cfif len(#problem#) is 0>
-					<cfset problem = "SELECT 
+					<cfset problem = "SELECT
 						collection_object_id
 					FROM
 						cataloged_item,
@@ -187,6 +187,30 @@ Include column headings, spelled exactly as below.
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 				<cfset tf = "A sp.">
 				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
+			<cfelseif right(scientific_name,5) is " ssp.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+				<cfset tf = "A ssp.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+			<cfelseif right(scientific_name,5) is " var.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+				<cfset tf = "A var.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+			<cfelseif right(scientific_name,9) is " sp. nov.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
+				<cfset tf = "A sp. nov.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 9)>
+			<cfelseif right(scientific_name,10) is " gen. nov.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
+				<cfset tf = "A gen. nov.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 10)>
+			<cfelseif right(scientific_name,8) is " (Group)">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
+				<cfset tf = "A (Group)">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 8)>
+			<cfelseif right(scientific_name,5) is " near">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+				<cfset tf = "A near">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
 			<cfelseif right(scientific_name,4) is " cf.">
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 				<cfset tf = "A cf.">
@@ -272,7 +296,7 @@ Include column headings, spelled exactly as below.
 				</cfquery>
 			</cfif>
 		</cfloop>
-		
+
 		<cfquery name="valData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from cf_temp_id order by status,
 			other_id_type,
@@ -295,7 +319,7 @@ Include column headings, spelled exactly as below.
 </cfif>
 <!------------------------------------------------------->
 <cfif #action# is "loadData">
-<cfoutput>		
+<cfoutput>
 	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_id
 	</cfquery>
@@ -324,7 +348,7 @@ Include column headings, spelled exactly as below.
 				#ACCEPTED_FG#,
 				'#IDENTIFICATION_REMARKS#',
 				'#TAXA_FORMULA#',
-				'#SCIENTIFIC_NAME#'				
+				'#SCIENTIFIC_NAME#'
 			)
 		</cfquery>
 		<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -363,7 +387,7 @@ Include column headings, spelled exactly as below.
 			</cfquery>
 		</cfif>
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_id set status='loaded' where key=#key#			
+			update cf_temp_id set status='loaded' where key=#key#
 		</cfquery>
 	</cfloop>
 	</cftransaction>
@@ -381,7 +405,7 @@ Include column headings, spelled exactly as below.
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_id
 			</cfquery>
-			<cfdump var=#d#>		
+			<cfdump var=#d#>
 		<cfelse>
 			Spiffy! Tis done.
 		</cfif>
