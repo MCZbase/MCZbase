@@ -50,7 +50,7 @@
 	   				<td>
 						<label for="part_name_#i#">Add Part (#i#)</label>
 				   		<input type="text" name="part_name_#i#" id="part_name_#i#" class="reqdClr"
-							onchange="findPart(this.id,this.value,'#colcdes#');" 
+							onchange="findPart(this.id,this.value,'#colcdes#');"
 							onkeypress="return noenter(event);">
 						<label for="preserve_method_#i#">Preserve Method (#i#)</label>
 				   		<select name="preserve_method_#i#" id="preserve_method_#i#" size="1">
@@ -80,7 +80,7 @@
 				</cfloop>
 			</tr>
 		</table>
-	   
+
 	  	<input type="submit" value="Add Parts" class="savBtn">
 	</form>
 	<hr>
@@ -88,39 +88,39 @@
 		<strong>Option 2: Modify Existing Parts</strong>
 	</p>
 	<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			specimen_part.part_name
-		from 
+		from
 			specimen_part,
-			#table_name# 
+			#table_name#
 		where
 			specimen_part.derived_from_cat_item=#table_name#.collection_object_id
 		group by specimen_part.part_name
 		order by specimen_part.part_name
 	</cfquery>
 	<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			specimen_part.preserve_method
-		from 
+		from
 			specimen_part,
-			#table_name# 
+			#table_name#
 		where
 			specimen_part.derived_from_cat_item=#table_name#.collection_object_id
 		group by specimen_part.preserve_method
 		order by specimen_part.preserve_method
 	</cfquery>
 	<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			coll_object.lot_count,
 			coll_object.coll_obj_disposition
-		from 
+		from
 			specimen_part,
 			coll_object,
-			#table_name# 
+			#table_name#
 		where
 			specimen_part.derived_from_cat_item=#table_name#.collection_object_id and
 			specimen_part.collection_object_id=coll_object.collection_object_id
-		group by 
+		group by
 			coll_object.lot_count,
 			coll_object.coll_obj_disposition
 	</cfquery>
@@ -155,7 +155,7 @@
 				</td>
 				<td>
 					<input type="text" name="new_part_name" id="new_part_name" class="reqdClr"
-						onchange="findPart(this.id,this.value,'#colcdes#');" 
+						onchange="findPart(this.id,this.value,'#colcdes#');"
 						onkeypress="return noenter(event);">
 				</td>
 			</tr>
@@ -273,7 +273,7 @@
 		<br><input type="submit" value="Delete Parts" class="delBtn">
 	</form>
 	<hr>
-	
+
 	<p>
 		<strong>Specimens being Updated</strong>
 	</p>
@@ -307,7 +307,7 @@
 			cataloged_item.collection_object_id=identification.collection_object_id and
 			accepted_id_fg=1
 		order by
-			collection.collection,cataloged_item.cat_num		
+			collection.collection,cataloged_item.cat_num
 	</cfquery>
 	<cfquery name="s" dbtype="query">
 		select collection_object_id,collection,cat_num,scientific_name from d group by collection_object_id,collection,cat_num,scientific_name
@@ -410,7 +410,7 @@
 				accepted_id_fg=1 and
 				part_name='#exist_part_name#'
 				<cfif len(exist_preserve_method) gt 0>
-					and preserve_method=#exist_preserve_method#
+					and preserve_method='#exist_preserve_method#'
 				</cfif>
 				<cfif len(existing_lot_count) gt 0>
 					and lot_count=#existing_lot_count#
@@ -419,7 +419,7 @@
 					and coll_obj_disposition='#existing_coll_obj_disposition#'
 				</cfif>
 			order by
-				collection.collection,cataloged_item.cat_num		
+				collection.collection,cataloged_item.cat_num
 		</cfquery>
 		<form name="modPart" method="post" action="bulkPart.cfm">
 			<input type="hidden" name="action" value="delPart2">
@@ -463,7 +463,7 @@
 		<cfloop list="#partID#" index="i">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update specimen_part set part_name='#new_part_name#' where collection_object_id=#i#
-			</cfquery>		
+			</cfquery>
 			<cfif len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update coll_object set
@@ -488,7 +488,7 @@
 					<cfcatch>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							update coll_object_remark set coll_object_remarks='#new_remark#' where collection_object_id=#i#
-						</cfquery>						
+						</cfquery>
 					</cfcatch>
 				</cftry>
 			</cfif>
@@ -539,7 +539,7 @@
 					and coll_obj_disposition='#existing_coll_obj_disposition#'
 				</cfif>
 			order by
-				collection.collection,cataloged_item.cat_num		
+				collection.collection,cataloged_item.cat_num
 		</cfquery>
 		<form name="modPart" method="post" action="bulkPart.cfm">
 			<input type="hidden" name="action" value="modPart2">
@@ -608,7 +608,7 @@
 							NOT UPDATED
 						</cfif>
 					</td>
-					
+
 				</tr>
 			</cfloop>
 		</table>
@@ -654,7 +654,7 @@
 							'#thisLotCountModifier#',
 							#thisLotCount#,
 							'#thisCondition#',
-							0 )		
+							0 )
 					</cfquery>
 					<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						INSERT INTO specimen_part (
@@ -674,7 +674,7 @@
 							VALUES (sq_collection_object_id.currval, '#thisRemark#')
 						</cfquery>
 					</cfif>
-				</cfif>			
+				</cfif>
 			</cfloop>
 		</cfloop>
 	</cftransaction>
