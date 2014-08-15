@@ -1,10 +1,10 @@
-<cfoutput>	
+<cfoutput>
 <cfinclude template="/includes/_header.cfm">
 <cfinclude template="/Reports/functions/label_functions.cfm">
 <!-------------------------------------------------------------->
 <cfif #action# is "delete">
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        delete from cf_report_sql 
+        delete from cf_report_sql
         where report_id=#report_id#
     </cfquery>
     <cflocation url="reporter.cfm">
@@ -16,11 +16,11 @@
         <cfabort>
     </cfif>
 	<cfif REFind("[^A-Za-z0-9_]",report_name,1) gt 0>
-		report_name must contain only alphanumeric cahracters and underscore.
+		report_name must contain only alphanumeric characters and underscore.
 		<cfabort>
 	</cfif>
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        update cf_report_sql set     
+        update cf_report_sql set
         report_name ='#report_name#',
         report_template  ='#report_template#',
         sql_text = <CFQUERYPARAM VALUE="#sql_text#" CFSQLTYPE="CF_SQL_CLOB"> ,
@@ -43,11 +43,11 @@
         select * from cf_report_sql where report_id='#report_id#'
     </cfquery>
     <cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList">
-   
+
     <form method="get" action="reporter.cfm" enctype="text/plain">
         <input type="hidden" name="action" value="saveEdit">
         <input type="hidden" name="report_id" value="#e.report_id#">
-        <label for="report_name">Report Name</label>
+        <label for="report_name">Report Name ({Dry|Fluid|Skin|Pin}_{report type}__{ underscore delimited list of collection codes})(Separate report type from collection codes with two underscores)</label>
         <input type="text" name="report_name" id="report_name" value="#e.report_name#">
         <label for="report_template">Report Template</label>
         <select name="report_template" id="report_template">
@@ -78,7 +78,7 @@
         b.value=unescape(a);
     </script>
        <form method="post" action="reporter.cfm" target="_blank">
-           <input type="hidden" name="action" value="testSQL">           
+           <input type="hidden" name="action" value="testSQL">
 	       <input type="hidden" name="test_sql" id="test_sql">
            <input type="hidden" name="format" id="format" value="table">
            <input type="button" value="Test SQL" onclick="document.getElementById('test_sql').value=document.getElementById('sql_text').value;
@@ -142,7 +142,7 @@
              #preservesinglequotes(sql)#
          </cfquery>
          <cfdump var=#user_sql#>
-        
+
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "loadTemplate">
@@ -160,7 +160,7 @@
 		<a href="javascript:back()">Go Back</a>
 		<cffile action="delete"
 	    	file="#Application.webDirectory#/Reports/templates/#fileName#">
-        <cfabort>   
+        <cfabort>
 	</cfif>
 	<cfset ext=right(extension,len(extension)-1)>
 	<cfif ext is not "cfr">
@@ -214,7 +214,7 @@
 	            <td><a href="reporter.cfm?action=download&report_template=#report_template#">Download Report</a></td>
 	        </tr>
         </cfloop>
-      
+
     </cfloop>
     </table>
 </cfif>
