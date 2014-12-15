@@ -75,6 +75,7 @@ function findPart(partFld,part_name,collCde){
 	var popurl=url+"?part_name="+part_name+"&collCde="+collCde+"&partFld="+partFld;
 	partpick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
 }
+
 function saveThisAnnotation() {
 	var idType = document.getElementById("idtype").value;
 	var idvalue = document.getElementById("idvalue").value;
@@ -951,6 +952,10 @@ function chgCondition(collection_object_id) {
 	var collection_object_id;
 	helpWin=windowOpener("/picks/condition.cfm?collection_object_id="+collection_object_id,"conditionWin","width=800,height=338, resizable,scrollbars");
 }
+function chgPreserve(collection_object_id) {
+	var collection_object_id;
+	helpWin=windowOpener("/picks/preserve.cfm?collection_object_id="+collection_object_id,"conditionWin","width=800,height=338, resizable,scrollbars");
+}
 function getAgent(agentIdFld,agentNameFld,formName,agentNameString,allowCreation){
 	var url="/picks/findAgent.cfm";
 	var agentIdFld;
@@ -1004,8 +1009,8 @@ function getPublication(pubStringFld,pubIdFld,publication_title,formName){
 }
 function getAccn(StringFld,IdFld,formName){
 	var url="/picks/findAccn.cfm";
-	var pickwin=url+"?AccnNumFld="+StringFld+"&AccnIdFld="+IdFld+"&formName="+formName;
-	pickwin=window.open(pickwin,"","width=400,height=338, resizable,scrollbars");
+	var pickwin=url//+"?AccnNumFld="+StringFld+"&AccnIdFld="+IdFld+"&formName="+formName;
+	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
 }
 function getGeog(geogIdFld,geogStringFld,formName,geogString){
 	var url="/picks/findHigherGeog.cfm";
