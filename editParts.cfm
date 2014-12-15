@@ -94,7 +94,8 @@
 					<td>
 						<label for="preserve_method#i#">
 							Preserve Method
-							&nbsp;<span class="likeLink" style="font-weight:100" onClick="getCtDoc('ctspecimen_preserv_method')">[ Define values ]</span>
+							&nbsp;<span class="likeLink" style="font-weight:100" onClick="chgPreserve('#getParts.partID#')">[ History ]</span>
+							<!---span class="likeLink" style="font-weight:100" onClick="getCtDoc('ctspecimen_preserv_method')">[ Define values ]</span--->
 						</label>
 						<select name="preserve_method#i#" size="1" style="width:200px";>
 			              <option value=""></option>
