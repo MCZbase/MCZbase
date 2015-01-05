@@ -1,5 +1,5 @@
 
-	
+
 <!---- relies on table
 
 drop table cf_temp_parts;
@@ -33,13 +33,13 @@ grant all on cf_temp_parts to uam_query,uam_update;
 ---->
 <cfinclude template="/includes/_header.cfm">
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv). 
-Include column headings, spelled exactly as below. 
+Step 1: Upload a comma-delimited text file (csv).
+Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks</textarea>
-	</div> 
+	</div>
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
 <ul>
@@ -52,7 +52,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li style="color:red">disposition</li>
 	<li>lot_count_modifier</li>
 	<li style="color:red">lot_count</li>
-	<li>current_remarks</li>		
+	<li>current_remarks</li>
 	<li style="color:red">use_existing
 		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
 			<ul>
@@ -65,18 +65,18 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 					</ul>
 				</li>
 			</ul>
-		</span>	
+		</span>
 	</li>
 	<li>container_barcode
 		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
 			<ul>
 				<li>Container barcode in which to place this part</li>
 			</ul>
-		</span>	
-	</li>	
+		</span>
+	</li>
 	<li>change_container_type</li>
 	<li style="color:red">condition</li>
-	<li>append_to_remarks</li>		 
+	<li>append_to_remarks</li>
 </ul>
 
 
@@ -88,8 +88,16 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		   size="45">
 			 <input type="submit" value="Upload this file"
 		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'" 
+		onmouseover="this.className='savBtn btnhov'"
 		onmouseout="this.className='savBtn'">
+		<br>
+	Character Set: <select name="cSet" id="cSet">
+		<option value="windows-1252" selected>windows-1252</option>
+		<option value="MacRoman">MacRoman</option>
+		<option value="utf-8">utf-8</option>
+		<option value="utf-16">utf-16</option>
+		<option value="unicode">unicode</option>
+	</input>
   </cfform>
 
 </cfif>
@@ -108,7 +116,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 				<cfset fileContent='#fileContent#UAM,Mamm,AF,31499,tissues,,ethanol,in collection,1,,#chr(10)#'>
 	-----------got file--------------<br>
 	--->
-	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 
 	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<!---
@@ -117,7 +125,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<cfset fileContent=replace(fileContent,chr(13),'chr 13 goes here',"all")>
 	--#fileContent#--
 	<hr>
-	
+
 	<cfset fileContent=replace(fileContent,chr(10),'chr 10 goes here',"all")>
 	--#fileContent#--
 	<hr>
@@ -141,7 +149,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			</cfloop>
 		<cfif #o# is 1>
 			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
+		</cfif>
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
 			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -160,7 +168,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 validate
 <cfoutput>
 	<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set parent_container_id = 
+		update cf_temp_parts set parent_container_id =
 		(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_BARCODE)
 	</cfquery>
 	<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -224,14 +232,14 @@ validate
 			is_number(lot_count) = 0
 			)
 	</cfquery>
-	
+
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_parts where validated_status is null
 	</cfquery>
 	<cfloop query="data">
 		<cfif #other_id_type# is "catalog number">
 			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+					SELECT
 						collection_object_id
 					FROM
 						cataloged_item,
@@ -244,7 +252,7 @@ validate
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+					SELECT
 						coll_obj_other_id_num.collection_object_id
 					FROM
 						coll_obj_other_id_num,
@@ -259,17 +267,17 @@ validate
 						other_id_num = '#other_id_number#'
 				</cfquery>
 			</cfif>
-			<cfif #collObj.recordcount# is 1>					
+			<cfif #collObj.recordcount# is 1>
 				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
 					validated_status='VALID'
 					where
 					key = #key#
 				</cfquery>
-			<cfelse>				
+			<cfelse>
 				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_parts SET validated_status = 
-					validated_status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.' 
+					UPDATE cf_temp_parts SET validated_status =
+					validated_status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
 					where key = #key#
 				</cfquery>
 			</cfif>
@@ -289,14 +297,14 @@ validate
 						1) part is in a container
 							Solution: warn them, create a new part, optionally put it in the container they've specified
 						2) part is not in a container
-							Solution: same: warning and new part		
+							Solution: same: warning and new part
 		---->
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set (validated_status) = (
-			select 
+			select
 			decode(parent_container_id,
 			0,'NOTE: PART EXISTS',
-			'NOTE: PART EXISTS IN PARENT CONTAINER')			
+			'NOTE: PART EXISTS IN PARENT CONTAINER')
 			from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
 			specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
 			coll_obj_cont_hist.container_id = container.container_id AND
@@ -306,7 +314,7 @@ validate
 			cf_temp_parts.preserve_method=specimen_part.preserve_method AND
 			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
 			group by parent_container_id)
-			where validated_status='VALID' 
+			where validated_status='VALID'
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set (parent_container_id) = (
@@ -317,10 +325,10 @@ validate
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set (use_part_id) = (
-			select min(specimen_part.collection_object_id)			
+			select min(specimen_part.collection_object_id)
 			from specimen_part, coll_object_remark where
 			specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
-			cf_temp_parts.part_name=specimen_part.part_name and 
+			cf_temp_parts.part_name=specimen_part.part_name and
 			cf_temp_parts.preserve_method=specimen_part.preserve_method and
 			cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
 			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
@@ -334,7 +342,7 @@ validate
 <cfif #action# is "checkValidate">
 
 	<cfoutput>
-	
+
 	<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_parts
 	</cfquery>
@@ -360,15 +368,15 @@ validate
 		<cfloop query="inT">
 			<tr>
 				<td>
-					<cfif len(#collection_object_id#) gt 0 and 
+					<cfif len(#collection_object_id#) gt 0 and
 							(#validated_status# is 'VALID')>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" 
+						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
 							target="_blank">Specimen</a>
 					<cfelseif left(validated_status,5) is 'NOTE:'>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" 
+						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
 							target="_blank">Specimen</a> (#validated_status#)
 					<cfelse>
-						#validated_status#					
+						#validated_status#
 					</cfif>
 				</td>
 				<td>#institution_acronym#</td>
@@ -384,8 +392,8 @@ validate
 				<td>#condition#</td>
 				<td>#Container_Barcode#</td>
 				<td>#use_existing#</td>
-				<td>#change_container_type#</td>		
-				<td>#append_to_remarks#</td>		
+				<td>#change_container_type#</td>
+				<td>#append_to_remarks#</td>
 			</tr>
 		</cfloop>
 	</table>
@@ -399,7 +407,7 @@ validate
 	<cfelse>
 		You must fix everything above to proceed.
 	</cfif>
-	
+
 </cfif>
 
 <!-------------------------------------------------------------------------------------------->
@@ -411,7 +419,7 @@ validate
 		select * from cf_temp_parts
 	</cfquery>
 	<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#' 
+		SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 	</cfquery>
 	<cfif getEntBy.recordcount is 0>
 		<cfabort showerror = "You aren't a recognized agent!">
@@ -447,7 +455,7 @@ validate
 				'#lot_count_modifier#',
 				#lot_count#,
 				'#condition#',
-				0 )		
+				0 )
 		</cfquery>
 		<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO specimen_part (
@@ -460,7 +468,7 @@ validate
 				  '#PART_NAME#',
 				  '#PRESERVE_METHOD#'
 					,#collection_object_id# )
-		</cfquery>	
+		</cfquery>
 		<cfif len(#current_remarks#) gt 0>
 				<!---- new remark --->
 				<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -473,14 +481,14 @@ validate
 				select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
 			</cfquery>
 				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set parent_container_id=#parent_container_id# 
+					update container set parent_container_id=#parent_container_id#
 					where container_id = #part_container_id.container_id#
 				</cfquery>
 			<cfif #len(change_container_type)# gt 0>
 				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set 
+					update container set
 					container_type='#change_container_type#'
-					where container_id=#parent_container_id# 
+					where container_id=#parent_container_id#
 				</cfquery>
 			</cfif>
 		</cfif>
@@ -513,32 +521,32 @@ validate
 				</cfquery>
 			<cfelse>
 				<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update coll_object_remark					
+					update coll_object_remark
 					set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
 					where collection_object_id = #use_part_id#
-				</cfquery>		
-			</cfif>			
+				</cfquery>
+			</cfif>
 		</cfif>
 		<cfif len(#container_barcode#) gt 0>
 			<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
 			</cfquery>
 				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set parent_container_id=#parent_container_id# 
+					update container set parent_container_id=#parent_container_id#
 					where container_id = #part_container_id.container_id#
 				</cfquery>
 			<cfif #len(change_container_type)# gt 0>
 				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set 
+					update container set
 					container_type='#change_container_type#'
-					where container_id=#parent_container_id# 
+					where container_id=#parent_container_id#
 				</cfquery>
 			</cfif>
 		</cfif>
 	</cfif>
 	</cfloop>
 	</cftransaction>
-	
+
 	Spiffy, all done.
 	<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#">
 		See in Specimen Results
