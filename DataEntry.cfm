@@ -174,7 +174,7 @@ Some Totally Random String Data .....
 			</cfquery>
 			<cfset loadedMsg=chk.rslt>
 		<cfelse>
-			<cfset loadedMsg = "something">
+			<cfset loadedMsg = "">
 		</cfif>
 
 <!--- TODO: Evaluate if hybrid handling is present in bulk_check_one.  --->
