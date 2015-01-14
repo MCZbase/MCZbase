@@ -175,7 +175,6 @@
 		</cftry>
 		<cfset out = SerializeJSON(result,true) >
 	    <cfoutput>#out#</cfoutput>
-	</cfoutput>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
 
