@@ -1,6 +1,9 @@
 <div id="msg"></div>
 <div><!--- spacer ---></div>
 <cfinclude template="/includes/_header.cfm">
+<!--- Set MAXTEMPLATE to the largest value of a collection_id that is used as bulkloader.collection_object_id as a template --->
+<!--- --->
+<cfset MAXTEMPLATE="14">
 <cfset title="Data Entry">
 <link rel="stylesheet" type="text/css" href="/includes/_DEstyle.css">
 <!---
@@ -63,8 +66,9 @@ Some Totally Random String Data .....
 				)
 			</cfquery>
 		</cfif>
+		<!--- If a collection isn't showing up, check collection for a row, bulkloader for a template row, and set MAXTEMPLATE above. --->
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from collection ORDER BY COLLECTION
+			select * from collection where collection_id <= #MAXTEMPLATE#  ORDER BY COLLECTION
 		</cfquery>
 		<cfloop query="c">
 			<cfquery  name="isBL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -167,8 +171,8 @@ Some Totally Random String Data .....
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from bulkloader where collection_object_id=#collection_object_id#
 		</cfquery>
-		<!---  TODO: Remove hard coded magic number, is 50 in v3.9 30 in v2.5.1  --->
-		<cfif collection_object_id GT 30>
+		<!---  Was hard coded magic number, value of 50 in v3.9 then 30 in v2.5.1  --->
+		<cfif collection_object_id GT #MAXTEMPLATE#>
 			<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select bulk_check_one(#collection_object_id#) rslt from dual
 			</cfquery>
@@ -314,7 +318,8 @@ Some Totally Random String Data .....
 
 		<!----------------- end dropdowns --------------------->
 
-		<cfset sql = "select collection_object_id from bulkloader where collection_object_id > 10">
+        <!--- Note: MAXTEMPLATE is the largest collection_id used for a template in bulkloader by using the collection_id as the value in bulkloader.collection_object_id --->
+		<cfset sql = "select collection_object_id from bulkloader where collection_object_id > #MAXTEMPLATE#">
 		<cfif ImAGod is "no">
 			 <cfset sql = "#sql# AND enteredby = '#session.username#'">
 		<cfelse>
