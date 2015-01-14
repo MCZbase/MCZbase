@@ -1,5 +1,5 @@
 <cfcomponent>
-	
+
 <cffunction name="splitGeog" access="remote">
         <cfargument name="geog" required="yes">
         <cfargument name="specloc" required="yes">
@@ -26,7 +26,7 @@
         </cfif>
         <cfreturn guri>
 </cffunction>
-<!----------------------------------------------------------------------------------------->    
+<!----------------------------------------------------------------------------------------->
 <cffunction name="geolocate" access="remote">
         <cfargument name="geog" required="yes">
         <cfargument name="specloc" required="yes">
@@ -119,7 +119,7 @@
 		</cfquery>
 	</cftransaction>
 	<cfquery name="next" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select #collection_object_id# oldValue, max(collection_object_id) nextValue from bulkloader 
+		select #collection_object_id# oldValue, max(collection_object_id) nextValue from bulkloader
 		where enteredby = '#session.username#'
 	</cfquery>
 	<cfreturn next>
@@ -135,7 +135,6 @@
 <!----------------------------------------------------------------------------------------->
 <cffunction name="saveEdits" access="remote">
 	<cfargument name="q" required="yes">
-	<cfoutput>
 		<cfquery name="getCols" datasource="uam_god">
 			select column_name from sys.user_tab_cols
 			where table_name='BULKLOADER'
@@ -157,7 +156,7 @@
 			</cfif>
 		</cfloop>
 		<cfset sql = "#SQL# where collection_object_id = #collection_object_id#">
-		<cfset sql = replace(sql,"UPDATE bulkloader SET ,","UPDATE bulkloader SET ")>			
+		<cfset sql = replace(sql,"UPDATE bulkloader SET ,","UPDATE bulkloader SET ")>
 		<cftry>
 			<cftransaction>
 				<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -174,14 +173,14 @@
 			<cfset temp = QuerySetCell(result, "rslt",  cfcatch.message & "; " &  cfcatch.detail, 1)>
 		</cfcatch>
 		</cftry>
-		<cfreturn result>
+		<cfset out = SerializeJSON(result,true) >
+	    <cfoutput>#out#</cfoutput>
 	</cfoutput>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
 
 <cffunction name="saveNewRecord" access="remote">
 	<cfargument name="q" required="yes">
-	<cfoutput>
 		<cfquery name="getCols" datasource="uam_god">
 			select column_name from sys.user_tab_cols
 			where table_name='BULKLOADER'
@@ -231,8 +230,8 @@
 			<cfset temp = QuerySetCell(result, "rslt",  cfcatch.message & "; " &  cfcatch.detail, 1)>
 		</cfcatch>
 		</cftry>
-		<cfreturn result>
-	</cfoutput>
+		<cfset out = SerializeJSON(result,true) >
+	    <cfoutput>#out#</cfoutput>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
 <cffunction name="getPage" access="remote">

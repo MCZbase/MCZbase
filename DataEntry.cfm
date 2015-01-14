@@ -1,6 +1,6 @@
+<cfinclude template="/includes/_header.cfm">
 <div id="msg"></div>
 <div><!--- spacer ---></div>
-<cfinclude template="/includes/_header.cfm">
 <!--- Set MAXTEMPLATE to the largest value of a collection_id that is used as bulkloader.collection_object_id as a template --->
 <!--- --->
 <cfset MAXTEMPLATE="14">
@@ -152,18 +152,6 @@ Some Totally Random String Data .....
 <!------------ editEnterData --------------------------------------------------------------------------------------------->
 <cfif action is "editEnterData">
 	<cfoutput>
-		<!---
-
-		<div>
-	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select collection_object_id from bulkloader
-	</cfquery>
-<cfloop query="c">
-	<br><span onclick="loadRecord(#collection_object_id#)">#collection_object_id#</span>
-</cfloop>
-
-</div>
----->
 		<!---#collection_object_id#--->
 		<cfif not isdefined("collection_object_id") or len(collection_object_id) is 0>
 			you don't have an ID. <cfabort>
