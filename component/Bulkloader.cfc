@@ -122,7 +122,10 @@
 		select #collection_object_id# oldValue, max(collection_object_id) nextValue from bulkloader
 		where enteredby = '#session.username#'
 	</cfquery>
-	<cfreturn next>
+    <!--- cfreturn next --->
+    <!--- Using $.getJSON, we can't include a queryFormat = columns, but we can force the desired JSON serialization here --->
+    <cfset out = SerializeJSON(next,true) >
+    <cfoutput>#out#</cfoutput>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
 

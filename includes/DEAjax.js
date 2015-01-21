@@ -151,116 +151,21 @@ function closeGeoLocate(msg) {
         $("#geoLocateResults").html(msg);
 }
 
+function loadRecord(collection_object_id){
+        //console.log('loadRecord');
 
+        // figure out if we're trying to enter or edit and call the appropriate function
+        // this function is called when the page is initially loaded
+        // it cannot be replaced with a direct call to lrEnter or edit
+        if($("#action").val()=='enter') {
+                loadRecordEnter(collection_object_id);
+        } else if($("#action").val()=='edit') {
+                loadRecordEdit(collection_object_id);
+        }
+}
 function setNewRecDefaults () {
 	var cc = $('#collection_cde').val();
 	var ia =  $('#institution_acronym').val();
-	if(cc == 'Mamm' && ia == 'UAM') {
-		UAMMammDefault();
-	} else if(cc == 'Bird' && ia == 'MSB') {
-		MSBBirdDefault();
-	} else if(cc == 'Fish' && ia == 'UAM') {
-		UAMFishDefault();	
-	} else if(ia == 'UAM' && cc=='Art') {
-		UAMArtDefaults();
-	} else if(ia == 'MSB' && cc=='Mamm') {
-		MSBMammDefaults();
-	} else if(ia == 'MVZ') {
-		MVZDefaults();
-	}
-}
-function MSBMammDefaults() {	
-	if ($("#nature_of_id").val()==''){
-   	 	$("#nature_of_id").val('field');
-    }
-	$.each($("[id^='part_disposition_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('being processed');
-	     }
-	});
-	$.each($("input[id^='part_condition_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('unchecked');
-	     }
-	});
-	$.each($("input[id^='part_lot_count_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('1');
-	     }
-	});
-	if ($("#attribute_units_2").val()==''){
-   	 	$("#attribute_units_2").val('mm');
-    }
-	if ($("#collecting_source").val()==''){
-   	 	$("#collecting_source").val('wild caught');
-    }
-	if ($("#attribute_units_6").val()==''){
-   	 	$("#attribute_units_6").val('g');
-    }
-}
-function MVZDefaults() {	
-	if ($("#nature_of_id").val()==''){
-   	 	$("#nature_of_id").val('field');
-    }
-	$.each($("[id^='part_disposition_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('in collection');
-	     }
-	});
-	$.each($("input[id^='part_condition_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('unchecked');
-	     }
-	});
-	$.each($("input[id^='part_lot_count_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('1');
-	     }
-	});
-	if ($("#attribute_units_2").val()==''){
-   	 	$("#attribute_units_2").val('mm');
-    }
-	if ($("#collecting_source").val()==''){
-   	 	$("#collecting_source").val('wild caught');
-    }
-	if ($("#other_id_num_type_1").val()==''){
-		$("#other_id_num_type_1").val('collector number');
-	}
-	if ($("#attribute_units_6").val()==''){
-   	 	$("#attribute_units_6").val('g');
-    }
-}
-function UAMMammDefault() {
-	if ($("#nature_of_id").val()==''){
-   	 	$("#nature_of_id").val('field');
-    }
-	$.each($("[id^='part_disposition_']"), function() {
-		if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('being processed');
-	    }
-	});
-	$.each($("input[id^='part_condition_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('unchecked');
-	     }
-	});
-	$.each($("input[id^='part_lot_count_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('1');
-	     }
-	});
-	if ($("#attribute_units_2").val()==''){
-   	 	$("#attribute_units_2").val('mm');
-    }
-	if ($("#attribute_units_6").val()==''){
-   	 	$("#attribute_units_6").val('g');
-    }
-	if ($("#collecting_source").val()==''){
-   	 	$("#collecting_source").val('wild caught');
-    }
-	if ($("#other_id_num_type_1").val()==''){
-		$("#other_id_num_type_1").val('original identifier');
-	}
 }
 function incCatNum() {
 	if ($("#cat_num").val()!=''){
@@ -283,27 +188,6 @@ function incCatNum() {
 		);
 	}
 }
-function MSBBirdDefault () {
-	if ($("#other_id_num_type_1").val()==''){
-		$("#other_id_num_type_1").val('collector number');
-	}
-	if ($("#other_id_num_type_2").val()==''){
-		$("#other_id_num_type_2").val('preparator number');
-	}
-	var d='Cat## <span onclick="incCatNum()" class="likeLink">++</span>';
-	$("#catNumLbl").html(d);
-	
-	
-	
-	//catNumSeq();
-}
-function UAMFishDefault() {
-	$.each($("input[id^='part_condition_']"), function() {
-	     if ($("#" + this.id).val()==''){
-	    	 $("#" + this.id).val('unchecked');
-	     }
-	});
-}	
 function changeMode (mode) {
 	var status=$.trim($("#loadedMsgDiv").text());
 	if(status){
@@ -418,7 +302,8 @@ function customize(t) {
 	$("#popDiv").append(theFrame);
 }
 function msg(m,s){
-	if (s=='bad'){
+	if (s=='bad' || s=='wait'){
+                // add a styled bgDiv and animation for a wait state, if this stays up, it is bad.
 		if ($("#bgDiv").length==0){
 			var d='<div id="bgDiv" class="bgDiv"></div>';
 			$('body').append(d);
@@ -426,157 +311,411 @@ function msg(m,s){
 			$('body').append(im);
 		}
 	} else {
+                // e.g. s=='good'
 		$("#bgDiv").remove();
 		$("#loadingAnimation").remove();
 	}
 	$("#msg").removeClass().addClass(s).html(m);
 }
 function deleteThisRec () {
+	// should only available from edit mode
 	yesDelete = window.confirm('Are you sure you want to delete this record?');
 	if (yesDelete == true) {
-		msg('deleting record....','bad');
+		msg('deleting record....','wait');
+		collection_object_id=$("#collection_object_id").val();
 		$.getJSON("/component/Bulkloader.cfc",
 			{
 				method : "deleteRecord",
-				collection_object_id : $("#collection_object_id").val(),
-				returnformat : "json",
-				queryformat : 'column'
+				collection_object_id : collection_object_id,
+				returnformat : "json"
 			},
 			function(r) {
-				var o=r.DATA.OLDVALUE[0];
-				var n=r.DATA.NEXTVALUE[0];
-				$("#recCount").text(parseInt(parseInt($("#recCount").text())-1));
-				$("#selectbrowse option[value=" + o + "]").remove();
-				if(n){
-					msg('loading previous record....','bad');
-					loadRecord(n);
+				console.log(r);
+				if(r){
+					msg(r,'good');
 				} else {
-					alert('No other records found. Click OK to return to the start page.');
-					document.location=document.location;
+					console.log('r is not');
+					return false;
 				}
+				console.log('deleted ' + collection_object_id);
+				var nextID=$('#selectbrowse option:selected').next().val();
+				if (! nextID){
+					//console.log('going for previous');
+					var nextID=$('#selectbrowse option:selected').prev().val();
+					if (! nextID){
+						alert('Error loading new record. Select a new record in the dropdown, or close and re-open this form.');
+						msg('no record found','good');
+						return false;
+					}
+				}
+				console.log('going to ' + nextID);
+				$("#recCount").text(parseInt(parseInt($("#recCount").text())-1));
+				$("#selectbrowse option[value=" + collection_object_id + "]").remove();
+				$("#selectbrowse").val(nextID);
+				loadRecordEdit(nextID);
 			}
 		);
 	}
 }
-function saveNewRecord () {
+
+
+function saveNewRecord () { 
+	// tries to save whatever's in the screen to the bulkloader
+	// if success, just let them know it saved and move on to the next record
+	// if fail, force edit
+	// check that we've met all the restrictions imposed by collections, etc.
 	if (cleanup()) {
-		msg('saving....','bad');
-		$.getJSON("/component/Bulkloader.cfc",
-			{
-				method : "saveNewRecord",
-				q : $("#dataEntry").serialize(),
+		msg('saving....','wait');
+		$(".hasProbs").removeClass();
+		$.ajax({
+			url: "/component/Bulkloader.cfc",
+			type: "POST",
+			dataType: "json",
+	
+			data: {
+				method:  "saveNewRecord",
+				q: $('#dataEntry').serialize(),
 				returnformat : "json",
-				queryformat : 'column'
+				queryFormat : "column"
 			},
-			function(r) {
+			success: function(r) {
+				var pmode= 'enter';
 				var coid=r.DATA.COLLECTION_OBJECT_ID[0];
 				var status=r.DATA.RSLT[0];
+				$("#collection_object_id").val(coid);
 				if (status){
 					msg(status,'err');
 					$("#loadedMsgDiv").text(status).show();
-					changeMode('edit');
+					// dump the result into edit mode
+					loadedEditRecord();
 				} else {
-					$("#collection_object_id").val(coid);
 					msg('inserted ' + coid,'good');
 					var o='<option value="' + coid + '">' + coid + '</option>';
 					$("#selectbrowse").append(o);
 					$("#recCount").text(parseInt(parseInt($("#recCount").text())+1));
-					// test/increment customID after successful save
-					$.getJSON("/component/Bulkloader.cfc",
-						{
+					if ($('#autoinc').is(':checked')){
+						$.getJSON("/component/DataEntry.cfc",
+							{
 							method : "incrementCustomId",
 							cidType: $("#other_id_num_type_5").val(),
 							cidVal: $("#other_id_num_5").val(),
 							returnformat : "json",
-							queryformat : 'column'								
-						},
-						function(r) {
+							queryformat : 'column'	
+							},
+							function(r) {
 							if (r!='') {
 								$("#other_id_num_5").val(r);
 							}
-						}
-					);
+						});
+					
+					}
+					// switch to enter mode
+					$("#action").val('editMode');
+					changeMode('edit');
+					// reapple any customizations, etc.
 					setPagePrefs();
 				}
-			}
-		);
+		},
+		error: function (xhr, textStatus, errorThrown){
+		    // show error
+		    alert(errorThrown + 'The saveNewRecord error');
+		  }
+		});
 	}
 }
 function saveEditedRecord () {
+	// save edited - this happens only from edit and 
+	// returns only to edit
 	if (cleanup()) {
-		msg('saving....','bad');
-		$.getJSON("/component/Bulkloader.cfc",
-			{
-				method : "saveEdits",
+		msg('saving....','wait');
+		$.ajax({
+		    url: "/component/Bulkloader.cfc",
+		    dataType: "json",
+		    type: "POST",
+		    data: {
+				method: "saveEdits",
 				q : $("#dataEntry").serialize(),
 				returnformat : "json",
 				queryformat : 'column'
 			},
-			function(r) {
+			success: function( r ){
 				var coid=r.DATA.COLLECTION_OBJECT_ID[0];
 				var status=r.DATA.RSLT[0];
-				if (status) {
-					$("#loadedMsgDiv").text(status).show();
-					changeMode('edit');
-					msg(status,'err');
-				} else {
-					$("#loadedMsgDiv").text('').hide();
-					$("#collection_object_id").val(coid);
-					msg('updated ' + coid,'good');
-					changeMode('edit');
-				}
+				console.log('saveEditedRecord back with msg ' + status);
+				msg(status);
+				$("#loadedMsgDiv").text(status);
+				loadedEditRecord();
+			},
+			error: function( result, strError ){
+				alert('Error saving edits: ' + strError);
+				msg('record failed to load','good');
+				// turn on browse at least
+				$("#browseThingy").show();
+				return false;
 			}
-		);
+		});
 	}
 }
+
+function loadedEditRecord(){
+	// show errors and set the form up to deal with them if necessary
+	// used by saveEditedRecord and loadRecordEdit
+	// this function is NOT suitable for enter mode calls
+	//console.log('loadedEditRecord');
+	if ($("#collection_object_id").val()< "#MAXTEMPLATE"){
+		// one of the templates
+		//var loadedMsg='';
+		alert('edit template - bad');
+		return false;
+	} 
+	// make sure everything is on - override any user customizations	
+	$("div[id^='d_']").show();
+	var loadedMsg=$.trim($("#msg").text());
+	//console.log('loadedMsg='+loadedMsg);	
+	$(".hasProbs").removeClass();
+	//console.log('loadedMsg='+loadedMsg);
+	// make sure loaded isn't NULL for some reason
+	// this form cannot be used to set records to load
+	// just stop that and document if necessary
+	if ($("#loaded").val().length==0){
+		$("#loaded").val('waiting approval');
+	}
+	if(loadedMsg && loadedMsg != 'waiting approval'){
+		//console.log('loadedEditRecord+loadedMsg='+loadedMsg);
+		//$("#loadedMsgDiv").show();
+		var prob_array = loadedMsg.split(" ");
+		for (var loop=0; loop < prob_array.length; loop++) {
+			var thisSlice = prob_array[loop];
+			////console.log('thisSlice='+thisSlice);
+			var hasSpace = thisSlice.indexOf(" ");
+			if (hasSpace == -1) {
+				//console.log('trying....');
+				try {
+					//console.log('adding class to ' + thisSlice.toLowerCase());
+					$("#" + thisSlice.toLowerCase()).addClass('hasProbs');
+					//var theField = document.getElementById(thisSlice.toLowerCase());
+					//theField.addClass('hasProbs');
+				}
+				catch ( err ){// nothing, just ignore 
+					//console.log('caught: ' + err);
+				}
+			}
+		}
+		// don't let them leave until this is fixed
+		$("#dataEntryContainer").removeClass().addClass('isBadEdit');
+		$("#editMode").hide(); // Clone This Record
+		// ?? $("#pageTitle").show();
+		if ($("#ImAGod").val() != "yes"){
+			// let "god" users browse; force non-god users to fix their stuff
+			$("#browseThingy").hide();
+		}
+		
+		msg('record failed checks: ' + loadedMsg,'bad');
+	} else {
+		$("#dataEntryContainer").removeClass().addClass('isGoodEdit');
+		$("#editMode").show(); // Clone This Record
+		$("#browseThingy").show();
+		if ($("#selectbrowse").val()==$("#selectbrowse option:last").val()){
+			$("#nBrowse").hide();
+		} else {
+			$("#nBrowse").show();
+		}
+		if ($("#selectbrowse").val()==$("#selectbrowse option:first").val()){
+			$("#pBrowse").hide();
+		} else {
+			$("#pBrowse").show();
+		}
+		
+		// ?? $("#pageTitle").hide();	
+		 //Save This As A New Record
+		$("#enterMode").show(); // Edit Last Record		
+		//$("#loadedMsgDiv").hide();
+		msg('record loaded - passed checks','good');
+	}
+	//console.log('collection_object_id='+$("#collection_object_id").val());
+	$("#selectbrowse").val($("#collection_object_id").val());
+	// this is always off in edit mode
+	$("#enterMode").hide(); // Edit Last Record
+	$("#theNewButton").hide();
+	$("#theSaveButton").show(); // Save Edits/Delete Record
+	$("#customizeForm").hide(); //Save This As A New Record
+	// force attribute check
+	checkRequiredParts();
+	// set up edit URL
+	var theURL='/DataEntry.cfm?action=edit';
+	if ($("#ImAGod").val()=="yes"){
+		theURL+='&ImAGod=yes';
+	}
+	theURL+='&collection_object_id=' + $("#collection_object_id").val();
+}
+
+function checkRequiredParts(){
+   for (i=1;i<=12;i++){
+       if ($("#part_name_" + i) && $("#part_name_" + i).val().length>0){
+           $("#part_condition_" + i).addClass('reqdClr');
+           $("#part_lot_count_" + i).addClass('reqdClr');
+           $("#part_disposition_" + i).addClass('reqdClr');
+       } else {
+           $("#part_condition_" + i).removeClass('reqdClr');
+           $("#part_lot_count_" + i).removeClass('reqdClr');
+           $("#part_disposition_" + i).removeClass('reqdClr');
+       }
+   }
+}
+
+function loadRecordEdit (collection_object_id) {
+   //load a record in EDIT mode
+   msg('fetching data....','good');
+   $.getJSON("/component/Bulkloader.cfc",
+      {
+         method : "loadRecord",
+         collection_object_id : collection_object_id,
+         returnformat : "json",
+         queryformat : 'column'
+      },
+      function(r) {
+         var columns=r.COLUMNS;
+         for (i=0;i<columns.length;i++) {
+            var cName=columns[i];
+            var cVal=eval("r.DATA." + columns[i]);
+            var eName=cName.toLowerCase();
+            $("#" + eName).val(cVal);
+         }
+         $("#selectbrowse").val(r.DATA.COLLECTION_OBJECT_ID[0]);
+         $("#pBrowse").show();
+         $("#nBrowse").show();
+         if ($("#selectbrowse").val()==$("#selectbrowse option:last").val()){
+            $("#nBrowse").hide();
+         }
+         if ($("#selectbrowse").val()==$("#selectbrowse option:first").val()){
+            $("#pBrowse").hide();
+         }
+         // turn some form stuff on/off as appropriate
+         $("#customizeForm").show(); //Save This As A New Record
+         $("#dataEntryContainer").removeClass().addClass('isEnter');
+         $("#theNewButton").hide(); //Save This As A New Record
+         $("#theSaveButton").show(); // Save Edits/Delete Record
+         $("#browseThingy").show();
+         $("#editMode").show(); // Clone This Record, disjunct with edit last
+         $("#enterMode").hide(); // Edit last Record, disjunct with clone
+         msg('record ' + r.DATA.COLLECTION_OBJECT_ID[0] + ' loaded','good');
+      }
+   );
+}
+
+//load a record (using an existing record as a template) in INSERT mode
+function loadRecordEnter(collection_object_id){
+   //load a record in EDIT mode
+   msg('fetching data....','good');
+   $.getJSON("/component/Bulkloader.cfc",
+      {
+         method : "loadRecord",
+         collection_object_id : collection_object_id,
+         returnformat : "json",
+         queryformat : 'column'
+      },
+      function(r) {
+         var columns=r.COLUMNS;
+         for (i=0;i<columns.length;i++) {
+            var cName=columns[i];
+            var cVal=eval("r.DATA." + columns[i]);
+            var eName=cName.toLowerCase();
+            $("#" + eName).val(cVal);
+         }
+         $("#selectbrowse").val(r.DATA.COLLECTION_OBJECT_ID[0]);
+         $("#pBrowse").show();
+         $("#nBrowse").show();
+         if ($("#selectbrowse").val()==$("#selectbrowse option:last").val()){
+            $("#nBrowse").hide();
+         }
+         if ($("#selectbrowse").val()==$("#selectbrowse option:first").val()){
+            $("#pBrowse").hide();
+         }
+         // default stuff for new records
+         $("#enteredby").val($("#sessionusername").val());
+         $("#other_id_num_type_5").val($("#sessioncustomotheridentifier").val());
+         $("#loaded").val('waiting approval');
+         // turn some form stuff on/off as appropriate
+         $("#customizeForm").show(); //Save This As A New Record
+         $("#dataEntryContainer").removeClass().addClass('isEnter');
+         $("#theNewButton").show(); //Save This As A New Record
+         $("#theSaveButton").hide(); // Save Edits/Delete Record
+         $("#browseThingy").hide();
+         $("#editMode").hide(); // Clone This Record, disjunct with edit last
+         $("#enterMode").show(); // Edit last Record, disjunct with clone
+         msg('record ' + r.DATA.COLLECTION_OBJECT_ID[0] + ' loaded','good');
+      }
+   );
+}
+
 function editThis(){
 	yesChange = window.confirm('You will lose any unsaved changes. Continue?');
 	if (yesChange == true) {
-		loadRecord($("#collection_object_id").val());
+		loadRecordEdit($("#collection_object_id").val());
 		$("#selectbrowse").val($("#collection_object_id").val());
 		changeMode('edit');
 	}
 }
-function browseTo(dir){
+
+function editLast() {
+	//find the last record entered by the current user and load it for edit
+	yesChange = window.confirm('You will lose any unsaved changes to this record. Continue?');
+	if (yesChange == true) {
+		$.getJSON("/component/Bulkloader.cfc",
+			{
+				method : "my_last_record",
+				returnformat : "plain",
+			},
+			function(r) {
+				loadRecordEdit(r);
+				//$("#selectbrowse").val(r);
+			}	
+		);
+	}
+}
+
+// Load the previous or next record in the current recordset in edit mode.
+function browseTo(direction){
 	var ix = $("#selectbrowse").attr( "selectedIndex" );	
-	if (dir=='next'){
+	console.log('ix='+ix);
+	if (direction=='next'){
 		ix=parseInt(parseInt(ix)+1);
 	} else {
 		ix=parseInt(parseInt(ix)-1);
 	}
 	var c = $("#selectbrowse").find("option:eq(" + ix +")" ).val();
-	loadRecord(c);	
+	loadRecordEdit(c);	
 }
-function loadRecord (collection_object_id) {
-	msg('fetching data....','bad');
-	$.getJSON("/component/Bulkloader.cfc",
+
+function copyBeganEnded() {
+	$("#ended_date").val($("#began_date").val());
+}
+
+function isValidISODate(val) {
+	jQuery.getJSON("/component/DataEntry.cfc",
 		{
-			method : "loadRecord",
-			collection_object_id : collection_object_id,
+			method : "isValidISODate",
+			datestring : val,
 			returnformat : "json",
 			queryformat : 'column'
 		},
-		function(r) {
-			var columns=r.COLUMNS;
-			for (i=0;i<columns.length;i++) {
-				var cName=columns[i];
-				var cVal=eval("r.DATA." + columns[i]);
-				var eName=cName.toLowerCase();
-				$("#" + eName).val(cVal);
-			}
-			$("#selectbrowse").val(r.DATA.COLLECTION_OBJECT_ID[0]);
-			$("#pBrowse").show();
-			$("#nBrowse").show();
-			if ($("#selectbrowse").val()==$("#selectbrowse option:last").val()){
-				$("#nBrowse").hide();
-			}
-			if ($("#selectbrowse").val()==$("#selectbrowse option:first").val()){
-				$("#pBrowse").hide();
-			}
-			msg('record ' + r.DATA.COLLECTION_OBJECT_ID[0] + ' loaded','good');
+		function(result){
+			return result;
 		}
 	);
 }
+
+function loadRecord (collection_object_id) {
+        console.log('loadRecord ' + collection_object_id );
+        if($("#action").val()=='enter') {
+                loadRecordEnter(collection_object_id);
+        } else if($("#action").val()=='edit') {
+                loadRecordEdit(collection_object_id);
+        } else { 
+           alert("Error: DEAjax.loadRecord() was invoked without an action.")
+        }
+}
+
 function copyVerbatim(str){
 	$.getJSON("/component/functions.cfc",
 		{
