@@ -1,3 +1,4 @@
+<cfset usealternatehead="DataEntry">
 <cfinclude template="/includes/_header.cfm">
 <div id="msg"></div>
 <div><!--- spacer ---></div>
@@ -1488,6 +1489,77 @@ Some Totally Random String Data .....
 								<input type="text" name="part_remark_#i#" id="part_remark_#i#"
 									value="#evaluate("data.part_remark_" & i)#" size="40">
 							</td>
+		                    <!---START Part Attribute Stuff --->
+			                <td>
+			                    <a id="showDialog_#i#">Edit Part Attributes</a>
+			                       <script type='text/javascript'>
+			                         $(function() {
+			                            $('##dialog_#i#').dialog({
+			                                autoOpen: false,
+			                                minWidth: 600,
+			                                minHeight: 350,
+			                                buttons: [
+			                                   {
+			                                      text: "Ok",
+			                                      icons: {
+			                                         primary: "ui-icon-heart"
+			                                      },
+			                                      click: function() {
+			                                         $( this ).dialog( "close" );
+			                                      }
+			                                   }
+			                                ]
+			                             });
+			                         });
+
+			                         $("##showDialog_#i#").click(function(event) {
+			                             event.preventDefault();
+			                             $("##dialog_#i#_head").html("Part #i# " + $("##part_name_#i#").val() + $("##preserv_method_#i#").val() );
+			                             $( "##dialog_#i#" ).dialog( "open" );
+			                         });
+
+			                       </script>
+			                   <div id="dialog_#i#" title="Attributes for Part #i# #tpn# #tprm#">
+			                   <div id="dialog_#i#_head">Part #i# #tpn# #tprm#</div>
+			                   <cfloop from="1" to="4" index="j">
+			                      <cfset pan=evaluate("data.part_" & i & "_att_name_" & j)>
+			                        <div class="div1">
+			                        <ul class="atts">
+			                        <li><span>Attribute #j#</span>
+			                        <input class="part_at" type="text" name="part_#i#_att_name_#j#" id="part_#i#_att_name_#j#" value="#pan#" size="25" onkeypress="return noenter(event);"><input type="hidden" name="step2" value="yes">
+			                        </li>
+			                         <cfset pav=evaluate("data.part_" & i & "_att_val_" & j)>
+			                         <li>
+			                         <span>Value #j#</span>
+			                         <input class="part_at" type="text" name="part_#i#_att_val_#j#" id="part_#i#_att_val_#j#" value="#pav#" size="25" onkeypress="return noenter(event);">
+			                         </li>
+			                         <cfset pau=evaluate("data.part_" & i & "_att_units_" & j)>
+			                         <li>
+			                         <span>Units #j#</span>
+			                         <input class="part_at" type="text" name="part_#i#_att_units_#j#" id="part_#i#_att_units_#j#" value="#pau#" size="25" onkeypress="return noenter(event);">
+			                         </li>
+			                         <cfset pad=evaluate("data.part_" & i & "_att_detby_" & j)>
+			                         <li>
+			                         <span>Det. By #j#</span>
+			                         <input class="part_at" type="text" name="part_#i#_att_detby_#j#" id="part_#i#_att_detby_#j#" value="#pad#" size="25" onkeypress="return noenter(event);">
+			                         </li>
+			                         <cfset pam=evaluate("data.part_" & i & "_att_madedate_" & j)>
+			                         <li>
+			                         <span>Made Date #j#</span>
+			                         <input class="part_at" type="text" name="part_#i#_att_madedate_#j#" id="part_#i#_att_madedate_#j#" value="#pam#" size="25" onkeypress="return noenter(event);">
+			                         </li>
+			                          <cfset par=evaluate("data.part_" & i & "_att_rem_" & j)>
+			                          <li>
+			                         <span>Remark #j#</span>
+			                         <input class="part_at" type="text" name="part_#i#_att_rem_#j#" id="part_#i#_att_rem_#j#" value="#par#" size="25" onkeypress="return noenter(event);">
+			                         </li>
+			                         </ul>
+			                         </div>
+			                      </cfloop>
+			                      </div><!--- Popup attribute Dialog --->
+
+			                 </td>
+		                     <!---END Part Attribute stuff --->
 						</tr>
 					</cfloop>
 				</table>

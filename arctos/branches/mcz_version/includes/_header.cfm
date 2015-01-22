@@ -1,16 +1,23 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
-	<cfinclude template="/includes/alwaysInclude.cfm">
+    <cfif isdefined("usealternatehead") and #usealternatehead# eq "image">
+      <cfinclude template="/includes/imageInclude.cfm">
+    <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">
+      <cfinclude template="/includes/DataEntryInclude.cfm">
+    <cfelse>
+	  <!--- Default elements to be included at the top of the html head --->
+      <cfinclude template="/includes/alwaysInclude.cfm">
+    </cfif>
 	<cfif not isdefined("session.header_color")>
 		<cfset setDbUser()>
 	</cfif>
 	<script language="javascript" type="text/javascript">
-		jQuery(document).ready(function(){ 
-	        jQuery("ul.sf-menu").supersubs({ 
+		jQuery(document).ready(function(){
+	        jQuery("ul.sf-menu").supersubs({
 	            minWidth:    12,
 	            maxWidth:    27,
 	            extraWidth:  1
-	        }).superfish({ 
+	        }).superfish({
 	            delay:       600,
 	            animation:   {opacity:'show',height:'show'},
 	            speed:       0,
@@ -34,7 +41,7 @@
 		<body>
 		<noscript>
 			<div class="browserCheck">
-				JavaScript is turned off in your web browser. Please turn it on to take full advantage of Arctos, or 
+				JavaScript is turned off in your web browser. Please turn it on to take full advantage of Arctos, or
 				try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option.
 			</div>
 		</noscript>
@@ -65,14 +72,14 @@
 										</span>
 									</a>
 								</td>
-							</tr>	
+							</tr>
 							<tr>
 								<td colspan="2" id="creditCell">
 									<span  class="hdrCredit">
 										#session.header_credit#
 									</span>
 								</td>
-							</tr>		 
+							</tr>
 						</table>
 					</td>
 				</tr>
@@ -104,7 +111,7 @@
 									<a target="_top" href="##" onClick="getDocs('index')">Help</a> ~&nbsp;
 								</td>
 								<td>
-									<input type="text" name="username" title="Username" value="Username" size="12" 
+									<input type="text" name="username" title="Username" value="Username" size="12"
 										class="loginTxt" onfocus="if(this.value==this.title){this.value=''};">
 								</td>
 								<td>
@@ -115,7 +122,7 @@
 								<td colspan="2" align="center">
 									<div class="loginTxt" style="padding-top:3px;">
 										<input type="submit" value="Log In" class="smallBtn">
-										or	
+										or
 										<input type="button" value="Create Account" class="smallBtn"
 											onClick="logIn.action.value='newUser';submit();">
 									</div>
@@ -148,9 +155,9 @@
 						<cfset r = replace(session.roles,",","','","all")>
 						<cfset r = "'#r#'">
 						<cfquery name="roles" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
-							select form_path from cf_form_permissions 
+							select form_path from cf_form_permissions
 							where upper(role_name) IN (#ucase(preservesinglequotes(r))#)
-							minus select form_path from cf_form_permissions 
+							minus select form_path from cf_form_permissions
 							where upper(role_name)  not in (#ucase(preservesinglequotes(r))#)
 						</cfquery>
 						<cfset formList = valuelist(roles.form_path)>
@@ -208,7 +215,7 @@
 											<li><a target="_top" href="/Locality.cfm?action=findCO">Find Event</a></li>
 											<li><a target="_top" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a></li>
 										</ul>
-									</li>			
+									</li>
 								</cfif>
 									<li><a target="_top" href="##">Agents</a>
 										<ul>
@@ -235,14 +242,14 @@
 												<li><a target="_top" href="/batchScan.cfm">Batch Scan</a></li>
 												<li><a target="_top" href="/labels2containers.cfm">Label>Container</a></li>
 												<li><a target="_top" href="/part2container.cfm">Object+BC>>Container</a></li>
-											</cfif>	
+											</cfif>
 											<cfif listfind(formList,"/EditContainer.cfm")>
 												<li><a target="_top" href="/LoadBarcodes.cfm">Upload Scan File</a></li>
 												<li><a target="_top" href="/EditContainer.cfm?action=newContainer">Create Container</a></li>
 												<li><a target="_top" href="/CreateContainersForBarcodes.cfm">Create Container Series</a></li>
 												<li><a target="_top" href="/SpecimenContainerLabels.cfm">Clear Part Flags</a></li>
 											</cfif>
-												
+
 										</ul>
 									</li>
 								</cfif>
@@ -287,7 +294,7 @@
 											<li><a target="_top" href="/Admin/redirect.cfm">Redirects</a></li>
 										</ul>
 									</li>
-								</cfif>		
+								</cfif>
 							</ul>
 						<li><a target="_top" href="##">Manage Arctos</a>
 							<ul>
@@ -331,7 +338,7 @@
 									<li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
 									<li><a target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a></li>
 									<li><a target="_top" href="/tools/downloadData.cfm">Download Tables</a></li>
-									<li><a target="_top" href="/tools/access_report.cfm">Oracle Roles</a></li>									
+									<li><a target="_top" href="/tools/access_report.cfm">Oracle Roles</a></li>
 				                    <cfif listfind(formList,"/tools/userSQL.cfm")>
 									    <li><a target="_top" href="/tools/userSQL.cfm">Write SQL</a></li>
 				                    </cfif>
@@ -370,13 +377,13 @@
                                               <ul>
                                                 <cfscript>
 							serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
-						</cfscript> 
+						</cfscript>
                                                 <cfif serverName contains "harvard.edu">
 						   <li><a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
                                                 </cfif>
 						<li><a target="_blank" href="http://arctosdb.wordpress.com">About Arctos</a></li>
                                               </ul>
-					</li>	
+					</li>
 				</ul>
 			</div>
 		</div><!--- end header div --->
