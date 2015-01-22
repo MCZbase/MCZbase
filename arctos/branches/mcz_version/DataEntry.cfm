@@ -391,7 +391,10 @@ Some Totally Random String Data .....
 								<span class="f11a">Accn</span>
 								<input type="text" name="accn" value="#accn#" size="13" class="reqdClr" id="accn" onchange="isGoodAccn();">
 								<span id="customizeForm" class="infoLink" onclick="customize()">[ customize form ]</span>
-								<!---span class="f11a"><input type="checkbox" name="mask_record" value="#mask_record#" <cfif len(#mask_record#) GT 0>checked</cfif>>mask record</input></span--->
+                                <input type="hidden" name="mask_record" value="0" />
+                                <span class="f11a">
+                                    <input type="checkbox" name="mask_record" value="1" <cfif #mask_record# EQ "1">checked</cfif>>mask record</input>
+                                </span>
 							</td>
 						</tr>
 					</table><!---------------------------------- / cat item IDs ---------------------------------------------->
@@ -1439,6 +1442,7 @@ Some Totally Random String Data .....
 									onkeypress="return noenter(event);">
 							</td>
 							<td>
+								<cfset tprm=evaluate("data.preserv_method_" & i)>
 								<select id="preserv_method_#i#" name="preserv_method_#i#" <cfif i is 1>class="reqdClr"</cfif>>
 									<option value=""></option>
 									<cfloop query="ctPresMeth">
