@@ -72,3 +72,39 @@ input:focus, textarea:focus, select:focus {
 	border:1px solid red;
 	font-size:small;
 }
+/*** Below: Used for Part Attribute button and popup  ***/
+input.part_at {
+        width: 83px;
+        float: left;
+        display: inline;
+}
+.div1 ul {
+        width: 560px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+}
+.div1 ul li {
+        display: inline;
+        font-size: 10px;
+        float: left;
+        width: 84px;
+        margin: 2px 9px 5px 0px;
+}
+a.part_att_btn {
+        font-size: 12px;
+        font-weight: bold;
+        color: #666;
+        background-color:#a9c9fd;
+        display: block;
+        padding: 1px 5px;
+        margin: 3px 5px;
+        border: 1px solid #666;
+        cursor:pointer;
+        text-align:center;
+        width: auto;
+}
+table.bottom_band {
+        padding-bottom: 5px;
+}
+/*** Above: Used for Part Attribute button and popup  ***/
