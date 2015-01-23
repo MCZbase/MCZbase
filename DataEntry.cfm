@@ -1491,13 +1491,14 @@ Some Totally Random String Data .....
 							</td>
 		                    <!---START Part Attribute Stuff --->
 			                <td>
-			                    <a id="showDialog_#i#">Edit Part Attributes</a>
+			                    <a class="part_att_btn" id="showDialog_#i#">Edit Part Attributes</a>
 			                       <script type='text/javascript'>
 			                         $(function() {
 			                            $('##dialog_#i#').dialog({
 			                                autoOpen: false,
 			                                minWidth: 600,
 			                                minHeight: 350,
+			                                appendTo: "form##dataEntry",
 			                                buttons: [
 			                                   {
 			                                      text: "Ok",
