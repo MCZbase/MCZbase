@@ -53,6 +53,12 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li>lot_count_modifier</li>
 	<li style="color:red">lot_count</li>
 	<li>current_remarks</li>
+		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
+			<ul>
+				<li>if use_existing = 0 put the remarks to be added with the new part here</li>
+				<li>if use_existing = 1 put the remarks to be matched to find the existing part here</li>
+			</ul>
+		</span>
 	<li style="color:red">use_existing
 		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
 			<ul>
@@ -77,6 +83,12 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li>change_container_type</li>
 	<li style="color:red">condition</li>
 	<li>append_to_remarks</li>
+		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
+			<ul>
+				<li>if use_existing = 0 this field is ignored</li>
+				<li>if use_existing = 1 anything in this field will be appended tothe current remarks</li>
+			</ul>
+		</span>
 </ul>
 
 
@@ -264,7 +276,7 @@ validate
 						collection.collection_cde = '#collection_cde#' and
 						collection.institution_acronym = '#institution_acronym#' and
 						other_id_type = '#other_id_type#' and
-						other_id_num = '#other_id_number#'
+						display_value = '#other_id_number#'
 				</cfquery>
 			</cfif>
 			<cfif #collObj.recordcount# is 1>
