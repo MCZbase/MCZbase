@@ -5,7 +5,7 @@
 		var ar = val.split(',');
 		var startAt = ar[0];
 		var goTo = ar[1];
-		document.location='TaxonomyResults.cfm?startAt=' + startAt + "&goTo=" + goTo; 
+		document.location='TaxonomyResults.cfm?startAt=' + startAt + "&goTo=" + goTo;
 	}
 	jQuery(".browseLink").live('click', function(e){
 		var bgDiv = document.createElement('div');
@@ -45,7 +45,7 @@
 </cfif>
 <cfif not isdefined("startAt") or len(#startAt#) is 0>
 <cfset stringOfStuffToClean = "">
-		<cfset SQL = "select * from (SELECT 
+		<cfset SQL = "select * from (SELECT
 				taxonomy.TAXON_NAME_ID,
 				phylum,
 				PHYLCLASS,
@@ -67,7 +67,13 @@
 				INFRASPECIFIC_RANK,
 				kingdom,
 				SUPERFAMILY,
+				SUBPHYLUM,
 				SUBCLASS,
+				INFRAORDER,
+				SUPERORDER,
+				DIVISION,
+				SUBDIVISION,
+				SUPERCLASS,
 				TAXON_REMARKS,
 				NOMENCLATURAL_CODE,
 				INFRASPECIFIC_AUTHOR,
@@ -81,7 +87,7 @@
 		</cfif>
 		<cfif isdefined("source_authority") AND len(source_authority) gt 0>
 			<CFSET SQL = "#SQL# AND source_authority = '#source_authority#'">
-		</cfif>		
+		</cfif>
 		<cfif isdefined("taxon_status") AND len(taxon_status) gt 0>
 			<CFSET SQL = "#SQL# AND taxon_status = '#taxon_status#'">
 		</cfif>
@@ -122,9 +128,27 @@
 			</cfif>
 			<cfset titleTerms=listappend(titleTerms,'#phylum#')>
 		</cfif>
+		<cfif isdefined("division") AND len(division) gt 0>
+			<cfif left(division,1) is "=">
+				<CFSET SQL = "#SQL# AND upper(division) = '#ucase(right(division,len(division)-1))#'">
+			<cfelse>
+				<CFSET SQL = "#SQL# AND upper(division) LIKE '%#ucase(division)#%'">
+			</cfif>
+			<cfset titleTerms=listappend(titleTerms,'#division#')>
+		</cfif>
+		<cfif isdefined("subdivision") AND len(subdivision) gt 0>
+			<cfif left(subdivision,1) is "=">
+				<CFSET SQL = "#SQL# AND upper(subdivision) = '#ucase(right(subdivision,len(subdivision)-1))#'">
+			<cfelse>
+				<CFSET SQL = "#SQL# AND upper(subdivision) LIKE '%#ucase(subdivision)#%'">
+			</cfif>
+			<cfset titleTerms=listappend(titleTerms,'#subdivision#')>
+		</cfif>
 		<cfif isdefined("species") AND len(species) gt 0>
 			<cfif left(species,1) is "=">
 				<CFSET SQL = "#SQL# AND upper(species) = '#ucase(right(species,len(species)-1))#'">
+			<cfelseif trim(ucase(species)) is "NULL">
+				<CFSET SQL = "#SQL# AND species is null">
 			<cfelse>
 				<CFSET SQL = "#SQL# AND upper(species) LIKE '%#ucase(species)#%'">
 			</cfif>
@@ -155,6 +179,14 @@
 			</cfif>
 			<cfset titleTerms=listappend(titleTerms,'#kingdom#')>
 		</cfif>
+		<cfif isdefined("superclass") AND len(superclass) gt 0>
+			<cfif left(superclass,1) is "=">
+				<CFSET SQL = "#SQL# AND upper(superclass) = '#ucase(right(superclass,len(superclass)-1))#'">
+			<cfelse>
+				<CFSET SQL = "#SQL# AND upper(superclass) LIKE '%#ucase(superclass)#%'">
+			</cfif>
+			<cfset titleTerms=listappend(titleTerms,'#superclass#')>
+		</cfif>
 		<cfif isdefined("phylclass") AND len(phylclass) gt 0>
 			<cfif left(phylclass,1) is "=">
 				<CFSET SQL = "#SQL# AND upper(phylclass) = '#ucase(right(phylclass,len(phylclass)-1))#'">
@@ -162,6 +194,14 @@
 				<CFSET SQL = "#SQL# AND upper(phylclass) LIKE '%#ucase(phylclass)#%'">
 			</cfif>
 			<cfset titleTerms=listappend(titleTerms,'#phylclass#')>
+		</cfif>
+		<cfif isdefined("superorder") AND len(superorder) gt 0>
+			<cfif left(superorder,1) is "=">
+				<CFSET SQL = "#SQL# AND upper(superorder) = '#ucase(right(superorder,len(superorder)-1))#'">
+			<cfelse>
+				<CFSET SQL = "#SQL# AND upper(superorder) LIKE '%#ucase(superorder)#%'">
+			</cfif>
+			<cfset titleTerms=listappend(titleTerms,'#superorder#')>
 		</cfif>
 		<cfif isdefined("phylorder") AND len(phylorder) gt 0>
 			<cfif left(phylorder,1) is "=">
@@ -178,6 +218,14 @@
 				<CFSET SQL = "#SQL# AND upper(suborder) LIKE '%#ucase(suborder)#%'">
 			</cfif>
 			<cfset titleTerms=listappend(titleTerms,'#suborder#')>
+		</cfif>
+		<cfif isdefined("infraorder") AND len(infraorder) gt 0>
+			<cfif left(infraorder,1) is "=">
+				<CFSET SQL = "#SQL# AND upper(infraorder) = '#ucase(right(infraorder,len(infraorder)-1))#'">
+			<cfelse>
+				<CFSET SQL = "#SQL# AND upper(infraorder) LIKE '%#ucase(infraorder)#%'">
+			</cfif>
+			<cfset titleTerms=listappend(titleTerms,'#infraorder#')>
 		</cfif>
 		<cfif isdefined("family") AND len(family) gt 0>
 			<cfif left(family,1) is "=">
@@ -210,6 +258,14 @@
 				<CFSET SQL = "#SQL# AND upper(subgenus) LIKE '%#ucase(subgenus)#%'">
 			</cfif>
 			<cfset titleTerms=listappend(titleTerms,'#subgenus#')>
+		</cfif>
+		<cfif isdefined("subphylum") AND len(subphylum) gt 0>
+			<cfif left(subphylum,1) is "=">
+				<CFSET SQL = "#SQL# AND upper(subphylum) = '#ucase(right(subphylum,len(subphylum)-1))#'">
+			<cfelse>
+				<CFSET SQL = "#SQL# AND upper(subphylum) LIKE '%#ucase(subphylum)#%'">
+			</cfif>
+			<cfset titleTerms=listappend(titleTerms,'#subphylum#')>
 		</cfif>
 		<cfif isdefined("author_text") AND len(author_text) gt 0>
 			<cfif left(author_text,1) is "=">
@@ -244,10 +300,19 @@
 		</cfif>
 		<CFSET SQL = "#SQL# group by
 			taxonomy.TAXON_NAME_ID,
+				kingdom,
 				phylum,
+				SUBPHYLUM,
+				DIVISION,
+				SUBDIVISION,
+				SUPERCLASS,
 				PHYLCLASS,
+				SUBCLASS,
+				SUPERORDER,
 				PHYLORDER,
 				SUBORDER,
+				INFRAORDER,
+				SUPERFAMILY,
 				FAMILY,
 				SUBFAMILY,
 				GENUS,
@@ -262,9 +327,6 @@
 				AUTHOR_TEXT,
 				TRIBE,
 				INFRASPECIFIC_RANK,
-				kingdom,
-				SUPERFAMILY,
-				SUBCLASS,
 				TAXON_REMARKS,
 				NOMENCLATURAL_CODE,
 				INFRASPECIFIC_AUTHOR,
@@ -334,7 +396,7 @@ Found #summary.cnt# records.
 			<option value="#bDispVal#,#dr#"
 					<cfif #bDispVal# is #startAt#> selected="selected" </cfif>>#bDispVal# - #eDispval#</option>
 			<!--- all records --->
-			<option 
+			<option
 					<cfif #startAt# is 1 and #goTo# is #summary.cnt#> selected="selected"</cfif>
 						value="1,#summary.cnt#">1 - #summary.cnt#</option>
 		</select>
@@ -350,10 +412,16 @@ Found #summary.cnt# records.
 		<th>Nomenclatural&nbsp;Code</th>
 		<th>Kingdom</th>
 		<th>Phylum</th>
+		<th>Subphylum</th>
+		<th>Division</th>
+		<th>Subdivision</th>
+		<th>Superclass</th>
 		<th>Class</th>
 		<th>Subclass</th>
+		<th>Superorder</th>
         <th>Order</th>
         <th>Suborder</th>
+		<th>Infraorder</th>
         <th>Superfamily</th>
         <th>Family</th>
 	    <th>Subfamily</th>
@@ -385,7 +453,7 @@ Found #summary.cnt# records.
 
 			<div class="submenu">
 				<ul>
-					<li><h2 
+					<li><h2
 							<cfif #VALID_CATALOG_TERM_FG# is 0> style="color:red;" </cfif>
 							onclick="document.location='TaxonomyDetails.cfm?&taxon_name_id=#taxon_name_id#';">
 								#display_name#
@@ -393,7 +461,7 @@ Found #summary.cnt# records.
 						<ul>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
 								<li>
-									<a target="_blank" href="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#">Edit</a>					
+									<a target="_blank" href="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#">Edit</a>
 								</li>
 							</cfif>
 							<li>
@@ -410,9 +478,9 @@ Found #summary.cnt# records.
 								<a href="http://en.wikipedia.org/wiki/Special:Search/#scientific_name#"
 									target="_blank">Wikipedia&nbsp;<img src="/images/linkOut.gif" border="0" alt="external link"></a>
 							</li>
-				
+
 						</ul>
-					</li> 
+					</li>
 				</ul>
 			</div>
 	<!---<ul
@@ -434,10 +502,16 @@ Found #summary.cnt# records.
 	<td>#nomenclatural_code#&nbsp;</td>
 	<td>#kingdom#&nbsp;</td>
 	<td><span class="browseLink" type="phylum" dval="#phylum#">#phylum#</span></td>
+	<td><span class="browseLink" type="subphylum" dval="#subphylum#">#subphylum#</span></td>
+	<td><span class="browseLink" type="division" dval="#division#">#division#</span></td>
+	<td><span class="browseLink" type="subdivision" dval="#subdivision#">#subdivision#</span></td>
+	<td><span class="browseLink" type="superclass" dval="#superclass#">#Superclass#</span></td>
 	<td><span class="browseLink" type="Phylclass" dval="#Phylclass#">#Phylclass#</span></td>
 	<td><span class="browseLink" type="subclass" dval="#subclass#">#subclass#</span></td>
+	<td><span class="browseLink" type="superorder" dval="#superorder#">#superorder#</span></td>
     <td><span class="browseLink" type="Phylorder" dval="#Phylorder#">#Phylorder#</span></td>
     <td><span class="browseLink" type="Suborder" dval="#Suborder#">#Suborder#</span></td>
+	<td><span class="browseLink" type="infraorder" dval="#infraorder#">#infraorder#</span></td>
     <td><span class="browseLink" type="superfamily" dval="#superfamily#">#superfamily#</span></td>
     <td><span class="browseLink" type="family" dval="#family#">#family#</span></td>
 	<td><span class="browseLink" type="Subfamily" dval="#Subfamily#">#Subfamily#</span></td>
@@ -446,7 +520,7 @@ Found #summary.cnt# records.
     <td><span class="browseLink" type="Subgenus" dval="#Subgenus#">#Subgenus#</span></td>
     <td><span class="browseLink" type="Species" dval="#Species#">#Species#</span></td>
     <td nowrap="nowrap"><span class="browseLink" type="author_text" dval="#author_text#">#author_text#</span></td>
-    <td>#infraspecific_rank#&nbsp;</td>	
+    <td>#infraspecific_rank#&nbsp;</td>
     <td><span class="browseLink" type="Subspecies" dval="#Subspecies#">#Subspecies#</span></td>
     <td nowrap="nowrap"><span class="browseLink" type="infraspecific_author" dval="#infraspecific_author#">#infraspecific_author#</span></td>
     <td nowrap="nowrap">#source_authority#&nbsp;</td>
@@ -455,5 +529,5 @@ Found #summary.cnt# records.
   </tr>
   <cfset i=i+1>
   </cfoutput>
-</table> 
+</table>
 <cfinclude template = "includes/_footer.cfm">
