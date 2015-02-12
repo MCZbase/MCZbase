@@ -161,6 +161,7 @@
 		<cfset sql = "#SQL# where collection_object_id = #collection_object_id#">
 		<cfset sql = replace(sql,"UPDATE bulkloader SET ,","UPDATE bulkloader SET ")>
 		<cftry>
+                        <cfset errorMessage="">
 			<cftransaction>
 				<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					#preservesinglequotes(sql)#
@@ -168,14 +169,21 @@
 				<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select #collection_object_id# collection_object_id, bulk_check_one(#collection_object_id#) rslt from dual
 				</cfquery>
+                                <cfset errorMessage = result.rslt>
 			</cftransaction>
 		<cfcatch>
 			<cfset result = querynew("collection_object_id,rslt")>
 			<cfset temp = queryaddrow(result,1)>
-			<cfset temp = QuerySetCell(result, "collection_object_id", collection_object_id, 1)>
-			<cfset temp = QuerySetCell(result, "rslt",  cfcatch.message & "; " &  cfcatch.detail, 1)>
+			<cfset temp = QuerySetCell(result, "collection_object_id", collection_object_id, 1)> 
+                        <cfset errorMessage = cfcatch.message & "; " & cfcatch.detail >
+			<cfset temp = QuerySetCell(result, "rslt", errorMessage, 1)>
 		</cfcatch>
 		</cftry>
+                <cfif len(#errorMessage#) EQ 0>
+                    <cfset errorMessage = "waiting approval">
+                </cfif>
+                <cfset sql="UPDATE bulkloader SET loaded = '#errorMessage#' where collection_object_id = #collection_object_id#">
+		<cfquery name="newld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">#preservesinglequotes(sql)#</cfquery>
 		<cfset out = SerializeJSON(result,true) >
 	    <cfoutput>#out#</cfoutput>
 </cffunction>

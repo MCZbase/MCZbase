@@ -1,3 +1,9 @@
+input {
+        width: auto;
+}
+input.reqdClr {
+        width: auto;
+}
 #loadingAnimation{
 	position:fixed;
 	top:50%;
@@ -15,8 +21,23 @@ label {
 .isGoodEdit {
 	background-color:#00CCCC;
 }
-.isBadEdit {
-	background-color:#FF6EC7;
+.isBadEdit, isBadEdit tr:nth-child(even) {
+        background-color: #FF6EC7;
+        background-color: #B58AA5;
+        background: #b58aa5; /* Old browsers */
+}
+.isBadEdit, isBadEdit tr:nth-child(odd) {
+        background: #b8d1f3;
+        background: #cecece;
+        background: #d5b9ca;
+        background: #b58aa5; /* Old browsers */
+        background: -moz-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(58%, #b58aa5), color-stop(100%, #d5b9ca)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); /* IE10+ */
+        background: linear-gradient(to bottom, #b58aa5 58%, #d5b9ca 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', endColorstr='#d5b9ca', GradientType=0 ); /* IE6-9 */
 }
 .isEnter {
 	border:none;
@@ -33,14 +54,23 @@ label {
 	border:2px solid black;
 	background-color:white;
 }
-.bad{color:red;}
-.good{color:green;}
+.bad{
+    color:red;
+}
+.good{
+    color:green;
+}
 input, select {
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:11px;
 	padding:0px;
 	margin:0px;
 }
+.firstOfRow {
+    float: left;
+    width: 100px;
+}
+
 .noShow {
 	display:none;
 }
@@ -71,6 +101,28 @@ input:focus, textarea:focus, select:focus {
 	text-align:center;
 	border:1px solid red;
 	font-size:small;
+}
+.f11b {
+        float: left;
+        padding-right: 1em;
+        padding-left: 1em;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        padding-right: 2px;
+        padding-top: 1em;
+}
+
+table.collector input.reqdClr {
+        width: 142px;
+}
+table.collector select.reqdClr {
+        width: 80px;
+}
+table.geotable select {
+        width: 110px;
+}
+textarea {
+        margin: 0 4px;
 }
 /*** Below: Used for Part Attribute button and popup  ***/
 input.part_at {
