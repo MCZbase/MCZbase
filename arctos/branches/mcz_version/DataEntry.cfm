@@ -1,7 +1,6 @@
 <cfset usealternatehead="DataEntry">
 <cfinclude template="/includes/_header.cfm">
 <div id="msg"></div>
-<div><!--- spacer ---></div>
 <!--- Set MAXTEMPLATE to the largest value of a collection_id that is used as bulkloader.collection_object_id as a template --->
 <!--- --->
 <cfset MAXTEMPLATE="14">
@@ -12,6 +11,7 @@
 <script type='text/javascript' src='/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js'></script>
 --->
 <script type='text/javascript' src='/includes/DEAjax.js'></script>
+<script type='text/javascript' language="javascript" src='/includes/internalAjax.js'></script>
 <cf_showMenuOnly>
 <!--cfinclude template="/includes/functionLib.cfm"-->
 <!---
@@ -54,6 +54,7 @@ Some Totally Random String Data .....
 <cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
 <!--------------------------------   default page    ---------------------------------------------------->
 <cfif action is "nothing">
+    <div class="welcome">
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from cf_dataentry_settings where username='#session.username#'
@@ -76,6 +77,7 @@ Some Totally Random String Data .....
 				select * from bulkloader where collection_object_id = #collection_id#
 			</cfquery>
 			<cfif isBl.recordcount is 0>
+                <!--- use this to set up DEFAULTS and "prime" the bulkloader ---->
 				<cfquery name="prime" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					insert into bulkloader (
 						collection_object_id,
@@ -107,7 +109,7 @@ Some Totally Random String Data .....
 				</cfquery>
 			</cfif>
 		</cfloop>
-		Welcome to the enter and edit unbulked data application, #session.username#
+		<h3>Welcome to the enter and edit unbulked data application,<br/>#session.username#</h3>
 		<ul>
 			<li>Green Screen: You are entering data to a new record.</li>
 			<li>Blue Screen: you are editing an unloaded record that you've previously entered.</li>
@@ -125,7 +127,7 @@ Some Totally Random String Data .....
 				collection_cde,
 				institution_acronym
 		</cfquery>
-		Begin at....<br>
+		<p>Begin at....</p>
 		<form name="begin" method="post" action="DataEntry.cfm">
 			<input type="hidden" name="action" value="editEnterData" />
 			<select name="collection_object_id" size="1">
@@ -146,6 +148,7 @@ Some Totally Random String Data .....
 							value="Enter Data"/>
 		</form>
 	</cfoutput>
+    </div>
 </cfif>
 <cfif action is "saveCust">
 	<cfdump var=#form#>
@@ -221,6 +224,9 @@ Some Totally Random String Data .....
 		<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	       	select collecting_source from ctcollecting_source order by collecting_source
 	    </cfquery>
+        <cfquery name="ctspecpart_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+               select attribute_type from ctspecpart_attribute_type order by attribute_type
+        </cfquery>
 	    <cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    	select e_or_w from ctew order by e_or_w
 	    </cfquery>
@@ -321,7 +327,6 @@ Some Totally Random String Data .....
 		<cfset idList=valuelist(whatIds.collection_object_id)>
 		<cfset currentPos = listFind(idList,data.collection_object_id)>
 		<cfif len(loadedMsg) gt 0>
-			<cfset loadedMsg = right(loadedMsg,len(loadedMsg) - 2)>
 			<cfset pageTitle = replace(loadedMsg,"::","","all")>
 		<cfelse>
 			<cfset pageTitle = "This record has passed all bulkloader checks!">
@@ -330,18 +335,6 @@ Some Totally Random String Data .....
 			You have group issues! You must be in a Data Entry group to use this form.
 			<cfabort>
 		</cfif>
-		<!----div id="splash"align="center">
-			<span style="background-color:##FF0000; font-size:large;">
-				Page Loading....
-			</span>
-		</div--->
-<!--- Splash Screen --->
-<!--- Initially displayed, turned off by javascript function changeMode()
-<div id="splash"align="center">
-	<span style="background-color:##FF0000; font-size:large;">
-		Page Loading....
-	</span>
-</div>--->
 		<form name="dataEntry" method="post" action="DataEntry.cfm" onsubmit="return cleanup(); return noEnter();" id="dataEntry">
 			<input type="hidden" name="action" value="" id="action">
 			<input type="hidden" name="nothing" value="" id="nothing"/><!--- trashcan for picks - don't delete --->
@@ -350,16 +343,16 @@ Some Totally Random String Data .....
 			<input type="hidden" name="institution_acronym" value="#institution_acronym#" id="institution_acronym">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#"  id="collection_object_id"/>
 			<input type="hidden" name="loaded" value="waiting approval"  id="loaded"/>
-			<table width="100%" cellspacing="0" cellpadding="0" id="theTable" style="display:show;"> <!--- whole page table --->
+            <table width="100%" cellspacing="0" cellpadding="0" id="theTable" style="display:show;height: auto; margin-top: 1em;">
+                <!--- whole page table --->
 				<tr>
 					<td colspan="2" style="border-bottom: 1px solid black; " align="center">
-						<div id="loadedMsgDiv">
-							#loadedMsg#
-						</div>
+						<div id="loadedMsgDiv">#loadedMsg#</div>
 					</td>
 				</tr>
 				<tr><td width="50%" valign="top"><!--- left top of page --->
-					<table cellpadding="0" cellspacing="0" class="fs"><!--- cat item IDs --->
+					<table cellpadding="0" cellspacing="0" class="fs">
+                        <!--- cat item IDs --->
 						<tr>
 							<td valign="top">
 								<div id="modeDisplayDiv"><cfif len(#loadedMsg#)gt 0>FIX<cfelse>#ucase(pMode)#</cfif></div>
@@ -398,8 +391,10 @@ Some Totally Random String Data .....
                                 </span>
 							</td>
 						</tr>
-					</table><!---------------------------------- / cat item IDs ---------------------------------------------->
-					<table cellpadding="0" cellspacing="0" class="fs"><!--- agents --->
+					</table>
+                    <!---------------------------------- / cat item IDs ---------------------------------------------->
+					<table cellpadding="0" cellspacing="0" class="fs">
+                        <!--- agents --->
 						<tr>
 							<td rowspan="99" valign="top">
 								<img src="/images/info.gif" border="0" onClick="getDocs('agent')" class="likeLink" alt="[ help ]">
@@ -450,8 +445,8 @@ Some Totally Random String Data .....
 								</td>
 							</tr>
 						</cfloop>
-					</table><!---- /other IDs ---->
-
+					</table>
+                    <!---- /other IDs ---->
 					<table cellpadding="0" cellspacing="0" class="fs">
 					    <!----- identification ----->
 						<tr>
@@ -1275,7 +1270,8 @@ Some Totally Random String Data .....
 												onkeypress="return noenter(event);">
 										</td>
 									</tr>
-								<cfelse><!--- maintain attributes 2-6 as hiddens to not break the JS --->
+								<cfelse>
+                                    <!--- maintain attributes 2-6 as hiddens to not break the JS --->
 									<cfloop from="2" to="6" index="i">
 										<input type="hidden" name="attribute_#i#" id="attribute_#i#" value="">
 										<input type="hidden" name="attribute_value_#i#"  id="attribute_value_#i#" value="">
@@ -1432,6 +1428,7 @@ Some Totally Random String Data .....
 						<th><span class="f11a">##</span></th>
 						<th><span class="f11a">Barcode</span></th>
 						<th><span class="f11a">Remark</span></th>
+                        <th colspan="7"><span class="f11a">Part Attributes</th>
 					</tr>
 					<cfloop from="1" to="12" index="i">
 						<tr id="d_part_name_#i#">
@@ -1522,7 +1519,7 @@ Some Totally Random String Data .....
 			                       </script>
 			                   <div id="dialog_#i#" title="Attributes for Part #i# #tpn# #tprm#">
 			                   <div id="dialog_#i#_head">Part #i# #tpn# #tprm#</div>
-			                   <cfloop from="1" to="4" index="j">
+			                   <cfloop from="1" to="8" index="j">
 			                      <cfset pan=evaluate("data.part_" & i & "_att_name_" & j)>
 			                        <div class="div1">
 			                        <ul class="atts">
@@ -1568,7 +1565,7 @@ Some Totally Random String Data .....
 		</tr>
 		<tr>
 		<td colspan="2">
-			<table cellpadding="0" cellspacing="0" width="100%" style="background-color:##339999">
+			<table cellpadding="0" cellspacing="0" width="100%" class="bottom_band">
 				<tr>
 					<td width="16%">
 						<span id="theNewButton" style="display:none;">
@@ -1581,13 +1578,13 @@ Some Totally Random String Data .....
 							<input type="button"
 								value="Edit Last Record"
 								class="lnkBtn"
-								onclick="editThis()">
+								onclick="editThis();">
 						</span>
 						<span id="editMode" style="display:none">
 								<input type="button"
 									value="Clone This Record"
 									class="lnkBtn"
-									onclick="createClone()">
+									onclick="createClone();">
 						</span>
 					</td>
 					<td width="16%" nowrap="nowrap">
@@ -1595,22 +1592,6 @@ Some Totally Random String Data .....
 							<input type="button" value="Save Edits" class="savBtn" onclick="saveEditedRecord();" />
 							<input type="button" value="Delete Record" class="delBtn" onclick="deleteThisRec();" />
 						</span>
-					</td>
-					<!---
-					<td width="16%">
-						<cfif institution_acronym is "MSB" and collection_cde is "Bird" and pMode is "enter">
-							<span id="clearDefault">
-								<input type="button" value="Clear All" class="delBtn" onclick="clearAll();" />
-							</span>
-							<script language="javascript" type="text/javascript">
-								catNumSeq();
-							</script>
-						<cfelse>
-							<span id="clearDefault">
-								<input type="button" value="Clear Defaults" class="delBtn" onclick="setNewRecDefaults();" />
-							</span>
-						</cfif>
-						--->
 					</td>
 					<td width="16%">
 						<a href="userBrowseBulkedGrid.cfm">[ JAVA table ]</a>
