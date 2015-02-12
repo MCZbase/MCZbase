@@ -189,11 +189,21 @@ function incCatNum() {
 	}
 }
 function changeMode (mode) {
+        console.log(mode);
 	var status=$.trim($("#loadedMsgDiv").text());
+        if (status=='null') { status = null; }  
 	if(status){
 		// got an error - force them to fix it
 		mode='edit';
-	}
+	} else { 
+	   status=$.trim($("#loaded").val());
+           if (status=='waiting approval') { status = null; }  
+           if (status!=null) { 
+	      $("#loadedMsgDiv").text(status);
+           }
+        }
+        console.log(status);
+        console.log(mode);
 	$(".hasProbs").removeClass();
 	if (mode == 'edit') {
 		$("#customizeForm").hide(); //Save This As A New Record
@@ -201,6 +211,7 @@ function changeMode (mode) {
 		$("#theSaveButton").show(); // Save Edits/Delete Record
 		$("#enterMode").hide(); // Edit Last Record
 		if(status){
+console.log('a');
 			$('#modeDisplayDiv').text("FIX RECORD");
 			// don't let them leave until this is fixed
 			$("#browseThingy").hide();
@@ -209,6 +220,7 @@ function changeMode (mode) {
 			$("#pageTitle").show();	
 			highlightErrors(status);
 		} else {
+console.log('b');
 			$('#modeDisplayDiv').text("EDIT EXISTING RECORD");
 			$("#browseThingy").show();
 			$("#editMode").show(); // Clone This Record
@@ -360,6 +372,7 @@ function deleteThisRec () {
 
 
 function saveNewRecord () { 
+        console.log('saveNewRecord');
 	// tries to save whatever's in the screen to the bulkloader
 	// if success, just let them know it saved and move on to the next record
 	// if fail, force edit
@@ -442,7 +455,7 @@ function saveEditedRecord () {
 				var coid=r.DATA.COLLECTION_OBJECT_ID[0];
 				var status=r.DATA.RSLT[0];
 				console.log('saveEditedRecord back with msg ' + status);
-				msg(status);
+				msg(status,'done');
 				$("#loadedMsgDiv").text(status);
 				loadedEditRecord();
 			},
@@ -458,6 +471,7 @@ function saveEditedRecord () {
 }
 
 function loadedEditRecord(){
+        console.log('loadedEditRecord()');
 	// show errors and set the form up to deal with them if necessary
 	// used by saveEditedRecord and loadRecordEdit
 	// this function is NOT suitable for enter mode calls
@@ -480,8 +494,9 @@ function loadedEditRecord(){
 	if ($("#loaded").val().length==0){
 		$("#loaded").val('waiting approval');
 	}
+        console.log(loadedMsg);
 	if(loadedMsg && loadedMsg != 'waiting approval'){
-		//console.log('loadedEditRecord+loadedMsg='+loadedMsg);
+		console.log('true loadedEditRecord+loadedMsg='+loadedMsg);
 		//$("#loadedMsgDiv").show();
 		var prob_array = loadedMsg.split(" ");
 		for (var loop=0; loop < prob_array.length; loop++) {
@@ -491,30 +506,18 @@ function loadedEditRecord(){
 			if (hasSpace == -1) {
 				//console.log('trying....');
 				try {
-					//console.log('adding class to ' + thisSlice.toLowerCase());
+					console.log('adding class to ' + thisSlice.toLowerCase());
 					$("#" + thisSlice.toLowerCase()).addClass('hasProbs');
-					//var theField = document.getElementById(thisSlice.toLowerCase());
-					//theField.addClass('hasProbs');
 				}
 				catch ( err ){// nothing, just ignore 
-					//console.log('caught: ' + err);
+				       console.log('caught: ' + err);
 				}
 			}
 		}
-		// don't let them leave until this is fixed
-		$("#dataEntryContainer").removeClass().addClass('isBadEdit');
-		$("#editMode").hide(); // Clone This Record
-		// ?? $("#pageTitle").show();
-		if ($("#ImAGod").val() != "yes"){
-			// let "god" users browse; force non-god users to fix their stuff
-			$("#browseThingy").hide();
-		}
 		
-		msg('record failed checks: ' + loadedMsg,'bad');
+		msg('record failed checks: ' + loadedMsg,'done');
 	} else {
-		$("#dataEntryContainer").removeClass().addClass('isGoodEdit');
-		$("#editMode").show(); // Clone This Record
-		$("#browseThingy").show();
+		console.log('false loadedEditRecord+loadedMsg='+loadedMsg);
 		if ($("#selectbrowse").val()==$("#selectbrowse option:last").val()){
 			$("#nBrowse").hide();
 		} else {
@@ -526,19 +529,14 @@ function loadedEditRecord(){
 			$("#pBrowse").show();
 		}
 		
-		// ?? $("#pageTitle").hide();	
-		 //Save This As A New Record
+		//Save This As A New Record
 		$("#enterMode").show(); // Edit Last Record		
 		//$("#loadedMsgDiv").hide();
 		msg('record loaded - passed checks','good');
 	}
-	//console.log('collection_object_id='+$("#collection_object_id").val());
+        changeMode('edit');
+	console.log('collection_object_id='+$("#collection_object_id").val());
 	$("#selectbrowse").val($("#collection_object_id").val());
-	// this is always off in edit mode
-	$("#enterMode").hide(); // Edit Last Record
-	$("#theNewButton").hide();
-	$("#theSaveButton").show(); // Save Edits/Delete Record
-	$("#customizeForm").hide(); //Save This As A New Record
 	// force attribute check
 	checkRequiredParts();
 	// set up edit URL
@@ -591,17 +589,12 @@ function loadRecordEdit (collection_object_id) {
             $("#pBrowse").hide();
          }
          // turn some form stuff on/off as appropriate
-         $("#customizeForm").show(); //Save This As A New Record
-         $("#dataEntryContainer").removeClass().addClass('isEnter');
-         $("#theNewButton").hide(); //Save This As A New Record
-         $("#theSaveButton").show(); // Save Edits/Delete Record
-         $("#browseThingy").show();
-         $("#editMode").show(); // Clone This Record, disjunct with edit last
-         $("#enterMode").hide(); // Edit last Record, disjunct with clone
+         changeMode('edit');
          msg('record ' + r.DATA.COLLECTION_OBJECT_ID[0] + ' loaded','good');
       }
    );
 }
+
 
 //load a record (using an existing record as a template) in INSERT mode
 function loadRecordEnter(collection_object_id){
@@ -636,13 +629,7 @@ function loadRecordEnter(collection_object_id){
          $("#other_id_num_type_5").val($("#sessioncustomotheridentifier").val());
          $("#loaded").val('waiting approval');
          // turn some form stuff on/off as appropriate
-         $("#customizeForm").show(); //Save This As A New Record
-         $("#dataEntryContainer").removeClass().addClass('isEnter');
-         $("#theNewButton").show(); //Save This As A New Record
-         $("#theSaveButton").hide(); // Save Edits/Delete Record
-         $("#browseThingy").hide();
-         $("#editMode").hide(); // Clone This Record, disjunct with edit last
-         $("#enterMode").show(); // Edit last Record, disjunct with clone
+         changeMode('enter');
          msg('record ' + r.DATA.COLLECTION_OBJECT_ID[0] + ' loaded','good');
       }
    );
@@ -706,13 +693,13 @@ function isValidISODate(val) {
 }
 
 function loadRecord (collection_object_id) {
-        console.log('loadRecord ' + collection_object_id );
+        console.log('loadRecord ' + collection_object_id  + ' ' + $("#action").val());
         if($("#action").val()=='enter') {
                 loadRecordEnter(collection_object_id);
         } else if($("#action").val()=='edit') {
                 loadRecordEdit(collection_object_id);
-        } else { 
-           alert("Error: DEAjax.loadRecord() was invoked without an action.")
+      } else{
+                loadRecordEdit(collection_object_id);
         }
 }
 
@@ -1056,6 +1043,7 @@ function click_changeMode (mode,collobjid) {
 				document.location='DataEntry.cfm?collection_object_id=' + collobjid + '&pMode=edit&action=editEnterData';
 		} else {
 			changeMode(mode,collobjid);
+			
 		}
 	}	
 }
