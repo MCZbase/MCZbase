@@ -236,7 +236,7 @@ select
 				preferred_agent_name inside_contact,								
 				(select * from electronic_address where address_type ='email') inside_email,
 				(select * from electronic_address where address_type ='email') outside_email,
-				(select * from electronic_address where address_type ='work phone number' and rownum <=1) inside_phone,
+				(select * from electronic_address where address_type ='work phone number') inside_phone,
 				(select * from addr where addr_type='Correspondence') outside_addr,
 				(select * from addr where addr_type='Correspondence') inside_addr,
 				shipment,
@@ -304,8 +304,9 @@ select
 select 
 		cat_num, 
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
-		/*catalog_number_prefix,
-		catalog_number,*/
+		cataloged_item.cat_num_prefix,
+		/*   catalog_number,*/
+                cat_num_integer,
 		cataloged_item.collection_object_id,
                 decode(
                    collection.collection,
@@ -391,6 +392,6 @@ select
 		locality.locality_id = accepted_lat_long.locality_id (+) AND
 		cataloged_item.collection_id = collection.collection_id AND
 	  loan_item.transaction_id = #transaction_id#
-	  /*ORDER BY catalog_number_prefix, catalog_number*/
 </cfquery>
+	  <!--- /*ORDER BY catalog_number_prefix, catalog_number*/ --->
 </cfoutput>
