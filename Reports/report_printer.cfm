@@ -125,9 +125,12 @@
 		</cfif>
 
 
-
 		<cfif len(#sort#) gt 0 and #sql# does not contain "order by">
-			<cfset ssql=sql & " order by #sort#">
+                        <cfif #sort# eq "cat_num_pre_int"> 
+  			    <cfset ssql=sql & " order by cat_num_prefix, cat_num_integer ">
+                        <cfelse>
+  			    <cfset ssql=sql & " order by #sort#">
+                        </cfif>
 		<cfelse>
 			<cfset ssql=sql>
 		</cfif>
@@ -137,7 +140,7 @@
 				#preservesinglequotes(ssql)#
 			</cfquery>
 		<cfcatch>
-			<!--- sort can screw the pooch if they try to sort by things that aren't in the query --->
+			<!--- sort can fail here, or below where d is sorted, if they try to sort by things that aren't in the query --->
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				#preservesinglequotes(sql)#
 			</cfquery>
@@ -160,7 +163,12 @@
     <!---  Add the sort if one isn't present (to add a sort to a query from CustomTags --->
     <!---  Supports sort order on loan invoice --->
     <cfif len(#sort#) gt 0 and #d.getMetaData().getExtendedMetaData().sql# does not contain " order by ">
-          <cfset d.sort(d.findColumn(#sort#),TRUE)>
+         <cfif #sort# eq "cat_num_pre_int"> 
+            <cfset d.sort(d.findColumn("cat_num_prefix"),TRUE)>
+            <cfset d.sort(d.findColumn("cat_num_integer"),TRUE)>
+         <cfelse>
+            <cfset d.sort(d.findColumn(#sort#),TRUE)>
+         </cfif>
     </cfif>
 
     <cfif e.report_format is "pdf">
