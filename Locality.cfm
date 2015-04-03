@@ -1444,7 +1444,7 @@ INSERT INTO geog_auth_rec (
                     minimum_elevation,
 					maximum_elevation,
 					orig_elev_units
-                   
+
 				from localityResults
 				group by
 					collecting_event_id,
@@ -1468,7 +1468,7 @@ INSERT INTO geog_auth_rec (
                     minimum_elevation,
 					maximum_elevation,
 					orig_elev_units
-        
+
 			</cfquery>
 
 <table border>
@@ -1494,7 +1494,7 @@ INSERT INTO geog_auth_rec (
 				 #spec_locality# <cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
                   <cfif len(min_depth) gt 0> (min-depth: #min_depth##depth_units#,</cfif>
          <cfif len(max_depth) gt 0> max-depth: #max_depth##depth_units#)</cfif>
-         
+
          <cfif len(minimum_elevation) gt 0> (min-elevation: #minimum_elevation##orig_elev_units#,</cfif>
          <cfif len(maximum_elevation) gt 0> max-elevation: #maximum_elevation##orig_elev_units#)</cfif>
 					<cfif len(#VerbatimLatitude#) gt 0>
@@ -1502,7 +1502,7 @@ INSERT INTO geog_auth_rec (
 					<cfelse>
 						<br>#nogeorefbecause#
 					</cfif>
-					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>), 
+					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>),
 				</div>
 			<!---&nbsp;<a href="/fix/DupLocs.cfm?action=killDups&locid=#locality_id#" target="_blank"><font size="-2"><i>kill dups</i></font></a>---></td>
 			<td>
@@ -1657,7 +1657,6 @@ INSERT INTO geog_auth_rec (
             coordinateDeterminer,
             lat_long_ref_source,
             determined_date,
-<<<<<<< .mine
 			geolAtts,
             min_depth,
             max_depth,
@@ -1665,10 +1664,6 @@ INSERT INTO geog_auth_rec (
             minimum_elevation,
 			maximum_elevation,
 			orig_elev_units
-                         
-=======
-			geolAtts
->>>>>>> .r36218
 		from localityResults
 		group by
             locality_id,
@@ -1688,7 +1683,7 @@ INSERT INTO geog_auth_rec (
             minimum_elevation,
 			maximum_elevation,
 			orig_elev_units
-        
+
 	</cfquery>
 <cfif #localityResults.recordcount# lt 1000>
 	<cfset thisLocId="">
@@ -1725,7 +1720,7 @@ INSERT INTO geog_auth_rec (
         <td>
           #spec_locality#
 		<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
-       
+
 		</td>
 
 		  <td rowspan="2">#higher_geog#</td>
@@ -1744,9 +1739,9 @@ INSERT INTO geog_auth_rec (
            <cfif len(min_depth) gt 0> (min-depth: #min_depth##depth_units#,</cfif>
          <cfif len(max_depth) gt 0> max-depth: #max_depth##depth_units#)</cfif>
           Determined by #coordinateDeterminer# on #dateformat(determined_date,"yyyy-mm-dd")# using #lat_long_ref_source#
-         
-          
-          </font> 
+
+
+          </font>
           </td>
       </tr>
 	  <cfset i=#i#+1>
