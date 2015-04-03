@@ -33,7 +33,10 @@
 		maximum_elevation,
 		orig_elev_units,
         coordDet.agent_name coordinateDeterminer,
-		concatGeologyAttributeDetail(locality.locality_id) geolAtts
+		concatGeologyAttributeDetail(locality.locality_id) geolAtts,
+		max_depth,
+		min_depth,
+		depth_units
 	from 
 		geog_auth_rec,
 		locality,
