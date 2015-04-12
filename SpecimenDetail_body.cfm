@@ -82,7 +82,7 @@
 				'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
 				'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
 					to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-					to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ' || accepted_lat_long.lat_dir,
+					decode(accepted_lat_long.lat_sec, null,  '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
 				'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
 					to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
 			)
@@ -97,7 +97,7 @@
 				'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
 				'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
 					to_char(accepted_lat_long.long_min) || '&acute; ' ||
-					to_char(accepted_lat_long.long_sec) || '&acute;&acute; ' || accepted_lat_long.long_dir,
+					decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
 				'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
 					to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
 			)
@@ -327,8 +327,8 @@
 									nature_of_id,
 									identification_remarks,
 									identification.identification_id,
+									accepted_id_fg,
 									taxa_formula,
-                                    accepted_id_fg,
 									formatted_publication,
 									identification.publication_id
 								FROM
