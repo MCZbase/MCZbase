@@ -456,7 +456,7 @@ Found #summary.cnt# records.
 					<li><h2
 							<cfif #VALID_CATALOG_TERM_FG# is 0> style="color:red;" </cfif>
 							onclick="document.location='TaxonomyDetails.cfm?&taxon_name_id=#taxon_name_id#';">
-								#display_name#
+								#display_name# #author_text#
 							</h2>
 						<ul>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
