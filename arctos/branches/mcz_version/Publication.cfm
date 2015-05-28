@@ -549,14 +549,18 @@
 				</tr>
 			</table>
 			
-			<label for="publication_type">Publication Type</label>
+			<div class="pubS"><label for="publication_type">Publication Type</label>
 			<select name="publication_type" id="publication_type" class="reqdClr" onchange="setDefaultPub(this.value)">
 				<option value=""></option>
 				<cfloop query="ctpublication_type">
 					<option value="#publication_type#">#publication_type#</option>
 				</cfloop>
 			</select>
-			<label for="is_peer_reviewed_fg">Peer Reviewed?</label>
+            </div>
+            <p class="pubs_style"><b>Proceedings</b> are entered as if they are <b>Journals</b>. Choose "Journal Name" for publication type and the correct attributes will appear. You will find proceedings in the Journal Name dropdown alphabetically listed at "p". Similarly, a <b>Dissertation</b> or <b>Thesis</b> should be entered as if it were a <b>Book Section</b>.  Put "Ph.D. Dissertation" or "Thesis" in the <i>book</i> attribute and the location and school in the <i>publisher</i> attribute.</p>
+			
+            <div style="clear:both;">
+            <label for="is_peer_reviewed_fg">Peer Reviewed?</label>
 			<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr">
 				<option value="1">yes</option>
 				<option value="0">no</option>
@@ -568,9 +572,9 @@
 			<label for="publication_remarks">Remark</label>
 			<input type="text" name="publication_remarks" id="publication_remarks" size="80">
 			<input type="hidden" name="numberAuthors" id="numberAuthors" value="1">
-			</div>
+			</div></div>
 			<div class="cellDiv">
-			Authors: <span class="infoLink" onclick="addAgent()">Add Row</span> ~ <span class="infoLink" onclick="removeAgent()">Remove Last Row</span>
+			Authors and Editors: <span class="infoLink" onclick="addAgent()">Add Row</span> ~ <span class="infoLink" onclick="removeAgent()">Remove Last Row</span>
 			<table border id="authTab">
 				<tr>
 					<th>Role</th>

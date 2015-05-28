@@ -111,7 +111,17 @@ function mgPartAtts(partID, collectionCDE) {
 	theDiv.src=ptl;
 	viewport.init("#partsAttDiv");
 }
-
+function mgPartAttsDE(ctPartName, collection_CDE) {
+	addBGDiv('closePartAtts()');
+	var theDiv = document.createElement('iFrame');
+	theDiv.id = 'partsAttDiv';
+	theDiv.className = 'annotateBox';
+	theDiv.innerHTML='<br>Loading...';
+	document.body.appendChild(theDiv);
+	var ptl="/form/partAtts.cfm?partID=" + ctPartName + "&collection_Cde=" + collection_CDE;
+	theDiv.src=ptl;
+	viewport.init("#partsAttDiv");
+}
 function closePartAtts() {
 	/*
 	 * 
@@ -593,19 +603,18 @@ function setDefaultPub(t){
     	setTimeout( "addAttribute('begin page')", 1000);
     	setTimeout( "addAttribute('end page');", 1500);
     	setTimeout( "addAttribute('volume');", 2000);
-    	setTimeout( "addAttribute('issue');", 2500);			
+    	setTimeout( "addAttribute('issue');", 2500);
+				
 	} else if (t=='book'){
-		addAttribute('volume');
-    	setTimeout( "addAttribute('page total')", 1000);
-    	setTimeout( "addAttribute('publisher')", 1500);
-	} else if (t=='book section'){
-    	addAttribute('publisher');
+		addAttribute('publisher');
     	setTimeout( "addAttribute('volume')", 1000);
-    	setTimeout( "addAttribute('page total')", 1500);
-    	setTimeout( "addAttribute('section type')", 2000);
-    	setTimeout( "addAttribute('section order')", 2500);
-    	setTimeout( "addAttribute('begin page')", 3000);
-    	setTimeout( "addAttribute('end page')", 3500);
+		
+	} else if (t=='book section'){
+    	addAttribute('begin page');
+		setTimeout( "addAttribute('end page')", 1000);
+    	setTimeout( "addAttribute('book')", 1500);
+    	setTimeout( "addAttribute('publisher');", 2000);	
+    	
 	}
 }
 function deleteAgent(r){
