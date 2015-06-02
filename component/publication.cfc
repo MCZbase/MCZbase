@@ -5,18 +5,18 @@
 		select published_year from publication where publication_id=#publication_id#
 	</cfquery>
 	<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			last_name,
 			author_position
-		from 
+		from
 			publication_author_name,
 			agent_name,
 			person
-		where 
+		where
 			publication_author_name.agent_name_id=agent_name.agent_name_id and
 			agent_name.agent_id=person.person_id and
 			publication_author_name.publication_id=#publication_id#
-		order by 
+		order by
 			author_position
 	</cfquery>
 	<cfquery name="f" dbtype="query">
@@ -42,38 +42,38 @@
 <cffunction name="longCitation" access="remote" output="true">
 	<cfargument name="publication_id" type="numeric" required="yes">
 		<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			publication_title,
 			published_year,
 			publication_type
 		from publication where publication_id=#publication_id#
 	</cfquery>
 	<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			agent_name,
 			author_position
-		from 
+		from
 			publication_author_name,
 			agent_name
-		where 
+		where
 			publication_author_name.agent_name_id=agent_name.agent_name_id and
 			publication_author_name.publication_id=#publication_id# and
 			author_role='author'
-		order by 
+		order by
 			author_position
 	</cfquery>
 	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			agent_name,
 			author_position
-		from 
+		from
 			publication_author_name,
 			agent_name
-		where 
+		where
 			publication_author_name.agent_name_id=agent_name.agent_name_id and
 			publication_author_name.publication_id=#publication_id# and
 			author_role='editor'
-		order by 
+		order by
 			author_position
 	</cfquery>
 	<cfset as="">
@@ -83,7 +83,7 @@
 	<cfelseif a.recordcount is 2>
 		<cfset as=a.agent_name[1] & ' and ' & a.agent_name[2]>
 	<cfelse>
-		<cfset as=valuelist(a.agent_name,", ")>	
+		<cfset as=valuelist(a.agent_name,", ")>
 	</cfif>
 	<cfif right(as,1) is '.'>
 		<cfset as=left(as,len(as)-1)>
@@ -93,7 +93,7 @@
 	<cfelseif e.recordcount is 2>
 		<cfset es=e.agent_name[1] & ' and ' & e.agent_name[2]>
 	<cfelse>
-		<cfset es=valuelist(e.agent_name,", ")>	
+		<cfset es=valuelist(e.agent_name,", ")>
 	</cfif>
 	<cfif right(es,1) is '.'>
 		<cfset es=left(es,len(es)-1)>
@@ -131,9 +131,9 @@
 	<cfelse>
 		<cfset publication_title=p.publication_title>
 	</cfif>
-   
+
 	<cfset publication_title=replace(publication_title,' In: ',' <i>In:</i> ')>
-    
+
 	<cfif p.publication_type is "journal article">
 		<cfset r=as & '. ' & p.published_year & '. ' & publication_title>
 		<cfset r=r & ' ' & journal.pub_att_value>
@@ -144,27 +144,26 @@
 			<cfset r=r & '(' & issue.pub_att_value & ')'>
 		</cfif>
 		<cfset r=r & ': ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
-        
-        
+
+
 	<cfelseif p.publication_type is "book">
 		<cfset r=as & '. ' & p.published_year & '. ' & '<i>' &publication_title& '</i>'>
              <cfif e.recordcount eq 1>
 		         <cfset editor = ' Ed.' >
+		         <cfset r=r & es & editor >
              </cfif>
              <cfif e.recordcount gt 1>
                 <cfset editor = ' Eds.' >
+				<cfset r=r & es & editor >
              </cfif>
-            <cfif len(es gt 0)>
-               <cfset r=r & es & editor >
-            </cfif>
            <cfif len(volume.pub_att_value) gt 0>
                <cfset r=r & ' Vol. ' & volume.pub_att_value & '.'>
            </cfif>
           <cfif len(publisher.pub_att_value gt 0)>
           <cfset r=r &  ' ' & publisher.pub_att_value>
           </cfif>
-          
-      
+
+
 	<cfelseif p.publication_type is "book section">
     	<cfset r=as & '. ' & p.published_year & '. ' & publication_title1 & ', ' >
         	<cfset r=r & ' pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
@@ -181,16 +180,16 @@
                     </cfif>
                <cfset r=r &  publisher.pub_att_value & '.' >
 		    </cfif>
-		   
-		
+
+
 	<cfelse>
 		<cfset r=as>
 		<cfif len(p.published_year) gt 0>
 			<cfset r=r & '. ' & p.published_year>
 		</cfif>
-       
+
 		<cfset r=r & '. ' & publication_title>
-        
+
 	</cfif>
 	<cfif len(r) is 0>
 		<cfset r="unknown format">
