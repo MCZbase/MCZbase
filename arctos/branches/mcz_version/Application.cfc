@@ -216,6 +216,7 @@
 			<cfset Application.svn = "/usr/bin/svn" />
 			<cfset Application.webDirectory = "/var/www/html/arctos" />
 			<cfset Application.SpecimenDownloadPath = "/var/www/html/arctos/download/" />
+			<cfset Application.DownloadPath = "/var/www/html/arctos/download/" />
 			<cfset Application.bugzillaToEmail = "bugzilla@software.rc.fas.harvard.edu" />
 			<cfset Application.bugzillaFromEmail = "bugreport@software.rc.fas.harvard.edu" />
 			<cfset Application.bugReportEmail = "bhaley@oeb.harvard.edu" />
