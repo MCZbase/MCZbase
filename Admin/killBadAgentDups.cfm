@@ -21,6 +21,7 @@
 		agent_relationship = 'bad duplicate of'
 		AND agent_relations.agent_id = badname.agent_id and
 		agent_relations.related_agent_id = goodname.agent_id
+	order by date_to_merge desc
 </cfquery>
 <table border>
 	<tr>
@@ -70,8 +71,8 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 		agent_relations
 	where 
 		agent_relationship = 'bad duplicate of'
-		and on_hold <> 1
-		and date_to_merge > sysdate
+		and (on_hold is null or on_hold <> 1)
+		and date_to_merge < sysdate
 </cfquery>
 
 <cfloop query="bads">
