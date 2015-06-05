@@ -506,7 +506,7 @@ Returned #s.c# specimens in #getBasic.recordcount# rows.
 <!------------------------------- download --------------------------------->
 
 
-<cfset dlPath = "#Application.DownloadPath#">
+<cfset dlPath = "#Application.SpecimenDownloadPath#">
 <cfset dlFile = "#session.DownloadFileName#">
  <cfset header ="Count#chr(9)#Scientific_Name">
 	<cfif #groupBy# contains "continent_ocean">
