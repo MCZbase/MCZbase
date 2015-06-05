@@ -93,14 +93,14 @@
 		</tr>
 		<tr>
 			<td>
-				<label for="species">Species <span class="likeLink" 
+				<label for="species">Species <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span></label>
 				<input size="25" name="species" id="species" maxlength="40" value="#gettaxa.species#">
 			</td>
 			<td>
-				<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','author_text');">Species Author</span></label>
+				<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','author_text');">Author</span></label>
 				<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" size="30">
-				<span class="infoLink" 
+				<span class="infoLink"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
 					Find Kew Abbr
 				</span>
@@ -112,7 +112,7 @@
 				<select name="infraspecific_rank" id="infraspecific_rank" size="1">
                 	<option value=""></option>
 	                <cfloop query="ctInfRank">
-	                  <option 
+	                  <option
 							<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
 	                </cfloop>
               	</select>
@@ -138,7 +138,7 @@
 				<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','infraspecific_author');">
 					Infraspecific Author</span></label>
 				<input type="text" name="infraspecific_author" id="infraspecific_author" value="#gettaxa.infraspecific_author#" size="30">
-				<span class="infoLink" 
+				<span class="infoLink"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')">
 						Find Kew Abbr
 					</span>
@@ -153,9 +153,9 @@
 				&nbsp;
 				<!---Deprecated: label for="nomenclatural_code">Nomenclatural Code</label>
 				<input type="text" name="nomenclatural_code" id="nomenclatural_code" value="#gettaxa.nomenclatural_code#" size="30"--->
-			</td>		
+			</td>
 		</tr>
-		<tr>				
+		<tr>
 			<td>
 				<label for="phylum">Phylum</label>
 				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" size="30">
@@ -163,19 +163,19 @@
 			<td>
 				<label for="subphylum">Subphylum</label>
 				<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" size="30">
-			</td>			
+			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="superclass">Superclass</label>
 				<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" size="30">
-			</td>		
+			</td>
 			<td>
 				<label for="phylclass">Class</label>
 				<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" size="30">
 			</td>
 		</tr>
-		<tr>			
+		<tr>
 			<td>
 				<label for="subclass">SubClass</label>
 				<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" size="30">
@@ -185,7 +185,7 @@
 				<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" size="30">
 			</td>
 		</tr>
-		<tr>				
+		<tr>
 			<td>
 				<label for="phylorder">Order</label>
 				<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" size="30">
@@ -243,13 +243,13 @@
       </form>
     </table>
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			taxonomy_publication_id,
 			formatted_publication,
 			taxonomy_publication.publication_id
 		from
 			taxonomy_publication,
-			formatted_publication		
+			formatted_publication
 		where
 			format_style='long' and
 			taxonomy_publication.publication_id=formatted_publication.publication_id and
@@ -257,7 +257,7 @@
 	</cfquery>
 	<cfset i = 1>
 	<span class="likeLink" onClick="getDocs('taxonomy','taxonomy_publication');">Related Publications</span>
-	
+
 		<form name="newPub" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonPub">
@@ -287,16 +287,16 @@
 		</cfif>
 	</table>
 	<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT 
-			scientific_name, 
+		SELECT
+			scientific_name,
 			taxon_relationship,
 			relation_authority,
 			related_taxon_name_id
-		FROM 
+		FROM
 			taxon_relations,
 			taxonomy
 		WHERE
-			taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id 
+			taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
 			AND taxon_relations.taxon_name_id = #taxon_name_id#
 	</cfquery>
 	<cfset i = 1>
@@ -320,7 +320,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" name="relatedName" class="reqdClr" size="50" 
+					<input type="text" name="relatedName" class="reqdClr" size="50"
 						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
 						onKeyPress="return noenter(event);">
 					<input type="hidden" name="newRelatedId">
@@ -329,7 +329,7 @@
 					<input type="text" name="relation_authority">
 				</td>
 				<td>
-					<input type="submit" value="Create" class="insBtn">	
+					<input type="submit" value="Create" class="insBtn">
 	   			</td>
 			</tr>
 		</form>
@@ -343,7 +343,7 @@
 					<td>
 						<select name="taxon_relationship" size="1" class="reqdClr">
 							<cfloop query="ctRelation">
-								<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship> 
+								<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
 									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#
 								</option>
 							</cfloop>
@@ -359,7 +359,7 @@
 						<input type="text" name="relation_authority" value="#relations.relation_authority#">
 					</td>
 					<td>
-						<input type="button" value="Save" class="savBtn" onclick="relation#i#.Action.value='saveRelnEdit';submit();">	
+						<input type="button" value="Save" class="savBtn" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
 						<input type="button" value="Delete" class="delBtn" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
 					</td>
 				</tr>
@@ -378,7 +378,7 @@
 			<input type="hidden" name="origCommonName" value="#common_name#">
 			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 			<input type="text" name="common_name" value="#common_name#" size="50">
-			<input type="button" value="Save" class="savBtn" onClick="common#i#.Action.value='saveCommon';submit();">	
+			<input type="button" value="Save" class="savBtn" onClick="common#i#.Action.value='saveCommon';submit();">
 	   		<input type="button" value="Delete" class="delBtn" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
 		</form>
 		<cfset i=i+1>
@@ -391,7 +391,7 @@
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 					<label for="common_name">New Common Name</label>
 					<input type="text" name="common_name" size="50">
-					<input type="submit" value="Create" class="insBtn">	
+					<input type="submit" value="Create" class="insBtn">
 				</form>
 			</td>
 		</tr>
@@ -427,9 +427,9 @@
 <cfif Action is "deleTaxa">
 <cfoutput>
 	<cfquery name="deleTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM 
+		DELETE FROM
 			taxonomy
-		WHERE 
+		WHERE
 			taxon_name_id=#taxon_name_id#
 	</cfquery>
 	You killed it!
@@ -439,9 +439,9 @@
 <cfif action is "deleteCommon">
 <cfoutput>
 	<cfquery name="killCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM 
+		DELETE FROM
 			common_name
-		WHERE 
+		WHERE
 			common_name='#origCommonName#' AND taxon_name_id=#taxon_name_id#
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
@@ -453,9 +453,9 @@
 	<cfquery name="upCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE
 			common_name
-		SET 
+		SET
 			common_name = '#common_name#'
-		WHERE 
+		WHERE
 			common_name='#origCommonName#' AND taxon_name_id=#taxon_name_id#
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
@@ -473,7 +473,7 @@
 					<label for="source_authority"><span class="likeLink" onClick="getDocs('taxonomy','source_authority');">Source</span></label>
 					<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 		              <cfloop query="ctSourceAuth">
-		                <option 
+		                <option
 							<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
 								value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
 		              </cfloop>
@@ -492,27 +492,27 @@
 					<label for="nomenclatural_code"><span class="likeLink" onClick="getDocs('taxonomy','nomenclatural_code');">Nomenclatural Code</span></label>
 					<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
 		               <cfloop query="ctnomenclatural_code">
-		                <option 
+		                <option
 								<cfif #form.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
 		              </cfloop>
 		            </select>
 				</td>
 				<td>
-					<label for="genus">Genus <span class="likeLink" 
+					<label for="genus">Genus <span class="likeLink"
 						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
 					<input size="25" name="genus" id="genus" maxlength="40" value="#genus#">
 				</td>
 			</tr>
 	        <tr>
 				<td>
-					<label for="species">Species <span class="likeLink" 
+					<label for="species">Species <span class="likeLink"
 						onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span></label>
 					<input size="25" name="species" id="species" maxlength="40" value="#species#">
 				</td>
 				<td>
-					<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','author_text');">Species Author</span></label>
+					<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','author_text');">Author</span></label>
 					<input type="text" name="author_text" id="author_text" value="#author_text#" size="30">
-					<span class="infoLink" 
+					<span class="infoLink"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
 							Find Kew Abbr
 					</span>
@@ -524,7 +524,7 @@
 					<select name="infraspecific_rank" id="infraspecific_rank" size="1">
 	                	<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
 		                <cfloop query="ctInfRank">
-		                  <option 
+		                  <option
 								<cfif form.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
 		                </cfloop>
 	              	</select>
@@ -549,7 +549,7 @@
 					<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','infraspecific_author');">
 						Infraspecific Author</span></label>
 					<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" size="30">
-					<span class="infoLink" 
+					<span class="infoLink"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')">
 							Find Kew Abbr
 						</span>
@@ -564,7 +564,7 @@
 				&nbsp;
 				<!---Deprecated:label for="nomenclatural_code">Nomenclatural Code</label>
 				<input type="text" name="nomenclatural_code" id="nomenclatural_code" value="#nomenclatural_code#" size="30"---->
-			</td>				
+			</td>
 		</tr>
 		<tr>
 			<td>
@@ -586,15 +586,15 @@
 					<input type="text" name="phylclass" id="phylclass" value="#phylclass#" size="30">
 				</td>
 			</tr>
-			<tr>				
+			<tr>
 				<td>
-					<label for="subclass">Sublass</label>
+					<label for="subclass">Subclass</label>
 					<input type="text" name="subclass" id="subclass" value="#subclass#" size="30">
 				</td>
 			<td>
 				<label for="superorder">Superorder</label>
 				<input type="text" name="superorder" id="superorder" value="#superorder#" size="30">
-			</td>				
+			</td>
 			</tr>
 			<tr>
 				<td>
@@ -610,9 +610,9 @@
 			<td>
 				<label for="infraorder">Infraorder</label>
 				<input type="text" name="infraorder" id="infraorder" value="#infraorder#" size="30">
-			</td>			
+			</td>
 				<td>
-					<label for="superfamily">Superamily</label>
+					<label for="superfamily">Superfamily</label>
 					<input type="text" name="superfamily" id="superfamily" value="#superfamily#" size="30">
 				</td>
 			</tr>
@@ -663,77 +663,77 @@
 			valid_catalog_term_fg,
 			source_authority
 		<cfif len(#author_text#) gt 0>
-			,author_text		
+			,author_text
 		</cfif>
 		<cfif len(#tribe#) gt 0>
-			,tribe			
+			,tribe
 		</cfif>
 		<cfif len(#infraspecific_rank#) gt 0>
-			,infraspecific_rank			
+			,infraspecific_rank
 		</cfif>
 		<cfif len(#phylclass#) gt 0>
-			,phylclass			
+			,phylclass
 		</cfif>
 		<cfif len(#phylorder#) gt 0>
-			,phylorder		
+			,phylorder
 		</cfif>
 		<cfif len(#suborder#) gt 0>
-			,suborder		
+			,suborder
 		</cfif>
 		<cfif len(#family#) gt 0>
-			,family	
+			,family
 		</cfif>
 		<cfif len(#subfamily#) gt 0>
-			,subfamily	
+			,subfamily
 		</cfif>
 		<cfif len(#genus#) gt 0>
-			,genus			
+			,genus
 		</cfif>
 		<cfif len(#subgenus#) gt 0>
-			,subgenus		
+			,subgenus
 		</cfif>
 		<cfif len(#species#) gt 0>
-			,species			
+			,species
 		</cfif>
 		<cfif len(#subspecies#) gt 0>
-			,subspecies		
-		</cfif>	
+			,subspecies
+		</cfif>
 		<cfif len(#taxon_remarks#) gt 0>
-			,taxon_remarks		
-		</cfif>	
+			,taxon_remarks
+		</cfif>
 		<cfif len(#phylum#) gt 0>
-			,phylum		
+			,phylum
 		</cfif>
 		<cfif len(#infraspecific_author#) gt 0>
-			,infraspecific_author		
+			,infraspecific_author
 		</cfif>
 		<cfif len(#kingdom#) gt 0>
-			,kingdom		
+			,kingdom
 		</cfif>
 		<cfif len(#nomenclatural_code#) gt 0>
-			,nomenclatural_code		
+			,nomenclatural_code
 		</cfif>
 		<cfif len(#subphylum#) gt 0>
-			,subphylum		
+			,subphylum
 		</cfif>
 		<cfif len(#superclass#) gt 0>
-			,superclass		
+			,superclass
 		</cfif>
 		<cfif len(#subclass#) gt 0>
-			,subclass		
+			,subclass
 		</cfif>
 		<cfif len(#superorder#) gt 0>
-			,superorder		
+			,superorder
 		</cfif>
 		<cfif len(#infraorder#) gt 0>
-			,infraorder		
+			,infraorder
 		</cfif>
 		<cfif len(#superfamily#) gt 0>
-			,superfamily		
+			,superfamily
 		</cfif>
 		<cfif len(#taxon_status#) gt 0>
-			,taxon_status		
-		</cfif>		
+			,taxon_status
+		</cfif>
 		) VALUES (
 			#nextID.nextID#,
 			#valid_catalog_term_fg#,
@@ -748,46 +748,46 @@
 			,'#infraspecific_rank#'
 		</cfif>
 		<cfif len(#phylclass#) gt 0>
-			,'#phylclass#'			
+			,'#phylclass#'
 		</cfif>
 		<cfif len(#phylorder#) gt 0>
 			,'#phylorder#'
 		</cfif>
 		<cfif len(#suborder#) gt 0>
-			,'#suborder#'		
+			,'#suborder#'
 		</cfif>
 		<cfif len(#family#) gt 0>
 			,'#family#'
 		</cfif>
 		<cfif len(#subfamily#) gt 0>
-			,'#subfamily#'	
+			,'#subfamily#'
 		</cfif>
 		<cfif len(#genus#) gt 0>
 			,'#genus#'
 		</cfif>
 		<cfif len(#subgenus#) gt 0>
-			,'#subgenus#'		
+			,'#subgenus#'
 		</cfif>
 		<cfif len(#species#) gt 0>
 			,'#species#'
 		</cfif>
 		<cfif len(#subspecies#) gt 0>
-			,'#subspecies#'		
+			,'#subspecies#'
 		</cfif>
 		<cfif len(#taxon_remarks#) gt 0>
-			,'#escapeQuotes(taxon_remarks)#'		
-		</cfif>	
+			,'#escapeQuotes(taxon_remarks)#'
+		</cfif>
 		<cfif len(#phylum#) gt 0>
-			,'#phylum#'		
+			,'#phylum#'
 		</cfif>
 		<cfif len(#infraspecific_author#) gt 0>
-			,'#escapeQuotes(infraspecific_author)#'		
+			,'#escapeQuotes(infraspecific_author)#'
 		</cfif>
 		<cfif len(#kingdom#) gt 0>
 			,'#kingdom#'
 		</cfif>
 		<cfif len(#nomenclatural_code#) gt 0>
-			,'#nomenclatural_code#'		
+			,'#nomenclatural_code#'
 		</cfif>
 		<cfif len(#subphylum#) gt 0>
 			,'#subphylum#'
@@ -809,10 +809,10 @@
 		</cfif>
 		<cfif len(#taxon_status#) gt 0>
 			,'#taxon_status#'
-		</cfif>	
+		</cfif>
 		)
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">	
+	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -829,7 +829,7 @@
 			 #newRelatedId#,
 			 '#TAXON_RELATIONSHIP#',
 		 	'#RELATION_AUTHORITY#'
-		)		 
+		)
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -838,7 +838,7 @@
 <cfif Action is "deleReln">
 <cfoutput>
 <cfquery name="deleReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	DELETE FROM 
+	DELETE FROM
 		taxon_relations
 	WHERE
 		taxon_name_id = #taxon_name_id#
@@ -882,129 +882,129 @@
         </cfif>
 <cftransaction>
 	<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cfid)#">
-	UPDATE taxonomy SET 
+	UPDATE taxonomy SET
 		valid_catalog_term_fg=#valid_catalog_term_fg#,
 		source_authority = '#source_authority#'
 		<cfif len(#author_text#) gt 0>
 			,author_text='#escapeQuotes(author_text)#'
 		<cfelse>
-			,author_text=null			
+			,author_text=null
 		</cfif>
 		<cfif len(#tribe#) gt 0>
 			,tribe = '#tribe#'
 		<cfelse>
-			,tribe = null			
+			,tribe = null
 		</cfif>
 		<cfif len(#infraspecific_rank#) gt 0>
 			,infraspecific_rank = '#infraspecific_rank#'
 		<cfelse>
-			,infraspecific_rank = null			
+			,infraspecific_rank = null
 		</cfif>
 		<cfif len(#phylclass#) gt 0>
 			,phylclass = '#phylclass#'
 		<cfelse>
-			,phylclass = null			
+			,phylclass = null
 		</cfif>
 		<cfif len(#phylorder#) gt 0>
 			,phylorder = '#phylorder#'
 		<cfelse>
-			,phylorder = null			
+			,phylorder = null
 		</cfif>
 		<cfif len(#suborder#) gt 0>
 			,suborder = '#suborder#'
 		<cfelse>
-			,suborder = null			
+			,suborder = null
 		</cfif>
 		<cfif len(#family#) gt 0>
 			,family = '#family#'
 		<cfelse>
-			,family = null			
+			,family = null
 		</cfif>
 		<cfif len(#subfamily#) gt 0>
 			,subfamily = '#subfamily#'
 		<cfelse>
-			,subfamily = null			
+			,subfamily = null
 		</cfif>
 		<cfif len(#genus#) gt 0>
 			,genus = '#genus#'
 		<cfelse>
-			,genus = null			
+			,genus = null
 		</cfif>
 		<cfif len(#subgenus#) gt 0>
 			,subgenus = '#subgenus#'
 		<cfelse>
-			,subgenus = null			
+			,subgenus = null
 		</cfif>
 		<cfif len(#species#) gt 0>
 			,species = '#species#'
 		<cfelse>
-			,species = null			
+			,species = null
 		</cfif>
 		<cfif len(#subspecies#) gt 0>
 			,subspecies = '#subspecies#'
 		<cfelse>
-			,subspecies = null			
-		</cfif>		
+			,subspecies = null
+		</cfif>
 		<cfif len(#phylum#) gt 0>
 			,phylum = '#phylum#'
 		<cfelse>
-			,phylum = null			
-		</cfif>		
+			,phylum = null
+		</cfif>
 		<cfif len(#taxon_remarks#) gt 0>
 			,taxon_remarks = '#escapeQuotes(taxon_remarks)#'
 		<cfelse>
-			,taxon_remarks = null			
+			,taxon_remarks = null
 		</cfif>
 		<cfif len(#kingdom#) gt 0>
 			,kingdom = '#kingdom#'
 		<cfelse>
-			,kingdom = null			
+			,kingdom = null
 		</cfif>
 		<cfif len(#nomenclatural_code#) gt 0>
 			,nomenclatural_code = '#nomenclatural_code#'
 		<cfelse>
-			,nomenclatural_code = null			
+			,nomenclatural_code = null
 		</cfif>
 		<cfif len(#infraspecific_author#) gt 0>
 			,infraspecific_author = '#escapeQuotes(infraspecific_author)#'
 		<cfelse>
-			,infraspecific_author = null			
+			,infraspecific_author = null
 		</cfif>
 		<cfif len(#subphylum#) gt 0>
 			,subphylum = '#subphylum#'
 		<cfelse>
-			,subphylum = null			
+			,subphylum = null
 		</cfif>
 		<cfif len(#superclass#) gt 0>
 			,superclass = '#superclass#'
 		<cfelse>
-			,superclass = null			
+			,superclass = null
 		</cfif>
 		<cfif len(#subclass#) gt 0>
 			,subclass = '#subclass#'
 		<cfelse>
-			,subclass = null			
+			,subclass = null
 		</cfif>
 		<cfif len(#superorder#) gt 0>
 			,superorder = '#superorder#'
 		<cfelse>
-			,superorder = null			
+			,superorder = null
 		</cfif>
 		<cfif len(#infraorder#) gt 0>
 			,infraorder = '#infraorder#'
 		<cfelse>
-			,infraorder = null			
+			,infraorder = null
 		</cfif>
 		<cfif len(#superfamily#) gt 0>
 			,superfamily = '#superfamily#'
 		<cfelse>
-			,superfamily = null			
+			,superfamily = null
 		</cfif>
 		<cfif len(#taxon_status#) gt 0>
 			,taxon_status = '#taxon_status#'
 		<cfelse>
-			,taxon_status = null			
-		</cfif>		
+			,taxon_status = null
+		</cfif>
 	WHERE taxon_name_id=#taxon_name_id#
 	</cfquery>
 	</cftransaction>
