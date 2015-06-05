@@ -8,8 +8,8 @@
 			$("#" + this.id).datepicker();
 		});
 		$("select[id^='geology_attribute_']").each(function(e){
-			populateGeology(this.id);			
-		});	
+			populateGeology(this.id);
+		});
 	});
 	function populateGeology(id) {
 		if (id.indexOf('__') > -1) {
@@ -46,8 +46,8 @@
 				$("select#" + theSelect + idNum).html(s);
 			}
 		);
-	}	
-</script>	
+	}
+</script>
 <span class="pageHelp likeLink" onClick="getDocs('pageHelp/specLocality');">
 	Page Help
 </span>
@@ -70,7 +70,7 @@
 			llMeta.style.display='';
 			if (orig_units == 'decimal degrees') {
 				decdeg.style.display='';
-			} 
+			}
 			else if (orig_units == 'UTM') {
 				//alert(utm.style.display);
 				utm.style.display='';
@@ -84,14 +84,14 @@
 			}
 			else {
 				alert('I have no idea what to do with ' + orig_units);
-			}		
-		}		
+			}
+		}
 	}
 </script>
 <cfif action is "nothing">
-<cfoutput> 
+<cfoutput>
 	<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select 
+    	select
 			collection_object_id,
 			collecting_event_id,
 			LOCALITY_ID,
@@ -120,7 +120,7 @@
 			DEC_LONG,
 			UTM_ZONE,
 			UTM_EW,
-			UTM_NS,				
+			UTM_NS,
 			DATUM,
 			ORIG_LAT_LONG_UNITS,
 			DETERMINED_BY_AGENT_ID,
@@ -146,9 +146,9 @@
 			HABITAT_DESC,
 			COLLECTING_TIME,
 			FISH_FIELD_NUMBER
-		from 
+		from
 			spec_with_loc
-		where 
+		where
 			collection_object_id = #collection_object_id#
 		group by
 			collection_object_id,
@@ -179,7 +179,7 @@
 			DEC_LONG,
 			UTM_ZONE,
 			UTM_EW,
-			UTM_NS,				
+			UTM_NS,
 			DATUM,
 			ORIG_LAT_LONG_UNITS,
 			DETERMINED_BY_AGENT_ID,
@@ -218,7 +218,7 @@
 			GEO_ATT_REMARK
 		from
 			spec_with_loc
-		where 
+		where
 			collection_object_id = #collection_object_id# and
 			GEOLOGY_ATTRIBUTE is not null
 		group by
@@ -238,7 +238,7 @@
 		select depth_units from ctdepth_units
 	</cfquery>
      <cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select datum from ctdatum 
+        select datum from ctdatum
      </cfquery>
 	<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select georefMethod from ctgeorefmethod
@@ -247,31 +247,31 @@
 		select VerificationStatus from ctVerificationStatus
 	</cfquery>
      <cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS 
+        select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
      </cfquery>
      <cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select e_or_w from ctew 
+        select e_or_w from ctew
      </cfquery>
      <cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select n_or_s from ctns 
+        select n_or_s from ctns
      </cfquery>
      <cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS 
+        select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
      </cfquery>
 	<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select COLLECTING_SOURCE from ctcollecting_source 
+        select COLLECTING_SOURCE from ctcollecting_source
      </cfquery>
 	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select geology_attribute from ctgeology_attribute order by geology_attribute
 	</cfquery>
-		
+
 	<cfform name="loc" method="post" action="specLocality.cfm">
 		<input type="hidden" name="action" value="saveChange">
 		<input type="hidden" name="nothing" id="nothing">
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 <table>
 	<tr>
-		<td valign="top"><!--- left half of page ---> 	
+		<td valign="top"><!--- left half of page --->
 <table>
 		<tr>
 			<td>
@@ -295,12 +295,12 @@
 					<a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank">
 						Edit Locality</a>
 				</label>
-				<cfinput type="text" 
-					name="spec_locality" 
+				<cfinput type="text"
+					name="spec_locality"
 					id="spec_locality"
-					value="#stripQuotes(l.spec_locality)#"  
-					size="75" 
-					required="true" 
+					value="#stripQuotes(l.spec_locality)#"
+					size="75"
+					required="true"
 					message="Specific Locality is required.">
 			</td>
 		</tr>
@@ -313,12 +313,12 @@
 					<a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank">
 						Edit Collecting Event</a>
 				</label>
-				<cfinput type="text" 
-					name="verbatim_locality" 
+				<cfinput type="text"
+					name="verbatim_locality"
 					id="verbatim_locality"
-					value="#stripQuotes(l.verbatim_locality)#"  
+					value="#stripQuotes(l.verbatim_locality)#"
 					size="75"
-					required="true" 
+					required="true"
 					message="Verbatim Locality is required.">
 			</td>
 		</tr>
@@ -328,12 +328,12 @@
 						<a href="javascript:void(0);" onClick="getDocs('locality','verbatim_date')">
 							Verbatim Date</a>
 				</label>
-				<cfinput type="text" 
+				<cfinput type="text"
 					name="verbatim_date"
-					id="verbatim_date" 
-					value="#stripQuotes(l.verbatim_date)#"  
+					id="verbatim_date"
+					value="#stripQuotes(l.verbatim_date)#"
 					size="75"
-					required="true" 
+					required="true"
 					message="Verbatim Date is a required text field.">
 			</td>
 		</tr>
@@ -344,20 +344,20 @@
 				<label for="collecting time">
 					Collecting Time
 				</label>
-				<cfinput type="text" 
+				<cfinput type="text"
 					name="collecting_time"
-					id="collecting_time" 
-					value="#stripQuotes(l.collecting_time)#"  
+					id="collecting_time"
+					value="#stripQuotes(l.collecting_time)#"
 					size="20">
 				</td>
 				<td>
 				<label for="ich field number">
 					Ich. Field Number
 				</label>
-				<cfinput type="text" 
+				<cfinput type="text"
 					name="ich_field_number"
-					id="ich_field_number" 
-					value="#stripQuotes(l.fish_field_number)#"  
+					id="ich_field_number"
+					value="#stripQuotes(l.fish_field_number)#"
 					size="20">
 				</td>
 			</table>
@@ -368,20 +368,20 @@
 					<td>
 							<label for="began_date"><a href="javascript:void(0);" onClick="getDocs('locality','began_date')">
 								Began Date/Time</a></label>
-							<input type="text"  
+							<input type="text"
 								name="began_date"
 								id="began_date"
 								value="#l.began_date#"
-								class="reqdClr">										
+								class="reqdClr">
 						</td>
 						<td>
 							<label for="ended_date">
 								<a href="javascript:void(0);" onClick="getDocs('locality','ended_date')">
 									Ended Date/Time</a>
 							</label>
-							<input type="text" 
+							<input type="text"
 								name="ended_date"
-								id="ended_date" 
+								id="ended_date"
 								value="#l.ended_date#"
 								class="reqdClr">
 						</td>
@@ -394,17 +394,17 @@
 				<label for="coll_event_remarks">
 					Collecting Event Remarks
 				</label>
-				<input type="text" 
+				<input type="text"
 					name="coll_event_remarks"
-						id="coll_event_remarks" 
-					value="#stripQuotes(l.COLL_EVENT_REMARKS)#"  
+						id="coll_event_remarks"
+					value="#stripQuotes(l.COLL_EVENT_REMARKS)#"
 					size="75">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="collecting_source">
-					<a href="javascript:void(0);" 
+					<a href="javascript:void(0);"
 						onClick="getDocs('collecting_source','collecting_method')">Collecting Source</a>
 				</label>
 				<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
@@ -418,30 +418,30 @@
 		</tr>
 			<td>
 				<label for="collecting_method">
-					<a href="javascript:void(0);" 
+					<a href="javascript:void(0);"
 						onClick="getDocs('collecting_event','collecting_method')">Collecting Method</a>
 				</label>
-				<input type="text" 
-					name="collecting_method" 
+				<input type="text"
+					name="collecting_method"
 					id="collecting_method"
-					value="#stripQuotes(l.COLLECTING_METHOD)#"  
+					value="#stripQuotes(l.COLLECTING_METHOD)#"
 					size="75">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="habitat_desc">
-					<a href="javascript:void(0);" 
+					<a href="javascript:void(0);"
 						onClick="getDocs('collecting_event','habitat')">Habitat</a>
 				</label>
-				<input type="text" 
-					name="habitat_desc" 
+				<input type="text"
+					name="habitat_desc"
 					id="habitat_desc"
-					value="#stripQuotes(l.habitat_desc)#"  
+					value="#stripQuotes(l.habitat_desc)#"
 					size="75">
 			</td>
 		</tr>
-		<tr> 
+		<tr>
             <td>
 				<table>
 					<tr>
@@ -450,12 +450,12 @@
 								<a href="javascript:void(0);" class="novisit" onClick="getDocs('locality','elevation')">
 									Minimum Elevation</a>
 							</label>
-							<cfinput 
+							<cfinput
 								type="text"
 								name="minimum_elevation"
 								id="minimum_elevation"
 								value="#l.MINIMUM_ELEVATION#"
-								size="5" 
+								size="5"
 								validate="numeric"
 								message="Minimum Elevation is a number.">
 						</td>
@@ -464,11 +464,11 @@
 								<a href="javascript:void(0);" class="novisit" onClick="getDocs('locality','elevation')">
 									Maximum Elevation</a>
 							</label>
-							<cfinput type="text" 
+							<cfinput type="text"
 								id="maximum_elevation"
-								name="maximum_elevation" 
-								value="#l.MAXIMUM_ELEVATION#" 
-								size="5" 
+								name="maximum_elevation"
+								value="#l.MAXIMUM_ELEVATION#"
+								size="5"
 								validate="numeric"
 								message="Maximum Elevation is a number.">
 						</td>
@@ -489,7 +489,7 @@
 				</table>
 			</td>
 		</tr>
-		<tr> 
+		<tr>
             <td>
 				<table>
 					<tr>
@@ -497,7 +497,7 @@
 							<label for="min_depth" onClick="getDocs('locality','depth')" class="likeLink">
 									Minimum Depth
 							</label>
-							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" size="3"									
+							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" size="3"
 								validate="numeric"
 								message="Minimum Depth is a number.">
 						</td>
@@ -505,8 +505,8 @@
 							<label for="max_depth"  onClick="getDocs('locality','depth')" class="likeLink">
 									Maximum Depth
 							</label>
-							<cfinput type="text" id="max_depth" name="max_depth" 
-								value="#l.max_depth#" size="3"								
+							<cfinput type="text" id="max_depth" name="max_depth"
+								value="#l.max_depth#" size="3"
 								validate="numeric"
 								message="Maximum Depth is a number.">
 						</td>
@@ -525,14 +525,14 @@
 					</tr>
 				</table>
 			</td>
-		</tr>	
-		<tr> 
+		</tr>
+		<tr>
         	<td>
 				<label for="locality_remarks">Locality Remarks</label>
 				<input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#"  size="75">
 			</td>
         </tr>
-		<tr> 
+		<tr>
             <td>
 				<label for="NoGeorefBecause" class="likeLink" onClick="getDocs('locality','nogeorefbecause')">
 					Not Georefererenced Because
@@ -563,10 +563,10 @@
 				<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
 	            	<option value="">Not Georeferenced</option>
 	            	<cfloop query="ctunits">
-	                	<option 
+	                	<option
 						  	<cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif>value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 	                </cfloop>
-	            </select>				
+	            </select>
 			</td>
 		</tr>
 	<table>
@@ -576,8 +576,8 @@
 				<label for="coordinate_determiner" class="likeLink" onClick="getDocs('lat_long','determiner')">
 					Coordinate Determiner
 				</label>
-				<input type="text" 
-					name="coordinate_determiner" 
+				<input type="text"
+					name="coordinate_determiner"
 					id="coordinate_determiner"
 					class="reqdClr" value="#l.coordinate_determiner#" size="40"
 					 onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;"
@@ -604,7 +604,7 @@
 				        	<option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#l.MAX_ERROR_UNITS#"> selected </cfif>
 								value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
 				        </cfloop>
-				</select> 
+				</select>
 			</td>
 			<td>
 				<label for="DATUM" class="likeLink" onClick="getDocs('lat_long','datum')">
@@ -614,10 +614,10 @@
 				<select name="DATUM" id="DATUM" size="1" class="reqdClr">
 					<option value=""></option>
 				    <cfloop query="ctdatum">
-						<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif> 
+						<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
 							value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
 				    </cfloop>
-				</select> 
+				</select>
 			</td>
 		</tr>
 		<tr>
@@ -628,7 +628,7 @@
 				<cfset thisGeoMeth = #l.georefMethod#>
 				<select name="georefMethod" id="georefMethod" size="1" class="reqdClr" style="width: 300px">
 					<cfloop query="ctGeorefMethod">
-						<option 
+						<option
 						<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
 							value="#georefMethod#">#georefMethod#</option>
 					</cfloop>
@@ -655,7 +655,7 @@
 				<cfset thisVerificationStatus = #l.VerificationStatus#>
 				<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr">
 					<cfloop query="ctVerificationStatus">
-						<option 
+						<option
 							<cfif #thisVerificationStatus# is #ctVerificationStatus.VerificationStatus#> selected </cfif>
 								value="#VerificationStatus#">#VerificationStatus#</option>
 					</cfloop>
@@ -668,27 +668,27 @@
 					Reference
 				</label>
 				<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
-					value='#preservesinglequotes(l.LAT_LONG_REF_SOURCE)#' />
+					value="#preservesinglequotes(l.LAT_LONG_REF_SOURCE)#" />
 			</td>
 		</tr>
-        <tr> 
+        <tr>
 			<td colspan="3">
 				<label for="LAT_LONG_REMARKS" class="likeLink" onClick="getDocs('lat_long','remarks')">
 					Remarks
 				</label>
-				<input type="text" 
-					name="LAT_LONG_REMARKS" 
+				<input type="text"
+					name="LAT_LONG_REMARKS"
 					id="LAT_LONG_REMARKS"
-					value='#preservesinglequotes(l.LAT_LONG_REMARKS)#' 
+					value="#preservesinglequotes(l.LAT_LONG_REMARKS)#"
 					size="90">
 			</td>
 		</tr>
 	</table>
 	<table id="decdeg" style="display:none;">
-		<tr> 
+		<tr>
 			<td>
 				<label for="dec_lat">Decimal Latitude</label>
-				<cfinput 
+				<cfinput
 					type="text"
 					name="dec_lat"
 					id="dec_lat"
@@ -699,7 +699,7 @@
 			<td>
 				<label for="dec_long">Decimal Longitude</label>
 				<cfinput
-					type="text" 
+					type="text"
 					name="DEC_LONG"
 					value="#l.DEC_LONG#"
 					id="dec_long"
@@ -709,7 +709,7 @@
 		</tr>
 	</table>
 	<table id="dms" style="display:none;">
-		<tr> 
+		<tr>
 			<td>
 				<label for="lat_deg">Lat. Deg.</label>
 				<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr"
@@ -761,7 +761,7 @@
 		</tr>
 	</table>
 	<table id="ddm" style="display:none;">
-		<tr> 
+		<tr>
 			<td>
 				<label for="dmlat_deg">Lat. Deg.<label>
 				<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr">
@@ -802,7 +802,7 @@
 		</tr>
 	</table>
 	<table id="utm" style="display:none;">
-		<tr> 
+		<tr>
 			<td>
 				<label for="utm_zone">UTM Zone<label>
 				<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr"
@@ -827,7 +827,7 @@
 		<td>Attribute</td>
 		<td>Value</td>
 		<td>Determiner</td>
-		<td>Date</td>	
+		<td>Date</td>
 		<td>Method</td>
 		<td>Remark</td>
 		<td></td>
@@ -836,15 +836,15 @@
 	<tr>
 		<td>
 			<cfset thisAttribute=g.geology_attribute>
-			<select name="geology_attribute__#geology_attribute_id#" 
+			<select name="geology_attribute__#geology_attribute_id#"
 				id="geology_attribute__#geology_attribute_id#" size="1" class="reqdClr" onchange="populateGeology(this.id)">
 				<option value="">DELETE THIS ROW</option>
 				<cfloop query="ctgeology_attribute">
-					<option 
+					<option
 					<cfif thisAttribute is geology_attribute> selected="selected" </cfif>
 						value="#geology_attribute#">#geology_attribute#</option>
 				</cfloop>
-			</select>			
+			</select>
 		</td>
 		<td>
 			<select id="geo_att_value__#geology_attribute_id#" class="reqdClr"
@@ -862,21 +862,21 @@
 		</td>
 		<td>
 			<input type="text" id="geo_att_determined_date__#geology_attribute_id#"
-				name="geo_att_determined_date__#geology_attribute_id#" 
+				name="geo_att_determined_date__#geology_attribute_id#"
 				value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#"
 				size="10">
-		</td>	
+		</td>
 		<td>
 			<input type="text" id="geo_att_determined_method__#geology_attribute_id#"
 				name="geo_att_determined_method__#geology_attribute_id#" value="#geo_att_determined_method#"
 				size="10">
-				
+
 		</td>
 		<td>
-			
+
 			<input type="text" id="geo_att_remark__#geology_attribute_id#"
 				name="geo_att_remark__#geology_attribute_id#" value="#geo_att_remark#"
-				size="10">		
+				size="10">
 		</td>
 		<td>
 			<img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';">
@@ -894,7 +894,7 @@
 				<cfloop query="ctgeology_attribute">
 					<option value="#geology_attribute#">#geology_attribute#</option>
 				</cfloop>
-			</select>			
+			</select>
 		</td>
 		<td>
 			<select id="geo_att_value" class="reqdClr"  name="geo_att_value">
@@ -910,20 +910,20 @@
 		</td>
 		<td>
 			<input type="text" id="geo_att_determined_date"
-				name="geo_att_determined_date" 
+				name="geo_att_determined_date"
 				size="10">
-		</td>	
+		</td>
 		<td>
 			<input type="text" id="geo_att_determined_method"
 				name="geo_att_determined_method"
-				size="10">	
+				size="10">
 		</td>
 		<td>
 			<input type="text" id="geo_att_remark"
 				name="geo_att_remark"
-				size="10">		
+				size="10">
 		</td>
-		
+
 	</tr>
 
 
@@ -933,31 +933,31 @@
 	<tr>
 		<td colspan="2" align="center">
 			<input type="submit" value="Save Changes" class="savBtn"
-   				onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">	
+   				onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
 		</td>
 	</tr>
-</table> 
-  	
-	
+</table>
+
+
 	</cfform>
 	<script>
-		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');	
+		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 	</script>
 	</cfoutput>
-</cfif> 		
+</cfif>
       <!---------------------------------------------------------------------------------------------------->
 <cfif #action# is "saveChange">
 <cfoutput>
 <cfset btime=now()>
-	
+
 	<cfset maxNumGeolAtts=10><!--- wild overestimation of the maximum number of geologic attributes; guess high or this form dies --->
 	<cftransaction>
 		<cfquery name="old"  datasource="uam_god">
-			SELECT 
-				locality_id, 
-				collecting_event_id 
+			SELECT
+				locality_id,
+				collecting_event_id
 			FROM
-	    		spec_with_loc 
+	    		spec_with_loc
 	    	WHERE collection_object_id=#collection_object_id#
 		</cfquery>
 		<cfquery name="geog"  datasource="uam_god">
@@ -969,8 +969,8 @@
 		<cfelse>
 			<cfset nGeogId=geog.geog_auth_rec_id>
 		</cfif>
-		<cfset fLocS="select min(locality_id) locality_id 
-				FROM 
+		<cfset fLocS="select min(locality_id) locality_id
+				FROM
 					loc_acc_lat_long
 				WHERE
     				geog_auth_rec_id = #nGeogId# AND
@@ -981,20 +981,20 @@
 					NVL(MAX_DEPTH,-1) = nvl('#max_depth#',-1) AND
 					NVL(SPEC_LOCALITY,'NULL') = NVL('#escapeQuotes(spec_locality)#','NULL') AND
 					NVL(LOCALITY_REMARKS,'NULL') = NVL('#escapeQuotes(locality_remarks)#','NULL') AND
-					NVL(DEPTH_UNITS,'NULL') = NVL('#depth_units#','NULL') AND 
+					NVL(DEPTH_UNITS,'NULL') = NVL('#depth_units#','NULL') AND
 					NVL(NOGEOREFBECAUSE,'NULL') = NVL('#escapeQuotes(nogeorefbecause)#','NULL')  AND
 					NVL(orig_lat_long_units,'NULL') = NVL('#orig_lat_long_units#','NULL') AND
 					NVL(datum,'NULL') = NVL('#datum#','NULL') AND
 					NVL(determined_by_agent_id,-1) = nvl('#determined_by_agent_id#',-1) AND
-					NVL(determined_date,'1600-01-01') = NVL(to_date('#determined_date#'),'1600-01-01') AND 
-					NVL(lat_long_ref_source,'NULL') = NVL('#escapeQuotes(lat_long_ref_source)#','NULL') AND 
-					NVL(lat_long_remarks,'NULL') = NVL('#escapeQuotes(lat_long_remarks)#','NULL')  AND 
+					NVL(determined_date,'1600-01-01') = NVL(to_date('#determined_date#'),'1600-01-01') AND
+					NVL(lat_long_ref_source,'NULL') = NVL('#escapeQuotes(lat_long_ref_source)#','NULL') AND
+					NVL(lat_long_remarks,'NULL') = NVL('#escapeQuotes(lat_long_remarks)#','NULL')  AND
 					NVL(max_error_distance,-1) = nvl('#max_error_distance#',-1) AND
-					NVL(max_error_units,'NULL') = NVL('#max_error_units#','NULL') AND 
+					NVL(max_error_units,'NULL') = NVL('#max_error_units#','NULL') AND
 					NVL(extent,-1) = nvl('#extent#',-1) AND
 					NVL(gpsaccuracy,-1) = nvl('#gpsaccuracy#',-1) AND
-					NVL(georefmethod,'NULL') = NVL('#georefmethod#','NULL')  AND 
-					NVL(verificationstatus,'NULL') = NVL('#escapeQuotes(verificationstatus)#','NULL') AND 
+					NVL(georefmethod,'NULL') = NVL('#georefmethod#','NULL')  AND
+					NVL(verificationstatus,'NULL') = NVL('#escapeQuotes(verificationstatus)#','NULL') AND
 					NVL(DEC_LAT,-1) = nvl('#DEC_LAT#',-1) AND
 					NVL(DEC_LONG,-1) = nvl('#DEC_LONG#',-1) AND
 					NVL(UTM_EW,-1) = nvl('#UTM_EW#',-1) AND
@@ -1044,7 +1044,7 @@
 						GEOLOGY_ATTRIBUTE='#thisGeoAtt#' and
 						GEO_ATT_VALUE='#escapeQuotes(thisGeoAttValue)#' and
 						nvl(GEO_ATT_DETERMINER_ID,-1)=nvl('#thisGeoDeterminerId#',-1) and
-						NVL(GEO_ATT_DETERMINED_DATE,'1600-01-01') = NVL(to_date('#thisGeoAttDate#'),'1600-01-01') AND 
+						NVL(GEO_ATT_DETERMINED_DATE,'1600-01-01') = NVL(to_date('#thisGeoAttDate#'),'1600-01-01') AND
 						NVL(GEO_ATT_DETERMINED_METHOD,'NULL') = NVL('#escapeQuotes(thisGeoAttMeth)#','NULL') AND
 						NVL(GEO_ATT_REMARK,'NULL') = NVL('#escapeQuotes(thisGeoAttRemark)#','NULL')
 				</cfquery>
@@ -1053,7 +1053,7 @@
 					<cfset gattlst=listappend(gattlst,-1)>
 				<cfelse>
 					<cfset gattlst=listappend(gattlst,gatt.GEOLOGY_ATTRIBUTE_ID)>
-					<cfset fLocS=fLocS & " and loc_acc_lat_long.locality_id IN (select locality_id from 
+					<cfset fLocS=fLocS & " and loc_acc_lat_long.locality_id IN (select locality_id from
 						geology_attributes where GEOLOGY_ATTRIBUTE_ID=#gatt.GEOLOGY_ATTRIBUTE_ID#)">
 				</cfif>
 				<cfloop from="1" to="#isGeo#" index="l">
@@ -1069,7 +1069,7 @@
 					GEOLOGY_ATTRIBUTE='#escapeQuotes(geology_attribute)#' and
 					GEO_ATT_VALUE='#escapeQuotes(geo_att_value)#' and
 					nvl(GEO_ATT_DETERMINER_ID,-1)=nvl('#geo_att_determiner_id#',-1) and
-					NVL(GEO_ATT_DETERMINED_DATE,'1600-01-01') = NVL(to_date('#geo_att_determined_date#'),'1600-01-01') AND 
+					NVL(GEO_ATT_DETERMINED_DATE,'1600-01-01') = NVL(to_date('#geo_att_determined_date#'),'1600-01-01') AND
 					NVL(GEO_ATT_DETERMINED_METHOD,'NULL') = NVL('#escapeQuotes(geo_att_determined_method)#','NULL') AND
 					NVL(GEO_ATT_REMARK,'NULL') = NVL('#escapeQuotes(geo_att_remark)#','NULL')
 			</cfquery>
@@ -1079,17 +1079,17 @@
 				<cfset gattlst=listappend(gattlst,-1)>
 			<cfelse>
 				<cfset gattlst=listappend(gattlst,gatt.GEOLOGY_ATTRIBUTE_ID)>
-				<cfset fLocS=fLocS & " and loc_acc_lat_long.locality_id IN (select locality_id from 
+				<cfset fLocS=fLocS & " and loc_acc_lat_long.locality_id IN (select locality_id from
 					geology_attributes where GEOLOGY_ATTRIBUTE_ID=#gatt.GEOLOGY_ATTRIBUTE_ID#)">
 			</cfif>
 		</cfif>
-			
+
 		<cfif hasGeol is 0>
 			hasGeol is 0.....
 			<cfset fLocS=fLocS & " and loc_acc_lat_long.locality_id NOT IN (select locality_id from geology_attributes)">
 		<cfelse>
 			hasGeol is NOT 0....
-			<cfset fLocS=fLocS & " and loc_acc_lat_long.locality_id NOT IN (select locality_id from 
+			<cfset fLocS=fLocS & " and loc_acc_lat_long.locality_id NOT IN (select locality_id from
 				geology_attributes where GEOLOGY_ATTRIBUTE_ID not in (#gattlst#))">
 		</cfif>
 		<cfquery name="isLoc"  datasource="uam_god">
@@ -1111,13 +1111,13 @@ makin a locality....
 			<cfquery name="nlid" datasource="uam_god">
 				select sq_locality_id.nextval nlid from dual
 			</cfquery>
-			
+
 got locid
 <cfset etime=now()>
 <cfset tt=DateDiff("s", btime, etime)>
 <br>Runtime: #tt#
 
-			
+
 			<cfset nLocalityId=nlid.nlid>
 			<cfquery name="nLoc" datasource="uam_god">
 				insert into locality (
@@ -1173,7 +1173,7 @@ made loc....
 			<cfloop from="1" to="#maxNumGeolAtts#" index="i">
 			<cfset isGeo=ListContainsNoCase(ffldn,"GEOLOGY_ATTRIBUTE__")>
 			<cfif isGeo gt 0>
-geology loop....			
+geology loop....
 				<cfset geo=listgetat(ffldn,isGeo)>
 				<cfset thisGeoAttId=replace(geo,"GEOLOGY_ATTRIBUTE__","")>
 				<cfset thisGeoAtt=evaluate("GEOLOGY_ATTRIBUTE__" & thisGeoAttId)>
@@ -1207,13 +1207,13 @@ geology loop....
 						)
 					</cfquery>
 
-				</cfif>				
+				</cfif>
 				<cfloop from="1" to="#isGeo#" index="l">
 					<cfset ffldn=listdeleteat(ffldn,1)>
 				</cfloop>
 			</cfif>
 		</cfloop>
-		
+
 		<cfif len(geology_attribute) gt 0><!--- new attribute --->
 				<cfquery name="newGeo"  datasource="uam_god">
 					insert into geology_attributes (
@@ -1237,24 +1237,24 @@ geology loop....
 						'#escapeQuotes(geo_att_determined_method)#',
 						'#escapeQuotes(geo_att_remark)#'
 					)
-				</cfquery>	
+				</cfquery>
 
 			</cfif>
-			
-			
-			
+
+
+
 			<cfif len(orig_lat_long_units) gt 0>
 coordinates.....
 <cfset etime=now()>
 <cfset tt=DateDiff("s", btime, etime)>
 <br>Runtime: #tt#
-				
+
 got llid....
 <cfset etime=now()>
 <cfset tt=DateDiff("s", btime, etime)>
 <br>Runtime: #tt#
 <br>
-gonna try this:				
+gonna try this:
 				<cfquery name="newCoor" datasource="uam_god">
 					INSERT INTO lat_long (
 						LAT_LONG_ID,
@@ -1295,7 +1295,7 @@ gonna try this:
 								#dmLAT_DEG#,
 							<cfelse>
 								#LAT_DEG#,
-							</cfif>	
+							</cfif>
 						<cfelse>
 							NULL,
 						</cfif>
@@ -1318,7 +1318,7 @@ gonna try this:
 							'#dmLAT_DIR#',
 						<cfelse>
 							'#LAT_DIR#',
-						</cfif>						
+						</cfif>
 						<cfif len(LONG_DEG) gt 0 or len(dmLONG_DEG) gt 0>
 							<cfif orig_lat_long_units is "degrees dec. minutes">
 								#dmLONG_DEG#,
@@ -1408,15 +1408,15 @@ inserted coordinates......
 		</cfif><!--- end make new locality --->
 		<!--- we now have a locality --->
 		<cfquery name="hasColl" datasource="uam_god">
-			select 
+			select
 	 			nvl(min(collecting_event_id),-1) collecting_event_id
-			FROM 
-				collecting_event 
+			FROM
+				collecting_event
 			WHERE
 				locality_id = #nLocalityId# AND
 				NVL(VERBATIM_DATE,'NULL') = NVL('#VERBATIM_DATE#','NULL') AND
-				NVL(BEGAN_DATE,'1600-01-01') = NVL('#BEGAN_DATE#','1600-01-01') AND 
-				NVL(ENDED_DATE,'1600-01-01') = NVL('#ENDED_DATE#','1600-01-01') AND 
+				NVL(BEGAN_DATE,'1600-01-01') = NVL('#BEGAN_DATE#','1600-01-01') AND
+				NVL(ENDED_DATE,'1600-01-01') = NVL('#ENDED_DATE#','1600-01-01') AND
 				NVL(VERBATIM_LOCALITY,'NULL') = NVL('#escapeQuotes(VERBATIM_LOCALITY)#','NULL') AND
 				NVL(COLL_EVENT_REMARKS,'NULL') = NVL('#escapeQuotes(COLL_EVENT_REMARKS)#','NULL') AND
 				NVL(COLLECTING_SOURCE,'NULL') = NVL('#escapeQuotes(COLLECTING_SOURCE)#','NULL') AND
@@ -1445,7 +1445,7 @@ making event....
 					COLLECTING_SOURCE,
 					COLLECTING_METHOD,
 					HABITAT_DESC,
-					COLLECTING_TIME, 
+					COLLECTING_TIME,
 					FISH_FIELD_NUMBER
 				) values (
 					#ncollecting_event_id#,
@@ -1461,20 +1461,20 @@ making event....
 					'#escapeQuotes(COLLECTING_TIME)#',
 					'#escapeQuotes(ich_field_number)#'
 				)
-			</cfquery>	
+			</cfquery>
 		<cfelse>
 			<cfset ncollecting_event_id=hasColl.collecting_event_id>
 		</cfif>
 event spiffy....
 		<cfquery name="upCatItem" datasource="uam_god">
-			update cataloged_item set 
-    			collecting_event_id = #ncollecting_event_id# 
+			update cataloged_item set
+    			collecting_event_id = #ncollecting_event_id#
     		where collection_object_id = #collection_object_id#
 		</cfquery>
-updated catitem....	
+updated catitem....
 		<cfquery name="canKill"  datasource="uam_god">
-			SELECT COUNT(*) c 
-			FROM 
+			SELECT COUNT(*) c
+			FROM
 				cataloged_item,
 				collecting_event,
 				locality
@@ -1508,19 +1508,19 @@ got cankill.....
 					DELETE FROM locality WHERE locality_id=#old.locality_id#
 				</cfquery>
 			<cfcatch></cfcatch>
-			</cftry>	
+			</cftry>
 		</cfif>
-fix last edited by...	
+fix last edited by...
 		<cfquery name="fixLastEdited" datasource="uam_god">
 			update flat set stale_flag = 1, lastuser='#session.dbuser#' where collection_object_id = #collection_object_id#
 		</cfquery>
 	</cftransaction>
 done.....
 
-	<cflocation url="specLocality.cfm?collection_object_id=#collection_object_id#">		
+	<cflocation url="specLocality.cfm?collection_object_id=#collection_object_id#">
 
 <!---
 
 	--->
 </cfoutput>
-</cfif>	  
+</cfif>
