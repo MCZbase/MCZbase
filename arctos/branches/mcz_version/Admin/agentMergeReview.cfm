@@ -12,7 +12,7 @@
 		goodname.agent_name good_name,
 		to_char(date_to_merge, 'YYYY-MM-DD') merge_date,
 		DECODE(on_hold, 1, 'X', '') on_hold, 
-		held_by
+		held_by held_by
 	from
 		agent_relations,
 		preferred_agent_name badname,
@@ -21,6 +21,7 @@
 		agent_relationship = 'bad duplicate of'
 		AND agent_relations.agent_id = badname.agent_id and
 		agent_relations.related_agent_id = goodname.agent_id
+	order by date_to_merge desc
 </cfquery>
 <form name="go" method="post" action="agentMergeReview.cfm">
 <table border>
@@ -30,6 +31,7 @@
 		<td>Hold</td>
 		<td>Date to be Merged</td>
 		<td>On Hold</td>
+        <td>Held By</td>
 	</tr>
 	<cfoutput>
 		<cfloop query="bads">
@@ -49,12 +51,13 @@
 				<td align=center>
 					<strong>#on_hold#</strong>
 				</td>
+                <td>#held_by#</td>
 			</tr>
 		</cfloop>
 	</cfoutput>
 	<input type="hidden" name="action" value="doIt">
 	<input type="submit" 
-					 	value="Make the Changes" 
+					 	value="Put on Hold" 
 						class="savBtn"
    						onmouseover="this.className='savBtn btnhov'" 
 						onmouseout="this.className='savBtn'">
