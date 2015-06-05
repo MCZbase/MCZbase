@@ -25,6 +25,8 @@ label {
         background-color: #FF6EC7;
         background-color: #B58AA5;
         background: #b58aa5; /* Old browsers */
+	background-color:#c192ae;
+/*	background-color:#c9B3C0;*/
 }
 .isBadEdit, isBadEdit tr:nth-child(odd) {
         background: #b8d1f3;
