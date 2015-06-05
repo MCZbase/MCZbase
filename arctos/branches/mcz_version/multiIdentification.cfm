@@ -17,8 +17,8 @@
 	select taxa_formula from cttaxa_formula order by taxa_formula
 </cfquery>
 <cfoutput>
-</cfoutput> <cfoutput> <strong>Add Identification For <font size="+1"><i>All</i></font> 
-  specimens listed below:</strong> 
+</cfoutput> <cfoutput> <strong>Add Identification For <font size="+1"><i>All</i></font>
+  specimens listed below:</strong>
   <table>
   <form name="newID" method="post" action="multiIdentification.cfm">
             <input type="hidden" name="Action" value="createManyNew">
@@ -26,7 +26,7 @@
     		<tr>
 				<td>
 				<a href="javascript:void(0);" class="novisit" onClick="getDocs('identification','id_formula')">ID Formula:</a></td>
-				
+
 				<td>
 					<cfif not isdefined("taxa_formula")>
 						<cfset taxa_formula='A'>
@@ -34,11 +34,11 @@
 					<cfset thisForm = "#taxa_formula#">
 					<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr" onchange="newIdFormula(this.value);">
 						<cfloop query="ctFormula">
-							<option 
+							<option
 								<cfif #thisForm# is "#ctFormula.taxa_formula#"> selected </cfif>value="#ctFormula.taxa_formula#">#taxa_formula#</option>
 						</cfloop>
 					</select>
-			
+
 			<!---
 					<select name="taxa_formula" size="1" class="reqdClr"
 					onchange="newIdFormula(this.value);">
@@ -66,24 +66,24 @@
 						<cfelse>
 							<cfset thisDispVal = "ERROR!!!">
 						</cfif>
-							<option 
+							<option
 								<cfif #thisForm# is "#ctFormula.taxa_formula#"> selected </cfif>value="#ctFormula.taxa_formula#">#thisDispVal#</option>
 						</cfloop>
 					</select>
 					--->
 				</td>
-			</tr>     
-	         
-            <tr> 
+			</tr>
+
+            <tr>
               <td><div align="right">Taxon A:</div></td>
               <td>
-			  	<input type="text" name="taxona" id="taxona" class="reqdClr" size="50" 
+			  	<input type="text" name="taxona" id="taxona" class="reqdClr" size="50"
 				onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;"
 				onKeyPress="return noenter(event);">
-				<input type="hidden" name="taxona_id" id="taxona_id"> 
+				<input type="hidden" name="taxona_id" id="taxona_id">
 			  </td>
             </tr>
-			<tr id="userID" style="display:none;"> 
+			<tr id="userID" style="display:none;">
 		    	<td>
 					<div class="helpLink" id="user_identification">Identification:</div>
 				</td>
@@ -91,103 +91,103 @@
 				  	<input type="text" name="user_id" id="user_id" size="50">
 				</td>
 		  	</tr>
-			<tr id="taxon_b_row" style="display:none;"> 
+			<tr id="taxon_b_row" style="display:none;">
               <td><div align="right">Taxon B:</div></td>
               <td>
-			  	<input type="text" name="taxonb" id="taxonb" class="reqdClr" size="50" 
+			  	<input type="text" name="taxonb" id="taxonb" class="reqdClr" size="50"
 					onChange="taxaPick('taxonb_id','taxonb','newID',this.value); return false;"
 					onKeyPress="return noenter(event);">
 				<input type="hidden" name="taxonb_id" id="taxonb_id">
 			  </td>
             </tr>
-            <tr> 
+            <tr>
               <td><div align="right">
 			  <a href="javascript:void(0);" class="novisit" onClick="getDocs('identification','id_by')">ID By:</a>
-				
+
 							 </div></td>
-              <td><input type="text" name="idBy" class="reqdClr" size="50" 
+              <td><input type="text" name="idBy" class="reqdClr" size="50"
 			 		 onchange="getAgent('newIdById','idBy','newID',this.value); return false;"
-			  		 onkeypress="return noenter(event);"> 
-                <input type="hidden" name="newIdById"> 
+			  		 onkeypress="return noenter(event);">
+                <input type="hidden" name="newIdById">
 				<span class="infoLink" onclick="addNewIdBy('two');">more...</span>
-				
+
 
 			 </td>
             </tr>
-			<tr id="addNewIdBy_two" style="display:none;"> 
+			<tr id="addNewIdBy_two" style="display:none;">
               	<td>
 					<div align="right">
-						ID By:<span class="infoLink" onclick="clearNewIdBy('two');"> clear</span>	
+						ID By:<span class="infoLink" onclick="clearNewIdBy('two');"> clear</span>
 					</div>
 				</td>
               	<td>
-					<input type="text" name="idBy_two" id="idBy_two" class="reqdClr" size="50" 
+					<input type="text" name="idBy_two" id="idBy_two" class="reqdClr" size="50"
 			 		 	onchange="getAgent('newIdById_two','idBy_two','newID',this.value); return false;"
-			  		 	onkeypress="return noenter(event);"> 
-                	<input type="hidden" name="newIdById_two" id="newIdById_two"> 
-					<span class="infoLink" onclick="addNewIdBy('three');">more...</span>			
+			  		 	onkeypress="return noenter(event);">
+                	<input type="hidden" name="newIdById_two" id="newIdById_two">
+					<span class="infoLink" onclick="addNewIdBy('three');">more...</span>
 
 			 </td>
             </tr>
-           <tr id="addNewIdBy_three" style="display:none;"> 
+           <tr id="addNewIdBy_three" style="display:none;">
               	<td>
 					<div align="right">
-						ID By:<span class="infoLink" onclick="clearNewIdBy('three');"> clear</span>	
+						ID By:<span class="infoLink" onclick="clearNewIdBy('three');"> clear</span>
 					</div>
 				</td>
               	<td>
-					<input type="text" name="idBy_three" id="idBy_three" class="reqdClr" size="50" 
+					<input type="text" name="idBy_three" id="idBy_three" class="reqdClr" size="50"
 			 		 	onchange="getAgent('newIdById_three','idBy_three','newID',this.value); return false;"
-			  		 	onkeypress="return noenter(event);"> 
-                	<input type="hidden" name="newIdById_three" id="newIdById_three"> 			
+			  		 	onkeypress="return noenter(event);">
+                	<input type="hidden" name="newIdById_three" id="newIdById_three">
 
 			 </td>
             </tr>
-            <tr> 
+            <tr>
               <td><div align="right">
 			  <a href="javascript:void(0);" class="novisit" onClick="getDocs('identification','id_date')">ID Date:</a></td>
 			  </div></td>
               <td><input type="text" name="made_date" id="made_date"></td>
             </tr>
-            <tr> 
+            <tr>
               <td><div align="right">
 			  <a href="javascript:void(0);" class="novisit" onClick="getDocs('identification','nature_of_id')"> Nature of ID:</a></td>
-			
+
 			 </div></td>
               <td><select name="nature_of_id" size="1" class="reqdClr">
                   <cfloop query="ctnature">
                     <option  value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
                   </cfloop>
                 </select>
-				<img 
-				class="likeLink" 
+				<img
+				class="likeLink"
 				src="/images/ctinfo.gif"
 				border="0"
 				alt="Code Table Value Definition"
 				onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)"></td>
             </tr>
-            <tr> 
+            <tr>
               <td><div align="right">Remarks:</div></td>
               <td><input type="text" name="identification_remarks" size="50"></td>
             </tr>
-            <tr> 
-              <td colspan="2"><div align="center"> 
+            <tr>
+              <td colspan="2"><div align="center">
                     <input type="submit" value="Add Identification to all listed specimens" class="insBtn"
-   onmouseover="this.className='insBtn btnhov';this.focus();" onmouseout="this.className='insBtn'">	
+   onmouseover="this.className='insBtn btnhov';this.focus();" onmouseout="this.className='insBtn'">
 
                 </div></td>
             </tr>
     </table>
-          
+
         </form>
-		
-		
-  
-  
+
+
+
+
 
 <cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	 SELECT 
-	 	cataloged_item.collection_object_id as collection_object_id, 
+	 SELECT
+	 	cataloged_item.collection_object_id as collection_object_id,
 		cat_num,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		scientific_name,
@@ -197,22 +197,22 @@
 		quad,
 		institution_acronym,
 		collection.collection
-	FROM 
-		identification, 
+	FROM
+		identification,
 		collecting_event,
 		locality,
 		geog_auth_rec,
 		cataloged_item,
 		collection
-	WHERE 
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
-		AND collecting_event.locality_id = locality.locality_id 
-		AND cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
-		AND cataloged_item.collection_object_id = identification.collection_object_id 
+	WHERE
+		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		AND collecting_event.locality_id = locality.locality_id
+		AND cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+		AND cataloged_item.collection_object_id = identification.collection_object_id
 		and accepted_id_fg=1
 		AND cataloged_item.collection_id = collection.collection_id
 		AND cataloged_item.collection_object_id IN (#collection_object_id#)
-	ORDER BY 
+	ORDER BY
 		collection_object_id
 </cfquery>
 <br><b>#specimenList.recordcount# Specimens Being Re-Identified:</b>
@@ -282,6 +282,8 @@
 	<cfset scientific_name = "#taxona# cf.">
 <cfelseif taxa_formula is "A aff.">
 	<cfset scientific_name = "#taxona# aff.">
+<cfelseif taxa_formula is "A nr.">
+	<cfset scientific_name = "#taxona# nr.">
 <cfelseif taxa_formula is "A / B intergrade">
 	<cfset scientific_name = "#taxona# / #taxonb# intergrade">
 <cfelse>
@@ -326,7 +328,7 @@
 				insert into identification_agent (
 					identification_id,
 					agent_id,
-					identifier_order) 
+					identifier_order)
 				values (
 					sq_identification_id.currval,
 					#newIdById#,
@@ -338,7 +340,7 @@
 					insert into identification_agent (
 						identification_id,
 						agent_id,
-						identifier_order) 
+						identifier_order)
 					values (
 						sq_identification_id.currval,
 						#newIdById_two#,
@@ -351,7 +353,7 @@
 					insert into identification_agent (
 						identification_id,
 						agent_id,
-						identifier_order) 
+						identifier_order)
 					values (
 						sq_identification_id.currval,
 						#newIdById_three#,
@@ -384,7 +386,7 @@
 </cfloop>
 	</cftransaction>
 	<cflocation url="multiIdentification.cfm?collection_object_id=#collection_object_id#" addtoken="no">
-	
+
 </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------->
