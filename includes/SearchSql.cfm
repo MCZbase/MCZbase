@@ -1542,7 +1542,7 @@
 		<cfset mapurl = "#mapurl#&attribute_value_1=#attribute_value_1#">
 		<cfset attribute_value_1 = #replace(attribute_value_1,"'","''","all")#>
 		<cfif attOper_1 is "like">
-			<cfset basQual = " #basQual# AND (upper(attributes_1.attribute_value) LIKE '%#ucase(attribute_value_1)#%' OR attributes_1.attribute_value) LIKE '%#ucase(attribute_value_1)#%')">
+			<cfset basQual = " #basQual# AND (upper(attributes_1.attribute_value) LIKE '%#ucase(attribute_value_1)#%' OR upper(part_attributes_1.attribute_value) LIKE '%#ucase(attribute_value_1)#%')">
 		<cfelseif attOper_1 is "equals" >
 			<cfset basQual = " #basQual# AND (attributes_1.attribute_value = '#attribute_value_1#' OR part_attributes_1.attribute_value = '#attribute_value_1#')">
 		<cfelseif attOper_1 is "greater" >
@@ -1588,7 +1588,7 @@
 		<cfset mapurl = "#mapurl#&attribute_value_2=#attribute_value_2#">
 		<cfset attribute_value_2 = #replace(attribute_value_2,"'","''","all")#>
 		<cfif attOper_2 is "like">
-			<cfset basQual = " #basQual# AND (upper(attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%' OR attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%')">
+			<cfset basQual = " #basQual# AND (upper(attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%' OR upper(part_attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%')">
 		<cfelseif attOper_2 is "equals" >
 			<cfset basQual = " #basQual# AND (attributes_2.attribute_value = '#attribute_value_2#' OR part_attributes_2.attribute_value = '#attribute_value_2#')">
 		<cfelseif attOper_2 is "greater" >
@@ -1633,7 +1633,7 @@
 		<cfset mapurl = "#mapurl#&attribute_value_3=#attribute_value_3#">
 		<cfset attribute_value_3 = #replace(attribute_value_3,"'","''","all")#>
 		<cfif attOper_3 is "like">
-			<cfset basQual = " #basQual# AND (upper(attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%' OR attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%')">
+			<cfset basQual = " #basQual# AND (upper(attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%' OR upper(part_attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%')">
 		<cfelseif attOper_3 is "equals" >
 			<cfset basQual = " #basQual# AND (attributes_3.attribute_value = '#attribute_value_3#' OR part_attributes_3.attribute_value = '#attribute_value_3#')">
 		<cfelseif attOper_3 is "greater" >
