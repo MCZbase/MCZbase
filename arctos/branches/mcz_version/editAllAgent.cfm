@@ -25,7 +25,7 @@
 	<cfset agent_id = -1>
 </cfif>
 <script language="javascript" type="text/javascript">
-	
+
 	jQuery(document).ready(function() {
 		jQuery("#birth_date").datepicker();
 		jQuery("#death_date").datepicker();
@@ -60,7 +60,7 @@
 					}
 				} else {
 					name='';
-				}				
+				}
 			}
 			if (name.length>0){
 				var rf=document.getElementById('agent_name');
@@ -104,9 +104,9 @@
 		<label for="prefix">Prefix</label>
 		<select name="prefix" id="prefix" size="1">
 			<option value=""></option>
-			<cfoutput query="ctprefix"> 
+			<cfoutput query="ctprefix">
 				<option value="#prefix#">#prefix#</option>
-			</cfoutput> 
+			</cfoutput>
 		</select>
 		<label for="first_name">First Name</label>
 		<input type="text" name="first_name" id="first_name">
@@ -117,9 +117,9 @@
 		<label for="suffix">Suffix</label>
 		<select name="suffix" size="1" id="suffix">
 			<option value=""></option>
-			<cfoutput query="ctsuffix"> 
+			<cfoutput query="ctsuffix">
 				<option value="#suffix#">#suffix#</option>
-			</cfoutput> 
+			</cfoutput>
     	</select>
 		<label for="pref_name">Preferred Name</label>
 		<input type="text" name="pref_name" id="pref_name">
@@ -132,7 +132,7 @@
 		<cfabort>
 	</cfif>
 	<cfquery name="person" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			agent_id,
 			person_id,
 			prefix,
@@ -145,16 +145,16 @@
 			agent_remarks,
 			agent_type,
 			agent.edited edited
-		from 
+		from
 			agent
 			left outer join person on (agent_id = person_id)
 			where agent_id=#agent_id#
 	</cfquery>
 	<cfoutput query="person">
-		<cfif #agent_type# is "person">	
+		<cfif #agent_type# is "person">
 			<cfset nameStr="">
 			<cfset nameStr= listappend(nameStr,prefix,' ')>
-			
+
 			<cfset nameStr= listappend(nameStr,first_name,' ')>
 			<cfset nameStr= listappend(nameStr,middle_name,' ')>
 			<cfset nameStr= listappend(nameStr,last_name,' ')>
@@ -178,16 +178,16 @@
 		</cfif>
 		<span class="infoLink" onClick="getDocs('agent')">Help</span>
 		<br>
-		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#} 
+		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#}
 		<cfif len(#person.agent_remarks#) gt 0>
-			<br><em>#person.agent_remarks#</em>
+			#person.agent_remarks#
 		</cfif>
 		<cfif listcontainsnocase(session.roles,"manage_transactions")>
 			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) || ' ' || agent_rank agent_rank from agent_rank where agent_id=#agent_id# group by agent_rank
 			</cfquery>
-			<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
-			<br>
+			<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
+			<br><br>
 			<cfif rank.recordcount gt 0>
 				Previous Ranking: #valuelist(rank.agent_rank,"; ")#
 			</cfif>
@@ -196,13 +196,13 @@
 	</cfoutput>
 	<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from addr
-		where 
+		where
 		agent_id = #person.agent_id#
 		order by valid_addr_fg DESC
 	</cfquery>
 	<cfquery name="elecagentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from electronic_address
-		where 
+		where
 		agent_id = #person.agent_id#
 	</cfquery>
 	<cfoutput>
@@ -269,15 +269,15 @@
 				<div style="border:2px solid green;margin:1px;padding:1px;">
 					<table>
 						<tr>
-							<td>	
+							<td>
 								<label for="prefix">Prefix</label>
 								<select name="prefix" id="prefix" size="1">
 									<option value=""></option>
-									<cfloop query="ctprefix"> 
+									<cfloop query="ctprefix">
 										<option value="#ctprefix.prefix#"
 										<cfif #ctprefix.prefix# is "#person.prefix#">selected</cfif>>#ctprefix.prefix#
 										</option>
-									</cfloop> 
+									</cfloop>
 								</select>
 							</td>
 							<td>
@@ -296,10 +296,10 @@
 								<label for="suffix">Suffix</label>
 								<select name="suffix" id="suffix" size="1">
 									<option value=""></option>
-									   <cfloop query="ctsuffix"> 
+									   <cfloop query="ctsuffix">
 											<option value="#ctsuffix.suffix#"
 												<cfif #ctsuffix.suffix# is "#person.suffix#">selected</cfif>>#ctsuffix.suffix#</option>
-										</cfloop> 
+										</cfloop>
 								</select>
 							</td>
 						</tr>
@@ -323,8 +323,14 @@
  						<tr>
 							<td colspan="5">
  								<label for="agent_remarks">Agent Remark</label>
- 								<input type="text" value="#agent_remarks#" name="agent_remarks" id="agent_remarks" size="100">
- 								<br>
+                                <cfform action="editAllAgent.cfm">
+								<cftextarea name="agent_remarks" id="agent_remarks"
+                                richtext="true"
+                                toolbar="Basic"
+                             
+                                value="#agent_remarks#"/>
+                                </cfform>
+ 								<!---<input type="text" value="#agent_remarks#" name="agent_remarks" id="agent_remarks" size="100">--->
  								<input type="submit" class="savBtn" value="Update Person">
  							</td>
  						</tr>
@@ -359,20 +365,20 @@
 		</cfoutput>
 	</cfif>
 	<cfoutput>
-<!---------------------------- group handling ------------------------------>	
+<!---------------------------- group handling ------------------------------>
 		<cfif #person.agent_type# is "group">
 			<cfquery name="grpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					MEMBER_AGENT_ID,
 					MEMBER_ORDER,
-					agent_name					
-				from 
+					agent_name
+				from
 					group_member,
 					preferred_agent_name
-				where 
+				where
 					group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id AND
 					GROUP_AGENT_ID = #agent_id#
-				order by MEMBER_ORDER					
+				order by MEMBER_ORDER
 			</cfquery>
 			<label for="gmemdv">Group Members</label>
 			<cfset i=1>
@@ -403,7 +409,7 @@
 				<input type="hidden" name="member_id">
 				<div class="newRec">
 					<label for="">Add Member to Group</label>
-					<input type="text" name="group_member" class="reqdClr" 
+					<input type="text" name="group_member" class="reqdClr"
 						onchange="getAgent('member_id','group_member','newGroupMember',this.value); return false;"
 				 		onKeyPress="return noenter(event);">
 					<input type="submit" class="insBtn" value="Add Group Member">
@@ -469,11 +475,11 @@
 			</form>
 		</div>
 		<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 
+			select
 				agent_relationship, agent_name, related_agent_id
 			from agent_relations, agent_name
-			where 
-			  agent_relations.related_agent_id = agent_name.agent_id 
+			where
+			  agent_relations.related_agent_id = agent_name.agent_id
 			  and agent_name_type = 'preferred' and
 			  agent_relations.agent_id=#person.agent_id#
 		</cfquery>
@@ -497,7 +503,7 @@
 								</cfif>
 								>#ctRelns.AGENT_RELATIONSHIP#</option>
 						</cfloop>
-					</select> 
+					</select>
 					<input type="text" name="related_agent" class="reqdClr" value="#agent_name#"
 						onchange="getAgent('newRelatedAgentId','related_agent','agentRelations#i#',this.value); return false;"
 						onKeyPress="return noenter(event);">
@@ -514,9 +520,9 @@
 				<input type="hidden" name="newRelatedAgentId">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
 				<select name="relationship" size="1">
-					<cfloop query="ctRelns"> 
+					<cfloop query="ctRelns">
 						<option value="#ctRelns.AGENT_RELATIONSHIP#">#ctRelns.AGENT_RELATIONSHIP#</option>
-					</cfloop> 
+					</cfloop>
 				</select>
 				<input type="text" name="related_agent" class="reqdClr"
 					onchange="getAgent('newRelatedAgentId','related_agent','newRelationship',this.value); return false;"
@@ -631,6 +637,92 @@
 				<input type="submit" class="insBtn" value="Create Address">
 			</form>
 		</div>
+		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		    select distinct
+		        media.media_id,
+		        media.media_uri,
+		        media.mime_type,
+		        media.media_type,
+		        media.preview_uri
+		     from
+		         media,
+		         media_relations,
+		         media_labels
+		     where
+		         media.media_id=media_relations.media_id and
+		         media.media_id=media_labels.media_id (+) and
+		         media_relations.media_relationship = 'shows agent' and
+		         media_relations.related_primary_key = #agent_id#
+		</cfquery>
+		<cfif media.recordcount gt 0>
+	<label for="amedia"><span class="likeLink">Media</span></label>
+    <div style="border:2px solid green;margin:1px;padding:1px;" <!---class="detailCell"--->>
+		<!---div class="detailLabel">Media--->
+		<cfquery name="wrlCount" dbtype="query">
+			select * from media where mime_type = 'model/vrml'
+		</cfquery>
+		<cfif wrlCount.recordcount gt 0>
+			<br><span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+		</cfif>
+		 		<!---cfif oneOfUs is 1>
+				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(*) c
+					FROM
+						ctattribute_type
+					where attribute_type='image confirmed' and
+					collection_cde='#one.collection_cde#'
+				</cfquery>
+				<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>
+				<cfquery name="isConf"  dbtype="query">
+					SELECT count(*) c
+					FROM
+						attribute
+					where attribute_type='image confirmed'
+				</cfquery>
+				<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
+					<span class="infoLink"
+						id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'>
+						Confirm Image IDs
+					</span>
+				</CFIF>
+			</cfif--->
+		<div class="detailBlock">
+            <span class="detailData">
+				<!---div class="thumbs"--->
+					<div class="thumb_spcr">&nbsp;</div>
+					<cfloop query="media">
+						<cfset puri=getMediaPreview(preview_uri,media_type)>
+		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select
+								media_label,
+								label_value
+							from
+								media_labels
+							where
+								media_id=#media_id#
+						</cfquery>
+						<cfquery name="desc" dbtype="query">
+							select label_value from labels where media_label='description'
+						</cfquery>
+						<cfset alt="Media Preview Image">
+						<cfif desc.recordcount is 1>
+							<cfset alt=desc.label_value>
+						</cfif>
+		               <div class="one_thumb">
+			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
+		                   	<p>
+								#media_type# (#mime_type#)
+			                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
+								<br>#alt#
+							</p>
+						</div>
+					</cfloop>
+					<div class="thumb_spcr">&nbsp;</div>
+				</div--->
+	        </span>
+		</div>
+	</div>
+</cfif>
 	</cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
@@ -647,8 +739,8 @@
 				</cfloop>
 			</select>
 			<input type="text" name="address" id="address" value="#address#" size="50">
-			<input type="submit" 
-				value="Save Updates" 
+			<input type="submit"
+				value="Save Updates"
 				class="savBtn">
 		</form>
 </cfoutput>
@@ -695,7 +787,7 @@
 						<label for="addr_type">Address Type</label>
 						<select name="addr_type" id="addr_type" size="1">
 							<cfloop query="ctAddrType">
-							<option 
+							<option
 								<cfif addrtype is ctAddrType.addr_type> selected="selected" </cfif>
 								value="#ctAddrType.addr_type#">#ctAddrType.addr_type#</option>
 							</cfloop>
@@ -778,11 +870,11 @@
 		</form>
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveEditsAddr">
 	<cfoutput>
 		<cfquery name="editAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE addr SET 
+						UPDATE addr SET
                                 STREET_ADDR1 = '#STREET_ADDR1#'
                                 ,STREET_ADDR2 = '#STREET_ADDR2#'
                                 ,department = '#department#'
@@ -811,12 +903,12 @@
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveCurrentAddress">
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE addr SET 
+				UPDATE addr SET
 					addr_id = #addr_id#
 				 	,STREET_ADDR1 = '#STREET_ADDR1#'
 				 	,institution = '#institution#'
@@ -828,13 +920,13 @@
 				 	,COUNTRY_CDE = '#COUNTRY_CDE#'
 				 	,MAIL_STOP = '#MAIL_STOP#'
 				 where addr_id = #addr_id#
-			</cfquery>	
+			</cfquery>
 			<cfquery name="elecaddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE electronic_address 
-				SET 
+				UPDATE electronic_address
+				SET
 					AGENT_ID = #agent_id#
-					,ELECTRONIC_ADDR = '#ELECTRONIC_ADDR#'	
-					,address_type='#address_type#'	
+					,ELECTRONIC_ADDR = '#ELECTRONIC_ADDR#'
+					,address_type='#address_type#'
 				where
 					AGENT_ID = #agent_id#
 			</cfquery>
@@ -849,7 +941,7 @@
 		INSERT INTO electronic_address (
 			AGENT_ID
 			,address_type
-		 	,address	
+		 	,address
 		 ) VALUES (
 			#agent_id#
 			,'#address_type#'
@@ -903,7 +995,7 @@
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "addRelationship">
 	<cfoutput>
 		<cfif len(#newRelatedAgentId#) is 0>
@@ -918,12 +1010,12 @@
 			VALUES (
 				#agent_id#,
 				#newRelatedAgentId#,
-				'#relationship#')		  
+				'#relationship#')
 		</cfquery>
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteRelated">
 	<cfoutput>
 	<cfquery name="killRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -935,23 +1027,23 @@
 <cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteGroupMember">
 	<cfoutput>
 	<cfquery name="killGrpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM group_member WHERE 
+		DELETE FROM group_member WHERE
 		GROUP_AGENT_ID =#agent_id# AND
 		MEMBER_AGENT_ID = #MEMBER_AGENT_ID#
 	</cfquery>
 	<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "changeRelated">
 	<cfoutput>
 		<cfquery name="changeRelated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE agent_relations SET
-				related_agent_id = 
+				related_agent_id =
 				<cfif len(#newRelatedAgentId#) gt 0>
 					#newRelatedAgentId#
 				  <cfelse>
@@ -965,7 +1057,7 @@
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "newName">
 	<cfoutput>
 		<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -973,11 +1065,11 @@
 				agent_name_id, agent_id, agent_name_type, agent_name)
 			VALUES (
 				sq_agent_name_id.nextval, #agent_id#, '#agent_name_type#','#agent_name#')
-		</cfquery>			
+		</cfquery>
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "updateName">
 	<cfoutput>
 		<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -987,11 +1079,11 @@
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteName">
 	<cfoutput>
 		<cfquery name="delId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
+			SELECT
 				PROJECT_AGENT.AGENT_NAME_ID,
 				PUBLICATION_AUTHOR_NAME.AGENT_NAME_ID,
 				project_sponsor.AGENT_NAME_ID
@@ -1015,7 +1107,7 @@
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------------->	
+<!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "editPerson">
 	<cfoutput>
 		<cftransaction>
@@ -1057,9 +1149,9 @@
 			  <cfelse>
 			  	,death_date=null
 			</cfif>
-				WHERE 
+				WHERE
 					person_id=#agent_id#
-			</cfquery>	
+			</cfquery>
 			<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE agent SET
 					edited='#editedPerson#',
@@ -1111,7 +1203,7 @@
 			</cfquery>
 			<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select sq_agent_name_id.nextval nextAgentNameId from dual
-			</cfquery>		
+			</cfquery>
 			<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO agent (
 					agent_id,
@@ -1122,9 +1214,9 @@
 					'person',
 					#agentNameID.nextAgentNameId#
 					)
-			</cfquery>			
+			</cfquery>
 			<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				INSERT INTO person ( 
+				INSERT INTO person (
 					PERSON_ID
 					<cfif len(#prefix#) gt 0>
 						,prefix
@@ -1202,7 +1294,7 @@
 						<input type="submit" class="insBtn" value="Of course. I carefully checked for duplicates before creating this agent.">
 						<br><input type="button" class="qutBtn" onclick="back()" value="Oh - back one step, please.">
 					</form>
-					<cfabort>					
+					<cfabort>
 				</cfif>
 			</cfif>
 			<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1220,7 +1312,7 @@
 					0
 					)
 			</cfquery>
-		</cftransaction>	
+		</cftransaction>
 		<cflocation url="editAllAgent.cfm?agent_id=#agentID.nextAgentId#">
 	</cfoutput>
 </cfif>
@@ -1271,7 +1363,7 @@
 						<input type="submit" class="insBtn" value="Of course. I carefully checked for duplicates before creating this agent.">
 						<br><input type="button" class="qutBtn" onclick="back()" value="Oh - back one step, please.">
 					</form>
-					<cfabort>					
+					<cfabort>
 				</cfif>
 			</cfif>
 			<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1289,7 +1381,7 @@
 					0
 					)
 			</cfquery>
-		</cftransaction>			
+		</cftransaction>
 		<cflocation url="editAllAgent.cfm?agent_id=#agentID.nextAgentId#">
 	</cfoutput>
 </cfif>
