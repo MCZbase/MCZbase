@@ -41,14 +41,14 @@ create public synonym cf_temp_media_labels for cf_temp_media_labels;
 grant all on cf_temp_media_labels to manage_media;
 grant select on cf_temp_media_labels to public;
 
-CREATE OR REPLACE TRIGGER cf_temp_media_key                                         
- before insert  ON cf_temp_media  
- for each row 
-    begin     
-    	if :NEW.key is null then                                                                                      
+CREATE OR REPLACE TRIGGER cf_temp_media_key
+ before insert  ON cf_temp_media
+ for each row
+    begin
+    	if :NEW.key is null then
     		select somerandomsequence.nextval into :new.key from dual;
-    	end if;                                
-    end;                                                                                            
+    	end if;
+    end;
 /
 sho err
 --->
@@ -56,13 +56,13 @@ sho err
 <cfinclude template="/includes/_header.cfm">
 <cfif #action# is "nothing">
 Step 1: Ensure that Media and objects media will relate to exist.
-Step 2: Upload a comma-delimited text file (csv). 
-Include column headings, spelled exactly as below. 
+Step 2: Upload a comma-delimited text file (csv).
+Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MEDIA_RELATIONSHIPS,MEDIA_LABELS</textarea>
-	</div> 
+	</div>
 <p></p>
 
 
@@ -75,7 +75,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li style="color:red">MEDIA_TYPE</li>
 	<li>PREVIEW_URI</li>
 	<li>MEDIA_RELATIONSHIPS</li>
-	<li>MEDIA_LABELS</li>			 
+	<li>MEDIA_LABELS</li>
 </ul>
 
 <p>
@@ -99,7 +99,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		<li>Cataloged Item (DWC triplet)</li>
 		<li>Collecting Event (collecting_event_id)</li>
 	</ul>
-	
+
 </p>
 
 <p>
@@ -116,7 +116,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			audio bit resolution=2;audio cut id=5;made date=7 January 1964
 		</li>
 	</ul>
-		
+
 </p>
 <cfform name="atts" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
@@ -125,7 +125,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		   size="45">
 			 <input type="submit" value="Upload this file"
 		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'" 
+		onmouseover="this.className='savBtn btnhov'"
 		onmouseout="this.className='savBtn'">
   </cfform>
 
@@ -146,17 +146,17 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		delete from cf_temp_media_labels
 	</cfquery>
-	
-	
+
+
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 	<cfdump var=#arrResult#>
-	
+
 
 	<cfset numberOfColumns = ArrayLen(arrResult[1])>
 
-	
+
 	<cfset colNames="">
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
@@ -325,13 +325,34 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 					<cfelse>
 						<cfset rec_stat=listappend(rec_stat,'Project #lv# matched #c.recordcount# records.',";")>
 					</cfif>
+				<cfelseif table_name is "publication">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select publication_id from publication where publication_id ='#lv#'
+					</cfquery>
+					<cfif c.recordcount is 1 and len(c.publication_id) gt 0>
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into cf_temp_media_relations (
+ 								key,
+								MEDIA_RELATIONSHIP,
+								CREATED_BY_AGENT_ID,
+								RELATED_PRIMARY_KEY
+							) values (
+								#key#,
+								'#ln#',
+								#session.myAgentId#,
+								#c.publication_id#
+							)
+						</cfquery>
+					<cfelse>
+						<cfset rec_stat=listappend(rec_stat,'publication_id #lv# matched #c.recordcount# records.',";")>
+					</cfif>
 				<cfelseif table_name is "cataloged_item">
 					<cftry>
 					<cfset institution_acronym = listgetat(lv,1,":")>
 					<cfset collection_cde = listgetat(lv,2,":")>
 					<cfset cat_num = listgetat(lv,3,":")>
 					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collection_object_id from 
+						select collection_object_id from
 							cataloged_item,
 							collection
 						WHERE
@@ -400,13 +421,13 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	Oops! You must fix everything below before proceeding (see STATUS column).
 	<cfdump var=#bad#>
 <cfelse>
-	Yay! Everything looks OK. Check it over in the tables below, then 
+	Yay! Everything looks OK. Check it over in the tables below, then
 	<a href="BulkloadMedia.cfm?action=load"><strong>click here</strong></a> to proceed.
 	<br>^^^ that thing. You must click it.
 	(Note that the table below is "flattened." Media entries are repeated for every Label and Relationship.)
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
-			cf_temp_media.key, 
+		select
+			cf_temp_media.key,
 			status,
 			MEDIA_URI,
 			MIME_TYPE,
@@ -416,7 +437,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			RELATED_PRIMARY_KEY,
 			MEDIA_LABEL,
 			LABEL_VALUE
-		from 
+		from
 			cf_temp_media,
 			cf_temp_media_labels,
 			cf_temp_media_relations
@@ -424,7 +445,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			cf_temp_media.key=cf_temp_media_labels.key (+) and
 			cf_temp_media.key=cf_temp_media_relations.key (+)
 		group by
-			cf_temp_media.key, 
+			cf_temp_media.key,
 			status,
 			MEDIA_URI,
 			MIME_TYPE,
@@ -435,7 +456,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			MEDIA_LABEL,
 			LABEL_VALUE
 	</cfquery>
-	<cfdump var=#media#>	
+	<cfdump var=#media#>
 </cfif>
 </cfoutput>
 </cfif>
@@ -443,9 +464,9 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 <cfif #action# is "load">
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			*
-		from 
+		from
 			cf_temp_media
 	</cfquery>
 	<cftransaction>
@@ -459,16 +480,16 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#', 1)
 			</cfquery>
 			<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					*
-				from 
+				from
 					cf_temp_media_relations
 				where
 					key=#key#
 			</cfquery>
 			<cfloop query="media_relations">
 				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into 
+					insert into
 						media_relations (
 						media_id,media_relationship,related_primary_key
 						)values (
@@ -476,9 +497,9 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 				</cfquery>
 			</cfloop>
 			<cfquery name="medialabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					*
-				from 
+				from
 					cf_temp_media_labels
 				where
 					key=#key#
