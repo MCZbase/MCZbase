@@ -18,7 +18,7 @@
 		var d='<input type="button" id="rec_' + id + '"	value="undelete" class="savBtn" onclick="undeleteAttribute(' + id + ');">';
 		$("#attdel_" + id).append(d);
 		$("#del_" + id).remove();
-		
+
 		$("#attribute_value_" + id).toggle();
 		$("#attribute_units_" + id).toggle();
 		$("#attribute_remark_" + id).toggle();
@@ -26,17 +26,17 @@
 		$("#determination_method_" + id).toggle();
 		$("#agent_name_" + id).toggle();
 	}
-	
-	
-						
-						
+
+
+
+
 	function undeleteAttribute(id){
 		$("#attribute_type_" + id).val($("#deleted_attribute_type_" + id).val());
 		$("#deleted_attribute_type_" + id).remove();
 		var d='<input type="button" id="del_' + id + '"	value="Delete" class="delBtn" onclick="deleteAttribute(\'' + id + '\');">';
 		$("#attdel_" + id).append(d);
 		$("#rec_" + id).remove();
-		
+
 		$("#attribute_value_" + id).toggle();
 		$("#attribute_units_" + id).toggle();
 		$("#attribute_remark_" + id).toggle();
@@ -44,7 +44,7 @@
 		$("#determination_method_" + id).toggle();
 		$("#agent_name_" + id).toggle();
 	}
-	function populateAttribute(aid) {		
+	function populateAttribute(aid) {
 		jQuery.getJSON("/component/DataEntry.cfc",
 			{
 				method : "getAttCodeTbl",
@@ -55,7 +55,7 @@
 				queryformat : 'column'
 			},
 			success_populateAttribute
-		);	
+		);
 	}
 	function success_populateAttribute (r) {
 		var result=r.DATA;
@@ -63,7 +63,7 @@
 		var aid=result.V[1];
 		aid='_' + aid;
 		$("#attribute_value" + aid).remove();
-		$("#attribute_units" + aid).remove();	
+		$("#attribute_units" + aid).remove();
 		if (resType == 'value') {
 			var d = '<select name="attribute_value' + aid + '" id="attribute_value' + aid + '">';
 			d+='<option value=""></option>';
@@ -102,10 +102,10 @@
 				habitat,
 				associated_species,
 				flags,
-				cat_num, 
-				collection.collection_cde, 
+				cat_num,
+				collection.collection_cde,
 				institution_acronym,
-				cataloged_item.collection_object_id collection_object_id, 
+				cataloged_item.collection_object_id collection_object_id,
 				ATTRIBUTE_ID,
 				agent_name,
 				determined_by_agent_id,
@@ -115,7 +115,7 @@
 				ATTRIBUTE_REMARK,
 				DETERMINED_DATE,
 				DETERMINATION_METHOD
-			FROM 
+			FROM
 				cataloged_item,
 				collection,
 				attributes,
@@ -125,17 +125,17 @@
 			WHERE
 				cataloged_item.collection_id = collection.collection_id AND
 				cataloged_item.collection_object_id = attributes.collection_object_id (+) AND
-				attributes.determined_by_agent_id = preferred_agent_name.agent_id (+) AND				
+				attributes.determined_by_agent_id = preferred_agent_name.agent_id (+) AND
 				cataloged_item.collection_object_id = coll_object.collection_object_id AND
 				cataloged_item.collection_object_id = coll_object_remark.collection_object_id (+) AND
 				cataloged_item.collection_object_id = #collection_object_id#
 		</cfquery>
-		
+
 		<cfquery name="ctflags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT flags from ctflags
 		</cfquery>
 		<cfquery name="indiv" dbtype="query">
-			select 
+			select
 				CAT_NUM,
 				collection_cde,
 				COLL_OBJECT_REMARKS,
@@ -153,12 +153,12 @@
 				flags
 		</cfquery>
 		<cfquery name="ctattribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT attribute_type FROM ctattribute_type where 
+			SELECT attribute_type FROM ctattribute_type where
 			collection_cde='#indiv.collection_cde#'
 		</cfquery>
 		<cfquery name="atts" dbtype="query">
 			select
-				collection_object_id, 
+				collection_object_id,
 				ATTRIBUTE_ID,
 				agent_name,
 				determined_by_agent_id,
@@ -173,7 +173,7 @@
 			where
 				ATTRIBUTE_TYPE is not null
 			group by
-				collection_object_id, 
+				collection_object_id,
 				ATTRIBUTE_ID,
 				agent_name,
 				determined_by_agent_id,
@@ -195,7 +195,7 @@
 			<input type="hidden" value="#collection_object_id#" name="collection_object_id">
 			<input type="hidden" value="#indiv.collection_cde#" name="collection_cde" id="collection_cde">
     		<table>
-      			<tr> 
+      			<tr>
 					<td>
 						<label for="flags">Missing</label>
 						<select name="flags" id="flags" size="1">
@@ -242,14 +242,14 @@
 							<input type="text" name="attribute_remark_#attribute_id#" id="attribute_remark_#attribute_id#" value="#attribute_remark#">
 						</td>
 						<td id="_determined_date_#attribute_id#">
-							<input type="text" name="determined_date_#attribute_id#" id="determined_date_#attribute_id#" 
-								value="#dateformat(determined_date,'yyyy-mm-dd')#" class="reqdClr" size="12">
+							<input type="text" name="determined_date_#attribute_id#" id="determined_date_#attribute_id#"
+								value="#dateformat(determined_date,'yyyy-mm-dd')#" size="12">
 						</td>
 						<td id="_determination_method_#attribute_id#">
 							<input type="text" name="determination_method_#attribute_id#" id="determination_method_#attribute_id#" value="#determination_method#">
 						</td>
 						<td id="_agent_name_#attribute_id#">
-							<input type="hidden" name="determined_by_agent_id_#attribute_id#" id="determined_by_agent_id_#attribute_id#" 
+							<input type="hidden" name="determined_by_agent_id_#attribute_id#" id="determined_by_agent_id_#attribute_id#"
 								value="#determined_by_agent_id#">
 							<input type="text" name="agent_name_#attribute_id#" id="agent_name_#attribute_id#" class="reqdClr" value="#agent_name#"
 		 						onchange="getAgent('determined_by_agent_id_#attribute_id#',this.id,'details',this.value); return false;"
@@ -277,7 +277,7 @@
 						<input type="text" name="attribute_remark" id="attribute_remark">
 					</td>
 					<td id="determined_date_new">
-						<input type="text" name="determined_date" id="determined_date" class="reqdClr" size="12">
+						<input type="text" name="determined_date" id="determined_date" size="12">
 					</td>
 					<td id="determination_method_new">
 						<input type="text" name="determination_method" id="determination_method">
@@ -289,7 +289,7 @@
 	  						onKeyPress="return noenter(event);">
 					</td>
 					<td>
-						
+
 					</td>
 				</tr>
 			</table>
@@ -355,7 +355,7 @@
 						</td>
 						<td>
 							<label for="determined_date">Date</label>
-							<input type="text" name="determined_date" id="mammgrid_determined_date" class="reqdClr" size="10">
+							<input type="text" name="determined_date" id="mammgrid_determined_date" size="10">
 						</td>
 						<td>
 							<label for="mammgrid_detagentid">Determiner</label>
@@ -381,9 +381,9 @@
 				<cfset thisAttributeId = evaluate("attribute_id_" & n)>
 				<cfset thisAttributeType = evaluate("attribute_type_" & thisAttributeId)>
 				<cftry>
-					<cfset thisAttributeUnits = evaluate("attribute_units_" & thisAttributeId)>				
+					<cfset thisAttributeUnits = evaluate("attribute_units_" & thisAttributeId)>
 					<cfcatch>
-						<cfset thisAttributeUnits = ''>				
+						<cfset thisAttributeUnits = ''>
 					</cfcatch>
 				</cftry>
 				<cftry>
@@ -410,10 +410,10 @@
 							ATTRIBUTE_REMARK='#thisAttributeRemark#',
 							DETERMINED_DATE='#dateformat(thisDeterminedDate,"yyyy-mm-dd")#',
 							DETERMINATION_METHOD='#thisDeterminationMethod#'
-						WHERE 
+						WHERE
 							attribute_id=#thisAttributeId#
 					</cfquery>
-				</cfif>			
+				</cfif>
 			</cfloop>
 			<!---- mammal grid ----->
 			<cfif isdefined("total_length")>
@@ -560,7 +560,7 @@
 				WHERE collection_object_id = #collection_object_id#
 			</cfquery>
 			<cfquery name="isCORem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select collection_object_id from coll_object_remark where 
+				select collection_object_id from coll_object_remark where
 				collection_object_id = #collection_object_id#
 			</cfquery>
 			<cfif len(isCORem.collection_object_id) gt 0>
@@ -570,7 +570,7 @@
 						,coll_object_remarks = '#coll_object_remarks#'
 						,habitat = '#habitat#'
 						,associated_species = '#associated_species#'
-					WHERE 
+					WHERE
 						collection_object_id = #collection_object_id#
 				</cfquery>
 			<cfelse>
