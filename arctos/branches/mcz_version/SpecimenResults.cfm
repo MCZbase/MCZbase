@@ -194,7 +194,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	
 	<cfset sqlstring = replace(sqlstring,"flatTableName","#session.flatTableName#","all")>
 
-<cfoutput>[#sqlstring#]</cfoutput>
+<!---cfoutput>[#sqlstring#]</cfoutput--->
 
 	<!--- require some actual searching --->
 	<cfset srchTerms="">
