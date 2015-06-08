@@ -27,7 +27,7 @@
 		</cfif>
 		<cfabort>
 	</cfif>
-	<cfset nono="@@version,w00tw00t,announce,php,cgi,ini,config,client,webmail,roundcubemail,roundcube,HovercardLauncher,README,cube,mail,board,zboard,phpMyAdmin">
+	<cfset nono="tipguide,userfiles,okey,@@version,w00tw00t,announce,php,cgi,ini,config,client,webmail,roundcubemail,roundcube,HovercardLauncher,README,cube,mail,board,zboard,phpMyAdmin,Diagnostics,connector,info_sub,fuseaction">
 	<cfset fourohthree="dll,asp">
 	<cfloop list="#cgi.redirect_url#" delimiters="./" index="i">
 		<cfif listfindnocase(nono,i)>
@@ -62,7 +62,7 @@
 				},
 				function (d) {
 		  			document.location='#cgi.REDIRECT_URL#';
-				}		
+				}
 			);
 		}
 	</script>
@@ -78,11 +78,11 @@
 					If you are an operator, you may have to log out or ask your supervisor for more access.
 				</cfif>
 				You are accessing Arctos through the #yourcollid.collection# portal, and cannot access specimen data in
-				other collections. You may 
+				other collections. You may
 				<span class="likeLink" onclick="changeCollection()">try again in the public portal</span>.
 			</p>
 		</cfif>
-	</cfif>	
+	</cfif>
 	<p>
 		If you followed a link from within Arctos, please <a href="/info/bugs.cfm">submit a bug report</a>
 	 	containing any information that might help us resolve this issue.
@@ -91,7 +91,7 @@
 		If you followed an external link, please use your back button and tell the webmaster that
 		something is broken, or <a href="/info/bugs.cfm">submit a bug report</a> telling us how you got this error.
 	</p>
-	
+
 	<p><a href="/TaxonomySearch">Search for Taxon Names here</a></p>
 	<p><a href="/SpecimenUsage">Search for Projects and Publications here</a></p>
 	<p>
@@ -111,7 +111,7 @@
 		Some specimens are restricted. You may <a href="/contact.cfm">contact us</a> for more information.
 		<p>
 			Occasionally, a specimen is recataloged. You may be able to find them by using Other Identifiers in Specimen Search.
-		</p>	
+		</p>
 	</p>
 	<cfif isGuid is false>
 		<cfset sub="Dead Link">
