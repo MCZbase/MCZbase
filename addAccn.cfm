@@ -77,18 +77,21 @@
 					<label for="accn_number">Accession</label>
 					<input type="text" name="accn_number" id="accn_number" onchange="findAccession();">
 				</td>
-				<td>
-					<input type="button" id="a_lkup" value="lookup" class="lnkBtn" onclick="findAccession();">
-				</td>
+				<!---<td>
+				<input type="button" id="a_lkup" value="lookup" class="lnkBtn" onclick="findAccession();">
+				</td>--->
      			<td>
-					<div id="g_num" class="noShow">
+					<div id="g_num" class="noShow" style="font-size: 13px;padding:3px;text-align: center;"> Accession Valid<br/>
 						<input type="submit" id="s_btn" value="Add Items" class="savBtn">
 					</div>
-					<div id="b_num">
-						Pick a valid Accession
+					<div id="b_num" style="font-size: 13px;padding:3px;">
+						TAB to see if valid accession<br/> - nothing happens if invalid -
 					</div>
 					
 				</td>
+                <td>
+                 <a href="/editAccn.cfm" target="_blank">Lookup</a>
+                </td>
 			</tr>
 		</table>	
 	</form>
