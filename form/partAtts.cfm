@@ -90,6 +90,7 @@
 	<form name="f" method="post" action="partAtts.cfm">
 		<input type="hidden" name="partID" value="#partID#">
 		<input type="hidden" name="action">
+		<input type="hidden" name="collectionCDE" value="#collectionCDE#">
 	<table border>
 		<tr>
 			<th>Attribute</th>
@@ -198,7 +199,7 @@
 			'#attribute_remark_new#'
 		)
 	</cfquery>
-	<cflocation url="partAtts.cfm?partID=#partID#" addtoken="false">
+	<cflocation url="partAtts.cfm?partID=#partID#&collectionCDE=#collectionCDE#" addtoken="false">
 </cfif>
 <cfif action is "saveEdit">
 	<cfdump var="#form#">
@@ -239,6 +240,6 @@
 			</cfif>
 		</cfloop>
 		</cftransaction>
-		<cflocation url="partAtts.cfm?partID=#partID#" addtoken="false">
+		<cflocation url="partAtts.cfm?partID=#partID#&collectionCDE=#collectionCDE#" addtoken="false">
 	</cfoutput>
 </cfif>
