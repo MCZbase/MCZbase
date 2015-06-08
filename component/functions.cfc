@@ -545,7 +545,7 @@
 				<cfset sql="update bulkloader set ">
 				<cfloop query="col">
 					<cfif i lt 9>
-						<cfset sql=sql & "COLLECTOR_AGENT_#i# = '#agent_name#',
+						<cfset sql=sql & "COLLECTOR_AGENT_#i# = '#replace(agent_name, "'", "''")#',
 							COLLECTOR_ROLE_#i#='#COLLECTOR_ROLE#',">
 						<cfset i=i+1>
 					</cfif>
@@ -569,7 +569,7 @@
 				select
 					part_name,
 					condition,
-					p.barcode,
+					/*p.barcode,*/
 					p.label,
 					to_char(lot_count) lot_count,
 					COLL_OBJ_DISPOSITION,
@@ -597,8 +597,6 @@
 					<cfif i lt 13>
 						<cfset sql=sql & "PART_NAME_#i# = '#part_name#',
 							PART_CONDITION_#i#='#condition#',
-							PART_BARCODE_#i#='#barcode#',
-							PART_CONTAINER_LABEL_#i#='#label#',
 							PART_LOT_COUNT_#i#='#lot_count#',
 							PART_DISPOSITION_#i#='#COLL_OBJ_DISPOSITION#',
 							PART_REMARK_#i#='#coll_object_remarks#',">
@@ -661,7 +659,7 @@
 			<cfquery name="irel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update bulkloader set
 					COLL_OBJECT_REMARKS='#problem#',
-					RELATIONSHIP='child record of',
+					RELATIONSHIP='cloned from record',
 					RELATED_TO_NUMBER= (
 										select
 											collection.institution_acronym || ' ' || collection.collection_cde || ' ' || cat_num
@@ -676,7 +674,7 @@
 		</cftransaction>
 			<cfreturn "spiffy:#key#">
 		<cfcatch>
-			<cfreturn "fail: #cfcatch.message# #problem#">
+			<cfreturn "fail: #cfcatch.message# #problem# SQL:#preservesinglequotes(sql)#">
 		</cfcatch>
 	</cftry>
 </cffunction>
