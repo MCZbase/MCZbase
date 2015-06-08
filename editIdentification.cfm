@@ -23,32 +23,32 @@
 	SELECT
 		identification.identification_id,
 		institution_acronym,
-		identification.scientific_name, 
-		cat_num, 
-		cataloged_item.collection_cde, 
+		identification.scientific_name,
+		cat_num,
+		cataloged_item.collection_cde,
 		agent_name,
 		identifier_order,
 		identification_agent.agent_id,
 		made_date,
-		nature_of_id, 
-		accepted_id_fg, 
+		nature_of_id,
+		accepted_id_fg,
 		identification_remarks,
 		identification_agent_id,
 		formatted_publication,
 		identification.publication_id
-	FROM 
-		cataloged_item, 
+	FROM
+		cataloged_item,
 		identification,
 		collection ,
 		identification_agent,
 		preferred_agent_name,
 		(select publication_id,formatted_publication from formatted_publication where format_style='short') formatted_publication
-	WHERE 
+	WHERE
 		identification.collection_object_id = cataloged_item.collection_object_id AND
 		identification.identification_id = identification_agent.identification_id (+) AND
 		identification_agent.agent_id = preferred_agent_name.agent_id (+) AND
 		cataloged_item.collection_id=collection.collection_id AND
-		identification.publication_id=formatted_publication.publication_id (+) and 
+		identification.publication_id=formatted_publication.publication_id (+) and
 		cataloged_item.collection_object_id = #collection_object_id#
 		ORDER BY accepted_id_fg
 	DESC
@@ -56,7 +56,7 @@
 
 
 <form name="newID" id="newID" method="post" action="editIdentification.cfm">
-	
+
 	<table class="newRec">
  <tr>
  	<td colspan="2">
@@ -78,24 +78,24 @@
 			<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr"
 				onchange="newIdFormula(this.value);">
 					<cfloop query="ctFormula">
-						<option 
+						<option
 							<cfif #thisForm# is "#ctFormula.taxa_formula#"> selected </cfif>value="#ctFormula.taxa_formula#">#taxa_formula#</option>
 					</cfloop>
 			</select>
 		</td>
-	</tr>     
-	<tr> 
+	</tr>
+	<tr>
     	<td>
 			<div class="helpLink" id="scientific_name">Taxon A:</div>
 		</td>
          <td>
-		  	<input type="text" name="taxona" id="taxona" class="reqdClr" size="50" 
+		  	<input type="text" name="taxona" id="taxona" class="reqdClr" size="50"
 				onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;"
 				onKeyPress="return noenter(event);">
-			<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr"> 
+			<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
 		</td>
   	</tr>
-	<tr id="userID" style="display:none;"> 
+	<tr id="userID" style="display:none;">
     	<td>
 			<div class="helpLink" id="user_identification">Identification:</div>
 		</td>
@@ -103,54 +103,54 @@
 		  	<input type="text" name="user_id" id="user_id" size="50">
 		</td>
   	</tr>
-	<tr id="taxon_b_row" style="display:none;"> 
+	<tr id="taxon_b_row" style="display:none;">
     	<td>
 			<div align="right">Taxon B:</div>
 		</td>
         <td>
-			<input type="text" name="taxonb" id="taxonb"  size="50" 
+			<input type="text" name="taxonb" id="taxonb"  size="50"
 				onChange="taxaPick('taxonb_id','taxonb','newID',this.value); return false;"
 				onKeyPress="return noenter(event);">
 			<input type="hidden" name="taxonb_id" id="taxonb_id">
 		</td>
   	</tr>
-    <tr> 
+    <tr>
     	<td>
 			<div class="helpLink" id="id_by">ID By:</div>
 		</td>
         <td>
-			<input type="text" name="newIdBy" id="newIdBy" class="reqdClr" size="50" 
+			<input type="text" name="newIdBy" id="newIdBy" class="reqdClr" size="50"
 				onchange="getAgent('newIdBy_id',this.id,'newID',this.value);">
-            <input type="hidden" name="newIdBy_id" id="newIdBy_id" class="reqdClr"> 
+            <input type="hidden" name="newIdBy_id" id="newIdBy_id" class="reqdClr">
 			<span class="infoLink" onclick="addNewIdBy('two');">more...</span>
 		</td>
 	</tr>
-	<tr id="addNewIdBy_two" style="display:none;"> 
+	<tr id="addNewIdBy_two" style="display:none;">
     	<td>
 			<div align="right">
-				ID By:<span class="infoLink" onclick="clearNewIdBy('two');"> remove</span>	
+				ID By:<span class="infoLink" onclick="clearNewIdBy('two');"> remove</span>
 			</div>
 		</td>
         <td>
-			<input type="text" name="newIdBy_two" id="newIdBy_two" size="50" 
+			<input type="text" name="newIdBy_two" id="newIdBy_two" size="50"
 				onchange="getAgent('newIdBy_two_id',this.id,'newID',this.value);">
-            <input type="hidden" name="newIdBy_two_id" id="newIdBy_two_id"> 
-			<span class="infoLink" onclick="addNewIdBy('three');">more...</span>			
+            <input type="hidden" name="newIdBy_two_id" id="newIdBy_two_id">
+			<span class="infoLink" onclick="addNewIdBy('three');">more...</span>
 		 </td>
 	</tr>
-    <tr id="addNewIdBy_three" style="display:none;"> 
+    <tr id="addNewIdBy_three" style="display:none;">
     	<td>
 			<div align="right">
-				ID By:<span class="infoLink" onclick="clearNewIdBy('three');"> remove</span>	
+				ID By:<span class="infoLink" onclick="clearNewIdBy('three');"> remove</span>
 			</div>
 		</td>
         <td>
-			<input type="text" name="newIdBy_three" id="newIdBy_three" size="50" 
+			<input type="text" name="newIdBy_three" id="newIdBy_three" size="50"
 				onchange="getAgent('newIdBy_three_id',this.id,'newID',this.value);">
-            <input type="hidden" name="newIdBy_three_id" id="newIdBy_three_id"> 			
+            <input type="hidden" name="newIdBy_three_id" id="newIdBy_three_id">
 		 </td>
     </tr>
-    <tr> 
+    <tr>
     	<td>
 			<div class="helpLink" id="identification.made_date">ID Date:</div>
 		</td>
@@ -158,7 +158,7 @@
 			<input type="text" name="made_date" id="made_date">
 		</td>
 	</tr>
-    <tr> 
+    <tr>
     	<td>
 			<div class="helpLink" id="nature_of_id">Nature of ID</div>
 		</td>
@@ -171,7 +171,7 @@
 			<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
 		</td>
 	</tr>
-    <tr> 
+    <tr>
     	<td>
 			<div class="helpLink" id="identification_publication">Sensu:</div>
 		</td>
@@ -180,7 +180,7 @@
 			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newID')" size="50">
 		</td>
 	</tr>
-    <tr> 
+    <tr>
     	<td>
 			<div class="helpLink" id="identification_remarks">Remarks:</div>
 		</td>
@@ -190,8 +190,8 @@
     </tr>
     <tr>
 		<td colspan="2">
-			<div align="center"> 
-            	<input type="submit" id="newID_submit" value="Create" class="insBtn reqdClr" title="Create Identification">	
+			<div align="center">
+            	<input type="submit" id="newID_submit" value="Create" class="insBtn reqdClr" title="Create Identification">
              </div>
 		</td>
     </tr>
@@ -205,30 +205,30 @@
 	SELECT
 		identification_id,
 		institution_acronym,
-		scientific_name, 
-		cat_num, 
-		collection_cde, 
+		scientific_name,
+		cat_num,
+		collection_cde,
 		made_date,
-		nature_of_id, 
-		accepted_id_fg, 
+		nature_of_id,
+		accepted_id_fg,
 		identification_remarks,
 		formatted_publication,
 		publication_id
-	FROM 
+	FROM
 		getID
 	GROUP BY
 		identification_id,
 		institution_acronym,
-		scientific_name, 
-		cat_num, 
-		collection_cde, 
+		scientific_name,
+		cat_num,
+		collection_cde,
 		made_date,
-		nature_of_id, 
-		accepted_id_fg, 
+		nature_of_id,
+		accepted_id_fg,
 		identification_remarks,
 		formatted_publication,
 		publication_id
-	ORDER BY 
+	ORDER BY
 		accepted_id_fg DESC,
 		made_date
 </cfquery>
@@ -240,7 +240,7 @@
 <cfloop query="distIds">
 	<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#><td>
 	<cfquery name="identifiers" dbtype="query">
-		select 
+		select
 			agent_name,
 			identifier_order,
 			agent_id,
@@ -259,24 +259,24 @@
 	</cfquery>
 	<cfset thisIdentification_id = #identification_id#>
 	<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
-	<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" 
+	<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#"
 			value="#identifiers.recordcount#">
 	<table id="mainTable_#i#">
-    	<tr> 
+    	<tr>
         	<td><div align="right">Scientific Name:</div></td>
             <td><b><i>#scientific_name#</i></b>
 			</td>
         </tr>
-        <tr> 
+        <tr>
         	<td><div align="right">Accepted?</div></td>
 			<td>
 				<cfif #accepted_id_fg# is 0>
-					<select name="accepted_id_fg_#i#" 
-						id="accepted_id_fg_#i#" size="1" 
+					<select name="accepted_id_fg_#i#"
+						id="accepted_id_fg_#i#" size="1"
 						class="reqdClr" onchange="flippedAccepted('#i#')">
 						<option value="1"
 							<cfif #ACCEPTED_ID_FG# is 1> selected </cfif>>yes</option>
-                    	<option 
+                    	<option
 							<cfif #accepted_id_fg# is 0> selected </cfif>value="0">no</option>
 						<cfif #ACCEPTED_ID_FG# is 0>
 							<option value="DELETE">DELETE</option>
@@ -289,7 +289,7 @@
 					<input name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" type="hidden" value="1">
 					<b>Yes</b>
 				</cfif>
-			</td>					
+			</td>
        	</tr>
         <tr>
 			<td colspan="2">
@@ -300,21 +300,21 @@
 							<tr id="IdTr_#i#_#idnum#">
 								<td>Identified By:</td>
 								<td>
-									<input type="text" 
-										name="IdBy_#i#_#idnum#" 
-										id="IdBy_#i#_#idnum#" 
-										value="#agent_name#" 
+									<input type="text"
+										name="IdBy_#i#_#idnum#"
+										id="IdBy_#i#_#idnum#"
+										value="#agent_name#"
 										class="reqdClr"
 										size="50"
-										onchange="getAgent('IdBy_#i#_#idnum#_id',this.id,'editIdentification',this.value);"> 
-									<input type="hidden" 
-										name="IdBy_#i#_#idnum#_id" 
+										onchange="getAgent('IdBy_#i#_#idnum#_id',this.id,'editIdentification',this.value);">
+									<input type="hidden"
+										name="IdBy_#i#_#idnum#_id"
 										id="IdBy_#i#_#idnum#_id" value="#agent_id#"
 										class="reqdClr">
 									<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
 										value="#identification_agent_id#">
 									<cfif #idnum# gt 1>
-										<img src="/images/del.gif" class="likeLink" 
+										<img src="/images/del.gif" class="likeLink"
 											onclick="removeIdentifier('#i#','#idnum#')" />
 									</cfif>
 				 				</td>
@@ -327,11 +327,11 @@
 		</tr>
         <tr>
 			<td>
-				<span class="infoLink" id="addIdentifier_#i#" 
+				<span class="infoLink" id="addIdentifier_#i#"
 					onclick="addIdentifier('#i#','#idnum#')">Add Identifier</span>
-			</td>	
+			</td>
 		</tr>
-		<tr> 
+		<tr>
         	<td>
 				<div class="helpLink" id="identification.made_date">ID Date:</div>
 			</td>
@@ -339,7 +339,7 @@
 				<input type="text" value="#dateformat(made_date,'yyyy-mm-dd')#" name="made_date_#i#" id="made_date_#i#">
            </td>
 		</tr>
-        <tr> 
+        <tr>
 	        <td>
 				<div class="helpLink" id="nature_of_id">Nature of ID:</div>
 			</td>
@@ -353,24 +353,24 @@
 				<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
 			</td>
         </tr>
-        <tr> 
+        <tr>
 	        <td>
 				<div class="helpLink" id="identification_publication">Sensu:</div>
 			</td>
 	        <td>
 				<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-				<input type="text" 
-					id="publication_#i#" 
+				<input type="text"
+					id="publication_#i#"
 					value='#formatted_publication#'
 					onchange="getPublication(this.id,'publication_id_#i#',this.value,'editIdentification')" size="50">
 				<span class="infoLink" onclick="$('##publication_id_#i#').val('');$('##publication_#i#').val('');">Remove</span>
-	
+
 			</td>
         </tr>
-        <tr> 
+        <tr>
           	<td><div align="right">Remarks:</div></td>
          	 <td>
-				<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#" 
+				<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
 					value="#stripQuotes(identification_remarks)#" size="50">
 			</td>
         </tr>
@@ -384,7 +384,7 @@
 	</td>
 </tr>
 </table>
-</form>			      
+</form>
 </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------->
@@ -399,7 +399,7 @@
 			<cfset thisNature = #evaluate("NATURE_OF_ID_" & n)#>
 			<cfset thisNumIds = #evaluate("NUMBER_OF_IDENTIFIERS_" & n)#>
 			<cfset thisPubId = #evaluate("publication_id_" & n)#>
-	
+
 			<cfif thisAcceptedIdFg is 1>
 				<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE identification SET ACCEPTED_ID_FG=0 where collection_object_id = #collection_object_id#
@@ -418,7 +418,7 @@
 					<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						DELETE FROM identification WHERE identification_id = #thisIdentificationId#
 					</cfquery>
-					
+
 			<cfelse>
 				<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE identification SET
@@ -449,9 +449,9 @@
 					<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
 						<!--- new identifier --->
 						<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							insert into identification_agent 
+							insert into identification_agent
 								( IDENTIFICATION_ID,AGENT_ID,IDENTIFIER_ORDER)
-							values 
+							values
 								(
 									#thisIdentificationId#,
 									#thisIdId#,
@@ -464,12 +464,12 @@
 							<!--- delete --->
 							<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								delete from identification_agent
-								where identification_agent_id=#thisIdAgntId#				
+								where identification_agent_id=#thisIdAgntId#
 							</cfquery>
 						<cfelseif thisIdId gte 0>
 							<!--- update --->
 							<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								update identification_agent set 
+								update identification_agent set
 									agent_id=#thisIdId#,
 									identifier_order=#nid#
 								 where
@@ -478,7 +478,7 @@
 						</cfif>
 					</cfif>
 				</cfloop>
-			</cfif>			
+			</cfif>
 		</cfloop>
 	</cftransaction>
 	<cflocation url="editIdentification.cfm?collection_object_id=#collection_object_id#">
@@ -487,7 +487,7 @@
 <!---------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteIdent">
 	<cfif #accepted_id_fg# is "1">
-		<font color="#FF0000" size="+1">You can't delete the accepted identification!</font> 
+		<font color="#FF0000" size="+1">You can't delete the accepted identification!</font>
 		<cfabort>
     </cfif>
 	<cflocation url="editIdentification.cfm?collection_object_id=#collection_object_id#">
@@ -529,6 +529,14 @@
 	<cfset scientific_name = "#taxona# (Group)">
 <cfelseif taxa_formula is "A / B intergrade">
 	<cfset scientific_name = "#taxona# / #taxonb# intergrade">
+<cfelseif taxa_formula is "A gen. nov.">
+	<cfset scientific_name = "#taxona# gen. nov.">
+<cfelseif taxa_formula is "A nr.">
+	<cfset scientific_name = "#taxona# nr.">
+<cfelseif taxa_formula is "A nr. B">
+	<cfset scientific_name = "#taxona# nr. #taxonb#">
+<cfelseif taxa_formula is "A var.">
+	<cfset scientific_name = "#taxona# var.">
 <cfelse>
 	The taxa formula you entered isn't handled yet! Please submit a bug report.
 	<cfabort>
@@ -576,7 +584,7 @@
 		insert into identification_agent (
 			identification_id,
 			agent_id,
-			identifier_order) 
+			identifier_order)
 		values (
 			sq_identification_id.currval,
 			#newIdBy_id#,
@@ -588,7 +596,7 @@
 			insert into identification_agent (
 				identification_id,
 				agent_id,
-				identifier_order) 
+				identifier_order)
 			values (
 				sq_identification_id.currval,
 				#newIdBy_two_id#,
@@ -601,7 +609,7 @@
 			insert into identification_agent (
 				identification_id,
 				agent_id,
-				identifier_order) 
+				identifier_order)
 			values (
 				sq_identification_id.currval,
 				#newIdBy_three_id#,
