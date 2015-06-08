@@ -1,7 +1,7 @@
 <cfinclude template="/includes/_pickHeader.cfm">
 <!------------------------------------------------------------------->
 <cfif #Action# is "nothing">
-<cfdocument 
+<cfdocument
 	format="pdf"
 	pagetype="letter"
 	margintop=".25"
@@ -10,7 +10,7 @@
 	marginright=".25"
 	orientation="portrait"
 	fontembed="yes"
-	filename="#Application.webDirectory#/temp/LoanInvoice.pdf" 
+	filename="#Application.webDirectory#/temp/LoanInvoice.pdf"
 	overwrite="true">
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
 
@@ -34,14 +34,14 @@
 <div align="center">
 <table width="800" height="1030">
 	<tr>
-    	<td valign="top">	
+    	<td valign="top">
 			<!---<div align="right">
 				<font size="1" face="Arial, Helvetica, sans-serif">
 					<b>Loan ## #getLoan.loan_number#</b>
-				</font> 
+				</font>
 			</div>--->
 			<div align="center" style="font-weight:bold;">
-		        <font size="3">SPECIMEN&nbsp;&nbsp;INVOICE</font> 
+		        <font size="3">SPECIMEN&nbsp;&nbsp;INVOICE</font>
 			  <font size="4">
 			 <br />Museum of Vertebrate Zoology
                           <br />University of California, Berkeley
@@ -132,7 +132,7 @@
 				<tr>
 					<td>
 						<blockquote> <font size="2">#replace(getLoan.inside_address,"#chr(10)#","<br>","all")#
-						<br />Email: #getLoan.inside_email_address#</font> 
+						<br />Email: #getLoan.inside_email_address#</font>
 						  </blockquote>
 					</td>
 					<td align="right" width="300" valign="top">
@@ -146,7 +146,7 @@
 										<font size="2">Signature of recipient, date:</font>
 										<br>&nbsp;
 										<br>&nbsp;
-									</div>									
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -160,14 +160,14 @@
 						</table>
 					</td>
 				</tr>
-			</table>			
+			</table>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<div style="padding-left:30px; 
-				padding-right:30px; 
-				font-size:12px; 
+			<div style="padding-left:30px;
+				padding-right:30px;
+				font-size:12px;
 				font-family:Verdana, Arial, Helvetica, sans-serif;
 				border-bottom:1px solid black; border-top:1px solid black; text-align:justify;">
 				<hr>
@@ -194,12 +194,12 @@
 					</td>
 					<td>
 					  <div align="right">
-						<font size="1" face="Arial, Helvetica, sans-serif">Loan processed 
+						<font size="1" face="Arial, Helvetica, sans-serif">Loan processed
 						by #procBy.agent_name#</font>
 						</div>
 					</td>
 				</tr>
-			</table>   
+			</table>
 		</td>
 	</tr>
 </table>
@@ -227,7 +227,7 @@ Extended by Paul J. Morris, mole@morris.net for MCZbase.
 Description:
 	Used to make printable labels for specimens from Loan page.
 	Malacology format is for drawer tags to place in trays of specimens
-	that are on loan, and follows the MCZ Malacology small box size.  
+	that are on loan, and follows the MCZ Malacology small box size.
 Parameters:
 	transaction_id
 	format
@@ -248,6 +248,7 @@ Current format: #displayFormat#<br/>
 	<input type='hidden' name='transaction_id' value='#transaction_id#'>
 Change to: <select name="format">
 		<option value="Bird/Mammal">Bird/Mammal</option>
+		<option value="Mammalogy">Mammalogy 3"x2" drawer tag</option>
 		<option value="Herp">Herp</option>
 		<option value="Malacology">MCZ 1"x2" drawer tag</option>
 		<option value="Cryo">Cryogenic Locator List</option>
@@ -300,8 +301,8 @@ Change to: <select name="format">
     <cfset maxPage = (getItems.recordcount-1) \ numRecordsPerPage + 1>
     <cfset curPage = 1>
     <cfset curRecord = 1>
-    
-    
+
+
     <!--- Formatting parameters --->
     <cfset labelBorder = 'border: 1px solid black;'>
     <cfset labelStyle = 'height: 17px; #labelWidth# #labelBorder#'>
@@ -320,9 +321,9 @@ Change to: <select name="format">
     <cfset pageFooter = '
     </table>
     '>
-    
+
     <!--- Document tags --->
-    <cfdocument 
+    <cfdocument
     	format="pdf"
     	pagetype="letter"
     	margintop=".25"
@@ -337,7 +338,7 @@ Change to: <select name="format">
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
     <cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
     #pageHeader#
-    <table #outerTableParams# style="#tableStyle#" > 
+    <table #outerTableParams# style="#tableStyle#" >
     		      <tr>
     		         <th #thStyle#><span class="#textHClass#"><strong>Catalog Number</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Other Numbers</strong></span></th>
@@ -346,13 +347,13 @@ Change to: <select name="format">
     		         <th #thStyle#><span class="#textHClass#"><strong>Freezer Box</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Position</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Cryovial</strong></span></th>
-    	 	     </tr>	  
-    	
+    	 	     </tr>
+
     <!--- Main loop --->
     <cfloop query="getItems">
     <!--- Data manipulation --->
     <!--- End data manipulation --->
-    	
+
     	<!--- here is where I could insert a div tag so that I could limit the space
     	allotted per item, but make sure that the div tag size is a function or which format is chosen--->
     		      <tr>
@@ -363,7 +364,7 @@ Change to: <select name="format">
     		         <td #tdStyle#><span class="#textClass#">#box#</span></td>
     		         <td #tdStyle#><span class="#textClass#"><strong>#position#</strong></span></td>
     		         <td #tdStyle#><span class="#textClass#">#vial#</span></td>
-    	 	     </tr>	  
+    	 	     </tr>
     	<!--- Page break --->
     	<cfif curRecord mod numRecordsPerPage is 0 AND curRecord lt getItems.recordcount>
     		<cfset curPage = curPage + 1>
@@ -371,7 +372,7 @@ Change to: <select name="format">
     		</table><cfdocumentitem type="pagebreak"></cfdocumentitem>
     		<cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
     		#pageHeader#
-                <table #outerTableParams# style="#tableStyle#" > 
+                <table #outerTableParams# style="#tableStyle#" >
     		      <tr>
     		         <th #thStyle#><span class="#textHClass#"><strong>Catalog Number</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Other Numbers</strong></span></th>
@@ -380,8 +381,8 @@ Change to: <select name="format">
     		         <th #thStyle#><span class="#textHClass#"><strong>Freezer Box</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Position</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Cryovial</strong></span></th>
-    	 	     </tr>	  
-    	
+    	 	     </tr>
+
     	</cfif>
     	<!--- and finish our current record --->
     	<cfset curRecord=#curRecord#+1>
@@ -390,10 +391,10 @@ Change to: <select name="format">
     </cfoutput>
     </cfdocument>
     <cfinclude template = "../includes/_footer.cfm">
-  
+
 <cfelse>
 
-    <!-- Cases other than Cryo-Sheet --> 
+    <!-- Cases other than Cryo-Sheet -->
     <cfif format is "Cryo">
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
           select
@@ -408,18 +409,18 @@ Change to: <select name="format">
                c2.label || ' (' || c2.container_type  || ')<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ||
                c1.barcode || ' (' || c1.container_type  || ')'
                as container
-          from 
+          from
              loan_item
                 left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
                 left join coll_obj_cont_hist on specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
-                left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-                left join identification on cataloged_item.collection_object_id = identification.collection_object_id 
-                left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id 
-                left join MCZBASE.container c1 on c.parent_container_id = c1.container_id 
+                left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+                left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+                left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
+                left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
                 left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
                 left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
-                left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id 
-                left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id       
+                left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
+                left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
           where identification.accepted_id_fg = 1 AND
                 coll_obj_cont_hist.current_container_fg = 1 AND
     	    loan_item.transaction_id = #transaction_id#
@@ -427,18 +428,36 @@ Change to: <select name="format">
     </cfquery>
     <cfelse>
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select 
+    	select
     	    cataloged_item.collection_cde,
-    		cataloged_item.cat_num, 
+    		cataloged_item.cat_num,
     		cataloged_item.collection_object_id,
     		identification.scientific_name,
     		loan.loan_number,
     		trans.trans_date,
-    		preferred_agent_name.agent_name
-    	 from 
-    		loan_item, 
+    		preferred_agent_name.agent_name,
+	        specimen_part.part_name,
+    		get_taxonomy(cataloged_item.collection_object_id,'family') as family,
+    		get_taxonomy(cataloged_item.collection_object_id,'phylum') as phylum,
+			Decode(substr(loan_number, instr(loan_number, '-',1, 2)+1),
+				'Herp', 'Herpetology Collection',
+				'Mamm', 'Mammalogy Collection',
+				'IZ', 'Invertebrate Zoology (incl. Marine Invertebrates) Collection',
+				'Mala', 'Malacology Collection',
+				'VP','Vertebrate Paleontology Collection',
+				'SC','Special Collections',
+				'MCZ','MCZ Collections',
+				'IP','Invertebrate Paleontology Collection',
+				'Ich','Ichthyology Collection',
+				'Orn','Ornithology Collection',
+				'Cryo','Cryogenic Collection',
+				'Ent','Entomology Collection',
+				'[Unable to identify collection from loan number]' || substr(loan_number, instr(loan_number, '-',1, 2)+1)
+				) as collection
+    	 from
+    		loan_item,
     		loan,
-    		specimen_part, 
+    		specimen_part,
     		cataloged_item,
     		identification,
     		collecting_event,
@@ -453,16 +472,16 @@ Change to: <select name="format">
     		identification.accepted_id_fg = 1 AND
     		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
     		trans.transaction_id = loan_item.transaction_id AND
-    		trans.transaction_id = trans_agent.transaction_id and 
-    		trans_agent.trans_agent_role = 'outside contact' and 
+    		trans.transaction_id = trans_agent.transaction_id and
+    		trans_agent.trans_agent_role = 'outside contact' and
     		trans_agent.agent_id = preferred_agent_name.agent_id AND
     	    loan_item.transaction_id = #transaction_id#
     	ORDER BY cat_num
     </cfquery>
     </cfif>
-    
+
     <!--- Set up the necessary variables --->
-    
+
     <!--- Layout parameters --->
     <cfset maxCol = 2>
     <cfset labelWidth = 'width: 368px;'>
@@ -476,6 +495,9 @@ Change to: <select name="format">
     <cfif format is "Malacology">
     	<cfset maxRow = 7>
     </cfif>
+    <cfif format is "Mammalogy">
+    	<cfset maxRow = 6>
+    </cfif>
     <cfif format is "Cryo">
     	<cfset maxRow = 9>
             <cfset maxCol = 2>
@@ -486,8 +508,8 @@ Change to: <select name="format">
     <cfset maxPage = (getItems.recordcount-1) \ numRecordsPerPage + 1>
     <cfset curPage = 1>
     <cfset curRecord = 1>
-    
-    
+
+
     <!--- Formatting parameters --->
     <cfset labelBorder = 'border: 1px solid black;'>
     <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0"'>
@@ -545,13 +567,28 @@ Change to: <select name="format">
         '>
         <cfset orientiation = 'portrait'>
     </cfif>
-    
-    	
+    <cfif format is "Mammalogy">
+    	<cfset labelWidth = 'width: 3.3in;'>
+        <cfset labelBorder = 'border: 0px;'>
+    	<cfset textClass = "times12">
+    	<cfset dateStyle = "dd mmm yyyy">
+    	<cfset labelStyle = 'height: 1.4in; #labelWidth# #labelBorder#'>
+    	<cfset dateWidth = "width: 60px;"><!--- unused --->
+        <cfset pageHeader='
+         <table #outerTableParams#>
+         <tr>
+         <td valign="top">
+         <table #innerTableParams#>
+        '>
+        <cfset orientiation = 'portrait'>
+    </cfif>
+
+
     <!--- Document tags --->
     <!--- TODO: figure out WHY the pdf i download from the link above is not getting changed...
     sent email to dusty about it.
     update -- seems to work now, I have no idea what fixed it... --->
-    <cfdocument 
+    <cfdocument
     	format="pdf"
     	pagetype="letter"
     	margintop=".25"
@@ -564,7 +601,7 @@ Change to: <select name="format">
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-    <cfif format is "Malacology">
+    <cfif format is "Malacology" or format is "Mammalogy">
     	<!--- omit page count in header for malacology format --->
     <cfelse>
         <cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
@@ -572,12 +609,12 @@ Change to: <select name="format">
     #pageHeader#
     <!--- Main loop --->
     <cfloop query="getItems">
-    	
+
     <!--- Data manipulation --->
     <cfif format is "Bird/Mammal">
     	<cfset sciName = #replace(scientific_name," ","&nbsp;","all")#>
     	<!--- complicated and stupid, but it should work.
-    	The idea is to find all the spaces in the scientific name. Then find the 
+    	The idea is to find all the spaces in the scientific name. Then find the
     	one that is closest to the center of the string. Change that space to a
     	newline.
     	--Peter DeVore --->
@@ -589,12 +626,12 @@ Change to: <select name="format">
     	<cfloop condition="loopin">
     		<cfif find(thingToReplace,sciName,curLoc+1) is 0>
     			<cfset loopin = false>
-    		<cfelse> 
+    		<cfelse>
     			<cfset curLoc = find(thingToReplace,sciName,curLoc+1)>
     			<cfset spaceLocs = ListAppend(spaceLocs,curLoc)>
     		</cfif>
     	</cfloop>
-    	
+
     	<!--- If there are no spaces, then no need to do anything else! --->
     	<cfif len(spaceLocs) gt 0>
     		<!--- Convert the space locations into distances from center --->
@@ -602,20 +639,20 @@ Change to: <select name="format">
     		<cfloop list="#spaceLocs#" index="loc">
     			<cfset convertedSpaceLocs = abs(loc - (len(sciName)/2))>
     		</cfloop>
-    		
+
     		<!--- Sort those distances --->
     		<cfset convertedSpaceLocs = ListSort(convertedSpaceLocs,"numeric")>
-    		
+
     		<!--- Have not replaced a space yet --->
     		<cfset replacedSpace = false>
-    		
+
     		<!--- Try inserting newline if the closest space is after the center --->
     		<cfset position = (len(sciName)/2) + ListFirst(convertedSpaceLocs)>
     		<cfif find(thingToReplace, sciName, position) is position and not replacedSpace>
     			<cfset sciName = insert("<br>", sciName, position-1)>
     			<cfset replacedSpace = true>
     		</cfif>
-    		
+
     		<!--- Try inserting newline if the closest space is before the center --->
     		<cfset position = (len(sciName)/2) - ListFirst(convertedSpaceLocs)>
     		<cfif find(thingToReplace, sciName, position) is position and not replacedSpace>
@@ -629,9 +666,16 @@ Change to: <select name="format">
     </cfif>
     <cfif format is "Malacology">
     	<cfset sciName = #replace(scientific_name," ","&nbsp;","all")#>
+    	<cfset higherTaxa = "#phylum#&nbsp;#family#">
+        <cfif len(sciName) GT 26>
+    	   <cfset higherTaxa = left("#phylum#&nbsp;#family#",25) & "...">
+        </cfif>
+    </cfif>
+    <cfif format is "Mammalogy">
+    	<cfset sciName = #scientific_name#>
     </cfif>
     <!--- End data manipulation --->
-    	
+
     	<tr><td>
     	<!--- here is where I could insert a div tag so that I could limit the space
     	allotted per item, but make sure that the div tag size is a function or which format is chosen--->
@@ -646,8 +690,8 @@ Change to: <select name="format">
     		      </tr>
     		      <tr>
     		         <td><span class="#textClass#">#container#</span></td>
-    	 	     </tr>	  
-    	          </table>	
+    	 	     </tr>
+    	          </table>
                     <cfelse>
     		<cfif format is "Malacology">
     			<table>
@@ -655,23 +699,52 @@ Change to: <select name="format">
     		         <td colspan="2" align="center"><div class="#textClass#"><strong>Museum of Comparative Zoology</span></strong></td>
     		      </tr>
     		      <tr>
-    		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span></td>
+    		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
     			  </tr>
     			  <tr>
     		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></span></td>
     			  </tr>
     			 <tr>
     		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>
-    			 </tr>	  
+    			 </tr>
     			 <tr>
     		        <td>
     			      <span class="#textClass#"><strong>Loan Number:</strong> #getItems.loan_number#</span>
     		        </td>
     		        <td>
-    			       <div class="#textClass#">#dateformat(trans_date,dateStyle)#</div>	
+    			       <div class="#textClass#">#dateformat(trans_date,dateStyle)#</div>
     		        </td>
     			</tr>
-    	       </table>	
+    	       </table>
+   		   <cfelse >
+    		      <cfif format is "Mammalogy">
+    			<table width="100%" style="border: 1px solid black; " class="labeltableclass">
+    			  <tr>
+    		         <td colspan="2" align="center"><div class="#textClass#"><strong>MCZ #collection#</span></strong></td>
+    		      </tr>
+    			 <tr>
+    		        <td>
+    			      <span class="#textClass#"><strong>Loan No.:</strong> #getItems.loan_number#</span>
+    		        </td>
+    		        <td>
+    			       <div class="#textClass#"><strong>Date:</strong>#dateformat(trans_date,dateStyle)#</div>
+    		        </td>
+    			</tr>
+    		      <tr>
+    		        <td colapan="2">
+				       <span class="#textClass#"><strong>MCZ #collection_cde# #cat_num#</strong></span>
+					 </td>
+    			  </tr>
+    			  <tr>
+    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></span></td>
+    			  </tr>
+    			 <tr>
+    		         <td colspan="2"><span class="#textClass#"><strong>Nature:</strong> #part_name#</span></td>
+    			 </tr>
+    			 <tr>
+    		         <td colspan="2"><span class="#textClass#"><strong>Borrower:</strong> #agent_name#</span></td>
+    			 </tr>
+    	       </table>
     		<cfelse >
     	<table><tr>
     		<td>
@@ -683,21 +756,22 @@ Change to: <select name="format">
     one line slips, then its going to take that much room and that's that.
     --Peter DeVore--->
     		<td>
-    			<div class="#textClass#"><i>#sciName#</i></span>	
+    			<div class="#textClass#"><i>#sciName#</i></span>
     		</td>
     		<td>
     			<span class="#textClass#">#getItems.loan_number#</span>
     		</td>
     		<td>
     		<!--- mmm is Aug, while mmmm is August (diff formats)--->
-    			<div class="#textClass#" style="#dateWidth#">#dateformat(trans_date,dateStyle)#</div>	
+    			<div class="#textClass#" style="#dateWidth#">#dateformat(trans_date,dateStyle)#</div>
     		</td>
     		<td>
-    			<span class="#textClass#">#agent_name#</span>	
+    			<span class="#textClass#">#agent_name#</span>
     		</td>
     	</tr></table>
     		</cfif>
-                    </cfif>
+	        </cfif>
+            </cfif>
     	</div>
     	</td></tr>
     	<!--- End Column? Do it after every #maxRow# labels --->
@@ -759,12 +833,12 @@ Based on:
 <!--- Test to see if there are shipping addresses. --->
 <cfif ship.recordcount gt 0>
 	<cfquery name="shipped_to_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select formatted_addr from addr where 
+		select formatted_addr from addr where
 		addr_id = #ship.shipped_to_addr_id#
 	</cfquery>
 		<cfset shipped_to_addr = "#shipped_to_addr_id.formatted_addr#">
 	<cfquery name="shipped_from_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select formatted_addr from addr where 
+		select formatted_addr from addr where
 		addr_id = #ship.shipped_from_addr_id#
 	</cfquery>
 		<cfset shipped_from_addr = "#shipped_from_addr_id.formatted_addr#">
@@ -783,7 +857,7 @@ Based on:
 <cfset checkboxTextClass = 'times10'>
 <cfset checkboxStyle = "border: 1px solid black; padding: -.25em 0em -.25em 0em;">
 <!--- End formatting params --->
-<cfdocument 
+<cfdocument
 	format="pdf"
 	pagetype="letter"
 	margintop=".25"
@@ -812,13 +886,13 @@ Based on:
 			#replace(shipped_to_addr,"#chr(10)#","<br>","all")#
 		</blockquote>
 	</div></td></tr></table>
-	<!--- It seems that, as of Coldfusion 7, cfdocument does not support Times 
-	New Roman White Box character. From this, I assume that it cannot support 
-	one other non keyboard characters.Thus to make a checkbox I put in spaces 
-	and surround it with a black border. I then adjust the padding until it is 
+	<!--- It seems that, as of Coldfusion 7, cfdocument does not support Times
+	New Roman White Box character. From this, I assume that it cannot support
+	one other non keyboard characters.Thus to make a checkbox I put in spaces
+	and surround it with a black border. I then adjust the padding until it is
 	the right size/shape. Thankfully, this does not need be cross-browser
-	compatible because it is made ONLY at the Arctos server. Thus, this only 
-	needs to be updated if the font of the text around it changes or if the 
+	compatible because it is made ONLY at the Arctos server. Thus, this only
+	needs to be updated if the font of the text around it changes or if the
 	server changes its HTML formatting drastically.
 	--Peter DeVore, 2008-02-06 --->
 	<!--- previously tried any of the following (numbers were for spacing them to test)
@@ -829,7 +903,7 @@ Based on:
 	1 &##9744;
 	2 #charsetEncode(binaryDecode("feff25A1","hex"),"utf-16")#
 	3 &##x25a1;
-	These are the unicode characters for different boxes. See above comment as 
+	These are the unicode characters for different boxes. See above comment as
 	to why I don't use them.
 	</cfoutput>--->
 	<span class="#checkboxTextClass#"><span style='#checkboxStyle#'>&nbsp;&nbsp;</span>
@@ -841,7 +915,7 @@ Based on:
 	<div class="#checkboxTextClass#" style="text-align: center;">Value _____________</div>
 </div>
 </cfloop>
-</cfoutput>	
+</cfoutput>
 </cfdocument>
 <cfelse>
 No Addresses for this loan to make a shipping label from!
@@ -863,8 +937,8 @@ Number of rows to print per page:
 	<input type="hidden" name="transaction_id" value="#transaction_id#" />
 	Rows: <input type="text" name="numRowsFPage" value="15" />
 	<input type="submit" />
-	
-	
+
+
 </form>
 <p>
 	<a href="/temp/LoanInvoice.pdf" target="_blank">Get the PDF</a>
@@ -872,9 +946,9 @@ Number of rows to print per page:
 </cfoutput>
 <!----
 
-	
+
 	---->
-	<cfdocument 
+	<cfdocument
 	format="pdf"
 	pagetype="letter"
 	margintop=".25"
@@ -885,14 +959,14 @@ Number of rows to print per page:
 	fontembed="yes"
 	 filename="#Application.webDirectory#/temp/LoanInvoice.pdf"
 	 overwrite="yes" >
-	
+
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
 
 <cfoutput>
 <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 
-select 
-		cat_num, 
+select
+		cat_num,
 		cataloged_item.collection_object_id,
 		collection.collection,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
@@ -913,7 +987,7 @@ select
 		 spec_locality,
 		 higher_geog,
 		 orig_lat_long_units,
-		 lat_deg, 
+		 lat_deg,
 		 lat_min,
 		 lat_sec,
 		 long_deg,
@@ -937,10 +1011,10 @@ select
 				'deg. min. sec.', to_char(long_deg) || '&deg; ' || to_char(long_min) || '&acute; ' || to_char(long_sec) || '&acute;&acute; ' || long_dir,
 				'degrees dec. minutes', to_char(long_deg) || '&deg; ' || to_char(dec_long_min) || '&acute; ' || long_dir
 			)  VerbatimLongitude
-	 from 
-		loan_item, 
+	 from
+		loan_item,
 		loan,
-		specimen_part, 
+		specimen_part,
 		coll_object,
 		cataloged_item,
 		coll_object_encumbrance,
@@ -971,8 +1045,8 @@ select
 	  ORDER BY cat_num
 </cfquery>
 <cfquery name="one" dbtype="query">
-	select 
-		cat_num, 
+	select
+		cat_num,
 		customid,
 		collection_object_id,
 		collection,
@@ -984,7 +1058,7 @@ select
 		spec_locality,
 		higher_geog,
 		orig_lat_long_units,
-		lat_deg, 
+		lat_deg,
 		lat_min,
 		lat_sec,
 		long_deg,
@@ -1003,7 +1077,7 @@ select
 	FROM
 		getItems
 	GROUP BY
-		cat_num, 
+		cat_num,
 		customid,
 		collection_object_id,
 		collection,
@@ -1015,7 +1089,7 @@ select
 		spec_locality,
 		higher_geog,
 		orig_lat_long_units,
-		lat_deg, 
+		lat_deg,
 		lat_min,
 		lat_sec,
 		long_deg,
@@ -1034,7 +1108,7 @@ select
 	ORDER BY cat_num
 </cfquery>
 <cfquery name="more" dbtype="query">
-	select 
+	select
 		collection_object_id,
 		part_name,
 		part_modifier,
@@ -1043,7 +1117,7 @@ select
 		item_instructions,
 		loan_item_remarks,
 		coll_obj_disposition
-	from 
+	from
 		getItems
 	GROUP BY
 		collection_object_id,
@@ -1055,7 +1129,7 @@ select
 		loan_item_remarks,
 		coll_obj_disposition
 </cfquery>
-<!--- get number of pages we'll have 
+<!--- get number of pages we'll have
 	<cfset lChars = 0>
 	<cfset numberOfPages = 1>
 	<cfloop query="one">
@@ -1072,7 +1146,7 @@ select
 			</cfif>
 		</cfif>
 	</cfloop>
-	
+
 	--->
 	<cfif not isdefined("numRowsFPage")>
 		<cfset numRowsFPage = 15>
@@ -1087,11 +1161,11 @@ select
 		<!--- 14 rows on other pages --->
 		<cfset numberOfPages = ceiling((one.recordcount + 1) / #numRowsFPage#)>
 	</cfif>
-	
+
 	<cfset i=1>
 	<cfset pageRow = 1>
 	<cfset page_num = 1>
-	
+
 <div style="position:absolute; left:5px; top:5px;font-size:10px; font-weight:600;">
 	Page 1 of #numberOfPages#
 </div>
@@ -1100,7 +1174,7 @@ select
 </div>
 <div style=" width:100%; " align="center">
          <b><font face="Arial, Helvetica, sans-serif">SPECIMEN&nbsp;&nbsp;INVOICE <br>
-   	
+
 	<font size="+2"> Museum of Vertebrate Zoology <br>
     University of California, Berkeley</font></font></b> <br>
         <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1133,26 +1207,26 @@ select
 		<td align="center">
 			<span class="times12b">Condition</span>
 		</td>
-		
+
 		<td align="center">
 			<span class="times12b">More?</span>
 		</td>
-		
+
 	</tr>
-	
+
 	<cfloop query="one">
 	<cfquery name="items" dbtype="query">
 		select * from more where collection_object_id = #collection_object_id#
 	</cfquery>
 	<cfset numItemsForThisSpec = #items.recordcount#>
 	<cfset isMore = "">
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 
 	<tr	#iif(i MOD 2,DE("style='background-color:E5E5E5'"),DE("style='background-color:FFFFFF'"))#	>
 		<td rowspan="#numItemsForThisSpec#">
@@ -1161,12 +1235,12 @@ select
 		<td rowspan="#numItemsForThisSpec#">
 			#CustomID#&nbsp;
 		</td>
-		
+
 		<td rowspan="#numItemsForThisSpec#">
-			<span class="times10"><i>#replace(scientific_name," ","&nbsp;","all")#</i></span>	
+			<span class="times10"><i>#replace(scientific_name," ","&nbsp;","all")#</i></span>
 		</td>
 		<td rowspan="#numItemsForThisSpec#">
-			<span class="times10">#sex#</span>	
+			<span class="times10">#sex#</span>
 		</td>
 		<td rowspan="#numItemsForThisSpec#">
 			<!---
@@ -1179,7 +1253,7 @@ select
 			<cfelse>
 				Not georeferenced.
 			</cfif>
-			</span>			
+			</span>
 		</td>
 		<cfset thisItemRow = 1>
 		<cfloop query="items">
@@ -1188,23 +1262,23 @@ select
 		</cfif>
 		<td >
 			<span class="times10">
-				#items.part_modifier# #items.part_name# 
+				#items.part_modifier# #items.part_name#
 				<cfif len(#items.preserve_method#) gt 0>
 					(#items.preserve_method#)&nbsp;
 				</cfif>
-			</span>	
-			
-			
+			</span>
+
+
 		</td>
 		<td >
 			<span class="times10">
 				<cfif len(#items.Condition#) gt 15>
 				See attached.
 			  <cfelse>
-			  	#items.Condition#	
+			  	#items.Condition#
 			</cfif>&nbsp;
 			</span>
-			
+
 		</td>
 		<td >
 			<div class="times10" style="width:100%; text-align:center;">
@@ -1228,7 +1302,7 @@ select
 		<cfset pageBreakNow = "true">
 	<cfelse>
 		<cfset pageBreakNow = "false">
-	</cfif> 
+	</cfif>
 	--->
 	<cfif #page_num# is 1 AND #pageRow# is #numRowsFPage# AND #i# lte #one.recordcount#>
 		<cfset pageBreakNow = "true">
@@ -1236,20 +1310,20 @@ select
 		<cfset pageBreakNow = "true">
 	<cfelse>
 		<cfset pageBreakNow = "false">
-	</cfif> 
-	
-	
-	
+	</cfif>
+
+
+
 	<cfif #pageBreakNow# is "true">
 		</table>
 		<!---
-		
+
 		<hr />#i# - #pageRow# - #page_num# - first pagebreak<hr />
-		
+
 		---->
 	&nbsp;
-		
-		
+
+
 		<cfdocumentitem type="pagebreak"></cfdocumentitem>
 		<cfset page_num = #page_num# + 1>
 		<cfset pageRow=0>
@@ -1262,7 +1336,7 @@ select
 					Loan ## #getItems.loan_number#
 				</span>
 		</div>
-		
+
 		<!--- start a new page and table
 		<div style="position:static; top:0; left:0; width:100%;">
 				<span style="position:relative; left:0px; top:0px;  width:35%; font-size:10px; font-weight:600;">
@@ -1296,13 +1370,13 @@ select
 		<td align="center">
 			<span class="times12b">Condition</span>
 		</td>
-		
+
 		<td align="center">
 			<span class="times12b">More?</span>
 		</td>
-		
+
 	</tr>
-		
+
 	</cfif>
 </cfloop></table>
 
@@ -1318,7 +1392,7 @@ select
 <!------------------------------------------------------------------->
 <cfif #Action# is "showCondition">
 <cfoutput>
-<cfdocument 
+<cfdocument
 	format="pdf"
 	pagetype="letter"
 	margintop=".25"
@@ -1327,12 +1401,12 @@ select
 	marginright=".25"
 	orientation="landscape"
 	fontembed="yes" >
-	
+
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
 <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 
-select 
-		cat_num, 
+select
+		cat_num,
 		collection,
 		part_name,
 		 part_modifier,
@@ -1340,10 +1414,10 @@ select
 		condition,
 		loan_number,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
-	 from 
-		loan_item, 
+	 from
+		loan_item,
 		loan,
-		specimen_part, 
+		specimen_part,
 		coll_object,
 		cataloged_item,
 		collection
@@ -1407,15 +1481,15 @@ select
 		<td align="center">
 			<span class="times12b">Condition</span>
 		</td>
-		
+
 	</tr>
 	<cfset i=1>
 	<cfset p = 1>
 	<cfloop query="getItems">
 
 <cfif len(#Condition#) gt 15>
-					
-			
+
+
 
 	<tr>
 		<td>
@@ -1428,10 +1502,10 @@ select
 			#customID#&nbsp;
 			</span>
 		</td>
-		
+
 		<td>
 			<span class="times10">
-			#part_modifier# #part_name# 
+			#part_modifier# #part_name#
 			<cfif len(#preserve_method#) gt 0>
 				(#preserve_method#)&nbsp;
 			</cfif>
@@ -1442,7 +1516,7 @@ select
 				#Condition#
 				</span>
 		</td>
-		
+
 	</tr>
 	<cfset i=#i#+1>
 
