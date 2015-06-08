@@ -110,9 +110,11 @@
 					</td>
 					<td valign="top">
 						<select name="graphThis" multiple="multiple" size="10">
+                         <option value="continent_ocean">Specimens by Continent or Ocean</option>
 							<option value="country">Specimens by Country</option>
 							<option value="state_prov">Specimens by State</option>
 							<option value="scientific_name">Specimens by Identification</option>
+                            <option value="phylclass">Specimens by Class</option>
 							<option value="genus">Specimens by Genus</option>
 							<option value="family">Specimens by Family</option>
 							<option value="phylorder">Specimens by Order</option>
