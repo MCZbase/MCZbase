@@ -22,7 +22,7 @@
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		$("select[id^='geology_attribute_']").each(function(e){
-			populateGeology(this.id);			
+			populateGeology(this.id);
 		});
 		$.each($("input[id^='determined_date']"), function() {
 			$("#" + this.id).datepicker();
@@ -34,7 +34,7 @@
 		window.addEventListener("message", getGeolocate, false);
 	    } else {
 		window.attachEvent("onmessage", getGeolocate);
-	    }  
+	    }
 	});
 	function geolocate() {
                 var guri='http://www.museum.tulane.edu/geolocate/web/webgeoreflight.aspx?georef=run';
@@ -50,7 +50,7 @@
                 var popDiv=document.createElement('div');
                 popDiv.id = 'popDiv';
                 popDiv.className = 'editAppBox';
-                document.body.appendChild(popDiv);      
+                document.body.appendChild(popDiv);
                 var cDiv=document.createElement('div');
                 cDiv.className = 'fancybox-close';
                 cDiv.id='cDiv';
@@ -130,8 +130,8 @@
 				$("select#" + theSelect + idNum).html(s);
 			}
 		);
-	}	
-	
+	}
+
 	function showLLFormat(orig_units,recID) {
 		//alert(orig_units);
 		//alert(recID);
@@ -141,7 +141,7 @@
 			addNewLL.style.display='none';
 			var llMeta = document.getElementById('llMeta');
 			llMeta.style.display='';
-					
+
 		}
 		var dd = 'dd' + recID;
 		//alert('dd='+dd+':');
@@ -161,7 +161,7 @@
 			//alert('got something');
 			if (orig_units == 'decimal degrees') {
 				dd.style.display='';
-			} 
+			}
 			else if (orig_units == 'UTM') {
 				//alert(utm.style.display);
 				utm.style.display='';
@@ -175,52 +175,52 @@
 			}
 			else {
 				alert('I have no idea what to do with ' + orig_units);
-			}		
-		}	
+			}
+		}
 	}
 </script>
-<cfoutput> 
+<cfoutput>
 	<cfquery name="locDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select 
+    	select
 			*
-		from 
-			locality, 
-			geog_auth_rec 
-		where 
-			locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id and 
-			locality.locality_id=#locality_id# 
+		from
+			locality,
+			geog_auth_rec
+		where
+			locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id and
+			locality.locality_id=#locality_id#
 	</cfquery>
 	<cfquery name="geolDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select 
+    	select
 			*
-		from 
+		from
 			geology_attributes,
 			preferred_agent_name
-		where 
+		where
 			geology_attributes.geo_att_determiner_id = preferred_agent_name.agent_id (+) and
-			geology_attributes.locality_id=#locality_id# 
+			geology_attributes.locality_id=#locality_id#
 	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
-  		SELECT 
-			count(cataloged_item.cat_num) numOfSpecs, 
+  		SELECT
+			count(cataloged_item.cat_num) numOfSpecs,
 			collection.collection
-		from 
-			cataloged_item, 
+		from
+			cataloged_item,
 			collection,
-			collecting_event 
+			collecting_event
 		WHERE
 			cataloged_item.collecting_event_id = collecting_event.collecting_event_id and
 			cataloged_item.collection_id = collection.collection_id and
-			collecting_event.locality_id=#locality_id# 
-		GROUP BY 
+			collecting_event.locality_id=#locality_id#
+		GROUP BY
 			collection.collection
   	</cfquery>
 	<cfquery name="getLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select * from 
+        select * from
 			lat_long,
-			preferred_agent_name 
-		where determined_by_agent_id = agent_id 
-        and locality_id=#locality_id# 
+			preferred_agent_name
+		where determined_by_agent_id = agent_id
+        and locality_id=#locality_id#
 		order by ACCEPTED_LAT_LONG_FG DESC, lat_long_id
      </cfquery>
      <cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -236,7 +236,7 @@
         select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS order by LAT_LONG_ERROR_UNITS
      </cfquery>
      <cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select georefMethod from ctgeorefmethod order by georefMethod 
+		select georefMethod from ctgeorefmethod order by georefMethod
 	</cfquery>
 	<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select VerificationStatus from ctVerificationStatus order by VerificationStatus
@@ -246,66 +246,66 @@
      </cfquery>
 	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select geology_attribute from ctgeology_attribute order by geology_attribute
-     </cfquery>	                                 
+     </cfquery>
   	<table>
   		<tr>
 			<td>
   				<cfif #whatSpecs.recordcount# is 0>
   					<font color="##FF0000">This Locality (#locDet.locality_id#)
 					<img src="/images/info.gif" border="0" class="likeLink" onClick="getDocs('locality')">
-					contains no specimens. Please delete it if you don't have plans for it!</font>	
+					contains no specimens. Please delete it if you don't have plans for it!</font>
   				<cfelseif #whatSpecs.recordcount# is 1>
 					<font color="##FF0000">This Locality (#locDet.locality_id#)
 					<img src="/images/info.gif" border="0" class="likeLink" onClick="getDocs('locality')">
-					contains #whatSpecs.numOfSpecs# #whatSpecs.collection# 
-					<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>	
+					contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
+					<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
 				<cfelse>
 					<font color="##FF0000">This Locality (#locDet.locality_id#)
 					<img src="/images/info.gif" border="0" class="likeLink" onClick="getDocs('locality')">
-					contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>	  
-					<ul>	
+					contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
+					<ul>
 						<cfloop query="whatSpecs">
 							<li><font color="##FF0000">#numOfSpecs# #collection#</font></li>
-						</cfloop>			
+						</cfloop>
 					</ul>
   				</cfif>
 			</td>
-		</tr>  
+		</tr>
 	</cfoutput>
-	<cfoutput query="locDet"> 
+	<cfoutput query="locDet">
 		<form name="geog" action="editLocality.cfm" method="post">
 			<input type="hidden" name="action" value="changeGeog">
             <input type="hidden" name="geog_auth_rec_id">
             <input type="hidden" name="locality_id" value="#locality_id#">
-			
+
 			<tr>
 				<td>
 	            	<label for="higher_geog">Higher Geography</label>
-	            	<input type="text" 
-						name="higher_geog" 
+	            	<input type="text"
+						name="higher_geog"
 						id="higher_geog"
 						value="#higher_geog#"
 						size="120"
-						class="readClr" 
-						readonly="yes" >           
+						class="readClr"
+						readonly="yes" >
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<input type="button" value="Change" class="picBtn" id="changeGeogButton"
-							onmouseover="this.className='picBtn btnhov'" 
+							onmouseover="this.className='picBtn btnhov'"
 							onmouseout="this.className='picBtn'"
 							onclick="document.getElementById('saveGeogChangeButton').style.display='';document.getElementById('higher_geog').className='red';GeogPick('geog_auth_rec_id','higher_geog','geog'); return false;">
-			 			<input type="submit" value="Save" class="savBtn" id="saveGeogChangeButton" 
+			 			<input type="submit" value="Save" class="savBtn" id="saveGeogChangeButton"
 			 				style="display:none"
-							onmouseover="this.className='savBtn btnhov'" 
+							onmouseover="this.className='savBtn btnhov'"
 							onmouseout="this.className='savBtn'">
 						<input type="button" value="Edit" class="lnkBtn"
-							onmouseover="this.className='lnkBtn btnhov'" 
+							onmouseover="this.className='lnkBtn btnhov'"
 							onmouseout="this.className='lnkBtn'"
 							onClick="document.location='Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
 				</td>
-			</tr>  
+			</tr>
          </form>
          <form name="locality" method="post" action="editLocality.cfm">
  	    <input type="hidden" id="state_prov" name="state_prov" value="#locDet.state_prov#">
@@ -319,7 +319,7 @@
 			<tr>
 				<td><strong>Locality</strong></td>
 			</tr>
-            <tr> 
+            <tr>
             	<td>
 					<label for="spec_locality">
 						<a href="javascript:void(0);" onClick="getDocs('locality','specific_locality')">
@@ -327,13 +327,13 @@
 						</a>
 					</label>
 					<input type="text"
-						id="spec_locality" 
-						name="spec_locality" 
-						value="#stripQuotes(spec_locality)#"  
+						id="spec_locality"
+						name="spec_locality"
+						value="#stripQuotes(spec_locality)#"
 						size="120">
 				</td>
 			</tr>
-            <tr> 
+            <tr>
 				<td>
 					<table>
 						<tr>
@@ -343,8 +343,8 @@
 										Min. Elev.
 									</a>
 								</label>
-								<input type="text" name="minimum_elevation" 
-									id="minimum_elevation" 
+								<input type="text" name="minimum_elevation"
+									id="minimum_elevation"
 									value="#minimum_elevation#" size="3">&nbsp;TO&nbsp;
 							</td>
 							<td>
@@ -353,8 +353,8 @@
 										Max. Elev.
 									</a>
 								</label>
-								<input type="text" name="maximum_elevation" 
-									id="maximum_elevation" 
+								<input type="text" name="maximum_elevation"
+									id="maximum_elevation"
 									value="#maximum_elevation#" size="3">&nbsp;&nbsp;
 							</td>
 							<td>
@@ -374,7 +374,7 @@
 					</table>
 				</td>
 			</tr>
-			 <tr> 
+			 <tr>
 				<td>
 					<table>
 						<tr>
@@ -384,8 +384,8 @@
 										Min. Depth.
 									</a>
 								</label>
-								<input type="text" name="min_depth" 
-									id="min_depth" 
+								<input type="text" name="min_depth"
+									id="min_depth"
 									value="#min_depth#" size="3">&nbsp;TO&nbsp;
 							</td>
 							<td>
@@ -394,8 +394,8 @@
 										Max. Depth.
 									</a>
 								</label>
-								<input type="text" name="max_depth" 
-									id="max_depth" 
+								<input type="text" name="max_depth"
+									id="max_depth"
 									value="#max_depth#" size="3">&nbsp;&nbsp;
 							</td>
 							<td>
@@ -415,12 +415,12 @@
 					</table>
 				</td>
 			</tr>
-              <tr> 
+              <tr>
                 <td>
 					<label for="locality_remarks">
 						Locality Remarks
 					</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" 
+					<input type="text" name="locality_remarks" id="locality_remarks"
 						value="#stripQuotes(locality_remarks)#"  style="width:80em;">
 				</td>
               </tr>
@@ -429,7 +429,7 @@
 					<label for="locality_remarks">
 						Not Georeferenced Because
 					</label>
-					<input type="text" name="NoGeorefBecause" 
+					<input type="text" name="NoGeorefBecause"
 						id="NoGeorefBecause" value="#NoGeorefBecause#"  style="width:80em;">
 					<cfif getLL.recordcount gt 0 AND len(#NoGeorefBecause#) gt 0>
 						<div style="background-color:red">
@@ -443,32 +443,32 @@
 					</cfif>
 				</td>
               </tr>
-              <tr> 
-                <td><!---div align="center"---> 
+              <tr>
+                <td><!---div align="center"--->
                    <input type="submit" value="Save" class="savBtn"
-  						 onmouseover="this.className='savBtn btnhov'" 
+  						 onmouseover="this.className='savBtn btnhov'"
 						 onmouseout="this.className='savBtn'">
 					 <input type="button" value="Quit" class="qutBtn"
-  						 onmouseover="this.className='qutBtn btnhov'" 
+  						 onmouseover="this.className='qutBtn btnhov'"
 						 onmouseout="this.className='qutBtn'"
 						 onClick="document.location='Locality.cfm';">
 					<input type="button" value="Delete" class="delBtn"
-  						 onmouseover="this.className='delBtn btnhov'" 
+  						 onmouseover="this.className='delBtn btnhov'"
 						 onmouseout="this.className='delBtn'"
 						 onClick="locality.action.value='deleteLocality';confirmDelete('locality');">
 					<input type="button" value="Map" class="lnkBtn"
-  						 onmouseover="this.className='lnkBtn btnhov'" 
+  						 onmouseover="this.className='lnkBtn btnhov'"
 						 onmouseout="this.className='lnkBtn'"
 						 onClick="window.open('/bnhmMaps/bnhmPointMapper.cfm?locality_id=#locality_id#','bnhmMap');">
-						
+
                   <!---/div--->
-				  		
+
 					</td>
               </tr>
-              <tr> 
-                <td><div align="center"> 
+              <tr>
+                <td><div align="center">
 					<input type="button" value="Collecting Events" class="lnkBtn"
-  						 onmouseover="this.className='lnkBtn btnhov'" 
+  						 onmouseover="this.className='lnkBtn btnhov'"
 						 onmouseout="this.className='lnkBtn'"
 						 onClick="document.location='Locality.cfm?Action=findCollEvent&locality_id=#locality_id#';">
 					</div></td>
@@ -505,10 +505,10 @@
 			</script>
 		  	<div align="center">
 						<input type="button" value="Create Clone" class="insBtn"
-  						 	onmouseover="this.className='insBtn btnhov'" 
+  						 	onmouseover="this.className='insBtn btnhov'"
 						 	onmouseout="this.className='insBtn'" onClick="cloneLocality(#locality_id#)">
 							<input type="button" value="New Coll Event" class="insBtn"
-								 onmouseover="this.className='insBtn btnhov'" 
+								 onmouseover="this.className='insBtn btnhov'"
 								 onmouseout="this.className='insBtn'" onClick="nada.submit();">
 						</div>
 						 </td>
@@ -518,7 +518,7 @@
         <table>
 			<tr>
 				<td>
-					Coordinates for this locality: 
+					Coordinates for this locality:
 				</td>
 				<td>
 					&nbsp;&nbsp;&nbsp;<span class="likeLink" style="font-size:smaller;" onClick="getDocs('lat_long')">Help</span>
@@ -529,15 +529,15 @@
 				    	<a href="http://bg.berkeley.edu/latest/" target="_blank">BioGeoMancer<img src="/images/linkOut.gif" border="0"></a>
 				        &nbsp;~&nbsp;
 				        <a href="http://manisnet.org/gc.html" target="_blank">Georef Calculator<img src="/images/linkOut.gif" border="0"></a>
-				     </span>	
+				     </span>
 				</td>
 			</tr>
 		</table>
 		<cfset i=1>
 		<table border>
 		</cfoutput>
-		
-		<cfoutput query="getLL" group="lat_long_id"> 
+
+		<cfoutput query="getLL" group="lat_long_id">
 		<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
 		<td>
           <form name="latLong#i#" method="post" action="editLocality.cfm" onSubmit="return noenter();">
@@ -545,7 +545,7 @@
             <input type="hidden" name="Action" value="editAccLatLong">
             <input type="hidden" name="lat_long_id" value="#lat_long_id#">
             <table border>
-              <tr> 		 
+              <tr>
                 <td>
 					<cfset thisUnits = #getLL.ORIG_LAT_LONG_UNITS#>
 					<label for="ORIG_LAT_LONG_UNITS#i#">
@@ -554,7 +554,7 @@
 					<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS#i#" size="1" class="reqdClr"
 						onchange="showLLFormat(this.value,'#i#');">
 	                    <cfloop query="ctunits">
-	                      <option 
+	                      <option
 						  	<cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif>value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 	                    </cfloop>
 	                  </select>
@@ -582,7 +582,7 @@
 						<a href="javascript:void(0);" onClick="getDocs('lat_long','date')">Determined Date</a>
 					</label>
 					<input type="text" name="determined_date" id="determined_date#i#"
-						value="#dateformat(determined_date,'yyyy-mm-dd')#" class="reqdClr"> 
+						value="#dateformat(determined_date,'yyyy-mm-dd')#" class="reqdClr">
 				</td>
               </tr>
             <tr>
@@ -606,10 +606,10 @@
 				                      <option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#thisunits#"> selected </cfif>
 										value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
 				                    </cfloop>
-				                  </select> 
+				                  </select>
 							</td>
 						</tr>
-					</table>					
+					</table>
 				</td>
 				<td>
 					<label for="DATUM#i#">
@@ -618,10 +618,10 @@
 					<select name="DATUM" id="DATUM#i#" size="1" class="reqdClr">
 	                   <cfset thisDatum = #getLL.DATUM#>
 	                    <cfloop query="ctdatum">
-	                      <option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif> 
+	                      <option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
 							value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
 	                    </cfloop>
-	                  </select> 
+	                  </select>
 				</td>
 				<td>
 					<cfset thisGeoMeth = #georefMethod#>
@@ -630,7 +630,7 @@
 					</label>
 					<select name="georefMethod" id="georefMethod#i#" size="1" class="reqdClr" style="width: 300px">
 				   		<cfloop query="ctGeorefMethod">
-							<option 
+							<option
 								<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
 								value="#georefMethod#">#georefMethod#</option>
 						</cfloop>
@@ -657,7 +657,7 @@
 					<select name="VerificationStatus" id="VerificationStatus#i#" size="1" class="reqdClr">
 					   	<cfset thisVerificationStatus = #VerificationStatus#>
 					   		<cfloop query="ctVerificationStatus">
-								<option 
+								<option
 									<cfif #thisVerificationStatus# is #ctVerificationStatus.VerificationStatus#> selected </cfif>
 									value="#VerificationStatus#">#VerificationStatus#</option>
 							</cfloop>
@@ -667,8 +667,8 @@
 					<label for="LAT_LONG_REMARKS#i#">
 						Remarks
 					</label>
-					<input type="text" 
-						name="LAT_LONG_REMARKS" 
+					<input type="text"
+						name="LAT_LONG_REMARKS"
 						id="LAT_LONG_REMARKS#i#"
 						value="#stripQuotes(LAT_LONG_REMARKS)#"
 						size="60">
@@ -680,13 +680,13 @@
 						Reference
 					</label>
 					<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE#i#" size="120" class="reqdClr"
-						value='#preservesinglequotes(getLL.LAT_LONG_REF_SOURCE)#' />
+						value="#preservesinglequotes(getLL.LAT_LONG_REF_SOURCE)#" />
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4">
 					<table id="dms#i#" style="display:none;">
-						<tr> 
+						<tr>
 							<td>
 								<label for="lat_deg#i#">Lat. Deg.</label>
 								<input type="text" name="LAT_DEG" value="#LAT_DEG#" size="4" id="lat_deg#i#" class="reqdClr">
@@ -732,7 +732,7 @@
 						</tr>
 					</table>
 					<table id="ddm#i#" style="display:none;">
-						<tr> 
+						<tr>
 							<td>
 								<label for="dmlat_deg#i#">Lat. Deg.<label>
 								<input type="text" name="dmLAT_DEG" value="#LAT_DEG#" size="4" id="dmlat_deg#i#" class="reqdClr">
@@ -770,7 +770,7 @@
 						</tr>
 					</table>
 					 <table id="dd#i#" style="display:none;">
-						<tr> 
+						<tr>
 							<td>
 								<label for="dec_lat#i#">Decimal Latitude</label>
 								<input type="text" name="DEC_LAT" id="dec_lat#i#" value="#DEC_LAT#" class="reqdClr">
@@ -782,7 +782,7 @@
 						</tr>
 					</table>
 					<table id="utm#i#" style="display:none;">
-						<tr> 
+						<tr>
 							<td>
 								<label for="utm_zone#i#">UTM Zone<label>
 								<input type="text" name="UTM_ZONE" value="#UTM_ZONE#" id="utm_zone#i#" class="reqdClr">
@@ -799,20 +799,20 @@
 					</table>
 				</td>
 			</tr>
-              <tr> 
+              <tr>
                 <td colspan="4">
 				<input type="button" value="Save Changes" class="savBtn"
-  						 onmouseover="this.className='savBtn btnhov'" 
+  						 onmouseover="this.className='savBtn btnhov'"
 						 onmouseout="this.className='savBtn'"
 						 onClick="latLong#i#.Action.value='editAccLatLong';submit();">
 				<input type="button" value="Delete" class="delBtn"
-  						 onmouseover="this.className='delBtn btnhov'" 
+  						 onmouseover="this.className='delBtn btnhov'"
 						 onmouseout="this.className='delBtn'" onClick="latLong#i#.Action.value='deleteLatLong';confirmDelete('latLong#i#');">
 				</td>
               </tr>
             </table>
           </form>
-		 
+
 		  </td></tr>
 		  	<script>
 				showLLFormat('#orig_lat_long_units#','#i#')
@@ -820,36 +820,36 @@
 			<cfset i=#i#+1>
         </cfoutput>
 		</table>
-		 <cfoutput> 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		 <cfoutput>
+
+
+
+
+
+
+
+
+
+
+
 		<form name="newlatLong" method="post" action="editLocality.cfm">
             <input type="hidden" name="Action" value="AddLatLong">
             <input type="hidden" name="locality_id" value="#locDet.locality_id#">
-		
+
 		<table class="newRec">
 			<tr>
 				<td>
 					Add Coordinate Determination
 				</td>
 			</tr>
-		
+
 		<tr>
 			<td id="addNewLL">
 				<label for="ORIG_LAT_LONG_UNITS">
 						<a href="javascript:void(0);" onClick="getDocs('lat_long','original_units')">Original Units</a>
 					</label>
-					<select name="ORIG_LAT_LONG_U" 
-						id="ORIG_LAT_LONG_U" size="1" 
+					<select name="ORIG_LAT_LONG_U"
+						id="ORIG_LAT_LONG_U" size="1"
 						class="reqdClr"
 						onchange="document.getElementById('ORIG_LAT_LONG_UNITS').value=this.value; showLLFormat(this.value,'')">
 	                    <option selected value="">Pick one...</option>
@@ -860,9 +860,9 @@
 			</td>
 		</tr>
 		<tr>
-			<td>		
+			<td>
 		<table border id="llMeta" style="display:none;">
-              <tr> 		 
+              <tr>
                 <td>
 					<label for="ORIG_LAT_LONG_UNITS">
 						<a href="javascript:void(0);" onClick="getDocs('lat_long','original_units')">Original Units</a>
@@ -896,7 +896,7 @@
 					<label for="determined_date">
 						<a href="javascript:void(0);" onClick="getDocs('lat_long','date')">Determined Date</a>
 					</label>
-					<input type="text" name="determined_date" id="determined_date" class="reqdClr"> 
+					<input type="text" name="determined_date" id="determined_date" class="reqdClr">
 				</td>
               </tr>
             <tr>
@@ -918,10 +918,10 @@
 				                    <cfloop query="cterror">
 				                      <option value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
 				                    </cfloop>
-				                  </select> 
+				                  </select>
 							</td>
 						</tr>
-					</table>					
+					</table>
 				</td>
 				<td>
 					<label for="DATUM">
@@ -932,7 +932,7 @@
 	                    <cfloop query="ctdatum">
 	                      <option value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
 	                    </cfloop>
-	                  </select> 
+	                  </select>
 				</td>
 				<td>
 					<label for="georefMethod">
@@ -972,8 +972,8 @@
 					<label for="LAT_LONG_REMARKS">
 						Remarks
 					</label>
-					<input type="text" 
-						name="LAT_LONG_REMARKS" 
+					<input type="text"
+						name="LAT_LONG_REMARKS"
 						id="LAT_LONG_REMARKS"
 						size="60">
 				</td>
@@ -983,14 +983,14 @@
 					<label for="LAT_LONG_REF_SOURCE">
 						Reference
 					</label>
-					<input type="text" name="LAT_LONG_REF_SOURCE" 
+					<input type="text" name="LAT_LONG_REF_SOURCE"
 						id="LAT_LONG_REF_SOURCE" size="120" class="reqdClr" />
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4">
 					 <table id="dms" style="display:none;">
-						<tr> 
+						<tr>
 							<td>
 								<label for="lat_deg">Lat. Deg.</label>
 								<input type="text" name="LAT_DEG" size="4" id="lat_deg" class="reqdClr">
@@ -1035,7 +1035,7 @@
 						</tr>
 					</table>
 					<table id="ddm" style="display:none;">
-						<tr> 
+						<tr>
 							<td>
 								<label for="dmlat_deg">Lat. Deg.<label>
 								<input type="text" name="dmLAT_DEG" size="4" id="dmlat_deg" class="reqdClr">
@@ -1071,7 +1071,7 @@
 						</tr>
 					</table>
 					 <table id="dd" style="display:none;">
-						<tr> 
+						<tr>
 							<td>
 								<label for="dec_lat">Decimal Latitude</label>
 								<input type="text" name="DEC_LAT" id="dec_lat"class="reqdClr">
@@ -1083,7 +1083,7 @@
 						</tr>
 					</table>
 					<table id="utm" style="display:none;">
-						<tr> 
+						<tr>
 							<td>
 								<label for="utm_zone">UTM Zone<label>
 								<input type="text" name="UTM_ZONE" id="utm_zone" class="reqdClr">
@@ -1100,20 +1100,20 @@
 					</table>
 				</td>
 			</tr>
-              <tr> 
+              <tr>
                 <td colspan="4">
-				<input type="button" value="Georeference with GeoLocate" class="insBtn" 
+				<input type="button" value="Georeference with GeoLocate" class="insBtn"
 						 onClick="geolocate();">
 				<input type="submit" value="Create Determination" class="insBtn"
-  						 onmouseover="this.className='insBtn btnhov'" 
-						 onmouseout="this.className='insBtn'">						
+  						 onmouseover="this.className='insBtn btnhov'"
+						 onmouseout="this.className='insBtn'">
 				</td>
               </tr>
             </table>
 		</td>
 		</tr>
 			</form>
-  	
+
 	<table >
 	<hr>
 	Edit Geology Attributes
@@ -1123,7 +1123,7 @@
 				<input type="hidden" name="Action" value="editGeol">
             	<input type="hidden" name="locality_id" value="#locDet.locality_id#">
 				<input type="hidden" name="number_of_determinations" value="#geolDet.recordcount#">
-		
+
 			<cfset i=1>
 			<cfloop query="geolDet">
 				<input type="hidden" name="geology_attribute_id_#i#" value="#geology_attribute_id#">
@@ -1137,7 +1137,7 @@
 								<option <cfif #geology_attribute# is #ttAtt#> selected="selected" </cfif>value="#geology_attribute#">#geology_attribute#</option>
 							</cfloop>
 						</select>
-						<span class="infoLink" onclick="document.getElementById('geology_attribute_#i#').value='delete'">Delete This</span>	
+						<span class="infoLink" onclick="document.getElementById('geology_attribute_#i#').value='delete'">Delete This</span>
 						<label for="geo_att_value">Value</label>
 						<select name="geo_att_value_#i#" id="geo_att_value_#i#" class="reqdClr">
 							<option value="#geo_att_value#">#geo_att_value#</option>
@@ -1152,7 +1152,7 @@
 						<input type="text" name="geo_att_determined_date_#i#" id="geo_att_determined_date_#i#"
 							value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#">
 						<label for="geo_att_determined_method_#i#">Method</label>
-						<input type="text" name="geo_att_determined_method_#i#" 
+						<input type="text" name="geo_att_determined_method_#i#"
 							size="60"  value="#geo_att_determined_method#">
 						<label for="geo_att_remark_#i#">Remark</label>
 						<input type="text" name="geo_att_remark_#i#"
@@ -1163,14 +1163,14 @@
 			</cfloop>
 			<tr>
 				<td colspan="2">
-					<input type="submit" 
-					value="Save Changes" 
+					<input type="submit"
+					value="Save Changes"
 					class="savBtn"
 					onmouseover="this.className='savBtn btnhov'"
 					onmouseout="this.className='savBtn'">
 				</td>
 			</tr>
-			
+
 		</table>
 
 		</form>
@@ -1202,14 +1202,100 @@
 			<label for="geo_att_remark">Remark</label>
 			<input type="text" name="geo_att_remark" id="geo_att_remark" size="60">
 			<br>
-			<input type="submit" 
-					value="Create Determination" 
+			<input type="submit"
+					value="Create Determination"
 					class="insBtn"
 					onmouseover="this.className='insBtn btnhov'"
 					onmouseout="this.className='insBtn'">
 			</td></tr>
 	</table>
-</cfoutput> 
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select distinct
+        media.media_id,
+        media.media_uri,
+        media.mime_type,
+        media.media_type,
+        media.preview_uri
+     from
+         media,
+         media_relations,
+         media_labels
+     where
+         media.media_id=media_relations.media_id and
+         media.media_id=media_labels.media_id (+) and
+         media_relations.media_relationship like '%locality' and
+         media_relations.related_primary_key = #locality_id#
+	</cfquery>
+	<cfif media.recordcount gt 0>
+    <div class="detailCell">
+		<div class="detailLabel">Media
+		<cfquery name="wrlCount" dbtype="query">
+			select * from media where mime_type = 'model/vrml'
+		</cfquery>
+		<cfif wrlCount.recordcount gt 0>
+			<br><span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+		</cfif>
+		 		<!---cfif oneOfUs is 1>
+				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(*) c
+					FROM
+						ctattribute_type
+					where attribute_type='image confirmed' and
+					collection_cde='#one.collection_cde#'
+				</cfquery>
+				<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>
+				<cfquery name="isConf"  dbtype="query">
+					SELECT count(*) c
+					FROM
+						attribute
+					where attribute_type='image confirmed'
+				</cfquery>
+				<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
+					<span class="infoLink"
+						id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'>
+						Confirm Image IDs
+					</span>
+				</CFIF>
+			</cfif--->
+		</div>
+		<div class="detailBlock">
+            <span class="detailData">
+				<!---div class="thumbs"--->
+					<div class="thumb_spcr">&nbsp;</div>
+					<cfloop query="media">
+						<cfset puri=getMediaPreview(preview_uri,media_type)>
+		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select
+								media_label,
+								label_value
+							from
+								media_labels
+							where
+								media_id=#media_id#
+						</cfquery>
+						<cfquery name="desc" dbtype="query">
+							select label_value from labels where media_label='description'
+						</cfquery>
+						<cfset alt="Media Preview Image">
+						<cfif desc.recordcount is 1>
+							<cfset alt=desc.label_value>
+						</cfif>
+		               <div class="one_thumb">
+			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
+		                   	<p>
+								#media_type# (#mime_type#)
+			                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
+								<br>#alt#
+							</p>
+						</div>
+					</cfloop>
+					<div class="thumb_spcr">&nbsp;</div>
+				<!--/div--->
+	        </span>
+		</div>
+	</div>
+</cfif>
+</cfoutput>
 <cfinclude template="/includes/_footer.cfm">
 </cfif>
 <!------------------------------------------------------------------------------------------------------>
@@ -1224,16 +1310,16 @@
 		<cfset thisMethod = #evaluate("geo_att_determined_method_" & n)#>
 		<cfset thisDeterminer = #evaluate("geo_att_determiner_id_" & n)#>
 		<cfset thisRemark = #evaluate("geo_att_remark_" & n)#>
-		
+
 		<cfif #thisAttribute# is "delete">
 			<cfquery name="deleteGeol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				delete from geology_attributes where geology_attribute_id=#thisID#
 			</cfquery>
 		<cfelse>
 			<cfquery name="upGeol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update 
-					geology_attributes 
-				set 
+				update
+					geology_attributes
+				set
 					geology_attribute='#thisAttribute#',
 					geo_att_value='#stripQuotes(thisValue)#'
 					<cfif len(#thisDeterminer#) gt 0>
@@ -1283,7 +1369,7 @@
 				</cfif>
 			   	<cfif len(#geo_att_remark#) gt 0>
 					,geo_att_remark
-				</cfif>			    
+				</cfif>
 			   ) values (
 			   #locality_id#,
 			   '#geology_attribute#',
@@ -1310,14 +1396,14 @@
 	<cfoutput>
 		<cfquery name="changeGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE locality SET geog_auth_rec_id=#geog_auth_rec_id# where locality_id=#locality_id#
-		</cfquery>	
+		</cfquery>
 		<cflocation url="editLocality.cfm?locality_id=#locality_id#" addtoken="no">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveLocalityEdit">
 	<cfoutput>
-	<cfif len(MINIMUM_ELEVATION) gt 0 OR 
+	<cfif len(MINIMUM_ELEVATION) gt 0 OR
 			len(MAXIMUM_ELEVATION) gt 0>
 		<cfif len(ORIG_ELEV_UNITS) is 0>
 			You must provide elevation units if you provide elevation data!
@@ -1325,7 +1411,7 @@
 		</cfif>
 	</cfif>
 	<cfif len(ORIG_ELEV_UNITS) gt 0>
-		<cfif len(MINIMUM_ELEVATION) is 0 AND 
+		<cfif len(MINIMUM_ELEVATION) is 0 AND
 			len(MAXIMUM_ELEVATION) is 0>
 			You can't provide elevation units if you don't provide elevation data!
 			<cfabort>
@@ -1379,7 +1465,7 @@
 	</cfif>
 	<cfset sql = "#sql# where locality_id = #locality_id#">
 	<cfquery name="edLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		#preservesinglequotes(sql)#		
+		#preservesinglequotes(sql)#
 	</cfquery>
 	<cflocation addtoken="no" url="editLocality.cfm?locality_id=#locality_id#">
 	</cfoutput>
@@ -1390,18 +1476,18 @@
 	<cfquery name="isColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select collecting_event_id from collecting_event where locality_id=#locality_id#
 	</cfquery>
-	
+
 <cfif len(#isColl.collecting_event_id#) gt 0>
 	There are active collecting events for this locality. It cannot be deleted.
 	<br><a href="editLocality.cfm?locality_id=#locality_id#">Return</a> to editing.
 	<cfabort>
 </cfif>
-	
+
 	<cftransaction>
 		<cfquery name="deleLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from lat_long where locality_id=#locality_id#
 		</cfquery>
-		
+
 		<cftransaction action="commit">
 		<cfquery name="deleLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from locality where locality_id=#locality_id#
@@ -1429,7 +1515,7 @@
 					,MINIMUM_ELEVATION
 					,ORIG_ELEV_UNITS
 					,SPEC_LOCALITY
-					,LOCALITY_REMARKS,					
+					,LOCALITY_REMARKS,
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
@@ -1621,7 +1707,7 @@
 								,'#MAX_ERROR_UNITS#'
 							<cfelse>
 								,NULL
-							</cfif>			
+							</cfif>
 							<cfif len(#NEAREST_NAMED_PLACE#) gt 0>
 								,'#NEAREST_NAMED_PLACE#'
 							<cfelse>
@@ -1790,7 +1876,7 @@
 								,'#MAX_ERROR_UNITS#'
 							<cfelse>
 								,NULL
-							</cfif>			
+							</cfif>
 							<cfif len(#NEAREST_NAMED_PLACE#) gt 0>
 								,'#NEAREST_NAMED_PLACE#'
 							<cfelse>
@@ -1831,13 +1917,13 @@
 
 <cfoutput>
 
-<!--- update things that we're allowing changes to. Set non-original units to null and 
+<!--- update things that we're allowing changes to. Set non-original units to null and
 	get them once we have an Oracle procedure in place to handle conversions --->
 <!---cftransaction--->
 <cfif ACCEPTED_LAT_LONG_FG is 1>
 	<!---flagging all zero ACCEPTED_LAT_LONG_FG: #ACCEPTED_LAT_LONG_FG# for LOCALITY_ID: #locality_id#--->
 	<cfquery name="flagAllZero" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update lat_long set ACCEPTED_LAT_LONG_FG=0 where 
+		update lat_long set ACCEPTED_LAT_LONG_FG=0 where
 		locality_id = #locality_id#
 	</cfquery>
 	<!---success?--->
@@ -1845,7 +1931,7 @@
 <cfset sql = "
 	UPDATE lat_long SET
 		DATUM = '#DATUM#'
-		,ACCEPTED_LAT_LONG_FG = #ACCEPTED_LAT_LONG_FG#	
+		,ACCEPTED_LAT_LONG_FG = #ACCEPTED_LAT_LONG_FG#
 		,orig_lat_long_units = '#orig_lat_long_units#'
 		,determined_date = '#dateformat(determined_date,'yyyy-mm-dd')#'
 		,lat_long_ref_source = '#stripQuotes(lat_long_ref_source)#'
@@ -1876,6 +1962,12 @@
 			<cfset sql = "#sql#,GpsAccuracy=#GpsAccuracy#">
 		<cfelse>
 			<cfset sql = "#sql#,GpsAccuracy=null">
+		</cfif>
+		<cfif len(#LAT_SEC#) EQ 0>
+			<cfset lat_sec="null">
+		</cfif>
+		<cfif len(#LONG_SEC#) EQ 0>
+			<cfset long_sec="null">
 		</cfif>
 		<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
 			<cfset sql = "#sql#
@@ -1908,7 +2000,7 @@
 				,DEC_LONG = null
 				,UTM_ZONE = null
 				,UTM_EW = null
-				,UTM_NS = null				
+				,UTM_NS = null
 				,DEC_LAT_MIN = #DEC_LAT_MIN#
 				,DEC_LONG_MIN = #DEC_LONG_MIN#
 				">
@@ -1926,7 +2018,7 @@
 				,DEC_LONG = #DEC_LONG#
 				,UTM_ZONE = null
 				,UTM_EW = null
-				,UTM_NS = null				
+				,UTM_NS = null
 				,DEC_LAT_MIN = null
 				,DEC_LONG_MIN = null
 				">
@@ -1944,14 +2036,14 @@
 				,DEC_LONG = null
 				,UTM_ZONE = '#UTM_ZONE#'
 				,UTM_EW = #UTM_EW#
-				,UTM_NS = #UTM_NS#				
+				,UTM_NS = #UTM_NS#
 				,DEC_LAT_MIN = null
 				,DEC_LONG_MIN = null
 				">
 		<cfelse>
 			<div class="error">
 			You really can't load #ORIG_LAT_LONG_UNITS#. Really. I wouldn't lie to you! Clean up the code table!
-			Use your back button or	
+			Use your back button or
 			<br><a href="editLocality.cfm?locality_id=#locality_id#">continue editing</a>.
 			</div>
 			<cfabort>
@@ -1971,7 +2063,7 @@
 	<div class="error">
 	There are more than one accepted lat_longs for this locality. Please change all but one
 	of them to unaccepted. A better fix is coming soon.
-	
+
 	<br><a href="editLocality.cfm?locality_id=#locality_id#">continue</a>
 	</div>
 	<cfabort>
@@ -1982,15 +2074,15 @@
 	</div>
 		<cfabort>
 </cfif>
-</cfoutput>		
+</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif #Action# is "AddLatLong">
-<cfoutput>	
+<cfoutput>
 	<cfquery name="notAcc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE lat_long SET accepted_lat_long_fg = 0 where
 		locality_id=#locality_id#
-	</cfquery>	
+	</cfquery>
 	<cfset sql = "
 	INSERT INTO lat_long (
 		LAT_LONG_ID
@@ -2050,7 +2142,7 @@
 		<cfelse>
 			<div class="error">
 			You really can't load #ORIG_LAT_LONG_UNITS#. Really. I wouldn't lie to you! Clean up the code table!
-			Use your back button or	
+			Use your back button or
 			<br><a href="editLocality.cfm?locality_id=#locality_id#">continue editing</a>.
 			</div>
 			<cfabort>
@@ -2084,7 +2176,7 @@
 			<cfset sql="#sql#,'#MAX_ERROR_UNITS#'">
 		</cfif>
 		<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
-		<cfset sql="#sql#			
+		<cfset sql="#sql#
 			,#LAT_DEG#
 			,#LAT_MIN#
 			,#LAT_SEC#
@@ -2125,7 +2217,7 @@
 	<div class="error">
 	There are more than one accepted lat_longs for this locality. Please change all but one
 	of them to unaccepted. A better fix is coming soon.
-	
+
 	<br><a href="editLocality.cfm?locality_id=#locality_id#">continue</a>
 	</div>
 	<cfabort>
@@ -2137,7 +2229,7 @@
 		<cfabort>
 </cfif>
 	<cflocation url="editLocality.cfm?locality_id=#locality_id#" addtoken="no">
-</cfoutput>		
+</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteLatLong">
@@ -2151,8 +2243,8 @@
 		<cfquery name="killLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from lat_long where lat_long_id = #lat_long_id#
 		</cfquery>
-		
+
 	<cflocation url="editLocality.cfm?locality_id=#locality_id#" addtoken="no">
 	</cfoutput>
 </cfif>
-<!---------------------------------------------------------------------------------------------------->	  
+<!---------------------------------------------------------------------------------------------------->
