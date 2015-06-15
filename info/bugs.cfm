@@ -26,7 +26,7 @@
 </tr>
 	<form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
 		<input type="hidden" name="action" value="save">
-		
+
 		<tr>
 			<td valign="top">
 				<div align="right">Who are you?
@@ -56,7 +56,7 @@
 				<div align="right">Describe the problem.
 		    </div></td>
 			<td>
-				<textarea name="complaint" rows="6" cols="50" class="reqdClr"></textarea>		
+				<textarea name="complaint" rows="6" cols="50" class="reqdClr"></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -64,7 +64,7 @@
 				<div align="right">What do you want us to do about it?
 		    </div></td>
 			<td>
-				<textarea name="suggested_solution" rows="6" cols="50"></textarea>		
+				<textarea name="suggested_solution" rows="6" cols="50"></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -73,22 +73,14 @@
 		    </div></td>
 			<td>
 				<select name="user_priority" size="1" style="background-color:#00FF00">
-					<option value="0" 
+					<option value="0"
 						style="background-color:#00FF00 ">Low priority</option>
-					<option value="1" 
-						style="background-color:#99CCFF" 
-						onClick="document.bug.user_priority.style.backgroundColor='#99CCFF';">Just a suggestion</option>
-					<option value="2"  
-						style="background-color:#FFFF33" 
-						onClick="document.bug.user_priority.style.backgroundColor='#FFFF33';">It would make my life easier</option>
-					<option value="3"  
-						style="background-color:#FF6600" 
-						onClick="document.bug.user_priority.style.backgroundColor='#FF6600';">I can't do what I need to without it</option>
-					<option value="4" style="background-color:#FF0000" 
-						onClick="document.bug.user_priority.style.backgroundColor='#FF0000';">Urgent, High Priority.</option>
-					<option value="5" style="background-color: #000000; color:#FFFFFF"  
-						onClick="document.bug.user_priority.style.backgroundColor='#000000';document.bug.user_priority.style.color='#FFFFFF';">
-						Data are misrepresented</option>
+					<option value="2"
+					    SELECTED
+						style="background-color:#FFFF33"
+						onClick="document.bug.user_priority.style.backgroundColor='#FFFF33';">Normal Priority</option>
+					<option value="4" style="background-color:#FF0000"
+						onClick="document.bug.user_priority.style.backgroundColor='#FF0000';">High Priority.</option>
 				</select>
 			</td>
 		</tr>
@@ -99,14 +91,14 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td align="center">
-				<input type="submit" 
+				<input type="submit"
 					value="Submit Bug Report" class="insBtn"
    					onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"
-					onclick>	
-				<br><input type="button" 
+					onclick>
+				<br><input type="button"
 					value="Read bug reports" class="lnkBtn"
    					onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
-					onclick="document.location='bugs.cfm?action=read';">	
+					onclick="document.location='bugs.cfm?action=read';">
 			</td>
 		</tr>
 	</form>
@@ -131,7 +123,7 @@
 	<cfset badStuff = "---a href,---script,[link,[url">
 	<cfset concatSub = "#reported_name# #complaint# #suggested_solution# #user_remarks# #user_email#">
 	<cfset concatSub = replace(concatSub,"#chr(60)#","---","all")>
-	
+
 	<cfif #ucase(concatSub)# contains "invalidTag">
 			Bug reports may not contain markup or script.
 			<cfabort>
@@ -164,24 +156,24 @@
 			#user_priority#,
 			'#user_remarks#',
 			'#user_email#',
-			'#thisDate#')			
+			'#thisDate#')
 	</cfquery>
-	
+
 	<cfmail to="#Application.bugReportEmail#" subject="ColdFusion bug report submitted" from="BugReport@#Application.fromEmail#" type="html">
 		<p>Reported Name: #reported_name# (AKA #session.username#) submitted a bug report on #thisDate#.</p>
-		
+
 		<P>Form: #form_name#</P>
-		
+
 		<P>Complaint: #complaint#</P>
-		
+
 		<P>Solution: #suggested_solution#</P>
-		
+
 		<P>Priority: #user_priority#</P>
-		
+
 		<P>Remarks: #user_remarks#</P>
-		
+
 		<P>Email: #user_email#</P>
-		
+
 	</cfmail>
 
  <!--- create a bugzilla bug from the bugreport --->
@@ -219,25 +211,24 @@ Email: #user_email#
 Problem with Form: #form_name#
 Complaint: #complaint#
 
-Solution: #suggested_solution#
+#suggested_solution#
 
-Submitter Priority (0=low, 4=high, 5=data): [#user_priority#]
-(5 is special case "Data are missrepresented").
+Submitter Priority (0=low, 2=normal, 4=high): [#user_priority#]
 
-Remarks: #user_remarks#
+ #user_remarks#
 
         </cfmail>
 
 
 	<div align="center">Your report has been successfully submitted.
-	  
+
 	</div>
 	<P align="center">Thank you for helping to improve this site!
-	
-<p>	
+
+<p>
 <div align="center">Click <a href="/home.cfm">here</a> to return to Arctos home.
 </div>
-<p>	
+<p>
 <div align="center">Click <a href="bugs.cfm?action=read">here</a> to read bug reports.
 </div>
 </cfoutput>
@@ -245,7 +236,7 @@ Remarks: #user_remarks#
 <!------------------------------------------------------------>
 <cfif #action# is "read">
 
-	
+
 	<form name="filter" method="post" action="bugs.cfm">
 		<input type="hidden" name="action" value="read">
 		<table>
@@ -287,21 +278,21 @@ Remarks: #user_remarks#
 				<td>
 					<select name="user_priority" size="1">
 					<option value=""></option>
-					<option value="0" 
-						style="background-color:#00FF00" 
+					<option value="0"
+						style="background-color:#00FF00"
 						onClick="document.filter.user_priority.style.backgroundColor='#00FF00';">Low priority</option>
-					<option value="1" 
-						style="background-color:#99CCFF" 
+					<option value="1"
+						style="background-color:#99CCFF"
 						onClick="document.filter.user_priority.style.backgroundColor='#99CCFF';">Just a suggestion</option>
-					<option value="2"  
-						style="background-color:#FFFF33" 
+					<option value="2"
+						style="background-color:#FFFF33"
 						onClick="document.filter.user_priority.style.backgroundColor='#FFFF33';">It would make my life easier</option>
-					<option value="3"  
-						style="background-color:#FF6600" 
+					<option value="3"
+						style="background-color:#FF6600"
 						onClick="document.filter.user_priority.style.backgroundColor='#FF6600';">I can't do what I need to without it</option>
-					<option value="4" style="background-color:#FF0000" 
+					<option value="4" style="background-color:#FF0000"
 						onClick="document.filter.user_priority.style.backgroundColor='#FF0000';">Urgent: High Priority</option>
-					<option value="5" style="background-color: #000000; color:#FFFFFF"  
+					<option value="5" style="background-color: #000000; color:#FFFFFF"
 						onClick="document.filter.user_priority.style.backgroundColor='#000000';document.filter.user_priority.style.color='#FFFFFF';">
 						Data are missrepresented</option>
 				</select>
@@ -312,21 +303,21 @@ Remarks: #user_remarks#
 				<td>
 					<select name="admin_priority" size="1">
 					<option value=""></option>
-					<option value="0" 
+					<option value="0"
 						style="background-color:#00FF00"
 						onClick="document.filter.admin_priority.style.backgroundColor='#00FF00';">Low priority</option>
-					<option value="1" 
-						style="background-color:#99CCFF" 
+					<option value="1"
+						style="background-color:#99CCFF"
 						onClick="document.filter.admin_priority.style.backgroundColor='#99CCFF';">Just a suggestion</option>
-					<option value="2"  
-						style="background-color:#FFFF33" 
+					<option value="2"
+						style="background-color:#FFFF33"
 						onClick="document.filter.admin_priority.style.backgroundColor='#FFFF33';">It would make my life easier</option>
-					<option value="3"  
-						style="background-color:#FF6600" 
+					<option value="3"
+						style="background-color:#FF6600"
 						onClick="document.filter.admin_priority.style.backgroundColor='#FF6600';">Urgent High Priority</option>
-					<option value="4" style="background-color:#FF0000" 
+					<option value="4" style="background-color:#FF0000"
 						onClick="document.filter.admin_priority.style.backgroundColor='#FF0000';">Something is broken</option>
-					<option value="5" style="background-color: #000000; color:#FFFFFF"  
+					<option value="5" style="background-color: #000000; color:#FFFFFF"
 						onClick="document.filter.admin_priority.style.backgroundColor='#000000';document.filter.admin_priority.style.color='#FFFFFF';">
 					  	Data are missrepresented</option>
 				</select>
@@ -350,17 +341,17 @@ Remarks: #user_remarks#
 				<td colspan="2">
 					<div align="center">
 					<input type="submit" value="Filter" class="schBtn"
-   					onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">	
+   					onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">
 					<input type="button" value="Remove Filter" class="clrBtn"
-   					onmouseover="this.className='clrBtn btnhov'" onmouseout="this.className='clrBtn'" onClick="reset(); submit();">	
-					
+   					onmouseover="this.className='clrBtn btnhov'" onmouseout="this.className='clrBtn'" onClick="reset(); submit();">
+
 				      </div></td>
 			</tr>
 		</table>
-	
+
 	</form>
-	
-	<cfset sql = "select 
+
+	<cfset sql = "select
 					 BUG_ID,
 					 cf_bugs.USER_ID,
 					 REPORTED_NAME,
@@ -376,10 +367,10 @@ Remarks: #user_remarks#
 					 USER_EMAIL,
 					 SUBMISSION_DATE,
 					 username
-				from 
+				from
 					cf_bugs,
 					cf_users
-				where 
+				where
 					cf_bugs.user_id = cf_users.user_id (+) AND
 					bug_id > 0">
 		<cfif isdefined("FORM_NAME") and len(#FORM_NAME#) gt 0>
@@ -420,13 +411,13 @@ Remarks: #user_remarks#
 		<cfif isdefined("bug_id") and len(#bug_id#) gt 0>
 			<cfset sql = "#sql# AND bug_id = #bug_id#">
 		</cfif>
-		
+
 	<cfset sql = "#sql# order by submission_date DESC">
-		
+
 		<cfquery name="getBug"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			 #preservesinglequotes(sql)#
 		</cfquery>
-		
+
 	<cfoutput query="getBug">
 			<cfif currentrow MOD 2>
 				<cfset bgc = "##C7D5D6">
@@ -439,21 +430,21 @@ Remarks: #user_remarks#
 				<input type="hidden" name="bug_id" value="#bug_id#">
 			<i><b>Filed by:</b></i> #reported_name# &nbsp;&nbsp;&nbsp;
 			<cfif #solved_fg# is 1>
-				<font color="##00FF00" size="+1">Resolved</font>			
+				<font color="##00FF00" size="+1">Resolved</font>
 			</cfif>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>					
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<br>
 					<font color="##FF0000"><i>username: #username#
 					<br>email: #user_email#
 					<br>Date Submitted: #dateformat(submission_date,"dd mmm yyyy")#</i></font>
-				
+
 			</cfif>
 			<br><i><b>Concerning form:</b></i> #form_name#
 			<br><i><b>Complaint:</b></i> #complaint#
 			<br><i><b>Suggested Solution:</b></i> #suggested_solution#
 			<br>
 			<font color="##0000FF"><i><b>Our Solution:</b></i> #admin_solution#</font>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>					
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				<br>
 				<font color="##FF0000"><i>Update admin solution to:</i></font>
 				<br>
@@ -462,41 +453,41 @@ Remarks: #user_remarks#
 			<br><i><b>Submitted Priority:</b></i> #user_priority#
 			<br>
 			<font color="##0000FF"><i><b>Our Priority:</b></i> #admin_priority#</font>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>					
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				<font color="##FF0000"><i>Update admin priority to:</i></font>
 				<select name="admin_priority" size="1" style="background-color:##00FF00">
-					<option value="0" 
+					<option value="0"
 						style="background-color:##00FF00 ">Low priority</option>
-					<option value="1" 
-						style="background-color:##99CCFF" 
+					<option value="1"
+						style="background-color:##99CCFF"
 						onClick="document.bug.admin_priority.style.backgroundColor='##99CCFF';">Just a suggestion</option>
-					<option value="2"  
-						style="background-color:##FFFF33" 
+					<option value="2"
+						style="background-color:##FFFF33"
 						onClick="document.bug.admin_priority.style.backgroundColor='##FFFF33';">It would make my life easier</option>
-					<option value="3"  
-						style="background-color:##FF6600" 
+					<option value="3"
+						style="background-color:##FF6600"
 						onClick="document.bug.admin_priority.style.backgroundColor='##FF6600';">I can't do what I need to without it</option>
-					<option value="4" style="background-color:##FF0000" 
+					<option value="4" style="background-color:##FF0000"
 						onClick="document.bug.admin_priority.style.backgroundColor='##FF0000';">Something is broken</option>
-					<option value="5" style="background-color: ##000000; color:##FFFFFF"  
+					<option value="5" style="background-color: ##000000; color:##FFFFFF"
 						onClick="document.bug.admin_priority.style.backgroundColor='##000000';document.bug.admin_priority.style.color='##FFFFFF';">
 						We'll all die if this isn't fixed immediately</option>
 				</select>
 			</cfif>
 			<br><i><b>Submitted Remarks:</b></i> #user_remarks#
 			<br><i><b>Our Remarks:</b></i> #admin_remarks#
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>					
-					
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+
 				<br><textarea name="admin_remarks" rows="6" cols="50">#admin_remarks#</textarea>
 			</cfif>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>					
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				<input type="hidden" name="solved_fg" value="0">
 				<br><input type="submit" value="update">
 				<br><input type="button" value="Update and Mark Resolved" onclick="admin#CurrentRow#.solved_fg.value=1;submit();">
-				
+
 			</cfif>
 	  </form>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>					
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				<form name="killit#CurrentRow#" method="post" action="bugs.cfm">
 					<input type="hidden" name="action" value="killit">
 					<input type="hidden" name="bug_id" value="#bug_id#">
@@ -513,20 +504,20 @@ Remarks: #user_remarks#
 <!------------------------------------------------------------>
 <cfif #action# is "saveAdmin">
 	<cfquery name="upAd" datasource="cf_dbuser">
-		UPDATE cf_bugs SET 
+		UPDATE cf_bugs SET
 			admin_remarks = '#admin_remarks#',
 			admin_priority = #admin_priority#,
 			admin_solution = '#admin_solution#',
 			solved_fg=#solved_fg#
 		WHERE
-			bug_id = #bug_id#		
+			bug_id = #bug_id#
 	</cfquery>
 	<cflocation url="bugs.cfm?action=read">
 </cfif>
 <!------------------------------------------------------------>
 <cfif #action# is "killit">
 	<cfquery name="upAd" datasource="cf_dbuser">
-		DELETE FROM cf_bugs WHERE bug_id=#bug_id#	
+		DELETE FROM cf_bugs WHERE bug_id=#bug_id#
 	</cfquery>
 	<cflocation url="bugs.cfm?action=read">
 </cfif>
