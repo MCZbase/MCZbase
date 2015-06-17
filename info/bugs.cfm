@@ -4,105 +4,90 @@
 </cfif>--->
 <cfinclude template="/includes/_header.cfm">
 
+<cfset FEEDBACK_INSTRUCTIONS="Include DETAILS of the problem plus the text of any error you received, the catalog number of the record causing the issue, or the URL of the non-functioning page.">
+
 <cfif #Action# is "nothing">
 
 <center>
-<table>
-<tr>
-	<td colspan="2" align="center">
-		<div style="width:600px;" align="left">
-		<h3>All Users:</h3>
-		<li>Use this form to report bugs.
-		<li>All fields are optional, except for "Describe the problem."
-		<li>Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be released or publicly displayed on our site.
-		<li>NOTE: To report problems or errors with specimen data, use the "Report Bad Data" link
-     included on the Search Results webpages
-		<h3>MCZbase Data Managers:</h3>
-		<li>Use this form to request any modifications to labels, reports, or the database.</li>
-		<li>Fill out as complete as possible.</li>
-		</div>
-		<p>&nbsp;</li>
-	</td>
-</tr>
-	<form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
-		<input type="hidden" name="action" value="save">
+ <div id="bug_form">
+ 		<div id="bug_text">
+		<h3>Provide Feedback</h3>
+		<li>Use this form to report problems you have encountered while using the database.</li>
+		<li>Use this form to make suggestions in relation to database function or data display.</li>
+		<p>NOTE: To report problems or errors with specimen data, use the "Report Bad Data" link included on the Search Results webpages.</p>
+     	<p>Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be    released or publicly displayed on our site.</p>
+        </div>
+        <table>
 
-		<tr>
-			<td valign="top">
-				<div align="right">Who are you?
-		    </div></td>
-			<td>
-				<input type="text" name="reported_name" size="60">
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<div align="right">What is your email address?
-		    </div></td>
-			<td>
-				<input type="text" name="user_email" size="60" class="reqdClr">
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<div align="right">What form (URL) don't you like?
-		    </div></td>
-			<td>
-				<input type="text" name="form_name" size="60">
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<div align="right">Describe the problem.
-		    </div></td>
-			<td>
-				<textarea name="complaint" rows="6" cols="50" class="reqdClr"></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<div align="right">What do you want us to do about it?
-		    </div></td>
-			<td>
-				<textarea name="suggested_solution" rows="6" cols="50"></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<div align="right">How important is this to you?
-		    </div></td>
-			<td>
-				<select name="user_priority" size="1" style="background-color:#00FF00">
-					<option value="0"
-						style="background-color:#00FF00 ">Low priority</option>
-					<option value="2"
-					    SELECTED
-						style="background-color:#FFFF33"
-						onClick="document.bug.user_priority.style.backgroundColor='#FFFF33';">Normal Priority</option>
-					<option value="4" style="background-color:#FF0000"
-						onClick="document.bug.user_priority.style.backgroundColor='#FF0000';">High Priority.</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top"><div align="right">Anything else we can do for you?</div></td>
-			<td><textarea name="user_remarks" rows="6" cols="50"></textarea></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td align="center">
-				<input type="submit"
-					value="Submit Bug Report" class="insBtn"
-   					onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"
-					onclick>
-				<br><input type="button"
-					value="Read bug reports" class="lnkBtn"
-   					onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
-					onclick="document.location='bugs.cfm?action=read';">
-			</td>
-		</tr>
-	</form>
-</table>
+        <tr>
+            <td colspan="2" align="left">
+          <h4>Fill in form</h4>
+            </td>
+        </tr>
+
+            <form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
+
+                <input type="hidden" name="action" value="save">
+
+                <tr>
+                    <td>
+                        <div align="right">Name</div>
+                    </td>
+                    <td>
+                        <input type="text" name="reported_name" size="50">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div align="right">Email</div>
+                     </td>
+                    <td>
+                        <input type="text" name="user_email" size="50">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div align="right">Feedback</div>
+                        <div class="subnote">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</div>
+                         </td>
+                    <td>
+					<script>
+                    function clearContents(element) {
+  						element.value = '';
+						}
+					</script>
+                        <textarea name="complaint" rows="15"  class="reqdClr" style="padding: 5px;" onfocus="clearContents(this);"><cfoutput>#FEEDBACK_INSTRUCTIONS#</cfoutput></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td valign="top">
+                        <div align="right">Priority
+                    </div></td>
+                    <td>
+                        <select name="user_priority" size="1" style="background-color:inherit;">
+                            <option value="0">Low Priority</option>
+                            <option value="2" SELECTED >Normal Priority</option>
+                            <option value="4">High Priority</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td align="left">
+                        <input type="submit"
+                            value="Submit Bug Report" class="insBtn"
+                            onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"
+                            onclick>
+
+                </tr>
+
+            </form>
+
+        </table>
+ </div>
 </center>
 </cfif>
 <!------------------------------------------------------------>
@@ -121,9 +106,18 @@
 	<cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
 	<!--- strip out the crap....--->
 	<cfset badStuff = "---a href,---script,[link,[url">
-	<cfset concatSub = "#reported_name# #complaint# #suggested_solution# #user_remarks# #user_email#">
+	<cfset concatSub = "#reported_name# #complaint# #user_email#">
 	<cfset concatSub = replace(concatSub,"#chr(60)#","---","all")>
 
+
+    <cfif #complaint# eq #FEEDBACK_INSTRUCTIONS#>
+			Please provide a description of the problem.
+			<cfabort>
+		</cfif>
+    <cfif trim(#complaint#) eq "">
+			Please provide a description of the problem.
+			<cfabort>
+		</cfif>
 	<cfif #ucase(concatSub)# contains "invalidTag">
 			Bug reports may not contain markup or script.
 			<cfabort>
@@ -150,11 +144,11 @@
 			#bugID.id#,
 			#user_id#,
 			'#reported_name#',
-			'#form_name#',
+			'',
 			'#complaint#',
-			'#suggested_solution#',
+			'',
 			#user_priority#,
-			'#user_remarks#',
+			'',
 			'#user_email#',
 			'#thisDate#')
 	</cfquery>
@@ -162,15 +156,9 @@
 	<cfmail to="#Application.bugReportEmail#" subject="ColdFusion bug report submitted" from="BugReport@#Application.fromEmail#" type="html">
 		<p>Reported Name: #reported_name# (AKA #session.username#) submitted a bug report on #thisDate#.</p>
 
-		<P>Form: #form_name#</P>
-
 		<P>Complaint: #complaint#</P>
 
-		<P>Solution: #suggested_solution#</P>
-
 		<P>Priority: #user_priority#</P>
-
-		<P>Remarks: #user_remarks#</P>
 
 		<P>Email: #user_email#</P>
 
@@ -208,17 +196,10 @@
 
 Bug report by: #reported_name# (Username: #session.username#)
 Email: #user_email#
-Problem with Form: #form_name#
 Complaint: #complaint#
 
-#suggested_solution#
-
 Submitter Priority (0=low, 2=normal, 4=high): [#user_priority#]
-
- #user_remarks#
-
         </cfmail>
-
 
 	<div align="center">Your report has been successfully submitted.
 
@@ -226,11 +207,8 @@ Submitter Priority (0=low, 2=normal, 4=high): [#user_priority#]
 	<P align="center">Thank you for helping to improve this site!
 
 <p>
-<div align="center">Click <a href="/home.cfm">here</a> to return to Arctos home.
-</div>
+<div align="center">Click <a href="/SpecimenSearch.cfm">here</a> to search MCZbase.</div>
 <p>
-<div align="center">Click <a href="bugs.cfm?action=read">here</a> to read bug reports.
-</div>
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------>
