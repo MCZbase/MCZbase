@@ -1401,3 +1401,49 @@ div.ui-datepicker{font-size:10px;}
     width: 200px; /*must have*/
     height: 200px; /*must have*/
 }
+/*Bug form styles*/
+#bug_text {
+	left: 600px;
+	width: 650px;
+	text-align: left;
+	margin-left: 0em;
+	padding: 5px;
+}
+
+#bug_text ul {
+	margin-left: 1em;
+}
+#bug_text li {
+	padding-bottom: 1em;
+	line-height: 1.2em;
+	margin-left: 1em;
+	padding-left: 2px;
+}
+
+#bug_form {width: 700px;margin-bottom: 3em;}
+#bug_form table {
+	width: 655px;
+	border: 2px solid #09C;
+	padding: 2em;
+}
+#bug_form table textarea {font-style:italic;}
+#bug_form table h4 {  
+	margin: 0em 0em 1em 0em;
+}
+#bug_form textarea{  
+	width: 400px;
+}
+#bug_form table td {
+	vertical-align: middle;
+	height: 28px;
+	padding-right: 5px;
+}
+div.subnote {
+	text-align: right;
+	color: #930;
+	margin-top: 0;
+	padding-top: 0;
+	line-height: none;
+	font-size: 14px;
+}
+/*end bug form styles*/

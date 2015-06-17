@@ -23,7 +23,7 @@
 	<table width="95%" border="0" cellspacing="0" cellpadding="0">
 	  	<tr>
 	    	<td align="center" nowrap><a href="/Collections/index.cfm"><FONT size="-1">Data Providers</FONT></a></td>
-	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Report Errors</FONT></a></td>
+	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Feedback&#8202;/&#8202;Report Errors</FONT></a></td>
 	    	<td align="center" nowrap><a HREF="mailto:bhaley@oeb.harvard.edu"><FONT size="-1">System Administrator</FONT></a></td>
 	  	</tr>
 	</table>
@@ -69,7 +69,7 @@
 	 <table width="95%" border="0" cellspacing="0" cellpadding="0">
 	  	<tr>
 	    	<td align="center" nowrap><a href="/Collections/index.cfm"><FONT size="-1">Data Providers</FONT></a></td>
-	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Report Errors</FONT></a></td>
+	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Feedback&#8202;/&#8202;Report Errors</FONT></a></td>
 	    	<td align="center" nowrap>
 		    	<cfoutput><a HREF="/contact.cfm"><FONT size="-1">Contact Us</FONT></a></cfoutput>
 			</td>
