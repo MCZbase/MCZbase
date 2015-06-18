@@ -174,9 +174,11 @@
         <cfset bugzilla_component="Web Interface">
         <cfset bugzilla_priority="@priority = P3">
         <cfset bugzilla_severity="@bug_severity = normal">
+        <cfset human_importance="Submitter Importance = Normal Priority [#user_priority#]">
         <cfif #user_priority# eq "0" >
             <cfset bugzilla_priority="@priority = P5">
             <cfset bugzilla_severity="@bug_severity = minor">
+            <cfset human_importance="Submitter Importance = Low Priority [#user_priority#]">
         </cfif>
         <cfif #user_priority# eq "1" >
             <cfset bugzilla_priority="@priority = P4">
@@ -187,6 +189,7 @@
         <cfif #user_priority# eq "6" >
             <cfset bugzilla_priority="@priority = P3">
             <cfset bugzilla_severity="@bug_severity = enhancement">
+            <cfset human_importance="Submitter Importance = Enhancement Request [#user_priority#]">
         </cfif>
         <cfif #user_priority# eq "3" >
             <cfset bugzilla_priority="@priority = P2">
@@ -194,6 +197,7 @@
         <cfif #user_priority# eq "4" >
             <cfset bugzilla_priority="@priority = P1">
             <cfset bugzilla_severity="@bug_severity = major">
+            <cfset human_importance="Submitter Importance = High Priority [#user_priority#]">
         </cfif>
         <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
 @op_sys = Linux
@@ -207,7 +211,7 @@ Bug report by: #reported_name# (Username: #session.username#)
 Email: #user_email#
 Complaint: #complaint#
 
-Submitter Priority (0=low, 2=normal, 4=high): [#user_priority#]
+#human_priority#
         </cfmail>
 
 	<div align="center">Your report has been successfully submitted.
