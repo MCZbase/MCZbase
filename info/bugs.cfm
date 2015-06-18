@@ -69,6 +69,7 @@
                         <select name="user_priority" size="1" style="background-color:inherit;">
                             <option value="0">Low Priority</option>
                             <option value="2" SELECTED >Normal Priority</option>
+                            <option value="e" >Enhancement</option>
                             <option value="4">High Priority</option>
                         </select>
                     </td>
@@ -172,8 +173,10 @@
         <cfset bugzilla_user="#Application.bugzillaFromEmail#"><!--- bugs submitted by email can only come from a registered bugzilla user --->
         <cfset bugzilla_component="Web Interface">
         <cfset bugzilla_priority="@priority = P3">
+		<cfset bugzilla_severity="@bug_severity = normal">
         <cfif #user_priority# eq "0" >
             <cfset bugzilla_priority="@priority = P5">
+			<cfset bugzilla_severity="@bug_severity = minor">
         </cfif>
         <cfif #user_priority# eq "1" >
             <cfset bugzilla_priority="@priority = P4">
@@ -181,11 +184,16 @@
         <cfif #user_priority# eq "2" >
             <cfset bugzilla_priority="@priority = P3">
         </cfif>
+        <cfif #user_priority# eq "e" >
+            <cfset bugzilla_priority="@priority = P3">
+			<cfset bugzilla_severity="@bug_severity = enhancement">
+        </cfif>
         <cfif #user_priority# eq "3" >
             <cfset bugzilla_priority="@priority = P2">
         </cfif>
         <cfif #user_priority# eq "4" >
             <cfset bugzilla_priority="@priority = P1">
+			<cfset bugzilla_severity="@bug_severity = major">
         </cfif>
         <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
 @op_sys = Linux
@@ -193,6 +201,7 @@
 @component = Web Interface
 @version = 2.5.1merge
 #bugzilla_priority#
+#bugzilla_severity#
 
 Bug report by: #reported_name# (Username: #session.username#)
 Email: #user_email#
