@@ -44,7 +44,7 @@
 					<input name="year" id="year" type="text">
 				</td>
 				<td>
-					<h4>Project</h4>					
+					<h4>Project</h4>
 					<label for="sponsor"><span class="helpLink" id="project_sponsor">Project Sponsor</span></label>
 					<input name="sponsor" id="sponsor" type="text">
 					<label for="project_type"><span class="helpLink" id="project_type">Project Type</span></label>
@@ -83,7 +83,7 @@
 								<option value="#collection_id#">#collection#</option>
 							</cfloop>
 						</select>
-					</cfoutput>					
+					</cfoutput>
 					<label for="onlyCitePubs">
 						<span class="helpLink" id="pub_cites_specimens">Cites specimens?</span>
 					</label>
@@ -109,11 +109,11 @@
 			</tr>
 			<tr>
 				<td colspan="99" align="center">
-					<input type="submit" 
-						value="Search" 
+					<input type="submit"
+						value="Search"
 						class="schBtn">
-					<input type="reset" 
-						value="Clear Form" 
+					<input type="reset"
+						value="Clear Form"
 						class="clrBtn">
 				</td>
 			</tr>
@@ -124,9 +124,9 @@
 <cfif action is "search">
 <cfoutput>
 	<cfset title = "Usage Search Results">
-	
+
 	<cfset sel = "
-				SELECT 
+				SELECT
 					project.project_id,
 					project.project_name,
 					project.start_date,
@@ -137,19 +137,19 @@
 					ACKNOWLEDGEMENT,
 					s_name.agent_name sponsor_name">
 		<cfset frm="
-				FROM 
+				FROM
 					project,
 					project_agent,
 					agent_name,
 					project_sponsor,
 					agent_name s_name">
 		<cfset whr="
-				WHERE 
+				WHERE
 					project.project_id = project_agent.project_id (+) AND
 					project.project_id = project_sponsor.project_id (+) AND
-					project_sponsor.agent_name_id = s_name.agent_name_id (+) AND	
+					project_sponsor.agent_name_id = s_name.agent_name_id (+) AND
 					project_agent.agent_name_id = agent_name.agent_name_id (+)">
-		<cfset go="no">		
+		<cfset go="no">
 		<cfif isdefined("p_title") AND len(p_title) gt 0>
 			<cfset title = "#p_title#">
 			<cfset go="yes">
@@ -159,48 +159,48 @@
 			<cfset go="yes">
 			<cfset whr = "#whr# AND project.project_description is not null and length(project.project_description) >= #descr_len#">
 		</cfif>
-		
+
 		<cfif isdefined("author") AND len(author) gt 0>
 			<cfset go="yes">
-			<cfset whr = "#whr# AND project.project_id IN 
+			<cfset whr = "#whr# AND project.project_id IN
 				( select project_id FROM project_agent
-					WHERE agent_name_id IN 
-						( select agent_name_id FROM agent_name WHERE 
+					WHERE agent_name_id IN
+						( select agent_name_id FROM agent_name WHERE
 						upper(agent_name) like '%#escapeQuotes(ucase(author))#%' ))">
-				
+
 		</cfif>
 		<cfif isdefined("project_type") AND len(project_type) gt 0>
 			<cfset go="yes">
 			<cfif project_type is "loan">
-				<cfset whr = "#whr# AND 
+				<cfset whr = "#whr# AND
 					project.project_id in (
-						select project_id from project_trans,loan_item 
+						select project_id from project_trans,loan_item
 						where project_trans.transaction_id=loan_item.transaction_id)">
 			<cfelseif project_type is "accn">
-				<cfset whr = "#whr# AND 
+				<cfset whr = "#whr# AND
 					project.project_id in (
-						select project_id from project_trans,cataloged_item 
+						select project_id from project_trans,cataloged_item
 						where project_trans.transaction_id=cataloged_item.accn_id)">
 			<cfelseif project_type is "both">
 				<cfset whr = "#whr# AND
 					project.project_id in (
-						select project_id from project_trans,loan_item 
+						select project_id from project_trans,loan_item
 						where project_trans.transaction_id=loan_item.transaction_id)
 					and project.project_id in (
-						select project_id from project_trans,cataloged_item 
+						select project_id from project_trans,cataloged_item
 						where project_trans.transaction_id=cataloged_item.accn_id)">
 			<cfelseif project_type is "neither">
 				<cfset whr = "#whr# AND
 					project.project_id not in (
-						select project_id from project_trans,loan_item 
+						select project_id from project_trans,loan_item
 						where project_trans.transaction_id=loan_item.transaction_id)
 					and project.project_id not in (
-						select project_id from project_trans,cataloged_item 
+						select project_id from project_trans,cataloged_item
 						where project_trans.transaction_id=cataloged_item.accn_id)">
 			<cfelseif project_type is "loan_no_pub">
 				<cfset whr = "#whr# AND
 					project.project_id in (
-						select project_id from project_trans,loan_item 
+						select project_id from project_trans,loan_item
 						where project_trans.transaction_id=loan_item.transaction_id) and
 					project.project_id not in (
 						select project_id from project_publication
@@ -209,12 +209,12 @@
 		</cfif>
 		<cfif isdefined("sponsor") AND len(#sponsor#) gt 0>
 			<cfset go="yes">
-			<cfset whr = "#whr# AND project.project_id IN 
+			<cfset whr = "#whr# AND project.project_id IN
 				( select project_id FROM project_sponsor
-					WHERE agent_name_id IN 
-						( select agent_name_id FROM agent_name WHERE 
+					WHERE agent_name_id IN
+						( select agent_name_id FROM agent_name WHERE
 						upper(agent_name) like '%#ucase(sponsor)#%' ))">
-				
+
 		</cfif>
 		<cfif isdefined("year") AND isnumeric(#year#)>
 			<cfset go="yes">
@@ -240,7 +240,7 @@
 			#preservesinglequotes(sql)#
 		</cfquery>
 		<cfquery name="projNames" dbtype="query">
-			SELECT 
+			SELECT
 				project_id,
 				project_name,
 				start_date,
@@ -255,20 +255,20 @@
 			ORDER BY
 				project_name
 		</cfquery>
-		
-		
-		
-		
+
+
+
+
 		<cfset i=1>
 	<cfset go="no">
-	<cfset basSQL = "SELECT 
+	<cfset basSQL = "SELECT
 			publication.publication_title,
 			publication.publication_id,
 			publication.publication_type,
 			formatted_publication.formatted_publication,
 			count(distinct(citation.collection_object_id)) numCits">
 	<cfset basFrom = "
-		FROM 
+		FROM
 			publication,
 			publication_author_name,
 			project_publication,
@@ -277,15 +277,15 @@
 			formatted_publication,
 			citation">
 	<cfset basWhere = "
-		WHERE 
+		WHERE
 		publication.publication_id = project_publication.publication_id (+) and
-		publication.publication_id = citation.publication_id (+) 
-		AND publication.publication_id = publication_author_name.publication_id (+) 
+		publication.publication_id = citation.publication_id (+)
+		AND publication.publication_id = publication_author_name.publication_id (+)
 		AND publication_author_name.agent_name_id = pubAuth.agent_name_id (+)
 		AND pubAuth.agent_id = searchAuth.agent_id (+)
-		AND formatted_publication.publication_id = publication.publication_id 
+		AND formatted_publication.publication_id = publication.publication_id
 		AND formatted_publication.format_style = 'long'">
-		
+
 	<cfif isdefined("p_title") AND len(#p_title#) gt 0>
 		<cfset basWhere = "#basWhere# AND UPPER(regexp_replace(publication.publication_title,'<[^>]*>')) LIKE '%#ucase(escapeQuotes(p_title))#%'">
 		<cfset go="yes">
@@ -304,7 +304,7 @@
 		<cfif #basFrom# does not contain "citation">
 			<cfset basFrom = "#basFrom#,citation">
 		</cfif>
-		<cfset basWhere = "#basWhere# AND publication.publication_id = citation.publication_id 
+		<cfset basWhere = "#basWhere# AND publication.publication_id = citation.publication_id
 			AND citation.collection_object_id = cataloged_item.collection_object_id AND
 			cataloged_item.collection_id = #collection_id#">
 	</cfif>
@@ -321,7 +321,7 @@
 		<cfset go="yes">
 		<cfset basFrom = "#basFrom# ,publication_attributes jname">
 		<cfset basWhere = "#basWhere# AND publication.publication_id=jname.publication_id and
-			jname.publication_attribute='journal name' and
+			(jname.publication_attribute='journal name' or jname.publication_attribute = 'alternate journal name') and
 			upper(jname.pub_att_value) like '%#ucase(escapeQuotes(journal))#%'">
 	</cfif>
 	<cfif isdefined("onlyCitePubs") AND len(onlyCitePubs) gt 0>
@@ -338,7 +338,7 @@
 			</cfif>
 			<cfset basWhere = "#basWhere# AND publication.publication_id = citation.publication_id">
 		</cfif>
-		
+
 	</cfif>
 	<cfif isdefined("is_peer_reviewed_fg") AND is_peer_reviewed_fg is 1>
 		<cfset go="yes">
@@ -347,7 +347,7 @@
 	<cfif isdefined("current_Sci_Name") AND len(#current_Sci_Name#) gt 0>
 		<cfset go="yes">
 		<cfset basFrom = "#basFrom# ,
-			citation CURRENT_NAME_CITATION, 
+			citation CURRENT_NAME_CITATION,
 			cataloged_item ci_current,
 			identification catItemTaxa">
 		<cfset basWhere = "#basWhere# AND publication.publication_id = CURRENT_NAME_CITATION.publication_id (+)
@@ -373,25 +373,25 @@
 				publication.publication_id,
 				publication.publication_type,
 				formatted_publication.formatted_publication
-			ORDER BY 
+			ORDER BY
 				formatted_publication.formatted_publication,
 				publication.publication_id">
-	<!---<cfset checkSql(basSQL)>--->	
-	
+	<!---<cfset checkSql(basSQL)>--->
+
 	<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(basSQL)#
 	</cfquery>
-	
+
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<a href="/Reports/SpecUsageReport.cfm?project_id=#valuelist(projects.project_id)#&publication_id=#valuelist(publication.publication_id)#">Create Report Data</a>
-	</cfif>	
-	
-	
-	
-	
+	</cfif>
+
+
+
+
 	<cfset i=1>
 	<table border width="90%"><tr><td width="50%" valign="top">
-		
+
 		<h3>
 			Projects
 			<cfif projNames.recordcount is 0>
@@ -405,32 +405,32 @@
 		<cfset i=1>
 		<cfloop query="projNames">
 			<cfquery name="thisAuth" dbtype="query">
-				SELECT 
-					agent_name, 
-					project_agent_role 
-				FROM 
-					projects 
-				WHERE 
-					project_id = #project_id# 
-				GROUP BY 
-					agent_name, 
-					project_agent_role 
-				ORDER BY 
+				SELECT
+					agent_name,
+					project_agent_role
+				FROM
+					projects
+				WHERE
+					project_id = #project_id#
+				GROUP BY
+					agent_name,
+					project_agent_role
+				ORDER BY
 					agent_position
 			</cfquery>
 			<cfquery name="thisSponsor" dbtype="query">
-				SELECT 
+				SELECT
 					ACKNOWLEDGEMENT,
 					sponsor_name
-				FROM 
-					projects 
-				WHERE 
+				FROM
+					projects
+				WHERE
 					project_id = #project_id# and
 					sponsor_name is not null
-				GROUP BY 
+				GROUP BY
 					ACKNOWLEDGEMENT,
 					sponsor_name
-				ORDER BY 
+				ORDER BY
 					sponsor_name
 			</cfquery>
 			<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -447,14 +447,14 @@
 				</cfloop>
 				#dateformat(start_date,"yyyy-mm-dd")# - #dateformat(end_date,"yyyy-mm-dd")#
 				<br><a href="javascript: openAnnotation('project_id=#project_id#')">Annotate</a>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>					
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<br><a href="/Project.cfm?Action=editProject&project_id=#project_id#">Edit</a>
 				</cfif>
 			</div>
 			<cfset i=i+1>
 		</cfloop>
 	</td><td width="50%" valign="top">
-	
+
 	<h3>
 		Publications
 		<cfif publication.recordcount is 0>
@@ -462,7 +462,7 @@
 				No publications matched your criteria.
 			</div>
 		<cfelseif publication.recordcount is 1>
-			<cfset title = "#publication.publication_title#">	
+			<cfset title = "#publication.publication_title#">
 		<cfelse>
 			(#publication.recordcount# results)
 		</cfif>
@@ -487,7 +487,7 @@
 		<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 			<p class="indent">
 				#formatted_publication#
-			</p>	
+			</p>
 			<ul>
 				<li><a href="javascript: openAnnotation('publication_id=#publication_id#')">Annotate</a></li>
 				<li>
@@ -505,16 +505,16 @@
 					</cfif>
 				</cfif>
 				<cfquery name="pubmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 
+					select
 						media.media_id,
 						media_type,
 						mime_type,
 						media_uri,
 						preview_uri
-					from 
+					from
 						media,
 						media_relations
-					where 
+					where
 						media.media_id=media_relations.media_id and
 						media_relationship like '% publication' and
 						related_primary_key=#publication_id#
@@ -551,12 +551,12 @@
 							</cfloop>
 							<div class="thumb_spcr">&nbsp;</div>
 						</div>
-					
-			
+
+
 			<!---
-					
+
 					<li><a href="/MediaSearch.cfm?action=search&media_id=#valuelist(pubmedia.media_id)#" target="_blank">Media</a></li>
-					
+
 					--->
 				</cfif>
 			</ul>
