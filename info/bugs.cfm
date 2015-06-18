@@ -211,7 +211,7 @@ Bug report by: #reported_name# (Username: #session.username#)
 Email: #user_email#
 Complaint: #complaint#
 
-#human_priority#
+#human_importance#
         </cfmail>
 
 	<div align="center">Your report has been successfully submitted.
