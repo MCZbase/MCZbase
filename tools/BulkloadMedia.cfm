@@ -204,6 +204,12 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 </cfquery>
 <cfloop query="d">
 	<cfset rec_stat="">
+	<cfquery name = "c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * from media where media_uri = '#media_uri#'
+	</cfquery>
+	<cfif c.RecordCount gt 0>
+		<cfset rec_stat=listappend(rec_stat,'MEDIA_URI already exists in MEDIA table',";")>
+	</cfif>
 	<cfif len(MEDIA_LABELS) gt 0>
 		<cfloop list="#media_labels#" index="l" delimiters=";">
 			<cfset ln=listgetat(l,1,"=")>
