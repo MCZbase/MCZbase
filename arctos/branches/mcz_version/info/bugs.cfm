@@ -52,12 +52,14 @@
                         <div class="subnote">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</div>
                          </td>
                     <td>
-					<script>
+					 <!---  <script>
                     function clearContents(element) {
   						element.value = '';
 						}
 					</script>
-                        <textarea name="complaint" rows="15"  class="reqdClr" style="padding: 5px;" onfocus="clearContents(this);"><cfoutput>#FEEDBACK_INSTRUCTIONS#</cfoutput></textarea>
+                     <textarea name="complaint" rows="15"  class="reqdClr" style="padding: 5px;" onfocus="clearContents(this);"><cfoutput>#FEEDBACK_INSTRUCTIONS#</cfoutput></textarea>--->
+                        
+                         <textarea name="complaint" rows="15"  class="reqdClr" placeholder="Include DETAILS of the problem plus the text of any error you received, the catalog number of the record causing the issue, or the URL of the non-functioning page." style="padding: 5px;" onfocus="clearContents(this);"></textarea>
                     </td>
                 </tr>
 
