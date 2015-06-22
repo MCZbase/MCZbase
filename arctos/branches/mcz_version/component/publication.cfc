@@ -15,7 +15,8 @@
 		where
 			publication_author_name.agent_name_id=agent_name.agent_name_id and
 			agent_name.agent_id=person.person_id and
-			publication_author_name.publication_id=#publication_id#
+			publication_author_name.publication_id=#publication_id# and
+            publication_author_name.author_role ='author'
 		order by
 			author_position
 	</cfquery>
