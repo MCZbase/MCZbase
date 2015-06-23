@@ -1439,7 +1439,8 @@
         media.media_uri,
         media.mime_type,
         media.media_type,
-        media.preview_uri
+        media.preview_uri,
+		media_relations.media_relationship
      from
          media,
          media_relations,
@@ -1449,6 +1450,7 @@
          media.media_id=media_labels.media_id (+) and
          media_relations.media_relationship like '%cataloged_item' and
          media_relations.related_primary_key = #collection_object_id#
+	order by media_relations.media_relationship
 </cfquery>
 <cfif media.recordcount gt 0>
     <div class="detailCell">
