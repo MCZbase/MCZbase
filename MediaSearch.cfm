@@ -34,7 +34,7 @@
 	Search for Media
 	<a name="kwFrm"></a>
 	<div style="font-size:small;font-weight:bold;">
-		This form may not find very recent changes. You can use the also use the 
+		This form may not find very recent changes. You can use the also use the
 		<a href="##relFrm">relational search form</a>.
 	</div>
 	<style>
@@ -81,7 +81,7 @@
 	<p>&nbsp;</p>
    <a name="relFrm"></a>
 	<div style="font-size:small;font-weight:bold;">
-		You can use the also use the 
+		You can use the also use the
 		<a href="##kwFrm">keyword search form</a>.
 	</div>
 		<form name="newMedia" method="post" action="">
@@ -132,11 +132,11 @@
 				<span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
 			</div>
 			<br>
-			<input type="submit" 
-				value="Find Media" 
+			<input type="submit"
+				value="Find Media"
 				class="insBtn">
-			<input type="reset" 
-				value="reset form" 
+			<input type="reset"
+				value="reset form"
 				class="clrBtn">
 		</form>
 		</cfoutput>
@@ -156,8 +156,8 @@
     }
 </cfscript>
 	<cfif isdefined("srchType") and srchType is "key">
-		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display"> 
-		<cfset frm="from media,ctmedia_license">			
+		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display">
+		<cfset frm="from media,ctmedia_license">
 		<cfset whr=" where media.media_license_id=ctmedia_license.media_license_id(+) and media.media_id > 0">
 		<cfset srch=" ">
 		<cfif isdefined("keyword") and len(keyword) gt 0>
@@ -203,8 +203,8 @@
 			#preservesinglequotes(ssql)#
 		</cfquery>
 	<cfelse>
-		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display "> 
-		<cfset frm="from media,ctmedia_license">			
+		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display ">
+		<cfset frm="from media,ctmedia_license">
 		<cfset whr=" where media.media_license_id=ctmedia_license.media_license_id(+) and media.media_id > 0">
 		<cfset srch=" ">
 		<cfif isdefined("media_uri") and len(media_uri) gt 0>
@@ -291,7 +291,7 @@
 			    <cfcatch>
 		            <cfset thisLabelValue = "">
 			    </cfcatch>
-	        </cftry>		
+	        </cftry>
 			<cfset frm="#frm#,media_labels media_labels#n#">
 		    <cfset whr="#whr# and media.media_id=media_labels#n#.media_id (+)">
 	        <cfif len(#thisLabel#) gt 0>
@@ -315,7 +315,7 @@
 		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 			Not seeing something you just loaded? Come back in an hour when the cache has refreshed.
 		</cfif>
-	
+
 		<cfabort>
 	<cfelseif findIDs.recordcount is 1 and not listfindnocase(cgi.REDIRECT_URL,'media',"/")>
 		<cfheader statuscode="301" statustext="Moved permanently">
@@ -355,36 +355,36 @@
 	</cfloop>
 	<cfsavecontent variable="pager">
 		<cfset Result_Per_Page=10>
-		<cfset Total_Records=findIDs.recordcount> 
-		<cfparam name="URL.offset" default="0"> 
+		<cfset Total_Records=findIDs.recordcount>
+		<cfparam name="URL.offset" default="0">
 		<cfparam name="limit" default="1">
-		<cfset limit=URL.offset+Result_Per_Page> 
-		<cfset start_result=URL.offset+1> 
+		<cfset limit=URL.offset+Result_Per_Page>
+		<cfset start_result=URL.offset+1>
 		<cfif findIDs.recordcount gt 1>
 			<div style="margin-left:20%;">
-			Showing results #start_result# - 
-			<cfif limit GT Total_Records> #Total_Records# <cfelse> #limit# </cfif> of #Total_Records# 
-			<cfset URL.offset=URL.offset+1> 
-			<cfif Total_Records GT Result_Per_Page> 
-				<br> 
-				<cfif URL.offset GT Result_Per_Page> 
-					<cfset prev_link=URL.offset-Result_Per_Page-1> 
+			Showing results #start_result# -
+			<cfif limit GT Total_Records> #Total_Records# <cfelse> #limit# </cfif> of #Total_Records#
+			<cfset URL.offset=URL.offset+1>
+			<cfif Total_Records GT Result_Per_Page>
+				<br>
+				<cfif URL.offset GT Result_Per_Page>
+					<cfset prev_link=URL.offset-Result_Per_Page-1>
 					<a href="#cgi.script_name#?offset=#prev_link#&#q#">PREV</a>
-				</cfif> 
-				<cfset Total_Pages=ceiling(Total_Records/Result_Per_Page)> 
-				<cfloop index="i" from="1" to="#Total_Pages#"> 
-					<cfset j=i-1> 
-					<cfset offset_value=j*Result_Per_Page> 
-					<cfif offset_value EQ URL.offset-1 > 
-						#i# 
-					<cfelse> 
+				</cfif>
+				<cfset Total_Pages=ceiling(Total_Records/Result_Per_Page)>
+				<cfloop index="i" from="1" to="#Total_Pages#">
+					<cfset j=i-1>
+					<cfset offset_value=j*Result_Per_Page>
+					<cfif offset_value EQ URL.offset-1 >
+						#i#
+					<cfelse>
 						<a href="#cgi.script_name#?offset=#offset_value#&#q#">#i#</a>
-					</cfif> 
-				</cfloop> 
-				<cfif limit LT Total_Records> 
-					<cfset next_link=URL.offset+Result_Per_Page-1> 
+					</cfif>
+				</cfloop>
+				<cfif limit LT Total_Records>
+					<cfset next_link=URL.offset+Result_Per_Page-1>
 					<a href="#cgi.script_name#?offset=#next_link#&#q#">NEXT</a>
-				</cfif> 
+				</cfif>
 			</cfif>
 		</div>
 		</cfif>
@@ -415,7 +415,7 @@
 	<cfif isdefined("findIDs.keywords")>
 		<cfquery name="kw" dbtype="query">
 			select keywords from findIDs where media_id=#media_id#
-		</cfquery>	
+		</cfquery>
 	</cfif>
 	<cfset alt="#media_uri#">
 	<cfif desc.recordcount is 1>
@@ -438,6 +438,9 @@
 						<cfelse>
 							<br><span style='font-size:small'>unlicensed</span>
 						</cfif>
+						<cfif #media_type# eq "image">
+							<br><span style='font-size:small'><a href="/MediaDetail.cfm?media_id=#media_id#">Related images</a></span>
+						</cfif>
 					</td>
 					<td>
 						<cfif len(desc.label_value) gt 0>
@@ -456,7 +459,7 @@
 						<cfif mrel.recordcount gt 0>
 							<ul>
 							<cfloop query="mrel">
-								<li>#media_relationship#  
+								<li>#media_relationship#
 				                    <cfif len(#link#) gt 0>
 				                        <a href="#link#" target="_blank">#summary#</a>
 				                    <cfelse>
@@ -497,27 +500,27 @@
 				<a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a>
 			</cfif>
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
-					media.media_id, 
-					media.media_type, 
-					media.mime_type, 
-					media.preview_uri, 
-					media.media_uri 
-				from 
-					media, 
-					media_relations 
-				where 
+				select
+					media.media_id,
+					media.media_type,
+					media.mime_type,
+					media.preview_uri,
+					media.media_uri
+				from
+					media,
+					media_relations
+				where
 					media.media_id=media_relations.related_primary_key and
-					media_relationship like '% media' 
+					media_relationship like '% media'
 					and media_relations.media_id =#media_id#
 					and media.media_id != #media_id#
 				UNION
 				select media.media_id, media.media_type,
-					media.mime_type, media.preview_uri, media.media_uri 
-				from media, media_relations 
-				where 
+					media.mime_type, media.preview_uri, media.media_uri
+				from media, media_relations
+				where
 					media.media_id=media_relations.media_id and
-					media_relationship like '% media' and 
+					media_relationship like '% media' and
 					media_relations.related_primary_key=#media_id#
 					 and media.media_id != #media_id#
 			</cfquery>
