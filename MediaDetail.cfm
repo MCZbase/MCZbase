@@ -13,6 +13,7 @@
 <cfloop query="checkmedia" endrow="1">
     <cfif not checkmedia.media_type eq "image">
 		<!--- Redirect --->
+		<cflocation url='/media/#media_id#' addToken="no">
 	</cfif>
 	<cfif not len(checkmedia.height) >
 			<!--- >or #IsNull(checkmedia.width)# or #IsNull(checkmedia.maxheightinset)# --->
@@ -126,6 +127,8 @@
             <div class="multizoom1 thumbs" style='width:600px;' >
         </cfoutput>
 	<cfloop query="relm">
+ 	            <cfset scalefactor = PVWIDTH/#relm.width#>
+	            <cfif scalefactor GT 1 ><cfset scalefactor = 1></cfif>
                 <cfset scaledheight = Round(#relm.height# * #scalefactor#) >
                 <cfset scaledwidth = Round(#relm.width# * #scalefactor#) >
 				<!--- Obtain list of attributes and add to data-title of anchor to display metadata for each image as it is selected.  --->
@@ -162,7 +165,8 @@
 				</cfif>
 				<cfset labellist="#labellist#</ul>">
 		<cfoutput>
-			<a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#" data-title="<a href='#relm.media_uri#'>Full Image</a>#labellist#" ><img src="#relm.preview_uri#"></a>
+			<a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
+			    data-title="<a href='#relm.media_uri#'>Full Image</a><br><a href='media/#relm.media_id#'>Media Metadata Record</a>#labellist#" ><img src="#relm.preview_uri#"></a>
 		</cfoutput>
 	</cfloop>
         <cfoutput>
