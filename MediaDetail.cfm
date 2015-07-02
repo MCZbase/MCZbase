@@ -6,10 +6,14 @@
 <!--- Check to see if height/width are known for this imageset --->
 <cfquery name="checkmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
-		   MCZBASE.GET_MAXHEIGHTMEDIASET(media_id) maxheightinset
+		   MCZBASE.GET_MAXHEIGHTMEDIASET(media_id) maxheightinset,
+		   media.media_type
     from MEDIA where media_id=#media_id#
 </cfquery>
 <cfloop query="checkmedia" endrow="1">
+    <cfif not checkmedia.media_type eq "image">
+		<!--- Redirect --->
+	</cfif>
 	<cfif not len(checkmedia.height) >
 			<!--- >or #IsNull(checkmedia.width)# or #IsNull(checkmedia.maxheightinset)# --->
 		<!---  If height and width aren't known, find and store them --->
@@ -73,12 +77,17 @@
             -->
             <h3>Images related to #mrstr#</h3>
             <p>Mouse over image to see zoom window, scroll wheel zooms in and out.  Select other images of same specimen below.</p>
-	    <table><tr><td style="height:#mdstop#px; width:#PVWIDTH#px; background: rgb(240,240,240); ">
-            <div class="targetarea">
-                <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
-            </div>
-            </td><td></td></tr><tr><td colspan="2">
-            <div id="multizoomdescription"><a href="#m.media_uri#">Full Image</a></div>
+	    <table><tr>
+		      <td style="height:#mdstop#px; width:#PVWIDTH#px; background: rgb(240,240,240); ">
+               <div class="targetarea">
+                  <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
+               </div>
+              </td>
+			  <td>
+                 <div id="multizoomdescription"><a href="#m.media_uri#">Full Image</a></div>
+			  </td>
+		    </tr>
+			<tr><td colspan="2">
     </cfoutput>
 	<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	   select collection_object_id, guid, institution_acronym, collection_cde, cat_num, othercatalognumbers,
@@ -103,12 +112,15 @@
      	</cfoutput>
 	<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media.media_id, preview_uri, media.media_uri,
-                       get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width
-                from media_relations
-                left join media on media_relations.media_id = media.media_id
-                where media_relationship = 'shows cataloged_item'
-		   and related_primary_key = #ff.collection_object_id#
-                order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
+               get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+			   media.mime_type, media.media_type,
+			   ctmedia_license.display as license, ctmedia_license.uri as license_uri
+        from media_relations
+             left join media on media_relations.media_id = media.media_id
+			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+        where media_relationship = 'shows cataloged_item'
+		      and related_primary_key = #ff.collection_object_id#
+        order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
   	</cfquery>
         <cfoutput>
             <div class="multizoom1 thumbs" style='width:600px;' >
@@ -118,6 +130,8 @@
                 <cfset scaledwidth = Round(#relm.width# * #scalefactor#) >
 				<!--- Obtain list of attributes and add to data-title of anchor to display metadata for each image as it is selected.  --->
 				<cfset labellist="<ul>">
+				<cfset labellist = "#labellist#<li>media: #media_type# (#mime_type#)</li>">
+				<cfset labellist = "#labellist#<li>license: <a href='#license_uri#'>#license#</a></li>">
                 <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                     select media_label, label_value
                     from media_labels
@@ -134,6 +148,18 @@
 				<cfloop query="relations">
 					<cfset labellist = "#labellist#<li>#mr_label#: #mr_value#</li>">
 				</cfloop>
+                <cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                    select keywords
+                    from media_keywords
+					where media_id=#relm.media_id#
+                </cfquery>
+				<cfset kwlist="">
+				<cfloop query="keywords">
+					<cfset kwlist = "#kwlist# #keywords#">
+				</cfloop>
+				<cfif len(trim(kwlist)) >
+					<cfset labellist = "#labellist#<li>keywords: #kwlist#</li>">
+				</cfif>
 				<cfset labellist="#labellist#</ul>">
 		<cfoutput>
 			<a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#" data-title="<a href='#relm.media_uri#'>Full Image</a>#labellist#" ><img src="#relm.preview_uri#"></a>
