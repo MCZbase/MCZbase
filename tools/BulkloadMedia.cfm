@@ -416,6 +416,51 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			<cfset rec_stat=listappend(rec_stat,'#preview_uri# is invalid',";")>
 		</cfif>
 	</cfif>
+	<cfif isimagefile("#escapeQuotes(media_uri)#")>
+		<cfimage action="info" source="#escapeQuotes(media_uri)#" structname="imgInfo"/>
+		<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into cf_temp_media_labels (
+						key,
+						MEDIA_LABEL,
+						ASSIGNED_BY_AGENT_ID,
+						LABEL_VALUE
+					) values (
+						#key#,
+						'height',
+						#session.myAgentId#,
+						'#imgInfo.height#'
+					)
+		</cfquery>
+		<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					insert into cf_temp_media_labels (
+						key,
+						MEDIA_LABEL,
+						ASSIGNED_BY_AGENT_ID,
+						LABEL_VALUE
+					) values (
+						#key#,
+						'width',
+						#session.myAgentId#,
+						'#imgInfo.width#'
+					)
+		</cfquery>
+		<!---cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
+		<cfset md5hashVal=Hash(result.filecontent,"MD5")>
+
+		<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					insert into cf_temp_media_labels (
+						key,
+						MEDIA_LABEL,
+						ASSIGNED_BY_AGENT_ID,
+						LABEL_VALUE
+					) values (
+						#key#,
+						'md5hashVal',
+						#session.myAgentId#,
+						'#md5Hash#'
+					)
+		</cfquery--->
+	</cfif>
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_media set status='#rec_stat#' where key=#key#
 	</cfquery>
