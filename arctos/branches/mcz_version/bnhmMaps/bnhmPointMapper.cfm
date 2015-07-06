@@ -32,16 +32,16 @@ Retrieving map data - please wait....
 <cfoutput query="getMapData">
 	<cfset relInfo='<a href="#Application.ServerRootUrl#/editLocality.cfm?locality_id=#locality_id#" target="_blank">#spec_locality#</a>'>
 	<cfset oneLine="#relInfo##chr(9)##locality_id##chr(9)##lat_long_id##chr(9)##spec_locality##chr(9)##dec_lat##chr(9)##dec_long##chr(9)##max_error_meters##chr(9)##datum##chr(9)##isAcceptedLatLong#">
-		
-		
+
+
 	<cfset oneLine=trim(oneLine)>
 	<cffile action="append" file="#dlPath##dlFile#" addnewline="yes" output="#oneLine#">
 </cfoutput>
 <cfoutput>
 
 
-	<cfset bnhmUrl="http://berkeleymapper.berkeley.edu/index.php?ViewResults=tab&tabfile=#Application.ServerRootUrl#/bnhmMaps/tabfiles/#dlFile#&configfile=#Application.ServerRootUrl#/bnhmMaps/PointMap.xml&sourcename=Locality">
-	
+	<cfset bnhmUrl="http://berkeleymapper.berkeley.edu/?ViewResults=tab&tabfile=#Application.ServerRootUrl#/bnhmMaps/tabfiles/#dlFile#&configfile=#Application.ServerRootUrl#/bnhmMaps/PointMap.xml&sourcename=Locality">
+
 
 	<script type="text/javascript" language="javascript">
 		document.location='#bnhmUrl#';
