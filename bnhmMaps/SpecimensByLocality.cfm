@@ -9,7 +9,7 @@ Retrieving map data - please wait....
 	<cfset dlPath = "#Application.webDirectory#/bnhmMaps/tabfiles/">
 	<cfset dlFile = "tabfile#cfid##cftoken#.txt">
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			#flatTableName#.collection_object_id,
 			#flatTableName#.cat_num,
 			lat_long.dec_lat,
@@ -26,7 +26,7 @@ Retrieving map data - please wait....
 			#flatTableName#.verbatimLatitude,
 			#flatTableName#.verbatimLongitude,
 			lat_long.lat_long_id
-		 from 
+		 from
 		 	#flatTableName#,
 		 	lat_long
 		 where
@@ -36,7 +36,7 @@ Retrieving map data - please wait....
 		 		where #flatTableName#.collection_object_id = #table_name#.collection_object_id)
 	</cfquery>
 	<cfquery name="loc" dbtype="query">
-		select 
+		select
 			dec_lat,
 			dec_long,
 			isAcceptedLatLong,
@@ -64,7 +64,7 @@ Retrieving map data - please wait....
 	<cffile action="write" file="#dlPath##dlFile#" addnewline="no" output="" nameconflict="overwrite">
 	<cfloop query="loc">
 		<cfquery name="sdet" dbtype="query">
-			select 
+			select
 				collection_object_id,
 				cat_num,
 				scientific_name,
@@ -96,8 +96,8 @@ Retrieving map data - please wait....
 		<cffile action="append" file="#dlPath##dlFile#" addnewline="yes" output="#oneLine#">
 	</cfloop>
 
-	<cfset bnhmUrl="http://berkeleymapper.berkeley.edu/index.php?ViewResults=tab&tabfile=#Application.ServerRootUrl#/bnhmMaps/tabfiles/#dlFile#&configfile=#Application.ServerRootUrl#/bnhmMaps/SpecByLoc.xml&sourcename=Locality">
-	
+	<cfset bnhmUrl="http://berkeleymapper.berkeley.edu/?ViewResults=tab&tabfile=#Application.ServerRootUrl#/bnhmMaps/tabfiles/#dlFile#&configfile=#Application.ServerRootUrl#/bnhmMaps/SpecByLoc.xml&sourcename=Locality">
+
 
 	<script type="text/javascript" language="javascript">
 		document.location='#bnhmUrl#';
