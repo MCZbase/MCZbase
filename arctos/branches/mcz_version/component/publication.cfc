@@ -153,7 +153,7 @@
 		         <cfset editor = ' Ed.' >
 		         <cfset r=r & es & editor >
              </cfif>
-             <cfif e.recordcount gt 1>
+             <cfif e.recordcount gt 0>
                 <cfset editor = ' Eds.' >
 				<cfset r=r & es & editor >
              </cfif>
@@ -165,22 +165,22 @@
           </cfif>
 
 
+
 	<cfelseif p.publication_type is "book section">
-    	<cfset r=as & '. ' & p.published_year & '. ' & publication_title1 & ', ' >
+    	<cfset r=as & ' ' & p.published_year & '. ' & publication_title1 & ', ' >
         	<cfset r=r & ' pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
 			<cfif len(book.pub_att_value) gt 0>
-    	        <cfif e.recordcount eq 1>
-		     		 <cfset editor = ' Ed.' >
-                </cfif>
-                <cfif e.recordcount gt 1>
-                     <cfset editor = ' Eds.' >
-                </cfif>
-			   <cfset r=r & ' <i>In</i> ' & es & editor & '<i>'& book.pub_att_value & '</i>. '>
+    		 <cfset r=r & ' <i>In</i> ' & es>
+             <cfif len(e.agent_name) gt 0>
+             <cfset r=r & ' Ed(s).'>
+			 </cfif>
+			 <cfset r=r &  ' <i>'& book.pub_att_value & '</i>. '>
                     <cfif len(volume.pub_att_value) gt 0>
                       <cfset r=r & 'Vol. ' & volume.pub_att_value & '.'>
                     </cfif>
                <cfset r=r &  publisher.pub_att_value & '.' >
 		    </cfif>
+            
 
 
 	<cfelse>
