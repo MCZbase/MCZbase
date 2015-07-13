@@ -3,7 +3,7 @@
     <cfif isdefined("usealternatehead") and #usealternatehead# eq "image">
       <cfinclude template="/includes/imageInclude.cfm">
     <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
-      <cfinclude template="/includes/feedreaderInclude.cfm">
+      <cfinclude template="/includes/feedReaderInclude.cfm">
     <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">
       <cfinclude template="/includes/DataEntryInclude.cfm">
     <cfelse>
