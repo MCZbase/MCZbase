@@ -1,3 +1,4 @@
+<cfset usealternatehead="feedreader" />
 <cfinclude template = "includes/_header.cfm">
 <cfset title="My Arctos">
 <cfif len(session.username) is 0>
@@ -35,7 +36,7 @@
 		select count(*) c from dba_users where upper(username)='#ucase(session.username)#'
 	</cfquery>
 	<cfif alreadyGotOne.c is not 0>
-		<cfthrow 
+		<cfthrow
 		   type = "user_already_exists"
 		   message = "user_already_exists"
 		   detail = "Someone tried to create user #session.username#. That user already exists."
@@ -55,7 +56,7 @@
 			</cfquery>
 			<cfquery name="grantVPD" datasource="uam_god">
 				grant execute on app_security_context to #session.username#
-			</cfquery>					
+			</cfquery>
 			<cfquery name="usrInfo" datasource="uam_god">
 				select * from temp_allow_cf_user,cf_users where temp_allow_cf_user.user_id=cf_users.user_id and
 				cf_users.username='#session.username#'
@@ -67,7 +68,7 @@
 				Arctos user #session.username# has successfully created an Oracle account.
 				<br>
 				You now need to assign them roles and collection access.
-				<br>Contact the Arctos DBA team immediately if you did not invite this user to become an operator.				
+				<br>Contact the Arctos DBA team immediately if you did not invite this user to become an operator.
 			</cfmail>
 		</cftransaction>
 		<cfcatch>
@@ -104,11 +105,11 @@
 			</cfsavecontent>
 			<cfmail subject="Error" to="#Application.PageProblemEmail#" from="bad_authentication@#Application.fromEmail#" type="html">
 				#errortext#
-			</cfmail>	
+			</cfmail>
 			<h3>Error in creating user.</h3>
 			<p>#cfcatch.Message#</p>
 			<cfabort>
-		</cfcatch>	
+		</cfcatch>
 	</cftry>
 	<cflocation url="myArctos.cfm" addtoken="false">
 </cfoutput>
@@ -128,6 +129,7 @@
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
 	<h2>Welcome back, <b>#getPrefs.username#</b>!</h2>
+	<div style="width: 50%; float: left; position: relative;">
 	<ul>
 		<li>
 			<a href="ChangePassword.cfm">Change your password</a>
@@ -163,7 +165,7 @@
 		<div style="background-color:##FF0000; border:2px solid black; width:75%;">
 			You've been invited to become an Operator. Password restrictions apply.
 			This form does not change your password (you may do so <a href="ChangePassword.cfm">here</a>),
-			but will provide information about the suitability of your password. You may need to change your password 
+			but will provide information about the suitability of your password. You may need to change your password
 			in order to successfully complete this form.
 			<form name="getUserData" method="post" action="myArctos.cfm" onSubmit="return noenter();">
 				<input type="hidden" name="action" value="makeUser">
@@ -180,14 +182,14 @@
 		</div>
 	</cfif>
 	<cfquery name="getUserData" datasource="cf_dbuser">
-		SELECT   
+		SELECT
 			cf_users.user_id,
 			first_name,
 	        middle_name,
 	        last_name,
 	        affiliation,
 			email
-		FROM 
+		FROM
 			cf_user_data,
 			cf_users
 		WHERE
@@ -199,7 +201,7 @@
 		<input type="hidden" name="action" value="saveProfile">
 		<strong>Personal Profile</strong>
 		<span style="font-size:small;">
-			<br>A profile is required to download data. 
+			<br>A profile is required to download data.
 			<br>You cannot recover a lost password unless you enter an email address.
 			<br>Personal information will never be shared with anyone, and we'll never send you spam.
 		</span>
@@ -220,8 +222,8 @@
 		select * from cf_users where username='#session.username#'
 	</cfquery>
 	---->
-	
-		
+
+
 	<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
 	</cfquery>
@@ -261,10 +263,10 @@
 			size="1" onchange="this.className='red';changecustomOtherIdentifier(this.value);">
 			<option value="">None</option>
 			<cfloop query="OtherIdType">
-				<option 
+				<option
 					<cfif session.CustomOtherIdentifier is other_id_type>selected="selected"</cfif>
 					value="#other_id_type#">#other_id_type#</option>
-			</cfloop> 
+			</cfloop>
 		</select>
 		<label for="fancyCOID">Show 3-part ID on SpecimenSearch</label>
 		<select name="fancyCOID" id="fancyCOID"
@@ -282,12 +284,36 @@
 			<select name="exclusive_collection_id" id="exclusive_collection_id"
 				onchange="this.className='red';changeexclusive_collection_id(this.value);" size="1">
 			 	<option  <cfif pid is "" or pid is 0>selected="selected" </cfif> value="">All</option>
-			  	<cfloop query="collid"> 
+			  	<cfloop query="collid">
 					<option <cfif pid is cf_collection_id>selected="selected" </cfif> value="#cf_collection_id#">#collection#</option>
-			  	</cfloop> 
+			  	</cfloop>
 			</select>
 		</cfif>
 	</form>
+
+    </div>
+	<div id="divRss" style="width: 48%; float: left;"></div>
+	<script>
+		$( document ).ready(function(){
+
+            jQuery.getFeed({
+               url: 'https://code.mcz.harvard.edu/feed/',
+               success: function(feed) {
+                 jQuery('##divRss').empty().append('<h2><a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&days=30">' + feed.title + '</a></h2>');
+                  var html = '';
+                  for(var i = 0; i < feed.items.length && i < 5; i++) {
+                      var item = feed.items[i];
+                      html += '<h3><a href="' + item.link + '">' + item.title + '</a> ';
+                      html += '<span class="updated">' + item.updated + ' ' + item.author + '</span></h3>';
+                      html += '<div>' + item.description + '</div>';
+                  }
+                  jQuery('##divRss').append(html);
+               }
+            });
+
+	    });
+    </script>
+
 </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------------->
@@ -366,9 +392,9 @@
 <!---------------------------------------------------------------------->
 <cfif isdefined("redir") AND #redir# is "true">
 	<cfoutput>
-	<!---- 
+	<!----
 		replace cflocation with JavaScript below so I'll always break
-		out of frames (ie, agents) when using the nav button 
+		out of frames (ie, agents) when using the nav button
 	--->
 	<script language="JavaScript">
 		parent.location.href="#startApp#"
