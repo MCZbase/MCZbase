@@ -129,7 +129,7 @@
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
 	<h2>Welcome back, <b>#getPrefs.username#</b>!</h2>
-	<div style="width: 50%; float: left; position: relative;">
+	<div style="width: 38em; float: left; position: relative; margin-right: 1em;">
 	<ul>
 		<li>
 			<a href="ChangePassword.cfm">Change your password</a>
