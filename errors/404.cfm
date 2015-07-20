@@ -120,6 +120,7 @@
 		<cfset sub="Missing GUID">
 		<cfset frm="dead.guid">
 	</cfif>
+	<cftry>
 	<cfmail subject="#sub#" to="#Application.PageProblemEmail#" from="#frm#@#application.fromEmail#" type="html">
 		A user found a dead link! The referring site was #cgi.HTTP_REFERER#.
 		<cfif isdefined("CGI.script_name")>
@@ -137,6 +138,10 @@
 		<hr><cfdump var="#cgi#">
 	</cfmail>
 	 <p>A message has been sent to the site administrator.</p>
+	<cfcatch>
+		<p>Error in sending mail to the site administrator.</p>
+	</cfcatch>
+	</cftry>
 	 <p>
 	 	Use the tabs in the header to continue navigating Arctos.
 	 </p>
