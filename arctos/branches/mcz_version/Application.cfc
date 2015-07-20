@@ -21,12 +21,22 @@
 		<cfargument name="EventName" type="String" required="true" />
 		<cfset showErr=1 />
 		<cfif isdefined("exception.type") and exception.type eq "coldfusion.runtime.AbortException">
-			<cfset showErr=0 />
+                         <cfif serverName contains "-test">
+                                <cfset showErr=1 />
+                        <cfelse>
+                                <cfset showErr=0 />
+                        </cfif>
+
 			<cfreturn />
 		</cfif>
 		<cfif StructKeyExists(form,"C0-METHODNAME")>
 			<!--- cfajax calling cfabort --->
-			<cfset showErr=0 />
+                         <cfif serverName contains "-test">
+                                <cfset showErr=1 />
+                        <cfelse>
+                                <cfset showErr=0 />
+                        </cfif>
+
 			<cfreturn />
 		</cfif>
 		<cfif showErr is 1>
