@@ -17,7 +17,12 @@
 		<script>
 			try {
 			var header_color = document.getElementById('header_color');
+            /*
+            In the MCZ we use the header color to distinguish between production and test, with constant
+            colors amongst collections, #header_color backgroundColor is set inline from a value set
+            in Application.cfc, not here.
 			header_color.style.backgroundColor='#getCollApp.header_color#';
+			*/
 			var headerImageCell = document.getElementById('headerImageCell');
 			headerImageCell.innerHTML='<a target="_top" href="#getCollApp.collection_url#"><img src="#getCollApp.header_image#" alt="Arctos" border="0"></a>';
 			var collectionCell = document.getElementById('collectionCell');
