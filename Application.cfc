@@ -80,16 +80,27 @@
 				<cfdump var="#CGI#" label="CGI" />
 			</cfsavecontent>
 
-			<cfif isdefined("session.username") and
-				(#session.username# is "fselm10" or
+			<cfif serverName contains "arctos.database.museum">
+				<cfif isdefined("session.username") and
+				(
+				#session.username# is "fselm10" or
 				#session.username# is "brandy" or
 				#session.username# is "dlm" or
 				#session.username# is "sumy" or
 				#session.username# is "Rhiannon" or
-				#session.username# is "dusty" or
-				#session.username# is "mole" or
-				#session.username# is "heliumcell")>
+				#session.username# is "dusty"
+				)>
 				<cfoutput>#errortext#</cfoutput>
+				</cfif>
+			<cfelseif serverName contains "harvard.edu">
+				<cfif isdefined("session.username") and
+				(
+				#session.username# is "mkennedy" or
+				#session.username# is "mole" or
+				#session.username# is "heliumcell"
+				)>
+				<cfoutput>#errortext#</cfoutput>
+				</cfif>
 			</cfif>
 			<!---cfoutput>#errortext#</cfoutput--->
 			<cfif isdefined("exception.errorCode") and exception.errorCode is "403">
