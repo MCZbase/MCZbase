@@ -40,47 +40,47 @@
 				</CFIF>
 				<cfoutput>
 					<p>
-						ipaddress: 
+						ipaddress:
 						<a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
 					</p>
-					( 
+					(
 					<a href="http://arctos.database.museum/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
-					) 
+					)
 					<cfif isdefined("session.username")>
 						<br>
-						Username: #session.username# 
+						Username: #session.username#
 					</cfif>
 					<cfif isdefined("exception.Sql")>
 						<p>Sql: #exception.Sql#</p>
 					</cfif>
 				</cfoutput>
 				<hr>
-				Exceptions: 
+				Exceptions:
 				<hr>
 				<cfdump var="#exception#" label="exception" />
 				<hr>
 				<cfif isdefined("session")>
-					Session Dump: 
+					Session Dump:
 					<hr>
 					<cfdump var="#session#" label="session" />
 				</cfif>
-				Client Dump: 
+				Client Dump:
 				<hr>
 				<cfdump var="#client#" label="client" />
 				<hr>
-				Form Dump: 
+				Form Dump:
 				<hr>
 				<cfdump var="#form#" label="form" />
 				<hr>
-				URL Dump: 
+				URL Dump:
 				<hr>
 				<cfdump var="#url#" label="url" />
-				CGI Dump: 
+				CGI Dump:
 				<hr>
 				<cfdump var="#CGI#" label="CGI" />
 			</cfsavecontent>
 
-			<cfif isdefined("session.username") and 
+			<cfif isdefined("session.username") and
 				(#session.username# is "fselm10" or
 				#session.username# is "brandy" or
 				#session.username# is "dlm" or
@@ -106,7 +106,7 @@
 				</cfif>
 			</cfif>
 			<!---cfmail subject="Error" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="html">
-				#subject# #errortext# 
+				#subject# #errortext#
 			</cfmail--->
 			<table cellpadding="10">
 				<tr>
@@ -119,18 +119,18 @@
 							<br>
 							<i>
 								<cfoutput>
-									#exception.message# 
+									#exception.message#
 									<cfif isdefined("exception.detail")>
 										<br>
-										#exception.detail# 
+										#exception.detail#
 									</cfif>
 								</cfoutput>
 							</i>
 						</cfif>
 						<p>
-							This message has been logged. Please submit a 
+							This message has been logged. Please submit a
 							<a href="/info/bugs.cfm">bug report</a>
-							with any information that might help us to resolve this problem. 
+							with any information that might help us to resolve this problem.
 						</p>
 					</td>
 				</tr>
@@ -144,7 +144,7 @@
 	<cffunction name="onApplicationStart" returnType="boolean" output="false">
 		<cfscript>
 			serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
-		</cfscript> 
+		</cfscript>
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
@@ -167,7 +167,7 @@
 		<cfset Application.Google_uacct = "not set" />
 		<cfset Application.domain = replace(Application.serverRootUrl,"http://",".") />
 		<cfquery name="d" datasource="uam_god">
-			select ip from blacklist 
+			select ip from blacklist
 		</cfquery>
 		<cfset Application.blacklist=valuelist(d.ip) />
 		<cfif serverName is "arctos.database.museum">
@@ -207,10 +207,15 @@
 			<cfset Application.DataProblemReportEmail = "arctos.database@gmail.com" />
 			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
 		<cfelseif serverName contains "harvard.edu">
-			<cfset Application.header_color = "##DD3300" />
+		    <cfif serverName contains "-test">
+			    <cfset Application.header_color = "##E1E815" />
+			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			 <cfelse>
+			    <cfset Application.header_color = "##DD3300" />
+			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			</cfif>
 			<cfset Application.header_image = "/images/krono.gif" />
 			<cfset Application.collection_url = "http://www.mcz.harvard.edu" />
-			<cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			<cfset Application.institution_url = "http://www.mcz.harvard.edu" />
 			<cfset Application.institution_link_text = "Museum of Comparative Zoology - Harvard University" />
 			<cfset Application.svn = "/usr/bin/svn" />
@@ -228,7 +233,7 @@
 			<cfset Application.convertPath = "/usr/bin/convert" />
 			<cfset Application.genBankPwd=encrypt("Uln1OAzy","genbank") />
 			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
-			
+
 			<cfset application.gmap_api_key="ABQIAAAAHisocVs5fMekC3rHMYIDKBTD_7kRmvD2VFEz2q7Rf-1F9aZhDRR0G1NEMbSCz8uzq65R3GoapoMRKg">
 			<cfset Application.Google_uacct = "UA-11397952-1" />
 			<cfset Application.InstitutionBlurb = "Collections Database, Museum of Comparative Zoology, Harvard University" />
@@ -261,7 +266,7 @@
 		</cfif>
 		<cfif listfindnocase(application.blacklist,cgi.REMOTE_ADDR)>
 			<cfif cgi.script_name is not "/errors/gtfo.cfm">
-				<cfscript>getPageContext().forward("/errors/gtfo.cfm");</cfscript> 
+				<cfscript>getPageContext().forward("/errors/gtfo.cfm");</cfscript>
 				<cfabort />
 			</cfif>
 		</cfif>
@@ -271,10 +276,10 @@
 				request.fixAmp = true;
 				queryString = replace(cgi.query_string, "&amp;", "&", "all");
 				getPageContext().forward(cgi.script_Name & "?" & queryString);
-			</cfscript> 
+			</cfscript>
 			<cfabort />
 		<cfelse>
-			<cfscript>StructDelete(request, "fixAmp");</cfscript> 
+			<cfscript>StructDelete(request, "fixAmp");</cfscript>
 		</cfif>
 		<cfif not isdefined("session.roles")>
 			<cfinclude template="/includes/functionLib.cfm">
@@ -288,8 +293,8 @@
 			<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
 		</cfif>
 		<!--- protect "us" directories --->
-		<cfif (CGI.Remote_Addr is not "127.0.0.1") and 
-			(not isdefined("session.roles") or session.roles is "public" or len(session.roles) is 0) and 
+		<cfif (CGI.Remote_Addr is not "127.0.0.1") and
+			(not isdefined("session.roles") or session.roles is "public" or len(session.roles) is 0) and
 			(currentPath contains "/Admin/" or
 			currentPath contains "/ALA_Imaging/" or
 			currentPath contains "/Bulkloader/" or
@@ -298,10 +303,10 @@
 			currentPath contains "/tools/" or
 			currentPath contains "/ScheduledTasks/")>
 			<cfset r=replace(#currentPath#,#application.webDirectory#,"") />
-			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript> 
+			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
 			<cfabort />
 		</cfif>
-		<cfif cgi.HTTP_HOST is "arctos-test.arctos.database.museum" and 
+		<cfif cgi.HTTP_HOST is "arctos-test.arctos.database.museum" and
 			#GetTemplatePath()# does not contain "/errors/dev_login.cfm" and
 			#GetTemplatePath()# does not contain "/login.cfm" and
 			#GetTemplatePath()# does not contain "/ChangePassword.cfm" and
