@@ -21,7 +21,7 @@
 		<cfargument name="EventName" type="String" required="true" />
 		<cfset showErr=1 />
 		<cfif isdefined("exception.type") and exception.type eq "coldfusion.runtime.AbortException">
-                         <cfif serverName contains "-test">
+                         <cfif  Application.serverRootUrl contains "-test">
                                 <cfset showErr=1 />
                         <cfelse>
                                 <cfset showErr=0 />
@@ -31,7 +31,7 @@
 		</cfif>
 		<cfif StructKeyExists(form,"C0-METHODNAME")>
 			<!--- cfajax calling cfabort --->
-                         <cfif serverName contains "-test">
+                         <cfif  Application.serverRootUrl contains "-test">
                                 <cfset showErr=1 />
                         <cfelse>
                                 <cfset showErr=0 />
@@ -90,7 +90,7 @@
 				<cfdump var="#CGI#" label="CGI" />
 			</cfsavecontent>
 
-			<cfif serverName contains "arctos.database.museum">
+			<cfif  Application.serverRootUrl contains "arctos.database.museum">
 				<cfif isdefined("session.username") and
 				(
 				#session.username# is "fselm10" or
@@ -102,7 +102,7 @@
 				)>
 				<cfoutput>#errortext#</cfoutput>
 				</cfif>
-			<cfelseif serverName contains "harvard.edu">
+			<cfelseif  Application.serverRootUrl contains "harvard.edu">
 				<cfif isdefined("session.username") and
 				(
 				#session.username# is "mkennedy" or
