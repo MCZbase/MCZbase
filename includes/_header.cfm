@@ -52,11 +52,12 @@
 				Some features of this site may not work in your browser. <a href="/home.cfm##requirements">Learn more</a>
 			</div>
 		</cfif>
+		<!--- Note: For MCZbase, using Application.header_color and header_image instead of session to distinguish header based on server rather than collection. --->
 		<div id="header_color" style='background-color:#Application.header_color#;'>
 			<table width="95%" cellpadding="0" cellspacing="0" border="0" id="headerContent">
 				<tr>
 					<td width="95" nowrap="nowrap" class="headerImageCell" id="headerImageCell">
-						<a target="_top" href="#session.collection_url#"><img src="#session.header_image#" alt="Arctos" border="0"></a>
+						<a target="_top" href="#session.collection_url#"><img src="#Application.header_image#" alt="MCZ Kronosaurus Logo" border="0"></a>
 					</td>
 					<td align="left">
 						<table>
