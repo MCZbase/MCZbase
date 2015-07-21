@@ -231,11 +231,12 @@
 		    <cfif serverName contains "-test">
 			    <cfset Application.header_color = "##E1E815" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>
 			    <cfset Application.header_color = "##DD3300" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			    <cfset Application.header_image = "/images/krono.gif" />
 			</cfif>
-			<cfset Application.header_image = "/images/krono.gif" />
 			<cfset Application.collection_url = "http://www.mcz.harvard.edu" />
 			<cfset Application.institution_url = "http://www.mcz.harvard.edu" />
 			<cfset Application.institution_link_text = "Museum of Comparative Zoology - Harvard University" />
