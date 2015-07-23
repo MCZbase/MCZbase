@@ -38,7 +38,7 @@ Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks</textarea>
+		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks,changed_date</textarea>
 	</div>
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
@@ -89,6 +89,13 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 				<li>if use_existing = 1 anything in this field will be appended tothe current remarks</li>
 			</ul>
 		</span>
+	<li>changed_date
+		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
+			<ul>
+				<li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li>
+			</ul>
+		</span>
+	</li>
 </ul>
 
 
@@ -244,6 +251,10 @@ validate
 			is_number(lot_count) = 0
 			)
 	</cfquery>
+	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		update cf_temp_parts set validated_status = validated_status || ';Invalid CHANGED_DATE'
+		where isdate(changed_date) = 0
+	</cfquery>
 
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_parts where validated_status is null
@@ -376,6 +387,7 @@ validate
 			<td>use_existing</td>
 			<td>change_container_type</td>
 			<td>append_to_remarks</td>
+			<td>changed_date</td>
 		</tr>
 		<cfloop query="inT">
 			<tr>
@@ -406,6 +418,7 @@ validate
 				<td>#use_existing#</td>
 				<td>#change_container_type#</td>
 				<td>#append_to_remarks#</td>
+				<td>#changed_date#</td>
 			</tr>
 		</cfloop>
 	</table>
@@ -488,6 +501,11 @@ validate
 					VALUES (sq_collection_object_id.currval, '#current_remarks#')
 				</cfquery>
 		</cfif>
+		<cfif len(#changed_date#) gt 0>
+			<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#NEXTID.NEXTID# and is_current_fg = 1
+			</cfquery>
+		</cfif>
 		<cfif len(#container_barcode#) gt 0>
 			<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
@@ -554,6 +572,11 @@ validate
 					where container_id=#parent_container_id#
 				</cfquery>
 			</cfif>
+		</cfif>
+		<cfif len(#changed_date#) gt 0>
+			<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
+			</cfquery>
 		</cfif>
 	</cfif>
 	</cfloop>
