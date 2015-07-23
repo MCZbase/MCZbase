@@ -38,7 +38,7 @@ Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks,changed_date</textarea>
+		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method</textarea>
 	</div>
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
@@ -93,6 +93,14 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
 			<ul>
 				<li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li>
+			</ul>
+		</span>
+	</li>
+	<li>new_preserve_method
+		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
+			<ul>
+				<li>if use_existing = 0 this field is ignored</li>
+				<li>if use_existing = 1 the value in this field will replace the current preserve method for this part</li>
 			</ul>
 		</span>
 	</li>
@@ -207,6 +215,13 @@ validate
 			select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
 			)
 			OR preserve_method is null
+	</cfquery>
+	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		update cf_temp_parts set validated_status = validated_status || ';Invalid new_preserve_method'
+		where new_preserve_method|| '|' ||collection_cde NOT IN (
+			select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
+			)
+			and new_preserve_method is not null
 	</cfquery>
 	<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_parts set validated_status = validated_status || ';Invalid use_existing flag'
@@ -388,6 +403,7 @@ validate
 			<td>change_container_type</td>
 			<td>append_to_remarks</td>
 			<td>changed_date</td>
+			<td>new_preserve_method</td>
 		</tr>
 		<cfloop query="inT">
 			<tr>
@@ -538,6 +554,11 @@ validate
 		<cfif len(#lot_count#) gt 0>
 			<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update coll_object set lot_count = #lot_count#, lot_count_modifier='#lot_count_modifier#' where collection_object_id = #use_part_id#
+			</cfquery>
+		</cfif>
+		<cfif len(#new_preserve_method#) gt 0>
+			<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update SPECIMEN_PART set PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' where collection_object_id =#use_part_id#
 			</cfquery>
 		</cfif>
 		<cfif len(#append_to_remarks#) gt 0>
