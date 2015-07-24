@@ -1,8 +1,14 @@
 <cfset usealternatehead="image" />
 <cfinclude template="/includes/_header.cfm">
-<cfif isDefined("media_id")>
-<cfset PVWIDTH=500>
+<!---  Displays an image and other images in a set related by the relationship shows cataloged_item --->
+<cfif NOT isDefined("media_id")>
+  <cfoutput>
+	<h2>No Media Object Specified</h2>
+  </cfoutput>
+<cfelse>
 
+<cfset PVWIDTH=500> <!--- Fixed width for the scaled display of the media object on this page. --->
+<cfset metaLeftOffset = PVWIDTH + 20 >
 <!--- Check to see if height/width are known for this imageset --->
 <cfquery name="checkmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
@@ -48,10 +54,32 @@
     select media_uri, mime_type, media_type, media_id,
            get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
 		   MCZBASE.GET_MAXHEIGHTMEDIASET(media_id) maxheightinset,
-		   MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') mrstr
+		   nvl(
+		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
+		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
+              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
+              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+ 		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
+		   , 'Unrelated image') mrstr
     from MEDIA where media_id=#media_id#
 </cfquery>
 <cfloop query="m" endrow="1">
+    <cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+		select 'MCZ:'||collection_cde||':'||cat_num as relatedGuid from media_relations
+        left join cataloged_item on related_primary_key = collection_object_id
+        where media_id = #media_id# and media_relationship = 'shows cataloged_item'
+	</cfquery>
+	<cfset relatedItemA="">
+        <cfset guidOfRelatedSpecimen="">
+	<cfset relatedItemEndA="">
+	<cfloop query="mcrguid" endrow="1">
+		<!--- Get the guid and formulated it as a hyperlink for the first related cataloged_item.   --->
+		<!--- If the media object shows no cataloged_item, then the link isn't added  --->
+		<!--- If the media object shows more than one cataloged item, then the link here is only to the first one.  --->
+		<cfset relatedItemA="<a href='/guid/#relatedGuid#'>">
+                <cfset guidOfRelatedSpecimen="#relatedGuid#">
+		<cfset relatedItemEndA="</a>">
+	</cfloop>
     <!---  Determine scaling information for the set of images from the selected image --->
     <cfset im_hw='style=" width:#PVWIDTH#px; "'>
     <cfset mdstop=#m.maxheightinset#>
@@ -68,31 +96,37 @@
        <cfset mdstop = 10 + Round(#m.maxheightinset# * #scalefactor#)>
        <cfset im_hw = ' style=" height:#scaledheight#px; width:#PVWIDTH#px;" '>
     </cfif>
+	<cfif len(guidOfRelatedSpecimen)>
+		<cfset relatedItem="#guidOfRelatedSpecimen#">
+	<cfelse>
+		<cfset relatedItem="#mrstr#">
+	</cfif>
     <cfoutput>
+	<div id="mediacontain">
             <!--
 			<p>height:#m.height# scaled to #scaledheight#</p>
 			<p>width:#m.width# scaled to #PVWIDTH#</p>
 			<p>scalefactor: #scalefactor#</p>
 			<p>maxheightinset: #m.maxheightinset#</p>
-			<p>mdstop: #mdstop# (table cell height)</p>
+			<p>mdstop: #mdstop# (cell height reserved for the tallest image in the set)</p>
             -->
-            <h3>Images related to #mrstr#</h3>
-            <p>Mouse over image to see zoom window, scroll wheel zooms in and out.  Select other images of same specimen below.</p>
-	    <table><tr>
-		      <td style="height:#mdstop#px; width:#PVWIDTH#px; background: rgb(240,240,240); ">
-               <div class="targetarea">
-                  <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
-               </div>
-              </td>
-			  <td>
-                 <div id="multizoomdescription"><a href="#m.media_uri#">Full Image</a></div>
-			  </td>
-		    </tr>
-			<tr><td colspan="2">
+			<div class="media_head"><h3>Images related to: #relatedItemA##relatedItem##relatedItemEndA#</h3></div>
+
+                  <div class="layoutbox" >
+                       <!--- div targetarea has space reserved for the tallest image in the set of images, it has a fixed width to which all images are rescaled.  --->
+		       <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
+                  <div class="targetarea media_image" style="height:#mdstop#px; width:#PVWIDTH#px; " >
+                     <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
+                  </div>
+			         <!---  Enclosing div reserves a place for metadata about the currently selected image --->
+			         <!---  div multizoomdescription is the bit to hold the medatadata that will be replaced by multizoom.js when a different image is picked --->
+                                     <div id="multizoomdescription" style="position: relative; left: #metaLeftOffset#px; bottom: #mdstop#px; " class="media_meta"><a href="#m.media_uri#" class="full">Full Image</a></div>
+				     <!--- tip  (added to each replaced multizoomdescription) --->
+				     <cfset tip1="<p class='tip1 tipbox'>Mouse over image to see zoom window, scroll wheel zooms in and out.  Select other images of same specimen below.</p>">
     </cfoutput>
 	<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	   select collection_object_id, guid, institution_acronym, collection_cde, cat_num, othercatalognumbers,
-              typestatusword,typestatus,
+              typestatus, MCZBASE.CONCATALLIDENTIFICATION(related_primary_key) sciname,
               scientific_name, author_text, identifiedby, made_date,
               higher_geog, spec_locality,
               earliestperiodorlowestsystem, latestperiodorhighestsystem, earliestepochorlowestseries, latestepochorhighestseries,
@@ -100,18 +134,20 @@
               collectors, field_num, verbatim_date, began_date, ended_date,
               specimendetailurl
        from media_relations
-	       left join filtered_flat on related_primary_key = collection_object_id
+	       left join #session.flatTableName# on related_primary_key = collection_object_id
 	   where media_id = #m.media_id# and media_relationship = 'shows cataloged_item'
 	</cfquery>
 	<cfloop query='ff'>
 	    <cfoutput>
-            </td></tr>
-            <tr><td  colspan="2">
-        #ff.specimendetailurl#<br/>
-        #ff.scientific_name# #ff.author_text# #identifiedby# #made_date#<br/>
-	 	#ff.higher_geog# #ff.spec_locality#<br/>
+        <div class ="media_id" style="position: absolute; top: #mdstop#px;"   >
+           <div class="backlink">#ff.specimendetailurl#<div>
+           <h4>Image of #ff.sciname#</h4>
+		   <p>Collector: #collectors# #field_num# #verbatim_date#</p>
+	 	   <p>Location: #ff.higher_geog# #ff.spec_locality#</p>
+	 	</div> <!--- end media_id --->
+                </div> <!--- end layoutbox --->
      	</cfoutput>
-	<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	    <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media.media_id, preview_uri, media.media_uri,
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 			   media.mime_type, media.media_type,
@@ -122,11 +158,14 @@
         where media_relationship = 'shows cataloged_item'
 		      and related_primary_key = #ff.collection_object_id#
         order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
-  	</cfquery>
+   	    </cfquery>
         <cfoutput>
-            <div class="multizoom1 thumbs" style='width:600px;' >
+			<div class="media_thumbs">
+            <div class="multizoom1 thumbs">
         </cfoutput>
-	<cfloop query="relm">
+		<cfset counter=0>
+	    <cfloop query="relm">
+	            <cfset counter++ >
  	            <cfset scalefactor = PVWIDTH/#relm.width#>
 	            <cfif scalefactor GT 1 ><cfset scalefactor = 1></cfif>
                 <cfset scaledheight = Round(#relm.height# * #scalefactor#) >
@@ -164,21 +203,30 @@
 					<cfset labellist = "#labellist#<li>keywords: #kwlist#</li>">
 				</cfif>
 				<cfset labellist="#labellist#</ul>">
+				<!--- Define the metadata block that gets changed when an image is selected from the set --->
+				<cfset datatitle_content= "<h4><a href='#relm.media_uri#'>Full Image</a> (#counter# of #relm.recordcount#)</h4><h4><a href='media/#relm.media_id#'>Media Record</a> (metadata for image #counter#)</h4>#labellist##tip1#">
 		<cfoutput>
 			<a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
-			    data-title="<a href='#relm.media_uri#'>Full Image</a><br><a href='media/#relm.media_id#'>Media Metadata Record</a>#labellist#" ><img src="#relm.preview_uri#"></a>
+			    data-title="#datatitle_content#"><img src="#relm.preview_uri#">#counter#</a>
 		</cfoutput>
-	</cfloop>
+	</cfloop> <!--- through relm for media relations of current related cataloged_item --->
+	    <cfif relm.recordcount gt 1>
         <cfoutput>
-            </div>
-			<p>Click to select from the #relm.RecordCount# images of this specimen.</p>
-            </td></tr></table>
+            </div><!-- end multizooom thumbs -->
+			<p class="tip2">Click to select from the #relm.RecordCount# images of this specimen.</p>
+			</div><!-- end media_thumbs -->
         </cfoutput>
-	</cfloop>
-</cfloop>
-<cfelse>
-<cfoutput>
-	<h2>No Media Object Specified</h2>
-</cfoutput>
-</cfif>
+		<cfelse>
+        <cfoutput>
+            </div><!-- end multizooom thumbs -->
+			<p class="tip2">There is only one image of this specimen.</p>
+			</div><!-- end media_thumbs -->
+        </cfoutput>
+		</cfif>
+	</cfloop><!--- loop through ff for related cataloged items --->
+	<cfoutput>
+		</div><!-- end mediacontain -->
+	</cfoutput>
+</cfloop> <!--- on m, loop to get single media record with given media_id  --->
+</cfif> <!--- media_id is defined --->
 <cfinclude template="/includes/_footer.cfm">
