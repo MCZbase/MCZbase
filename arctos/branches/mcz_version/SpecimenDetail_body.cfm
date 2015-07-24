@@ -261,6 +261,7 @@
 	where
 		biol_indiv_relations.related_coll_object_id = related_cat_item.collection_object_id AND
 		related_cat_item.collection_id = related_coll.collection_id and
+		biol_indiv_relations.biol_indiv_relationship <> 'cloned from record' and
 		biol_indiv_relations.collection_object_id = #collection_object_id#
 </cfquery>
 <cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
