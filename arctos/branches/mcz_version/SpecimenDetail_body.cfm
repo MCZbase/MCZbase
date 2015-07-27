@@ -1513,8 +1513,13 @@
 						<cfif desc.recordcount is 1>
 							<cfset alt=desc.label_value>
 						</cfif>
+						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item">
+							<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+						<cfelse>
+						    <cfset aForImHref = media_uri>
+						</cfif>
 		               <div class="one_thumb">
-			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
+			               <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
 			                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>

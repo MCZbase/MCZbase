@@ -1,0 +1,197 @@
+
+/************CSS for Mediatcontain layout that works with the multizoom css for image zoom browsing.  ***************/ 
+
+#mediacontain {
+	/* width: 98%; */ 
+	margin-bottom: 5em;
+/*
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+*/
+	overflow: hidden; /* Prevents multizoomdescription from overlaying page header */
+	color: #555;      /* Serves to demphasize metadata text, see also ul */
+	margin-left: 2em;
+}
+/* Override properties of .thumbs from multizoom.css and styles.css */
+#mediacontain .thumbs { 
+	border: none;  /* override dotted border from styles.css */
+	width: 98%;    /* override fixed width from multizoom.css */ 
+	padding-top: 5px;  /** override padding from multizoom.css */
+}
+/* Override properties of .magnifyarea from multizoom.css */ 
+.magnifyarea { 
+        /** MCZbase: overrride multizoom css to add a z-index to prevent magnifyarea from affecting layout of other elements on page **/
+        z-index: 2;
+        margin-left: -5px;
+}
+
+/* Expected layout is 
+ * mediacontain as top level for widget
+ * media_head above layoutbox 
+ * layoutbox containing media_image with height and width defined in the page
+ *    and containing media_meta and media_id with positions offset with css in the page
+ *    based on the scaled height/width of media_image.
+ * media_thumbs below layoutbox.
+*/
+
+/*
+#mediacontain a {
+	color: #0066cc;
+	text-decoration: none;
+}
+*/
+#mediacontain .media_head {
+	width: 500px;
+}
+/*
+#mediacontain .backlink {
+	color: #555;
+	font-size: 14px;
+	margin-top: 1.4em;
+}
+*/
+#mediacontain .media_head h3 {
+	font-size: 1.23em;
+	margin-top: .3em;
+        margin-bottom: 0em;
+        color: BLACK;
+	/* padding-bottom: .2em; */	
+}
+#mediacontain .layoutbox { 
+        /* layoutbox has relative position set so that contained media_id and media_meta can be
+	 * offset absolutely by the height and width of media_image. */
+	position:relative;
+}
+#mediacontain .media_image {
+	float: left;
+        background: #E5E5E5;
+}
+#mediacontain .media_image .targetarea .multizoom1 { /* zoomable image */
+ 	background-color: #ffffff;
+}
+/*
+#mediacontain .media_image a.full {
+	float: right;
+	text-align: right;
+	font-size: 15px;
+	padding-top: 3px;
+	z-index:1;
+	position: relative;
+}
+*/
+/* media_meta and multizoomdescription contain the metadata about the selected image 
+ * css in the page is needed to place it correctly relative to media_image. */
+#mediacontain  .media_meta {
+	/* float: left;
+	clear: left; 
+	position: relative; */
+	margin-bottom: 20px;
+}
+#mediacontain .media_meta h4 {
+        /*
+	-webkit-margin-before: 20px;
+	-webkit-margin-after: 10px;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+        */
+	/* font-weight: 200; */
+        margin: 0.6em 0 0 0;
+	/* margin-left: 0px; */
+	color: black; 
+	/* font-size: 15px; */
+}
+#multizoomdescription {
+	/* margin: 0 0 26px 27px; */
+	font-size: 14px;
+	font-weight: 600;
+        /* override the text-align from multizoom.css */ 
+	text-align: left;
+}
+#multizoomdescription ul{
+	margin: 0.1em 0 0 0;
+	padding: 0;
+	list-style:none;
+	color: #555; 
+}
+#multizoomdescription ul li{
+	margin:0;
+	padding: 1px 0;
+	font-size: .96em;
+	font-weight: 400;
+}
+#mediacontain .tip1 {
+	/* position: relative; */
+	/* margin-left: 2em; */
+	/* float: left; */
+        /* override the font-weight from multizooom.css */
+	padding: 9px 10px; 
+	width: 20em;
+}
+/* media_id holds the metadata for the related specimen record, 
+ * it is placed below media_image.
+ * css in the page is needed to place in the correct position. */ 
+#mediacontain .media_id {
+        width: 98%;
+        clear: both;
+	float: left;
+	color: black;
+	margin: 1em 0 14px 0;
+}
+#mediacontain .media_id  h4 {
+        width: 500px;
+	  display: block;
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+	margin-bottom: 3px;
+	margin-top: 5px;
+	font-size: 15px;
+	font-weight: 400;
+}
+#mediacontain .media_id h4 span {
+	font-size: 15px;
+	font-weight: 600;
+}
+#mediacontain .media_id  p {
+	font-size: .90em;
+	color: #555;
+	line-height: 17px;
+	padding: 0;
+	margin: 0;
+}
+#mediacontain .media_thumbs {
+	font-size: 1em;
+	border: none;
+	float: left;
+	width: 100%;
+	padding-top: 2px;
+}
+#mediacontain .media_thumbs a {
+	display: inline;
+	width: 100px;
+	padding-right: 8px;
+	float: left;
+}
+#mediacontain .media_thumbs a span{
+	text-align: center;
+	font-size: 14px;
+	width: 100px;
+	float: left;
+}
+#mediacontain .media_thumbs .tip2 {
+	width: 12em;
+	border: 2px solid #900;  /* thick red border */
+	position: relative;  
+	vertical-align: top;
+	float: left;
+	/* padding: 9px 8px 9px 10px; */
+	padding: 9px 10px;
+	/* margin: 0 0 0 20px; */
+}
+#mediacontain p.tipbox { 
+	border: 2px solid #900;
+	font-size: 13px;
+	font-weight: normal;  
+	color: BLACK;
+}
