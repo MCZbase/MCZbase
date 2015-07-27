@@ -439,7 +439,7 @@
 							<br><span style='font-size:small'>unlicensed</span>
 						</cfif>
 						<cfif #media_type# eq "image">
-							<br><span style='font-size:small'><a href="/MediaDetail.cfm?media_id=#media_id#">Related images</a></span>
+							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
 						</cfif>
 					</td>
 					<td>

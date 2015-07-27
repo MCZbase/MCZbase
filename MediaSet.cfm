@@ -29,7 +29,7 @@
             from media_relations startm
             left join media_relations mr on startm.related_primary_key = mr.related_primary_key
 			left join media findm on mr.media_id = findm.media_id
-          where mr.media_relationship = 'shows cataloged_item'
+          where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
 		    and startm.media_id = #media_id#
 		</cfquery>
 		<cfloop query="mediatocheck" >
@@ -53,7 +53,7 @@
 <cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select media_uri, mime_type, media_type, media_id,
            get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
-		   MCZBASE.GET_MAXHEIGHTMEDIASET(media_id) maxheightinset,
+		   nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
 		   nvl(
 		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
 		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
@@ -70,14 +70,14 @@
         where media_id = #media_id# and media_relationship = 'shows cataloged_item'
 	</cfquery>
 	<cfset relatedItemA="">
-        <cfset guidOfRelatedSpecimen="">
+	<cfset guidOfRelatedSpecimen="">
 	<cfset relatedItemEndA="">
 	<cfloop query="mcrguid" endrow="1">
 		<!--- Get the guid and formulated it as a hyperlink for the first related cataloged_item.   --->
 		<!--- If the media object shows no cataloged_item, then the link isn't added  --->
 		<!--- If the media object shows more than one cataloged item, then the link here is only to the first one.  --->
 		<cfset relatedItemA="<a href='/guid/#relatedGuid#'>">
-                <cfset guidOfRelatedSpecimen="#relatedGuid#">
+	    <cfset guidOfRelatedSpecimen="#relatedGuid#">
 		<cfset relatedItemEndA="</a>">
 	</cfloop>
     <!---  Determine scaling information for the set of images from the selected image --->
@@ -110,43 +110,75 @@
 			<p>maxheightinset: #m.maxheightinset#</p>
 			<p>mdstop: #mdstop# (cell height reserved for the tallest image in the set)</p>
             -->
-			<div class="media_head"><h3>Images related to: #relatedItemA##relatedItem##relatedItemEndA#</h3></div>
+			<div class="media_head"><h3>Selected Image related to #relatedItemA##relatedItem##relatedItemEndA#</h3></div>
 
-                  <div class="layoutbox" >
-                       <!--- div targetarea has space reserved for the tallest image in the set of images, it has a fixed width to which all images are rescaled.  --->
-		       <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
+		      <div class="layoutbox">
+		          <!--- div targetarea has space reserved for the tallest image in the set of images, it has a fixed width to which all images are rescaled.  --->
+		          <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
                   <div class="targetarea media_image" style="height:#mdstop#px; width:#PVWIDTH#px; " >
                      <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
                   </div>
 			         <!---  Enclosing div reserves a place for metadata about the currently selected image --->
 			         <!---  div multizoomdescription is the bit to hold the medatadata that will be replaced by multizoom.js when a different image is picked --->
-                                     <div id="multizoomdescription" style="position: relative; left: #metaLeftOffset#px; bottom: #mdstop#px; " class="media_meta"><a href="#m.media_uri#" class="full">Full Image</a></div>
+                     <div id="multizoomdescription" style="position: relative; left: #metaLeftOffset#px; bottom: #mdstop#px; " class="media_meta"><a href="#m.media_uri#" class="full">Full Image</a></div>
 				     <!--- tip  (added to each replaced multizoomdescription) --->
 				     <cfset tip1="<p class='tip1 tipbox'>Mouse over image to see zoom window, scroll wheel zooms in and out.  Select other images of same specimen below.</p>">
     </cfoutput>
 	<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	   select collection_object_id, guid, institution_acronym, collection_cde, cat_num, othercatalognumbers,
-              typestatus, MCZBASE.CONCATALLIDENTIFICATION(related_primary_key) sciname,
-              scientific_name, author_text, identifiedby, made_date,
-              higher_geog, spec_locality,
-              earliestperiodorlowestsystem, latestperiodorhighestsystem, earliestepochorlowestseries, latestepochorhighestseries,
-              earliestageorloweststage,latestageorhigheststage, geol_group, formation, member, bed,
-              collectors, field_num, verbatim_date, began_date, ended_date,
-              specimendetailurl
+	 select * from (
+	   select collection_object_id as pk, guid,
+            typestatus, MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(related_primary_key) name,
+            trim('Location: ' || higher_geog || ' ' || spec_locality) as geography,
+			trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+            trim('Collector: ' || collectors || ' ' || field_num || ' ' || verbatim_date) as coll,
+			specimendetailurl,
+			media_relationship,
+			1 as sortorder
        from media_relations
 	       left join #session.flatTableName# on related_primary_key = collection_object_id
-	   where media_id = #m.media_id# and media_relationship = 'shows cataloged_item'
+	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
+	   union
+	   select agent.agent_id as pk, '' as guid,
+	        '' as typestatus, agent_name as name,
+	        agent_remarks as geography,
+	        '' as geology,
+	        '' as coll,
+	        agent_name as specimendetailurl,
+	        media_relationship,
+	        2 as sortorder
+	   from media_relations
+	      left join agent on related_primary_key = agent.agent_id
+	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
+	   where  media_id = #m.media_id# and ( media_relationship = 'shows agent')
+	   ) ffquery order by sortorder
 	</cfquery>
+	<cfif ff.recordcount EQ 0>
+		<!--- Gracefully fail if not associated with a specimen --->
+		<cfoutput>
+		<div class ="media_id" style ="position: absolute; top: #mdstop#px; "  >
+           <div class="backlink"><div>
+           <h4>Image is not associated with specimens.</h4>
+         </div> <!--- end media_id --->
+        </div> <!--- end layoutbox --->
+		</cfoutput>
+	</cfif>
 	<cfloop query='ff'>
+	    <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
+		    <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a>">
+		<cfelse>
+		    <cfset backlink="#ff.specimendetailurl#">
+	    </cfif>
 	    <cfoutput>
-        <div class ="media_id" style="position: absolute; top: #mdstop#px;"   >
-           <div class="backlink">#ff.specimendetailurl#<div>
-           <h4>Image of #ff.sciname#</h4>
-		   <p>Collector: #collectors# #field_num# #verbatim_date#</p>
-	 	   <p>Location: #ff.higher_geog# #ff.spec_locality#</p>
-	 	</div> <!--- end media_id --->
-                </div> <!--- end layoutbox --->
+         <div class ="media_id" style ="position: absolute; top: #mdstop#px; "  >
+           <div class="backlink">#backlink# #ff.typestatus#<div>
+           <h4>Image of #ff.name#</h4>
+		   <p>#ff.coll#</p>
+  	 	   <p>#ff.geography# #geology#</p>
+         </div> <!--- end media_id --->
+        </div> <!--- end layoutbox --->
      	</cfoutput>
+
+	   <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
 	    <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media.media_id, preview_uri, media.media_uri,
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -155,11 +187,12 @@
         from media_relations
              left join media on media_relations.media_id = media.media_id
 			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-        where media_relationship = 'shows cataloged_item'
-		      and related_primary_key = #ff.collection_object_id#
+        where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+		      and related_primary_key = #ff.pk#
         order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
    	    </cfquery>
         <cfoutput>
+			<div class="media_head"><h3>Other images of #relatedItemA##relatedItem##relatedItemEndA#</h3></div>
 			<div class="media_thumbs">
             <div class="multizoom1 thumbs">
         </cfoutput>
@@ -188,7 +221,9 @@
 					where media_id=#relm.media_id#
                 </cfquery>
 				<cfloop query="relations">
+					<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
 					<cfset labellist = "#labellist#<li>#mr_label#: #mr_value#</li>">
+					</cfif>
 				</cfloop>
                 <cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                     select keywords
