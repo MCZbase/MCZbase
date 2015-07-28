@@ -137,6 +137,12 @@
 	color: black;
 	margin: 1em 0 14px 0;
 }
+#mediacontain .media_id h3 {
+	font-size: 1.23em;
+	margin-top: .1em;
+    margin-bottom: 0em;
+    color: BLACK;
+}
 #mediacontain .media_id  h4 {
         width: 500px;
 	  display: block;

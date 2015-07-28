@@ -127,8 +127,8 @@
 	<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
 	   select collection_object_id as pk, guid,
-            typestatus, MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(related_primary_key) name,
-            trim('Location: ' || higher_geog || ' ' || spec_locality) as geography,
+            typestatusplain as typestatus, MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(related_primary_key) name,
+            trim('Locality: ' || higher_geog || ' ' || spec_locality) as geography,
 			trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
             trim('Collector: ' || collectors || ' ' || field_num || ' ' || verbatim_date) as coll,
 			specimendetailurl,
@@ -170,12 +170,13 @@
 	    </cfif>
 	    <cfoutput>
          <div class ="media_id" style ="position: absolute; top: #mdstop#px; "  >
-           <div class="backlink">#backlink# #ff.typestatus#<div>
-           <h4>Image of #ff.name#</h4>
+           <div class="backlink">#backlink#</div>
+           <h3>Image of #ff.name#</h3>
+		   <cfif len(trim(#ff.typestatus#))><p>#ff.typestatus#</p></cfif>
 		   <p>#ff.coll#</p>
   	 	   <p>#ff.geography# #geology#</p>
-         </div> <!--- end media_id --->
-        </div> <!--- end layoutbox --->
+		   <br>
+		   <!--- Need to put these two divs here to get layout to work, otherwise there is too much space after media_id  --->
      	</cfoutput>
 
 	   <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
@@ -242,7 +243,7 @@
 				<cfset datatitle_content= "<h4><a href='#relm.media_uri#'>Full Image</a> (#counter# of #relm.recordcount#)</h4><h4><a href='media/#relm.media_id#'>Media Record</a> (metadata for image #counter#)</h4>#labellist##tip1#">
 		<cfoutput>
 			<a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
-			    data-title="#datatitle_content#"><img src="#relm.preview_uri#">#counter#</a>
+			    data-title="#datatitle_content#"><img src="#relm.preview_uri#"  class="theThumb">#counter#</a>
 		</cfoutput>
 	</cfloop> <!--- through relm for media relations of current related cataloged_item --->
 	    <cfif relm.recordcount gt 1>
@@ -260,6 +261,8 @@
 		</cfif>
 	</cfloop><!--- loop through ff for related cataloged items --->
 	<cfoutput>
+		</div>
+		</div>
 		</div><!-- end mediacontain -->
 	</cfoutput>
 </cfloop> <!--- on m, loop to get single media record with given media_id  --->
