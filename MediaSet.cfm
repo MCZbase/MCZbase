@@ -120,7 +120,7 @@
                   </div>
 			         <!---  Enclosing div reserves a place for metadata about the currently selected image --->
 			         <!---  div multizoomdescription is the bit to hold the medatadata that will be replaced by multizoom.js when a different image is picked --->
-                     <div id="multizoomdescription" style="position: relative; left: #metaLeftOffset#px; bottom: #mdstop#px; " class="media_meta"><a href="#m.media_uri#" class="full">Full Image</a></div>
+                     <div id="multizoomdescription" style="position: relative; left: #metaLeftOffset#px; bottom: #mdstop#px; " class="media_meta"><a href="#m.media_uri#" class="full">Full Image</a><BR><a href="/media/#m.media_id#">Media Record</a></div>
 				     <!--- tip  (added to each replaced multizoomdescription) --->
 				     <cfset tip1="<p class='tip1 tipbox'>Mouse over image to see zoom window, scroll wheel zooms in and out.  Select other images of same specimen below.</p>">
     </cfoutput>
@@ -176,9 +176,7 @@
 		   <p>#ff.coll#</p>
   	 	   <p>#ff.geography# #geology#</p>
 		   <br>
-		   <!--- Need to put these two divs here to get layout to work, otherwise there is too much space after media_id  --->
      	</cfoutput>
-
 	   <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
 	    <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media.media_id, preview_uri, media.media_uri,
