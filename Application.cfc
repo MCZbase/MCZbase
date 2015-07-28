@@ -149,9 +149,9 @@
 							</i>
 						</cfif>
 						<p>
-							This message has been logged. Please submit a
-							<a href="/info/bugs.cfm">bug report</a>
-							with any information that might help us to resolve this problem.
+							This message has been logged. Please select
+							<a href="/info/bugs.cfm">“Feedback/Report Errors”</a>
+							below to submit a bug report and include the error message above and any other info that might help us to resolve this problem.
 						</p>
 					</td>
 				</tr>
