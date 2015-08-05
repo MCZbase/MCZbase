@@ -690,11 +690,11 @@
 		<label for="collecting_method" class="likeLink" onclick="getDocs('collecting_event','collecting_method')">
 			Collecting Method
 		</label>
-		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#">
+		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#"  size="50">
 		<label for="habitat_desc" class="likeLink" onclick="getDocs('collecting_event','habitat')">
 			Habitat
 		</label>
-		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#">
+		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="50">
         <br><input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
@@ -929,7 +929,7 @@ You deleted a collecting event.
 		<cfset sql = "#sql#,COLL_EVENT_REMARKS = null">
 	</cfif>
 	<cfif len(#COLLECTING_METHOD#) gt 0>
-		<cfset sql = "#sql#,COLLECTING_METHOD = '#COLLECTING_METHOD#'">
+		<cfset sql = "#sql#,COLLECTING_METHOD = '#escapeQuotes(COLLECTING_METHOD)#'">
 	<cfelse>
 		<cfset sql = "#sql#,COLLECTING_METHOD = null">
 	</cfif>
