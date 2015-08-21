@@ -819,6 +819,7 @@
 				where
 					biol_indiv_relations.collection_object_id = cataloged_item.collection_object_id and
 					cataloged_item.collection_id = collection.collection_id AND
+					biol_indiv_relations.biol_indiv_relationship <> 'cloned from record' and
 					RELATED_COLL_OBJECT_ID = #collection_object_id#
 			</cfquery>
 			<cfif len(relns.biol_indiv_relationship) gt 0 OR len(invRel.biol_indiv_relationship) gt 0>
@@ -1513,7 +1514,8 @@
 						<cfif desc.recordcount is 1>
 							<cfset alt=desc.label_value>
 						</cfif>
-						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item">
+<!---  Temporarily rolling back link to MediaSet.cfm  delete FALSE when ready to turn on --->
+						<cfif FALSE and media_type eq "image" and media.media_relationship eq "shows cataloged_item">
 							<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 						<cfelse>
 						    <cfset aForImHref = media_uri>
