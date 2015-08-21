@@ -358,7 +358,7 @@ If your item needs to be sorted in a special way, then do that here. --->
          <cfelse>.</cfif>
 			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink">&nbsp;&nbsp;&nbsp;Problems viewing this page? Click for HTML version</a>
 			&nbsp;&nbsp;&nbsp;<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
-<div style="border:2px solid blue;" id="ssControl">
+<div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id")>
 	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">back to loan</a>
 </cfif>
