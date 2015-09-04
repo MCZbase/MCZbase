@@ -30,7 +30,7 @@
 			*/
 			var collectionCell = document.getElementById('collectionCell');
 			var contents = '<a target="_top" href="#getCollApp.collection_url#" class="novisit">';
-			contents += '<span class="headerCollectionText">#getCollApp.collection_link_text#</span></a>';
+			contents += '<span class="headerCollectionText">#Application.collection_link_text#</span></a>';
 			contents += '<br>';
 			contents += '<a target="_top" href="#getCollApp.institution_url#" class="novisit">';
 			contents += '<span class="headerInstitutionText">#getCollApp.institution_link_text#</span></a>';
