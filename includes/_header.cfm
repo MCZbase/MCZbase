@@ -101,9 +101,9 @@
 					</cfif>
 				<cfelse>
 					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-						<cfset gtp=cgi.REDIRECT_URL>
+						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
 					<cfelse>
-						<cfset gtp=cgi.SCRIPT_NAME>
+						<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
 					</cfif>
 					<form name="logIn" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signIn">

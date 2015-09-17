@@ -903,14 +903,14 @@
 		</cfif>
 		
 		<cfif tleft lt 5>
-			<cfset err = "Your Arctos session is expiring soon.\n
+			<cfset err = "Your MCZbase session is expiring soon.\n
 				You will lose all unsaved data in #tleft# minutes.\n
 				Save changes immediately to avoid data loss.">
 			<script>
 				alert('#err#');
 			</script>
 		<cfelse>
-			<cfset err = "test;;Your Arctos session is expiring soon.\n
+			<cfset err = "test;;Your MCZbase session is expiring soon.\n
 				You will lose all unsaved data in #tleft# minutes.\n
 				Save changes immediately to avoid data loss.">
 			<script>
