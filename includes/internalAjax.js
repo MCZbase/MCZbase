@@ -586,7 +586,7 @@ function addAttribute(v){
 			} else {
 				newRow+='<select name="attribute' + thisID + '" id="attribute' + thisID + '" class="reqdClr">';
 				for (i=0; i<d.ROWCOUNT; ++i) {
-					newRow+='<option value="' + d.DATA.v[i] + '">'+ d.DATA.v[i] +'</option>';
+					newRow+='<option value="' + d.DATA.V[i] + '">'+ d.DATA.V[i] +'</option>';
 				}
 				newRow+='</select>';
 			}
