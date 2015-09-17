@@ -7,7 +7,7 @@
 <a href="mergeDups.cfm?autorun=yep">Autorun</a>
  <p>First Hundred Duplicates:
 	<cfquery name="findAllDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			cataloged_item.collection_object_id,
 			collection,
 			cat_num,
@@ -54,7 +54,7 @@
 
 		<cfloop query="findAllDups">
 			<cfquery name="dupRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
+				select
 					cataloged_item.collection_object_id,
 					collection,
 					cat_num,
@@ -96,7 +96,7 @@
 					<a href="/SpecimenDetail.cfm?collection_object_id=#dupRec.collection_object_id#">
 						#dupRec.collection# #dupRec.cat_num#
 					</a>
-					(#session.customOtherIdentifier# #dupRec.CustomID#) 
+					(#session.customOtherIdentifier# #dupRec.CustomID#)
 					<em>#dupRec.scientific_name#</em>
 					<br>#duprec.flags#
 					<br>#dupRec.encumbrances#
@@ -118,7 +118,7 @@
 			</tr>
 		</cfloop>
 			</table>
-	
+
 	</cfoutput>
 </cfif>
 <!--------------------------->
@@ -126,7 +126,7 @@
 	<cfoutput>
 	<cfset problems = "">
 		<cfset sql = "
-			select 
+			select
 				cataloged_item.collection_object_id,
 				collection,
 				cat_num,
@@ -154,7 +154,7 @@
 				collecting_event.locality_id = locality.locality_id and
 				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 		">
-		<cfquery name="one" ddatasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			 #preservesinglequotes(sql)# and
 				cataloged_item.collection_object_id = #id1#
 		</cfquery>
@@ -165,7 +165,7 @@
 		<cfdump var="#one#" label="one">
 		<cfdump var="#two#" label="two">
 		<!---
-		
+
 		---->
 		<cfif #one.verbatim_date# is "not recorded" and
 			#one.spec_locality# is "No specific locality recorded." and
@@ -182,7 +182,7 @@
 			#two.spec_locality# is "No specific locality recorded." and
 			#two.higher_geog# is "no higher geography recorded" and
 			#two.collectors# is "unknown" and
-			#one.parts# is #two.parts#>	
+			#one.parts# is #two.parts#>
 			<cfquery name="bad" dbtype="query">
 				select * from two
 			</cfquery>
@@ -219,11 +219,11 @@
 				<cfset problems = "#problems#;good container has a location">
 			</cfif>
 		</cfif>
-		
+
 		<cfif len(#problems#) is 0>
 	<cftransaction>
 		<cfquery name="goodID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from identification,identification_taxonomy where 
+			select * from identification,identification_taxonomy where
 			identification.identification_id = identification_taxonomy.identification_id and
 			collection_object_id = #bad.collection_object_id#
 		</cfquery>
@@ -232,7 +232,7 @@
 		</cfquery>
 		<cfset idid = nid.id>
 		<cfloop query="goodID">
-			<br>create ID			
+			<br>create ID
 			<cfquery name="newInsId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into identification (
 				IDENTIFICATION_ID,
@@ -283,7 +283,7 @@
 			<cfset idid = idid + 1>
 		</cfloop>
 
-		
+
 		<cfquery name="badpart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select container.container_id,container.parent_container_id from
 				specimen_part,
@@ -301,13 +301,13 @@
 			update container set parent_container_id = #badpart.parent_container_id#
 			where container_id = #part.container_id#
 		</cfquery>
-		
+
 		<br>Encumber the bad record
 		<cfquery name="mkenc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into  COLL_OBJECT_ENCUMBRANCE (ENCUMBRANCE_ID,COLLECTION_OBJECT_ID)
 			values (1000025,#bad.collection_object_id#)
-		</cfquery>	
-		It's done:	
+		</cfquery>
+		It's done:
 		</cftransaction>
 		<br><a href="/SpecimenDetail.cfm?collection_object_id=#good.collection_object_id#">Good Record</a>
 		<br><a href="/SpecimenDetail.cfm?collection_object_id=#bad.collection_object_id#">Bad Record</a>
@@ -325,10 +325,10 @@
 			<br><a href="/SpecimenDetail.cfm?collection_object_id=#id1#">One Record</a>
 			<br><a href="/SpecimenDetail.cfm?collection_object_id=#id2#">Other Record</a>
 		</cfif>
-		
+
 		<br><a href="mergeDups.cfm">Back to list</a>
 		<cfif #autorun# is "yep">
 			<cflocation url="mergeDups.cfm?autorun=yep">
-		</cfif>		
+		</cfif>
 	</cfoutput>
 </cfif>

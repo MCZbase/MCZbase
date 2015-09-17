@@ -2,3 +2,7 @@ cache
 mediaUploads
 specimen_images
 bnhmMaps/tabfiles
+# Generated sitemap files
+sitemapindex.xml
+project1.xml.gz
+specimen4.xml
