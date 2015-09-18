@@ -299,7 +299,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 					<cfset stat=left(stat,250) & "...">
 				</cfif>
 				<cfquery name="gotDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_attributes set status='#stat#'
+					update cf_temp_attributes set status='#stat#' where key=#key#
 				</cfquery>
 			</cfif>
 		</cfif><!--- end goteverything check --->
@@ -310,7 +310,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		<cfquery name="pf" dbtype="query">
 		select count(*) l from datadump where status is not null
 	</cfquery>
-	<cfif pf.l is 0>
+	<cfif pf.l GT 0>
 		Oops - something's hinky. Review the table below and try again.
 	<cfelse>
 		Your data should load. Review the table below and <a href="BulkloadAttributes.cfm?action=loadData">click to continue</a>.
