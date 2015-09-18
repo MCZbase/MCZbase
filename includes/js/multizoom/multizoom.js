@@ -186,7 +186,8 @@ jQuery.noConflict();
 				top: Math.min(specs.imagesize.h-csh-csb, Math.max(0, y-(csb+csh)/2)) + imgcoords.top,
 				left: Math.min(specs.imagesize.w-csw-csb, Math.max(0, x-(csb+csw)/2)) + imgcoords.left
 			});
-			var newx=-x*specs.curpower+specs.magsize.w/2 //calculate x coord to move enlarged image
+	
+			var newx=-x*specs.curpower+specs.magsize.w/2   //calculate x coord to move enlarged image
 			var newy=-y*specs.curpower+specs.magsize.h/2
 			$maginner.css({left:fiz.getboundary('left', newx, specs), top:fiz.getboundary('top', newy, specs)})
 			specs.$statusdiv.css({left:pagex-10, top:pagey+20})
@@ -205,7 +206,7 @@ jQuery.noConflict();
 			magnifier.$image.css({width:nd[0], height:nd[1]})
 			specs.curpower=newpower //set current power to new power after magnification
 			specs.$statusdiv.html('Current Zoom: '+specs.curpower)
-			this.showstatusdiv(specs, 0, 500)
+			this.showstatusdiv(specs, 0, 400)
 			$tracker.trigger('mousemove')
 		},
 
@@ -231,7 +232,7 @@ jQuery.noConflict();
 			}
 			$img.css({visibility: 'visible'});
 			setting.largeimage = setting.largeimage || $img.get(0).src;
-			$magnifier=$('<div class="magnifyarea" style="position:absolute;z-index:'+basezindex+';width:'+setting.magnifiersize[0]+'px;height:'+setting.magnifiersize[1]+'px;left:-10000px;top:-10000px;visibility:hidden;overflow:hidden;border:1px solid black;" />')
+			$magnifier=$('<div class="magnifyarea" style="position:absolute;z-index:5000;width:'+setting.magnifiersize[0]+'px;height:'+setting.magnifiersize[1]+'px;left:-10000px;top:-10000px;visibility:hidden;overflow:hidden;border:1px solid black;" />')
 				.append('<div style="position:relative;left:0;top:0;z-index:'+basezindex+';" />')
 				.appendTo(document.body) //create magnifier container
 			//following lines - create featured image zoomer divs, and absolutely positioned them for placement over the thumbnail and each other:

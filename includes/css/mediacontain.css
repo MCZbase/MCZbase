@@ -1,28 +1,20 @@
-
 /************CSS for Mediatcontain layout that works with the multizoom css for image zoom browsing.  ***************/ 
 
 #mediacontain {
-	/* width: 98%; */ 
-	margin-bottom: 5em;
-/*
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 16px;
-*/
-	overflow: hidden; /* Prevents multizoomdescription from overlaying page header */
-	color: #555;      /* Serves to demphasize metadata text, see also ul */
-	margin-left: 2em;
-}
-/* Override properties of .thumbs from multizoom.css and styles.css */
-#mediacontain .thumbs { 
-	border: none;  /* override dotted border from styles.css */
-	width: 98%;    /* override fixed width from multizoom.css */ 
-	padding-top: 5px;  /** override padding from multizoom.css */
+	/* Prevents multizoomdescription from overlaying page header */
+	color: #444;      /* Serves to demphasize metadata text, see also ul */
+	padding-left: 2em;
 }
 /* Override properties of .magnifyarea from multizoom.css */ 
-.magnifyarea { 
-        /** MCZbase: overrride multizoom css to add a z-index to prevent magnifyarea from affecting layout of other elements on page **/
-        z-index: 2;
-        margin-left: -5px;
+.magnifyarea {
+	/** MCZbase: overrride multizoom css to add a z-index to prevent magnifyarea from affecting layout of other elements on page **/
+	z-index: 5;
+	margin-left: -5px;
+}
+p {
+	/*added*/
+	margin: 0;
+	display: block;
 }
 
 /* Expected layout is 
@@ -33,171 +25,465 @@
  *    based on the scaled height/width of media_image.
  * media_thumbs below layoutbox.
 */
-
-/*
-#mediacontain a {
-	color: #0066cc;
-	text-decoration: none;
-}
-*/
 #mediacontain .media_head {
 	width: 500px;
+	margin-top: 1em;
 }
-/*
+
 #mediacontain .backlink {
-	color: #555;
-	font-size: 14px;
-	margin-top: 1.4em;
+	/*added*/
+	color: #444;
+	font-size: 15px;
+	margin-top: 10px;
+	font-weight: 600;
+	margin-bottom: 12px;
 }
-*/
+#mediacontain .topDescriptor {
+	/*added*/
+	color: #333;
+	font-size: 15px;
+	margin-top: 20px;
+}
 #mediacontain .media_head h3 {
-	font-size: 1.23em;
-	margin-top: .3em;
-        margin-bottom: 0em;
-        color: BLACK;
-	/* padding-bottom: .2em; */	
+	margin-top: .5em;
+	margin-bottom: .8em;
+	color: #900;
+	font-size: 21px;
 }
-#mediacontain .layoutbox { 
-        /* layoutbox has relative position set so that contained media_id and media_meta can be
+
+#mediacontain .layoutbox {
+	/* layoutbox has relative position set so that contained media_id and media_meta can be
 	 * offset absolutely by the height and width of media_image. */
-	position:relative;
+	position: relative;/*	overflow: hidden;*/
+}
+.image_box {
+	width: 900px;
+}
+.magnifyarea {
+	z-index: 5
 }
 #mediacontain .media_image {
-	float: left;
-        background: #E5E5E5;
-}
-#mediacontain .media_image .targetarea .multizoom1 { /* zoomable image */
- 	background-color: #ffffff;
-}
-/*
-#mediacontain .media_image a.full {
-	float: right;
-	text-align: right;
-	font-size: 15px;
-	padding-top: 3px;
-	z-index:1;
 	position: relative;
+	float: left;
+	background-color: #e5e5e5;
+	background-image: linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px), linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px);
+	background-size: 51px 50px, 51px 50px, 5px 5px, 5px 5px;
+	background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+	border: 1px solid #e5e5e5;
+	margin-bottom: .8em;
+	width: 500px;
 }
-*/
+#mediacontain .targetarea .multizoom1 { /* zoomable image */
+	background-color: #ffffff;
+}
+.targetarea {
+	width: 500px;
+	float: left;
+}
 /* media_meta and multizoomdescription contain the metadata about the selected image 
  * css in the page is needed to place it correctly relative to media_image. */
-#mediacontain  .media_meta {
-	/* float: left;
-	clear: left; 
-	position: relative; */
+#mediacontain .media_meta {
 	margin-bottom: 20px;
+	float: left;
+	position: relative;
+	margin-left: 27px;
+	width: 350px;
+	margin-top: 0;
+	color: #555;
 }
-#mediacontain .media_meta h4 {
-        /*
-	-webkit-margin-before: 20px;
-	-webkit-margin-after: 10px;
-	-webkit-margin-start: 0px;
-	-webkit-margin-end: 0px;
-        */
-	/* font-weight: 200; */
-        margin: 0.6em 0 0 0;
-	/* margin-left: 0px; */
-	color: black; 
-	/* font-size: 15px; */
+
+#mediacontain .media_meta a {
+	text-decoration:none;
 }
-#multizoomdescription {
-	/* margin: 0 0 26px 27px; */
-	font-size: 14px;
-	font-weight: 600;
-        /* override the text-align from multizoom.css */ 
-	text-align: left;
-}
-#multizoomdescription ul{
-	margin: 0.1em 0 0 0;
-	padding: 0;
-	list-style:none;
-	color: #555; 
-}
-#multizoomdescription ul li{
-	margin:0;
-	padding: 1px 0;
-	font-size: .96em;
+#mediacontain h4 {
+	margin: 0;
+	font-size: 15px;
+	display: block;
 	font-weight: 400;
 }
-#mediacontain .tip1 {
-	/* position: relative; */
-	/* margin-left: 2em; */
-	/* float: left; */
-        /* override the font-weight from multizooom.css */
-	padding: 9px 10px; 
-	width: 20em;
+#multizoomdescription {
+	font-size: 14px;
+	/* override the text-align from multizoom.css */ 
+	text-align: left;
+	/* added */
+	font-weight: normal;
+	positon: relative;
+	margin-top: 200px;
+}
+#multizoomdescription ul {
+	margin: 4px 0 0 0;
+	padding: 0;
+	list-style: none;
+	color: #555;
+}
+#multizoomdescription ul li {
+	margin: 0;
+	padding: 1px 0;
 }
 /* media_id holds the metadata for the related specimen record, 
  * it is placed below media_image.
  * css in the page is needed to place in the correct position. */ 
 #mediacontain .media_id {
-        width: 98%;
-        clear: both;
+	width: 98%;
+	clear: both;
 	float: left;
-	color: black;
 	margin: 1em 0 14px 0;
+	width: 400px;
 }
-#mediacontain .media_id h3 {
-	font-size: 1.23em;
-	margin-top: .1em;
-    margin-bottom: 0em;
-    color: BLACK;
-}
-#mediacontain .media_id  h4 {
-        width: 500px;
-	  display: block;
-  -webkit-margin-before: 0em;
-  -webkit-margin-after: 0em;
-  -webkit-margin-start: 0px;
-  -webkit-margin-end: 0px;
-	margin-bottom: 3px;
-	margin-top: 5px;
-	font-size: 15px;
-	font-weight: 400;
-}
-#mediacontain .media_id h4 span {
-	font-size: 15px;
-	font-weight: 600;
-}
-#mediacontain .media_id  p {
+#mediacontain .media_id {
 	font-size: .90em;
-	color: #555;
-	line-height: 17px;
 	padding: 0;
 	margin: 0;
+	width: 98%;
+}
+#mediacontain .media_id h3 {
+	display: block;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	margin: 4px 0 5px 0;
+	font-weight: 550;
+	font-size: 18px;
+}
+#mediacontain .media_id span {
+	font-size: 17px;
+	font-weight: 300;
+}
+#mediacontain .media_id h4 {
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	margin-top: 10px;
+	font-weight: 600;
+	font-size: 14px;
+	display: block;
+	clear: both;
+	width: 98%
+}
+#mediacontain .media_id p {
+	line-height: 18px;
+	font-size: 15px;
+}
+#mediacontain .media_id p.tclass {
+	margin-top: 6px;
+}
+#mediacontain .media_id p.tclass span.type {
+	font-size: 15px;
+	color: #444;
+	font-weight: 600;
+	text-shadow: 1px 1px 0 rgba(251, 239, 239, 1);
+	font-family: Georgia;
+}
+/* Override properties of .thumbs from multizoom.css and styles.css */
+#mediacontain .thumbs {
+	border: none;  /* override dotted border from styles.css */
+	width: 98%;    /* override fixed width from multizoom.css */
+	padding-top: 5px;  /** override padding from multizoom.css */
 }
 #mediacontain .media_thumbs {
 	font-size: 1em;
 	border: none;
 	float: left;
-	width: 100%;
-	padding-top: 2px;
+	width: 98%;
+	margin: 20px 0 30px 0;
+	height: 170px;
+	clear: both;
+}
+#mediacontain .media_thumbs h4{
+	display: block;
+    -webkit-margin-before: .9em;
+    -webkit-margin-after: 1.33em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+	margin-bottom: 3px;
+}
+#mediacontain .media_thumbs h4 a{
+
+	float: none;
+	display:inline;
 }
 #mediacontain .media_thumbs a {
 	display: inline;
-	width: 100px;
+	max-width: 100px;
 	padding-right: 8px;
 	float: left;
+	position: relative;
+	height: 190px;
+
 }
-#mediacontain .media_thumbs a span{
+
+#mediacontain .media_thumbs a span {
 	text-align: center;
 	font-size: 14px;
 	width: 100px;
 	float: left;
+	display: block;
+	clear: both;
 }
-#mediacontain .media_thumbs .tip2 {
-	width: 12em;
+#mediacontain .media_thumbs a img {
+	width: 100px;
+}
+
+p.tipbox {
 	border: 2px solid #900;  /* thick red border */
-	position: relative;  
-	vertical-align: top;
+	font-weight: normal;
+	color: #000;
+	font-size: 14px;
+	padding: 10px;
+	position: relative;
 	float: left;
-	/* padding: 9px 8px 9px 10px; */
-	padding: 9px 10px;
-	/* margin: 0 0 0 20px; */
 }
-#mediacontain p.tipbox { 
-	border: 2px solid #900;
+p.instruction1 {
+	width: 14.5em;
+	margin: 0 0 25px 27px;
+}
+p.instruction2 {
+	width: 11.25em;
+	margin: 0 0 0 20px;
+}
+.full {
+	margin-bottom: 9px;
+	clear: both;
+}
+.dkct {
+	color: #444;
+}
+#mediacontain .media_meta A:link,#mediacontain .media_id A:link,#mediacontain .media_thumbs h4 A:link, .tipbox a:link {
+	text-decoration: none;
+	border-bottom: 1px dotted #8da0c7;
+	color:#2029C1;
+	color: #114bc7;
+}
+#mediacontain .media_meta A:visited:hover, #mediacontain .media_id A:visited:hover,#mediacontain .media_thumbs h4 A:visited:hover, .tipbox a:hover {
+	text-decoration: none;
+	color: #CC0000;
+	border-bottom: 1px dotted #CC0000;
+}
+#mediacontain .media_meta A:visited, #mediacontain .media_id A:visited, #mediacontain .media_thumbs h4 A:visited, .tipbox a:visited {
+	text-decoration: none;
+	color: #660099;
+	border-bottom: 1px dotted #8d7699;
+}
+#mediacontain .media_meta A:hover, #mediacontain .media_id A:hover, #mediacontain .media_id h4 A:hover {
+	text-decoration: none;
+	color: #CC0000;
+}
+#mediacontain .media_meta A.novisit {
+	color: #444;
+}
+#mediacontain .media_thumbs .thumbs a,#mediacontain .media_thumbs .thumbs a:link,#mediacontain .media_thumbs .thumbs a:visited {text-decoration: none;}
+
+#mediacontain h3.img_ct {
+	  
+	display: block;
+    font-size: 1.17em;
+    -webkit-margin-before: .85em;
+    -webkit-margin-after: .75em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+
+}
+
+#mediacontain .media_head h3 A:link,  #mediacontain .media_head h3 A:visited {
+	border-bottom: 1px dotted #900;
+	color: #900;
+	text-decoration: none;
+}
+
+#mediacontain .media_head h3 A:hover {	border-bottom: 1px dotted #B1282A;
+	color: #B1282A;
+	text-decoration: none;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*@media (min-width:320px) { 
+#mediacontain {
+	border: 1px solid green;
+}
+#multizoomdescription, #mediacontain .media_meta {
+	width: 390px;
+	padding-right: 20px;
+	margin-left: 0;
+}
+.media_image {
+	margin: 0;
+}
+#mediacontain .media_thumbs a {
+	width: 100px;
+	min-height: 135px;
+}
+div.tipbox {
+	width: 150px;
+	float: left;
+	position: relative;
 	font-size: 13px;
-	font-weight: normal;  
-	color: BLACK;
+}
+.multizoom1 p.tip2 {
+	width: 10em;
+	font-size: 12px;
+	float: left;
+	margin: 0 0 0 0;
+	display: inline;
+}
+}
+
+@media (min-width:481px) { 
+#mediacontain {
+	border: 1px solid red;
+}
+#multizoomdescription, #mediacontain .media_meta {
+	width: 200px;
+	margin-left: 0;
+}
+div.tipbox {
+	border: 2px solid #900;
+	font-weight: normal;
+	color: #000;
+	font-size: 14px;
+	width: 14em;
+	float: left;
+	padding: 10px;
+	margin-top: 20px;
+}
+#mediacontain .media_meta {
+	margin-bottom: 20px;
+	float: left;
+	position: relative;
+	margin-left: 0px;
+}
+}
+@media (min-width:575px) {
+#headerImageCell .headerCollectionText {font-size: smaller;}	
+#mediacontain {
+	border: 1px solid #900;
+	padding-left: 1em;
+}
+#mediacontain .media_image {
+	margin-right: 0em;
+	width:550px;
+	padding-left: 24px;
+}
+#multizoomdescription, #mediacontain .media_meta {
+	width: 380px;
+	margin-left: 0;
+	padding-right: 10px;
+	margin-top: 20px;
+}
+div.tipbox {
+	width: 8em;
+	float: left;
+	position: relative;
+	margin-top: 20px;
+}
+
+#mediacontain .media_thumbs {
+	margin-left: 0;
+	width: 340px;
+	float: left;
+}
+p.tip2 {
+	float: right;
+	width: 9em;
+	margin-left:0;
+	display: inline;
+	margin-top: 8px;
+}
+	
+	}
+@media (min-width:641px) {
+
+#mediacontain {
+	border: 1px solid blue;
+}
+#mediacontain .media_image {
+	margin-right: 2em;
+}
+#multizoomdescription, #mediacontain .media_meta {
+	width: 300px;
+	margin-left: 0;
+	padding-right: 20px;
+	margin-top: 20px;
+}
+div.tipbox {
+	width: 14em;
+	float: left;
+	position: relative;
+	margin-top: 20px;
+}
+
+#mediacontain .media_thumbs {
+	margin-left: 0;
+	width: 340px;
+	float: left;
+}
+p.tip2 {
+	float: left;
+	width: 11em;
+	margin-left:0;
+	display: inline;
+	margin-top: 8px;
+}
+}
+
+@media (min-width:961px) {
+#mediacontain {
+	border: 1px solid black;
+}
+#multizoomdescription, #mediacontain .media_meta {
+	width: 300px;
+	margin-left: 0;
+	padding-right: 20px;
+	margin-top: 0px;
+}
+#mediacontain .media_image {
+	margin-right: 10px;
+}
+div.tipbox {
+	font-size: 14px;
+	width: 14.5em;
+	margin-top: 0;
+}
+#mediacontain .media_thumbs {
+	border: 1px solid red;
+	float: left;
+	width: 1000px;
+}
+#mediacontain p .tip2 {
+	width: 7em;
+	font-size: 14px;
+	float: left;
+	margin:0;
+	display:inline;
+	position:absolute;
+}
+}
+
+@media (min-width:1025px) {
+
+#multizoomdescription, #mediacontain .media_meta {
+}
+#mediacontain .media_image {
+	margin-right: 2em;
+}
+}
+
+@media (min-width:1281px) {
+
 }
