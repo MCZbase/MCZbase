@@ -26,7 +26,7 @@
 			/*
 			Likewise header image, constant in MCZbase for all collections, determined in Application.cfc
 			var headerImageCell = document.getElementById('headerImageCell');
-			headerImageCell.innerHTML='<a target="_top" href="#getCollApp.collection_url#"><img src="#getCollApp.header_image#" alt="Arctos" border="0"></a>';
+			headerImageCell.innerHTML='<a target="_top" href="#getCollApp.collection_url#"><img src="#getCollApp.header_image#" alt="MCZ Kronosaurus" border="0"></a>';
 			*/
 			var collectionCell = document.getElementById('collectionCell');
 			var contents = '<a target="_top" href="#getCollApp.collection_url#" class="novisit">';
