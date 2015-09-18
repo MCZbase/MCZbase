@@ -25,7 +25,6 @@
 	            speed:       0,
 	        });
 	        if (top.location!=document.location) {
-				$("#header_color").hide();
 				$("#_footerTable").hide();
 			}
 	    });
@@ -53,7 +52,7 @@
 			</div>
 		</cfif>
 		<!--- Note: For MCZbase, using Application.header_color and header_image instead of session to distinguish header based on server rather than collection. --->
-		<div id="header_color" style='background-color:#session.header_color#;'>
+		<div id="header_color" style='background-color:#Application.header_color#;'>
 			<table width="95%" cellpadding="0" cellspacing="0" border="0" id="headerContent">
 				<tr>
 					<td width="95" nowrap="nowrap" class="headerImageCell" id="headerImageCell">
@@ -65,7 +64,7 @@
 								<td align="left" nowrap="nowrap" id="collectionCell" class="collectionCell">
 									<a target="_top" href="#session.collection_url#" class="novisit">
 										<span class="headerCollectionText">
-												#session.collection_link_text#
+												#Application.collection_link_text#
 										</span>
 									</a>
 									<br>
