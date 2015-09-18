@@ -114,7 +114,7 @@
 			<cfif #thisName# is not "sex"><!--- already got it --->
 				<cfset basSelect = "#basSelect# ,
 							ConcatAttributeValue(#session.flatTableName#.collection_object_id,'#ctAtt.attribute_type#') 
-				#thisName#">
+				""#thisName#""">
 			</cfif>
 		</cfloop>
 		<cfset basSelect = "#basSelect# ,
@@ -239,7 +239,6 @@
 	---------------<--------------------->	
 	
 	<!-------------------------- / dlm debug -------------------------------------->
-	
 	
 	<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		#preserveSingleQuotes(SqlString)#
@@ -968,11 +967,11 @@ document.getElementById('saveme').submit();
 			onmouseover="this.className='linkButton btnhov'" 
 			onmouseout="this.className='linkButton'"
 			>
-			<cfif #cgi.HTTP_HOST# contains "harvard.edu">
+			<!---cfif #cgi.HTTP_HOST# contains "harvard.edu">
 				<img src="images/#institution_acronym#_icon.gif" border="0" alt="" width="18" height="18">	
 			<cfelse>
 				<img src="images/#institution_acronym#_icon.gif" border="0" alt="#institution_acronym#" width="18" height="18">		
-			</cfif>	 
+			</cfif--->	 
 			#institution_acronym#&nbsp;#collection_cde#&nbsp;#cat_num#
 								</div></a>
   	   

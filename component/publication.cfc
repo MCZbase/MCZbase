@@ -84,9 +84,9 @@
     <cfelseif a.recordcount is 2>
     <cfset as=a.agent_name[1] & ' and ' & a.agent_name[2]>
      <cfelseif a.recordcount is 3>
-    <cfset as=a.agent_name[1] & ' and ' & a.agent_name[2] & ', ' & a.agent_name[3]>
+    <cfset as=a.agent_name[1] & ', ' & a.agent_name[2] & ', and ' & a.agent_name[3]>
     <cfelseif a.recordcount is 4>
-    <cfset as=a.agent_name[1] & ' and ' & a.agent_name[2] & ', ' & a.agent_name[3] & ', ' & a.agent_name[4]>
+    <cfset as=a.agent_name[1] & ', ' & a.agent_name[2] & ', ' & a.agent_name[3] & ', and ' & a.agent_name[4]>
     <cfelse>
     <cfset as=valuelist(a.agent_name,", ")>
   </cfif>
@@ -171,7 +171,7 @@
     <cfset r=r & publication_title>
     <cfset r=r & ' <i>' & journal.pub_att_value & '</i>, '>
     <cfif len(series.pub_att_value) gt 0>
-      <cfset r=r & '. Series ' & series.pub_att_value & ','>
+      <cfset r=r & ' Series ' & series.pub_att_value & ','>
     </cfif>
     <cfif len(part.pub_att_value) gt 0>
     	<cfset r=r & ' Part ' & part.pub_att_value & ', '>
@@ -180,14 +180,14 @@
       <cfset r=r & ' ' & volume.pub_att_value>
     </cfif>
     <cfif len(number.pub_att_value) gt 0 and len(volume.pub_att_value) eq 0>
-    	<cfset r=r & ' no. ' & number.pub_att_value>
+    	<cfset r=r & ' ' & number.pub_att_value>
      <cfelseif len(number.pub_att_value) gt 0>
       <cfset r=r & '(' & number.pub_att_value & ')'>
       <cfelse>
        <cfset r=r & number.pub_att_value >
     </cfif>
      <cfif len(issue.pub_att_value) gt 0 and len(volume.pub_att_value) eq 0>
-    	<cfset r=r & ' no. ' & issue.pub_att_value>
+    	<cfset r=r & ' ' & issue.pub_att_value>
      <cfelseif len(issue.pub_att_value) gt 0>
       <cfset r=r & '(' & issue.pub_att_value & ')'>
       <cfelse>
@@ -195,7 +195,7 @@
     </cfif>
     
     <cfif begin.pub_att_value is not end.pub_att_value>
-      <cfset r=r & ':' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
+      <cfset r=r & ':' & 	begin.pub_att_value & '&ndash;' & end.pub_att_value & '. '>
     </cfif>
     <cfif begin.pub_att_value eq end.pub_att_value>
       <cfset r=r & ': ' & 	begin.pub_att_value &  '. '>
@@ -209,7 +209,6 @@
 <!--- Begin Journal Section--->      
        <cfelseif p.publication_type is "journal section">
     <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ', ' >
-   
     <cfif len(journalsection.pub_att_value) gt 0>
       <cfset r=r & ' <i>In</i> ' & es>
       <cfif e.recordcount gt 1>
@@ -220,7 +219,8 @@
         <cfset r=r & ''>
       </cfif>
       <cfset r=r &  journalsection.pub_att_value & '.' >
-      <cfset r=r &  ' <i>'& journal.pub_att_value & '</i>'>
+      <cfset r=r &  ' <i>'& journal.pub_att_value & ',</i>'>
+      
         <cfif len(series.pub_att_value) gt 0>
         <cfset r=r & ' Series ' & series.pub_att_value & ','>
       </cfif>
@@ -241,11 +241,10 @@
       <cfelse>
        <cfset r=r &  issue.pub_att_value>
     </cfif>
-     
-        <cfif len(supplement.pub_att_value) gt 0>
+     <cfif len(supplement.pub_att_value) gt 0>
       <cfset r=r & ' Supplement ' & supplement.pub_att_value>
     </cfif>
-      <cfset r=r & ': ' & 	begin.pub_att_value & '-' & end.pub_att_value & ''>
+      <cfset r=r & ':' & 	begin.pub_att_value & '-' & end.pub_att_value & ''>
 <!---    <cfif len(pagetotal.pub_att_value) gt 0>
      <cfset r=r &  ' ' & pagetotal.pub_att_value>
      </cfif>--->
@@ -274,7 +273,7 @@
  	 <cfif len(number.pub_att_value) gt 0 & len(volume.pub_att_value) lt 0>
     	<cfset r=r & ' No. ' & number.pub_att_value & '.'>
      <cfelseif len(number.pub_att_value) gt 0 and len(volume.pub_att_value) gt 0>
-      <cfset r=r & '(' & number.pub_att_value & ').'>
+      <cfset r=r & '(' & number.pub_att_value & ')'>
       <cfelse>
        <cfset r=r & number.pub_att_value >
     </cfif>
@@ -286,7 +285,7 @@
        <cfset r=r &  issue.pub_att_value>
     </cfif>
   
-     <cfset r=r & ': ' & 	begin.pub_att_value & '-' & end.pub_att_value & ''>
+     <cfset r=r & ': ' & 	begin.pub_att_value & '-' & end.pub_att_value & '.'>
 
       <!--- End Newsletter---> 
    
