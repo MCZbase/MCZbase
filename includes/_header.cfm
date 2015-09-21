@@ -62,10 +62,12 @@
 						<table>
 							<tr>
 								<td align="left" nowrap="nowrap" id="collectionCell" class="collectionCell">
-									<a target="_top" href="#session.collection_url#" class="novisit">
+									<a target="_top" href="#session.collection_url#" class="novisit" >
+                                                                            <span style="color: #Application.collectionlinkcolor#;" >
 										<span class="headerCollectionText">
 												#Application.collection_link_text#
 										</span>
+									    </span>
 									</a>
 									<br>
 									<a target="_top" href="#session.institution_url#" class="novisit">
