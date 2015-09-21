@@ -69,7 +69,7 @@
 									</a>
 									<br>
 									<a target="_top" href="#session.institution_url#" class="novisit">
-										<span class="headerInstitutionText">
+										<span class="headerInstitutionText" style="color: #Application.institutionlinkcolor#;">
 											#session.institution_link_text#
 										</span>
 									</a>
