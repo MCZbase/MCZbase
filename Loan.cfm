@@ -460,6 +460,9 @@
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
+                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
+                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
+                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
                           <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
                           <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
             <cfelse>
