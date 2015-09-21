@@ -230,7 +230,7 @@
 			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
 		<cfelseif serverName contains "harvard.edu">
 		    <cfif serverName contains "-test">
-			    <cfset Application.header_color = "##E1E815" />
+			    <cfset Application.header_color = "##ADE1EA" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>

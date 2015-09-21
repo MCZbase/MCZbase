@@ -532,7 +532,8 @@
 	<cfoutput>
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
-			The Basics:
+			<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+						The Basics:	
 			<input type="hidden" name="action" value="createPub">
 			<table>
 				<tr>
@@ -566,7 +567,7 @@
 				<option value="0">no</option>
 			</select>			
 			<label for="published_year">Published Year</label>
-			<input type="text" name="published_year" id="published_year">
+			<input type="text" name="published_year" id="published_year" class="reqdClr">
 			<label for="publication_loc">Storage Location</label>
 			<input type="text" name="publication_loc" id="publication_loc" size="80">
 			<label for="publication_remarks">Remark</label>
@@ -601,7 +602,7 @@
 			<input type="hidden" name="numberAttributes" id="numberAttributes" value="0">
 			Add: <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)">
 				<option value=""></option>
-				<cfloop query="ctpublication_attribute">
+				<cfloop query="CTPUBLICATION_ATTRIBUTE">
 					<option value="#publication_attribute#">#publication_attribute#</option>
 				</cfloop>
 			</select>

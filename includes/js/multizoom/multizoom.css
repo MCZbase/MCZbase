@@ -7,13 +7,13 @@
 }
 
 .targetarea { /* CSS for container div(s) of the zoomable image */
-	width: 325px; /* wide or wider than the widest zoomable image */
-	height: 338px; /* high or higher than the tallest zoomable image */
-	margin-top:3px;
+	width: 500px; /* wide or wider than the widest zoomable image */
+	height: auto; /* high or higher than the tallest zoomable image */
+	margin-top:inherit;
 }
 
 #two { /* Added CSS for second target div of zoomable images */
-	height: 243px; /* high or higher than the tallest zoomable image */
+	height: 600px; /* high or higher than the tallest zoomable image */
 }
 
 .targetarea img { /* zoomable image */
@@ -25,7 +25,7 @@
 
 .thumbs { /* divs holding the trigger links - styles optional, used here to center their links below their respective zoomable image */
 	padding-top: 25px;
-	width: 325px;
+	width: 500px;
 	text-align: center;
 }
 
@@ -43,10 +43,10 @@
 */
 #multizoomdescription, #multizoomdescription2 {
 	position: absolute; /* required for description folows image bottom (descpos: true) */
-	width: 325px; /* should be width of zoomable image container (.targetarea) */
+	width: 500px; /* should be width of zoomable image container (.targetarea) */
 	text-align: center;
-	font: bold 95% sans-serif;
-	margin-top: 3px; /* when following image bottom, this sets a fixed distance for that */
+	font: normal 95% Arial,sans-serif;
+	margin-top: 0; /* when following image bottom, this sets a fixed distance for that */
 	color: #222;
-	background-color: #fff;
+	/*background-color: #fff;*/
 }

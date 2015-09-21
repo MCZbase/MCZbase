@@ -14,21 +14,20 @@
 		<cfset setDbUser()>
 	</cfif>
 	<script language="javascript" type="text/javascript">
-		jQuery(document).ready(function(){
-	        jQuery("ul.sf-menu").supersubs({
-	            minWidth:    12,
-	            maxWidth:    27,
-	            extraWidth:  1
-	        }).superfish({
-	            delay:       600,
-	            animation:   {opacity:'show',height:'show'},
-	            speed:       0,
-	        });
-	        if (top.location!=document.location) {
-				$("#header_color").hide();
-				$("#_footerTable").hide();
-			}
-	    });
+           jQuery(document).ready(function(){
+                jQuery("ul.sf-menu").supersubs({
+                    minWidth:    12,
+                    maxWidth:    27,
+                    extraWidth:  1
+                }).superfish({
+                    delay:       600,
+                    animation:   {opacity:'show',height:'show'},
+                    speed:       0,
+                });
+                if (top.location!=document.location) {
+                                $("#_footerTable").hide();
+                }
+            });
 	</script>
 	<cfoutput>
 		<meta name="keywords" content="#session.meta_keywords#">
@@ -53,11 +52,11 @@
 			</div>
 		</cfif>
 		<!--- Note: For MCZbase, using Application.header_color and header_image instead of session to distinguish header based on server rather than collection. --->
-		<div id="header_color" style='background-color:#session.header_color#;'>
+		<div id="header_color" style='background-color: #Application.header_color#;'>
 			<table width="95%" cellpadding="0" cellspacing="0" border="0" id="headerContent">
 				<tr>
 					<td width="95" nowrap="nowrap" class="headerImageCell" id="headerImageCell">
-						<a target="_top" href="#session.collection_url#"><img src="#Application.header_image#" alt="MCZ Kronosaurus Logo" border="0"></a>
+						<a target="_top" href="#session.collection_url#"><img src="#Application.header_image#" alt="MCZ Kronosaurus Logo" border="0" width="220"></a>
 					</td>
 					<td align="left">
 						<table>
@@ -65,7 +64,7 @@
 								<td align="left" nowrap="nowrap" id="collectionCell" class="collectionCell">
 									<a target="_top" href="#session.collection_url#" class="novisit">
 										<span class="headerCollectionText">
-												#session.collection_link_text#
+												#Application.collection_link_text#
 										</span>
 									</a>
 									<br>
@@ -82,12 +81,14 @@
 										#session.header_credit#
 									</span>
 								</td>
+
 							</tr>
+
 						</table>
+
 					</td>
-				</tr>
-			</table>
-			<div id="headerLinks" style="float:right;position:absolute;top:5px;right:5px;clear:both;">
+                    <td>
+                    <div id="headerLinks" class="linksHead">
 		    	<cfif len(#session.username#) gt 0>
 					<a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a>
 					<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
@@ -100,11 +101,11 @@
 						</span>
 					</cfif>
 				<cfelse>
-					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-					<cfelse>
-						<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-					</cfif>
+                                        <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+                                                <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+                                        <cfelse>
+                                                <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+                                        </cfif>
 					<form name="logIn" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signIn">
 						<input type="hidden" name="gotopage" value="#gtp#">
@@ -113,19 +114,19 @@
 								<td rowspan="2" valign="top">
 									<a target="_top" href="##" onClick="getDocs('index')">Help</a> ~&nbsp;
 								</td>
-								<td>
+								<td style="padding-right: 4px;">
 									<input type="text" name="username" title="Username" value="Username" size="12"
 										class="loginTxt" onfocus="if(this.value==this.title){this.value=''};">
 								</td>
-								<td>
-									<input type="password" name="password"title="Password"  size="12" class="loginTxt">
+								<td><span style="font-size: 10px;">Password:</span>
+									<input type="password" name="password" title="Password" size="12" class="loginTxt">
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2" align="center">
-									<div class="loginTxt" style="padding-top:3px;">
+								<td colspan="2" align="right">
+									<div class="loginTxt" style="padding-top:5px;">
 										<input type="submit" value="Log In" class="smallBtn">
-										or
+										<span style="padding: 0 6px;">or</span>
 										<input type="button" value="Create Account" class="smallBtn"
 											onClick="logIn.action.value='newUser';submit();">
 									</div>
@@ -134,7 +135,10 @@
 						</table>
 					</form>
 				</cfif>
-			</div>
+			</div></td>
+				</tr>
+			</table>
+
 			<!---
 			<div style="border:2px solid red; text-align:center;margin:2px;padding:2px;background-color:white;font-weight:bold;">
 				We're upgrading! Things may be a little goofy until Monday, February 16.

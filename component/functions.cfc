@@ -662,7 +662,7 @@
 					RELATIONSHIP='cloned from record',
 					RELATED_TO_NUMBER= (
 										select
-											collection.institution_acronym || ':' || collection.collection_cde || ':' || cat_num
+											collection.institution_acronym || ' ' || collection.collection_cde || ' ' || cat_num
 										from
 											cataloged_item,collection
 										where cataloged_item.collection_id=collection.collection_id and
@@ -744,7 +744,7 @@
 			</cfif>
 			<cfif listlen(cl) is 1>
 				<cfquery name="return" dbtype="query">
-					select #cl# as v from ctval order by #cl#
+					select #cl# as V from ctval order by #cl#
 				</cfquery>
 				<cfreturn return>
 			<cfelse>

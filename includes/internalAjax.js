@@ -42,6 +42,17 @@ function subscript(e){
 		textarea.value =  textarea.value.substring(0,start) + replace + textarea.value.substring(end,len);
 	} 
 }
+function getMCZDocs(url,anc) {
+	var url;
+	var anc;
+	var baseUrl = "https://code.mcz.harvard.edu/wiki/index.php/";
+	var extension = "";
+	var fullURL = baseUrl + url + extension;
+		if (anc != null) {
+			fullURL += "#" + anc;
+		}
+	siteHelpWin=windowOpener(fullURL,"HelpWin","width=700,height=400, resizable,scrollbars,location,toolbar");
+}
 function saveNewPartAtt () {
 	jQuery.getJSON("/component/functions.cfc",
 	{
@@ -70,21 +81,21 @@ function setPartAttOptions(id,patype,collectionCDE) {
 			collectionCDE	:collectionCDE
 		},
 		function (data) {
-			var cType=data.TYPE;
+			var cType=data.type;
 			var valElem='attribute_value_' + id;
 			var unitElem='attribute_units_' + id;
-			if (data.TYPE=='unit') {
+			if (data.type=='unit') {
 				var d='<input type="text" name="' + valElem + '" id="' + valElem + '">';
 				$('#v_' + id).html(d);
-				var theVals=data.VALUES.split('|');
+				var theVals=data.values.split('|');
 				var d='<select name="' + unitElem + '" id="' + unitElem + '">';
 	  			for (a=0; a<theVals.length; ++a) {
 					d+='<option value="' + theVals[a] + '">'+ theVals[a] +'</option>';
 				}
 	  			d+="</select>";
 	  			$('#u_' + id).html(d);
-			} else if (data.TYPE=='value') {
-				var theVals=data.VALUES.split('|');
+			} else if (data.type=='value') {
+				var theVals=data.values.split('|');
 				var d='<select name="' + valElem + '" id="' + valElem + '">';
 	  			for (a=0; a<theVals.length; ++a) {
 					d+='<option value="' + theVals[a] + '">'+ theVals[a] +'</option>';
@@ -560,11 +571,11 @@ function removeLastAttribute() {
 	document.getElementById('numberAttributes').value=thisID;
 	jQuery('#attTab tr:last').remove();
 }
-function addAttribute(v){
+function addAttribute(V){
 	jQuery.getJSON("/component/functions.cfc",
 		{
 			method : "getPubAttributes",
-			attribute : v,
+			attribute : V,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -575,9 +586,9 @@ function addAttribute(v){
 			}
 			var lastID=lid.replace('attRow','');
 			var thisID=parseInt(lastID) + 1;
-			var newRow='<tr id="attRow' + thisID + '"><td>' + v;
+			var newRow='<tr id="attRow' + thisID + '"><td>' + V;
 			newRow+='<input type="hidden" name="attribute_type' + thisID + '"';
-			newRow+=' id="attribute_type' + thisID + '" class="reqdClr" value="' + v + '"></td><td>';
+			newRow+=' id="attribute_type' + thisID + '" class="reqdClr" value="' + V + '"></td><td>';
 			if(d.length>0 && d.substring(0,4)=='fail'){
 				alert(d);
 				return false;
@@ -615,8 +626,20 @@ function setDefaultPub(t){
     	setTimeout( "addAttribute('book')", 1500);
     	setTimeout( "addAttribute('publisher');", 2000);	
     	
+	} else if (t=='journal section'){
+    	addAttribute('begin page');
+		setTimeout( "addAttribute('end page')", 1000);
+    	setTimeout( "addAttribute('book')", 1500);
+    	setTimeout( "addAttribute('journal section');", 2000);
+		setTimeout( "addAttribute('volume');", 2200);	
+		setTimeout( "addAttribute('issue');", 2500);
+    	setTimeout( "addAttribute('journal name');", 2800);	
+    	
 	}
+	
 }
+
+
 function deleteAgent(r){
 	jQuery('#author_id_' + r).val("-1");	
 	jQuery('#authortr' + r + ' td:nth-child(1)').addClass('red').text(jQuery('#author_role_' + r).val());

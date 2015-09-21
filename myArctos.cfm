@@ -292,23 +292,36 @@
 	</form>
 
     </div>
-	<div id="divRss" style="width: 48%; float: left;"></div>
+	<div id="divRss"></div>
 	<script>
 		$( document ).ready(function(){
 
             jQuery.getFeed({
+				
                url: 'https://code.mcz.harvard.edu/feed/',
                success: function(feed) {
-                 jQuery('##divRss').empty().append('<h2><a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&days=30">' + feed.title + '</a></h2>');
-                  var html = '';
+				var header = feed.title;
+				header = header.replace("[en]", "");
+				
+                 jQuery('##divRss').empty();
+                 var html ='<div class="shell"><h2><a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30">' + header + '</a></h2>';
+			
                   for(var i = 0; i < feed.items.length && i < 5; i++) {
+					  
                       var item = feed.items[i];
-                      html += '<h3><a href="' + item.link + '">' + item.title + '</a> ';
-                      html += '<span class="updated">' + item.updated + ' ' + item.author + '</span></h3>';
-                      html += '<div>' + item.description + '</div>';
-                  }
+					  item.updated = new Date(item.updated);
+					  
+                      html += '<div class="feedAtom">';
+					  html += '<div class="updatedAtom" style="position: absolute; z-index: 1000;"><p>' + item.updated.toDateString() + '</p></div>';
+					  html += '<div class="authorAtom">by ' + item.author + '</div>';
+					  html += '<h3><a href="' + item.link + '">' + item.title + '</a></h3>';
+                      html += '<div class="descriptionAtom">' + item.description +'</div>';
+					  html += '</div>';
+                  } 
+				  html += '</div>';
                   jQuery('##divRss').append(html);
                }
+			   
             });
 
 	    });
@@ -316,6 +329,8 @@
 
 </cfoutput>
 </cfif>
+
+
 <!----------------------------------------------------------------------------------------------->
 <cfif action is "saveSettings">
 	<cfquery name="isUser" datasource="cf_dbuser">

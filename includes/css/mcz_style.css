@@ -1,10 +1,7 @@
 /*\/\/\/\/\*/
-/*CSS STYLES -- MCZ on Production Server*/
+/*CSS STYLES -- MCZ on All Servers */
 /*\/\/\/\/\*/
 
-/*
-jquery suggest stuff
-*/
 .ac_results {
 	border: 1px solid gray;
 	background-color: white;
@@ -30,14 +27,18 @@ jquery suggest stuff
 	text-decoration: underline;
 	color: black;
 }
-/*
-/jquery suggest stuff
-*/
-
-/*
-	header login
-*/
-
+div.secDiv input {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+}
+select {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+}
 .smallBtn {
 	color: #666666;
 	font-size: .9em;
@@ -45,18 +46,10 @@ jquery suggest stuff
 	background-color: #99CCFF;
 	border: 1px solid #336666;
 }
-/* Below should be moved to _DEstyle.css */
 span#theNewButton input.insBtn {
 	padding: 3px 4px 1px 4px;
 	font-size: 12px;
 }
-table.bottom_band {
-	margin: 2px;
-	margin-top: -2px;
-	padding: 5px 5px 0 5px;
-	background-color: #339999;
-}
-/* Above should be moved to _DEstyle.css */
 .smallBtn:hover {
 	color: red;
 	cursor: pointer;
@@ -64,19 +57,10 @@ table.bottom_band {
 .loginTxt {
 	font-size: .7em;
 }
-/*
-	/header login
-*/
-
-/*
-	SpecimenSearch stuff 
-*/
-
 .helpLink {
 	cursor: pointer;
-	color: blue;
-	color: #114bc7;
 	text-align: right;
+	color: #114bc7;
 }
 .helpLink:hover {
 	color: #CC0000;
@@ -124,11 +108,29 @@ table.bottom_band {
 	top: 5%;
 	left: 5%;
 	background-color: white;
-	max-width: 60em;
+	max-width: 80em;
+}
+.secDiv {
+	border: 1px solid green;
+	width: 50em;
+	margin-left: 1em;
+}
+div.secDiv {
+	margin-top: 0;
+	padding-top: 0;
+	padding-bottom: 3px;
+	width: 900px;
+}
+td.checkboxS {
+	padding-left: 0;
+	padding-bottom: 7px;
+}
+.tenSearch {
+	font-size: 14px;
 }
 .secHead {
 	background-color: lightgrey;
-	background-color: #D5D5DB;
+	padding: 1px 5px;
 }
 .secLabel {
 	float: left;
@@ -139,17 +141,16 @@ table.bottom_band {
 	padding-right: 1em;
 	cursor: pointer;
 	color: #2B547E;
-	font-size: .65em;
-	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
 }
 .secControl:hover {
 	color: #FF0000;
 	text-decoration: underline;
 }
-.secDiv {
-	border: 1px solid green;
-	width: 50em;
-	margin-left: 1em;
+.gmaps {
+	width: 260px;
+	font-size: 13px;
 }
 table.ssrch {
 	width: 100%;
@@ -159,20 +160,15 @@ td.lbl {
 	text-align: right;
 	padding-right: 5px;
 }
-/*
-	/SpecimenDetail stuff 
-*/
-
 .detailBlock {
 }
 .innerDetailLabel {
-	/*font-weight:bold;*/
 	color: #000000;
 	font-weight: normal;
 }
-.detailData {
-	margin-left: -10px;/*font-weight:bold;*/
-}
+/*.detailData {
+	margin-left: -10px;
+}*/
 .detailCellSmall {
 	font-size: .6em;
 	font-weight: normal;
@@ -186,11 +182,8 @@ td.lbl {
 	margin: 1px 6px 12px 2px;
 }
 .detailLabel {
-	/*border:1px solid gray;*/
 	margin: 1px 0px 1px -11px;
 	position: relative;
-	/*background-color:#FFF7D7;*/
-	/*font-weight:bold;*/
 	color: #6a6a6a;
 	font-size: 1em;
 }
@@ -198,7 +191,6 @@ td.lbl {
 	float: right;
 	right: 2px;
 	top: 0px;
-	;
 	position: absolute;
 	cursor: pointer;
 	color: #2B547E;
@@ -223,9 +215,6 @@ td#SDCellRight {
 .detailElements {
 	font-size: 1em;
 }
-/* End SpecimenDetail */
-	
-	
 .sessionTimer {
 	background-color: green;
 	color: white;
@@ -244,25 +233,6 @@ td#SDCellRight {
 	top: 2em;
 	right: 0px;
 }
-.headerInstitutionText {
-	font-family: Arial, Helvetica, sans-serif;
-	color: #bfbfbf;
-	font-weight: bold;
-}
-.headerCollectionText {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 24px;
-	color: #94131C;
-	text-decoration: none;
-}
-table #headerContent table a.novisit span.headerCollectionText {
-	text-decoration: none;
-}
-.headerCollectionTextSmall {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 19px;
-	color: #94131C;
-}
 .annotateSpace, .annotateSpace a:visited .annotateSpace a {
 	font-size: .75em;
 	font-weight: bold;
@@ -270,7 +240,6 @@ table #headerContent table a.novisit span.headerCollectionText {
 	float: right;
 	cursor: pointer;
 	font-family: Arial, Helvetica, sans-serif;
-}
 }
 .annotateSpace:hover {
 	color: #FF0000;
@@ -317,43 +286,24 @@ table.specResultTab {
 	border-style: outset outset outset outset;
 	border-color: gray gray gray gray;
 	border-collapse: collapse;
+	background-color: white;
 }
 table.specResultTab th {
 	border-width: 1px 1px 1px 1px;
-	padding: 0px 1px 0px 1px;
 	border-style: solid solid solid solid;
-	border-color: gray gray gray gray;
+	border-color: gray;
 	-moz-border-radius: 0px 0px 0px 0px;
-	background: #f5f5f5;
-	color: gray;
+	color: white;
+	font-weight: 600;
+	background: #2176cc;
 	line-height: 14px;
 	padding: 4px;
 }
-table.specResultTab td {
-	border-width: 1px 1px 1px 1px;
-	padding: 0px 1px 0px 1px;
-	border-style: solid solid solid solid;
-	border-color: gray gray gray gray;
-	-moz-border-radius: 0px 0px 0px 0px;
-	padding: 4px;
-}
-tr.evenRow, td.evenRow {
-	/*makes even row of SearchResults light gray*/
-	background-color: #ffffff;
-}
-tr.oddRow, td.oddRow {
-	/*makes odd row of SearchResults white*/
-	background-color: #f5f5f5;
-}
-div.topBlock {
-	border: 2px solid #0066cc;
-	margin-top: 10px;
-	padding: 0px 0px 2px 2px;
-	background-color: #7faad4;
-	background-color: white;
+table.specResultTab td:nth-child(3) {
+	font-style: italic
 }
 .wrapLong {
-	font-size: smaller;
+	font-size: small;
 	width: 250px;
 }
 div.code {
@@ -373,10 +323,9 @@ redCheck {
 	border: 5px solid red;
 }
 .infoLink, .infoLink a:visited {
-	/* NOTE: do NOT use ems here */
 	cursor: pointer;
 	color: #2B547E;
-	font-size: .65em;
+	font-size: smaller;
 	font-family: Arial, Helvetica, sans-serif;
 }
 .infoLink:hover {
@@ -483,7 +432,7 @@ div.fldDef {
 	z-index: 1;
 }
 a.info {
-	position: relative; /*this is the key*/
+	position: relative;
 	z-index: 24;
 	color: #000;
 	text-decoration: none;
@@ -496,7 +445,7 @@ a.info:hover {
 a.info span {
 	display: none
 }
-a.info:hover span { /*the span will display just on :hover state*/
+a.info:hover span {
 	display: block;
 	position: absolute;
 	top: 2em;
@@ -508,34 +457,12 @@ a.info:hover span { /*the span will display just on :hover state*/
 	text-decoration: none;
 }
 span.helpLink {
-	/* white span around the help, login, map links */
-	background-color: #FFFFFF;
-	padding: 2px;/*margin-left: 4px;	*/
+	background-color: transparent;
+	padding: 2px;
 }
 div.breadcrumbs {
 	font-size: .6em;
 	font-weight: bold;
-}
-A:link {
-	text-decoration: none;
-	color: blue;
-	color: #114bc7;
-}
-A:visited:hover {
-	/*text-decoration: underline;*/
-	color: #CC0000;
-}
-A:visited {
-	text-decoration: none;
-	color: #660099;
-}
-A:hover {
-	/*text-decoration: underline;*/
-	color: #CC0000;
-}
-A.novisit {
-	color: blue;
-	color: #114bc7;
 }
 h1 {
 	font-size: 2em;
@@ -579,7 +506,6 @@ label {
 	display: block;
 	font-size: 12px;
 	font-weight: 800;
-	margin-top: 3px;
 }
 fieldset {
 	padding: 0;
@@ -601,7 +527,6 @@ div.infoBox {
 .likeLink {
 	cursor: pointer;
 	color: blue;
-	color: #114bc7;
 }
 .likeLink:hover {
 	text-decoration: underline;
@@ -610,7 +535,6 @@ div.infoBox {
 span.helpPopupLink {
 	cursor: pointer;
 	color: blue;
-	color: #114bc7;
 }
 span.helpPopupLink:hover {
 	color: red;
@@ -644,12 +568,13 @@ div.group {
 .controlButton {
 	color: #666666;
 	font-size: 10pt;
-	font-weight: bold;
+	font-weight: 500;
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: #99CCFF;
+	background-color: #add6ff;
 	border-color: #336666;
 	border: 1px solid;
-	padding: 2px;
+	padding: 2px 3px;
 	text-align: center;
 	cursor: hand;
 	text-decoration: none;
@@ -692,9 +617,26 @@ div.HalfAButton {
 	text-indent: 10px;
 	float: left;
 }
-/*body {
-	font-family:arial,sans-serif;
-	background-color:#FFFFFF;}*/
+A:link {
+	text-decoration: none;
+	color: #3e5aa8;
+	color: #114bc7;
+}
+A:visited:hover {
+	text-decoration: none;
+	color: #CC0000;
+}
+A:visited {
+	text-decoration: none;
+	color: #660099;
+}
+A:hover {
+	text-decoration: none;
+	color: #CC0000;
+}
+A.novisit {
+	color: blue;
+}
 div.pagewidth {
 	margin-left: 5%;
 	margin-right: 5%;
@@ -713,8 +655,12 @@ div.rightHome {
 	border-style: solid;
 	border-width: 2px;
 }
-
-
+tr.evenRow, td.evenRow {
+	background-color: #FFFFFF;
+}
+tr.oddRow, td.oddRow {
+	background-color: #F5F5F5;
+}
 .newRec {
 	background-color: #D6F5F2;
 }
@@ -731,7 +677,6 @@ input.savBtn {
 	background-color: #FBD29B;
 	border: 1px solid;
 	border-color: #336666;
-	padding: 1px 4px;
 }
 input.lnkBtn {
 	color: #666666;
@@ -741,7 +686,7 @@ input.lnkBtn {
 	background-color: #99CCFF;
 	border-color: #336666;
 	border: 1px solid;
-	padding: 1px 4px;
+	padding: 0px 4px;
 }
 input.schBtn {
 	color: #666666;
@@ -766,7 +711,6 @@ input.insBtn {
 	font-weight: bold;
 	background-color: #99CCCC;
 	border: 1px solid #336666;
-	padding: 1px 4px;
 }
 input.insBtn:hover {
 	border-top-color: #FF6633;
@@ -799,7 +743,6 @@ input.delBtn {
 	background-color: #FF9966;
 	border-color: #336666;
 	border: 1px solid;
-	padding: 1px 4px;
 }
 input.qutBtn {
 	color: #666666;
@@ -811,6 +754,7 @@ input.qutBtn {
 	border: 1px solid;
 }
 input.reqdClr, select.reqdClr, textarea.reqdClr {
+	background-color: #FFFF33;
 	background-color: #E4E476;
 }
 input.badPick, select.badPick, textarea.badPick {
@@ -825,12 +769,6 @@ input.seleClr, select.seleClr, textarea.seleClr {
 input.readClr, select.readClr {
 	background-color: #CCCCCC;
 }
-select#collection_id {
-	width: 190px;
-}
-select#collector_role_1.reqdClr {
-	width: 80px;
-}
 .btnhov {
 	border-top-color: #FF6633;
 	border-left-color: #FF6633;
@@ -843,7 +781,6 @@ pre {
 }
 #tabmenu {
 	color: blue;
-	color: #114bc7;
 	border-bottom: 2px solid black;
 	margin: 12px 0px 0px 0px;
 	padding: 0px;
@@ -859,7 +796,6 @@ pre {
 }
 #tabmenu a, a.active {
 	color: blue;
-	color: #114bc7;
 	background-color: #E7E7E7;
 	border-right: 1px solid black;
 	text-decoration: none;
@@ -931,6 +867,206 @@ a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0" url(/images/linkOutHover.gif);
 }
-.browserCheck {
-	height: 1em;
+#header_color {
+	/*      background-color: #e7e7e7;   */
+	margin: 0;
+	margin-top: .5em;
+	width: 100%;
 }
+.headerImageCell {
+	padding: 5px 0 5px 10px;
+}
+.headerInstitutionText {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #bfbfbf;
+	color: #eff5fa;
+	color: #000066;
+	font-weight: bold;
+	margin-left: 1px;
+}
+.headerCollectionText {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	color: #94131C;
+}
+a:hover.headerCollectionText {
+	text-decoration: none;
+}
+.headerCollectionTextSmall {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 19px;
+	color: #94131C;
+}
+.observations_included {
+	margin-left: 2em;
+	margin-bottom: .85em;
+}
+.access_l {
+	margin-left: 1em;
+}
+li.last {
+	border-right: 1px solid white;
+	padding-right: 10px;
+}
+#headerLinks {
+	top: 16px;
+	right: 22px;
+	z-index: 1;/* float:right;position:absolute;right:5px;clear:both; */
+}
+#divContainer {
+	width: 500px;
+	padding: 2px 4px;
+	font-size: 10px;
+}
+table.bottom_band {
+	margin: 2px;
+	margin-top: -2px;
+	padding: 5px 5px 0 5px;
+	background-color: #339999;
+}
+.recordcount {
+	height: 16px;
+	margin-left: 800px;
+	margin-top: -58px;
+	padding-bottom: 58px;
+	color: #fff;
+	font-size: 13px;
+	position: absolute;
+	width: 180px;
+}
+.gCount {
+	color: #fff;
+	font-size: 15px;
+	font-family: "Courier New", Courier, monospace
+}
+.pubs_style {
+	font-size: 11.2px;
+	width: 670px;
+	float: left;
+	position: relative;
+	margin-top: 3px;
+}
+.pubS {
+	float: left;
+	position: relative;
+	width: 130px;
+}
+div.topBlock {
+	border: 2px solid #0066cc;
+	margin-top: 10px;
+	padding: 0px 0px 2px 2px;
+	background-color: #7faad4;
+	background-color: white;
+}
+.topsearch {
+	margin: 15px 0 12px 20px;
+}
+.searchsection {
+	display: none;
+	border: 1px solid green;
+	padding: .5em;
+}
+.leftspace {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.barofpromise {
+	position: absolute;
+	top: 15%;
+	right: 50%;
+	z-index: 999;
+	background-color: green;
+	color: white;
+	font-size: large;
+	font-weight: normal;
+	padding: 15px;
+	z-index: -100;
+}
+.linksHead {
+	float: right;
+	position: absolute;
+	right: 5px;
+	clear: both;
+}
+.shell {
+	background-color: #E6ebe0;
+	-webkit-box-shadow: 15px 15px 39px -14px rgba(102,102,102,1);
+	-moz-box-shadow: 15px 15px 39px -14px rgba(102,102,102,1);
+	box-shadow: 15px 15px 39px -14px rgba(102,102,102,1);
+	padding: 1em;
+	margin: 1em;
+	width: 500px;
+	float: left;
+	position: relative;
+	font-family: Arial, sans-serif;
+}
+.shell h2 {
+	color: #968768;
+	text-transform: capitalize;
+	position: relative;
+	font-size: 20px;
+	font-weight: bold;
+	padding: 0 1em 0 0;
+	width: 450px;
+	text-indent: -25px;
+	margin-left: 50px;
+}
+.shell h2 a {
+	color: #968768;
+}
+.shell h2 a:hover {
+	color: #666666;
+}
+.feedAtom {
+	background-color: #f4f1bb;
+	border: 1px solid #ed6a5a;
+	position: relative;
+	margin: 1.5em;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+}
+.feedAtom a {
+	color: #5ca4a9;
+}
+.feedAtom a:hover {
+	color: #456F7A;
+}
+.feedAtom h3 {
+	padding-left: 6.7em;
+}
+
+.updatedAtom {
+	position: absolute;
+	font-family:Arial, sans-serif;
+	z-index: 500;
+	margin-left: -10px;
+	margin-top: -5px;
+	background-color: #ffffff;
+	color: #118ac8;
+	font-size: 12px;
+	border: 1px solid #ecf5f7;
+	width: auto;
+	height: 30px;
+	text-align: center;
+	background: #ffffff;
+	-moz-border-radius: 26px;
+	-webkit-border-radius: 26px;
+	border-radius: 26px;
+	-webkit-box-shadow: 10px 10px 29px -14px rgba(102,102,102,1);
+	-moz-box-shadow: 10px 10px 29px -14px rgba(102,102,102,1);
+	box-shadow: 10px 10px 29px -14px rgba(102,102,102,1);
+}
+div.updatedAtom p {
+	margin: 8px 10px;
+}
+.authorAtom {
+	position: absolute;
+	margin-left: 10px;
+	margin-top: 35px;
+	z-index: 1000;
+	font-size: 13px;
+	color: #666;
+	width: 8em;
+	float: left;
+}
+
+
