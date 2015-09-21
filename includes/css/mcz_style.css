@@ -887,7 +887,6 @@ a.external:hover:visited:after {
 .headerCollectionText {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 24px;
-	color: #94131C;
 }
 a:hover.headerCollectionText {
 	text-decoration: none;
@@ -895,7 +894,6 @@ a:hover.headerCollectionText {
 .headerCollectionTextSmall {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 19px;
-	color: #94131C;
 }
 .observations_included {
 	margin-left: 2em;
