@@ -7,7 +7,7 @@
 <cfif action is "edit">
 <cfset title = "Edit Publication">
 <cfoutput>
-	<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">Publication Details</a>
+	<a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">Publication Details</a>
 	<br>
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
@@ -35,13 +35,14 @@
 	</cfquery>
 	<form name="editPub" method="post" action="Publication.cfm">
 		<div class="cellDiv">
+        <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		The Basics:
 		<input type="hidden" name="publication_id" value="#pub.publication_id#">
 		<input type="hidden" name="action" value="saveEdit">
 		<table>
 			<tr>
 				<td>
-					<label for="publication_title" onclick="getDocs('publication','title')" class="likeLink">Publication Title</label>
+					<label for="publication_title">Publication Title</label>
 					<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="80">#pub.publication_title#</textarea>
 				</td>
 				<td>
@@ -52,7 +53,7 @@
 				</td>
 			</tr>
 		</table>
-		<label for="publication_type" onclick="getDocs('publication','type')" class="likeLink">Publication Type</label>
+		<label for="publication_type">Publication Type</label>
 		<select name="publication_type" id="publication_type" class="reqdClr">
 			<option value=""></option>
 			<cfloop query="ctpublication_type">
@@ -60,12 +61,12 @@
 					value="#publication_type#">#publication_type#</option>
 			</cfloop>
 		</select>
-		<label for="is_peer_reviewed_fg" onclick="getDocs('publication','peer_review')" class="likeLink">Peer Reviewed?</label>
+		<label for="is_peer_reviewed_fg">Peer Reviewed?</label>
 		<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr">
 			<option <cfif pub.is_peer_reviewed_fg is 1> selected="selected" </cfif>value="1">yes</option>
 			<option <cfif pub.is_peer_reviewed_fg is 0> selected="selected" </cfif>value="0">no</option>
 		</select>			
-		<label for="published_year" onclick="getDocs('publication','published_year')" class="likeLink">Published Year</label>
+		<label for="published_year">Published Year</label>
 		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="80" value="#pub.publication_loc#">
@@ -73,7 +74,7 @@
 		<input type="text" name="publication_remarks" id="publication_remarks" size="80" value="#pub.publication_remarks#">
 		</div>
 		<div class="cellDiv">
-		<span class="likeLink" onclick="getDocs('publication','author')">Authors</span>: <span class="infoLink" onclick="addAgent()">Add Row</span>
+		<span >Authors</span>: <span class="infoLink" onclick="addAgent()">Add Row</span>
 			<table border id="authTab">
 				<tr>
 					<th>Role</th>
@@ -108,7 +109,7 @@
 			</table>
 		</div>
 		<div class="cellDiv">
-		<span class="likeLink" onclick="getDocs('publication','attribute')">Attributes</span>:
+		<span>Attributes</span>:
 			Add: <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)">
 				<option value=""></option>
 				<cfloop query="ctpublication_attribute">
@@ -538,7 +539,7 @@
 			<table>
 				<tr>
 					<td>
-						<label for="publication_title" onclick="getDocs('publication','title')" class="likeLink">Publication Title</label>
+						<label for="publication_title">Publication Title</label>
 						<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="80"></textarea>
 					</td>
 					<td>
@@ -558,7 +559,7 @@
 				</cfloop>
 			</select>
             </div>
-            <p class="pubs_style"><b>Proceedings</b> are entered as if they are <b>Journals</b>. Choose "Journal Name" for publication type and the correct attributes will appear. You will find proceedings in the Journal Name dropdown alphabetically listed at "p". Similarly, a <b>Dissertation</b> or <b>Thesis</b> should be entered as if it were a <b>Book Section</b>.  Put "Ph.D. Dissertation" or "Thesis" in the <i>book</i> attribute and the location and school in the <i>publisher</i> attribute.</p>
+            <p class="pubs_style"><b>Proceedings</b> are entered as if they are <b>Journals</b>. Choose "Journal Name" for publication type and the correct attributes will appear. You will find proceedings in the Journal Name dropdown alphabetically listed at "p". Similarly, a <b>Dissertation</b> or <b>Thesis</b> should be entered as if it were a <b>Book Section</b>.  Put "Ph.D. Dissertation" or "Thesis" in the <i>book</i> attribute and the location and school in the <i>publisher</i> attribute.  Select <b>serial monographs</b> when you wish to enter a work that is like a journal article, but includes a publisher in the citation.</p>
 			
             <div style="clear:both;">
             <label for="is_peer_reviewed_fg">Peer Reviewed?</label>

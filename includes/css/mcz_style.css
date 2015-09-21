@@ -141,7 +141,7 @@ td.checkboxS {
 	padding-right: 1em;
 	cursor: pointer;
 	color: #2B547E;
-	font-size: 12px;
+	font-size: .64em;
 	font-weight: bold;
 }
 .secControl:hover {
@@ -325,7 +325,7 @@ redCheck {
 .infoLink, .infoLink a:visited {
 	cursor: pointer;
 	color: #2B547E;
-	font-size: smaller;
+	font-size: .65em;
 	font-family: Arial, Helvetica, sans-serif;
 }
 .infoLink:hover {
@@ -909,7 +909,7 @@ li.last {
 	padding-right: 10px;
 }
 #headerLinks {
-	top: 16px;
+	top: 12px;
 	right: 22px;
 	z-index: 1;/* float:right;position:absolute;right:5px;clear:both; */
 }
@@ -939,6 +939,7 @@ table.bottom_band {
 	font-size: 15px;
 	font-family: "Courier New", Courier, monospace
 }
+.detailsLink {margin: 1.5em .75em;}
 .pubs_style {
 	font-size: 11.2px;
 	width: 670px;
@@ -949,7 +950,7 @@ table.bottom_band {
 .pubS {
 	float: left;
 	position: relative;
-	width: 130px;
+	width: 170px;
 }
 div.topBlock {
 	border: 2px solid #0066cc;

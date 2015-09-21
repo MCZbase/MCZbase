@@ -203,6 +203,7 @@
      <cfif len(supplement.pub_att_value) gt 0>
       <cfset r=r & ' Supplement ' & supplement.pub_att_value>
     </cfif>
+   
 <!--- End Journal Article--->
 
    
@@ -252,6 +253,52 @@
     </cfif>
   <!--- End Journal Section---> 
   
+  <!--- Begin Special Publication Series (generalized as a serial monographic work) --->      
+        <cfelseif p.publication_type is "serial monograph">
+       <cfif right(p.publication_title,1) is not '.' and right(p.publication_title,1) is not '?' and right(p.publication_title,1) is not ','>
+    <cfset publication_title=p.publication_title & '. '>
+    <cfelse>
+    <cfset publication_title=p.publication_title>
+  </cfif>
+  <cfset r=as & '. '>
+  <cfif len(p.published_year) gt 0>
+    <cfset r=r & p.published_year & '.  '>
+    </cfif>
+    <cfset r=r & publication_title>
+    <cfset r=r & ' <i>' & journal.pub_att_value & '</i>, '>
+    <cfif len(series.pub_att_value) gt 0>
+      <cfset r=r & ' Series ' & series.pub_att_value & ','>
+    </cfif>
+    <cfif len(part.pub_att_value) gt 0>
+    	<cfset r=r & ' Part ' & part.pub_att_value & ', '>
+        </cfif>
+    <cfif len(volume.pub_att_value) gt 0>
+      <cfset r=r & ' ' & volume.pub_att_value>
+    </cfif>
+    <cfif len(number.pub_att_value) gt 0 and len(volume.pub_att_value) eq 0>
+    	<cfset r=r & ' No. ' & number.pub_att_value & '. '>
+     <cfelseif len(number.pub_att_value) gt 0>
+      <cfset r=r & '(' & number.pub_att_value & ')'>
+      <cfelse>
+       <cfset r=r & number.pub_att_value >
+    </cfif>
+     <cfif len(issue.pub_att_value) gt 0 and len(volume.pub_att_value) eq 0>
+    	<cfset r=r & ' ' & issue.pub_att_value>
+     <cfelseif len(issue.pub_att_value) gt 0>
+      <cfset r=r & '(' & issue.pub_att_value & ')'>
+      <cfelse>
+       <cfset r=r &  issue.pub_att_value>
+    </cfif>
+      <cfif len(publisher.pub_att_value gt 0)>
+      <cfset r=r &  ' ' & publisher.pub_att_value & '.'>
+    </cfif>
+    <cfif begin.pub_att_value is not end.pub_att_value>
+      <cfset r=r & ' p.' & 	begin.pub_att_value & '&ndash;' & end.pub_att_value & '. '>
+    </cfif>
+    <cfif begin.pub_att_value eq end.pub_att_value>
+      <cfset r=r & ' p.' & 	begin.pub_att_value &  '. '>
+    </cfif>
+  <!--- End Special Publication Series--->
   
    <!--- Begin Annual Report--->  
     <cfelseif p.publication_type is "annual report">
@@ -339,7 +386,7 @@
       <cfset r=r & ' ' & volume.pub_att_value>
     </cfif>
     <cfif len(part.pub_att_value) gt 0>
-      <cfset r=r &  'Part ' & part.pub_att_value & '' & '. ' >
+      <cfset r=r &  '(Part ' & part.pub_att_value & ')' & '. ' >
     </cfif>
     <cfset r=r & ' Pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
     <cfif len(book.pub_att_value) gt 0>
