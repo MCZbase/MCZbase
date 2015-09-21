@@ -37,6 +37,7 @@
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "saveEdit">
 	<cfoutput>
+    <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"> 
 	<!--- update media --->
 	<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update media set
@@ -145,6 +146,8 @@
 	</cfquery>
 
 	<cfoutput>
+      <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]">
+      <br/>
 		Edit Media
 		<br><a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~
 		<a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~
@@ -269,6 +272,8 @@
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "newMedia">
 	<cfoutput>
+     <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Media')" class="likeLink" alt="[ help ]">
+     <br/>
 		<form name="newMedia" method="post" action="media.cfm">
 			<input type="hidden" name="action" value="saveNew">
 			<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
