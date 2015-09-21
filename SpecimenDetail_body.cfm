@@ -1514,17 +1514,18 @@
 						<cfif desc.recordcount is 1>
 							<cfset alt=desc.label_value>
 						</cfif>
-<!---  Temporarily rolling back link to MediaSet.cfm  delete FALSE when ready to turn on --->
-						<cfif FALSE and media_type eq "image" and media.media_relationship eq "shows cataloged_item">
+						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item">
 							<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+							<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 						<cfelse>
 						    <cfset aForImHref = media_uri>
+						    <cfset aForDetHref = "/media/#media_id#">
 						</cfif>
 		               <div class="one_thumb">
 			               <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
-			                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
+			                   	<br><a href="#aForDetHref#" target="_blank">Media Details</a>
 								<br>#alt#
 							</p>
 						</div>
