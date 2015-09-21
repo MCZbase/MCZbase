@@ -234,7 +234,7 @@
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>
-			    <cfset Application.header_color = "##DD3300" />
+			    <cfset Application.header_color = "##000000" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/krono.gif" />
 			</cfif>
