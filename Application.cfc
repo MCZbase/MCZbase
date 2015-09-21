@@ -54,7 +54,7 @@
 						<a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
 					</p>
 					(
-					<a href="http://arctos.database.museum/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
+					<a href="http://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
 					)
 					<cfif isdefined("session.username")>
 						<br>
@@ -169,6 +169,7 @@
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
+		<cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) />
 		<cfset Application.session_timeout=90 />
 		<cfset Application.serverRootUrl = "http://#serverName#" />
 		<cfset Application.user_login="user_login" />
