@@ -201,9 +201,15 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
     </cfif>
     <cfloop query='ff'>
       <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
-        <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name# ">
-        <cfelse>
-        <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
+        <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
+      <cfelse>
+           <cfif ff.media_relationship eq "shows cataloged_item">
+              <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
+           <cfelseif ff.media_relationship eq "shows agent">
+              <cfset backlink="#ff.specimendetailurl# &mdash; agent record data:">
+           <cfelse>
+              <cfset backlink="#ff.specimendetailurl#">
+           </cfif>
       </cfif>
       <cfoutput>
         <div class ="media_id">
