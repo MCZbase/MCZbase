@@ -166,6 +166,19 @@ td.lbl {
 	color: #000000;
 	font-weight: normal;
 }
+.one_thumb_box {
+	float: left;
+    width: 162px;
+    padding: 10px 5px 5px 5px;
+    height: 182px;
+    overflow: hidden;
+    text-align: center;
+	border: 1px solid #dedede;
+	background-color: #ebebeb;
+	margin-right: 5px;
+	margin-top: 5px;
+	font-size: .8em;
+}
 /*.detailData {
 	margin-left: -10px;
 }*/
@@ -943,13 +956,14 @@ table.bottom_band {
 	width: 670px;
 	float: left;
 	position: relative;
-	margin-top: 3px;
+	margin-top: 5px;
 }
 .pubS {
 	float: left;
 	position: relative;
-	width: 170px;
+	width: 140px;
 }
+.pubSpace {margin: .25em 1em;}
 div.topBlock {
 	border: 2px solid #0066cc;
 	margin-top: 10px;

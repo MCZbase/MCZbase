@@ -531,6 +531,7 @@
 		}
 	</script>
 	<cfoutput>
+    <div class="pubSpace">
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
 			<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
@@ -616,8 +617,9 @@
 				</tr>			
 			</table>
 			</div>
-			<span class="likeLink" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
-			<div class="cellDiv" id="media" style="display:none">
+			<span class="likeLink" style="margin-left: 1em;" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
+            
+			<div class="cellDiv" id="media" style="display:none;">
 				Media:
 				<label for="media_uri">Media URI</label>
 				<input type="text" name="media_uri" id="media_uri" size="90"><span class="infoLink" id="uploadMedia">Upload</span>
@@ -640,7 +642,7 @@
 				<label for="media_desc">Media Description</label>
 				<input type="text" name="media_desc" id="media_desc" size="80">
 			</div>
-			<br><input type="submit" value="create publication" class="insBtn">
+			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
 	</cfoutput>
 </cfif>
@@ -766,3 +768,4 @@
 </cfoutput>
 </cfif>
 <cfinclude template="includes/_footer.cfm">
+</div>
