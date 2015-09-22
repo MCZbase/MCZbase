@@ -238,6 +238,12 @@
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
+		    <cfelseif serverName contains "-dev">
+			    <cfset Application.header_color = "##CAEAAD" />
+			    <cfset Application.institutionlinkcolor = "##000066" />
+			    <cfset Application.collectionlinkcolor = "##94131C" />
+			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>
                 <!--- Production MCZbase values --->
 			    <cfset Application.header_color = "##000000" />
