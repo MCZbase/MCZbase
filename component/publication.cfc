@@ -265,7 +265,9 @@
     <cfset r=r & p.published_year & '.  '>
     </cfif>
     <cfset r=r & publication_title>
+    <cfif len(journal.pub_att_value) gt 0>
     <cfset r=r & ' <i>' & journal.pub_att_value & '</i>, '>
+    </cfif>
     <cfif len(series.pub_att_value) gt 0>
       <cfset r=r & ' Series ' & series.pub_att_value & ','>
     </cfif>
