@@ -28,13 +28,20 @@
 			var headerImageCell = document.getElementById('headerImageCell');
 			headerImageCell.innerHTML='<a target="_top" href="#getCollApp.collection_url#"><img src="#getCollApp.header_image#" alt="MCZ Kronosaurus" border="0"></a>';
 			*/
+            /* likewise we don't need to rewrite the header links for MCZbase.
 			var collectionCell = document.getElementById('collectionCell');
 			var contents = '<a target="_top" href="#getCollApp.collection_url#" class="novisit">';
-			contents += '<span class="headerCollectionText">#Application.collection_link_text#</span></a>';
+            contents += '<span style="color: #Application.collectionlinkcolor#;" >';
+			contents += '<span class="headerCollectionText">#Application.collection_link_text#</span>';
+            contents += '</a>';
+			contents += '</span>';
 			contents += '<br>';
 			contents += '<a target="_top" href="#getCollApp.institution_url#" class="novisit">';
-			contents += '<span class="headerInstitutionText">#getCollApp.institution_link_text#</span></a>';
+			contents += '<span class="headerInstitutionText" style="color: #Application.institutionlinkcolor#;" >';
+            contents += '#getCollApp.institution_link_text#</span>';
+            contents += '</a>';
 			collectionCell.innerHTML=contents;
+            */
 			var creditCell = document.getElementById('creditCell');
 			var c='<span  class="hdrCredit">#getCollApp.header_credit#</span>';
 			creditCell.innerHTML=c;
