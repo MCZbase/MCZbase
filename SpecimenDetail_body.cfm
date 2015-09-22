@@ -1452,7 +1452,7 @@
          media.media_id=media_labels.media_id (+) and
          media_relations.media_relationship like '%cataloged_item' and
          media_relations.related_primary_key = #collection_object_id#
-	order by media_relations.media_relationship
+	order by media.media_type 
 </cfquery>
 <cfif media.recordcount gt 0>
     <div class="detailCell">
@@ -1506,6 +1506,7 @@
 								media_labels
 							where
 								media_id=#media_id#
+                            
 						</cfquery>
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
@@ -1515,13 +1516,15 @@
 							<cfset alt=desc.label_value>
 						</cfif>
 						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item">
+                        	<cfset one_thumb = "<div class='one_thumb_box'>">
 							<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 							<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 						<cfelse>
+                        	<cfset one_thumb = "<div class='one_thumb'>">
 						    <cfset aForImHref = media_uri>
 						    <cfset aForDetHref = "/media/#media_id#">
 						</cfif>
-		               <div class="one_thumb">
+		              		#one_thumb#
 			               <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
