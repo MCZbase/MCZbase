@@ -634,6 +634,14 @@ function setDefaultPub(t){
 		setTimeout( "addAttribute('volume');", 2200);	
 		setTimeout( "addAttribute('issue');", 2500);
     	setTimeout( "addAttribute('journal name');", 2800);	
+		
+		} else if (t=='serial monograph'){
+    	addAttribute('begin page');
+		setTimeout( "addAttribute('end page')", 1000);
+		setTimeout( "addAttribute('volume');", 2200);	
+		setTimeout( "addAttribute('issue');", 2500);
+		setTimeout( "addAttribute('publisher');", 2500);
+    	setTimeout( "addAttribute('journal name');", 2800);	
     	
 	}
 	
