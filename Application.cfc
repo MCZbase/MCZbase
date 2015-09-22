@@ -188,6 +188,9 @@
 		<cfset Application.gmap_api_key = "not set" />
 		<cfset Application.Google_uacct = "not set" />
 		<cfset Application.domain = replace(Application.serverRootUrl,"http://",".") />
+		<cfset Application.header_color = "##000066" />
+		<cfset Application.institutionlinkcolor = "##FF0000" />
+		<cfset Application.collectionlinkcolor = "##00FF00" />
 		<cfquery name="d" datasource="uam_god">
 			select ip from blacklist
 		</cfquery>
@@ -235,10 +238,17 @@
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
+		    <cfelseif serverName contains "-dev">
+			    <cfset Application.header_color = "##CAEAAD" />
+			    <cfset Application.institutionlinkcolor = "##000066" />
+			    <cfset Application.collectionlinkcolor = "##94131C" />
+			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>
+                <!--- Production MCZbase values --->
 			    <cfset Application.header_color = "##000000" />
-			    <cfset Application.institutionlinkcolor = "##EFF5FA" />
-			    <cfset Application.collectionlinkcolor = "##FF0033" />
+			    <cfset Application.institutionlinkcolor = "##BFBFBF" />
+			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"" >BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/krono.gif" />
 			</cfif>
