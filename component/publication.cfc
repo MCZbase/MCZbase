@@ -169,7 +169,7 @@
     <cfset r=r & p.published_year & '.  '>
     </cfif>
     <cfset r=r & publication_title>
-    <cfset r=r & ' <i>' & journal.pub_att_value & '</i>, '>
+    <cfset r=r & ' ' & journal.pub_att_value & ', '>
     <cfif len(series.pub_att_value) gt 0>
       <cfset r=r & ' Series ' & series.pub_att_value & ','>
     </cfif>
@@ -220,7 +220,7 @@
         <cfset r=r & ''>
       </cfif>
       <cfset r=r &  journalsection.pub_att_value & '.' >
-      <cfset r=r &  ' <i>'& journal.pub_att_value & ',</i>'>
+      <cfset r=r &  ' '& journal.pub_att_value & ','>
       
         <cfif len(series.pub_att_value) gt 0>
         <cfset r=r & ' Series ' & series.pub_att_value & ','>
@@ -266,7 +266,7 @@
     </cfif>
     <cfset r=r & publication_title>
     <cfif len(journal.pub_att_value) gt 0>
-    <cfset r=r & ' <i>' & journal.pub_att_value & '</i>, '>
+    <cfset r=r & ' ' & journal.pub_att_value & ', '>
     </cfif>
     <cfif len(series.pub_att_value) gt 0>
       <cfset r=r & ' Series ' & series.pub_att_value & ','>
@@ -295,10 +295,10 @@
       <cfset r=r &  ' ' & publisher.pub_att_value & '.'>
     </cfif>
     <cfif begin.pub_att_value is not end.pub_att_value>
-      <cfset r=r & ' p.' & 	begin.pub_att_value & '&ndash;' & end.pub_att_value & '. '>
+      <cfset r=r & ' p. ' & 	begin.pub_att_value & '&ndash;' & end.pub_att_value & '. '>
     </cfif>
     <cfif begin.pub_att_value eq end.pub_att_value>
-      <cfset r=r & ' p.' & 	begin.pub_att_value &  '. '>
+      <cfset r=r & ' p. ' & 	begin.pub_att_value &  '. '>
     </cfif>
   <!--- End Special Publication Series--->
   
