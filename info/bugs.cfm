@@ -201,18 +201,19 @@
             <cfset bugzilla_severity="@bug_severity = major">
             <cfset human_importance="Submitter Importance = High Priority [#user_priority#]">
         </cfif>
+        <cfset newline= Chr(13) & Chr(10)>
         <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
 @op_sys = Linux
 @product = MCZbase
 @component = Web Interface
 @version = 2.5.1merge
-#bugzilla_priority#
+#bugzilla_priority##newline#
 #bugzilla_severity#
 
 Bug report by: #reported_name# (Username: #session.username#)
 Email: #user_email#
 Complaint: #complaint#
-
+#newline##newline#
 #human_importance#
         </cfmail>
 
