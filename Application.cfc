@@ -169,6 +169,9 @@
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
+		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu">
+			<cfset serverName="mczbase.mcz.harvard.edu" />
+		</cfif>
 		<cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) />
 		<cfset Application.session_timeout=90 />
 		<cfset Application.serverRootUrl = "http://#serverName#" />
