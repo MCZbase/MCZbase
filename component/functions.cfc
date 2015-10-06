@@ -599,7 +599,7 @@
 							PART_CONDITION_#i#='#condition#',
 							PART_LOT_COUNT_#i#='#lot_count#',
 							PART_DISPOSITION_#i#='#COLL_OBJ_DISPOSITION#',
-							PART_REMARK_#i#='#coll_object_remarks#',">
+							PART_REMARK_#i#='#replace(coll_object_remarks,"'","''","all")#',">
 						<cfset i=i+1>
 					</cfif>
 				</cfloop>
