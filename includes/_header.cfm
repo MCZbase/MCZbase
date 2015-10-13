@@ -90,7 +90,7 @@
 
 					</td>
                     <td>
-                    <div id="headerLinks" class="linksHead">
+                    <div id="headerLinks" class="linksHead" style="color: #Application.login_color#;">
 		    	<cfif len(#session.username#) gt 0>
 					<a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a>
 					<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>

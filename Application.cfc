@@ -237,12 +237,14 @@
 		<cfelseif serverName contains "harvard.edu">
 		    <cfif serverName contains "-test">
 			    <cfset Application.header_color = "##ADE1EA" />
+			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.institutionlinkcolor = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 		    <cfelseif serverName contains "-dev">
 			    <cfset Application.header_color = "##CAEAAD" />
+			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.institutionlinkcolor = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
@@ -250,6 +252,7 @@
 			 <cfelse>
                 <!--- Production MCZbase values --->
 			    <cfset Application.header_color = "##000000" />
+			    <cfset Application.login_color = "##BFBFBF" />
 			    <cfset Application.institutionlinkcolor = "##BFBFBF" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"" >BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
