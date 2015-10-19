@@ -1,4 +1,5 @@
 <cfinclude template="includes/_pickHeader.cfm">
+
 <cfif not isdefined("Action") OR not #action# is "search">
 	<!---- waiting for something to search --->
 	<cfabort>
@@ -21,7 +22,6 @@
 
 </cfif>
 ---->
-
 
 <cfoutput>
 

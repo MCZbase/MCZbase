@@ -1,4 +1,5 @@
 <cfinclude template="includes/_frameHeader.cfm">
+<script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfquery name="prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(prefix) as prefix from person where prefix is not null
 </cfquery>
@@ -12,11 +13,14 @@
 	onmouseout="self.status='';return true;"><img src="/images/what.gif" border="0">
 </a>
 --->
-<span class="infoLink pageHelp" onclick="getDocs('agent');">Page Help</span>
+<!---<span class="infoLink pageHelp" onclick="getDocs('agent');">Page Help</span>--->
+<td>
+<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"> 
+</td>
 Search for an agent:
 <td style="padding-left:2em;padding-right:2em;">
-  <span class="infoLink" onClick="getHelp('diacritics');">
-  Search Tips
+<!---  <span class="infoLink" onClick="getHelp('diacritics');">
+  Search Tips--->
   </span>
 </td>
 
