@@ -21,6 +21,8 @@
 	select AGENT_RELATIONSHIP from CTAGENT_RELATIONSHIP
 </cfquery>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<script> var CKEDITOR_BASEPATH = '/includes/js/ckeditor/'; </script>
+<script src="/includes/js/ckeditor/ckeditor.js"></script>
 <cfif not isdefined("agent_id")>
 	<cfset agent_id = -1>
 </cfif>
@@ -91,7 +93,8 @@
 				</cfloop>
 			</select>
 			<label for="agent_remarks">Remarks</label>
-			<input type="text"  size="50" name="agent_remarks" id="agent_remarks">
+                        <textarea name="agent_remarks" id="agent_remarks" size="50"></textarea>
+                       	<script>CKEDITOR.replace( 'agent_remarks' );</script>
 			<br>
 			<input type="submit" value="Create Agent" class="savBtn">
 			</form>
@@ -323,14 +326,9 @@
  						<tr>
 							<td colspan="5">
  								<label for="agent_remarks">Agent Remark</label>
-                                <cfform action="editAllAgent.cfm">
-								<cftextarea name="agent_remarks" id="agent_remarks"
-                                richtext="true"
-                                toolbar="Basic"
-                             
-                                value="#agent_remarks#"/>
-                                </cfform>
- 								<!---<input type="text" value="#agent_remarks#" name="agent_remarks" id="agent_remarks" size="100">--->
+                       						<textarea name="agent_remarks" id="agent_remarks" size="100">#agent_remarks#</textarea>
+                       						<script>CKEDITOR.replace( 'agent_remarks' );</script>
+
  								<input type="submit" class="savBtn" value="Update Person">
  							</td>
  						</tr>
@@ -349,7 +347,8 @@
 						<tr>
 							<td colspan="4">
 								<label for="agent_remarks">Agent Remark</label>
-								<input type="text" value="#agent_remarks#" name="agent_remarks" id="agent_remarks" size="100">
+                       						<textarea name="agent_remarks" id="agent_remarks" size="100">#agent_remarks#</textarea>
+                       						<script>CKEDITOR.replace( 'agent_remarks' );</script>
 								<br>
 								<input type="submit" class="savBtn" value="Update Agent">
 							</td>
