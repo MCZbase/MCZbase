@@ -1,11 +1,11 @@
 jQuery(document).ready(function() {
-	$("#made_date").datepicker();
-	$("#began_date").datepicker();
-	$("#ended_date").datepicker();	
-	$("#determined_date").datepicker();
+$("#made_date").datepicker({dateFormat: "yy-mm-dd"});
+	$("#began_date").datepicker({dateFormat: "yy-mm-dd"});
+	$("#ended_date").datepicker({dateFormat: "yy-mm-dd"});	
+	$("#determined_date").datepicker({dateFormat: "yy-mm-dd"});
 	for (i=1;i<=12;i++){
-		$("#geo_att_determined_date_" + i).datepicker();
-		$("#attribute_date_" + i).datepicker();
+		$("#geo_att_determined_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
+		$("#attribute_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
 	}
 	$("input[type=text]").focus(function(){
 	    //this.select();
