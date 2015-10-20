@@ -93,7 +93,7 @@
 				</cfloop>
 			</select>
 			<label for="agent_remarks">Remarks</label>
-                        <textarea name="agent_remarks" id="agent_remarks" size="50"></textarea>
+                        <textarea name="agent_remarks" id="agent_remarks" style="height: 20em;"></textarea>
                        	<script>CKEDITOR.replace( 'agent_remarks' );</script>
 			<br>
 			<input type="submit" value="Create Agent" class="savBtn">
@@ -326,7 +326,7 @@
  						<tr>
 							<td colspan="5">
  								<label for="agent_remarks">Agent Remark</label>
-                       						<textarea name="agent_remarks" id="agent_remarks" size="100">#agent_remarks#</textarea>
+                       						<textarea name="agent_remarks" id="agent_remarks" style="height: 20em;">#agent_remarks#</textarea>
                        						<script>CKEDITOR.replace( 'agent_remarks' );</script>
 
  								<input type="submit" class="savBtn" value="Update Person">
@@ -347,7 +347,7 @@
 						<tr>
 							<td colspan="4">
 								<label for="agent_remarks">Agent Remark</label>
-                       						<textarea name="agent_remarks" id="agent_remarks" size="100">#agent_remarks#</textarea>
+                       						<textarea name="agent_remarks" id="agent_remarks" style="height: 20em;">#agent_remarks#</textarea>
                        						<script>CKEDITOR.replace( 'agent_remarks' );</script>
 								<br>
 								<input type="submit" class="savBtn" value="Update Agent">
