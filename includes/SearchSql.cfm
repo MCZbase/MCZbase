@@ -250,7 +250,7 @@
 	<cfset mapurl = "#mapurl#&ShowObservations=#session.ShowObservations#">
 <cfelse>
 	<cfset mapurl = "#mapurl#&ShowObservations=false">
-	<cfset basQual = "#basQual#  AND lower( #session.flatTableName#.institution_acronym) not like '%obs'" >
+	<cfset basQual = "#basQual#  AND #session.flatTableName#.collection_cde not in ('HerpOBS')" >
 </cfif>
 <cfif isdefined("edited_by_id") AND len(edited_by_id) gt 0>
 	<cfif basJoin does not contain "CatItemCollObject">
