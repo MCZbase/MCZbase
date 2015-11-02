@@ -444,8 +444,8 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 						'#imgInfo.width#'
 					)
 		</cfquery>
-		<!---cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
-		<cfset md5hashVal=Hash(result.filecontent,"MD5")>
+		<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
+		<cfset md5hash=Hash(result.filecontent,"MD5")>
 
 		<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					insert into cf_temp_media_labels (
@@ -455,11 +455,11 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 						LABEL_VALUE
 					) values (
 						#key#,
-						'md5hashVal',
+						'md5hash',
 						#session.myAgentId#,
 						'#md5Hash#'
 					)
-		</cfquery--->
+		</cfquery>
 	</cfif>
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_media set status='#rec_stat#' where key=#key#
