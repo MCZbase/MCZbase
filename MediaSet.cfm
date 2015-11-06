@@ -35,11 +35,18 @@
           where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
 		    and startm.media_id = #media_id#
 		</cfquery>
+      <cfset checkcounter = 0>
       <cfloop query="mediatocheck" >
         <cfimage action="INFO" source="#mediatocheck.media_uri#" structname="img">
-        <cfoutput>
-          <p>Finding h,w #img.height#,#img.width# for #mediatocheck.media_uri#</p>
-        </cfoutput>
+        <cfset checkcounter = checkcounter + 1>
+        <cfif checkcounter eq 1>
+           <cfoutput>You are the first to view one or more images on this page.  The application is checking the images so there may be a brief delay before they are displayed.</cfoutput>
+        </cfif>
+        <cfif isDefined("debug")>
+           <cfoutput>
+             <p>Finding h,w #img.height#,#img.width# for #mediatocheck.media_uri#</p>
+           </cfoutput>
+        </cfif>
         <cftry>
           <cfquery name="addh" datasource="uam_god" timeout="2">
 			   insert into media_labels (media_id, media_label, label_value, assigned_by_agent_id) values (#mediatocheck.media_id#, 'height', #img.height#, 0)
