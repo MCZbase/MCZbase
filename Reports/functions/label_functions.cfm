@@ -1456,12 +1456,30 @@
         <cfset l_geog="">
         <cfif #country# is "United States">
                 <cfset l_geog="USA">
+        <cfelseif #country# is "United States of America">
+             <cfset l_geog="USA">
+        <cfelseif #country# is "Commonwealth of the Bahamas">
+             <cfset l_geog="Bahamas">
+        <cfelseif #country# is "Democratic Republic of the Congo">
+             <cfset l_geog="D.R. Congo">
+        <cfelseif #country# is "Federated States of Micronesia">
+             <cfset l_geog="Micronesia">
+        <cfelseif #country# is "British Virgin Islands">
+             <cfset l_geog="British Virgin Is.">
+        <cfelseif #country# is "Republic of Trinidad and Tobago">
+             <cfset l_geog="Trinidad and Tobago">
+        <cfelseif #country# is "Saint Kitts and Nevis">
+             <cfset l_geog="St. Kitts and Nevis">
+        <cfelseif #country# is "Central African Republic">
+             <cfset l_geog="C.A.R.">
+        <cfelseif #country# is "Virgin Islands of the United States">
+             <cfset l_geog="U.S. Virgin Islands">
+        <cfelseif #country# is "Turks and Caicos Islands">
+             <cfset l_geog="Turks and Caicos">
+        <cfelseif #country# is "Democratic Republic of Timor-Leste">
+             <cfset l_geog="D.R. Timor-Leste">
         <cfelse>
-            <cfif #country# is "United States of America">
-                    <cfset l_geog="USA">
-                <cfelse>
-                    <cfset l_geog="#country#">
-                </cfif>    
+             <cfset l_geog="#country#">
         </cfif>
         <cfset l_geog="#l_geog#: #state_prov#">
         <cfif len(#county#) gt 0>
