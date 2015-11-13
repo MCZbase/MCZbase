@@ -291,6 +291,10 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset mapurl = "#mapurl#&encumbering_agent_id=#encumbering_agent_id#">
 </cfif>
 <cfif isdefined("collection_id") AND len(collection_id) gt 0>
+	<cfif (isdefined("session.ShowObservations") AND session.ShowObservations is true)>
+        <cfset basQual = "#basQual#  AND (#session.flatTableName#.collection_id IN ( #collection_id#, 13 ) or #session.flatTableName#.associated_collection IN ( #collection_id#, 13 ))" >
+        <cfset mapurl = "#mapurl#&collection_id=#collection_id#">
+	<cfelse>
         <cfset basQual = "#basQual#  AND (#session.flatTableName#.collection_id IN ( #collection_id# ) or #session.flatTableName#.associated_collection IN ( #collection_id# ))" >
         <cfset mapurl = "#mapurl#&collection_id=#collection_id#">
 </cfif>
