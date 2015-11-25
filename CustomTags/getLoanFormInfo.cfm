@@ -304,6 +304,19 @@ select
 select 
 		cat_num, 
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
+
+	        decode(
+	           MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+	               MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)), 
+	           MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
+	           '', 
+	           decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+	                     MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
+	                ' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+	                            MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
+	           )
+	        ) as typestatusname,
+
 		cataloged_item.cat_num_prefix,
 		/*   catalog_number,*/
                 cat_num_integer,
