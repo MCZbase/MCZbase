@@ -303,7 +303,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
            <!--- one height doesn't work yet --->
            <cfset datalinks="<h3 class='img_ct'>Image #counter# of #relm.recordcount#</h3><div class='full'><a href='#relm.media_uri#' >Full Image </a></div><div class='full'><a href='#license_uri#' class='full'>#license#</a></div>">
            <cfoutput><a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
-		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#" class="theThumb">#counter#</a></cfoutput> 
+		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#">#counter#</a></cfoutput> 
         </cfif> <!--- end are relm.height and relm.width non null --->
       </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
       <!--- if any related images, show their thumbnails --->
