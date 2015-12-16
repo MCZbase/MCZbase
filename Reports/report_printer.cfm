@@ -40,6 +40,7 @@
 	    select collection_cde from VPD_COLLECTION_CDE
 	</cfquery>
 	<cfset collList = []>
+	<cfset added = ArrayAppend(collList,"All") >
 	<cfloop query="usersColls">
 		<cfset added = ArrayAppend(collList,"#collection_cde#") >
 	</cfloop>
