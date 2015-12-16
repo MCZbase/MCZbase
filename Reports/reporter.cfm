@@ -48,7 +48,7 @@
         <input type="hidden" name="action" value="saveEdit">
         <input type="hidden" name="report_id" value="#e.report_id#">
         <label for="report_name">Report Name ({Dry|Fluid|Skin|Pin}_{report type}__{ underscore delimited list of collection codes})(Separate report type from collection codes with two underscores)</label>
-        <input type="text" name="report_name" id="report_name" value="#e.report_name#">
+        <input type="text" name="report_name" id="report_name" value="#e.report_name#" maxlength="38" style="width: 38em;">
         <label for="report_template">Report Template</label>
         <select name="report_template" id="report_template">
             <option value="-notfound-">ERROR: Not found!</option>
