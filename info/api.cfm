@@ -3,13 +3,13 @@
 <cfoutput>
 <cfif action is "nothing">
 	<h2>
-		Partial list of ways to talk to Arctos
+		Partial list of ways to talk to MCZbase/Arctos
 	</h2>
 	<p>
 		You may search specimens using the <a href="/api/specsrch">SpecimenResults.cfm API</a>. 
 	</p>
 	<p>
-		You may open KML files of Arctos data using the <a href="/api/kml">KML API</a>. 
+		You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>. 
 	</p>
 	You may link to specimens with any of the following:
 		<ul>
@@ -17,7 +17,7 @@
 				#Application.serverRootUrl#/guid/{institution}:{collection}:{catnum}
 				<ul>
 					<li>
-						Example: #Application.serverRootUrl#/guid/UAM:Mamm:1
+						Example: #Application.serverRootUrl#/guid/MCZ:Mamm:1
 					</li>
 				</ul>
 				<br>
@@ -26,7 +26,7 @@
 				#Application.serverRootUrl#/specimen/{institution}/{collection}/{catnum}
 				<ul>
 					<li>
-						Example: #Application.serverRootUrl#/specimen/UAM/Mamm/1
+						Example: #Application.serverRootUrl#/specimen/MCZ/Mamm/1
 					</li>
 				</ul>
 				<br>
@@ -35,7 +35,7 @@
 				#Application.serverRootUrl#/SpecimenDetail.cfm?guid={institution}:{collection}:{catnum}
 				<ul>
 					<li>
-						Example: #Application.serverRootUrl#/SpecimenDetail.cfm?guid=UAM:Mamm:1
+						Example: #Application.serverRootUrl#/SpecimenDetail.cfm?guid=MCZ:Mamm:1
 					</li>
 				</ul>
 				<br>
@@ -63,7 +63,9 @@
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
 	</p>
 	<p>
-		You may talk to our DiGIR portal at #Application.serverRootUrl#/digir
+		You may talk to our <a href='http://digir.mcz.harvard.edu/digir/'>DiGIR provider</a> or 
+		our <a href='http://digir.mcz.harvard.edu/tapir/'>Tapir provider</a> or 
+                our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
 	</p>
 	<p>
 		You may link to specific <a href="/api/collections">collection's portals</a>.
@@ -71,7 +73,7 @@
 </cfif>
 <cfif action is "collections">
 	<p>
-		Specimen data in Arcto is segregated into Virtual Private Databases. The default public user has
+		Specimen data in MCZbase/Arctos is segregated into Virtual Private Databases. The default public user has
 		access to all portals (all collections) simultaneously. It is also possible to form URLs specific to
 		individual portals.
 	</p>
