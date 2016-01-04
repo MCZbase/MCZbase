@@ -182,8 +182,8 @@ select
 </cfquery>
 
 <cfquery name="caller.getLoanMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      SELECT
-				to_char(trans_date, 'dd-Mon-yyyy') as trans_date,
+      SELECT distinct
+		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
 			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
 			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
 			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
@@ -196,7 +196,7 @@ select
 				inside_email.address inside_email_address,
 				outside_email.address outside_email_address,
 				inside_phone.address inside_phone_number,
-               	return_due_date,
+               	replace(to_char(return_due_date,'dd-Month-yyyy'),' ','') as return_due_date,
                 replace(nature_of_material,'&','&amp;') nature_of_material,
                 replace(trans_remarks,'&','&amp;') trans_remarks,
                 replace(replace(loan_instructions,'&','&amp;'), chr(32)||chr(28) ,'"') loan_instructions,
@@ -204,7 +204,7 @@ select
                 loan_type,
                 loan_number,
                 loan_status,
-				shipped_date,
+				replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
 				shipped_carrier_method,
 				ship_to_addr.formatted_addr  shipped_to_address   ,
 				ship_from_addr.formatted_addr  shipped_from_address  ,
@@ -268,7 +268,8 @@ select
 				trans.transaction_id = 	project_trans.transaction_id (+) and
 				project_trans.project_id =	project_sponsor.project_id (+) and
 				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and				
-				loan.transaction_id=#transaction_id#
+				loan.transaction_id=#transaction_id# and
+                                rownum < 2
 		group by
 			 	trans_date,
 			    concattransagent(trans.transaction_id, 'authorized by'),
