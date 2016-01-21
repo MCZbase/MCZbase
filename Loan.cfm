@@ -2,7 +2,7 @@
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select loan_type from ctloan_type order by loan_type
+	select loan_type from (select 'returnable' as loan_type, 1 as ordinal from dual union select loan_type, 2 as ordinal from ctloan_type where loan_type <> 'returnable') order by ordinal asc, loan_type
 </cfquery>
 <cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_status from ctloan_status order by loan_status
