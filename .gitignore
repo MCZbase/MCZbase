@@ -6,3 +6,5 @@ bnhmMaps/tabfiles
 sitemapindex.xml
 project1.xml.gz
 specimen4.xml
+# Eclipse
+.project
