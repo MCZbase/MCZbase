@@ -299,7 +299,6 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
         <cfset mapurl = "#mapurl#&collection_id=#collection_id#">
 	</cfif>
 </cfif>
-</cfif>
 <cfif isdefined("session.collection") and len(session.collection) gt 0>
 	<cfset collection_cde=session.collection>
 </cfif>
