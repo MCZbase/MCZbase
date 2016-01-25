@@ -61,6 +61,16 @@
           <cfcatch>
           </cfcatch>
         </cftry>
+        <cftry>
+            <cfhttp url="#mediatocheck.media_uri#" method="get" getAsBinary="yes" result="filetohash">
+            <cfset md5hash=Hash(filetohash.filecontent,"MD5")>
+            <cfquery name="makeMD5hash" datasource="uam_god" >
+                    insert into media_labels (media_id, MEDIA_LABEL, ASSIGNED_BY_AGENT_ID, LABEL_VALUE)
+                       values ( #mediatocheck.media_id#, 'md5hash', 0, '#md5Hash#')
+            </cfquery>
+          <cfcatch>
+          </cfcatch>
+        </cftry>
       </cfloop>
     </cfif>
   </cfloop>
