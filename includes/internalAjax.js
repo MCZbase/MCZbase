@@ -562,7 +562,7 @@ function removeAgent() {
 }
 function removeLastAttribute() {
 	var lid = jQuery('#attTab tr:last').attr("id");
-	if (lid.length==0) {
+	if (lid===undefined || lid.length==0) {
 		alert('nothing to remove');
 		return false;
 	}
@@ -581,7 +581,7 @@ function addAttribute(V){
 		},
 		function (d) {
 			var lid=jQuery('#attTab tr:last').attr("id");
-			if(lid.length==0){
+			if(lid === undefined || lid.length==0){
 				lid='attRow0';
 			}
 			var lastID=lid.replace('attRow','');
