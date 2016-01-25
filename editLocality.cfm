@@ -1156,7 +1156,7 @@
 							size="60"  value="#geo_att_determined_method#">
 						<label for="geo_att_remark_#i#">Remark</label>
 						<input type="text" name="geo_att_remark_#i#"
-							size="60" value="#geo_att_remark#">
+							size="60" value="#stripquotes(geo_att_remark)#">
 					</td>
 				</tr>
 				<cfset i=i+1>
