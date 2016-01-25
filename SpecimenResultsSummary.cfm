@@ -100,6 +100,25 @@
 	
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
+        <!--- require some actual searching --->
+        <cfset srchTerms="">
+        <cfloop list="#mapurl#" delimiters="&" index="t">
+                <cfset tt=listgetat(t,1,"=")>
+                <cfset srchTerms=listappend(srchTerms,tt)>
+        </cfloop>
+        <!--- remove standard criteria that kill Oracle... --->
+        <cfif listcontains(srchTerms,"ShowObservations")>
+                <cfset srchTerms=listdeleteat(srchTerms,listfindnocase(srchTerms,'ShowObservations'))>
+        </cfif>
+        <cfif listcontains(srchTerms,"collection_id")>
+                <cfset srchTerms=listdeleteat(srchTerms,listfindnocase(srchTerms,'collection_id'))>
+        </cfif>
+        <!--- ... and abort if there's nothing left --->
+        <cfif len(srchTerms) is 0>
+                <CFSETTING ENABLECFOUTPUTONLY=0>
+                <font color="##FF0000" size="+2">You must enter some search criteria!</font>
+                <cfabort>
+        </cfif>
 	
 	<!--- wrap everything up in a string --->
 
