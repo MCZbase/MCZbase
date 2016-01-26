@@ -12,5 +12,5 @@
 
 <p><a href="People.cfm" target="_body">People and Agencies</a></p>
 
-<p><a href="Usage.cfm" target="_body">Usage (projects & publications)</a></p>
+<p><a href="Usage.cfm" target="_body">Usage (projects & publications)</a> </p>
 
