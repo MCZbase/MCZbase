@@ -880,6 +880,7 @@
 					</cfquery>
 				</cfif>
 				<cfloop from="1" to="#numAgents#" index="n">
+				   <cfif IsDefined("trans_agent_id_" & n) >
 					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
 					<cfset agent_id_ = evaluate("agent_id_" & n)>
 					<cfset trans_agent_role_ = evaluate("trans_agent_role_" & n)>
@@ -916,6 +917,7 @@
 							</cfquery>
 						</cfif>	
 					</cfif>
+				   </cfif>
 				</cfloop>
 			</cftransaction>
 			<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
