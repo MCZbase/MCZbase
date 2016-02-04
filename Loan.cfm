@@ -109,11 +109,11 @@
 						<input type="hidden" name="in_house_contact_agent_id">
 					</td>
 					<td>
-						<label for="outside_contact_agent_name">Outside Contact:</label>
-						<input type="text" name="outside_contact_agent_name" size="40" 
-						  onchange="getAgent('outside_contact_agent_id','outside_contact_agent_name','newloan',this.value); return false;"
+						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+						<input type="text" name="additional_contact_agent_name" size="40" 
+						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);"> 			  
-						<input type="hidden" name="outside_contact_agent_id">
+						<input type="hidden" name="additional_contact_agent_id">
 					</td>
 				</tr>
 				<tr>
@@ -313,7 +313,10 @@
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
 		</cfquery>
 		<cfquery name="outside" dbtype="query">
-			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='outside contact'
+			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
+		</cfquery>
+		<cfquery name="authorized" dbtype="query">
+			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
 		</cfquery>
 		<table id="loanAgents" border>
 			<tr>
@@ -323,11 +326,11 @@
 				<th>CloneAs</th>
 				<th></th>
 				<td rowspan="99">
-					<cfif inhouse.c is 1 and outside.c is 1>
+					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c is 1 >
 						<span style="color:green;font-size:small">OK to print</span>
 					<cfelse>
 						<span style="color:red;font-size:small">
-							One "in-house contact" and one "outside contact" are required to print loan forms.
+							One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.
 						</span>
 					</cfif>
 				</td>
@@ -939,9 +942,9 @@
 		<cfif len(in_house_contact_agent_id) is 0>
 			<cfset in_house_contact_agent_id=auth_agent_id>
 		</cfif>
-		<cfif len(outside_contact_agent_id) is 0>
+		<!--- cfif len(outside_contact_agent_id) is 0>
 			<cfset outside_contact_agent_id=REC_AGENT_ID>
-		</cfif>	
+		</cfif --->	
 		<cftransaction>
 			<cfquery name="newLoanTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans (
@@ -1022,15 +1025,15 @@
 					#in_house_contact_agent_id#,
 					'in-house contact')
 			</cfquery>
-			<cfquery name="outside_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="additional_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 				    transaction_id,
 				    agent_id,
 				    trans_agent_role
 				) values (
 					sq_transaction_id.currval,
-					#outside_contact_agent_id#,
-					'outside contact')
+					#additional_contact_agent_id#,
+					'additional contact')
 			</cfquery>
 			<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
