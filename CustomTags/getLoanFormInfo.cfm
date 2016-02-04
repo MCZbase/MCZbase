@@ -1,5 +1,6 @@
 <cfoutput>
 <cfset transaction_id=caller.transaction_id>
+<!---  Not used in MCZbase, should be safe to remove.
 <cfquery name="caller.getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     SELECT
 	trans_date,
@@ -96,7 +97,8 @@
 				sponsor_name.agent_name,
 				acknowledgement            
 </cfquery>
-
+--->
+<!---  Not used in MCZbase, should be safe to remove.
 <cfquery name="caller.getLoanItems" datasource="user_login"  username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select 
 		cat_num, 
@@ -180,7 +182,7 @@ select
 	  loan_item.transaction_id = #transaction_id#
 	  /*ORDER BY catalog_number_prefix, catalog_number*/
 </cfquery>
-
+--->
 <cfquery name="caller.getLoanMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
@@ -258,7 +260,7 @@ select
 				inside_trans_agent.agent_id = inside_phone.agent_id (+) and
 				trans.transaction_id = outside_trans_agent.transaction_id and				
 				outside_trans_agent.agent_id = outside_contact.agent_id (+) and
-				outside_trans_agent.trans_agent_role='outside contact' and
+				outside_trans_agent.trans_agent_role='recieved by' and
 				outside_trans_agent.agent_id = outside_email.agent_id (+) and
 				outside_trans_agent.agent_id = outside_addr.agent_id (+) and
 				loan.transaction_id = shipment.transaction_id (+) and
