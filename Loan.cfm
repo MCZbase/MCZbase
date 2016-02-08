@@ -109,11 +109,11 @@
 						<input type="hidden" name="in_house_contact_agent_id">
 					</td>
 					<td>
-						<label for="outside_contact_agent_name">Outside Contact:</label>
-						<input type="text" name="outside_contact_agent_name" size="40" 
-						  onchange="getAgent('outside_contact_agent_id','outside_contact_agent_name','newloan',this.value); return false;"
+						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+						<input type="text" name="additional_contact_agent_name" size="40" 
+						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);"> 			  
-						<input type="hidden" name="outside_contact_agent_id">
+						<input type="hidden" name="additional_contact_agent_id">
 					</td>
 				</tr>
 				<tr>
@@ -313,7 +313,10 @@
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
 		</cfquery>
 		<cfquery name="outside" dbtype="query">
-			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='outside contact'
+			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
+		</cfquery>
+		<cfquery name="authorized" dbtype="query">
+			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
 		</cfquery>
 		<table id="loanAgents" border>
 			<tr>
@@ -323,11 +326,11 @@
 				<th>CloneAs</th>
 				<th></th>
 				<td rowspan="99">
-					<cfif inhouse.c is 1 and outside.c is 1>
+					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
 						<span style="color:green;font-size:small">OK to print</span>
 					<cfelse>
 						<span style="color:red;font-size:small">
-							One "in-house contact" and one "outside contact" are required to print loan forms.
+							One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.
 						</span>
 					</cfif>
 				</td>
@@ -453,8 +456,11 @@
                                  sort={a field name that is in the select portion of the query specified in the custom tag}, or 
                                  sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer. 
                           --->
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
+                          </cfif>
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
@@ -463,6 +469,8 @@
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
                           <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
+                         </cfif>
+                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
                           <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
                           <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
             <cfelse>
@@ -880,6 +888,7 @@
 					</cfquery>
 				</cfif>
 				<cfloop from="1" to="#numAgents#" index="n">
+				   <cfif IsDefined("trans_agent_id_" & n) >
 					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
 					<cfset agent_id_ = evaluate("agent_id_" & n)>
 					<cfset trans_agent_role_ = evaluate("trans_agent_role_" & n)>
@@ -916,6 +925,7 @@
 							</cfquery>
 						</cfif>	
 					</cfif>
+				   </cfif>
 				</cfloop>
 			</cftransaction>
 			<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
@@ -939,9 +949,9 @@
 		<cfif len(in_house_contact_agent_id) is 0>
 			<cfset in_house_contact_agent_id=auth_agent_id>
 		</cfif>
-		<cfif len(outside_contact_agent_id) is 0>
+		<!--- cfif len(outside_contact_agent_id) is 0>
 			<cfset outside_contact_agent_id=REC_AGENT_ID>
-		</cfif>	
+		</cfif --->	
 		<cftransaction>
 			<cfquery name="newLoanTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans (
@@ -1022,15 +1032,15 @@
 					#in_house_contact_agent_id#,
 					'in-house contact')
 			</cfquery>
-			<cfquery name="outside_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="additional_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 				    transaction_id,
 				    agent_id,
 				    trans_agent_role
 				) values (
 					sq_transaction_id.currval,
-					#outside_contact_agent_id#,
-					'outside contact')
+					#additional_contact_agent_id#,
+					'additional contact')
 			</cfquery>
 			<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (

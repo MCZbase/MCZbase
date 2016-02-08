@@ -393,14 +393,14 @@ Some Totally Random String Data .....
 						</tr>
 					</table>
                     <!---------------------------------- / cat item IDs ---------------------------------------------->
-					<table cellpadding="0" cellspacing="0" class="fs">
+				<table cellpadding="0" cellspacing="0" class="fs">
                         <!--- agents --->
 						<tr>
 							<td rowspan="99" valign="top">
 								<img src="/images/info.gif" border="0" onClick="getDocs('agent')" class="likeLink" alt="[ help ]">
 							</td>
-							<cfloop from="1" to="5" index="i">
-								<cfif i is 1 or i is 3 or i is 5><tr></cfif>
+							<cfloop from="1" to="8" index="i">
+								<cfif i is 1 or i is 3 or i is 5 or i is 7><tr></cfif>
 								<td id="d_collector_role_#i#" align="right">
 									<select name="collector_role_#i#" title="COLLECTOR_ROLE_X" size="1" <cfif i is 1>class="reqdClr"</cfif> id="collector_role_#i#">
 										<option <cfif evaluate("data.collector_role_" & i) is "c">selected="selected"</cfif> value="c">Collector</option>
@@ -417,7 +417,7 @@ Some Totally Random String Data .....
 										onkeypress="return noenter(event);">
 									<span class="infoLink" onclick="copyAllAgents('collector_agent_#i#');">Copy2All</span>
 								</td>
-								<cfif i is 2 or i is 4 or i is 5></tr></cfif>
+								<cfif i is 2 or i is 4 or i is 6 or i is 8></tr></cfif>
 							</cfloop>
 					</table><!---- / agents------------->
 
@@ -522,7 +522,7 @@ Some Totally Random String Data .....
 										<td id="d_locality_id">
 											<label for="fetched_locid">Existing&nbsp;LocalityID</label>
 											<input type="hidden" id="fetched_locid">
-											<input type="text" name="locality_id" title="LOCALITY_ID" id="locality_id" value="#locality_id#" readonly="readonly" class="readClr" size="8">
+											<input type="text" name="locality_id" title="LOCALITY_ID" id="locality_id" value="#locality_id#" readonly class="readClr" size="8">
 											<span class="infoLink" id="localityPicker"
 												onclick="LocalityPick('locality_id','spec_locality','dataEntry','turnSaveOn'); return false;">
 												Pick&nbsp;Locality
@@ -536,7 +536,7 @@ Some Totally Random String Data .....
 										</td>
 										<td id="d_collecting_event_id">
 											<label for="collecting_event_id">Existing&nbsp;EventID</label>
-											<input title="EXISTING_EVENT_ID"type="text" name="collecting_event_id" id="collecting_event_id" value="#collecting_event_id#" readonly="readonly" class="readClr" size="8">
+											<input title="EXISTING_EVENT_ID"type="text" name="collecting_event_id" id="collecting_event_id" value="#collecting_event_id#" readonly class="readClr" size="8">
 											<input type="hidden" id="fetched_eventid">
 											<span class="infoLink" id="eventPicker" onclick="findCollEvent('collecting_event_id','dataEntry','verbatim_locality'); return false;">
 												Pick&nbsp;Event
