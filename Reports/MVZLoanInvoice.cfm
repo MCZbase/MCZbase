@@ -251,7 +251,7 @@ Change to: <select name="format">
 		<option value="Mammalogy">Mammalogy 3"x2" drawer tag</option>
 		<option value="Herp">Herp</option>
 		<option value="Malacology">MCZ 1"x2" drawer tag</option>
-		<option value="Cryo">Cryogenic Locator List</option>
+		<!---  <option value="Cryo">Cryogenic Locator List</option>  --->
 		<option value="Cryo-Sheet">Cryogenic Spreadsheet</option>
 	</select>
 	<input type='submit' value='Change Format' />

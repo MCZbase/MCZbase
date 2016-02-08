@@ -189,6 +189,9 @@ select
 			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
 			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
 			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
+			    concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
+			    concattransagent(trans.transaction_id, 'additional contact')   additionalContactNames,
+			    concattransagent(trans.transaction_id, 'additional in-house contact')   addInHouseContactNames,
 			    outside_contact.agent_name outside_contact_name,
 			    inside_contact.agent_name inside_contact_name,
 				outside_addr.job_title  outside_contact_title,
@@ -198,6 +201,7 @@ select
 				inside_email.address inside_email_address,
 				outside_email.address outside_email_address,
 				inside_phone.address inside_phone_number,
+				outside_phone.address outside_phone_number,
                	replace(to_char(return_due_date,'dd-Month-yyyy'),' ','') as return_due_date,
                 replace(nature_of_material,'&','&amp;') nature_of_material,
                 replace(trans_remarks,'&','&amp;') trans_remarks,
@@ -240,6 +244,7 @@ select
 				(select * from electronic_address where address_type ='email') inside_email,
 				(select * from electronic_address where address_type ='email') outside_email,
 				(select * from electronic_address where address_type ='work phone number') inside_phone,
+				(select * from electronic_address where address_type ='work phone number') outside_phone,
 				(select * from addr where addr_type='Correspondence') outside_addr,
 				(select * from addr where addr_type='Correspondence') inside_addr,
 				shipment,
@@ -260,8 +265,9 @@ select
 				inside_trans_agent.agent_id = inside_phone.agent_id (+) and
 				trans.transaction_id = outside_trans_agent.transaction_id and				
 				outside_trans_agent.agent_id = outside_contact.agent_id (+) and
-				outside_trans_agent.trans_agent_role='recieved by' and
+				outside_trans_agent.trans_agent_role='received by' and
 				outside_trans_agent.agent_id = outside_email.agent_id (+) and
+				outside_trans_agent.agent_id = outside_phone.agent_id (+) and
 				outside_trans_agent.agent_id = outside_addr.agent_id (+) and
 				loan.transaction_id = shipment.transaction_id (+) and
 				shipment.SHIPPED_TO_ADDR_ID	= ship_to_addr.addr_id (+) and
@@ -272,37 +278,6 @@ select
 				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and				
 				loan.transaction_id=#transaction_id# and
                                 rownum < 2
-		group by
-			 	trans_date,
-			    concattransagent(trans.transaction_id, 'authorized by'),
-			    concattransagent(trans.transaction_id, 'received by')  ,
-			    concattransagent(trans.transaction_id, 'for use by') ,
-			    outside_contact.agent_name,
-			    inside_contact.agent_name ,
-				outside_addr.job_title  ,
-				inside_addr.job_title  ,
-				get_address(inside_trans_agent.agent_id),
-				get_address(outside_trans_agent.agent_id),
-				inside_email.address ,
-				outside_email.address ,
-				inside_phone.address,
-                return_due_date,
-                nature_of_material,
-                trans_remarks,
-                loan_instructions,
-                loan_description,
-                loan_type,
-                loan_number,
-                loan_status,
-				shipped_date,
-				shipped_carrier_method,
-				ship_to_addr.formatted_addr     ,
-				ship_from_addr.formatted_addr ,
-				processed_by.agent_name ,
-				sponsor_name.agent_name,
-				acknowledgement, 
-				num_lots, 
-				num_specimens            
 </cfquery>
 
 <cfquery name="caller.getLoanItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
