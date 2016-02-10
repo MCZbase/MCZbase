@@ -118,6 +118,18 @@
 				</tr>
 				<tr>
 					<td>
+					</td>
+					<td>
+						<label for="foruseby_agent_name">For Use By:</label>
+						<input type="text" name="foruseby_agent_name" size="40" 
+						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
+						  onKeyPress="return noenter(event);"> 			  
+						<input type="hidden" name="foruseby_agent_id">
+					</td>
+				</tr>
+				<tr>
+				<tr>
+					<td>
 						<label for="loan_type">Loan Type</label>
 						<select name="loan_type" id="loan_type" class="reqdClr">
 							<cfloop query="ctLoanType">
@@ -154,14 +166,14 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<label for="loan_instructions">Loan Instructions</label>
-						<textarea name="loan_instructions" id="loan_instructions" rows="3" cols="80"></textarea>
+						<label for="loan_description">Description</label>
+						<textarea name="loan_description" id="loan_description" rows="3" cols="80"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<label for="loan_description">Description</label>
-						<textarea name="loan_description" id="loan_description" rows="3" cols="80"></textarea>
+						<label for="loan_instructions">Loan Instructions</label>
+						<textarea name="loan_instructions" id="loan_instructions" rows="3" cols="80"></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -1032,6 +1044,7 @@
 					#in_house_contact_agent_id#,
 					'in-house contact')
 			</cfquery>
+		<cfif isdefined("additional_contact_agent_id") and len(additional_contact_agent_id) gt 0>
 			<cfquery name="additional_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 				    transaction_id,
@@ -1042,6 +1055,19 @@
 					#additional_contact_agent_id#,
 					'additional contact')
 			</cfquery>
+		</cfif>
+		<cfif isdefined("foruseby_agent_id") and len(foruseby_agent_id) gt 0>
+			<cfquery name="foruseby_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#foruseby_agent_id#,
+					'for use by')
+			</cfquery>
+		</cfif>
 			<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 				    transaction_id,
