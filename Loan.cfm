@@ -64,7 +64,8 @@
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newLoan">
 <cfset title="New Loan">
-	Initiate a loan: <span class="infoLink" onClick="getDocs('loan')">Help</span>
+	Initiate a loan:
+	<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Create_Loan#Field_Definitions')" class="likeLink" alt="[ help ]">
 	<cfoutput>
 		<form name="newloan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
@@ -93,7 +94,7 @@
 						<input type="hidden" name="auth_agent_id">
 					</td>
 					<td>
-						<label for="rec_agent_name"><a href="javascript:void(0);" onClick="getDocs('loan','to')">To:</a></label>
+						<label for="rec_agent_name">Received By:</label>
 						<input type="text" name="rec_agent_name" class="reqdClr" size="40" 
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);"> 			  
@@ -103,7 +104,7 @@
 				<tr>
 					<td>
 						<label for="in_house_contact_agent_name">In-House Contact:</label>
-						<input type="text" name="in_house_contact_agent_name" size="40" 
+						<input type="text" name="in_house_contact_agent_name" class="reqdClr" size="40" 
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);"> 
 						<input type="hidden" name="in_house_contact_agent_id">
@@ -311,7 +312,10 @@
 	<form name="editloan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
-		<strong>Edit Loan #loanDetails.collection# #loanDetails.loan_number#</strong>
+                <div>
+	 	  <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Loan##Edit_a_Loan')" class="likeLink" alt="[ help ]">
+		  <strong>Edit Loan #loanDetails.collection# #loanDetails.loan_number#</strong>
+                </div>
 		<span style="font-size:small;">Entered by #loanDetails.enteredby#</span>
 		<label for="loan_number">Loan Number</label>
 		<select name="collection_id" id="collection_id" size="1">
@@ -332,7 +336,7 @@
 		</cfquery>
 		<table id="loanAgents" border>
 			<tr>
-				<th>Agent Name <span class="likeLink" onclick="addTransAgent()">Add Row</span></th>
+				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
@@ -491,7 +495,10 @@
 		</select>
 	</td><!---- end left cell --->
 	<td valign="top"><!---- right cell ---->	
-		<strong>Projects associated with this loan:</strong>
+                <div>
+	 		<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Loan##Projects_and_Permits')" class="likeLink" alt="[ help ]">
+			<strong>Projects associated with this loan:</strong>
+                </div>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
 			project_trans where 
@@ -534,13 +541,13 @@
 				<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
 			</cfloop>
 		</select>
-		<label for="project_name" class="likeLink" onClick="getDocs('project','title')">Project Title</label>
+		<label for="project_name" >Project Title</label>
 		<textarea name="project_name" cols="50" rows="2" class="reqdClr"></textarea>
-		<label for="start_date" class="likeLink" onClick="getDocs('project','date')">Project Start Date</label>
+		<label for="start_date" >Project Start Date</label>
 		<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
 		<label for="">Project End Date</label>
 		<input type="text" name="end_date">
-		<label for="project_description" class="likeLink" onClick="getDocs('project','description')">Project Description</label>
+		<label for="project_description" >Project Description</label>
 		<textarea name="project_description" 
 			id="project_description" cols="50" rows="6">#loanDetails.loan_description#</textarea>
 		<label for="project_remarks">Project Remark</label>
@@ -1130,7 +1137,10 @@
 			<input type="hidden" name="project_id" <cfif project_id gt 0> value="#project_id#" </cfif>>
 	<table>
 		<tr>
-			<td align="right"><strong>Find Loan:</strong></td>
+			<td align="right">
+                           <strong>Find Loan:</strong>
+	 		   <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Find_Loan')" class="likeLink" alt="[ help ]">
+                        </td>
 			<td>
 				<select name="collection_id" size="1">
 					<option value=""></option>
