@@ -190,7 +190,7 @@ select
 			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
 			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
 			    concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
-			    concattransagent(trans.transaction_id, 'additional contact')   additionalContactNames,
+			    concattransagent(trans.transaction_id, 'additional outside contact')   additionalContactNames,
 			    concattransagent(trans.transaction_id, 'additional in-house contact')   addInHouseContactNames,
 			    outside_contact.agent_name outside_contact_name,
 			    inside_contact.agent_name inside_contact_name,

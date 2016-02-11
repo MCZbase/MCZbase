@@ -1060,7 +1060,7 @@
 				) values (
 					sq_transaction_id.currval,
 					#additional_contact_agent_id#,
-					'additional contact')
+					'additional outside contact')
 			</cfquery>
 		</cfif>
 		<cfif isdefined("foruseby_agent_id") and len(foruseby_agent_id) gt 0>
