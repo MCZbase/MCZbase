@@ -51,7 +51,7 @@ function getMCZDocs(url,anc) {
 		if (anc != null) {
 			fullURL += "#" + anc;
 		}
-	siteHelpWin=windowOpener(fullURL,"HelpWin","width=700,height=400, resizable,scrollbars,location,toolbar");
+	siteHelpWin=windowOpener(fullURL,"HelpWin","width=1024,height=640, resizable,scrollbars,location,toolbar");
 }
 function saveNewPartAtt () {
 	jQuery.getJSON("/component/functions.cfc",
