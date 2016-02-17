@@ -1,4 +1,5 @@
 <cfinclude template="includes/_header.cfm">
+<cfset MAGIC_MCZ_COLLECTION = 12>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -397,8 +398,13 @@
 					<label for="loan_type">Loan Type</label>
 					<select name="loan_type" id="loan_type" class="reqdClr">
 						<cfloop query="ctLoanType">
-							<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
-								value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+                                                      <cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+							  <option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
+							  	  value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+                                                      <cfelseif loanDetails.loan_type EQ "transfer" AND loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+							  <option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
+								  value=""></option>
+                                                      </cfif>
 						</cfloop>
 					</select>
 				</td>
@@ -963,11 +969,16 @@
 			len(loan_number) is 0 OR
 			len(initiating_date) is 0 OR
 			len(rec_agent_id) is 0 OR
-			len(auth_agent_id) is 0
+			len(auth_agent_id) is 0 
 		>
 			<br>Something bad happened.
 			<br>You must fill in loan_type, loannumber, authorizing_agent_name, initiating_date, loan_num_prefix, received_agent_name.
 			<br>Use your browser's back button to fix the problem and try again.
+			<cfabort>
+		</cfif>
+		<cfif loan_type EQ 'transfer' AND collection_id NEQ MAGIC_MCZ_COLLECTION >
+			<p>Loans of type <strong>transfer</strong> cannot be made in this collection.</p>
+			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>
 		<cfif len(in_house_contact_agent_id) is 0>
