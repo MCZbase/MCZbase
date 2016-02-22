@@ -158,7 +158,7 @@
 					</td>
 					<td>
 						<label for="return_due_date">Return Due Date</label>
-						<input type="text" name="return_due_date" id="return_due_date">
+						<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" >
 					</td>
 				</tr>
 				<tr>
@@ -1157,14 +1157,15 @@
                            <strong>Find Loan:</strong>
 	 		   <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Find_Loan')" class="likeLink" alt="[ help ]">
                         </td>
-			<td>
+			<td><span>Collection:
 				<select name="collection_id" size="1">
 					<option value=""></option>
 					<cfloop query="ctcollection">
 						<option value="#collection_id#">#collection#</option>
 					</cfloop>
 				</select>
-				<input type="text" name="loan_number">
+				Loan no.<input type="text" name="loan_number">
+                             </span>
 			</td>
 		</tr>
 		<tr>
@@ -1329,9 +1330,11 @@
 		concattransagent(trans.transaction_id,'authorized by') auth_agent,
 		concattransagent(trans.transaction_id,'entered by') ent_agent,
 		concattransagent(trans.transaction_id,'received by') rec_agent,
+		concattransagent(trans.transaction_id,'for use by') foruseby_agent,
 		nature_of_material,
 		trans_remarks,
-		return_due_date,
+		to_char(return_due_date,'YYYY-MM-DD') return_due_date,
+                return_due_date - trunc(sysdate) dueindays,
 		trans_date,
 		project_name,
 		project.project_id pid,
@@ -1513,13 +1516,6 @@
 	</cfquery>
 	<cfif allLoans.recordcount is 0>
 		Nothing matched your search criteria.
-	<cfelse>
-			Go to....<select name="nav" id="nav" onchange="document.location=this.value">
-				<option value=""></option>
-				<option value="/SpecimenResults.cfm?loan_permit_trans_id=#valuelist(allLoans.transaction_id)#">Specimen Results</option>
-				<!---option value="/Reports/report_printer.cfm?report=multi_loan_report&transaction_id=#valuelist(allLoans.transaction_id)#">UAM Mammals report</option--->
-				<option value="/Reports/report_printer.cfm?transaction_id=#valuelist(allLoans.transaction_id)#">Reporter</option>
-			</select>
 	</cfif>
 	<cfset rURL="Loan.cfm?csv=true">
 	<cfloop list="#StructKeyList(form)#" index="key">
@@ -1545,6 +1541,13 @@
 	</cfscript>		
 	</cfif>
 	<cfoutput query="allLoans" group="transaction_id">
+                <cfset overdue = ''>
+                <cfset overduemsg = ''>
+                <cfif LEN(dueindays) GT 0 AND dueindays LT 0 >
+                   <cfset overdue='style="color: RED;"'>
+                   <cfset overduedays = ABS(dueindays)>
+                   <cfset overduemsg=' #overduedays# days overdue'>
+                </cfif>
 		<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
 			<td>
 				<table>
@@ -1562,6 +1565,13 @@
 						<td nowrap><div align="right">Recipient:</div></td>
 						<td><strong>#rec_agent#</strong></td>
 					</tr>
+                                        <cfif len(foruseby_agent) GT 0>
+					   <tr>
+						<td><img src="images/nada.gif" width="30" height="1"></td>
+						<td nowrap><div align="right">For use by:</div></td>
+						<td><strong>#foruseby_agent#</strong></td>
+					   </tr>
+                                        </cfif>
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Nature of Material:</div></td>
@@ -1580,18 +1590,20 @@
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Due Date:</div></td>
-						<td><strong>#return_due_date#</strong></td>
+						<td #overdue#><strong>#return_due_date#</strong>#overduemsg#</td>
 					</tr>
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Transaction Date:</div></td>
 						<td><strong>#dateformat(trans_date,"yyyy-mm-dd")#</strong></td>
 					</tr>
-					<tr>
+                                        <cfif len(loan_instructions) GT 0>
+					   <tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Instructions:</div></td>
 						<td><strong>#loan_instructions#</strong></td>
-					</tr>
+					   </tr>
+                                        </cfif>
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Authorized By:</div></td>
@@ -1602,16 +1614,20 @@
 						<td nowrap><div align="right">Entered By:</div></td>
 						<td><strong>#ent_agent#</strong></td>
 					</tr>
-					<tr>
+                                        <cfif len(trans_remarks) GT 0>
+					   <tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Remarks:</div></td>
 						<td><strong>#trans_remarks#</strong></td>
-					</tr>
-					<tr>
+					   </tr>
+                                        </cfif>
+                                        <cfif len(loan_description) GT 0>
+					   <tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Description:</div></td>
 						<td><strong>#loan_description#</strong></td>
-					</tr>
+					   </tr>
+                                        </cfif>
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td align="right">Project:</td>
