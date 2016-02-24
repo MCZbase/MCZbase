@@ -1151,21 +1151,24 @@
 	<br><form name="SpecData" action="Loan.cfm" method="post">
 			<input type="hidden" name="Action" value="listLoans">
 			<input type="hidden" name="project_id" <cfif project_id gt 0> value="#project_id#" </cfif>>
-	<table>
-		<tr>
-			<td align="right">
-                           <strong>Find Loan:</strong>
-	 		   <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Find_Loan')" class="likeLink" alt="[ help ]">
-                        </td>
-			<td><span>Collection:
+	<div id="loan">
+	<div class="page_title">
+         	<h1>Find Loan
+         	<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Find_Loan')" class="likeLink" alt="[ help ]">
+         	</h1>
+    	</div>
+                       
+       <table>
+        <tr><td>Collection:
 				<select name="collection_id" size="1">
 					<option value=""></option>
 					<cfloop query="ctcollection">
 						<option value="#collection_id#">#collection#</option>
 					</cfloop>
+                 
 				</select>
-				Loan no.<input type="text" name="loan_number">
-                             </span>
+               </td>
+                <td> Loan no.<input type="text" name="loan_number">                          
 			</td>
 		</tr>
 		<tr>
@@ -1314,6 +1317,7 @@
 		</tr>
 	</table>
 </form>
+</div>
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
