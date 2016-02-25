@@ -272,7 +272,8 @@
 		cited_taxa.scientific_name as cited_name,
 		cited_taxa.taxon_name_id as cited_name_id,
 		formatted_publication.formatted_publication,
-		formatted_publication.publication_id
+		formatted_publication.publication_id,
+                cited_taxa.taxon_status as cited_name_status
 	from
 		citation,
 		taxonomy cited_taxa,
@@ -446,7 +447,15 @@
 								#type_status# of
 								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 								<cfif find("(ms)", #type_status#) NEQ 0>
-									&nbsp;Unavailable name
+                                                                    <cfif len(cited_name_status) GT 0> 
+									&nbsp;#cited_name_status#
+ 								    <cfelse>
+                                                                        <cfif find(" ", #cited_name#) NEQ 0>
+                                                                                &nbsp;ssp. nov.
+                                                                        <cfelse>
+                                                                                &nbsp;sp. nov.
+                                                                        </cfif>
+								    </cfif>
 								</cfif>
 								<div class="detailCellSmall">
 									#CITATION_REMARKS#<BR>
