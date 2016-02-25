@@ -446,11 +446,7 @@
 								#type_status# of
 								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 								<cfif find("(ms)", #type_status#) NEQ 0>
-									<cfif find(" ", #cited_name#) NEQ 0>
-										&nbsp;ssp. nov.
-									<cfelse>
-										&nbsp;sp. nov.
-									</cfif>
+									&nbsp;Unavailable name
 								</cfif>
 								<div class="detailCellSmall">
 									#CITATION_REMARKS#<BR>
