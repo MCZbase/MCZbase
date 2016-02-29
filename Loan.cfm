@@ -1,6 +1,8 @@
 <cfinclude template="includes/_header.cfm">
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.css">
+<link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui-theme.css">
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_type from (select 'returnable' as loan_type, 1 as ordinal from dual union select loan_type, 2 as ordinal from ctloan_type where loan_type <> 'returnable') order by ordinal asc, loan_type
@@ -67,7 +69,7 @@
 <cfif  action is "newLoan">
 <cfset title="New Loan">
 	Initiate a loan:
-	<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Create_Loan#Field_Definitions')" class="likeLink" alt="[ help ]">
+	<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Create_Loan##Field_Definitions')" class="likeLink" alt="[ help ]">
 	<cfoutput>
 		<form name="newloan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
@@ -134,11 +136,28 @@
 				<tr>
 					<td>
 						<label for="loan_type">Loan Type</label>
-						<select name="loan_type" id="loan_type" class="reqdClr">
-							<cfloop query="ctLoanType">
-								<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-							</cfloop>
-						</select>
+                                                <script>
+                                                  $(function() {
+                                                     // on page load, remove transfer from the list of loan types
+                                                     $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+                                                     // on page load, bind a function to collection_id to change the list of loan types 
+                                                     // based on the selected collection
+                                                     $("##collection_id").change( function () { 
+                                                         if ( $("##collection_id option:selected").text() == "MCZ Collections" ) { 
+                                                            // only MCZ collections (the non-specimen collection) is allowed to make transfers.
+                                                            $("##loan_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
+                                                         } else { 
+                                                            $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+                                                         }
+                                                     });
+                                                  });
+                                                </script>
+                                                <select name="loan_type" id="loan_type" class="reqdClr">
+                                                        <cfloop query="ctLoanType">
+                                                                <option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+                                                        </cfloop>
+                                                </select>
+
 					</td>
 					<td>
 						<label for="loan_status">Loan Status</label>
