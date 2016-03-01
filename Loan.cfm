@@ -1,9 +1,8 @@
+<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
-<link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.css">
-<link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui-theme.css">
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_type from (select 'returnable' as loan_type, 1 as ordinal from dual union select loan_type, 2 as ordinal from ctloan_type where loan_type <> 'returnable') order by ordinal asc, loan_type
@@ -236,10 +235,13 @@
                               });
                               if (!validated) { 
                                  if (errorCount==1) { 
-                                    alert('A required value is missing:' + errors);
+                                    msg = 'A required value is missing:' + errors;
                                  } else {
-                                    alert(errorCount + ' required values are missing:' + errors);
+                                    msg = errorCount + ' required values are missing:' + errors;
                                  }
+                                 var errdiv = document.createElement('div');
+                                 errdiv.innerHTML = msg;
+                                 $(errdiv).dialog({ title:"Error Creating Loan"}).dialog("open");
                                  event.preventDefault(); 
                               };
                            });
