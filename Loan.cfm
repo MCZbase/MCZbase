@@ -1,5 +1,6 @@
 <cfinclude template="includes/_header.cfm">
 <cfset MAGIC_MCZ_COLLECTION = 12>
+<cfset MAGIC_MCZ_CRYO = 11>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.css">
 <link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui-theme.css">
@@ -28,20 +29,24 @@
 		right:1em;
 	}
 </style>
+<cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-			$("#trans_date").datepicker();
-			$("#to_trans_date").datepicker();
-			$("#return_due_date").datepicker();	
-			$("#to_return_due_date").datepicker();
-			$("#initiating_date").datepicker();
-			$("#shipped_date").datepicker();
+		$("##trans_date").datepicker();
+		$("##to_trans_date").datepicker();
+		$("##return_due_date").datepicker();	
+		$("##to_return_due_date").datepicker();
+		$("##initiating_date").datepicker();
+		$("##shipped_date").datepicker();
 	});
-	function setAccnNum(i,v) {
-		var e = document.getElementById('loan_number');
-		e.value=v;
-		var inst = document.getElementById('collection_id');
-		inst.value=i;	
+	// Set the loan number and collection for a loan.
+	function setLoanNum(cid,loanNum) {
+           $("##loan_number").val(loanNum);
+           $("##collection_id").val(cid);
+           $("##collection_id").change(); 
+           if (cid==#MAGIC_MCZ_CRYO#) { 
+               $("##loan_instructions").val( $("##loan_instructions").val() + "If not all the genetic material is consumed, the unused portion of material must be returned to the MCZ-CRYO after the study. GenBank or other accession numbers for published sequence data must be given to the MCZ-CRYO to officially close the loan."); 
+           } 
 	}
 	function dCount() {
 		var countThingees=new Array();
@@ -61,6 +66,7 @@
 		var t=setTimeout("dCount()",500);
 	}
 </script>
+</cfoutput>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
 	<cflocation url="Loan.cfm?action=addItems" addtoken="false">
@@ -71,7 +77,7 @@
 	Initiate a loan:
 	<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Create_Loan##Field_Definitions')" class="likeLink" alt="[ help ]">
 	<cfoutput>
-		<form name="newloan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
 			<table border>
 				<tr>
@@ -136,27 +142,27 @@
 				<tr>
 					<td>
 						<label for="loan_type">Loan Type</label>
-                                                <script>
-                                                  $(function() {
-                                                     // on page load, remove transfer from the list of loan types
-                                                     $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
-                                                     // on page load, bind a function to collection_id to change the list of loan types 
-                                                     // based on the selected collection
-                                                     $("##collection_id").change( function () { 
-                                                         if ( $("##collection_id option:selected").text() == "MCZ Collections" ) { 
-                                                            // only MCZ collections (the non-specimen collection) is allowed to make transfers.
-                                                            $("##loan_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
-                                                         } else { 
-                                                            $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
-                                                         }
-                                                     });
-                                                  });
-                                                </script>
-                                                <select name="loan_type" id="loan_type" class="reqdClr">
-                                                        <cfloop query="ctLoanType">
-                                                                <option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-                                                        </cfloop>
-                                                </select>
+						<script>
+						 $(function() {
+						   // on page load, remove transfer from the list of loan types
+						   $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+						   // on page load, bind a function to collection_id to change the list of loan types 
+						   // based on the selected collection
+						   $("##collection_id").change( function () { 
+							 if ( $("##collection_id option:selected").text() == "MCZ Collections" ) { 
+							  // only MCZ collections (the non-specimen collection) is allowed to make transfers.
+							  $("##loan_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
+							 } else { 
+							  $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+							 }
+						   });
+						 });
+						</script>
+						<select name="loan_type" id="loan_type" class="reqdClr">
+							<cfloop query="ctLoanType">
+								<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+							</cfloop>
+						</select>
 
 					</td>
 					<td>
@@ -213,6 +219,31 @@
 				</tr>
 			</table>
 		</form>
+                <script>
+                          $("##newLoan").submit( function(event) {
+                              if ($("##loan_type").val()=="gift" || $("##loan_type").val()=="transfer") {
+                                 $("##return_due_date").val(null);
+                              }
+                              validated = true;
+                              errors = "";
+                              errorCount = 0;
+                              $(".reqdClr").each(function(index, element) { 
+                                 if ($(element).val().length===0) { 
+                                   validated = false;
+                                   errorCount++;
+                                   errors = errors + " " + element.name;
+                                 }
+                              });
+                              if (!validated) { 
+                                 if (errorCount==1) { 
+                                    alert('A required value is missing:' + errors);
+                                 } else {
+                                    alert(errorCount + ' required values are missing:' + errors);
+                                 }
+                                 event.preventDefault(); 
+                              };
+                           });
+                </script>
 		<div class="nextnum">
 			Next Available Loan Number:
 			<br>
@@ -273,7 +304,7 @@
 					</cfcatch>
 				</cftry>
 				<cfif len(thisQ.nn) gt 0>
-					<span class="likeLink" onclick="setAccnNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
+					<span class="likeLink" onclick="setLoanNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
 				<cfelse>
 					<span style="font-size:x-small">
 						No data available for #collection#.
