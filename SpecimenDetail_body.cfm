@@ -445,18 +445,21 @@
 									Page #occurs_page_number#,
 								</cfif>
 								#type_status# of
-								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 								<cfif find("(ms)", #type_status#) NEQ 0>
                                                                     <cfif len(cited_name_status) GT 0> 
-									&nbsp;#cited_name_status#
+								        <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame">"#replace(cited_name," ","&nbsp;","all")#"</a>
+									&nbsp;(=#cited_name_status#)
  								    <cfelse>
+								        <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
                                                                         <cfif find(" ", #cited_name#) NEQ 0>
                                                                                 &nbsp;ssp. nov.
                                                                         <cfelse>
                                                                                 &nbsp;sp. nov.
                                                                         </cfif>
 								    </cfif>
-								</cfif>
+								<cfelse> 
+								    <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+								</cfif> 
 								<div class="detailCellSmall">
 									#CITATION_REMARKS#<BR>
 								</div>
