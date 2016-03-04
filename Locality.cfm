@@ -637,7 +637,7 @@
 		<label for="verbatim_locality" class="likeLink" onclick="getDocs('collecting_event','verbatim_locality')">
 			Verbatim Locality
 		</label>
-		<input type="text" name="verbatim_locality" id="verbatim_locality" value='#stripQuotes(locDet.verbatim_locality)#' size="50">
+		<input type="text" name="verbatim_locality" id="verbatim_locality" value='#stripQuotes(locDet.verbatim_locality)#' size="200">
 		<label for="specific_locality" class="likeLink" onclick="getDocs('locality','specific_locality')">
 			Specific Locality
 		</label>
@@ -677,7 +677,7 @@
 			</tr>
 		</table>
 		<label for="coll_event_remarks">Remarks</label>
-		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="50">
+		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="150">
 		<label for="collecting_source" class="likeLink" onclick="getDocs('collecting_event','collecting_source')">
 			Collecting Source
 		</label>
@@ -694,7 +694,7 @@
 		<label for="habitat_desc" class="likeLink" onclick="getDocs('collecting_event','habitat')">
 			Habitat
 		</label>
-		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="50">
+		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="200">
         <br><input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
@@ -1615,7 +1615,7 @@ INSERT INTO geog_auth_rec (
 			onmouseover="this.className='picBtn btnhov'"
 			onmouseout="this.className='picBtn'"
 			onclick="document.getElementById('theSpanSaveThingy').style.display='';LocalityPick('locality_id','spec_locality','mlc'); return false;" >
-			<input type="text" name="spec_locality" readonly="readonly" border="0" size="60"/>
+			<input type="text" name="spec_locality" readonly border="0" size="60"/>
 			<span id="theSpanSaveThingy" style="display:none;">
 				<input type="submit" value="Save" />
 			</span>
@@ -1767,7 +1767,7 @@ INSERT INTO geog_auth_rec (
 	<td><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
 	<td>
 		<!--- make this as input that looks like test to make copying easier --->
-		<input style="border:none;" value="#higher_geog#" size="80" readonly="yes"/>
+		<input style="border:none;" value="#higher_geog#" size="80" readonly/>
 	</td>
 </tr>
 </cfloop>
