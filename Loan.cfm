@@ -1,4 +1,7 @@
+<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
+<cfset MAGIC_MCZ_COLLECTION = 12>
+<cfset MAGIC_MCZ_CRYO = 11>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -10,8 +13,9 @@
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection_cde from ctcollection_cde order by collection_cde
 </cfquery>
+<!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' order by trans_agent_role
+	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'associated with agency' and trans_agent_role != 'received from' order by trans_agent_role
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
@@ -24,20 +28,24 @@
 		right:1em;
 	}
 </style>
+<cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-			$("#trans_date").datepicker();
-			$("#to_trans_date").datepicker();
-			$("#return_due_date").datepicker();	
-			$("#to_return_due_date").datepicker();
-			$("#initiating_date").datepicker();
-			$("#shipped_date").datepicker();
+		$("##trans_date").datepicker();
+		$("##to_trans_date").datepicker();
+		$("##return_due_date").datepicker();	
+		$("##to_return_due_date").datepicker();
+		$("##initiating_date").datepicker();
+		$("##shipped_date").datepicker();
 	});
-	function setAccnNum(i,v) {
-		var e = document.getElementById('loan_number');
-		e.value=v;
-		var inst = document.getElementById('collection_id');
-		inst.value=i;	
+	// Set the loan number and collection for a loan.
+	function setLoanNum(cid,loanNum) {
+           $("##loan_number").val(loanNum);
+           $("##collection_id").val(cid);
+           $("##collection_id").change(); 
+           if (cid==#MAGIC_MCZ_CRYO#) { 
+               $("##loan_instructions").val( $("##loan_instructions").val() + "If not all the genetic material is consumed, the unused portion of material must be returned to the MCZ-CRYO after the study. GenBank or other accession numbers for published sequence data must be given to the MCZ-CRYO to officially close the loan."); 
+           } 
 	}
 	function dCount() {
 		var countThingees=new Array();
@@ -57,6 +65,7 @@
 		var t=setTimeout("dCount()",500);
 	}
 </script>
+</cfoutput>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
 	<cflocation url="Loan.cfm?action=addItems" addtoken="false">
@@ -64,9 +73,10 @@
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newLoan">
 <cfset title="New Loan">
-	Initiate a loan: <span class="infoLink" onClick="getDocs('loan')">Help</span>
+	Initiate a loan:
+	<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Create_Loan##Field_Definitions')" class="likeLink" alt="[ help ]">
 	<cfoutput>
-		<form name="newloan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
 			<table border>
 				<tr>
@@ -93,7 +103,7 @@
 						<input type="hidden" name="auth_agent_id">
 					</td>
 					<td>
-						<label for="rec_agent_name"><a href="javascript:void(0);" onClick="getDocs('loan','to')">To:</a></label>
+						<label for="rec_agent_name">Received By:</label>
 						<input type="text" name="rec_agent_name" class="reqdClr" size="40" 
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);"> 			  
@@ -103,7 +113,7 @@
 				<tr>
 					<td>
 						<label for="in_house_contact_agent_name">In-House Contact:</label>
-						<input type="text" name="in_house_contact_agent_name" size="40" 
+						<input type="text" name="in_house_contact_agent_name" class="reqdClr" size="40" 
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);"> 
 						<input type="hidden" name="in_house_contact_agent_id">
@@ -118,12 +128,41 @@
 				</tr>
 				<tr>
 					<td>
+					</td>
+					<td>
+						<label for="foruseby_agent_name">For Use By:</label>
+						<input type="text" name="foruseby_agent_name" size="40" 
+						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
+						  onKeyPress="return noenter(event);"> 			  
+						<input type="hidden" name="foruseby_agent_id">
+					</td>
+				</tr>
+				<tr>
+				<tr>
+					<td>
 						<label for="loan_type">Loan Type</label>
+						<script>
+						 $(function() {
+						   // on page load, remove transfer from the list of loan types
+						   $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+						   // on page load, bind a function to collection_id to change the list of loan types 
+						   // based on the selected collection
+						   $("##collection_id").change( function () { 
+							 if ( $("##collection_id option:selected").text() == "MCZ Collections" ) { 
+							  // only MCZ collections (the non-specimen collection) is allowed to make transfers.
+							  $("##loan_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
+							 } else { 
+							  $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+							 }
+						   });
+						 });
+						</script>
 						<select name="loan_type" id="loan_type" class="reqdClr">
 							<cfloop query="ctLoanType">
 								<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
 							</cfloop>
 						</select>
+
 					</td>
 					<td>
 						<label for="loan_status">Loan Status</label>
@@ -143,7 +182,7 @@
 					</td>
 					<td>
 						<label for="return_due_date">Return Due Date</label>
-						<input type="text" name="return_due_date" id="return_due_date">
+						<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" >
 					</td>
 				</tr>
 				<tr>
@@ -154,14 +193,14 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<label for="loan_instructions">Loan Instructions</label>
-						<textarea name="loan_instructions" id="loan_instructions" rows="3" cols="80"></textarea>
+						<label for="loan_description">Description</label>
+						<textarea name="loan_description" id="loan_description" rows="3" cols="80"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<label for="loan_description">Description</label>
-						<textarea name="loan_description" id="loan_description" rows="3" cols="80"></textarea>
+						<label for="loan_instructions">Loan Instructions</label>
+						<textarea name="loan_instructions" id="loan_instructions" rows="3" cols="80"></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -179,6 +218,34 @@
 				</tr>
 			</table>
 		</form>
+                <script>
+                          $("##newLoan").submit( function(event) {
+                              if ($("##loan_type").val()=="gift" || $("##loan_type").val()=="transfer") {
+                                 $("##return_due_date").val(null);
+                              }
+                              validated = true;
+                              errors = "";
+                              errorCount = 0;
+                              $(".reqdClr").each(function(index, element) { 
+                                 if ($(element).val().length===0) { 
+                                   validated = false;
+                                   errorCount++;
+                                   errors = errors + " " + element.name;
+                                 }
+                              });
+                              if (!validated) { 
+                                 if (errorCount==1) { 
+                                    msg = 'A required value is missing:' + errors;
+                                 } else {
+                                    msg = errorCount + ' required values are missing:' + errors;
+                                 }
+                                 var errdiv = document.createElement('div');
+                                 errdiv.innerHTML = msg;
+                                 $(errdiv).dialog({ title:"Error Creating Loan"}).dialog("open");
+                                 event.preventDefault(); 
+                              };
+                           });
+                </script>
 		<div class="nextnum">
 			Next Available Loan Number:
 			<br>
@@ -239,7 +306,7 @@
 					</cfcatch>
 				</cftry>
 				<cfif len(thisQ.nn) gt 0>
-					<span class="likeLink" onclick="setAccnNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
+					<span class="likeLink" onclick="setLoanNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
 				<cfelse>
 					<span style="font-size:x-small">
 						No data available for #collection#.
@@ -299,7 +366,10 @@
 	<form name="editloan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
-		<strong>Edit Loan #loanDetails.collection# #loanDetails.loan_number#</strong>
+                <div>
+	 	  <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Loan##Edit_a_Loan')" class="likeLink" alt="[ help ]">
+		  <strong>Edit Loan #loanDetails.collection# #loanDetails.loan_number#</strong>
+                </div>
 		<span style="font-size:small;">Entered by #loanDetails.enteredby#</span>
 		<label for="loan_number">Loan Number</label>
 		<select name="collection_id" id="collection_id" size="1">
@@ -320,7 +390,7 @@
 		</cfquery>
 		<table id="loanAgents" border>
 			<tr>
-				<th>Agent Name <span class="likeLink" onclick="addTransAgent()">Add Row</span></th>
+				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
@@ -380,8 +450,13 @@
 					<label for="loan_type">Loan Type</label>
 					<select name="loan_type" id="loan_type" class="reqdClr">
 						<cfloop query="ctLoanType">
-							<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
-								value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+                                                      <cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+							  <option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
+							  	  value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+                                                      <cfelseif loanDetails.loan_type EQ "transfer" AND loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+							  <option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
+								  value=""></option>
+                                                      </cfif>
 						</cfloop>
 					</select>
 				</td>
@@ -459,18 +534,22 @@
 		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
                              <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
                           </cfif>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
+		          <cfif inhouse.c is 1 and outside.c is 1 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
+                          </cfif>
 		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
-                         </cfif>
-                          <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
+                          </cfif>
+		          <cfif inhouse.c is 1 and outside.c is 1 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
+                          </cfif>
                           <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
                           <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
             <cfelse>
@@ -479,7 +558,10 @@
 		</select>
 	</td><!---- end left cell --->
 	<td valign="top"><!---- right cell ---->	
-		<strong>Projects associated with this loan:</strong>
+                <div>
+	 		<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Loan##Projects_and_Permits')" class="likeLink" alt="[ help ]">
+			<strong>Projects associated with this loan:</strong>
+                </div>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
 			project_trans where 
@@ -522,13 +604,13 @@
 				<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
 			</cfloop>
 		</select>
-		<label for="project_name" class="likeLink" onClick="getDocs('project','title')">Project Title</label>
+		<label for="project_name" >Project Title</label>
 		<textarea name="project_name" cols="50" rows="2" class="reqdClr"></textarea>
-		<label for="start_date" class="likeLink" onClick="getDocs('project','date')">Project Start Date</label>
+		<label for="start_date" >Project Start Date</label>
 		<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
 		<label for="">Project End Date</label>
 		<input type="text" name="end_date">
-		<label for="project_description" class="likeLink" onClick="getDocs('project','description')">Project Description</label>
+		<label for="project_description" >Project Description</label>
 		<textarea name="project_description" 
 			id="project_description" cols="50" rows="6">#loanDetails.loan_description#</textarea>
 		<label for="project_remarks">Project Remark</label>
@@ -939,11 +1021,16 @@
 			len(loan_number) is 0 OR
 			len(initiating_date) is 0 OR
 			len(rec_agent_id) is 0 OR
-			len(auth_agent_id) is 0
+			len(auth_agent_id) is 0 
 		>
 			<br>Something bad happened.
 			<br>You must fill in loan_type, loannumber, authorizing_agent_name, initiating_date, loan_num_prefix, received_agent_name.
 			<br>Use your browser's back button to fix the problem and try again.
+			<cfabort>
+		</cfif>
+		<cfif loan_type EQ 'transfer' AND collection_id NEQ MAGIC_MCZ_COLLECTION >
+			<p>Loans of type <strong>transfer</strong> cannot be made in this collection.</p>
+			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>
 		<cfif len(in_house_contact_agent_id) is 0>
@@ -1032,6 +1119,7 @@
 					#in_house_contact_agent_id#,
 					'in-house contact')
 			</cfquery>
+		<cfif isdefined("additional_contact_agent_id") and len(additional_contact_agent_id) gt 0>
 			<cfquery name="additional_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 				    transaction_id,
@@ -1040,8 +1128,21 @@
 				) values (
 					sq_transaction_id.currval,
 					#additional_contact_agent_id#,
-					'additional contact')
+					'additional outside contact')
 			</cfquery>
+		</cfif>
+		<cfif isdefined("foruseby_agent_id") and len(foruseby_agent_id) gt 0>
+			<cfquery name="foruseby_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#foruseby_agent_id#,
+					'for use by')
+			</cfquery>
+		</cfif>
 			<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 				    transaction_id,
@@ -1102,17 +1203,24 @@
 	<br><form name="SpecData" action="Loan.cfm" method="post">
 			<input type="hidden" name="Action" value="listLoans">
 			<input type="hidden" name="project_id" <cfif project_id gt 0> value="#project_id#" </cfif>>
-	<table>
-		<tr>
-			<td align="right"><strong>Find Loan:</strong></td>
-			<td>
+	<div id="loan">
+	<div class="page_title">
+         	<h1>Find Loan
+         	<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Find_Loan')" class="likeLink" alt="[ help ]">
+         	</h1>
+    	</div>
+                       
+       <table>
+        <tr><td>Collection:
 				<select name="collection_id" size="1">
 					<option value=""></option>
 					<cfloop query="ctcollection">
 						<option value="#collection_id#">#collection#</option>
 					</cfloop>
+                 
 				</select>
-				<input type="text" name="loan_number">
+               </td>
+                <td> Loan no.<input type="text" name="loan_number">                          
 			</td>
 		</tr>
 		<tr>
@@ -1261,6 +1369,7 @@
 		</tr>
 	</table>
 </form>
+</div>
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
@@ -1277,9 +1386,11 @@
 		concattransagent(trans.transaction_id,'authorized by') auth_agent,
 		concattransagent(trans.transaction_id,'entered by') ent_agent,
 		concattransagent(trans.transaction_id,'received by') rec_agent,
+		concattransagent(trans.transaction_id,'for use by') foruseby_agent,
 		nature_of_material,
 		trans_remarks,
-		return_due_date,
+		to_char(return_due_date,'YYYY-MM-DD') return_due_date,
+                return_due_date - trunc(sysdate) dueindays,
 		trans_date,
 		project_name,
 		project.project_id pid,
@@ -1454,20 +1565,13 @@
 		   	project_name, 
 		 	project.project_id, 
 		 	collection.collection
-		ORDER BY to_number(regexp_replace(loan_number,'[^0-9]','')), loan_number  
+		ORDER BY loan_number  
     ">
 	<cfquery name="allLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
 	<cfif allLoans.recordcount is 0>
 		Nothing matched your search criteria.
-	<cfelse>
-			Go to....<select name="nav" id="nav" onchange="document.location=this.value">
-				<option value=""></option>
-				<option value="/SpecimenResults.cfm?loan_permit_trans_id=#valuelist(allLoans.transaction_id)#">Specimen Results</option>
-				<!---option value="/Reports/report_printer.cfm?report=multi_loan_report&transaction_id=#valuelist(allLoans.transaction_id)#">UAM Mammals report</option--->
-				<option value="/Reports/report_printer.cfm?transaction_id=#valuelist(allLoans.transaction_id)#">Reporter</option>
-			</select>
 	</cfif>
 	<cfset rURL="Loan.cfm?csv=true">
 	<cfloop list="#StructKeyList(form)#" index="key">
@@ -1493,6 +1597,13 @@
 	</cfscript>		
 	</cfif>
 	<cfoutput query="allLoans" group="transaction_id">
+                <cfset overdue = ''>
+                <cfset overduemsg = ''>
+                <cfif LEN(dueindays) GT 0 AND dueindays LT 0 >
+                   <cfset overdue='style="color: RED;"'>
+                   <cfset overduedays = ABS(dueindays)>
+                   <cfset overduemsg=' #overduedays# days overdue'>
+                </cfif>
 		<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
 			<td>
 				<table>
@@ -1510,6 +1621,13 @@
 						<td nowrap><div align="right">Recipient:</div></td>
 						<td><strong>#rec_agent#</strong></td>
 					</tr>
+                                        <cfif len(foruseby_agent) GT 0>
+					   <tr>
+						<td><img src="images/nada.gif" width="30" height="1"></td>
+						<td nowrap><div align="right">For use by:</div></td>
+						<td><strong>#foruseby_agent#</strong></td>
+					   </tr>
+                                        </cfif>
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Nature of Material:</div></td>
@@ -1528,18 +1646,20 @@
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Due Date:</div></td>
-						<td><strong>#return_due_date#</strong></td>
+						<td #overdue#><strong>#return_due_date#</strong>#overduemsg#</td>
 					</tr>
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Transaction Date:</div></td>
 						<td><strong>#dateformat(trans_date,"yyyy-mm-dd")#</strong></td>
 					</tr>
-					<tr>
+                                        <cfif len(loan_instructions) GT 0>
+					   <tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Instructions:</div></td>
 						<td><strong>#loan_instructions#</strong></td>
-					</tr>
+					   </tr>
+                                        </cfif>
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Authorized By:</div></td>
@@ -1550,16 +1670,20 @@
 						<td nowrap><div align="right">Entered By:</div></td>
 						<td><strong>#ent_agent#</strong></td>
 					</tr>
-					<tr>
+                                        <cfif len(trans_remarks) GT 0>
+					   <tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Remarks:</div></td>
 						<td><strong>#trans_remarks#</strong></td>
-					</tr>
-					<tr>
+					   </tr>
+                                        </cfif>
+                                        <cfif len(loan_description) GT 0>
+					   <tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td nowrap><div align="right">Description:</div></td>
 						<td><strong>#loan_description#</strong></td>
-					</tr>
+					   </tr>
+                                        </cfif>
 					<tr>
 						<td><img src="images/nada.gif" width="30" height="1"></td>
 						<td align="right">Project:</td>

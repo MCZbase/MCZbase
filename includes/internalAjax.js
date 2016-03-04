@@ -51,7 +51,7 @@ function getMCZDocs(url,anc) {
 		if (anc != null) {
 			fullURL += "#" + anc;
 		}
-	siteHelpWin=windowOpener(fullURL,"HelpWin","width=700,height=400, resizable,scrollbars,location,toolbar");
+	siteHelpWin=windowOpener(fullURL,"HelpWin","width=1024,height=640, resizable,scrollbars,location,toolbar");
 }
 function saveNewPartAtt () {
 	jQuery.getJSON("/component/functions.cfc",
@@ -618,30 +618,33 @@ function setDefaultPub(t){
 				
 	} else if (t=='book'){
 		addAttribute('publisher');
-    	setTimeout( "addAttribute('volume')", 1000);
+    	setTimeout( "addAttribute('page total')", 1000);
+		setTimeout("addAttribute('volume')", 1200);
 		
 	} else if (t=='book section'){
     	addAttribute('begin page');
 		setTimeout( "addAttribute('end page')", 1000);
     	setTimeout( "addAttribute('book')", 1500);
-    	setTimeout( "addAttribute('publisher');", 2000);	
+    	setTimeout( "addAttribute('publisher');", 2000);
+		setTimeout( "addAttribute('page total')", 2500);	
     	
 	} else if (t=='journal section'){
-    	addAttribute('begin page');
-		setTimeout( "addAttribute('end page')", 1000);
-    	setTimeout( "addAttribute('book')", 1500);
-    	setTimeout( "addAttribute('journal section');", 2000);
-		setTimeout( "addAttribute('volume');", 2200);	
-		setTimeout( "addAttribute('issue');", 2500);
-    	setTimeout( "addAttribute('journal name');", 2800);	
+    	addAttribute('journal name');
+		setTimeout( "addAttribute('begin page');", 1000);
+		setTimeout( "addAttribute('end page')", 1500);
+    	setTimeout( "addAttribute('journal section')", 2200);
+		setTimeout( "addAttribute('volume');", 2500);	
+		setTimeout( "addAttribute('issue');", 2800);
 		
-		} else if (t=='serial monograph'){
-    	addAttribute('begin page');
-		setTimeout( "addAttribute('end page')", 1000);
-		setTimeout( "addAttribute('volume');", 2200);	
-		setTimeout( "addAttribute('issue');", 2500);
-		setTimeout( "addAttribute('publisher');", 2500);
-    	setTimeout( "addAttribute('journal name');", 2800);	
+	} else if (t=='serial monograph'){
+    	addAttribute('journal name');
+		setTimeout( "addAttribute('begin page');", 1000);	
+		setTimeout( "addAttribute('end page')", 1500);
+		setTimeout( "addAttribute('publisher');", 2000);
+		setTimeout( "addAttribute('number');", 2200);		
+		setTimeout( "addAttribute('volume');", 2500);
+		setTimeout( "addAttribute('issue');", 2800);
+    
     	
 	}
 	

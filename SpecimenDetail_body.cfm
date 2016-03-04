@@ -272,7 +272,8 @@
 		cited_taxa.scientific_name as cited_name,
 		cited_taxa.taxon_name_id as cited_name_id,
 		formatted_publication.formatted_publication,
-		formatted_publication.publication_id
+		formatted_publication.publication_id,
+                cited_taxa.taxon_status as cited_name_status
 	from
 		citation,
 		taxonomy cited_taxa,
@@ -446,6 +447,9 @@
 								#type_status# of
 								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 								<cfif find("(ms)", #type_status#) NEQ 0>
+									<!--- Type status with (ms) is used to mark to be published types, 
+`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
+										as appropriate to the name of the parent taxon of the new name --->
 									<cfif find(" ", #cited_name#) NEQ 0>
 										&nbsp;ssp. nov.
 									<cfelse>
