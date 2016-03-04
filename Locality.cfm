@@ -677,7 +677,7 @@
 			</tr>
 		</table>
 		<label for="coll_event_remarks">Remarks</label>
-		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="200">
+		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="150">
 		<label for="collecting_source" class="likeLink" onclick="getDocs('collecting_event','collecting_source')">
 			Collecting Source
 		</label>
