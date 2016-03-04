@@ -19,10 +19,10 @@
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
-</cfquery>
+</cfquery> 
 <style>
 	.nextnum{
-		border:2px solid green;
+		border:2px solid green; 
 		position:absolute;
 		top:10em;
 		right:1em;
