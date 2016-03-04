@@ -202,6 +202,7 @@ select
 				outside_email.address outside_email_address,
 				inside_phone.address inside_phone_number,
 				outside_phone.address outside_phone_number,
+				MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
                	replace(to_char(return_due_date,'dd-Month-yyyy'),' ','') as return_due_date,
                 replace(nature_of_material,'&','&amp;') nature_of_material,
                 replace(trans_remarks,'&','&amp;') trans_remarks,
