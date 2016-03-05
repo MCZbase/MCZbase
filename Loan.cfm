@@ -1187,14 +1187,6 @@
       <h1>Find Loan&##8239;/&##8239;Gift&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Find_Loan')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
     </div>
     <div id="loan">
-      <div class="open_loans">
-        <form action="Loan.cfm" method="post" name="stuff">
-          <input type="hidden" name="Action" value="listLoans">
-          <input name="notClosed" type="hidden" value="true">
-          <input type="submit" 
-			 	value="Search: Status = not 'closed'" class="schBtn">
-        </form>
-      </div>
       <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select loan_type from ctloan_type order by loan_type
 	</cfquery>
@@ -1263,6 +1255,7 @@
                 <cfloop query="ctLoanStatus">
                   <option value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
                 </cfloop>
+                <option value="not closed">not closed</option>
               </select></td>
           </tr>
           <tr>
@@ -1435,7 +1428,11 @@
 		<cfset sql = "#sql# AND loan_type = '#loan_type#'">
 	</cfif>
 	<cfif isdefined("loan_status") AND len(#loan_status#) gt 0>
-		<cfset sql = "#sql# AND loan_status = '#loan_status#'">
+    	<cfif loan_status eq "not closed">
+        	<cfset sql = "#sql# AND loan_status <> 'closed'">
+    	<cfelse>
+			<cfset sql = "#sql# AND loan_status = '#loan_status#'">
+        </cfif>
 	</cfif>
 	<cfif isdefined("loan_instructions") AND len(#loan_instructions#) gt 0>
 		<cfset sql = "#sql# AND upper(loan_instructions) LIKE '%#ucase(loan_instructions)#%'">
