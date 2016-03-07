@@ -1082,16 +1082,10 @@ div.updatedAtom p {
 	float: left;
 }
 
-
-/* added styles */
-#loan {}
-.page_title h1 {font-size: 25px;}
-
-
 /* added styles for loans */
 #loan {width: 700px;margin: 0 0 30px 62px;border-right: 2px solid #ebebeb;padding-right: 33px;}
 .page_title {float:left;}
-.page_title h1 {font-size: 25px;margin-left: 64px;height: 42px; text-align:bottom;}
+.page_title h1 {font-size: 25px;margin-left: 67px;height: 28px; text-align:bottom;}
 .page_title h1 img.likebox {vertical-align:top; width:16px;}
 #loan .lnum input {width: 120px;}
 .open_loans {float:right; display: inline;margin: 3em  50px 1.5em 0px;}
@@ -1146,4 +1140,4 @@ border: 2px solid #444;
 padding: 2px 5px;
 cursor:pointer;
 }
-/* end additional styles for loans */
+/* end additional styles for loans */  
