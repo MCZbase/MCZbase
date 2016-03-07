@@ -1082,12 +1082,6 @@ div.updatedAtom p {
 	float: left;
 }
 
-
-/* added styles */
-#loan {}
-.page_title h1 {font-size: 25px;}
-
-
 /* added styles for loans */
 #loan {width: 700px;margin: 0 0 30px 62px;border-right: 2px solid #ebebeb;padding-right: 33px;}
 .page_title {float:left;}
