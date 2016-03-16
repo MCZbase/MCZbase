@@ -4,6 +4,7 @@ specimen_images
 bnhmMaps/tabfiles
 # Generated sitemap files
 sitemapindex.xml
+sitemapindex.xml.gz
 media*.xml.gz
 project*.xml.gz
 publication*.xml.gz
