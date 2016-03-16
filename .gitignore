@@ -4,7 +4,11 @@ specimen_images
 bnhmMaps/tabfiles
 # Generated sitemap files
 sitemapindex.xml
-project1.xml.gz
-specimen4.xml
+media*.xml.gz
+project*.xml.gz
+publication*.xml.gz
+specimen*.xml.gz
+static*.xml.gz
+taxonomy*.xml.gz
 # Eclipse
 .project
