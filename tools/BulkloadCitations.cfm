@@ -1,6 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="Bulkload Citations">
-<!---- make the table 
+<!---- make the table
 
 drop table cf_temp_oids;
 drop public synonym cf_temp_oids;
@@ -18,26 +18,26 @@ create table cf_temp_oids (
 
 	create public synonym cf_temp_oids for cf_temp_oids;
 	grant select,insert,update,delete on cf_temp_oids to uam_query,uam_update;
-	
-	 CREATE OR REPLACE TRIGGER cf_temp_oids_key                                         
- before insert  ON cf_temp_oids  
- for each row 
-    begin     
-    	if :NEW.key is null then                                                                                      
+
+	 CREATE OR REPLACE TRIGGER cf_temp_oids_key
+ before insert  ON cf_temp_oids
+ for each row
+    begin
+    	if :NEW.key is null then
     		select somerandomsequence.nextval into :new.key from dual;
-    	end if;                                
-    end;                                                                                            
+    	end if;
+    end;
 /
 sho err
 ------>
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv). 
-Include column headings, spelled exactly as below. 
+Step 1: Upload a comma-delimited text file (csv).
+Include column headings, spelled exactly as below.
 <br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the following code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_TITLE,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS</textarea>
-	</div> 
+	</div>
 <p></p>
 
 <ul>
@@ -59,6 +59,14 @@ Include column headings, spelled exactly as below.
 		   name="FiletoUpload"
 		   size="45">
 			  <input type="submit" value="Upload this file" #saveClr#>
+			  	  <br>
+	Character Set: <select name="cSet" id="cSet">
+		<option value="windows-1252" selected>windows-1252</option>
+		<option value="MacRoman">MacRoman</option>
+		<option value="utf-8">utf-8</option>
+		<option value="utf-16">utf-16</option>
+		<option value="unicode">unicode</option>
+	</input>
   </cfform>
 
 </cfif>
@@ -75,10 +83,10 @@ Include column headings, spelled exactly as below.
 		delete from cf_temp_citation
 	</cfquery>
 
-	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-	
+	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
+
 	<cfset fileContent=replace(fileContent,"'","''","all")>
-	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />	
+	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 	<cfset colNames="">
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
@@ -92,7 +100,7 @@ Include column headings, spelled exactly as below.
 			</cfloop>
 		<cfif #o# is 1>
 			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
+		</cfif>
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
 			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -125,7 +133,7 @@ Include column headings, spelled exactly as below.
 		<cfset problem="">
 		<cfif #other_id_type# is not "catalog number">
 			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+					SELECT
 						coll_obj_other_id_num.collection_object_id
 					FROM
 						coll_obj_other_id_num,
@@ -141,7 +149,7 @@ Include column headings, spelled exactly as below.
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+					SELECT
 						collection_object_id
 					FROM
 						cataloged_item,
@@ -206,10 +214,10 @@ Include column headings, spelled exactly as below.
 			</cfif>
 		</cfloop>
 		<cfquery name="valData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_citation set status='duplicate' where key in (				
+			update cf_temp_citation set status='duplicate' where key in (
 				select distinct k from cf_temp_citation a,
-				 (select min(key) k, collection_object_id,publication_id  
-				from cf_temp_citation having count(*) >  1 group by 
+				 (select min(key) k, collection_object_id,publication_id
+				from cf_temp_citation having count(*) >  1 group by
 				collection_object_id,publication_id) b
 				where a.collection_object_id = b.collection_object_id and
 				a.publication_id = b.publication_id
@@ -240,12 +248,12 @@ Include column headings, spelled exactly as below.
 <cfif #action# is "loadData">
 
 <cfoutput>
-	
-		
+
+
 	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_citation
 	</cfquery>
-	
+
 	<cftransaction>
 	<cfloop query="getTempData">
 		<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -280,7 +288,7 @@ Include column headings, spelled exactly as below.
 			)
 		</cfquery>
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_citation set status='loaded' where key=#key#			
+			update cf_temp_citation set status='loaded' where key=#key#
 		</cfquery>
 	</cfloop>
 	</cftransaction>
@@ -291,7 +299,7 @@ Include column headings, spelled exactly as below.
 <cfif #action# is "allDone">
 	<cfoutput>
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select publication_id,publication_title,status from cf_temp_citation group by publication_id,publication_title,status 	
+			select publication_id,publication_title,status from cf_temp_citation group by publication_id,publication_title,status
 		</cfquery>
 		<cfif #getTempData.recordcount# is 0>
 			something very strange happened. Contact a sysadmin.
