@@ -243,13 +243,15 @@
 		<cfset gridsortcolumn="collection_object_id">
 	</cfif>
 <cfoutput>
-	<cfset sql="select * from #datashotbl# where 1=1">
+	<cfset sql="select * from #datashotbl# where 1=1 ">
+        <!--- 
 	<cfif len(accn) gt 0>
 		<cfset sql=sql & " and accn IN (#accn#)">
 	</cfif>
 	<cfif len(enteredby) gt 0>
 		<cfset sql=sql & " and enteredby IN (#enteredby#)">
 	</cfif>
+        --->
 	<cfif len(colln) gt 0>
 		<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
 	</cfif>

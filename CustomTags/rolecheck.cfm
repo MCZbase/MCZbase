@@ -5,7 +5,7 @@
 	cgi.script_name is not "/ChangePassword.cfm")>
 	<cflocation url="/ChangePassword.cfm">
 </cfif>
-<cfif fileexists(application.webDirectory & cgi.script_name)>
+<cfif fileexists(application.webDirectory & replace('#cgi.script_name#','//','/'))>
 	<cfquery name="isValid" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 		select ROLE_NAME from cf_form_permissions
 		where form_path = replace('#cgi.script_name#','//','/')

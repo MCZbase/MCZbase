@@ -1,4 +1,6 @@
 User-agent: *
+Disallow: /cfide/
+Disallow: /CFIDE/
 Disallow: /.git/
 Disallow: /Admin/
 Disallow: /ajax/
@@ -6,8 +8,6 @@ Disallow: /ALA_Imaging/
 Disallow: /bnhmMaps/
 Disallow: /Bulkloader/
 Disallow: /cache/
-Disallow: /cfide/
-Disallow: /CFIDE/
 Disallow: /component/
 Disallow: /CustomPages/
 Disallow: /CustomTags/
@@ -32,6 +32,7 @@ Disallow: /tempImages/
 Disallow: /tests/
 Disallow: /tools/
 Disallow: /user/
+Disallow: /.gitignore
 Disallow: /a_loanItemReview.cfm
 Disallow: /addAccn.cfm
 Disallow: /AdminUsers.cfm
@@ -110,3 +111,4 @@ Disallow: /userBrowseBulked.cfm
 Disallow: /userBrowseBulkedGrid.cfm
 Disallow: /wideLabels.cfm
 Disallow: /digir/
+Sitemap: http://mczbase.mcz.harvard.edu/sitemapindex.xml.gz
