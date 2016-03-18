@@ -234,7 +234,7 @@
      <cfif len(volume.pub_att_value) gt 0>
       <cfset r=r & ' ' & volume.pub_att_value>
     </cfif>
-    <cfif len(number.pub_att_value) gt 0 and len(volume.pub_att_value) eq 0>
+    <cfif len(number.pub_att_value) gt 0 and len(volume.pub_att_value) eq 0> 
     	<cfset r=r & ' no. ' & number.pub_att_value>
      <cfelseif len(number.pub_att_value) gt 0>
       <cfset r=r & '(' & number.pub_att_value & ')'>
