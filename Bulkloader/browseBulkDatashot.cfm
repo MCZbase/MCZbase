@@ -15,7 +15,7 @@
 <!-------------------------------------------------------------->
 <cfif action is "loadAll">
 	<cfoutput>
-		<cfset sql="UPDATE #datashotbl# SET LOADED = NULL ">
+		<cfset sql="UPDATE #datashotbl# SET LOADED = NULL where 1=1 ">
 		<cfif len(accn) gt 0>
 			<cfset sql = "#sql# AND accn IN (#accn#)">
 		</cfif>
