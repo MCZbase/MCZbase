@@ -172,7 +172,7 @@
 		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu">
 			<cfset serverName="mczbase.mcz.harvard.edu" />
 		</cfif>
-		<cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) />
+		<!---cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) /--->
 		<cfset Application.session_timeout=90 />
 		<cfset Application.serverRootUrl = "http://#serverName#" />
 		<cfset Application.user_login="user_login" />
@@ -308,7 +308,8 @@
 			<cfset application.blacklist="" />
 		</cfif>
 		<cfif listfindnocase(application.blacklist,cgi.REMOTE_ADDR)>
-			<cfif cgi.script_name is not "/errors/gtfo.cfm">
+			<!---cfif cgi.script_name is not "/errors/gtfo.cfm"--->
+			<cfif replace(cgi.script_name,"//","/") is not "/errors/gtfo.cfm" and replace(cgi.script_name,"//","/") is not "/bkh.cfm">
 				<cfscript>getPageContext().forward("/errors/gtfo.cfm");</cfscript>
 				<cfabort />
 			</cfif>
@@ -336,7 +337,7 @@
 			<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
 		</cfif>
 		<!--- protect "us" directories --->
-		<cfif (CGI.Remote_Addr is not "127.0.0.1") and
+		<cfif (CGI.Remote_Addr is not "10.242.110.167") and
 			(not isdefined("session.roles") or session.roles is "public" or len(session.roles) is 0) and
 			(currentPath contains "/Admin/" or
 			currentPath contains "/ALA_Imaging/" or

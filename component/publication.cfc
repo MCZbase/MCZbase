@@ -77,7 +77,7 @@
 		order by
 			author_position
 	</cfquery>
-  <cfset as="">
+ <cfset as="">
   <cfset es="">
   <cfif a.recordcount is 1>
     <cfset as=a.agent_name>
@@ -172,12 +172,12 @@
     <cfset r=r & p.published_year & '. '>
     </cfif>
     <cfset r=r & publication_title>
-    <cfset r=r & ' ' & journal.pub_att_value & ' '>
+    <cfset r=r & ' ' & journal.pub_att_value & ''>
     <cfif len(translation.pub_att_value) gt 0>
     <cfset r=r & '[' & translation.pub_att_value & ']'>
     </cfif>
     <cfif len(series.pub_att_value) gt 0>
-      <cfset r=r & ' Series ' & series.pub_att_value & ','>
+      <cfset r=r & ', Series ' & series.pub_att_value & ','>
     </cfif>
     <cfif len(part.pub_att_value) gt 0>
     	<cfset r=r & ' Part ' & part.pub_att_value & ', '>
@@ -219,9 +219,9 @@
     <cfif len(journalsection.pub_att_value) gt 0>
       <cfset r=r & ' <i>In</i> ' & es>
       <cfif e.recordcount gt 1>
-        <cfset r=r & '., eds.'>
+        <cfset r=r & '., (eds.) '>
         <cfelseif e.recordcount eq 1>
-        <cfset r=r & '., ed.'>
+        <cfset r=r & '., (ed.) '>
         <cfelse>
         <cfset r=r & ''>
       </cfif>
@@ -235,7 +235,7 @@
       <cfset r=r & ' ' & volume.pub_att_value>
     </cfif>
     <cfif len(number.pub_att_value) gt 0 and len(volume.pub_att_value) eq 0>
-    	<cfset r=r & ' no. ' & number.pub_att_value>
+    	<cfset r=r & ' ' & number.pub_att_value>
      <cfelseif len(number.pub_att_value) gt 0>
       <cfset r=r & '(' & number.pub_att_value & ')'>
       <cfelse>
@@ -354,7 +354,7 @@
       <!--- End Newsletter---> 
    
      <!--- Begin Book--->
-    <cfelseif p.publication_type is "book">
+     <cfelseif p.publication_type is "book">
        <cfif right(p.publication_title,1) is not '.' and right(p.publication_title,1) is not '?' and right(p.publication_title,1) is not ','>
     <cfset publication_title=p.publication_title & '.'>
     <cfelse>
@@ -411,9 +411,9 @@
     <cfif len(book.pub_att_value) gt 0>
       <cfset r=r & ' <i>In</i> ' & es>
       <cfif e.recordcount gt 1>
-        <cfset r=r & ', eds. '>
+        <cfset r=r & ' (eds.) '>
         <cfelseif e.recordcount eq 1>
-        <cfset r=r & ', ed. '>
+        <cfset r=r & '(ed.) '>
         <cfelse>
         <cfset r=r & ''>
       </cfif>
