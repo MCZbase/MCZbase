@@ -13,3 +13,17 @@ static*.xml.gz
 taxonomy*.xml.gz
 # Eclipse
 .project
+# Generaed by schedueld job
+all_all/
+mcz_bird/
+mcz_cryo/
+mcz_ent/
+mcz_fish/
+mcz_herp/
+mcz_herpobs/
+mcz_ip/
+mcz_iz/
+mcz_mala/
+mcz_mamm/
+mcz_sc/
+mcz_vp/
