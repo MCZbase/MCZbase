@@ -1,6 +1,3 @@
-<script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#">
-</script>
 <style>
 	#mapTax{
 		width:40%;
@@ -65,7 +62,7 @@
 					chr(9) & chr(9) & chr(9) & '<name>#c# #scientific_name#</name>' & chr(10) &
 	      			chr(9) & chr(9) & chr(9) & '<description>' & chr(10) &
 			        chr(9) & chr(9) & chr(9) & chr(9) & '<![CDATA[' & chr(10) &
-			        chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<a href="#application.serverRootUrl#/SpecimenResults.cfm?locality_id=#locality_id#&scientific_name=#scientific_name#">Arctos Specimen Records</a>' & chr(10) &
+			        chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<a href="#application.serverRootUrl#/SpecimenResults.cfm?locality_id=#locality_id#&scientific_name=#scientific_name#">MCZbase Specimen Records</a>' & chr(10) &
 			        chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<br><span style="font-size:smaller">Datum: #datum#; error: #COORDINATEUNCERTAINTYINMETERS# m</span>' & chr(10) &
 			       	chr(9) & chr(9) & chr(9) & chr(9) & ' ]]>' & chr(10) &
 			      	chr(9) & chr(9) & chr(9) & '</description>' & chr(10) &
@@ -85,7 +82,7 @@
 	</cfif>
 	<span style="font-size:smaller;color:red;">Encumbered records are excluded.</span>
 	<div id="taxarangemap" style="width: 100%;; height: 400px;"></div>
-	<!---script language="javascript" type="text/javascript">
+	<script language="javascript" type="text/javascript">
 		jQuery(document.body).unload(function() {
 			GUnload();
 		});
@@ -110,8 +107,8 @@
 				 jQuery('##mapTax').html(data);
 			})
 		}
-	</script--->
-	<script language="javascript" type="text/javascript">
+	</script>
+	<!---script language="javascript" type="text/javascript">
                 jQuery(document).ready(function() {
                         var map;
                         var myLatLng = new google.maps.LatLng(49.496675, -102.65625);
@@ -124,7 +121,7 @@
                         var georssLayer = new google.maps.KmlLayer('#externalPath##fn#');
                         georssLayer.setMap(map);
                 });
-      </script>
+      </script--->
 	<span id="toggleExactmatch">
 		<cfif method is "exact">
 			Showing exact matches - <span class="likeLink" onclick="reloadThis('')"> show matches for '#scientific_name#%'</span>
