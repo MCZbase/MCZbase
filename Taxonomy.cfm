@@ -136,7 +136,7 @@
 			</td>
 			<td>
 				<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','infraspecific_author');">
-					Infraspecific Author</span></label>
+					Infraspecific Author (do not use for ICZN names)</span></label>
 				<input type="text" name="infraspecific_author" id="infraspecific_author" value="#gettaxa.infraspecific_author#" size="30">
 				<span class="infoLink"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')">
