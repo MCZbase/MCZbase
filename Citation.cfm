@@ -24,7 +24,7 @@
 			if (r.ROWCOUNT > 1){
 				alert('Multiple matches.');
 			} else {
-				if (r.ROWCOUNT==1) {	
+				if (r.ROWCOUNT==1) {
 					var scientific_name=result.SCIENTIFIC_NAME[0];
 					var collection_object_id=result.COLLECTION_OBJECT_ID[0];
 					var cat_num=result.CAT_NUM[0];
@@ -52,7 +52,7 @@
 			}
 		}
 	</script>
-	
+
 <cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select type_status from ctcitation_type_status order by type_status
 </cfquery>
@@ -69,8 +69,8 @@
 		citation.collection_object_id,
 		collection,
 		collection.collection_id,
-		cat_num, 
-		identification.scientific_name, 
+		cat_num,
+		identification.scientific_name,
 		citedTaxa.scientific_name as citSciName,
 		occurs_page_number,
 		type_status,
@@ -78,8 +78,8 @@
 		publication_title,
 		cited_taxon_name_id,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
-	FROM 
-		citation, 
+	FROM
+		citation,
 		cataloged_item,
 		collection,
 		identification,
@@ -117,42 +117,42 @@
 	<tr>
 	<td nowrap>
 		<table cellpadding="0" cellspacing="0">
-	
+
 		<form name="deleCitation#i#" method="post" action="Citation.cfm">
 		<input type="hidden" name="Action">
 			<input type="hidden" value="#publication_id#" name="publication_id">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 			<tr><td>
-			<input type="button" 
+			<input type="button"
 				value="Delete"
 				class="delBtn"
 				onmouseover="this.className='delBtn btnhov'"
 				onmouseout="this.className='delBtn'"
 				onClick="deleCitation#i#.Action.value='deleCitation';submit();">
 
-			
+
 			</td><td>
-			<input type="button" 
-				value="Edit" 
+			<input type="button"
+				value="Edit"
 				class="lnkBtn"
-				onmouseover="this.className='lnkBtn btnhov'" 
+				onmouseover="this.className='lnkBtn btnhov'"
 				onmouseout="this.className='lnkBtn'"
 				onClick="deleCitation#i#.Action.value='editCitation'; submit();">
-				
+
 			</td>
 		</form>
-		
+
 			<td>
-			<input type="button" 
-				value="Clone" 
+			<input type="button"
+				value="Clone"
 				class="insBtn"
-				onmouseover="this.className='insBtn btnhov'" 
+				onmouseover="this.className='insBtn btnhov'"
 				onmouseout="this.className='insBtn'"
 				onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
 				newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
 				newCitation.type_status.value='#getCited.type_status#';
 				newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
-				newCitation.citation_remarks.value='#getCited.citation_remarks#';
+				newCitation.citation_remarks.value='#stripQuotes(getCited.citation_remarks)#';
 				newCitation.collection.value='#getCited.collection_id#';
 				">
 			</td></tr>
@@ -166,8 +166,8 @@
 	<td nowrap><i>#getCited.scientific_name#</i>&nbsp;</td>
 	<td nowrap>#getCited.type_status#&nbsp;</td>
 	<td>#getCited.occurs_page_number#&nbsp;</td>
-	<td nowrap>#getCited.citation_remarks#&nbsp;</td>
-	
+	<td nowrap>#stripQuotes(getCited.citation_remarks)#&nbsp;</td>
+
 	</tr>
 	<cfset i=#i#+1>
 </cfloop>
@@ -194,7 +194,7 @@
 				<option value="#collection_id#">#collection#</option>
 			</cfloop>
 		</select>
-	</td>	
+	</td>
 	<td>
 		<label for="cat_num" id="lbl_cat_num">Catalog Number [ <span class="likeLink" onclick="getCatalogedItemCitation('cat_num','cat_num');">force refresh</span> ]</label>
 		<input type="text" name="cat_num" id="cat_num" onchange="getCatalogedItemCitation(this.id,'cat_num')" class="reqdClr">
@@ -250,15 +250,15 @@
 
 <tr>
 	<td colspan="2" align="center">
-		<input type="submit" 
+		<input type="submit"
 			id="submit"
 			title="Insert Citation"
-			value="Insert Citation" 
+			value="Insert Citation"
 			class="insBtn"
-			onmouseover="this.className='insBtn btnhov'" 
+			onmouseover="this.className='insBtn btnhov'"
 			onmouseout="this.className='insBtn'">
 	</td>
-	
+
 	</form>
 
 </tr></table>
@@ -287,7 +287,7 @@
 			<cfif len(#citation_remarks#) gt 0>
 				,citation_remarks
 			</cfif>
-			) 
+			)
 			VALUES (
 			#publication_id#,
 			#collection_object_id#,
@@ -302,9 +302,9 @@
 				,'#type_status#'
 			</cfif>
 			<cfif len(#citation_remarks#) gt 0>
-				,'#citation_remarks#'
+				,'#escapequotes(citation_remarks)#'
 			</cfif>
-			) 
+			)
 			</cfquery>
 			<cflocation url="Citation.cfm?publication_id=#publication_id#">
 	</cfoutput>
@@ -333,12 +333,12 @@
 				,type_status = null
 			</cfif>
 			<cfif len(#citation_remarks#) gt 0>
-				,citation_remarks = '#citation_remarks#'
+				,citation_remarks = '#escapequotes(citation_remarks)#'
 			  <cfelse>
 			  	,citation_remarks = null
 			</cfif>
-			
-		WHERE 
+
+		WHERE
 			publication_id = #publication_id# AND
 			collection_object_id = #collection_object_id#
 		</cfquery>
@@ -356,15 +356,15 @@
 		citation.collection_object_id,
 		cat_num,
 		collection,
-		identification.scientific_name, 
+		identification.scientific_name,
 		citedTaxa.scientific_name as citSciName,
 		occurs_page_number,
 		type_status,
 		citation_remarks,
 		publication_title,
 		cited_taxon_name_id
-	FROM 
-		citation, 
+	FROM
+		citation,
 		cataloged_item,
 		identification,
 		taxonomy citedTaxa,
@@ -377,7 +377,7 @@
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		identification.accepted_id_fg = 1 AND
 		citation.publication_id = publication.publication_id AND
-		citation.publication_id = #publication_id# AND 
+		citation.publication_id = #publication_id# AND
 		citation.collection_object_id = #collection_object_id#
 </cfquery>
 
@@ -407,12 +407,12 @@
 <tr>
 	<td>
 		<label for="cited_taxon_name">Cited As</label>
-		<input type="text" 
+		<input type="text"
 			name="cited_taxon_name"
-			id="cited_taxon_name" 
+			id="cited_taxon_name"
 			value="#citSciName#"
-			class="reqdClr" 
-			size="50" 
+			class="reqdClr"
+			size="50"
 			onChange="taxaPick('cited_taxon_name_id','cited_taxon_name','editCitation',this.value); return false;">
 		<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#" class="reqdClr">
 	</td>
@@ -420,7 +420,7 @@
 		<label for="type_status">Citation Type</label>
 		<select name="type_status" id="type_status" size="1">
 			<cfloop query="ctTypeStatus">
-				<option 
+				<option
 					<cfif #getCited.type_status# is "#ctTypeStatus.type_status#"> selected </cfif>value="#ctTypeStatus.type_status#">#ctTypeStatus.type_status#</option>
 			</cfloop>
 		</select>
@@ -434,21 +434,21 @@
 	</td>
 	<td>
 		<label for="citation_remarks">Remarks</label>
-		<input type="text" name="citation_remarks" id="citation_remarks" size="50" value="#citation_remarks#">
+		<input type="text" name="citation_remarks" id="citation_remarks" size="50" value="#stripQuotes(citation_remarks)#">
 	</td>
 </tr>
 <tr>
 	<td colspan="2" align="center">
-		<input type="submit" 
-			value="Save Edits" 
+		<input type="submit"
+			value="Save Edits"
 			class="savBtn"
 			id="sBtn"
 			title="Save Edits"
-			onmouseover="this.className='savBtn btnhov'" 
-			onmouseout="this.className='savBtn'">	
+			onmouseover="this.className='savBtn btnhov'"
+			onmouseout="this.className='savBtn'">
 
 	</td>
-	
+
 	</cfform>
 </tr></table>
 </cfoutput>
