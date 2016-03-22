@@ -559,7 +559,7 @@
 	</td><!---- end left cell --->
 	<td valign="top"><!---- right cell ---->	
                 <div>
-	 		<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Loan##Projects_and_Permits')" class="likeLink" alt="[ help ]">
+	 		<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]">
 			<strong>Projects associated with this loan:</strong>
                 </div>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
