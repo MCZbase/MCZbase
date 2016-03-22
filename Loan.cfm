@@ -74,7 +74,7 @@
 <cfif  action is "newLoan">
 <cfset title="New Loan">
 	Initiate a loan:
-	<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Create_Loan##Field_Definitions')" class="likeLink" alt="[ help ]">
+	<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
 	<cfoutput>
 		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
@@ -367,7 +367,7 @@
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
                 <div>
-	 	  <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Loan##Edit_a_Loan')" class="likeLink" alt="[ help ]">
+	 	  <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
 		  <strong>Edit Loan #loanDetails.collection# #loanDetails.loan_number#</strong>
                 </div>
 		<span style="font-size:small;">Entered by #loanDetails.enteredby#</span>
@@ -559,7 +559,7 @@
 	</td><!---- end left cell --->
 	<td valign="top"><!---- right cell ---->	
                 <div>
-	 		<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Loan##Projects_and_Permits')" class="likeLink" alt="[ help ]">
+	 		<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]">
 			<strong>Projects associated with this loan:</strong>
                 </div>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1184,7 +1184,7 @@
 </script> 
   <cfoutput>
     <div class="page_title">
-      <h1>Find Loan&##8239;/&##8239;Gift&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Find_Loan')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
+      <h1>Find Loan&##8239;/&##8239;Gift&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
     </div>
     <div id="loan">
       <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
