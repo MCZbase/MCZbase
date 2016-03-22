@@ -1564,7 +1564,7 @@
 	<cfoutput query="allLoans" group="transaction_id">
                 <cfset overdue = ''>
                 <cfset overduemsg = ''>
-                <cfif LEN(dueindays) GT 0 AND dueindays LT 0 >
+                <cfif LEN(dueindays) GT 0 AND dueindays LT 0 AND loan_status IS NOT "closed" >
                    <cfset overdue='style="color: RED;"'>
                    <cfset overduedays = ABS(dueindays)>
                    <cfset overduemsg=' #overduedays# days overdue'>
