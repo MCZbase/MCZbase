@@ -53,7 +53,8 @@
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
 				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
 				round(RETURN_DUE_DATE - (sysdate)) +1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,7,30) and
-				LOAN_STATUS not in ('closed') and
+				LOAN_STATUS like 'open%' and
+				loan_type in ('returnable', 'consumable', 'exhibition') and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id
 		</cfquery>
