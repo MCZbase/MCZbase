@@ -60,6 +60,7 @@
 						</select>
 						<label for="lot_count_modifier_#i#">Count Modifier (#i#)</label>
 				   		<select name="lot_count_modifier_#i#" id="lot_count_modifier_#i#" size="1">
+						    <option value=""></option>
 							<cfloop query="ctNumericModifiers">
 								<option value="#ctNumericModifiers.modifier#">#ctNumericModifiers.modifier#</option>
 							</cfloop>
