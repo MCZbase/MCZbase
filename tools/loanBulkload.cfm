@@ -23,7 +23,7 @@ transaction_id number
 <script type='text/javascript' src='/includes/loadLoanPart.js'></script>
 
 
-		
+
 <cfif #action# is "nothing">
 <cfoutput>
 	The following must all be true to use this form:
@@ -39,7 +39,7 @@ transaction_id number
 		<li>Loan Item reconciled date is today (#dateformat(now(),"yyyy-mm-dd")#)</li>
 	</ul>
 Step 1: Upload a file comma-delimited text file (CSV) in the following format. (You may copy the template below and save as .CSV)
- Include column headers. 
+ Include column headers.
 <ul>
 	<li>Institution_Acronym (required)</li>
 	<li>Collection_Cde (required)</li>
@@ -48,6 +48,7 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 	<li>Part_Name (required)</li>
 	<li>Item_Description</li>
 	<li>Item_Remarks</li>
+	<li>Barcode</li>
 	<li>subsample (required. "yes" creates a new part subsample. "no" puts the entire part on loan)</li>
 	<li>Loan_Number (required)</li>
 </ul>
@@ -55,8 +56,8 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 
 <p>
 <div id="template">
-		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_REMARKS,SUBSAMPLE,LOAN_NUMBER</textarea>
-	</div> 
+		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
+	</div>
 
 <cfform name="catnum" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
@@ -74,7 +75,7 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 	</cfquery>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
-	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />	
+	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 	<cfset colNames="">
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
@@ -88,7 +89,7 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 			</cfloop>
 		<cfif #o# is 1>
 			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
+		</cfif>
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
 			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -107,19 +108,16 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 <cfoutput>
 <cftransaction>
 	<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update 
-			cf_temp_loan_item 
-		set 
-			(transaction_id) 
+		update
+			cf_temp_loan_item
+		set
+			(transaction_id)
 		= (select
-				loan.transaction_id 
-			from 
-				trans,loan,collection
-			where 
+				loan.transaction_id
+			from
+				trans,loan
+			where
 				trans.transaction_id = loan.transaction_id and
-				trans.collection_id = collection.collection_id and
-				collection.institution_acronym=cf_temp_loan_item.institution_acronym and
-				collection.collection_cde=cf_temp_loan_item.collection_cde and
 				loan.loan_number = cf_temp_loan_item.loan_number
 			)
 	</cfquery>
@@ -129,17 +127,20 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 	</cfquery>
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_loan_item where status is null
-	</cfquery>  
+	</cfquery>
 		<cfloop query="data">
 			<cfif other_id_type is "catalog number">
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 
-						specimen_part.collection_object_id 
+					select
+						specimen_part.collection_object_id
 					from
 						cataloged_item,
 						collection,
 						specimen_part,
-						coll_object
+						coll_object,
+			            (select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+			            CONTAINER c,
+			            container pc
 					where
 						cataloged_item.collection_id = collection.collection_id and
 						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
@@ -149,18 +150,25 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 						part_name = '#part_name#' and
 						cat_num = '#other_id_number#' and
 						coll_obj_disposition != 'on loan' and
-						sampled_from_obj_id is null
+						sampled_from_obj_id is null and
+			            specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+			            PC.barcode = '#barcode#'
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 
-						specimen_part.collection_object_id 
+					select
+						specimen_part.collection_object_id
 					from
 						cataloged_item,
 						collection,
 						specimen_part,
 						coll_object,
-						coll_obj_other_id_num
+						coll_obj_other_id_num,
+						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+			            CONTAINER c,
+			            container pc
 					where
 						cataloged_item.collection_id = collection.collection_id and
 						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
@@ -173,10 +181,14 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 						other_id_type = '#other_id_type#' and
 						coll_obj_disposition != 'on loan' and
 						sampled_from_obj_id  is null
+						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+			            PC.barcode = '#barcode#'
 				</cfquery>
 			</cfif>
 			<cfif collObj.recordcount is 1>
-				collObj.recordcount is 1....
+				<!---collObj.recordcount is 1....--->
 				<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update
 						cf_temp_loan_item
@@ -186,8 +198,8 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 						key=#key#
 				</cfquery>
 				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update 
-						cf_temp_loan_item 
+					update
+						cf_temp_loan_item
 						set (ITEM_DESCRIPTION)
 						= (
 							select collection.collection || ' ' || cat_num || ' ' || part_name
@@ -214,7 +226,7 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 					</cfquery>
 				</cfif>
 			<cfelseif collObj.recordcount is 0><!--- no part --->
-				no part
+				<!---no part--->
 				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update
 						cf_temp_loan_item
@@ -237,19 +249,23 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 	</cftransaction>
 	<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_loan_item
-	</cfquery> 
+	</cfquery>
 	<cfdump var=#done#>
 	<cfquery name="bads" dbtype="query">
 		select count(*) c from done where status != 'spiffy'
 	</cfquery>
-	---------#bads.c#-------------
+	<cfif #bads.c# EQ 1>
+		There is #bads.c# bad record<br>
+	<cfelse>
+		There are #bads.c# bad records<br>
+	</cfif>
 	<cfif bads.c is 0 or bads.c is ''>
 		If everything in the table above looks OK, <a href="loanBulkload.cfm?action=loadData">click here to finalize loading</a>.
 	<cfelse>
 		Something isn't happy. Check the status column in the above table, fix your data, and try again.
 		<br> Duplicate parts? <a href="loanBulkload.cfm?action=pickPart">You can pick them</a>.
 	</cfif>
-	
+
 </cfoutput>
 </cfif>
 <!------------------------------------------------------->
@@ -307,8 +323,8 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 			</cfquery>
 			<cfif len(lData.ITEM_DESCRIPTION) is 0>
 				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update 
-						cf_temp_loan_item 
+					update
+						cf_temp_loan_item
 						set (ITEM_DESCRIPTION)
 						= (
 							select collection.collection || ' ' || cat_num || ' ' || part_name
@@ -322,8 +338,8 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 							cataloged_item.collection_id = collection.collection_id
 					)
 					where ITEM_DESCRIPTION is null and key=#thisKey#
-				</cfquery>				
-			</cfif>			
+				</cfquery>
+			</cfif>
 		</cfif>
 	</cfloop>
 	<cflocation url="loanBulkload.cfm?action=verify">
@@ -340,8 +356,8 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 			<cfif subsample is "yes">
 				<cfif other_id_type is "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select 
-							specimen_part.collection_object_id 
+						select
+							specimen_part.collection_object_id
 						from
 							cataloged_item,
 							collection,
@@ -360,8 +376,8 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 					</cfquery>
 				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select 
-							specimen_part.collection_object_id 
+						select
+							specimen_part.collection_object_id
 						from
 							cataloged_item,
 							collection,
@@ -416,11 +432,13 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 					INSERT INTO specimen_part (
 		 				COLLECTION_OBJECT_ID,
 		  				PART_NAME,
+		  				PRESERVE_METHOD,
 		  				DERIVED_FROM_cat_item,
 		  				sampled_from_obj_id)
 		  			( select
 		  				#thisPartId#,
 		  				part_name,
+		  				PRESERVE_METHOD,
 		  				DERIVED_FROM_cat_item,
 		  				#collObj.collection_object_id#
 		  			FROM
