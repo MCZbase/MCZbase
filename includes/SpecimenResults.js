@@ -344,7 +344,7 @@ function getSpecResultsData (startrow,numrecs,orderBy,orderOrder) {
 }
 function success_getSpecResultsData(result){
 	var data = result.DATA;
-	var attributes="number_of_specimens,age_class,ear_from_notch,field_number,forearm_length,hind_foot_with_claw,host,incubation,ledger_verbatim_horizon,numeric_age,reference,reproductive_data,sex,size_fish,standard_length,storage,tail_length,total_length,total_size,tragus_length,unformatted_measurements,verbatim_horizon,weight,total_parts";
+	var attributes="Associated_MCZ_Collection,abnormality,age,age_class,associated_taxon,bare_parts_coloration,body_length,citation,colors,crown_rump_length,date_collected,date_emerged,diameter,disk_length,disk_width,ear_from_notch,extent,fat_deposition,forearm_length,fork_length,fossil_measurement,head_length,height,hind_foot_with_claw,host,incubation,length,life_cycle_stage,life_stage,max_display_angle,molt_condition,numeric_age,ossification,plumage_coloration,plumage_description,reference,reproductive_condition,reproductive_data,section_length,section_stain,sex,size_fish,snout_vent_length,specimen_length,stage_description,standard_length,stomach_contents,storage,tail_length,temperature_experiment,total_length,total_size,tragus_length,unformatted_measurements,unnamed_form,unspecified_measurement,verbatim_elevation,weight,width,wing_chord";
 	var attAry=attributes.split(",");
 	var nAtt=attAry.length;
 	var collection_object_id = data.COLLECTION_OBJECT_ID[0];
@@ -416,6 +416,9 @@ function success_getSpecResultsData(result){
 			}
 			if (data.COLUMNLIST[0].indexOf('IDENTIFIED_BY')> -1) {
 				theInnerHtml += '<th>Identified&nbsp;By</th>';
+			}
+			if (data.COLUMNLIST[0].indexOf('PHYLCLASS')> -1) {
+				theInnerHtml += '<th>Class</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('PHYLORDER')> -1) {
 				theInnerHtml += '<th>Order</th>';
@@ -553,6 +556,9 @@ function success_getSpecResultsData(result){
 			if (data.COLUMNLIST[0].indexOf('DAYCOLL')> -1) {
 				theInnerHtml += '<th>Day</th>';
 			}
+			if (data.COLUMNLIST[0].indexOf('TOTAL_PARTS')> -1) {
+				theInnerHtml += '<th>TOTAL PARTS</th>';
+			}
 			if (data.COLUMNLIST[0].indexOf('PARTS')> -1) {
 				theInnerHtml += '<th>Parts</th>';
 			}
@@ -564,9 +570,6 @@ function success_getSpecResultsData(result){
 			}
 			if (data.COLUMNLIST[0].indexOf('REMARKS')> -1) {
 				theInnerHtml += '<th>Specimen&nbsp;Remarks</th>';
-			}
-			if (data.COLUMNLIST[0].indexOf('COLL_OBJ_DISPOSITION')> -1) {
-				theInnerHtml += '<th>Specimen&nbsp;Disposition</th>';
 			}
 			for (a=0; a<nAtt; a++) {
 				if (data.COLUMNLIST[0].indexOf(attAry[a].toUpperCase())> -1) {
@@ -686,6 +689,9 @@ function success_getSpecResultsData(result){
 				}
 				if (data.COLUMNLIST[0].indexOf('IDENTIFIED_BY')> -1) {
 					theInnerHtml += '<td>' + splitBySemicolon(data.IDENTIFIED_BY[i]) + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('PHYLCLASS')> -1) {
+					theInnerHtml += '<td>' + data.PHYLCLASS[i] + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('PHYLORDER')> -1) {
 					theInnerHtml += '<td>' + data.PHYLORDER[i] + '</td>';
@@ -825,6 +831,9 @@ function success_getSpecResultsData(result){
 				if (data.COLUMNLIST[0].indexOf('DAYCOLL')> -1) {
 					theInnerHtml += '<td>' + data.DAYCOLL[i] + '</td>';
 				}
+				if (data.COLUMNLIST[0].indexOf('TOTAL_PARTS')> -1) {
+					theInnerHtml += '<td>' + data.TOTAL_PARTS[i] + '</td>';
+				}
 				if (data.COLUMNLIST[0].indexOf('PARTS')> -1) {
 					theInnerHtml += '<td><div class="wrapLong">' + splitBySemicolon(data.PARTS[i]) + '</div></td>';
 				}
@@ -836,9 +845,6 @@ function success_getSpecResultsData(result){
 				}
 				if (data.COLUMNLIST[0].indexOf('REMARKS')> -1) {
 					theInnerHtml += '<td>' + data.REMARKS[i] + '</td>';
-				}
-				if (data.COLUMNLIST[0].indexOf('COLL_OBJ_DISPOSITION')> -1) {
-					theInnerHtml += '<td>' + data.COLL_OBJ_DISPOSITION[i] + '</td>';
 				}
 				for (a=0; a<nAtt; a++) {
 					if (data.COLUMNLIST[0].indexOf(attAry[a].toUpperCase())> -1) {
