@@ -195,7 +195,7 @@
 		<cfset Application.institutionlinkcolor = "##FF0000" />
 		<cfset Application.collectionlinkcolor = "##00FF00" />
 		<cfquery name="d" datasource="uam_god">
-			select ip from blacklist
+			select ip from blacklist where sysdate-LISTDATE<180
 		</cfquery>
 		<cfset Application.blacklist=valuelist(d.ip) />
 		<cfif serverName is "arctos.database.museum">

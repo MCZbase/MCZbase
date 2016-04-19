@@ -1,6 +1,6 @@
 <cfoutput>
 	<cfquery name="d" datasource="uam_god">
-		select ip from uam.blacklist
+		select ip from blacklist
 	</cfquery>
 	<cfset variables.fileName="#Application.webDirectory#/.htaccess">
 	<cfset variables.encoding="US-ASCII">
@@ -13,7 +13,7 @@
 		// let /errors/ through
 		variables.joFileWriter.writeLine('RewriteCond %{REQUEST_URI} "/errors/');
 		variables.joFileWriter.writeLine('RewriteRule (.*) $1 [L]');
-	</cfscript>	
+	</cfscript>
 	<cfset i=1>
 	<cfloop query="d">
 		<cfscript>
@@ -26,7 +26,7 @@
 		</cfscript>
 	</cfloop>
 	<cfscript>
-		a='RewriteRule .*$ errors/gtfo.cfm';		
+		a='RewriteRule .*$ errors/gtfo.cfm';
 		variables.joFileWriter.writeLine(a);
 		variables.joFileWriter.close();
 	</cfscript>
