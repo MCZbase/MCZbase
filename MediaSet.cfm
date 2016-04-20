@@ -329,10 +329,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         <cfelse>
         <cfoutput>
           </div>
-          </div>
           
           <!-- end multizooom thumbs -->
           <p class="tipbox instruction2">There is only one image of this specimen.</p>
+          </div>
+
           </div>
           </div>
 
