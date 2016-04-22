@@ -20,6 +20,27 @@
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
 </cfquery>
+<cfscript>
+   function isAllowedLoanStateChange(oldState, newState) { 
+      if (oldState eq newState) return True;
+      if (newState.length() eq 0) return False;
+
+      if (left(oldState,4) eq 'open' and newState eq 'closed') { return True; } 
+
+      if (oldState eq 'in process' and newState eq 'open') { return True; } 
+      if (oldState eq 'in process' and newState eq 'open in-house') { return True; } 
+
+      if (oldState eq 'open' and newState eq 'open partially returned') { return True; } 
+      if (oldState eq 'open' and newState eq 'open under-review') { return True; } 
+
+      if (oldState eq 'open in-house' and newState eq 'open partially returned') { return True; } 
+      if (oldState eq 'open in-house' and newState eq 'open under-review') { return True; } 
+
+      if (oldState eq 'open partially returned' and newState eq 'open under-review') { return True; } 
+
+      return False;
+   }
+</cfscript>
 <style>
 	.nextnum{
 		border:2px solid green;
@@ -168,9 +189,11 @@
 						<label for="loan_status">Loan Status</label>
 						<select name="loan_status" id="loan_status" class="reqdClr">
 							<cfloop query="ctLoanStatus">
+                                                          <cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 								<option value="#ctLoanStatus.loan_status#"
 										<cfif #ctLoanStatus.loan_status# is "open">selected='selected'</cfif>
 										>#ctLoanStatus.loan_status#</option>
+                                                          </cfif>
 							</cfloop>
 						</select>
 					</td>
@@ -464,8 +487,10 @@
 					<label for="loan_status">Loan Status</label>
 					<select name="loan_status" id="loan_status" class="reqdClr">
 						<cfloop query="ctLoanStatus">
+                                                     <cfif isAllowedLoanStateChange(loanDetails.loan_status,ctLoanStatus.loan_status) >
 							<option <cfif ctLoanStatus.loan_status is loanDetails.loan_status> selected="selected" </cfif>
 								value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
+                                                     </cfif>
 						</cfloop>
 					</select>
 				</td>
