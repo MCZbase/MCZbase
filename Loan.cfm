@@ -486,8 +486,9 @@
 				<td>
 					<label for="loan_status">Loan Status</label>
 					<select name="loan_status" id="loan_status" class="reqdClr">
+                                                <!---  Normal transaction users are only allowed certain loan status state transitions, users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
 						<cfloop query="ctLoanStatus">
-                                                     <cfif isAllowedLoanStateChange(loanDetails.loan_status,ctLoanStatus.loan_status) >
+                                                     <cfif isAllowedLoanStateChange(loanDetails.loan_status,ctLoanStatus.loan_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
 							<option <cfif ctLoanStatus.loan_status is loanDetails.loan_status> selected="selected" </cfif>
 								value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
                                                      </cfif>
