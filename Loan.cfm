@@ -1558,195 +1558,223 @@
 		 	collection.collection
 		ORDER BY loan_number
     ">
-	<cfquery name="allLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	 <cfquery name="allLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
-	<cfif allLoans.recordcount is 0>
-		Nothing matched your search criteria.
-	</cfif>
-	<cfset rURL="Loan.cfm?csv=true">
-	<cfloop list="#StructKeyList(form)#" index="key">
-		<cfif len(form[key]) gt 0>
-			<cfset rURL='#rURL#&#key#=#form[key]#'>
-		 </cfif>
-	</cfloop>
-	<br><a href="#rURL#">[ download CSV ]</a>
-	</cfoutput>
-	<table>
-	<cfset i=1>
-	<cfif not isdefined("csv")>
-		<cfset csv=false>
-	</cfif>
-	<cfif csv is true>
-		<cfset dlFile = "ArctosLoanData.csv">
-		<cfset variables.fileName="#Application.webDirectory#/download/#dlFile#">
-	<cfset variables.encoding="UTF-8">
-		<cfscript>
+    <cfif allLoans.recordcount is 0>
+      Nothing matched your search criteria.
+    </cfif>
+
+    <cfset rURL="Loan.cfm?csv=true">
+    <cfloop list="#StructKeyList(form)#" index="key">
+    <cfset allLoans.recordcount ++ />
+      <cfif len(form[key]) gt 0>
+        <cfset rURL='#rURL#&#key#=#form[key]#'>
+      </cfif>
+    </cfloop>
+       <cfset loannum = ''>
+    <cfif #allLoans.recordcount# eq 1>
+    <cfset loannum = 'loan'>
+    </cfif>
+    <cfif #allLoans.recordcount# gt 1>
+    <cfset loannum = 'loans'>
+    </cfif>
+   
+ <header>
+   Search Results = #allLoans.recordcount# #loannum# <a href="#rURL#" class="download">Download these results as a CSV file</a>
+   </header>
+    <hr/>
+  </cfoutput>
+
+    <cfset i=1>
+
+    <cfif not isdefined("csv")>
+      <cfset csv=false>
+    </cfif>
+    <cfif csv is true>
+      <cfset dlFile = "ArctosLoanData.csv">
+      <cfset variables.fileName="#Application.webDirectory#/download/#dlFile#">
+      <cfset variables.encoding="UTF-8">
+      <cfscript>
 			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-			d='loan_number,item_count,Recipient,nature_of_material,loan_type,loan_status,return_due_date,Transaction_Date,loan_instructions,auth_agent,ent_agent,trans_remarks,loan_description,Project';
+			d='loan_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,foruseby_agent,addOutside_agent,loan_type,loan_status,Transaction_Date,return_due_date,nature_of_material,loan_description,loan_instructions,trans_remarks,ent_agent,Project';
 		 	variables.joFileWriter.writeLine(d);
 	</cfscript>
-	</cfif>
-	<cfoutput query="allLoans" group="transaction_id">
-                <cfset overdue = ''>
-                <cfset overduemsg = ''>
-                <cfif LEN(dueindays) GT 0 AND dueindays LT 0 AND loan_status IS NOT "closed" >
-                   <cfset overdue='style="color: RED;"'>
-                   <cfset overduedays = ABS(dueindays)>
-                   <cfset overduemsg=' #overduedays# days overdue'>
+    </cfif>
+    <cfoutput query="allLoans" group="transaction_id">
+
+      <cfset overdue = ''>
+      <cfset overduemsg = ''>
+      <cfif LEN(dueindays) GT 0 AND dueindays LT 0 AND loan_status IS NOT "closed" >
+        <cfset overdue='style="color: RED;"'>
+        <cfset overduedays = ABS(dueindays)>
+        <cfset overduemsg=' #overduedays# days overdue'>
+      </cfif>
+            <cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select count(*) c from loan_item where transaction_id=#transaction_id#
+		    </cfquery>
+<div class="loan_results">
+    <div id="listloans">
+   
+    <p>#i# of #allLoans.recordcount# #loannum#</p>
+       <dl>
+         <dt>Collection &amp; Loan Number:</dt>
+         <dd><strong>#collection# / #loan_number#</strong>
+              <cfif c.c gt 0>
+                (#c.c# items)
+              </cfif>
+         </dd>
+                <dt>Authorized By:</dt>
+                 <cfif len(auth_agent) GT 0>
+                  <dd class="mandcolr">#auth_agent#</dd>
+                       <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                    </cfif>
+                <dt title="primary in-house contact; 1 of 2 possible in-house contacts to receive email reminder">In-house Contact:</dt>
+              
+                  <cfif len(inHouse_agent) GT 0>
+                     <dd class="mandcolr"> #inHouse_agent#</dd>
+                    <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                  </cfif>
+                  
+                
+                <dt title="primary in-house contact; 1 of 2 possible in-house contacts to receive email reminder">Additional In-house Contact:</dt>
+                  <cfif len(addInhouse_agent) GT 0>
+                    <dd>#addInhouse_agent#</dd>
+                    <cfelse>
+                  <dd class="emptystatus">N/A</dd>
+                  </cfif>
+                
+                <dt title="this is the primary borrower; listed on email reminder; 1 of 3 possible outside agents to receive email reminder; ship to address should be for this agent">Recipient:</dt>
+                <dd class="mandcolr" title="1 of 3 possible outside agents to receive email reminder; listed on email reminder">#rec_agent#</dd>
+                <dt title="1 of 3 possible outside agents to receive email reminder; listed on email reminder">For use by:</dt>
+               
+                  <cfif len(foruseby_agent) GT 0>
+                    <dd>#foruseby_agent#</dd>
+                    <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                  </cfif>
+               
+                <dt title="1 of 3 possible outside agents to receive email reminder">Additional Outside Contact:</dt>
+                <cfif len(addOutside_agent) GT 0>
+                    <dd>#addOutside_agent#</dd>
+                    <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                  </cfif>
+                </dd>
+                <dt title="included in email reminder">Type:</dt>
+                <dd class="mandcolr">#loan_type#</dd>
+                <dt title="included in email reminder">Status:</dt>
+                <dd class="mandcolr">#loan_status#</dd>
+                <dt title="included in email reminder">Transaction Date:</dt>
+                 <cfif len(trans_date) GT 0>
+                <dd  class="mandcolr">#dateformat(trans_date,"yyyy-mm-dd")#</dd>
+                <cfelse>
+                <dd class="mandcolrstatus">N/A</dd>
                 </cfif>
-		<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
-			<td>
-				<table>
-				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*) c from loan_item where transaction_id=#transaction_id#
-				</cfquery>
-					<tr>
-						<td colspan="3">
-							<strong>#collection# #loan_number#</strong>
-							<cfif c.c gt 0>(#c.c# items)</cfif>
-						</td>
-					</tr>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Recipient:</div></td>
-						<td><strong>#rec_agent#</strong></td>
-					</tr>
-                                        <cfif len(foruseby_agent) GT 0>
-					   <tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">For use by:</div></td>
-						<td><strong>#foruseby_agent#</strong></td>
-					   </tr>
-                                        </cfif>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Nature of Material:</div></td>
-						<td><strong>#nature_of_material#</strong></td>
-					</tr>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Type:</div></td>
-						<td><strong>#loan_type#</strong></td>
-					</tr>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Status:</div></td>
-						<td><strong>#loan_status#</strong></td>
-					</tr>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Due Date:</div></td>
-						<td #overdue#><strong>#return_due_date#</strong>#overduemsg#</td>
-					</tr>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Transaction Date:</div></td>
-						<td><strong>#dateformat(trans_date,"yyyy-mm-dd")#</strong></td>
-					</tr>
-                                        <cfif len(loan_instructions) GT 0>
-					   <tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Instructions:</div></td>
-						<td><strong>#loan_instructions#</strong></td>
-					   </tr>
-                                        </cfif>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Authorized By:</div></td>
-						<td><strong>#auth_agent#</strong></td>
-					</tr>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Entered By:</div></td>
-						<td><strong>#ent_agent#</strong></td>
-					</tr>
-                                        <cfif len(trans_remarks) GT 0>
-					   <tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Remarks:</div></td>
-						<td><strong>#trans_remarks#</strong></td>
-					   </tr>
-                                        </cfif>
-                                        <cfif len(loan_description) GT 0>
-					   <tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap><div align="right">Description:</div></td>
-						<td><strong>#loan_description#</strong></td>
-					   </tr>
-                                        </cfif>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td align="right">Project:</td>
-						<td>
-							<cfquery name="p" dbtype="query">
+               
+                <dt title="included in email reminder">Due Date:</dt>
+                <cfif len(return_due_date) GT 0>
+                <dd #overdue# class="mandcolr"><strong>#return_due_date#</strong> #overduemsg#</dd>
+				<cfelse>
+                <dd class="mandcolrstatus">N/A</dd>
+                </cfif>               
+               
+                <dt title="included in email reminder">Nature of Material:</dt>
+                <cfif len(nature_of_material) GT 0>
+                <dd class="mandcolr large">#nature_of_material#</dd>
+                <cfelse>
+                <dd class="mandcolrstatus large">N/A</dd>
+                </cfif>
+                <dt>Description:</dt>
+                <cfif len(loan_description) GT 0>
+                   <dd class="large">#loan_description#</dd>
+                    <cfelse>
+                   <dd class="large emptystatus">N/A</dd>
+                  </cfif>
+               
+                <dt>Instructions:</dt>
+                 <cfif len(loan_instructions) GT 0>
+                    <dd class="large">#loan_instructions#</dd>
+                    <cfelse>
+                    <dd class="large emptystatus">N/A</dd>
+                  </cfif>
+              
+                <dt>Remarks:</dt>
+               
+                  <cfif len(trans_remarks) GT 0>
+                    <dd class="large">#trans_remarks#</dd>
+                    <cfelse>
+                    <dd class="large emptystatus">N/A</dd>
+                  </cfif>
+               
+                <dt>Entered By:</dt>
+                 <cfif len(ent_agent) GT 0>
+                 <dd>#ent_agent#</dd>
+                 <cfelse>
+                 <dd>N/A</dd>
+                 </cfif>
+                <dt>Project:</dt>
+                <dd>
+                  <cfquery name="p" dbtype="query">
 								select project_name,pid from allLoans where transaction_id=#transaction_id#
 								group by project_name,pid
 							</cfquery>
-							<cfloop query="p">
-								<cfif len(P.project_name)>
-									<CFIF P.RECORDCOUNT gt 1>
-										<img src="/images/li.gif" border="0">
-									</CFIF>
-									<a href="/Project.cfm?Action=editProject&project_id=#p.pid#">
-										<strong>#P.project_name#</strong>
-									</a><BR>
-								<cfelse>
-									<strong>None</strong>
-								</cfif>
-							</cfloop>
-						</td>
-					</tr>
-					<tr>
-						<td><img src="images/nada.gif" width="30" height="1"></td>
-						<td nowrap colspan="2">
-						<table width="100%">
-							<tr>
-								<td align="left">
-									<a href="a_loanItemReview.cfm?transaction_id=#transaction_id#">[ Review Items ]</a>
-								</td>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<td>
-										<a href="SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#">[ Add Items ]</a>
-										<a href="loanByBarcode.cfm?transaction_id=#transaction_id#">[ Add Items By Barcode ]</a>
-									</td>
-									<td>
-										<a href="Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">[ Edit Loan ]</a>
-									</td>
-									<cfif #project_id# gt 0>
-										<td>
-										<a href="Project.cfm?Action=addTrans&project_id=#project_id#&transaction_id=#transaction_id#">
-											[ Add To Project ]</a>
-										</td>
-									</cfif>
-								</cfif>
-							</tr>
-						</table>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<cfif csv is true>
-			<cfset d='"#escapeDoubleQuotes(collection)# #escapeDoubleQuotes(loan_number)#"'>
-			<cfset d=d &',"#c.c#","#escapeDoubleQuotes(rec_agent)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(nature_of_material)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(loan_type)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(loan_status)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>
-			<cfset d=d &',"#dateformat(trans_date,"yyyy-mm-dd")#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(loan_instructions)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(auth_agent)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(ent_agent)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(trans_remarks)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(loan_description)#"'>
-			<cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>
-			<cfscript>
+                  <cfloop query="p">
+                    <cfif len(P.project_name)>
+                      <CFIF P.RECORDCOUNT gt 1>
+                   
+                      </CFIF>
+                      <a href="/Project.cfm?Action=editProject&project_id=#p.pid#"> <strong>#P.project_name#</strong> </a><BR>
+                      <cfelse>
+                   None
+                    </cfif>
+                  </cfloop>
+                </dd>
+              </dl>
+   
+            
+<ul class="loan_buttons">
+      <li><a href="a_loanItemReview.cfm?transaction_id=#transaction_id#">Review Items</a></li>
+       <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+       <li class="add"><a href="SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#">Add Items</a></li>
+       <li class="barcode"><a href="loanByBarcode.cfm?transaction_id=#transaction_id#">Add Items by Barcode</a></li>
+       <li class="edit"><a href="Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">Edit Loan</a></li>
+       <cfif #project_id# gt 0>
+       <li><a href="Project.cfm?Action=addTrans&project_id=#project_id#&transaction_id=#transaction_id#"> [ Add To Project ]</a></li>
+         </cfif>
+     </cfif>
+  </ul>
+
+        </div>
+        </div>
+      <cfif csv is true>
+        <cfset d='"#escapeDoubleQuotes(collection)# #escapeDoubleQuotes(loan_number)#"'>
+        <cfset d=d &',"#c.c#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(auth_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(inHouse_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(addInhouse_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(rec_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(foruseby_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(addOutside_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(loan_type)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(loan_status)#"'>
+        <cfset d=d &',"#dateformat(trans_date,"yyyy-mm-dd")#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(nature_of_material)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(loan_description)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(loan_instructions)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(trans_remarks)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(ent_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>
+        <cfscript>
 				variables.joFileWriter.writeLine(d);
 			</cfscript>
-		</cfif>
-		<cfset i=#i#+1>
-	</cfoutput>
+      </cfif>
+      <cfset i=#i#+1>
+    </cfoutput>
+  
 	<cfif csv is true>
 		<cfscript>
 			variables.joFileWriter.close();
