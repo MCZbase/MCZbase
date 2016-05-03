@@ -228,7 +228,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<label for="trans_remarks">Remarks</label>
+						<label for="trans_remarks">Internal Remarks</label>
 						<textarea name="trans_remarks" id="trans_remarks" rows="3" cols="80"></textarea>
 					</td>
 				</tr>
@@ -518,7 +518,7 @@
 		<label for="loan_instructions">Instructions (<span id="lbl_loan_instructions"></span>)</label>
 		<textarea name="loan_instructions" id="loan_instructions" rows="7"
 			cols="60">#loanDetails.loan_instructions#</textarea>
-		<label for="trans_remarks">Remarks (<span id="lbl_trans_remarks"></span>)</label>
+		<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
 		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="60">#loanDetails.trans_remarks#</textarea>
 		<br>
 		<input type="button" value="Save Edits" class="savBtn"
@@ -1315,7 +1315,7 @@
             <td><textarea name="loan_instructions" rows="3" cols="50"></textarea></td>
           </tr>
           <tr>
-            <td align="right">Remarks: </td>
+            <td align="right">Internal Remarks: </td>
             <td><textarea name="trans_remarks" rows="3" cols="50"></textarea></td>
           </tr>
           <tr>
