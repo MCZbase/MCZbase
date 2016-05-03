@@ -1140,7 +1140,7 @@ border: 2px solid #444;
 padding: 2px 5px;
 cursor:pointer;
 }
-section header {
+header {
 	font-weight: bold;
 	margin-left: 10px;
 }
@@ -1155,6 +1155,7 @@ section header {
 .loan_results:nth-child(odd) {
 	background-color: #ffffff;
 	padding: 8px 0 2px 0;
+	
 }
 .loan_results p {
 	margin: 0 0 0 10px;
