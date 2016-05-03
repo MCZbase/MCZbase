@@ -228,7 +228,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<label for="trans_remarks">Remarks</label>
+						<label for="trans_remarks">Internal Remarks</label>
 						<textarea name="trans_remarks" id="trans_remarks" rows="3" cols="80"></textarea>
 					</td>
 				</tr>
