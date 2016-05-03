@@ -1707,7 +1707,7 @@
                     <dd class="large emptystatus">N/A</dd>
                   </cfif>
               
-                <dt>Remarks:</dt>
+                <dt>Internal Remarks:</dt>
                
                   <cfif len(trans_remarks) GT 0>
                     <dd class="large">#trans_remarks#</dd>
