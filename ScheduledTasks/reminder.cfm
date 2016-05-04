@@ -19,6 +19,7 @@
 				electronic_address.address,
 				round(RETURN_DUE_DATE - sysdate)+1 expires_in_days,
 				trans_agent.trans_agent_role,
+				preferred_agent_name.agent_id,
 				preferred_agent_name.agent_name,
 				nnName.agent_name collection_agent_name,
 				nnAddr.address collection_email,
@@ -52,11 +53,11 @@
 				trans_agent.agent_id = person.person_id(+) AND
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
 				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
-				round(RETURN_DUE_DATE - (sysdate)) +1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,7,30) and
+				round(RETURN_DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,7,30) and
 				LOAN_STATUS like 'open%' and
 				loan_type in ('returnable', 'consumable', 'exhibition') and
 				loan.transaction_id=shipment.transaction_id(+) and
-				shipment.shipped_to_addr_id = addr.addr_id
+				shipment.shipped_to_addr_id = addr.addr_id(+)
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="loan" dbtype="query">
@@ -148,6 +149,7 @@
 			</cfquery>
 			<cfquery name="receivedBy" dbtype="query">
 				select
+					agent_id,
 					last_name,
 					first_name,
 					agent_name
@@ -157,6 +159,7 @@
 					transaction_id=#transaction_id# and
 					trans_agent_role = 'received by'
 				group by
+					agent_id,
 					last_name,
 					first_name,
 					agent_name
@@ -366,6 +369,12 @@
 				---------------------------------------------------------------------</P>
 				<hr><hr>
 			</cfmail>
+			<cfif specialmail EQ "">
+					<cfquery name="upLogTable" datasource="uam_god">
+						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
+						values(#receivedBy.agent_id#, SYSDATE, #loan.transaction_id#, 'R', '#toaddresses#')
+					</cfquery>
+			</cfif>
 		</cfloop>
 		<!--- end of loan code --->
 		<!----------- permit ------------
