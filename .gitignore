@@ -11,6 +11,13 @@ publication*.xml.gz
 specimen*.xml.gz
 static*.xml.gz
 taxonomy*.xml.gz
+media*.xml
+project*.xml
+publication*.xml
+specimen*.xml
+static*.xml
+taxonomy*.xml
+.htaccess
 # Eclipse
 .project
 # Generaed by schedueld job
@@ -27,3 +34,11 @@ mcz_mala/
 mcz_mamm/
 mcz_sc/
 mcz_vp/
+media2.xml
+media4.xml
+specimen1.xml
+specimen4.xml
+specimen9.xml
+taxonomy3.xml
+taxonomy5.xml
+
