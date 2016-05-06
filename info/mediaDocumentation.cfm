@@ -31,7 +31,6 @@ h2 {font-size: 98%;padding: 1em 1em 1em 1.5em;margin:0; line-height: 1.2em;borde
 @media only screen and (max-width: 700px) {
    #contentBox {
 		font-size: 78%;
-	
 	}
 	.cell {height: 10em;
     }
