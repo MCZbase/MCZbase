@@ -6,6 +6,8 @@
 <cfscript>
 	variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
 	variables.joFileWriter.writeLine('User-agent: *');
+	variables.joFileWriter.writeLine('Disallow: /cfide/');
+	variables.joFileWriter.writeLine('Disallow: /CFIDE/');
 </cfscript>	
 <cfset allowedDirectories="Collections">
 <cfquery name="portals" datasource="cf_dbuser">
