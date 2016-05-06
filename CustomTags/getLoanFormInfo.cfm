@@ -205,7 +205,6 @@ select
 				MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
                	replace(to_char(return_due_date,'dd-Month-yyyy'),' ','') as return_due_date,
                 replace(nature_of_material,'&','&amp;') nature_of_material,
-                replace(trans_remarks,'&','&amp;') trans_remarks,
                 replace(replace(loan_instructions,'&','&amp;'), chr(32)||chr(28) ,'"') loan_instructions,
                 replace(loan_description,'&','&amp;') loan_description,
                 loan_type,
