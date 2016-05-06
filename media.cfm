@@ -305,7 +305,7 @@
             <option value="#media_license_id#">#media_license#</option>
           </cfloop>
         </select>
-        <a class="infoLink" onClick="popupDefine()">Define</a> <br/>
+        <a class="infoLink" onClick="popupDefine()">Define</a><br/>
         <ul class="lisc">
           Notes:
           <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted</li>
