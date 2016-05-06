@@ -18,6 +18,11 @@
 		$('#annotateDiv').append('<iframe id="commentiframe" width="100%" height="100%">');
 		$('#commentiframe').attr('src', guts);
 	}
+	
+	function popupDefine() {
+    	window.open("/info/mediaDocumentation.cfm", "_blank", 		"toolbar=yes,scrollbars=yes,resizable=yes,top=70,left=300,width=900,height=650,location=no,toolbar=no");
+	}
+
 </script>
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_relationship from ctmedia_relationship order by media_relationship
@@ -189,7 +194,7 @@
 					<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
 				</cfloop>
 			</select>
-			<span class="infoLink" onclick="getCtDoc('ctmedia_license');">Define</span>
+			<span class="infoLink" onclick="popupDefine();">Define</span>
 			<label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 			<div id="relationships" style="border:1px dashed red;">
 				<cfset i=1>
@@ -296,22 +301,30 @@
 					<option value="#media_type#">#media_type#</option>
 				</cfloop>
 			</select>
+		<div style="border:1px solid red;padding: 10px 0 0 10px;width: 440px; margin: 1em 0 1em 2px;">
 			<label for="media_license_id">License</label>
 			<select name="media_license_id" id="media_license_id">
-				<option value="">NONE</option>
+				<option value="">Research copyright &amp; then choose...</option>
 				<cfloop query="ctmedia_license">
 					<option value="#media_license_id#">#media_license#</option>
 				</cfloop>
 			</select>
-			<span class="infoLink" onclick="getCtDoc('ctmedia_license');">Define</span>
-			<label for="relationships">Media Relationships</label>
+			<a class="infoLink" onClick="popupDefine()">Define</a> <br/>
+           
+            <ul class="lisc">Notes:
+            <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted</li>
+            <li>remove media immediately if owner requests it</li>
+            <li>contact <a href="mailto:Mcz_collections_operations@oeb.harvard.edu?subject=licensing">MCZ Collections Operations</a> if additional licensing situations arise</li></ul>
+            </div>
+			<br>
+            	<label for="relationships">Media Relationships</label>
 			<div id="relationships" style="border:1px dashed red;">
 				<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)">
 					<option value="">None/Unpick</option>
 					<cfloop query="ctmedia_relationship">
 						<option value="#media_relationship#">#media_relationship#</option>
 					</cfloop>
-				</select>:&nbsp;<input type="text" name="related_value__1" id="related_value__1" size="80" readonly="readonly">
+				</select>:&nbsp;<input type="text" name="related_value__1" id="related_value__1" size="80" readonly>
 				<input type="hidden" name="related_id__1" id="related_id__1">
 				<br><span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
 			</div>
