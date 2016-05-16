@@ -873,7 +873,7 @@ function IsNumeric(sText) {
 }
 function orapwCheck(p,u) {
 	var regExp = /^[A-Za-z0-9!$%&_?(\-)<>=/:;*\.]$/;
-	var minLen=6;
+	var minLen=8;
 	var msg='Password is acceptable';
 	if (p.indexOf(u) > -1) {
 		msg='Password may not contain your username.';

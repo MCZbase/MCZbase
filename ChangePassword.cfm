@@ -27,7 +27,7 @@
 		<cfif session.username is "guest">
 			Guests are not allowed to change passwords.<cfabort>
 		</cfif>
-	    You are logged in as #session.username#. 
+	    You are logged in as #session.username#.
 	    <br>Your password is #pwtime# days old.
 	    <cfquery name="isDb" datasource="uam_god">
 			select
@@ -40,10 +40,10 @@
 			from dual
 		</cfquery>
 		<cfif isDb.cnt gt 0>
-			<br>Operators must change password every #Application.max_pw_age# days. 
+			<br>Operators must change password every #Application.max_pw_age# days.
 			<br>Password rules:
 			<ul>
-				<li>At least six characters</li>
+				<li>At least eight characters</li>
 				<li>May not contain some special characters</li>
 				<li>May not contain your username</li>
 				<li>Must contain at least
@@ -54,7 +54,7 @@
 					</ul>
 				</li>
 			</ul>
-		</cfif>	
+		</cfif>
 		<form action="ChangePassword.cfm" method="post">
 	        <input type="hidden" name="action" value="update">
 			<label for="oldpassword">Old password</label>
@@ -76,16 +76,16 @@
 			 username= '#session.username#'
 		</cfquery>
 		<cfif len(isGoodEmail.email) gt 0>
-			If you can't remember your old password, we can 
+			If you can't remember your old password, we can
 			<a href="ChangePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
 		</cfif>
 	</cfoutput>
 </cfif>
 <!----------------------------------------------------------->
 <cfif action is "lostPass">
-	Lost your password? Passwords are stored in an encrypted format and cannot be recovered. 
-<br>If you have saved your email address in your profile, enter it here to reset your password. 
-<br>If you have not saved your email address, please submit a bug report to that effect 
+	Lost your password? Passwords are stored in an encrypted format and cannot be recovered.
+<br>If you have saved your email address in your profile, enter it here to reset your password.
+<br>If you have not saved your email address, please submit a bug report to that effect
     and we will reset your password for you.
 	<form name="pw" method="post" action="ChangePassword.cfm">
         <input type="hidden" name="action" value="findPass">
@@ -94,7 +94,7 @@
         <label for="email">Email Address</label>
 	    <input type="text" name="email" id="email">
         <br>
-	    <input type="submit" value="Request Password" class="lnkBtn">	
+	    <input type="submit" value="Request Password" class="lnkBtn">
     </form>
 </cfif>
 <!-------------------------------------------------------------------->
@@ -111,13 +111,13 @@
 	<cfelseif getpass.password is hash(newpassword)>
 		<span style="background-color:red;">
 			You must pick a new password. <a href="ChangePassword.cfm">Go Back</a>
-		</span>		
+		</span>
 		<cfabort>
 	<cfelseif newpassword neq newpassword2>
 		<span style="background-color:red;">
 			New passwords do not match. <a href="ChangePassword.cfm">Go Back</a>
 		</span>
-		<cfabort>			
+		<cfabort>
 	</cfif>
 	<!--- Passwords check out for public users, now see if they're a database user --->
 	<cfquery name="isDb" datasource="uam_god">
@@ -127,20 +127,20 @@
 	<cfif isDb.recordcount is 0>
 		<cfquery name="setPass" datasource="cf_dbuser">
 			UPDATE cf_users SET password = '#hash(newpassword)#',
-			PW_CHANGE_DATE=sysdate			
+			PW_CHANGE_DATE=sysdate
 			WHERE username = '#session.username#'
 		</cfquery>
 	<cfelse>
 		<cftry>
 			<cftransaction>
 				<cfquery name="dbUser" datasource="uam_god">
-					alter user #session.username# 
+					alter user #session.username#
 					identified by "#newpassword#"
 				</cfquery>
 				<cfquery name="setPass" datasource="uam_god">
-					UPDATE cf_users 
+					UPDATE cf_users
 					SET password = '#hash(newpassword)#',
-					PW_CHANGE_DATE=sysdate			
+					PW_CHANGE_DATE=sysdate
 					WHERE username = '#session.username#'
 				</cfquery>
 			</cftransaction>
@@ -171,18 +171,18 @@
 				</cfsavecontent>
 				<cfmail subject="Error" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="html">
 					#errortext#
-				</cfmail>	
+				</cfmail>
 				<h3>Error in changing password user.</h3>
 				<p>#cfcatch.Message#</p>
 				<p>#cfcatch.Detail#"</p>
 				<cfabort>
-			</cfcatch>	
+			</cfcatch>
 		</cftry>
 	</cfif>
 <cfset session.force_password_change = "">
 <cfset initSession('#session.username#','#newpassword#')>
 Your password has successfully been changed.
-You will be redirected soon, or you may use the menu above now.	
+You will be redirected soon, or you may use the menu above now.
 <script>
 	setTimeout("go_now()",5000);
 	function go_now () {
@@ -216,7 +216,7 @@ You will be redirected soon, or you may use the menu above now.
 			<cfset newPass=newPass & thisChar>
 			<cfset thisChar = ListGetAt(specList,RandRange(1,listlen(specList)))>
 			<cfset newPass=newPass & thisChar>
-			<cfloop from="1" to="6" index="i">
+			<cfloop from="1" to="8" index="i">
 				<cfset thisChar = ListGetAt(cList,RandRange(1,listlen(cList)))>
 				<cfset newPass=newPass & thisChar>
 			</cfloop>
@@ -238,19 +238,19 @@ You will be redirected soon, or you may use the menu above now.
 				<cfquery name="stopTrg" datasource="uam_god">
 					alter trigger CF_PW_CHANGE enable
 				</cfquery>
-			</cftransaction>	
+			</cftransaction>
 			<cfmail to="#email#" subject="Arctos password" from="LostFound@#Application.fromEmail#" type="text">
-				Your Arctos username/password is
-							
-				#username# / #newPass#				
-				
-				You will be required to change your password 
+				Your MCZbase username/password is
+
+				#username# / #newPass#
+
+				You will be required to change your password
 				after logging in.
-			
+
 				#Application.ServerRootUrl#/login.cfm
-				
+
 				If you did not request this change, please reply to #Application.technicalEmail#.
-			</cfmail>			
+			</cfmail>
 		An email containing your new password has been sent to the email address on file. It may take a few minutes to arrive.
 		<cfset initSession()>
 	</cfif>
