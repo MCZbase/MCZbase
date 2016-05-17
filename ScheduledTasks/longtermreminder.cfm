@@ -56,13 +56,14 @@
 				loan_type in ('returnable', 'consumable', 'exhibition') and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id(+)
+				and collection <> 'Special Collections'
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" startrow=161 endrow=300>
+<cfloop query="agent" startrow=1 endrow=450>
 	<cfquery name="chkLog" datasource="uam_god">
 		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L'
 	</cfquery>
