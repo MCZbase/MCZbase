@@ -1585,9 +1585,11 @@
     <cfif #allLoans.recordcount# gt 1>
     <cfset loannum = 'loans'>
     </cfif>
-   
  <header>
-   Search Results = #allLoans.recordcount# #loannum# <a href="#rURL#" class="download">Download these results as a CSV file</a>
+     <div id="page_title">
+      <h1  style="font-size: 1.5em;line-height: 1.6em;margin: 0;padding: 1em 0 0 0;">Search Results<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Loan_Search_Results_List')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
+    </div>
+   <p> #allLoans.recordcount# #loannum# <a href="#rURL#" class="download">Download these results as a CSV file</a></p>
    </header>
     <hr/>
   </cfoutput>
