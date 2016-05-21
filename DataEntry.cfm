@@ -314,16 +314,26 @@ Some Totally Random String Data .....
 		<!----------------- end dropdowns --------------------->
 
         <!--- Note: MAXTEMPLATE is the largest collection_id used for a template in bulkloader by using the collection_id as the value in bulkloader.collection_object_id --->
+		   
 		<cfset sql = "select collection_object_id from bulkloader where collection_object_id > #MAXTEMPLATE#">
 		<cfif ImAGod is "no">
 			 <cfset sql = "#sql# AND enteredby = '#session.username#'">
 		<cfelse>
-			<cfset sql = "#sql# AND enteredby IN (#listqualify(adminForUsers,'''')#)">
+		<cfif isdefined("accn2") and len(accn2) gt 0>
+			<cfset sql = "#sql# AND accn IN (#accn2#)">
 		</cfif>
+		<cfif isdefined("colln2") and len(colln2) gt 0>
+			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln2#)">
+		</cfif>
+        <cfif isdefined("enteredby2") and len(enteredby2) gt 0>
+      		<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
+			<cfset sql = "#sql# AND enteredby IN (#enteredby2#)">
+		</cfif></cfif>
 		<cfset sql = "#sql# order by collection_object_id">
 		<cfquery name="whatIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			#preservesinglequotes(sql)#
 		</cfquery>
+	
 		<cfset idList=valuelist(whatIds.collection_object_id)>
 		<cfset currentPos = listFind(idList,data.collection_object_id)>
 		<cfif len(loadedMsg) gt 0>
