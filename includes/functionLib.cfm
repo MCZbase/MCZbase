@@ -24,31 +24,46 @@
 		return r;
 	</cfscript>
 </cffunction>
+<cffunction name="SubsetEncodeForURL" returntype="Any">
+	<!--- URL escape a small subset of characters that may be found in filenames (used for preview_uri) --->
+	<!--- We don't want to escape the full set of reserved URI characters, as  media.preview_uri --->
+	<!--- contains both filename paths and URIs. The characters :/&.=?, are all used in valid URIs there.  --->
+	<cfargument name="s" type="string" required="yes">
+	<cfscript>
+	      var r=trim(s);
+	      r = Replace(Replace(r,'[','%5B'),']','%5D');
+	      r = Replace(Replace(r,'(','%28'),')','%29');
+	      r = Replace(r,'!','%21');
+	      r = Replace(r,' ','%20');
+	      return r;
+	</cfscript>
+</cffunction>
 <cffunction name="getMediaPreview" access="public" output="true">
-	   <cfargument name="puri" required="true" type="string">
-	   <cfargument name="mt" required="false" type="string">
-	   <cfset r=0>
-	   <cfif len(puri) gt 0>
-			<cfhttp method="head" url="#puri#" timeout="5">
-			<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
-				<cfset r=1>
-			</cfif>
+	<cfargument name="puri" required="true" type="string">
+	<cfargument name="mt" required="false" type="string">
+	<cfset r=0>
+	<cfif len(puri) gt 0>
+		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
+		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="5">
+		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
+			<cfset r=1>
 		</cfif>
-		<cfif r is 0>
-			<cfif mt is "image">
-				<cfreturn "/images/noThumb.jpg">
-			<cfelseif mt is "audio">
-				<cfreturn "/images/audioNoThumb.png">
-			<cfelseif mt is "text">
-				<cfreturn "/images/documentNoThumb.png">
-			<cfelseif mt is "multi-page document">
-				<cfreturn "/images/document_thumbnail.png">
-			<cfelse>
-				<cfreturn "/images/noThumb.jpg">
-			</cfif>
+	</cfif>
+	<cfif r is 0>
+		<cfif mt is "image">
+			<cfreturn "/images/noThumb.jpg">
+		<cfelseif mt is "audio">
+			<cfreturn "/images/audioNoThumb.png">
+		<cfelseif mt is "text">
+			<cfreturn "/images/documentNoThumb.png">
+		<cfelseif mt is "multi-page document">
+			<cfreturn "/images/document_thumbnail.png">
 		<cfelse>
-			<cfreturn puri>
+			<cfreturn "/images/noThumb.jpg">
 		</cfif>
+	<cfelse>
+		<cfreturn puri>
+	</cfif>
 </cffunction>
 <!------------------------------------------------------------------------------------->
 <cffunction name="getTagReln" access="public" output="true">

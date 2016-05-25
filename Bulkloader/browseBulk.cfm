@@ -93,7 +93,7 @@
 		<cfset args.onchange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
 		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
 		<cfset args.name="blGrid">
-		<cfset args.pageSize="20">
+			<cfset args.pageSize="20">
 		<a href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
 		&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 		<cfform method="post" action="browseBulk.cfm">
@@ -102,8 +102,8 @@
 			<cfinput type="hidden" name="enteredby" value="#enteredby#">
 			<cfinput type="hidden" name="accn" value="#accn#">
 			<cfinput type="hidden" name="colln" value="#colln#">
-			<cfgrid attributeCollection="#args#">
-				<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" 
+			<cfgrid attributeCollection="#args#"><!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
+				<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 					hrefkey="collection_object_id" target="_blank" header="Key">
 				<cfloop list="#ColNameList#" index="thisName">
 					<cfgridcolumn name="#thisName#">
