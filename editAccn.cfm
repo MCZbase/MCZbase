@@ -690,7 +690,7 @@
 		<cfif isdefined("trans_agent_role_1") AND len(#trans_agent_role_1#) gt 0>
 			<cfset frm="#frm#,trans_agent trans_agent_1">
 			<cfset sql="#sql# and trans.transaction_id = trans_agent_1.transaction_id">
-			<cfset sql = "#sql# AND trans_agent_1.trans_agent_role = '#trans_agent_role_1#'">
+			<cfset sql = "#sql# AND trans_agent_1.trans_agent_role = '#stripQuotes(trans_agent_role_1)#'">
 		</cfif>
 		<cfif isdefined("agent_1") AND len(#agent_1#) gt 0>
 			<cfif #sql# does not contain "trans_agent_1">
@@ -699,12 +699,12 @@
 			</cfif>
 			<cfset frm="#frm#,preferred_agent_name trans_agent_name_1">
 			<cfset sql="#sql# and trans_agent_1.agent_id = trans_agent_name_1.agent_id">
-			<cfset sql = "#sql# AND upper(trans_agent_name_1.agent_name) like '%#ucase(agent_1)#%'">
+			<cfset sql = "#sql# AND upper(trans_agent_name_1.agent_name) like '%#escapeQuotes(ucase(agent_1))#%'">
 		</cfif>
 		<cfif isdefined("trans_agent_role_2") AND len(#trans_agent_role_2#) gt 0>
 			<cfset frm="#frm#,trans_agent trans_agent_2">
 			<cfset sql="#sql# and trans.transaction_id = trans_agent_2.transaction_id">
-			<cfset sql = "#sql# AND trans_agent_2.trans_agent_role = '#trans_agent_role_2#'">
+			<cfset sql = "#sql# AND trans_agent_2.trans_agent_role = '#stripQuotes(trans_agent_role_2)#'">
 		</cfif>
 		<cfif isdefined("agent_2") AND len(#agent_2#) gt 0>
 			<cfif #sql# does not contain "trans_agent_2">
@@ -713,12 +713,12 @@
 			</cfif>
 			<cfset frm="#frm#,preferred_agent_name trans_agent_name_2">
 			<cfset sql="#sql# and trans_agent_2.agent_id = trans_agent_name_2.agent_id">
-			<cfset sql = "#sql# AND upper(trans_agent_name_2.agent_name) like '%#ucase(agent_2)#%'">
+			<cfset sql = "#sql# AND upper(trans_agent_name_2.agent_name) like '%#escapeQuotes(ucase(agent_2))#%'">
 		</cfif>
 		<cfif isdefined("trans_agent_role_3") AND len(#trans_agent_role_3#) gt 0>
 			<cfset frm="#frm#,trans_agent trans_agent_3">
 			<cfset sql="#sql# and trans.transaction_id = trans_agent_3.transaction_id">
-			<cfset sql = "#sql# AND trans_agent_3.trans_agent_role = '#trans_agent_role_3#'">
+			<cfset sql = "#sql# AND trans_agent_3.trans_agent_role = '#stripQuotes(trans_agent_role_3)#'">
 		</cfif>
 		<cfif isdefined("agent_3") AND len(#agent_3#) gt 0>
 			<cfif #sql# does not contain "trans_agent_3">
@@ -727,7 +727,7 @@
 			</cfif>
 			<cfset frm="#frm#,preferred_agent_name trans_agent_name_3">
 			<cfset sql="#sql# and trans_agent_3.agent_id = trans_agent_name_3.agent_id">
-			<cfset sql = "#sql# AND upper(trans_agent_name_3.agent_name) like '%#ucase(agent_3)#%'">
+			<cfset sql = "#sql# AND upper(trans_agent_name_3.agent_name) like '%#escapeQuotes(ucase(agent_3))#%'">
 		</cfif>
 		<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
 			<cfset sql = "#sql# AND trans.collection_id = #collection_id#">
@@ -736,67 +736,66 @@
 			<cfif isdefined("exactAccnNumMatch") and #exactAccnNumMatch# is 1>
 				<cfset sql = "#sql# AND accn_number = '#accn_number#'">
 			<cfelse>
-				<cfset sql = "#sql# AND upper(accn_number) LIKE '%#ucase(accn_number)#%'">
+				<cfset sql = "#sql# AND upper(accn_number) LIKE '%#stripQuotes(ucase(accn_number))#%'">
 			</cfif>				
 		</cfif>
 		<cfif  isdefined("accn_status") and len(#accn_status#) gt 0>
-			<cfset sql = "#sql# AND accn_status = '#accn_status#'">
+			<cfset sql = "#sql# AND accn_status = '#stripQuotes(accn_status)#'">
 		</cfif>
 		<cfif  isdefined("rec_date") and len(#rec_date#) gt 0>
 			<cfif isdefined("rec_until_date") and len(#rec_until_date#) gt 0>
-				<cfset sql = "#sql# AND upper(received_date) between to_date('#rec_date#', 'yyyy-mm-dd') 
-					and to_date('#rec_until_date#', 'yyyy-mm-dd')">
+				<cfset sql = "#sql# AND upper(received_date) between to_date('#stripQuotes(rec_date)#', 'yyyy-mm-dd') 
+					and to_date('#stripQuotes(rec_until_date)#', 'yyyy-mm-dd')">
 			<cfelse>
-				<cfset sql = "#sql# AND upper(received_date) like to_date('#rec_date#', 'yyyy-mm-dd')">
+				<cfset sql = "#sql# AND upper(received_date) like to_date('#stripQuotes(rec_date)#', 'yyyy-mm-dd')">
 			</cfif>
 		</cfif>
 		<cfif  isdefined("NATURE_OF_MATERIAL") and len(#NATURE_OF_MATERIAL#) gt 0>
-			<cfset sql = "#sql# AND upper(NATURE_OF_MATERIAL) like '%#ucase(NATURE_OF_MATERIAL)#%'">
+			<cfset sql = "#sql# AND upper(NATURE_OF_MATERIAL) like '%#escapeQuotes(ucase(NATURE_OF_MATERIAL))#%'">
 		</cfif>
 		<cfif  isdefined("rec_agent") and len(#rec_agent#) gt 0>
 			<cfset frm = "#frm#,agent_name">
-			<cfset sql = "#sql# AND upper(agent_name.agent_name) like '%#ucase(rec_agent)#%' 
+			<cfset sql = "#sql# AND upper(agent_name.agent_name) like '%#escapeQuotes(ucase(rec_agent))#%' 
 				AND trans.received_agent_id = agent_name.agent_id">
 		</cfif>
 		<cfif  isdefined("trans_agency") and len(#trans_agency#) gt 0>
-			<cfset sql = "#sql# AND upper(transAgent.agent_name) LIKE  '%#ucase(trans_agency)#%'">
+			<cfset sql = "#sql# AND upper(transAgent.agent_name) LIKE  '%#escapeQuotes(ucase(trans_agency))#%'">
 		</cfif>
 		<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
-			<cfset sql = "#sql# AND accn_type = '#accn_type#'">
+			<cfset sql = "#sql# AND accn_type = '#stripQuotes(accn_type)#'">
 		</cfif>
 		<cfif isdefined("remarks") and  len(#remarks#) gt 0>
-			<cfset sql = "#sql# AND upper(trans_remarks) like '%#ucase(remarks)#%'">
+			<cfset sql = "#sql# AND upper(trans_remarks) like '%#escapeQuotes(ucase(remarks))#%'">
 		</cfif>
 		<cfif  isdefined("ent_date") and len(ent_date) gt 0>
-			<cfset sql = "#sql# AND TRANS_DATE #entDateOper# '#ucase(dateformat(ent_date,"yyyy-mm-dd"))#'">
+			<cfset sql = "#sql# AND TRANS_DATE #entDateOper# '#ucase(dateformat(stripQuotes(ent_date),"yyyy-mm-dd"))#'">
 		</cfif>
 		<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
-			<cfset sql = "#sql# AND upper(issuedBy.agent_name) like '%#ucase(IssuedByAgent)#%'">
+			<cfset sql = "#sql# AND upper(issuedBy.agent_name) like '%#escapeQuotes(ucase(IssuedByAgent))#%'">
 		</cfif>
 		<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
-			<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#ucase(IssuedToAgent)#%'">
+			<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#escapeQuotes(ucase(IssuedToAgent))#%'">
 		</cfif>
 		<cfif  isdefined("issued_date") and len(#issued_date#) gt 0>
-			<cfset sql = "#sql# AND upper(issued_date) like '%#ucase(issued_date)#%'">
+			<cfset sql = "#sql# AND upper(issued_date) like '%#stripQuotes(ucase(issued_date))#%'">
 		</cfif>
 		<cfif  isdefined("renewed_date") and len(#renewed_date#) gt 0>
-			<cfset sql = "#sql# AND upper(renewed_date) like '%#ucase(renewed_date)#%'">
+			<cfset sql = "#sql# AND upper(renewed_date) like '%#stripQuotes(ucase(renewed_date))#%'">
 		</cfif>
 		<cfif isdefined("exp_date") and  len(#exp_date#) gt 0>
-			<cfset sql = "#sql# AND upper(exp_date) like '%#ucase(exp_date)#%'">
+			<cfset sql = "#sql# AND upper(exp_date) like '%#stripQuotes(ucase(exp_date))#%'">
 		</cfif>
 		<cfif isdefined("permit_id") and len(#permit_id#) gt 0>
-			<cfset sql = "#sql# AND permit.permit_id = '#permit_id#'">
+			<cfset sql = "#sql# AND permit.permit_id = '#stripQuotes(permit_id)#'">
 		</cfif>
 		<cfif isdefined("permit_Num") and len(#permit_Num#) gt 0>
-			<cfset sql = "#sql# AND permit_Num = '#permit_Num#'">
+			<cfset sql = "#sql# AND permit_Num = '#escapeQuotes(permit_Num)#'">
 		</cfif>
 		<cfif  isdefined("permit_Type") and len(#permit_Type#) gt 0>
-			<cfset permit_Type = #replace(permit_type,"'","''","All")#>
-			<cfset sql = "#sql# AND permit_Type = '#permit_Type#'">
+			<cfset sql = "#sql# AND permit_Type = '#escapeQuotes(permit_type)#'">
 		</cfif>
 		<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
-			<cfset sql = "#sql# AND upper(permit_remarks) like '%#ucase(permit_remarks)#%'">
+			<cfset sql = "#sql# AND upper(permit_remarks) like '%#escapeQuotes(ucase(permit_remarks))#%'">
 		</cfif>
 		<cfset thisSQL  = "#sel# #frm# #sql# ORDER BY accn_number, trans.transaction_id ">
 		<cfquery name="getAccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
