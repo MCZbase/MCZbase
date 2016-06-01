@@ -1248,8 +1248,6 @@ Some Totally Random String Data .....
 										<td><span class="f11a">Determiner</span></td>
 									<tr>
 										<td>
-											<input type="hidden" name="attribute_date_2" value="#attribute_date_2#" id="attribute_date_2" />
-											<input type="hidden" name="attribute_determiner_2" value="#attribute_determiner_2#" id="attribute_determiner_2" />
 											<input type="hidden" name="attribute_2" value="age class" />
 											<select name="attribute_value_2" size="1" id="attribute_value_2" >
 												<option></option>
