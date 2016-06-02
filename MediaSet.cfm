@@ -248,7 +248,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 			   media.mime_type, media.media_type,
 			   ctmedia_license.display as license, ctmedia_license.uri as license_uri,
-            		   (MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+            		   MCZBASE.is_media_encumbered(media.media_id) as hideMedia
         from media_relations
              left join media on media_relations.media_id = media.media_id
 			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
