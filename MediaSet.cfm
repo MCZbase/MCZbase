@@ -87,7 +87,10 @@
               MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
  		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
 		   , 'Unrelated image') mrstr
-    from MEDIA where media_id=#media_id#
+    from MEDIA where media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+    <cfif isdefined("session.roles") and not listcontainsnocase(session.roles,"manage_media")>
+        AND (MCZBASE.is_media_encumbered(media.media_id) = 0 OR MCZBASE.is_media_encumbered(media.media_id) IS NULL)
+    </cfif>
 </cfquery>
   <cfloop query="m" endrow="1">
     <cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
@@ -244,12 +247,16 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		select media.media_id, preview_uri, media.media_uri,
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 			   media.mime_type, media.media_type,
-			   ctmedia_license.display as license, ctmedia_license.uri as license_uri
+			   ctmedia_license.display as license, ctmedia_license.uri as license_uri,
+            		   (MCZBASE.is_media_encumbered(media.media_id) as hideMedia
         from media_relations
              left join media on media_relations.media_id = media.media_id
 			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
         where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-		      and related_primary_key = #ff.pk#
+		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
+             <cfif isdefined("session.roles") and not listcontainsnocase(session.roles,"manage_media")>
+                   AND (MCZBASE.is_media_encumbered(media.media_id) = 0 OR MCZBASE.is_media_encumbered(media.media_id) IS NULL)
+             </cfif>
         order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
    	    </cfquery>
       <cfoutput> 
