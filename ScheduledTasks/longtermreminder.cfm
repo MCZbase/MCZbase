@@ -56,14 +56,13 @@
 				loan_type in ('returnable', 'consumable', 'exhibition') and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id(+)
-				and collection <> 'Special Collections'
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" startrow=1 endrow=450>
+<cfloop query="agent">
 	<cfquery name="chkLog" datasource="uam_god">
 		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L'
 	</cfquery>
@@ -397,7 +396,7 @@
 			<cfmail 	to="#toaddresses#"
 						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
-						subject="MCZbase Notification for Overdue Loans"
+						subject="ALERT: OPEN UNDER-REVIEW | MCZbase Notification for Overdue Loans"
 						from="no_reply_loan_notification@#Application.fromEmail#"
 						replyto="#ValueList(inhouse.address,";")#"
 						type="html">

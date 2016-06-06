@@ -2,7 +2,7 @@
 	<cfoutput>
 		<!--- start of loan code --->
 		<!--- days after and before return_due_date on which to send email. Negative is after ---->
-		<cfset eid="-365,-180,-150,-120,-90,-60,-30,-7,0,7,30">
+		<cfset eid="-365,-180,-150,-120,-90,-60,-30,-7,0,30">
 		<!---
 			Query to get all loan data from the server. Use GOD query so we can ignore collection partitions.
 			This form has no output and relies on system time to run, so only danger is in sending multiple copies
@@ -28,7 +28,8 @@
 				nature_of_material,
 				REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
 				last_name,
-				first_name
+				first_name,
+				round(RETURN_DUE_DATE - (sysdate)) + 1 as numdays
 			FROM
 				loan,
 				trans,
@@ -53,7 +54,7 @@
 				trans_agent.agent_id = person.person_id(+) AND
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
 				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
-				round(RETURN_DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,7,30) and
+				round(RETURN_DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,30) and
 				LOAN_STATUS like 'open%' and
 				loan_type in ('returnable', 'consumable', 'exhibition') and
 				loan.transaction_id=shipment.transaction_id(+) and
@@ -72,7 +73,8 @@
 				collection,
 				nature_of_material,
 				collection_id,
-				formatted_addr
+				formatted_addr,
+				numdays
 			from
 				expLoan
 			group by
@@ -87,7 +89,8 @@
 				collection,
 				nature_of_material,
 				collection_id,
-				formatted_addr
+				formatted_addr,
+				numdays
 		</cfquery>
 		<!--- loop once for each loan --->
 		<cfloop query="loan">
@@ -334,7 +337,11 @@
 				<br><br>
 				Dear Colleague,
 				<br><br>
+				<cfif numdays EQ 30>
+				This is	a friendly reminder that your MCZ specimen loan is due for RETURN to the Herpetology Collection in about a month.
+				<cfelse>
 				This is an MCZbase notification report regarding an MCZ Loan due for RETURN to the #collection# Collection.
+				</cfif>
 				<br><br>
 				LOAN DUE TO BE RETURNED:
 				<br><br>
@@ -364,7 +371,12 @@
 				<br>
 				Partial Return of Loaned Items: <cfif loan_status EQ "open partially returned">Yes<cfelse>No</cfif>
 				<br><br>
-				We request that you please return the above loan by the Due Date. For more information on this loan, contact the  #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated. Thank you.
+				<cfif numdays EQ 30>
+				Please return the above loan by the Due Date. If for any reason this is not possible, or for more information on this loan, please
+				<cfelse>
+				We request that you please return the above loan or request an extension by the Due Date. For more information on this loan,
+				</cfif>
+				contact the  #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated. Thank you.
 				<BR>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
