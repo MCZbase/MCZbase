@@ -46,16 +46,17 @@
     <!--- update media --->
     <cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update media set
-		media_uri='#escapeQuotes(media_uri)#',
-		mime_type='#mime_type#',
-        media_type='#media_type#',
-        preview_uri='#preview_uri#'
+		media_uri=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_uri#" /> ,
+		mime_type=<cfqueryparam cfsqltype="cf_sql_varchar" value="#mime_type#" /> ,
+		media_type=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_type#" /> ,
+		preview_uri=<cfqueryparam cfsqltype="cf_sql_varchar" value="#preview_uri#" />, 
+		mask_media_fg=<cfqueryparam cfsqltype="cf_sql_number" value="#mask_media_fg#" maxlength="1" />
 		<cfif len(media_license_id) gt 0>
-			,media_license_id=#media_license_id#
+			,media_license_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_license_id#" />
 		<cfelse>
 			,media_license_id=NULL
 		</cfif>
-		where media_id=#media_id#
+		where media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
 	</cfquery>
     <!--- relations --->
     <cfloop from="1" to="#number_of_relations#" index="n">
@@ -152,7 +153,7 @@
   <cfoutput> <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"> <br/>
     Edit Media <br>
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
-    <form name="newMedia" method="post" action="media.cfm">
+    <form name="editMedia" method="post" action="media.cfm">
       <input type="hidden" name="action" value="saveEdit">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
@@ -189,6 +190,16 @@
         </cfloop>
       </select>
       <span class="infoLink" onclick="popupDefine();">Define</span>
+      <label for="mask_media_fg">Media Record Visibility</label>
+      <select name="mask_media_fg" value="mask_media_fg">
+          <cfif #media.mask_media_fg# eq 1 >
+              <option value="0">Public</option>
+              <option value="1" selected="selected">Hidden</option>
+          <cfelse>
+              <option value="0" selected="selected">Public</option>
+              <option value="1">Hidden</option>
+          </cfif>
+      </select>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
       <div id="relationships" style="border:1px dashed red;">
         <cfset i=1>
@@ -313,6 +324,11 @@
           <li>contact <a href="mailto:Mcz_collections_operations@oeb.harvard.edu?subject=licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
         </ul>
       </div>
+      <label for="mask_media_fg">Media Record Visibility</label>
+      <select name="mask_media_fg" value="mask_media_fg">
+           <option value="0" selected="selected">Public</option>
+           <option value="1">Hidden</option>
+      </select>
       <br>
       <label for="relationships">Media Relationships</label>
       <div id="relationships" style="border:1px dashed red;">
