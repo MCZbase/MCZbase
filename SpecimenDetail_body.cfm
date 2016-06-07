@@ -1452,11 +1452,11 @@
          media_relations,
          media_labels
      where
-         mediy.media_id=media_relations.media_id and
+         media.media_id=media_relations.media_id and
          media.media_id=media_labels.media_id (+) and
          media_relations.media_relationship like '%cataloged_item' and
          media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-         <cfif isdefined("session.roles") and not listcontainsnocase(session.roles,"manage_media")>
+         <cfif isdefined("session.roles") and not listcontainsnocase(session.roles,"manage_media") >
             AND (MCZBASE.is_media_encumbered(media.media_id) = 0 OR MCZBASE.is_media_encumbered(media.media_id) IS NULL)
          </cfif>
 	order by media.media_type 
