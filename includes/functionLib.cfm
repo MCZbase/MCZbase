@@ -34,6 +34,7 @@
 	      r = Replace(Replace(r,'[','%5B'),']','%5D');
 	      r = Replace(Replace(r,'(','%28'),')','%29');
 	      r = Replace(r,'!','%21');
+	      r = Replace(r,',','%2C');
 	      r = Replace(r,' ','%20');
 	      return r;
 	</cfscript>
