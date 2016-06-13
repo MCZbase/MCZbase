@@ -1756,9 +1756,9 @@ INSERT INTO geog_auth_rec (
 		<cf_findLocality>
 		<!--- need to filter out distinct --->
 		<cfquery name="localityResults2" dbtype="query">
-			select geog_auth_rec_id,higher_geog
+			select distinct geog_auth_rec_id,higher_geog
 			from localityResults
-			group by geog_auth_rec_id,higher_geog
+			order by higher_geog
 		</cfquery>
 <table border>
 <tr><td><b>Geog ID</b></td><td><b>Higher Geog</b></td></tr>
