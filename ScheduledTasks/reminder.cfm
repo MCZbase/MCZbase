@@ -338,7 +338,7 @@
 				Dear Colleague,
 				<br><br>
 				<cfif numdays EQ 30>
-				This is	a friendly reminder that your MCZ specimen loan is due for RETURN to the Herpetology Collection in about a month.
+				This is	a friendly reminder that your MCZ specimen loan is due for RETURN to the #collection# Collection in about a month.
 				<cfelse>
 				This is an MCZbase notification report regarding an MCZ Loan due for RETURN to the #collection# Collection.
 				</cfif>
