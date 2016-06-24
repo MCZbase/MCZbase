@@ -561,7 +561,7 @@
                              <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
                           </cfif>
                        <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibiton_header">MCZ Exhibition Header</option>
+                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_header">MCZ Exhibition Header</option>
                           </cfif>
 		          <cfif inhouse.c is 1 and outside.c is 1 >
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
