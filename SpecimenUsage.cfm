@@ -13,7 +13,7 @@
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-	<h2>Publication / Project Search</h2>
+	   <h2 class="wikilink">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication/Project_Search')" class="likeLink" alt="[ help ]"></h2></cfif>
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
 		<cfif not isdefined("toproject_id")><cfset toproject_id=""></cfif>
@@ -422,6 +422,7 @@
 				SELECT
 					ACKNOWLEDGEMENT,
 					sponsor_name
+
 				FROM
 					projects
 				WHERE
