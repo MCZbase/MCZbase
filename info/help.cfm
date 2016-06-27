@@ -442,7 +442,9 @@ Download a .csv file of queried specimen records by clicking the <strong>"Downlo
 </p><p>
 Note: Searches can only be downloaded and saved when logged in. Create an MCZbase account by supplying a username and password following the log in prompts.
 </p><p>
-For more in-depth MCZbase questions, see the <a href='http://arctosdb.org/'>About Arctos</a> page
+For more in-depth MCZbase questions, 
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+see the <a href='https://code.mcz.harvard.edu/wiki/index.php/Main_Page'>Using MCZbase Wiki</a> (internal use only) or</cfif> contact <a href="mailto:bhaley@oeb.harvard.edu">System Administrator</a>. 
 </p>
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
