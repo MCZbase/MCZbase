@@ -274,13 +274,12 @@
 			<cfif specialmail EQ "noemails">
 				<cfset mailsubject = "ALERT: NO EXTERNAL CONTACTS | MCZbase Notification for Overdue Loans">
 			</cfif>
-			<cfmail 	to="#toaddresses#"
-						cc="#ccaddresses#"
-						bcc="bhaley@oeb.harvard.edu"
+			<cfmail 	to="bhaley@oeb.harvard.edu"
 						subject="#mailsubject#"
 						from="no_reply_loan_notification@#Application.fromEmail#"
-						replyto="#ValueList(inhouse.address,";")#"
 						type="html">
+to="#toaddresses#"<br>
+cc="#ccaddresses#"<br>
 
 			<cfif specialmail EQ "noemails">
 					<font color="red">
@@ -355,12 +354,12 @@
 				<br>
 				------
 				<br><br>
-				<cfif specialmail NEQ "noemails">
+				<!---cfif specialmail NEQ "noemails">
 					<cfquery name="upLogTable" datasource="uam_god">
 						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
 						values(#agent.agent_id#, SYSDATE, #transaction_id#, 'L', '#toaddresses#')
 					</cfquery>
-				</cfif>
+				</cfif--->
 				</cfloop>
 				Approved Borrower: #receivedby.agent_name#
 				<!---cfquery name="address" datasource="uam_god">
@@ -393,13 +392,12 @@
 				select distinct collection from loanunderreview
 			</cfquery>
 
-			<cfmail 	to="#toaddresses#"
-						cc="#ccaddresses#"
-						bcc="bhaley@oeb.harvard.edu"
-						subject="ALERT: OPEN UNDER-REVIEW | MCZbase Notification for Overdue Loans"
+			<cfmail 	to="bhaley@oeb.harvard.edu"
+						subject="MCZbase Notification for Overdue Loans"
 						from="no_reply_loan_notification@#Application.fromEmail#"
-						replyto="#ValueList(inhouse.address,";")#"
 						type="html">
+to="#toaddresses#"<br>
+cc="#ccaddresses#"<br>
 
 			<cfif specialmail EQ "noemails">
 					<font color="red">
@@ -504,13 +502,13 @@
 		</cfquery>
 			<cfset toaddresses = "vwilke@oeb.harvard.edu">
 			<cfset ccaddresses = "">
-			<cfmail 	to="#toaddresses#"
-						cc="#ccaddresses#"
-						bcc="bhaley@oeb.harvard.edu"
+			<cfmail 	to="bhaley@oeb.harvard.edu"
 						subject="MCZbase Notification for Overdue Loans"
 						from="no_reply_loan_notification@#Application.fromEmail#"
-						replyto="#ValueList(inhouse.address,";")#"
 						type="html">
+
+to="#toaddresses#"<br>
+cc="#ccaddresses#"<br>
 
 			<cfif specialmail EQ "noemails">
 					<font color="red">

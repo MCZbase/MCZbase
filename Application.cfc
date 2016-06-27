@@ -176,7 +176,7 @@
 		<cfset Application.session_timeout=90 />
 		<cfset Application.serverRootUrl = "http://#serverName#" />
 		<cfset Application.user_login="user_login" />
-		<cfset Application.max_pw_age = 90 />
+		<cfset Application.max_pw_age = 365 />
 		<cfset Application.fromEmail = "#serverName#" />
 		<!--- Default header/style apperance --->
 		<cfset Application.header_color = "##E7E7E7" />

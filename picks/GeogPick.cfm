@@ -1,7 +1,7 @@
 <cfinclude template="/includes/_pickHeader.cfm">
 <cfset title = "Pick Higher Geog">
-<cfoutput>	
-<b>Find Geography:</b>	
+<cfoutput>
+<b>Find Geography:</b>
   <table border="1">
     <form name="getHG" method="post" action="GeogPick.cfm">
       <input type="hidden" name="Action" value="findGeog">
@@ -15,9 +15,9 @@
 <cfif #Action# is "findGeog">
 <cf_findLocality>
 <cfquery name="localityResults" dbtype="query">
-	select geog_auth_rec_id,higher_geog
+	select distinct geog_auth_rec_id,higher_geog
 	from localityResults
-	group by geog_auth_rec_id,higher_geog
+	order by higher_geog
 </cfquery>
 <cfoutput query="localityResults">
 

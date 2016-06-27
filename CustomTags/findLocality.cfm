@@ -37,7 +37,7 @@
 		max_depth,
 		min_depth,
 		depth_units
-	from 
+	from
 		geog_auth_rec,
 		locality,
 		accepted_lat_long,
@@ -70,25 +70,25 @@
 	<cfset sql = "#sql# AND locality.locality_id = #locality_id#">
 </cfif>
 <cfif isdefined("geology_attribute") and len(#geology_attribute#) gt 0>
-	<cfset sql = "#sql# AND geology_attributes.geology_attribute = '#geology_attribute#'">	
+	<cfset sql = "#sql# AND geology_attributes.geology_attribute = '#geology_attribute#'">
 </cfif>
 <cfif isdefined("geo_att_value") and len(#geo_att_value#) gt 0>
 	<cfif isdefined("geology_attribute_hier") and #geology_attribute_hier# is 1>
-		<!--- not quite sure what to do with this yet - turning it off at the 
+		<!--- not quite sure what to do with this yet - turning it off at the
 		search form for now - DLM --->
 		<cfset sql = "#sql# AND geology_attributes.geo_att_value IN (
-				SELECT  
-	 				attribute_value	
+				SELECT
+	 				attribute_value
 	 			FROM
 					geology_attribute_hierarchy
-				start with 
+				start with
 					upper(attribute_value) like '%#ucase(geo_att_value)#%'
-				CONNECT BY PRIOR 
+				CONNECT BY PRIOR
 					geology_attribute_hierarchy_id = parent_id
 				)">
 	<cfelse>
 		<cfset sql = "#sql# AND upper(geology_attributes.geo_att_value) like '%#ucase(geo_att_value)#%'">
-	</cfif>	
+	</cfif>
 </cfif>
 
 <cfif isdefined("geog_auth_rec_id") and len(#geog_auth_rec_id#) gt 0>
@@ -110,7 +110,7 @@
 </cfif>
 <cfif isdefined("began_date") and len(#began_date#) gt 0>
 	<cfset sql = "#sql# AND began_date #begDateOper# '#began_date#'">
-</cfif>		
+</cfif>
 <cfif isdefined("ended_date") and len(#ended_date#) gt 0>
 	<cfset sql = "#sql# AND ended_date #endDateOper# '#ended_date#'">
 </cfif>
@@ -136,7 +136,7 @@
 
 <cfif isdefined("habitat_desc") and len(#habitat_desc#) gt 0>
 	<cfset sql = "#sql# AND upper(habitat_desc) like '%#ucase(habitat_desc)#%'">
-</cfif>		
+</cfif>
 <cfif isdefined("spec_locality") and len(#spec_locality#) gt 0>
 	<cfset sloc = #ucase(replace(spec_locality,"'","''","all"))#>
 	<cfset sql = "#sql# AND upper(spec_locality) like '%#escapeQuotes(ucase(spec_locality))#%'">
@@ -181,7 +181,11 @@
 	<cfset sql = "#sql# AND upper(sea) LIKE '%#ucase(sea)#%'">
 </cfif>
 <cfif isdefined("higher_geog") and len(#higher_geog#) gt 0>
-	<cfset sql = "#sql# AND upper(higher_geog) like '%#ucase(higher_geog)#%'">
+	<cfif left(higher_geog,1) is "=">
+		<CFSET sql = "#SQL# AND upper(higher_geog) = '#ucase(right(higher_geog,len(higher_geog)-1))#'">
+	<cfelse>
+		<cfset sql = "#sql# AND upper(higher_geog) like '%#ucase(higher_geog)#%'">
+	</cfif>
 </cfif>
 <cfif isdefined("NoGeorefBecause") AND len(#NoGeorefBecause#) gt 0>
 	<cfset sql = "#sql# AND upper(NoGeorefBecause) like '%#ucase(NoGeorefBecause)#%'">
@@ -196,11 +200,11 @@
 	<cfset sql = "#sql# AND NoGeorefBecause IS NULL">
 </cfif>
 <cfif isdefined("isIncomplete") AND len(#isIncomplete#) gt 0>
-	<cfset sql = "#sql# AND 
+	<cfset sql = "#sql# AND
 		( GPSACCURACY IS NULL OR EXTENT IS NULL OR MAX_ERROR_DISTANCE = 0 or MAX_ERROR_DISTANCE IS NULL)">
 </cfif>
 <cfif isdefined("findNoAccGeoRef") and len(#findNoAccGeoRef#) gt 0>
-	<cfset sql = "#sql# AND locality.locality_id 
+	<cfset sql = "#sql# AND locality.locality_id
 		IN (select locality_id from lat_long) AND
 		locality.locality_id  NOT IN (select locality_id from lat_long where accepted_lat_long_fg=1)">
 </cfif>
@@ -210,7 +214,7 @@
 <cfif isdefined("coordinateDeterminer") and len(#coordinateDeterminer#) gt 0>
 	<cfset sql = "#sql# AND upper(agent_name) like '%#ucase(coordinateDeterminer)#%'">
 </cfif>
-
+<cfset sql = "#sql# AND rownum < 10000">
 <cfif right(sql,4) is " (+)">
 	<span class="error">You must enter search criteria.</span>
 	<cfabort>
@@ -226,5 +230,5 @@
 <cfif caller.localityResults.recordcount is 0>
 	<span class="error">Your search found no matches.</span>
 	<cfabort>
-</cfif>	
+</cfif>
 </cfoutput>
