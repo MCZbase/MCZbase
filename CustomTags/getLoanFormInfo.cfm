@@ -31,6 +31,7 @@
                 loan_status,
 				replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
 				shipped_carrier_method,
+				shipment.no_of_packages as no_of_packages,
 				ship_to_addr.formatted_addr  shipped_to_address   ,
 				ship_from_addr.formatted_addr  shipped_from_address  ,
 				processed_by.agent_name processed_by_name,

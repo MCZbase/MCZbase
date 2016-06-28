@@ -666,6 +666,7 @@
 			<cfset carriers_tracking_number = ship.carriers_tracking_number>
 			<cfset shipped_date = ship.shipped_date>
 			<cfset package_weight = ship.package_weight>
+			<cfset no_of_packages = ship.no_of_packages>
 			<cfset hazmat_fg = ship.hazmat_fg>
 			<cfset INSURED_FOR_INSURED_VALUE = ship.INSURED_FOR_INSURED_VALUE>
 			<cfset shipment_remarks = ship.shipment_remarks>
@@ -690,6 +691,7 @@
 		<cfset carriers_tracking_number = "">
 		<cfset shipped_date = "">
 		<cfset package_weight = "">
+		<cfset no_of_packages = "">
 		<cfset hazmat_fg = "">
 		<cfset INSURED_FOR_INSURED_VALUE = "">
 		<cfset shipment_remarks = "">
@@ -737,6 +739,8 @@
 		<input type="text" value="#dateformat(shipped_date,'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
 		<label for="package_weight">Package Weight (TEXT, include units)</label>
 		<input type="text" value="#package_weight#" name="package_weight" id="package_weight">
+		<label for="no_of_packages">Number of Packages</label>
+		<input type="text" value="#no_of_packages#" name="no_of_packages" id="no_of_packages">
 		<label for="hazmat_fg">Hazmat?</label>
 		<select name="hazmat_fg" id="hazmat_fg" size="1">
 			<option <cfif hazmat_fg is 0> selected="selected" </cfif>value="0">no</option>
@@ -860,6 +864,7 @@
 					,CARRIERS_TRACKING_NUMBER
 					,SHIPPED_DATE
 					,PACKAGE_WEIGHT
+					,NO_OF_PACKAGES
 					,HAZMAT_FG
 					,INSURED_FOR_INSURED_VALUE
 					,SHIPMENT_REMARKS
@@ -874,6 +879,7 @@
 					,'#CARRIERS_TRACKING_NUMBER#'
 					,'#dateformat(SHIPPED_DATE,"yyyy-mm-dd")#'
 					,'#PACKAGE_WEIGHT#'
+					,'#no_of_packages#'
 					,#HAZMAT_FG#
 					<cfif len(INSURED_FOR_INSURED_VALUE) gt 0>
 						,#INSURED_FOR_INSURED_VALUE#
@@ -895,6 +901,7 @@
 					,CARRIERS_TRACKING_NUMBER='#CARRIERS_TRACKING_NUMBER#'
 					,SHIPPED_DATE='#dateformat(SHIPPED_DATE,"yyyy-mm-dd")#'
 					,PACKAGE_WEIGHT='#PACKAGE_WEIGHT#'
+					,NO_OF_PACKAGES='#no_of_packages#'
 					,HAZMAT_FG=#HAZMAT_FG#
 					<cfif len(#INSURED_FOR_INSURED_VALUE#) gt 0>
 						,INSURED_FOR_INSURED_VALUE=#INSURED_FOR_INSURED_VALUE#
