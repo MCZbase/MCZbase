@@ -485,6 +485,22 @@ h2 {
 	font-size: 1.6em;
 	font-weight: bold;
 }
+h2.wikilink {
+	width: 40%;
+	float: left;
+	margin-bottom: .15em;
+	margin-top: 1.5em;
+	margin-left: .15em;
+	line-height: 1em;
+}
+h2.wikilink span {
+	font-style: italic;
+	font-size: smaller;
+}
+h2.wikilink img {
+	vertical-align: top;
+	margin-top: -7px
+}
 table.sortable a.sortheader {
 	background-color: #eee;
 	color: #666666;

@@ -21,3 +21,16 @@
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
 <script language="JavaScript" src="/includes/jquery/jquery.ui.datepicker.min.js" type="text/javascript"></script>
 </cfif>
+<script type="text/javascript">
+function getMCZDocs(url,anc) {
+	var url;
+	var anc;
+	var baseUrl = "https://code.mcz.harvard.edu/wiki/index.php/";
+	var extension = "";
+	var fullURL = baseUrl + url + extension;
+		if (anc != null) {
+			fullURL += "#" + anc;
+		}
+	siteHelpWin=windowOpener(fullURL,"HelpWin","width=1024,height=640, resizable,scrollbars,location,toolbar");
+}
+</script>
