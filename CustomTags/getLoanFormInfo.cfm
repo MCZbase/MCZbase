@@ -11,6 +11,7 @@
 			    concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
 			    concattransagent(trans.transaction_id, 'additional outside contact')   additionalContactNames,
 			    concattransagent(trans.transaction_id, 'additional in-house contact')   addInHouseContactNames,
+			    concattransagent(trans.transaction_id, 'recipient institution')  recipientInstitutionName,
 			    outside_contact.agent_name outside_contact_name,
 			    inside_contact.agent_name inside_contact_name,
 				outside_addr.job_title  outside_contact_title,
