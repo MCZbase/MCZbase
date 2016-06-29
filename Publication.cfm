@@ -34,9 +34,12 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 	<form name="editPub" method="post" action="Publication.cfm">
-		<div class="cellDiv">
-        <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
-		The Basics:
+    
+   
+		 <h2 class="wikilink">Create a Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+		</h2>
+        <div class="cellDiv">
+      The Basics:
 		<input type="hidden" name="publication_id" value="#pub.publication_id#">
 		<input type="hidden" name="action" value="saveEdit">
 		<table>
