@@ -36,12 +36,12 @@
     
       <h2 class="wikilink">Create a Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		</h2>
-	<form name="editPub" method="post" action="Publication.cfm">
+	<form name="editPub" method="post" action="Publication.cfm" style="float:left;">
         <div class="cellDiv">
-      The Basics:
+      <p>The Basics:</p>
 		<input type="hidden" name="publication_id" value="#pub.publication_id#">
 		<input type="hidden" name="action" value="saveEdit">
-		<table>
+		<table style="margin: .5em 0;">
 			<tr>
 				<td>
 					<label for="publication_title">Publication Title</label>
