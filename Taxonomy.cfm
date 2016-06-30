@@ -40,7 +40,7 @@
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="TaxonomySearch.cfm">
-	<cfabort>
+	<cfabort>git
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
@@ -49,8 +49,7 @@
 		select * from taxonomy where taxon_name_id=#taxon_name_id#
 	</cfquery>
 <cfoutput>
-	<span style="font-size:large;font-weight:bold">Edit Taxonomy: <em>#getTaxa.scientific_name#</em></span>
-	<span class="infoLink" onClick="getDocs('taxonomy');">What's this?</span>
+   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy: <em>#getTaxa.scientific_name#</em> <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Taxonomy')" class="likeLink" alt="[ help ]"></cfif></h2>
 	<a class="infoLink" href="/name/#getTaxa.scientific_name#">Detail Page</a>
     <table border="0">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
@@ -59,7 +58,7 @@
 		<tr>
 			<td>
 				<label for="source_authority">
-					<span class="likeLink" onClick="getDocs('taxonomy','source_authority');">Source</span>
+					<span class="likeLink">Source</span>
 				</label>
 				<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 		             <cfloop query="ctSourceAuth">
