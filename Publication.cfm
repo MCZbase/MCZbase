@@ -534,7 +534,7 @@
 	</script>
 	<cfoutput>
     <div class="pubSpace">
-      <h2 class="wikilink">Create a Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+      <h2 class="wikilink" style="float:none;margin-left: 0.5em;">Create a Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		</h2>
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
