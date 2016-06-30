@@ -464,6 +464,7 @@
 <cfif action is "newTaxa">
 <cfset title = "Add Taxonomy">
 <cfoutput>
+  <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy (through cloning + editing): <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New Taxon')" class="likeLink" alt="[ help ]"></cfif></h2>
 	<table border>
 		<form name="taxa" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="Action" value="saveNewTaxa">
