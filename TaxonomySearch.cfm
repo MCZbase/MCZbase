@@ -74,7 +74,7 @@
 	});
 </script>	
 <cfoutput>
-<br>
+  <h2 class="wikilink">Search Taxonomy <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New_taxon')" class="likeLink" alt="[ help ]"/></h2>
 	<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
 		<table width="90%" border="0" cellspacing="0" cellpadding="0">
 			<tr> 
