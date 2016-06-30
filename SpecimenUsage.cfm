@@ -13,7 +13,8 @@
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-	   <h2 class="wikilink" style="margin-left: 0;">Publication&#8239;/&#8239;Project Search&nbsp;<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]"></h2>
+     <h2 class="wikilink" style="margin-left: 0;">Publication&#8239;/&#8239;Project Search&nbsp;<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]"></h2>
+	
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
 		<cfif not isdefined("toproject_id")><cfset toproject_id=""></cfif>
@@ -456,7 +457,7 @@
 		</cfloop>
 	</td><td width="50%" valign="top">
 
-	<h3>
+	<h3 style="margin-left: 0;">Publications <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]"></cfif></h3>
 		Publications 
 		<cfif publication.recordcount is 0>
 			<div class="notFound">
