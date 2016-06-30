@@ -49,8 +49,8 @@
 		select * from taxonomy where taxon_name_id=#taxon_name_id#
 	</cfquery>
 <cfoutput>
-   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy: <em>#getTaxa.scientific_name#</em> <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Taxonomy')" class="likeLink" alt="[ help ]"></cfif></h2>
-	<a class="infoLink" href="/name/#getTaxa.scientific_name#">Detail Page</a>
+   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy: <em>#getTaxa.scientific_name#</em> <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif></h2>
+	<h3><a class="infoLink" href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
     <table border="0">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
     	<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
