@@ -145,13 +145,13 @@
 						</tr>
 						<tr>
 							<td align="right" nowrap>
-								<span id="common_name"><strong>Common&nbsp;Name:</strong></span>
+								<span class="helpLink" id="common_name"><strong>Common&nbsp;Name:</strong></span>
 							</td>
 							<td nowrap="nowrap"><input size="25" name="common_name" id="common_name" maxlength="50"></td>
 						</tr>
 						<tr>
 							<td align="right">
-								<span id="taxonomy_scientific_name"><strong>Scientific&nbsp;Name:</strong></span>
+								<span class="helpLink" id="taxonomy_scientific_name"><strong>Scientific&nbsp;Name:</strong></span>
 							</td>
 							<td nowrap="nowrap">
 								<input size="25" name="scientific_name" id="scientific_name" maxlength="40">
@@ -162,7 +162,7 @@
 						</tr>
 						<tr>
 							<td align="right">
-								<span id="taxonomy_anything"><strong>Any&nbsp;Category:</strong></span>
+								<span class="helpLink" id="taxonomy_anything"><strong>Any&nbsp;Category:</strong></span>
 							</td>
 							<td nowrap="nowrap">
 								<input size="25" name="full_taxon_name" id="full_taxon_name" maxlength="50">
@@ -170,7 +170,7 @@
 						</tr>
 						<tr>
 							<td align="right">
-								<span id="author_text"><strong><nobr>Author Text:</nobr></strong></span>
+								<span class="helpLink" id="author_text"><strong><nobr>Author Text:</nobr></strong></span>
 							</td>
 							<td nowrap="nowrap"><input size="25" name="author_text" id="author_text" maxlength="40">
 								<span class="infoLink" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">
@@ -180,7 +180,7 @@
 						</tr>
 						<tr>
 							<td align="right">
-								<span id="infraspecific_author"><strong><nobr>Infraspecific Author Text:</nobr></strong></span>
+								<span class="helpLink" id="infraspecific_author"><strong><nobr>Infraspecific Author Text:</nobr></strong></span>
 							</td>
 							<td nowrap="nowrap"><input size="25" name="infraspecific_author" id="infraspecific_author" maxlength="40">
 								<span class="infoLink" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">
@@ -349,7 +349,7 @@
 						</tr>
 						<tr>
 							<td align="right">
-								<span id="_source_authority"><strong>Authority:</strong></span>
+								<span class="helpLink" id="_source_authority"><strong>Authority:</strong></span>
 							</td>
 							<td nowrap="nowrap">
 								<select name="source_authority" id="source_authority" size="1">
@@ -362,7 +362,7 @@
 						</tr>
 						<tr>
 							<td align="right">
-								<span id="_taxon_status"><strong>Taxon Status:</strong></span>
+								<span class="helpLink" id="_taxon_status"><strong>Taxon Status:</strong></span>
 							</td>
 							<td nowrap="nowrap">
 								<select name="taxon_status" id="taxon_status" size="1">
