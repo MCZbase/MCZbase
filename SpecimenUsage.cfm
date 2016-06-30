@@ -457,7 +457,7 @@
 		</cfloop>
 	</td><td width="50%" valign="top">
 
-	<h3 style="margin-left: 0;">Publications <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]"></cfif></h3>
+	<h3>
 		Publications 
 		<cfif publication.recordcount is 0>
 			<div class="notFound">
