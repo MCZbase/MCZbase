@@ -457,7 +457,7 @@
 	</td><td width="50%" valign="top">
 
 	<h3>
-		Publications
+		Publications 
 		<cfif publication.recordcount is 0>
 			<div class="notFound">
 				No publications matched your criteria.
@@ -467,6 +467,7 @@
 		<cfelse>
 			(#publication.recordcount# results)
 		</cfif>
+     <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]"></cfif>
 	</h3>
 	<cfquery name="pubs" dbtype="query">
 		SELECT
