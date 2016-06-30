@@ -13,7 +13,7 @@
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-	   <h2 class="wikilink">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]"></cfif></h2>
+	   <h2 class="wikilink" style="margin-left: 0;">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]"></cfif></h2>
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
 		<cfif not isdefined("toproject_id")><cfset toproject_id=""></cfif>
@@ -36,18 +36,18 @@
 				</cfif>
 				<td>
 					<h4>Project or Publication</h4>
-					<label for="p_title"><span class="helpLink" id="project_publication_title">Title</span></label>
+					<label for="p_title"><span id="project_publication_title">Title</span></label>
 					<input name="p_title" id="p_title" type="text">
-					<label for="author"><span class="helpLink" id="project_publication_agent">Participant</span></label>
+					<label for="author"><span id="project_publication_agent">Participant</span></label>
 					<input name="author" id="author" type="text">
-					<label for="year"><span class="helpLink" id="project_publication_year">Year</span></label>
+					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text">
 				</td>
 				<td>
 					<h4>Project</h4>
-					<label for="sponsor"><span class="helpLink" id="project_sponsor">Project Sponsor</span></label>
+					<label for="sponsor"><span id="project_sponsor">Project Sponsor</span></label>
 					<input name="sponsor" id="sponsor" type="text">
-					<label for="project_type"><span class="helpLink" id="project_type">Project Type</span></label>
+					<label for="project_type"><span id="project_type">Project Type</span></label>
 					<select name="project_type" id="project_type">
 						<option value=""></option>
 						<option value="loan">Uses Specimens</option>
@@ -62,7 +62,7 @@
 				<td>
 					<h4>Publication</h4>
 					<cfoutput>
-						<label for="publication_type"><span class="helpLink" id="publication_type">Publication Type</span></label>
+						<label for="publication_type"><span id="publication_type">Publication Type</span></label>
 						<select name="publication_type" id="publication_type" size="1">
 							<option value=""></option>
 							<cfloop query="ctpublication_type">
@@ -85,7 +85,7 @@
 						</select>
 					</cfoutput>
 					<label for="onlyCitePubs">
-						<span class="helpLink" id="pub_cites_specimens">Cites specimens?</span>
+						<span id="pub_cites_specimens">Cites specimens?</span>
 					</label>
 					<select name="onlyCitePubs" id="onlyCitePubs">
 						<option value=""></option>
@@ -93,14 +93,14 @@
 						<option value="0">Cites no Specimens</option>
 					</select>
 					<label for="cited_sci_Name">
-						<span class="helpLink" id="cited_sci_Name">Cited Scientific Name</span>
+						<span id="cited_sci_Name">Cited Scientific Name</span>
 					</label>
 					<input name="cited_sci_Name" id="cited_sci_Name" type="text">
 					<label for="current_sci_Name">
-						<span class="helpLink" id="accepted_sci_name">Accepted Scientific Name</span>
+						<span id="accepted_sci_name">Accepted Scientific Name</span>
 					</label>
 					<input name="current_sci_Name" id="current_sci_Name" type="text">
-					<label for="is_peer_reviewed_fg"><span class="helpLink" id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
+					<label for="is_peer_reviewed_fg"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
 					<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg">
 						<option value=""></option>
 						<option value="1">yes</option>
