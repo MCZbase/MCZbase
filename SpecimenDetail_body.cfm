@@ -339,7 +339,7 @@
 								WHERE
 									identification.publication_id=formatted_publication.publication_id (+) and
 									identification.collection_object_id = #collection_object_id#
-								ORDER BY accepted_id_fg DESC,made_date DESC
+								ORDER BY accepted_id_fg DESC,NVL(made_date, to_date('1000', 'yyyy'))
 							</cfquery>
 							<cfloop query="identification">
 								<cfquery name="getTaxa_r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
