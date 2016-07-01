@@ -7,7 +7,7 @@
 <cfif action is "edit">
 <cfset title = "Edit Publication">
 <cfoutput>
-	<h3><a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">Publication Details</a></h3>
+	<h3 style="margin: 2px; padding: 5px;"><a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">See Publication Details</a></h3>
 	<br>
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
