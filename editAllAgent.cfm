@@ -79,6 +79,7 @@
 </script>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif action is "newOtherAgent">
+<h3>Add a New Other Agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent')" class="likeLink" alt="[ help ]"></h3>
 	<cfoutput>
 		<form name="prefdName" action="editAllAgent.cfm" method="post" target="_person">
 			<input type="hidden" name="action" value="makeNewAgent">
@@ -103,6 +104,7 @@
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "newPerson">
+<h3>Add a New Person <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent')" class="likeLink" alt="[ help ]"></h3>
 	<form name="newPerson" action="editAllAgent.cfm" method="post" target="_person">
 		<input type="hidden" name="Action" value="insertPerson">
 		<label for="prefix">Prefix</label>
