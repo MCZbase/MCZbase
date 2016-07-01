@@ -1,6 +1,6 @@
 <cfinclude template="includes/_frameHeader.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
-<link rel="alternate stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
+<link rel="stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
 <cfquery name="prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(prefix) as prefix from person where prefix is not null
 </cfquery>
