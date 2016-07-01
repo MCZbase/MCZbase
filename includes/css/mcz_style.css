@@ -506,7 +506,7 @@ h2.wikilink_Narrow {
 	float: left;
 	margin-bottom: .15em;
 	margin-top: 1.5em;
-	margin-left: .5em;
+	/*margin-left: .5em;*/
 	line-height: 1em;
 }
 h2.wikilink_Narrow span {
