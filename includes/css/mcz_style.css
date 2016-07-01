@@ -486,11 +486,11 @@ h2 {
 	font-weight: bold;
 }
 h2.wikilink {
-	width: 40%;
+	width:70%;
 	float: left;
 	margin-bottom: .15em;
 	margin-top: 1.5em;
-	margin-left: .15em;
+	margin-left: .5em;
 	line-height: 1em;
 }
 h2.wikilink span {
@@ -501,6 +501,7 @@ h2.wikilink img {
 	vertical-align: top;
 	margin-top: -7px
 }
+
 table.sortable a.sortheader {
 	background-color: #eee;
 	color: #666666;
@@ -1327,3 +1328,4 @@ ul.lisc li {
 }
 
 /* end additional styles for loans */  
+.cellDiv {width: 97%;}

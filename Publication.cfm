@@ -33,13 +33,15 @@
 	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
-	<form name="editPub" method="post" action="Publication.cfm">
-		<div class="cellDiv">
-        <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
-		The Basics:
+    
+      <h2 class="wikilink">Create a Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+		</h2>
+	<form name="editPub" method="post" action="Publication.cfm" style="float:left;">
+        <div class="cellDiv">
+      <p>The Basics:</p>
 		<input type="hidden" name="publication_id" value="#pub.publication_id#">
 		<input type="hidden" name="action" value="saveEdit">
-		<table>
+		<table style="margin: .5em 0;">
 			<tr>
 				<td>
 					<label for="publication_title">Publication Title</label>
@@ -532,10 +534,11 @@
 	</script>
 	<cfoutput>
     <div class="pubSpace">
+      <h2 class="wikilink" style="float:none;margin-left: 0.5em;">Create a Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+		</h2>
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
-			<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
-						The Basics:	
+			The Basics:	
 			<input type="hidden" name="action" value="createPub">
 			<table>
 				<tr>

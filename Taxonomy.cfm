@@ -40,7 +40,7 @@
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="TaxonomySearch.cfm">
-	<cfabort>
+	<cfabort>git
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
@@ -49,9 +49,8 @@
 		select * from taxonomy where taxon_name_id=#taxon_name_id#
 	</cfquery>
 <cfoutput>
-	<span style="font-size:large;font-weight:bold">Edit Taxonomy: <em>#getTaxa.scientific_name#</em></span>
-	<span class="infoLink" onClick="getDocs('taxonomy');">What's this?</span>
-	<a class="infoLink" href="/name/#getTaxa.scientific_name#">Detail Page</a>
+   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy: <em>#getTaxa.scientific_name#</em> <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif></h2>
+	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
     <table border="0">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
     	<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
@@ -59,7 +58,7 @@
 		<tr>
 			<td>
 				<label for="source_authority">
-					<span class="likeLink" onClick="getDocs('taxonomy','source_authority');">Source</span>
+					<span>Source</span>
 				</label>
 				<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 		             <cfloop query="ctSourceAuth">
@@ -69,7 +68,7 @@
 		        </select>
 			</td>
 			<td>
-				<label for="valid_catalog_term_fg"><span class="likeLink" onClick="getDocs('taxonomy','valid_term');">ValidForCatalog?</span></label>
+				<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
 				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr">
 			    	<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 			        <option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
@@ -78,7 +77,7 @@
 		</tr>
       	<tr>
 			<td>
-				<label for="nomenclatural_code"><span class="likeLink" onClick="getDocs('taxonomy','nomenclatural_code');">Nomenclatural Code</span></label>
+				<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
 			    	<cfloop query="ctnomenclatural_code">
 			        	<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
@@ -98,7 +97,7 @@
 				<input size="25" name="species" id="species" maxlength="40" value="#gettaxa.species#">
 			</td>
 			<td>
-				<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','author_text');">Author</span></label>
+				<label for="author_text"><span>Author</span></label>
 				<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" size="30">
 				<span class="infoLink"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
@@ -108,7 +107,7 @@
 		</tr>
 		<tr>
 			<td>
-				<label for="infraspecific_rank"><span class="likeLink" onClick="getDocs('taxonomy','infraspecific_rank');">Infraspecific Rank</span></label>
+				<label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
 				<select name="infraspecific_rank" id="infraspecific_rank" size="1">
                 	<option value=""></option>
 	                <cfloop query="ctInfRank">
@@ -118,7 +117,7 @@
               	</select>
 			</td>
 			<td>
-				<label for="taxon_status"><span class="likeLink" onClick="getDocs('taxonomy','taxon_status');">Taxon Status</span></label>
+				<label for="taxon_status"><span>Taxon Status</span></label>
 				<select name="taxon_status" id="taxon_status" size="1">
 			    	<option value=""></option>
 			    	<cfloop query="cttaxon_status">
@@ -135,7 +134,7 @@
 				<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#">
 			</td>
 			<td>
-				<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','infraspecific_author');">
+				<label for="author_text"><span>
 					Infraspecific Author (do not use for ICZN names)</span></label>
 				<input type="text" name="infraspecific_author" id="infraspecific_author" value="#gettaxa.infraspecific_author#" size="30">
 				<span class="infoLink"
@@ -256,7 +255,7 @@
 			taxonomy_publication.taxon_name_id=#taxon_name_id#
 	</cfquery>
 	<cfset i = 1>
-	<span class="likeLink" onClick="getDocs('taxonomy','taxonomy_publication');">Related Publications</span>
+	<h4>Related Publications</h4>
 
 		<form name="newPub" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
@@ -300,7 +299,7 @@
 			AND taxon_relations.taxon_name_id = #taxon_name_id#
 	</cfquery>
 	<cfset i = 1>
-	<span class="likeLink" onClick="getDocs('taxonomy','taxon_relations');">Related Taxa:</span>
+	<h4>Related Taxa:</h4>
 	<table border="1">
 		<tr>
 			<th>Relationship</th>
@@ -370,7 +369,7 @@
 	<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select common_name from common_name where taxon_name_id = #taxon_name_id#
 	</cfquery>
-	<span class="likeLink" onClick="getDocs('taxonomy','common_names');">Common Names</span>
+	<h4>Common Names</h4>
 	<cfset i=1>
 	<cfloop query="common">
 		<form name="common#i#" method="post" action="Taxonomy.cfm">
@@ -465,12 +464,14 @@
 <cfif action is "newTaxa">
 <cfset title = "Add Taxonomy">
 <cfoutput>
+  <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
+  <p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
 	<table border>
 		<form name="taxa" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="Action" value="saveNewTaxa">
 			<tr>
 				<td>
-					<label for="source_authority"><span class="likeLink" onClick="getDocs('taxonomy','source_authority');">Source</span></label>
+					<label for="source_authority"><span>Source</span></label>
 					<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 		              <cfloop query="ctSourceAuth">
 		                <option
@@ -480,7 +481,7 @@
 		            </select>
 				</td>
 				<td>
-					<label for="valid_catalog_term_fg"><span class="likeLink" onClick="getDocs('taxonomy','valid_term');">Valid?</span></label>
+					<label for="valid_catalog_term_fg"><span>Valid?</span></label>
 					<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr">
 		              <option <cfif valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 		              <option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
@@ -489,7 +490,7 @@
 	        </tr>
 	        <tr>
 				<td>
-					<label for="nomenclatural_code"><span class="likeLink" onClick="getDocs('taxonomy','nomenclatural_code');">Nomenclatural Code</span></label>
+					<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 					<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
 		               <cfloop query="ctnomenclatural_code">
 		                <option
@@ -510,7 +511,7 @@
 					<input size="25" name="species" id="species" maxlength="40" value="#species#">
 				</td>
 				<td>
-					<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','author_text');">Author</span></label>
+					<label for="author_text"><span>Author</span></label>
 					<input type="text" name="author_text" id="author_text" value="#author_text#" size="30">
 					<span class="infoLink"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
@@ -520,7 +521,7 @@
 			</tr>
 			<tr>
 				<td>
-					<label for="infraspecific_rank"><span class="likeLink" onClick="getDocs('taxonomy','infraspecific_rank');">Infraspecific Rank</span></label>
+					<label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
 					<select name="infraspecific_rank" id="infraspecific_rank" size="1">
 	                	<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
 		                <cfloop query="ctInfRank">
@@ -530,7 +531,7 @@
 	              	</select>
 				</td>
 				<td>
-					<label for="taxon_status"><span class="likeLink" onClick="getDocs('taxonomy','taxon_status');">Taxon Status</span></label>
+					<label for="taxon_status"><span>Taxon Status</span></label>
 					<select name="taxon_status" id="taxon_status" size="1">
 				    	<option value=""></option>
 				    	<cfloop query="cttaxon_status">
@@ -546,7 +547,7 @@
 					<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#subspecies#">
 				</td>
 				<td>
-					<label for="author_text"><span class="likeLink" onClick="getDocs('taxonomy','infraspecific_author');">
+					<label for="author_text"><span>
 						Infraspecific Author</span></label>
 					<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" size="30">
 					<span class="infoLink"
