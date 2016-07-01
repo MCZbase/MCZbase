@@ -21,6 +21,7 @@
 	select AGENT_RELATIONSHIP from CTAGENT_RELATIONSHIP
 </cfquery>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<link rel="stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
 <script> var CKEDITOR_BASEPATH = '/includes/js/ckeditor/'; </script>
 <script src="/includes/js/ckeditor/ckeditor.js"></script>
 <cfif not isdefined("agent_id")>
@@ -179,7 +180,7 @@
 			</cfquery>
 			<cfset nameStr=#getName.agent_name#>
 		</cfif>
-		<span class="infoLink" onClick="getDocs('agent')">Help</span>
+		<h3 class="infoLink" onClick="getMCZDocs('Edit Agent')"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h3>
 		<br>
 		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#}
 		<cfif len(#person.agent_remarks#) gt 0>
