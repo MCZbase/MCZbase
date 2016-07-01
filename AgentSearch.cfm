@@ -39,7 +39,7 @@
    			 </select>
 		</td>
 		<td>
-			<label for="first_name">First Name<</label>
+			<label for="first_name">First Name</label>
 			<input type="text" name="first_name">
 		</td>
 	</tr>
