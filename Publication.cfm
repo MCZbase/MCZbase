@@ -34,7 +34,7 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
     
-      <h2 class="wikilink" style="float: none;">Edit Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
+      <h2 class="wikilink" style="float: none;margin-top:0;">Edit Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 		</h2>
 	<form name="editPub" method="post" action="Publication.cfm" style="float:left;">
         <div class="cellDiv">
