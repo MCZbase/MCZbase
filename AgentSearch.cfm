@@ -18,7 +18,7 @@
 <td>
 
 </td>
-<h2 class="wikilink">Search for an agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h2>
+<h2 class="wikilink_Narrow">Search for an agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h2>
 <td style="padding-left:2em;padding-right:2em;">
 <!---  <span class="infoLink" onClick="getHelp('diacritics');">
   Search Tips--->
