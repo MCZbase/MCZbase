@@ -15,9 +15,9 @@
 --->
 <!---<span class="infoLink pageHelp" onclick="getDocs('agent');">Page Help</span>--->
 <td>
-<img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"> 
+
 </td>
-Search for an agent:
+<h2 class="wikilink">Search for an agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h2>
 <td style="padding-left:2em;padding-right:2em;">
 <!---  <span class="infoLink" onClick="getHelp('diacritics');">
   Search Tips--->
@@ -39,19 +39,19 @@ Search for an agent:
    			 </select>
 		</td>
 		<td>
-			<label for="first_name"><a href="javascript:void(0);" onClick="getDocs('agent','namesearch')">First Name</a></label>
+			<label for="first_name">First Name<</label>
 			<input type="text" name="first_name">
 		</td>
 	</tr>
 		<td>
 			<label for="middle_name">
-				<a href="javascript:void(0);" onClick="getDocs('agent','namesearch')">Middle Name</a>
+				Middle Name
 			</label>
 			<input type="text" name="middle_name" id="middle_name">
 		</td>
 		<td>
 			<label for="last_name">
-				<a href="javascript:void(0);" onClick="getDocs('agent','namesearch')">Last Name</a>
+			Last Name
 			</label>
 			<input type="text" name="last_name" id="last_name">
 		</td>
@@ -102,13 +102,13 @@ Search for an agent:
 	<tr>
 		<td>
 			<label for="address">
-				<a href="javascript:void(0);" onClick="getDocs('agent','address')">Address</a>
+			Address
 			</label>
 			<input type="text" name="address" id="address">
 		</td>
 		<td>
 			<label for="anyName">
-				<a href="javascript:void(0);" onClick="getDocs('agent','anynamesearch')">Any part of any name</a>
+				Any part of any name
 			</label>
 			<input type="text" name="anyName" id="anyName">
 		</td>
