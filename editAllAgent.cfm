@@ -270,7 +270,7 @@
 			<form name="editPerson" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="agent_id" value="#agent_id#">
 				<input type="hidden" name="action" value="editPerson">
-				<div style="border:2px solid green;margin:1px;padding:1px;">
+				<div class="greenbox">
 					<table>
 						<tr>
 							<td>
@@ -343,7 +343,7 @@
 		<form name="editNonPerson" action="editAllAgent.cfm" method="post" target="_person">
 			<input type="hidden" name="agent_id" value="#agent_id#">
 			<input type="hidden" name="action" value="editNonPerson">
-			<div style="border:2px solid green;margin:1px;padding:1px;">
+			
 					<table>
 						<tr>
 							<td colspan="4">
@@ -361,6 +361,7 @@
 							</td>
 						</tr>
 					</table>
+                  
 		</form>
 		</cfoutput>
 	</cfif>
@@ -383,7 +384,7 @@
 			<label for="gmemdv">Group Members</label>
 			<cfset i=1>
 			<br />
-			<div id="gmemdv" style="border:2px solid green;margin:1px;padding:1px;">
+			<div id="gmemdv" class="greenbox">
 				<cfloop query="grpMem">
 					<form name="groupMember#i#" method="post" action="editAllAgent.cfm">
 						<input type="hidden" name="action" value="deleteGroupMember" />
@@ -427,8 +428,8 @@
 		</cfquery>
 		<cfset i=1>
 		<br />
-		<label for="anamdv"><span class="likeLink" onClick="getDocs('agent','names')">Agent Names</span></label>
-		<div id="anamdv" style="border:2px solid green;margin:1px;padding:1px;">
+		<label for="anamdv"><span>Agent Names</span></label>
+		<div id="anamdv" class="greenbox">
 			<form name="a#i#" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="action">
 				<input type="hidden" name="agent_name_id" value="#pname.agent_name_id#">
@@ -439,6 +440,7 @@
 				<input type="button" value="Update" class="savBtn" onClick="a#i#.action.value='updateName';a#i#.submit();">
 				<input type="button" value="Copy" class="lnkBtn" onClick="newName.agent_name.value='#pname.agent_name#';">
 			</form>
+            
 			<cfset i=i+1>
 			<label>Other Names</label>
 			<cfloop query="npname">
@@ -459,7 +461,7 @@
 				</form>
 				<cfset i = i + 1>
 			</cfloop>
-		</div>
+	
 		<div id="nagnndv" class="newRec">
 			<label for="nagnndv">Add agent name</label>
 			<form name="newName" action="editAllAgent.cfm" method="post" target="_person">
@@ -483,9 +485,9 @@
 			  and agent_name_type = 'preferred' and
 			  agent_relations.agent_id=#person.agent_id#
 		</cfquery>
-		<br />
-		<label for="areldv"><span class="likeLink" onClick="getDocs('agent','relations')">Relationships</span></label>
-		<div id="areldv" style="border:2px solid green;margin:1px;padding:1px;">
+		</div>
+		<label for="areldv"><span>Relationships</span></label>
+		<div id="areldv" class="greenbox">
 			<cfset i=1>
 			<cfloop query="relns">
 				<form name="agentRelations#i#" method="post" action="editAllAgent.cfm">
@@ -512,7 +514,7 @@
 				</form>
 				<cfset i=#i#+1>
 			</cfloop>
-		</div>
+		
 		<div class="newRec">
 			<label>Add Relationship</label>
 			<form name="newRelationship" method="post" action="editAllAgent.cfm">
@@ -532,7 +534,7 @@
 		</div>
 		<br />
 		<div class="newRec">
-			<label>Add Address</label>
+			<label>Address</label>
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
 				<input type="hidden" name="Action" value="newAddress">
