@@ -531,9 +531,9 @@
 					onKeyPress="return noenter(event);">
 				<input type="submit" class="insBtn" value="Create Relationship">
 			</form>
-		</div>
+		</div></div>
 		<br />
-		<div class="newRec">
+		<div class="newRec" class="greenbox">
 			<label>Address</label>
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
@@ -625,7 +625,7 @@
 			</form>
 		</div>
 		<br />
-		<div class="newRec">
+		<div class="newRec" class="greenbox">
 			<label>Add Electronic Address</label>
 			<form name="newElecAddr" method="post" action="editAllAgent.cfm">
 				<input name="Action" type="hidden" value="newElecAddr">
@@ -657,8 +657,8 @@
 		         media_relations.related_primary_key = #agent_id#
 		</cfquery>
 		<cfif media.recordcount gt 0>
-	<label for="amedia"><span class="likeLink">Media</span></label>
-    <div style="border:2px solid green;margin:1px;padding:1px;" <!---class="detailCell"--->>
+	<label for="amedia"><span>Media</span></label>
+    <div class="greenbox">
 		<!---div class="detailLabel">Media--->
 		<cfquery name="wrlCount" dbtype="query">
 			select * from media where mime_type = 'model/vrml'
@@ -720,7 +720,7 @@
 						</div>
 					</cfloop>
 					<div class="thumb_spcr">&nbsp;</div>
-				</div--->
+				
 	        </span>
 		</div>
 	</div>
