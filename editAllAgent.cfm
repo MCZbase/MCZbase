@@ -21,6 +21,7 @@
 	select AGENT_RELATIONSHIP from CTAGENT_RELATIONSHIP
 </cfquery>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<link rel="stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
 <script> var CKEDITOR_BASEPATH = '/includes/js/ckeditor/'; </script>
 <script src="/includes/js/ckeditor/ckeditor.js"></script>
 <cfif not isdefined("agent_id")>
@@ -78,6 +79,7 @@
 </script>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif action is "newOtherAgent">
+<h3>Add a New Other Agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Other Agent')" class="likeLink" alt="[ help ]"></h3>
 	<cfoutput>
 		<form name="prefdName" action="editAllAgent.cfm" method="post" target="_person">
 			<input type="hidden" name="action" value="makeNewAgent">
@@ -102,6 +104,7 @@
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "newPerson">
+<h3>Add a New Person <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent')" class="likeLink" alt="[ help ]"></h3>
 	<form name="newPerson" action="editAllAgent.cfm" method="post" target="_person">
 		<input type="hidden" name="Action" value="insertPerson">
 		<label for="prefix">Prefix</label>
@@ -179,8 +182,8 @@
 			</cfquery>
 			<cfset nameStr=#getName.agent_name#>
 		</cfif>
-		<span class="infoLink" onClick="getDocs('agent')">Help</span>
-		<br>
+		<h3> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
+		
 		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#}
 		<cfif len(#person.agent_remarks#) gt 0>
 			#person.agent_remarks#
@@ -212,7 +215,7 @@
 		<cfset i=1>
 		<cfloop query="agentAddrs">
 			<cfif valid_addr_fg is 1>
-				<div style="border:2px solid green;margin:1px;padding:1px;">
+				<div class="greenbox">
 			<cfelse>
 				<div style="border:2px solid red;margin:1px;padding:1px;">
 			</cfif>
@@ -255,7 +258,7 @@
 				<input type="hidden" name="address_type" value="#address_type#">
 				<input type="hidden" name="address" value="#address#">
 			</form>
-			<div style="border:2px solid green;margin:1px;padding:1px;">
+			<div class="greenbox">
 				#address_type#: #address#
 				<input type="button" value="Edit" class="lnkBtn" onclick="elad#i#.action.value='editElecAddr';elad#i#.submit();">
 				<input type="button" value="Delete" class="delBtn" onclick="elad#i#.action.value='deleElecAddr';confirmDelete('elad#i#');">
@@ -269,7 +272,7 @@
 			<form name="editPerson" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="agent_id" value="#agent_id#">
 				<input type="hidden" name="action" value="editPerson">
-				<div style="border:2px solid green;margin:1px;padding:1px;">
+				<div class="greenbox">
 					<table>
 						<tr>
 							<td>
@@ -342,7 +345,7 @@
 		<form name="editNonPerson" action="editAllAgent.cfm" method="post" target="_person">
 			<input type="hidden" name="agent_id" value="#agent_id#">
 			<input type="hidden" name="action" value="editNonPerson">
-			<div style="border:2px solid green;margin:1px;padding:1px;">
+			
 					<table>
 						<tr>
 							<td colspan="4">
@@ -360,6 +363,7 @@
 							</td>
 						</tr>
 					</table>
+                  
 		</form>
 		</cfoutput>
 	</cfif>
@@ -382,7 +386,7 @@
 			<label for="gmemdv">Group Members</label>
 			<cfset i=1>
 			<br />
-			<div id="gmemdv" style="border:2px solid green;margin:1px;padding:1px;">
+			<div id="gmemdv" class="greenbox">
 				<cfloop query="grpMem">
 					<form name="groupMember#i#" method="post" action="editAllAgent.cfm">
 						<input type="hidden" name="action" value="deleteGroupMember" />
@@ -406,7 +410,7 @@
 				<input type="hidden" name="action" value="makeNewGroupMemeber" />
 				<input type="hidden" name="member_order" value="#nOrd#" />
 				<input type="hidden" name="member_id">
-				<div class="newRec">
+				<div class="newRec" style="margin-top: 1em;">
 					<label for="">Add Member to Group</label>
 					<input type="text" name="group_member" class="reqdClr"
 						onchange="getAgent('member_id','group_member','newGroupMember',this.value); return false;"
@@ -426,8 +430,8 @@
 		</cfquery>
 		<cfset i=1>
 		<br />
-		<label for="anamdv"><span class="likeLink" onClick="getDocs('agent','names')">Agent Names</span></label>
-		<div id="anamdv" style="border:2px solid green;margin:1px;padding:1px;">
+		<label for="anamdv"><span>Agent Names</span></label>
+		<div id="anamdv" class="greenbox">
 			<form name="a#i#" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="action">
 				<input type="hidden" name="agent_name_id" value="#pname.agent_name_id#">
@@ -438,6 +442,7 @@
 				<input type="button" value="Update" class="savBtn" onClick="a#i#.action.value='updateName';a#i#.submit();">
 				<input type="button" value="Copy" class="lnkBtn" onClick="newName.agent_name.value='#pname.agent_name#';">
 			</form>
+            
 			<cfset i=i+1>
 			<label>Other Names</label>
 			<cfloop query="npname">
@@ -458,8 +463,8 @@
 				</form>
 				<cfset i = i + 1>
 			</cfloop>
-		</div>
-		<div id="nagnndv" class="newRec">
+	
+		<div id="nagnndv" class="newRec" style="margin-top: 1em;">
 			<label for="nagnndv">Add agent name</label>
 			<form name="newName" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="Action" value="newName">
@@ -482,9 +487,9 @@
 			  and agent_name_type = 'preferred' and
 			  agent_relations.agent_id=#person.agent_id#
 		</cfquery>
-		<br />
-		<label for="areldv"><span class="likeLink" onClick="getDocs('agent','relations')">Relationships</span></label>
-		<div id="areldv" style="border:2px solid green;margin:1px;padding:1px;">
+		</div>
+		<label for="areldv"><span>Relationships</span></label>
+		<div id="areldv" class="greenbox">
 			<cfset i=1>
 			<cfloop query="relns">
 				<form name="agentRelations#i#" method="post" action="editAllAgent.cfm">
@@ -511,8 +516,8 @@
 				</form>
 				<cfset i=#i#+1>
 			</cfloop>
-		</div>
-		<div class="newRec">
+		
+		<div class="newRec" style="margin-top: 1em;">
 			<label>Add Relationship</label>
 			<form name="newRelationship" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="action" value="addRelationship">
@@ -528,10 +533,11 @@
 					onKeyPress="return noenter(event);">
 				<input type="submit" class="insBtn" value="Create Relationship">
 			</form>
-		</div>
-		<br />
+		</div></div>
+        	<label>Address</label>
+            <div class="greenbox">
 		<div class="newRec">
-			<label>Add Address</label>
+		
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
 				<input type="hidden" name="Action" value="newAddress">
@@ -620,9 +626,8 @@
 					</tr>
 				</table>
 			</form>
-		</div>
-		<br />
-		<div class="newRec">
+
+		<div class="newRec" style="margin-top:.5em;">
 			<label>Add Electronic Address</label>
 			<form name="newElecAddr" method="post" action="editAllAgent.cfm">
 				<input name="Action" type="hidden" value="newElecAddr">
@@ -635,7 +640,7 @@
 				<input type="text" name="address" id="address" size="50">
 				<input type="submit" class="insBtn" value="Create Address">
 			</form>
-		</div>
+		</div></div></div>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		    select distinct
 		        media.media_id,
@@ -654,8 +659,8 @@
 		         media_relations.related_primary_key = #agent_id#
 		</cfquery>
 		<cfif media.recordcount gt 0>
-	<label for="amedia"><span class="likeLink">Media</span></label>
-    <div style="border:2px solid green;margin:1px;padding:1px;" <!---class="detailCell"--->>
+	<label for="amedia"><span>Media</span></label>
+    <div class="greenbox">
 		<!---div class="detailLabel">Media--->
 		<cfquery name="wrlCount" dbtype="query">
 			select * from media where mime_type = 'model/vrml'
@@ -717,7 +722,7 @@
 						</div>
 					</cfloop>
 					<div class="thumb_spcr">&nbsp;</div>
-				</div--->
+				
 	        </span>
 		</div>
 	</div>
