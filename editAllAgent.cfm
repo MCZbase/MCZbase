@@ -532,10 +532,9 @@
 				<input type="submit" class="insBtn" value="Create Relationship">
 			</form>
 		</div></div>
-		<br />
         	<label>Address</label>
             <div class="greenbox">
-		<div class="newRec" style="margin-top: 1em;">
+		<div class="newRec">
 		
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
