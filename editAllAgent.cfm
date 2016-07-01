@@ -256,7 +256,7 @@
 				<input type="hidden" name="address_type" value="#address_type#">
 				<input type="hidden" name="address" value="#address#">
 			</form>
-			<div style="border:2px solid green;margin:1px;padding:1px;">
+			<div class="greenbox">
 				#address_type#: #address#
 				<input type="button" value="Edit" class="lnkBtn" onclick="elad#i#.action.value='editElecAddr';elad#i#.submit();">
 				<input type="button" value="Delete" class="delBtn" onclick="elad#i#.action.value='deleElecAddr';confirmDelete('elad#i#');">
@@ -408,7 +408,7 @@
 				<input type="hidden" name="action" value="makeNewGroupMemeber" />
 				<input type="hidden" name="member_order" value="#nOrd#" />
 				<input type="hidden" name="member_id">
-				<div class="newRec">
+				<div class="newRec" style="margin-top: 1em;">
 					<label for="">Add Member to Group</label>
 					<input type="text" name="group_member" class="reqdClr"
 						onchange="getAgent('member_id','group_member','newGroupMember',this.value); return false;"
@@ -462,7 +462,7 @@
 				<cfset i = i + 1>
 			</cfloop>
 	
-		<div id="nagnndv" class="newRec">
+		<div id="nagnndv" class="newRec" style="margin-top: 1em;">
 			<label for="nagnndv">Add agent name</label>
 			<form name="newName" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="Action" value="newName">
@@ -515,7 +515,7 @@
 				<cfset i=#i#+1>
 			</cfloop>
 		
-		<div class="newRec">
+		<div class="newRec" style="margin-top: 1em;">
 			<label>Add Relationship</label>
 			<form name="newRelationship" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="action" value="addRelationship">
@@ -533,8 +533,9 @@
 			</form>
 		</div></div>
 		<br />
-		<div class="newRec" class="greenbox">
-			<label>Address</label>
+        	<label>Address</label>
+		<div class="newRec" class="greenbox" style="margin-top: 1em;">
+		
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
 				<input type="hidden" name="Action" value="newAddress">
@@ -623,9 +624,9 @@
 					</tr>
 				</table>
 			</form>
-		</div>
+
 		<br />
-		<div class="newRec" class="greenbox">
+		<div class="newRec" style="margin-top:1em;">
 			<label>Add Electronic Address</label>
 			<form name="newElecAddr" method="post" action="editAllAgent.cfm">
 				<input name="Action" type="hidden" value="newElecAddr">
@@ -638,7 +639,7 @@
 				<input type="text" name="address" id="address" size="50">
 				<input type="submit" class="insBtn" value="Create Address">
 			</form>
-		</div>
+		</div></div>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		    select distinct
 		        media.media_id,
