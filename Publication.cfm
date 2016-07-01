@@ -7,7 +7,7 @@
 <cfif action is "edit">
 <cfset title = "Edit Publication">
 <cfoutput>
-	<h3 style="margin: 2px; padding: 5px;"><a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">See Publication Details</a></h3>
+	<h3 style="margin: 0; padding: 5px 0 0 0;"><a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">See Publication Details</a></h3>
 	<br>
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
@@ -34,7 +34,7 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
     
-      <h2 class="wikilink">Edit Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
+      <h2 class="wikilink" style="float: none;">Edit Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 		</h2>
 	<form name="editPub" method="post" action="Publication.cfm" style="float:left;">
         <div class="cellDiv">
