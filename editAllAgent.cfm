@@ -213,7 +213,7 @@
 		<cfset i=1>
 		<cfloop query="agentAddrs">
 			<cfif valid_addr_fg is 1>
-				<div style="border:2px solid green;margin:1px;padding:1px;">
+				<div class="greenbox">
 			<cfelse>
 				<div style="border:2px solid red;margin:1px;padding:1px;">
 			</cfif>
@@ -534,7 +534,8 @@
 		</div></div>
 		<br />
         	<label>Address</label>
-		<div class="newRec" class="greenbox" style="margin-top: 1em;">
+            <div class="greenbox">
+		<div class="newRec" style="margin-top: 1em;">
 		
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
@@ -625,8 +626,7 @@
 				</table>
 			</form>
 
-		<br />
-		<div class="newRec" style="margin-top:1em;">
+		<div class="newRec" style="margin-top:.5em;">
 			<label>Add Electronic Address</label>
 			<form name="newElecAddr" method="post" action="editAllAgent.cfm">
 				<input name="Action" type="hidden" value="newElecAddr">
@@ -639,7 +639,7 @@
 				<input type="text" name="address" id="address" size="50">
 				<input type="submit" class="insBtn" value="Create Address">
 			</form>
-		</div></div>
+		</div></div></div>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		    select distinct
 		        media.media_id,
