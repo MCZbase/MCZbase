@@ -180,7 +180,7 @@
 			</cfquery>
 			<cfset nameStr=#getName.agent_name#>
 		</cfif>
-		<h3 class="infoLink" onClick="getMCZDocs('Edit Agent')"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h3>
+		<h3 onClick="getMCZDocs('Edit Agent')"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h3>
 		<br>
 		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#}
 		<cfif len(#person.agent_remarks#) gt 0>
