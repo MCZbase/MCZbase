@@ -88,7 +88,7 @@
 	<cfset title="Explore Localities">
 	<cfset showLocality=1>
 	<cfset showEvent=1>
-	<h2>Find Localities <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Find Higher Geography')" class="likeLink" alt="[ help ]"></h2>
+	<h2>Find Localities <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Find Locality)" class="likeLink" alt="[ help ]"></h2>
     <form name="getCol" method="post" action="showLocality.cfm">
 		<input type="hidden" name="action" value="srch">	
 		<cfinclude template="/includes/frmFindLocation_guts.cfm">
