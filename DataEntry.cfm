@@ -435,7 +435,7 @@ Some Totally Random String Data .....
 					    <!------ other IDs ------------------->
 						<tr>
 							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Other ID')" class="likeLink" alt="[ help ]">
+								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Other ID - Data Entry')" class="likeLink" alt="[ help ]">
 							</td>
 						</tr>
 						<cfloop from="1" to="4" index="i">
