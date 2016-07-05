@@ -407,7 +407,7 @@ Some Totally Random String Data .....
                         <!--- agents --->
 						<tr>
 							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getDocs('agent')" class="likeLink" alt="[ help ]">
+								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Agent - Data Entry')" class="likeLink" alt="[ help ]">
 							</td>
 							<cfloop from="1" to="8" index="i">
 								<cfif i is 1 or i is 3 or i is 5 or i is 7><tr></cfif>
@@ -435,7 +435,7 @@ Some Totally Random String Data .....
 					    <!------ other IDs ------------------->
 						<tr>
 							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getDocs('cataloged_item','other_id')" class="likeLink" alt="[ help ]">
+								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Other ID')" class="likeLink" alt="[ help ]">
 							</td>
 						</tr>
 						<cfloop from="1" to="4" index="i">
@@ -461,7 +461,7 @@ Some Totally Random String Data .....
 					    <!----- identification ----->
 						<tr>
 							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink" alt="[ help ]">
+								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Identification')" class="likeLink" alt="[ help ]">
 							</td>
 							<td align="right">
 								<span class="f11a">Scientific&nbsp;Name</span>
@@ -510,7 +510,7 @@ Some Totally Random String Data .....
 					<table cellspacing="0" cellpadding="0" class="fs"><!----- locality ---------->
 					 	<tr>
 							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getDocs('locality')" class="likeLink" alt="[ help ]">
+								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Locality - Data Entry')" class="likeLink" alt="[ help ]">
 							</td>
 							<td align="right"><span class="f11a">Higher Geog</span></td>
 							<td width="100%">
@@ -696,7 +696,7 @@ Some Totally Random String Data .....
 				    <!------- coordinates ------->
 					<tr>
 						<td rowspan="99" valign="top">
-							<img src="/images/info.gif" border="0" onClick="getDocs('lat_long')" class="likeLink" alt="[ help ]">
+							<img src="/images/info.gif" border="0" onClick="getMCZDocs('Georeferencing - Data Entry')" class="likeLink" alt="[ help ]">
 						</td>
 						<td>
 							<table>
@@ -1021,7 +1021,7 @@ Some Totally Random String Data .....
 						<table cellpadding="0" cellspacing="0" class="fs">
 							<tr>
 								<td>
-									<img src="/images/info.gif" border="0" onClick="getDocs('geology_attributes')" class="likeLink" alt="[ help ]">
+									<img src="/images/info.gif" border="0" onClick="getMCZDocs('Geology Attributes - Data Entry')" class="likeLink" alt="[ help ]">
 									<table cellpadding="0" cellspacing="0">
 										<tr>
 											<th nowrap="nowrap"><span class="f11a">Geol Att.</span></th>
@@ -1111,7 +1111,7 @@ Some Totally Random String Data .....
 								<table cellpadding="0" cellspacing="0">
 									<tr>
 										<td rowspan="99" valign="top">
-											<img src="/images/info.gif" border="0" onClick="getDocs('attributes')" class="likeLink" alt="[ help ]">
+											<img src="/images/info.gif" border="0" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
 										</td>
 										<td nowrap="nowrap">
 											<span class="f11a">Sex</span>
@@ -1448,7 +1448,7 @@ Some Totally Random String Data .....
 				<table cellpadding="0" cellspacing="0" class="fs" border=1>
 					<tr>
 						<td rowspan="99" valign="top">
-							<img src="/images/info.gif" border="0" onClick="getDocs('parts')" class="likeLink" alt="[ help ]">
+							<img src="/images/info.gif" border="0" onClick="getMCZDocs('Parts - Data Entry')" class="likeLink" alt="[ help ]">
 						</td>
 						<th><span class="f11a">Part Name</span></th>
 						<th><span class="f11a">Preserve Method</span></th>
