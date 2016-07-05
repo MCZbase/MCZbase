@@ -469,7 +469,7 @@
 <cfif action is "nothing">
 	<cfset title = "Find Accession">
 		<cfoutput>
-		<h2 class="wikilink">Find Accession <img class="infoLink" src="/images/info_i_2.gif" alt="[help]" onClick="getMCZDocs('Find Accession')"/></h2>
+		<h2 class="wikilink" style="margin-left:0;">Find Accession <img class="infoLink" src="/images/info_i_2.gif" alt="[help]" onClick="getMCZDocs('Find Accession')"/></h2>
 			<cfif #project_id# gt 0>to add to project ## #project_id#</cfif>
 	
 		<form action="editAccn.cfm" method="post" name="SpecData" preservedata="yes">
