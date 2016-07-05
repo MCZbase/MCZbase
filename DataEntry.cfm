@@ -407,7 +407,7 @@ Some Totally Random String Data .....
                         <!--- agents --->
 						<tr>
 							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Agent - Data Entry')" class="likeLink" alt="[ help ]">
+								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Agent-Data Entry')" class="likeLink" alt="[ help ]">
 							</td>
 							<cfloop from="1" to="8" index="i">
 								<cfif i is 1 or i is 3 or i is 5 or i is 7><tr></cfif>
