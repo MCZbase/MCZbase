@@ -94,8 +94,8 @@
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newLoan">
 <cfset title="New Loan">
-	Initiate a loan:
-	<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+	<h2 class="wikilink" style="margin-left: 0;">Initiate a loan
+	<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]"></h2>
 	<cfoutput>
 		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
