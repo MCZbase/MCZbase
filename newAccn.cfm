@@ -20,13 +20,14 @@
 	<cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
 	<cfform action="newAccn.cfm" method="post" name="newAccn">
 		<input type="hidden" name="Action" value="createAccession">
-		<table>
+			<h2 class="wikilink" style="margin-left:0;">Create Accession <img class="infoLink" src="/images/info_i_2.gif" alt="[help]" onClick="getMCZDocs('Create Accession')"/></h2>
+        <table>
 			<tr>
 				<td valign="top">
 					<table class="newRec">
 						<tr>
 							<td colspan="6">
-								Create Accession
+								
 							</td>
 						</tr>
 						<tr>
