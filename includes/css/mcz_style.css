@@ -497,7 +497,7 @@ h2.wikilink span {
 	font-style: italic;
 	font-size: smaller;
 }
-h2.wikilink img {
+h2.wikilink img.infoLink {
 	vertical-align: top;
 	margin-top: -7px
 }
