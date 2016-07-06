@@ -74,6 +74,7 @@
 					<td>Name</td>
 					<td><font size="-2">Name ID</font></td>
 					<td><font size="-2">ID</font></td>
+                    <td><font size="-2">Agent Name Type</font></td>
 				</tr>
 				<cfloop query="getAgentId">
 					<cfset thisName = jsescape(agent_name)>
@@ -93,6 +94,7 @@
 						</td>
 						<td><font size="-2">#agent_name_id#</font></td>
 						<td><font size="-2">#agent_id#</font></td>
+                        <td><font size="-2">#agent_name_type#</font></td>
 						<td><font size="-2"><a target="blank" href="/agents.cfm?agent_id=#agent_id#">Edit</a></font></td>
 						<td>
 							<cfif agent_name_type is "preferred">
