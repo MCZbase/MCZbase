@@ -31,7 +31,7 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 	<br>
-	Search for Media
+	<h2>Search for Media <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
 	<a name="kwFrm"></a>
 	<div style="font-size:small;font-weight:bold;">
 		This form may not find very recent changes. You can use the also use the
