@@ -1102,8 +1102,8 @@ Some Totally Random String Data .....
 				    <!----- attributes ------->
 					<tr>
                     	<td rowspan="99" valign="top">
-											<img src="/images/info.gif" border="0" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
-										</td>
+							<img src="/images/info.gif" border="0" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
+                        </td>
 						<td>
 							<cfif collection_cde is not "Crus" and collection_cde is not "Herb"
 								and collection_cde is not "ES" and collection_cde is not "Ich"
@@ -1113,9 +1113,7 @@ Some Totally Random String Data .....
 								(collection_cde is "HerpOBS" and institution_acronym is "MCZ")>
 								<table cellpadding="0" cellspacing="0">
 									<tr>
-										<td rowspan="99" valign="top">
-											<img src="/images/info.gif" border="0" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
-										</td>
+									
 										<td nowrap="nowrap">
 											<span class="f11a">Sex</span>
 											 <input type="hidden" name="attribute_1" value="sex">
