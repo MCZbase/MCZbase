@@ -1101,6 +1101,9 @@ Some Totally Random String Data .....
 				<table cellpadding="0" cellspacing="0" class="fs">
 				    <!----- attributes ------->
 					<tr>
+                    	<td rowspan="99" valign="top">
+											<img src="/images/info.gif" border="0" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
+										</td>
 						<td>
 							<cfif collection_cde is not "Crus" and collection_cde is not "Herb"
 								and collection_cde is not "ES" and collection_cde is not "Ich"
