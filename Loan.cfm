@@ -449,16 +449,18 @@
 	</cfquery>
 	<script>
 		$(function() {
+			// on page load, hide the create project from loan fields
+			$("##create_project").hide();
                         <cfif loanDetails.loan_type neq 'exhibition-master'>
-			// on page load, hide the insurance section.
-			$("##insurance_section").hide();
+			  // on page load, hide the insurance section.
+			  $("##insurance_section").hide();
           		</cfif>
 			// on page load, remove transfer and exhibition-master from the list of loan/gift types, if not current values
                         <cfif loanDetails.loan_type neq 'transfer' and loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-			$("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+			  $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
                         </cfif>
                         <cfif loanDetails.loan_type neq 'exhibition-master' and loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-			$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
+			  $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
                         </cfif>
 			// on page load, bind a function to collection_id to change the list of loan types
 			// based on the selected collection
@@ -483,6 +485,13 @@
 					$("##insurance_section").show();
 				} else { 
 					$("##insurance_section").hide();
+				}
+			});
+			$("##saveNewProject").change( function () {
+				if ($("##saveNewProject").is(":checked")) { 
+					$("##create_project").show();
+				} else { 
+					$("##create_project").hide();
 				}
 			});
 		});
@@ -749,6 +758,7 @@
 			onKeyPress="return noenter(event);">
 		<hr>
 		<label for=""><span style="font-size:large">Create a project from this loan</span></label>
+                <div id="create_project">
 		<label for="newAgent_name">Project Agent Name</label>
 		<input type="text" name="newAgent_name" id="newAgent_name"
 			class="reqdClr"
@@ -776,8 +786,9 @@
 			id="project_description" cols="50" rows="6">#loanDetails.loan_description#</textarea>
 		<label for="project_remarks">Project Remark</label>
 		<textarea name="project_remarks" cols="50" rows="3">#loanDetails.trans_remarks#</textarea>
+                </div>
 		<label for="saveNewProject">Check to create project with save</label>
-		<input type="checkbox" value="yes" name="saveNewProject">
+		<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
 	</form>
 	</td></tr></table>
 	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
