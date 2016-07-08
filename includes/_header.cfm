@@ -268,7 +268,8 @@
 											<li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
 											<li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
 											<li><a target="_top" href="/Loan.cfm?Action=newLoan">Create Loan</a></li>
-											<li><a target="_top" href="/Loan.cfm?Action=addItems">Find Loan</a></li>
+											<li><a target="_top" href="/Loan.cfm?Action=newLoan&scope=Gift">Create Gift</a></li>
+											<li><a target="_top" href="/Loan.cfm?Action=search">Find Loans/Gifts</a></li>
 											<li><a target="_top" href="/borrow.cfm?action=new">Create Borrow</a></li>
 											<li><a target="_top" href="/borrow.cfm">Find Borrow</a></li>
 											<li><a target="_top" href="/Permit.cfm?action=newPermit">Create Permit</a></li>
