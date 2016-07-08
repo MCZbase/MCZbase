@@ -30,6 +30,8 @@
                 loan_type,
                 loan_number,
                 loan_status,
+                insurance_value,
+                insurance_maintained_by,
 				replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
 				shipped_carrier_method,
 				shipment.no_of_packages as no_of_packages,

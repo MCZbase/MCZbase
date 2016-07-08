@@ -172,11 +172,11 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="rec_agent_name">Recipient Institution:</label>
-						<input type="text" name="rec_agent_name" class="reqdClr" size="40"
-						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
+						<label for="recipient_institution_agent_name">Recipient Institution:</label>
+						<input type="text" name="recipient_institution_agent_name" class="reqdClr" size="40"
+						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="rec_inst_agent_id">
+						<input type="hidden" name="recipient_institution_agent_id">
 					</td>
 					<td>
 						<label for="foruseby_agent_name">For Use By:</label>
@@ -294,7 +294,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="submit" value="Create Loan" class="insBtn">
+						<input type="submit" value="Create #scope#" class="insBtn">
 						&nbsp;
 						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm'">
 			   		</td>
@@ -1309,6 +1309,16 @@
 					sq_transaction_id.currval,
 					#in_house_contact_agent_id#,
 					'in-house contact')
+			</cfquery>
+			<cfquery name="recipient_institution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#recipient_institution_agent_id#,
+					'recipient institution')
 			</cfquery>
 		<cfif isdefined("additional_contact_agent_id") and len(additional_contact_agent_id) gt 0>
 			<cfquery name="additional_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
