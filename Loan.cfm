@@ -476,6 +476,8 @@
           		</cfif>
                         <cfif loanDetails.loan_type neq 'exhibition-subloan'>
 			  $("##parentloan_section").hide();
+                          $("##return_due_date").datepicker('option','disabled',false);
+		        <cfelse>
                           $("##return_due_date").datepicker('option','disabled',true);
           		</cfif>
 			// on page load, remove transfer and exhibition-master from the list of loan/gift types, if not current values
@@ -1212,12 +1214,13 @@
 `					<!--- Propagate due date to child exhibition-subloans ---> 
 					<cfset formatted_due_date = dateformat(return_due_date,"yyyy-mm-dd")>
 					<cfquery name="upChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id 
+						UPDATE loan
  						SET
-						      l.return_due_date = <cfqueryparam value = "#formatted_due_date#" CFSQLType="CF_SQL_DATE">
-						WHERE l.loan_type = 'exhibition-subloan' AND 
+						      return_due_date = <cfqueryparam value = "#formatted_due_date#" CFSQLType="CF_SQL_DATE">
+						WHERE loan_type = 'exhibition-subloan' AND 
+ 						      transaction_id in (select lr.related_transaction_id from loan_relations lr where 
 						      lr.relation_type = 'Subloan' AND 
-						      lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">
+						      lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">)
 					</cfquery>
 				</cfif>
 				<cfif isdefined("saveNewProject") and saveNewProject is "yes">
@@ -1572,7 +1575,7 @@
             <td><select name="loan_type">
                 <option value=""></option>
                 <cfloop query="ctAllLoanType">
-                  <option value="#ctLoanType.loan_type#">#ctAllLoanType.loan_type#</option>
+                  <option value="#ctAllLoanType.loan_type#">#ctAllLoanType.loan_type#</option>
                 </cfloop>
               </select>
               <img src="images/nada.gif" width="25" height="1"> Status:&nbsp;
