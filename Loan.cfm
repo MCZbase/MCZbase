@@ -692,7 +692,7 @@
                            <a href="Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
                         </cfloop>
   		     <cfelse>
-                        [Link]
+                        This exhibition subloan has not been linked to a master loan.
                      </cfif>
                 </div>
                 <div id="subloan_section">
