@@ -1180,6 +1180,7 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "saveEdits">
+<cfif not isdefined("return_due_date")><cfset return_due_date = ''></cfif>
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
