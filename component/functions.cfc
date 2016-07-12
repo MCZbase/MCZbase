@@ -2111,5 +2111,39 @@
 	</cfif>
 	<cfreturn "cookie,#id#,#onOff#">
 </cffunction>
+<!------------------------------------->
+<cffunction name="addSubLoanToLoan" access="remote">
+        <cfargument name="transaction_id" type="string" required="yes">
+        <cfargument name="subloan_transaction_id" type="string" required="yes">
+        <cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           insert into loan_relations (transaction_id, related_transaction_id, relation_type) 
+               values (
+               <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+               <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+               'Subloan'
+               )
+        </cfquery>
+        <cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select l.loan_number, l.transaction_id from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
+               where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+        </cfquery>
+        <cfreturn childLoans>
+</cffunction>
+<!------------------------------------->
+<cffunction name="removeSubLoan" access="remote">
+        <cfargument name="transaction_id" type="string" required="yes">
+        <cfargument name="subloan_transaction_id" type="string" required="yes">
+        <cfquery name="removeChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           delete from loan_relations 
+               where transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
+               related_transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
+               relation_type = 'Subloan'
+        </cfquery>
+        <cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select l.loan_number, l.transaction_id from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
+               where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+        </cfquery>
+        <cfreturn childLoans>
+</cffunction>
 <!-------------------------------------------->
 </cfcomponent>

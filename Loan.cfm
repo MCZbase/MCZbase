@@ -218,8 +218,13 @@
 						   $("##loan_type").change( function () {
            						if ($("##loan_type").val() == "exhibition-master") { 
                                                             $("##insurance_section").show();
+                          				    $("##return_due_date").datepicker('option','disabled',false);
+							} else if ($("##loan_type").val() == "exhibition-subloan") { 
+							    $("##insurance_section").hide();
+                          				    $("##return_due_date").datepicker('option','disabled',true);
                                                         } else { 
                                                             $("##insurance_section").hide();
+                          				    $("##return_due_date").datepicker('option','disabled',false);
                                                         }
 						   });
 						 });
@@ -447,13 +452,33 @@
 			trans_agent_role,
 			agent_name
 	</cfquery>
+ 	<!--- Parent exhibition-master loan of the current exhibition-subloan loan, if applicable---> 
+	<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             select p.loan_number, p.transaction_id from loan c left join loan_relations lr on c.transaction_id = lr.related_transaction_id left join loan p on lr.transaction_id = p.transaction_id where lr.relation_type = 'Subloan' and c.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+        </cfquery>
+ 	<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) ---> 
+	<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             select c.loan_number, c.transaction_id from loan p left join loan_relations lr on p.transaction_id = lr.transaction_id left join loan c on lr.related_transaction_id = c.transaction_id where lr.relation_type = 'Subloan' and p.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+        </cfquery>
+  	<!---  Loans which are available to be used as subloans for an exhibition master loan (exhibition-subloans that are not allready children) --->
+	<cfquery name="potentialChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             select pc.loan_number, pc.transaction_id from loan pc left join loan_relations lr on pc.transaction_id = lr.related_transaction_id 
+             where pc.loan_type = 'exhibition-subloan' and (lr.transaction_id is null or lr.relation_type <> 'Subloan')
+        </cfquery>
 	<script>
 		$(function() {
 			// on page load, hide the create project from loan fields
 			$("##create_project").hide();
                         <cfif loanDetails.loan_type neq 'exhibition-master'>
-			  // on page load, hide the insurance section.
+			  // on page load, hide the insurance and subloan sections.
 			  $("##insurance_section").hide();
+			  $("##subloan_section").hide();
+          		</cfif>
+                        <cfif loanDetails.loan_type neq 'exhibition-subloan'>
+			  $("##parentloan_section").hide();
+                          $("##return_due_date").datepicker('option','disabled',false);
+		        <cfelse>
+                          $("##return_due_date").datepicker('option','disabled',true);
           		</cfif>
 			// on page load, remove transfer and exhibition-master from the list of loan/gift types, if not current values
                         <cfif loanDetails.loan_type neq 'transfer' and loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
@@ -477,14 +502,26 @@
 					$("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
 					$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
 					$("##insurance_section").hide();
+					$("##subloan_section").hide();
 				}
 			});
 			// on page load, bind a function to loan_type to hide/show the insurance section.
 			$("##loan_type").change( function () {
 				if ($("##loan_type").val() == "exhibition-master") { 
 					$("##insurance_section").show();
+					$("##subloan_section").show();
+					$("##parentloan_section").hide();
+                          		$("##return_due_date").datepicker('option','disabled',false);
+				} else if ($("##loan_type").val() == "exhibition-subloan") { 
+					$("##insurance_section").hide();
+					$("##subloan_section").hide();
+					$("##parentloan_section").show();
+                          		$("##return_due_date").datepicker('option','disabled',true);
 				} else { 
 					$("##insurance_section").hide();
+					$("##subloan_section").hide();
+					$("##parentloan_section").hide();
+                          		$("##return_due_date").datepicker('option','disabled',false);
 				}
 			});
 			$("##saveNewProject").change( function () {
@@ -629,7 +666,7 @@
 				</td>
 				<td>
                                       <cfif scope eq 'Loan'> 
-					<label for="initiating_date">Due Date</label>
+					<label for="return_due_date">Due Date</label>
 					<input type="text" id="return_due_date" name="return_due_date"
 						value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
                                       <cfelse>
@@ -648,6 +685,84 @@
 				</td>
 			</tr>
 		</table>
+                <div id="parentloan_section">
+                     Exhibition-Master Loan: 
+                     <cfif parentLoan.RecordCount GT 0>
+			<cfloop query="parentLoan">
+                           <a href="Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
+                        </cfloop>
+  		     <cfelse>
+                        This exhibition subloan has not been linked to a master loan.
+                     </cfif>
+                </div>
+                <div id="subloan_section">
+                     <span id="subloan_list">
+                     Exhibition-Subloans (#childLoans.RecordCount#): 
+                     <cfif childLoans.RecordCount GT 0>
+                        <cfset childLoanCounter = 0>
+			<cfloop query="childLoans">
+                           <a href="Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
+                           <button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
+                           <script>
+			   $(function() { 
+				$("##button_remove_subloan_#childLoanCounter#").click( function(event) {  
+                     			event.preventDefault();
+					$.get( "component/functions.cfc", 
+ 						{ transaction_id : "#loanDetails.transaction_id#", 
+						  subloan_transaction_id : "#childLoans.transaction_id#" , 
+						  method : "removeSubLoan",
+						  returnformat : "json",
+						  queryformat : 'column'
+						},
+						function(r) {
+                                                    var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
+                                                    for (var i=0; i<r.ROWCOUNT; i++) {  
+      							retval = retval + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]&nbsp;";
+						    };
+						    retval = retval + "<BR>";
+                                          	    $("##subloan_list").html(retval);
+					        },
+						"json"
+					);
+ 				});
+ 			    }); 
+                            </script>
+                            <cfset childLoanCounter = childLoanCounter + 1 >
+                        </cfloop>
+                     </cfif>
+		     <br>
+                     </span>
+                     <script>
+			$(function() { 
+				$("##button_add_subloans").click( function(event) {  
+                     			event.preventDefault();
+					$.get( "component/functions.cfc", 
+ 						{ transaction_id : "#loanDetails.transaction_id#", 
+						  subloan_transaction_id : $("##possible_subloans").val() , 
+						  method : "addSubLoanToLoan",
+						  returnformat : "json",
+						  queryformat : 'column'
+						},
+						function(r) {
+                                                    var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
+                                                    for (var i=0; i<r.ROWCOUNT; i++) {  
+      							retval = retval + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID + ">" + r.DATA.LOAN_NUMBER[i] + "</a>&nbsp;";
+						    };
+						    retval = retval + "<BR>";
+                                          	    $("##subloan_list").html(retval);
+					        },
+						"json"
+					);
+ 				});
+ 			});
+                     </script>
+                     <select name="possible_subloans" id="possible_subloans">
+			<cfloop query="potentialChildLoans">
+				<option value="#transaction_id#">#loan_number#</option>
+			</cfloop>
+                     </select>
+                     <button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
+                </div>
 		<label for="">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
 		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="60"
 			class="reqdClr">#loanDetails.nature_of_material#</textarea>
@@ -1065,6 +1180,7 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "saveEdits">
+	<cfif not isdefined("return_due_date")><cfset return_due_date = ''></cfif>
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1093,6 +1209,19 @@
 							project_id, transaction_id)
 							VALUES (
 								#project_id#,#transaction_id#)
+					</cfquery>
+				</cfif>
+				<cfif isdefined("loan_type") and loan_type EQ 'exhibition-master' >
+`					<!--- Propagate due date to child exhibition-subloans ---> 
+					<cfset formatted_due_date = dateformat(return_due_date,"yyyy-mm-dd")>
+					<cfquery name="upChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE loan
+ 						SET
+						      return_due_date = <cfqueryparam value = "#formatted_due_date#" CFSQLType="CF_SQL_DATE">
+						WHERE loan_type = 'exhibition-subloan' AND 
+ 						      transaction_id in (select lr.related_transaction_id from loan_relations lr where 
+						      lr.relation_type = 'Subloan' AND 
+						      lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">)
 					</cfquery>
 				</cfif>
 				<cfif isdefined("saveNewProject") and saveNewProject is "yes">
@@ -1194,6 +1323,7 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "makeLoan">
+	<cfif not isdefined("return_due_date")><cfset return_due_date = ''></cfif>
 	<cfoutput>
 		<cfif
 			len(loan_type) is 0 OR
@@ -1447,7 +1577,7 @@
             <td><select name="loan_type">
                 <option value=""></option>
                 <cfloop query="ctAllLoanType">
-                  <option value="#ctLoanType.loan_type#">#ctAllLoanType.loan_type#</option>
+                  <option value="#ctAllLoanType.loan_type#">#ctAllLoanType.loan_type#</option>
                 </cfloop>
               </select>
               <img src="images/nada.gif" width="25" height="1"> Status:&nbsp;
