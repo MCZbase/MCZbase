@@ -1180,7 +1180,6 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "saveEdits">
-	<cfif not isdefined("return_due_date")><cfset return_due_date = ''></cfif>
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1192,7 +1191,21 @@
 				where
 					transaction_id = #transaction_id#
 			</cfquery>
-			<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfif not isdefined("return_due_date") or len(return_due_date) eq 0  >
+`			    <!--- If there is no value set for return_due_date, don't overwrite an existing value.  --->
+`			    <!--- This prevents edits to exhibition-subloans from wiping out an existing date value --->
+			    <cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 UPDATE loan SET
+					TRANSACTION_ID = #TRANSACTION_ID#,
+					LOAN_TYPE = '#LOAN_TYPE#',
+					LOAN_NUMber = '#loan_number#'
+					,loan_status = '#loan_status#'
+					,loan_description = '#loan_description#'
+					,LOAN_INSTRUCTIONS = '#LOAN_INSTRUCTIONS#'
+					where transaction_id = #transaction_id#
+			    </cfquery>
+			<cfelse>
+			    <cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				 UPDATE loan SET
 					TRANSACTION_ID = #TRANSACTION_ID#,
 					LOAN_TYPE = '#LOAN_TYPE#',
@@ -1202,7 +1215,8 @@
 					,loan_description = '#loan_description#'
 					,LOAN_INSTRUCTIONS = '#LOAN_INSTRUCTIONS#'
 					where transaction_id = #transaction_id#
-				</cfquery>
+			    </cfquery>
+			</cfif>
 				<cfif isdefined("project_id") and len(project_id) gt 0>
 					<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						INSERT INTO project_trans (
