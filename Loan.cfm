@@ -1202,6 +1202,8 @@
 					,loan_status = '#loan_status#'
 					,loan_description = '#loan_description#'
 					,LOAN_INSTRUCTIONS = '#LOAN_INSTRUCTIONS#'
+                                        ,insurance_value = '#INSURANCE_VALUE#'
+                                        ,insurance_maintained_by = '#INSURANCE_MAINTAINED_BY#'
 					where transaction_id = #transaction_id#
 			    </cfquery>
 			<cfelse>
@@ -1214,6 +1216,8 @@
 					,loan_status = '#loan_status#'
 					,loan_description = '#loan_description#'
 					,LOAN_INSTRUCTIONS = '#LOAN_INSTRUCTIONS#'
+                                        ,insurance_value = '#INSURANCE_VALUE#'
+                                        ,insurance_maintained_by = '#INSURANCE_MAINTAINED_BY#'
 					where transaction_id = #transaction_id#
 			    </cfquery>
 			</cfif>
