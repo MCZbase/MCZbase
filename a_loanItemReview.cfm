@@ -6,7 +6,7 @@
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
 <cfif not isdefined("transaction_id")>
-	You did something very naughty.<cfabort>
+	No transaction specified.<cfabort>
 </cfif>
 <!-------------------------------------------------------------------------------->
 <cfif #Action# is "delete">
@@ -149,8 +149,24 @@
 	<cflocation url="a_loanItemReview.cfm?transaction_id=#transaction_id#">
 	</cfoutput>
 </cfif>
-
 <!-------------------------------------------------------------------------------->
+
+<cfif #Action# is "BulkUpdatePres">
+	<cfoutput>
+		<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select collection_object_id FROM loan_item where transaction_id=#transaction_id#
+		</cfquery>
+		<cfloop query="getCollObjId">
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE specimen_part SET preserve_method  = '#part_preserve_method#'
+			where collection_object_id = #collection_object_id#
+			</cfquery>
+		</cfloop>
+	<cflocation url="a_loanItemReview.cfm?transaction_id=#transaction_id#">
+	</cfoutput>
+</cfif>
+<!-------------------------------------------------------------------------------->
+
 <cfif #Action# is "saveDisp">
 	<cfoutput>
 	<cftransaction>
@@ -192,7 +208,9 @@
 		cat_num, 
 		cataloged_item.collection_object_id,
 		collection,
+		collection.collection_cde
 		part_name,
+		preserve_method,
 		condition,
 		 sampled_from_obj_id,
 		 item_descr,
@@ -227,11 +245,25 @@
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_id=collection.collection_id AND
-	  	loan_item.transaction_id = #transaction_id#
+	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 	ORDER BY cat_num
+</cfquery>
+<!--- Obtain list of preserve_method values for the collection that this loan is from --->
+<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select ct.preserve_method, c.collection_cde from ctspecimen_preserv_method ct 
+           left join collection c on ct.collection_cde = c.collection_cde
+           left join trans t on c.collection_id = t.collection_id 
+         where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 </cfquery>
 <!--- handle legacy loans with cataloged items as the item --->
 <cfoutput>
+<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select l.loan_number, c.collection_cde, c.collection
+          from collection c 
+             left join trans t on c.collection_id = t.collection_id 
+             left join loan l on t.transaction_id = l.transaction_id
+          where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+</cfquery>
 <cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
 	<cfset fileName = "/download/ArctosLoanData_#getPartLoanRequests.loan_number#.csv">
 				<cfset ac=getPartLoanRequests.columnlist>
@@ -262,11 +294,7 @@
 </cfquery>
 
 Review items in loan<b>
-	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">
-		#getPartLoanRequests.loan_number#
-	</a>
-	</b>
-	.
+	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
 	<br>There are #prtItemCnt.c# items from #catCnt.c# specimens in this loan.
 	<br>
 	<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
@@ -275,13 +303,27 @@ Review items in loan<b>
 		<input type="hidden" name="Action" value="BulkUpdateDisp">
 			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 			<select name="coll_obj_disposition" size="1">
-					<cfloop query="ctDisp">
-						<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-					</cfloop>				
-				</select>
-				 <input type="submit" value="Update Disposition" class="savBtn"
+				<cfloop query="ctDisp">
+					<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+				</cfloop>				
+			</select>
+		<input type="submit" value="Update Disposition" class="savBtn"
    onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
 	</form>
+        <cfif aboutLoan.collection EQ 'Cryogenic'>
+	<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
+		<br>Change preservation method of all these items to:
+		<input type="hidden" name="Action" value="BulkUpdatePres">
+			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+			<select name="part_preserve_method" size="1">
+				<cfloop query="ctPreserveMethod">
+					<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+				</cfloop>				
+			</select>
+		<input type="submit" value="Update Preservation method" class="savBtn"
+   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
+	</form>
+        </cfif>
 	<p>
 		View 
 		<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
@@ -316,6 +358,11 @@ Review items in loan<b>
 		<td>
 			Item Remarks
 		</td>
+                <cfif aboutLoan.collection EQ 'Cryogenic'>
+		<td>
+			Preserve Method
+		</td>
+		</cfif>
 		<td>
 			Disposition
 		</td>
@@ -368,6 +415,11 @@ Review items in loan<b>
 			onchange="this.className='red';updateLoanItemRemarks('#partID#')">#loan_Item_Remarks#</textarea>
 		
 		</td>
+                <cfif aboutLoan.collection EQ 'Cryogenic'>
+		<td>
+			#preserve_method#
+		</td>
+                </cfif>
 		<td>
 			<cfset thisDisp = #coll_obj_disposition#>
 			<select name="coll_obj_disposition#partID#"
