@@ -33,15 +33,21 @@
             left join media_relations mr on startm.related_primary_key = mr.related_primary_key
 			left join media findm on mr.media_id = findm.media_id
           where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
-		    and startm.media_id = #media_id#
-		</cfquery>
+		    and startm.media_id = #media_id# 
+		    and findm.media_type = 'image'
+      </cfquery>
       <cfset checkcounter = 0>
       <cfloop query="mediatocheck" >
-        <cfimage action="INFO" source="#mediatocheck.media_uri#" structname="img">
         <cfset checkcounter = checkcounter + 1>
         <cfif checkcounter eq 1>
            <cfoutput>You are the first to view one or more images on this page.  The application is checking the images so there may be a brief delay before they are displayed.</cfoutput>
         </cfif>
+        <cftry>
+          <cfimage action="INFO" source="#mediatocheck.media_uri#" structname="img">
+          <cfcatch>
+ 		<cfoutput>Error checking image #mediatocheck.media_uri#</cfoutput>
+          </cfcatch>
+        </cftry>
         <cfif isDefined("debug")>
            <cfoutput>
              <p>Finding h,w #img.height#,#img.width# for #mediatocheck.media_uri#</p>
