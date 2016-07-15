@@ -1887,7 +1887,7 @@
 		   	project_name,
 		 	project.project_id,
 		 	collection.collection
-		ORDER BY loan_number
+		ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
     ">
 	 <cfquery name="allLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
