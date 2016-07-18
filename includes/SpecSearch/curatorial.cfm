@@ -7,15 +7,15 @@
 	});
 </script>
 <cfoutput>
-<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select * from ctpermit_type
 </cfquery>
-<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
-<cfquery name="ctFlags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctFlags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select flags from ctflags
-</cfquery>		
+</cfquery>
 <table id="t_identifiers" class="ssrch">
 	<tr>
 		<td class="lbl">
@@ -51,7 +51,7 @@
 				<option value=""></option>
 				<cfloop query="ctPermitType">
 					<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type#</option>
-				 </cfloop>			
+				 </cfloop>
   			</select>
 		</td>
 	</tr>
@@ -135,6 +135,6 @@
 				</cfloop>
 			</select>
 		</td>
-	</tr>				
+	</tr>
 </table>
 </cfoutput>

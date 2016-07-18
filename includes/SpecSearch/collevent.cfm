@@ -4,7 +4,7 @@
 		$("#endDate").datepicker();
 	});
 </script>
-<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select collecting_source from ctcollecting_source
 </cfquery>
 <cfoutput>
@@ -35,7 +35,7 @@
 							<option value="09">September</option>
 							<option value="10">October</option>
 							<option value="11">November</option>
-							<option value="12">December</option>						
+							<option value="12">December</option>
 						</select>
 					</td>
 					<td>
@@ -82,7 +82,7 @@
 							<option value="09">September</option>
 							<option value="10">October</option>
 							<option value="11">November</option>
-							<option value="12">December</option>						
+							<option value="12">December</option>
 						</select>
 					</td>
 					<td>
@@ -122,7 +122,7 @@
 				<option value="'09'">September</option>
 				<option value="'10'">October</option>
 				<option value="'11'">November</option>
-				<option value="'12'">December</option>						
+				<option value="'12'">December</option>
 			</select>
 		</td>
 	</tr>

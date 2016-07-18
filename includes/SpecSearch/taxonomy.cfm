@@ -13,7 +13,7 @@
 		});
 	});
 </script>
-<cfquery name="ctNatureOfId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctNatureOfId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	SELECT DISTINCT(nature_of_id) FROM ctnature_of_id ORDER BY nature_of_id
 </cfquery>
 <cfoutput>
@@ -39,7 +39,7 @@
 		</td>
 		<td class="srch">
 		 	<input type="text" name="phylclass" id="phylclass" size="50">
-			<span class="infoLink" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">Add = for exact match</span>		
+			<span class="infoLink" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">Add = for exact match</span>
 		</td>
 	</tr>
 	<tr>
@@ -48,7 +48,7 @@
 		</td>
 		<td class="srch">
 			<input type="text" name="genus" id="genus" size="50">
-			<span class="infoLink" onclick="var e=document.getElementById('genus');e.value='='+e.value;">Add = for exact match</span>		
+			<span class="infoLink" onclick="var e=document.getElementById('genus');e.value='='+e.value;">Add = for exact match</span>
 		</td>
 	</tr>
 	<tr>
@@ -87,7 +87,7 @@
 				<cfloop query="ctNatureOfId">
 					<option value="#ctNatureOfId.nature_of_id#">#ctNatureOfId.nature_of_id#</option>
 				</cfloop>
-			</select><span class="infoLink" 
+			</select><span class="infoLink"
 							onclick="getCtDoc('ctnature_of_id',SpecData.nature_of_id.value);">Define</span>
 		</td>
 	</tr>
@@ -108,4 +108,4 @@
 		</td>
 	</tr>
 </table>
-</cfoutput>	
+</cfoutput>

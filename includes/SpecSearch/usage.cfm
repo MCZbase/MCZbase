@@ -1,4 +1,4 @@
-<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select media_type from ctmedia_type order by media_type
 </cfquery>
 <script type="text/javascript" language="javascript">
@@ -48,9 +48,9 @@
 			<span class="helpLink" id="accessioned_by_project">Contributed by Project:</span>
 		</td>
 		<td class="srch">
-			<input type="text" name="project_name" id="project_name" size="50">					
+			<input type="text" name="project_name" id="project_name" size="50">
 		</td>
-	</tr>	
+	</tr>
 	<tr>
 		<td class="lbl">
 			<span class="helpLink" id="loaned_to_project">Used by Project:</span>
@@ -58,7 +58,7 @@
 		<td class="srch">
 			<input type="text" name="loan_project_name" id="loan_project_name" size="50">
 		</td>
-	</tr>		
+	</tr>
 	<tr>
 		<td class="lbl">
 			<span class="helpLink" id="_project_sponsor">Project Sponsor:</span>
@@ -66,6 +66,6 @@
 		<td class="srch">
 			<input type="text" name="project_sponsor" id="project_sponsor" size="50">
 		</td>
-	</tr>		
+	</tr>
 </table>
 </cfoutput>
