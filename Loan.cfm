@@ -721,7 +721,7 @@
                                                     var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
                                                     var separator = "";
                                                     for (var i=0; i<r.ROWCOUNT; i++) {  
-      							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+      							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
                                                         separator = ";&nbsp";
 						    };
 						    retval = retval + "<BR>";
@@ -753,7 +753,7 @@
                                                     var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
                                                     var separator = "";
                                                     for (var i=0; i<r.ROWCOUNT; i++) {  
-      							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+      							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
                                                         separator = ";&nbsp";
 						    };
 						    retval = retval + "<BR>";
