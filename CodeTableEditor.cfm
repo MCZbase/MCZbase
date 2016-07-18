@@ -153,6 +153,90 @@
 			<cfset i=#i#+1>
 		</cfloop>
 	</table>
+	<cfelseif tbl is "ctloan_type"><!---------------------------------------------------->
+		<!---   Loan type code table includes fields for scope (loan or gift) and sort order, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select loan_type, scope, ordinal from ctloan_type order by scope desc, ordinal, loan_type
+		</cfquery>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Loan Type</th>
+					<th>Loan/Gift</th>
+					<th>Sort Order</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<select name="scope">
+							<option value="Loan">Loan</option>
+							<option value="Gift">Gift</option>
+						</select>
+					</td>
+					<td>
+						<input type="text" name="ordinal">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Loan Type</th>
+				<th>Loan/Gift</th>
+				<th>Sort Order</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#loan_type#">
+						<td>
+							<input type="text" name="loan_type" value="#loan_type#">
+						</td>
+						<td>
+							<cfif scope EQ "Loan"> 
+								<cfset scopeloanselected = "selected='selected'">
+								<cfset scopegiftselected = "">
+							<cfelse>
+								<cfset scopeloanselected = "">
+								<cfset scopegiftselected = "selected='selected'">
+							</cfif>
+							<select name="scope">
+								<option value="Loan" #scopeloanselected# >Loan</option>
+								<option value="Gift" #scopegiftselected# >Gift</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="ordinal" value="#ordinal#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from ctpublication_attribute order by publication_attribute
@@ -542,6 +626,12 @@
 			where
 				publication_attribute='#origData#'
 		</cfquery>
+	<cfelseif tbl is "ctloan_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctloan_type
+			where
+				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcoll_other_id_type
@@ -586,6 +676,15 @@
 				control='#control#'
 			where
 				publication_attribute='#origData#'
+		</cfquery>
+	<cfelseif tbl is "ctloan_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctloan_type set 
+				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#loan_type#" />,
+				SCOPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
+				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+			where
+				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -643,6 +742,18 @@
 				'#newData#',
 				'#description#',
 				'#control#'
+			)
+		</cfquery>
+	<cfelseif tbl is "ctloan_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctloan_type (
+				loan_type,
+				scope,
+				ordinal
+			) values (
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
+				<cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">

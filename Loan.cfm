@@ -458,12 +458,13 @@
         </cfquery>
  	<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) ---> 
 	<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-             select c.loan_number, c.transaction_id from loan p left join loan_relations lr on p.transaction_id = lr.transaction_id left join loan c on lr.related_transaction_id = c.transaction_id where lr.relation_type = 'Subloan' and p.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+             select c.loan_number, c.transaction_id from loan p left join loan_relations lr on p.transaction_id = lr.transaction_id left join loan c on lr.related_transaction_id = c.transaction_id where lr.relation_type = 'Subloan' and p.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >  order by c.loan_number
         </cfquery>
   	<!---  Loans which are available to be used as subloans for an exhibition master loan (exhibition-subloans that are not allready children) --->
 	<cfquery name="potentialChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              select pc.loan_number, pc.transaction_id from loan pc left join loan_relations lr on pc.transaction_id = lr.related_transaction_id 
              where pc.loan_type = 'exhibition-subloan' and (lr.transaction_id is null or lr.relation_type <> 'Subloan')
+             order by pc.loan_number
         </cfquery>
 	<script>
 		$(function() {
@@ -700,7 +701,9 @@
                      Exhibition-Subloans (#childLoans.RecordCount#): 
                      <cfif childLoans.RecordCount GT 0>
                         <cfset childLoanCounter = 0>
+                        <cfset childseparator = "">
 			<cfloop query="childLoans">
+                           #childseparator#
                            <a href="Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
                            <button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
                            <script>
@@ -716,8 +719,10 @@
 						},
 						function(r) {
                                                     var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
+                                                    var separator = "";
                                                     for (var i=0; i<r.ROWCOUNT; i++) {  
-      							retval = retval + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]&nbsp;";
+      							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+                                                        separator = ";&nbsp";
 						    };
 						    retval = retval + "<BR>";
                                           	    $("##subloan_list").html(retval);
@@ -728,6 +733,7 @@
  			    }); 
                             </script>
                             <cfset childLoanCounter = childLoanCounter + 1 >
+                            <cfset childseparator = ";&nbsp;">
                         </cfloop>
                      </cfif>
 		     <br>
@@ -745,8 +751,10 @@
 						},
 						function(r) {
                                                     var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
+                                                    var separator = "";
                                                     for (var i=0; i<r.ROWCOUNT; i++) {  
-      							retval = retval + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID + ">" + r.DATA.LOAN_NUMBER[i] + "</a>&nbsp;";
+      							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+                                                        separator = ";&nbsp";
 						    };
 						    retval = retval + "<BR>";
                                           	    $("##subloan_list").html(retval);
