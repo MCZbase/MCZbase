@@ -1321,7 +1321,7 @@ Some Totally Random String Data .....
 									<th><span class="f11a">Method</span></th>
 									<th><span class="f11a">Remarks</span></th>
 								</tr>
-								<cfloop from="7" to="10" index="i">
+								<cfloop from="7" to="14" index="i">
 									<tr id="de_attribute_#i#">
 										<td>
 											<select title="ATTRIBUTE_X" name="attribute_#i#" onChange="getAttributeStuff(this.value,this.id);"

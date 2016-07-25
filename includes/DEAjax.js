@@ -1,9 +1,9 @@
 jQuery(document).ready(function() {
-$("#made_date").datepicker({dateFormat: "yy-mm-dd"});
+	$("#made_date").datepicker({dateFormat: "yy-mm-dd"});
 	$("#began_date").datepicker({dateFormat: "yy-mm-dd"});
 	$("#ended_date").datepicker({dateFormat: "yy-mm-dd"});	
 	$("#determined_date").datepicker({dateFormat: "yy-mm-dd"});
-	for (i=1;i<=12;i++){
+	for (i=1;i<=14;i++){
 		$("#geo_att_determined_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
 		$("#attribute_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
 	}
