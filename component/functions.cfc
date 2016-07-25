@@ -2095,16 +2095,20 @@
 			<cfif onOff is 1>
 				<cfif not listfind(cv,id)>
 					<cfset nv=listappend(cv,id)>
+					<cfquery name="ins" datasource="cf_dbuser">
+						update cf_users set specsrchprefs='#nv#'
+						where username='#session.username#'
+					</cfquery>
 				</cfif>
 			<cfelse>
 				<cfif listfind(cv,id)>
 					<cfset nv=listdeleteat(cv,listfind(cv,id))>
+					<cfquery name="ins" datasource="cf_dbuser">
+						update cf_users set specsrchprefs='#nv#'
+						where username='#session.username#'
+					</cfquery>
 				</cfif>
 			</cfif>
-			<cfquery name="ins" datasource="cf_dbuser">
-				update cf_users set specsrchprefs='#nv#'
-				where username='#session.username#'
-			</cfquery>
 			<cfcatch><!-- nada --></cfcatch>
 		</cftry>
 		<cfreturn "saved">
@@ -2116,7 +2120,7 @@
         <cfargument name="transaction_id" type="string" required="yes">
         <cfargument name="subloan_transaction_id" type="string" required="yes">
         <cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           insert into loan_relations (transaction_id, related_transaction_id, relation_type) 
+           insert into loan_relations (transaction_id, related_transaction_id, relation_type)
                values (
                <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
                <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
@@ -2135,7 +2139,7 @@
         <cfargument name="transaction_id" type="string" required="yes">
         <cfargument name="subloan_transaction_id" type="string" required="yes">
         <cfquery name="removeChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           delete from loan_relations 
+           delete from loan_relations
                where transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
                related_transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
                relation_type = 'Subloan'
