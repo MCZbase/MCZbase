@@ -134,7 +134,7 @@
 						</select>
 					</td>
 					<td>
-						<label for="loan_number">Loan Number</label>
+						<label for="loan_number">#scope# Number</label>
 						<input type="text" name="loan_number" class="reqdClr" id="loan_number">
 					</td>
 				</tr>
@@ -335,7 +335,7 @@
                            });
                 </script>
 		<div class="nextnum">
-			Next Available Loan Number:
+			Next Available #scope# Number:
 			<br>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
