@@ -1917,10 +1917,11 @@
     </cfloop>
        <cfset loannum = ''>
     <cfif #allLoans.recordcount# eq 1>
-    <cfset loannum = 'loan'>
+    <cfset loannum = 'loan or gift'>
+    	
     </cfif>
     <cfif #allLoans.recordcount# gt 1>
-    <cfset loannum = 'loans'>
+    <cfset loannum = 'loans or gifts'>
     </cfif>
  <header>
      <div id="page_title">
@@ -1963,7 +1964,7 @@
    
     <p>#i# of #allLoans.recordcount# #loannum#</p>
        <dl>
-         <dt>Collection &amp; Loan Number:</dt>
+         <dt>Collection &amp; Number:</dt>
          <dd><strong>#collection# / #loan_number#</strong>
               <cfif c.c gt 0>
                 (#c.c# items)
