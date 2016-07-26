@@ -1917,11 +1917,11 @@
     </cfloop>
        <cfset loannum = ''>
     <cfif #allLoans.recordcount# eq 1>
-    <cfset loannum = 'loan or gift'>
+    <cfset loannum = 'item'>
     	
     </cfif>
     <cfif #allLoans.recordcount# gt 1>
-    <cfset loannum = 'loans or gifts'>
+    <cfset loannum = 'items'>
     </cfif>
  <header>
      <div id="page_title">
