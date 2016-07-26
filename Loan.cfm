@@ -543,7 +543,7 @@
 		  <strong>Edit #scope# #loanDetails.collection# #loanDetails.loan_number#</strong>
                 </div>
 		<span style="font-size:small;">Entered by #loanDetails.enteredby#</span>
-		<label for="loan_number">Loan Number</label>
+		<label for="loan_number">#scope# Number</label>
 		<select name="collection_id" id="collection_id" size="1">
 			<cfloop query="ctcollection">
 				<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
@@ -633,7 +633,7 @@
 		<table width="100%">
 			<tr>
 				<td>
-					<label for="loan_type">Loan Type</label>
+					<label for="loan_type">#scope# Type</label>
 					<select name="loan_type" id="loan_type" class="reqdClr">
 						<cfloop query="ctLoanType">
                                                       <cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
@@ -647,7 +647,7 @@
 					</select>
 				</td>
 				<td>
-					<label for="loan_status">Loan Status</label>
+					<label for="loan_status">#scope# Status</label>
 					<select name="loan_status" id="loan_status" class="reqdClr">
                                                 <!---  Normal transaction users are only allowed certain loan status state transitions, users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
 						<cfloop query="ctLoanStatus">
@@ -777,7 +777,7 @@
 		<label for="loan_description">Description (<span id="lbl_loan_description"></span>)</label>
 		<textarea name="loan_description" id="loan_description" rows="7"
 			cols="60">#loanDetails.loan_description#</textarea>
-		<label for="loan_instructions">Instructions (<span id="lbl_loan_instructions"></span>)</label>
+		<label for="loan_instructions">#scope# Instructions (<span id="lbl_loan_instructions"></span>)</label>
 		<textarea name="loan_instructions" id="loan_instructions" rows="7"
 			cols="60">#loanDetails.loan_instructions#</textarea>
 		<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
@@ -853,7 +853,7 @@
 	<td valign="top"><!---- right cell ---->
                 <div>
 	 		<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]">
-			<strong>Projects associated with this loan:</strong>
+			<strong>Projects associated with this #scope#:</strong>
                 </div>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
@@ -871,7 +871,7 @@
 			</cfif>
 		</ul>
 		<hr>
-		<label for="project_id">Pick a Project to associate with this loan</label>
+		<label for="project_id">Pick a Project to associate with this #scope#</label>
 		<input type="hidden" name="project_id">
 		<input type="text"
 			size="50"
@@ -880,7 +880,7 @@
 			onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
 			onKeyPress="return noenter(event);">
 		<hr>
-		<label for=""><span style="font-size:large">Create a project from this loan</span></label>
+		<label for=""><span style="font-size:large">Create a project from this #scope#</span></label>
                 <div id="create_project">
 		<label for="newAgent_name">Project Agent Name</label>
 		<input type="text" name="newAgent_name" id="newAgent_name"
