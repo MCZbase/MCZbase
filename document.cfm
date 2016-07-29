@@ -8,9 +8,9 @@
 			media_labels p,
 			media_labels t
 		where
-			p.media_id=#media_id# and
+			p.media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" /> and
 			p.media_label='page' and
-			t.media_id=#media_id# and
+			t.media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" /> and
 			t.media_label='title'
 	</cfquery>
 	<cfoutput>
@@ -62,6 +62,7 @@
 		where
 			media.media_id=media_labels.media_id and
 			media_type='multi-page document' and 
+                        MCZBASE.is_media_encumbered(media.media_id) < 1 and 
 			media_label='title'
 		<cfif isdefined("mtitle") and len(mtitle) gt 0>
 			and label_value='#mtitle#'
@@ -92,6 +93,7 @@
 		where
 			media.media_id=media_labels.media_id and
 			media_type='multi-page document' and 
+                        MCZBASE.is_media_encumbered(media.media_id) < 1 and 
 			media_label='title'
 		group by
 			label_value
@@ -126,6 +128,7 @@
 			title.media_label='title' and
 			page.media_label='page' and
 			media_type='multi-page document' and 
+                        MCZBASE.is_media_encumbered(media.media_id) < 1 and 
 			niceURLNumbers(title.label_value)='#ttl#'
 		order by
 			to_number(page.label_value)			
@@ -168,6 +171,7 @@
 			title.media_label='title' and
 			page.media_label='page' and
 			media_type='multi-page document' and 
+                        MCZBASE.is_media_encumbered(media.media_id) < 1 and 
 			niceURLNumbers(title.label_value)='#ttl#'
 		order by
 			to_number(page.label_value)			
@@ -215,11 +219,15 @@
 		select 
 			media_uri,
 			media_type,
-			related_primary_key from 
-			media,media_relations where 
+			related_primary_key 
+                 from 
+			media,media_relations 
+                 where 
 			media.media_id=media_relations.related_primary_key and
 			mime_type in ('image/tiff','image/dng') and
-			media_relationship = 'derived from media' and media_relations.media_id=#cpg.media_id#
+                        MCZBASE.is_media_encumbered(media.media_id) < 1 and 
+			media_relationship = 'derived from media' and 
+ 			media_relations.media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#cpg.media_id#" />
 	</cfquery>
 	<cfif relMedia.recordcount is 1>
 		<a target="_blank" href="#relMedia.media_uri#">[ download master ]</a>

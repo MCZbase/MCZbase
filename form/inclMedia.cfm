@@ -44,6 +44,7 @@
 				        identification.accepted_id_fg=1 and
 				        media_relations.related_primary_key = identification.collection_object_id and
 				        identification.identification_id=identification_taxonomy.identification_id and
+					MCZBASE.is_media_encumbered(media.media_id) < 1 and
 				        --media.preview_uri is not null and
 				        identification_taxonomy.taxon_name_id=#q#
 				    UNION
@@ -60,6 +61,7 @@
 				     where
 				         media.media_id=media_relations.media_id and
 				         media_relations.media_relationship like '%taxonomy' and
+					 MCZBASE.is_media_encumbered(media.media_id) < 1 and
 				         media_relations.related_primary_key = #q#
 				 ) group by
 				 	media_id,
@@ -85,6 +87,7 @@
 				where
 					 media.media_id=media_relations.media_id and
 				     media_relations.media_relationship like '% accn' and
+					MCZBASE.is_media_encumbered(media.media_id) < 1 and
 				     media_relations.related_primary_key=#q#
 				group by
 				 	media.media_id,
