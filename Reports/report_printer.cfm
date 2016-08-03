@@ -18,6 +18,10 @@
 <cfinclude template="/Reports/functions/label_functions.cfm">
 
 <cfif #action# is "nothing">
+	<!--- Obtain a list of reports that contain the limit_preserve_method marker --->
+	<cfquery name="preservationRewrite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select report_name from cf_report_sql where sql_text like '%-- ##limit_preserve_method##%'
+	</cfquery>
 	<cfif isdefined("report") and len(#report#) gt 0>
 		<cfquery name="id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select report_id from cf_report_sql where upper(report_name)='#ucase(report)#'
@@ -81,16 +85,29 @@
 		       </cfif>
 		   </cfloop>
 		</select>
-                <script>
+                <!--- Compile a list of reports that cotain the limit_preserve_method marker, 
+                      for only those reports show the picklist of preservation types --->
+                <cfset reportsWithPreserveRewrite = "">
+                <cfset rwprSeparator = "">
+                <cfloop query="preservationRewrite">
+                   <cfset reportsWithPreserveRewrite = "#reportsWithPreserveRewrite##rwprSeparator##preservationRewrite.report_name#" >
+                   <cfset rwprSeparator = "|">
+                </cfloop>
+                <cfif len(#reportsWithPreserveRewrite#) GT 0>
+                   <cfset reportsWithPreserveRewrite = "(#reportsWithPreserveRewrite#)">
+                   <script>
                     	$("##report_id").change( function () { 
 			   var sel = $(this).find(":selected").text();
-          		   var match = sel.match(/^Fluid_Single_Jar__(Mala|IZ)$/);
-                           if (match.length>0) { 
+          		   var match = sel.match(/^#reportsWithPreserveRewrite#$/);
+                           if (match!=null && match.length>0) { 
                               $("##preserve_limit_section").show();
                            } else { 
                               $("##preserve_limit_section").hide();
                            }
  			});
+                   </script>
+		</cfif>
+                <script>
 			jQuery(document).ready(function() {
                               $("##preserve_limit_section").hide();
 			});
