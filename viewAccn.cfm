@@ -24,7 +24,7 @@
 			WHERE
 				trans.transaction_id = accn.transaction_id AND
 				trans.collection_id=collection.collection_id and
-				trans.transaction_id = #transaction_id#
+				trans.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" />
 		</cfquery>
 		<cfif d.is_public_fg is not 1>
 			<div class="error">Data restricted by collection.</div>
@@ -45,7 +45,7 @@
 			where
 				trans_agent.agent_id = preferred_agent_name.agent_id and
 				trans_agent_role != 'entered by' and
-				trans_agent.transaction_id=#transaction_id#
+				trans_agent.transaction_id= <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" />
 			order by
 				trans_agent_role,
 				agent_name
@@ -116,7 +116,8 @@
 				media.media_id=media_labels.media_id (+) and
 				media.media_id=media_relations.media_id and
 				media_relationship like '% accn' and
-				related_primary_key=#transaction_id#
+                                MCZBASE.is_media_encumbered(media.media_id) < 1
+				related_primary_key=<cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" />
 		</cfquery>
 		<p>
 		<cfif media.recordcount gt 0>
@@ -180,7 +181,7 @@
 				permit.permit_id = permit_trans.permit_id AND
 				permit.issued_by_agent_id = issuedBy.agent_id AND
 				permit.issued_to_agent_id = issuedTo.agent_id AND
-				permit_trans.transaction_id = #d.transaction_id#
+				permit_trans.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#d.transaction_id#" />
 		</cfquery>
 		<p>
 		<cfif getPermits.recordcount gt 0>
@@ -233,7 +234,7 @@
 				collection
 			where
 				cataloged_item.collection_id=collection.collection_id and
-				cataloged_item.accn_id=#transaction_id#
+				cataloged_item.accn_id= <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" />
 			group by
 				collection,
 				collection.collection_id
