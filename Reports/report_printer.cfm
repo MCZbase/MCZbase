@@ -129,7 +129,9 @@
   			   <cfloop query="partsList">
                               <option value="#preserve_method#">#preserve_method# (#ct#)</option>
 			   </cfloop>
+                        </select>
         	      </cfif>
+                      <p>Most reports are already configured to limit printing of labels to a class of preservation type (e.g. fluid or dry).  Reports that have been configured to also use this pick list can limit labels to a single preservation type (e.g 70% ethanol).  If you pick "All", one label will be printed for each part with the preservation type allowed for by the label (e.g. any fluid type).  If you pick a specific preservation type from the picklist, one label will be printed for each part with the preservation type that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report, if you pick "Dry", or another preservation type that isn't normally included on that particular label report, for a Fluid label, you will get an empty report. </p>
                       </div>
 		    </td>
 		  </tr>
