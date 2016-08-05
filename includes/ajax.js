@@ -782,12 +782,12 @@ function showHide(id,onOff) {
 		}
 		if (onOff==1) {
 			var ptl="/includes/SpecSearch/" + id + ".cfm";
-            tab.show();
+            $('#'+t).show();
 			ctl.innerHTML='<img src="/images/indicator.gif">';
 		    ctl.innerHTML=onText;
 			ctl.setAttribute("onclick","showHide('" + id + "',0)");
 		} else {
-			tab.hide();
+			$('#'+t).hide();
 			ctl.setAttribute("onclick","showHide('" + id + "',1)");
 			ctl.innerHTML=offText;
 		}
