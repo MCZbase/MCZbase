@@ -73,7 +73,7 @@
 		</td>
 	</tr>
 </table>	
-<form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData" onSubmit="getFormValues()">
+<form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData">
 <table>
 	<tr>
 		<td valign="top">
@@ -1544,6 +1544,15 @@
 </cfif>
 <input type="hidden" name="newQuery" value="1"><!--- pass this to the next form so we clear the cache and run the proper queries--->
 </form>
+<script>
+$(function() {
+    $("##SpecData").submit(function() {
+        $(this).children(':input[value=""]').attr("disabled", "disabled");  // don't post empty form elements
+        getFormValues();  //  puts the form submission key value pairs in a cookie
+        return true;      //  so that form submits
+    });
+});
+</script>
 </cfoutput>
 <script type='text/javascript' language='javascript'>
 	jQuery(document).ready(function() {
