@@ -113,27 +113,14 @@ function showHide(id,onOff) {
 		var tab=document.getElementById(t);
 		var ctl=document.getElementById(z);
 		if (onOff==1) {
-			var ptl="/includes/SpecSearch/" + id + ".cfm";
-			jQuery.get(ptl, function(data){
-				jQuery(tab).html(data);
-			})
 			ctl.setAttribute("onclick","showHide('" + id + "',0)");
 			ctl.innerHTML='Show Fewer Options';	
+            tab.visible(true);
 		} else {
-			tab.innerHTML='';
 			ctl.setAttribute("onclick","showHide('" + id + "',1)");
 			ctl.innerHTML='Show More Options';
+            tab.visible(false);
 		}
-		jQuery.getJSON("/component/functions.cfc",
-  			{
- 				method : "saveSpecSrchPref",
- 				id : id,
-  				onOff : onOff,
- 				returnformat : "json",
- 				queryformat : 'column'
- 			},
-  			saveComplete
- 		);
 	}
 }
 function closeCustom(){
