@@ -1546,10 +1546,13 @@
 </form>
 <script>
 $(function() {
-    $("##SpecData").submit(function() {
-        $(this).children(':input[value=""]').attr("disabled", "disabled");  // don't post empty form elements
+    //  bind a function to the form to handle submission of just the non-empty inputs.
+    $("##SpecData").submit(function(e) {
+        e.preventDefault();  // we want to disable empty form elements for post, then reinable them after form submission.
+        $(this).find(':input').filter(function(){ return !this.value;}).attr("disabled", "disabled");  // don't post empty form elements
         getFormValues();  //  puts the form submission key value pairs in a cookie
-        return true;      //  so that form submits
+        this.submit();       // do the actual form submission
+        $(this).find(':input').filter(function(){ return !this.value;}).removeAttr("disabled");  // reinable in case user hits back button.
     });
 });
 </script>
