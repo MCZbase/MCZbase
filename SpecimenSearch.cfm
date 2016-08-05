@@ -308,7 +308,7 @@
     				<cfif isdefined("OIDType") and len(#OIDType#) gt 0>
     					class="reqdClr" </cfif>>
     				<option value=""></option>
-    				<cfoutput query="OtherIdType">
+    				<cfloop query="OtherIdType">
     					<option 
     						<cfif isdefined("OIDType") and len(#OIDType#) gt 0>
     							<cfif #OIDType# is #OtherIdType.other_id_type#>
@@ -316,7 +316,7 @@
     							</cfif>
     						</cfif>
     						value="#OtherIdType.other_id_type#">#OtherIdType.other_id_type#</option>
-    				</cfoutput> 
+    				</cfloop> 
     			</select><span class="infoLink" onclick="getCtDoc('ctcoll_other_id_type',SpecData.OIDType.value);">Define</span>
     		</td>
     	</tr>
