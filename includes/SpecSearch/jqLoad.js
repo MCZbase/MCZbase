@@ -115,11 +115,11 @@ function showHide(id,onOff) {
 		if (onOff==1) {
 			ctl.setAttribute("onclick","showHide('" + id + "',0)");
 			ctl.innerHTML='Show Fewer Options';	
-            tab.visible(true);
+            tab.show();
 		} else {
 			ctl.setAttribute("onclick","showHide('" + id + "',1)");
 			ctl.innerHTML='Show More Options';
-            tab.visible(false);
+            tab.hide();
 		}
 	}
 }
