@@ -815,8 +815,8 @@
 
         <script type="text/javascript">
         	jQuery(document).ready(function() {
-        		$("#begDate").datepicker();
-        		$("#endDate").datepicker();
+        		$("##begDate").datepicker();
+        		$("##endDate").datepicker();
         	});
         </script>
         <cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1221,7 +1221,7 @@
          </cfquery>
          <script type="text/javascript" language="javascript">
          	jQuery(document).ready(function() {
-         		jQuery("#project_name").autocomplete("/ajax/project.cfm", {
+         		jQuery("##project_name").autocomplete("/ajax/project.cfm", {
          			width: 320,
          			max: 50,
          			autofill: false,
@@ -1232,7 +1232,7 @@
          			minChars: 1,
          			selectFirst:false
          		});
-         		jQuery("#loan_project_name").autocomplete("/ajax/project.cfm", {
+         		jQuery("##loan_project_name").autocomplete("/ajax/project.cfm", {
          			width: 320,
          			max: 50,
          			autofill: false,
@@ -1310,10 +1310,10 @@
 
          <script type="text/javascript">
          	jQuery(document).ready(function() {
-         		$("#beg_entered_date").datepicker();
-         		$("#end_entered_date").datepicker();
-         		$("#beg_last_edit_date").datepicker();
-         		$("#end_last_edit_date").datepicker();
+         		$("##beg_entered_date").datepicker();
+         		$("##end_entered_date").datepicker();
+         		$("##beg_last_edit_date").datepicker();
+         		$("##end_last_edit_date").datepicker();
          	});
          </script>
          <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
