@@ -171,10 +171,13 @@
 		<cfset portal_id=0>
 	</cfif>
 	<!--- get the information for the portal --->
-	<cfquery name="portalInfo" datasource="cf_dbuser">
+	<!---cfquery name="portalInfo" datasource="cf_dbuser">
 		select * from cf_collection where cf_collection_id = #portal_id#
-	</cfquery>
+	</cfquery--->
 	<cfif session.roles does not contain "coldfusion_user">
+		<cfquery name="portalInfo" datasource="cf_dbuser">
+			select * from cf_collection where cf_collection_id = #portal_id#
+		</cfquery>
 		<cfset session.dbuser=portalInfo.dbusername>
 		<cfset session.epw = encrypt(portalInfo.dbpwd,cfid)>
 		<cfset session.flatTableName = "filtered_flat">
@@ -183,7 +186,7 @@
 	</cfif>
 	<cfset session.portal_id=portal_id>
 	<!--- may need to get generic appearance --->
-	<cfif portalInfo.recordcount is 0 or
+	<!---cfif portalInfo.recordcount is 0 or
 		len(portalInfo.header_color) is 0 or
 		len(portalInfo.header_image) is 0 or
 		len(portalInfo.collection_url) is 0 or
@@ -193,7 +196,7 @@
 		<cfquery name="portalInfo" datasource="cf_dbuser">
 			select * from cf_collection where cf_collection_id = 0
 		</cfquery>
-	</cfif>
+	</cfif--->
 	<!---
 	<cfquery name="getPrefs" datasource="cf_dbuser">
 		update cf_users set exclusive_collection_id=
@@ -204,16 +207,16 @@
 		</cfif> where username = '#session.username#'
 	</cfquery>
 	--->
-	<cfset session.header_color = portalInfo.header_color>
-	<cfset session.header_image = portalInfo.header_image>
-	<cfset session.collection_url = portalInfo.collection_url>
-	<cfset session.collection_link_text = portalInfo.collection_link_text>
-	<cfset session.institution_url = portalInfo.institution_url>
-	<cfset session.institution_link_text = portalInfo.institution_link_text>
-	<cfset session.meta_description = portalInfo.meta_description>
-	<cfset session.meta_keywords = portalInfo.meta_keywords>
-	<cfset session.stylesheet = portalInfo.stylesheet>
-	<cfset session.header_credit = portalInfo.header_credit>
+	<cfset session.header_color = Application.header_color>
+	<cfset session.header_image =  Application.header_image>
+	<cfset session.collection_url =  Application.collection_url>
+	<cfset session.collection_link_text =  Application.collection_link_text>
+	<cfset session.institution_url =  Application.institution_url>
+	<cfset session.institution_link_text =  Application.institution_link_text>
+	<cfset session.meta_description =  Application.meta_description>
+	<cfset session.meta_keywords =  Application.meta_keywords>
+	<cfset session.stylesheet =  Application.stylesheet>
+	<cfset session.header_credit = "">
 	<cfreturn true>
 </cffunction>
 <!----------------------------------------------------------->
