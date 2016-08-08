@@ -1600,7 +1600,7 @@ $(function() {
                 showHide('identifiers',0);
                 showHide('taxonomy',0);
                 showHide('locality',0);
-                showHide('colleent',0);
+                showHide('collevent',0);
                 showHide('biolindiv',0);
                 showHide('usage',0);
                 showHide('curatorial',0);
