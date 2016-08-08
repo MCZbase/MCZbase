@@ -1556,12 +1556,13 @@ $(function() {
     });
 });
 </script>
-</cfoutput>
 <script type='text/javascript' language='javascript'>
 	jQuery(document).ready(function() {
 	  	var tval = document.getElementById('tgtForm').value;
 		changeTarget('tgtForm',tval);
 		changeGrp('groupBy');
+                setupSpecSrchPref();  
+                // set all show fewer/
 		jQuery.getJSON("/component/functions.cfc",
 			{
 				method : "getSpecSrchPref",
@@ -1579,13 +1580,11 @@ $(function() {
 					r_getSpecSrchPref(getResult);
 			}
 		);
-		
-			jQuery.get("/form/browse.cfm", function(data){
-				 jQuery('body').append(data);
-			})
-			
+		// 	jQuery.get("/form/browse.cfm", function(data){
+		//		 jQuery('body').append(data);
+		//	})
 	});
-	jQuery("#partname").autocomplete("/ajax/part_name.cfm", {
+	jQuery("##partname").autocomplete("/ajax/part_name.cfm", {
 		width: 320,
 		max: 50,
 		autofill: false,
@@ -1595,7 +1594,17 @@ $(function() {
 		matchContains: true,
 		minChars: 1,
 		selectFirst:false
-	});	
+	});
+        function setupSpecSrchPref() {
+                // Set all show fewer/more options to show fewer. 
+                showHide('identifiers',0);
+                showHide('taxonomy',0);
+                showHide('locality',0);
+                showHide('colleent',0);
+                showHide('biolindiv',0);
+                showHide('usage',0);
+                showHide('curatorial',0);
+        }	
 	function r_getSpecSrchPref (result){
 		var j=result.split(',');
 		for (var i = 0; i < j.length; i++) {
@@ -1670,4 +1679,5 @@ $(function() {
 	 	}
 	}
 </script>
+</cfoutput>
 <cfinclude template = "includes/_footer.cfm">
