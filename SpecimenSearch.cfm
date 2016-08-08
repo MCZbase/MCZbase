@@ -159,13 +159,18 @@
 <div style="margin-bottom: 5px;margin-left: 5px;">
 	<span class="helpLink" id="observations">Include&nbsp;Observations?</span><input type="checkbox" name="showObservations" id="showObservations" value="1" onchange="changeshowObservations(this.checked);"<cfif session.showObservations eq 1> checked="checked"</cfif>>
 	&nbsp;&nbsp;&nbsp;<span class="helpLink" id="_is_tissue">Require&nbsp;Tissues?</span><input type="checkbox" name="is_tissue" id="is_tissue" value="1">
-	&nbsp;&nbsp;&nbsp;<span class="helpLink" id="_media_type">Require&nbsp;Media</span>:<select name="media_type" id="media_type" size="1">
+	&nbsp;&nbsp;&nbsp;<span class="helpLink" id="_media_type">Require&nbsp;Media</span><span>:<select name="media_type" id="media_type" size="1">
 				<option value=""></option>
                 <option value="any">Any</option>
 				<cfloop query="ctmedia_type">
 					<option value="#ctmedia_type.media_type#">#ctmedia_type.media_type#</option>
 				</cfloop>
 			</select>
+                        </span>
+                        <cfif listcontainsnocase(session.roles,"coldfusion_user")>
+                        <!---  TODO: Needs an appropriate class for styling  --->
+                         &nbsp;&nbsp;&nbsp;<span class="infoLink" id="c_save_showhide">Save current more/fewer options</span><span id="c_save_showhide_response"></span>
+                        </cfif>
 </div>
 <input type="hidden" name="Action" value="#Action#">
 <div class="secDiv">
@@ -1583,6 +1588,26 @@ $(function() {
 		// 	jQuery.get("/form/browse.cfm", function(data){
 		//		 jQuery('body').append(data);
 		//	})
+
+                $("##c_save_showhide").click(function(e) { 
+                     var onList = "";
+                     if ($("##e_identifiers").is(':visible')) { onList = onList + "identifiers,";  }
+                     if ($("##e_taxonomy").is(':visible')) { onList = onList + "taxonomy,";  }
+                     if ($("##e_locality").is(':visible')) { onList = onList + "locality,";  }
+                     if ($("##e_collevent").is(':visible')) { onList = onList + "collevent,";  }
+                     if ($("##e_biolindiv").is(':visible')) { onList = onList + "biolindiv,";  }
+                     if ($("##e_usage").is(':visible')) { onList = onList + "usage,";  }
+                     if ($("##e_curatorial").is(':visible')) { onList = onList + "curatorial,";  }
+		     jQuery.get("/component/functions.cfc",
+			{
+				method : "saveSpecSrchPrefs",
+                                onList : onList,
+				returnformat : "plain",
+				queryformat : 'column'
+			},
+			function (result) {  alert(result); }
+                     );
+                });
 	});
 	jQuery("##partname").autocomplete("/ajax/part_name.cfm", {
 		width: 320,
