@@ -169,7 +169,7 @@
                         </span>
                         <cfif listcontainsnocase(session.roles,"coldfusion_user")>
                         <!---  TODO: Needs an appropriate class for styling  --->
-                         &nbsp;&nbsp;&nbsp;<span class="infoLink" id="c_save_showhide">Save current more/fewer options</span><span id="c_save_showhide_response"></span>
+                         &nbsp;&nbsp;&nbsp;<span class="infoLink" id="c_save_showhide">Save current more/fewer options</span>&nbsp;<span id="c_save_showhide_response"></span>
                         </cfif>
 </div>
 <input type="hidden" name="Action" value="#Action#">
@@ -1590,6 +1590,7 @@ $(function() {
 		//	})
 
                 $("##c_save_showhide").click(function(e) { 
+                     $("##c_save_showhide_response").html('<img src="images/indicator.gif">');
                      var onList = "";
                      if ($("##e_identifiers").is(':visible')) { onList = onList + "identifiers,";  }
                      if ($("##e_taxonomy").is(':visible')) { onList = onList + "taxonomy,";  }
@@ -1605,7 +1606,10 @@ $(function() {
 				returnformat : "plain",
 				queryformat : 'column'
 			},
-			function (result) {  alert(result); }
+			function (result) {   
+                           $("##c_save_showhide_response").text(result);
+                           setTimeout("$('##c_save_showhide_response').text('');",3000);
+                        }
                      );
                 });
 	});
