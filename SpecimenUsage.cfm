@@ -23,7 +23,7 @@
 			<input name="toproject_id" type="hidden" value="#toproject_id#">
 		</cfoutput>
         
-		<table width="100%">
+		<table width="100%" border="1px solid green">
 			<tr valign="top">
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<td>
@@ -48,9 +48,9 @@
 				</td>
 				<td>
 					<h4>Project</h4>
-					<label for="sponsor"><span id="project_sponsor">Project Sponsor</span></label>
+					<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
 					<input name="sponsor" id="sponsor" type="text">
-					<label for="project_type"><span id="project_type">Project Type</span></label>
+					<label for="project_type"><span id="project_type">Type</span></label>
 					<select name="project_type" id="project_type">
 						<option value=""></option>
 						<option value="loan">Uses Specimens</option>
@@ -59,7 +59,7 @@
 						<option value="both">Uses and Contributes</option>
 						<option value="neither">Neither Uses nor Contributes</option>
 					</select>
-					<label for="descr_len">Project Description Minimum Length</label>
+					<label for="descr_len">Description Min. Length</label>
 					<input name="descr_len" id="descr_len" type="text" value="100">
 				</td>
 				<td style="padding-bottom: 1em;">

@@ -1367,12 +1367,12 @@ ul.lisc li {
 	margin: 0 auto;
 	margin-bottom: 1em;
 }
-.content_box_pub table{border: 1px solid green; }
+.content_box_pub table{border: 1px solid green;padding-bottom: 1em; }
 .content_box_pub select, .content_box_pub input {width: 180px;margin-left: 2em;}
 .content_box_pub h4, .content_box_pub label  {margin-left: 2em;}
 .content_box_pub label {margin: .5em 0 0 2.3em;}
 .content_box_pub select {margin-bottom: .25em;}
-.content_box_pub .clrBtn, .content_box_pub .schBtn {padding: 3px 0;width: 100px;margin-bottom: 1em;}
+.content_box_pub .clrBtn, .content_box_pub .schBtn {padding: 3px 0;width: 100px;}
 #headerContent {
 	width: 100%;
 	background-color: #b4ab85;
