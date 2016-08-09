@@ -159,6 +159,8 @@
 		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display, MCZBASE.is_media_encumbered(media.media_id) hideMedia ">
 		<cfset frm="from media,ctmedia_license">
 		<cfset whr=" where media.media_license_id=ctmedia_license.media_license_id(+) and media.media_id > 0">
+                <!--- check for encumbered media in all cases ---> 
+	        <cfset whr="#whr# AND MCZBASE.is_media_encumbered(media.media_id) < 1 ">
 		<cfset srch=" ">
 		<cfif isdefined("keyword") and len(keyword) gt 0>
 			<cfset sel=sel & ",media_keywords.keywords">
@@ -198,9 +200,6 @@
 		<cfif isdefined("mime_type") and len(#mime_type#) gt 0>
 			<cfset srch="#srch# AND mime_type in (#listQualify(mime_type,"'")#)">
 		</cfif>
-                <cfif isdefined("session.roles") and not listcontainsnocase(session.roles,"manage_media")>
-			<cfset whr="#whr# AND (MCZBASE.is_media_encumbered(media.media_id) = 0 OR MCZBASE.is_media_encumbered(media.media_id) IS NULL) ">
-		</cfif>
 		<cfset ssql="select * from (#sel# #frm# #whr# #srch# order by media_id) where rownum <=500">
 		<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			#preservesinglequotes(ssql)#
@@ -209,6 +208,7 @@
 		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display, MCZBASE.is_media_encumbered(media.media_id) hideMedia ">
 		<cfset frm="from media,ctmedia_license">
 		<cfset whr=" where media.media_license_id=ctmedia_license.media_license_id(+) and media.media_id > 0">
+		<cfset whr="#whr# AND MCZBASE.is_media_encumbered(media.media_id)  < 1 ">
                 <!---  whr and srch together build the where clause, srch is built from list of supplied search criteria, and can't be empty --->
 		<cfset srch=" ">
 		<cfif isdefined("media_uri") and len(media_uri) gt 0>
@@ -225,9 +225,6 @@
 		</cfif>
 		<cfif isdefined("media_id") and len(media_id) gt 0>
 			<cfset whr="#whr# AND media.media_id in (#media_id#)">
-		</cfif>
-                <cfif isdefined("session.roles") and not listcontainsnocase(session.roles,"manage_media")>
-			<cfset whr="#whr# AND (MCZBASE.is_media_encumbered(media.media_id) = 0 OR MCZBASE.is_media_encumbered(media.media_id) IS NULL) ">
 		</cfif>
 		<cfif not isdefined("number_of_relations")>
 		    <cfif (isdefined("relationship") and len(relationship) gt 0) or (isdefined("related_to") and len(related_to) gt 0)>

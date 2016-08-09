@@ -9,7 +9,9 @@
 <cfoutput>
 	<cfset title="TAG Images">
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from media where media_id=#media_id#
+		select * from media 
+                    where media_id= <cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
+                    and MCZBASE.is_media_encumbered(media.media_id) < 1
 	</cfquery>
 	<cfif (c.media_type is not "image" and c.media_type is not "multi-page document") or c.mime_type does not contain 'image/'>
 		FAIL@images only.

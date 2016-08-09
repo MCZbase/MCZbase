@@ -76,6 +76,13 @@ function findPart(partFld,part_name,collCde){
 	partpick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
 }
 
+function findPart_Atrribute(partFld2,attType,partName){
+    var url="/picks/findPart_Attribute.cfm";
+    var attType=attType.replace("%","_");
+    var popurl=url+"?attribute_type="+attType+"&part_name="+partName+"&partFld2="+partFld2;
+    attributepick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
+}
+
 function saveThisAnnotation() {
 	var idType = document.getElementById("idtype").value;
 	var idvalue = document.getElementById("idvalue").value;
@@ -775,19 +782,16 @@ function showHide(id,onOff) {
 		}
 		if (onOff==1) {
 			var ptl="/includes/SpecSearch/" + id + ".cfm";
+            $('#'+t).show();
 			ctl.innerHTML='<img src="/images/indicator.gif">';
-			jQuery.get(ptl, function(data){
-				jQuery(tab).html(data);
-				ctl.innerHTML=onText;
-				ctl.setAttribute("onclick","showHide('" + id + "',0)");
-				saveSpecSrchPref(id,onOff);
-			});
+		    ctl.innerHTML=onText;
+			ctl.setAttribute("onclick","showHide('" + id + "',0)");
 		} else {
-			tab.innerHTML='';
+			$('#'+t).hide();
 			ctl.setAttribute("onclick","showHide('" + id + "',1)");
 			ctl.innerHTML=offText;
-			saveSpecSrchPref(id,onOff);
 		}
+	    //  saveSpecSrchPref(id,onOff);
 	}
 }
 function closeAndRefresh(){
