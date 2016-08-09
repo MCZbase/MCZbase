@@ -52,46 +52,9 @@
 			</div>
 		</cfif>
 		<!--- Note: For MCZbase, using Application.header_color and header_image instead of session to distinguish header based on server rather than collection. --->
-        <div id="pg_container">
-        <div class="content_box">
-		<div id="header_color" style='background-color: #Application.header_color#;'>
-			<table width="95%" cellpadding="0" cellspacing="0" border="0" id="headerContent">
+       <table>
 				<tr>
-					<td width="95" nowrap="nowrap" class="headerImageCell" id="headerImageCell">
-						<a target="_top" href="#session.collection_url#"><img src="#Application.header_image#" alt="MCZ Kronosaurus Logo" border="0" width="220"></a>
-					</td>
-					<td align="left">
-						<table>
-							<tr>
-								<td align="left" nowrap="nowrap" id="collectionCell" class="collectionCell">
-									<a target="_top" href="#session.collection_url#" class="novisit" >
-                                                                            <span style="color: #Application.collectionlinkcolor#;" >
-										<span class="headerCollectionText">
-												#Application.collection_link_text#
-										</span>
-									    </span>
-									</a>
-									<br>
-									<a target="_top" href="#session.institution_url#" class="novisit">
-										<span class="headerInstitutionText" style="color: #Application.institutionlinkcolor#;">
-											#session.institution_link_text#
-										</span>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2" id="creditCell">
-									<span  class="hdrCredit">
-										#session.header_credit#
-									</span>
-								</td>
-
-							</tr>
-
-						</table>
-</div>
-					</td>
-                    <td>
+                   <td>
                     <div id="headerLinks" class="linksHead" style="color: #Application.login_color#;">
 		    	<cfif len(#session.username#) gt 0>
 					<a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a>
@@ -139,15 +102,23 @@
 						</table>
 					</form>
 				</cfif>
-			</div></td>
+			</td>
 				</tr>
 			</table>
-
-			<!---
-			<div style="border:2px solid red; text-align:center;margin:2px;padding:2px;background-color:white;font-weight:bold;">
-				We're upgrading! Things may be a little goofy until Monday, February 16.
-			</div>
-			--->
+			<div id="headerContent">
+ 				 <div id="image_headerWrap">
+    				<div class="headerImageCell"> 
+                    <a target="_top" href="#session.collection_url#"> 
+                    <img src="/images/mcz_krono_logo.png" alt="MCZ Kronosaurus Logo" border="0" width="220">
+                    </a> 
+                    </div>
+				<div class="headerText"> 
+                <a href="http://www.mcz.harvard.edu" target="_blank">
+   					 <h1 class="headerCollectionText"> MCZBASE-DEV:The Database of the Zoological Collections</h1>
+    					<div class="headerInstitutionText"> Museum of Comparative Zoology - Harvard University</div>
+    			</a> 
+   				 </div>
+				</div>
 			<div class="sf-mainMenuWrapper">
             <div class="content_box">
 				<ul class="sf-menu">
@@ -159,8 +130,6 @@
 							<li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
 			                <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
 			                <li><a target="_top" href="/showLocality.cfm">Places</a></li>
-			                <!---li><a target="_top" href="/document.cfm">Documents&nbsp;(BETA)</a></li>
-							<li><a target="_top" href="/googlesearch.cfm">Google&nbsp;Custom&nbsp;(BETA)</a></li--->
 						</ul>
 					</li>
 					<cfif len(session.roles) gt 0 and session.roles is not "public">
@@ -193,7 +162,6 @@
 									<li><a target="_top" href="##">Batch Tools</a>
 										<ul>
 											<li><a target="_top" href="/tools/BulkloadParts.cfm">Bulkload Parts</a></li>
-											<!--<li><a target="_top" href="/tools/BulkPartSample.cfm">Bulkload Part Subsamples (Lots)</a></li>-->
 											<li><a target="_top" href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
 											<li><a target="_top" href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
 											<li><a target="_top" href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers</a></li>
