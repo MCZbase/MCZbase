@@ -13,6 +13,8 @@
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
+      <div id="pg_container">
+        <div class="content_box_pub">
      <h2 class="wikilink" style="margin-left: 0;">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
@@ -20,7 +22,8 @@
 		<cfoutput>
 			<input name="toproject_id" type="hidden" value="#toproject_id#">
 		</cfoutput>
-		<table width="90%">
+        
+		<table width="100%">
 			<tr valign="top">
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<td>
@@ -59,7 +62,7 @@
 					<label for="descr_len">Project Description Minimum Length</label>
 					<input name="descr_len" id="descr_len" type="text" value="100">
 				</td>
-				<td>
+				<td style="padding-bottom: 1em;">
 					<h4>Publication</h4>
 					<cfoutput>
 						<label for="publication_type"><span id="publication_type">Publication Type</span></label>
@@ -70,7 +73,7 @@
 							</cfloop>
 						</select>
 						<label for="journal">Journal Name</label>
-						<select name="journal" id="journal" size="1" style="width: 300px">
+						<select name="journal" id="journal" size="1">
 							<option value=""></option>
 							<cfloop query="ctjournal_name">
 								<option value="#journal_name#">#journal_name#</option>
@@ -120,6 +123,8 @@
 		</table>
 	</form>
 </cfif>
+</div>
+</div>
 <!-------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
