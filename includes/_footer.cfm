@@ -20,7 +20,7 @@
 </table>
 <cfelseif cgi.HTTP_HOST contains "harvard.edu" >
 	<br>
-	<table width="95%" border="0" cellspacing="0" cellpadding="0">
+	<table width="95%" style="margin-left: 5%;" >
 	  	<tr>
 	    	<td align="center" nowrap><a href="/Collections/index.cfm"><FONT size="-1">Data Providers</FONT></a></td>
 	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Feedback&#8202;/&#8202;Report Errors</FONT></a></td>
@@ -28,7 +28,7 @@
 	  	</tr>
 	</table>
     <HR>
-    <table width="95%"  border="0" cellspacing="0" cellpadding="0">
+    <table width="95%" style="margin-left: 5%;margin-top: 2em;">
 		<tr>
 		  <td rowspan="3" align="right" valign="bottom"><a href="/home.cfm"><img src="/images/arctos.gif" width="49" height="53" border="0" ALT="[ Link to home page. ]"></a></td>
 		  <td >&nbsp;</td>
@@ -66,7 +66,7 @@
     <P>&nbsp;</P>
 <cfelse>
 	<br>
-	 <table width="95%" border="0" cellspacing="0" cellpadding="0">
+	 <table width="95%" style="margin-left:5%;">
 	  	<tr>
 	    	<td align="center" nowrap><a href="/Collections/index.cfm"><FONT size="-1">Data Providers</FONT></a></td>
 	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Feedback&#8202;/&#8202;Report Errors</FONT></a></td>
