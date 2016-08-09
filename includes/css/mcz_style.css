@@ -113,7 +113,7 @@ span#theNewButton input.insBtn {
 .secDiv {
 	border: 1px solid green;
 	width: 50em;
-	margin-left: 1em;
+	margin-left: 0;
 }
 div.secDiv {
 	margin-top: 0;
@@ -1346,3 +1346,14 @@ ul.lisc li {
 /* end additional styles for loans */  
 .cellDiv {width: 97%;}
 .greenbox {border:2px solid green;margin:1px;padding:2px;margin-bottom: 20px;}
+#pg_container {
+	width: 100%;
+	margin: 0;	
+}
+.content_box {
+	width:72.5%;
+	margin: 0 auto;
+}
+.content_box table {
+	width: 100%;
+}
