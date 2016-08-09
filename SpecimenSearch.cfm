@@ -1555,6 +1555,10 @@ $(function() {
     $("##SpecData").submit(function(e) {
         e.preventDefault();  // we want to disable empty form elements for post, then reinable them after form submission.
         $(this).find(':input').filter(function(){ return !this.value;}).attr("disabled", "disabled");  // don't post empty form elements
+        <cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+        // store the current open/closed blocks for non-logged in users.
+        createCookie("specsrchprefs",getCurrentSpecSrchPref(),0);
+        </cfif>
         getFormValues();  //  puts the form submission key value pairs in a cookie
         this.submit();       // do the actual form submission
         $(this).find(':input').filter(function(){ return !this.value;}).removeAttr("disabled");  // reinable in case user hits back button.
@@ -1591,14 +1595,7 @@ $(function() {
 
                 $("##c_save_showhide").click(function(e) { 
                      $("##c_save_showhide_response").html('<img src="images/indicator.gif">');
-                     var onList = "";
-                     if ($("##e_identifiers").is(':visible')) { onList = onList + "identifiers,";  }
-                     if ($("##e_taxonomy").is(':visible')) { onList = onList + "taxonomy,";  }
-                     if ($("##e_locality").is(':visible')) { onList = onList + "locality,";  }
-                     if ($("##e_collevent").is(':visible')) { onList = onList + "collevent,";  }
-                     if ($("##e_biolindiv").is(':visible')) { onList = onList + "biolindiv,";  }
-                     if ($("##e_usage").is(':visible')) { onList = onList + "usage,";  }
-                     if ($("##e_curatorial").is(':visible')) { onList = onList + "curatorial,";  }
+                     var onList = getCurrentSpecSrchPref();
 		     jQuery.get("/component/functions.cfc",
 			{
 				method : "saveSpecSrchPrefs",
@@ -1634,6 +1631,19 @@ $(function() {
                 showHide('usage',0);
                 showHide('curatorial',0);
         }	
+        function getCurrentSpecSrchPref() { 
+                // Obtain a comma separated list of the currently turned on show fewer/more specimen search option blocks.
+                var onList = "";
+                if ($("##e_identifiers").is(':visible')) { onList = onList + "identifiers,";  }
+                if ($("##e_taxonomy").is(':visible')) { onList = onList + "taxonomy,";  }
+                if ($("##e_locality").is(':visible')) { onList = onList + "locality,";  }
+                if ($("##e_collevent").is(':visible')) { onList = onList + "collevent,";  }
+                if ($("##e_biolindiv").is(':visible')) { onList = onList + "biolindiv,";  }
+                if ($("##e_usage").is(':visible')) { onList = onList + "usage,";  }
+                if ($("##e_curatorial").is(':visible')) { onList = onList + "curatorial,";  }
+                onList = onList.replace(/,$/,'');
+                return onList;
+        }
 	function r_getSpecSrchPref (result){
 		var j=result.split(',');
 		for (var i = 0; i < j.length; i++) {
