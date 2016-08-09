@@ -121,7 +121,7 @@
 				</div>
 			<div class="sf-mainMenuWrapper">
             <div class="content_box">
-				<ul class="sf-menu" style="width: 61.4em;margin-left: -1.5em;padding-left: 0;border-right: 1px solid white;">
+				<ul class="sf-menu" style="width: 61.4em;margin-left: -2m;padding-left: 0;border-right: 1px solid white;">
 					<li>
 						<a target="_top" href="/SpecimenSearch.cfm">Search</a>
 						<ul>
