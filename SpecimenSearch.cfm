@@ -22,7 +22,7 @@
 
 <div id="pg_container">
 <div class="content_box">
-<table cellpadding="0" cellspacing="0" style="padding-left: 7px;">
+<table style="padding-left: 7px;">
 	<tr>
 		<td>
 			Access to #getCount.cnt#
@@ -38,17 +38,17 @@
 			records.
 			</cfif>
 		</td>
-		<td style="padding-left:2em;padding-right:2em;">
-			<span class="infoLink" onClick="getHelp('CollStats');">
+		<td>
+			<span class="infoLink"  style="font-size: 12px;" onClick="getHelp('CollStats');">
 				Holdings Details
 			</span>&nbsp;&nbsp;
-			<span class="infoLink" onClick="getHelp('search_help');">
+			<span class="infoLink" style="font-size: 12px;" onClick="getHelp('search_help');">
 				Search Tips
 			</span>
 		</td>
 		<cfif #hasCanned.recordcount# gt 0>
 			<td style="padding-left:2em;padding-right:2em;">
-				Saved Searches: <select name="goCanned" id="goCanned" size="1" onchange="document.location=this.value;">
+				<span style="font-size: 13px;">Saved Searches:</span> <select name="goCanned" id="goCanned" size="1" onchange="document.location=this.value;">
 					<option value=""></option>
 					<option value="saveSearch.cfm?action=manage">[ Manage ]</option>
 					<cfloop query="hasCanned">
@@ -89,7 +89,7 @@
 			<input type="button" name="Previous" value="Use Last Values" class="lnkBtn"	onclick="setPrevSearch()">
 		</td>
 		<td align="right" valign="top">
-			<b>See&nbsp;results&nbsp;as:</b>
+			<span style="font-size: 13px;">See&nbsp;results&nbsp;as:</span>
 		</td>
 		<td valign="top">
 		 	<select name="tgtForm1" id="tgtForm1" size="1"  onChange="changeTarget(this.id,this.value);">
@@ -200,7 +200,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="collection">Institutional Catalog</span>:
+				<span id="collection">Institutional Catalog</span>:
 			</td>
 			<td class="srch">
 				<select name="collection_id" id="collection_id" size="1">
@@ -215,25 +215,12 @@
 							<CFELSE>#ctInst.collection#</cfif></option>
 					</cfloop>
 				</select>
-				<span class="helpLink" id="cat_num">Number:</span>
+				<span id="cat_num">Number:</span>
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
 					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft"></textarea>
 				<cfelse>
 					<input type="text" name="listcatnum" id="listcatnum" size="21" value="">
 				</cfif>	
-				<!--- 		
-				<cfif hasPrefSuff.prefFG EQ 'Y'>
-                                   	<input style="text-transform: uppercase" type="text" name="catnumpref" size="5">
-                          	</cfif>
-			  	<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
-				  	<textarea name="listcatnum" rows="6" cols="40" wrap="soft"></textarea>
-				<cfelse>
-					<input type="text" name="listcatnum" size="21">
-				</cfif>
-                        	<cfif hasPrefSuff.suffFG EQ 'Y'>
-                            		<input type="text" name="catnumsuff" size="5">
-                        	</cfif>
-                        	---> 
 			</td>
 		</tr>
 		<tr>
@@ -294,7 +281,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="_any_taxa_term">Any Taxonomic Element:</span>
+				<span id="_any_taxa_term">Any Taxonomic Element:</span>
 			</td>
 			<td class="srch">
 				<input type="text" name="any_taxa_term" id="any_taxa_term" size="28">
