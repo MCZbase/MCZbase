@@ -2089,7 +2089,7 @@
 		<cftry>
 			<cfquery name="ins" datasource="cf_dbuser">
 				select specsrchprefs from cf_users
-				where username='#session.username#'
+				where username=<cfqueryparam value="#session.username#" CFSQLType="CF_SQL_VARCHAR">
 			</cfquery>
 			<cfset cv=valuelist(ins.specsrchprefs)>
 			<cfif onOff is 1>
@@ -2109,11 +2109,32 @@
 					</cfquery>
 				</cfif>
 			</cfif>
+			<cfquery name="ins" datasource="cf_dbuser">
+				update cf_users set specsrchprefs= <cfqueryparam value="#nv#" CFSQLType="CF_SQL_VARCHAR">
+				where username=<cfqueryparam value="#session.username#" CFSQLType="CF_SQL_VARCHAR">
+			</cfquery>
 			<cfcatch><!-- nada --></cfcatch>
 		</cftry>
 		<cfreturn "saved">
 	</cfif>
 	<cfreturn "cookie,#id#,#onOff#">
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="saveSpecSrchPrefs" access="remote">
+        <!--- Save a composed list of the sections on the specimen search for which to show more options. --->
+	<cfargument name="onList" type="string" required="yes">
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+		<cftry>
+			<cfquery name="ins" datasource="cf_dbuser">
+				update cf_users set specsrchprefs= <cfqueryparam value="#onList#" CFSQLType="CF_SQL_VARCHAR">
+				where username=<cfqueryparam value="#session.username#" CFSQLType="CF_SQL_VARCHAR">
+			</cfquery>
+		<cfcatch>
+                   <cfreturn "error">
+                </cfcatch>
+		</cftry>
+		<cfreturn "saved">
+	</cfif>
 </cffunction>
 <!------------------------------------->
 <cffunction name="addSubLoanToLoan" access="remote">
