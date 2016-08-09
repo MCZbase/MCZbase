@@ -11,7 +11,7 @@
 <table id="t_identifiers" class="ssrch">
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="year_collected">Collected On or After:</span>
+			<span id="year_collected">Collected On or After:</span>
 		</td>
 		<td class="srch">
 			<table>
@@ -58,7 +58,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="year_collected">Collected On or Before:</span>
+			<span id="year_collected">Collected On or Before:</span>
 		</td>
 		<td class="srch">
 			<table>
@@ -106,7 +106,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="month_in">Month:</span>
+			<span id="month_in">Month:</span>
 		</td>
 		<td class="srch">
 			<select name="inMon" id="inMon" size="4" multiple>
@@ -129,7 +129,7 @@
 	<!---
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="incl_date">Strict Date Search?</span>
+			<span id="incl_date">Strict Date Search?</span>
 		</td>
 		<td class="srch">
 			<input type="checkbox" name="inclDateSearch" id="inclDateSearch" value="yes">
@@ -138,7 +138,7 @@
 	----->
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_verbatim_date">Verbatim Date:</span>
+			<span id="_verbatim_date">Verbatim Date:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="verbatim_date" id="verbatim_date" size="50">
@@ -146,7 +146,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_chronological_extent">Chronological Extent:</span>
+			<span id="_chronological_extent">Chronological Extent:</span>
 			</a>
 		</td>
 		<td class="srch">
@@ -155,7 +155,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_collecting_source">Collecting Source:</span>
+			<span id="_collecting_source">Collecting Source:</span>
 		</td>
 		<td class="srch">
 			<select name="collecting_source" id="collecting_source" size="1">
@@ -169,7 +169,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_verbatim_locality">Verbatim Locality:</span>
+			<span id="_verbatim_locality">Verbatim Locality:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="verbatim_locality" id="verbatim_locality" size="50">

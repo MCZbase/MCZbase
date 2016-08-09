@@ -46,7 +46,7 @@
 	
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_geology_attribute">Geology Attribute:</span>
+			<span id="_geology_attribute">Geology Attribute:</span>
 		</td>
 		<td class="srch">
 			<select name="geology_attribute" id="geology_attribute" size="1">
@@ -59,7 +59,7 @@
 	</tr>			
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_geology_attribute_value">Geology Attribute Value:</span>
+			<span id="_geology_attribute_value">Geology Attribute Value:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="geology_attribute_value" id="geology_attribute_value" size="50">
@@ -67,7 +67,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_geology_hierarchies">Traverse Geology Hierarchies:</span>
+			<span id="_geology_hierarchies">Traverse Geology Hierarchies:</span>
 		</td>
 		<td class="srch">
 			<select name="geology_hierarchies" id="geology_hierarchies" size="1">
@@ -78,7 +78,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_continent_ocean">Continent/Ocean:</span>
+			<span id="_continent_ocean">Continent/Ocean:</span>
 		</td>
 		<td class="srch">
 			<select name="continent_ocean" id="continent_ocean" size="1">
@@ -92,7 +92,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_country">Country:</span>
+			<span id="_country">Country:</span>
 		</td>
 		<td class="srch">
 			<select name="country" id="country" size="1">
@@ -106,7 +106,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_state_prov">State/Province:</span>
+			<span id="_state_prov">State/Province:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="state_prov" id="state_prov" size="50">
@@ -114,7 +114,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_quad">USGS Quad Map:</span>
+			<span id="_quad">USGS Quad Map:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="quad" id="quad" size="50">
@@ -124,7 +124,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_county">County:</span>
+			<span id="_county">County:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="county" id="county" size="50">
@@ -133,7 +133,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_island_group">Island Group:</span>
+			<span id="_island_group">Island Group:</span>
 		</td>
 		<td class="srch">
 			<select name="island_group" id="island_group" size="1">
@@ -147,7 +147,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_island">Island:</span>
+			<span id="_island">Island:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="island" id="island" size="50">
@@ -156,7 +156,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_feature">Geographic Feature:</span>
+			<span id="_feature">Geographic Feature:</span>
 		</td>
 		<td class="srch">
 			<select name="feature" id="feature" size="1">
@@ -170,7 +170,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_spec_locality">Specific&nbsp;Locality:</span>
+			<span id="_spec_locality">Specific&nbsp;Locality:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="spec_locality" id="spec_locality" size="50">
@@ -180,7 +180,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="elevation">Elevation:</span>
+			<span id="elevation">Elevation:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="minimum_elevation" id="minimum_elevation" size="5"> - 
@@ -195,7 +195,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="depth">Depth:</span>
+			<span id="depth">Depth:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="minimum_depth" id="minimum_depth" size="5"> - 
@@ -210,7 +210,7 @@
 	</tr>	
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_verificationstatus">Verification Status:</span>
+			<span id="_verificationstatus">Verification Status:</span>
 		</td>
 		<td class="srch">
 			<select name="verificationstatus" id="verificationstatus" size="1">
@@ -223,7 +223,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="max_error_distance">Maximum Uncertainty:</span>
+			<span id="max_error_distance">Maximum Uncertainty:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="min_max_error" id="min_max_error" size="5"> - 

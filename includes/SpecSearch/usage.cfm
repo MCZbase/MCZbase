@@ -31,7 +31,7 @@
 <table id="t_identifiers" class="ssrch">
 	<tr>
         <td class="lbl">
-            <span class="helpLink" id="_media_type">Media Type:</span>
+            <span id="_media_type">Media Type:</span>
         </td>
         <td class="srch">
 			<select name="media_type" id="media_type" size="1">
@@ -45,7 +45,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="accessioned_by_project">Contributed by Project:</span>
+			<span id="accessioned_by_project">Contributed by Project:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="project_name" id="project_name" size="50">					
@@ -53,7 +53,7 @@
 	</tr>	
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="loaned_to_project">Used by Project:</span>
+			<span id="loaned_to_project">Used by Project:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="loan_project_name" id="loan_project_name" size="50">
@@ -61,7 +61,7 @@
 	</tr>		
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_project_sponsor">Project Sponsor:</span>
+			<span id="_project_sponsor">Project Sponsor:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="project_sponsor" id="project_sponsor" size="50">

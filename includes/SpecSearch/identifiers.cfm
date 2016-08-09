@@ -20,7 +20,7 @@
 	</cfoutput>
 	<tr>					
 		<td class="lbl">
-			<span class="helpLink" id="other_id_type">Other&nbsp;Identifier&nbsp;Type:</span>
+			<span id="other_id_type">Other&nbsp;Identifier&nbsp;Type:</span>
 		</td>
 		<td class="srch">
 			<select name="OIDType" id="OIDType" size="1"
@@ -44,7 +44,7 @@
 	</cfquery>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="other_id_num">Other&nbsp;Identifier:</span>
+			<span id="other_id_num">Other&nbsp;Identifier:</span>
 		</td>
 		<td class="srch">
 			<select name="oidOper" id="oidOper" size="1">
@@ -60,7 +60,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_accn_number">Accession:</span>
+			<span id="_accn_number">Accession:</span>
 		</td>
 		<td class="srch">
 			<input type="text" name="accn_number" id="accn_number">
@@ -69,7 +69,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="accession_agency">Accession Agency:</span>
+			<span id="accession_agency">Accession Agency:</span>
 		</td>
 		<td>
 			<input type="text" name="accn_agency" id="accn_agency" size="50">

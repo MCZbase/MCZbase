@@ -21,7 +21,7 @@
 <table id="t_identifiers" class="ssrch">
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="biol_indiv_relationship">Relationship:</span>
+			<span id="biol_indiv_relationship">Relationship:</span>
 		</td>
 		<td class="srch">
 			<select name="relationship" id="relationship" size="1">
@@ -35,7 +35,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="_derived_relationship">Derived Relationship:</span>
+			<span id="_derived_relationship">Derived Relationship:</span>
 		</td>
 		<td class="srch">
 			<select name="derived_relationship" id="derived_relationship" size="1">
@@ -121,7 +121,7 @@
 	</tr>
 	<tr>
 		<td class="lbl">
-			<span class="helpLink" id="ocr_text">OCR Text:</span>
+			<span id="ocr_text">OCR Text:</span>
 		</td>
 		<td class="srch">
 			<input name="ocr_text" id="ocr_text" size="80">
