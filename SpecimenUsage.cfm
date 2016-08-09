@@ -110,7 +110,7 @@
 					</select>
 				</td>
 			</tr>
-			<tr>
+			<tr style="border:none;border:1px solid transparent;">
 				<td colspan="99" align="center">
 					<input type="submit"
 						value="Search"
