@@ -158,9 +158,9 @@
 	</tr>
 </table>
 <div style="margin-bottom: 5px;margin-left: 5px;">
-	<span class="helpLink" id="observations">Include&nbsp;Observations?</span><input type="checkbox" name="showObservations" id="showObservations" value="1" onchange="changeshowObservations(this.checked);"<cfif session.showObservations eq 1> checked="checked"</cfif>>
-	&nbsp;&nbsp;&nbsp;<span class="helpLink" id="_is_tissue">Require&nbsp;Tissues?</span><input type="checkbox" name="is_tissue" id="is_tissue" value="1">
-	&nbsp;&nbsp;&nbsp;<span class="helpLink" id="_media_type">Require&nbsp;Media</span>:<select name="media_type" id="media_type" size="1">
+	<span id="observations">Include&nbsp;Observations?</span><input type="checkbox" name="showObservations" id="showObservations" value="1" onchange="changeshowObservations(this.checked);"<cfif session.showObservations eq 1> checked="checked"</cfif>>
+	&nbsp;&nbsp;&nbsp;<span id="_is_tissue">Require&nbsp;Tissues?</span><input type="checkbox" name="is_tissue" id="is_tissue" value="1">
+	&nbsp;&nbsp;&nbsp;<span id="_media_type">Require&nbsp;Media</span>:<select name="media_type" id="media_type" size="1">
 				<option value=""></option>
                 <option value="any">Any</option>
 				<cfloop query="ctmedia_type">
@@ -224,12 +224,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan = 2 align=right><input type="checkbox" name="searchOtherIds" value="Yes">Include Other Identifiers in search (original number, previous number, etc.)</td>
+			<td colspan = 2 style="font-size: smaller;text-align:left;padding-left: 19em;">Include Other Identifiers in search (original number, previous number, etc.)</td>
 		</tr>
 	<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="custom_identifier">#replace(session.CustomOtherIdentifier," ","&nbsp;","all")#:</span>
+				<span id="custom_identifier">#replace(session.CustomOtherIdentifier," ","&nbsp;","all")#:</span>
 			</td>
 			<td class="srch">
 				<label for="CustomOidOper">Display Value</label>
@@ -283,7 +283,7 @@
 			<td class="lbl">
 				<span id="_any_taxa_term">Any Taxonomic Element:</span>
 			</td>
-			<td class="srch">
+			<td class="srch" style="font-size: smaller;">
 				<input type="text" name="any_taxa_term" id="any_taxa_term" size="28">
 				<input type="checkbox" name="searchUnaccepted" value="Yes">Include Unaccepted Id's (Tax. History)<br>
 			</td>
@@ -291,26 +291,6 @@
 	</table>
 	<div id="e_taxonomy"></div>
 </div>
-	<!---
-
-<div class="secDiv">
-	<table class="ssrch">
-		<tr>
-			<td colspan="2" class="secHead">
-				<span class="secLabel">Spatial Query</span>
-				<span class="secControl" id="c_spatial_query" onclick="showHide('spatial_query',1)">Show More Options</span>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">			
-			</td>
-		</tr>
-	</table>
-	
-</div>
-	--->
-
-
 <div class="secDiv">
 	<table class="ssrch">
 		<tr>
@@ -321,7 +301,7 @@
 		</tr>
 		<tr>	
 			<td class="lbl">
-				<span class="helpLink" id="any_geog_term">Any&nbsp;Geographic&nbsp;Element:</span>
+				<span id="any_geog_term">Any&nbsp;Geographic&nbsp;Element:</span>
 			</td>
 			<td class="srch">
 				<input type="text" name="any_geog" id="any_geog" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
@@ -359,7 +339,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="year_collected">Year Collected:</span>
+				<span id="year_collected">Year Collected:</span>
 			</td>
 			<td class="srch">
 				<input name="begYear" type="text" size="6">&nbsp;
@@ -401,7 +381,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="part_name">Part Name:</span>
+				<span id="part_name">Part Name:</span>
 			</td>
 			<td class="srch">
 				<input type="text" autosuggest="#partlist#" name="partname" delimiter="\">
@@ -437,7 +417,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="_type_status">Basis of Citation:</span>
+				<span id="_type_status">Basis of Citation:</span>
 			</td>
 			<td class="srch">
 				<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -469,7 +449,7 @@
 			</tr>
 			<tr>
 				<td class="lbl">
-					<span class="helpLink" id="srch_barcode">Barcode:</span>
+					<span id="srch_barcode">Barcode:</span>
 				</td>
 				<td class="srch">
 					<input type="text" name="barcode" id="barcode" size="50">
