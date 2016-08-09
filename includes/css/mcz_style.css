@@ -1372,7 +1372,7 @@ ul.lisc li {
 .content_box_pub h4, .content_box_pub label  {margin-left: 2em;}
 .content_box_pub label {margin: .5em 0 0 2.3em;}
 .content_box_pub select {margin-bottom: .25em;}
-.content_box_pub .clrBtn, .content_box_pub .schBtn {padding: 3px 0;width: 100px;}
+.content_box_pub .clrBtn, .content_box_pub .schBtn {padding: 3px 0;width: 100px;margin-bottom: 1em;}
 #headerContent {
 	width: 100%;
 	background-color: #b4ab85;
