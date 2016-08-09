@@ -459,7 +459,7 @@
 		<div id="e_curatorial"></div>
 	</div>
 </cfif>	
-<table style="margin-bottom: 1em;">
+<table style="margin: 1em 0;">
 	<tr>
 		<td valign="top">
 			<input type="submit" value="Search" class="schBtn"
