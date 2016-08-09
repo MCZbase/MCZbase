@@ -6,15 +6,21 @@
     	<cflocation url="MediaSearch.cfm?action=search&relationship__1=cataloged_item&related_primary_key__1=#url.collection_object_id#&specID=#url.collection_object_id#" addtoken="false">
     </cfoutput>
 </cfif>
+<div id="pg_container0">
+<div class="content_box" style="margin: 0 auto; padding: 0 auto;">
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-	<a href="/media.cfm?action=newMedia">[ Create media ]</a>
+	
 	<cfif isdefined("specID") and len(specID) gt 0>
 		<cfoutput>
 			<a href="/media.cfm?action=newMedia&collection_object_id=#specID#">[ Create Specimen media ]</a>
 		</cfoutput>
-	</cfif>
+	</cfelse>
+    <a href="/media.cfm?action=newMedia">[ Create media ]</a>
+    </cfif>
 </cfif>
+</div>
+</div>
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "nothing">
 	<cfoutput>
@@ -31,6 +37,8 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 	<br>
+     <div id="pg_container">
+    <div class="content_box">
 	<h2>Search for Media <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
 	<a name="kwFrm"></a>
 	<div style="font-size:small;font-weight:bold;">
@@ -74,11 +82,11 @@
 		<input type="submit" value="Find Media" class="insBtn">
 		<input type="reset" value="reset form" class="clrBtn">
 	</form>
-	<p>&nbsp;</p>
+	
 	<p>
 		<hr>
 	</p>
-	<p>&nbsp;</p>
+
    <a name="relFrm"></a>
 	<div style="font-size:small;font-weight:bold;">
 		You can use the also use the

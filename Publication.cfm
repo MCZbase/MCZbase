@@ -770,5 +770,5 @@
 	<cflocation url="Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
 </cfoutput>
 </cfif>
-<cfinclude template="includes/_footer.cfm">
 </div>
+<cfinclude template="includes/_footer.cfm">
