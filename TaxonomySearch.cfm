@@ -138,7 +138,7 @@
 				<td>
 					<table>
 						<tr>
-							<td colspan="2" align="center" nowrap style="padding-left: 10em;">
+							<td colspan="2" align="center" nowrap style="padding-left: 7em;">
 								<input type="submit" value="Search"	class="schBtn">
 								&nbsp;&nbsp;
 								<input type="reset" value="Clear Form" class="clrBtn">
@@ -376,7 +376,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2" align="center" style="padding-left: 10em;">
+							<td colspan="2" align="center" style="padding-left: 7em;">
 								<input type="submit" value="Search" class="schBtn">
 								&nbsp;&nbsp;
 								<input type="reset" value="Clear Form" class="clrBtn">
