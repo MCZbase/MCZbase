@@ -1554,7 +1554,9 @@ $(function() {
     //  bind a function to the form to handle submission of just the non-empty inputs.
     $("##SpecData").submit(function(e) {
         e.preventDefault();  // we want to disable empty form elements for post, then reinable them after form submission.
-        $(this).find(':input').filter(function(){ return !this.value;}).attr("disabled", "disabled");  // don't post empty form elements
+        // however, we don't want to submit values in form elements that are hidden
+        $(this).find(':hidden :input').filter(function(){ return this.value;}).val("");  // empty hidden form inputs
+        $(this).find(':input').filter(function(){ return !this.value;}).attr("disabled", "disabled");  // don't post visible empty form elements
         <cfif !listcontainsnocase(session.roles,"coldfusion_user")>
         // store the current open/closed blocks for non-logged in users.
         createCookie("specsrchprefs",getCurrentSpecSrchPref(),0);
