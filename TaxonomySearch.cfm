@@ -78,7 +78,7 @@
 <div class="content_box">
   <h2 class="wikilink">Search Taxonomy <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Search Taxonomy')" class="likeLink" alt="[ help ]" style="vertical-align:top;"/></cfif></h2>
 	<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
-		<table width="90%" border="0" cellspacing="0" cellpadding="0">
+		<table width="90%" border="1px solid green">
 			<tr> 
 				<td valign="top" align="left">
 					<table border="0" cellpadding="10" cellspacing="10">
