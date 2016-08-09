@@ -52,6 +52,8 @@
 			</div>
 		</cfif>
 		<!--- Note: For MCZbase, using Application.header_color and header_image instead of session to distinguish header based on server rather than collection. --->
+        <div id="pg_container">
+        <div class="content_box">
 		<div id="header_color" style='background-color: #Application.header_color#;'>
 			<table width="95%" cellpadding="0" cellspacing="0" border="0" id="headerContent">
 				<tr>
@@ -87,7 +89,7 @@
 							</tr>
 
 						</table>
-
+</div>
 					</td>
                     <td>
                     <div id="headerLinks" class="linksHead" style="color: #Application.login_color#;">
@@ -147,6 +149,7 @@
 			</div>
 			--->
 			<div class="sf-mainMenuWrapper">
+            <div class="content_box">
 				<ul class="sf-menu">
 					<li>
 						<a target="_top" href="/SpecimenSearch.cfm">Search</a>
@@ -396,6 +399,8 @@
 					</li>
 				</ul>
 			</div>
+            </div>
+            </div>
 		</div><!--- end header div --->
 		<cf_rolecheck>
 	</cfoutput>
