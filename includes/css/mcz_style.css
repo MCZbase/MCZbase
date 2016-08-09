@@ -1359,6 +1359,7 @@ ul.lisc li {
 }
 .content_box table {
 	width: 100%;
+	margin-bottom: .5em;
 
 }
 #headerContent {

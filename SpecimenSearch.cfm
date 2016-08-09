@@ -75,7 +75,7 @@
 	</tr>
 </table>	
 <form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData" onSubmit="getFormValues()">
-<table>
+<table style="margin-bottom: 1em;">
 	<tr>
 		<td valign="top">
 			<input type="submit" value="Search" class="schBtn" 
@@ -459,7 +459,7 @@
 		<div id="e_curatorial"></div>
 	</div>
 </cfif>	
-<table>
+<table style="margin-bottom: 1em;">
 	<tr>
 		<td valign="top">
 			<input type="submit" value="Search" class="schBtn"
@@ -483,14 +483,6 @@
 				<option  value="/bnhmMaps/kml.cfm?action=newReq">KML</option>
 				<option value="SpecimenResultsSummary.cfm">Specimen Summary</option>
 				<option  value="SpecimenGraph.cfm">Graph</option>
-                                <!---  Unused in MCZbase 
-				<cfif isdefined("session.username") AND (#session.username# is "link" OR #session.username# is "dusty")>
-				<option  value="/CustomPages/Link.cfm">Link's Form</option>
-				</cfif>
-				<cfif isdefined("session.username") AND (#session.username# is "cindy" OR #session.username# is "dusty")>
-				<option  value="/CustomPages/CindyBats.cfm">Cindy's Form</option>
-				</cfif>
-                                --->
 			</select>
 		</td>
 		<td align="left">
