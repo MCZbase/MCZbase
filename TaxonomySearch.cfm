@@ -381,7 +381,7 @@
 								&nbsp;&nbsp;
 								<input type="reset" value="Clear Form" class="clrBtn">
 								<input type="hidden" name="action" value="search">
-								<div style="border:1px dotted green;font-size:small;font-weight:bold;text-align:left;">
+								<div style="border:1px dotted green;font-size:small;font-weight:bold;text-align:left;margin-top: .5em;">
 								Note: This form will not return >1000 records; 
 								you may need to narrow your search to return all relevant matches.
 								</div>
