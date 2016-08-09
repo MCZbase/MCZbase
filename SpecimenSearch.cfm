@@ -20,7 +20,8 @@
 </cfquery>
 
 
-
+<div id="pg_container">
+<div class="content_box">
 <table cellpadding="0" cellspacing="0" style="padding-left: 7px;">
 	<tr>
 		<td>
@@ -699,4 +700,6 @@
 	 	}
 	}
 </script>
+</div>
+</div>
 <cfinclude template = "includes/_footer.cfm">
