@@ -1591,10 +1591,6 @@ $(function() {
 					r_getSpecSrchPref(getResult);
 			}
 		);
-		// 	jQuery.get("/form/browse.cfm", function(data){
-		//		 jQuery('body').append(data);
-		//	})
-
                 $("##c_save_showhide").click(function(e) { 
                      $("##c_save_showhide_response").html('<img src="images/indicator.gif">');
                      var onList = getCurrentSpecSrchPref();
