@@ -20,8 +20,9 @@
 </cfquery>
 
 
-
-<table cellpadding="0" cellspacing="0" style="padding-left: 7px;">
+<div id="pg_container">
+<div class="content_box">
+<table style="padding-left: 7px;">
 	<tr>
 		<td>
 			Access to #getCount.cnt#
@@ -37,17 +38,17 @@
 			records.
 			</cfif>
 		</td>
-		<td style="padding-left:2em;padding-right:2em;">
-			<span class="infoLink" onClick="getHelp('CollStats');">
+		<td>
+			<span class="infoLink"  style="font-size: 12px;" onClick="getHelp('CollStats');">
 				Holdings Details
 			</span>&nbsp;&nbsp;
-			<span class="infoLink" onClick="getHelp('search_help');">
+			<span class="infoLink" style="font-size: 12px;" onClick="getHelp('search_help');">
 				Search Tips
 			</span>
 		</td>
 		<cfif #hasCanned.recordcount# gt 0>
 			<td style="padding-left:2em;padding-right:2em;">
-				Saved Searches: <select name="goCanned" id="goCanned" size="1" onchange="document.location=this.value;">
+				<span style="font-size: 13px;">Saved Searches:</span> <select name="goCanned" id="goCanned" size="1" onchange="document.location=this.value;">
 					<option value=""></option>
 					<option value="saveSearch.cfm?action=manage">[ Manage ]</option>
 					<cfloop query="hasCanned">
@@ -74,7 +75,7 @@
 	</tr>
 </table>	
 <form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData">
-<table>
+<table style="margin-bottom: 1em;">
 	<tr>
 		<td valign="top">
 			<input type="submit" value="Search" class="schBtn" 
@@ -88,7 +89,7 @@
 			<input type="button" name="Previous" value="Use Last Values" class="lnkBtn"	onclick="setPrevSearch()">
 		</td>
 		<td align="right" valign="top">
-			<b>See&nbsp;results&nbsp;as:</b>
+			<span style="font-size: 13px;font-weight:bold;">See results as:</span>
 		</td>
 		<td valign="top">
 		 	<select name="tgtForm1" id="tgtForm1" size="1"  onChange="changeTarget(this.id,this.value);">
@@ -157,9 +158,9 @@
 	</tr>
 </table>
 <div style="margin-bottom: 5px;margin-left: 5px;">
-	<span class="helpLink" id="observations">Include&nbsp;Observations?</span><input type="checkbox" name="showObservations" id="showObservations" value="1" onchange="changeshowObservations(this.checked);"<cfif session.showObservations eq 1> checked="checked"</cfif>>
-	&nbsp;&nbsp;&nbsp;<span class="helpLink" id="_is_tissue">Require&nbsp;Tissues?</span><input type="checkbox" name="is_tissue" id="is_tissue" value="1">
-	&nbsp;&nbsp;&nbsp;<span class="helpLink" id="_media_type">Require&nbsp;Media</span><span>:<select name="media_type" id="media_type" size="1">
+	<span id="observations">Include&nbsp;Observations?</span><input type="checkbox" name="showObservations" id="showObservations" value="1" onchange="changeshowObservations(this.checked);"<cfif session.showObservations eq 1> checked="checked"</cfif>>
+	&nbsp;&nbsp;&nbsp;<span id="_is_tissue">Require&nbsp;Tissues?</span><input type="checkbox" name="is_tissue" id="is_tissue" value="1">
+	&nbsp;&nbsp;&nbsp;<span id="_media_type">Require&nbsp;Media</span>:<select name="media_type" id="media_type" size="1">
 				<option value=""></option>
                 <option value="any">Any</option>
 				<cfloop query="ctmedia_type">
@@ -204,7 +205,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="collection">Institutional Catalog</span>:
+				<span id="collection">Institutional Catalog</span>:
 			</td>
 			<td class="srch">
 				<select name="collection_id" id="collection_id" size="1">
@@ -219,34 +220,21 @@
 							<CFELSE>#ctInst.collection#</cfif></option>
 					</cfloop>
 				</select>
-				<span class="helpLink" id="cat_num">Number:</span>
+				<span id="cat_num">Number:</span>
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
 					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft"></textarea>
 				<cfelse>
 					<input type="text" name="listcatnum" id="listcatnum" size="21" value="">
 				</cfif>	
-				<!--- 		
-				<cfif hasPrefSuff.prefFG EQ 'Y'>
-                                   	<input style="text-transform: uppercase" type="text" name="catnumpref" size="5">
-                          	</cfif>
-			  	<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
-				  	<textarea name="listcatnum" rows="6" cols="40" wrap="soft"></textarea>
-				<cfelse>
-					<input type="text" name="listcatnum" size="21">
-				</cfif>
-                        	<cfif hasPrefSuff.suffFG EQ 'Y'>
-                            		<input type="text" name="catnumsuff" size="5">
-                        	</cfif>
-                        	---> 
 			</td>
 		</tr>
 		<tr>
-			<td colspan = 2 align=right><input type="checkbox" name="searchOtherIds" value="Yes">Include Other Identifiers in search (original number, previous number, etc.)</td>
+			<td colspan = 2 style="font-size: smaller;text-align:left;padding-left: 19em;">Include Other Identifiers in search (original number, previous number, etc.)</td>
 		</tr>
 	<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="custom_identifier">#replace(session.CustomOtherIdentifier," ","&nbsp;","all")#:</span>
+				<span id="custom_identifier">#replace(session.CustomOtherIdentifier," ","&nbsp;","all")#:</span>
 			</td>
 			<td class="srch">
 				<label for="CustomOidOper">Display Value</label>
@@ -376,9 +364,9 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="_any_taxa_term">Any Taxonomic Element:</span>
+				<span id="_any_taxa_term">Any Taxonomic Element:</span>
 			</td>
-			<td class="srch">
+			<td class="srch" style="font-size: smaller;">
 				<input type="text" name="any_taxa_term" id="any_taxa_term" size="28">
 				<input type="checkbox" name="searchUnaccepted" value="Yes">Include Unaccepted Id's (Tax. History)<br>
 			</td>
@@ -498,26 +486,6 @@
 
     </div>
 </div>
-	<!---
-
-<div class="secDiv">
-	<table class="ssrch">
-		<tr>
-			<td colspan="2" class="secHead">
-				<span class="secLabel">Spatial Query</span>
-				<span class="secControl" id="c_spatial_query" onclick="showHide('spatial_query',1)">Show More Options</span>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">			
-			</td>
-		</tr>
-	</table>
-	
-</div>
-	--->
-
-
 <div class="secDiv">
 	<table class="ssrch">
 		<tr>
@@ -528,7 +496,7 @@
 		</tr>
 		<tr>	
 			<td class="lbl">
-				<span class="helpLink" id="any_geog_term">Any&nbsp;Geographic&nbsp;Element:</span>
+				<span id="any_geog_term">Any&nbsp;Geographic&nbsp;Element:</span>
 			</td>
 			<td class="srch">
 				<input type="text" name="any_geog" id="any_geog" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
@@ -807,7 +775,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="year_collected">Year Collected:</span>
+				<span id="year_collected">Year Collected:</span>
 			</td>
 			<td class="srch">
 				<input name="begYear" type="text" size="6">&nbsp;
@@ -1031,7 +999,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="part_name">Part Name:</span>
+				<span id="part_name">Part Name:</span>
 			</td>
 			<td class="srch">
 				<input type="text" autosuggest="#partlist#" name="partname" delimiter="\">
@@ -1201,7 +1169,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span class="helpLink" id="_type_status">Basis of Citation:</span>
+				<span id="_type_status">Basis of Citation:</span>
 			</td>
 			<td class="srch">
 				<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1304,7 +1272,7 @@
 			</tr>
 			<tr>
 				<td class="lbl">
-					<span class="helpLink" id="srch_barcode">Barcode:</span>
+					<span id="srch_barcode">Barcode:</span>
 				</td>
 				<td class="srch">
 					<input type="text" name="barcode" id="barcode" size="50">
@@ -1455,7 +1423,7 @@
         </div>
 	</div>
 </cfif>	
-<table>
+<table style="margin: 1em 0;">
 	<tr>
 		<td valign="top">
 			<input type="submit" value="Search" class="schBtn"
@@ -1479,14 +1447,6 @@
 				<option  value="/bnhmMaps/kml.cfm?action=newReq">KML</option>
 				<option value="SpecimenResultsSummary.cfm">Specimen Summary</option>
 				<option  value="SpecimenGraph.cfm">Graph</option>
-                                <!---  Unused in MCZbase 
-				<cfif isdefined("session.username") AND (#session.username# is "link" OR #session.username# is "dusty")>
-				<option  value="/CustomPages/Link.cfm">Link's Form</option>
-				</cfif>
-				<cfif isdefined("session.username") AND (#session.username# is "cindy" OR #session.username# is "dusty")>
-				<option  value="/CustomPages/CindyBats.cfm">Cindy's Form</option>
-				</cfif>
-                                --->
 			</select>
 		</td>
 		<td align="left">
@@ -1716,5 +1676,7 @@ $(function() {
 	 	}
 	}
 </script>
+</div>
+</div>
 </cfoutput>
 <cfinclude template = "includes/_footer.cfm">

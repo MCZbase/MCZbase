@@ -74,9 +74,11 @@
 	});
 </script>	
 <cfoutput>
+<div id="pg_container">
+<div class="content_box">
   <h2 class="wikilink">Search Taxonomy <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Search Taxonomy')" class="likeLink" alt="[ help ]" style="vertical-align:top;"/></cfif></h2>
 	<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
-		<table width="90%" border="0" cellspacing="0" cellpadding="0">
+		<table width="100%" style="border:1px solid green;bordercollapse:collapse;padding: 1em 1em .5em 1em;">
 			<tr> 
 				<td valign="top" align="left">
 					<table border="0" cellpadding="10" cellspacing="10">
@@ -136,7 +138,7 @@
 				<td>
 					<table>
 						<tr>
-							<td colspan="2" align="center" nowrap>
+							<td colspan="2" align="center" nowrap style="padding-left: 5em;">
 								<input type="submit" value="Search"	class="schBtn">
 								&nbsp;&nbsp;
 								<input type="reset" value="Clear Form" class="clrBtn">
@@ -374,12 +376,12 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2" align="center">
+							<td colspan="2" align="center" style="padding-left: 5em;">
 								<input type="submit" value="Search" class="schBtn">
 								&nbsp;&nbsp;
 								<input type="reset" value="Clear Form" class="clrBtn">
 								<input type="hidden" name="action" value="search">
-								<div style="border:1px dotted green;font-size:small;font-weight:bold;text-align:left;">
+								<div style="border:1px dotted green;font-size:small;font-weight:bold;text-align:left;margin-top: .5em;">
 								Note: This form will not return >1000 records; 
 								you may need to narrow your search to return all relevant matches.
 								</div>
@@ -391,4 +393,6 @@
 		</table>
 	</form>
 </cfoutput>
+</div>
+</div>
 <cfinclude template = "includes/_footer.cfm">
