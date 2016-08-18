@@ -1746,7 +1746,7 @@
 	<cfloop list="#idList#" index="cid">
 		<cfloop list="#tableList#" index="tabl">
 			<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select getMediaBySpecimen('#tabl#',#cid#) midList from dual
+				select MCZBASE.getMediaBySpecimen('#tabl#',#cid#) midList from dual
 			</cfquery>
 			<cfif len(mid.midList) gt 0>
 				<cfset t = queryaddrow(theResult,1)>
