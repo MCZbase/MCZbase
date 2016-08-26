@@ -606,7 +606,7 @@ function success_getSpecResultsData(result){
                         var typestatus = "";
                         var rowClass = "secTypeRow";
 			if (data.COLUMNLIST[0].indexOf('TYPESTATUS') > -1) {
-                             if (data.TYPESTATUS[i].length>0) { 
+                             if (data.TYPESTATUS[i]!=null && data.TYPESTATUS[i].length>0) { 
                                  isType = true;
                                  typestatus = data.TYPESTATUS[i].replace("|","<BR>");
                                  if (typestatus.indexOf("Holotype")>-1 || 
