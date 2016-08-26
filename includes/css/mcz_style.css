@@ -926,7 +926,7 @@ a.external:hover:visited:after {
 	width: 100%;
 }
 .headerImageCell {
-	padding: 5px 0 5px 10px;
+	padding: 1px 0 1px 1px;
 }
 .headerInstitutionText {
 	font-family: Arial, Helvetica, sans-serif;
@@ -1388,7 +1388,6 @@ ul.lisc li {
 }
 
 #image_headerWrap {
-	width: 57em;
 	margin: 0 auto;
 	padding: 0;
 	overflow: hidden;
@@ -1397,17 +1396,13 @@ ul.lisc li {
 #image_headerWrap .headerImageCell img {
 	padding: 0;
 	float: left;
-	width: 250px;
-	height: 58px;
 	display: inline;
-	padding: .5em .5em 1em 1.5em;
 }
 
 #image_headerWrap .headerText h1{
 	float: left;
-	width: 30em;
 	display: inline;
-	margin-top: .5em;
+	margin-top: .2em;
 }
 #headerWrap {
 	height: 21px;

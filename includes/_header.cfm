@@ -115,6 +115,8 @@
 				<div class="headerText"> 
                 			<a href="#session.institution_url#" target="_blank">
    					    <h1 class="headerCollectionText">#Application.collection_link_text#</h1>
+    					</a>
+                			<a href="#session.institution_url#" target="_blank">
     					    <div class="headerInstitutionText">#session.institution_link_text#</div>
     					</a> 
    				 </div>
