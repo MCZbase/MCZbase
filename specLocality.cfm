@@ -529,7 +529,7 @@
 		<tr>
         	<td>
 				<label for="locality_remarks">Locality Remarks</label>
-				<input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#"  size="75">
+				<input type="text" name="locality_remarks" id="locality_remarks" value="#stripQuotes(l.LOCALITY_REMARKS)#"  size="75">
 			</td>
         </tr>
 		<tr>
