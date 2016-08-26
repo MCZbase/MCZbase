@@ -926,7 +926,7 @@ a.external:hover:visited:after {
 	width: 100%;
 }
 .headerImageCell {
-	padding: 1px 0 1px 1px;
+	padding: 1px 0 1px 5px;
 }
 .headerInstitutionText {
 	font-family: Arial, Helvetica, sans-serif;
@@ -1395,7 +1395,6 @@ ul.lisc li {
 }
 #image_headerWrap .headerImageCell img {
 	padding: 0;
-	float: left;
 	display: inline;
 }
 
