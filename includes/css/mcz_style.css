@@ -1395,11 +1395,11 @@ ul.lisc li {
 }
 #image_headerWrap .headerImageCell img {
 	padding: 0;
+        float: left;
 	display: inline;
 }
 
 #image_headerWrap .headerText h1{
-	float: left;
 	display: inline;
 	margin-top: .2em;
 }
