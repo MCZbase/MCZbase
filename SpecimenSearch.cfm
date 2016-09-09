@@ -368,7 +368,7 @@
 			</td>
 			<td class="srch" style="font-size: smaller;">
 				<input type="text" name="any_taxa_term" id="any_taxa_term" size="28">
-				<input type="checkbox" name="searchUnaccepted" value="Yes">Include Unaccepted Id's (Tax. History)<br>
+				<input type="checkbox" name="searchOnlyCurrent" value="Yes">Search only current identifications.<br>
 			</td>
 		</tr>
 	</table>
