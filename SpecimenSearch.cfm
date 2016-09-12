@@ -386,6 +386,7 @@
          			selectFirst:false
          		});
          	});
+			alert("hello");
          </script>
          <cfquery name="ctNatureOfId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          	SELECT DISTINCT(nature_of_id) FROM ctnature_of_id ORDER BY nature_of_id
