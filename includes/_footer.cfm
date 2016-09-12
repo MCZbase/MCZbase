@@ -20,15 +20,14 @@
 </table>
 <cfelseif cgi.HTTP_HOST contains "harvard.edu" >
 	<br>
-	<table width="95%" border="0" cellspacing="0" cellpadding="0">
+<table width="95%" style="margin-top: 1em;margin-left: 5%">
 	  	<tr>
 	    	<td align="center" nowrap><a href="/Collections/index.cfm"><FONT size="-1">Data Providers</FONT></a></td>
 	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Feedback&#8202;/&#8202;Report Errors</FONT></a></td>
 	    	<td align="center" nowrap><a HREF="mailto:bhaley@oeb.harvard.edu"><FONT size="-1">System Administrator</FONT></a></td>
 	  	</tr>
 	</table>
-    <HR>
-    <table width="95%"  border="0" cellspacing="0" cellpadding="0">
+   <table width="100%" style="border-top: 3px solid #d3d3d3;margin-top: 2em;">
 		<tr>
 		  <td rowspan="3" align="right" valign="bottom"><a href="/home.cfm"><img src="/images/arctos.gif" width="49" height="53" border="0" ALT="[ Link to home page. ]"></a></td>
 		  <td >&nbsp;</td>
@@ -36,7 +35,7 @@
 		  <td >&nbsp;</td>
 		  <td nowrap align="center" >&nbsp;</td>
 		  <td align="center" >&nbsp;</td>
-		  <td align="center" nowrap><FONT size="-1">Distributed Databases: </FONT></td>
+		  <td align="center" nowrap style="padding-top: 1em;"><FONT size="-1">Distributed Databases: </FONT></td>
 		</tr>
 		<tr>
 		  <td>&nbsp;</td>
@@ -58,7 +57,7 @@
 		</tr>
     </table>
 <br>
-<ul>
+<ul style="font-size: smaller">
 	<li>Database content &copy; Copyright 2016 President and Fellows of Harvard College</li>
 	<li><a href="http://www.mcz.harvard.edu/privacy/index.html">Privacy Statement</a></li>
 	<li><a href="http://www.mcz.harvard.edu/privacy/user.html">User Agreement</a></li>
@@ -66,7 +65,7 @@
     <P>&nbsp;</P>
 <cfelse>
 	<br>
-	 <table width="95%" border="0" cellspacing="0" cellpadding="0">
+	 <table width="95%" style="margin-left:5%;">
 	  	<tr>
 	    	<td align="center" nowrap><a href="/Collections/index.cfm"><FONT size="-1">Data Providers</FONT></a></td>
 	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Feedback&#8202;/&#8202;Report Errors</FONT></a></td>

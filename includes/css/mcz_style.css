@@ -113,7 +113,7 @@ span#theNewButton input.insBtn {
 .secDiv {
 	border: 1px solid green;
 	width: 50em;
-	margin-left: 1em;
+	margin-left: 0;
 }
 div.secDiv {
 	margin-top: 0;
@@ -1346,3 +1346,92 @@ ul.lisc li {
 /* end additional styles for loans */  
 .cellDiv {width: 97%;}
 .greenbox {border:2px solid green;margin:1px;padding:2px;margin-bottom: 20px;}
+
+/**************NEW STYLES --Centering--- *********************/
+
+#pg_container {
+	width: 100%;
+	margin: 0;	
+}
+.content_box {
+	width:57em;
+	margin: 0 auto;
+}
+.content_box table {
+	width: 100%;
+	margin-bottom: .5em;
+
+}
+.content_box_pub {
+	width:57em;
+	margin: 0 auto;
+	margin-bottom: 1em;
+}
+.content_box_pub table{border: 1px solid green; }
+.content_box_pub select, .content_box_pub input {width: 180px;margin-left: 2em;}
+.content_box_pub h4, .content_box_pub label  {margin-left: 2em;}
+.content_box_pub label {margin: .5em 0 0 2.3em;}
+.content_box_pub select {margin-bottom: .25em;}
+.content_box_pub .clrBtn, .content_box_pub .schBtn {padding: 3px 0;width: 100px;}
+#headerContent {
+	width: 100%;
+	background-color: #b4ab85;
+	background-color: #d3d3d3;
+	border-bottom: 1px solid #ccc;
+	position: relative;
+}
+
+#image_headerWrap {
+	width: 57em;
+	margin: 0 auto;
+	padding: 0;
+	overflow: hidden;
+	position:relative;
+}
+#image_headerWrap .headerImageCell img {
+	padding: 0;
+	float: left;
+	width: 250px;
+	height: 58px;
+	display: inline;
+	padding: .5em .5em 1em 1.5em;
+}
+
+#image_headerWrap .headerText h1{
+	float: left;
+	width: 30em;
+	display: inline;
+	margin-top: .5em;
+}
+#headerWrap {
+	height: 21px;
+	width: 62em;
+	background-color: #e8eef3;
+	border-bottom: 2px solid #e8eef3;
+}
+h1.headerCollectionText {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	color: #660000;
+}
+span.headerInstitutionText {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000066;
+	font-weight: bold;
+	margin-top: 5px;
+	display: block;
+	font-size: 18px;
+}
+a:hover.headerCollectionText {
+	text-decoration: none;
+	color: #cc0000;
+}
+.headerCollectionTextSmall {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 19px;
+}
+.sf-menu {
+	width: 100%;	
+}
+
+

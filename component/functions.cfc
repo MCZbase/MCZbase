@@ -1743,28 +1743,32 @@
 	<cfset r=1>
 	<cfset tableList="cataloged_item,collecting_event">
 	<cftry>
-	<cfloop list="#idList#" index="cid">
-		<cfloop list="#tableList#" index="tabl">
-			<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select getMediaBySpecimen('#tabl#',#cid#) midList from dual
-			</cfquery>
-			<cfif len(mid.midList) gt 0>
-				<cfset t = queryaddrow(theResult,1)>
-				<cfset t = QuerySetCell(theResult, "collection_object_id", "#cid#", r)>
-				<cfset t = QuerySetCell(theResult, "media_id", "#mid.midList#", r)>
-				<cfset t = QuerySetCell(theResult, "media_relationship", "#tabl#", r)>
-				<cfset r=r+1>
-			</cfif>
-		</cfloop>
-	</cfloop>
+	        <cfset threadname = "getMediaThread">
+	        <cfthread name="#threadname#" >
+		   <cfloop list="#idList#" index="cid">
+			<cfloop list="#tableList#" index="tabl">
+				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select MCZBASE.getMediaBySpecimen('#tabl#',#cid#) midList from dual
+				</cfquery>
+				<cfif len(mid.midList) gt 0>
+					<cfset t = queryaddrow(theResult,1)>
+					<cfset t = QuerySetCell(theResult, "collection_object_id", "#cid#", r)>
+					<cfset t = QuerySetCell(theResult, "media_id", "#mid.midList#", r)>
+					<cfset t = QuerySetCell(theResult, "media_relationship", "#tabl#", r)>
+					<cfset r=r+1>
+				</cfif>
+			</cfloop>
+		   </cfloop>
+	        </cfthread>
+        	<cfthread action="join" name="#threadname#" />
 	<cfcatch>
-				<cfset craps=queryNew("media_id,collection_object_id,media_relationship")>
-				<cfset temp = queryaddrow(craps,1)>
-				<cfset t = QuerySetCell(craps, "collection_object_id", "12", 1)>
-				<cfset t = QuerySetCell(craps, "media_id", "45", 1)>
-				<cfset t = QuerySetCell(craps, "media_relationship", "#cfcatch.message# #cfcatch.detail#", 1)>
-				<cfreturn craps>
-		</cfcatch>
+		<cfset craps=queryNew("media_id,collection_object_id,media_relationship")>
+		<cfset temp = queryaddrow(craps,1)>
+		<cfset t = QuerySetCell(craps, "collection_object_id", "12", 1)>
+		<cfset t = QuerySetCell(craps, "media_id", "45", 1)>
+		<cfset t = QuerySetCell(craps, "media_relationship", "#cfcatch.message# #cfcatch.detail#", 1)>
+		<cfreturn craps>
+	</cfcatch>
 	</cftry>
 	<cfreturn theResult>
 </cffunction>
@@ -1774,21 +1778,25 @@
 	<cfset theResult=queryNew("collection_object_id,typeList")>
 	<cfset r=1>
 	<cftry>
-	<cfloop list="#idList#" index="cid">
-		<cfquery name="ts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select  type_status || decode(count(*),1,'','(' || count(*) || ')') type_status from citation where collection_object_id=#cid# group by type_status
-		</cfquery>
-		<cfif ts.recordcount gt 0>
-			<cfset tl="">
-			<cfloop query="ts">
-				<cfset tl=listappend(tl,ts.type_status,";")>
-			</cfloop>
-			<cfset t = queryaddrow(theResult,1)>
-			<cfset t = QuerySetCell(theResult, "collection_object_id", "#cid#", r)>
-			<cfset t = QuerySetCell(theResult, "typeList", "#tl#", r)>
-			<cfset r=r+1>
-		</cfif>
-	</cfloop>
+	        <cfset threadname = "getTypesThread">
+	        <cfthread name="#threadname#" >
+		   <cfloop list="#idList#" index="cid">
+			<cfquery name="ts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select  type_status || decode(count(*),1,'','(' || count(*) || ')') type_status from citation where collection_object_id=#cid# group by type_status
+			</cfquery>
+			<cfif ts.recordcount gt 0>
+				<cfset tl="">
+				<cfloop query="ts">
+					<cfset tl=listappend(tl,ts.type_status,";")>
+				</cfloop>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "collection_object_id", "#cid#", r)>
+				<cfset t = QuerySetCell(theResult, "typeList", "#tl#", r)>
+				<cfset r=r+1>
+			</cfif>
+		   </cfloop>
+	        </cfthread>
+        	<cfthread action="join" name="#threadname#" />
 	<cfcatch>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "collection_object_id", "-1", 1)>

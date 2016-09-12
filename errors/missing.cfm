@@ -3,7 +3,22 @@
 	<cfif rdurl contains chr(195) & chr(151)>
 		<cfset rdurl=replace(rdurl,chr(195) & chr(151),chr(215))>
 	</cfif>
-	<cfif listfindnocase(rdurl,'specimen',"/")>
+	<cfset gPos=listfindnocase(rdurl,"guid","/")>
+	<cfif gPos >
+		<cftry>
+			<cfset guid = listgetat(rdurl,gPos+1,"/")>
+			<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
+				<cfset guid=replacenocase(guid, "fish", "Ich")>
+				<cfset guid=replacenocase(guid, "bird", "Orn")>
+				<cfheader statuscode="301" statustext="Moved permanently">
+				<cfheader name="Location" value="/guid/#guid#">
+			</cfif>
+			<cfinclude template="/SpecimenDetail.cfm">
+			<cfcatch>
+				<cfinclude template="/errors/404.cfm">
+			</cfcatch>
+		</cftry>				
+	<cfelseif listfindnocase(rdurl,'specimen',"/")>
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"specimen","/")>
 			<cfset	i = listgetat(rdurl,gPos+1,"/")>
@@ -44,21 +59,6 @@
 			</cfcatch>
 		</cftry>
 		</cfoutput>	
-	<cfelseif listfindnocase(rdurl,'guid',"/")>
-		<cftry>
-			<cfset gPos=listfindnocase(rdurl,"guid","/")>
-			<cfset guid = listgetat(rdurl,gPos+1,"/")>
-			<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
-				<cfset guid=replacenocase(guid, "fish", "Ich")>
-				<cfset guid=replacenocase(guid, "bird", "Orn")>
-				<cfheader statuscode="301" statustext="Moved permanently">
-				<cfheader name="Location" value="/guid/#guid#">
-			</cfif>
-			<cfinclude template="/SpecimenDetail.cfm">
-			<cfcatch>
-				<cfinclude template="/errors/404.cfm">
-			</cfcatch>
-		</cftry>				
 	<cfelseif listfindnocase(rdurl,'name',"/")>
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"name","/")>
@@ -160,7 +160,7 @@
 		<!--- see if we can handle the peristent 404s elegantly --->
 		<cfif cgi.SCRIPT_NAME contains "/DiGIRprov/www/DiGIR.php">
 			<cfheader statuscode="301" statustext="Moved permanently">
-			<cfheader name="Location" value="http://arctos.database.museum/digir/DiGIR.php">
+			<cfheader name="Location" value="http://digir.mcz.harvard.edu/ipt/">
 		<cfelse>
 			<cftry>
 				<cfscript>
