@@ -73,7 +73,7 @@
 	</tr>
 </table>	
 <form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData">
-<table style="margin-bottom: 1em;">
+<table style="margin: 1em 0;">
 	<tr>
 		<td style="padding: .5em 5px .5em 0;">
 			<input type="submit" value="Search" class="schBtn" 
