@@ -319,7 +319,7 @@
 							<span class="detailEditCell" onclick="window.parent.loadEditApp('editIdentification');">Edit</span>
 						</cfif>
 					</div>
-					<div class="detailBlock">
+					<div class="detailBlock" style="margin-left: 0;">
 						<span class="detailData">
 							<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
