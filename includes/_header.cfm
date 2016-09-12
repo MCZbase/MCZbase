@@ -47,7 +47,7 @@
               <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
               </a> 
               <h1 style="color: #Application.collectionlinkcolor#;">#Application.collection_link_text#</h1>
-              <h2 style="color: #Application.institutionlinktext#">#Application.institution_link_text#</h2>
+              <h2 style="color: #Application.institutionlinktext#">#session.institution_link_text#</h2>
          </div><!---end headerText--->
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
