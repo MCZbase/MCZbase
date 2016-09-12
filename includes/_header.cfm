@@ -40,7 +40,7 @@
   try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
 </noscript>
 
-<div id="headerContent" style='background-color: #Application.header_color#;'>
+<div id="headerContent"> <!---style='background-color: #Application.header_color#;'>--->
      <div id="image_headerWrap">
            <div class="headerText"> 
               <a href="http://www.mcz.harvard.edu" target="_blank">
