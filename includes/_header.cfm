@@ -40,14 +40,14 @@
   try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
 </noscript>
 
-<div id="headerContent"> <!---style='background-color: #Application.header_color#;'>--->
+<div id="headerContent" style='background-color: #Application.header_color#;'>
      <div id="image_headerWrap">
            <div class="headerText"> 
               <a href="http://www.mcz.harvard.edu" target="_blank">
-              <img src="/images/krono.gif" alt="MCZ Kronosaurus Logo">
+              <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
               </a> 
-              <h1> MCZBASE-DEV:The Database of the Zoological Collections</h1>
-              <h2> Museum of Comparative Zoology - Harvard University</h2>
+              <h1 style="color: #Application.collectionlinkcolor#;">#Application.collection_link_text#</h1>
+              <h2 style="color: #Application.institutionlinktext#">#Application.institution_link_text#</h2>
          </div><!---end headerText--->
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
