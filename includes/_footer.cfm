@@ -1,9 +1,9 @@
     </div>
     </div>
     
-     <div class="content_box_footer">
+     <div class="content_box_footer clearfix">
       <cfif cgi.HTTP_HOST contains "harvard.edu" >
-        <div class="footer">
+        <div class="footer clearfix">
             <a href="/Collections/index.cfm">Data Providers</a>
             <a href="/info/bugs.cfm">Feedback&#8202;/&#8202;Report Errors</a>
             <a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a>
