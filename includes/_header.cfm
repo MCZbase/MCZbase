@@ -338,4 +338,4 @@
 <cf_rolecheck>
 </cfoutput> 
 <div id="pg_container">
-<div class="content_box">
+<div class="content_box clearfix">
