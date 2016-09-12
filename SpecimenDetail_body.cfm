@@ -517,7 +517,7 @@
 			</cfif>
 <!------------------------------------ locality ---------------------------------------------->
 			<div class="detailCell">
-				<div class="detailLabel">
+				<div class="detailLabel">Locality and Collecting Event Details
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('specLocality');">Edit</span>
 					</cfif>
