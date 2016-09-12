@@ -543,14 +543,14 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	</cfif>
 </cfif>
 <cfif isdefined("any_taxa_term") AND len(any_taxa_term) gt 0>
-	<cfif isdefined("searchUnaccepted") AND searchUnaccepted EQ "Yes">
-		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#&searchUnaccepted=Yes">
-		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (#session.flatTableName#.collection_object_id = taxa_terms_all.collection_object_id)">
-		<cfset basQual = " #basQual# AND taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
-	<cfelse>
+	<cfif isdefined("searchOnlyCurrent") AND searchOnlyCurrent EQ "Yes">
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#">
 		<cfset basJoin = " #basJoin# inner join taxa_terms on (#session.flatTableName#.collection_object_id = taxa_terms.collection_object_id)">
 		<cfset basQual = " #basQual# AND taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+	<cfelse>
+		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#&searchUnaccepted=Yes">
+		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (#session.flatTableName#.collection_object_id = taxa_terms_all.collection_object_id)">
+		<cfset basQual = " #basQual# AND taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
 	</cfif>
 </cfif>
 <cfif isdefined("identified_agent_id") AND len(identified_agent_id) gt 0>

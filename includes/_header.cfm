@@ -105,18 +105,20 @@
 			</td>
 				</tr>
 			</table>
-			<div id="headerContent">
+			<div id="headerContent" style='background-color: #Application.header_color#;'  >
  				 <div id="image_headerWrap">
     				<div class="headerImageCell"> 
                     <a target="_top" href="#session.collection_url#"> 
-                    <img src="/images/mcz_krono_logo.png" alt="MCZ Kronosaurus Logo" border="0" width="220">
+                    <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo" border="0" width="220">
                     </a> 
                     </div>
 				<div class="headerText"> 
-                <a href="http://www.mcz.harvard.edu" target="_blank">
-   					 <h1 class="headerCollectionText"> MCZBASE-DEV:The Database of the Zoological Collections</h1>
-    					<div class="headerInstitutionText"> Museum of Comparative Zoology - Harvard University</div>
-    			</a> 
+                			<a href="#session.institution_url#" target="_blank">
+   					    <h1 class="headerCollectionText">#Application.collection_link_text#</h1>
+    					</a>
+                			<a href="#session.institution_url#" target="_blank">
+    					    <div class="headerInstitutionText">#session.institution_link_text#</div>
+    					</a> 
    				 </div>
 				</div>
 			<div class="sf-mainMenuWrapper">

@@ -602,11 +602,32 @@ function success_getSpecResultsData(result){
 		for (i=0; i<result.ROWCOUNT; ++i) {
 			orderedCollObjIdArray.push(data.COLLECTION_OBJECT_ID[i]);
 
-			if (i%2) {
+                        var isType = false;
+                        var typestatus = "";
+                        var rowClass = "secTypeRow";
+			if (data.COLUMNLIST[0].indexOf('TYPESTATUS') > -1) {
+                             if (data.TYPESTATUS[i]!=null && data.TYPESTATUS[i].length>0) { 
+                                 isType = true;
+                                 typestatus = data.TYPESTATUS[i].replace("|","<BR>");
+                                 if (typestatus.indexOf("Holotype")>-1 || 
+                                     typestatus.indexOf("Syntype")>-1 || 
+                                     typestatus.indexOf("Hapanotype")>-1 || 
+                                     typestatus.indexOf("Lectotype")>-1 || 
+                                     typestatus.indexOf("Neotype")>-1 
+                                    ) { 
+                                     rowClass = "typeRow";
+                                 }
+                             }
+			} 
+                        if (isType) { 
+				theInnerHtml += '<tr class="' + rowClass +  '">';
+                        } else { 
+			   if (i%2) {
 				theInnerHtml += '<tr class="oddRow">';
-			} else {
+			    } else {
 				theInnerHtml += '<tr class="evenRow">';
-			}
+			   }
+                        }
 
 			
 			
@@ -622,6 +643,9 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '&nbsp;';
 					theInnerHtml += data.CAT_NUM[i];
 					theInnerHtml += '</a>';
+                                        if (isType) { 
+					    theInnerHtml += '<div class="showType">' + typestatus + '</div>';
+                                        }
 				theInnerHtml += '</td>';
 				if (loan_request_coll_id.length > 0) {
 					if (loan_request_coll_id == data.COLLECTION_ID[i]){
@@ -877,7 +901,7 @@ function success_getSpecResultsData(result){
 			makePartThingy();
 		}
 		insertMedia(orderedCollObjIdList);
-		insertTypes(orderedCollObjIdList);
+		// insertTypes(orderedCollObjIdList);
 	}
 }
 function ssvar (startrow,maxrows) {
