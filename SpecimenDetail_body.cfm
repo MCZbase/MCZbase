@@ -309,7 +309,7 @@
 			<input type="hidden" name="Srch" value="Part">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 	</cfif>
-	<table width="95%" cellpadding="0" cellspacing="0"><!---- full page table ---->
+	<table width="100%"><!---- full page table ---->
 		<tr>
 			<td valign="top" width="50%">
 <!------------------------------------ Taxonomy ---------------------------------------------->
@@ -1293,6 +1293,7 @@
 					</cfif>
 					<cfif oneOfUs is 1>
 						<div class="detailBlock">
+
 							<span class="detailData">
 								<span class="innerDetailLabel">Entered By:</span>
 								#one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")#
