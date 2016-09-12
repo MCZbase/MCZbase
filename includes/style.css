@@ -5567,9 +5567,7 @@ table.navtabs {
 /* close commented backslash hack */
 .footer {
 	width: 100%;
-	margin: 0 0%;
-	margin-bottom: 2em;
-	float: left;
+	margin-bottom: 2em;	
 }
 .footer a {
 	font-size: 13px;
@@ -5586,6 +5584,7 @@ table.navtabs {
 	float: right;
 	margin-top: .5em;
 	padding: 0 0em 1em 1em;
+
 }
 .databases p {
 	margin-bottom: .25em;
