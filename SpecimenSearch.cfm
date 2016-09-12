@@ -172,7 +172,7 @@
                         </cfif>
 </div>
 <input type="hidden" name="Action" value="#Action#">
-<div class="secDiv">
+<div class="secDiv" style="border-top: 1px dotted ##ccc;">
 	<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT institution_acronym, collection, collection_id FROM collection 
 	    <cfif len(#session.exclusive_collection_id#) gt 0>
