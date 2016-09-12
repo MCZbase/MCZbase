@@ -1021,7 +1021,7 @@
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
 			<div class="detailCell">
-				<div class="detailLabel">&nbsp;<!---Parts--->
+				<div class="detailLabel">Part Details<!---Parts--->
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>
 					<cfelse>
@@ -1125,7 +1125,7 @@
 <!------------------------------------ attributes ---------------------------------------------->
 			<cfif len(attribute.attribute_type) gt 0>
 				<div class="detailCell">
-					<div class="detailLabel"><!---Attributes--->
+					<div class="detailLabel">Attributes<!---Attributes--->
 						<cfif oneOfUs is 1>
 							<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 						</cfif>
