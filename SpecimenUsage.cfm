@@ -381,7 +381,7 @@
 	<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(basSQL)#
 	</cfquery>
-<div class="projPubSearchResults" style="width: 62em;margin:0 auto;padding-bottom: 2em;border: 1px dotted ##ccc;">
+<div class="projPubSearchResults" style="width: 62em;margin:0 auto;padding-bottom: 2em;">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<a href="/Reports/SpecUsageReport.cfm?project_id=#valuelist(projects.project_id)#&publication_id=#valuelist(publication.publication_id)#">Create Report Data</a>
 	</cfif>
