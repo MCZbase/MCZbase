@@ -5550,9 +5550,21 @@ table.navtabs {
 	background-color: #ccc;
 	border: none;
 	box-shadow: none;
-	overflow: hidden;
 	border-top: 2px solid black;
 }
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
 .footer {
 	width: 100%;
 	margin: 0 0%;

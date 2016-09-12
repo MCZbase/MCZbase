@@ -8,7 +8,7 @@
             <a href="/info/bugs.cfm">Feedback&#8202;/&#8202;Report Errors</a>
             <a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a>
          </div>
-         <div class="footer2">
+         <div class="footer2 clearfix">
               <div class="copyright">
           <img src="/images/harvard_logo_sm.png" alt="Harvard Shield (logo)" class="harvard_logo">
               <p>Database content:  &copy; Copyright 2016 <br/>President and Fellows of Harvard College</p>
