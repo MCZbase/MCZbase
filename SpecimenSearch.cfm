@@ -75,19 +75,19 @@
 <form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData">
 <table style="margin-bottom: 1em;">
 	<tr>
-		<td valign="top">
+		<td style="padding: .5em 5px .5em 0;">
 			<input type="submit" value="Search" class="schBtn" 
 			    onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">	
 		</td>
-		<td valign="top">
+		<td style="padding: .5em 5px;">
 			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" 
 			    onmouseover="this.className='clrBtn btnhov'" onmouseout="this.className='clrBtn'">
 		</td>
-		<td valign="top">
+		<td style="padding: .5em 5px;">
 			<input type="button" name="Previous" value="Use Last Values" class="lnkBtn"	onclick="setPrevSearch()">
 		</td>
-		<td align="right" valign="top">
-			<span style="font-size: 13px;font-weight:bold;">See results as:</span>
+		<td style="padding: .5em 5px;">
+			<span style="font-size: 14px;font-weight:bold;">See results as:</span>
 		</td>
 		<td valign="top">
 		 	<select name="tgtForm1" id="tgtForm1" size="1"  onChange="changeTarget(this.id,this.value);">
