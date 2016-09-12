@@ -89,7 +89,7 @@
 		<td style="padding: .5em 5px;">
 			<span><b>See results as:</b></span>
 		</td>
-		<td valign="top">
+		<td align="left" colspan="2" valign="top">
 		 	<select name="tgtForm1" id="tgtForm1" size="1"  onChange="changeTarget(this.id,this.value);">
 				<option value="">Specimen Records</option>
 				<option value="SpecimenResultsHTML.cfm">HTML Specimen Records</option>
