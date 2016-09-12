@@ -109,6 +109,7 @@ Some Totally Random String Data .....
 				</cfquery>
 			</cfif>
 		</cfloop>
+        <div style="width: 55em; margin: 0 auto;">
 		<h3>Welcome to the enter and edit unbulked data application,<br/>#session.username#</h3>
 		<ul>
 			<li>Green Screen: You are entering data to a new record.</li>
@@ -147,8 +148,10 @@ Some Totally Random String Data .....
 							onmouseout="this.className='lnkBtn'"
 							value="Enter Data"/>
 		</form>
+          </div>
 	</cfoutput>
     </div>
+  
 </cfif>
 <cfif action is "saveCust">
 	<cfdump var=#form#>
