@@ -54,6 +54,7 @@ Some Totally Random String Data .....
 <cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
 <!--------------------------------   default page    ---------------------------------------------------->
 <cfif action is "nothing">
+<cfset usealternatehead="DataEntry">
     <div class="welcome">
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
