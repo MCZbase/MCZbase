@@ -54,7 +54,6 @@ Some Totally Random String Data .....
 <cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
 <!--------------------------------   default page    ---------------------------------------------------->
 <cfif action is "nothing">
-<cfset usealternatehead="DataEntry">
     <div class="welcome">
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -110,7 +109,7 @@ Some Totally Random String Data .....
 				</cfquery>
 			</cfif>
 		</cfloop>
-        <div style="width: 55em; margin: 0 auto;">
+        <div style="width: 55em; margin: 0 auto;padding: 2em 0 3em 2em;">
 		<h3>Welcome to the enter and edit unbulked data application,<br/>#session.username#</h3>
 		<ul>
 			<li>Green Screen: You are entering data to a new record.</li>
