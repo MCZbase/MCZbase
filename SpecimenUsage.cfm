@@ -13,7 +13,7 @@
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-   <div class="content_box_pub" style="width: 50em; margin: 0 auto;padding-bottom: 2em;border: 1px dotted #ccc;">
+   <div class="content_box_pub" style="width: 50em; margin: 0 auto;padding-bottom: 2em;">
      <h2 class="wikilink">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
@@ -36,7 +36,7 @@
               <tr>
              
 				<td>
-                 <div style="background-color: #f8f8f8;width: 91%;margin-left: -.5em;padding: .25em .5em .5em .65em;padding-bottom: 1.15em;">
+                 <div style="background-color: #f8f8f8;width: 91%;margin-left: -.5em;padding: .25em .5em .5em .65em;padding-bottom: 1.15em;border: 1px dotted #ccc;">
 					<h4 style="margin-top: .75em;">Project or Publication Basics</h4>
 					<label for="p_title"><span id="project_publication_title">Title</span></label>
 					<input name="p_title" id="p_title" type="text">
