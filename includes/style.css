@@ -5056,7 +5056,6 @@ ul.lisc li {
 	-webkit-box-shadow: -1px 11px 40px -5px rgba(204,204,204,1);
 	-moz-box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);
 	box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);
-	overflow: hidden;
 }
 .projPubSearchResults p {
 	font-size: 14px;
