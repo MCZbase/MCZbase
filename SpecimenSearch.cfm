@@ -19,10 +19,8 @@
 	order by search_name
 </cfquery>
 
-
-<div id="pg_container">
-<div class="content_box">
-<table style="padding-left: 7px;">
+<div style="width: 56.4em; margin:0 auto;padding-bottom: 2em; padding-top: 1em;">
+<table>
 	<tr>
 		<td>
 			Access to #getCount.cnt#
@@ -1676,7 +1674,6 @@ $(function() {
 	 	}
 	}
 </script>
-</div>
 </div>
 </cfoutput>
 <cfinclude template = "includes/_footer.cfm">
