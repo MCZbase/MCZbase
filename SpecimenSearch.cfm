@@ -1423,18 +1423,18 @@
 </cfif>	
 <table style="margin: 1em 0;">
 	<tr>
-		<td valign="top">
+		<td valign="top" style="padding: 0 5px 0 0;">
 			<input type="submit" value="Search" class="schBtn"
 			onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">
 		</td>
-		<td valign="top">
-			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" 
+		<td valign="top" style="padding: 0 5px;">
+			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" >
 			
 		</td>
-		<td valign="top">
+		<td valign="top" style="padding: 0 5px;">
 			<input type="button" name="Previous" value="Use Last Values" class="lnkBtn"	onclick="setPrevSearch()">
 		</td>
-		<td valign="top" align="right">
+		<td valign="top" align="right" style="padding: 0 5px;">
 			<b>See results as:</b>
 		</td>
 		<td align="left" colspan="2" valign="top">
