@@ -13,41 +13,39 @@
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-      <div id="pg_container">
-        <div class="content_box_pub">
-     <h2 class="wikilink" style="margin-left: 0;">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
+   <div class="content_box_pub" style="width: 50em; margin: 0 auto;padding-bottom: 2em;">
+     <h2 class="wikilink">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
 		<cfif not isdefined("toproject_id")><cfset toproject_id=""></cfif>
 		<cfoutput>
 			<input name="toproject_id" type="hidden" value="#toproject_id#">
 		</cfoutput>
-        
-		<table width="100%" border="1px solid green">
-			<tr valign="top">
+       
+		<table style="width: 100%;padding: 0 .5em;">
+			
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                <tr>
 					<td>
-						<ul>
-							<li>
-								<a href="/Project.cfm?action=makeNew">New Project</a>
-							</li>
-							<li>
-								<a href="/Publication.cfm?action=newPub">New Publication</a>
-							</li>
-						</ul>
-					</td>
+						<a  style="padding: .5em 0;display: block;" href="/Project.cfm?action=makeNew">New Project</a>
+                  
+						<a style="padding: .5em 0;display: block;" href="/Publication.cfm?action=newPub">New Publication</a>
+		    		 </td>
+                    </tr>
 				</cfif>
+              <tr>
+             
 				<td>
-					<h4>Project or Publication</h4>
+                 <div style="background-color: #f8f8f8;width: 91%;margin-left: -.5em;padding: .25em .5em .5em .65em;padding-bottom: 1.15em;">
+					<h4 style="margin-top: .75em;">Project or Publication Basics</h4>
 					<label for="p_title"><span id="project_publication_title">Title</span></label>
 					<input name="p_title" id="p_title" type="text">
 					<label for="author"><span id="project_publication_agent">Participant</span></label>
 					<input name="author" id="author" type="text">
 					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text">
-				</td>
-				<td>
-					<h4>Project</h4>
+				</div>
+					<h4>Project Details</h4>
 					<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
 					<input name="sponsor" id="sponsor" type="text">
 					<label for="project_type"><span id="project_type">Type</span></label>
@@ -59,11 +57,11 @@
 						<option value="both">Uses and Contributes</option>
 						<option value="neither">Neither Uses nor Contributes</option>
 					</select>
-					<label for="descr_len">Description Min. Length</label>
+					<label for="descr_len"> Description Min. Length</label>
 					<input name="descr_len" id="descr_len" type="text" value="100">
 				</td>
-				<td style="padding-bottom: 1em;">
-					<h4>Publication</h4>
+				<td>
+					<h4>Publication Details</h4>
 					<cfoutput>
 						<label for="publication_type"><span id="publication_type">Publication Type</span></label>
 						<select name="publication_type" id="publication_type" size="1">
@@ -109,22 +107,19 @@
 						<option value="1">yes</option>
 					</select>
 				</td>
+               
 			</tr>
-			<tr style="border:none;border:1px solid transparent;">
-				<td colspan="99" align="center">
-					<input type="submit"
-						value="Search"
-						class="schBtn">
-					<input type="reset"
-						value="Clear Form"
-						class="clrBtn">
+			<tr>
+				<td colspan="2" align="center" style="padding-top: 1em;">
+					<input type="submit" value="Search" class="schBtn">
+					
+                    <input type="reset"	value="Clear Form"	class="clrBtn">
 				</td>
 			</tr>
 		</table>
 	</form>
 </cfif>
-</div>
-</div>
+<!--</div>-->
 <!-------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
@@ -386,17 +381,14 @@
 	<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(basSQL)#
 	</cfquery>
-
+<div class="projPubSearchResults" style="width: 62em;margin:0 auto;padding-bottom: 2em;border: 1px dotted ##ccc;">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<a href="/Reports/SpecUsageReport.cfm?project_id=#valuelist(projects.project_id)#&publication_id=#valuelist(publication.publication_id)#">Create Report Data</a>
 	</cfif>
-
-
-
-
-	<cfset i=1>
-	<table border width="90%"><tr><td width="50%" valign="top">
-
+<cfset i=1>
+	<table>
+    <tr>
+      <td width="50%" valign="top" style="padding: 0 1em 1em 1em;">
 		<h3>
 			Projects
 			<cfif projNames.recordcount is 0>
@@ -404,7 +396,9 @@
 					No projects matched your criteria.
 				</div>
 			<cfelse>
+           
 				(#projNames.recordcount# results)
+              
 			</cfif>
 		</h3>
 		<cfset i=1>
@@ -439,7 +433,7 @@
 				ORDER BY
 					sponsor_name
 			</cfquery>
-			<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+			<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))# style="font-size: 14px;">
 				<a href="/ProjectDetail.cfm?project_id=#project_id#">
 					<div class="indent">
 					#project_name#
@@ -459,8 +453,8 @@
 			</div>
 			<cfset i=i+1>
 		</cfloop>
-	</td><td width="50%" valign="top">
-
+	</td>
+    <td width="50%" valign="top" style="padding: 0 1em 1em 1em;">
 	<h3>
 		Publications 
 		<cfif publication.recordcount is 0>
@@ -523,12 +517,12 @@
 						media_relations
 					where
 						media.media_id=media_relations.media_id and
-						MCZBASE.is_media_encumbered(media.media_id) < 1 and
 						media_relationship like '% publication' and
-						related_primary_key= <cfqueryparam cfsqltype="cf_sql_number" value="#publication_id#" />
+						related_primary_key=#publication_id#
 				</cfquery>
 				<cfif len(pubmedia.media_id) gt 0>
 					<div class="thumbs">
+
 						<div class="thumb_spcr">&nbsp;</div>
 							<cfloop query="pubmedia">
 								<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -572,6 +566,7 @@
 		<cfset i=#i#+1>
 	</cfloop>
 </td></tr></table>
+</div>
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------->
