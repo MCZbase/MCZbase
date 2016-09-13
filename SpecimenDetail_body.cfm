@@ -1269,11 +1269,11 @@
 			</cfif>
 <!------------------------------------ cataloged item ---------------------------------------------->
 			<div class="detailCell">
-				<div class="detailLabel">Object Details
+				<div class="detailLabel">
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 					</cfif>
-					</div>
+				
 					<cfif len(one.coll_object_remarks) gt 0>
 						<div class="detailBlock">
 							<span class="detailData">
