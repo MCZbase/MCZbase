@@ -1,13 +1,5 @@
 <style>
-	.noShow {
-		display:none;
-		}
-	.locGroup {
-		border: 1px dashed green;
-		padding:2px;
-		margin:5px;
-		}
-		
+
 </style>
 <script language="javascript" type="text/javascript">
 	function nada(){}
@@ -123,6 +115,7 @@
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collection,collection_id from collection order by collection
 </cfquery>
+
 <table><tr><td>
 	<div class="locGroup">
 		<span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
@@ -217,16 +210,16 @@
 <cfif #showLocality# is 1>
 	<div class="locGroup">
 		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
-	<table cellpadding="0" cellspacign="0">
+	<table>
 		<tr>
 			<td colspan="2">
 				<label for="spec_locality">Specific Locality</label>
-				<input type="text" name="spec_locality" id="spec_locality" size="50">
+				<input type="text" name="spec_locality" id="spec_locality" size="100">
 			</td>
 		</tr>
 		</table>
 		<div id="locDetail" class="noShow">
-		<table cellpadding="0" cellspacign="0">
+		<table>
 			<tr>
 				<td>
 					<label for="collnOper">Collection</label>
@@ -243,7 +236,16 @@
 		                </cfloop>
 		           	</select>
 				</td>
-
+				<td>
+					<label for="MaxDepthOper">Maximum Depth</label>
+					<select name="MaxDepthOper" id="MaxDepthOper" size="1">
+		            	<option value="=">is</option>
+		                <option value="<>">is not</option>
+		                <option value=">">more than</option>
+		                <option value="<">less than</option>
+		            </select>
+					<input type="text" name="maximum_Depth" id="maximum_Depth">
+				</td>
 
 			</tr>
 			<tr>
@@ -257,6 +259,15 @@
 		             </select>
 					<input type="text" name="minimum_elevation" id="minimum_elevation">
 				</td>
+                <td>
+					<label for="depth_units">Depth Units</label>
+					<select name="depth_units" id="depth_units" size="1">
+		            	<option value=""></option>
+		                <cfloop query="ctDepthUnit">
+		                	<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
+		                </cfloop>
+		           	</select>
+				</td>
 			</tr>
 			<tr>
 				<td>
@@ -269,6 +280,10 @@
 		            </select>
 					<input type="text" name="maximum_elevation" id="maximum_elevation">
 				</td>
+                	<td>
+					<label for="locality_remarks">Locality Remarks</label>
+					<input type="text" name="locality_remarks" id="locality_remarks" size="50">
+				</td>
 			</tr>
 			<tr>
 				<td>
@@ -280,45 +295,15 @@
 		                </cfloop>
 		           	</select>
 				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="MaxDepthOper">Maximum Depth</label>
-					<select name="MaxDepthOper" id="MaxDepthOper" size="1">
-		            	<option value="=">is</option>
-		                <option value="<>">is not</option>
-		                <option value=">">more than</option>
-		                <option value="<">less than</option>
-		            </select>
-					<input type="text" name="maximum_Depth" id="maximum_Depth">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="depth_units">Depth Units</label>
-					<select name="depth_units" id="depth_units" size="1">
-		            	<option value=""></option>
-		                <cfloop query="ctDepthUnit">
-		                	<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
-		                </cfloop>
-		           	</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
+                <td>
 					<label for="locality_id">Locality ID</label>
 					<input type="text" name="locality_id" id="locality_id">
 				</td>
 			</tr>
+			
 			<tr>
 				<td>
-					<table cellpadding="0" cellspacing="0">
+					<table>
 						<tr><td>
 					<label for="geology_attribute">Geology Attribute</label>
 					<select name="geology_attribute" id="geology_attribute">
@@ -346,7 +331,7 @@
 				</td>
 			</tr>
 		</table>
-		<span id="georefDetailCtl" class="infoLink" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
+		<span id="georefDetailCtl" class="infoLink" style="font-size: 12px;margin-left: 600px;margin-bottom: 1em;display:block;margin-top:-2em;" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
 		<div id="georefDetail" class="noShow">
 		<table cellpadding="0" cellspacign="0">
 			<tr>
@@ -420,7 +405,7 @@
 		<tr>
 			<td>
 				<label for="verbatim_locality">Verbatim Locality</label>
-				<input type="text" name="verbatim_locality" id="verbatim_locality" size="50">
+				<input type="text" name="verbatim_locality" id="verbatim_locality" size="100">
 			</td>
 		</tr>
 		<tr>
@@ -453,11 +438,19 @@
 					<label for="verbatim_date">Verbatim Date</label>
 					<input type="text" name="verbatim_date" id="verbatim_date" size="50">
 				</td>
+                	<td>
+					<label for="collecting_method">Collecting Method</label>
+					<input type="text" name="collecting_method" id="collecting_method" size="50">
+				</td>
 			</tr>
 			<tr>
 				<td>
 					<label for="coll_event_remarks">Collecting Event Remarks</label>
 					<input type="text" name="coll_event_remarks" id="coll_event_remarks" size="50">
+				</td>
+                	<td>
+					<label for="habitat_desc">Habitat</label>
+					<input type="text" name="habitat_desc" id="habitat_desc" size="50">
 				</td>
 			</tr>
 			<tr>
@@ -470,25 +463,12 @@
 		                </cfloop>
 		           	</select>
 				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="collecting_method">Collecting Method</label>
-					<input type="text" name="collecting_method" id="collecting_method" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="habitat_desc">Habitat</label>
-					<input type="text" name="habitat_desc" id="habitat_desc" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
+                	<td>
 					<label for="collecting_event_id">Collecting Event ID</label>
 					<input type="text" name="collecting_event_id" id="collecting_event_id" >
 				</td>
 			</tr>
+	
 		</table>
 		</div>
 		</div>
@@ -503,9 +483,9 @@
 				onmouseout="this.className='schBtn'">
            <input type="reset"
 				value="Clear Form"
-				class="qutBtn"
-				onmouseover="this.className='qutBtn btnhov'"
-				onmouseout="this.className='qutBtn'">
+				class="clrBtn"
+				onmouseover="this.className='clrBtn btnhov'"
+				onmouseout="this.className='clrBtn'">
 		</td>
 	</tr>
 </table>
