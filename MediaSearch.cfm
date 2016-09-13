@@ -96,68 +96,79 @@
       </div>
     </form>
    </div>
-   <a name="relFrm"></a>
-	<div style="font-size:small;font-weight:bold;">
-		You can use the also use the
-		<a href="##kwFrm">keyword search form</a>.
-	</div>
-		<form name="newMedia" method="post" action="">
-			<input type="hidden" name="action" value="search">
-			<input type="hidden" name="srchType" value="full">
-			<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
-			<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
-			<label for="media_uri">Media URI</label>
-			<input type="text" name="media_uri" id="media_uri" size="90">
-			<label for="mime_type">MIME Type</label>
-			<select name="mime_type" id="mime_type">
-				<option value=""></option>
-					<cfloop query="ctmime_type">
-						<option value="#mime_type#">#mime_type#</option>
-					</cfloop>
-			</select>
-            <label for="media_type">Media Type</label>
-			<select name="media_type" id="media_type">
-				<option value=""></option>
-					<cfloop query="ctmedia_type">
-						<option value="#media_type#">#media_type#</option>
-					</cfloop>
-			</select>
-			<label for="tag">Require TAG?</label>
-			<input type="checkbox" id="tag" name="tag" value="1">
-			<label for="relationships">Media Relationships</label>
-			<div id="relationships">
-				<select name="relationship__1" id="relationship__1" size="1">
-					<option value=""></option>
-					<cfloop query="ctmedia_relationship">
-						<option value="#media_relationship#">#media_relationship#</option>
-					</cfloop>
-				</select>:&nbsp;<input type="text" name="related_value__1" id="related_value__1" size="80">
-				<input type="hidden" name="related_id__1" id="related_id__1">
-				<br><span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
-			</div>
-			<br>
-			<label for="labels">Media Labels</label>
-			<div id="labels">
-				<div id="labelsDiv__1">
-				<select name="label__1" id="label__1" size="1">
-					<option value=""></option>
-					<cfloop query="ctmedia_label">
-						<option value="#media_label#">#media_label#</option>
-					</cfloop>
-				</select>:&nbsp;<input type="text" name="label_value__1" id="label_value__1" size="80">
-				</div>
-				<span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
-			</div>
-			<br>
-			<input type="submit"
+  <div class="greenbox">
+    <a name="relFrm"></a>
+    <div> <p style="font-size: 14px;padding-bottom: 1em;">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
+    <form name="newMedia" method="post" action="">
+      <input type="hidden" name="action" value="search">
+      <input type="hidden" name="srchType" value="full">
+      <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
+      <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
+       <div style="float:left;width: 750px;margin-bottom: 1em;">
+      <label for="media_uri">Media URI</label>
+      <input type="text" name="media_uri" id="media_uri" size="90">
+      </div>
+      <div style="float:left;width: 150px;">
+      <label for="mime_type">MIME Type</label>
+      <select name="mime_type" id="mime_type">
+        <option value=""></option>
+        <cfloop query="ctmime_type">
+          <option value="#mime_type#">#mime_type#</option>
+        </cfloop>
+      </select>
+      </div>
+       <div style="float:left;width: 150px;">
+      <label for="media_type">Media Type</label>
+      <select name="media_type" id="media_type">
+        <option value=""></option>
+        <cfloop query="ctmedia_type">
+          <option value="#media_type#">#media_type#</option>
+        </cfloop>
+      </select>
+      </div>
+       <div style="float:left;width: 150px;">
+      <label for="tag">Require TAG?</label>
+      <input type="checkbox" id="tag" name="tag" value="1">
+      </div>
+      <div style="clear: both;padding-top: 1em;">
+      <label for="relationships">Media Relationships</label>
+      <div id="relationships" style="border: 1px dotted ##ccc;padding: 10px 3px 3px 10px;">
+        <select name="relationship__1" id="relationship__1" size="1">
+          <option value=""></option>
+          <cfloop query="ctmedia_relationship">
+            <option value="#media_relationship#">#media_relationship#</option>
+          </cfloop>
+        </select>
+       
+        <input type="text" name="related_value__1" id="related_value__1" size="80">
+        <input type="hidden" name="related_id__1" id="related_id__1">
+        <br>
+        <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+        </div>
+      <br>
+      <label for="labels">Media Labels</label>
+      <div id="labels" style="border: 1px dotted ##ccc;padding: 10px 3px 3px 10px;">
+        <div id="labelsDiv__1">
+          <select name="label__1" id="label__1" size="1">
+            <option value=""></option>
+            <cfloop query="ctmedia_label">
+              <option value="#media_label#">#media_label#</option>
+            </cfloop>
+          </select>
+          :&nbsp;
+          <input type="text" name="label_value__1" id="label_value__1" size="80">
+        </div>
+        <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
+      <br>
+      <input type="submit"
 				value="Find Media"
 				class="insBtn">
-			<input type="reset"
-				value="reset form"
+      <input type="reset"
+				value="Reset Form"
 				class="clrBtn">
-		</form>
-        </div>
-		</cfoutput>
+    </form>
+    </div>
+  </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
