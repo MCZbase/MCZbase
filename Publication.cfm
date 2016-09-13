@@ -622,7 +622,7 @@
 			</select>--->
 			<div class="infoLink thirteen" onclick="removeLastAttribute()">Remove Last Row</div>
 			<table id="attTab" style="border: 1px solid ##ccc;margin-top: .5em;background-color: white;">
-				<tr style="border:1px solid ##ccc;">
+				<tr style="border:1px solid ##ccc;padding-bottom: 1em;">
 					<th>Attribute</th>
 					<th>Value</th>
 					<th></th>
