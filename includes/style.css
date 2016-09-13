@@ -5489,7 +5489,7 @@ ul.headercol3 li {
 	color: gray;
 }
 .taxaEdit input.tInput {width: 300px; }
-.taxaEdit td {margin-right: 1em;}
+.taxaEdit td {padding-right: 1em;}
 .commonName {
 	margin: .25em;
 	padding: 0;
