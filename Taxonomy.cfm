@@ -466,9 +466,10 @@
 <cfif action is "newTaxa">
 <cfset title = "Add Taxonomy">
 <cfoutput>
+<div style="width: 52em; padding-bottom: 3em; margin: 0 auto;">
   <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
   <p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
-	<table border>
+	<table class="taxaEdit">
 		<form name="taxa" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="Action" value="saveNewTaxa">
 			<tr>
@@ -652,6 +653,7 @@
 			</tr>
 		</form>
 	</table>
+    </div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
