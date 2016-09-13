@@ -6,8 +6,8 @@
     	<cflocation url="MediaSearch.cfm?action=search&relationship__1=cataloged_item&related_primary_key__1=#url.collection_object_id#&specID=#url.collection_object_id#" addtoken="false">
     </cfoutput>
 </cfif>
-<div id="pg_container0">
-<div class="content_box" style="margin: 0 auto; padding: 0 auto;">
+
+<div style="margin: 0 auto;padding-bottom: 1em; width: 54em;">
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 	
@@ -19,8 +19,7 @@
     <a href="/media.cfm?action=newMedia">[ Create media ]</a>
     </cfif>
 </cfif>
-</div>
-</div>
+
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "nothing">
 	<cfoutput>
@@ -577,5 +576,6 @@
 </table>
 #pager#
 </cfoutput>
+</div>
 </cfif>
 <cfinclude template="/includes/_footer.cfm">
