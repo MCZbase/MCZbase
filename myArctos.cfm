@@ -200,12 +200,12 @@
 	<form method="post" action="myArctos.cfm" name="dlForm">
 		<input type="hidden" name="user_id" value="#getUserData.user_id#">
 		<input type="hidden" name="action" value="saveProfile">
-		<strong>Personal Profile</strong>
-		<span style="font-size:small;">
-			<br>A profile is required to download data.
-			<br>You cannot recover a lost password unless you enter an email address.
-			<br>Personal information will never be shared with anyone, and we'll never send you spam.
-		</span>
+		<h3>Personal Profile</h3>
+		<p style="font-size:small;">
+			A profile is required to download data.<br>
+			You cannot recover a lost password unless you enter an email address.<br>
+			Personal information will never be shared with anyone, and we'll never send you spam.</p>
+	
 		<label for="first_name">First Name</label>
 		<input type="text" name="first_name" value="#getUserData.first_name#" class="reqdClr" size="50">
 		<label for="middle_name">Middle Name</label>
@@ -216,7 +216,7 @@
 		<input type="text" name="affiliation" value="#getUserData.affiliation#" class="reqdClr" size="50">
 		<label for="email">Email</label>
 		<input type="text" name="email" value="#getUserData.email#" size="30">
-		<br><input type="submit" value="Save Profile" class="savBtn">
+		<input type="submit" value="Save Profile" class="savBtn" style="margin-top: .5em">
 	</form>
 	<!---
 	<cfquery name="getUserPrefs" datasource="cf_dbuser">
@@ -237,7 +237,7 @@
 <hr>
 </br>
 </br>
-	<strong>Arctos Setings</strong>
+	<p><strong>Arctos Setings</strong>
 	<form method="post" action="myArctos.cfm" name="dlForm">
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
