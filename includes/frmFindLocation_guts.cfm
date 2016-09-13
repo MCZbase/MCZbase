@@ -137,7 +137,7 @@
 					<label for="continent_ocean">Continent or Ocean</label>
 					<input type="text" name="continent_ocean" id="continent_ocean" size="50">
 				</td>
-                <td>
+                <td style="padding-left: 1em;">
 					<label for="quad">Quad</label>
 					<input type="text" name="quad" id="quad" size="50">
 				</td>
@@ -147,7 +147,7 @@
 					<label for="ocean_region">Ocean Region</label>
 					<input type="text" name="ocean_region" id="ocean_region" size="50">
 				</td>
-                <td>
+                <td style="padding-left: 1em;">
 					<label for="feature">Feature</label>
 					<select name="feature" id="feature">
 						<option value=""></option>
@@ -162,7 +162,7 @@
 					<label for="ocean_subregion">Ocean SubRegion</label>
 					<input type="text" name="ocean_subregion" id="ocean_subregion" size="50">
 				</td>
-                <td>
+                <td style="padding-left: 1em;">
 					<label for="island_group">Island Group</label>
 					<select name="island_group" id="island_group">
 						<option value=""></option>
@@ -177,7 +177,7 @@
 					<label for="country">Country</label>
 					<input type="text" name="country" id="country" size="50">
 				</td>
-                <td>
+                <td style="padding-left: 1em;">
 					<label for="island">Island</label>
 					<input type="text" name="island" id="island" size="50">
 				</td>
@@ -187,7 +187,7 @@
 					<label for="state_prov">State or Province</label>
 					<input type="text" name="state_prov" id="state_prov" size="50">
 				</td>
-                	<td>
+                	<td style="padding-left: 1em;">
 					<label for="sea">Sea</label>
 					<input type="text" name="sea" id="sea" size="50">
 				</td>
@@ -197,7 +197,7 @@
 					<label for="county">County</label>
 					<input type="text" name="county" id="county" size="50">
 				</td>
-                	<td>
+                	<td style="padding-left: 1em;">
 					<label for="geog_auth_rec_id">Geog Auth Rec ID</label>
 					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id">
 				</td>
@@ -438,7 +438,7 @@
 					<label for="verbatim_date">Verbatim Date</label>
 					<input type="text" name="verbatim_date" id="verbatim_date" size="50">
 				</td>
-                	<td>
+                	<td style="padding-left: 1em;">
 					<label for="collecting_method">Collecting Method</label>
 					<input type="text" name="collecting_method" id="collecting_method" size="50">
 				</td>
@@ -448,7 +448,7 @@
 					<label for="coll_event_remarks">Collecting Event Remarks</label>
 					<input type="text" name="coll_event_remarks" id="coll_event_remarks" size="50">
 				</td>
-                	<td>
+                	<td style="padding-left: 1em;">
 					<label for="habitat_desc">Habitat</label>
 					<input type="text" name="habitat_desc" id="habitat_desc" size="50">
 				</td>
@@ -463,7 +463,7 @@
 		                </cfloop>
 		           	</select>
 				</td>
-                	<td>
+                	<td style="padding-left: 1em;">
 					<label for="collecting_event_id">Collecting Event ID</label>
 					<input type="text" name="collecting_event_id" id="collecting_event_id" >
 				</td>
