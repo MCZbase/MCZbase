@@ -37,7 +37,7 @@
 			</cfif>
 		</td>
 		<td>
-			<span class="infoLink"  style="font-size: 12px;" onClick="getHelp('CollStats');">
+			<span class="infoLink"  style="font-size: 12px;margin-right: 2em;" onClick="getHelp('CollStats');">
 				Holdings Details
 			</span>&nbsp;&nbsp;
 			<span class="infoLink" style="font-size: 12px;" onClick="getHelp('search_help');">
@@ -227,7 +227,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan = 2 style="font-size: smaller;text-align:left;padding-left: 19em;">Include Other Identifiers in search (original number, previous number, etc.)</td>
+			<td colspan = 2 style="font-size: smaller;text-align:left;padding-left: 19em;">
+            <input type="checkbox" name="searchOtherIds" value="Yes">Include Other Identifiers in search (original number, previous number, etc.)</td>
 		</tr>
 	<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
