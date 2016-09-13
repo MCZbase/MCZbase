@@ -3957,10 +3957,10 @@ table.specResultTab td:nth-child(2) {
  height: 1.5em
 }
 ::-webkit-scrollbar-button {
- background: #ccc
+ background: #666
 }
 ::-webkit-scrollbar-track-piece {
- background: #666
+ background: #ccc
 }
 ::-webkit-scrollbar-thumb, ::-moz-scrollbar-thumb {
  background: lightblue;
