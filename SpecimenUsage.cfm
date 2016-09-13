@@ -111,7 +111,7 @@
 			</tr>
 			<tr>
 				<td colspan="2" align="center" style="padding-top: 1em;">
-					<input type="submit" value="Search" class="schBtn" style="margin-right: 1em;">
+					<input type="submit" value="Search" class="schBtn" style="margin-right: 2em;">
 					
                     <input type="reset"	value="Clear Form"	class="clrBtn">
 				</td>
