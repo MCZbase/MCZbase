@@ -128,6 +128,7 @@
 		select allow from temp_allow_cf_user where user_id=#getPrefs.user_id#
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
+    <div style="width:70em; margin:0 auto;padding-bottom: 3em;">
 	<h2>Welcome back, <b>#getPrefs.username#</b>!</h2>
 	<div style="width: 38em; float: left; position: relative; margin-right: 1em;">
 	<ul>
@@ -293,6 +294,8 @@
 
     </div>
 	<div id="divRss"></div>
+    
+    </div>
 	<script>
 		$( document ).ready(function(){
 
