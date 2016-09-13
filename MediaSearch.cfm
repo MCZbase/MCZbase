@@ -2,9 +2,15 @@
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
 <cfinclude template="/includes/_header.cfm">
 <cfif isdefined("url.collection_object_id")>
-    <cfoutput>
-    	<cflocation url="MediaSearch.cfm?action=search&relationship__1=cataloged_item&related_primary_key__1=#url.collection_object_id#&specID=#url.collection_object_id#" addtoken="false">
-    </cfoutput>
+     <!--- 
+    	<cflocation url="MediaSearch.cfm?action=search&relationship__1=cataloged_item&related_primary_key__1=#url.collection_object_id#&specID=#url.collection_object_id#" addtoken="false" statusCode="303" >
+     ---> 
+     <cfset action="search">
+     <cfset relationship__1="cataloged_item">
+     <cfset url.relationship__1="cataloged_item">
+     <cfset related_primary_key__1="#url.collection_object_id#">
+     <cfset url.related_primary_key__1="#url.collection_object_id#">
+     <cfset specID="#url.collection_object_id#">
 </cfif>
 <div id="pg_container0">
 <div class="content_box" style="margin: 0 auto; padding: 0 auto;">
@@ -12,6 +18,7 @@
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 	
 	<cfif isdefined("specID") and len(specID) gt 0>
+                <cfset createSpecimenMediaShown="true">
 		<cfoutput>
 			<a href="/media.cfm?action=newMedia&collection_object_id=#specID#">[ Create Specimen media ]</a>
 		</cfoutput>
@@ -331,7 +338,7 @@
 		</cfif>
 
 		<cfabort>
-	<cfelseif findIDs.recordcount is 1 and not listfindnocase(cgi.REDIRECT_URL,'media',"/")>
+	<cfelseif findIDs.recordcount is 1 and not listfindnocase(cgi.REDIRECT_URL,'media',"/") and not  isdefined("specID") >
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfheader name="Location" value="/media/#findIDs.media_id#">
 		<cfabort>
@@ -346,7 +353,7 @@
 		<a href="/MediaSearch.cfm">[ Media Search ]</a>
 	</cfif>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-	    <cfset h="/media.cfm?action=newMedia">
+		<cfset h="/media.cfm?action=newMedia">
 		<cfif isdefined("url.relationship__1") and isdefined("url.related_primary_key__1")>
 			<cfif url.relationship__1 is "cataloged_item">
 				<cfset h=h & '&collection_object_id=#url.related_primary_key__1#'>
@@ -354,7 +361,9 @@
 				<br>
 			</cfif>
 		</cfif>
-		<a href="#h#">[ Create media ]</a>
+	   	<cfif not isdefined("createSpecimenMediaShown")>
+			<a href="#h#">[ Create media ]</a>
+		</cfif>
 	</cfif>
 	<cfset q="">
 	<cfloop list="#StructKeyList(form)#" index="key">
