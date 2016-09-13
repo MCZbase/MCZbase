@@ -49,6 +49,7 @@
 		select * from taxonomy where taxon_name_id=#taxon_name_id#
 	</cfquery>
 <cfoutput>
+<div style="width: 56em; border: 1px dotted ##ccc; margin: 0 auto;">
    <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy: <em>#getTaxa.scientific_name#</em> <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif></h2>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
     <table border="0">
@@ -395,6 +396,7 @@
 			</td>
 		</tr>
 	</table>
+    </div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
