@@ -7,6 +7,7 @@
 		padding:2px;
 		margin:5px;
 		}
+		
 </style>
 <script language="javascript" type="text/javascript">
 	function nada(){}
