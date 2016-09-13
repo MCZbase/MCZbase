@@ -122,14 +122,14 @@
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collection,collection_id from collection order by collection
 </cfquery>
-<table  cellpadding="0" cellspacign="0"><tr><td>
+<table><tr><td>
 	<div class="locGroup">
 		<span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
-		<table cellpadding="0" cellspacign="0">
+		<table>
 		<tr>
 			<td>
 				<label for="higher_geog">Higher Geog</label>
-				<input type="text" name="higher_geog" id="higher_geog" size="50">
+				<input type="text" name="higher_geog" id="higher_geog" size="100">
 				<span class="infoLink" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;">
 									Add = for exact match
 				</span>
@@ -137,11 +137,15 @@
 		</tr>
 	</table>
 		<div id="geogDetail" class="noShow">
-		<table cellpadding="0" cellspacign="0">
+		<table>
 			<tr>
 				<td>
 					<label for="continent_ocean">Continent or Ocean</label>
 					<input type="text" name="continent_ocean" id="continent_ocean" size="50">
+				</td>
+                <td>
+					<label for="quad">Quad</label>
+					<input type="text" name="quad" id="quad" size="50">
 				</td>
 			</tr>
 			<tr>
@@ -149,39 +153,7 @@
 					<label for="ocean_region">Ocean Region</label>
 					<input type="text" name="ocean_region" id="ocean_region" size="50">
 				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="ocean_subregion">Ocean SubRegion</label>
-					<input type="text" name="ocean_subregion" id="ocean_subregion" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="country">Country</label>
-					<input type="text" name="country" id="country" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="state_prov">State or Province</label>
-					<input type="text" name="state_prov" id="state_prov" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="county">County</label>
-					<input type="text" name="county" id="county" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="quad">Quad</label>
-					<input type="text" name="quad" id="quad" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
+                <td>
 					<label for="feature">Feature</label>
 					<select name="feature" id="feature">
 						<option value=""></option>
@@ -193,6 +165,10 @@
 			</tr>
 			<tr>
 				<td>
+					<label for="ocean_subregion">Ocean SubRegion</label>
+					<input type="text" name="ocean_subregion" id="ocean_subregion" size="50">
+				</td>
+                <td>
 					<label for="island_group">Island Group</label>
 					<select name="island_group" id="island_group">
 						<option value=""></option>
@@ -204,18 +180,30 @@
 			</tr>
 			<tr>
 				<td>
+					<label for="country">Country</label>
+					<input type="text" name="country" id="country" size="50">
+				</td>
+                <td>
 					<label for="island">Island</label>
 					<input type="text" name="island" id="island" size="50">
 				</td>
 			</tr>
 			<tr>
 				<td>
+					<label for="state_prov">State or Province</label>
+					<input type="text" name="state_prov" id="state_prov" size="50">
+				</td>
+                	<td>
 					<label for="sea">Sea</label>
 					<input type="text" name="sea" id="sea" size="50">
 				</td>
 			</tr>
- 			<tr>
+			<tr>
 				<td>
+					<label for="county">County</label>
+					<input type="text" name="county" id="county" size="50">
+				</td>
+                	<td>
 					<label for="geog_auth_rec_id">Geog Auth Rec ID</label>
 					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id">
 				</td>
