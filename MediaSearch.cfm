@@ -16,8 +16,10 @@
 			<a href="/media.cfm?action=newMedia&collection_object_id=#specID#">[ Create Specimen media ]</a>
 		</cfoutput>
 	<cfelse>
-    <a href="/media.cfm?action=newMedia">[ Create media ]</a>
-    </cfif>
+		<cfoutput>
+    			<a href="/media.cfm?action=newMedia">[ Create media ]</a>
+		</cfoutput>
+	</cfif>
 </cfif>
 
 <!----------------------------------------------------------------------------------------->

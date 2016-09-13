@@ -53,18 +53,19 @@
 				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
 				round(RETURN_DUE_DATE - (sysdate)) +1 < -365 and
 				LOAN_STATUS like 'open%' and
-				loan_type in ('returnable', 'consumable', 'exhibition') and
+				loan_type in ('returnable', 'consumable') and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id(+)
+				and loan.transaction_id not in (select transaction_id from trans_agent where agent_id = 101150 and trans_agent_role = 'in-house contact')
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent">
+<cfloop query="agent" startrow=1 endrow=300>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L'
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2016-06-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -138,7 +139,7 @@
 				formatted_addr
 			order by collection, trans_date
 		</cfquery>
-		<cfquery name="loanexhibition" dbtype="query">
+		<!---cfquery name="loanexhibition" dbtype="query">
 			select
 				transaction_id,
 				LOAN_NUMBER,
@@ -169,7 +170,7 @@
 				collection_id,
 				formatted_addr
 			order by collection, trans_date
-		</cfquery>
+		</cfquery--->
 
 
 			<cfquery name="cc_Agents" dbtype="query">
@@ -498,7 +499,7 @@
 				<hr><hr>
 			</cfmail>
 	</cfif>
-	<cfif loanexhibition.recordcount GT 0>
+	<!---cfif loanexhibition.recordcount GT 0>
 		<cfquery name="collections" dbtype="query">
 				select distinct collection from loanexhibition
 		</cfquery>
@@ -608,7 +609,7 @@
 				---------------------------------------------------------------------</P>
 				<hr><hr>
 			</cfmail>
-		</cfif>
+		</cfif--->
 	</cfif>
 </cfloop>
 <!--- end of loan code --->

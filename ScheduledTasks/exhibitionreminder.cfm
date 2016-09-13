@@ -54,12 +54,11 @@
 				trans_agent.agent_id = person.person_id(+) AND
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
 				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by','recipient institution') and
-				<!---round(RETURN_DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,30) and--->
-				LOAN_STATUS like 'in process%' and
+				round(RETURN_DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,30) and
+				LOAN_STATUS like 'open%' and
 				loan_type in ('exhibition-master') and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id(+)
-				and loan_number = '2015-12-MCZ'
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="loan" dbtype="query">
@@ -321,9 +320,9 @@
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
 
-			<cfmail 	to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"
-						<!---to="#toaddresses#"
-						cc="#ccaddresses#"--->
+			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
+						to="#toaddresses#"
+						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Notification for Exhibition Loan Number: #loan.loan_number#"
 						from="no_reply_loan_notification@#Application.fromEmail#"
