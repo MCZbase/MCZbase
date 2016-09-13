@@ -1,7 +1,7 @@
     </div>
     </div>
     
-     <div class="content_box_footer clearfix">
+     <div id="footerContentBox" class="content_box_footer clearfix">
       <cfif cgi.HTTP_HOST contains "harvard.edu" >
         <div class="footer clearfix">
             <a href="/Collections/index.cfm">Data Providers</a>

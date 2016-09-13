@@ -13,6 +13,7 @@
     <cfif not isdefined("session.header_color")>
       <cfset setDbUser()>
     </cfif>
+    <cfoutput>
     <script language="javascript" type="text/javascript">
            jQuery(document).ready(function(){
                 jQuery("ul.sf-menu").supersubs({
@@ -25,11 +26,12 @@
                     speed:       0,
                 });
                 if (top.location!=document.location) {
-                                $("#_footerTable").hide();
+                                $("##footerContentBox").hide();
+                                $("##headerContent").hide();
+                                $("##mainMenuWrapper").hide();
                 }
             });
 	</script>
-    <cfoutput>
     <meta name="keywords" content="#session.meta_keywords#">
     <LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -51,7 +53,7 @@
          </div><!---end headerText--->
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
- <div class="sf-mainMenuWrapper">
+ <div id="mainMenuWrapper" class="sf-mainMenuWrapper">
         <div id="headerLinks">
         <cfif len(#session.username#) gt 0>
               <a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a>
