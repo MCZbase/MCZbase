@@ -122,7 +122,7 @@
 					<option value="#publication_attribute#">#publication_attribute#</option>
 				</cfloop>
 			</select>
-			<table id="attTab">
+			<table id="attTab" style="padding-bottom: 1em;">
 				<tr>
 					<th>Attribute</th>
 					<th>Value</th>
