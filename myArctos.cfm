@@ -163,7 +163,7 @@
 		<li><a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a>  (click Save Search from SpecimenResults to save a search)</li>
 	</ul>
 	<cfif isInv.allow is 1>
-		<div style="background-color:##FF0000; border:2px solid black; width:75%;">
+		<div class="userData" style="background-color:##FF0000; border:2px solid black; width:75%;">
 			You've been invited to become an Operator. Password restrictions apply.
 			This form does not change your password (you may do so <a href="ChangePassword.cfm">here</a>),
 			but will provide information about the suitability of your password. You may need to change your password
@@ -200,8 +200,8 @@
 	<form method="post" action="myArctos.cfm" name="dlForm">
 		<input type="hidden" name="user_id" value="#getUserData.user_id#">
 		<input type="hidden" name="action" value="saveProfile">
-		<h3>Personal Profile</h3>
-		<p style="font-size:small;">
+		<h3 style="margin-bottom: 1em; padding-bottom: 0;">Personal Profile</h3>
+		<p style="font-size:small;margin-bottom: 1em;">
 			A profile is required to download data.<br>
 			You cannot recover a lost password unless you enter an email address.<br>
 			Personal information will never be shared with anyone, and we'll never send you spam.</p>
@@ -234,7 +234,7 @@
 	</cfquery>
 
 
-	<h3>Arctos Setings</h3>
+	<h3 style="margin-bottom: 1em; padding-bottom: 0;">Arctos Setings</h3>
 	<form method="post" action="myArctos.cfm" name="dlForm">
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
