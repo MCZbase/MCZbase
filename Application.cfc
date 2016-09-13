@@ -282,7 +282,7 @@
 			<cfset Application.InstitutionBlurb = "Collections Database, Museum of Comparative Zoology, Harvard University" />
 			<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />
 			<cfset Application.PageProblemEmail = "bhaley@oeb.harvard.edu" />
-			<cfset Application.stylesheet = "mcz_style.css" />
+			<cfset Application.stylesheet = "style.css" />
 		</cfif>
 		<cfreturn true />
 	</cffunction>
