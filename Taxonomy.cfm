@@ -320,7 +320,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" name="relatedName" class="reqdClr" size="50"
+					<input type="text" name="relatedName" class="reqdClr" size="35"
 						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
 						onKeyPress="return noenter(event);">
 					<input type="hidden" name="newRelatedId">
