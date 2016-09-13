@@ -7,7 +7,7 @@
     </cfoutput>
 </cfif>
 
-<div style="margin: 0 auto;padding-bottom: 1em; width: 54em;">
+<div style="margin: 0 auto;padding-bottom: 1em; width: 55em;">
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 	
@@ -38,55 +38,64 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 
-    
-	<h2>Search for Media <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
-	<a name="kwFrm"></a>
-	<div style="font-size:small;font-weight:bold;">
-		This form may not find very recent changes. You can use the also use the
-		<a href="##relFrm">relational search form</a>.
-	</div>
-	<style>
-		.rdoCtl {
-			font-size:small;
-			font-weight:bold;
-			border:1px dotted green;
-		}
-	</style>
-	<form name="newMedia" method="post" action="">
-		<input type="hidden" name="action" value="search">
-		<input type="hidden" name="srchType" value="key">
-		<label for="keyword">Keyword</label>
-		<input type="text" name="keyword" id="keyword" size="40">
-		<span class="rdoCtl">Match Any<input type="radio" name="kwType" value="any"></span>
-		<span class="rdoCtl">Match All<input type="radio" name="kwType" value="all" checked="checked"></span>
-		<span class="rdoCtl">Match Phrase<input type="radio" name="kwType" value="phrase"></span>
-		<label for="media_uri">Media URI</label>
-		<input type="text" name="media_uri" id="media_uri" size="90">
-		<label for="tag">Require TAG?</label>
-		<input type="checkbox" id="tag" name="tag" value="1">
-		<label for="mime_type">MIME Type</label>
-		<select name="mime_type" id="mime_type" multiple="multiple" size="5">
-			<option value="" selected="selected">Anything</option>
-			<cfloop query="ctmime_type">
-				<option value="#mime_type#">#mime_type#</option>
-			</cfloop>
-		</select>
-        <label for="media_type">Media Type</label>
-		<select name="media_type" id="media_type" multiple="multiple" size="5">
-			<option value="" selected="selected">Anything</option>
-			<cfloop query="ctmedia_type">
-				<option value="#media_type#">#media_type#</option>
-			</cfloop>
-		</select>
-		<br>
-		<input type="submit" value="Find Media" class="insBtn">
-		<input type="reset" value="reset form" class="clrBtn">
-	</form>
-	
-	<p>
-		<hr>
-	</p>
-
+    <br>
+    <h2 class="wikilink">Search for Media
+      <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+        <img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
+      </cfif>
+    </h2>
+    <div class="greenbox">
+    <a name="kwFrm"></a>
+  <p style="font-size: 14px;padding-bottom: 1em;">This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.</p>
+<form name="newMedia" method="post" action="">
+      <input type="hidden" name="action" value="search">
+      <input type="hidden" name="srchType" value="key">
+      <label for="keyword">Keyword</label>
+      <input type="text" name="keyword" id="keyword" size="40">
+      <span class="rdoCtl">Match Any
+      <input type="radio" name="kwType" value="any">
+      </span> <span class="rdoCtl">Match All
+      <input type="radio" name="kwType" value="all" checked="checked">
+      </span> <span class="rdoCtl">Match Phrase
+      <input type="radio" name="kwType" value="phrase">
+      </span>
+      <br/><br/>
+        <div style="clear:both;float:left;width: 700px;">
+      <label for="media_uri">Media URI</label>
+    <input type="text" name="media_uri" id="media_uri" size="90">
+    </div>
+         <div style="float:left;width: 100px;">
+        <label for="tag">Require TAG?</label>
+        <input type="checkbox" id="tag" name="tag" value="1">
+      </div>
+     
+      <div style="width: 420px; float: left;clear:both;margin-top:1em;">
+        <div style="display: inline; width: 200px; float:left;">
+          <label for="mime_type">MIME Type</label>
+          <select name="mime_type" id="mime_type" multiple="multiple" size="5">
+            <option value="" selected="selected">Anything</option>
+            <cfloop query="ctmime_type">
+              <option value="#mime_type#">#mime_type#</option>
+            </cfloop>
+          </select>
+        </div>
+        <div style="display: inline; width: 200px;float:left;margin-bottom: 1em;">
+          <label for="media_type">Media Type</label>
+          <select name="media_type" id="media_type" multiple="multiple" size="5" >
+            <option value="" selected="selected">Anything</option>
+            <cfloop query="ctmedia_type">
+              <option value="#media_type#">#media_type#</option>
+            </cfloop>
+          </select>
+        </div>
+      </div>
+      <br>
+      <div style="clear: both;">
+        <input type="submit" value="Find Media" class="insBtn">
+        <input type="reset" value="Reset Form" class="clrBtn">
+      </div>
+    </form>
+   </div>
    <a name="relFrm"></a>
 	<div style="font-size:small;font-weight:bold;">
 		You can use the also use the
@@ -116,7 +125,7 @@
 			<label for="tag">Require TAG?</label>
 			<input type="checkbox" id="tag" name="tag" value="1">
 			<label for="relationships">Media Relationships</label>
-			<div id="relationships" style="border:1px dashed red;">
+			<div id="relationships">
 				<select name="relationship__1" id="relationship__1" size="1">
 					<option value=""></option>
 					<cfloop query="ctmedia_relationship">
@@ -128,7 +137,7 @@
 			</div>
 			<br>
 			<label for="labels">Media Labels</label>
-			<div id="labels" style="border:1px dashed red;">
+			<div id="labels">
 				<div id="labelsDiv__1">
 				<select name="label__1" id="label__1" size="1">
 					<option value=""></option>
@@ -147,6 +156,7 @@
 				value="reset form"
 				class="clrBtn">
 		</form>
+        </div>
 		</cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
