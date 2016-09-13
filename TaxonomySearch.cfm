@@ -85,7 +85,7 @@
 						<tr>
 							<td>
 								Search the taxonomy used in Arctos for:
-								<ul>
+								<ul style="margin-left: 1em;">
 									<li>Common names</li>
 									<li>Synonymies</li>
 									<li>Taxa used for current identifications</li>
