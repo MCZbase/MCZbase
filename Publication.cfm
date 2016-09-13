@@ -613,16 +613,9 @@
 			</div>
 			<div class="cellDiv">
 			<div>Attributes:</div>
-		<!---	<input type="hidden" name="numberAttributes" id="numberAttributes" value="0">
-			Add: <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)">
-				<option value=""></option>
-				<cfloop query="CTPUBLICATION_ATTRIBUTE">
-					<option value="#publication_attribute#">#publication_attribute#</option>
-				</cfloop>
-			</select>--->
 			<div class="infoLink thirteen" onclick="removeLastAttribute()">Remove Last Row</div>
 			<table id="attTab" style="border: 1px solid ##ccc;margin-top: .5em;background-color: white;">
-				<tr style="border:1px solid ##ccc;padding-bottom: 1em;">
+				<tr style="border:1px solid ##ccc;">
 					<th>Attribute</th>
 					<th>Value</th>
 					<th></th>
