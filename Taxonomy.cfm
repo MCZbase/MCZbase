@@ -52,7 +52,7 @@
 <div style="width: 52em; padding-bottom: 3em; margin: 0 auto;">
    <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy: <em>#getTaxa.scientific_name#</em> <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif></h2>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-    <table border="0">
+    <table>
 	<form name="taxa" method="post" action="Taxonomy.cfm">
     	<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
         <input type="hidden" name="Action">
