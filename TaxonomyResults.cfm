@@ -404,7 +404,7 @@ Found #summary.cnt# records.
 		<a href="TaxonomySearch.cfm">[ Search Again ]</a>
 </H4>
 </CFOUTPUT>
-
+<div id="resultsGoHere">
 <table border="1" id="tre" class="sortable">
 	<tr>
   		<th>Name</th>
@@ -530,4 +530,5 @@ Found #summary.cnt# records.
   <cfset i=i+1>
   </cfoutput>
 </table>
+</div>
 <cfinclude template = "includes/_footer.cfm">
