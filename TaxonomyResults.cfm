@@ -404,7 +404,7 @@ Found #summary.cnt# records.
 		<a href="TaxonomySearch.cfm">[ Search Again ]</a>
 </H4>
 </CFOUTPUT>
-<div id="resultsGoHere">
+<div class="resultsGoHere">
 <table border="1" id="tre" class="sortable">
 	<tr>
   		<th>Name</th>
