@@ -25,38 +25,40 @@
 <!------------------------------------------------------------------------------------------->
 <cfif Action is "makeNew">
 	<cfset title="create project">
-<strong>Create New Project:</strong>
+   <div style="width: 57em; margin: 0 auto;padding-bottom: 2em;">
+<h2 class="wikilink">Create New Project:</h2>
+<div class="content_box_proj" style="background-color: #f8f8f8; border: 1px dotted #ccc;padding: 1em;">
 <cfoutput>
 	<form name="project" action="Project.cfm" method="post">
 		<input type="hidden" name="Action" value="createNew">
 		<table>
 			<tr>
 				<td>
-					<label for="project_name" class="likeLink" onClick="getDocs('project','title')">Project Title</label>
-					<textarea name="project_name" id="project_name" cols="80" rows="2" class="reqdClr"></textarea>
+					<label for="project_name">Project Title</label>
+					<textarea name="project_name" id="project_name" cols="90" rows="2" class="reqdClr"></textarea>
 				</td>
 				<td>
-					<span class="infoLink" onclick="italicize('project_name')">italicize selected text</span>
-					<br><span class="infoLink" onclick="bold('project_name')">bold selected text</span>
-					<br><span class="infoLink" onclick="superscript('project_name')">superscript selected text</span>
-					<br><span class="infoLink" onclick="subscript('project_name')">subscript selected text</span>
+					<span class="infoLink helpers" style="margin-top: 11px;" onclick="italicize('project_name')">italicize selected text</span>				<span class="infoLink helpers" onclick="bold('project_name')">bold selected text</span>
+					<span class="infoLink helpers" onclick="superscript('project_name')">superscript selected text</span>
+                    <span class="infoLink helpers" onclick="subscript('project_name')">subscript selected text</span>
 				</td>
 			</tr>
 		</table>
-			<label for="start_date" class="likeLink" onClick="getDocs('project','date')">Start&nbsp;Date</label>
+			<label for="start_date">Start&nbsp;Date</label>
 				<input type="text" name="start_date" id="start_date">
-				<label for="end_date" class="likeLink" onClick="getDocs('project','date')">End&nbsp;Date</label>
+				<label for="end_date">End&nbsp;Date</label>
 				<input type="text" name="end_date" id="end_date">
-				<label for="end_date" class="likeLink" onClick="getDocs('project','description')">Description</label>
-				<textarea name="project_description" id="project_description" cols="80" rows="6"></textarea>
+				<label for="end_date">Description</label>
+				<textarea name="project_description" id="project_description" cols="100" rows="6"></textarea>
 				<label for="project_remarks">Remarks</label>
-				<textarea name="project_remarks" id="project_remarks" cols="80" rows="3"></textarea>
+				<textarea name="project_remarks" id="project_remarks" cols="100" rows="3"></textarea>
 				<br>
 				<input type="submit" value="Create Project" class="insBtn">
-				<br>
-				You can add Agents, Publications, Media, Transactions, and Taxonomy after you create the basic project.
+				<p style="font-size: .97em; margin-top: 1em;">You can add Agents, Publications, Media, Transactions, and Taxonomy after you create the basic project.</p>
 			</form>
 </cfoutput>
+</div>
+</div>
 </cfif>
 <!------------------------------------------------------------------------------------------->
 <cfif Action is "createNew">
