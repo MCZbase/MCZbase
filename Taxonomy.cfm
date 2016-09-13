@@ -54,7 +54,7 @@
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
     <table class="taxaEdit">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
-    	<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+    	<input  type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
         <input type="hidden" name="Action">
 		<tr>
 			<td>
@@ -88,18 +88,18 @@
 			</td>
 			<td>
 				<label for="genus">Genus <span class="likeLink" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-				<input size="25" name="genus" id="genus" maxlength="40" value="#gettaxa.genus#">
+				<input class="tInput" size="25" name="genus" id="genus" maxlength="40" value="#gettaxa.genus#">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="species">Species <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span></label>
-				<input size="25" name="species" id="species" maxlength="40" value="#gettaxa.species#">
+				<input class="tInput" size="25" name="species" id="species" maxlength="40" value="#gettaxa.species#">
 			</td>
 			<td>
 				<label for="author_text"><span>Author</span></label>
-				<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" size="30">
+				<input class="tInput" type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" size="30">
 				<span class="infoLink"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
 					Find Kew Abbr
@@ -132,12 +132,12 @@
 		<tr>
 			<td>
 				<label for="subspecies">Subspecies</label>
-				<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#">
+				<input class="tInput" size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#">
 			</td>
 			<td>
 				<label for="author_text"><span>
 					Infraspecific Author (do not use for ICZN names)</span></label>
-				<input type="text" name="infraspecific_author" id="infraspecific_author" value="#gettaxa.infraspecific_author#" size="30">
+				<input class="tInput" type="text" name="infraspecific_author" id="infraspecific_author" value="#gettaxa.infraspecific_author#" size="30">
 				<span class="infoLink"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')">
 						Find Kew Abbr
@@ -147,7 +147,7 @@
 		<tr>
 			<td>
 				<label for="kingdom">Kingdom</label>
-				<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
+				<input class="tInput" type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
 			</td>
 			<td>
 				&nbsp;
@@ -158,11 +158,11 @@
 		<tr>
 			<td>
 				<label for="phylum">Phylum</label>
-				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" size="30">
+				<input class="tInput" type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" size="30">
 			</td>
 			<td>
 				<label for="subphylum">Subphylum</label>
-				<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" size="30">
+				<input class="tInput" type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" size="30">
 			</td>
 		</tr>
 		<tr>
@@ -172,47 +172,47 @@
 			</td>
 			<td>
 				<label for="phylclass">Class</label>
-				<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" size="30">
+				<input class="tInput" type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" size="30">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="subclass">SubClass</label>
-				<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" size="30">
+				<input class="tInput" type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" size="30">
 			</td>
 			<td>
 				<label for="superorder">Superorder</label>
-				<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" size="30">
+				<input class="tInput" type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" size="30">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="phylorder">Order</label>
-				<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" size="30">
+				<input class="tInput" type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" size="30">
 			</td>
 			<td>
 				<label for="suborder">Suborder</label>
-				<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" size="30">
+				<input class="tInput" type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" size="30">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="infraorder">Infraorder</label>
-				<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" size="30">
+				<input class="tInput" type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" size="30">
 			</td>
 			<td>
 				<label for="superfamily">Superfamily</label>
-				<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" size="30">
+				<input class="tInput" type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" size="30">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="family">Family</label>
-				<input type="text" name="family" id="family" value="#gettaxa.family#" size="30">
+				<input class="tInput" type="text" name="family" id="family" value="#gettaxa.family#" size="30">
 			</td>
 			<td>
 				<label for="subfamily">Subfamily</label>
-				<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" size="30">
+				<input class="tInput" type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" size="30">
 			</td>
 		</tr>
 		<tr>
@@ -222,7 +222,7 @@
 			</td>
 			<td>
 				<label for="subgenus">Subgenus</label>
-				(<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" size="29">)#subgenus_message#
+				(<input class="tInput" type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" size="29">)#subgenus_message#
 			</td>
 		</tr>
         <tr>
