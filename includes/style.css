@@ -5488,6 +5488,8 @@ ul.headercol3 li {
 	font-size: .85em;
 	color: gray;
 }
+.taxaDetailsbox {width: 54em; margin: 0 auto; padding-bottom: 2em;}
+.taxaDetailsbox li {margin-left: 1.5em;}
 .taxaEdit input.tInput {width: 300px; }
 .taxaEdit td {padding-right: 1em;}
 .commonName {

@@ -229,7 +229,7 @@
 			})
 		}
 	</script>
-    <div style="width: 54em; margin: 0 auto; padding-bottom: 2em;">
+    <div class="taxaDetailsbox">
 	<cfset title="#one.scientific_name#">
 	<cfset metaDesc="Taxon Detail for #one.scientific_name#">
 	<cfset thisSearch = "%22#one.scientific_name#%22">
