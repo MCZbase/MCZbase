@@ -200,7 +200,7 @@
 	<form class="userdataForm" method="post" action="myArctos.cfm" name="dlForm">
 		<input type="hidden" name="user_id" value="#getUserData.user_id#">
 		<input type="hidden" name="action" value="saveProfile">
-		<h3 style="margin-bottom: 1em; padding-bottom: 0;">Personal Profile</h3>
+		<h3 style="margin-bottom: .5em;margin-top:1.5em; padding-bottom: 0;">Personal Profile</h3>
 		<p style="font-size:small;margin-bottom: 1em;">
 			A profile is required to download data.<br>
 			You cannot recover a lost password unless you enter an email address.<br>
@@ -234,7 +234,7 @@
 	</cfquery>
 
 
-	<h3 style="margin-bottom: 1em; padding-bottom: 0;">Arctos Setings</h3>
+	<h3 style="margin-bottom: .5em; margin-top:1.5em;padding-bottom: 0;">Arctos Setings</h3>
 	<form method="post" action="myArctos.cfm" name="dlForm">
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
