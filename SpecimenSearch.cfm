@@ -37,7 +37,7 @@
 			</cfif>
 		</td>
 		<td>
-			<span class="infoLink"  style="font-size: 12px;margin-right: 2em;" onClick="getHelp('CollStats');">
+			<span class="infoLink"  style="font-size: 12px;padding-left: 2em;" onClick="getHelp('CollStats');">
 				Holdings Details
 			</span>&nbsp;&nbsp;
 			<span class="infoLink" style="font-size: 12px;" onClick="getHelp('search_help');">
