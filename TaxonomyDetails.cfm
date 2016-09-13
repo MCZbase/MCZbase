@@ -229,6 +229,7 @@
 			})
 		}
 	</script>
+    <div style="width: 54em; margin: 0 auto; padding-bottom: 2em;">
 	<cfset title="#one.scientific_name#">
 	<cfset metaDesc="Taxon Detail for #one.scientific_name#">
 	<cfset thisSearch = "%22#one.scientific_name#%22">
@@ -305,7 +306,7 @@
 			<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
 		</cfif>
 	</ul>
-	<div>
+	<div class="relatedPubs">
 		Related Publications:
 		<ul>
 		 	<cfif tax_pub.recordcount is 0>
@@ -322,7 +323,7 @@
 		</ul>
     </div>
 
-	<div>
+	<div class="relatedTaxa">
 		Related Taxa:
 		<ul>
 		 	<cfif related.recordcount is 0 and imp_related.recordcount is 0>
@@ -401,7 +402,7 @@
 	External Links:
 
 	<p>
-			<cfset srchName = URLEncodedFormat(one.scientific_name)>
+			<cfset srchName = URLEncodedFormat(one.scientific_name)></p>
 		<ul>
 			<li id="ispecies">
 				<a class="external soft404" target="_blank" href="http://ispecies.org/?q=#srchName#">iSpecies</a>
@@ -526,5 +527,6 @@
 		</div>
 	</cfif>
 	----->
+    </div>
 </cfoutput>
 <cfinclude template = "includes/_footer.cfm">
