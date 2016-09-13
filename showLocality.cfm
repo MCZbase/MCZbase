@@ -89,9 +89,9 @@
 	<cfset showLocality=1>
 	<cfset showEvent=1>
     <div style="margin: 0 auto;width: 56em;padding-bottom: 2em;">
-	<h2>Find Localities 
+	<h2 class="wikilink">Find Localities 
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-    <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Find Locality')" class="likeLink" alt="[ help ]" style="vertical-align:top;">
+    <img src="/images/info_i_2.gif" onClick="getMCZDocs('Find Locality')" class="likeLink" alt="[ help ]" style="vertical-align:top;">
     </cfif>
     </h2>
     <form name="getCol" method="post" action="showLocality.cfm" style="margin-top: -2em;">
