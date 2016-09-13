@@ -5490,6 +5490,7 @@ ul.headercol3 li {
 }
 .taxaDetailsbox {width: 54em; margin: 0 auto; padding-bottom: 2em;}
 .taxaDetailsbox li {margin-left: 1.5em;}
+.taxaDetailsbox p {margin-top: .5em;}
 .taxaEdit input.tInput {width: 300px; }
 .taxaEdit td {padding-right: 1em;}
 .commonName {
