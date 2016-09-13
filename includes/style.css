@@ -3962,7 +3962,7 @@ table.specResultTab td:nth-child(2) {
 ::-webkit-scrollbar-track-piece {
  background: #ccc;
 }
-::-webkit-scrollbar-thumb, ::-moz-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
  background: lightblue;
  border: 1px solid blue;
  border-radius: 15px;
