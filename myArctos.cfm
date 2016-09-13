@@ -197,7 +197,7 @@
 			cf_users.user_id = cf_user_data.user_id (+) AND
 			username = '#session.username#'
 	</cfquery>
-	<form method="post" action="myArctos.cfm" name="dlForm">
+	<form class="userdataForm" method="post" action="myArctos.cfm" name="dlForm">
 		<input type="hidden" name="user_id" value="#getUserData.user_id#">
 		<input type="hidden" name="action" value="saveProfile">
 		<h3 style="margin-bottom: 1em; padding-bottom: 0;">Personal Profile</h3>
