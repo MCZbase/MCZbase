@@ -232,12 +232,9 @@
 		select cf_collection_id,collection from cf_collection
 		order by collection
 	</cfquery>
-<br>
-<br>
-<hr>
-</br>
-</br>
-	<p><strong>Arctos Setings</strong>
+
+
+	<h3>Arctos Setings</h3>
 	<form method="post" action="myArctos.cfm" name="dlForm">
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
