@@ -1024,8 +1024,8 @@
 				<div class="detailLabel">Part Details<!---Parts--->
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>
-					<cfelse>
-						<span class="detailEditCell" onClick="getInfo('parts','#one.collection_object_id#');">Details</span>
+				<!---	<cfelse>
+						<span class="detailEditCell" onClick="getInfo('parts','#one.collection_object_id#');">Details</span>--->
 					</cfif>
 				</div>
 				<div class="detailBlock">
@@ -1105,7 +1105,7 @@
 								<cfloop query="sPart">
 									<tr>
 										<td>
-											&nbsp;&nbsp;&nbsp;#part_name#
+											#part_name#
 										</td>
 										<td>#part_condition#</td>
 										<td>#part_disposition#</td>
@@ -1125,7 +1125,7 @@
 <!------------------------------------ attributes ---------------------------------------------->
 			<cfif len(attribute.attribute_type) gt 0>
 				<div class="detailCell">
-					<div class="detailLabel">Attributes<!---Attributes--->
+					<div class="detailLabel">Attributes
 						<cfif oneOfUs is 1>
 							<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 						</cfif>
@@ -1269,7 +1269,7 @@
 			</cfif>
 <!------------------------------------ cataloged item ---------------------------------------------->
 			<div class="detailCell">
-				<div class="detailLabel">
+				<div class="detailLabel">Object Details
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 					</cfif>
