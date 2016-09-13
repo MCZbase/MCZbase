@@ -466,7 +466,7 @@
 <cfif action is "newTaxa">
 <cfset title = "Add Taxonomy">
 <cfoutput>
-<div style="width: 52em; padding-bottom: 3em; margin: 0 auto;">
+<div style="width: 50em; padding-bottom: 3em; margin: 0 auto;">
   <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
   <p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
 	<table class="taxaEdit">
