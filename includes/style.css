@@ -5488,6 +5488,7 @@ ul.headercol3 li {
 	font-size: .85em;
 	color: gray;
 }
+.taxaEdit input {width: 300px;}
 .commonName {
 	margin: .25em;
 	padding: 0;
