@@ -97,8 +97,7 @@
 		occurs_page_number,citSciName,cat_num
 </cfquery>
 
-<a href="javascript:void(0);" onClick="getDocs('publication','citation')">Citations</a>
- for 	<b>#getCited.publication_title#</b>
+Citations for <b>#getCited.publication_title#</b>
 <a href="Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
 <table border cellpadding="0" cellspacing="0"><tr>
 	<td>&nbsp;</td>
@@ -210,7 +209,7 @@
 
 	<td>
 		<label for="scientific_name">Current Identification</label>
-		<input type="text" name="scientific_name" id="scientific_name" readonly="yes" class="readClr" size="50">
+		<input type="text" name="scientific_name" id="scientific_name" readonly class="readClr" size="50">
 	</td>
 	<td colspan="2">
 		<label for="cited_taxon_name" id="lbl_cited_taxon_name">
