@@ -5198,17 +5198,7 @@ ul.pubLinks {
 	text-decoration: none;
 	color: #cc0000;
 }
-
-#headerLinks form{
-	width: 31%;
-	float: right;
-	padding-right: 5px;
-	font-size: 11px;
-	color: black;
-	text-align: right;
-	z-index: 2;
-}
-#headerLinks table{
+#headerLinks {
 	width: 21%;
 	float: right;
 	padding-right: 5px;
@@ -5781,13 +5771,10 @@ table.navtabs {
 	width: 98%;
 	margin: 0 auto;
 }
-#headerLinks table {
-	width: 30%;
+#headerLinks {
+	width: 20%;
 	float: right;
 	z-index: 2;
-}
-#headerLinks form {
-	width: 20%;
 }
 .sf-menu {
 	width: 79%;
