@@ -3804,6 +3804,9 @@ td.lbl {
 	overflow: scroll;
 	font-size: smaller;
 }
+.resultsGoHere {width: 100%;
+overflow: scroll;
+font-size: 12px;}
 .detailCell {
 	border: 1px dotted #ccc;
 	text-align: left;
