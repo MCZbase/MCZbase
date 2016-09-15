@@ -3063,6 +3063,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
 .sf-menu a.sf-with-ul {
 	padding-right: 2.25em;
 	min-width: 1px; /* trigger IE7 hasLayout so spans position accurately */
+	padding: .5em 2.25em 0 .5em;
 }
 .sf-sub-indicator {
 	position: absolute;
