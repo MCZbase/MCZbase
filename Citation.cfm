@@ -383,7 +383,7 @@ Citations for <b>#getCited.publication_title#</b>
 
 </cfoutput>
 <cfoutput query="getCited">
-<div style="width: 45em; margin:0 auto;padding-bottom: 2em;">
+<div style="width: 40em; margin:0 auto;padding-bottom: 2em;">
 <br>Edit Citation for <b>#getCited.publication_title#</b>:
 <cfform name="editCitation" id="editCitation" method="post" action="Citation.cfm">
 		<input type="hidden" name="Action" value="saveEdits">
