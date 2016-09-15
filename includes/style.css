@@ -5198,7 +5198,17 @@ ul.pubLinks {
 	text-decoration: none;
 	color: #cc0000;
 }
-#headerLinks {
+
+#headerLinks form{
+	width: 31%;
+	float: right;
+	padding-right: 5px;
+	font-size: 11px;
+	color: black;
+	text-align: right;
+	z-index: 2;
+}
+#headerLinks table{
 	width: 21%;
 	float: right;
 	padding-right: 5px;
