@@ -1317,16 +1317,7 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
 .sf-shadow ul.sf-shadow-off {
 	background: transparent;
 }
-.sf-mainMenuWrapper {
-	/*	clear:left;
-	float:left;
-	width:100%;*/
-	font-size: small;
-	font-weight: 400;
-	background: #E7E7E7;
-	background: #D5D5DB;
-	border-top: 1px solid white;
-}
+
 /************************ dropdown taxonomy results *****************************/
 div.submenu {
 	width: 100%;
@@ -3105,9 +3096,10 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
 	margin: 0 auto;
 	width: 80%;
 	font-size: small;
-	font-weight: 400;
-	border-top: 1px solid white;
 	border-bottom: 22px solid #D5D5DB;
+	font-weight: 400;
+	background: #D5D5DB;
+	border-top: 1px solid white;
 }
 /************************ dropdown taxonomy results *****************************/
 div.submenu {
