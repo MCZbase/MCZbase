@@ -71,23 +71,19 @@
                   <cfelse>
                    <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
                   </cfif>
-                        <form name="logIn" method="post" action="/login.cfm">
-                          <input type="hidden" name="action" value="signIn">
-                          <input type="hidden" name="gotopage" value="#gtp#">
-                          <table>
-                           <tr>
-                              <td><span>Username:</span></td>
-                                  <td><input type="text" name="username" title="Username" size="14"
-                                                      class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></td>
-                              <td><span>Password:</span></td>
-                              <td><input type="password" name="password" title="Password" size="14" class="loginTxt"></td>
-                              <td><input type="submit" value="Log In" class="smallBtn">
-                                    <span>or</span>
-                                    <input type="button" value="Create Account" class="smallBtn"
-                                                          onClick="logIn.action.value='newUser';submit();"></td>
-                             </tr>
-                           </table>
-                        </form>
+      <form name="logIn" method="post" action="/login.cfm">
+         <input type="hidden" name="action" value="signIn">
+         <input type="hidden" name="gotopage" value="#gtp#">
+         <ul>
+         <li>Username:
+   		 <input type="text" name="username" title="Username" size="14" class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></li>
+         <li>Password:
+         <input type="password" name="password" title="Password" size="14" class="loginTxt"> 
+         <input type="submit" value="Log In" class="smallBtn"> or
+         <input type="button" value="Create Account" class="smallBtn"
+             onClick="logIn.action.value='newUser';submit();"></li>
+          </ul>
+     </form>
            </div><!---end headerLinks--->
          </cfif>
     
