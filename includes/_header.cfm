@@ -82,6 +82,7 @@
          <input type="submit" value="Log In" class="smallBtn"> or
          <input type="button" value="Create Account" class="smallBtn"
              onClick="logIn.action.value='newUser';submit();"></li>
+             
           </ul>
      </form>
            </div><!---end headerLinks--->
