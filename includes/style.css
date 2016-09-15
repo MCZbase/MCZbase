@@ -5195,12 +5195,13 @@ ul.pubLinks {
 	color: #cc0000;
 }
 #headerLinks {
-	width: 35%;
+	width: 21%;
 	float: right;
 	padding-right: 5px;
 	font-size: 11px;
 	color: black;
 	text-align: right;
+	z-index: 2;
 }
 #headerLinks td {
 	float: left;
@@ -5768,5 +5769,9 @@ table.navtabs {
 }
 .sf-menu {
 	width: 84%;
+	z-index: 1;
+
+}
+
 }
 }
