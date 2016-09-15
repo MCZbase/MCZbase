@@ -5200,7 +5200,7 @@ ul.pubLinks {
 	text-align: right;
 	z-index: 2;
 }
-#headerLinks td {
+#headerLinks li {
 	float: left;
 	display: inline;
 }
@@ -5208,7 +5208,7 @@ ul.pubLinks {
 	font-size: .8em;
 	padding: 0 1px;
 }
-#headerLinks td a {
+#headerLinks li a {
 	color: black;
 }
 /*  end header content -- excludes menu */
