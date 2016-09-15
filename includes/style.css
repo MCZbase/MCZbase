@@ -3952,21 +3952,7 @@ table.specResultTab td:nth-child(2) {
 	font-size: small;
 	width: 250px;
 }
-::-webkit-scrollbar {
- width: 1.5em;
- height: 1.5em
-}
-::-webkit-scrollbar-button {
- background: #666;
-}
-::-webkit-scrollbar-track-piece {
- background: #ccc;
-}
-::-webkit-scrollbar-thumb {
- background: lightblue;
- border: 1px solid blue;
- border-radius: 15px;
-}
+
 ​ div.code {
 	font-size: smaller;
 	color: #2F4F4F;
@@ -5573,6 +5559,7 @@ table.navtabs {
 .footer {
 	width: 100%;
 	margin-bottom: 2em;	
+	margin-top: 1em;
 }
 .footer a {
 	font-size: 13px;
