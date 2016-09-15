@@ -5781,10 +5781,13 @@ table.navtabs {
 	width: 98%;
 	margin: 0 auto;
 }
-#headerLinks {
-	width: 20%;
+#headerLinks table {
+	width: 30%;
 	float: right;
 	z-index: 2;
+}
+#headerLinks form {
+	width: 20%;
 }
 .sf-menu {
 	width: 79%;
