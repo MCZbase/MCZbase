@@ -5767,6 +5767,11 @@ table.navtabs {
 	width: 98%;
 	margin: 0 auto;
 }
+#headerLinks {
+	width: 21%;
+	float: right;
+	z-index: 2;
+}
 .sf-menu {
 	width: 84%;
 	z-index: 1;
