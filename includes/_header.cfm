@@ -26,6 +26,7 @@
                 });
                 if (top.location!=document.location) {
                                 $("#_footerTable").hide();
+                                $("#headerContent").hide();
                 }
             });
 	</script>
@@ -114,10 +115,10 @@
                     </div>
 				<div class="headerText"> 
                 			<a href="#session.institution_url#" target="_blank">
-   					    <h1 class="headerCollectionText">#Application.collection_link_text#</h1>
+   					    <h1 class="headerCollectionText" style="color:#Application.collectionlinkcolor#;">#Application.collection_link_text#</h1>
     					</a>
                 			<a href="#session.institution_url#" target="_blank">
-    					    <div class="headerInstitutionText">#session.institution_link_text#</div>
+    					    <div class="headerInstitutionText" style="color:#Application.institutionlinkcolor#;">#session.institution_link_text#</div>
     					</a> 
    				 </div>
 				</div>

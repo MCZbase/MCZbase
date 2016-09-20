@@ -20,7 +20,7 @@
 </table>
 <cfelseif cgi.HTTP_HOST contains "harvard.edu" >
 	<br>
-<table width="95%" style="margin-top: 1em;margin-left: 5%">
+<table width="95%" style="margin-top: 1em;margin-left: 5%" id="_footerTable">
 	  	<tr>
 	    	<td align="center" nowrap><a href="/Collections/index.cfm"><FONT size="-1">Data Providers</FONT></a></td>
 	    	<td align="center" nowrap><a href="/info/bugs.cfm"><FONT size="-1">Feedback&#8202;/&#8202;Report Errors</FONT></a></td>
