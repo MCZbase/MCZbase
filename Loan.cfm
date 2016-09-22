@@ -117,6 +117,7 @@
 <cfif  action is "newLoan">
 <cfset title="New #scope#">
 	<cfoutput>
+    <div class="newLoanWidth">
 	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
 	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
         </h2><br clear="All">
@@ -403,6 +404,7 @@
 				<br>
 			</cfloop>
 		</div>
+        </div>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->

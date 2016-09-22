@@ -5660,7 +5660,7 @@ table.navtabs {
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* close commented backslash hack */
-
+.newLoanWidth {width: 75%;margin:0 auto;}
 
 
 @media only screen and (max-width: 1800px) {
