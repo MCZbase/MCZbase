@@ -115,7 +115,7 @@
 	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
    </h2>
            <input type="hidden" name="action" value="makeLoan">
-			<table border width="65%">
+			<table border>
 				<tr>
 					<td>
 						<label for="collection_id">Collection
