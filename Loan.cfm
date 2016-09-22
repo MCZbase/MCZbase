@@ -1527,8 +1527,10 @@
 
 </script>
   <cfoutput>
-    <div class="page_title">
-      <h1>Find Loans/Gifts&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
+   <div class="searchLoanWidth">
+
+      <h2 class="wikilink">Find Loans/Gifts&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+      </h2>
     </div>
     <div id="loan">
       <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1676,6 +1678,7 @@
           </tr>
         </table>
       </form>
+    </div>
     </div>
   </cfoutput>
 </cfif>
