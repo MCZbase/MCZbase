@@ -1541,7 +1541,7 @@
       <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select coll_obj_disposition from ctcoll_obj_disp
 	</cfquery>
-    
+      <br>
       <form name="SpecData" action="Loan.cfm" method="post">
         <input type="hidden" name="Action" value="listLoans">
         <input type="hidden" name="project_id" <cfif project_id gt 0> value="#project_id#" </cfif>>

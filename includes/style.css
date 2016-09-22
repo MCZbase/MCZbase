@@ -4766,7 +4766,7 @@ div.updatedAtom p {
 #loan {
 	width: 700px;
 	padding-right: 33px;
-	margin-top: 5px;
+	margin-top: 7px;
 }
 .page_title {
 	float: left;
@@ -4889,7 +4889,7 @@ header .download a:hover {
 	color: #666;
 }
 #listloans dl {
-	width: 100%;
+	width: 80%;
 	float: left;
 	padding: 5px 0 0 0;
 	margin: 0 0 2px 0;
