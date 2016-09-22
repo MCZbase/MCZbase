@@ -4765,9 +4765,8 @@ div.updatedAtom p {
 /* added styles for loans */
 #loan {
 	width: 700px;
-/*	margin: 0 0 30px 62px;
-	border-right: 2px solid #ebebeb;
-*/	padding-right: 33px;
+	padding-right: 33px;
+	margin-top: 5px;
 }
 .page_title {
 	float: left;
