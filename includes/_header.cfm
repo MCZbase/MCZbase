@@ -25,87 +25,12 @@
                     animation:   {opacity:'show',height:'show'},
                     speed:       0,
                 });
+				
+				
                 if (top.location!=document.location) {
-<<<<<<< HEAD
                                 $("##footerContentBox").hide();
                                 $("##headerContent").hide();
                                 $("##mainMenuWrapper").hide();
-                }
-            });
-	</script>
-    <meta name="keywords" content="#session.meta_keywords#">
-    <LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-</head>
-<body>
-<noscript>
-    <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of Arctos, or
-  try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
-</noscript>
-
-<div id="headerContent" style='background-color: #Application.header_color#;'>
-     <div id="image_headerWrap">
-           <div class="headerText"> 
-              <a href="http://www.mcz.harvard.edu" target="_blank">
-              <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
-              </a> 
-              <h1 style="color: #Application.collectionlinkcolor#;">#Application.collection_link_text#</h1>
-              <h2 style="color: #Application.institutionlinkcolor#;">#session.institution_link_text#</h2>
-         </div><!---end headerText--->
-    </div><!---end image_headerWrap--->
-  </div><!--- end headerContent div --->
- <div id="mainMenuWrapper" class="sf-mainMenuWrapper">
-        <div id="headerLinks">
-        <cfif len(#session.username#) gt 0>
-              <a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a>
-                  <cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
-                  <span>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)</span>&nbsp;
-                  </cfif>
-                 <cfif isdefined("session.needEmailAddr") and session.needEmailAddr is 1>
-                    <br>
-                  <span> You have no email address in your profile. Please correct. </span>
-                  </cfif>
-           </div>
-        <cfelse>
-                 <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-                   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-                  <cfelse>
-                   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-                  </cfif>
-      <form name="logIn" method="post" action="/login.cfm">
-         <input type="hidden" name="action" value="signIn">
-         <input type="hidden" name="gotopage" value="#gtp#">
-         <ul>
-         <li>Username:
-   		 <input type="text" name="username" title="Username" size="14" class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></li>
-         <li>Password:
-         <input type="password" name="password" title="Password" size="14" class="loginTxt"> 
-         <input type="submit" value="Log In" class="smallBtn"> or
-         <input type="button" value="Create Account" class="smallBtn"
-             onClick="logIn.action.value='newUser';submit();"></li>
-             
-          </ul>
-     </form>
-           </div><!---end headerLinks--->
-         </cfif>
-    
-        <ul class="sf-menu">
-        <li> <a target="_top" href="/SpecimenSearch.cfm">Search</a>
-              <ul>
-            <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
-            <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-            <li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
-            <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
-            <li><a target="_top" href="/showLocality.cfm">Places</a></li>
-          </ul>
-            </li>
-        <cfif len(session.roles) gt 0 and session.roles is not "public">
-              <cfset r = replace(session.roles,",","','","all")>
-              <cfset r = "'#r#'">
-              <cfquery name="roles" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
-=======
-                                $("#_footerTable").hide();
-                                $("#headerContent").hide();
                 }
             });
 	</script>
@@ -218,7 +143,6 @@
 						<cfset r = replace(session.roles,",","','","all")>
 						<cfset r = "'#r#'">
 						<cfquery name="roles" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
->>>>>>> refs/remotes/origin/type_colors
 							select form_path from cf_form_permissions
 							where upper(role_name) IN (#ucase(preservesinglequotes(r))#)
 							minus select form_path from cf_form_permissions
