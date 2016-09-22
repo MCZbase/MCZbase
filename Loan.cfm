@@ -109,15 +109,12 @@
 <cfif  action is "newLoan">
 <cfset title="New #scope#">
 	<cfoutput>
-  
-   
-   <form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+  <form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
     <div class="newLoanWidth">
     	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
 	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
    </h2>
-   
-			<input type="hidden" name="action" value="makeLoan">
+           <input type="hidden" name="action" value="makeLoan">
 			<table border width="65%">
 				<tr>
 					<td>
@@ -188,8 +185,8 @@
 						<label for="loan_type">#scope# Type</label>
 						<script>
 						 $(function() {
-                                                   // on page load, hide the insurance section.
-                                                   $("##insurance_section").hide();
+                          // on page load, hide the insurance section.
+                          $("##insurance_section").hide();
 						   // on page load, remove transfer and exhibition-master from the list of loan/gift types
 						   $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
 						   $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
@@ -236,11 +233,11 @@
 						<label for="loan_status">#scope# Status</label>
 						<select name="loan_status" id="loan_status" class="reqdClr">
 							<cfloop query="ctLoanStatus">
-                                                          <cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
+                                  <cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 								<option value="#ctLoanStatus.loan_status#"
-										<cfif #ctLoanStatus.loan_status# is "open">selected='selected'</cfif>
-										>#ctLoanStatus.loan_status#</option>
-                                                          </cfif>
+								<cfif #ctLoanStatus.loan_status# is "open">selected='selected'</cfif>>
+                                #ctLoanStatus.loan_status#</option>
+                                 </cfif>
 							</cfloop>
 						</select>
 					</td>
@@ -331,26 +328,12 @@
                            });
                 </script>
 		<div class="nextnum">
-			Next Available #scope# Number:
-			<br>
+			<p>Next Available #scope# Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
 			</cfquery>
 			<cfloop query="all_coll">
-				<cfif (institution_acronym is 'UAM' and collection_cde is 'Mamm')>
-					<!---- yyyy.nnn.CCDE format --->
-					<cfset stg="'#dateformat(now(),"yyyy")#.' || lpad(max(to_number(substr(loan_number,6,3))) + 1,3,0) || '.#collection_cde#'">
-					<cfset whr=" AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
-				<cfelseif (institution_acronym is 'UAM' and collection_cde is 'Herb') OR
-					(institution_acronym is 'MSB') OR
-					(institution_acronym is 'DGR')>
-					<!---- yyyy.n.CCDE format --->
-					<cfset stg="'#dateformat(now(),"yyyy")#.' || max(to_number(substr(loan_number,instr(loan_number,'.')+1,instr(loan_number,'.',1,2)-instr(loan_number,'.')-1) + 1)) || '.#collection_cde#'">
-					<cfset whr=" AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
-				<cfelseif (institution_acronym is 'MVZ' or institution_acronym is 'MVZObs')>
-					<cfset stg="'#dateformat(now(),"yyyy")#.' || (max(to_number(substr(loan_number,6,4))) + 1) || '.#collection_cde#'">
-					<cfset whr=" and collection.institution_acronym in ('MVZ','MVZObs')">
-				<cfelseif (institution_acronym is 'MCZ')>
+				<cfif (institution_acronym is 'MCZ')>
 					<!---- yyyy-n-CCDE format --->
 					<cfset stg="'#dateformat(now(),"yyyy")#-' || max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) || '-#collection_cde#'">
 					<cfset whr=" AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
@@ -359,7 +342,6 @@
 					<cfset stg="'#dateformat(now(),"yyyy")#.' || max(to_number(substr(loan_number,instr(loan_number,'.')+1,instr(loan_number,'.',1,2)-instr(loan_number,'.')-1) + 1)) || '.#collection_cde#'">
 					<cfset whr=" AND is_number(loan_number)=1 and substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
 				</cfif>
-				<hr>
 				<cftry>
 					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
