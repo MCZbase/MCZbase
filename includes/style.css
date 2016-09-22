@@ -5660,8 +5660,8 @@ table.navtabs {
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* close commented backslash hack */
-.newLoanWidth {width: 75%;margin:0;float:left; padding-bottom: 3em;}
-.nextnum {width: 20%;float:left;border: 1px solid green; display: inline;}
+.newLoanWidth {width: 75%;margin:0;padding-bottom: 3em;}
+.nextnum {width: 20%;border: 1px solid green; display: inline;}
 
 
 

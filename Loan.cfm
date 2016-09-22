@@ -112,8 +112,9 @@
     <div class="newLoanWidth">
 	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
 	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
-        </h2><br clear="All">
-		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+   </h2>
+   
+		<form style="width: 600px;" name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
 			<table border width="65%">
 				<tr>
