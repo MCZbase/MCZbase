@@ -1531,7 +1531,6 @@
 
       <h2 class="wikilink">Find Loans/Gifts&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
       </h2>
-    </div>
     <div id="loan">
       <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select loan_type from ctloan_type order by loan_type
