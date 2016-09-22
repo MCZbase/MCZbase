@@ -123,7 +123,7 @@
         </h2><br clear="All">
 		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
-			<table border>
+			<table border style="width: 65%;">
 				<tr>
 					<td>
 						<label for="collection_id">Collection
