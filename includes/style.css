@@ -4888,7 +4888,7 @@ header .download {
 header .download a:hover {
 	color: #666;
 }
-#listloans {width: 70%; margin: 0; auto;}
+#listloans {width: 70%; margin: 0 auto;}
 #listloans dl {
 	width: 100%;
 	padding: 1em 0;
