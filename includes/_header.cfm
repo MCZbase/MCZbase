@@ -49,7 +49,7 @@
      <div id="image_headerWrap">
            <div class="headerText"> 
               <a href="http://www.mcz.harvard.edu" target="_blank">
-              <img src="/images/krono.gif" alt="MCZ Kronosaurus Logo">
+              <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
               </a> 
               <h1 style="color:#Application.collectionlinkcolor#;"> MCZBASE-DEV:The Database of the Zoological Collections</h1>
               <h2 style="color:#Application.institutionlinkcolor#;"> Museum of Comparative Zoology - Harvard University</h2>
