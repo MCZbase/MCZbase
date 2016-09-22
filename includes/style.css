@@ -5573,7 +5573,6 @@ table.navtabs {
 	float: right;
 	margin-top: .5em;
 	padding: 0 0em 1em 1em;
-
 }
 .databases p {
 	margin-bottom: .25em;
@@ -5639,14 +5638,30 @@ table.navtabs {
 	display: table-row;
 	vertical-align: inherit;
 }
+.welcomeback {margin-left: .5em;margin-bottom: 2em;}
+.welcomeback ul {margin-bottom: 1em;}
+.welcomeback label {margin-top: .25em;}
+.welcomeback li {margin-left: 1.5em;}
+.specSearchContent {
+	width: 56.4em; margin:0 auto;
+	padding-bottom: 2em; padding-top: 0em;
+}
+.stats {font-size: 13px;margin:0; padding:0;margin-right: 2em;}
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
 
-/*.content_box table {background-color: white;}*/
-@media only screen and (max-width: 768px) {
-/* For mobile phones: */
-[class*="col-"] {
-	width: 100%;
-}
-}
+
 
 @media only screen and (max-width: 1800px) {
 #headerContent {
@@ -5659,14 +5674,6 @@ table.navtabs {
 	width: 80%;
 	margin: 0 auto;
 }
-/*.content_box_detail {
-	width: 80%;
-	margin: 0 auto;
-}*/
-/*.defaultType {
-	width: 90%;
-	margin:0 auto;
-}*/
 .sf-mainMenuWrapper {
 	margin: 0 auto;
 	width: 80%;
@@ -5678,7 +5685,10 @@ table.navtabs {
 	width: 80%;
 	margin: 0 auto;
 }
+
 }
+
+
 
 @media only screen and (max-width: 1600px) {
 #headerContent {
@@ -5691,11 +5701,6 @@ table.navtabs {
 	width: 90%;
 	margin: 0 auto;
 }
-/*.content_box_detail {
-	width: 90%;
-	margin: 0 auto;
-}*/
-
 .sf-mainMenuWrapper {
 	margin: 0 auto;
 	width: 90%;
@@ -5703,7 +5708,10 @@ table.navtabs {
 .content_box {
 	width: 90%;
 }
+
 }
+
+
 
 @media only screen and (max-width: 1400px) {
 #headerContent {
@@ -5719,14 +5727,11 @@ table.navtabs {
 	width: 95%;
 	margin: 0 auto;
 }
-/*.content_box_detail {
-	width: 95%;
-	margin: 0 auto;
-}*/
 .sf-mainMenuWrapper {
 	margin: 0 auto;
 	width: 95%;
 }
+
 }
 
 @media only screen and (max-width: 1200px) {
@@ -5740,10 +5745,6 @@ table.navtabs {
 	width: 98%;
 	margin: 0 auto;
 }
-/*.content_box_detail {
-	width: 98%;
-	margin: 0 auto;
-}*/
 .headerText h1 {
 	font-size: 100%;
 }
@@ -5771,7 +5772,6 @@ table.navtabs {
 .sf-menu {
 	width: 79%;
 	z-index: 1;
-
 }
 
 

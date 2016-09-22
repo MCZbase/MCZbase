@@ -118,7 +118,7 @@
 <cfset title="New #scope#">
 	<cfoutput>
 	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
-	   <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
         </h2><br clear="All">
 		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
@@ -534,6 +534,10 @@
 			});
 		});
 	</script>
+       <div class="editLoanbox">
+       <h2 class="wikilink">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]"></h2>
+        <h3>#loanDetails.collection# #loanDetails.loan_number# 
+	  </h3>
 	<table width="100%" border><tr><td valign="top"><!--- left cell ---->
 	<form name="editloan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
@@ -542,7 +546,7 @@
 	 	  <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
 		  <strong>Edit #scope# #loanDetails.collection# #loanDetails.loan_number#</strong>
                 </div>
-		<span style="font-size:small;">Entered by #loanDetails.enteredby#</span>
+		<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
 		<label for="loan_number">#scope# Number</label>
 		<select name="collection_id" id="collection_id" size="1">
 			<cfloop query="ctcollection">
@@ -563,15 +567,15 @@
 		<cfquery name="recipientinstitution" dbtype="query">
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
 		</cfquery>
-		<table id="loanAgents" border>
-			<tr>
+			<table id="loanAgents" border>
+			<tr style="height: 20px;">
 				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
 				<th></th>
 				<td rowspan="99">
-                                      <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
+                     <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
                                         <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  ---> 
 					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
 						<span style="color:green;font-size:small">OK to print</span>
@@ -690,8 +694,8 @@
                      Exhibition-Master Loan: 
                      <cfif parentLoan.RecordCount GT 0>
 			<cfloop query="parentLoan">
-                           <a href="Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
-                        </cfloop>
+                  <a href="Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
+            </cfloop>
   		     <cfelse>
                         This exhibition subloan has not been linked to a master loan.
                      </cfif>
@@ -704,7 +708,7 @@
                         <cfset childseparator = "">
 			<cfloop query="childLoans">
                            #childseparator#
-                           <a href="Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
+                       <a href="Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
                            <button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
                            <script>
 			   $(function() { 
@@ -913,7 +917,9 @@
 		<label for="saveNewProject">Check to create project with save</label>
 		<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
 	</form>
-	</td></tr></table>
+	</td>
+    </tr>
+    </table>
 	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from shipment where transaction_id = #transaction_id#
 	</cfquery>
@@ -1076,6 +1082,7 @@
 		 	onClick="window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick',
 				'resizable,scrollbars=yes,width=600,height=600')">
 	</form>
+    </div>
 </cfoutput>
 <script>
 	dCount();
