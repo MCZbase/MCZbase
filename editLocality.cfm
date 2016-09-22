@@ -252,16 +252,16 @@
 			<td>
   				<cfif #whatSpecs.recordcount# is 0>
   					<font color="##FF0000">This Locality (#locDet.locality_id#)
-					<img src="/images/info.gif" border="0" class="likeLink" onClick="getDocs('locality')">
+					<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
 					contains no specimens. Please delete it if you don't have plans for it!</font>
   				<cfelseif #whatSpecs.recordcount# is 1>
 					<font color="##FF0000">This Locality (#locDet.locality_id#)
-					<img src="/images/info.gif" border="0" class="likeLink" onClick="getDocs('locality')">
+					<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
 					contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
 					<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
 				<cfelse>
 					<font color="##FF0000">This Locality (#locDet.locality_id#)
-					<img src="/images/info.gif" border="0" class="likeLink" onClick="getDocs('locality')">
+					<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
 					contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
 					<ul>
 						<cfloop query="whatSpecs">
@@ -322,7 +322,7 @@
             <tr>
             	<td>
 					<label for="spec_locality">
-						<a href="javascript:void(0);" onClick="getDocs('locality','specific_locality')">
+						<a href="javascript:void(0);" onClick="getMCZDocs(''Edit_Locality')">
 							Specific Locality
 						</a>
 					</label>
@@ -521,13 +521,11 @@
 					Coordinates for this locality:
 				</td>
 				<td>
-					&nbsp;&nbsp;&nbsp;<span class="likeLink" style="font-size:smaller;" onClick="getDocs('lat_long')">Help</span>
+					&nbsp;&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Georeferencing_links')" class="likeLink" alt="[ help ]">
 				</td>
 				<td>
 					&nbsp;&nbsp;&nbsp;
 					<span style="font-size:smaller;">
-				    	<!--- <a href="http://bg.berkeley.edu/latest/" target="_blank">BioGeoMancer<img src="/images/linkOut.gif" border="0"></a>
-				        &nbsp;~&nbsp; --->
 				        <a href="http://manisnet.org/gci2.html" target="_blank">Georef Calculator<img src="/images/linkOut.gif" border="0"></a>
 				     </span>
 				</td>
