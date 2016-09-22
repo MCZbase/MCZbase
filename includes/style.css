@@ -5192,13 +5192,13 @@ ul.pubLinks {
 	color: #cc0000;
 }
 #headerLinks {
-	width: 21%;
+	width: 33%;
 	float: right;
-	padding-right: 5px;
-	font-size: 12px;
+	padding-right: 0px;
+	margin: 0;
+	font-size: 11px;
 	color: black;
 	text-align: right;
-	z-index: 2;
 }
 #headerLinks li {
 	float: left;
