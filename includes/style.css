@@ -5660,7 +5660,12 @@ table.navtabs {
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* close commented backslash hack */
-.newLoanWidth {width: 75%;margin:0 auto;padding-bottom: 3em;}
+.newLoanWidth {width: 75%;margin:0;padding-bottom: 3em;}
+.nextnum {width: 20%;position: relative; display: inline;}
+
+
+
+
 
 
 @media only screen and (max-width: 1800px) {

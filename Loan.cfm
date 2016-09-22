@@ -63,14 +63,6 @@
       return False;
    }
 </cfscript>
-<style>
-	.nextnum{
-		border:2px solid green;
-		position:absolute;
-		top:10em;
-		right:1em;
-	}
-</style>
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
@@ -123,7 +115,7 @@
         </h2><br clear="All">
 		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
 			<input type="hidden" name="action" value="makeLoan">
-			<table border style="width: 65%;">
+			<table border width="65%">
 				<tr>
 					<td>
 						<label for="collection_id">Collection
