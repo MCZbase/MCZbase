@@ -5661,7 +5661,7 @@ table.navtabs {
 .clearfix { display: block; }
 /* close commented backslash hack */
 .newLoanWidth {width: 75%;margin:0;padding-bottom: 3em;}
-.nextnum {width: 20%;border: 1px solid green; display: inline;}
+.nextnum {width: 20%;border: 1px solid green; display: inline-block;}
 
 
 
