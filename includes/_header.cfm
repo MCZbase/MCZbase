@@ -13,7 +13,6 @@
     <cfif not isdefined("session.header_color")>
       <cfset setDbUser()>
     </cfif>
-    <cfoutput>
     <script language="javascript" type="text/javascript">
            jQuery(document).ready(function(){
                 jQuery("ul.sf-menu").supersubs({
@@ -25,124 +24,91 @@
                     animation:   {opacity:'show',height:'show'},
                     speed:       0,
                 });
-				
-				
                 if (top.location!=document.location) {
-                                $("##footerContentBox").hide();
-                                $("##headerContent").hide();
-                                $("##mainMenuWrapper").hide();
+                                $("#_footerTable").hide();
                 }
             });
 	</script>
-	<cfoutput>
-		<meta name="keywords" content="#session.meta_keywords#">
-    	<LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
-    	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-   		<cfif len(trim(session.stylesheet)) gt 0>
-			<cfset ssName = replace(session.stylesheet,".css","","all")>
-    		<link rel="alternate stylesheet" type="text/css" href="/includes/css/#trim(session.stylesheet)#" title="#trim(ssName)#">
-			<META http-equiv="Default-Style" content="#trim(ssName)#">
-		</cfif>
-		</head>
-		<body>
-		<noscript>
-			<div class="browserCheck">
-				JavaScript is turned off in your web browser. Please turn it on to take full advantage of Arctos, or
-				try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option.
-			</div>
-		</noscript>
-		<cfif cgi.HTTP_USER_AGENT does not contain "Firefox">
-			<div class="browserCheck">
-				Some features of this site may not work in your browser. <a href="/home.cfm##requirements">Learn more</a>
-			</div>
-		</cfif>
-		<!--- Note: For MCZbase, using Application.header_color and header_image instead of session to distinguish header based on server rather than collection. --->
-       <table>
-				<tr>
-                   <td>
-                    <div id="headerLinks" class="linksHead" style="color: #Application.login_color#;">
-		    	<cfif len(#session.username#) gt 0>
-					<a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a>
-					<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
-						<span style="font-size:smaller">(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)</span>&nbsp;
-					</cfif>
-					<cfif isdefined("session.needEmailAddr") and session.needEmailAddr is 1>
-						<br>
-						<span style="color:red;font-size:smaller;">
-							You have no email address in your profile. Please correct.
-						</span>
-					</cfif>
-				<cfelse>
-                                        <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-                                                <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-                                        <cfelse>
-                                                <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-                                        </cfif>
-					<form name="logIn" method="post" action="/login.cfm">
-						<input type="hidden" name="action" value="signIn">
-						<input type="hidden" name="gotopage" value="#gtp#">
-						<table border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<td rowspan="2" valign="top">
-									<a target="_top" href="##" onClick="getDocs('index')">Help</a> ~&nbsp;
-								</td>
-								<td style="padding-right: 4px;">
-									<input type="text" name="username" title="Username" value="Username" size="12"
-										class="loginTxt" onfocus="if(this.value==this.title){this.value=''};">
-								</td>
-								<td><span style="font-size: 10px;">Password:</span>
-									<input type="password" name="password" title="Password" size="12" class="loginTxt">
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2" align="right">
-									<div class="loginTxt" style="padding-top:5px;">
-										<input type="submit" value="Log In" class="smallBtn">
-										<span style="padding: 0 6px;">or</span>
-										<input type="button" value="Create Account" class="smallBtn"
-											onClick="logIn.action.value='newUser';submit();">
-									</div>
-						    	</td>
-							</tr>
-						</table>
-					</form>
-				</cfif>
-			</td>
-				</tr>
-			</table>
-			<div id="headerContent" style='background-color: #Application.header_color#;'  >
- 				 <div id="image_headerWrap">
-    				<div class="headerImageCell"> 
-                    <a target="_top" href="#session.collection_url#"> 
-                    <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo" border="0" width="220">
-                    </a> 
-                    </div>
-				<div class="headerText"> 
-                			<a href="#session.institution_url#" target="_blank">
-   					    <h1 class="headerCollectionText" style="color:#Application.collectionlinkcolor#;">#Application.collection_link_text#</h1>
-    					</a>
-                			<a href="#session.institution_url#" target="_blank">
-    					    <div class="headerInstitutionText" style="color:#Application.institutionlinkcolor#;">#session.institution_link_text#</div>
-    					</a> 
-   				 </div>
-				</div>
-			<div class="sf-mainMenuWrapper">
-            <div class="content_box">
-				<ul class="sf-menu" style="width: 61.4em;margin-left: -2em;padding-left: 0;border-right: 1px solid white;">
-					<li>
-						<a target="_top" href="/SpecimenSearch.cfm">Search</a>
-						<ul>
-							<li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
-							<li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-							<li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
-			                <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
-			                <li><a target="_top" href="/showLocality.cfm">Places</a></li>
-						</ul>
-					</li>
-					<cfif len(session.roles) gt 0 and session.roles is not "public">
-						<cfset r = replace(session.roles,",","','","all")>
-						<cfset r = "'#r#'">
-						<cfquery name="roles" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
+    <cfoutput>
+    <meta name="keywords" content="#session.meta_keywords#">
+    <LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+ <!---   <cfif len(trim(session.stylesheet)) gt 0>
+      <cfset ssName = replace(session.stylesheet,".css","","all")>
+      <link rel="alternate stylesheet" type="text/css" href="/includes/css/#trim(session.stylesheet)#" title="#trim(ssName)#">
+      <META http-equiv="Default-Style" content="#trim(ssName)#">
+    </cfif>--->
+</head>
+<body>
+<noscript>
+    <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of Arctos, or
+  try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
+</noscript>
+
+<div id="headerContent">
+     <div id="image_headerWrap">
+           <div class="headerText"> 
+              <a href="http://www.mcz.harvard.edu" target="_blank">
+              <img src="/images/krono.gif" alt="MCZ Kronosaurus Logo">
+              </a> 
+              <h1> MCZBASE-DEV:The Database of the Zoological Collections</h1>
+              <h2> Museum of Comparative Zoology - Harvard University</h2>
+         </div><!---end headerText--->
+    </div><!---end image_headerWrap--->
+  </div><!--- end headerContent div --->
+      <div class="sf-mainMenuWrapper">
+        <div id="headerLinks">
+        <cfif len(#session.username#) gt 0>
+              <a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a>
+                  <cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
+                  <span>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)</span>&nbsp;
+                  </cfif>
+                 <cfif isdefined("session.needEmailAddr") and session.needEmailAddr is 1>
+                    <br>
+                  <span> You have no email address in your profile. Please correct. </span>
+                  </cfif>
+           </div>
+        <cfelse>
+                 <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+                   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+                  <cfelse>
+                   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+                  </cfif>
+                        <form name="logIn" method="post" action="/login.cfm">
+                          <input type="hidden" name="action" value="signIn">
+                          <input type="hidden" name="gotopage" value="#gtp#">
+                          <table>
+                           <tr>
+                              <td><span>Username:</span></td>
+                                  <td><input type="text" name="username" title="Username" size="14"
+                                                      class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></td>
+                              <td><span>Password:</span></td>
+                              <td><input type="password" name="password" title="Password" size="14" class="loginTxt"></td>
+                              <td><input type="submit" value="Log In" class="smallBtn">
+                                    <span>or</span>
+                                    <input type="button" value="Create Account" class="smallBtn"
+                                                          onClick="logIn.action.value='newUser';submit();"></td>
+                             </tr>
+                           </table>
+                        </form>
+           </div><!---end headerLinks--->
+         </cfif>
+    
+     
+  <ul class="sf-menu">
+        <li> <a target="_top" href="/SpecimenSearch.cfm">Search</a>
+              <ul>
+            <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
+            <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
+            <li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
+            <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
+            <li><a target="_top" href="/showLocality.cfm">Places</a></li>
+          </ul>
+            </li>
+        <cfif len(session.roles) gt 0 and session.roles is not "public">
+              <cfset r = replace(session.roles,",","','","all")>
+              <cfset r = "'#r#'">
+              <cfquery name="roles" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
 							select form_path from cf_form_permissions
 							where upper(role_name) IN (#ucase(preservesinglequotes(r))#)
 							minus select form_path from cf_form_permissions
@@ -378,4 +344,4 @@
 <cf_rolecheck>
 </cfoutput> 
 <div id="pg_container">
-<div class="content_box clearfix">
+<div class="content_box">
