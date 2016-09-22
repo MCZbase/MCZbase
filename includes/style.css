@@ -5660,13 +5660,40 @@ table.navtabs {
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* close commented backslash hack */
- .editLoanbox {width: 80em; margin: 0 auto;}
- .newLoanWidth {width: 68em;margin:0 auto;padding-bottom: 3em;}
-  .searchLoanWidth {width: 40em;margin:0 auto;padding-bottom: 1em;}
-.nextnum {width: 34%;border: 1px solid green; display: inline-block;float:right;position:relative;margin-top:-580px;margin-right:0;}
-.nextnum p {margin: 20px 10px;}
-.nextnum span {padding: 0 30px;display: block;}
- .newLoanWidth table {margin-top:.5em;}
+
+.editLoanbox {
+	width: 80em; 
+	margin: 0 auto;
+}
+.newLoanWidth {
+	width: 68em;
+	margin:0 auto;
+	padding-bottom: 3em;
+}
+.searchLoanWidth {
+	width: 40em;
+	margin:0 auto;
+	padding-bottom: 2em;
+}
+.nextnum {
+	width: 34%;
+	border: 1px solid green; 
+	display: inline-block;
+	float:right;
+	position:relative;
+	margin-top:-580px;
+	margin-right:0;
+}
+.nextnum p {
+	margin: 20px 10px;
+}
+.nextnum span {
+	padding: 0 30px;
+	display: block;
+}
+.newLoanWidth table {
+	margin-top:.5em;
+}
 
 
 
