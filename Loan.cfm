@@ -2088,18 +2088,6 @@
                 
               </dl>
    
-            
-<ul class="loan_buttons">
-      <li><a href="a_loanItemReview.cfm?transaction_id=#transaction_id#">Review Items</a></li>
-       <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-       <li class="add"><a href="SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#">Add Items</a></li>
-       <li class="barcode"><a href="loanByBarcode.cfm?transaction_id=#transaction_id#">Add Items by Barcode</a></li>
-       <li class="edit"><a href="Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">Edit #loan_type_scope#</a></li>
-       <cfif #project_id# gt 0>
-       <li><a href="Project.cfm?Action=addTrans&project_id=#project_id#&transaction_id=#transaction_id#"> [ Add To Project ]</a></li>
-         </cfif>
-     </cfif>
-  </ul>
 
         </div>
         </div>
