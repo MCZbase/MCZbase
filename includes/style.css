@@ -4945,10 +4945,10 @@ header .download a:hover {
 	background-color: #ccc;
 }
 ul.loan_buttons {
-	margin: 0 auto;
-	width: 51%;
+	width: 88.5%;
 	font-size: 94%;
 	margin-bottom: 1em;
+	text-align: right;
 }
 ul.loan_buttons li {
 	background-color: #99cc99;
