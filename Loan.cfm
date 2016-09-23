@@ -561,7 +561,7 @@
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
-				<th></th>
+				<th>Form Status</th>
 				<td rowspan="99">
                      <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
                                         <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  ---> 
@@ -1043,8 +1043,8 @@
 			permit.issued_by_agent_id = issuedBy.agent_id AND
 			permit.issued_to_agent_id = issuedTo.agent_id AND
 			permit_trans.transaction_id = #loanDetails.transaction_id#
-	</cfquery>
-	<br><strong>Permits:</strong>
+	</cfquery><br><br>
+	<h3>Permits:</h3>
 	<cfloop query="getPermits">
 		<form name="killPerm#currentRow#" method="post" action="Loan.cfm">
 			<p>
