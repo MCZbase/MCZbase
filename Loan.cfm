@@ -515,25 +515,21 @@
 	</script>
        <div class="editLoanbox">
        <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]"></h2>
-        <h3>#loanDetails.collection# #loanDetails.loan_number# </h3>
-	<table style="border: 1px solid ##555;">
+        <h3>#loanDetails.collection# #loanDetails.loan_number# 	<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span></h3>
+	<table>
     <tr>
-    <td valign="top"><!--- left cell ---->
+    <td valign="top" style="border: 1px solid ##555;"><!--- left cell ---->
 	<form name="editloan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
                 <div>
-	 	  <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
-		  <strong>Edit #scope# #loanDetails.collection# #loanDetails.loan_number#</strong>
-                </div>
-		<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
-		<label for="loan_number">#scope# Number</label>
-		<select name="collection_id" id="collection_id" size="1">
+	 <select name="collection_id" id="collection_id" size="1">
 			<cfloop query="ctcollection">
 				<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
 					value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 			</cfloop>
 		</select>
+        <label for="loan_number">#scope# Number</label>
 		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr">
 		<cfquery name="inhouse" dbtype="query">
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
