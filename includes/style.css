@@ -270,7 +270,14 @@ div.one_thumb_small p {
 	clear: none;
 }
 /* TAG style */
-
+h3{
+    display: block;
+    font-size: 1.17em;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;}
 .editing {
 	border: 1px solid red;
 	z-index: 300;
