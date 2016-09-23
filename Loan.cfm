@@ -830,7 +830,7 @@
             </cfif>
 		</select>
 	</td><!---- end left cell --->
-	<td valign="top"><!---- right cell ---->
+	<td valign="top" style="border:1px solid ##555555;" class="rightCell"><!---- right cell ---->
                 <div>
 	 		<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]">
 			<strong>Projects associated with this #scope#:</strong>

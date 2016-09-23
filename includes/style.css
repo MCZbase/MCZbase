@@ -5666,6 +5666,7 @@ table.navtabs {
 	margin: 0 auto;
 	padding-bottom: 2em;
 }
+.rightCell li {list-style: none; margin-left: 1em;}
 .newLoanWidth {
 	width: 68em;
 	margin:0 auto;
