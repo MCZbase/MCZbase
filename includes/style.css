@@ -5664,6 +5664,7 @@ table.navtabs {
 .editLoanbox {
 	width: 80em; 
 	margin: 0 auto;
+	padding-bottom: 2em;
 }
 .newLoanWidth {
 	width: 68em;
