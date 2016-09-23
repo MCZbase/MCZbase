@@ -561,7 +561,7 @@
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
-				<th>Form Status</th>
+				<th></th>
 				<td rowspan="99">
                      <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
                                         <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  ---> 
