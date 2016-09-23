@@ -557,7 +557,7 @@
 		</cfquery>
 		<table id="loanAgents">
 			<tr style="height: 20px;">
-				<th>Agent Name <span class="lnkBtn" onclick="addTransAgent()">Add Row</span></th>
+				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
