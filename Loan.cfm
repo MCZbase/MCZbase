@@ -523,14 +523,14 @@
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
                 <div>
-	 <select name="collection_id" id="collection_id" size="1">
+	    <select name="collection_id" id="collection_id" size="1">
 			<cfloop query="ctcollection">
 				<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
 					value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 			</cfloop>
 		</select>
         <label for="loan_number">#scope# Number</label>
-		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr">
+		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr" style="display: inline;">
 		<cfquery name="inhouse" dbtype="query">
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
 		</cfquery>
