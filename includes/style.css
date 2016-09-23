@@ -3453,6 +3453,7 @@ div.topBlock {
 .feedAtom h3 {
 	padding-left: 6.7em;
 }
+.changePW {width: 50em; margin: 0 auto;}
 .updatedAtom {
 	position: absolute;
 	font-family: Arial, sans-serif;
@@ -3487,6 +3488,7 @@ div.updatedAtom p {
 	width: 8em;
 	float: left;
 }
+.changePW {
 /* added styles for loans */
 #loan {
 	width: 700px;

@@ -13,6 +13,7 @@
 		elem.className=clas;
 	}
 </script>
+<div class="changePW">
 <cfset title = "Change Password">
 <cfif action is "nothing">
     <cfif len(session.username) is 0>
@@ -81,6 +82,7 @@
 		</cfif>
 	</cfoutput>
 </cfif>
+</div>
 <!----------------------------------------------------------->
 <cfif action is "lostPass">
 	Lost your password? Passwords are stored in an encrypted format and cannot be recovered.
