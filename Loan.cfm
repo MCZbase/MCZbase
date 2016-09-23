@@ -514,7 +514,7 @@
 		});
 	</script>
        <div class="editLoanbox">
-       <h2 class="wikilink">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]"></h2>
+       <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]"></h2>
         <h3>#loanDetails.collection# #loanDetails.loan_number# </h3>
 	<table border>
     <tr>
