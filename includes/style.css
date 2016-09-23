@@ -5661,41 +5661,27 @@ table.navtabs {
 .clearfix { display: block; }
 /* close commented backslash hack */
 
-.editLoanbox {
-	width: 80em; 
-	margin: 0 auto;
-	padding-bottom: 2em;
-}
+ .editLoanbox {width: 76em; margin: 0 auto;}
+ .newLoanWidth {width: 68em;margin:0 auto;padding-bottom: 3em;}
+  .searchLoanWidth {width: 40em;margin:0 auto;padding-bottom: 1em;}
+.nextnum {width: 34%;border: 1px solid green; display: inline-block;float:right;position:relative;margin-top:-580px;margin-right:0;}
+.nextnum p {margin: 20px 10px;}
+.nextnum span {padding: 0 30px;display: block;}
+ .newLoanWidth table {margin-top:.5em;}
+ .loanSearchResults {width: 70em; margin:0 auto;}
+ .leftCell {width: auto;}
+ .editLoanTable {width: 100%; margin: 0 auto;}
+ .editLoanTable label {padding-top: 5px;}
+.rightCell {padding: 0;width: auto}
 .rightCell li {list-style: none; margin-left: 1em;}
-.newLoanWidth {
-	width: 68em;
-	margin:0 auto;
-	padding-bottom: 3em;
-}
-.searchLoanWidth {
-	width: 40em;
-	margin:0 auto;
-	padding-bottom: 2em;
-}
-.nextnum {
-	width: 34%;
-	border: 1px solid green; 
-	display: inline-block;
-	float:right;
-	position:relative;
-	margin-top:-580px;
-	margin-right:0;
-}
-.nextnum p {
-	margin: 20px 10px;
-}
-.nextnum span {
-	padding: 0 30px;
-	display: block;
-}
-.newLoanWidth table {
-	margin-top:.5em;
-}
+.shippingBlock {width: 76em;margin: 1em auto;padding-bottom: 1em;padding-top: 2em;border-top: 2px solid #555;}
+.shippingBlock label {padding-top: 5px;}
+.loanNum {font-size: 18px;padding-right: 1em;font-style:normal;}
+#project {border: 1px solid #ccc;padding: 15px;width: 24em;float: right;}
+.editLoanTable {border: 1px solid #ccc;padding: 10px;margin-bottom: 2em;}
+#loanAgents {border: 1px double #ccc;margin-top: 5px;padding: 5px;}
+#loanAgents td {padding-top: 3px;}
+.IDloan td {padding-right:3em;}
 
 
 

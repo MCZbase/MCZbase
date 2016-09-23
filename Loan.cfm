@@ -515,22 +515,34 @@
 	</script>
        <div class="editLoanbox">
        <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
-        <span style="font-size: 18px;padding-right: 1em;font-style:normal;">#loanDetails.collection# #loanDetails.loan_number# </span>	<span style="font-size:14px;color: ##666;font-style: italic;">Entered by #loanDetails.enteredby#</span></h2>
-	<table>
+        <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>	</h2>
+	<table class="editLoanTable">
     <tr>
-    <td valign="top" style="border: 1px solid ##555;"><!--- left cell ---->
-	<form name="editloan" action="Loan.cfm" method="post">
+    <td valign="top" class="leftCell"><!--- left cell ---->
+	
+  <form name="editloan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
-                <div>
-	    <select name="collection_id" id="collection_id" size="1">
+            
+		<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
+	
+    <table class="IDloan">
+    <tr>
+    <td>
+      <label>Department</label>
+		<select name="collection_id" id="collection_id" size="1">
 			<cfloop query="ctcollection">
 				<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
 					value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 			</cfloop>
 		</select>
-        <label for="loan_number">#scope# Number</label>
-		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr" style="display: inline;">
+       </td>
+       <td>
+          <label for="loan_number">#scope# Number</label>
+		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr">
+        </td>
+        </tr>
+        </table>
 		<cfquery name="inhouse" dbtype="query">
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
 		</cfquery>
@@ -543,7 +555,7 @@
 		<cfquery name="recipientinstitution" dbtype="query">
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
 		</cfquery>
-			<table id="loanAgents" border>
+		<table id="loanAgents">
 			<tr style="height: 20px;">
 				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
 				<th>Role</th>
@@ -830,11 +842,10 @@
             </cfif>
 		</select>
 	</td><!---- end left cell --->
-	<td valign="top" style="border:1px solid ##555555;" class="rightCell"><!---- right cell ---->
-                <div>
-	 		<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]">
-			<strong>Projects associated with this #scope#:</strong>
-                </div>
+	<td valign="top" class="rightCell"><!---- right cell ---->
+   <div id="project">
+	 		
+			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>            
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
 			project_trans where
@@ -896,6 +907,9 @@
 	</td>
     </tr>
     </table>
+      </div>
+    
+    
 	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from shipment where transaction_id = #transaction_id#
 	</cfquery>
@@ -950,8 +964,8 @@
 		<cfset shipped_from_addr = "">
 		<cfset shipped_from_addr_id = "">
 	</cfif>
-<br>
-	Shipment Information:
+	<div class="shippingBlock">
+    <h3>Shipment Information:</h3>
 	<cfform name="shipment" method="post" action="Loan.cfm">
 		<input type="hidden" name="Action" value="saveShip">
 		<input type="hidden" name="transaction_id" value="#transaction_id#">
