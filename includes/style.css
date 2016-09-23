@@ -106,90 +106,9 @@ td#SDCellLeft {
 	font-size: small;
 	border: none;
 }
-.uploadMediaDiv {
-	border: 3px solid red;
-	z-index: 9999;
-	position: absolute;
-	top: 5%;
-	left: 5%;
-	width: 85%;
-	height: 65%;
-	background-color: white;
-}
-.customBox {
-	border: 3px solid green;
-	z-index: 9999;
-	position: absolute;
-	top: 5%;
-	left: 5%;
-	width: 65%;
-	max-height: 450px;
-	background-color: white;
-	overflow: auto;
-}
-.pickDiv {
-	border: 3px solid green;
-	z-index: 9999;
-	position: absolute;
-	top: 5%;
-	left: 5%;
-	width: 65%;
-	height: 450px;
-	background-color: white;
-	overflow: auto;
-}
-.popDiv {
-	border: 3px solid green;
-	z-index: 9999;
-	position: absolute;
-	background-color: white;
-	overflow: auto;
-}
-table.specResultTab {
-	border-spacing: 0px;
-	border-collapse: collapse;
-	border: 1px outset gray;
-}
-table.specResultTab th {
-	border: 1px solid gray;
-	padding: 0px 1px 0px 1px;
-	-moz-border-radius: 0px;
-	color: gray;
-}
-table.specResultTab td {
-	border: 1px solid gray;
-	-moz-border-radius: 0px;
-	padding: 4px;
-}
-.wrapLong {
-	font-size: smaller;
-	width: 250px;
-}
 div.code {
 	font-size: smaller;
 	color: #2F4F4F;
-}
-span.helpDiv {
-	position: relative; /*this is the key*/
-	z-index: 2001;
-	color: #0000FF;
-	text-decoration: none;
-}
-.red {
-	background-color: #FF0000;
-}
-.redCheck {
-	border: 5px solid red;
-}
-.infoLink, .infoLink a:visited {
-	cursor: pointer;
-	color: #2B547E;
-	font-size: .65em;
-	font-family: Arial, Helvetica, sans-serif;
-}
-.infoLink:hover {
-	color: #FF0000;
-	text-decoration: underline;
 }
 .browseLink {
 	cursor: pointer;
@@ -217,70 +136,7 @@ span.helpDiv {
 	font-weight: bold;
 	padding: 15px;
 }
-#navbar {
-	color: green;
-	border-bottom: 2px solid black;
-	border-top: 2px solid black;
-	margin: 12px 0px 0px 0px;
-	padding: 0px;
-	z-index: 1;
-	text-align: center;
-}
-#navbar li {
-	display: inline;
-	overflow: hidden;
-	list-style-type: none;
-}
-#navbar a, a.active {
-	color: green;
-	background-color: #E7E7E7;
-	border-right: 1px solid black;
-	text-decoration: none;
-	border-left: 1px solid black;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	padding: 0px 5px 0px 5px;
-	margin: 0px;
-	font-weight: bolder;
-	font-size: small;
-	font-family: Arial, Helvetica, sans-serif;
-}
-#navbar span, span.active {
-	color: green;
-	background-color: #E7E7E7;
-	border-right: 1px solid black;
-	text-decoration: none;
-	border-left: 1px solid black;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	padding: 0px 5px 0px 5px;
-	margin: 0px;
-	font-weight: bolder;
-	font-size: small;
-	font-family: Arial, Helvetica, sans-serif;
-}
-#navbar a.active {
-	background-color: #000000;
-	color: green;
-}
-#navbar span.active {
-	background-color: #000000;
-	color: green;
-}
-#navbar a:hover {
-	color: red;
-	background: #E7E7E7;
-	border-bottom: 1px solid black;
-}
-#navbar span:hover {
-	color: red;
-	background: #E7E7E7;
-	border-bottom: 1px solid black;
-}
-#navbar span.active:hover {
-	background: #FFFFFF;
-	color: #FF0000;
-}
+
 a.info {
 	position: relative; /*this is the key*/
 	z-index: 24;
@@ -355,36 +211,13 @@ div.group {
 	padding: 5px;
 	border: 3px solid #EFEFEF;
 }
-.controlButton {
-	color: #666666;
-	font-size: 10pt;
-	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #99CCFF;
-	border-color: #336666;
-	border: 1px solid;
-	padding: 2px;
-	text-align: center;
-	cursor: hand;
-	text-decoration: none;
-}
 .redButton {
 	background-color: red;
 }
 .removeRed {
 	border: 1px solid red;
 }
-.linkButton {
-	color: #666666;
-	font-size: 10pt;
-	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #99CCFF;
-	border-color: #336666;
-	border: 1px solid;
-	padding: 2px;
-	text-align: center;
-}
+
 body {
 	font-family: arial, sans-serif;
 	background-color: #FFFFFF;
@@ -426,24 +259,8 @@ table.newRec {
 	padding: 0;
 	border-spacing: 0;
 }
-input.savBtn {
-	color: #666666;
-	font-size: 10pt;
-	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #FBD29B;
-	border: 1px solid;
-	border-color: #336666;
-}
-input.clrBtn {
-	color: #666666;
-	font-size: 10pt;
-	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #FFCC00;
-	border-color: #336666;
-	border: 1px solid;
-}
+
+
 input.insBtn {
 	color: #666666;
 	font-weight: bold;
@@ -912,8 +729,6 @@ div.ui-datepicker {
 	background: #000000 url(/images/css/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x;
 	opacity: .20;
 	filter: Alpha(Opacity=20);
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 }
 .ui-datepicker {
 	width: 17em;
@@ -1141,7 +956,6 @@ p {
 }
 .editFrame {
 	border-top: 1px solid gray;
-	z-index: 1000;
 	position: fixed;
 	top: 40px;
 	left: 2%;
@@ -1159,12 +973,7 @@ p {
 	width: 30px;
 	z-index: 10999;
 }
-#navbar .activeButton, #navbar .activeButton:hover {
-	border: 1px solid gray;
-	color: gray;
-	background-color: lightgray;
-	cursor: default;
-}
+
 .borderBox {
 	display: inline-block;
 	margin: 1em 1em 1em 1em;
@@ -1645,17 +1454,6 @@ td.lbl {
 	padding: 3px;
 	border: 1px solid red;
 }
-
-.uploadMediaDiv {
-	border: 3px solid red;
-	z-index: 9999;
-	position: absolute;
-	top: 5%;
-	left: 5%;
-	width: 85%;
-	height: 65%;
-	background-color: white;
-}
 .customBox {
 	border: 3px solid green;
 	z-index: 9999;
@@ -1685,59 +1483,12 @@ td.lbl {
 	background-color: white;
 	overflow: auto;
 }
-table.specResultTab {
-	border-width: 1px 1px 1px 1px;
-	border-spacing: 0px;
-	border-style: outset outset outset outset;
-	border-color: gray gray gray gray;
-	border-collapse: collapse;
-}
-table.specResultTab th {
-	border-width: 1px 1px 1px 1px;
-	padding: 0px 1px 0px 1px;
-	border-style: solid solid solid solid;
-	border-color: gray gray gray gray;
-	-moz-border-radius: 0px 0px 0px 0px;
-	color: gray;
-}
-table.specResultTab td {
-	border-width: 1px 1px 1px 1px;
-	padding: 0px 1px 0px 1px;
-	border-style: solid solid solid solid;
-	border-color: gray gray gray gray;
-	-moz-border-radius: 0px 0px 0px 0px;
-	padding: 4px 4px;
-}
-.wrapLong {
-	font-size: smaller;
-	width: 250px;
-}
 div.code {
 	font-size: smaller;
 	color: #2F4F4F;
 }
-span.helpDiv {
-	position: relative; /*this is the key*/
-	z-index: 2001;
-	color: #0000FF;
-	text-decoration: none;
-}
-.red {
-	background-color: #FF0000;
-}
-.redCheck {
-	border: 5px solid red;
-}
-.infoLink, .infoLink a:visited {
-	cursor: pointer;
-	color: #2B547E;
-	font-size: .7em;
-	font-family: Arial, Helvetica, sans-serif;
-}
-.infoLink:hover {
-	color: #FF0000;
-	text-decoration: underline;
-}
+
+
 .browseLink {
 	cursor: pointer;
 	color: blue;
@@ -1753,7 +1504,6 @@ span.helpDiv {
 	color: #2B547E;
 	float: right;
 }
-
 .status {
 	position: absolute;
 	top: 50%;
@@ -1765,64 +1515,7 @@ span.helpDiv {
 	font-weight: bold;
 	padding: 15px;
 }
-#navbar li {
-	display: inline;
-	overflow: hidden;
-	list-style-type: none;
-}
-#navbar a, a.active {
-	color: green;
-	background-color: #E7E7E7;
-	border-right: 1px solid black;
-	text-decoration: none;
-	border-left: 1px solid black;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	padding: 0px 5px 0px 5px;
-	margin: 0px;
-	font-weight: bolder;
-	font-size: small;
-	font-family: Arial, Helvetica, sans-serif;
-}
-#navbar span, span.active {
-	color: green;
-	background-color: #E7E7E7;
-	border-right: 1px solid black;
-	text-decoration: none;
-	border-left: 1px solid black;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	padding: 0px 5px 0px 5px;
-	margin: 0px;
-	font-weight: bolder;
-	font-size: small;
-	font-family: Arial, Helvetica, sans-serif;
-}
-#navbar a.active {
-	background-color: #000000;
-	color: green;
-}
-#navbar span.active {
-	background-color: #000000;
-	color: green;
-}
-#navbar a:hover {
-	color: red;
-	background: #E7E7E7;
-	border-bottom: 1px solid black;
-}
-#navbar span:hover {
-	color: red;
-	background: #E7E7E7;
-	border-bottom: 1px solid black;
-}
-#navbar a:visited {
-	color: #0000FF;
-}
-#navbar span.active:hover {
-	background: #FFFFFF;
-	color: #FF0000;
-}
+
 a.info {
 	position: relative; /*this is the key*/
 	z-index: 24;
@@ -1893,36 +1586,14 @@ div.group {
 	padding: 5px;
 	border: 3px solid #EFEFEF;
 }
-.controlButton {
-	color: #666666;
-	font-size: 10pt;
-	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #99CCFF;
-	border-color: #336666;
-	border: 1px solid;
-	padding: 2px;
-	text-align: center;
-	cursor: hand;
-	text-decoration: none;
-}
+
 .redButton {
 	background-color: red;
 }
 .removeRed {
 	border: 1px solid red;
 }
-.linkButton {
-	color: #666666;
-	font-size: 10pt;
-	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #99CCFF;
-	border-color: #336666;
-	border: 1px solid;
-	padding: 2px;
-	text-align: center;
-}
+
 body {
 	font-family: arial, sans-serif;
 	background-color: #FFFFFF;
@@ -1971,24 +1642,14 @@ input.savBtn {
 	font-weight: bold;
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: #FBD29B;
-	border: 1px solid;
-	border-color: #336666;
+	border: 1px solid #336666;
 	border-radius: 5px;
 }
 .controlButton:hover, input.qutBtn:hover, input.delBtn:hover, input.picBtn:hover, input.clrBtn:hover, input.lnkBtn:hover, input.schBtn:hover, input.insBtn:hover, input.savBtn:hover {
 	border-color: #FF6633;
 	cursor: pointer;
 }
-input.clrBtn {
-	color: #666666;
-	font-size: 10pt;
-	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #FFCC00;
-	border-color: #336666;
-	border: 1px solid;
-	border-radius: 5px;
-}
+
 input.insBtn {
 	color: #666666;
 	font-weight: bold;
@@ -2031,13 +1692,7 @@ input.seleClr, select.seleClr, textarea.seleClr {
 input.readClr, select.readClr {
 	background-color: #CCCCCC;
 }
-.btnhov {
-	border-top-color: #FF6633;
-	border-left-color: #FF6633;
-	border-right-color: #FF6666;
-	border-bottom-color: #FF6666;
-	cursor: pointer;
-}
+
 .external:after {
 	text-decoration: none !important;
 	content: url(/images/linkOut.gif);
@@ -3019,22 +2674,23 @@ td#SDCellRight {
 	overflow: hidden;
 }
 table.specResultTab {
-	border-width: 1px 1px 1px 1px;
 	border-spacing: 0px;
-	border-style: outset outset outset outset;
-	border-color: gray gray gray gray;
 	border-collapse: collapse;
+	border: 1px outset gray;
 	background-color: white;
 }
 table.specResultTab th {
-	border-width: 1px 1px 1px 1px;
-	border-style: solid solid solid solid;
-	border-color: gray;
-	-moz-border-radius: 0px 0px 0px 0px;
-	color: white;
+	padding: 0px 1px 0px 1px;
+	border: 1px solid gray;
+    color: white;
+	-moz-border-radius: 0px;
 	font-weight: 600;
 	background: #2176cc;
 	line-height: 14px;
+	padding: 4px;
+}
+table.specResultTab td {
+	border: 1px solid gray;
 	padding: 4px;
 }
 table.specResultTab td:nth-child(2) {
@@ -3057,7 +2713,7 @@ span.helpDiv {
 .red {
 	background-color: #FF0000;
 }
-redCheck {
+.redCheck {
 	border: 5px solid red;
 }
 .helpers {
@@ -3094,7 +2750,15 @@ redCheck {
 	padding: 10px;
 	margin: 10px;
 }
+#navbar .activeButton, #navbar .activeButton:hover {
+	border: 1px solid gray;
+	color: gray;
+	background-color: lightgray;
+	cursor: default;
+}
 #navbar {
+	border-bottom: 2px solid black;
+	border-top: 2px solid black;
 	color: green;
 	margin: 0;
 	padding: 2px 0px;
@@ -3109,13 +2773,10 @@ redCheck {
 #navbar a, a.active {
 	color: green;
 	background-color: #E7E7E7;
-	border-right: 1px solid black;
 	text-decoration: none;
-	border-left: 1px solid black;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	padding: 0px 5px 0px 5px;
-	margin: 0px;
+	border: 1px solid black;
+	padding: 0 5px 0 5px;
+	margin: 0;
 	font-weight: bolder;
 	font-size: small;
 	font-family: Arial, Helvetica, sans-serif;
@@ -3123,11 +2784,8 @@ redCheck {
 #navbar span, span.active {
 	color: green;
 	background-color: #E7E7E7;
-	border-right: 1px solid black;
 	text-decoration: none;
-	border-left: 1px solid black;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
+	border: 1px solid black;
 	padding: 0px 5px 0px 5px;
 	margin: 0px;
 	font-weight: bolder;
@@ -3236,11 +2894,9 @@ h2.wikilink img {
 	margin-top: -7px
 }
 h2.wikilink_Narrow {
-	/*width:70%;*/
 	float: left;
 	margin-bottom: .15em;
 	margin-top: 1.5em;
-	/*margin-left: .5em;*/
 	line-height: 1em;
 }
 h2.wikilink_Narrow span {
@@ -3349,10 +3005,8 @@ div.group {
 	font-size: 10pt;
 	font-weight: 500;
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #99CCFF;
 	background-color: #add6ff;
-	border-color: #336666;
-	border: 1px solid;
+	border: 1px solid #336666;
 	padding: 2px 3px;
 	text-align: center;
 	cursor: hand;
@@ -3508,11 +3162,8 @@ input.clrBtn {
 	font-weight: bold;
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: #FFCC00;
-	border-color: #336666;
-	border: 1px solid;
+	border: 1px solid #336666;
 	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 }
 input.insBtn {
 	color: #666666;
@@ -3669,32 +3320,10 @@ a.external:hover:visited:after {
 	content: "\a0" url(/images/linkOutHover.gif);
 }
 #header_color {
-	/*      background-color: #e7e7e7;   */
 	margin: 0;
 	margin-top: .5em;
 	width: 100%;
 }
-/*.headerImageCell {
-	padding: 5px 0 5px 10px;
-}*/
-/*.headerInstitutionText {
-	font-family: Arial, Helvetica, sans-serif;
-	color: #bfbfbf;
-	color: #eff5fa;
-	color: #000066;
-	margin-left: 1px;
-}
-.headerCollectionText {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 24px;
-}
-a:hover.headerCollectionText {
-	text-decoration: none;
-}*/
-/*.headerCollectionTextSmall {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 19px;
-}*/
 .observations_included {
 	margin-left: 2em;
 	margin-bottom: .85em;
@@ -4007,7 +3636,6 @@ header .download a:hover {
 #listloans dd {
 	float: left;
 	-webkit-margin-start: 0;
-	height: 1.4em;
 	height: auto;
 	width: 65%;
 	min-width: 510px;
@@ -4015,13 +3643,12 @@ header .download a:hover {
 	text-align: left;
 	margin: 2px 5px 2px 0;
 	border: 1px solid #ccc;
-	border-radius: 5px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	-moz-border-radius: 5px 5px 5px 5px;
-	-webkit-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	padding: 1px 5px;
 	font-weight: 500;
 }
