@@ -3453,7 +3453,8 @@ div.topBlock {
 .feedAtom h3 {
 	padding-left: 6.7em;
 }
-.changePW {width: 50em; margin: 0 auto;}
+.changePW {width: 50em; margin: 0 auto;padding: 2em 0 3em 0;}
+.changePW li {margin-left: 1.5em;}
 .updatedAtom {
 	position: absolute;
 	font-family: Arial, sans-serif;
