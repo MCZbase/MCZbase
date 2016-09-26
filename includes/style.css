@@ -55,6 +55,7 @@ td.lbl {
 	text-align: right;
 	padding-right: 5px;
 }
+.srch label {font-weight: 600;}
 .detailBlock {
 }
 .innerDetailLabel {
