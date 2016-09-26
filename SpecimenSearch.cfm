@@ -1004,13 +1004,11 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-              <p class="topspace">&nbsp;</p>
               <span id="part_name">Part Name:</span>
 			</td>
 			<td class="srch">
+              <p class="topspace">&nbsp;</p>
 				<input type="text" autosuggest="#partlist#" name="partname" delimiter="\">
-				
-	
 				<span class="infoLink" onclick="getCtDoc('ctspecimen_part_name',SpecData.partname.value);">Define</span>
 				<span class="infoLink" onclick="var e=document.getElementById('partname');e.value='='+e.value;">Add = for exact match</span>
 			</td>
@@ -1175,10 +1173,10 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-              <p class="topspace">&nbsp;</p>
 				<span id="_type_status">Basis of Citation:</span>
 			</td>
 			<td class="srch">
+              <p class="topspace">&nbsp;</p>
 				<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select type_status from ctcitation_type_status
 				</cfquery>
@@ -1279,10 +1277,10 @@
 			</tr>
 			<tr>
 				<td class="lbl">
-                  <p class="topspace">&nbsp;</p>
                   <span id="srch_barcode">Barcode:</span>
 				</td>
 				<td class="srch">
+                  <p class="topspace">&nbsp;</p>
 					<input type="text" name="barcode" id="barcode" size="50">
 				</td>
 			</tr>
