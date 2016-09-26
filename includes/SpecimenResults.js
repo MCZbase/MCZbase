@@ -618,7 +618,7 @@ function success_getSpecResultsData(result){
                                      rowClass = "typeRow";
                                        }
                                   }
-			    } 
+			   
                 if (isType) { 
 				theInnerHtml += '<tr class="' + rowClass +  '">';
                 } else { 
