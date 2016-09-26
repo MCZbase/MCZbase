@@ -1,4 +1,8 @@
 /* TAG style */
+html {font-family: Arial, Helvetica, sans-serif;}
+body {font-family: Arial, Helvetica, sans-serif;}
+
+
 h3 {
 	display: block;
 	font-size: 1.17em;
@@ -35,7 +39,7 @@ h3 {
 	cursor: pointer;
 	color: #2B547E;
 	font-size: .65em;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .secControl:hover {
 	color: #FF0000;
@@ -82,12 +86,12 @@ td#SDCellLeft {
 	font-size: 1em;
 }
 .headerInstitutionText {
-	font-family: Arial, Helvetica, sans-serif;
+	
 	color: #000066;
 	font-weight: bold;
 }
 .headerCollectionText {
-	font-family: Arial, Helvetica, sans-serif;
+	
 	font-size: 24px;
 }
 .annotateSpace, .annotateSpace a:visited .annotateSpace a {
@@ -96,7 +100,7 @@ td#SDCellLeft {
 	color: #2B547E;
 	float: right;
 	cursor: pointer;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .annotateSpace:hover {
 	color: #FF0000;
@@ -1348,7 +1352,7 @@ label.badPickLbl {
 	padding-left: 5px;
 	color: #2B547E;
 	font-size: small;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	display: block;
 }
 .mediaLink:hover {
@@ -1409,7 +1413,7 @@ label.badPickLbl {
 	cursor: pointer;
 	color: #2B547E;
 	font-size: .65em;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .secControl:hover {
 	color: #FF0000;
@@ -1434,7 +1438,7 @@ td.lbl {
 	color: #2B547E;
 	float: right;
 	cursor: pointer;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .annotateSpace:hover {
 	color: #FF0000;
@@ -1640,7 +1644,7 @@ input.savBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #FBD29B;
 	border: 1px solid #336666;
 	border-radius: 5px;
@@ -1661,7 +1665,7 @@ input.picBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #CCCC99;
 	border-color: #336666;
 	border: 1px solid;
@@ -1671,7 +1675,7 @@ input.qutBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #FFFF00;
 	border-color: #336666;
 	border: 1px solid;
@@ -2570,7 +2574,7 @@ td.lbl {
 	cursor: pointer;
 	color: #2B547E;
 	font-size: .78em;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .detailEditCell:hover {
 	color: #FF0000;
@@ -2628,7 +2632,7 @@ td#SDCellRight {
 	color: #2B547E;
 	float: right;
 	cursor: pointer;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .annotateSpace:hover {
 	color: #FF0000;
@@ -2723,7 +2727,7 @@ span.helpDiv {
 	cursor: pointer;
 	color: #2B547E;
 	font-size: .7em;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .infoLink:hover {
 	color: #FF0000;
@@ -2779,7 +2783,7 @@ span.helpDiv {
 	margin: 0;
 	font-weight: bolder;
 	font-size: small;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 #navbar span, span.active {
 	color: green;
@@ -2790,7 +2794,7 @@ span.helpDiv {
 	margin: 0px;
 	font-weight: bolder;
 	font-size: small;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 #navbar a.active {
 	background-color: #000000;
@@ -2919,7 +2923,7 @@ table.sortable span.sortarrow {
 	text-decoration: none;
 }
 body.helpPages {
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #FFFF99;
 	margin: 10px;
 }
@@ -2927,7 +2931,7 @@ input.hBtn {
 	color: #666666;
 	font-size: 8pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #CCCC99;
 	border-color: #336666;
 	border: 1px solid;
@@ -3004,7 +3008,7 @@ div.group {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: 500;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #add6ff;
 	border: 1px solid #336666;
 	padding: 2px 3px;
@@ -3016,7 +3020,7 @@ div.group {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #99CCFF;
 	border-color: #336666;
 	border: 1px solid;
@@ -3027,7 +3031,7 @@ div.isAButton {
 	color: black;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #F5F5F5;
 	border-color: #336666;
 	border: 1px solid;
@@ -3040,7 +3044,7 @@ div.HalfAButton {
 	color: black;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #F5F5F5;
 	border-color: #336666;
 	border: 1px solid;
@@ -3113,7 +3117,7 @@ input.savBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #FBD29B;
 	border: 1px solid;
 	border-color: #336666;
@@ -3145,7 +3149,7 @@ input.lnkBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #99CCFF;
 	border: 1px solid #336666;
 	border-radius: 5px;
@@ -3154,7 +3158,7 @@ input.schBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #CCCC99;
 	border: 1px solid #336666;
 	border-radius: 5px;
@@ -3163,7 +3167,7 @@ input.clrBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #FFCC00;
 	border: 1px solid #336666;
 	border-radius: 5px;
@@ -3193,7 +3197,7 @@ input.picBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #CCCC99;
 	border-color: #336666;
 	border: 1px solid;
@@ -3203,14 +3207,12 @@ input.delBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	background-color: #FF9966;
-	border-color: #336666;
-	border: 1px solid;
+	border: 1px solid #336666;
 	border-radius: 5px;
 }
 input.reqdClr, select.reqdClr, textarea.reqdClr {
-	background-color: #FFFF33;
 	background-color: #E4E476;
 }
 input.badPick, select.badPick, textarea.badPick {
@@ -3259,7 +3261,7 @@ pre {
 	border-top: 1px solid black;
 	padding: 0px 5px 0px 5px;
 	margin: 0px;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 #tabmenu a.active {
 	background: #FFFFFF;
@@ -3273,7 +3275,7 @@ pre {
 }
 #tabmenu a:visited {
 	color: #0000FF;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 #tabmenu a.active:hover {
 	background: #FFFFFF;
@@ -3281,25 +3283,25 @@ pre {
 	border-bottom: 3px solid #FFFFFF;
 }
 .style2 {
-	font-family: Arial, Helvetica, sans-serif;
+	
 	font-size: small;
 }
 .style3 {
-	font-family: Arial, Helvetica, sans-serif;
+	
 	font-size: xx-large;
 }
 .style4 {
 	font-size: x-large;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .style5 {
 	font-size: large;
 }
 .style6 {
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
 .style8 {
-	font-family: Arial, Helvetica, sans-serif;
+	
 	font-size: small;
 }
 /* \a0 is the iso8859-1 encoding for nbsp */
@@ -3581,7 +3583,7 @@ header {
 	margin-left: 10px;
 }
 .loan_results {
-	font-family: Arial, Helvetica, sans-serif;
+	
 	width: 100%;
 }
 .loan_results:nth-child(even) {
@@ -3692,7 +3694,7 @@ ul.loan_buttons li {
 	margin: 4px 5px 4px 0;
 	border: 2px solid #ccc;
 	padding: 3px 6px;
-	font-family: Arial, Helvetica, sans-serif;
+	
 	-moz-border-radius: 5px 5px 5px 5px;
 	-webkit-border-radius: 5px 5px 5px 5px;
 	border-radius: 5px 5px 5px 5px;
