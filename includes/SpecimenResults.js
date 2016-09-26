@@ -626,8 +626,8 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<tr class="oddRow">';
 			    } else {
 				theInnerHtml += '<tr class="evenRow">';
-			   }
-                        }
+			    }
+                    }
 		}
 			
 			
