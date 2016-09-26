@@ -766,6 +766,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
+              <p class="topspace">&nbsp;</p>
 				<span class="helpLink infoLink" id="collector">Help</span>
 				<select name="coll_role" id="coll_role" size="1">
 					<option value="" selected="selected">Collector</option>
@@ -1002,7 +1003,8 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span id="part_name">Part Name:</span>
+              <p class="topspace">&nbsp;</p>
+              <span id="part_name">Part Name:</span>
 			</td>
 			<td class="srch">
 				<input type="text" autosuggest="#partlist#" name="partname" delimiter="\">
@@ -1172,6 +1174,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
+              <p class="topspace">&nbsp;</p>
 				<span id="_type_status">Basis of Citation:</span>
 			</td>
 			<td class="srch">
@@ -1275,7 +1278,8 @@
 			</tr>
 			<tr>
 				<td class="lbl">
-					<span id="srch_barcode">Barcode:</span>
+                  <p class="topspace">&nbsp;</p>
+                  <span id="srch_barcode">Barcode:</span>
 				</td>
 				<td class="srch">
 					<input type="text" name="barcode" id="barcode" size="50">
