@@ -296,52 +296,6 @@ function toggleKillrow(id,status) {
 	}
 }
 
-function getSpecResultsData (startrow,numrecs,orderBy,orderOrder) {
-	if (document.getElementById('resultsGoHere')) {
-		var guts = '<div id="loading" style="position:relative;top:0px;left:0px;z-index:999;color:white;background-color:green;';
-	 	guts += 'font-size:large;font-weight:bold;padding:15px;">Fetching data...</div>';
-	 	var tgt = document.getElementById('resultsGoHere');
-		tgt.innerHTML = guts;
-	}
-	if (isNaN(startrow) && startrow.indexOf(',') > 0) {
-   		var ar = startrow.split(',');
-   		startrow = ar[0];
-   		numrecs = ar[1];
-   	}
-	if (orderBy==null) {
-		if (document.getElementById('orderBy1') && document.getElementById('orderBy1')) {
-			var o1=document.getElementById('orderBy1').value; 
-			var o2=document.getElementById('orderBy2').value;
-			var orderBy = o1 + ',' + o2;
-		} else {
-			var orderBy = 'cat_num';
-		}		
-	}
-	if (orderOrder==null) {
-		var orderOrder = 'ASC';
-	}
-	if (orderBy.indexOf(',') > -1) {
-		var oA=orderBy.split(',');
-		if (oA[1]==oA[0]){
-			orderBy=oA[0] + ' ' + orderOrder;
-		} else {
-			orderBy=oA[0] + ' ' + orderOrder + ',' + oA[1] + ' ' + orderOrder;
-		}
-	} else {
-		orderBy += ' ' + orderOrder;
-	}
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "getSpecResultsData",
-			startrow : startrow,
-			numrecs : numrecs,
-			orderBy : orderBy,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		success_getSpecResultsData
-	);
-}
 function success_getSpecResultsData(result){
 	var data = result.DATA;
 	var attributes="Associated_MCZ_Collection,abnormality,age,age_class,associated_taxon,bare_parts_coloration,body_length,citation,colors,crown_rump_length,date_collected,date_emerged,diameter,disk_length,disk_width,ear_from_notch,extent,fat_deposition,forearm_length,fork_length,fossil_measurement,head_length,height,hind_foot_with_claw,host,incubation,length,life_cycle_stage,life_stage,max_display_angle,molt_condition,numeric_age,ossification,plumage_coloration,plumage_description,reference,reproductive_condition,reproductive_data,section_length,section_stain,sex,size_fish,snout_vent_length,specimen_length,stage_description,standard_length,stomach_contents,storage,tail_length,temperature_experiment,total_length,total_size,tragus_length,unformatted_measurements,unnamed_form,unspecified_measurement,verbatim_elevation,weight,width,wing_chord";
@@ -616,19 +570,19 @@ function success_getSpecResultsData(result){
                                      typestatus.indexOf("Neotype")>-1 
                                     ) { 
                                      rowClass = "typeRow";
-                                       }
-                                  }
-			    } 
-                if (isType) { 
+                                 }
+                             }
+			} 
+                        if (isType) { 
 				theInnerHtml += '<tr class="' + rowClass +  '">';
-                } else { 
-			   	if (i%2) {
+                        } else { 
+			   if (i%2) {
 				theInnerHtml += '<tr class="oddRow">';
 			    } else {
 				theInnerHtml += '<tr class="evenRow">';
 			   }
                         }
-		}
+
 			
 			
 				if (killrow == 1){
