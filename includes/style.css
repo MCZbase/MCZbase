@@ -3789,6 +3789,8 @@ ul.pubLinks {
 	color: #A51C30;
 	margin-bottom: 0;
 }
+.headerText h1 a {color: #a51c30;}
+.headerText h1 a:hover {color: #a51c30;}
 .headerText h2 {
 	color: #F4EFEF;
 	margin-top: 0;
