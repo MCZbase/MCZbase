@@ -2419,6 +2419,9 @@ td.checkboxS {
 table.ssrch {
 	width: 100%;
 }
+table.ssrch tr:first-child {
+	line-height: 1.5em;
+}
 table.ssrch tr:nth-child(2) {
 	line-height: 1.75em;
 }
