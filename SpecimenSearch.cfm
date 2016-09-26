@@ -766,7 +766,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-              <p class="topspace">&nbsp;</p>
+       
 				<span class="helpLink infoLink" id="collector">Help</span>
 				<select name="coll_role" id="coll_role" size="1">
 					<option value="" selected="selected">Collector</option>
@@ -774,6 +774,7 @@
 				</select>
 			</td>
 			<td class="srch">
+                   <p class="topspace">&nbsp;</p>
 				<input type="text" name="coll" id="coll" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
 			</td>
 		</tr>
