@@ -2427,7 +2427,7 @@ td.lbl {
 	text-align: right;
 	padding-right: 5px;
 }
-p.topspace {margin: 0; padding: 1px 0;}
+p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 .detailBlock {
 	display: block;
 	padding: 0;
