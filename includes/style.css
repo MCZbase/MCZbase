@@ -3088,7 +3088,7 @@ input.schBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	
+	padding: 2px 5px;
 	background-color: #CCCC99;
 	border: 1px solid #336666;
 	border-radius: 5px;
@@ -3097,7 +3097,7 @@ input.clrBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	
+	padding: 2px 5px;
 	background-color: #FFCC00;
 	border: 1px solid #336666;
 	border-radius: 5px;
@@ -3108,6 +3108,7 @@ input.insBtn {
 	background-color: #99CCCC;
 	border: 1px solid #336666;
 	border-radius: 5px;
+	padding: 2px 5px;
 }
 input.insBtn:hover {
 	border-top-color: #FF6633;
@@ -3129,15 +3130,14 @@ input.picBtn {
 	font-weight: bold;
 	
 	background-color: #CCCC99;
-	border-color: #336666;
-	border: 1px solid;
+	border: 1px solid #336666;
 	border-radius: 5px;
 }
 input.delBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	
+	padding: 2px 5px;
 	background-color: #FF9966;
 	border: 1px solid #336666;
 	border-radius: 5px;
