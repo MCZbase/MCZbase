@@ -365,7 +365,8 @@
 			<td class="lbl">
 				<span id="_any_taxa_term">Any Taxonomic Element:</span>
 			</td>
-			<td class="srch" style="font-size: smaller;">
+			<td class="srch">
+            <p style="line-height:3px;">&nbsp;</p>
 				<input type="text" name="any_taxa_term" id="any_taxa_term" size="28">
 				<input type="checkbox" name="searchOnlyCurrent" value="Yes">Search only current identifications.<br>
 			</td>
@@ -499,6 +500,7 @@
 				<span id="any_geog_term">Any&nbsp;Geographic&nbsp;Element:</span>
 			</td>
 			<td class="srch">
+            <p style="line-height:3px;">&nbsp;</p>
 				<input type="text" name="any_geog" id="any_geog" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
 				<span class="secControl" style="font-size:.9em;" id="c_spatial_query" onclick="showHide('spatial_query',1)">Select on Google Map</span>
 			</td>

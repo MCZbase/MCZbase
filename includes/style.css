@@ -2422,9 +2422,6 @@ table.ssrch {
 table.ssrch tr:first-child {
 	line-height: 1.5em;
 }
-table.ssrch tr:nth-child(2) {
-	line-height: 1.75em;
-}
 td.lbl {
 	width: 15em;
 	text-align: right;
