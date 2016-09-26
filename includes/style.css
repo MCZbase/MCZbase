@@ -1,8 +1,6 @@
 /* TAG style */
 html {font-family: Arial, Helvetica, sans-serif;}
 body {font-family: Arial, Helvetica, sans-serif;}
-
-
 h3 {
 	display: block;
 	font-size: 1.17em;
@@ -39,7 +37,6 @@ h3 {
 	cursor: pointer;
 	color: #2B547E;
 	font-size: .65em;
-	
 }
 .secControl:hover {
 	color: #FF0000;
@@ -183,7 +180,7 @@ label.h {
 label {
 	display: block;
 	font-size: 12px;
-	font-weight: 800;
+	font-weight: 500;
 }
 fieldset {
 	padding: 0;
@@ -1554,11 +1551,6 @@ label.h {
 	font-size: 12px;
 	font-weight: 800;
 	padding-right: .5em;
-}
-label {
-	display: block;
-	font-size: 12px;
-	font-weight: 800;
 }
 fieldset {
 	padding: 0;
@@ -2940,11 +2932,6 @@ span.lblFont {
 	font-size: 9px;
 	font-weight: 600;
 	color: #333333;
-}
-label {
-	display: block;
-	font-size: 12px;
-	font-weight: 800;
 }
 fieldset {
 	padding: 0;
