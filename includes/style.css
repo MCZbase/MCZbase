@@ -2419,7 +2419,7 @@ td.checkboxS {
 table.ssrch {
 	width: 100%;
 }
-table.ssrch tr:first-child {
+table.ssrch tr:nth-child(2) {
 	line-height: 1.75em;
 }
 td.lbl {
