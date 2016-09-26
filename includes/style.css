@@ -1,6 +1,9 @@
 /* TAG style */
 html {font-family: Arial, Helvetica, sans-serif;}
-body {font-family: Arial, Helvetica, sans-serif;}
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #FFFFFF;
+}
 h3 {
 	display: block;
 	font-size: 1.17em;
@@ -9,12 +12,6 @@ h3 {
 	-webkit-margin-start: 0px;
 	-webkit-margin-end: 0px;
 	font-weight: bold;
-}
-.cellDiv {
-	border: 1px dashed green;
-	padding: 10px;
-	margin: 10px;
-	width: 80%;
 }
 .ac_odd {
 	background-color: #eee;
@@ -42,21 +39,8 @@ h3 {
 	color: #FF0000;
 	text-decoration: underline;
 }
-.secDiv {
-	border: 1px solid green;
-	width: 55em;
-	margin-left: 1em;
-}
-table.ssrch {
-	width: 100%;
-}
-td.lbl {
-	width: 15em;
-	text-align: right;
-	padding-right: 5px;
-}
-.srch label {font-weight: 600;}
-.detailBlock {
+.srch label {
+	font-weight: 600;
 }
 .innerDetailLabel {
 	color: #000000;
@@ -65,9 +49,8 @@ td.lbl {
 .detailData {
 	margin-left: -10px;
 }
-
 .detailLabel {
-	margin: 1px 0px 1px -11px;
+	margin: 1px 0 1px -11px;
 	position: relative;
 	color: #6a6a6a;
 	font-size: 1em;
@@ -79,7 +62,6 @@ td#SDCellLeft {
 	text-align: right;
 	row-span: 1;
 }
-
 .detailElements {
 	font-size: 1em;
 }
@@ -91,18 +73,6 @@ td#SDCellLeft {
 .headerCollectionText {
 	
 	font-size: 24px;
-}
-.annotateSpace, .annotateSpace a:visited .annotateSpace a {
-	font-size: .75em;
-	font-weight: bold;
-	color: #2B547E;
-	float: right;
-	cursor: pointer;
-	
-}
-.annotateSpace:hover {
-	color: #FF0000;
-	text-decoration: underline;
 }
 .specResultPartCell {
 	font-size: small;
@@ -138,7 +108,6 @@ div.code {
 	font-weight: bold;
 	padding: 15px;
 }
-
 a.info {
 	position: relative; /*this is the key*/
 	z-index: 24;
@@ -218,11 +187,6 @@ div.group {
 }
 .removeRed {
 	border: 1px solid red;
-}
-
-body {
-	font-family: arial, sans-serif;
-	background-color: #FFFFFF;
 }
 a:link {
 	text-decoration: none;
@@ -1321,7 +1285,6 @@ label.badPickLbl {
 }
 .browserCheck {
 	text-align: left;
-	/*border:1px dotted #CC0000;*/
 	font-size: smaller;
 }
 .goodPW {
@@ -1417,30 +1380,10 @@ label.badPickLbl {
 	color: #FF0000;
 	text-decoration: underline;
 }
-.secDiv {
-	border: 1px dotted #ccc;
-	width: 55em;
-	margin-left: 1em;
-}
-table.ssrch {
-	width: 100%;
-}
 td.lbl {
 	width: 15em;
 	text-align: right;
 	padding-right: 5px;
-}
-.annotateSpace, .annotateSpace a:visited .annotateSpace a {
-	font-size: .75em;
-	font-weight: bold;
-	color: #2B547E;
-	float: right;
-	cursor: pointer;
-	
-}
-.annotateSpace:hover {
-	color: #FF0000;
-	text-decoration: underline;
 }
 .specResultPartCell {
 	font-size: small;
@@ -2386,10 +2329,7 @@ div.subnote {
 	text-decoration: underline;
 	color: black;
 }
-div.secDiv input {
-	border-radius: 4px;
-	border: 1px solid #ccc;
-}
+
 select {
 	border-radius: 3px;
 	border: 1px solid #ccc;
@@ -2462,6 +2402,10 @@ span#theNewButton input.insBtn {
 	left: 5%;
 	background-color: white;
 	max-width: 80em;
+}
+div.secDiv input {
+	border-radius: 4px;
+	border: 1px solid #ccc;
 }
 .secDiv {
 	border: 1px dotted #ccc;
@@ -2546,7 +2490,7 @@ td.lbl {
 .detailCell {
 	border: 1px dotted #ccc;
 	text-align: left;
-	padding: 2px 3px 0px 15px;
+	padding: 2px 3px 0 15px;
 	position: relative;
 	margin: 1px 6px 8px 6px;
 	border-radius: 5px;
@@ -2554,7 +2498,7 @@ td.lbl {
 	background: white;
 }
 .detailLabel {
-	margin: 5px 0px 1px -5px;
+	margin: 5px 0 1px -5px;
 	position: relative;
 	color: #6a6a6a;
 	font-size: .85em;
@@ -2567,7 +2511,6 @@ td.lbl {
 	cursor: pointer;
 	color: #2B547E;
 	font-size: .78em;
-	
 }
 .detailEditCell:hover {
 	color: #FF0000;
@@ -2625,7 +2568,6 @@ td#SDCellRight {
 	color: #2B547E;
 	float: right;
 	cursor: pointer;
-	
 }
 .annotateSpace:hover {
 	color: #FF0000;
