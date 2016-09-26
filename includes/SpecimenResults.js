@@ -616,8 +616,8 @@ function success_getSpecResultsData(result){
                                      typestatus.indexOf("Neotype")>-1 
                                     ) { 
                                      rowClass = "typeRow";
-                                 }
-                             }
+                                       }
+                                  }
 			    } 
                 if (isType) { 
 				theInnerHtml += '<tr class="' + rowClass +  '">';
@@ -628,7 +628,7 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<tr class="evenRow">';
 			   }
                         }
-				}
+				
 			
 			
 				if (killrow == 1){
