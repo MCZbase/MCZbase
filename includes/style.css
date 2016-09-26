@@ -1363,7 +1363,14 @@ label.badPickLbl {
 	padding: .1em;
 	z-index: 2001;
 }
-.secControl, .infoLink a:visited {
+.secControl{
+	float: right;
+	padding-right: 1em;
+	cursor: pointer;
+	color: #2B547E;
+	font-size: .75em;
+}
+.infoLink a:visited {
 	float: right;
 	padding-right: 1em;
 	cursor: pointer;
