@@ -3094,6 +3094,13 @@ tr.evenRow, td.evenRow {
 tr.oddRow, td.oddRow {
 	background-color: #F5F5F5;
 }
+tr.typeRow, td.typeRow {
+	background-color: #ffe1e1;
+}
+tr.secTypeRow, td.secTypeRow {
+	background-color: #e1edff;
+}
+
 .newRec {
 	background-color: #D6F5F2;
 }
