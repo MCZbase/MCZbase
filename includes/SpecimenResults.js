@@ -628,7 +628,7 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<tr class="evenRow">';
 			   }
                         }
-				
+		}
 			
 			
 				if (killrow == 1){
