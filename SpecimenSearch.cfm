@@ -294,7 +294,7 @@
     		</cfif>
     	<tr>					
     		<td class="lbl">
-    			<span class="helpLink" id="other_id_type">Other&nbsp;Identifier&nbsp;Type:</span>
+    			<span id="other_id_type">Other&nbsp;Identifier&nbsp;Type:</span>
     		</td>
     		<td class="srch">
     			<select name="OIDType" id="OIDType" size="1"
@@ -318,7 +318,7 @@
     	</cfquery>
     	<tr>
     		<td class="lbl">
-    			<span class="helpLink" id="other_id_num">Other&nbsp;Identifier:</span>
+    			<span id="other_id_num">Other&nbsp;Identifier:</span>
     		</td>
     		<td class="srch">
     			<select name="oidOper" id="oidOper" size="1">
@@ -334,7 +334,7 @@
     	</tr>
     	<tr>
     		<td class="lbl">
-    			<span class="helpLink" id="_accn_number">Accession:</span>
+    			<span id="_accn_number">Accession:</span>
     		</td>
     		<td class="srch">
     			<input type="text" name="accn_number" id="accn_number">
@@ -343,7 +343,7 @@
     	</tr>
     	<tr>
     		<td class="lbl">
-    			<span class="helpLink" id="accession_agency">Accession Agency:</span>
+    			<span id="accession_agency">Accession Agency:</span>
     		</td>
     		<td>
     			<input type="text" name="accn_agency" id="accn_agency" size="50">
@@ -397,7 +397,7 @@
          <table id="t_identifiers" class="ssrch">
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_scientific_name">Scientific&nbsp;Name:</span>
+         			<span id="_scientific_name">Scientific&nbsp;Name:</span>
          		</td>
          		<td class="srch">
          			<select name="sciNameOper" id="sciNameOper" size="1">
@@ -412,7 +412,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_phylclass">Class:</span>
+         			<span id="_phylclass">Class:</span>
          		</td>
          		<td class="srch">
          		 	<input type="text" name="phylclass" id="phylclass" size="50">
@@ -421,7 +421,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_genus">Genus:</span>
+         			<span id="_genus">Genus:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="genus" id="genus" size="50">
@@ -430,7 +430,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_species">Species:</span>
+         			<span id="_species">Species:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="species" id="species" size="50">
@@ -439,7 +439,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_subspecies">Subspecies:</span>
+         			<span id="_subspecies">Subspecies:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="subspecies" id="subspecies" size="50">
@@ -448,7 +448,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_common_name">Common Name:</span>
+         			<span id="_common_name">Common Name:</span>
          		</td>
          		<td class="srch">
          			<input name="common_name" id="common_name" type="text" size="50">
@@ -456,7 +456,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_nature_of_id">Nature of ID:</span>
+         			<span id="_nature_of_id">Nature of ID:</span>
          		</td>
          		<td class="srch">
          			<select name="nature_of_id" id="nature_of_id" size="1">
@@ -470,7 +470,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="identifier">Determiner:</span>
+         			<span id="identifier">Determiner:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="identified_agent" id="identified_agent">
@@ -478,7 +478,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_identification_remarks">ID Remarks:</span>
+         			<span id="_identification_remarks">ID Remarks:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="identification_remarks" id="identification_remarks">
@@ -562,7 +562,7 @@
        	
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_geology_attribute">Geology Attribute:</span>
+       			<span id="_geology_attribute">Geology Attribute:</span>
        		</td>
        		<td class="srch">
        			<select name="geology_attribute" id="geology_attribute" size="1">
@@ -575,7 +575,7 @@
        	</tr>			
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_geology_attribute_value">Geology Attribute Value:</span>
+       			<span id="_geology_attribute_value">Geology Attribute Value:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="geology_attribute_value" id="geology_attribute_value" size="50">
@@ -583,7 +583,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_geology_hierarchies">Traverse Geology Hierarchies:</span>
+       			<span id="_geology_hierarchies">Traverse Geology Hierarchies:</span>
        		</td>
        		<td class="srch">
        			<select name="geology_hierarchies" id="geology_hierarchies" size="1">
@@ -594,7 +594,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_continent_ocean">Continent/Ocean:</span>
+       			<span id="_continent_ocean">Continent/Ocean:</span>
        		</td>
        		<td class="srch">
        			<select name="continent_ocean" id="continent_ocean" size="1">
@@ -608,7 +608,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_country">Country:</span>
+       			<span id="_country">Country:</span>
        		</td>
        		<td class="srch">
        			<select name="country" id="country" size="1">
@@ -622,7 +622,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_state_prov">State/Province:</span>
+       			<span id="_state_prov">State/Province:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="state_prov" id="state_prov" size="50">
@@ -630,7 +630,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_quad">USGS Quad Map:</span>
+       			<span id="_quad">USGS Quad Map:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="quad" id="quad" size="50">
@@ -640,7 +640,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_county">County:</span>
+       			<span id="_county">County:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="county" id="county" size="50">
@@ -649,7 +649,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_island_group">Island Group:</span>
+       			<span id="_island_group">Island Group:</span>
        		</td>
        		<td class="srch">
        			<select name="island_group" id="island_group" size="1">
@@ -663,7 +663,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_island">Island:</span>
+       			<span id="_island">Island:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="island" id="island" size="50">
@@ -672,7 +672,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_feature">Geographic Feature:</span>
+       			<span id="_feature">Geographic Feature:</span>
        		</td>
        		<td class="srch">
        			<select name="feature" id="feature" size="1">
@@ -686,7 +686,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_spec_locality">Specific&nbsp;Locality:</span>
+       			<span id="_spec_locality">Specific&nbsp;Locality:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="spec_locality" id="spec_locality" size="50">
@@ -696,7 +696,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="elevation">Elevation:</span>
+       			<span id="elevation">Elevation:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="minimum_elevation" id="minimum_elevation" size="5"> - 
@@ -711,7 +711,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="depth">Depth:</span>
+       			<span id="depth">Depth:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="minimum_depth" id="minimum_depth" size="5"> - 
@@ -726,7 +726,7 @@
        	</tr>	
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_verificationstatus">Verification Status:</span>
+       			<span id="_verificationstatus">Verification Status:</span>
        		</td>
        		<td class="srch">
        			<select name="verificationstatus" id="verificationstatus" size="1">
@@ -739,7 +739,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="max_error_distance">Maximum Uncertainty:</span>
+       			<span id="max_error_distance">Maximum Uncertainty:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="min_max_error" id="min_max_error" size="5"> - 
@@ -803,7 +803,7 @@
         <table id="t_identifiers" class="ssrch">
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="year_collected">Collected On or After:</span>
+        			<span id="year_collected">Collected On or After:</span>
         		</td>
         		<td class="srch">
         			<table>
@@ -850,7 +850,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="year_collected">Collected On or Before:</span>
+        			<span id="year_collected">Collected On or Before:</span>
         		</td>
         		<td class="srch">
         			<table>
@@ -898,7 +898,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="month_in">Month:</span>
+        			<span id="month_in">Month:</span>
         		</td>
         		<td class="srch">
         			<select name="inMon" id="inMon" size="4" multiple>
@@ -921,7 +921,7 @@
         	<!---
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="incl_date">Strict Date Search?</span>
+        			<span id="incl_date">Strict Date Search?</span>
         		</td>
         		<td class="srch">
         			<input type="checkbox" name="inclDateSearch" id="inclDateSearch" value="yes">
@@ -930,7 +930,7 @@
         	----->
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="_verbatim_date">Verbatim Date:</span>
+        			<span id="_verbatim_date">Verbatim Date:</span>
         		</td>
         		<td class="srch">
         			<input type="text" name="verbatim_date" id="verbatim_date" size="50">
@@ -938,7 +938,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="_chronological_extent">Chronological Extent:</span>
+        			<span id="_chronological_extent">Chronological Extent:</span>
         			</a>
         		</td>
         		<td class="srch">
@@ -947,7 +947,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="_collecting_source">Collecting Source:</span>
+        			<span id="_collecting_source">Collecting Source:</span>
         		</td>
         		<td class="srch">
         			<select name="collecting_source" id="collecting_source" size="1">
@@ -961,7 +961,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="_verbatim_locality">Verbatim Locality:</span>
+        			<span id="_verbatim_locality">Verbatim Locality:</span>
         		</td>
         		<td class="srch">
         			<input type="text" name="verbatim_locality" id="verbatim_locality" size="50">
@@ -1051,7 +1051,7 @@
           <table id="t_identifiers" class="ssrch">
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink" id="biol_indiv_relationship">Relationship:</span>
+          			<span id="biol_indiv_relationship">Relationship:</span>
           		</td>
           		<td class="srch">
           			<select name="relationship" id="relationship" size="1">
@@ -1065,7 +1065,7 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink" id="_derived_relationship">Derived Relationship:</span>
+          			<span id="_derived_relationship">Derived Relationship:</span>
           		</td>
           		<td class="srch">
           			<select name="derived_relationship" id="derived_relationship" size="1">
@@ -1151,7 +1151,7 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink" id="ocr_text">OCR Text:</span>
+          			<span id="ocr_text">OCR Text:</span>
           		</td>
           		<td class="srch">
           			<input name="ocr_text" id="ocr_text" size="80">
@@ -1226,7 +1226,7 @@
          <table id="t_identifiers" class="ssrch">
          	<tr>
                  <td class="lbl">
-                     <span class="helpLink" id="_media_type">Media Type:</span>
+                     <span id="_media_type">Media Type:</span>
                  </td>
                  <td class="srch">
          			<select name="media_type" id="media_type" size="1">
@@ -1240,7 +1240,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="accessioned_by_project">Contributed by Project:</span>
+         			<span id="accessioned_by_project">Contributed by Project:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="project_name" id="project_name" size="50">					
@@ -1248,7 +1248,7 @@
          	</tr>	
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="loaned_to_project">Used by Project:</span>
+         			<span id="loaned_to_project">Used by Project:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="loan_project_name" id="loan_project_name" size="50">
@@ -1256,7 +1256,7 @@
          	</tr>		
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_project_sponsor">Project Sponsor:</span>
+         			<span id="_project_sponsor">Project Sponsor:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="project_sponsor" id="project_sponsor" size="50">
@@ -1307,7 +1307,7 @@
          <table id="t_identifiers" class="ssrch">
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="loan_number">Loan Number:</span>
+         			<span id="loan_number">Loan Number:</span>
          		</td>
          		<td class="srch">
          			<input name="loan_number" id="loan_number" type="text" size="50">
@@ -1316,7 +1316,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="permit_issued_by">Permit Issued By:</span>
+         			<span id="permit_issued_by">Permit Issued By:</span>
          		</td>
          		<td class="srch">
          			<input name="permit_issued_by" id="permit_issued_by" type="text" size="50">
@@ -1324,7 +1324,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="permit_issued_to">Permit Issued To:</span>
+         			<span id="permit_issued_to">Permit Issued To:</span>
          		</td>
          		<td class="srch">
          			<input name="permit_issued_to" id="permit_issued_to" type="text" size="50">
@@ -1332,7 +1332,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="permit_type">Permit Type:</span>
+         			<span id="permit_type">Permit Type:</span>
          		</td>
          		<td class="srch">
          			<select name="permit_type" id="permit_type" size="1">
@@ -1345,7 +1345,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="permit_number">Permit Number:</span>
+         			<span id="permit_number">Permit Number:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="permit_num" id="permit_num" size="50">
@@ -1354,7 +1354,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="entered_by">Entered By:</span>
+         			<span id="entered_by">Entered By:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="entered_by" id="entered_by" size="50">
@@ -1362,7 +1362,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="disposition">Part Disposition:</span>
+         			<span id="disposition">Part Disposition:</span>
          		</td>
          		<td class="srch">
          			<select name="part_disposition" id="part_disposition" size="1">
@@ -1375,7 +1375,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="print_flag">Print Flag:</span>
+         			<span id="print_flag">Print Flag:</span>
          		</td>
          		<td class="srch">
          			<select name="print_fg" id="print_fg" size="1">
@@ -1387,7 +1387,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="entered_date">Entered Date:</span>
+         			<span id="entered_date">Entered Date:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="beg_entered_date" id="beg_entered_date" size="10" />-
@@ -1396,7 +1396,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="last_edit_date">Last Edited Date:</span>
+         			<span id="last_edit_date">Last Edited Date:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="beg_last_edit_date" id="beg_last_edit_date" size="10">-
@@ -1405,7 +1405,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="coll_object_remarks">Remarks:</span>
+         			<span id="coll_object_remarks">Remarks:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="remark" id="remark" size="50" />
@@ -1413,7 +1413,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="flags">Missing (flags):</span>
+         			<span id="flags">Missing (flags):</span>
          		</td>
          		<td class="srch">
          			<select name="coll_obj_flags" id="coll_obj_flags" size="1">
