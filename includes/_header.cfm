@@ -41,7 +41,12 @@
 </noscript>
 
 <div id="headerContent" style='background-color: #Application.header_color#;'>
-     <div id="image_headerWrap">
+   	 <div id="image_headerWrap">
+    				<div class="headerImageCell"> 
+                    <a target="_top" href="#session.collection_url#"> 
+                    <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo" border="0" width="220">
+                    </a> 
+                    </div>
 	<div class="headerText"> 
                 			<a href="#session.institution_url#" target="_blank">
    					    <h1 class="headerCollectionText" style="color:#Application.collectionlinkcolor#;">#Application.collection_link_text#</h1>
