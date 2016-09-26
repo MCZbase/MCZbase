@@ -42,13 +42,14 @@
 
 <div id="headerContent" style='background-color: #Application.header_color#;'>
      <div id="image_headerWrap">
-           <div class="headerText"> 
-              <a href="http://www.mcz.harvard.edu" target="_blank">
-              <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
-              </a> 
-              <h1 style="color:#Application.collectionlinkcolor#;"> MCZBASE-DEV:The Database of the Zoological Collections</h1>
-              <h2 style="color:#Application.institutionlinkcolor#;"> Museum of Comparative Zoology - Harvard University</h2>
-         </div><!---end headerText--->
+	<div class="headerText"> 
+                			<a href="#session.institution_url#" target="_blank">
+   					    <h1 class="headerCollectionText" style="color:#Application.collectionlinkcolor#;">#Application.collection_link_text#</h1>
+    					</a>
+                			<a href="#session.institution_url#" target="_blank">
+    					    <div class="headerInstitutionText" style="color:#Application.institutionlinkcolor#;">#session.institution_link_text#</div>
+    					</a> 
+   				 </div>
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
       <div class="sf-mainMenuWrapper">
