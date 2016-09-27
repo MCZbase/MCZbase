@@ -75,15 +75,15 @@
                           <table>
                            <tr>
                               <td><span>Username:</span></td>
-                                  <td><input type="text" name="username" title="Username" size="14"
+                              <td><input type="text" name="username" title="Username" size="14"
                                                       class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></td>
                               <td><span>Password:</span></td>
+                             <td><input type="password" name="password" title="Password" size="14" class="loginTxt"></td>
                               </tr>
                               <tr>
-                              <td><input type="password" name="password" title="Password" size="14" class="loginTxt"></td>
                               <td><input type="submit" value="Log In" class="smallBtn">
-                                    <span>or</span>
-                                    <input type="button" value="Create Account" class="smallBtn"
+                              <span>or</span>
+                               <input type="button" value="Create Account" class="smallBtn"
                                                           onClick="logIn.action.value='newUser';submit();"></td>
                              </tr>
                            </table>
