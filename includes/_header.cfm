@@ -78,6 +78,8 @@
                                   <td><input type="text" name="username" title="Username" size="14"
                                                       class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></td>
                               <td><span>Password:</span></td>
+                              </tr>
+                              <tr>
                               <td><input type="password" name="password" title="Password" size="14" class="loginTxt"></td>
                               <td><input type="submit" value="Log In" class="smallBtn">
                                     <span>or</span>
