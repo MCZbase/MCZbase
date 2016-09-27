@@ -80,10 +80,8 @@
                               <td><span>Password:</span></td>
                              <td><input type="password" name="password" title="Password" size="14" class="loginTxt"></td>
                               </tr>
-                              <tr class="login_buttons">
-                              <td><input type="submit" value="Log In" class="smallBtn"> <span>or</span></td>
-                             
-                              <td> <input type="button" value="Create Account" class="smallBtn"
+                              <tr>
+                              <td><input type="submit" value="Log In" class="smallBtn"> <span>or</span> <input type="button" value="Create Account" class="smallBtn"
                                                           onClick="logIn.action.value='newUser';submit();"></td>
                              </tr>
                            </table>
