@@ -2009,7 +2009,6 @@
                     <cfelse>
                    <dd class="emptystatus">N/A</dd>
                   </cfif>
-               
                 <dt title="1 of 3 possible outside agents to receive email reminder">Additional Outside Contact:</dt>
                 <cfif len(addOutside_agent) GT 0>
                     <dd>#addOutside_agent#</dd>
