@@ -3827,6 +3827,7 @@ ul.pubLinks {
 #headerLinks li a {
 	color: black;
 }
+#headerLinks .login_buttons {float:right;width: 50%;}
 /*  end header content -- excludes menu */
 .secHead {
 	background-color: lightgrey;
