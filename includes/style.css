@@ -21,6 +21,8 @@
 	background-color:lightgray;
 	overflow:auto;
 }
+.lblone {font-size: 13px; display: inline-block;float:right;}
+.lbltwo {font-size: 13px; display: inline-block;float:left;}
 
 .centeredImage {
    position:absolute;
@@ -1455,3 +1457,232 @@ div.subnote {
 	font-size: 14px;
 }
 /*end bug form styles*/
+
+/***** TYPE STYLES begin *****/
+/*.graydottedbox {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	float: left;
+	width: 98%;
+	padding: 10px;
+	margin-bottom: 2em;
+	margin-top: .5em;
+	float: left;
+}
+.graydottedbox table {background-color: white;}
+
+.graydottedbox input {border: 1px dotted #ccc;}
+.graydottedbox select {border: 1px dotted #ccc; background-color: #fff;}*/
+/*.content_box table.pubtitle {
+	border: 1px solid #ebebeb;
+	background-color: #fff;
+	padding: .15em;
+	margin-bottom: .5em;
+}
+#attTab select {
+	width: 600px !important;
+}*/
+/*#attTab td {border: 1px dotted #ccc;}
+#relationships input, #labels input {
+	width: 73%;
+}*/
+/*input#keyword {
+	width: 60%;
+}*/
+.defaultType {
+	width: 100%;
+	padding: .15em 0 0 0;
+	margin: 0 auto;
+	font-weight: bold;
+	z-index: -1;
+	overflow: hidden;
+	background-color: white;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.18+0,0+100 */
+	background: -moz-linear-gradient(top, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e000000', endColorstr='#00000000', GradientType=0 ); /* IE6-9 */
+	-webkit-box-shadow: -2px -1px -4px -5px rgba(204,204,204,1);
+	-moz-box-shadow: -2px -1px -4px -5px rgba(204,204,204,1);
+	box-shadow: -2px -1px -4px -2px rgba(204,204,204,1);
+	border-bottom: 1px double #ccc;
+}
+.primaryType {
+	background-color: white;
+	width: 100%;
+	padding: .5em 0 0 0;
+	margin: 0 auto;
+	font-weight: bold;
+	z-index: -1;
+	overflow: hidden;
+	-webkit-box-shadow: -2px -3px 40px -5px rgba(204,204,204,1);
+	-moz-box-shadow: -2px -3px 40px -5px rgba(204,204,204,1);
+	box-shadow: -2px -3px 40px -5px rgba(204,204,204,1);
+	border-bottom: 1px double #ccc;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6b0213+0,a8455a+99&0.53+0,0+100 */
+	background: -moz-linear-gradient(top, rgba(107,2,19,0.53) 0%, rgba(168,69,90,0.01) 100%, rgba(168,69,90,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(107,2,19,0.53) 0%, rgba(168,69,90,0.01) 100%, rgba(168,69,90,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(107,2,19,0.53) 0%, rgba(168,69,90,0.01) 100%, rgba(168,69,90,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#876b0213', endColorstr='#00a8455a', GradientType=0 ); /* IE6-9 */
+}
+.secondaryType {
+	background-color: white;
+	width: 100%;
+	padding: .5em 0 0 0;
+	margin: 0 auto;
+	font-weight: bold;
+	z-index: -1;
+	overflow: hidden;
+	-webkit-box-shadow: -2px -3px 40px -5px rgba(204,204,204,1);
+	-moz-box-shadow: -2px -3px 40px -5px rgba(204,204,204,1);
+	box-shadow: -2px -3px 40px -5px rgba(204,204,204,1);
+	border-bottom: 1px double #ccc;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#066dab+0,8abbd7+69,c5deea+100&0.43+0,0+100 */
+	background: -moz-linear-gradient(top, rgba(6,109,171,0.43) 0%, rgba(138,187,215,0.13) 100%, rgba(197,222,234,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(6,109,171,0.43) 0%, rgba(138,187,215,0.13) 100%, rgba(197,222,234,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(6,109,171,0.43) 0%, rgba(138,187,215,0.13) 100%, rgba(197,222,234,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6e066dab', endColorstr='#00c5deea', GradientType=0 ); /* IE6-9 */
+}
+/*.typename {
+	font-weight: bold;
+}*/
+ul.headercol1 {
+	float: left;
+	list-style: none;
+	background: none;
+	width: auto;
+	padding: .5em;
+	margin-left: 1em;
+}
+ul.headercol1 li {
+	margin: .15em 0;
+}
+ul.headercol1 li.sciname {
+	font-size: 19px;
+	margin-top: 0;
+	font-style: italic;
+}
+ul.headercol1 li.partstring {
+	font-size: 14px;
+	margin-top: .5em;
+}
+ul.headercol2 {
+	float: left;
+	list-style: none;
+	background: none;
+	width: auto;
+	display: inline;
+}
+ul.headercol2 li {
+	margin: .25em 0;
+	margin-top: 1.5em;
+}
+ul.headercol4 {
+	float: right;
+	list-style: none;
+	background: none;
+	width: auto;
+	text-align: right;
+	padding: .5em;
+	margin-top: 1em;
+	font-size: 15px;
+}
+ul.headercol4 li {
+	margin: .25em 0;
+	padding: 0;
+}
+ul.headercol3 {
+	float: right;
+	list-style: none;
+	background: none;
+	width: auto;
+	margin-right: .5em;
+	display: block;
+	text-align: left;
+	padding: .5em;
+}
+ul.headercol3 li {
+	margin: .25em 0;
+}
+.spec_details {
+	padding: 0;
+	margin-bottom: .25em 0 2em 0;
+	background-color: white
+}
+.acceptedIdDiv {
+	border: thin solid green;
+	padding: .5em;
+	margin-bottom: 3px;
+	border-radius: 5px;
+}
+.unAcceptedIdDiv {
+	border: 1px dotted gray;
+	background-color: #F8F8F8;
+	color: gray;
+	font-size: .88em;
+	padding: .5em;
+	border-radius: 5px;
+}
+/*.taxDetDiv {
+	padding: .25em;
+}*/
+/*.citedTaxaPrimaryType {
+	background-color: #CD9091;
+}
+.fullTaxaName {
+	font-size: .85em;
+	color: gray;
+}
+.commonName {
+	margin: .25em;
+	padding: 0;
+	font-size: .8em;
+}*/
+ul.return_links {
+	float: left;
+	width: auto;
+	display: inline;
+	margin-left: 0;
+	padding: 0;
+}
+ul.return_links li {
+	display: inline;
+	width: auto;
+	float: left;
+	font-size: 10px;
+	margin: .25em 1em .25em 0;
+	font-size: 12px;
+}
+/*ul.id_meta {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: .85em;
+}*/
+/*table.navtabs {
+	margin: 0 7%;
+	width: 86%
+}*/
+.defaultCont {
+	/*float: left;*/
+	width: 100%;
+	background-color: #ffffff;
+	z-index: 1;
+	margin: .1em .1% 0 0;
+}
+.secondaryCont {
+	float: left;
+	width: 100%;
+	background-color: #ffffff;
+	z-index: 1;
+	margin: .1em .5% 0 0;
+}
+.primaryCont {
+	float: left;
+	width: 100%;
+	background-color: #ffffff;
+	z-index: 1;
+	margin: .1em .5% 0 0;
+}
+/***** TYPE STYLES end *****/
