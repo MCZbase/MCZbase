@@ -81,8 +81,8 @@
                              <td><input type="password" name="password" title="Password" size="14" class="loginTxt"></td>
                               </tr>
                               <tr>
-                              <td><input type="submit" value="Log In" class="smallBtn"></td>
-                              <span>or</span>
+                              <td><input type="submit" value="Log In" class="smallBtn"> <span>or</span></td>
+                             
                               <td> <input type="button" value="Create Account" class="smallBtn"
                                                           onClick="logIn.action.value='newUser';submit();"></td>
                              </tr>
