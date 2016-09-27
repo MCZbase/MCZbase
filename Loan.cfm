@@ -1711,6 +1711,7 @@
 		concattransagent(trans.transaction_id,'in-house contact') inHouse_agent,
 		concattransagent(trans.transaction_id,'additional in-house contact') addInhouse_agent,
 		concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent,
+		concattransagent(trans.transaction_id,'recipient institution') recip_inst,
 		nature_of_material,
 		trans_remarks,
 		to_char(return_due_date,'YYYY-MM-DD') return_due_date,
@@ -1892,6 +1893,7 @@
 			concattransagent(trans.transaction_id,'additional outside contact'),
 			concattransagent(trans.transaction_id,'additional in-house contact'),
 			concattransagent(trans.transaction_id,'in-house contact'),
+			concattransagent(trans.transaction_id,'recipient institution'),
 		 	nature_of_material,
 		 	trans_remarks,
 		 	return_due_date,
@@ -1998,6 +2000,12 @@
                
                   <cfif len(foruseby_agent) GT 0>
                     <dd>#foruseby_agent#</dd>
+                    <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                  </cfif>
+                 <dt>Recipient Institution:</dt>
+                  <cfif len(recip_inst) GT 0>
+                    <dd>#recip_inst#</dd>
                     <cfelse>
                    <dd class="emptystatus">N/A</dd>
                   </cfif>
