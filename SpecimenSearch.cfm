@@ -56,7 +56,7 @@
 			</td>
 		</cfif>
 		<td style="padding-left:2em;padding-right:2em;">
-			<span style="color:red;">
+			<span style="color:##ff0000;">
 				<cfif #action# is "dispCollObj">
 					<p>You are searching for items to add to a loan.</p>
 				<cfelseif #action# is "encumber">
