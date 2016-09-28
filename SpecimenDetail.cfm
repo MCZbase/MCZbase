@@ -116,23 +116,19 @@
 
 <cfoutput query="detail" group="cat_num">
  <cfset typeName = typestatuswords>
- <cfif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Holotype' or typestatuswords eq 'Syntype' or typestatuswords eq 'Neotype' or typestatuswords eq 'Hapantotype' or typestatuswords eq 'Cotype' or typestatuswords eq 'Lectotype' or typestatuswords eq 'Paralectotype' or typestatuswords eq 'Type' or typestatuswords eq 'Syntype?' or typestatuswords eq 'Cotype?' or typestatuswords eq 'Holotype?' or typestatuswords eq 'Lectotype?' or typestatuswords eq 'Type?' or typestatuswords eq 'Plastoholotype (Paleontology)' or typestatuswords eq 'Plastotype' or typestatuswords eq 'Genoholotype')>
- 
-    <cfset twotypes = '#replace(typestatusplain,"|","<br>")#'>
+ <cfif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Holotype' or typestatuswords eq 'Syntype' or typestatuswords eq 'Neotype' or typestatuswords eq 'Hapantotype' or typestatuswords eq 'Lectotype' or typestatuswords eq 'Paralectotype' or typestatuswords eq 'Syntype?' or typestatuswords eq 'Holotype?' or typestatuswords eq 'Lectotype?')>
+ <cfset twotypes = '#replace(typestatusplain,"|","<br>")#'>
       <div class="primaryCont">
         <div class="primaryType">
     <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes# </span>'>
-    <cfelseif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Paratype' or typestatuswords eq 'Paralectotype' or typestatuswords eq 'Paratype' or typestatuswords eq 'Allotype' or typestatuswords eq 'Alloneotype' or typestatuswords eq 'Allotype?' or typestatuswords eq 'Plastoparatype (Paleontology)' or typestatuswords eq 'Plastohypotype (Paleontology)' or typestatuswords eq 'Plastotype (Paleontology)' or typestatuswords eq 'Allolectotype')>
-    
-	<cfset  twotypes= '#replace(typestatusplain,"|","<br>")#'>
+  <cfelseif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Paratype' or typestatuswords eq 'Paralectotype' or typestatuswords eq 'Alloparatype' or typestatuswords eq 'Alloparalectotype')>
+  <cfset  twotypes= '#replace(typestatusplain,"|","<br>")#'>
        <div class="secondaryCont">
            <div class="secondaryType">
      <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes#  </span>'>
-    
-  <cfelse>
+<cfelse>
      <div class="defaultCont">
         <div class="defaultType">
- 
   </cfif>
    <ul class="headercol1">
     <li>#collection#&nbsp;#cat_num#
@@ -166,7 +162,7 @@
                 </li>
                   <cfelse>
                <!---   <a href="/login.cfm">Login or Create Account</a>--->
-                  <br/><br/>
+                 
                  </li>
                 </cfif>
                  

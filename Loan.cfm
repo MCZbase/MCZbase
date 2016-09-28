@@ -2001,9 +2001,8 @@
                     <cfelse>
                    <dd class="emptystatus">N/A</dd>
                   </cfif>
-                <dt>Recipient Institution:</dt>
-              
-			   <cfif len(recip_inst) GT 0>
+                 <dt>Recipient Institution:</dt>
+                  <cfif len(recip_inst) GT 0>
                     <dd>#recip_inst#</dd>
                     <cfelse>
                    <dd class="emptystatus">N/A</dd>

@@ -228,8 +228,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan = 2 style="font-size: smaller;text-align:left;padding-left: 19em;">
-            <input type="checkbox" name="searchOtherIds" value="Yes">Include Other Identifiers in search (original number, previous number, etc.)</td>
+			<td><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
+			<td><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
 		</tr>
 	<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
