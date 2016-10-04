@@ -152,7 +152,7 @@ label.h {
 label {
 	display: block;
 	font-size: 12px;
-	font-weight: 500;
+	font-weight: 600;
 }
 fieldset {
 	padding: 0;
@@ -216,9 +216,10 @@ a.novisit {
 .notFound {
 	color: red;
 	font-style: italic;
-	text-align: center;
-	padding: 2em;
+	padding: 1em 0 0 0;
+    font-size: 18px;
 }
+
 .newRec {
 	background-color: #D6F5F2;
 }
@@ -273,132 +274,9 @@ a.external:hover:visited:after {
 	content: url(/images/linkOutHover.gif);
 	margin-left: 3px;
 }
-/*************************************************** Superfish ********************************************************/
-.sf-menu, .sf-menu * {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-.sf-menu {
-	line-height: 1.0;
-}
-.sf-menu ul {
-	position: absolute;
-	top: -999em;
-	width: 10em; /* left offset of submenus need to match (see below) */
-}
-.sf-menu ul li {
-	width: 100%;
-}
-.sf-menu li:hover {
-	visibility: inherit; /* fixes IE7 'sticky bug' */
-}
-.sf-menu li {
-	float: left;
-	position: relative;
-}
-.sf-menu a {
-	display: block;
-	position: relative;
-}
-.sf-menu li:hover ul, .sf-menu li.sfHover ul {
-	left: 0;
-	top: 1.5em; /* match top ul list item height */
-	z-index: 99;
-}
-ul.sf-menu li:hover li ul, ul.sf-menu li.sfHover li ul {
-	top: -999em;
-}
-ul.sf-menu li li:hover ul, ul.sf-menu li li.sfHover ul {
-	left: 10em; /* match ul width */
-	top: 0;
-}
-ul.sf-menu li li:hover li ul, ul.sf-menu li li.sfHover li ul {
-	top: -999em;
-}
-ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
-	left: 10em; /* match ul width */
-	top: 0;
-}
-/*** DEMO SKIN ***/
-.sf-menu {
-	float: left;
-	margin-bottom: .1em;
-	font-size: 14px;
-}
-.sf-menu a {
-	border-left: 1px solid #fff;
-	border-top: 1px solid #CFDEFF;
-	padding: .25em 2em;
-	text-decoration: none;
-}
-.sf-menu a, .sf-menu a:visited { /* visited pseudo selector so IE6 applies text colour*/
-	color: #0000FF;
-	color: #114bc7;
-}
-.sf-menu li {
-	background: #E7E7E7;
-	background: #dddddd;
-	padding-right: 2px;
-}
-.sf-menu li li {
-	background: #E7E7E7;
-}
-.sf-menu li li li {
-	background: #E7E7E7;
-}
-.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
-	background: #D0D0D0;
-	outline: 0;
-	color: red;
-}
-.sf-menu a.sf-with-ul {
-	padding-right: 2.25em;
-	min-width: 1px; /* trigger IE7 hasLayout so spans position accurately */
-}
-.sf-sub-indicator {
-	position: absolute;
-	display: block;
-	right: .25em;
-	top: 1.05em; /* IE6 only */
-	width: 10px;
-	height: 10px;
-	text-indent: -999em;
-	overflow: hidden;
-	background: url('/images/css/arrows-ffffff.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
-}
-a > .sf-sub-indicator {  /* give all except IE6 the correct values */
-	top: .6em;
-	background-position: 0 -100px; /* use translucent arrow for modern browsers*/
-}
-/* apply hovers to modern browsers */
-a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-indicator, li:hover > a > .sf-sub-indicator, li.sfHover > a > .sf-sub-indicator {
-	background-position: -10px -100px; /* arrow hovers for modern browsers*/
-}
-/* point right for anchors in subs */
-.sf-menu ul .sf-sub-indicator {
-	background-position: -10px 0;
-}
-.sf-menu ul a > .sf-sub-indicator {
-	background-position: 0 0;
-}
-/* apply hovers to modern browsers */
-.sf-menu ul a:focus > .sf-sub-indicator, .sf-menu ul a:hover > .sf-sub-indicator, .sf-menu ul a:active > .sf-sub-indicator, .sf-menu ul li:hover > a > .sf-sub-indicator, .sf-menu ul li.sfHover > a > .sf-sub-indicator {
-	background-position: -10px 0; /* arrow hovers for modern browsers*/
-}
-/*** shadows for all but IE6 ***/
-.sf-shadow ul {
-	background: url('/images/css/shadow.png') no-repeat bottom right;
-	padding: 0 8px 9px 0;/*-moz-border-radius-bottomleft: 17px;
-	-moz-border-radius-topright: 17px;
-	-webkit-border-top-right-radius: 17px;
-	-webkit-border-bottom-left-radius: 17px;*/
-}
-.sf-shadow ul.sf-shadow-off {
-	background: transparent;
-}
+
 /************************ dropdown taxonomy results *****************************/
-div.submenu {
+/*div.submenu {
 	width: 100%;
 	float: left;
 }
@@ -453,7 +331,7 @@ div.submenu ul li:hover ul, div.submenu ul ul li:hover ul, div.submenu ul ul ul 
 div.submenu h2:hover {
 	background: #E7E7E7 url(/images/small-black-down-arrow.gif) no-repeat 100% 100%;
 	color: #0000FF;
-}
+}*/
 /*************************** jquery ui calendar ***************************/
 /* stop relative (=huge) sizing */
 div.ui-datepicker {
@@ -1051,7 +929,6 @@ div.smallPaddedIndent {
 div.thumb_spcr {
 	clear: both;
 	line-height: 1px;
-	margin-bottom: 1em;
 }
 div.shortThumb {
 	overflow: scroll;
@@ -1256,13 +1133,11 @@ div.one_thumb_small p {
 	border: 1px solid black;
 }
 .cellDiv {
-	margin: 10px;
-	padding: 10px;
+	margin: 10px 10px 10px 0;
+	padding: 20px;
 	border: 1px dotted #ccc;
 	margin-bottom: 1em;
 	background-color: #f8f8f8;
-	width: 98%;
-	margin-left: 0;
 }
 .cellDiv label {
 	margin-top: .5em;
@@ -1512,6 +1387,18 @@ div.infoBox {
 	font-size: smaller;
 	padding: 3px;
 }
+.infoPop {
+		border:3px solid green;
+		padding:.5em;
+		z-index:9999;
+		position:absolute;
+		top:5%;
+		left:5%;
+		background-color:white;
+		width:80%;
+		height:60%;
+		overflow:auto;
+}
 .likeLink {
 	cursor: pointer;
 	color: blue;
@@ -1553,12 +1440,6 @@ a.novisit {
 .indent {
 	text-indent: -2em;
 	padding-left: 2em;
-}
-.notFound {
-	color: red;
-	font-style: italic;
-	text-align: center;
-	padding: 2em;
 }
 .newRec {
 	background-color: #D6F5F2;
@@ -1649,136 +1530,163 @@ p.loginText {
 	font-size: 14px;
 	margin: 1em 0;
 }
+
 /*************************************************** Superfish ********************************************************/
 .sf-menu, .sf-menu * {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+	margin:			0;
+	padding:		0;
+	list-style:		none;
+        
 }
 .sf-menu {
-	line-height: 1.0;
-	width: 100%;
-}
-.sf-menu {
-	width: 66%;
+	line-height:	1.0;
+    
 }
 .sf-menu ul {
-	position: absolute;
-	top: -999em;
-	width: 10em; /* left offset of submenus need to match (see below) */
+	position:		absolute;
+	top:			-999em;
+	width:			10em; /* left offset of submenus need to match (see below) */
 }
 .sf-menu ul li {
-	width: 100%;
+	width:			100%;
 }
 .sf-menu li:hover {
-	visibility: inherit; /* fixes IE7 'sticky bug' */
+	visibility:		inherit; /* fixes IE7 'sticky bug' */
 }
 .sf-menu li {
-	float: left;
-	position: relative;
+	float:			left;
+	position:		relative;
 }
 .sf-menu a {
-	display: block;
-	position: relative;
+	display:		block;
+	position:		relative;
 }
-.sf-menu li:hover ul, .sf-menu li.sfHover ul {
-	left: 0;
-	top: 1.5em; /* match top ul list item height */
-	z-index: 99;
+.sf-menu li:hover ul,
+.sf-menu li.sfHover ul {
+	left:			0;
+	top:			2em; /* match top ul list item height */
+	z-index:		99;
 }
-ul.sf-menu li:hover li ul, ul.sf-menu li.sfHover li ul {
-	top: -999em;
+ul.sf-menu li:hover li ul,
+ul.sf-menu li.sfHover li ul {
+	top:			-999em;
 }
-ul.sf-menu li li:hover ul, ul.sf-menu li li.sfHover ul {
-	left: 10em; /* match ul width */
-	top: 0;
+ul.sf-menu li li:hover ul,
+ul.sf-menu li li.sfHover ul {
+	left:			10em; /* match ul width */
+	top:			0;
 }
-ul.sf-menu li li:hover li ul, ul.sf-menu li li.sfHover li ul {
-	top: -999em;
+ul.sf-menu li li:hover li ul,
+ul.sf-menu li li.sfHover li ul {
+	top:			-999em;
 }
-ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
-	left: 10em; /* match ul width */
-	top: 0;
+ul.sf-menu li li li:hover ul,
+ul.sf-menu li li li.sfHover ul {
+	left:			10em; /* match ul width */
+	top:			0;
 }
 /*** DEMO SKIN ***/
 .sf-menu {
-	float: left;
-	margin-bottom: .1em;
+	float:			left;
+	margin-bottom:	.1em;
 }
 .sf-menu a {
-	padding: .5em 2em;
-	text-decoration: none;
+	border-left:	1px solid #fff;
+	border-top:		1px solid #CFDEFF;
+	padding: 		.45em 2em;
+	text-decoration:none;
 }
-.sf-menu a, .sf-menu a:visited { /* visited pseudo selector so IE6 applies text colour*/
-	color: #0000FF;
+.sf-menu a, .sf-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
+	color:			#0000FF;
 	color: #114bc7;
 }
 .sf-menu li {
-	background: #E7E7E7;
-	background: #dddddd;
+	background:		#E7E7E7;
+	background:		#dddddd;
 	padding-right: 2px;
+    z-index: 3000;
 }
 .sf-menu li li {
-	background: #E7E7E7;
+	background:		#E7E7E7;
 }
 .sf-menu li li li {
-	background: #E7E7E7;
+	background:		#E7E7E7;
 }
-.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
-	background: #D0D0D0;
-	outline: 0;
-	color: red;
+.sf-menu li:hover, .sf-menu li.sfHover,
+.sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
+	background:		#D0D0D0;
+	outline:		0;
+	color:red;
 }
 .sf-menu a.sf-with-ul {
-	padding-right: 2.25em;
-	min-width: 1px; /* trigger IE7 hasLayout so spans position accurately */
+	padding-right: 	2.25em;
+	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
 }
 .sf-sub-indicator {
-	position: absolute;
-	display: block;
-	right: .25em;
-	top: 1.05em; /* IE6 only */
-	width: 10px;
-	height: 10px;
-	text-indent: -999em;
-	overflow: hidden;
-	background: url('/images/css/arrows-ffffff.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
+	position:		absolute;
+	display:		block;
+	right:			.25em;
+	top:			1.05em; /* IE6 only */
+	width:			10px;
+	height:			10px;
+	text-indent: 	-999em;
+	overflow:		hidden;
+	background:		url('/images/css/arrows-ffffff.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
 }
 a > .sf-sub-indicator {  /* give all except IE6 the correct values */
-	top: .6em;
+	top:			.6em;
 	background-position: 0 -100px; /* use translucent arrow for modern browsers*/
 }
 /* apply hovers to modern browsers */
-a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-indicator, li:hover > a > .sf-sub-indicator, li.sfHover > a > .sf-sub-indicator {
+a:focus > .sf-sub-indicator,
+a:hover > .sf-sub-indicator,
+a:active > .sf-sub-indicator,
+li:hover > a > .sf-sub-indicator,
+li.sfHover > a > .sf-sub-indicator {
 	background-position: -10px -100px; /* arrow hovers for modern browsers*/
 }
+
 /* point right for anchors in subs */
-.sf-menu ul .sf-sub-indicator {
-	background-position: -10px 0;
-}
-.sf-menu ul a > .sf-sub-indicator {
-	background-position: 0 0;
-}
+.sf-menu ul .sf-sub-indicator { background-position:  -10px 0; }
+.sf-menu ul a > .sf-sub-indicator { background-position:  0 0; }
 /* apply hovers to modern browsers */
-.sf-menu ul a:focus > .sf-sub-indicator, .sf-menu ul a:hover > .sf-sub-indicator, .sf-menu ul a:active > .sf-sub-indicator, .sf-menu ul li:hover > a > .sf-sub-indicator, .sf-menu ul li.sfHover > a > .sf-sub-indicator {
+.sf-menu ul a:focus > .sf-sub-indicator,
+.sf-menu ul a:hover > .sf-sub-indicator,
+.sf-menu ul a:active > .sf-sub-indicator,
+.sf-menu ul li:hover > a > .sf-sub-indicator,
+.sf-menu ul li.sfHover > a > .sf-sub-indicator {
 	background-position: -10px 0; /* arrow hovers for modern browsers*/
 }
+
 /*** shadows for all but IE6 ***/
 .sf-shadow ul {
-	padding: 0 8px 9px 0;
+/*	background:	url('/images/css/shadow.png') no-repeat bottom right;
+	padding: 0px 8px 10px 0px;
+	-moz-border-radius-bottomleft: 17px;
+	-moz-border-radius-topright: 17px;
+	-webkit-border-top-right-radius: 17px;
+	-webkit-border-bottom-left-radius: 17px;*/
+-webkit-box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
+box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 }
 .sf-shadow ul.sf-shadow-off {
 	background: transparent;
 }
-.sf-mainMenuWrapper {
-	margin: 0 auto;
-	width: 80%;
-	font-size: small;
-	border-bottom: 29px solid #D5D5DB;
-	font-weight: 400;
-	background: #D5D5DB;
-	border-top: 1px solid white;
+.sf-mainMenuWrapper { 
+	clear:left;
+	width:80%;
+    margin:0 auto;
+	font-weight:400;
+	background-color:#D5D5DB;
+    border-bottom: 1px solid #d5d5db; 
+    position:relative;
+    font-size: 15px;
+    height:28px;
+    box-sizing: content-box;
+    box-sizing: border-box;
 }
+.sf-mainMenuWrapper {padding-top:1px;}
 /************************ dropdown taxonomy results *****************************/
 div.submenu {
 	width: 100%;
@@ -1790,6 +1698,8 @@ div.submenu ul {
 	padding: 0;
 	width: 100%;
 	float: left;
+    margin-top:-2px;
+  
 }
 div.submenu a, div.submenu h2 {
 	font: bold 11px/16px arial, helvetica, sans-serif;
@@ -2403,7 +2313,7 @@ div.secDiv {
 	margin-top: 0;
 	padding-top: 0;
 	padding-bottom: 3px;
-	width: 900px;
+	width: 100%;
 }
 td.checkboxS {
 	padding-left: 0;
@@ -2534,6 +2444,14 @@ td#SDCellRight {
 .detailElements {
 	font-size: 1em;
 }
+.mediaPager {
+    font-size: 13px;
+    width: 400px; 
+    float:right;
+    display:inline;
+    text-align: right;
+}
+
 .sessionTimer {
 	background-color: green;
 	color: white;
@@ -2629,7 +2547,7 @@ table.specResultTab td:nth-child(2) {
 	font-size: small;
 	width: 250px;
 }
-​ div.code {
+div.code {
 	font-size: smaller;
 	color: #2F4F4F;
 }
@@ -2651,7 +2569,7 @@ span.helpDiv {
 .infoLink, .infoLink a:visited {
 	cursor: pointer;
 	color: #2B547E;
-	font-size: .7em;
+	font-size: .8em;
 }
 .infoLink:hover {
 	color: #FF0000;
@@ -2664,20 +2582,21 @@ span.helpDiv {
 	float: right;
 }
 .error {
-	position: absolute;
+	/*position: absolute;
+    top: 50%;
+	left: 20%;*/
 	padding: .5em;
 	margin: 10px;
 	text-align: center;
-	top: 50%;
-	left: 20%;
 	background-color: white;
 	z-index: 20;
 	font-size: 2em;
 	color: red;
 	border: 2px solid red;
 	padding: 10px;
-	margin: 10px;
+	margin: 60px 0;
 }
+.media_paging {align-content: center}
 #navbar .activeButton, #navbar .activeButton:hover {
 	border: 1px solid gray;
 	color: gray;
@@ -2805,10 +2724,8 @@ h2 {
 }
 h2.wikilink {
 	width: 70%;
-	/*	float: left;*/
 	margin-bottom: .15em;
 	margin-top: 1em;
-	margin-left: .4em;
 	line-height: 1em;
 }
 h2.wikilink span {
@@ -2848,6 +2765,7 @@ body.helpPages {
 	background-color: #FFFF99;
 	margin: 10px;
 }
+
 input.hBtn {
 	color: #666666;
 	font-size: 8pt;
@@ -3027,7 +2945,7 @@ input.savBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	padding: 2px 5px;
+	padding: 2px 40px;
 	background-color: #FBD29B;
 	border: 1px solid;
 	border-color: #336666;
@@ -3068,7 +2986,7 @@ input.schBtn {
 	color: #666666;
 	font-size: 10pt;
 	font-weight: bold;
-	padding: 2px 30px;
+	padding: 2px 40px;
 	background-color: #CCCC99;
 	border: 1px solid #336666;
 	border-radius: 5px;
@@ -3088,7 +3006,7 @@ input.insBtn {
 	background-color: #99CCCC;
 	border: 1px solid #336666;
 	border-radius: 5px;
-	padding: 2px 5px;
+	padding: 2px 20px;
 }
 input.insBtn:hover {
 	border-top-color: #FF6633;
@@ -3359,6 +3277,7 @@ div.topBlock {
 .feedAtom h3 {
 	padding-left: 6.7em;
 }
+.pr_count {font-size: 16px;font-style: normal;}
 .changePW {
 	width: 50em;
 	margin: 0 auto;
@@ -3687,7 +3606,7 @@ ul.lisc li {
 }
 .projPubSearchResults ul {
 	font-size: 14px;
-	margin-left: 0em;
+	margin-left: 0;
 	margin-top: .25em;
 }
 .projPubSearchResults li {
@@ -3705,7 +3624,7 @@ ul.lisc li {
 	border: 1px solid #ccc;
 }
 .projPubSearchResults div.thumbs {
-	margin-top: 1em;
+	margin-top: 0;
 }
 .content_box_detail {
 	width: 100%;
@@ -3734,15 +3653,27 @@ ul.lisc li {
 	width: 90%;
 }
 .content_box_pub {
-	width: 30em;
+	width: 56em;
 	margin: 0 auto;
 	margin-bottom: 1em;
+    padding: 2em 0;
 }
+.content_box_narrow {width:42em;margin:0 auto;padding-bottom:3em;}
+
 .content_box_pub select, .content_box_pub input {
-	width: 350px;
+	width: 395px;
 }
+.content_box_pub input.schBtn {width: auto;}
+
+.pub_title_box {
+    background-color: #f8f8f8;width: 91%;margin-left: -.75em;padding: 1em .75em .5em .85em;padding-bottom: 1.15em;border: 1px dotted #ccc;
+}
+.projPubSearchResults {width: 80em;margin:0 auto;padding-bottom: 2em;padding-top: 1em;}
+.projPubSearchResults table {width: 80em;}
+.projPubSearchResults td.main {width: 50%;vertical-align: top;padding: 0 1em 1em 0;}
+.projPubSearchResults td.main h3 {padding-top: .75em;}
 .content_box_pub h4 {
-	margin-left: 0em;
+	margin-left: 0;
 	margin: 1em 0 0 0;
 	padding: 0;
 }
@@ -3750,7 +3681,7 @@ ul.lisc li {
 	margin: 0.5em 0 0 0
 }
 .content_box_pub a {
-	width: 130px;
+	width: 134px;
 	display: inline;
 	display: block;
 	float: left;
@@ -3761,10 +3692,12 @@ ul.lisc li {
 .content_box_pub select {
 	margin-bottom: .25em;
 }
-.content_box_pub .clrBtn, .content_box_pub .schBtn {
-	padding: 3px 0;
+.content_box_pub .clrBtn {
+
 	width: 100px;
-	border-radius: 5px;
+}
+.content_box_pub .schBtn {   
+    padding: 2px 40px;
 }
 ul.pubLinks {
 	margin-top: 1.5em;
@@ -3774,16 +3707,54 @@ ul.pubLinks {
 	margin: .5em 0 0 0;
 	padding: 0;
 }
+.license_box {border:1px solid red;padding: 10px 0 0 10px;width: 440px; margin: 1em 0 1em 2px;}
 .detailsLink {
-	margin: 1.5em 0 .5em .5em;
+	margin: 1.5em 0 .5em 0;
 }
 .pubLinks li {
 	margin-top: .5em;
 	list-style: none;
 }
+
 .thirteen {
 	font-size: 13px;
 }
+.editPub {width: 54.5em;margin:0 auto;padding-bottom: 2em;}
+.basic_search_box {
+    width: 56em;
+	margin: 0 auto;
+	margin-bottom: 1em;
+    padding: .5em 0 3em 0;
+}
+.basic_search_box label {padding-top:.15em}
+.basic_search_box li.entry {
+    margin-left: 2em;
+    padding: 5px 0;
+}
+.basic_box {
+	width: 56em;
+	margin: 0 auto;
+	margin-bottom: 1em;
+    padding: 2em 0 3em 0;
+}
+.basic_box p {
+    line-height: 1.2em;
+    padding: 1em 0;
+}
+.basic_search_box a.toplinks {display:inline-block; float: left; width:auto; padding-right: 1em;}
+.basic_box_media
+.basic_box_media table {width:100%;}
+.basic_box_media td {border: 1px dotted #ccc;width:50%;}
+.basic_box_media ul li {vertical-align: middle;margin-left: 2em;}
+.basic_box form {margin: 1em 0;}
+.basic_box form label{margin-top: .5em;}
+.basic_box form input{margin-bottom: .5em;}
+.relationship_dd {
+    border: 1px dotted #ccc;
+    padding: 10px 3px 3px 10px;
+    background-color: white;
+}
+.graydot {border: 1px dotted #ccc;padding:10px 5px 5px 5px;}
 /******************/
 /*  start NEW  header content */
 /******************/
@@ -3830,26 +3801,35 @@ ul.pubLinks {
 	color: #cc0000;
 }
 #headerLinks {
-	width: 33%;
-	float: right;
-	padding-right: 0px;
-	margin: 0;
-	font-size: 11px;
-	color: black;
+	width: auto;
+	right: 0;
+	padding: 2px 3px 0 0;
+	color: #114bc7;
 	text-align: right;
+    height:30px;
+    background-color:#D5D5DB;
+    margin-top:-7px;
+    padding: 2px 3px 7px 0;
 }
+
 #headerLinks li {
-	float: left;
+	text-align: right;
 	display: inline;
+    color: #114bc7;
+    list-style: none;
+    margin-top:-1em;  
+}
+#headerLinks span {
+    font-size: 13px;
 }
 .loginTxt {
 	font-size: .8em;
 	padding: 0 1px;
 }
 #headerLinks li a {
-	color: black;
+	color:#114bc7;
 }
-#headerLinks .login_buttons {float:right;width: 50%;}
+#headerLinks .smallBtn {font-size: 10px;}
 /*  end header content -- excludes menu */
 .secHead {
 	background-color: lightgrey;
@@ -3914,7 +3894,7 @@ select#GeorefMethod {
 }
 .greenbox {
 	padding: 1em 1em;
-	margin-bottom: 2em;
+	margin-bottom: 1em;
 	margin-top: 1em;
 	border: 1px dotted #ccc;
 	background-color: #f8f8f8;
@@ -3925,7 +3905,7 @@ select#GeorefMethod {
 .locGroup {
 	border: 1px dotted #ccc;
 	background-color: #f8f8f8;
-	padding: 10px;
+	padding: 10px 10px 20px 10px;
 	margin: 20px 0;
 }
 .graydottedbox {
@@ -3955,12 +3935,15 @@ select#GeorefMethod {
 	padding: .15em;
 	margin-bottom: .5em;
 }
+#attTab {padding-bottom: 1em;font-size: smaller;}
 #attTab select {
 	width: 600px !important;
 }
 #attTab td {
 	border: 1px dotted #ccc;
+    padding: 1px 5px;
 }
+
 #relationships input, #labels input {
 	width: 73%;
 }
@@ -4111,11 +4094,12 @@ ul.headercol3 li {
 	font-size: .85em;
 	color: gray;
 }
-.userdataForm label {
+form.userdataForm label {
 	margin-top: .5em;
 }
+.arctoSet {margin-bottom: .5em; margin-top:1.5em;padding-bottom: 0;}
 .taxaDetailsbox {
-	width: 54em;
+	width: 54em; 
 	margin: 0 auto;
 	padding-bottom: 2em;
 }
@@ -4297,6 +4281,9 @@ table.navtabs {
 	display: table-row;
 	vertical-align: inherit;
 }
+#authTab {
+    font-size: smaller;
+}
 .welcomeback {
 	margin-left: .5em;
 	margin-bottom: 2em;
@@ -4309,6 +4296,7 @@ table.navtabs {
 }
 .welcomeback li {
 	margin-left: 1.5em;
+    padding: .25em 0;
 }
 .specSearchContent {
 	width: 56.4em;
@@ -4434,6 +4422,23 @@ table.navtabs {
 .IDloan td {
 	padding-right: 3em;
 }
+.BulkSpec {
+    width: 45em; 
+    margin: 0 auto;
+    padding-bottom: 5em;
+}
+.BulkSpec ul {margin-top:1em;}
+.BulkSpec li {
+    margin-left: 2em;
+    padding: .25em 0;
+}
+.BulkSpec p {margin: .5em 0;
+line-height: 1.2em;}
+.mediaEdit {margin-top:-2em;}
+
+
+
+
 
 @media only screen and (max-width: 1800px) {
 #headerContent {
@@ -4524,6 +4529,7 @@ table.navtabs {
 .sf-mainMenuWrapper {
 	margin: 0 auto;
 	width: 98%;
+      position: relative;
 }
 .content_box {
 	width: 98%;
@@ -4537,6 +4543,7 @@ table.navtabs {
 .sf-menu {
 	width: 79%;
 	z-index: 1;
+
 }
 }
 
@@ -4552,7 +4559,7 @@ table.navtabs {
 /*end bug form styles*/
 
 /***** TYPE STYLES begin *****/
-/*.graydottedbox {
+.graydottedbox {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -4566,8 +4573,8 @@ table.navtabs {
 .graydottedbox table {background-color: white;}
 
 .graydottedbox input {border: 1px dotted #ccc;}
-.graydottedbox select {border: 1px dotted #ccc; background-color: #fff;}*/
-/*.content_box table.pubtitle {
+.graydottedbox select {border: 1px dotted #ccc; background-color: #fff;}
+.content_box table.pubtitle {
 	border: 1px solid #ebebeb;
 	background-color: #fff;
 	padding: .15em;
@@ -4575,14 +4582,14 @@ table.navtabs {
 }
 #attTab select {
 	width: 600px !important;
-}*/
-/*#attTab td {border: 1px dotted #ccc;}
+}
+#attTab td {border: 1px dotted #ccc;}
 #relationships input, #labels input {
 	width: 73%;
-}*/
-/*input#keyword {
+}
+input#keyword {
 	width: 60%;
-}*/
+}
 .defaultType {
 	width: 100%;
 	padding: .15em 0 0 0;
@@ -4717,10 +4724,10 @@ ul.headercol3 li {
 	padding: .5em;
 	border-radius: 5px;
 }
-/*.taxDetDiv {
+.taxDetDiv {
 	padding: .25em;
-}*/
-/*.citedTaxaPrimaryType {
+}
+.citedTaxaPrimaryType {
 	background-color: #CD9091;
 }
 .fullTaxaName {
@@ -4731,7 +4738,7 @@ ul.headercol3 li {
 	margin: .25em;
 	padding: 0;
 	font-size: .8em;
-}*/
+}
 ul.return_links {
 	float: left;
 	width: auto;
@@ -4747,18 +4754,17 @@ ul.return_links li {
 	margin: .25em 1em .25em 0;
 	font-size: 12px;
 }
-/*ul.id_meta {
+ul.id_meta {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	font-size: .85em;
-}*/
-/*table.navtabs {
+}
+table.navtabs {
 	margin: 0 7%;
 	width: 86%
-}*/
+}
 .defaultCont {
-	/*float: left;*/
 	width: 100%;
 	background-color: #ffffff;
 	z-index: 1;
@@ -4779,3 +4785,272 @@ ul.return_links li {
 	margin: .1em .5% 0 0;
 }
 /***** TYPE STYLES end *****/
+
+
+
+#dataentry_form {
+    width: 100%;
+    font-size: .68em;
+}
+#dataentry_form table {
+    width:100%;
+    border: 1px solid gray;
+    padding: 3px;
+}
+#dataentry_form input{
+    font-size: 11px;
+}
+#dataentry_form select{
+    font-size: 11px;
+}
+.de_lefthalf {
+    width: 50%;
+    padding-right: .5em;
+    padding-bottom: 2em;
+}
+
+.de_righthalf {
+    width:50%;
+    padding-left:.5em;
+
+}
+.bottomDEtable {
+    padding-top: 1em;
+    width:100%;
+    clear:both;
+    border: none;
+}
+.destatus {font-size: 14px;color: red;}
+.status2 {font-size: 13px;}
+td.geometh select {
+    width: 280px;
+    white-space:pre-wrap;
+}
+h3 {
+	font-size: 1.44em;
+	font-weight: 540
+}
+h3.wikilink {
+	width: auto;
+	margin-bottom: .15em;
+	margin-top: 1.2em;
+	line-height: 1em;
+}
+h3.wikilink span {
+	font-style: italic;
+	font-size: smaller;
+}
+h3.wikilink img {
+	vertical-align: top;
+	margin-top: -7px
+}
+table.noborder {border: none;}
+#msg {
+	position:fixed;
+	bottom:0;
+	z-index:10000;
+	text-align:center;
+	font-size:small;
+	width:79.8%;
+	border:2px solid black;
+    padding: 10px 0;
+	background-color:white;
+    font-weight: bold
+}
+#loadedMsgDiv{display:none;}
+.isGoodEdit {
+	background-color:#00CCCC;
+}
+.isBadEdit, isBadEdit tr:nth-child(even) {
+        background: #b58aa5; 
+}
+#loadedMsgDiv{display:none;}
+.isGoodEdit {
+	background-color:#00CCCC;
+}
+.isBadEdit, isBadEdit tr:nth-child(even) {
+        background: #b58aa5; 
+}
+.isBadEdit, isBadEdit tr:nth-child(odd) {;
+        background: #b58aa5;
+        background: -moz-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); 
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(58%, #b58aa5), color-stop(100%, #d5b9ca)); 
+        background: -webkit-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%);
+        background: -o-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%);
+        background: -ms-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); 
+        background: linear-gradient(to bottom, #b58aa5 58%, #d5b9ca 100%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', endColorstr='#d5b9ca', GradientType=0 ); 
+}
+.isEnter {
+	border:none;
+	background-color:#bed88f;
+    padding: 1em;
+}
+.hasProbs {
+	background-color:#FF0000;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+}
+#theTable .infoLink {color:blue;font-size: 11px;}
+div.processMessage{font-size: 20px;color}
+div#modeDisplayDiv {
+    color: gray;
+    font-size: 15px;
+    text-shadow: black 1px 1px;
+    background-color: white;
+    border:1px solid gray; 
+    padding: 3px 0;
+}
+div#loadedMsgDiv {
+    color:red;
+    font-size: 15px;
+    text-shadow: black 1px 1px;
+    background-color: white;
+    border:1px solid gray; 
+    padding: 3px 0;
+}
+
+/***data entry form ****/
+/*
+
+#theTable {width: 100%;}
+.de_lefthalf {
+    width: 40%;
+}
+.de_righthalf {
+    width: 40%;
+}
+.bottomDEtable{
+    width:80%;
+}
+#loadingAnimation{
+	position:fixed;
+	top:50%;
+	left:40%;
+	padding:5px;
+	z-index:2001;
+}
+#loadedMsgDiv{display:none;}
+.isGoodEdit {
+	background-color:#00CCCC;
+}
+.isBadEdit, isBadEdit tr:nth-child(even) {
+        background-color: #FF6EC7;
+        background-color: #B58AA5;
+        background: #b58aa5; 
+}
+.isBadEdit, isBadEdit tr:nth-child(odd) {
+        background: #b8d1f3;
+        background: #cecece;
+        background: #d5b9ca;
+        background: #b58aa5;
+        background: -moz-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); 
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(58%, #b58aa5), color-stop(100%, #d5b9ca)); 
+        background: -webkit-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%);
+        background: -o-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%);
+        background: -ms-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); 
+        background: linear-gradient(to bottom, #b58aa5 58%, #d5b9ca 100%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', endColorstr='#d5b9ca', GradientType=0 ); 
+}
+.isEnter {
+	border:none;
+	background-color:#bed88f;
+}
+
+
+.bad{
+    color:red;
+}
+.good{
+    color:green;
+}
+
+.firstOfRow {
+    float: left;
+    width: 100px;
+}
+
+.noShow {
+	display:none;
+}
+.doShow {
+}
+.f11a {font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	padding-right:2px;
+}
+.hasProbs {
+	background-color:#FF0000;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+}
+.fs {
+	border: 2px ridge #669999;
+	padding:1px;
+	margin:1px;
+}
+
+.err {
+	width:100%;
+	text-align:center;
+	border:1px solid red;
+	font-size:small;
+}
+.f11b {
+        float: left;
+        padding-right: 1em;
+        padding-left: 1em;
+        font-size: 11px;
+        padding-right: 2px;
+        padding-top: 1em;
+}
+
+table.collector input.reqdClr {
+        width: 142px;
+}
+table.collector select.reqdClr {
+        width: 80px;
+}
+table.geotable select {
+        width: 110px;
+}
+*/
+/*** Below: Used for Part Attribute button and popup  ***/
+input.part_at {
+        width: 83px;
+        float: left;
+        display: inline;
+}
+.div1 ul {
+        width: 560px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+}
+.div1 ul li {
+        display: inline;
+        font-size: 10px;
+        float: left;
+        width: 84px;
+        margin: 2px 9px 5px 0px;
+}
+a.part_att_btn {
+        font-size: 12px;
+        font-weight: bold;
+        color: #666;
+        background-color:#a9c9fd;
+        display: block;
+        padding: 1px 5px;
+        margin: 3px 5px;
+        border: 1px solid #666;
+        cursor:pointer;
+        text-align:center;
+        width: auto;
+}
+table.bottom_band {
+    padding-bottom: 5px;
+    width:100%;
+    margin-left:-.02em;
+    font-size: 14px;
+}
+/*** Above: Used for Part Attribute button and popup  ***/

@@ -5,6 +5,7 @@
 "Can" the dynamic page that you are currently on to quickly return later. Results are data-based, so you may get different results the next time you visit; only your criteria are stored.
 
 <cfoutput>
+    <div class="basic_box">
 	<cfquery name="me" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select user_id from cf_users where username='#session.username#'
 	</cfquery>
@@ -29,8 +30,8 @@
 		document.getElementById('srchName').focus();
 	</script>
 	<p>
-	<a href="saveSearch.cfm?action=manage">[ Manage ]</a>
-	
+        <a href="saveSearch.cfm?action=manage">[ Manage ]</a></p>
+        </div>   
 </cfoutput>
 </cfif>
 <cfif #action# is "saveThis">
@@ -74,6 +75,7 @@
 </script>
 
 <cfoutput>
+        <div class="basic_box">
 	<cfquery name="hasCanned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select SEARCH_NAME,URL,canned_id
 	from cf_canned_search,cf_users
@@ -81,8 +83,11 @@
 	and username = '#session.username#'
 	order by search_name
 </cfquery>
+   
 <cfif hasCanned.recordcount is 0>
-	You may save searches from Specimen Results for later reference.
+ <p>You may save Specimen Results from searches on the home page for later reference.</p>
+ <p>They will appear here when you have done so.</p>
+
 <cfelse>
 
 <table border>
@@ -105,6 +110,7 @@
 	</tr>
 </cfloop>
 </table>
+    </div>
 </cfif>
 </cfoutput>
 </cfif>

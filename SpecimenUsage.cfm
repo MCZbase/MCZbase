@@ -13,7 +13,7 @@
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-   <div class="content_box_pub" style="width: 50em; margin: 0 auto;padding-bottom: 2em;">
+   <div class="content_box_pub">
      <h2 class="wikilink">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
@@ -27,16 +27,16 @@
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                 <tr>
 					<td>
-						<a  style="padding: .5em 0;display: block;" href="/Project.cfm?action=makeNew">New Project</a>
+						<a  style="padding: .5em 0;display: block;" href="/Project.cfm?action=makeNew">[ New Project ]</a>
                   
-						<a style="padding: .5em 0;display: block;" href="/Publication.cfm?action=newPub">New Publication</a>
+						<a style="padding: .5em 0;display: block;" href="/Publication.cfm?action=newPub">[ New Publication ]</a>
 		    		 </td>
                     </tr>
 				</cfif>
               <tr>
              
 				<td>
-                 <div style="background-color: #f8f8f8;width: 91%;margin-left: -.5em;padding: .25em .5em .5em .65em;padding-bottom: 1.15em;border: 1px dotted #ccc;">
+                 <div class="pub_title_box">
 					<h4 style="margin-top: .75em;">Project or Publication Basics</h4>
 					<label for="p_title"><span id="project_publication_title">Title</span></label>
 					<input name="p_title" id="p_title" type="text">
@@ -110,8 +110,8 @@
                
 			</tr>
 			<tr>
-				<td colspan="2" align="center" style="padding-top: 1em;">
-					<input type="submit" value="Search" class="schBtn" style="margin-right: 2em;">
+				<td colspan="2" align="center" style="padding-top: 2em;">
+					<input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
 					
                     <input type="reset"	value="Clear Form"	class="clrBtn">
 				</td>
@@ -381,14 +381,14 @@
 	<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(basSQL)#
 	</cfquery>
-<div class="projPubSearchResults" style="width: 62em;margin:0 auto;padding-bottom: 2em;">
+<div class="projPubSearchResults">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<a href="/Reports/SpecUsageReport.cfm?project_id=#valuelist(projects.project_id)#&publication_id=#valuelist(publication.publication_id)#">Create Report Data</a>
 	</cfif>
 <cfset i=1>
 	<table>
     <tr>
-      <td width="50%" valign="top" style="padding: 0 1em 1em 1em;">
+      <td class="main">
 		<h3>
 			Projects
 			<cfif projNames.recordcount is 0>
@@ -396,8 +396,7 @@
 					No projects matched your criteria.
 				</div>
 			<cfelse>
-           
-				(#projNames.recordcount# results)
+				(#projNames.recordcount# result(s))
               
 			</cfif>
 		</h3>
@@ -454,20 +453,22 @@
 			<cfset i=i+1>
 		</cfloop>
 	</td>
-    <td width="50%" valign="top" style="padding: 0 1em 1em 1em;">
-	<h3>
+    <td class="main">
+	<h2 class="wikilink">
 		Publications 
+          <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]"></cfif>
 		<cfif publication.recordcount is 0>
 			<div class="notFound">
 				No publications matched your criteria.
 			</div>
-		<cfelseif publication.recordcount is 1>
+		<cfelseif publication.recordcount is 1>	
+            <span class="pr_count">(#publication.recordcount# result)</span>
 			<cfset title = "#publication.publication_title#">
 		<cfelse>
 			(#publication.recordcount# results)
 		</cfif>
-     <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]"></cfif>
-	</h3>
+   
+	</h2>
 	<cfquery name="pubs" dbtype="query">
 		SELECT
 			publication_id,

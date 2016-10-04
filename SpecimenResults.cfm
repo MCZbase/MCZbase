@@ -7,6 +7,7 @@
 <cfoutput>
 <script type="text/javascript" language="javascript">
 jQuery( function($) {
+   
 	$("##customizeButton").live('click', function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
@@ -26,6 +27,7 @@ jQuery( function($) {
 			viewport.init("##bgDiv");
 		});		
 	});
+    
 	$(".browseLink").live('click', function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
@@ -575,6 +577,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 		u += '&sort=' + s;
 		var reportWin=window.open(u);
 	}
+   
 </script>
 </cfoutput>
 <!---

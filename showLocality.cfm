@@ -1,19 +1,5 @@
 <cfinclude template="includes/_header.cfm">
 <script src="/includes/sorttable.js"></script>
-<style>
-	.infoPop {
-		border:3px solid green;
-		padding:.5em;
-		z-index:9999;
-		position:absolute;
-		top:5%;
-		left:5%;
-		background-color:white;
-		width:80%;
-		height:60%;
-		overflow:auto;
-	}
-</style>
 <script>
 	function removeDetail(){
 		$("#bgDiv").remove();
@@ -88,8 +74,8 @@
 	<cfset title="Explore Localities">
 	<cfset showLocality=1>
 	<cfset showEvent=1>
-    <div style="margin: 0 auto;width: 56em;padding-bottom: 2em;">
-	<h2 class="wikilink">Find Localities 
+    <div class="basic_search_box">
+	<h2 class="wikilink">Search Localities 
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
     <img src="/images/info_i_2.gif" onClick="getMCZDocs('Find Locality')" class="likeLink" alt="[ help ]" style="vertical-align:top;">
     </cfif>

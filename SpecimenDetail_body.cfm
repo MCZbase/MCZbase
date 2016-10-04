@@ -309,7 +309,7 @@
 			<input type="hidden" name="Srch" value="Part">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 	</cfif>
-	<table width="100%"><!---- full page table ---->
+	<table width="100%" style="background-color: white;"><!---- full page table ---->
 		<tr>
 			<td valign="top" width="50%">
 <!------------------------------------ Taxonomy ---------------------------------------------->
@@ -1273,6 +1273,7 @@
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 					</cfif>
+                </div>
 				
 					<cfif len(one.coll_object_remarks) gt 0>
 						<div class="detailBlock">
@@ -1325,6 +1326,7 @@
 						</cfif>
 					</cfif>
 				</div>
+                                    </div>
 <!------------------------------------ accession ---------------------------------------------->
 			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			    select

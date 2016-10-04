@@ -234,8 +234,8 @@
 	</cfquery>
 
 
-	<h3 style="margin-bottom: .5em; margin-top:1.5em;padding-bottom: 0;">Arctos Setings</h3>
-	<form method="post" action="myArctos.cfm" name="dlForm">
+	<h3 class="arctosSet">Arctos Setings</h3>
+	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
 			<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
@@ -314,8 +314,8 @@
 					  item.updated = new Date(item.updated);
 					  
                       html += '<div class="feedAtom">';
-					  html += '<div class="updatedAtom" style="position: absolute; z-index: 1000;"><p>' + item.updated.toDateString() + '</p></div>';
-					  html += '<div class="authorAtom">by ' + item.author + '</div>';
+					  html += '<div class="updatedAtom" style="position: absolute; z-index: 10;"><p>' + item.updated.toDateString() + '</p></div>';
+					  html += '<div class="authorAtom" style="z-index:11;">by ' + item.author + '</div>';
 					  html += '<h3><a href="' + item.link + '">' + item.title + '</a></h3>';
                       html += '<div class="descriptionAtom">' + item.description +'</div>';
 					  html += '</div>';

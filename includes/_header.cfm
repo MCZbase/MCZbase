@@ -25,7 +25,10 @@
                     speed:       0,
                 });
                 if (top.location!=document.location) {
-                                $("#_footerTable").hide();
+                                $("#footerContentBox").hide();
+                                $("#headerContent").hide();
+                                $(".sf-mainMenuWrapper").hide();
+                          
                 }
             });
 	</script>
@@ -52,54 +55,18 @@
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
       <div class="sf-mainMenuWrapper">
-        <div id="headerLinks">
-        <cfif len(#session.username#) gt 0>
-              <a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a>
-                  <cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
-                  <span>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)</span>&nbsp;
-                  </cfif>
-                 <cfif isdefined("session.needEmailAddr") and session.needEmailAddr is 1>
-                    <br>
-                  <span> You have no email address in your profile. Please correct. </span>
-                  </cfif>
-           </div>
-        <cfelse>
-                 <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-                   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-                  <cfelse>
-                   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-                  </cfif>
-                        <form name="logIn" method="post" action="/login.cfm">
-                          <input type="hidden" name="action" value="signIn">
-                          <input type="hidden" name="gotopage" value="#gtp#">
-                          <table>
-                           <tr>
-                              <td><span>Username:</span></td>
-                              <td><input type="text" name="username" title="Username" size="14"
-                                                      class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></td>
-                              <td><span>Password:</span></td>
-                             <td><input type="password" name="password" title="Password" size="14" class="loginTxt"></td>
-                              </tr>
-                              <tr>
-                              <td><input type="submit" value="Log In" class="smallBtn"> <span>or</span> <input type="button" value="Create Account" class="smallBtn"
-                                                          onClick="logIn.action.value='newUser';submit();"></td>
-                             </tr>
-                           </table>
-                        </form>
-           </div><!---end headerLinks--->
-         </cfif>
-    
      
   <ul class="sf-menu">
-        <li> <a target="_top" href="/SpecimenSearch.cfm">Search</a>
+        <li><!--main menu element--> 
+            <a target="_top" href="/SpecimenSearch.cfm">Search</a>
               <ul>
-            <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
-            <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-            <li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
-            <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
-            <li><a target="_top" href="/showLocality.cfm">Places</a></li>
-          </ul>
-            </li>
+                 <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
+                 <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
+                 <li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
+                 <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
+                 <li><a target="_top" href="/showLocality.cfm">Places</a></li>
+             </ul>
+         </li>
         <cfif len(session.roles) gt 0 and session.roles is not "public">
               <cfset r = replace(session.roles,",","','","all")>
               <cfset r = "'#r#'">
@@ -110,49 +77,50 @@
 							where upper(role_name)  not in (#ucase(preservesinglequotes(r))#)
 						</cfquery>
               <cfset formList = valuelist(roles.form_path)>
-              <li><a href="##">Enter Data</a>
-            <ul>
-                  <li><a target="_top" href="/DataEntry.cfm">Data Entry</a></li>
-                  <li><a target="_top" href="##">Bulkloader</a>
-                <ul>
+              <li><!--main menu element--> 
+                  <a href="##">Enter Data</a>
+                   <ul>
+                     <li><a target="_top" href="/DataEntry.cfm">Data Entry</a></li>
+                     <li><a target="_top" href="##">Bulkloader</a>
+                   <ul>
                       <cfif listfind(formList,"/Bulkloader/bulkloader_status.cfm")>
-                    <li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
-                    <li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
-                    <li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
-                    <li><a target="_top" href="##" onclick="getDocs('Bulkloader/index')">Bulkloader Docs</a></li>
-                  </cfif>
+                        <li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
+                        <li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
+                        <li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
+                        <li><a target="_top" href="##" onclick="getDocs('Bulkloader/index')">Bulkloader Docs</a></li>
+                      </cfif>
                       <cfif listfind(formList,"/Bulkloader/browseBulk.cfm")>
-                    <li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
-                  </cfif>
-                    </ul>
+                        <li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
+                      </cfif>
+                   </ul>
               </li>
                   <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
-                <li><a target="_top" href="##">Batch Tools</a>
+                  <li><!--main menu element--> 
+                    <a target="_top" href="##">Batch Tools</a>
                       <ul>
-                    <li><a target="_top" href="/tools/BulkloadParts.cfm">Bulkload Parts</a></li>
-                    <!--<li><a target="_top" href="/tools/BulkPartSample.cfm">Bulkload Part Subsamples (Lots)</a></li>-->
-                    <li><a target="_top" href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
-                    <li><a target="_top" href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
-                    <li><a target="_top" href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers</a></li>
-                    <li><a target="_top" href="/tools/loanBulkload.cfm">Bulkload Loan Items</a></li>
-                    <li><a target="_top" href="/tools/DataLoanBulkload.cfm">Bulkload DataLoan Items</a></li>
-                    <li><a target="_top" href="/DataServices/agents.cfm">Bulkload Agents</a></li>
-                    <li><a target="_top" href="/tools/BulkloadPartContainer.cfm">Parts>>Containers</a></li>
-                    <li><a target="_top" href="/tools/BulkloadIdentification.cfm">Identifications</a></li>
-                    <li><a target="_top" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a></li>
-                    <li><a target="_top" href="/tools/BulkloadMedia.cfm">Bulkload Media</a></li>
-                    <!---li><a target="_top" href="/tools/uploadMedia.cfm">upload images</a></li--->
-                    <li><a target="_top" href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a></li>
-                    <li><a target="_top" href="/tools/BulkloadGeoref.cfm">Bulkload Georeference</a></li>
-                    <cfif listfind(formList,"/tools/BulkloadTaxonomy.cfm")>
+                         <li><a target="_top" href="/tools/BulkloadParts.cfm">Bulkload Parts</a></li>
+                         <li><a target="_top" href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
+                         <li><a target="_top" href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
+                         <li><a target="_top" href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers</a></li>
+                         <li><a target="_top" href="/tools/loanBulkload.cfm">Bulkload Loan Items</a></li>
+                          <li><a target="_top" href="/tools/DataLoanBulkload.cfm">Bulkload <span style="font-size: 11px;">Data Loan</span> Items</a></li>
+                         <li><a target="_top" href="/DataServices/agents.cfm">Bulkload Agents</a></li>
+                          <li><a target="_top" href="/tools/BulkloadPartContainer.cfm">Parts<span style="font-size: 11px;"> >> </span>Containers</a></li>
+                         <li><a target="_top" href="/tools/BulkloadIdentification.cfm">Identifications</a></li>
+                         <li><a target="_top" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a></li>
+                         <li><a target="_top" href="/tools/BulkloadMedia.cfm">Bulkload Media</a></li>
+                         <li><a target="_top" href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a></li>
+                         <li><a target="_top" href="/tools/BulkloadGeoref.cfm">Bulkload Georeference</a></li>
+                        <cfif listfind(formList,"/tools/BulkloadTaxonomy.cfm")>
                           <li><a target="_top" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a></li>
                         </cfif>
-                  </ul>
-                    </li>
-              </cfif>
+                     </ul>
+                 </li>
+                 </cfif>
                 </ul>
-          </li>
-              <li><a target="_top" href="##">Manage Data</a>
+              </li>
+              <li><!--main menu element--> 
+                  <a target="_top" href="##">Manage Data</a>
             <ul>
                   <cfif listfind(formList,"/Locality.cfm")>
                 <li><a target="_top" href="##">Location</a>
@@ -201,41 +169,41 @@
                   </ul>
                     </li>
               </cfif>
-                  <cfif listfind(formList,"/Loan.cfm")>
+                <cfif listfind(formList,"/Loan.cfm")>
                 <li><a target="_top" href="##">Transactions</a>
                       <ul>
-                    <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
-                    <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
-                    <li><a target="_top" href="/Loan.cfm?Action=newLoan">Create Loan</a></li>
-                    <li><a target="_top" href="/Loan.cfm?Action=newLoan&scope=Gift">Create Gift</a></li>
-                    <li><a target="_top" href="/Loan.cfm?Action=search">Find Loans/Gifts</a></li>
-                    <li><a target="_top" href="/borrow.cfm?action=new">Create Borrow</a></li>
-                    <li><a target="_top" href="/borrow.cfm">Find Borrow</a></li>
-                    <li><a target="_top" href="/Permit.cfm?action=newPermit">Create Permit</a></li>
-                    <li><a target="_top" href="/Permit.cfm">Find Permit</a></li>
-                  </ul>
-                    </li>
-              </cfif>
+                        <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
+                        <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
+                        <li><a target="_top" href="/Loan.cfm?Action=newLoan">Create Loan</a></li>
+                        <li><a target="_top" href="/Loan.cfm?Action=newLoan&scope=Gift">Create Gift</a></li>
+                        <li><a target="_top" href="/Loan.cfm?Action=search">Find Loans/Gifts</a></li>
+                        <li><a target="_top" href="/borrow.cfm?action=new">Create Borrow</a></li>
+                        <li><a target="_top" href="/borrow.cfm">Find Borrow</a></li>
+                        <li><a target="_top" href="/Permit.cfm?action=newPermit">Create Permit</a></li>
+                        <li><a target="_top" href="/Permit.cfm">Find Permit</a></li>
+                     </ul>
+               </li>
+               </cfif>
                   <cfif listfind(formList,"/Encumbrances.cfm")>
-                <li><a target="_top" href="##">Metadata</a>
+                   <li><a target="_top" href="##">Metadata</a>
                       <ul>
-                    <cfif listfind(formList,"/Encumbrances.cfm")>
+                        <cfif listfind(formList,"/Encumbrances.cfm")>
                           <li><a target="_top" href="/Encumbrances.cfm">Encumbrances</a></li>
                         </cfif>
-                    <cfif listfind(formList,"/CodeTableEditor.cfm")>
+                        <cfif listfind(formList,"/CodeTableEditor.cfm")>
                           <li><a target="_top" href="/CodeTableEditor.cfm">Code Tables</a></li>
                         </cfif>
-                    <cfif listfind(formList,"/Admin/Collection.cfm")>
+                        <cfif listfind(formList,"/Admin/Collection.cfm")>
                           <li><a target="_top" href="/Admin/Collection.cfm">Manage Collection</a></li>
                         </cfif>
-                  </ul>
-                    </li>
-              </cfif>
+                     </ul>
+                  </li>
+                  </cfif>
                   <cfif listfind(formList,"/info/reviewAnnotation.cfm")>
                 <li><a target="_top" href="##">Tools</a>
                       <ul>
                     <li><a target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a></li>
-                    <li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync parent/child taxonomy</a></li>
+                          <li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync <span style="font-size: 10px;">parent/child</span> taxonomy</a></li>
                     <li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
                     <cfif listfind(formList,"/tools/sqlTaxonomy.cfm")>
                           <li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
@@ -307,32 +275,65 @@
                 </li>
           </cfif>
             </cfif>
-        <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
+           <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
               <ul>
-            <cfif len(session.username) gt 0>
+                  <cfif len(session.username) gt 0>
                   <li><a target="_top" href="/myArctos.cfm">Profile</a></li>
                   <cfelse>
                   <li><a target="_top" href="/myArctos.cfm">Log In</a></li>
-                </cfif>
-            <li><a target="_blank" href="https://sites.google.com/site/arctosdb/" class="external">More Info</a></li>
-            <li><a target="_top" href="/home.cfm">About</a></li>
-            <li><a target="_top" href="/Collections/index.cfm">Collections (Loans)</a></li>
-            <li><a target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
-            <li><a target="_top" href="/info/api.cfm">API</a></li>
-          </ul>
+                  </cfif>
+                <li><a target="_blank" href="https://sites.google.com/site/arctosdb/" class="external">More Info</a></li>
+                <li><a target="_top" href="/home.cfm">About</a></li>
+                <li><a target="_top" href="/Collections/index.cfm">Collections (Loans)</a></li>
+                <li><a target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
+                <li><a target="_top" href="/info/api.cfm">API</a></li>
+              </ul>
             </li>
-        <li><a target="_top" href="##">Help</a>
-              <ul>
-            <cfscript>
+          <li><a target="_top" href="##">Help</a>
+                    <ul>
+                       <cfscript>
 							serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
 						</cfscript>
-            <cfif serverName contains "harvard.edu">
-                  <li><a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
-                </cfif>
-            <li><a target="_blank" href="http://arctosdb.wordpress.com">About Arctos</a></li>
-          </ul>
+                     <cfif serverName contains "harvard.edu">
+                       <li><a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
+                     </cfif>
+                      <li><a target="_blank" href="http://arctosdb.wordpress.com">About Arctos</a></li>
+                   </ul>
             </li>
       </ul><!---sf-menu--->
+                     <div id="headerLinks">
+        <cfif len(#session.username#) gt 0>
+            <ul><li><a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a></li>
+                  <cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
+                      <li><span>&nbsp;&nbsp;(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)&nbsp;</span></li>
+                  </cfif>
+                 <cfif isdefined("session.needEmailAddr") and session.needEmailAddr is 1>
+                    <br>
+                     <li><span> You have no email address in your profile. Please correct. </span></li>
+                     </ul>
+                  </cfif>
+           </div>
+        <cfelse>
+                 <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+                   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+                  <cfelse>
+                   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+                  </cfif>
+                        <form name="logIn" method="post" action="/login.cfm">
+                          <input type="hidden" name="action" value="signIn">
+                          <input type="hidden" name="gotopage" value="#gtp#">
+                         
+                        <ul><li><span>Username:</span></li>
+                            <li><input type="text" name="username" title="Username" size="14"
+                                                      class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></li>
+                            <li><span>Password:</span></li>
+                            <li><input type="password" name="password" title="Password" size="14" class="loginTxt"></li>
+                            <li><input type="submit" value="Log In" class="smallBtn"> <span>or</span> 
+                                  <input type="button" value="Create Account" class="smallBtn" onClick="logIn.action.value='newUser';submit();"></li>
+                            </ul>
+                         </form>
+           </div><!---end headerLinks--->
+         </cfif>
     </div><!--- end sf-mainMenuWrapper--->
 
 

@@ -7,7 +7,7 @@
 <cfif action is "edit">
 <cfset title = "Edit Publication">
 <cfoutput>
-<div style="width: 55em;margin:0 auto;padding-bottom: 1em;">
+<div class="editPub">
 	<h3 class="linkPubDetail">
     <a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">See Publication Details</a></h3>
 
@@ -246,7 +246,7 @@
 		</div>
 			<input type="hidden" name="origNumberLinks" id="origNumberLinks" value="#i#">
 			<input type="hidden" name="numberLinks" id="numberLinks" value="#i#">
-			<input type="button" value="save" class="savBtn" onclick="editPub.action.value='saveEdit';editPub.submit();">
+			<input type="button" value="Save" class="savBtn" onclick="editPub.action.value='saveEdit';editPub.submit();">&nbsp;&nbsp;
 			<input type="button" value="Delete Publication" class="delBtn" onclick="editPub.action.value='deletePub';confirmDelete('editPub');">
 	   </form>
  
@@ -483,7 +483,7 @@
 </cfif>
 <!---------------------------------------------------------------------------------------------------------->
 <cfif action is "newPub">
-<cfset title = "Create Publication">
+<cfset title = "Create New Publication">
 <cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
@@ -542,7 +542,7 @@
 	<cfoutput>
  <div style="width:54em;padding-bottom: 1em;margin: 0 auto;">
   
-      <h2 class="wikilink">Create Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+      <h2 class="wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		</h2>
     
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">

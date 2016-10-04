@@ -123,7 +123,7 @@
 		<tr>
 			<td>
 				<label for="higher_geog">Higher Geog</label>
-				<input type="text" name="higher_geog" id="higher_geog" size="100">
+				<input type="text" name="higher_geog" id="higher_geog" size="95">
 				<span class="infoLink" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;">
 									Add = for exact match
 				</span>
@@ -214,7 +214,7 @@
 		<tr>
 			<td colspan="2">
 				<label for="spec_locality">Specific Locality</label>
-				<input type="text" name="spec_locality" id="spec_locality" size="100">
+				<input type="text" name="spec_locality" id="spec_locality" size="95">
 			</td>
 		</tr>
 		</table>
@@ -405,7 +405,7 @@
 		<tr>
 			<td>
 				<label for="verbatim_locality">Verbatim Locality</label>
-				<input type="text" name="verbatim_locality" id="verbatim_locality" size="100">
+				<input type="text" name="verbatim_locality" id="verbatim_locality" size="95">
 			</td>
 		</tr>
 		<tr>
@@ -477,10 +477,10 @@
 	<tr>
 		<td align="center">
 			<input type="submit"
-				value="Find Matches"
+				value="Search"
 				class="schBtn"
 				onmouseover="this.className='schBtn btnhov'"
-				onmouseout="this.className='schBtn'">
+				onmouseout="this.className='schBtn'">&nbsp;&nbsp;
            <input type="reset"
 				value="Clear Form"
 				class="clrBtn"

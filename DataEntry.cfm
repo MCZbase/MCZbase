@@ -5,14 +5,14 @@
 <!--- --->
 <cfset MAXTEMPLATE="14">
 <cfset title="Data Entry">
-<link rel="stylesheet" type="text/css" href="/includes/_DEstyle.css">
+<!---<link rel="stylesheet" type="text/css" href="/includes/_DEstyle.css">--->
 <!---
 <script type='text/javascript' src='/includes/jquery/suggest.js'></script>
 <script type='text/javascript' src='/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js'></script>
 --->
 <script type='text/javascript' src='/includes/DEAjax.js'></script>
 <script type='text/javascript' language="javascript" src='/includes/internalAjax.js'></script>
-<cf_showMenuOnly>
+<!---<cf_showMenuOnly>--->
 <!--cfinclude template="/includes/functionLib.cfm"-->
 <!---
 Group Setup:
@@ -109,14 +109,18 @@ Some Totally Random String Data .....
 				</cfquery>
 			</cfif>
 		</cfloop>
-        <div style="width: 55em; margin: 0 auto;padding: 2em 0 3em 2em;">
-		<h3>Welcome to the enter and edit unbulked data application,<br/>#session.username#</h3>
+        <div class="basic_search_box">
+        <div class="welcomeback">
+		<h3>Welcome to the data entry (and edit) application, #session.username#</h3>
+            <br/>
 		<ul>
-			<li>Green Screen: You are entering data to a new record.</li>
-			<li>Blue Screen: you are editing an unloaded record that you've previously entered.</li>
+			<li><span style="color:##bed88f">Green Screen</span>: You are entering data to a new record.</li>
+			<li><span style="color:##00CCCC">Teal Screen</span>: you are editing an unloaded record that you've previously entered.</li>
 			<!---  TODO: Validate that the css sets this screen to red, not yellow --->
-			<li>Red Screen: A record has been saved but has errors that must be corrected. Fix and save to continue.</li>
+            <li><span style="color:##b58aa5">Mauve Screen</span>: A record has been saved but has errors that must be corrected. Fix and save to continue.</li>
 		</ul>
+            If you have data to enter in bulk, use the <a href="/Bulkloader/">bulkload</a> feature.
+            </div>
     	<p><a href="/Bulkloader/cloneWithBarcodes.cfm">Clone records by Barcode</a></p>
 		<cfquery name="theirLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
@@ -317,7 +321,7 @@ Some Totally Random String Data .....
 		<!----------------- end dropdowns --------------------->
 
         <!--- Note: MAXTEMPLATE is the largest collection_id used for a template in bulkloader by using the collection_id as the value in bulkloader.collection_object_id --->
-		   
+		
 		<cfset sql = "select collection_object_id from bulkloader where collection_object_id > #MAXTEMPLATE#">
 		<cfif ImAGod is "no">
 			 <cfset sql = "#sql# AND enteredby = '#session.username#'">
@@ -348,6 +352,7 @@ Some Totally Random String Data .....
 			You have group issues! You must be in a Data Entry group to use this form.
 			<cfabort>
 		</cfif>
+            <div id="dataentry_form">
 		<form name="dataEntry" method="post" action="DataEntry.cfm" onsubmit="return cleanup(); return noEnter();" id="dataEntry">
 			<input type="hidden" name="action" value="" id="action">
 			<input type="hidden" name="nothing" value="" id="nothing"/><!--- trashcan for picks - don't delete --->
@@ -356,47 +361,43 @@ Some Totally Random String Data .....
 			<input type="hidden" name="institution_acronym" value="#institution_acronym#" id="institution_acronym">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#"  id="collection_object_id"/>
 			<input type="hidden" name="loaded" value="waiting approval"  id="loaded"/>
-            <table width="100%" cellspacing="0" cellpadding="0" id="theTable" style="display:show;height: auto; margin-top: 1em;">
+            
+            <table id="theTable" class="main">
                 <!--- whole page table --->
 				<tr>
-					<td colspan="2" style="border-bottom: 1px solid black; " align="center">
-						<div id="loadedMsgDiv">#loadedMsg#</div>
+					<td colspan="2" style="border: 1px solid gray;margin-bottom: .5em; " align="center">
+                        <div id="loadedMsgDiv">#loadedMsg#</div>
+                        	<div id="modeDisplayDiv"><cfif len(#loadedMsg#)gt 0>FIX<cfelse>#ucase(pMode)#</cfif></div>
 					</td>
 				</tr>
-				<tr><td width="50%" valign="top"><!--- left top of page --->
-					<table cellpadding="0" cellspacing="0" class="fs">
+				<tr>
+                    
+                    <td class="de_lefthalf" valign="top"><!--- left top of page --->
+					<table class="fs">
                         <!--- cat item IDs --->
-						<tr>
+						<tr><h3 class="wikilink">MCZ Record Identifiers<img src="/images/info.gif" onClick="getMCZDocs('Other ID - Data Entry')" class="likeLink" alt="[ help ]"></h3>
 							<td valign="top">
-								<div id="modeDisplayDiv"><cfif len(#loadedMsg#)gt 0>FIX<cfelse>#ucase(pMode)#</cfif></div>
-								#institution_acronym#:#collection_cde#
-								<!---
-								<span class="f11a">Coll:</span>
-								<select name="colln" id="colln" class="reqdClr" onchange="changeCollection(this.value)">
-									<cfloop query="ctcollection">
-										<option <cfif data.collection_cde is ctcollection.collection_cde and data.institution_acronym is ctcollection.institution_acronym> selected="selected"</cfif>
-											value="#institution_acronym#:#collection_cde#">#collection#</option>
-									</cfloop>
-								</select>
-								--->
-								<span id="catNumLbl" class="f11a">Cat##</span>
+							
+								<span style="font-size:12px;font-weight:bold;">#institution_acronym#:#collection_cde#
+								
+                                    <span id="catNumLbl" class="f11a">Cat##</span></span>
 								<input type="text" name="cat_num" value="#cat_num#" title="CAT_NUM" size="6" id="cat_num">
 								<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 									<span id="d_other_id_num_type_5">
 										<span class="f11a">#session.CustomOtherIdentifier#</span>
 										<input type="hidden" name="other_id_num_type_5" value="#session.CustomOtherIdentifier#" id="other_id_num_type_5" />
 										<input type="text" name="other_id_num_5" value="#other_id_num_5#" size="8" id="other_id_num_5">
-										<span id="rememberLastId">
+										<!---<span id="rememberLastId">
 											<cfif isdefined("session.rememberLastOtherId") and session.rememberLastOtherId is 1>
 												<span class="infoLink" onclick="rememberLastOtherId(0)">Nevermind</span>
 											<cfelse>
 												<span class="infoLink" onclick="rememberLastOtherId(1)">Increment this</span>
 											</cfif>
-										</span>
+										</span>--->
 									</span>
 								</cfif>
 								<span class="f11a">Accn</span>
-								<input type="text" name="accn" title="ACCN" value="#accn#" size="13" class="reqdClr" id="accn" onchange="isGoodAccn();">
+								<input type="text" name="accn" title="ACCN" value="#accn#" size="10" class="reqdClr" id="accn" onchange="isGoodAccn();">
 								<span id="customizeForm" class="infoLink" onclick="customize()">[ customize form ]</span>
                                 <input type="hidden" name="mask_record" value="0" />
                                 <span class="f11a">
@@ -406,40 +407,14 @@ Some Totally Random String Data .....
 						</tr>
 					</table>
                     <!---------------------------------- / cat item IDs ---------------------------------------------->
-				<table cellpadding="0" cellspacing="0" class="fs">
-                        <!--- agents --->
-						<tr>
-							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Agent-Data Entry')" class="likeLink" alt="[ help ]">
-							</td>
-							<cfloop from="1" to="8" index="i">
-								<cfif i is 1 or i is 3 or i is 5 or i is 7><tr></cfif>
-								<td id="d_collector_role_#i#" align="right">
-									<select name="collector_role_#i#" title="COLLECTOR_ROLE_X" size="1" <cfif i is 1>class="reqdClr"</cfif> id="collector_role_#i#">
-										<option <cfif evaluate("data.collector_role_" & i) is "c">selected="selected"</cfif> value="c">Collector</option>
-										<cfif i gt 1>
-											<option <cfif evaluate("data.collector_role_" & i) is "p">selected="selected"</cfif> value="p">Preparator</option>
-										</cfif>
-									</select>
-								</td>
-								<td  id="d_collector_agent_#i#" nowrap="nowrap">
-									<span class="f11a">#i#</span>
-									<input title="COLLECTOR_AGENT_X" type="text" name="collector_agent_#i#" value="#evaluate("data.collector_agent_" & i)#"
-										<cfif i is 1>class="reqdClr"</cfif> id="collector_agent_#i#"
-										onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
-										onkeypress="return noenter(event);">
-									<span class="infoLink" onclick="copyAllAgents('collector_agent_#i#');">Copy2All</span>
-								</td>
-								<cfif i is 2 or i is 4 or i is 6 or i is 8></tr></cfif>
-							</cfloop>
-					</table><!---- / agents------------->
 
-					<table cellpadding="0" cellspacing="0" class="fs">
+
+					<table class="fs">
 					    <!------ other IDs ------------------->
 						<tr>
-							<td rowspan="99" valign="top">
+						<h3 class="wikilink">Other Identifying Numbers
 								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Other ID - Data Entry')" class="likeLink" alt="[ help ]">
-							</td>
+                            </h3>
 						</tr>
 						<cfloop from="1" to="4" index="i">
 							<tr>
@@ -460,12 +435,12 @@ Some Totally Random String Data .....
 						</cfloop>
 					</table>
                     <!---- /other IDs ---->
-					<table cellpadding="0" cellspacing="0" class="fs">
+					<table class="fs">
 					    <!----- identification ----->
-						<tr>
-							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Identification')" class="likeLink" alt="[ help ]">
-							</td>
+						<tr><h3 class="wikilink">Identification of Specimen
+							
+								<img src="/images/info.gif" onClick="getMCZDocs('Identification')" class="likeLink" alt="[ help ]">
+                            </h3>
 							<td align="right">
 								<span class="f11a">Scientific&nbsp;Name</span>
 							</td>
@@ -486,7 +461,7 @@ Some Totally Random String Data .....
 							</td>
 						</tr>
 						<tr>
-							<td align="right"><span class="f11a">Nature</span></td>
+							<td align="right"><span class="f11a">Nature of ID</span></td>
 							<td>
 								<select name="nature_of_id" class="reqdClr" id="NATURE_OF_ID" title="NATURE_OF_ID">
 									<cfloop query="ctnature">
@@ -504,85 +479,68 @@ Some Totally Random String Data .....
 							</td>
 						</tr>
 						<tr id="d_identification_remarks">
-							<td align="right"><span class="f11a">ID Remk</span></td>
+							<td align="right"><span class="f11a">ID Remark</span></td>
 							<td><input type="text" name="identification_remarks" title="IDENTIFICATION_REMARKS" value="#identification_remarks#"
-								id="identification_remarks" size="80">
+								id="identification_remarks">
 							</td>
 						</tr>
 					</table><!------ /identification -------->
-					<table cellspacing="0" cellpadding="0" class="fs"><!----- locality ---------->
-					 	<tr>
-							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Locality - Data Entry')" class="likeLink" alt="[ help ]">
-							</td>
-							<td align="right"><span class="f11a">Higher Geog</span></td>
-							<td width="100%">
-								<input type="text" name="higher_geog" title="HIGHER_GEOG" class="reqdClr" id="higher_geog" value="#higher_geog#" size="80"
-									onchange="getGeog('nothing',this.id,'dataEntry',this.value)">
-							</td>
-						</tr>
+			<table class="fs">
+                        <!--- agents --->
 						<tr>
-							<td align="right"><span class="f11a">Spec&nbsp;Locality&nbsp;</span></td>
-							<td nowrap="nowrap">
-								<input type="text" name="spec_locality" title="SPEC_LOCALITY" class="reqdClr"
-									id="spec_locality"	value="#stripQuotes(spec_locality)#" size="80">
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<table>
-									<tr>
-										<td id="d_locality_id">
-											<label for="fetched_locid">Existing&nbsp;LocalityID</label>
-											<input type="hidden" id="fetched_locid">
-											<input type="text" name="locality_id" title="LOCALITY_ID" id="locality_id" value="#locality_id#" readonly class="readClr" size="8">
-											<span class="infoLink" id="localityPicker"
-												onclick="LocalityPick('locality_id','spec_locality','dataEntry','turnSaveOn'); return false;">
-												Pick&nbsp;Locality
-											</span>
-											<span class="infoLink"
-												id="localityUnPicker"
-												style="display:none;"
-												onclick="unpickLocality()">
-												Depick&nbsp;Locality
-											</span>
-										</td>
-										<td id="d_collecting_event_id">
-											<label for="collecting_event_id">Existing&nbsp;EventID</label>
-											<input title="EXISTING_EVENT_ID"type="text" name="collecting_event_id" id="collecting_event_id" value="#collecting_event_id#" readonly class="readClr" size="8">
-											<input type="hidden" id="fetched_eventid">
-											<span class="infoLink" id="eventPicker" onclick="findCollEvent('collecting_event_id','dataEntry','verbatim_locality'); return false;">
-												Pick&nbsp;Event
-											</span>
-											<span class="infoLink" id="eventUnPicker" style="display:none;" onclick="unpickEvent()">
-												Depick&nbsp;Event
-											</span>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-						<tr>
+						
+                                <h3 class="wikilink">Collector/Preparator (agent)
+								<img src="/images/info.gif" onClick="getMCZDocs('Agent-Data Entry')" class="likeLink" alt="[ help ]">
+                                </h3>
+                             
+							<cfloop from="1" to="8" index="i">
+								<cfif i is 1 or i is 3 or i is 5 or i is 7><tr></cfif>
+								<td id="d_collector_role_#i#" align="right">
+									<select name="collector_role_#i#" title="COLLECTOR_ROLE_X" size="1" <cfif i is 1>class="reqdClr"</cfif> id="collector_role_#i#">
+										<option <cfif evaluate("data.collector_role_" & i) is "c">selected="selected"</cfif> value="c">Collector&nbsp;&nbsp;&nbsp;</option>
+										<cfif i gt 1>
+											<option <cfif evaluate("data.collector_role_" & i) is "p">selected="selected"</cfif> value="p">Preparator</option>
+										</cfif>
+									</select>
+								</td>
+								<td  id="d_collector_agent_#i#" nowrap="nowrap">
+									<span class="f11a">#i#</span>
+									<input title="COLLECTOR_AGENT_X" type="text" name="collector_agent_#i#" value="#evaluate("data.collector_agent_" & i)#"
+										<cfif i is 1>class="reqdClr"</cfif> id="collector_agent_#i#"
+										onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
+										onkeypress="return noenter(event);">
+									<span class="infoLink" onclick="copyAllAgents('collector_agent_#i#');">Copy2All</span>
+								</td>
+								<cfif i is 2 or i is 4 or i is 6 or i is 8></tr></cfif>
+							</cfloop>
+					</table><!---- / agents------------->
+
+				</td> <!---- end top left --->
+
+				<td valign="top" class="de_righthalf">
+				<!----- right column ---->
+			  <table><!--start collecting event-->
+                        <tr><h3 class="wikilink">Collecting Event<img src="/images/info.gif" onClick="getMCZDocs('Collecting Event - Data Entry')" class="likeLink" alt="[ help ]"></h3>
 							<td align="right"><span class="f11a">Verbatim Locality</span></td>
 							<td>
 								<input type="text"  name="verbatim_locality"
-									class="reqdClr" size="80"
-									id="verbatim_locality" title="VERBATIM_LOCALITY" value="#stripQuotes(verbatim_locality)#">
+									class="reqdClr"
+									id="verbatim_locality" title="VERBATIM_LOCALITY" value="#stripQuotes(verbatim_locality)#" size="40">
 								<span class="infoLink" onclick="document.getElementById('verbatim_locality').value=document.getElementById('spec_locality').value;">
-									&nbsp;Use&nbsp;Specloc
+									&nbsp;Use&nbsp;Specific Locality
 								</span>
 							</td>
 						</tr>
 						<tr>
 							<td align="right"><span class="f11a">VerbatimDate</span></td>
 							<td>
-								<input type="text" name="verbatim_date" title="VERBATIM_DATE" class="reqdClr" value="#verbatim_date#" id="verbatim_date" size="20">
+								<input type="text" name="verbatim_date" title="VERBATIM_DATE" class="reqdClr" value="#verbatim_date#" id="verbatim_date" size="12">
 								<span class="infoLink"
-									onClick="copyVerbatim($('##verbatim_date').val());">--></span>
+									onClick="copyVerbatim($('##verbatim_date').val());">&nbsp;>>&nbsp;</span>
 								<span class="f11a">Begin</span>
 								<input type="text" name="began_date" class="reqdClr" title="BEGAN_DATE" value="#began_date#" id="began_date" size="10">
 								<span class="infoLink" onclick="copyAllDates('began_date');">Copy2All</span>
-								<span class="f11a">End</span>
+								<span class="f11a">&nbsp;&nbsp;End</span>
 								<input type="text" name="ended_date" title="ENDED_DATE" class="reqdClr" value="#ended_date#" id="ended_date" size="10">
 								<span class="infoLink" onclick="copyAllDates('ended_date');">Copy2All</span>
 							</td>
@@ -591,15 +549,12 @@ Some Totally Random String Data .....
 							<td colspan="2" id="dateConvertStatus"></td>
 						</tr>
 						<tr>
-							<td align="right"><span class="f11a">Coll. Meth.:</span></td>
-							<td>
-								<table cellspacing="0" cellpadding="0">
-									<tr>
-										<td>
-											<input type="text" name="collecting_method" value="#collecting_method#" title="COLLECTING_METHOD" id="collecting_method">
-										</td>
-										<td align="right"><span class="f11a">Coll. Src.:</span></td>
-										<td>
+							<td align="right"><span class="f11a">Collection Method:</span></td>
+                            <td colspan="3">
+							<input type="text" name="collecting_method" value="#collecting_method#" title="COLLECTING_METHOD" id="collecting_method">
+										
+										<span class="f11a">&nbsp;&nbsp;Collection Source:</span>
+										
 											<cfif len(collecting_source) gt 0>
 												<cfset thisCollSrc=collecting_source>
 											<cfelse>
@@ -616,9 +571,7 @@ Some Totally Random String Data .....
 														value="#collecting_source#">#collecting_source#</option>
 												</cfloop>
 											</select>
-										</td>
-									</tr>
-								</table>
+							
 							</td>
 						</tr>
 						<tr id="d_habitat_desc">
@@ -630,28 +583,28 @@ Some Totally Random String Data .....
 						<tr id="d_associated_species">
 							<td align="right"><span class="f11a">Associated&nbsp;Species</span></td>
 							<td>
-								<input type="text" title="ASSOCIATED_SPECIES" name="associated_species" size="80" id="associated_species" value="#associated_species#">
+								<input type="text" title="ASSOCIATED_SPECIES" name="associated_species" id="associated_species" value="#associated_species#">
 							</td>
 						</tr>
 						<tr id="d_coll_object_habitat">
 							<td align="right"><span class="f11a">Microhabitat</span></td>
 							<td>
-								<input type="text" title="COLL_OBJECT_HABITAT" name="coll_object_habitat" size="80" id="coll_object_habitat" value="#coll_object_habitat#">
+								<input type="text" title="COLL_OBJECT_HABITAT" name="coll_object_habitat" id="coll_object_habitat" value="#coll_object_habitat#">
 							</td>
 						</tr>
-						<tr>
-							<td colspan="2" id="d_orig_elev_units">
-								<label for="minimum_elevation">Elevation (min-max)</label>
-								<span class="f11a">&nbsp;between</span>
-								<input type="text" title="MINIMUM_ELEVATION" name="minimum_elevation" size="4" value="#minimum_elevation#" id="minimum_elevation">
-								<span class="infoLink"
-									onclick="document.getElementById('maximum_elevation').value=document.getElementById('minimum_elevation').value";>&nbsp;>>&nbsp;</span>
-								<input type="text" title="MAXIMUM_ELEVATION" name="maximum_elevation" size="4" value="#maximum_elevation#" id="maximum_elevation">
-								<select name="orig_elev_units" size="1" title="ORIG_ELEV_UNITS" id="orig_elev_units">
+						<tr id="d_orig_elev_units">
+							<td align="right"><span class="f11a">Elevation (min-max)</span><br>
+                                <span class="f11a">&nbsp;between</span></td>
+                            <td>
+								<input type="text" title="MINIMUM_ELEVATION" name="minimum_elevation" value="#minimum_elevation#" id="minimum_elevation">
+								<span class="infoLink" onclick="document.getElementById('maximum_elevation').value=document.getElementById('minimum_elevation').value";>&nbsp;>>&nbsp;</span>
+                         <input type="text" title="MAXIMUM_ELEVATION" name="maximum_elevation" value="#maximum_elevation#" id="maximum_elevation">
+								<select name="orig_elev_units" title="ORIG_ELEV_UNITS" id="orig_elev_units">
 									<option value=""></option>
 									<cfloop query="ctOrigElevUnits">
 										<option
-											<cfif data.orig_elev_units is ctOrigElevUnits.orig_elev_units> selected="selected" </cfif>
+											<cfif data.orig_elev_units is ctOrigElevUnits.orig_elev_units> selected="selected" 
+                                            </cfif>
 											value="#orig_elev_units#">#orig_elev_units#</option>
 									</cfloop>
 								</select>
@@ -659,11 +612,11 @@ Some Totally Random String Data .....
 						</tr>
 						<!---  Hide depth from this form for some departments (it is still accessible if needed on the grid views) --->
 						<cfif collection_cde is not "VP" and collection_cde is not "IP" and collection_cde is not "Orn" and collection_cde is not "Model">
-						<tr>
-							<td colspan="2" id="d_orig_depth_units">
-								<label for="min_depth">Depth (shallowest-deepest)</label>
-								<span class="f11a">&nbsp;between</span>
-								<input type="text" name="min_depth" size="4" title="MIN_DEPTH" value="#min_depth#" id="min_depth">
+						<tr id="d_orig_depth_units">
+							<td align="right">
+								<span class="f11a">Depth (shallowest-deepest)</span><br/>
+                                <span class="f11a">&nbsp;between</span></td>
+								<td><input type="text" name="min_depth" size="4" title="MIN_DEPTH" value="#min_depth#" id="min_depth">
 								<span class="infoLink"
 									onclick="document.getElementById('maximum_depth').value=document.getElementById('minimum_depth').value";>&nbsp;>>&nbsp;</span>
 								<input type="text" name="max_depth" size="4" title="MAX_DEPTH" value="#max_depth#" id="max_depth">
@@ -679,33 +632,84 @@ Some Totally Random String Data .....
 						</tr>
 						</cfif>
 						<tr id="d_coll_event_remarks">
-							<td align="right"><span class="f11a">CollEvntRemk</span></td>
+							<td align="right"><span class="f11a">Collecting Event Remark</span></td>
 							<td>
-								<input type="text" title="COLL_EVENT_REMARKS" name="coll_event_remarks" size="80" value="#coll_event_remarks#" id="coll_event_remarks">
+								<input type="text" title="COLL_EVENT_REMARKS" name="coll_event_remarks" value="#coll_event_remarks#" id="coll_event_remarks">
+							</td>
+                         </tr>
+                        <tr>
+                            <td id="d_collecting_event_id">OR
+											<label for="collecting_event_id">Existing&nbsp;Event&nbsp;ID</label>
+											<input title="EXISTING_EVENT_ID"type="text" name="collecting_event_id" id="collecting_event_id" value="#collecting_event_id#" readonly class="readClr" size="11">
+											<input type="hidden" id="fetched_eventid">
+											<span class="infoLink" id="eventPicker" onclick="findCollEvent('collecting_event_id','dataEntry','verbatim_locality'); return false;">
+												Pick&nbsp;Event
+											</span>
+											<span class="infoLink" id="eventUnPicker" style="display:none;" onclick="unpickEvent()">
+												Depick&nbsp;Event
+											</span>
+							</td>
+                            
+                       </tr>
+				
+					</table><!----- /collecting Event ---------->
+    
+    				<table class="fs"><!----- locality ---------->
+					 	<tr>
+							<h3 class="wikilink">Locality
+								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Locality - Data Entry')" class="likeLink" alt="[ help ]">
+                           </h3>
+							<td><span class="f11a">Higher Geography</span></td>
+							<td>
+								<input type="text" name="higher_geog" title="HIGHER_GEOG" class="reqdClr" id="higher_geog" value="#higher_geog#" onchange="getGeog('nothing',this.id,'dataEntry',this.value)" size="70">
 							</td>
 						</tr>
+						<tr>
+							<td><span class="f11a">Specific&nbsp;Locality&nbsp;</span></td>
+							<td nowrap="nowrap">
+								<input type="text" name="spec_locality" title="SPEC_LOCALITY" class="reqdClr"
+									id="spec_locality"	value="#stripQuotes(spec_locality)#" size="70">
+							</td>
+						</tr>
+					
 						<tr id="d_locality_remarks">
-							<td align="right"><span class="f11a" onclick="checkPicked()">LocalityRemk - checkPicked</span></td>
+							<td><span class="f11a" onclick="checkPicked()">Locality Remark - check picked</span></td>
 							<td>
-								<input type="text" title="LOCALITY_REMARKS" name="locality_remarks" size="80" value="#locality_remarks#" id="locality_remarks">
+								<input type="text" title="LOCALITY_REMARKS" name="locality_remarks" size="70" value="#locality_remarks#" id="locality_remarks">
 							</td>
 						</tr>
-					</table><!----- /locality ---------->
-				</td> <!---- end top left --->
-
-				<td valign="top">
-				<!----- right column ---->
-				<table cellpadding="0" cellspacing="0" class="fs" id="d_orig_lat_long_units">
+                        	<tr>
+							
+										<td id="d_locality_id">OR
+											<label for="fetched_locid">Existing&nbsp;Locality&nbsp;ID</label>
+											<input type="hidden" id="fetched_locid">
+											<input type="text" name="locality_id" title="LOCALITY_ID" id="locality_id" value="#locality_id#" readonly class="readClr" size="12">
+											<span class="infoLink" id="localityPicker"
+												onclick="LocalityPick('locality_id','spec_locality','dataEntry','turnSaveOn'); return false;">
+												Pick&nbsp;Locality
+											</span>
+											<span class="infoLink"
+												id="localityUnPicker"
+												style="display:none;"
+												onclick="unpickLocality()">
+												Depick&nbsp;Locality
+											</span>
+										</td>
+                        </tr>	
+							</td>
+						</tr>
+                </table>
+                    <table class="rside" id="d_orig_lat_long_units">
 				    <!------- coordinates ------->
 					<tr>
-						<td rowspan="99" valign="top">
-							<img src="/images/info.gif" border="0" onClick="getMCZDocs('Georeferencing - Data Entry')" class="likeLink" alt="[ help ]">
-						</td>
+                        <h3 class="wikilink">Coodinates
+						
+                        <img src="/images/info.gif" onClick="getMCZDocs('Georeferencing - Data Entry')" class="likeLink" alt="[ help ]"></h2>
+					
 						<td>
 							<table>
 								<tr>
-									<td align="right"><span class="f11a">Original&nbsp;lat/long&nbsp;Units</span></td>
-									<td colspan="99" width="100%">
+									<td colspan="3" align="left"><span class="f11a">Original&nbsp;lat/long&nbsp;Units</span>
 										<cfset thisLLUnits=#ORIG_LAT_LONG_UNITS#>
 										<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units"
 											onChange="switchActive(this.value);dataEntry.max_error_distance.focus();">
@@ -715,13 +719,12 @@ Some Totally Random String Data .....
 											  	value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 											</cfloop>
 										</select>
-									</td>
-									<td valign="top">
-                                                                            <span style="font-size:small" class="likeLink" onclick="geolocate()">geolocate</span>
-                                                                        </td>
-                                                                        <td valign="top">
-                                                                        	<div id="geoLocateResults" style="font-size:small"></div>
-                                                                        </td>
+								
+                                       <span class="likeLink" onclick="geolocate()">&nbsp;&nbsp;GEOLOCATE</span>
+                                     </td>
+                                  <td valign="top">
+                                  <div id="geoLocateResults"></div>
+                                     </td>
 								</tr>
 							</table>
 						</td>
@@ -729,12 +732,12 @@ Some Totally Random String Data .....
 					<tr>
 						<td>
 							<div id="lat_long_meta" class="noShow">
-								<table cellpadding="0" cellspacing="0">
+								<table>
 									<tr>
 										<td align="right"><span class="f11a">Max Error</span></td>
 										<td>
-											<input type="text" title="MAX_ERROR_DISTANCE" name="max_error_distance" id="max_error_distance" value="#max_error_distance#" size="10">
-											<select name="max_error_units" title="MAX_ERROR_UNITS" size="1" id="max_error_units">
+											<input type="text" title="MAX_ERROR_DISTANCE" name="max_error_distance" id="max_error_distance" value="#max_error_distance#">
+											<select name="max_error_units" title="MAX_ERROR_UNITS" id="max_error_units">
 												<option value=""></option>
 												<cfloop query="cterror">
 												  <option
@@ -745,17 +748,17 @@ Some Totally Random String Data .....
 										</td>
 										<td align="right"><span class="f11a">Extent</span></td>
 										<td>
-											<input type="text" title="EXTENT" name="extent" id="extent" value="#extent#" size="10">
+											<input type="text" title="EXTENT" name="extent" id="extent" value="#extent#" >
 										</td>
 									</tr>
 									<tr>
 										<td align="right"><span class="f11a">GPS Accuracy</span></td>
 										<td>
-											<input type="text" title="GPSACCURACY" name="gpsaccuracy" id="gpsaccuracy" value="#gpsaccuracy#" size="10">
+											<input type="text" title="GPSACCURACY" name="gpsaccuracy" id="gpsaccuracy" value="#gpsaccuracy#" >
 										</td>
 										<td align="right"><span class="f11a">Datum</span></td>
 										<td>
-											<select name="datum" title="DATUM" size="1" class="reqdClr" id="datum">
+											<select name="datum" title="DATUM" class="reqdClr" id="datum">
 												<option value=""></option>
 												<cfloop query="ctdatum">
 													<option <cfif data.datum is ctdatum.datum> selected="selected" </cfif>
@@ -784,14 +787,14 @@ Some Totally Random String Data .....
 										<td align="right"><span class="f11a">Reference</span></td>
 										<td colspan="3" nowrap="nowrap">
 											<input type="text" title="LAT_LONG_REF_SOURCE" name="lat_long_ref_source" id="lat_long_ref_source"  class="reqdClr"
-												size="60" value="#lat_long_ref_source#">
+												 value="#lat_long_ref_source#">
 											<span class="infoLink" onclick="getHelp('lat_long_ref_source');">Pick</span>
 										</td>
 									</tr>
 									<tr>
 										<td align="right"><span class="f11a">Georef Meth</span></td>
-										<td>
-											<select name="georefmethod" size="1" title="GEOREFMETHOD" class="reqdClr" style="width:130px" id="georefmethod">
+										<td class="geometh">
+											<select name="georefmethod" size="1" title="GEOREFMETHOD" class="reqdClr" id="georefmethod">
 												<cfloop query="ctgeorefmethod">
 													<option <cfif data.georefmethod is ctgeorefmethod.georefmethod> selected="selected" </cfif>
 														value="#ctgeorefmethod.georefmethod#">#ctgeorefmethod.georefmethod#</option>
@@ -812,13 +815,13 @@ Some Totally Random String Data .....
 									<tr id="d_lat_long_remarks">
 										<td align="right"><span class="f11a">LatLongRemk</span></td>
 										<td colspan="3">
-											<input type="text" name="lat_long_remarks" size="80" value="#lat_long_remarks#" id="lat_long_remarks">
+											<input type="text" name="lat_long_remarks" value="#lat_long_remarks#" id="lat_long_remarks">
 										</td>
 									</tr>
 								</table>
 							</div>
 							<div id="dms" class="noShow">
-								<table cellpadding="0" cellspacing="0">
+								<table style="border: none;">
 									<tr>
 										<td align="right"><span class="f11a">Lat Deg</span></td>
 										<td>
@@ -896,7 +899,7 @@ Some Totally Random String Data .....
 								</table>
 							</div>
 							<div id="ddm" class="noShow">
-								<table cellpadding="0" cellspacing="0">
+								<table>
 									<tr>
 										<td align="right"><span class="f11a">Lat Deg</span></td>
 										<td>
@@ -970,7 +973,8 @@ Some Totally Random String Data .....
 									</tr>
 								</table>
 							</div>
-							<div id="dd" class="noShow">
+
+							<div id="dd" class="noShow"><br>
 								<span class="f11a">Dec Lat</span>
 								<input type="text"
 									 name="dec_lat"
@@ -1021,13 +1025,15 @@ Some Totally Random String Data .....
 				<cfif collection_cde is "ES" or collection_cde is "VP" or collection_cde is "IP">
 				    <!---------- geology ---------->
 					<div id="geolCell">
-						<table cellpadding="0" cellspacing="0" class="fs">
+						<table class="rside">
 							<tr>
+                                <h3 class="wikilink">Parts<img src="/images/info.gif" onClick="getMCZDocs('Geology Attributes - Data Entry')" class="likeLink" alt="[ help ]"></h3>
+
 								<td>
-									<img src="/images/info.gif" border="0" onClick="getMCZDocs('Geology Attributes - Data Entry')" class="likeLink" alt="[ help ]">
-									<table cellpadding="0" cellspacing="0">
+								
+									<table>
 										<tr>
-											<th nowrap="nowrap"><span class="f11a">Geol Att.</span></th>
+											<th><span class="f11a">Geol Att.</span></th>
 											<th><span class="f11a">Geol Att. Value</span></th>
 											<th><span class="f11a">Determiner</span></th>
 											<th><span class="f11a">Date</span></th>
@@ -1073,7 +1079,7 @@ Some Totally Random String Data .....
 														name="geo_att_determined_date_#i#"
 														id="geo_att_determined_date_#i#"
 														value="#thisDate#"
-														size="10">
+														>
 												</td>
 												<td>
 													<input type="text"
@@ -1081,7 +1087,8 @@ Some Totally Random String Data .....
                                                         title="GEO_ATT_DETERMINED_METHOD_X"
 														id="geo_att_determined_method_#i#"
 														value="#thisMeth#"
-														size="15">
+                                                       
+														>
 												</td>
 												<td>
 													<input type="text"
@@ -1089,7 +1096,7 @@ Some Totally Random String Data .....
 														name="geo_att_remark_#i#"
 														id="geo_att_remark_#i#"
 														value="#thisRemark#"
-														size="15">
+														>
 												</td>
 											</tr>
 											</div>
@@ -1101,12 +1108,23 @@ Some Totally Random String Data .....
 					</div>
 				</cfif><!---- /geology ------->
 
-				<table cellpadding="0" cellspacing="0" class="fs">
+			
+
+		
+
+			</td><!--- end right column --->
+		</tr><!---- end top row of page --->
+
+<!---start attributes and parts, which go across the whole width of the content_box--->
+<tr><!---- start bottom row of page --->
+
+			<td colspan="2">
+                	<table>
 				    <!----- attributes ------->
 					<tr>
-                    	<td rowspan="99" valign="top">
-							<img src="/images/info.gif" border="0" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
-                        </td>
+                        <h3 class="wikilink">Attributes
+                    	<img src="/images/info.gif" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
+                        </h3>
 						<td>
 							<cfif collection_cde is not "Crus" and collection_cde is not "Herb"
 								and collection_cde is not "ES" and collection_cde is not "Ich"
@@ -1114,7 +1132,7 @@ Some Totally Random String Data .....
 								(collection_cde is "Herp" and institution_acronym is "UAM") and not
 								(collection_cde is "Herp" and institution_acronym is "MCZ") and not
 								(collection_cde is "HerpOBS" and institution_acronym is "MCZ")>
-								<table cellpadding="0" cellspacing="0">
+								<table class="bottomDEtable" style="border: none;">
 									<tr>
 									
 										<td nowrap="nowrap">
@@ -1128,7 +1146,7 @@ Some Totally Random String Data .....
 													class="d11a"
 												</cfif>
 												class="reqdClr"
-												style="width: 80px">
+												style="width: 60px">
 												<option value=""></option>
 												<cfloop query="ctSex_Cde">
 													<option
@@ -1169,7 +1187,7 @@ Some Totally Random String Data .....
 								<input type="hidden" name="attribute_determiner_1"  id="attribute_determiner_1" value="">
 								<input type="hidden" name="attribute_det_meth_1"  id="attribute_det_meth_1" value="">
 							</cfif>
-							<table cellpadding="1" cellspacing="0">
+							<table style="border: none;">
 								<cfif collection_cde is "Mamm">
 									<tr>
 										<td><span class="f11a">len</span></td>
@@ -1222,7 +1240,7 @@ Some Totally Random String Data .....
 											<input type="text" title="ATTRIBUTE_VALUE_6" name="attribute_value_6" value="#attribute_value_6#" size="3" id="attribute_value_6">
 										</td>
 										<td>
-											<select name="attribute_units_6" title="ATTRIBUTE_UNITS_6" size="1" id="attribute_units_6">
+											<select name="attribute_units_6" title="ATTRIBUTE_UNITS_6" id="attribute_units_6">
 												<option value=""></option>
 												<cfloop query="ctWeight_Units">
 													<option <cfif #data.attribute_units_6# is #Weight_Units#> selected </cfif>value="#Weight_Units#">#Weight_Units#</option>
@@ -1264,25 +1282,25 @@ Some Totally Random String Data .....
 											<input type="hidden" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" />
 											<input type="hidden" name="attribute_determiner_3" value="#attribute_determiner_3#" id="attribute_determiner_3" />
 											<input type="hidden" name="attribute_3" value="fat deposition" />
-											<input type="text" name="attribute_value_3" value="#attribute_value_3#" size="15" id="attribute_value_3">
+											<input type="text" name="attribute_value_3" value="#attribute_value_3#" id="attribute_value_3">
 										</td>
 										<td>
 											<input type="hidden" name="attribute_date_4" value="#attribute_date_4#" id="attribute_date_4" />
 											<input type="hidden" name="attribute_determiner_4" value="#attribute_determiner_4#" id="attribute_determiner_4" />
 											<input type="hidden" name="attribute_4" value="molt condition" />
-											<input type="text" name="attribute_value_4" value="#attribute_value_4#" size="15" id="attribute_value_4">
+											<input type="text" name="attribute_value_4" value="#attribute_value_4#" id="attribute_value_4">
 										</td>
 										<td>
 											<input type="hidden" name="attribute_date_5" value="#attribute_date_5#" id="attribute_date_5" />
 											<input type="hidden" name="attribute_determiner_5" value="#attribute_determiner_5#" id="attribute_determiner_5" />
 											<input type="hidden" name="attribute_5" value="ossification" />
-											<input type="text" name="attribute_value_5" value="#attribute_value_5#" size="15" id="attribute_value_5">
+											<input type="text" name="attribute_value_5" value="#attribute_value_5#" id="attribute_value_5">
 										</td>
 										<td>
 											<input type="hidden" name="attribute_date_6" value="#attribute_date_6#" id="attribute_date_6" />
 											<input type="hidden" name="attribute_determiner_6" value="#attribute_determiner_6#" id="attribute_determiner_6" />
 											<input type="hidden" name="attribute_6" value="weight" />
-											<input type="text" name="attribute_value_6" value="#attribute_value_6#" size="2" id="attribute_value_6">
+											<input type="text" name="attribute_value_6" value="#attribute_value_6#" id="attribute_value_6">
 										</td>
 										<td>
 											<select name="attribute_units_6" size="1" id="attribute_units_6" >
@@ -1310,11 +1328,11 @@ Some Totally Random String Data .....
 										<input type="hidden" name="attribute_value_#i#"  id="attribute_value_#i#" value="">
 										<input type="hidden" name="attribute_date_#i#"  id="attribute_date_#i#" value="">
 										<input type="hidden" name="attribute_determiner_#i#"  id="attribute_determiner_#i#" value="">
-										<input type="hidden" name="attribute_det_meth_#i#"  id="attribute_det_meth_#i#" value="">
+										<input type="hidden" name="attribute_det_meth_#i#"  id="attribute_det_meth_#i#" value="" >
 									</cfloop>
 								</cfif>
 							</table>
-							<table cellspacing="0" cellpadding="0">
+							<table style="border: none;">
 								<tr>
 									<th><span class="f11a">Attribute</span></th>
 									<th><span class="f11a">Value</span></th>
@@ -1324,7 +1342,7 @@ Some Totally Random String Data .....
 									<th><span class="f11a">Method</span></th>
 									<th><span class="f11a">Remarks</span></th>
 								</tr>
-								<cfloop from="7" to="14" index="i">
+								<cfloop from="7" to="10" index="i">
 									<tr id="de_attribute_#i#">
 										<td>
 											<select title="ATTRIBUTE_X" name="attribute_#i#" onChange="getAttributeStuff(this.value,this.id);"
@@ -1339,35 +1357,35 @@ Some Totally Random String Data .....
 										<td>
 											<div id="attribute_value_cell_#i#">
 												<input type="text" title="ATTRIBUTE_VALUE_X" name="attribute_value_#i#" value="#evaluate("data.attribute_value_" & i)#"
-													id="attribute_value_#i#"size="15">
+													id="attribute_value_#i#"  size="22">
 											</div>
 										</td>
 										<td>
 											<div id="attribute_units_cell_#i#">
 											<input type="text" title="ATTRIBUTE_UNITS_X" name="attribute_units_#i#"  value="#evaluate("data.attribute_units_" & i)#"
-												id="attribute_units_#i#" size="6">
+												id="attribute_units_#i#" size="12">
 											</div>
 										</td>
 										<td>
 											<input type="text" title="ATTRIBUTE_DATE_X" name="attribute_date_#i#" value="#evaluate("data.attribute_date_" & i)#"
-												id="attribute_date_#i#" size="10">
+												id="attribute_date_#i#" >
 										</td>
 										<td>
 											 <input type="text" name="attribute_determiner_#i#"
-												id="attribute_determiner_#i#" size="15"
+												id="attribute_determiner_#i#" 
                                                 title="ATTRIBUTE_DETERMINER_X"
 												value="#evaluate("data.attribute_determiner_" & i)#"
 												onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
-												onkeypress="return noenter(event);">
+												onkeypress="return noenter(event);" size="25">
 										</td>
 										<td>
 											<input type="text" name="attribute_det_meth_#i#"
-												title="ATTRIBUTE_DET_METH_X" id="attribute_det_meth_#i#" size="15" value="#evaluate("data.attribute_det_meth_" & i)#">
+												title="ATTRIBUTE_DET_METH_X" id="attribute_det_meth_#i#" value="#evaluate("data.attribute_det_meth_" & i)#" size="30">
 										</td>
 										<td>
 											<input type="text" title="ATTRIBUTE_REMARKS_X" name="attribute_remarks_#i#"
 												id="attribute_remarks_#i#"
-												value="#evaluate("data.attribute_remarks_" & i)#">
+												value="#evaluate("data.attribute_remarks_" & i)#" size="50">
 										</td>
 									</tr>
 								</cfloop>
@@ -1375,85 +1393,11 @@ Some Totally Random String Data .....
 						</td>
 					</tr>
 				</table><!---- /attributes ----->
-
-				<table cellpadding="0" cellspacing="0" class="fs">
-				    <!--- random admin stuff ---->
-					<tr>
-						<td align="right"><span class="f11a">Entered&nbsp;By</span></td>
-						<td width="100%">
-							<cfif ImAGod is not "yes">
-								<input type="hidden" name="enteredby" value="#session.username#" id="enteredby" class="readClr"/>
-							<cfelseif ImAGod is "yes">
-								<input type="text" name="enteredby" value="#enteredby#" id="enteredby"/>
-							<cfelse>
-								ERROR!!!
-							</cfif>
-						</td>
-					</tr>
-					<tr id="d_relationship">
-						<td align="right"><span class="f11a">Relations</span></td>
-						<td>
-							<cfset thisRELATIONSHIP = RELATIONSHIP>
-							<select name="relationship" size="1" id="relationship">
-								<option value=""></option>
-								<cfloop query="ctbiol_relations">
-									<option
-										<cfif thisRELATIONSHIP is BIOL_INDIV_RELATIONSHIP> selected="selected" </cfif>
-									 value="#BIOL_INDIV_RELATIONSHIP#">#BIOL_INDIV_RELATIONSHIP#</option>
-								</cfloop>
-							</select>
-							<cfset thisRELATED_TO_NUM_TYPE = RELATED_TO_NUM_TYPE>
-							<select name="related_to_num_type" size="1" id="related_to_num_type" style="width:80px">
-								<option value=""></option>
-								<option <cfif thisRELATED_TO_NUM_TYPE is "catalog number">selected="selected"</cfif> value="catalog number">catalog number (UAM:Mamm:123 format)</option>
-								<cfloop query="ctOtherIdType">
-									<option
-										<cfif thisRELATED_TO_NUM_TYPE is other_id_type> selected="selected" </cfif>
-									 value="#other_id_type#">#other_id_type#</option>
-								</cfloop>
-							</select>
-							<input type="text" value="#related_to_number#" name="related_to_number" id="related_to_number" size="10" />
-						</td>
-					</tr>
-				</table><!------ random admin stuff ---------->
-
-				<table cellpadding="0" cellspacing="0" class="fs">
-				    <!------- remarks  ------->
-					<tr id="d_coll_object_remarks">
-						<td colspan="2">
-							<span class="f11a">Spec Remark</span>
-								<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" cols="80">#coll_object_remarks#</textarea>
-						</td>
-					</tr>
-					<tr>
-						<td id="d_flags">
-							<span class="f11a">Missing....</span>
-							<cfset thisflags = flags>
-							<select name="flags" size="1" style="width:120px" id="flags">
-								<option  value=""></option>
-								<cfloop query="ctflags">
-									<option <cfif flags is thisflags> selected </cfif>
-										value="#flags#">#flags#</option>
-								</cfloop>
-							</select>
-						</td>
-						<td>
-							<span class="f11a">Status</span>
-							#loaded#
-						</td>
-					</tr>
-				</table><!------- remarks --->
-			</td><!--- end right column --->
-		</tr><!---- end top row of page --->
-		<tr><!---- start bottom row of page --->
-
-			<td colspan="2">
 			    <!-------- parts block ---------->
-				<table cellpadding="0" cellspacing="0" class="fs" border=1>
+				<table class="fs bottomDEtable">
+                    	
 					<tr>
-						<td rowspan="99" valign="top">
-							<img src="/images/info.gif" border="0" onClick="getMCZDocs('Parts - Data Entry')" class="likeLink" alt="[ help ]">
-						</td>
+                        <h3 class="wikilink">Parts<img src="/images/info.gif" onClick="getMCZDocs('Parts - Data Entry')" class="likeLink" alt="[ help ]"></h3>
 						<th><span class="f11a">Part Name</span></th>
 						<th><span class="f11a">Preserve Method</span></th>
 						<th><span class="f11a">Condition</span></th>
@@ -1469,7 +1413,7 @@ Some Totally Random String Data .....
 							<td>
 								<cfset tpn=evaluate("data.part_name_" & i)>
 								<input type="text" name="part_name_#i#" id="part_name_#i#" <cfif i is 1>class="reqdClr"</cfif>
-									value="#tpn#" size="25"
+									value="#tpn#"
 									onchange="findPart(this.id,this.value,'#collection_cde#');requirePartAtts('#i#',this.value);"
 									onkeypress="return noenter(event);">
 							</td>
@@ -1517,9 +1461,9 @@ Some Totally Random String Data .....
 									 size="6" onchange="part_container_label_#i#.className='reqdClr';setPartLabel(this.id);">
 							</td>
 							<td>
-                 <!---         <textarea id="part_remark_#i#" value="#evaluate("data.part_remark_" & i)#" name="part_remark_#i#" size="100"></textarea>--->
+              
                   <input type="text" name="part_remark_#i#" id="part_remark_#i#"
-									value="#evaluate("data.part_remark_" & i)#" size="80">
+									value="#evaluate("data.part_remark_" & i)#">
 
 							</td>
 		                    <!---START Part Attribute Stuff --->
@@ -1597,19 +1541,86 @@ Some Totally Random String Data .....
 						</tr>
 					</cfloop>
 				</table>
+                 <table> <!--- random admin stuff ---->
+					<tr><h3 class="wikilink">Misc. Specimen Record Data<img src="/images/info.gif" onClick="getMCZDocs('Parts - Data Entry')" class="likeLink" alt="[ help ]"></h3>
+
+						<td colspan="2"><span class="f11a">Entered&nbsp;By</span>
+						
+							<cfif ImAGod is not "yes">
+								<input type="hidden" name="enteredby" value="#session.username#" id="enteredby" class="readClr"/>
+							<cfelseif ImAGod is "yes">
+								<input type="text" name="enteredby" value="#enteredby#" id="enteredby"/>
+							<cfelse>
+								ERROR!!!
+							</cfif>
+						</td>
+					</tr>
+					<tr id="d_relationship">
+						<td colspan="4" <span class="f11a">Relations</span>
+						
+							<cfset thisRELATIONSHIP = RELATIONSHIP>
+							<select name="relationship" size="1" id="relationship">
+								<option value=""></option>
+								<cfloop query="ctbiol_relations">
+									<option
+										<cfif thisRELATIONSHIP is BIOL_INDIV_RELATIONSHIP> selected="selected" </cfif>
+									 value="#BIOL_INDIV_RELATIONSHIP#">#BIOL_INDIV_RELATIONSHIP#</option>
+								</cfloop>
+							</select>
+							<cfset thisRELATED_TO_NUM_TYPE = RELATED_TO_NUM_TYPE>
+							<select name="related_to_num_type" size="1" id="related_to_num_type" style="width:80px">
+								<option value=""></option>
+								<option <cfif thisRELATED_TO_NUM_TYPE is "catalog number">selected="selected"</cfif> value="catalog number">catalog number (UAM:Mamm:123 format)</option>
+								<cfloop query="ctOtherIdType">
+									<option
+										<cfif thisRELATED_TO_NUM_TYPE is other_id_type> selected="selected" </cfif>
+									 value="#other_id_type#">#other_id_type#</option>
+								</cfloop>
+							</select>
+				<input type="text" value="#related_to_number#" name="related_to_number" id="related_to_number" size="10" />
+						</td>
+					</tr>
+				</table><!------ random admin stuff ---------->
+               <table class="rside">
+				    <!------- remarks  ------->
+					<tr id="d_coll_object_remarks">
+						<td colspan="2">
+							<span class="f11a">Spec Remark</span>
+								<textarea name="coll_object_remarks" id="coll_object_remarks">#coll_object_remarks#</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td id="d_flags">
+							<span class="f11a">Missing....</span>
+							<cfset thisflags = flags>
+							<select name="flags" size="1" style="width:120px" id="flags">
+								<option  value=""></option>
+								<cfloop query="ctflags">
+									<option <cfif flags is thisflags> selected </cfif>
+										value="#flags#">#flags#</option>
+								</cfloop>
+							</select>
+						</td>
+						<td>
+							<span class="f11a status2">Status:&nbsp;&nbsp;</span>
+                            <span class="destatus">#loaded#</span>
+						</td>
+					</tr>
+				</table><!------- remarks --->
 			</td><!--- end parts block --->
 		</tr>
+</table
 		<tr>
 		<td colspan="2">
-			<table cellpadding="0" cellspacing="0" width="100%" class="bottom_band">
+			<table class="bottom_band">
 				<tr>
-					<td width="16%">
+					<td>
 						<span id="theNewButton" style="display:none;">
 							<input type="button" value="Save This As A New Record" class="insBtn"
 								onclick="saveNewRecord();"/>
 						 </span>
 					</td>
-					<td width="16%">
+					<td>
 						<span id="enterMode" style="display:none">
 							<input type="button"
 								value="Edit Last Record"
@@ -1623,17 +1634,17 @@ Some Totally Random String Data .....
 									onclick="createClone();">
 						</span>
 					</td>
-					<td width="16%" nowrap="nowrap">
+					<td>
 						 <span id="theSaveButton" style="display:none;">
 							<input type="button" value="Save Edits" class="savBtn" onclick="saveEditedRecord();" />
 							<input type="button" value="Delete Record" class="delBtn" onclick="deleteThisRec();" />
 						</span>
 					</td>
-					<td width="16%">
+					<td>
 						<a href="userBrowseBulkedGrid.cfm">[ JAVA table ]</a>
 						<a href="userBrowseBulkedGrid.cfm?action=ajaxGrid">[ AJAX table ]</a>
 					</td>
-					<td align="right" width="16%" nowrap="nowrap">
+					<td>
 						<span id="recCount">#whatIds.recordcount#</span> records
 						<span id="browseThingy">
 							 - Jump to
@@ -1653,11 +1664,12 @@ Some Totally Random String Data .....
 					</td>
 				</tr>
 			</table>
+ 
    		</td>
 	</tr>
 </table>
 </form>
-
+</div>
 <!--- TODO: Evaluate if the logic in v2.5.1 line 3417 to 3536 has been refactored out to supporting functions or if it needs to be incorporated --->
 
 <cfif len(loadedMsg) gt 0>
@@ -1693,4 +1705,5 @@ Some Totally Random String Data .....
 </cfif>
 </cfoutput>
 </cfif>
+        
 <cfinclude template="/includes/_footer.cfm">

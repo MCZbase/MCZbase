@@ -1,7 +1,7 @@
 /*\/\/\/\/\*/
 /*CSS STYLES -- MCZ on All Servers */
 /*\/\/\/\/\*/
-
+/*
 .ac_results {
 	border: 1px solid gray;
 	background-color: white;
@@ -33,6 +33,7 @@ div.secDiv input {
 	border-radius: 4px;
 	border: 1px solid #ccc;
 }
+
 select {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -898,7 +899,6 @@ pre {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: small;
 }
-/* \a0 is the iso8859-1 encoding for nbsp */
 .external:after {
 	text-decoration: none !important;
 	content: "\a0" url(/images/linkOut.gif);
@@ -920,7 +920,6 @@ a.external:hover:visited:after {
 	content: "\a0" url(/images/linkOutHover.gif);
 }
 #header_color {
-	/*      background-color: #e7e7e7;   */
 	margin: 0;
 	margin-top: .5em;
 	width: 100%;
@@ -961,7 +960,7 @@ li.last {
 #headerLinks {
 	top: 12px;
 	right: 22px;
-	z-index: 1;/* float:right;position:absolute;right:5px;clear:both; */
+	z-index: 1;
 }
 #divContainer {
 	width: 500px;
@@ -1120,8 +1119,9 @@ div.updatedAtom p {
 	width: 8em;
 	float: left;
 }
-
+*/
 /* added styles for loans */
+/*
 #loan {width: 700px;margin: 0 0 30px 62px;border-right: 2px solid #ebebeb;padding-right: 33px;}
 .page_title {float:left;}
 .page_title h1 {font-size: 25px;margin-left: 67px;height: 28px; text-align:bottom;}
@@ -1348,13 +1348,14 @@ ul.lisc li {
 	width: 510px;
 }
 }
-
-/* end additional styles for loans */  
 .cellDiv {width: 97%;}
 .greenbox {border:2px solid green;margin:1px;padding:2px;margin-bottom: 20px;}
+*/
+/* end additional styles for loans */  
+
 
 /**************NEW STYLES --Centering--- *********************/
-
+/*
 #pg_container {
 	width: 100%;
 	margin: 0;	
@@ -1434,4 +1435,4 @@ a:hover.headerCollectionText {
 	width: 100%;	
 }
 
-
+*/

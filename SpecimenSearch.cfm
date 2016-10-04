@@ -19,7 +19,7 @@
 	order by search_name
 </cfquery>
 
-<div style="width: 56.4em; margin:0 auto;padding-bottom: 2em; padding-top: 1em;">
+<div class="basic_search_box">
 <table>
 	<tr>
 		<td>
@@ -969,8 +969,6 @@
         		</td>
         	</tr>
         </table>
-
-
     </div>
 </div>
 <cfquery name="Part" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1535,6 +1533,7 @@ $(function() {
 </script>
 <script type='text/javascript' language='javascript'>
 	jQuery(document).ready(function() {
+       
 	  	var tval = document.getElementById('tgtForm').value;
 		changeTarget('tgtForm',tval);
 		changeGrp('groupBy');
@@ -1585,6 +1584,7 @@ $(function() {
 		minChars: 1,
 		selectFirst:false
 	});
+
         function setupSpecSrchPref() {
                 // Set all show fewer/more options to show fewer. 
                 showHide('identifiers',0);

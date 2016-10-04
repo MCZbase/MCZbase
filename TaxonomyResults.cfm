@@ -354,10 +354,14 @@
 	select count(*) cnt from #session.TaxSrchTab#
 </cfquery>
 <cfif summary.cnt is 0>
-	<div class="error">
-		Nothing found. Please use your back button to try again.
+  
+	
+          <div class="basic_search_box">
+              <p class="error">Nothing found. Please use your back button to try again.</p>
+              </div>
 		<cfabort>
-	</div>
+	
+        
 </cfif>
 <cfif not isdefined("goTo") or len(goTo) is 0 or goTo lte startAt>
 	<cfset goTo = StartAt + dr>
@@ -371,7 +375,8 @@
 </cfquery>
 
 <CFOUTPUT>
-<H4>
+    <h3>Taxonomy Search Results</h3>
+<H4 style="padding-top: .5em; margin-top:0;">
 Found #summary.cnt# records.
 <a href="/myArctos.cfm" target="_blank" style="font-size:small">[ set ##/pg ]</a>
 <cfif summary.cnt is 1000>
