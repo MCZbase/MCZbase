@@ -4827,13 +4827,13 @@ td.geometh select {
     white-space:pre-wrap;
 }
 h3 {
-	font-size: 1.44em;
+	font-size: 1.24em;
 	font-weight: 540
 }
 h3.wikilink {
 	width: auto;
 	margin-bottom: .15em;
-	margin-top: 1.2em;
+	margin-top: .65em;
 	line-height: 1em;
 }
 h3.wikilink span {
@@ -4909,7 +4909,7 @@ div#loadedMsgDiv {
     border:1px solid gray; 
     padding: 3px 0;
 }
-
+tr#d_identification_remarks td input {width: 400px}
 /***data entry form ****/
 /*
 
