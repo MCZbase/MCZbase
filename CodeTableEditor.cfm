@@ -311,7 +311,7 @@
 								<cfset scopesecselected = "">
 								<cfset scopevouselected = "selected='selected'">
 							</cfif>
-							<select name="scope">
+							<select name="category">
 								<option value="Primary" #scopepriselected# >Primary</option>
 								<option value="Secondary" #scopesecselected# >Secondary</option>
 								<option value="Voucher" #scopevouselected# >Voucher (non-type)</option>
@@ -321,7 +321,7 @@
 							<input type="text" name="ordinal" value="#ordinal#">
 						</td>
 						<td>
-							<input type="description" name="ordinal" value="#description#">
+							<input type="description" name="description" value="#description#">
 						</td>
 						<td>
 							<input type="button" 
@@ -791,8 +791,8 @@
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctcitation_type_status set 
 				TYPE_STATUS= <cfqueryparam cfsqltype="cf_sql_varchar" value="#type_status#" />,
-				CATEGORY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#cateogry#" />,
-				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+				CATEGORY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#category#" />,
+				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />,
 				DESCRIPTION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#description#" />
 			where
 				TYPE_STATUS= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
