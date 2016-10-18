@@ -817,6 +817,9 @@
                                <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
                           </cfif>
+                 <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus">MCZ Exhibition Loan Header Long</option>
+                          </cfif>
 		          <cfif inhouse.c is 1 and outside.c is 1 >
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
                           </cfif>
@@ -1881,7 +1884,7 @@
 		 	trans.transaction_id,
 		   	loan_number,
 		    loan.loan_type,
-                    ctloan_type.scope,
+            ctloan_type.scope,
 		    loan_status,
 		    loan_instructions,
 		    loan_description,
@@ -1943,7 +1946,7 @@
       <cfset variables.encoding="UTF-8">
       <cfscript>
 			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-			d='loan_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,foruseby_agent,addOutside_agent,loan_type,loan_status,Transaction_Date,return_due_date,nature_of_material,loan_description,loan_instructions,trans_remarks,ent_agent,Project';
+			d='loan_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,loan_type,loan_status,Transaction_Date,return_due_date,nature_of_material,loan_description,loan_instructions,trans_remarks,ent_agent,Project';
 		 	variables.joFileWriter.writeLine(d);
 	</cfscript>
     </cfif>
@@ -2107,6 +2110,7 @@
         <cfset d=d &',"#escapeDoubleQuotes(inHouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addInhouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(rec_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(foruseby_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addOutside_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(loan_type)#"'>

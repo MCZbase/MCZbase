@@ -32,17 +32,18 @@ grant all on cf_temp_parts to uam_query,uam_update;
 
 ---->
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 56em; margin: 0 auto; padding: 1em 0 3em;">
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv).
-Include column headings, spelled exactly as below.
-<br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
-	<div id="template" style="display:none;">
+<h3 class="wikilink">Bulkload Parts</h3>
+<p>Upload a comma-delimited text file (csv).
+    Include column headings, spelled exactly as below.</p>
+<p style="margin:1em;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
+	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method</textarea>
 	</div>
-<p></p>
-Columns in <span style="color:red">red</span> are required; others are optional:
-<ul>
+    <p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
+<ul class="geol_hier" style="padding-bottom: .25em;">
 	<li style="color:red">institution_acronym</li>
 	<li style="color:red">collection_cde</li>
 	<li style="color:red">other_id_type ("catalog number" is OK)</li>
@@ -53,15 +54,15 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li>lot_count_modifier</li>
 	<li style="color:red">lot_count</li>
 	<li>current_remarks</li>
-		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
-			<ul>
+	
+			<ul style="margin-left:2em;padding-bottom:.5em;font-size: 14px;">
 				<li>if use_existing = 0 put the remarks to be added with the new part here</li>
 				<li>if use_existing = 1 put the remarks to be matched to find the existing part here</li>
 			</ul>
-		</span>
+
 	<li style="color:red">use_existing
-		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
-			<ul>
+	
+			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>0: create a new part regardless of current parts</li>
 				<li>1: use existing parts when:
 					<ul>
@@ -71,43 +72,39 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 					</ul>
 				</li>
 			</ul>
-		</span>
+
 	</li>
 	<li>container_barcode
-		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
-			<ul>
+	
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>Container barcode in which to place this part</li>
 			</ul>
-		</span>
+	
 	</li>
 	<li>change_container_type</li>
 	<li style="color:red">condition</li>
 	<li>append_to_remarks</li>
-		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
-			<ul>
+		
+				<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>if use_existing = 0 this field is ignored</li>
 				<li>if use_existing = 1 anything in this field will be appended tothe current remarks</li>
 			</ul>
-		</span>
+		
 	<li>changed_date
-		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
-			<ul>
+				<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li>
 			</ul>
-		</span>
+		
 	</li>
 	<li>new_preserve_method
-		<span style="font-size:smaller;font-style:italic;padding-left:20px;">
-			<ul>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>if use_existing = 0 this field is ignored</li>
 				<li>if use_existing = 1 the value in this field will replace the current preserve method for this part</li>
 			</ul>
-		</span>
+	
 	</li>
 </ul>
-
-
-
+    <br>
 <cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadParts.cfm">
 			<input type="hidden" name="Action" value="getFile">
 			  <input type="file"
@@ -117,7 +114,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		class="savBtn"
 		onmouseover="this.className='savBtn btnhov'"
 		onmouseout="this.className='savBtn'">
-		<br>
+		<br><br>
 	Character Set: <select name="cSet" id="cSet">
 		<option value="windows-1252" selected>windows-1252</option>
 		<option value="MacRoman">MacRoman</option>
@@ -126,7 +123,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		<option value="unicode">unicode</option>
 	</input>
   </cfform>
-
+   
 </cfif>
 <!------------------------------------------------------->
 <!------------------------------------------------------->
@@ -609,4 +606,5 @@ validate
 	</a>
 </cfoutput>
 </cfif>
+         </div>
 <cfinclude template="/includes/_footer.cfm">

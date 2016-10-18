@@ -33,16 +33,18 @@ alter table cf_temp_oids add status varchar2(4000);
 
 ------>
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv). 
+    <div style="width: 56em; margin: 0 auto;padding: 1em 0 3em;">
+<p>Upload a comma-delimited text file (csv). 
 Include column headings, spelled exactly as below. 
-<br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
+        </p>
+        <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none;">
 		<label for="t">Copy the following code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">COLLECTION_CDE,INSTITUTION_ACRONYM,EXISTING_OTHER_ID_TYPE,EXISTING_OTHER_ID_NUMBER,NEW_OTHER_ID_TYPE,NEW_OTHER_ID_NUMBER</textarea>
 	</div> 
-<p></p>
 
-<ul>
+
+<ul class="geol_hier">
 	<li style="color:red">COLLECTION_CDE</li>
 	<li style="color:red">INSTITUTION_ACRONYM</li>
 	<li style="color:red">EXISTING_OTHER_ID_TYPE ("catalog number" is OK)</li>
@@ -59,7 +61,7 @@ Include column headings, spelled exactly as below.
 		   size="45">
 			  <input type="submit" value="Upload this file" #saveClr#>
   </cfform>
-
+    </div>
 </cfif>
 <!------------------------------------------------------->
 <!------------------------------------------------------->

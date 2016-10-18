@@ -7,6 +7,7 @@ body {
 	background-color: #FFFFFF;
 	margin: 0;
 	padding: 0 0 0 0;
+    font-size: 16px;
 }
 h3 {
 	display: block;
@@ -17,12 +18,11 @@ h3 {
 	-webkit-margin-end: 0px;
 	font-weight: bold;
 }
+p {padding: .25em 0;}
 .ac_odd {
 	background-color: #eee;
 }
-.loginTxt {
-	font-size: .7em;
-}
+
 .helpLink {
 	cursor: pointer;
 	color: blue;
@@ -43,6 +43,7 @@ h3 {
 	color: #FF0000;
 	text-decoration: underline;
 }
+label {margin-top:5px;}
 .srch label {
 	font-weight: 600;
 }
@@ -1485,6 +1486,7 @@ input.qutBtn {
 	border-color: #336666;
 	border: 1px solid;
 	border-radius: 5px;
+    padding: 2px 15px;
 }
 input.reqdClr, select.reqdClr, textarea.reqdClr {
 	background-color: #E4E476;
@@ -1682,7 +1684,7 @@ box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
     border-bottom: 1px solid #d5d5db; 
     position:relative;
     font-size: 15px;
-    height:28px;
+    height:31px;
     box-sizing: content-box;
     box-sizing: border-box;
 }
@@ -1691,6 +1693,7 @@ box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 div.submenu {
 	width: 100%;
 	float: left;
+    vertical-align: middle;
 }
 div.submenu ul {
 	list-style: none;
@@ -2238,8 +2241,8 @@ select {
 	border: 1px solid #336666;
 }
 span#theNewButton input.insBtn {
-	padding: 3px 4px 1px 4px;
-	font-size: 12px;
+	padding: 1px 4px 1px 4px;
+	font-size: 11px;
 }
 .smallBtn:hover {
 	color: red;
@@ -2719,7 +2722,7 @@ h1 {
 	font-weight: bold;
 }
 h2 {
-	font-size: 1.6em;
+	font-size: 1.5em;
 	font-weight: bold;
 }
 h2.wikilink {
@@ -2729,8 +2732,8 @@ h2.wikilink {
 	line-height: 1em;
 }
 h2.wikilink span {
-	font-style: italic;
-	font-size: smaller;
+	font-style: normal;
+	font-size: 16px;
 }
 h2.wikilink img {
 	vertical-align: top;
@@ -3198,7 +3201,7 @@ table.bottom_band {
 	width: 140px;
 }
 .pubSpace {
-	margin: .25em 1em;
+	margin: .25em 0em;
 }
 div.topBlock {
 	border: 2px solid #0066cc;
@@ -3232,11 +3235,12 @@ div.topBlock {
 }
 .shell {
 	background-color: #E6ebe0;
-	-webkit-box-shadow: 15px 15px 39px -14px rgba(102,102,102,1);
-	-moz-box-shadow: 15px 15px 39px -14px rgba(102,102,102,1);
-	box-shadow: 15px 15px 39px -14px rgba(102,102,102,1);
+	-webkit-box-shadow: 15px 15px 32px -18px rgba(102,102,102,1);
+	-moz-box-shadow: 15px 15px 32px -18px rgba(102,102,102,1);
+	box-shadow: 15px 15px 32px -18px rgba(102,102,102,1.1);
 	padding: 1em;
-	margin: 1em;
+	margin: 1em 0;
+    margin-top:5em;
 	width: 500px;
 	float: left;
 	position: relative;
@@ -3591,7 +3595,7 @@ ul.lisc li {
 	width: 80%;
 	margin: 0 auto;
 	margin-bottom: 1em;
-	padding-top: 1em;
+	padding-top: 0em;
 	background-color: #fff;
 	-webkit-box-shadow: -2px 15px 40px -5px rgba(204,204,204,1);
 	-moz-box-shadow: -2px 15px 40px -5px rgba(204,204,204,1);
@@ -3626,6 +3630,8 @@ ul.lisc li {
 .projPubSearchResults div.thumbs {
 	margin-top: 0;
 }
+h2.proj_title {font-size: 1.6em; margin:0;}
+.proj_agent {font-size:18px;margin:0;}
 .content_box_detail {
 	width: 100%;
 	margin: 0 auto;
@@ -3755,6 +3761,7 @@ ul.pubLinks {
     background-color: white;
 }
 .graydot {border: 1px dotted #ccc;padding:10px 5px 5px 5px;}
+
 /******************/
 /*  start NEW  header content */
 /******************/
@@ -3800,32 +3807,37 @@ ul.pubLinks {
 	text-decoration: none;
 	color: #cc0000;
 }
-#headerLinks {
+#headerLinks ul{
 	width: auto;
-	right: 0;
-	padding: 2px 3px 0 0;
+	padding-right: 5px;
 	color: #114bc7;
 	text-align: right;
-    height:30px;
-    background-color:#D5D5DB;
-    margin-top:-7px;
-    padding: 2px 3px 7px 0;
+    height:26px;
+    float:right;
+    display:inline;
+    padding-top: 3px;
+    margin:0;
+    
+  /*  background-color:#D5D5DB;*/
 }
-
 #headerLinks li {
-	text-align: right;
+    width: auto;
+    list-style: none;
+    display: inline;
+    vertical-align: middle;
+	/*  text-align: right;
 	display: inline;
     color: #114bc7;
     list-style: none;
-    margin-top:-1em;  
+ vertical-align: middle;*/
 }
 #headerLinks span {
     font-size: 13px;
 }
-.loginTxt {
+/* .loginTxt {
 	font-size: .8em;
 	padding: 0 1px;
-}
+}*/
 #headerLinks li a {
 	color:#114bc7;
 }
@@ -3899,6 +3911,15 @@ select#GeorefMethod {
 	border: 1px dotted #ccc;
 	background-color: #f8f8f8;
 }
+
+.grayishbox {
+	padding: .5em .5em;
+	margin-bottom: .5em;
+	margin-top: 0em;
+	border: 1px dotted #ccc;
+	background-color: #f8f8f8;
+}
+p.spacer {height: 3px;}
 .noShow {
 	display: none;
 }
@@ -3968,6 +3989,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e000000', e
 	box-shadow: -2px -1px -4px -2px rgba(204,204,204,1);
 	border-bottom: 1px double #ccc;
 }
+
 .primaryType {
 	background-color: white;
 	width: 100%;
@@ -4097,7 +4119,7 @@ ul.headercol3 li {
 form.userdataForm label {
 	margin-top: .5em;
 }
-.arctoSet {margin-bottom: .5em; margin-top:1.5em;padding-bottom: 0;}
+
 .taxaDetailsbox {
 	width: 54em; 
 	margin: 0 auto;
@@ -4304,6 +4326,7 @@ table.navtabs {
 	padding-bottom: 2em;
 	padding-top: 0em;
 }
+.bulletlist li {margin-left: 1.5em;}
 .stats {
 	font-size: 13px;
 	margin: 0;
@@ -4436,7 +4459,10 @@ table.navtabs {
 line-height: 1.2em;}
 .mediaEdit {margin-top:-2em;}
 
+.arctosSet {margin-bottom: .5em; margin-top:1.5em;padding-bottom: 0;}
+.editMedia2 label {margin-top: .65em;}
 
+table.attributes {font-size: 10px;}
 
 
 
@@ -4787,39 +4813,61 @@ table.navtabs {
 /***** TYPE STYLES end *****/
 
 
-
 #dataentry_form {
     width: 100%;
-    font-size: .68em;
+    font-size: .65em;
 }
-#dataentry_form table {
-    width:100%;
-    border: 1px solid gray;
-    padding: 3px;
-}
+#dataentry_form table{width:100%;}
 #dataentry_form input{
-    font-size: 11px;
+
+}
+#dataentry_form #theTable.rightColumn input{
+    font-size: 10px;
+    padding: 0px;
+}
+#dataentry_form #theTable.rightColumn select{
+    font-size: 10px;
+    padding: 0px;
 }
 #dataentry_form select{
     font-size: 11px;
+    padding: 2px;
 }
-.de_lefthalf {
-    width: 50%;
-    padding-right: .5em;
-    padding-bottom: 2em;
-}
+#theTable h3.wikilink {width: 85%;}
 
-.de_righthalf {
-    width:50%;
-    padding-left:.5em;
-
+#theTable table {
+    width: 99%;
+   border: 1px solid green;
+    font-size: 11px;
 }
+#theTable td, #theTable tr, theTable input{padding:0px;
+    margin:0;
+}
+#theTable table.parts input {padding: 0;width: 99.8%;}
+#theTable table.attributes input {padding: 0;}
+#theTable table.parts select {padding: 0;width: 99.8%;}
+#theTable table.attributes select {padding: 0;width: 99.8%;min-width:20px;}
+.leftColumn {
+}
+.middleColumn {
+}
+.rightColumn{
+}
+.mammtab td {width: 30px;}
+#AttTable td {width: 50px;}
+#AttTable input {width:80px;}
+#AttTable span {width:70px;}
+select.selectatt {width:35px;padding:0;}
+.munits {width: 36px;}
+.SpecAtts td, .SpecAtts th {width:40px;}
 .bottomDEtable {
     padding-top: 1em;
     width:100%;
     clear:both;
     border: none;
 }
+.bottomDEtable input {width: 98%;}
+.bottomDEtable select {width: 98%;}
 .destatus {font-size: 14px;color: red;}
 .status2 {font-size: 13px;}
 td.geometh select {
@@ -4833,7 +4881,7 @@ h3 {
 h3.wikilink {
 	width: auto;
 	margin-bottom: .15em;
-	margin-top: .65em;
+	margin-top: .9em;
 	line-height: 1em;
 }
 h3.wikilink span {
@@ -4847,15 +4895,16 @@ h3.wikilink img {
 table.noborder {border: none;}
 #msg {
 	position:fixed;
-	bottom:0;
 	z-index:10000;
-	text-align:center;
-	font-size:small;
-	width:79.8%;
-	border:2px solid black;
-    padding: 10px 0;
+	text-align:right;
 	background-color:white;
-    font-weight: bold
+    font-weight: bold;
+    bottom: 7px;
+    font-size: 16px;
+    right:15px;
+    padding: 0 5px;
+    text-transform: uppercase;
+    
 }
 #loadedMsgDiv{display:none;}
 .isGoodEdit {
@@ -4864,6 +4913,12 @@ table.noborder {border: none;}
 .isBadEdit, isBadEdit tr:nth-child(even) {
         background: #b58aa5; 
 }
+.geol_hier {width: 56em;margin: 0 auto;padding: 1em 0 3em 0;}
+.geol_hier li {margin-left: 1.5em;}
+.geol_hier label {padding-top: .25em;}
+.geol_hier ul {list-style: circle;margin-left: 1.5em;}
+.geol_hier table {padding: 2px 16px;margin-bottom: 1em;}
+.geol_hier p {padding-bottom: .5em;}
 #loadedMsgDiv{display:none;}
 .isGoodEdit {
 	background-color:#00CCCC;
@@ -4898,18 +4953,28 @@ div#modeDisplayDiv {
     font-size: 15px;
     text-shadow: black 1px 1px;
     background-color: white;
-    border:1px solid gray; 
-    padding: 3px 0;
+    width: 100%;
+       padding: 3px 0px;
+   
 }
 div#loadedMsgDiv {
     color:red;
     font-size: 15px;
     text-shadow: black 1px 1px;
     background-color: white;
-    border:1px solid gray; 
-    padding: 3px 0;
+    padding: 3px 2px;
+   width:100%;
+  
 }
-tr#d_identification_remarks td input {width: 400px}
+.DE_far_right {width: 18%;}
+.barcodes p {padding: .25em 0;}
+.barcodes label, .barcodes select {font-size: 12px;margin-top: .25em;}
+    
+ul.labels {width: 550px;list-style: disc;margin-bottom: 1em;margin-top: 1em;}
+ul.labels li {margin-left: 1.5em;padding: .25em 0;}
+ul.labels ul {list-style: circle;}
+#labels2 label {padding-top: .32em;}
+
 /***data entry form ****/
 /*
 
@@ -4975,10 +5040,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', end
 }
 .doShow {
 }
-.f11a {font-family:Arial, Helvetica, sans-serif;
-	font-size:11px;
-	padding-right:2px;
-}
+
 .hasProbs {
 	background-color:#FF0000;
 	font-family:Arial, Helvetica, sans-serif;
@@ -5021,6 +5083,12 @@ input.part_at {
         float: left;
         display: inline;
 }
+.f11a {
+	font-size:11px;
+	padding-left:2px;
+}
+.mainAtts th {text-align: left;margin-left:0;padding-left:0;}
+
 .div1 ul {
         width: 560px;
         margin: 0;
@@ -5035,22 +5103,25 @@ input.part_at {
         margin: 2px 9px 5px 0px;
 }
 a.part_att_btn {
-        font-size: 12px;
+        font-size: 10px;
         font-weight: bold;
         color: #666;
         background-color:#a9c9fd;
         display: block;
-        padding: 1px 5px;
-        margin: 3px 5px;
+        padding:1px 5px;
+        margin: 0;
         border: 1px solid #666;
         cursor:pointer;
         text-align:center;
         width: auto;
+    margin-left: 1px;
 }
 table.bottom_band {
-    padding-bottom: 5px;
+    padding-bottom: 3px;
     width:100%;
     margin-left:-.02em;
-    font-size: 14px;
+    border: 2px solid gray;
 }
+table.botton_band a {font-size: 15px;}
+
 /*** Above: Used for Part Attribute button and popup  ***/

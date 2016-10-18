@@ -1,5 +1,6 @@
 <cfinclude template="/includes/_frameHeader.cfm">
-<cfif #action# is "nothing">
+    <div style="width:900px; padding: 1em; margin:0;">
+        <cfif #action# is "nothing">
 <cfoutput>
 <cfset showLocality=1>
 <cfset showEvent=1>
@@ -70,7 +71,7 @@
 				<input type="hidden" name="collIdFld" value="#collIdFld#">
 				<input type="hidden" name="dispField" value="#dispField#">
 				<input type="hidden" name="action" value="updateCollEvent">
-				<table cellpadding="0" cellspacing="0">
+				<table>
 				<tr>
 					<td>
 						<input type="button" 
@@ -128,4 +129,5 @@
 	</table>
 	</cfoutput>
 </cfif>
+                </div>
 <!----------------------------------------------------------------------->

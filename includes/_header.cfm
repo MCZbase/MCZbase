@@ -25,7 +25,7 @@
                     speed:       0,
                 });
                 if (top.location!=document.location) {
-                                $("#footerContentBox").hide();
+                               // $("#footerContentBox").hide();
                                 $("#headerContent").hide();
                                 $(".sf-mainMenuWrapper").hide();
                           
@@ -87,7 +87,7 @@
                         <li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
                         <li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
                         <li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
-                        <li><a target="_top" href="##" onclick="getDocs('Bulkloader/index')">Bulkloader Docs</a></li>
+           <!---<li><a target="_top" href="##" onclick="getDocs('Bulkloader/index')">Bulkloader Docs</a></li>--->
                       </cfif>
                       <cfif listfind(formList,"/Bulkloader/browseBulk.cfm")>
                         <li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
@@ -219,8 +219,8 @@
                 <li> <a target="_top" href="##">Developer Widgets</a>
                   <ul>
                     <li><a target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a></li>
-                    <li><a target="_top" href="/info/svn.cfm">SVN</a></li>
-                    <li><a target="_top" href="/Admin/dumpAll.cfm">dump</a></li>
+                   <!--- <li><a target="_top" href="/info/svn.cfm">SVN</a></li>--->
+                    <li><a target="_top" href="/Admin/dumpAll.cfm">Dump</a></li>
                     <li><a target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a></li>
                     <li><a target="_top" href="/tools/imageList.cfm">Image List</a></li>
                   </ul>

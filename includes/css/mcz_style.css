@@ -180,9 +180,9 @@ td.lbl {
 	margin-top: 5px;
 	font-size: .8em;
 }
-/*.detailData {
+.detailData {
 	margin-left: -10px;
-}*/
+}
 .detailCellSmall {
 	font-size: .6em;
 	font-weight: normal;
@@ -325,7 +325,7 @@ div.code {
 	color: #2F4F4F;
 }
 span.helpDiv {
-	position: relative; /*this is the key*/
+	position: relative; 
 	z-index: 99;
 	color: #0000FF;
 	text-decoration: none;
@@ -503,11 +503,11 @@ h2.wikilink img {
 	margin-top: -7px
 }
 h2.wikilink_Narrow {
-	/*width:70%;*/
+
 	float: left;
 	margin-bottom: .15em;
 	margin-top: 1.5em;
-	/*margin-left: .5em;*/
+	
 	line-height: 1em;
 }
 h2.wikilink_Narrow span {

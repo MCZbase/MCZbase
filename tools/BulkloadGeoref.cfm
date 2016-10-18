@@ -42,34 +42,33 @@ CREATE OR REPLACE TRIGGER cf_temp_georef_key
 sho err
 --->
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 50em; padding: 1em 0 3em 0;margin: 0 auto;">
 <cfif #action# is "nothing">
-	HigherGeography, SpecLocality, and locality_id must all match Arctos data or this form will not work. There are still plenty of ways
-	to hook a georeference to the wrong socket - make sure you know what you're doing before you try to use this form.
-	<br>
-	<a href="http://g-arctos.appspot.com/arctosdoc/lat_long.html">Help is here</a>
+    <h3 class="wikilink">Bulkload Geography</h3>
+	<p>HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you're doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load.</p>
 	
-<br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
-	<div id="template" style="display:none;">
+    <p><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
+	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">HigherGeography,SpecLocality,Locality_ID,Dec_Lat,Dec_Long,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,EXTENT,GPSACCURACY,VERIFICATIONSTATUS,SPATIALFIT</textarea>
 	</div> 
-<p></p>
-Columns in <span style="color:red">red</span> are required; others are optional:
-<ul>
+<p>
+    Columns in <span style="color:red">red</span> are required; others are optional:</p>
+<ul class="geol_hier">
 	<li style="color:red">HigherGeography</li>
 	<li style="color:red">SpecLocality</li>
 	<li style="color:red">Locality_ID</li>
 	<li style="color:red">Dec_Lat</li>
 	<li style="color:red">Dec_Long</li>
 	<li style="color:red">DETERMINED_BY_AGENT</li>
-	<li style="color:red">GEOREFMETHOD<span class="infoLink" onclick="getCtDoc('ctGEOREFMETHOD','');">Define</span></li>
-	<li style="color:red">ORIG_LAT_LONG_UNITS<span class="infoLink" onclick="getCtDoc('CTLAT_LONG_UNITS','');">Define</span></li>
-	<li style="color:red">DATUM<span class="infoLink" onclick="getCtDoc('CTDATUM','');">Define</span></li>
+	<li style="color:red">GEOREFMETHOD <span class="infoLink" onclick="getCtDoc('ctGEOREFMETHOD','');"> -Define</span></li>
+	<li style="color:red">ORIG_LAT_LONG_UNITS <span class="infoLink" onclick="getCtDoc('CTLAT_LONG_UNITS','');"> -Define</span></li>
+	<li style="color:red">DATUM <span class="infoLink" onclick="getCtDoc('CTDATUM','');"> -Define</span></li>
 	<li style="color:red">DETERMINED_DATE</li>
 	<li style="color:red">LAT_LONG_REF_SOURCE</li>
-	<li style="color:red">VERIFICATIONSTATUS<span class="infoLink" onclick="getCtDoc('CTVERIFICATIONSTATUS','');">Define</span></li>
+	<li style="color:red">VERIFICATIONSTATUS <span class="infoLink" onclick="getCtDoc('CTVERIFICATIONSTATUS','');"> -Define</span></li>
 	<li>MAX_ERROR_DISTANCE</li>
-	<li>MAX_ERROR_UNITS<span class="infoLink" onclick="getCtDoc('CTLAT_LONG_ERROR_UNITS','');">Define</span></li>
+	<li>MAX_ERROR_UNITS <span class="infoLink" onclick="getCtDoc('CTLAT_LONG_ERROR_UNITS','');"> -Define</span></li>
 	<li>LAT_LONG_REMARKS</li>
 	<li>EXTENT</li>	
 	<li>GPSACCURACY</li>	
@@ -78,7 +77,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 
 <cfform name="atts" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
-			  <input type="file"
+			  <input type= "file"
 		   name="FiletoUpload"
 		   size="45">
 			 <input type="submit" value="Upload this file"
@@ -388,5 +387,5 @@ Data:
 	Spiffy, all done.
 </cfoutput>
 </cfif>
-
+            </div>
 <cfinclude template="/includes/_footer.cfm">

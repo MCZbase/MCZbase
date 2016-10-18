@@ -18,17 +18,12 @@
 <td>
 
 </td>
-<h3>Search for an agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h3>
-<td style="padding-left:2em;padding-right:2em;">
-<!---  <span class="infoLink" onClick="getHelp('diacritics');">
-  Search Tips--->
-  </span>
-</td>
-
+<h3 class="wikilink">Search for an agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h3>
+<br>
 <cfoutput>
 <form name="agntSearch" action="AgentGrid.cfm" method="post" target="_pick">
 	<input type="hidden" name="Action" value="search">
-<table border>	
+<table border style="width: 100%;">	
 	<tr>
 		<td>
 			<label for="prefix">Prefix</label>

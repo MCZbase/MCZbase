@@ -3,11 +3,11 @@
 </cfif>
 <cfinclude template="/includes/_header.cfm">
 <cfset title='Manage Agents'>
-
+<meta charset="UTF-8">
 <script type="text/javascript">
 
 /***********************************************
-* IFrame SSI script II- © Dynamic Drive DHTML code library (http://www.dynamicdrive.com)
+* IFrame SSI script II- Â© Dynamic Drive DHTML code library (http://www.dynamicdrive.com)
 * Visit DynamicDrive.com for hundreds of original DHTML scripts
 * This notice must stay intact for legal use
 ***********************************************/
@@ -80,7 +80,7 @@ window.onload=resizeCaller
 <table border width="100%">
 	<tr>
 		<td width="35%" valign="top">
-			<iframe src="/AgentSearch.cfm" id="_search" name="_search" width="100%" height="300"></iframe>
+			<iframe src="/AgentSearch.cfm" id="_search" name="_search" width="100%" height="auto"></iframe>
 			<br>
 			<iframe src="/AgentGrid.cfm" name="_pick" id="_pick" width="100%" height="200"></iframe>
 		</td>
@@ -91,3 +91,5 @@ window.onload=resizeCaller
 	</tr>
 </table>
 </cfoutput>
+    
+<cfinclude template="/includes/_footer.cfm">

@@ -128,10 +128,11 @@
 		select allow from temp_allow_cf_user where user_id=#getPrefs.user_id#
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
-    <div style="width:68em; margin:0 auto;padding-bottom: 3em;overflow: hidden;">
+    <div style="width:70em; margin:0 auto;padding-bottom: 3em;overflow: hidden;">
+        <div style="width: 33em; float: left; position: relative; margin-right: 2.2em;">
 	<h2>Welcome back, <b>#getPrefs.username#</b>!</h2>
-	<div style="width: 31em; float: left; position: relative; margin-right: 1em;">
-	<ul>
+	
+	<ul class="geol_hier" style="padding:0;width:430px;margin: 0;">
 		<li>
 			<a href="ChangePassword.cfm">Change your password</a>
 			<cfset pwtime =  round(now() - getPrefs.pw_change_date)>
@@ -201,7 +202,7 @@
 		<input type="hidden" name="user_id" value="#getUserData.user_id#">
 		<input type="hidden" name="action" value="saveProfile">
 		<h3 style="margin-bottom: .5em;margin-top:1.5em; padding-bottom: 0;">Personal Profile</h3>
-		<p style="font-size:small;margin-bottom: 1em;">
+		<p style="margin-bottom: 1em;">
 			A profile is required to download data.<br>
 			You cannot recover a lost password unless you enter an email address.<br>
 			Personal information will never be shared with anyone, and we'll never send you spam.</p>

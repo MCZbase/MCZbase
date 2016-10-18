@@ -329,7 +329,7 @@ function switchActive(OrigUnits) {
 	// then, switch em all off just to make sure
 	a.className='noShow f12t';
 	b.className='noShow f12t';
-	c.className='noShow f12t';
+	c.className='doShow f12t';
 	u.className='noShow f12t';
 	d.className='noShow f12t';
 	var isSomething = OrigUnits.length;

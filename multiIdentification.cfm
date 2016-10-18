@@ -7,6 +7,7 @@
 <script type='text/javascript' src='/includes/_editIdentification.js'></script>
 <!--------------------------------------------------------------------------------------------------->
 <cfif Action is "nothing">
+    <div style = "width: 58em; margin: 0 auto; padding: 2em 0 3em 0;">
 	<!--- edit IDs for a list of specimens passed in from specimenresults --->
 	<!--- no security --->
 <cfset title = "Edit Identification">
@@ -17,8 +18,8 @@
 	select taxa_formula from cttaxa_formula order by taxa_formula
 </cfquery>
 <cfoutput>
-</cfoutput> <cfoutput> <strong>Add Identification For <font size="+1"><i>All</i></font>
-  specimens listed below:</strong>
+</cfoutput> <cfoutput> <h3>Add Identification For <font size="+1"><i>All</i></font>
+  specimens listed below:</h3>
   <table>
   <form name="newID" method="post" action="multiIdentification.cfm">
             <input type="hidden" name="Action" value="createManyNew">
@@ -251,6 +252,7 @@
 
 </cfoutput>
 </table>
+</div>
 </cfif>
 <!----------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------->
@@ -388,6 +390,7 @@
 	<cflocation url="multiIdentification.cfm?collection_object_id=#collection_object_id#" addtoken="no">
 
 </cfoutput>
+    
 </cfif>
 <!----------------------------------------------------------------------------------->
 <cfinclude template="includes/_footer.cfm">

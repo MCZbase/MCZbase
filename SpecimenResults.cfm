@@ -346,7 +346,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 	<input type="hidden" name="customID" id="customID" value="#session.customOtherIdentifier#">
 	<input type="hidden" name="result_sort" id="result_sort" value="#session.result_sort#">
 	<input type="hidden" name="displayRows" id="displayRows" value="#session.displayRows#">
-        <strong>#mappable.cnt#</strong> of these <strong>#summary.recordcount#</strong> records have coordinates
+       <p style="margin-left: 5px;padding-top: 2em;"><strong>#mappable.cnt#</strong> of these <strong>#summary.recordcount#</strong> records have coordinates
         <cfif #mappable.cnt# gt 0>
           and can be displayed with 
 			<span class="controlButton"
@@ -357,9 +357,9 @@ If your item needs to be sorted in a special way, then do that here. --->
 				What's this?
 			</span>
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
-         <cfelse>.</cfif>
-			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink">&nbsp;&nbsp;&nbsp;Problems viewing this page? Click for HTML version</a>
-			&nbsp;&nbsp;&nbsp;<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
+            <cfelse></cfif>
+			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
+			<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	</p>
 <div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id")>
 	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">back to loan</a>

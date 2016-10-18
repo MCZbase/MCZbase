@@ -25,9 +25,12 @@ transaction_id number
 
 
 <cfif #action# is "nothing">
+     <div style="margin: 0 auto;width: 56em;padding: 1em 0 3em 0;">
 <cfoutput>
+    <h3 class="wikilink">Bulkload Loans</h3>
+   
 	The following must all be true to use this form:
-	<ul>
+	<ul class="geol_hier">
 		<li>
 			Items in the file you load are not already on loan (check part_disposition)
 		</li>
@@ -38,9 +41,8 @@ transaction_id number
 		<li>Loan Item reconciled person is you (<i>#session.username#</i>)</li>
 		<li>Loan Item reconciled date is today (#dateformat(now(),"yyyy-mm-dd")#)</li>
 	</ul>
-Step 1: Upload a file comma-delimited text file (CSV) in the following format. (You may copy the template below and save as .CSV)
- Include column headers.
-<ul>
+    <p>Upload a file comma-delimited text file (CSV) in the following format. (You may copy the template below and save as .CSV) Include column headers.</p>
+<ul class="geol_hier">
 	<li>Institution_Acronym (required)</li>
 	<li>Collection_Cde (required)</li>
 	<li>Other_Id_Type (required. "catalog number" is acceptable)</li>
@@ -52,11 +54,12 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 	<li>subsample (required. "yes" creates a new part subsample. "no" puts the entire part on loan)</li>
 	<li>Loan_Number (required)</li>
 </ul>
+
 </cfoutput>
 
 <p>
 <div id="template">
-		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
+		<textarea rows="2" cols="80" style="display: none;" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
 	</div>
 
 <cfform name="catnum" method="post" enctype="multipart/form-data">
@@ -66,6 +69,7 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 		   size="45">
 			  <input type="submit" value="Upload this file" #saveClr#>
 		</cfform>
+             </div>
 </cfif>
 <!------------------------------------------------------->
 <!------------------------------------------------------->

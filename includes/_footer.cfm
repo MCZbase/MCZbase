@@ -1,5 +1,5 @@
-</div>
-</div>
+</div><!---end content_box--->
+</div><!---end pg_container--->
     
      <div id="footerContentBox" class="content_box_footer clearfix">
       <cfif cgi.HTTP_HOST contains "harvard.edu" >
@@ -34,8 +34,8 @@
               </a> 
           </div>
     </cfif>
-    </div><!---end content_box_footer--->
-</div><!---end pg_container--->
+    </div><!---end footer2--->
+</div><!---end content_box_footer--->
 
 
 <script type="text/javascript">

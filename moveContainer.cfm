@@ -100,7 +100,8 @@
 		}
 </script>
 <cfoutput>
-Containers Moved:<span id="counter" style="background-color:green">0</span>
+    <div style="width:56em;margin:0 auto;padding: 2em 0 6em 0;">
+Containers Moved: &nbsp;<span id="counter" style="background-color: yellow">0</span>
 <table>
 	<tr>
 	<form name="moveIt" onsubmit="moveThisOne(); return false;">
@@ -145,5 +146,6 @@ Containers Moved:<span id="counter" style="background-color:green">0</span>
 <script>
 	setNow();
 </script>
+    </div>
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">

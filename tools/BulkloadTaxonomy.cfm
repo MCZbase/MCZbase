@@ -1,5 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="Bulkload Taxonomy">
+    <div style="width: 56em;margin: 0 auto; padding: 1em 0 3em 0;">
 <!---- make the table
 
 drop table cf_temp_taxonomy;
@@ -124,12 +125,16 @@ sho err
 <!------------------------------------------------------->
 <cfif action is "nothing">
 	<cfoutput>
-		Step 1: Upload a comma-delimited text file (csv). <a href="BulkloadTaxonomy.cfm?action=makeTemplate">[ Get the Template ]</a>
-		<cfform name="oids" method="post" enctype="multipart/form-data">
+        <h3 class="wikilink">Bulkload Taxonomy</h3>
+        <p>The taxonomy records of hierarchical values are found in a reference table in MCZbase and changes are handled by Collections Operations.  Please send an email to the system administrator with changes or additions marked in the downloadable template.</p>
+        <p>Download the template 
+            <a href="BulkloadTaxonomy.cfm?action=makeTemplate">[ Taxonomy Template ]</a>
+        </p>
+	<!---	<cfform name="oids" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
 			<input type="file" name="FiletoUpload" size="45">
 			<input type="submit" value="Upload this file">
-  </cfform>
+  </cfform>--->
 </cfoutput>
 </cfif>
 
@@ -766,4 +771,5 @@ sho err
 	Spiffy, all done.
 </cfoutput>
 </cfif>
+</div>
 <cfinclude template="/includes/_footer.cfm">

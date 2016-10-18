@@ -1,6 +1,7 @@
 <cfinclude template="/includes/_header.cfm">
 <cfif #action# is "nothing">
-<cfparam name="order_by" default="gbi_id">
+    <div style="width: 62.5em;margin: 0 auto;padding: 1em 0 3em 0;">
+        <cfparam name="order_by" default="gbi_id">
 <cfparam name="order_order" default="DESC">
 <cfoutput>
 <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -14,7 +15,7 @@
 		<tr>
 			<td>
 				<font size="-1">Citation<br></font>
-				<textarea name="citation" rows="2" cols="50"></textarea>
+				<textarea name="citation" rows="2" cols="51"></textarea>
 		  </td>
 			<td>
 				<font size="-1">PubInArctos<br></font>
@@ -67,16 +68,16 @@
 				</select>
 			</td>
 			<td>
-				<input type="submit" value="create" class="insBtn"
-   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
+				<input type="submit" value="create" class="insBtn" style="padding: 2px 39px;"
+   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='lnkBtn'">
 			</td>
 		</tr>
 		</form>
 	</table>
 <!---------------- end new ----------------->
-<hr>
-Existing Publications
-<hr>
+<h3 class="wikilink">Existing Publications</h3>
+
+
 	<table border>
 	<cfset i=1>
 	<cfloop query="d">
@@ -164,6 +165,7 @@ Existing Publications
 	</cfloop>
 	</table>
 </cfoutput>
+</div>
 <cfinclude template="/includes/_footer.cfm">
 </cfif>
 <!---------------------------------------->

@@ -36,8 +36,8 @@
               <tr>
              
 				<td>
-                 <div class="pub_title_box">
-					<h4 style="margin-top: .75em;">Project or Publication Basics</h4>
+                 <div class="pub_title_box" style="padding-top:0.25em;">
+					<h4 style="margin-top: .75em;padding-top:0;">Project or Publication Basics</h4>
 					<label for="p_title"><span id="project_publication_title">Title</span></label>
 					<input name="p_title" id="p_title" type="text">
 					<label for="author"><span id="project_publication_agent">Participant</span></label>

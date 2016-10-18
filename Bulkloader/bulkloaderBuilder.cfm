@@ -76,6 +76,7 @@
 			<cfset leftovers=listdeleteat(leftovers,lPos)>
 		</cfif>
 	</cfloop>
+<div style="width: 50em; margin: 0 auto;padding: 1em 0 3em 0;">
 <p>
 	Build your own Bulkloader template.
 	You may toggle groups and individual items on and off.
@@ -192,6 +193,8 @@
 		}
 	}
 </script>
+    <br
+        <div style="padding: 10px;background-color:##f8f8f8;">
 	<form name="f" method="post" action="bulkloaderBuilder.cfm">
 		<input type="hidden" name="action" value="getTemplate">
 		<label for="fileFormat">Format</label>
@@ -200,9 +203,11 @@
 			<option value="csv">CSV</option>
 		</select>
 		<input type="submit" value="Download Template">
+       
+        <br><br>
 		<table border>
 			<tr>
-				<td>Field</td>
+				<td>Individual Fields</td>
 				<td>Include?</td>
 			</tr>
 		<cfloop query="blt">
@@ -217,6 +222,7 @@
 		checkAll(0);
 		checkList('required',1);
 	</script>
+     </div>
 </cfoutput>
 </cfif>
 <cfif action is 'getTemplate'>
@@ -238,5 +244,6 @@
 		<cfelse>
 			That file format doesn't seem to be supported yet!
 		</cfif>
+                </div>
 </cfoutput>
 </cfif>
