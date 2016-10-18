@@ -1,6 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="Bulkload Taxonomy">
-    <div style="width: 56em;margin: 0 auto; padding: 1em 0 3em 0;">
+    <div style="width: 56em;margin: 0 auto; padding: 2em 0 5em 0;">
 <!---- make the table
 
 drop table cf_temp_taxonomy;
@@ -127,7 +127,7 @@ sho err
 	<cfoutput>
         <h3 class="wikilink">Bulkload Taxonomy</h3>
         <p>The taxonomy records of hierarchical values are found in a reference table in MCZbase and changes are handled by Collections Operations.  Please send an email to the system administrator with changes or additions marked in the downloadable template.</p>
-        <p>Download the template 
+        <p style="margin-top: 1em;">Download the 
             <a href="BulkloadTaxonomy.cfm?action=makeTemplate">[ Taxonomy Template ]</a>
         </p>
 	<!---	<cfform name="oids" method="post" enctype="multipart/form-data">

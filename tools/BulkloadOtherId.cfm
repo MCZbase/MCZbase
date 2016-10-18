@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+      <div style="width: 56em; margin: 0 auto;padding: 2em 0 3em 0;">
 <!---- make the table 
 
 drop table cf_temp_oids;
@@ -33,7 +34,7 @@ alter table cf_temp_oids add status varchar2(4000);
 
 ------>
 <cfif #action# is "nothing">
-    <div style="width: 56em; margin: 0 auto;padding: 1em 0 3em;">
+  <h3>Bulkload Other ID</h3>
 <p>Upload a comma-delimited text file (csv). 
 Include column headings, spelled exactly as below. 
         </p>
@@ -61,7 +62,7 @@ Include column headings, spelled exactly as below.
 		   size="45">
 			  <input type="submit" value="Upload this file" #saveClr#>
   </cfform>
-    </div>
+  
 </cfif>
 <!------------------------------------------------------->
 <!------------------------------------------------------->
@@ -276,4 +277,5 @@ Include column headings, spelled exactly as below.
 	Spiffy, all done.
 </cfoutput>
 </cfif>
+          </div>
 <cfinclude template="/includes/_footer.cfm">

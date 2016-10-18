@@ -55,6 +55,8 @@ Some Totally Random String Data .....
 <cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
 <!--------------------------------   default page    ---------------------------------------------------->
 <cfif action is "nothing">
+       <div class="basic_search_box">
+        <div class="welcomeback" style="padding-top: 2em;">
     <div class="welcome">
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -111,9 +113,7 @@ Some Totally Random String Data .....
 			</cfif>
 		</cfloop>
               
-        <div class="basic_search_box">
-         
-        <div class="welcomeback" style="padding-top: 2em;">
+     
 		<h3>Welcome to the data entry (and edit) application, #session.username#</h3>
             <br/>
 		<ul>
@@ -155,9 +155,10 @@ Some Totally Random String Data .....
 							onmouseout="this.className='lnkBtn'"
 							value="Enter Data"/>
 		</form>
-          </div>
+         
 	</cfoutput>
-    </div>
+        </div>
+            </div>
   
 </cfif>
 <cfif action is "saveCust">

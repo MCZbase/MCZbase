@@ -3725,7 +3725,7 @@ ul.pubLinks {
 .thirteen {
 	font-size: 13px;
 }
-.editPub {width: 54.5em;margin:0 auto;padding-bottom: 2em;}
+.editPub {width: 54.5em;margin:0 auto;padding: 2em 0 5em 0;}
 .basic_search_box {
     width: 56em;
 	margin: 0 auto;
@@ -4448,7 +4448,7 @@ table.navtabs {
 .BulkSpec {
     width: 45em; 
     margin: 0 auto;
-    padding-bottom: 5em;
+    padding: 3em 0 5em 0;
 }
 .BulkSpec ul {margin-top:1em;}
 .BulkSpec li {
@@ -4814,7 +4814,7 @@ table.navtabs {
 
 
 #dataentry_form {
-    width: 100%;
+    width: 70em;
     font-size: .65em;
 }
 #dataentry_form table{width:100%;}
@@ -4835,17 +4835,18 @@ table.navtabs {
 }
 #theTable h3.wikilink {width: 85%;}
 
-#theTable table {
-    width: 99%;
-   border: 1px solid green;
-    font-size: 11px;
+#theTable {
+    width: 60em;
+      font-size: 11px;
+    
 }
 #theTable td, #theTable tr, theTable input{padding:0px;
     margin:0;
 }
 #theTable table.parts input {padding: 0;width: 99.8%;}
 #theTable table.attributes input {padding: 0;}
-#theTable table.parts select {padding: 0;width: 99.8%;}
+#theTable table.parts select
+{padding: 0;width: 99.8%;}
 #theTable table.attributes select {padding: 0;width: 99.8%;min-width:20px;}
 .leftColumn {
 }
@@ -4951,7 +4952,6 @@ div.processMessage{font-size: 20px;color}
 div#modeDisplayDiv {
     color: gray;
     font-size: 15px;
-    text-shadow: black 1px 1px;
     background-color: white;
     width: 100%;
        padding: 3px 0px;

@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 50em; margin: 0 auto;padding: 2em 0 5em 0;">
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
 <cfquery name="blt" datasource="uam_god">
@@ -76,7 +77,7 @@
 			<cfset leftovers=listdeleteat(leftovers,lPos)>
 		</cfif>
 	</cfloop>
-<div style="width: 50em; margin: 0 auto;padding: 1em 0 3em 0;">
+<h3>Bulkload Builder</h3>
 <p>
 	Build your own Bulkloader template.
 	You may toggle groups and individual items on and off.
@@ -244,6 +245,9 @@
 		<cfelse>
 			That file format doesn't seem to be supported yet!
 		</cfif>
-                </div>
+                
 </cfoutput>
 </cfif>
+              
+ </div>
+ <cfinclude template="/includes/_footer.cfm">

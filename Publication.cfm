@@ -1,4 +1,5 @@
 <cfinclude template="includes/_header.cfm">
+    <div class="editPub" style="padding: 3em 0 5em 0;margin:0 auto;">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif action is "nothing" and isdefined("publication_id") and isnumeric(publication_id)>
 	<cfoutput><cflocation url="Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false"></cfoutput>
@@ -7,8 +8,7 @@
 <cfif action is "edit">
 <cfset title = "Edit Publication">
 <cfoutput>
-<div class="editPub">
-	<h3 class="linkPubDetail">
+<h3 class="linkPubDetail">
     <a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">See Publication Details</a></h3>
 
 <cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -133,6 +133,7 @@
 					<cfset i=i+1>
 					<input type="hidden" name="publication_attribute_id#i#" 
 								class="reqdClr" id="publication_attribute_id#i#" value="#publication_attribute_id#">							
+                        
 					<cfinvoke component="/component/functions" method="getPubAttributes" returnVariable="attvalist">
 						<cfinvokeargument name="attribute" value="#publication_attribute#">
 						<cfinvokeargument name="returnFormat" value="plain">
@@ -540,7 +541,7 @@
 		}
 	</script>
 	<cfoutput>
- <div style="width:54em;padding-bottom: 1em;margin: 0 auto;">
+
   
       <h2 class="wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		</h2>
@@ -662,7 +663,7 @@
 			</div>
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
-        </div>
+     
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------------->
