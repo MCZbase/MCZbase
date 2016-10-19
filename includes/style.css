@@ -4814,8 +4814,9 @@ table.navtabs {
 
 
 #dataentry_form {
-    width: 70em;
-    font-size: .65em;
+        width: 121em;
+    margin: 0 auto;
+      font-size: 11px;
 }
 #dataentry_form table{width:100%;}
 #dataentry_form input{
@@ -4833,11 +4834,10 @@ table.navtabs {
     font-size: 11px;
     padding: 2px;
 }
-#theTable h3.wikilink {width: 85%;}
+#theTable h3.wikilink {width: auto;}
 
 #theTable {
-    width: 60em;
-      font-size: 11px;
+
     
 }
 #theTable td, #theTable tr, theTable input{padding:0px;
