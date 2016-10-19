@@ -247,28 +247,29 @@
 	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select geology_attribute from ctgeology_attribute order by geology_attribute
      </cfquery>
+    <div style="width: 60em;margin: 0 auto;padding: 1em 0 3em 0";>
   	<table>
   		<tr>
-			<td>
+			<td><h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
   				<cfif #whatSpecs.recordcount# is 0>
   					<font color="##FF0000">This Locality (#locDet.locality_id#)
-					<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
 					contains no specimens. Please delete it if you don't have plans for it!</font>
   				<cfelseif #whatSpecs.recordcount# is 1>
 					<font color="##FF0000">This Locality (#locDet.locality_id#)
-					<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
+				
 					contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
 					<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
 				<cfelse>
 					<font color="##FF0000">This Locality (#locDet.locality_id#)
-					<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
+				
 					contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
-					<ul>
+					<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
 						<cfloop query="whatSpecs">
 							<li><font color="##FF0000">#numOfSpecs# #collection#</font></li>
 						</cfloop>
 					</ul>
   				</cfif>
+                    </h3>
 			</td>
 		</tr>
 	</cfoutput>
@@ -280,12 +281,12 @@
 
 			<tr>
 				<td>
-	            	<label for="higher_geog">Higher Geography</label>
+                    <h4 style="margin-bottom:.5em;">Higher Geography</h4>
 	            	<input type="text"
 						name="higher_geog"
 						id="higher_geog"
 						value="#higher_geog#"
-						size="120"
+						size="131"
 						class="readClr"
 						readonly="yes" >
 				</td>
@@ -317,7 +318,7 @@
 			<hr />
             <table>
 			<tr>
-				<td><strong>Locality</strong></td>
+				<td><h4 style="margin-bottom: .5em;">Locality</h4></td>
 			</tr>
             <tr>
             	<td>
@@ -330,7 +331,7 @@
 						id="spec_locality"
 						name="spec_locality"
 						value="#stripQuotes(spec_locality)#"
-						size="120">
+						size="131">
 				</td>
 			</tr>
             <tr>
@@ -421,7 +422,7 @@
 						Locality Remarks
 					</label>
 					<input type="text" name="locality_remarks" id="locality_remarks"
-						value="#stripQuotes(locality_remarks)#"  style="width:80em;">
+						value="#stripQuotes(locality_remarks)#"  style="width:71em;">
 				</td>
               </tr>
 			<tr>
@@ -430,7 +431,7 @@
 						Not Georeferenced Because
 					</label>
 					<input type="text" name="NoGeorefBecause"
-						id="NoGeorefBecause" value="#NoGeorefBecause#"  style="width:80em;">
+						id="NoGeorefBecause" value="#NoGeorefBecause#"  style="width:71em;">
 					<cfif getLL.recordcount gt 0 AND len(#NoGeorefBecause#) gt 0>
 						<div style="background-color:red">
 							NoGeorefBecause should be NULL for localities with georeferences.

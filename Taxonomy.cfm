@@ -49,9 +49,10 @@
 		select * from taxonomy where taxon_name_id=#taxon_name_id#
 	</cfquery>
 <cfoutput>
-   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy: <em>#getTaxa.scientific_name#</em> <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif></h2>
+<div class="content_box_narrow">
+   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy:  <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  <em>#getTaxa.scientific_name#</em></h2>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-    <table border="0">
+    <table class="tInput">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
     	<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
         <input type="hidden" name="Action">
@@ -319,7 +320,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" name="relatedName" class="reqdClr" size="50"
+					<input type="text" name="relatedName" class="reqdClr" size="35"
 						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
 						onKeyPress="return noenter(event);">
 					<input type="hidden" name="newRelatedId">
@@ -395,6 +396,7 @@
 			</td>
 		</tr>
 	</table>
+    </div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -464,9 +466,10 @@
 <cfif action is "newTaxa">
 <cfset title = "Add Taxonomy">
 <cfoutput>
+<div style="width: 41em; margin:0 auto; padding-bottom: 3em;">
   <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
   <p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
-	<table border>
+	<table class="tInput">
 		<form name="taxa" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="Action" value="saveNewTaxa">
 			<tr>
@@ -577,6 +580,8 @@
 				<input type="text" name="subphylum" id="subphylum" value="#subphylum#" size="30">
 			</td>
 		</tr>
+
+
 		<tr>
 			<td>
 				<label for="superclass">Superclass</label>
@@ -650,6 +655,7 @@
 			</tr>
 		</form>
 	</table>
+    </div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->

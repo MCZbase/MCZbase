@@ -1,7 +1,11 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="Arctos API">
+       
 <cfoutput>
+    <div style="width: 54em; margin:0 auto; padding: 0 0 3em 0;" class="barcodes">
+        
 <cfif action is "nothing">
+ 
 	<h2>
 		Partial list of ways to talk to MCZbase/Arctos
 	</h2>
@@ -12,7 +16,7 @@
 		You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>. 
 	</p>
 	You may link to specimens with any of the following:
-		<ul>
+		<ul class="labels">
 			<li>
 				#Application.serverRootUrl#/guid/{institution}:{collection}:{catnum}
 				<ul>
@@ -48,7 +52,7 @@
 	</p>
 	<p>
 		You may link to taxon detail pages with URLs of the format:
-		<ul>
+		<ul class="labels">
 			<li>
 				#Application.serverRootUrl#/name/{taxon name}
 				<ul>
@@ -81,7 +85,7 @@
 	<a href="/home.cfm">#Application.serverRootUrl#/home.cfm</a>
 	<p>
 		Generally, all collections have a portal of the format
-		<ul>
+		<ul class="labels">
 			<li>
 				#Application.serverRootUrl#/{institution_acronym}_{collection_cde}
 				<ul>
@@ -379,5 +383,7 @@
 		</tr>
 	</table>
 </cfif>
+                </div>       
 </cfoutput>
+                 
 <cfinclude template="/includes/_footer.cfm">

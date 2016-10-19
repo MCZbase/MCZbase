@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+      <div style="width: 56em;margin: 0 auto; padding: 1em 0 3em 0;">
 <cfset title="Bulkload Citations">
 <!---- make the table
 
@@ -27,20 +28,18 @@ create table cf_temp_oids (
     		select somerandomsequence.nextval into :new.key from dual;
     	end if;
     end;
-/
-sho err
------->
+show error------>
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv).
-Include column headings, spelled exactly as below.
-<br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
-	<div id="template" style="display:none;">
+    <h3 class="wikilink">Bulkload Citations</h3>
+<p>Upload a comma-delimited text file (csv).
+    Include column headings, spelled exactly as below.</p>
+    <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
+	<div id="template" style="display:none; margin: 1em 0;">
 		<label for="t">Copy the following code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_TITLE,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS</textarea>
 	</div>
-<p></p>
 
-<ul>
+<ul class="geol_hier">
 	<li style="color:red">INSTITUTION_ACRONYM</li>
 	<li style="color:red">COLLECTION_CDE</li>
 	<li style="color:red">OTHER_ID_TYPE ("catalog number" is OK)</li>
@@ -51,15 +50,13 @@ Include column headings, spelled exactly as below.
 	<li style="color:red">TYPE_STATUS</li>
 	<li style="color:red">CITATION_REMARKS</li>
 </ul>
-
-
 <cfform name="oids" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
 			  <input type="file"
 		   name="FiletoUpload"
 		   size="45">
 			  <input type="submit" value="Upload this file" #saveClr#>
-			  	  <br>
+			  	  <br><br>
 	Character Set: <select name="cSet" id="cSet">
 		<option value="windows-1252" selected>windows-1252</option>
 		<option value="MacRoman">MacRoman</option>
@@ -70,14 +67,13 @@ Include column headings, spelled exactly as below.
   </cfform>
 
 </cfif>
+      
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 
 <!------------------------------------------------------->
 <cfif #action# is "getFile">
 <cfoutput>
-
-
 	<!--- put this in a temp table --->
 	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		delete from cf_temp_citation
@@ -248,9 +244,7 @@ Include column headings, spelled exactly as below.
 <cfif #action# is "loadData">
 
 <cfoutput>
-
-
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_citation
 	</cfquery>
 
@@ -313,4 +307,7 @@ Include column headings, spelled exactly as below.
 		</cfloop>
 	</cfoutput>
 </cfif>
+  
+</div><!---end inside inline box--->
+                   
 <cfinclude template="/includes/_footer.cfm">

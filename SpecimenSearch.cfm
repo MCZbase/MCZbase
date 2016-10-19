@@ -19,10 +19,8 @@
 	order by search_name
 </cfquery>
 
-
-<div id="pg_container">
-<div class="content_box">
-<table style="padding-left: 7px;">
+<div class="basic_search_box">
+<table>
 	<tr>
 		<td>
 			Access to #getCount.cnt#
@@ -39,7 +37,7 @@
 			</cfif>
 		</td>
 		<td>
-			<span class="infoLink"  style="font-size: 12px;" onClick="getHelp('CollStats');">
+			<span class="infoLink"  style="font-size: 12px;padding-left: 2em;" onClick="getHelp('CollStats');">
 				Holdings Details
 			</span>&nbsp;&nbsp;
 			<span class="infoLink" style="font-size: 12px;" onClick="getHelp('search_help');">
@@ -75,23 +73,23 @@
 	</tr>
 </table>	
 <form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData">
-<table style="margin-bottom: 1em;">
+<table style="margin: 1em 0;">
 	<tr>
-		<td valign="top">
+		<td style="padding: 0 5px 0 0;">
 			<input type="submit" value="Search" class="schBtn" 
 			    onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">	
 		</td>
-		<td valign="top">
+		<td style="padding: 0 5px;">
 			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" 
 			    onmouseover="this.className='clrBtn btnhov'" onmouseout="this.className='clrBtn'">
 		</td>
-		<td valign="top">
+		<td style="padding: 0 5px;">
 			<input type="button" name="Previous" value="Use Last Values" class="lnkBtn"	onclick="setPrevSearch()">
 		</td>
-		<td align="right" valign="top">
-			<span style="font-size: 13px;font-weight:bold;">See results as:</span>
+		<td style="padding: 0 5px;">
+			<span><b>See results as:</b></span>
 		</td>
-		<td valign="top">
+		<td align="left" colspan="2" valign="top">
 		 	<select name="tgtForm1" id="tgtForm1" size="1"  onChange="changeTarget(this.id,this.value);">
 				<option value="">Specimen Records</option>
 				<option value="SpecimenResultsHTML.cfm">HTML Specimen Records</option>
@@ -174,7 +172,7 @@
                         </cfif>
 </div>
 <input type="hidden" name="Action" value="#Action#">
-<div class="secDiv">
+<div class="secDiv" style="border-top: 1px dotted ##ccc;">
 	<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT institution_acronym, collection, collection_id FROM collection 
 	    <cfif len(#session.exclusive_collection_id#) gt 0>
@@ -208,6 +206,7 @@
 				<span id="collection">Institutional Catalog</span>:
 			</td>
 			<td class="srch">
+               <p class="topspace">&nbsp;</p>
 				<select name="collection_id" id="collection_id" size="1">
 				    <cfif len(#session.exclusive_collection_id#) is 0>
 						<option value="">All</option>
@@ -295,7 +294,7 @@
     		</cfif>
     	<tr>					
     		<td class="lbl">
-    			<span class="helpLink" id="other_id_type">Other&nbsp;Identifier&nbsp;Type:</span>
+    			<span id="other_id_type">Other&nbsp;Identifier&nbsp;Type:</span>
     		</td>
     		<td class="srch">
     			<select name="OIDType" id="OIDType" size="1"
@@ -319,7 +318,7 @@
     	</cfquery>
     	<tr>
     		<td class="lbl">
-    			<span class="helpLink" id="other_id_num">Other&nbsp;Identifier:</span>
+    			<span id="other_id_num">Other&nbsp;Identifier:</span>
     		</td>
     		<td class="srch">
     			<select name="oidOper" id="oidOper" size="1">
@@ -335,7 +334,7 @@
     	</tr>
     	<tr>
     		<td class="lbl">
-    			<span class="helpLink" id="_accn_number">Accession:</span>
+    			<span id="_accn_number">Accession:</span>
     		</td>
     		<td class="srch">
     			<input type="text" name="accn_number" id="accn_number">
@@ -344,7 +343,7 @@
     	</tr>
     	<tr>
     		<td class="lbl">
-    			<span class="helpLink" id="accession_agency">Accession Agency:</span>
+    			<span id="accession_agency">Accession Agency:</span>
     		</td>
     		<td>
     			<input type="text" name="accn_agency" id="accn_agency" size="50">
@@ -367,7 +366,8 @@
 			<td class="lbl">
 				<span id="_any_taxa_term">Any Taxonomic Element:</span>
 			</td>
-			<td class="srch" style="font-size: smaller;">
+			<td class="srch">
+             <p class="topspace">&nbsp;</p>
 				<input type="text" name="any_taxa_term" id="any_taxa_term" size="28">
 				<input type="checkbox" name="searchOnlyCurrent" value="Yes">Search only current identifications.<br>
 			</td>
@@ -389,6 +389,7 @@
          			selectFirst:false
          		});
          	});
+			
          </script>
          <cfquery name="ctNatureOfId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          	SELECT DISTINCT(nature_of_id) FROM ctnature_of_id ORDER BY nature_of_id
@@ -396,7 +397,7 @@
          <table id="t_identifiers" class="ssrch">
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_scientific_name">Scientific&nbsp;Name:</span>
+         			<span id="_scientific_name">Scientific&nbsp;Name:</span>
          		</td>
          		<td class="srch">
          			<select name="sciNameOper" id="sciNameOper" size="1">
@@ -411,7 +412,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_phylclass">Class:</span>
+         			<span id="_phylclass">Class:</span>
          		</td>
          		<td class="srch">
          		 	<input type="text" name="phylclass" id="phylclass" size="50">
@@ -420,7 +421,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_genus">Genus:</span>
+         			<span id="_genus">Genus:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="genus" id="genus" size="50">
@@ -429,7 +430,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_species">Species:</span>
+         			<span id="_species">Species:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="species" id="species" size="50">
@@ -438,7 +439,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_subspecies">Subspecies:</span>
+         			<span id="_subspecies">Subspecies:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="subspecies" id="subspecies" size="50">
@@ -447,7 +448,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_common_name">Common Name:</span>
+         			<span id="_common_name">Common Name:</span>
          		</td>
          		<td class="srch">
          			<input name="common_name" id="common_name" type="text" size="50">
@@ -455,7 +456,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_nature_of_id">Nature of ID:</span>
+         			<span id="_nature_of_id">Nature of ID:</span>
          		</td>
          		<td class="srch">
          			<select name="nature_of_id" id="nature_of_id" size="1">
@@ -469,7 +470,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="identifier">Determiner:</span>
+         			<span id="identifier">Determiner:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="identified_agent" id="identified_agent">
@@ -477,7 +478,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_identification_remarks">ID Remarks:</span>
+         			<span id="_identification_remarks">ID Remarks:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="identification_remarks" id="identification_remarks">
@@ -500,6 +501,7 @@
 				<span id="any_geog_term">Any&nbsp;Geographic&nbsp;Element:</span>
 			</td>
 			<td class="srch">
+            <p class="topspace">&nbsp;</p>
 				<input type="text" name="any_geog" id="any_geog" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
 				<span class="secControl" style="font-size:.9em;" id="c_spatial_query" onclick="showHide('spatial_query',1)">Select on Google Map</span>
 			</td>
@@ -560,7 +562,7 @@
        	
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_geology_attribute">Geology Attribute:</span>
+       			<span id="_geology_attribute">Geology Attribute:</span>
        		</td>
        		<td class="srch">
        			<select name="geology_attribute" id="geology_attribute" size="1">
@@ -573,7 +575,7 @@
        	</tr>			
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_geology_attribute_value">Geology Attribute Value:</span>
+       			<span id="_geology_attribute_value">Geology Attribute Value:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="geology_attribute_value" id="geology_attribute_value" size="50">
@@ -581,7 +583,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_geology_hierarchies">Traverse Geology Hierarchies:</span>
+       			<span id="_geology_hierarchies">Traverse Geology Hierarchies:</span>
        		</td>
        		<td class="srch">
        			<select name="geology_hierarchies" id="geology_hierarchies" size="1">
@@ -592,7 +594,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_continent_ocean">Continent/Ocean:</span>
+       			<span id="_continent_ocean">Continent/Ocean:</span>
        		</td>
        		<td class="srch">
        			<select name="continent_ocean" id="continent_ocean" size="1">
@@ -606,7 +608,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_country">Country:</span>
+       			<span id="_country">Country:</span>
        		</td>
        		<td class="srch">
        			<select name="country" id="country" size="1">
@@ -620,7 +622,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_state_prov">State/Province:</span>
+       			<span id="_state_prov">State/Province:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="state_prov" id="state_prov" size="50">
@@ -628,7 +630,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_quad">USGS Quad Map:</span>
+       			<span id="_quad">USGS Quad Map:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="quad" id="quad" size="50">
@@ -638,7 +640,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_county">County:</span>
+       			<span id="_county">County:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="county" id="county" size="50">
@@ -647,7 +649,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_island_group">Island Group:</span>
+       			<span id="_island_group">Island Group:</span>
        		</td>
        		<td class="srch">
        			<select name="island_group" id="island_group" size="1">
@@ -661,7 +663,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_island">Island:</span>
+       			<span id="_island">Island:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="island" id="island" size="50">
@@ -670,7 +672,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_feature">Geographic Feature:</span>
+       			<span id="_feature">Geographic Feature:</span>
        		</td>
        		<td class="srch">
        			<select name="feature" id="feature" size="1">
@@ -684,7 +686,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_spec_locality">Specific&nbsp;Locality:</span>
+       			<span id="_spec_locality">Specific&nbsp;Locality:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="spec_locality" id="spec_locality" size="50">
@@ -694,7 +696,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="elevation">Elevation:</span>
+       			<span id="elevation">Elevation:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="minimum_elevation" id="minimum_elevation" size="5"> - 
@@ -709,7 +711,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="depth">Depth:</span>
+       			<span id="depth">Depth:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="minimum_depth" id="minimum_depth" size="5"> - 
@@ -724,7 +726,7 @@
        	</tr>	
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="_verificationstatus">Verification Status:</span>
+       			<span id="_verificationstatus">Verification Status:</span>
        		</td>
        		<td class="srch">
        			<select name="verificationstatus" id="verificationstatus" size="1">
@@ -737,7 +739,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span class="helpLink" id="max_error_distance">Maximum Uncertainty:</span>
+       			<span id="max_error_distance">Maximum Uncertainty:</span>
        		</td>
        		<td class="srch">
        			<input type="text" name="min_max_error" id="min_max_error" size="5"> - 
@@ -764,6 +766,7 @@
 		</tr>
 		<tr>
 			<td class="lbl">
+       
 				<span class="helpLink infoLink" id="collector">Help</span>
 				<select name="coll_role" id="coll_role" size="1">
 					<option value="" selected="selected">Collector</option>
@@ -771,6 +774,7 @@
 				</select>
 			</td>
 			<td class="srch">
+                   <p class="topspace">&nbsp;</p>
 				<input type="text" name="coll" id="coll" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
 			</td>
 		</tr>
@@ -799,7 +803,7 @@
         <table id="t_identifiers" class="ssrch">
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="year_collected">Collected On or After:</span>
+        			<span id="year_collected">Collected On or After:</span>
         		</td>
         		<td class="srch">
         			<table>
@@ -846,7 +850,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="year_collected">Collected On or Before:</span>
+        			<span id="year_collected">Collected On or Before:</span>
         		</td>
         		<td class="srch">
         			<table>
@@ -894,7 +898,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="month_in">Month:</span>
+        			<span id="month_in">Month:</span>
         		</td>
         		<td class="srch">
         			<select name="inMon" id="inMon" size="4" multiple>
@@ -917,7 +921,7 @@
         	<!---
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="incl_date">Strict Date Search?</span>
+        			<span id="incl_date">Strict Date Search?</span>
         		</td>
         		<td class="srch">
         			<input type="checkbox" name="inclDateSearch" id="inclDateSearch" value="yes">
@@ -926,7 +930,7 @@
         	----->
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="_verbatim_date">Verbatim Date:</span>
+        			<span id="_verbatim_date">Verbatim Date:</span>
         		</td>
         		<td class="srch">
         			<input type="text" name="verbatim_date" id="verbatim_date" size="50">
@@ -934,7 +938,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="_chronological_extent">Chronological Extent:</span>
+        			<span id="_chronological_extent">Chronological Extent:</span>
         			</a>
         		</td>
         		<td class="srch">
@@ -943,7 +947,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="_collecting_source">Collecting Source:</span>
+        			<span id="_collecting_source">Collecting Source:</span>
         		</td>
         		<td class="srch">
         			<select name="collecting_source" id="collecting_source" size="1">
@@ -957,7 +961,7 @@
         	</tr>
         	<tr>
         		<td class="lbl">
-        			<span class="helpLink" id="_verbatim_locality">Verbatim Locality:</span>
+        			<span id="_verbatim_locality">Verbatim Locality:</span>
         		</td>
         		<td class="srch">
         			<input type="text" name="verbatim_locality" id="verbatim_locality" size="50">
@@ -965,8 +969,6 @@
         		</td>
         	</tr>
         </table>
-
-
     </div>
 </div>
 <cfquery name="Part" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1000,12 +1002,11 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span id="part_name">Part Name:</span>
+              <span id="part_name">Part Name:</span>
 			</td>
 			<td class="srch">
+              <p class="topspace">&nbsp;</p>
 				<input type="text" autosuggest="#partlist#" name="partname" delimiter="\">
-				
-	
 				<span class="infoLink" onclick="getCtDoc('ctspecimen_part_name',SpecData.partname.value);">Define</span>
 				<span class="infoLink" onclick="var e=document.getElementById('partname');e.value='='+e.value;">Add = for exact match</span>
 			</td>
@@ -1048,7 +1049,7 @@
           <table id="t_identifiers" class="ssrch">
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink" id="biol_indiv_relationship">Relationship:</span>
+          			<span id="biol_indiv_relationship">Relationship:</span>
           		</td>
           		<td class="srch">
           			<select name="relationship" id="relationship" size="1">
@@ -1062,7 +1063,7 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink" id="_derived_relationship">Derived Relationship:</span>
+          			<span id="_derived_relationship">Derived Relationship:</span>
           		</td>
           		<td class="srch">
           			<select name="derived_relationship" id="derived_relationship" size="1">
@@ -1148,7 +1149,7 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink" id="ocr_text">OCR Text:</span>
+          			<span id="ocr_text">OCR Text:</span>
           		</td>
           		<td class="srch">
           			<input name="ocr_text" id="ocr_text" size="80">
@@ -1173,6 +1174,7 @@
 				<span id="_type_status">Basis of Citation:</span>
 			</td>
 			<td class="srch">
+              <p class="topspace">&nbsp;</p>
 				<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select type_status from ctcitation_type_status
 				</cfquery>
@@ -1222,7 +1224,7 @@
          <table id="t_identifiers" class="ssrch">
          	<tr>
                  <td class="lbl">
-                     <span class="helpLink" id="_media_type">Media Type:</span>
+                     <span id="_media_type">Media Type:</span>
                  </td>
                  <td class="srch">
          			<select name="media_type" id="media_type" size="1">
@@ -1236,7 +1238,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="accessioned_by_project">Contributed by Project:</span>
+         			<span id="accessioned_by_project">Contributed by Project:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="project_name" id="project_name" size="50">					
@@ -1244,7 +1246,7 @@
          	</tr>	
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="loaned_to_project">Used by Project:</span>
+         			<span id="loaned_to_project">Used by Project:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="loan_project_name" id="loan_project_name" size="50">
@@ -1252,7 +1254,7 @@
          	</tr>		
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="_project_sponsor">Project Sponsor:</span>
+         			<span id="_project_sponsor">Project Sponsor:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="project_sponsor" id="project_sponsor" size="50">
@@ -1273,9 +1275,10 @@
 			</tr>
 			<tr>
 				<td class="lbl">
-					<span id="srch_barcode">Barcode:</span>
+                  <span id="srch_barcode">Barcode:</span>
 				</td>
 				<td class="srch">
+                  <p class="topspace">&nbsp;</p>
 					<input type="text" name="barcode" id="barcode" size="50">
 				</td>
 			</tr>
@@ -1302,7 +1305,7 @@
          <table id="t_identifiers" class="ssrch">
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="loan_number">Loan Number:</span>
+         			<span id="loan_number">Loan Number:</span>
          		</td>
          		<td class="srch">
          			<input name="loan_number" id="loan_number" type="text" size="50">
@@ -1311,7 +1314,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="permit_issued_by">Permit Issued By:</span>
+         			<span id="permit_issued_by">Permit Issued By:</span>
          		</td>
          		<td class="srch">
          			<input name="permit_issued_by" id="permit_issued_by" type="text" size="50">
@@ -1319,7 +1322,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="permit_issued_to">Permit Issued To:</span>
+         			<span id="permit_issued_to">Permit Issued To:</span>
          		</td>
          		<td class="srch">
          			<input name="permit_issued_to" id="permit_issued_to" type="text" size="50">
@@ -1327,7 +1330,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="permit_type">Permit Type:</span>
+         			<span id="permit_type">Permit Type:</span>
          		</td>
          		<td class="srch">
          			<select name="permit_type" id="permit_type" size="1">
@@ -1340,7 +1343,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="permit_number">Permit Number:</span>
+         			<span id="permit_number">Permit Number:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="permit_num" id="permit_num" size="50">
@@ -1349,7 +1352,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="entered_by">Entered By:</span>
+         			<span id="entered_by">Entered By:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="entered_by" id="entered_by" size="50">
@@ -1357,7 +1360,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="disposition">Part Disposition:</span>
+         			<span id="disposition">Part Disposition:</span>
          		</td>
          		<td class="srch">
          			<select name="part_disposition" id="part_disposition" size="1">
@@ -1370,7 +1373,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="print_flag">Print Flag:</span>
+         			<span id="print_flag">Print Flag:</span>
          		</td>
          		<td class="srch">
          			<select name="print_fg" id="print_fg" size="1">
@@ -1382,7 +1385,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="entered_date">Entered Date:</span>
+         			<span id="entered_date">Entered Date:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="beg_entered_date" id="beg_entered_date" size="10" />-
@@ -1391,7 +1394,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="last_edit_date">Last Edited Date:</span>
+         			<span id="last_edit_date">Last Edited Date:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="beg_last_edit_date" id="beg_last_edit_date" size="10">-
@@ -1400,7 +1403,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="coll_object_remarks">Remarks:</span>
+         			<span id="coll_object_remarks">Remarks:</span>
          		</td>
          		<td class="srch">
          			<input type="text" name="remark" id="remark" size="50" />
@@ -1408,7 +1411,7 @@
          	</tr>
          	<tr>
          		<td class="lbl">
-         			<span class="helpLink" id="flags">Missing (flags):</span>
+         			<span id="flags">Missing (flags):</span>
          		</td>
          		<td class="srch">
          			<select name="coll_obj_flags" id="coll_obj_flags" size="1">
@@ -1426,18 +1429,18 @@
 </cfif>	
 <table style="margin: 1em 0;">
 	<tr>
-		<td valign="top">
+		<td valign="top" style="padding: 0 5px 0 0;">
 			<input type="submit" value="Search" class="schBtn"
 			onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">
 		</td>
-		<td valign="top">
-			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" 
+		<td valign="top" style="padding: 0 5px;">
+			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" >
 			
 		</td>
-		<td valign="top">
+		<td valign="top" style="padding: 0 5px;">
 			<input type="button" name="Previous" value="Use Last Values" class="lnkBtn"	onclick="setPrevSearch()">
 		</td>
-		<td valign="top" align="right">
+		<td valign="top" align="right" style="padding: 0 5px;">
 			<b>See results as:</b>
 		</td>
 		<td align="left" colspan="2" valign="top">
@@ -1530,6 +1533,7 @@ $(function() {
 </script>
 <script type='text/javascript' language='javascript'>
 	jQuery(document).ready(function() {
+       
 	  	var tval = document.getElementById('tgtForm').value;
 		changeTarget('tgtForm',tval);
 		changeGrp('groupBy');
@@ -1580,6 +1584,7 @@ $(function() {
 		minChars: 1,
 		selectFirst:false
 	});
+
         function setupSpecSrchPref() {
                 // Set all show fewer/more options to show fewer. 
                 showHide('identifiers',0);
@@ -1677,7 +1682,6 @@ $(function() {
 	 	}
 	}
 </script>
-</div>
 </div>
 </cfoutput>
 <cfinclude template = "includes/_footer.cfm">

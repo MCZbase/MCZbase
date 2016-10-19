@@ -1,5 +1,7 @@
 <cfinclude template = "includes/_header.cfm">
+   
 <cfoutput>
+     <div style="width: 60em; margin:0 auto;padding: 1em 0 5em 0;">
 <cfif not listfindnocase(cgi.REDIRECT_URL,"project","/")>
 	<cfquery name="redir" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select project_name from project where project_id=#project_id#
@@ -137,24 +139,24 @@
 	<cfset noHTML=replacenocase(noHTML,'</i>','','all')>
 	<cfset title = "Project Detail: #noHTML#">
 	<cfset metaDesc="Project: #p.project_name#">
-	<div class="proj_title">#p.project_name#</div>
+	<h2 class="proj_title">#p.project_name#</h2>
 	<cfloop query="s">
 		<div class="proj_sponsor">
 			Sponsored by #sponsor# <cfif len(ACKNOWLEDGEMENT) gt 0>: #ACKNOWLEDGEMENT#</cfif>
 		</div>
 	</cfloop>
 	<cfloop query="a">
-		<div class="proj_agent">
+		<h3 class="proj_agent">
 			#agent_name#: #project_agent_role#
-		</div>
+		</h3>
 	</cfloop>
 	<div class="cdiv">
-		#dateformat(p.start_date,"yyyy-mm-dd")# - #dateformat(p.end_date,"yyyy-mm-dd")#
+		Duration: #dateformat(p.start_date,"yyyy-mm-dd")# to #dateformat(p.end_date,"yyyy-mm-dd")#
 	</div>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 		<p><a href="/Project.cfm?Action=editProject&project_id=#p.project_id#">Edit Project</a></p>
 	</cfif>
-	<h2>Description</h2>
+	<h3>Description</h3>
 	#p.project_description#
 	<div id="pubs">
 		<img src="/images/indicator.gif">
@@ -179,4 +181,5 @@
 		<img src="/images/indicator.gif">
 	</div>
 </cfoutput>
+        </div>
 <cfinclude template = "includes/_footer.cfm">

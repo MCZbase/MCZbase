@@ -5,7 +5,7 @@
 <!---  Check to see if a session stylesheet is set, otherwise we'll get a call to include the css directory --->
 <cfif isDefined(session.stylesheet) and len(trim(session.stylesheet)) >
 <cfset ssName = replace(session.stylesheet,".css","","all")>
-<link rel="alternate stylesheet" type="text/css" href="/includes/css/#session.stylesheet#" title="#ssName#">
+<!---<link rel="alternate stylesheet" type="text/css" href="/includes/css/#session.stylesheet#" title="#ssName#">--->
 </cfif>
 <META http-equiv="Default-Style" content="#ssName#">
 </head>

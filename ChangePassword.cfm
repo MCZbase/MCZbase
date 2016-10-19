@@ -13,12 +13,14 @@
 		elem.className=clas;
 	}
 </script>
+
 <cfset title = "Change Password">
 <cfif action is "nothing">
     <cfif len(session.username) is 0>
         <cflocation url="ChangePassword.cfm?action=lostPass" addtoken="false">
     </cfif>
     <cfoutput>
+    <div class="changePW">
 	 	<cfquery name="pwExp" datasource="uam_god">
 			select pw_change_date from cf_users where username = '#session.username#'
 		</cfquery>
@@ -79,8 +81,10 @@
 			If you can't remember your old password, we can
 			<a href="ChangePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
 		</cfif>
+        </div>
 	</cfoutput>
 </cfif>
+
 <!----------------------------------------------------------->
 <cfif action is "lostPass">
 	Lost your password? Passwords are stored in an encrypted format and cannot be recovered.

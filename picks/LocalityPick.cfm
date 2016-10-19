@@ -12,6 +12,7 @@
 <cfset title = "Locality Pick Search">
 <cfif action is "nothing">
 <cfoutput>
+    
 <cfset showLocality=1>
 <form name="getLoc" method="post" action="LocalityPick.cfm">
 	<input type="hidden" name="Action" value="findLocality">

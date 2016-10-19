@@ -354,10 +354,14 @@
 	select count(*) cnt from #session.TaxSrchTab#
 </cfquery>
 <cfif summary.cnt is 0>
-	<div class="error">
-		Nothing found. Please use your back button to try again.
+  
+	
+          <div class="basic_search_box">
+              <p class="error">Nothing found. Please use your back button to try again.</p>
+              </div>
 		<cfabort>
-	</div>
+	
+        
 </cfif>
 <cfif not isdefined("goTo") or len(goTo) is 0 or goTo lte startAt>
 	<cfset goTo = StartAt + dr>
@@ -371,7 +375,9 @@
 </cfquery>
 
 <CFOUTPUT>
-<H4>
+    <div style="width: 56em;margin: 0 0 0 2em; padding: 2em 0 1em 0;">
+    <h3 class="wikilink">Taxonomy Search Results</h3>
+<h4 style="padding-top: .5em; margin-top:0;">
 Found #summary.cnt# records.
 <a href="/myArctos.cfm" target="_blank" style="font-size:small">[ set ##/pg ]</a>
 <cfif summary.cnt is 1000>
@@ -379,9 +385,10 @@ Found #summary.cnt# records.
 		Note: This form will not return >1000 records; you may need to narrow your search to return all matches.
 	</div>
 </cfif>
+ 
 <cfset numPages= ceiling(summary.cnt/dr)>
 		<cfset loopTo=numPages-2>
-		<label for="page_record">Records...</label>
+	<label for="page_record">Records...</label>
 		<select name="page_record" id="page_record" size="1" onchange="getTaxaResultsData(this.value);">
 			<cfloop from="0" to="#loopTo#" index="i">
 				<cfset bDispVal = (i * dr + 1)>
@@ -402,9 +409,9 @@ Found #summary.cnt# records.
 		</select>
 		<a href="SpecimenResultsDownload.cfm?tableName=#session.TaxSrchTab#">[ Download ]</a>
 		<a href="TaxonomySearch.cfm">[ Search Again ]</a>
-</H4>
+</h4>   </div>
 </CFOUTPUT>
-
+<div class="resultsGoHere">
 <table border="1" id="tre" class="sortable">
 	<tr>
   		<th>Name</th>
@@ -530,4 +537,5 @@ Found #summary.cnt# records.
   <cfset i=i+1>
   </cfoutput>
 </table>
+</div>
 <cfinclude template = "includes/_footer.cfm">

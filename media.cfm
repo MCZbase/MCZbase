@@ -150,8 +150,10 @@
   <cfquery name="tag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from tag where media_id=#media_id#
 	</cfquery>
-  <cfoutput> <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"> <br/>
-    Edit Media <br>
+  <cfoutput>
+      <div style="width:65em; padding: 1em 0 3em 0;margin:0 auto;" class="editMedia2">
+      <h2 class="wikilink">Edit Media      <img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
+  
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
     <form name="editMedia" method="post" action="media.cfm">
       <input type="hidden" name="action" value="saveEdit">
@@ -201,7 +203,7 @@
           </cfif>
       </select>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
-      <div id="relationships" style="border:1px dashed red;">
+      <div id="relationships" class="graydot">
         <cfset i=1>
         <cfif relns.recordcount is 0>
           <!--- seed --->
@@ -229,7 +231,7 @@
             </cfloop>
           </select>
           :&nbsp;
-          <input type="text" name="related_value__#i#" id="related_value__#i#" size="80" value="#summary#">
+          <input type="text" name="related_value__#i#" id="related_value__#i#" size="90" value="#summary#">
           <input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
           <cfset i=i+1>
           <br>
@@ -238,13 +240,13 @@
         <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
       <br>
       <label for="labels">Media Labels</label>
-      <div id="labels" style="border:1px dashed red;">
+      <div id="labels" class="graydot">
         <cfset i=1>
         <cfif labels.recordcount is 0>
           <!--- seed --->
           <div id="seedLabel" style="display:none;">
             <div id="labelsDiv__0">
-              <input type="hidden" id="media_label_id__0" name="media_label_id__0">
+              <input type="hidden" id="media_label_id__0" name="media_label_id__0" size="90">
               <cfset d="">
               <select name="label__0" id="label__0" size="1">
                 <option value="delete">delete</option>
@@ -253,7 +255,7 @@
                 </cfloop>
               </select>
               :&nbsp;
-              <input type="text" name="label_value__0" id="label_value__0" size="80">
+              <input type="text" name="label_value__0" id="label_value__0" size="90">
             </div>
           </div>
         </cfif>
@@ -280,11 +282,15 @@
 				onmouseover="this.className='insBtn btnhov'" 
 				onmouseout="this.className='insBtn'">
     </form>
+            </div>
   </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "newMedia">
-  <cfoutput> <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Media')" class="likeLink" alt="[ help ]"> <br/>
+  <cfoutput> 
+      <div class="basic_box">
+          <h2 class="wikilink">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs('Media')" class="likeLink" alt="[ help ]"></h2>
+          <div style="border: 1px dotted gray; background-color: ##f8f8f8;padding: 1em;margin: .5em 0 1em 0;">
     <form name="newMedia" method="post" action="media.cfm">
       <input type="hidden" name="action" value="saveNew">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
@@ -308,7 +314,7 @@
           <option value="#media_type#">#media_type#</option>
         </cfloop>
       </select>
-      <div style="border:1px solid red;padding: 10px 0 0 10px;width: 440px; margin: 1em 0 1em 2px;">
+      <div class="license_box">
         <label for="media_license_id">License</label>
         <select name="media_license_id" id="media_license_id">
           <option value="">Research copyright &amp; then choose...</option>
@@ -329,9 +335,9 @@
            <option value="0" selected="selected">Public</option>
            <option value="1">Hidden</option>
       </select>
-      <br>
-      <label for="relationships">Media Relationships</label>
-      <div id="relationships" style="border:1px dashed red;">
+   
+      <label for="relationships"  style="margin-top:.5em;">Media Relationships</label>
+      <div id="relationships" class="graydot">
         <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)">
           <option value="">None/Unpick</option>
           <cfloop query="ctmedia_relationship">
@@ -343,9 +349,9 @@
         <input type="hidden" name="related_id__1" id="related_id__1">
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
-      <br>
-      <label for="labels">Media Labels</label>
-      <div id="labels" style="border:1px dashed red;">
+ 
+      <label for="labels" style="margin-top:.5em;">Media Labels</label>
+      <div id="labels" class="graydot">
         <div id="labelsDiv__1">
           <select name="label__1" id="label__1" size="1">
             <option value=""></option>
@@ -355,9 +361,10 @@
           </select>
           :&nbsp;
           <input type="text" name="label_value__1" id="label_value__1" size="80">
+      </div>
+        <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
+       </div>
         </div>
-        <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
-      <br>
       <input type="submit" 
 				value="Create Media" 
 				class="insBtn"
@@ -374,6 +381,7 @@
 				$("##related_id__1").val('#collection_object_id#');
 			</script>
     </cfif>
+      </div>
   </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------>
@@ -385,7 +393,7 @@
 		</cfquery>
       <cfset media_id=mid.nv>
       <cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			insert into media (media_id,media_uri,mime_type,media_type,preview_uri<cfif len(media_license_id) gt 0>,media_license_id</cfif>)
+			insert into media (media_id,media_uri,mime_type,media_type,preview_uri <cfif len(media_license_id) gt 0>,media_license_id</cfif>)
             values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#'<cfif len(media_license_id) gt 0>,#media_license_id#</cfif>)
 		</cfquery>
       <cfloop from="1" to="#number_of_relations#" index="n">

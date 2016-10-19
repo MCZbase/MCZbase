@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+      <div style="width: 50em; margin: 0 auto; padding: 1em 0 3em 0;">
 <cfset title="Bulkload Identification">
 <!---- make the table
 
@@ -39,16 +40,18 @@ CREATE OR REPLACE TRIGGER cf_temp_id_key
 /
 sho err
 ------>
+    
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv).
-Include column headings, spelled exactly as below.
-<br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
-	<div id="template" style="display:none;">
+    <h3 class="wikilink">Bulkload Identifications</h3>
+  
+<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
+    <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
+	<div id="template" style="display:none;margin: 1em 0 0 0;">
 		<label for="t">Copy the following code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">collection_cde,institution_acronym,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2</textarea>
 	</div>
-<p></p>
-<ul>
+
+<ul class="geol_hier" style="padding-bottom: 2em;padding-top:0;">
 	<li style="color:red">institution_acronym</li>
 	<li style="color:red">collection_cde</li>
 	<li style="color:red">other_id_type ("catalog number" is OK)</li>
@@ -62,7 +65,7 @@ Include column headings, spelled exactly as below.
 	<li>agent_2</li>
 </ul>
 
-<cfform name="oids" method="post" enctype="multipart/form-data">
+<cfform name="oids" method="post" enctype="multipart/form-data" style="margin: 1em 0;">
 	<input type="hidden" name="Action" value="getFile">
 	<input type="file"
 		name="FiletoUpload"
@@ -411,4 +414,5 @@ Include column headings, spelled exactly as below.
 		</cfif>
 	</cfoutput>
 </cfif>
+        </div>
 <cfinclude template="/includes/_footer.cfm">

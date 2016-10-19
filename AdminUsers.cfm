@@ -1,8 +1,10 @@
 <cfinclude template = "includes/_header.cfm">
+    <div style="width: 70em;margin:0 auto; padding: 2em 0 4em 0;">
 <script src="/includes/sorttable.js"></script>
 <cfset title="Administer Users">
 <form action="AdminUsers.cfm" method="post">
 	<input type="hidden" name="Action" value="list">
+    <h2 class="wikilink">Manage MCZbase User</h2>
 	Find a user: <input name="username">&nbsp;<input type="submit" value="Find">
 </form>
 <cfif Action is "list">
@@ -26,8 +28,8 @@
 <table border="1" id="t" class="sortable">
 		<tr>
 			<th>Username</th>
-			<th>Collections</th>
-			<th>Info</th>
+			<th>Details</th>
+			
 		</tr>
 	<cfoutput query="getUsers">
 		  <cfquery name="roles" datasource="uam_god">
@@ -42,8 +44,12 @@
 		</cfquery>
 		<tr>
 			 	<td><a href="AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
-			 	<td>#valuelist(roles.role_name)#</td>
-				<td>#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)</td>
+            <td>
+			 	<table>
+                    <tr><td><b>Collections:</b> </td><td>#valuelist(roles.role_name)#</td></tr>
+                    <tr><td align="right"><b>Contact: </b></td><td>#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)</td></tr>
+            </table>
+            </td>
 			 </tr>
 	</cfoutput>
 	</table>
@@ -476,4 +482,5 @@
 	</cfif>
 	</cfoutput>
 </cfif>
+        </div>
 <cfinclude template = "includes/_footer.cfm">

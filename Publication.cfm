@@ -1,4 +1,5 @@
 <cfinclude template="includes/_header.cfm">
+    <div class="editPub" style="padding: 2em 0 5em 0;margin:0 auto;">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif action is "nothing" and isdefined("publication_id") and isnumeric(publication_id)>
 	<cfoutput><cflocation url="Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false"></cfoutput>
@@ -7,9 +8,10 @@
 <cfif action is "edit">
 <cfset title = "Edit Publication">
 <cfoutput>
-	<h3 style="margin: 0; padding: 5px 0 0 0;"><a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">See Publication Details</a></h3>
-	<br>
-	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<h3 class="linkPubDetail">
+    <a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">See Publication Details</a></h3>
+
+<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
 	<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -34,18 +36,20 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
     
-      <h2 class="wikilink" style="float: none;margin-top:0;">Edit Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
+      <h2 class="wikilink">Edit Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 		</h2>
-	<form name="editPub" method="post" action="Publication.cfm" style="float:left;">
+	<form name="editPub" method="post" action="Publication.cfm">
+ 
         <div class="cellDiv">
       <p>The Basics:</p>
+      
 		<input type="hidden" name="publication_id" value="#pub.publication_id#">
 		<input type="hidden" name="action" value="saveEdit">
-		<table style="margin: .5em 0;">
+		<table class="pubtitle">
 			<tr>
 				<td>
 					<label for="publication_title">Publication Title</label>
-					<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="80">#pub.publication_title#</textarea>
+				<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="70">#pub.publication_title#</textarea>
 				</td>
 				<td>
 					<span class="infoLink" onclick="italicize('publication_title')">italicize selected text</span>
@@ -77,7 +81,7 @@
 		</div>
 		<div class="cellDiv">
 		<span >Authors</span>: <span class="infoLink" onclick="addAgent()">Add Row</span>
-			<table border id="authTab">
+			<table id="authTab">
 				<tr>
 					<th>Role</th>
 					<th>Name</th>
@@ -118,7 +122,7 @@
 					<option value="#publication_attribute#">#publication_attribute#</option>
 				</cfloop>
 			</select>
-			<table border id="attTab">
+			<table id="attTab" style="padding-bottom: 1em;">
 				<tr>
 					<th>Attribute</th>
 					<th>Value</th>
@@ -129,6 +133,7 @@
 					<cfset i=i+1>
 					<input type="hidden" name="publication_attribute_id#i#" 
 								class="reqdClr" id="publication_attribute_id#i#" value="#publication_attribute_id#">							
+                        
 					<cfinvoke component="/component/functions" method="getPubAttributes" returnVariable="attvalist">
 						<cfinvokeargument name="attribute" value="#publication_attribute#">
 						<cfinvokeargument name="returnFormat" value="plain">
@@ -159,6 +164,7 @@
 				</cfloop>			
 			</table>
 		</div>
+       
 		<input type="hidden" name="origNumberAttributes" id="origNumberAttributes" value="#i#">
 		<input type="hidden" name="numberAttributes" id="numberAttributes" value="#i#">
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -219,7 +225,7 @@
 				 <br>Find Media and create a relationship to link existing Media to this Publication.
 			</div>
 			<label for="media_uri">Media URI</label>
-			<input type="text" name="media_uri" id="media_uri" size="90" class="reqdClr"><span class="infoLink" id="uploadMedia">Upload</span>
+			<input type="text" name="media_uri" id="media_uri" size="90" class="reqdClr"><!---<span class="infoLink" id="uploadMedia">Upload</span>--->
 			<label for="preview_uri">Preview URI</label>
 			<input type="text" name="preview_uri" id="preview_uri" size="90">
 			<label for="mime_type">MIME Type</label>
@@ -241,9 +247,11 @@
 		</div>
 			<input type="hidden" name="origNumberLinks" id="origNumberLinks" value="#i#">
 			<input type="hidden" name="numberLinks" id="numberLinks" value="#i#">
-			<br><input type="button" value="save" class="savBtn" onclick="editPub.action.value='saveEdit';editPub.submit();">
+			<input type="button" value="Save" class="savBtn" onclick="editPub.action.value='saveEdit';editPub.submit();">&nbsp;&nbsp;
 			<input type="button" value="Delete Publication" class="delBtn" onclick="editPub.action.value='deletePub';confirmDelete('editPub');">
-	</form>
+	   </form>
+ 
+ </div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------------->
@@ -476,8 +484,8 @@
 </cfif>
 <!---------------------------------------------------------------------------------------------------------->
 <cfif action is "newPub">
-<cfset title = "Create Publication">
-	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfset title = "Create New Publication">
+<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
 	<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -516,7 +524,7 @@
 		}
 		function toggleMedia() {
 			if($('#media').css('display')=='none') {
-				$('#mediaToggle').html('[ Remove Media ]');
+				$('#mediaToggle').html('[ Hide Media ]');
 				$('#media').show();
 				$('#media_uri').addClass('reqdClr');
 				$('#mime_type').addClass('reqdClr');
@@ -533,20 +541,22 @@
 		}
 	</script>
 	<cfoutput>
-    <div class="pubSpace">
-      <h2 class="wikilink" style="float:none;margin-left: 0.5em;">Create a Publication <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+
+  
+      <h2 class="wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		</h2>
+    
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
 			The Basics:	
 			<input type="hidden" name="action" value="createPub">
-			<table>
+			<table class="pubtitle">
 				<tr>
 					<td>
 						<label for="publication_title">Publication Title</label>
-						<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="80"></textarea>
+						<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="70"></textarea>
 					</td>
-					<td>
+					<td style="padding-right: 2em;">
 						<span class="infoLink" onclick="italicize('publication_title')">italicize selected text</span>
 						<br><span class="infoLink" onclick="bold('publication_title')">bold selected text</span>
 						<br><span class="infoLink" onclick="superscript('publication_title')">superscript selected text</span>
@@ -556,7 +566,7 @@
 			</table>
 			
 			<div class="pubS"><label for="publication_type">Publication Type</label>
-			<select name="publication_type" id="publication_type" class="reqdClr" onchange="setDefaultPub(this.value)">
+			<select name="publication_type" id="publication_type" class="reqdClr" onchange="setDefaultPub(this.value)"  style="border: 1px solid ##ccc;">
 				<option value=""></option>
 				<cfloop query="ctpublication_type">
 					<option value="#publication_type#">#publication_type#</option>
@@ -567,7 +577,7 @@
 			
             <div style="clear:both;">
             <label for="is_peer_reviewed_fg">Peer Reviewed?</label>
-			<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr">
+			<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr" >
 				<option value="1">yes</option>
 				<option value="0">no</option>
 			</select>			
@@ -580,22 +590,22 @@
 			<input type="hidden" name="numberAuthors" id="numberAuthors" value="1">
 			</div></div>
 			<div class="cellDiv">
-			Authors and Editors: <span class="infoLink" onclick="addAgent()">Add Row</span> ~ <span class="infoLink" onclick="removeAgent()">Remove Last Row</span>
-			<table border id="authTab">
+			<div>Authors and Editors:</div> <div><span class="infoLink thirteen" onclick="addAgent()">Add Row</span> ~ <span class="infoLink thirteen" onclick="removeAgent()">Remove Last Row</span></div>
+			<table id="authTab">
 				<tr>
 					<th>Role</th>
 					<th>Name</th>
 				</tr>
 				<tr id="authortr1">
-					<td>
-						<select name="author_role_1" id="author_role_1">
+					<td style="width: 120px;border: 1px solid ##ccc;">
+						<select name="author_role_1" id="author_role_1" style="width: 100%;">
 							<option value="author">author</option>
 							<option value="editor">editor</option>
 						</select>
 					</td>
-					<td>
+					<td  style="border: 1px solid ##ccc;background-color: white;">
 						<input type="hidden" name="author_id_1" id="author_id_1">
-						<input type="text" name="author_name_1" id="author_name_1" class="reqdClr" size="50"
+						<input type="text" name="author_name_1" id="author_name_1" class="reqdClr" size="68"
 							onchange="findAgentName('author_id_1',this.name,this.value)"
 		 					onKeyPress="return noenter(event);">
 					</td>
@@ -603,29 +613,35 @@
 			</table>
 			</div>
 			<div class="cellDiv">
-			Attributes:
-			<input type="hidden" name="numberAttributes" id="numberAttributes" value="0">
-			Add: <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)">
-				<option value=""></option>
+			<div>Attributes:</div>
+			<div class="infoLink thirteen" onclick="removeLastAttribute()">Remove Last Row</div>
+			<table id="attTab" style="border: 1px solid ##ccc;margin-top: .5em;background-color: white;">
+				<tr style="border:1px solid ##ccc;">
+					<th>Attribute</th>
+					<th>Value</th>
+					<th></th>
+				</tr>		
+                <tr>
+             <!---  Add:---> 
+			<input type="hidden" name="numberAttributes" id="numberAttributes" value="0" size="30">
+			 <td style="width: 200px;border: 1px double ##ccc;background-color: ##f8f8f8;padding-left: 3px;font-size: 12px; font-weight: 800;">
+             Add Attribute:</td><td>
+             <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)" style="font-">
+				<option value="">pick</option>
 				<cfloop query="CTPUBLICATION_ATTRIBUTE">
 					<option value="#publication_attribute#">#publication_attribute#</option>
 				</cfloop>
 			</select>
-			<span class="infoLink" onclick="removeLastAttribute()">Remove Last Row</span>
-			<table border id="attTab">
-				<tr>
-					<th>Attribute</th>
-					<th>Value</th>
-					<th></th>
-				</tr>			
+            </td>
+                <tr>	
 			</table>
 			</div>
-			<span class="likeLink" style="margin-left: 1em;" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
+			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
             
 			<div class="cellDiv" id="media" style="display:none;">
 				Media:
 				<label for="media_uri">Media URI</label>
-				<input type="text" name="media_uri" id="media_uri" size="90"><span class="infoLink" id="uploadMedia">Upload</span>
+			<input type="text" name="media_uri" id="media_uri" size="90"><span class="infoLink" id="uploadMedia">Upload</span>
 				<label for="preview_uri">Preview URI</label>
 				<input type="text" name="preview_uri" id="preview_uri" size="90">
 				<label for="mime_type">MIME Type</label>
@@ -647,6 +663,7 @@
 			</div>
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
+     
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------------->
@@ -771,4 +788,6 @@
 </cfoutput>
 </cfif>
 </div>
+
+
 <cfinclude template="includes/_footer.cfm">

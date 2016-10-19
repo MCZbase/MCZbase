@@ -1,52 +1,18 @@
-
-	
-<!---- relies on table
-drop table cf_temp_cont_edit;
-
-CREATE TABLE cf_temp_cont_edit  (
- KEY  NUMBER NOT NULL,
- barcode VARCHAR2(60),
-parent_barcode VARCHAR2(60),
-container_type VARCHAR2(60),
-label VARCHAR2(60),
-description VARCHAR2(60),
-remarks VARCHAR2(60),
-width number,
-height number,
-length number,
-number_positions number,
-container_id number,
-parent_container_id number,
-status varchar2(255)
-);
-
-create or replace public synonym cf_temp_cont_edit for cf_temp_cont_edit;
-grant all on cf_temp_cont_edit to manage_container;
-
- CREATE OR REPLACE TRIGGER cf_temp_cont_edit_key                                         
- before insert  ON cf_temp_cont_edit  
- for each row 
-    begin     
-    	if :NEW.key is null then                                                                                      
-    		select somerandomsequence.nextval into :new.key from dual;
-    	end if;                                
-    end;                                                                                            
-/
-sho err
----->
 <cfinclude template="/includes/_header.cfm">
+     <div style="width: 50em; margin: 0 auto; padding: 3em 0 4em 0;">
+         <h3>Bulkload Container Edit Parent</h3>
 <cfset title="Bulk Edit Container">
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv). 
-Include column headings, spelled exactly as below. 
-<br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
-	<div id="template" style="display:none;">
+<p>Upload a comma-delimited text file (csv). 
+    Include column headings, spelled exactly as below. </p>
+<span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
+	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">barcode,parent_barcode,container_type,label,description,remarks,width,height,length,number_positions</textarea>
 	</div> 
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
-<ul>
+<ul class="geol_hier">
 	<li style="color:red">barcode</li>
 	<li>parent_barcode</li>
 	<li style="color:red">container_type</li>
@@ -234,4 +200,5 @@ validate
 	Spiffy, all done.
 </cfoutput>
 </cfif>
+    </div>
 <cfinclude template="/includes/_footer.cfm">

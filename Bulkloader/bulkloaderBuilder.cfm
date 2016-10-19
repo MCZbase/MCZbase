@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 50em; margin: 0 auto;padding: 2em 0 5em 0;">
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
 <cfquery name="blt" datasource="uam_god">
@@ -76,6 +77,7 @@
 			<cfset leftovers=listdeleteat(leftovers,lPos)>
 		</cfif>
 	</cfloop>
+<h3>Bulkload Builder</h3>
 <p>
 	Build your own Bulkloader template.
 	You may toggle groups and individual items on and off.
@@ -192,6 +194,8 @@
 		}
 	}
 </script>
+    <br
+        <div style="padding: 10px;background-color:##f8f8f8;">
 	<form name="f" method="post" action="bulkloaderBuilder.cfm">
 		<input type="hidden" name="action" value="getTemplate">
 		<label for="fileFormat">Format</label>
@@ -200,9 +204,11 @@
 			<option value="csv">CSV</option>
 		</select>
 		<input type="submit" value="Download Template">
+       
+        <br><br>
 		<table border>
 			<tr>
-				<td>Field</td>
+				<td>Individual Fields</td>
 				<td>Include?</td>
 			</tr>
 		<cfloop query="blt">
@@ -217,6 +223,7 @@
 		checkAll(0);
 		checkList('required',1);
 	</script>
+     </div>
 </cfoutput>
 </cfif>
 <cfif action is 'getTemplate'>
@@ -238,5 +245,9 @@
 		<cfelse>
 			That file format doesn't seem to be supported yet!
 		</cfif>
+                
 </cfoutput>
 </cfif>
+              
+ </div>
+ <cfinclude template="/includes/_footer.cfm">

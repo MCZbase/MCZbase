@@ -144,9 +144,10 @@
 	}
 </script>
 <cfoutput>
+  <div class="basic_box">
 	<cfparam name="username" default="">
 	<cfset title="Log In or Create Account">
-	<p><strong>Log In or Create an Account</strong></p>
+	<h2>Log In or Create an Account</h2>
 	<p>
 		Logging in enables you to turn on, turn off, or otherwise customize many features of
 		this database. To create an account and log in, simply supply a username and
@@ -185,6 +186,7 @@
 	<p>
 		You can explore MCZbase using basic options without signing in.
 	</p>
+        </div>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------->

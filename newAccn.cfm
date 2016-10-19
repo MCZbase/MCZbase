@@ -18,6 +18,7 @@
 		select accn_type from ctaccn_type order by accn_type
 	</cfquery>
 	<cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
+        <div style="width: 54em;margin: 0 auto;padding-bottom: 4em;">
 	<cfform action="newAccn.cfm" method="post" name="newAccn">
 		<input type="hidden" name="Action" value="createAccession">
 			<h2 class="wikilink" style="margin-left:0;">Create Accession <img class="infoLink" src="/images/info_i_2.gif" alt="[help]" onClick="getMCZDocs('Create Accession')"/></h2>
@@ -222,6 +223,7 @@
 			</tr>
 		</table>
 	</cfform>
+    </div>
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------->

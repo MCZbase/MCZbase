@@ -103,6 +103,7 @@
 </cfquery>
 <!-------------------------------------------------------------------->
 <cfif action is "edit">
+    <div style="width: 75em; margin: 0 auto;padding: 2em 0 4em 0;">
 	<cfoutput>
 		<script>
 			jQuery(document).ready(function() {
@@ -154,7 +155,7 @@
 				trans_agent_role,
 				agent_name
 		</cfquery>	
-		<div style="clear:both"><strong>Edit Accession</strong></div>
+		<h2 class="wikilink"><strong>Edit Accession</strong></h2>
 		<table><tr><td valign="top">
 			<cfform action="editAccn.cfm" method="post" name="editAccn">
 				<input type="hidden" name="Action" value="saveChanges">
@@ -202,7 +203,8 @@
 								id="rec_date">
 						</td>
 						<td>
-							<label for="estimated_count" onClick="getDocs('accession','estimated_count')" class="likeLink">
+							<label for="estimated_count">
+                                   <!---onClick="getDocs('accession','estimated_count')" class="likeLink">--->
 								Est. Cnt.
 							</label>
 							<cfinput type="text" validate="integer"
@@ -341,9 +343,9 @@
 				</tr>
 
 			</table>
-		</td><td valign="top">
+		</td><td valign="middle">
 			<strong>Projects associated with this Accn:</strong>
-			<ul>
+			<ul style="list-style:none;">
 				<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select project_name, project.project_id from project,
 					project_trans where 
@@ -360,13 +362,13 @@
 					<li>None</li>
 				</cfif>
 			</ul>
-			<table class="newRec" width="100%">
+			<table class="newRec" width="280px">
 				<tr>
 					<td>
 						<label for="project_name">New Project</label>
 						<input type="hidden" name="project_id">
 						<input type="text" 
-							size="50"
+							size="35"
 							name="project_name"
 							id="project_name" 
 							class="reqdClr" 
@@ -464,18 +466,20 @@
 			</form>
 		</td></tr></table>
 	</cfoutput>
+</div>
 </cfif>
 <!-------------------------------------------------------------------->
 <cfif action is "nothing">
 	<cfset title = "Find Accession">
 		<cfoutput>
+            <div style="width: 48em;margin:0 auto;padding: 1em 0 3em 0;">
 		<h2 class="wikilink" style="margin-left:0;">Find Accession <img class="infoLink" src="/images/info_i_2.gif" alt="[help]" onClick="getMCZDocs('Find Accession')"/></h2>
 			<cfif #project_id# gt 0>to add to project ## #project_id#</cfif>
 	
 		<form action="editAccn.cfm" method="post" name="SpecData" preservedata="yes">
 			<input type="hidden" name="Action" value="findAccessions">
 			<input type="hidden" <cfif project_id gt 0> value = "#project_id#" </cfif> name="project_id">
-			<table border>
+			<table style="border:1px solid gray; padding: 1.25em; padding-top: .75em;background-color: ##f8f8f8;">
 				<tr>
 					<td>
 						<label  for="accn_number">Accn Number</label>
@@ -579,8 +583,8 @@
 						<table cellspacing='0' cellpadding='0'>
 							<td>
 								<label  for="rec_date">Received Date:</label>
-								<input type="text" name="rec_date" id="rec_date">
-							</td> 
+								<input type="text" name="rec_date" id="rec_date">&nbsp;&nbsp;
+							</td>
 							<td>
 								<label for="rec_until_date">Until: (leave blank otherwise)</label>
 								<input type='text' name='rec_until_date' id='rec_until_date'>
@@ -589,7 +593,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Permits:</strong></td>
+                  
+					<td style="padding-top: 1.25em;"><strong>Permits:</strong></td>
 				</tr>
 				<tr>
 					<td>
@@ -637,21 +642,23 @@
 						<input type="text" name="permit_remarks" id="permit_remarks">
 					</td>		
 				<tr>
-					<td colspan="4" align="center">
-				 		<input type="submit" value="Find Accession" class="schBtn">	
+					<td colspan="4" align="center"  style="padding-top: 1em;">
+				 		<input type="submit" value="Find Accession" class="schBtn">&nbsp;	
 						<input type="button" value="Create a new accession" class="insBtn"
-							onClick="document.location = 'newAccn.cfm';">	
-						<input type="button" value="Clear Form" class="clrBtn" onClick="document.location='editAccn.cfm';">	
+							onClick="document.location = 'newAccn.cfm';">	&nbsp;
+						<input type="button" value="Clear Form" class="clrBtn" onClick="document.location='editAccn.cfm';">	&nbsp;
 						<input type="button" value="Add Specimens to an Accn" class="lnkBtn"
 						   onclick = "window.open('SpecimenSearch.cfm?Action=addAccn');">	
 					</td>
 				</tr>
 			</table>
 		</form>
+</div>
 	</cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "findAccessions">
+    <div style="width: 60em; margin: 0 auto; padding: 2em 0 4em 0;">
 <cfset title = "Accession Search Results">
 	<cfoutput>
 		<cfset sel = "SELECT 
@@ -811,8 +818,9 @@
 			<cfquery name="specs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cataloged_item where accn_id in (#valuelist(getAccns.transaction_id)#)
 			</cfquery>
+            <h2>
 			<a href="/SpecimenResults.cfm?accn_trans_id=#valuelist(getAccns.transaction_id)#">
-				View #specs.c# items in these #c.c# Accessions</a>
+                View #specs.c# items in these #c.c# Accessions</a></h2>
 		</cfif>
 		
 		<cfset i=1>
@@ -822,7 +830,7 @@
 			</cfquery>
 		</cfif>
 	</cfoutput>
-	<table cellpadding="0" cellspacing="0">
+
 	<cfoutput query="getAccns" group="transaction_id">
 		<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 			<cfif #project_id# gt 0>
@@ -862,6 +870,7 @@
 		</div>
 		<cfset i=#i#+1>
 	</cfoutput>
+ </div>
 </cfif>
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "delePermit">

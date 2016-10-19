@@ -1,13 +1,18 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="Bulkload Specimens">
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv). You may build templates using the
-<a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
+ 
+    <div class="BulkSpec">
+           <h2 class="wikilink">Load your .csv file.</h2>
+        <p>Step 1: Upload a comma-delimited text file (csv).</p>
+        <p>If your text file does not load, you can build templates that will load using the <a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>.</p>
+   
+        <br><br>
 <cfform name="oids" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="Action" value="getFile">
 	  <cfinput type="file" name="FiletoUpload" size="45" >
 	  <input type="submit" value="Upload this file" class="savBtn">
-	  <br>
+	  <br><br>
 	Character Set: <select name="cSet" id="cSet">
 		<option value="windows-1252" selected>windows-1252</option>
 		<option value="MacRoman">MacRoman</option>
@@ -17,6 +22,7 @@ Step 1: Upload a comma-delimited text file (csv). You may build templates using 
 	</input>
   </cfform>
 </cfif>
+    </div>
 <!------------------------------------------------------->
 <cfif #action# is "getFile">
 <cfoutput>

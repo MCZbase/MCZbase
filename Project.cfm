@@ -15,6 +15,7 @@
 		}
 	}
 </script>
+           <div style="width: 55em; margin: 0 auto;padding:2em 0 5em 0;">
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/SpecimenUsage.cfm">
@@ -25,38 +26,42 @@
 <!------------------------------------------------------------------------------------------->
 <cfif Action is "makeNew">
 	<cfset title="create project">
-<strong>Create New Project:</strong>
+
+<h2 class="wikilink">Create New Project:</h2>
+<div class="content_box_proj" style="background-color: #f8f8f8; border: 1px dotted #ccc;padding: .75em 1.25em 1.25em 1.25em;margin-top: .5em;">
 <cfoutput>
 	<form name="project" action="Project.cfm" method="post">
 		<input type="hidden" name="Action" value="createNew">
 		<table>
 			<tr>
 				<td>
-					<label for="project_name" class="likeLink" onClick="getDocs('project','title')">Project Title</label>
-					<textarea name="project_name" id="project_name" cols="80" rows="2" class="reqdClr"></textarea>
+					<label for="project_name">Project Title</label>
+					<textarea name="project_name" id="project_name" cols="90" rows="2" class="reqdClr"></textarea>
 				</td>
 				<td>
-					<span class="infoLink" onclick="italicize('project_name')">italicize selected text</span>
-					<br><span class="infoLink" onclick="bold('project_name')">bold selected text</span>
-					<br><span class="infoLink" onclick="superscript('project_name')">superscript selected text</span>
-					<br><span class="infoLink" onclick="subscript('project_name')">subscript selected text</span>
+					<span class="infoLink helpers" style="margin-top: 11px;" onclick="italicize('project_name')">italicize selected text</span>				<span class="infoLink helpers" onclick="bold('project_name')">bold selected text</span>
+					<span class="infoLink helpers" onclick="superscript('project_name')">superscript selected text</span>
+                    <span class="infoLink helpers" onclick="subscript('project_name')">subscript selected text</span>
 				</td>
 			</tr>
 		</table>
-			<label for="start_date" class="likeLink" onClick="getDocs('project','date')">Start&nbsp;Date</label>
+			<label for="start_date">Start&nbsp;Date</label>
 				<input type="text" name="start_date" id="start_date">
-				<label for="end_date" class="likeLink" onClick="getDocs('project','date')">End&nbsp;Date</label>
+				<label for="end_date">End&nbsp;Date</label>
 				<input type="text" name="end_date" id="end_date">
-				<label for="end_date" class="likeLink" onClick="getDocs('project','description')">Description</label>
-				<textarea name="project_description" id="project_description" cols="80" rows="6"></textarea>
+				<label for="end_date">Description</label>
+				<textarea name="project_description" id="project_description" cols="100" rows="6"></textarea>
 				<label for="project_remarks">Remarks</label>
-				<textarea name="project_remarks" id="project_remarks" cols="80" rows="3"></textarea>
+				<textarea name="project_remarks" id="project_remarks" cols="100" rows="3"></textarea>
 				<br>
-				<input type="submit" value="Create Project" class="insBtn">
-				<br>
-				You can add Agents, Publications, Media, Transactions, and Taxonomy after you create the basic project.
+	
+ </div>
+       <input type="submit" value="Create Project" class="insBtn" style="margin-top: 1.5em;">
+				<p style="margin-top: 1em;">You can add Agents, Publications, Media, Transactions, and Taxonomy after you create the basic project.</p>
+    			
 			</form>
 </cfoutput>
+
 </cfif>
 <!------------------------------------------------------------------------------------------->
 <cfif Action is "createNew">
@@ -105,9 +110,11 @@
 </cfif>
 <!------------------------------------------------------------------------------------------->
 <cfif action is "editProject">
+
 	<cfset title="Edit Project">
 	<cfoutput>
-		<strong>Edit Project</strong> <a href="/ProjectDetail.cfm?project_id=#project_id#">[ Detail Page ]</a>
+		<h2 class="wikiedit">Edit Project</h2> 
+        <a href="/ProjectDetail.cfm?project_id=#project_id#">[ Detail Page ]</a>
 		<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				project.project_id,
@@ -258,8 +265,8 @@
 				<table>
 				<tr>
 					<td>
-						<label for="project_name" class="likeLink" onClick="getDocs('project','title')">Project Title</label>
-						<textarea name="project_name" id="project_name" cols="80" rows="2" class="reqdClr">#proj.project_name#</textarea>
+						<label for="project_name">Project Title</label>
+						<textarea name="project_name" id="project_name" cols="80" rows="3" class="reqdClr">#proj.project_name#</textarea>
 					</td>
 					<td>
 						<span class="infoLink" onclick="italicize('project_name')">italicize selected text</span>
@@ -269,11 +276,11 @@
 					</td>
 				</tr>
 			</table>
-				<label for="start_date" class="likeLink" onClick="getDocs('project','date')">Start&nbsp;Date</label>
+				<label for="start_date">Start&nbsp;Date</label>
 				<input type="text" name="start_date" id="start_date" value="#dateformat(proj.start_date,"yyyy-mm-dd")#">
-				<label for="end_date" class="likeLink" onClick="getDocs('project','date')">End&nbsp;Date</label>
+				<label for="end_date">End&nbsp;Date</label>
 				<input type="text" name="end_date" id="end_date" value="#dateformat(proj.end_date,"yyyy-mm-dd")#">
-				<label for="end_date" class="likeLink" onClick="getDocs('project','description')">Description</label>
+				<label for="end_date">Description</label>
 				<textarea name="project_description" id="project_description" cols="80" rows="6">#proj.project_description#</textarea>
 				<label for="project_remarks">Remarks</label>
 				<textarea name="project_remarks" id="project_remarks" cols="80" rows="3">#proj.project_remarks#</textarea>
@@ -292,13 +299,13 @@
 					onClick="document.location='Project.cfm';">
 			</form>
 			<a name="agent"></a>
-			<table>
+			<table style="margin: 1em 0;">
 				<tr>
 					<td colspan="2">
-						<a href="javascript:void(0);" onClick="getDocs('project','agent')">Project&nbsp;Agents</a>
+						<p>Project&nbsp;Agents</p>
 					</td>
 					<td colspan="2">
-						<a href="javascript:void(0);" onClick="getDocs('project','agent_role')">Agent&nbsp;Role</a>
+					Agent&nbsp;Role
 					</td>
 				</tr>
 				<cfset i = 1>
@@ -411,7 +418,7 @@
 								value="#sponsor_name#">
 							</td>
 							<td>
-								<input type="text" size="80" name="ACKNOWLEDGEMENT" value="#ACKNOWLEDGEMENT#" class="reqdClr">
+								<input type="text" size="60" name="ACKNOWLEDGEMENT" value="#ACKNOWLEDGEMENT#" class="reqdClr">
 							</td>
 							<td>
 								<input type="submit" 
@@ -445,7 +452,7 @@
 								onKeyPress="return noenter(event);">
 						</td>
 						<td>
-							<input type="text" size="50" name="newAcknowledgement" id="newAcknowledgement">
+							<input type="text" size="70" name="newAcknowledgement" id="newAcknowledgement">
 						</td>
 						<td>
 							<label for="add">&nbsp;</label>
@@ -538,6 +545,7 @@
 				</cfloop>
 			</p>	
 		</cfoutput>
+                
 </cfif>
 <!------------------------------------------------------------------------------------------->
 <cfif action is "removeTaxonomy">
@@ -762,4 +770,5 @@ VALUES (
  </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------->
+    </div>
 <cfinclude template="/includes/_footer.cfm">

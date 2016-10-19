@@ -25,7 +25,7 @@
 		loan_policy_url
 	order by collection.collection
 </cfquery>
-
+    <div style="width: 75em; margin: 0 auto; padding: 0 0 4em 0;">
 	<h2>MCZbase Holdings</h2>
 
 <br />You may pick a default collection using the Customize link on SpecimenSearch. 
@@ -116,4 +116,5 @@
 	</tr>
 </cfoutput>
 </table>
+    </div>
 <cfinclude template="/includes/_footer.cfm">
