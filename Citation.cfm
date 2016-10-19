@@ -1,4 +1,5 @@
 <cfinclude template="includes/_header.cfm">
+ 
 <script type='text/javascript' src='/includes/checkForm.js'></script>
 	<script>
 		function getCatalogedItemCitation (id,type) {
@@ -60,6 +61,7 @@
 
 <!------------------------------------------------------------------------------->
 <cfif action is "nothing">
+     <div style="width: 73em; margin: 0 auto; padding: 2em 0 5em 0;">
 <cfset title="Manage Citations">
 <cfoutput>
 
@@ -96,10 +98,11 @@
 	ORDER BY
 		occurs_page_number,citSciName,cat_num
 </cfquery>
-
-Citations for <b>#getCited.publication_title#</b>
+  
+    <h3>Citations for <i>#getCited.publication_title#</i></h3>
 <a href="Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
-<table border cellpadding="0" cellspacing="0"><tr>
+<table class="pubtable" cellspacing="0">
+    <tr>
 	<td>&nbsp;</td>
 	<td nowrap>Cat Num</td>
 	<td nowrap>#session.CustomOtherIdentifier#</td>
@@ -115,7 +118,7 @@ Citations for <b>#getCited.publication_title#</b>
 <cfloop query="getCited">
 	<tr>
 	<td nowrap>
-		<table cellpadding="0" cellspacing="0">
+		<table>
 
 		<form name="deleCitation#i#" method="post" action="Citation.cfm">
 		<input type="hidden" name="Action">
@@ -263,6 +266,7 @@ Citations for <b>#getCited.publication_title#</b>
 </tr></table>
 
 </cfoutput>
+    </div>
 </cfif>
 
 <!------------------------------------------------------------------------------->
@@ -347,6 +351,7 @@ Citations for <b>#getCited.publication_title#</b>
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "editCitation">
 <cfset title="Edit Citations">
+    <div style="width: 50em; margin: 0 auto; padding: 2em 0 3em 0;">
 <cfoutput>
 
 <cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -383,8 +388,7 @@ Citations for <b>#getCited.publication_title#</b>
 
 </cfoutput>
 <cfoutput query="getCited">
-<div style="width: 40em; margin:0 auto;padding-bottom: 2em;">
-<br>Edit Citation for <b>#getCited.publication_title#</b>:
+    <h3>Edit Citation for <i>#getCited.publication_title#</i></h3>
 <cfform name="editCitation" id="editCitation" method="post" action="Citation.cfm">
 		<input type="hidden" name="Action" value="saveEdits">
 		<input type="hidden" name="publication_id" value="#publication_id#">
@@ -451,8 +455,8 @@ Citations for <b>#getCited.publication_title#</b>
 	</cfform>
 </tr>
 </table>
-</div>
 </cfoutput>
+        </div>
 </cfif>
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "deleCitation">
@@ -464,4 +468,5 @@ Citations for <b>#getCited.publication_title#</b>
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------->
+
 <cfinclude template="includes/_footer.cfm">

@@ -15,7 +15,7 @@
 		}
 	}
 </script>
-           <div style="width: 56em; margin: 0 auto;padding:1em 0 5em 0;">
+           <div style="width: 55em; margin: 0 auto;padding:2em 0 5em 0;">
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/SpecimenUsage.cfm">
@@ -28,7 +28,7 @@
 	<cfset title="create project">
 
 <h2 class="wikilink">Create New Project:</h2>
-<div class="content_box_proj" style="background-color: #f8f8f8; border: 1px dotted #ccc;padding: 1em 1.25em 1.25em 1.25em;">
+<div class="content_box_proj" style="background-color: #f8f8f8; border: 1px dotted #ccc;padding: .75em 1.25em 1.25em 1.25em;margin-top: .5em;">
 <cfoutput>
 	<form name="project" action="Project.cfm" method="post">
 		<input type="hidden" name="Action" value="createNew">

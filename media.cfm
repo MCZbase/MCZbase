@@ -290,6 +290,7 @@
   <cfoutput> 
       <div class="basic_box">
           <h2 class="wikilink">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs('Media')" class="likeLink" alt="[ help ]"></h2>
+          <div style="border: 1px dotted gray; background-color: ##f8f8f8;padding: 1em;margin: .5em 0 1em 0;">
     <form name="newMedia" method="post" action="media.cfm">
       <input type="hidden" name="action" value="saveNew">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
@@ -363,7 +364,7 @@
       </div>
         <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
        </div>
-      <br/>
+        </div>
       <input type="submit" 
 				value="Create Media" 
 				class="insBtn"

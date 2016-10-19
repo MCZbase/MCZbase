@@ -13,7 +13,7 @@
      <cfset specID="#url.collection_object_id#">
 </cfif>
 
-<div class="basic_search_box">
+<div class="basic_search_box" style="padding-bottom:5em;">
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 	
@@ -187,7 +187,7 @@
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
-     <div class="basic_box_media">
+ 
         
 <cfscript>
     function highlight(findIn,replaceThis) {
@@ -444,15 +444,15 @@
                     
 		</cfif>
 	</cfsavecontent>
-                      <div class="mediaPager">
+     <div class="mediaPager">
 	#pager#
-           </div>        
+   </div>        
 	<cfset rownum=1>
 	<cfif url.offset is 0><cfset url.offset=1></cfif>
        
         
-        <div class="basic_box_media">
-<table>
+    
+<table width="100%;">
    
 <cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
 	<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -625,11 +625,12 @@
 </cfloop>
 </table>  
 
-</div>
-                            <div class="mediaPager">
+
+     <div class="mediaPager">
 #pager#
  </div>
 </cfoutput>
 
 </cfif>
+                        </div>
 <cfinclude template="/includes/_footer.cfm">

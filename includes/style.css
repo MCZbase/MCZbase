@@ -1145,9 +1145,8 @@ div.one_thumb_small p {
 }
 label.badPickLbl {
 	color: red;
-	width: 15em;
+	width: 18em;
 	height: 2em;
-	background-image: url('/images/caution.gif');
 	background-repeat: no-repeat;
 	background-position: right;
 	display: table-cell;
@@ -3664,7 +3663,7 @@ h2.proj_title {font-size: 1.6em; margin:0;}
 	margin-bottom: 1em;
     padding: 2em 0;
 }
-.content_box_narrow {width:42em;margin:0 auto;padding-bottom:3em;}
+.content_box_narrow {width:43em;margin:0 auto;padding: 2em 0 3em 0;}
 
 .content_box_pub select, .content_box_pub input {
 	width: 395px;
@@ -3725,12 +3724,12 @@ ul.pubLinks {
 .thirteen {
 	font-size: 13px;
 }
-.editPub {width: 54.5em;margin:0 auto;padding: 2em 0 5em 0;}
+.editPub {width: 54.5em;margin:0 auto;padding: 2em 0 3em 0;}
 .basic_search_box {
     width: 56em;
 	margin: 0 auto;
 	margin-bottom: 1em;
-    padding: .5em 0 3em 0;
+    padding: 1.5em 0 5em 0;
 }
 .basic_search_box label {padding-top:.15em}
 .basic_search_box li.entry {
@@ -3858,28 +3857,28 @@ ul.pubLinks {
 	margin-left: 0;
 }
 span#locDetailCtl.infoLink {
-	margin-left: 750px;
+	margin-left: 680px;
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
 }
 span#geogDetailCtl.infoLink {
-	margin-left: 750px;
+	margin-left: 680px;
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
 }
 span#eventDetailCtl.infoLink {
-	margin-left: 750px;
+	margin-left: 680px;
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
 }
 span#geogrefDetailCtl.infoLink {
-	margin-left: 750px;
+	margin-left: 680px;
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
@@ -3956,6 +3955,7 @@ p.spacer {height: 3px;}
 	padding: .15em;
 	margin-bottom: .5em;
 }
+
 #attTab {padding-bottom: 1em;font-size: smaller;}
 #attTab select {
 	width: 600px !important;
@@ -4457,13 +4457,13 @@ table.navtabs {
 }
 .BulkSpec p {margin: .5em 0;
 line-height: 1.2em;}
-.mediaEdit {margin-top:-2em;}
+.mediaEdit {margin-top:0;}
 
 .arctosSet {margin-bottom: .5em; margin-top:1.5em;padding-bottom: 0;}
 .editMedia2 label {margin-top: .65em;}
 
 table.attributes {font-size: 10px;}
-
+table.pubtable td {border-top: 1px solid gray; border-bottom: 1px solid gray;padding: 3px 0;}
 
 
 @media only screen and (max-width: 1800px) {

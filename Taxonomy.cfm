@@ -50,7 +50,7 @@
 	</cfquery>
 <cfoutput>
 <div class="content_box_narrow">
-   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy: <em>#getTaxa.scientific_name#</em> <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif></h2>
+   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy:  <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  <em>#getTaxa.scientific_name#</em></h2>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
     <table class="tInput">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
