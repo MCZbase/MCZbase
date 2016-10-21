@@ -41,7 +41,7 @@
 	<form name="editPub" method="post" action="Publication.cfm">
  
         <div class="cellDiv">
-      <p>The Basics:</p>
+      <p style="margin:0; padding:0;">The Basics:</p>
       
 		<input type="hidden" name="publication_id" value="#pub.publication_id#">
 		<input type="hidden" name="action" value="saveEdit">
@@ -75,9 +75,9 @@
 		<label for="published_year">Published Year</label>
 		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
 		<label for="publication_loc">Storage Location</label>
-		<input type="text" name="publication_loc" id="publication_loc" size="80" value="#pub.publication_loc#">
+		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
 		<label for="publication_remarks">Remark</label>
-		<input type="text" name="publication_remarks" id="publication_remarks" size="80" value="#pub.publication_remarks#">
+		<input type="text" name="publication_remarks" id="publication_remarks" size="100" value="#pub.publication_remarks#">
 		</div>
 		<div class="cellDiv">
 		<span >Authors</span>: <span class="infoLink" onclick="addAgent()">Add Row</span>
@@ -556,7 +556,7 @@
 						<label for="publication_title">Publication Title</label>
 						<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="70"></textarea>
 					</td>
-					<td style="padding-right: 2em;">
+					<td style="padding-right: 2em;padding-top: 1em;">
 						<span class="infoLink" onclick="italicize('publication_title')">italicize selected text</span>
 						<br><span class="infoLink" onclick="bold('publication_title')">bold selected text</span>
 						<br><span class="infoLink" onclick="superscript('publication_title')">superscript selected text</span>
@@ -584,9 +584,9 @@
 			<label for="published_year">Published Year</label>
 			<input type="text" name="published_year" id="published_year" class="reqdClr">
 			<label for="publication_loc">Storage Location</label>
-			<input type="text" name="publication_loc" id="publication_loc" size="80">
+			<input type="text" name="publication_loc" id="publication_loc" size="100">
 			<label for="publication_remarks">Remark</label>
-			<input type="text" name="publication_remarks" id="publication_remarks" size="80">
+			<input type="text" name="publication_remarks" id="publication_remarks" size="100">
 			<input type="hidden" name="numberAuthors" id="numberAuthors" value="1">
 			</div></div>
 			<div class="cellDiv">
@@ -597,15 +597,15 @@
 					<th>Name</th>
 				</tr>
 				<tr id="authortr1">
-					<td style="width: 120px;border: 1px solid ##ccc;">
-						<select name="author_role_1" id="author_role_1" style="width: 100%;">
+					<td style="width: 60px;">
+						<select name="author_role_1" id="author_role_1" style="width: auto;">
 							<option value="author">author</option>
 							<option value="editor">editor</option>
 						</select>
 					</td>
-					<td  style="border: 1px solid ##ccc;background-color: white;">
+					<td  style="background-color: white;">
 						<input type="hidden" name="author_id_1" id="author_id_1">
-						<input type="text" name="author_name_1" id="author_name_1" class="reqdClr" size="68"
+						<input type="text" name="author_name_1" id="author_name_1" class="reqdClr" size="50"
 							onchange="findAgentName('author_id_1',this.name,this.value)"
 		 					onKeyPress="return noenter(event);">
 					</td>
@@ -615,7 +615,7 @@
 			<div class="cellDiv">
 			<div>Attributes:</div>
 			<div class="infoLink thirteen" onclick="removeLastAttribute()">Remove Last Row</div>
-			<table id="attTab" style="border: 1px solid ##ccc;margin-top: .5em;background-color: white;">
+			<table id="attTab" style="border: 1px solid ##ccc;margin-top: .5em;padding-left: 5px;background-color: white;">
 				<tr style="border:1px solid ##ccc;">
 					<th>Attribute</th>
 					<th>Value</th>
@@ -624,8 +624,8 @@
                 <tr>
              <!---  Add:---> 
 			<input type="hidden" name="numberAttributes" id="numberAttributes" value="0" size="30">
-			 <td style="width: 200px;border: 1px double ##ccc;background-color: ##f8f8f8;padding-left: 3px;font-size: 12px; font-weight: 800;">
-             Add Attribute:</td><td>
+			 <td style="width: 200px;border: 1px double ##ccc;background-color: ##f8f8f8;;font-size: 12px; font-weight: 800;">
+            &nbsp;&nbsp; Add Attribute:</td><td>
              <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)" style="font-">
 				<option value="">pick</option>
 				<cfloop query="CTPUBLICATION_ATTRIBUTE">

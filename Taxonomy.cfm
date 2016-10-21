@@ -40,7 +40,7 @@
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="TaxonomySearch.cfm">
-	<cfabort>git
+	<cfabort>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">

@@ -165,7 +165,7 @@
 				</td>	
 				<td>
 					<form name="f" method="post" action="browseBulk.cfm">
-					<table>
+					<table class="browsingBulk">
 						<tr>
 							<td align="center">
 								<input type="hidden" name="action" value="viewTable" />

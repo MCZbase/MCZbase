@@ -69,7 +69,7 @@
 	        <span id="pwstatus"></span>
 			<label for="newpassword2">Retype new password</label>
 	        <input name="newpassword2" id="newpassword2" type="password">
-			<br>
+			<br><br>
 	        <input type="submit" value="Save Password Change" class="savBtn">
 	    </form>
 	    <cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -78,8 +78,8 @@
 			 username= '#session.username#'
 		</cfquery>
 		<cfif len(isGoodEmail.email) gt 0>
-			If you can't remember your old password, we can
-			<a href="ChangePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
+			<p>If you can't remember your old password, we can
+                <a href="ChangePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.</p>
 		</cfif>
         </div>
 	</cfoutput>
@@ -87,10 +87,10 @@
 
 <!----------------------------------------------------------->
 <cfif action is "lostPass">
-	Lost your password? Passwords are stored in an encrypted format and cannot be recovered.
-<br>If you have saved your email address in your profile, enter it here to reset your password.
-<br>If you have not saved your email address, please submit a bug report to that effect
-    and we will reset your password for you.
+    <p>Lost your password? Passwords are stored in an encrypted format and cannot be recovered.</p>
+    <p>If you have saved your email address in your profile, enter it here to reset your password.</p>
+<p>If you have not saved your email address, please submit a bug report to that effect
+    and we will reset your password for you.</p>
 	<form name="pw" method="post" action="ChangePassword.cfm">
         <input type="hidden" name="action" value="findPass">
         <label for="username">Username</label>

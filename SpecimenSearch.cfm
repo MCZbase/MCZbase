@@ -766,8 +766,6 @@
 		</tr>
 		<tr>
 			<td class="lbl">
-       
-				<span class="helpLink infoLink" id="collector">Help</span>
 				<select name="coll_role" id="coll_role" size="1">
 					<option value="" selected="selected">Collector</option>
 					<option value="p">Preparator</option>
@@ -783,9 +781,9 @@
 				<span id="year_collected">Year Collected:</span>
 			</td>
 			<td class="srch">
-				<input name="begYear" type="text" size="6">&nbsp;
+				<input name="begYear" type="text" size="13">&nbsp;
 				<span class="infoLink" onclick="SpecData.endYear.value=SpecData.begYear.value">-->&nbsp;Copy&nbsp;--></span>
-				&nbsp;<input name="endYear" type="text" size="6">
+				&nbsp;<input name="endYear" type="text" size="13">
 			</td>
 		</tr>		
 	</table>
@@ -842,7 +840,7 @@
         					<td valign="bottom"><span style="font-size:small;font-style:italic;font-weight:bold;">OR</span></td>
         					<td>
         						<label for="begDate">ISO8601 Date/Time</label>
-        						<input name="begDate" id="begDate" size="10" type="text">
+        						<input name="begDate" id="begDate" size="13" type="text">
         					</td>
         				</tr>
         			</table>

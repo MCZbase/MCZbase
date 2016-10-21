@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 56em; margin: 0 auto; padding: 2em 0 6em 0;">
 <cfset title="Download Agreement">
 <!--- make sure they have an account --->
 <cfif not isdefined("cnt") OR len(#cnt#) is 0>
@@ -361,7 +362,7 @@ do not agree</font>.</a>
 		<cfoutput>
 		You must agree to the terms of usage to download these data.
 		<ul>
-			<li>Click <a href="/home.cfm">here</a> to return to the home page.</li>
+			<li>Click <a href="/home.cfm" style="background-color: ##99ccff;padding: 2px 5px; margin: 0 3px;">here</a> to return to the home page.</li>
 			<li>Use your browser's back button or click <a href="javascript: history.back();">here</a> 
 				if you wish to agree to the terms and proceed with the download.</li>
 			<li>Email <a href="mailto: #Application.bugReportEmail#">#Application.bugReportEmail#</a> if you wish to discuss the terms of
@@ -372,4 +373,5 @@ do not agree</font>.</a>
 		</cfoutput>
 	</cfif>
 </cfif>
+                                </div>
 <cfinclude template="/includes/_footer.cfm">

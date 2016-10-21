@@ -99,9 +99,9 @@
 		occurs_page_number,citSciName,cat_num
 </cfquery>
   
-    <h3>Citations for <i>#getCited.publication_title#</i></h3>
+    <h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
 <a href="Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
-<table class="pubtable" cellspacing="0">
+<table class="pubtable" border="0" style="border: none;font-size: 15px;">
     <tr>
 	<td>&nbsp;</td>
 	<td nowrap>Cat Num</td>
@@ -124,16 +124,14 @@
 		<input type="hidden" name="Action">
 			<input type="hidden" value="#publication_id#" name="publication_id">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-			<tr><td>
+			<tr><td style="border-bottom: none;">
 			<input type="button"
 				value="Delete"
 				class="delBtn"
 				onmouseover="this.className='delBtn btnhov'"
 				onmouseout="this.className='delBtn'"
 				onClick="deleCitation#i#.Action.value='deleCitation';submit();">
-
-
-			</td><td>
+			</td><td style="border-bottom: none;">
 			<input type="button"
 				value="Edit"
 				class="lnkBtn"
@@ -144,7 +142,7 @@
 			</td>
 		</form>
 
-			<td>
+			<td style="border-bottom: none;">
 			<input type="button"
 				value="Clone"
 				class="insBtn"

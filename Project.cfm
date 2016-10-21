@@ -36,7 +36,7 @@
 			<tr>
 				<td>
 					<label for="project_name">Project Title</label>
-					<textarea name="project_name" id="project_name" cols="90" rows="2" class="reqdClr"></textarea>
+					<textarea name="project_name" id="project_name" cols="70" rows="2" class="reqdClr"></textarea>
 				</td>
 				<td>
 					<span class="infoLink helpers" style="margin-top: 11px;" onclick="italicize('project_name')">italicize selected text</span>				<span class="infoLink helpers" onclick="bold('project_name')">bold selected text</span>

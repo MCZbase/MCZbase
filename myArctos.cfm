@@ -129,7 +129,7 @@
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
     <div style="width:70em; margin:0 auto;padding-bottom: 3em;overflow: hidden;">
-        <div style="width: 33em; float: left; position: relative; margin-right: 2.2em;">
+        <div style="width: 33em; float: left; margin-right: 2.2em;padding-top: 2em;">
 	<h2>Welcome back, <b>#getPrefs.username#</b>!</h2>
 	
 	<ul class="geol_hier" style="padding:0;width:430px;margin: 0;">
@@ -158,10 +158,10 @@
 				</span>
 			</cfif>
 		</li>
-		<li>
+	<!---	<li>
 			Review some <a href="http://g-arctos.appspot.com/arctosdoc/search_examples_TOC.html" target="_blank">sample searches</a> to learn about the power of Arctos.
-		</li>
-		<li><a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a>  (click Save Search from SpecimenResults to save a search)</li>
+		</li>--->
+                    <li><a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a> <br><span style="font-size:13px;"> (click Save Search from SpecimenResults to save a search)</span></li>
 	</ul>
 	<cfif isInv.allow is 1>
 		<div class="userData" style="background-color:##FF0000; border:2px solid black; width:75%;">
@@ -201,23 +201,26 @@
 	<form class="userdataForm" method="post" action="myArctos.cfm" name="dlForm">
 		<input type="hidden" name="user_id" value="#getUserData.user_id#">
 		<input type="hidden" name="action" value="saveProfile">
-		<h3 style="margin-bottom: .5em;margin-top:1.5em; padding-bottom: 0;">Personal Profile</h3>
-		<p style="margin-bottom: 1em;">
+		<h3 style="margin-bottom: .5em;margin-top:1.5em; margin-bottom: 0;padding-bottom: 0;">Personal Profile</h3>
+		<p style="margin-bottom: 1em;margin-top:.35em;">
 			A profile is required to download data.<br>
 			You cannot recover a lost password unless you enter an email address.<br>
 			Personal information will never be shared with anyone, and we'll never send you spam.</p>
 	
-		<label for="first_name">First Name</label>
-		<input type="text" name="first_name" value="#getUserData.first_name#" class="reqdClr" size="50">
-		<label for="middle_name">Middle Name</label>
-		<input type="text" name="middle_name" value="#getUserData.middle_name#" size="50">
-		<label for="last_name">Last Name</label>
-		<input type="text" name="last_name" value="#getUserData.last_name#" class="reqdClr" size="50">
-		<label for="affiliation">Affiliation</label>
-		<input type="text" name="affiliation" value="#getUserData.affiliation#" class="reqdClr" size="50">
-		<label for="email">Email</label>
-		<input type="text" name="email" value="#getUserData.email#" size="30">
-		<input type="submit" value="Save Profile" class="savBtn" style="margin-top: .5em">
+		<ul class="nobull">
+            <li><label for="first_name">First Name</label>
+                <input type="text" name="first_name" value="#getUserData.first_name#" class="reqdClr" size="50"></li>
+		<li><label for="middle_name">Middle Name</label>
+            <input type="text" name="middle_name" value="#getUserData.middle_name#" size="50"></li>
+		<li><label for="last_name">Last Name</label>
+            <input type="text" name="last_name" value="#getUserData.last_name#" class="reqdClr" size="50"></li>
+		<li><label for="affiliation">Affiliation</label>
+            <input type="text" name="affiliation" value="#getUserData.affiliation#" class="reqdClr" size="50"></li>
+		<li><label for="email">Email</label>
+            <input type="text" name="email" value="#getUserData.email#" size="30"></li>
+            <li>
+            
+            <input type="submit" value="Save Profile" class="savBtn" style="margin-top: .5em"></li></ul>
 	</form>
 	<!---
 	<cfquery name="getUserPrefs" datasource="cf_dbuser">
@@ -235,7 +238,7 @@
 	</cfquery>
 
 
-	<h3 class="arctosSet">Arctos Setings</h3>
+                <h3 class="arctosSet">MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span></h3>
 	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">

@@ -296,19 +296,19 @@
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
       <label for="media_uri">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri" size="90" class="reqdClr">
+      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr">
       <!--- <span class="infoLink" id="uploadMedia">Upload</span> --->
       <label for="preview_uri">Preview URI</label>
-      <input type="text" name="preview_uri" id="preview_uri" size="90">
+      <input type="text" name="preview_uri" id="preview_uri" size="105">
       <label for="mime_type">MIME Type</label>
-      <select name="mime_type" id="mime_type" class="reqdClr">
+      <select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;">
         <option value=""></option>
         <cfloop query="ctmime_type">
           <option value="#mime_type#">#mime_type#</option>
         </cfloop>
       </select>
       <label for="media_type">Media Type</label>
-      <select name="media_type" id="media_type" class="reqdClr">
+      <select name="media_type" id="media_type" class="reqdClr" style="width: 160px;">
         <option value=""></option>
         <cfloop query="ctmedia_type">
           <option value="#media_type#">#media_type#</option>
@@ -336,33 +336,33 @@
            <option value="1">Hidden</option>
       </select>
    
-      <label for="relationships"  style="margin-top:.5em;">Media Relationships</label>
+      <label for="relationships" style="margin-top:.5em;">Media Relationships</label>
       <div id="relationships" class="graydot">
-        <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)">
+        <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
           <option value="">None/Unpick</option>
           <cfloop query="ctmedia_relationship">
             <option value="#media_relationship#">#media_relationship#</option>
           </cfloop>
         </select>
         :&nbsp;
-        <input type="text" name="related_value__1" id="related_value__1" size="80" readonly>
+        <input type="text" name="related_value__1" id="related_value__1" size="66" readonly>
         <input type="hidden" name="related_id__1" id="related_id__1">
-        <br>
+       
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
  
       <label for="labels" style="margin-top:.5em;">Media Labels</label>
       <div id="labels" class="graydot">
         <div id="labelsDiv__1">
-          <select name="label__1" id="label__1" size="1">
+          <select name="label__1" id="label__1" size="1" style="width: 200px;">
             <option value=""></option>
             <cfloop query="ctmedia_label">
               <option value="#media_label#">#media_label#</option>
             </cfloop>
           </select>
           :&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1" size="80">
+          <input type="text" name="label_value__1" id="label_value__1" size="66">&nbsp;<span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
       </div>
-        <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
+        
        </div>
         </div>
       <input type="submit" 

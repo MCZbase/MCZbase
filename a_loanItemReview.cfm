@@ -1,5 +1,6 @@
 <cfset title="Review Loan Items">
  <cfinclude template="includes/_header.cfm">
+     <div style="width: 80em; margin: 0 auto; padding: 2em 0 3em 0;">
 	<script type='text/javascript' src='/includes/_loanReview.js'></script>
 	<script src="/includes/sorttable.js"></script>
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -447,4 +448,5 @@ Review items in loan<b>
 	<br><a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Edit Loan</a>
 </cfoutput>
 </cfif>
+                            </div>
 <cfinclude template="includes/_footer.cfm">

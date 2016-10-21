@@ -255,7 +255,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<script>
 		hidePageLoad();
 	</script>
-	<div id="loading" style="position:absolute;top:50%;right:50%;z-index:999;background-color:green;color:white;font-size:large;font-weight:bold;padding:15px;">
+	<div id="loading" style="position:relative; margin: 0 auto;width: 80%;z-index:999;background-color:green;color:white;font-size:large;font-weight:bold;padding:10%;padding-bottom: 6em;">
 		Your query returned no results.
 		<ul>
 			<li>Check your form input, or use the Clear Form button to start over.</li>
@@ -462,11 +462,11 @@ If your item needs to be sorted in a special way, then do that here. --->
 				onclick="window.open('/SpecimenResultsDownload.cfm?tableName=#session.SpecSrchTab#','_blank');">Download</span>
 		</td>
 		<td>
-			<label for="">&nbsp;</label>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><label for="">&nbsp;</label>
 			<span class="controlButton"
 			onmouseover="this.className='controlButton btnhov'" 
 				onmouseout="this.className='controlButton'"
-				onclick="saveSearch('#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#');">Save&nbsp;Search</span>
+                  onclick="saveSearch('#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#');">Save Search</span></cfif>
 		</td>
 		<td nowrap="nowrap">
 			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>					
