@@ -35,7 +35,7 @@ jQuery(document).ready(function($){
         <!--- As noted above, assumption of this include is that mediacontain is full page width (thus document.width) --->
         // set the width of the magnifier to approximate the leftover whitespace right of the main image.
         // with a minimum size for the magnifier window.
-        magwidth = $( document ).width() - 560;
+        magwidth = $( document ).width() - 885;
         if (magwidth < 300) { magwidth = 300 };
 
         $('#zoomableimage1').addimagezoom() // single image zoom with default options

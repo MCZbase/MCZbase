@@ -1,11 +1,14 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="labels2containers">
+    <div style="width: 56em;margin:0 auto; padding: 2em 0 5em 0;">
+        
 <cfif #action# IS "nothing">
+     <h2 class="wikilink">Labels to Containers</h2>
 	This form will function with a few thousand labels. If you need to do more, break them into batches or get a DBA to help.
 	<p></p>
 To use this form, all of the following must be true:
 
-<ul>
+<ul class="labels">
 	<li>You want to make labels into containers</li>
 	<li>All the containers have barcodes</li>
 	<li>The barcodes are
@@ -17,11 +20,12 @@ To use this form, all of the following must be true:
 </ul>
 
 <cfoutput>
+    
 	<cfquery name="ctContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct(container_type) container_type from ctcontainer_type
 		where container_type <> 'collection object'
 	</cfquery>
-	<form name="wtf" method="post" action="labels2containers.cfm">
+	<form name="wtf" method="post" action="labels2containers.cfm" id="labels2">
 		<input type="hidden" name="action" value="change">
 		<label for="origContType">Original Container Type</label>
 		<select name="origContType" id="origContType" size="1" class="reqdClr">
@@ -57,17 +61,20 @@ To use this form, all of the following must be true:
 		<input type="text" name="width" id="width">
 		<label for="number_positions">New Number of Positions</label>
 		<input type="text" name="number_positions" id="number_positions">
-		<br><input type="button" value="Test Changes (recommended)" class="lnkBtn" onclick="wtf.action.value='test';submit();">
-		<br><input type="button" value="Make Changes (scary)" class="savBtn" onclick="wtf.action.value='change';submit();">
+        <br>
+		<br><input type="button" value="Test Changes" class="lnkBtn" onclick="wtf.action.value='test';submit();">
+		&nbsp;&nbsp;<input type="button" value="Make Changes" class="savBtn" onclick="wtf.action.value='change';submit();">
 	</form>
 </cfoutput>
 </cfif>
 <!--------------------------------------->
 <cfif action is "test">
 	<cfoutput>
-		This form will execute the select portion of the update statement.
-		<br>If this page contains the word FAIL, you probably aren't doing what you think you're doing.
-		<br>Use your back button, then click Make Changes to finish.
+        <h2 class="wikilink">Labels to Containers</h2>
+		<ul class="labels"><li>This form will execute the select portion of the update statement.</li>
+        <li>If this page contains the word FAIL, you probably aren't doing what you think you're doing.</li>
+        <li>Use your back button, then click Make Changes to finish.</li>
+        </ul>
 		<hr>
 		<cfloop from="#begin_barcode#" to="#end_barcode#" index="i">
 			<cfset bc = barcode_prefix & i>
@@ -118,7 +125,9 @@ To use this form, all of the following must be true:
 			</cfquery>
 		</cfloop>
 	</cftransaction>
+        
 </cfoutput>
 	Done. Check containers to make sure you did what you thought you were doing.
 </cfif>
+    </div>
 <cfinclude template="/includes/_footer.cfm">

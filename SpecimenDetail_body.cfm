@@ -309,17 +309,17 @@
 			<input type="hidden" name="Srch" value="Part">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 	</cfif>
-	<table width="100%" cellpadding="0" cellspacing="0"><!---- full page table ---->
+	<table width="100%" style="background-color: white;"><!---- full page table ---->
 		<tr>
 			<td valign="top" width="50%">
 <!------------------------------------ Taxonomy ---------------------------------------------->
 				<div class="detailCell">
-					<div class="detailLabel">&nbsp;
+					<div class="detailLabel">Identifications
 						<cfif oneOfUs is 1>
 							<span class="detailEditCell" onclick="window.parent.loadEditApp('editIdentification');">Edit</span>
 						</cfif>
 					</div>
-					<div class="detailBlock">
+					<div class="detailBlock" style="margin-left: 0;">
 						<span class="detailData">
 							<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
@@ -517,7 +517,7 @@
 			</cfif>
 <!------------------------------------ locality ---------------------------------------------->
 			<div class="detailCell">
-				<div class="detailLabel">
+				<div class="detailLabel">Locality and Collecting Event Details
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('specLocality');">Edit</span>
 					</cfif>
@@ -1021,11 +1021,11 @@
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
 			<div class="detailCell">
-				<div class="detailLabel">&nbsp;<!---Parts--->
+				<div class="detailLabel">Part Details<!---Parts--->
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>
-					<cfelse>
-						<span class="detailEditCell" onClick="getInfo('parts','#one.collection_object_id#');">Details</span>
+				<!---	<cfelse>
+						<span class="detailEditCell" onClick="getInfo('parts','#one.collection_object_id#');">Details</span>--->
 					</cfif>
 				</div>
 				<div class="detailBlock">
@@ -1105,7 +1105,7 @@
 								<cfloop query="sPart">
 									<tr>
 										<td>
-											&nbsp;&nbsp;&nbsp;#part_name#
+											#part_name#
 										</td>
 										<td>#part_condition#</td>
 										<td>#part_disposition#</td>
@@ -1125,7 +1125,7 @@
 <!------------------------------------ attributes ---------------------------------------------->
 			<cfif len(attribute.attribute_type) gt 0>
 				<div class="detailCell">
-					<div class="detailLabel"><!---Attributes--->
+					<div class="detailLabel">Attributes
 						<cfif oneOfUs is 1>
 							<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 						</cfif>
@@ -1273,7 +1273,8 @@
 					<cfif oneOfUs is 1>
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 					</cfif>
-					</div>
+                </div>
+				
 					<cfif len(one.coll_object_remarks) gt 0>
 						<div class="detailBlock">
 							<span class="detailData">
@@ -1293,6 +1294,7 @@
 					</cfif>
 					<cfif oneOfUs is 1>
 						<div class="detailBlock">
+
 							<span class="detailData">
 								<span class="innerDetailLabel">Entered By:</span>
 								#one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")#
@@ -1324,6 +1326,7 @@
 						</cfif>
 					</cfif>
 				</div>
+                                    </div>
 <!------------------------------------ accession ---------------------------------------------->
 			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			    select

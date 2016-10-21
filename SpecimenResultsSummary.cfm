@@ -1,4 +1,5 @@
 <cfinclude template = "/includes/_header.cfm">
+     <div style="width: 70em;margin: 0 auto; padding: 2em 0 3em 0;">
 <cfset title="Specimen Results">
 <cfif not isdefined("displayrows")>
 	<cfset displayrows = session.displayrows>
@@ -205,11 +206,12 @@
 	<cfif getData.recordcount is 0>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 			<cfoutput>
+    
 		<font color="##FF0000" size="+2">Your search returned no results.</font>	  
 		<p>Some possibilities include:</p>
 		<ul>
 			<li>
-				If you searched by taxonomy, please consult <a href="/TaxonomySearch.cfm" class="novisit">Arctos Taxonomy</a>.			</li>
+				If you searched by taxonomy, please consult <a href="/TaxonomySearch.cfm" class="novisit">MCZbase Taxonomy</a>.			</li>
 			<li>
 				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, etc.			</li>
 			<li>
@@ -220,6 +222,7 @@
 		</cfoutput>
 		
 		<cfabort>
+    
 	</cfif>
 	
 	<cfset newQuery=0>	
@@ -336,7 +339,7 @@
 <cfquery name="s" dbtype="query">
 	select sum(COUNTOFCATALOGEDITEM) c from getBasic
 </cfquery>
-Returned #s.c# specimens in #getBasic.recordcount# rows.
+    <h3>Returned #s.c# specimens in #getBasic.recordcount# rows.</h3>
 </cfoutput>
 
 <cfquery name="cnt" dbtype="query">
@@ -610,10 +613,12 @@ Returned #s.c# specimens in #getBasic.recordcount# rows.
 		<form name="download" method="post" action="/download_agree.cfm">
 			<input type="hidden" name="cnt" value="#cnt.recordcount#">
 			<input type="hidden" name="downloadFile" value="#downloadFile#">
+            <br>
 			<input type="submit" value="Download" 
 			class="lnkBtn"
    			onmouseover="this.className='lnkBtn btnhov'" 
 			onmouseout="this.className='lnkBtn'">
 		</form>
 	</cfoutput>
+        </div>
 <cfinclude template = "includes/_footer.cfm">

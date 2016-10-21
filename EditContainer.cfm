@@ -157,6 +157,7 @@
 </cfif>
 <!---------------------------------------------------------------->
 <cfif action is "nothing">
+    <div class="basic_search_box">
 	<cfset title="Edit Container">
 	<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
@@ -201,7 +202,7 @@
 	<form name="form1" method="post" action="EditContainer.cfm">
 		<input type="hidden" name="container_id" value="#getCont.container_id#">
 		<span style="font-size:large; font-weight:bolder;">Edit Container</span>
-		<table cellpadding="0" cellspacing="0">
+		<table>
 	 		<tr>
 				<td>
 					<label for="label">Label</label>
@@ -262,7 +263,7 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<table cellspacing="0" cellpadding="0" width="100%">
+					<table width="100%">
 						<tr>
 							<td>
 								<label for="width">Width (cm)</label>
@@ -465,7 +466,7 @@
 		</cfloop>
 	</table>
 </cfif>
-
+    </div>
 </cfoutput>
  </form>
 </cfif>
@@ -533,6 +534,7 @@
 				<cfquery name="gpid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select container_id from container where barcode='#new_parent_barcode#'
 				</cfquery>
+			
 				<cfif len(gpid.container_id) is 0>
 					<div class="error">Parent Container not found.</div>
 					<cfabort>
@@ -617,6 +619,7 @@
 	</cfoutput>
 </cfif>
 <!---------------------------------------------->
+<div class="basic_box">
 <cfif action is "newContainer">
 	<cfset title="Create Container">
 	<cfparam name="container_type" default="">
@@ -721,6 +724,7 @@
 		<script>
 			isThisAPosition();
 		</script>
+        </div>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->

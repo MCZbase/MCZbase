@@ -38,17 +38,19 @@ sho err
 --->
 
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 50em; margin: 0 auto; padding: 1em 0 3em 0;">
 <cfif #action# is "nothing">
-Step 1: Upload a comma-delimited text file (csv). 
-Include column headings, spelled exactly as below. 
-<br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
-	<div id="template" style="display:none;">
+    <h3 class="wikilink">Bulkload Relationships</h3>
+<p>Upload a comma-delimited text file (csv). 
+    Include column headings, spelled exactly as below.</p>
+    <p> <span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
+	<div id="template" style="display:none;margin:1em 0;">
 		<label for="t">Copy and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_val,relationship,related_institution_acronym,related_collection_cde,related_other_id_type,related_other_id_val</textarea>
 	</div> 
-<p></p>
-Columns in <span style="color:red">red</span> are required; others are optional:
-<ul>
+<p>
+    Columns in <span style="color:red">red</span> are required; others are optional:</p>
+<ul class="geol_hier"
 	<li style="color:red">institution_acronym</li>
 	<li style="color:red">collection_cde</li>
 	<li style="color:red">other_id_type ("catalog number" is OK)</li>
@@ -260,4 +262,5 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	Spiffy, all done.
 </cfoutput>
 </cfif>
+            </div>
 <cfinclude template="/includes/_footer.cfm">

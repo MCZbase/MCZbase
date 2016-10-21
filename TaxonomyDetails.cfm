@@ -229,12 +229,14 @@
 			})
 		}
 	</script>
+    <div class="taxaDetailsbox">
 	<cfset title="#one.scientific_name#">
 	<cfset metaDesc="Taxon Detail for #one.scientific_name#">
 	<cfset thisSearch = "%22#one.scientific_name#%22">
 	<cfloop query="common_name">
 		<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
 	</cfloop>
+           <div style="width: 50em; margin:0;padding: 2em 0 0em 0;">
 	<span class="annotateSpace">
 		<cfif len(session.username) gt 0>
 			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -251,16 +253,17 @@
 			<a href="/login.cfm">Login or Create Account</a>
 		</cfif>
     </span>
+     
 	<div align="left">
 		<cfif one.VALID_CATALOG_TERM_FG is 1>
 	   		<font size="+1"	>
-		    	<B>#one.display_name#</B>
+		    	<h3>#one.display_name#</h3>
 			</font>
 			<cfif len(one.AUTHOR_TEXT) gt 0>
 				<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
         	</cfif>
         <cfelseIF #one.VALID_CATALOG_TERM_FG# is 0>
-	    	<font size="+1"><b>#one.display_name#</b></font>
+	    	<h3>#one.display_name#</h3>
 	        <br>
 	        <font color="##FF0000" size="-1">
 		    	&nbsp;
@@ -268,8 +271,9 @@
 			</font>
 	    </cfif>
 	</div>
+            </div>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
-		<a href="/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a>
+        <p style="margin-bottom: 1em;">	<a href="/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
 	</cfif>
 	<table border>
 		<tr>
@@ -305,7 +309,7 @@
 			<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
 		</cfif>
 	</ul>
-	<div>
+	<div class="relatedPubs">
 		Related Publications:
 		<ul>
 		 	<cfif tax_pub.recordcount is 0>
@@ -322,7 +326,7 @@
 		</ul>
     </div>
 
-	<div>
+	<div class="relatedTaxa">
 		Related Taxa:
 		<ul>
 		 	<cfif related.recordcount is 0 and imp_related.recordcount is 0>
@@ -401,7 +405,7 @@
 	External Links:
 
 	<p>
-			<cfset srchName = URLEncodedFormat(one.scientific_name)>
+			<cfset srchName = URLEncodedFormat(one.scientific_name)></p>
 		<ul>
 			<li id="ispecies">
 				<a class="external soft404" target="_blank" href="http://ispecies.org/?q=#srchName#">iSpecies</a>
@@ -526,5 +530,6 @@
 		</div>
 	</cfif>
 	----->
+    </div>
 </cfoutput>
 <cfinclude template = "includes/_footer.cfm">

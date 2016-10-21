@@ -28,6 +28,7 @@ sho err
 		alter table cf_temp_barcode_parts add part_container_id number;
 ------------------------------------->
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 56em; margin: 0 auto; padding: 1em 0 3em 0;">
 <cfif action is "makeTemplate">
 	<cfset header="OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_TYPE,BARCODE">
 	<cffile action = "write" 
@@ -37,8 +38,9 @@ sho err
 	<cflocation url="/download.cfm?file=BulkPartContainer.csv" addtoken="false">
 </cfif>
 <cfif action is  "nothing">
+    <h3 class="wikilink">Bulkload Part Containers</h3>
 	Use this form to put collection objects (that is, parts) in containers. Parts and containers must already exist.
-	<ul>
+	<ul class="geol_hier">
 		<li><a href="BulkloadPartContainer.cfm?action=makeTemplate">download a CSV template</a></li>
 		<li>
 			<a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">[ OTHER_ID_TYPE values ]</a>
@@ -65,8 +67,7 @@ sho err
 			<a href="/info/ctDocumentation.cfm?table=ctcontainer_type" target="_blank">valid container type</a>
 		</li>
 	</ul>
-	
-	Upload a file:
+
 	<cfform name="getFile" method="post" action="BulkloadPartContainer.cfm" enctype="multipart/form-data">
 		<input type="hidden" name="action" value="getFileData">
 		 <input type="file"
@@ -235,5 +236,6 @@ sho err
 		woo hoo, it worked 	
 	</cfif>
 </cfif>
+        </div>
 <!------------------------------------------------------------------->
 <cfinclude template="/includes/_footer.cfm"/>

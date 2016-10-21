@@ -36,9 +36,11 @@ sho err
 
 		
 <cfif action is "nothing">
+    <div style="width:56em;margin: 0 auto; padding: 1em 0 3em 0;">
 <cfoutput>
+    <h3 class="wikilink">Bulkload Data Loans</h3>
 	The following must all be true to use this form:
-	<ul>
+	<ul class="geol_hier">
 		<li>
 			Encumbrances have been checked
 		</li>
@@ -46,9 +48,8 @@ sho err
 		<li>Loan Item reconciled person is you (<i>#session.username#</i>)</li>
 		<li>Loan Item reconciled date is today (#dateformat(now(),"yyyy-mm-dd")#)</li>
 	</ul>
-Step 1: Upload a file comma-delimited text file (CSV) in the following format. (You may copy the template below and save as .CSV)
- Include column headers. 
-<ul>
+    <p>Upload a file comma-delimited text file (CSV) in the following format. (You may copy the template below and save as .CSV)  Include column headers. </p>
+<ul class="geol_hier">
 	<li>Institution_Acronym (required)</li>
 	<li>Collection_Cde (required)</li>
 	<li>Other_Id_Type (required. "catalog number" is acceptable)</li>
@@ -59,7 +60,7 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 
 <p>
 <div id="template">
-		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,LOAN_NUMBER</textarea>
+		<textarea rows="2" cols="80" style="display: none;" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,LOAN_NUMBER</textarea>
 	</div> 
 
 <cfform name="catnum" method="post" enctype="multipart/form-data">
@@ -69,6 +70,7 @@ Step 1: Upload a file comma-delimited text file (CSV) in the following format. (
 		   size="45">
 			  <input type="submit" value="Upload this file" #saveClr#>
 		</cfform>
+    </div>
 </cfif>
 <!------------------------------------------------------->
 <!------------------------------------------------------->

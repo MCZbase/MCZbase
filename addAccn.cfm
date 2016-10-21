@@ -57,6 +57,7 @@
 		</cfif>
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
+    <div style="width: 50em; margin:0 auto; padding: 2em 0 3em 0;">
 	Add all the items listed below to accession:
 	<form name="addItems" method="post" action="addAccn.cfm">
 		<input type="hidden" name="Action" value="addItems">
@@ -132,6 +133,7 @@
 	</tr>
 </cfoutput>
 </table>
+        </div>
 </cfif>
 <!--------------------------------------------------------------------------------->
 
@@ -178,5 +180,5 @@
 	</cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------->
-<cfinclude template="includes/_footer.cfm">
+
 <cf_customizeIFrame>
