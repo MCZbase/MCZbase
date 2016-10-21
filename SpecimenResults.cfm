@@ -346,7 +346,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 	<input type="hidden" name="customID" id="customID" value="#session.customOtherIdentifier#">
 	<input type="hidden" name="result_sort" id="result_sort" value="#session.result_sort#">
 	<input type="hidden" name="displayRows" id="displayRows" value="#session.displayRows#">
-       <p style="margin-left: 5px;padding-top: 2em;"><strong>#mappable.cnt#</strong> of these <strong>#summary.recordcount#</strong> records have coordinates
+       <p style="margin-left: 5px;padding-top: 0em;"><strong>#mappable.cnt#</strong> of these <strong>#summary.recordcount#</strong> records have coordinates
         <cfif #mappable.cnt# gt 0>
           and can be displayed with 
 			<span class="controlButton"

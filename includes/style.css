@@ -3594,7 +3594,7 @@ ul.lisc li {
 	width: 80%;
 	margin: 0 auto;
 	margin-bottom: 1em;
-	padding-top: 0em;
+	padding-top: 1em;
 	background-color: #fff;
 	-webkit-box-shadow: -2px 15px 40px -5px rgba(204,204,204,1);
 	-moz-box-shadow: -2px 15px 40px -5px rgba(204,204,204,1);
