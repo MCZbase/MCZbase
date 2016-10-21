@@ -175,14 +175,15 @@
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "nothing">
+    <div style="width: 69em; margin: 0 auto; padding: 2em 0 3em 0;">
     <cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList" sort="name ASC">
-    Load a new template (will overwrite old templates). .cfr files only.
+        <p>Load a new template (will overwrite old templates). .cfr files only.</p>
     <form name="n" method="post" enctype="multipart/form-data" action="reporter.cfm">
         <input type="hidden" name="action" value="loadTemplate">
         <input type="file" name="FiletoUpload" id="FiletoUpload" size="45">
         <input type="submit" class="savBtn" value="Upload File">
     </form>
-    Existing Reports:<br>
+        <h3 style="wikilink" style="margin-bottom:0;">Existing Reports:</h3>
     <table border>
          <tr>
             <td>Report Template</td>
@@ -218,6 +219,7 @@
 
     </cfloop>
     </table>
+        </div>
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "download">

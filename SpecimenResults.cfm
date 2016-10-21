@@ -7,6 +7,7 @@
 <cfoutput>
 <script type="text/javascript" language="javascript">
 jQuery( function($) {
+   
 	$("##customizeButton").live('click', function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
@@ -26,6 +27,7 @@ jQuery( function($) {
 			viewport.init("##bgDiv");
 		});		
 	});
+    
 	$(".browseLink").live('click', function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
@@ -253,7 +255,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<script>
 		hidePageLoad();
 	</script>
-	<div id="loading" style="position:absolute;top:50%;right:50%;z-index:999;background-color:green;color:white;font-size:large;font-weight:bold;padding:15px;">
+	<div id="loading" style="position:relative; margin: 0 auto;width: 80%;z-index:999;background-color:green;color:white;font-size:large;font-weight:bold;padding:10%;padding-bottom: 6em;">
 		Your query returned no results.
 		<ul>
 			<li>Check your form input, or use the Clear Form button to start over.</li>
@@ -344,7 +346,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 	<input type="hidden" name="customID" id="customID" value="#session.customOtherIdentifier#">
 	<input type="hidden" name="result_sort" id="result_sort" value="#session.result_sort#">
 	<input type="hidden" name="displayRows" id="displayRows" value="#session.displayRows#">
-        <strong>#mappable.cnt#</strong> of these <strong>#summary.recordcount#</strong> records have coordinates
+       <p style="margin-left: 5px;padding-top: 2em;"><strong>#mappable.cnt#</strong> of these <strong>#summary.recordcount#</strong> records have coordinates
         <cfif #mappable.cnt# gt 0>
           and can be displayed with 
 			<span class="controlButton"
@@ -355,9 +357,9 @@ If your item needs to be sorted in a special way, then do that here. --->
 				What's this?
 			</span>
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
-         <cfelse>.</cfif>
-			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink">&nbsp;&nbsp;&nbsp;Problems viewing this page? Click for HTML version</a>
-			&nbsp;&nbsp;&nbsp;<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
+            <cfelse></cfif>
+			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
+			<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	</p>
 <div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id")>
 	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">back to loan</a>
@@ -460,11 +462,11 @@ If your item needs to be sorted in a special way, then do that here. --->
 				onclick="window.open('/SpecimenResultsDownload.cfm?tableName=#session.SpecSrchTab#','_blank');">Download</span>
 		</td>
 		<td>
-			<label for="">&nbsp;</label>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><label for="">&nbsp;</label>
 			<span class="controlButton"
 			onmouseover="this.className='controlButton btnhov'" 
 				onmouseout="this.className='controlButton'"
-				onclick="saveSearch('#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#');">Save&nbsp;Search</span>
+                  onclick="saveSearch('#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#');">Save Search</span></cfif>
 		</td>
 		<td nowrap="nowrap">
 			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>					
@@ -575,6 +577,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 		u += '&sort=' + s;
 		var reportWin=window.open(u);
 	}
+   
 </script>
 </cfoutput>
 <!---

@@ -45,22 +45,25 @@ sho err
 
 ---->
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 56em;margin: 0 auto; padding: 1em 0 4em 0;">
 <cfif action is "nothing">
-	Step 1: Upload a comma-delimited text file (csv). 
+	<h3 class="wikilink">Bulkload Agents</h3>
+    <p>Upload a comma-delimited text file (csv). 
 	Include column headings, spelled exactly as below. 
-	<br>
+    </p>
+    <p>
 	NOTE: This application currently handles only agent_type='person'
-	<br>
-	<a href="/info/ctDocumentation.cfm?table=ctagent_name_type">Valid agent name types</a>
-	<br>
-	<a href="/info/ctDocumentation.cfm?table=ctagent_type">Valid agent types</a>
-	<div id="template">
+    </p>
+    <p><a href="/info/ctDocumentation.cfm?table=ctagent_name_type">Valid agent name types</a></p>
+	<p><a href="/info/ctDocumentation.cfm?table=ctagent_type">Valid agent types</a></p>
+	
+	<div id="template" style="margin: 1em 0 1.5em 0;">
 		<label for="t">Copy and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agent_remark</textarea>
 	</div> 
-	<p></p>	
-	Columns in <span style="color:red">red</span> are required; others are optional:
-	<ul>
+	<p>
+	Columns in <span style="color:red">red</span> are required; others are optional:</p>	
+	<ul class="geol_hier" style="padding-bottom: 2em;">
 		<li style="color:red">agent_type</li>
 		<li style="color:red">preferred_name</li>
 		<li>first_name (agent_type="person" only)</li>
@@ -407,5 +410,5 @@ var n='<input type="text" name="name' + key + '" class="reqdClr"';
 					n+='<input type="hidden" name="agentID_' + key + ' id="agentID_' + key + '">';
 					
 					---->
-
+        </div>
 <cfinclude template="/includes/_footer.cfm">

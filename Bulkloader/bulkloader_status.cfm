@@ -1,5 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cf_setDataEntryGroups>
+    <div class="basic_search_box">
 <cfquery name="bulkSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
 		loaded, 
@@ -24,7 +25,7 @@
 		enteredby
 </cfquery>
 <cfoutput>
-	What's In The Bulkloader:
+    <h3>What's In The Bulkloader:</h3>
 	<table border="1">
 		<tr>
 			<td>Collection</td>
@@ -35,7 +36,7 @@
 		</tr>
 	<cfloop query="bulkSummary">
 		<tr>
-			<td>#institution_acronym# #collection_cde#</td>
+			<td nowrap="nowrap">#institution_acronym# #collection_cde#</td>
 			<td>#accn#</td>
 			<td>#EnteredBy#</td>
 			<td>#Loaded#</td>
@@ -69,7 +70,7 @@
 		bulkloader.collection_object_id
 </cfquery>
 
-	Failures: (Loaded="waiting approval" indicates records which have failed to load and then viewed/fixed in the Data Entry application.)
+    <h3>Failures:</h3> (Loaded="waiting approval" indicates records which have failed to load and then viewed/fixed in the Data Entry application.)
 	<table border="1">
 		<tr>
 			<td>
@@ -119,8 +120,8 @@
 <hr style="height:15px; background-color:red">
 <p>&nbsp;</p>
 <cfset idList = valuelist(success.collection_object_id)>
-Successfully Loaded in the last Five days:
-<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in SpecimenResults</a>
+    <h3>Successfully Loaded in the last Five days:<br>
+<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in SpecimenResults</a></h3>
 <table border="1">
 		<tr>
 			<td>Item</td>
@@ -135,5 +136,6 @@ Successfully Loaded in the last Five days:
 		</tr>
 	</cfloop>
 	</table>
+    </div>
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">

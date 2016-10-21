@@ -63,14 +63,6 @@
       return False;
    }
 </cfscript>
-<style>
-	.nextnum{
-		border:2px solid green;
-		position:absolute;
-		top:10em;
-		right:1em;
-	}
-</style>
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
@@ -117,11 +109,12 @@
 <cfif  action is "newLoan">
 <cfset title="New #scope#">
 	<cfoutput>
-	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
-	   <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
-        </h2><br clear="All">
-		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
-			<input type="hidden" name="action" value="makeLoan">
+  <form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+    <div class="newLoanWidth">
+    	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
+	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+   </h2>
+           <input type="hidden" name="action" value="makeLoan">
 			<table border>
 				<tr>
 					<td>
@@ -192,8 +185,8 @@
 						<label for="loan_type">#scope# Type</label>
 						<script>
 						 $(function() {
-                                                   // on page load, hide the insurance section.
-                                                   $("##insurance_section").hide();
+                          // on page load, hide the insurance section.
+                          $("##insurance_section").hide();
 						   // on page load, remove transfer and exhibition-master from the list of loan/gift types
 						   $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
 						   $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
@@ -240,11 +233,11 @@
 						<label for="loan_status">#scope# Status</label>
 						<select name="loan_status" id="loan_status" class="reqdClr">
 							<cfloop query="ctLoanStatus">
-                                                          <cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
+                                  <cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 								<option value="#ctLoanStatus.loan_status#"
-										<cfif #ctLoanStatus.loan_status# is "open">selected='selected'</cfif>
-										>#ctLoanStatus.loan_status#</option>
-                                                          </cfif>
+								<cfif #ctLoanStatus.loan_status# is "open">selected='selected'</cfif>>
+                                #ctLoanStatus.loan_status#</option>
+                                 </cfif>
 							</cfloop>
 						</select>
 					</td>
@@ -335,26 +328,12 @@
                            });
                 </script>
 		<div class="nextnum">
-			Next Available #scope# Number:
-			<br>
+			<p>Next Available #scope# Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
 			</cfquery>
 			<cfloop query="all_coll">
-				<cfif (institution_acronym is 'UAM' and collection_cde is 'Mamm')>
-					<!---- yyyy.nnn.CCDE format --->
-					<cfset stg="'#dateformat(now(),"yyyy")#.' || lpad(max(to_number(substr(loan_number,6,3))) + 1,3,0) || '.#collection_cde#'">
-					<cfset whr=" AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
-				<cfelseif (institution_acronym is 'UAM' and collection_cde is 'Herb') OR
-					(institution_acronym is 'MSB') OR
-					(institution_acronym is 'DGR')>
-					<!---- yyyy.n.CCDE format --->
-					<cfset stg="'#dateformat(now(),"yyyy")#.' || max(to_number(substr(loan_number,instr(loan_number,'.')+1,instr(loan_number,'.',1,2)-instr(loan_number,'.')-1) + 1)) || '.#collection_cde#'">
-					<cfset whr=" AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
-				<cfelseif (institution_acronym is 'MVZ' or institution_acronym is 'MVZObs')>
-					<cfset stg="'#dateformat(now(),"yyyy")#.' || (max(to_number(substr(loan_number,6,4))) + 1) || '.#collection_cde#'">
-					<cfset whr=" and collection.institution_acronym in ('MVZ','MVZObs')">
-				<cfelseif (institution_acronym is 'MCZ')>
+				<cfif (institution_acronym is 'MCZ')>
 					<!---- yyyy-n-CCDE format --->
 					<cfset stg="'#dateformat(now(),"yyyy")#-' || max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) || '-#collection_cde#'">
 					<cfset whr=" AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
@@ -363,7 +342,6 @@
 					<cfset stg="'#dateformat(now(),"yyyy")#.' || max(to_number(substr(loan_number,instr(loan_number,'.')+1,instr(loan_number,'.',1,2)-instr(loan_number,'.')-1) + 1)) || '.#collection_cde#'">
 					<cfset whr=" AND is_number(loan_number)=1 and substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
 				</cfif>
-				<hr>
 				<cftry>
 					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
@@ -403,6 +381,7 @@
 				<br>
 			</cfloop>
 		</div>
+        </div>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
@@ -534,23 +513,36 @@
 			});
 		});
 	</script>
-	<table width="100%" border><tr><td valign="top"><!--- left cell ---->
-	<form name="editloan" action="Loan.cfm" method="post">
+       <div class="editLoanbox">
+       <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+        <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>	</h2>
+	<table class="editLoanTable">
+    <tr>
+    <td valign="top" class="leftCell"><!--- left cell ---->
+	
+  <form name="editloan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
-                <div>
-	 	  <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
-		  <strong>Edit #scope# #loanDetails.collection# #loanDetails.loan_number#</strong>
-                </div>
-		<span style="font-size:small;">Entered by #loanDetails.enteredby#</span>
-		<label for="loan_number">#scope# Number</label>
+            
+		<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
+	
+    <table class="IDloan">
+    <tr>
+    <td>
+      <label>Department</label>
 		<select name="collection_id" id="collection_id" size="1">
 			<cfloop query="ctcollection">
 				<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
 					value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 			</cfloop>
 		</select>
+       </td>
+       <td>
+          <label for="loan_number">#scope# Number</label>
 		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr">
+        </td>
+        </tr>
+        </table>
 		<cfquery name="inhouse" dbtype="query">
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
 		</cfquery>
@@ -563,15 +555,15 @@
 		<cfquery name="recipientinstitution" dbtype="query">
 			select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
 		</cfquery>
-		<table id="loanAgents" border>
-			<tr>
+		<table id="loanAgents">
+			<tr style="height: 20px;">
 				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
 				<th></th>
 				<td rowspan="99">
-                                      <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
+                     <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
                                         <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  ---> 
 					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
 						<span style="color:green;font-size:small">OK to print</span>
@@ -690,8 +682,8 @@
                      Exhibition-Master Loan: 
                      <cfif parentLoan.RecordCount GT 0>
 			<cfloop query="parentLoan">
-                           <a href="Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
-                        </cfloop>
+                  <a href="Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
+            </cfloop>
   		     <cfelse>
                         This exhibition subloan has not been linked to a master loan.
                      </cfif>
@@ -704,7 +696,7 @@
                         <cfset childseparator = "">
 			<cfloop query="childLoans">
                            #childseparator#
-                           <a href="Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
+                       <a href="Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
                            <button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
                            <script>
 			   $(function() { 
@@ -825,6 +817,9 @@
                                <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
                           </cfif>
+                 <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus">MCZ Exhibition Loan Header Long</option>
+                          </cfif>
 		          <cfif inhouse.c is 1 and outside.c is 1 >
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
                           </cfif>
@@ -850,11 +845,10 @@
             </cfif>
 		</select>
 	</td><!---- end left cell --->
-	<td valign="top"><!---- right cell ---->
-                <div>
-	 		<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]">
-			<strong>Projects associated with this #scope#:</strong>
-                </div>
+	<td valign="top" class="rightCell"><!---- right cell ---->
+   <div id="project">
+	 		
+			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>            
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
 			project_trans where
@@ -913,7 +907,12 @@
 		<label for="saveNewProject">Check to create project with save</label>
 		<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
 	</form>
-	</td></tr></table>
+	</td>
+    </tr>
+    </table>
+      </div>
+    
+    
 	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from shipment where transaction_id = #transaction_id#
 	</cfquery>
@@ -968,8 +967,8 @@
 		<cfset shipped_from_addr = "">
 		<cfset shipped_from_addr_id = "">
 	</cfif>
-	<hr>
-	Shipment Information:
+	<div class="shippingBlock">
+    <h3>Shipment Information:</h3>
 	<cfform name="shipment" method="post" action="Loan.cfm">
 		<input type="hidden" name="Action" value="saveShip">
 		<input type="hidden" name="transaction_id" value="#transaction_id#">
@@ -1047,8 +1046,8 @@
 			permit.issued_by_agent_id = issuedBy.agent_id AND
 			permit.issued_to_agent_id = issuedTo.agent_id AND
 			permit_trans.transaction_id = #loanDetails.transaction_id#
-	</cfquery>
-	<br><strong>Permits:</strong>
+	</cfquery><br><br>
+	<h3>Permits:</h3>
 	<cfloop query="getPermits">
 		<form name="killPerm#currentRow#" method="post" action="Loan.cfm">
 			<p>
@@ -1076,6 +1075,7 @@
 		 	onClick="window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick',
 				'resizable,scrollbars=yes,width=600,height=600')">
 	</form>
+    </div>
 </cfoutput>
 <script>
 	dCount();
@@ -1540,9 +1540,9 @@
 
 </script>
   <cfoutput>
-    <div class="page_title">
-      <h1>Find Loans/Gifts&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
-    </div>
+   <div class="searchLoanWidth">
+     <h2 class="wikilink">Find Loans/Gifts <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+      </h2>
     <div id="loan">
       <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select loan_type from ctloan_type order by loan_type
@@ -1689,6 +1689,7 @@
           </tr>
         </table>
       </form>
+    </div>
     </div>
   </cfoutput>
 </cfif>
@@ -1883,7 +1884,7 @@
 		 	trans.transaction_id,
 		   	loan_number,
 		    loan.loan_type,
-                    ctloan_type.scope,
+            ctloan_type.scope,
 		    loan_status,
 		    loan_instructions,
 		    loan_description,
@@ -1945,7 +1946,7 @@
       <cfset variables.encoding="UTF-8">
       <cfscript>
 			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-			d='loan_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,foruseby_agent,addOutside_agent,loan_type,loan_status,Transaction_Date,return_due_date,nature_of_material,loan_description,loan_instructions,trans_remarks,ent_agent,Project';
+			d='loan_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,loan_type,loan_status,Transaction_Date,return_due_date,nature_of_material,loan_description,loan_instructions,trans_remarks,ent_agent,Project';
 		 	variables.joFileWriter.writeLine(d);
 	</cfscript>
     </cfif>
@@ -2085,10 +2086,7 @@
                     </cfif>
                   </cfloop>
                 </dd>
-              </dl>
-   
-            
-<ul class="loan_buttons">
+                <ul class="loan_buttons">
       <li><a href="a_loanItemReview.cfm?transaction_id=#transaction_id#">Review Items</a></li>
        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
        <li class="add"><a href="SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#">Add Items</a></li>
@@ -2099,6 +2097,9 @@
          </cfif>
      </cfif>
   </ul>
+                
+              </dl>
+   
 
         </div>
         </div>
@@ -2109,6 +2110,7 @@
         <cfset d=d &',"#escapeDoubleQuotes(inHouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addInhouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(rec_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(foruseby_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addOutside_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(loan_type)#"'>

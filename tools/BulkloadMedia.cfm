@@ -54,22 +54,20 @@ sho err
 --->
 
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 54em; margin: 0 auto;padding: 1em 0 3em 0;">
 <cfif #action# is "nothing">
-Step 1: Ensure that Media and objects media will relate to exist.
-Step 2: Upload a comma-delimited text file (csv).
-Include column headings, spelled exactly as below.
-<br><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
-	<div id="template" style="display:none;">
+    <h3 class="wikilink">Bulkload Media</h3>
+    <p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to relate to this media exist.</p>
+    <p>Step 2: Upload a comma-delimited text file (csv).</p>
+    <p>Include column headings, spelled exactly as below.  </p>
+<p></p><span class="likeLink" onclick="document.getElementById('template').style.display='block';"> view template</span></p>
+	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MEDIA_RELATIONSHIPS,MEDIA_LABELS</textarea>
 	</div>
-<p></p>
 
-
-
-
-Columns in <span style="color:red">red</span> are required; others are optional:
-<ul>
+    <p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
+<ul class="geol_hier" style="padding-bottom:1em;">
 	<li style="color:red">MEDIA_URI</li>
 	<li style="color:red">MIME_TYPE</li>
 	<li style="color:red">MEDIA_TYPE</li>
@@ -78,10 +76,9 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li>MEDIA_LABELS</li>
 </ul>
 
-<p>
-	The format for MEDIA_RELATIONSHIPS is {media_relationship}={value}[;{media_relationship}={value}]
-	<br>Examples:
-	<ul>
+<p>The format for MEDIA_RELATIONSHIPS is {media_relationship}={value}[;{media_relationship}={value}]</p>
+     <p style="margin-top:.5em;font-weight:bold;">Examples:</p>
+	<ul class="geol_hier" style="padding-bottom:1em;padding-top: .25em;">
 		<li>
 			created by agent=Jane Doe
 		</li>
@@ -92,20 +89,19 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus;shows cataloged_item=MCZ:Bird:12345
 		</li>
 	</ul>
-	Acceptable values are:
-	<ul>
+    <p style="margin-top:.5em;font-weight:bold;">Acceptable values are:</p>
+	<ul class="geol_hier" style="padding-bottom:1em;padding-top:.25em;">
 		<li>Agent Name (must resolve to one agent_id)</li>
 		<li>Project Title (exact string match)</li>
 		<li>Cataloged Item (DWC triplet)</li>
 		<li>Collecting Event (collecting_event_id)</li>
 	</ul>
 
-</p>
 
-<p>
-	The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]
-	<br>Examples:
-	<ul>
+
+    <p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
+    <p style="margin-top:.5em;font-weight:bold;">Examples:</p>
+	<ul  class="geol_hier" style="padding-bottom:2em;padding-top:.25em;">
 		<li>
 			audio bit resolution=whatever
 		</li>
@@ -117,7 +113,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		</li>
 	</ul>
 
-</p>
+
 <cfform name="atts" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
 			  <input type="file"
@@ -566,5 +562,5 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	Spiffy, all done.
 </cfoutput>
 </cfif>
-
+    </div>
 <cfinclude template="/includes/_footer.cfm">

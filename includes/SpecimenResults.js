@@ -616,19 +616,19 @@ function success_getSpecResultsData(result){
                                      typestatus.indexOf("Neotype")>-1 
                                     ) { 
                                      rowClass = "typeRow";
-                                 }
-                             }
-			} 
-                        if (isType) { 
+                                       }
+                                  }
+			}
+                if (isType) { 
 				theInnerHtml += '<tr class="' + rowClass +  '">';
-                        } else { 
-			   if (i%2) {
+                } else { 
+			   	if (i%2) {
 				theInnerHtml += '<tr class="oddRow">';
 			    } else {
 				theInnerHtml += '<tr class="evenRow">';
-			   }
-                        }
-
+			    }
+                    }
+	
 			
 			
 				if (killrow == 1){

@@ -139,11 +139,33 @@
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
 		</cfquery>
+         
+            <div style="width: 56em; margin:0 auto;padding: 1em 0 3em 0;">
+                   <h2 class="wikilink">Browse Bulkloader</h2>
 		<table>
 			<tr>
-				<td width="50%">
+               <td>
+                    <div style="margin-right: 2em;margin-left:0;" class="welcomeback">
+					<div class="graydot" style="margin-bottom: .5em;">
+						Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.
+                    </div>
+						<ul>
+				
+							<li>
+								<strong>Edit in SQL</strong>
+								<br>Allows mass updates based on existing values. Will only load 500 records at one time.
+							</li>
+							<li>
+								<strong>Edit in AJAX grid</strong>
+								<br>Opens an AJAX table. Click headers to sort. Drag columns. Doubleclick cells to edit.
+								Saves automatically on change. Slow to load.
+							</li>
+						</ul>
+					</div>
+				</td>	
+				<td>
 					<form name="f" method="post" action="browseBulk.cfm">
-					<table>
+					<table class="browsingBulk">
 						<tr>
 							<td align="center">
 								<input type="hidden" name="action" value="viewTable" />
@@ -176,7 +198,7 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<input type="button" value="JAVA grid" class="lnkBtn" onclick="f.action.value='viewTable';f.submit();">
+								
 					 			<input type="button" value="SQL" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
 								<input type="button" value="AJAX grid" class="lnkBtn" onclick="f.action.value='ajaxGrid';f.submit();">
 							</td>
@@ -184,28 +206,7 @@
 					</table>
 					</form>
 				</td>
-				<td>
-					<div style="border:1px solid green;margin-left:5em;">
-						Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.
-						<br>
-						<ul>
-							<li>
-								<strong>Edit in JAVA grid</strong>
-								<br>Opens a JAVA applet. Click headers to sort. You must click the button to save.
-								Unhappy in some browsers.
-							</li>
-							<li>
-								<strong>Edit in SQL</strong>
-								<br>Allows mass updates based on existing values. Will only load 500 records at one time.
-							</li>
-							<li>
-								<strong>Edit in AJAX grid</strong>
-								<br>Opens an AJAX table. Click headers to sort. Drag columns. Doubleclick cells to edit.
-								Saves automatically on change. Slow to load.
-							</li>
-						</ul>
-					</div>
-				</td>		
+		
 			</tr>
 		</table>
 	</cfoutput>

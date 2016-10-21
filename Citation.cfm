@@ -1,4 +1,5 @@
 <cfinclude template="includes/_header.cfm">
+ 
 <script type='text/javascript' src='/includes/checkForm.js'></script>
 	<script>
 		function getCatalogedItemCitation (id,type) {
@@ -60,6 +61,7 @@
 
 <!------------------------------------------------------------------------------->
 <cfif action is "nothing">
+     <div style="width: 73em; margin: 0 auto; padding: 2em 0 5em 0;">
 <cfset title="Manage Citations">
 <cfoutput>
 
@@ -96,11 +98,11 @@
 	ORDER BY
 		occurs_page_number,citSciName,cat_num
 </cfquery>
-
-<a href="javascript:void(0);" onClick="getDocs('publication','citation')">Citations</a>
- for 	<b>#getCited.publication_title#</b>
+  
+    <h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
 <a href="Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
-<table border cellpadding="0" cellspacing="0"><tr>
+<table class="pubtable" border="0" style="border: none;font-size: 15px;">
+    <tr>
 	<td>&nbsp;</td>
 	<td nowrap>Cat Num</td>
 	<td nowrap>#session.CustomOtherIdentifier#</td>
@@ -116,22 +118,20 @@
 <cfloop query="getCited">
 	<tr>
 	<td nowrap>
-		<table cellpadding="0" cellspacing="0">
+		<table>
 
 		<form name="deleCitation#i#" method="post" action="Citation.cfm">
 		<input type="hidden" name="Action">
 			<input type="hidden" value="#publication_id#" name="publication_id">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-			<tr><td>
+			<tr><td style="border-bottom: none;">
 			<input type="button"
 				value="Delete"
 				class="delBtn"
 				onmouseover="this.className='delBtn btnhov'"
 				onmouseout="this.className='delBtn'"
 				onClick="deleCitation#i#.Action.value='deleCitation';submit();">
-
-
-			</td><td>
+			</td><td style="border-bottom: none;">
 			<input type="button"
 				value="Edit"
 				class="lnkBtn"
@@ -142,7 +142,7 @@
 			</td>
 		</form>
 
-			<td>
+			<td style="border-bottom: none;">
 			<input type="button"
 				value="Clone"
 				class="insBtn"
@@ -210,7 +210,7 @@
 
 	<td>
 		<label for="scientific_name">Current Identification</label>
-		<input type="text" name="scientific_name" id="scientific_name" readonly="yes" class="readClr" size="50">
+		<input type="text" name="scientific_name" id="scientific_name" readonly class="readClr" size="50">
 	</td>
 	<td colspan="2">
 		<label for="cited_taxon_name" id="lbl_cited_taxon_name">
@@ -264,6 +264,7 @@
 </tr></table>
 
 </cfoutput>
+    </div>
 </cfif>
 
 <!------------------------------------------------------------------------------->
@@ -348,6 +349,7 @@
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "editCitation">
 <cfset title="Edit Citations">
+    <div style="width: 50em; margin: 0 auto; padding: 2em 0 3em 0;">
 <cfoutput>
 
 <cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -384,8 +386,7 @@
 
 </cfoutput>
 <cfoutput query="getCited">
-
-<br>Edit Citation for <b>#getCited.publication_title#</b>:
+    <h3>Edit Citation for <i>#getCited.publication_title#</i></h3>
 <cfform name="editCitation" id="editCitation" method="post" action="Citation.cfm">
 		<input type="hidden" name="Action" value="saveEdits">
 		<input type="hidden" name="publication_id" value="#publication_id#">
@@ -450,8 +451,10 @@
 	</td>
 
 	</cfform>
-</tr></table>
+</tr>
+</table>
 </cfoutput>
+        </div>
 </cfif>
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "deleCitation">
@@ -463,4 +466,5 @@
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------->
+
 <cfinclude template="includes/_footer.cfm">

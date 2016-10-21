@@ -47,11 +47,13 @@
 				</cfif>
 			 </cfif>
 		</cfloop>
+                    <div style="width: 52em;margin:0 auto;padding: 1em 0 3em 0;">
 		
 		<cfset searchParams = #replace(searchParams,"'","","all")#>
 	<table>
 		
 <form name="browse" action="SpecimenGraph.cfm" method="post">
+    <h2 class="wikilinks">Specimen Search Resuts as a Graph</h2>
 				<tr>
 					<td><strong>Chart Settings</strong></td>
 					<td><strong>Chart Data</strong><sup>1</sup></td>
@@ -121,25 +123,29 @@
 						</select>
 					</td>
 				</tr>
+  
 				#searchparams#
 				<input type="hidden" name="searchParams" value='#searchParams#'>
 				<input type="hidden" name="action" value="getGraph">
 				<tr>
+                    
 					<td colspan="2" align="center">
 						<input type="submit" 
 								value="Get Graphs" 
 								class="schBtn"
    								onmouseover="this.className='schBtn btnhov'" 
-								onmouseout="this.className='schBtn'">	
+								onmouseout="this.className='schBtn'" style="margin: 1em 0;">	
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<div style="background-color:##999999; font-size:small; font-style:italic;">
-							1) CONTROL and click to create multiple charts
-							<p></p>2) You may save charts to your hard drive as images. 
-							<br />Your browser may act strangely, but it will probably
-							<br /> work if you can save with an image (not .cfm) extension.
+						<div class="grayishbox">
+                            <ul class="pubLinks" style="margin-top:0;"><li>1) CONTROL and click to create multiple charts</li>
+                                <li>2) You may save charts to your hard drive as images. </li>
+							<ul><li>Your browser may act strangely, but it will probably
+                                work if you can save with an image (not .cfm) extension.</li>
+                                </ul>
+                            </ul>
 						</div>
 					</td>
 				</tr>
@@ -150,6 +156,7 @@
 			</form>
 			
 	</table>
+            </div>
 	
 		</cfoutput>
 </cfif>		

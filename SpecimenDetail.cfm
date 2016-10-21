@@ -112,6 +112,8 @@
 	<cfset metaDesc="#detail.collection# #detail.cat_num# (#guid#); #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
 	<cf_customizeHeader collection_id=#detail.collection_id#>
 </cfoutput>
+
+
 <cfoutput query="detail" group="cat_num">
  <cfset typeName = typestatuswords>
  <cfif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Holotype' or typestatuswords eq 'Syntype' or typestatuswords eq 'Neotype' or typestatuswords eq 'Hapantotype' or typestatuswords eq 'Lectotype' or typestatuswords eq 'Paralectotype' or typestatuswords eq 'Syntype?' or typestatuswords eq 'Holotype?' or typestatuswords eq 'Lectotype?')>
@@ -313,6 +315,7 @@
 						    <cfset isPrev = "no">
 							<cfset isNext = "no">
 							<cfset currPos = 0>
+
 							<cfset lenOfIdList = 0>
 							<cfset firstID = collection_object_id>
 							<cfset nextID = collection_object_id>

@@ -1,6 +1,8 @@
 <cfinclude template="/includes/_header.cfm">
 <cfif #action# is "edit">
+      <div class="geol_hier">
 <cfoutput>
+  
 	<cfquery name="c"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from geology_attribute_hierarchy where geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#
 	</cfquery>
@@ -43,6 +45,7 @@
 
 </form>
 </cfoutput>
+</div>
 </cfif>
 <!---------------------------------------->
 
@@ -66,21 +69,16 @@
 	attribute_value || ' (' || attribute || ')' attribute
 	 from geology_attribute_hierarchy  order by attribute
 </cfquery>
-<div style="border:1px dotted gray;font-size:smaller;
-	margin-left:50px;margin-right:50px;">
-This form serves dual purpose as the code table editor for geology attributes and a way to store attribute values as 
-hierarchical data for use in searching.
-<br>
-Create any attributes that you need.
-<br>
-Select "no" for "Attribute valid for Data Entry" for those that should only be used for searching. "Lithostratigraphy" 
-might be a useful term as the start of a set of hierarchies, but it's not something that can have a meaning in Geology Attributes
-so should not be "valid." Note that Attribute and Value required. Value is used in building hierarchies for dearching, so
- " " (a blank space) is an acceptable and appropriate attribute for this example.
-<br>
-Create hierarchies by selecting a child and parent term. 
-<br>
-Click More to edit or delete an attribute. You cannot delete attributes with children or attributes used as Geology Attributes.
+    <div class="geol_hier">
+        <h2 class="wikilink">Geology Attributes (code table)</h2>
+        <div style="border:1px dotted gray;font-size:smaller;padding: 20px;">
+<ul><p>This form serves dual purpose as the code table editor for geology attributes and a way to store attribute values as hierarchical data for use in searching.</p>
+<li>Create any attributes that you need.</li>
+<li>Select "no" for "Attribute valid for Data Entry" for those that should only be used for searching. "Lithostratigraphy" might be a useful term as the start of a set of hierarchies, but it's not something that can have a meaning in Geology Attributes so should not be "valid."</li>
+<li>Note that Attribute and Value required. Value is used in building hierarchies for dearching, so  " " (a blank space) is an acceptable and appropriate attribute for this example.</li>
+<li>Create hierarchies by selecting a child and parent term. </li>
+<li> Click "More" to edit or delete an attribute. You cannot delete attributes with children or attributes used as Geology Attributes.</li>
+            </ul>
 </div>
 <cfoutput>
 <table class="newRec"><tr><td>
@@ -126,6 +124,7 @@ Create Hierarchies:
 	<input type="submit" 
 		value="Create Relationship" 
 		class="savBtn"
+           style="margin-top:.5em;"
 	   	onmouseover="this.className='savBtn btnhov'"
 	   	onmouseout="this.className='savBtn'">
 </form>
@@ -156,6 +155,7 @@ Create Hierarchies:
    	</cfif>
 </cfloop>
 </cfoutput>
+    </div>
 </cfif>
 <!---------------------------------------------------->
 <cfif #action# is "delete">

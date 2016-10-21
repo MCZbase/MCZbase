@@ -237,6 +237,107 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
+		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select type_status, description, category, ordinal from ctcitation_type_status order by category, ordinal, type_status
+		</cfquery>
+                <h2>Citation type, type status terms and other kinds of citation</h2>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Type Status</th>
+					<th>Kind of Type</th>
+					<th>Sort Order</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<select name="category">
+							<option value="Primary">Primary</option>
+							<option value="Secondary">Secondary</option>
+							<option value="Voucher">Voucher (non-type)</option>
+						</select>
+					</td>
+					<td>
+						<input type="text" name="ordinal">
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Type Status</th>
+				<th>Kind of Type</th>
+				<th>Sort Order</th>
+				<th>Description</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#type_status#">
+						<td>
+							<input type="text" name="type_status" value="#type_status#">
+						</td>
+						<td>
+							<cfif category EQ "Primary"> 
+								<cfset scopepriselected = "selected='selected'">
+								<cfset scopesecselected = "">
+								<cfset scopevouselected = "">
+							<cfelseif category EQ "Secondary"> 
+								<cfset scopepriselected = "">
+								<cfset scopesecselected = "selected='selected'">
+								<cfset scopevouselected = "">
+							<cfelse>
+								<cfset scopepriselected = "">
+								<cfset scopesecselected = "">
+								<cfset scopevouselected = "selected='selected'">
+							</cfif>
+							<select name="category">
+								<option value="Primary" #scopepriselected# >Primary</option>
+								<option value="Secondary" #scopesecselected# >Secondary</option>
+								<option value="Voucher" #scopevouselected# >Voucher (non-type)</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="ordinal" value="#ordinal#">
+						</td>
+						<td>
+							<input type="description" name="description" value="#description#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from ctpublication_attribute order by publication_attribute
@@ -685,6 +786,16 @@
 				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctcitation_type_status">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctcitation_type_status set 
+				TYPE_STATUS= <cfqueryparam cfsqltype="cf_sql_varchar" value="#type_status#" />,
+				CATEGORY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#category#" />,
+				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#description#" />
+			where
+				TYPE_STATUS= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

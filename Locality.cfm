@@ -137,19 +137,22 @@
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findHG">
 	<cfoutput>
-		<cfset title="Find Geography">
-		<strong>Find Higher Geography:</strong>
+        <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+            <cfset title="Find Geography">
+		<h2 class="wikilink">Find Higher Geography:</h2>
 		<form name="getCol" method="post" action="Locality.cfm">
 		    <input type="hidden" name="Action" value="findGeog">
 			<cfinclude template="/includes/frmFindLocation_guts.cfm">
 		</form>
+            </div>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newHG">
 <cfoutput>
+       <div style="width: 40em; margin:0 auto; padding: 1em 0 3em 0;">
 	<cfset title="Create Higher Geography">
-	<b>Create Higher Geography:</b>
+        <h2 class="wikilink">Create Higher Geography:</h2>
 	<cfform name="getHG" method="post" action="Locality.cfm">
 		<input type="hidden" name="Action" value="makeGeog">
 		<table>
@@ -173,9 +176,8 @@
 			</tr>
 			<tr>
 				<td align="right">
-                                    <label for="ocean_region" class="likeLink"  onClick="getMCZbaseDocs('Ocean_Regions_%26_Subregions','')" >
                                         Ocean Region:
-                                    </label>
+                                   
                                 </td>
 				<td>
 				<cfif isdefined("ocean_region")>
@@ -284,25 +286,28 @@
 				</td>
 			</tr>
 			<tr>
-			<td colspan="2">
+			<td colspan="2" style="padding: 1em 0 2em 150px;">
 				<input type="submit" value="Create" class="insBtn">
 				<input type="button" value="Quit" class="qutBtn" onclick="document.location='Locality.cfm';">
 			</td>
 		</tr>
 	</table>
 	</cfform>
+</div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLO">
 	<cfoutput>
+           <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
 		<cfset title="Find Locality">
 		<cfset showLocality=1>
-		<strong>Find Locality:</strong>
+		  <h2 class="wikilink">Search Locality</h2>
 	    <form name="getCol" method="post" action="Locality.cfm">
 			<input type="hidden" name="Action" value="findLocality">
 			<cfinclude template="/includes/frmFindLocation_guts.cfm">
 	     </form>
+            </div>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -311,22 +316,25 @@
 	<cfset title="Find Collecting Events">
 	<cfset showLocality=1>
 	<cfset showEvent=1>
-	<strong>Find Collecting Events:</strong>
+        <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+	<h2 class="wikilink">Search Collecting Events:</h2>
     <form name="getCol" method="post" action="Locality.cfm">
 		<input type="hidden" name="Action" value="findCollEvent">
 		<cfinclude template="/includes/frmFindLocation_guts.cfm">
      </form>
+         </div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "editGeog">
 <cfset title = "Edit Geography">
 	<cfoutput>
+            <div style="width:65em; margin:0 auto; padding: 1em 0 3em 0;">
+	<h2 class="wikilink">Edit Higher Geography:</h2>
 		<cfquery name="geogDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		 select * from geog_auth_rec where geog_auth_rec_id = #geog_auth_rec_id#
 		</cfquery>
-		<h3>Edit Higher Geography</h3>
-		<span class="infoLink" onClick="getDocs('higher_geography')">help</span>
+
 		<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) c from locality where geog_auth_rec_id=#geog_auth_rec_id#
 		</cfquery>
@@ -357,9 +365,9 @@
 			order by
 				collection.collection
 		</cfquery>
-		<div style="border:2px solid blue; background-color:red;">
+		<div style="border:2px solid blue; background-color:red;padding: 10px 20px;">
 			Altering this record will update:
-			<ul>
+			<ul class="bulletlist">
 				<li>#localities.c# localities</li>
 				<li>#collecting_events.c# collecting events</li>
 				<cfloop query="specimen">
@@ -373,7 +381,7 @@
 		</div>
     </cfoutput>
 	<cfoutput query="geogDetails">
-		<br><em>#higher_geog#</em>
+		<h3 class="wikilink"><em>#higher_geog#</h3>
         <cfform name="getHG" method="post" action="Locality.cfm">
 	        <input name="Action" type="hidden" value="saveGeogEdits">
             <input type="hidden" name="geog_auth_rec_id" value="#geog_auth_rec_id#">
@@ -383,7 +391,7 @@
 						<label for="continent_ocean" class="likeLink" onClick="getDocs('higher_geography','continent_ocean')">
 							Continent or Ocean
 						</label>
-				<select name="continent_ocean">
+				<select name="continent_ocean" style="width: 140px;">
 				<cfif isdefined("continent_ocean")>
                                      <cfif continent_ocean is not ''>
 					<option value="#continent_ocean#" selected="selected">#continent_ocean#</option>
@@ -399,7 +407,7 @@
 						<label for="ocean_region" class="likeLink"  onClick="getMCZbaseDocs('Ocean_Regions_%26_Subregions','')" >
                                                        Ocean Region:
 						</label>
-				<select name="ocean_region">
+				<select name="ocean_region" style="width: 140px;">
 				<cfif isdefined("ocean_region")>
                                      <cfif ocean_region is not ''>
 					<option value="#ocean_region#" selected="selected">#ocean_region#</option>
@@ -428,14 +436,15 @@
 						</label>
 						<input type="text" name="state_prov" id="state_prov" value="#state_prov#">
 					</td>
-					<td>
+				
+				</tr>
+				<tr>
+                    	<td>
 						<label for="sea" class="likeLink" onClick="getDocs('higher_geography','sea')">
 							Sea
 						</label>
 						<input type="text" name="sea" id="sea" value="#sea#">
 					</td>
-				</tr>
-				<tr>
 					<td>
 						<label for="county" class="likeLink" onClick="getDocs('higher_geography','county')">
 							County
@@ -471,7 +480,7 @@
 						<label for="island_group" class="likeLink" onClick="getDocs('higher_geography','island_group')">
 							Island Group
 						</label>
-						<select name="island_group" id="island_group" size="1">
+						<select name="island_group" id="island_group" size="1" style="width: 250px;">
 		                	<option value=""></option>
 		                    <cfloop query="ctIslandGroup">
 		                      <option
@@ -491,7 +500,7 @@
 						<label for="source_authority">
 							Authority
 						</label>
-						<input name="source_authority" id="source_authority" class="reqdClr" value="#source_authority#">
+						<input name="source_authority" id="source_authority" class="reqdClr" size="45" style="margin-right: 10px;" value="#source_authority#">
 					</td>
 	                <td>
 						<label for="valid_catalog_term_fg">
@@ -506,24 +515,27 @@
 					<td>&nbsp;</td>
 				</tr>
 				<tr>
-	                <td colspan="4" nowrap align="center">
-						<input type="submit" value="Save Edits"	class="savBtn">
+	                <td colspan="4" nowrap style="padding-top: 1em;">
+						<input type="submit" value="Save Edits"	class="savBtn">&nbsp;
 						<input type="button" value="Delete" class="delBtn"
-							onClick="document.location='Locality.cfm?Action=deleteGeog&geog_auth_rec_id=#geog_auth_rec_id#';">
+							onClick="document.location='Locality.cfm?Action=deleteGeog&geog_auth_rec_id=#geog_auth_rec_id#';">&nbsp;
 						<input type="button" value="See Localities" class="lnkBtn"
-							onClick="document.location='Locality.cfm?Action=findLocality&geog_auth_rec_id=#geog_auth_rec_id#';">
+							onClick="document.location='Locality.cfm?Action=findLocality&geog_auth_rec_id=#geog_auth_rec_id#';">&nbsp;
 						<cfset dloc="Locality.cfm?action=newHG&continent_ocean=#continent_ocean#&ocean_region=#ocean_region#&ocean_subregion=#ocean_subregion#&country=#country#&state_prov=#state_prov#&county=#county#&quad=#quad#&feature=#feature#&island_group=#island_group#&island=#island#&sea=#sea#">
 						<input type="button" value="Create Clone" class="insBtn" onclick="document.location='#dloc#';">
 					</td>
 				</tr>
 			</table>
 		</cfform>
+        </div>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "editCollEvnt">
 <cfset title="Edit Collecting Event">
 <cfoutput>
+        <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+	<h2 class="wikilink">Edit Collecting Events:</h2>
       <cfquery name="locDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
 			higher_geog,
@@ -702,12 +714,15 @@
 		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#locDet.verbatim_locality#&began_date=#locDet.began_date#&ended_date=#locDet.began_date#&verbatim_date=#locDet.verbatim_date#&coll_event_remarks=#locDet.coll_event_remarks#&collecting_source=#locDet.collecting_source#&collecting_method=#locDet.collecting_method#&habitat_desc=#locDet.habitat_desc#">
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#dLoc#';">
 	</cfform>
+            </div>
   </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newCollEvent">
 	<cfset title="Create Collecting Event">
 	<cfoutput>
+            <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+	<h2 class="wikilink">Create Collecting Events:</h2>
 	  	<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
 			where locality_id=#locality_id#
@@ -790,6 +805,7 @@
 			<input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		</form>
+</div>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------->
@@ -800,8 +816,10 @@
 		</cfquery>
 	</cfif>
 	<cfoutput>
-		<h3>Create locality</h3>
-		<br><b>Higher Geography:</b>
+             <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+	<h2 class="wikilink">Create Locality:</h2>
+	
+		<label>Higher Geography:</label>
 		<form name="geog" action="Locality.cfm" method="post">
             <input type="hidden" name="Action" value="makenewLocality">
             <input type="hidden" name="geog_auth_rec_id"
@@ -855,6 +873,7 @@
             <br><input type="submit" value="Save" class="savBtn">
   			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		</form>
+</div>
 	</cfoutput>
 </cfif>
 
@@ -1642,6 +1661,7 @@ INSERT INTO geog_auth_rec (
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLocality">
+      <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
 	<cfoutput>
 	<cf_findLocality>
 	<!--- need to filter out distinct --->
@@ -1685,6 +1705,7 @@ INSERT INTO geog_auth_rec (
 			orig_elev_units
 
 	</cfquery>
+      
 <cfif #localityResults.recordcount# lt 1000>
 	<cfset thisLocId="">
 	<cfloop query="localityResults">
@@ -1748,10 +1769,12 @@ INSERT INTO geog_auth_rec (
 	  </cfloop>
     </cfoutput>
   </table>
+            </div>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findGeog">
+         <div style="width: 49em; margin:0 auto; padding: 2em 0 3em 0;">
 <cfoutput>
 		<cf_findLocality>
 		<!--- need to filter out distinct --->
@@ -1773,6 +1796,7 @@ INSERT INTO geog_auth_rec (
 </cfloop>
 </cfoutput>
 </table>
+    </div>
 </cfif>
 
 <!---------------------------------------------------------------------------------------------------->

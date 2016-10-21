@@ -79,7 +79,8 @@
 </script>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif action is "newOtherAgent">
-<h3>Add a New Other Agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Other Agent')" class="likeLink" alt="[ help ]"></h3>
+    <div style="padding: 0 0 0 1em;width:95%;">
+<h3 class="wikilink">Add a New Other Agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Other Agent')" class="likeLink" alt="[ help ]"></h3>
 	<cfoutput>
 		<form name="prefdName" action="editAllAgent.cfm" method="post" target="_person">
 			<input type="hidden" name="action" value="makeNewAgent">
@@ -97,14 +98,15 @@
 			<label for="agent_remarks">Remarks</label>
                         <textarea name="agent_remarks" id="agent_remarks" style="height: 20em;"></textarea>
                        	<script>CKEDITOR.replace( 'agent_remarks' );</script>
-			<br>
-			<input type="submit" value="Create Agent" class="savBtn">
+		<input type="submit" value="Create Agent" class="savBtn">
 			</form>
 	</cfoutput>
+    </div>
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "newPerson">
-<h3>Add a New Person <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent')" class="likeLink" alt="[ help ]"></h3>
+        <div style="padding: 0 0 0 1em;width:95%;">
+<h3 class="wikilink">Add a New Person <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent')" class="likeLink" alt="[ help ]"></h3>
 	<form name="newPerson" action="editAllAgent.cfm" method="post" target="_person">
 		<input type="hidden" name="Action" value="insertPerson">
 		<label for="prefix">Prefix</label>
@@ -131,6 +133,7 @@
 		<input type="text" name="pref_name" id="pref_name">
 		<input type="submit" value="Add Person" class="savBtn">
 	</form>
+    </div>
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
@@ -182,7 +185,7 @@
 			</cfquery>
 			<cfset nameStr=#getName.agent_name#>
 		</cfif>
-		<h3> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
+		<h3 class="wikilink" style="margin-bottom:.5em;"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
 		
 		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#}
 		<cfif len(#person.agent_remarks#) gt 0>
@@ -193,7 +196,7 @@
 				select count(*) || ' ' || agent_rank agent_rank from agent_rank where agent_id=#agent_id# group by agent_rank
 			</cfquery>
 			<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
-			<br><br>
+			
 			<cfif rank.recordcount gt 0>
 				Previous Ranking: #valuelist(rank.agent_rank,"; ")#
 			</cfif>
@@ -215,9 +218,9 @@
 		<cfset i=1>
 		<cfloop query="agentAddrs">
 			<cfif valid_addr_fg is 1>
-				<div class="greenbox">
+				<div class="grayishbox">
 			<cfelse>
-				<div style="border:2px solid red;margin:1px;padding:1px;">
+				<div class="grayishbox">
 			</cfif>
 				<form name="addr#i#" method="post" action="editAllAgent.cfm">
 					<input type="hidden" name="agent_id" value="#person.agent_id#">
@@ -249,7 +252,7 @@
 				<cfset i=#i#+1>
 			</div>
 		</cfloop>
-		<br />
+	
 		<cfset i=1>
 		<cfloop query="elecagentAddrs">
 			<form name="elad#i#" method="post" action="editAllAgent.cfm">
@@ -258,7 +261,7 @@
 				<input type="hidden" name="address_type" value="#address_type#">
 				<input type="hidden" name="address" value="#address#">
 			</form>
-			<div class="greenbox">
+			<div class="grayishbox">
 				#address_type#: #address#
 				<input type="button" value="Edit" class="lnkBtn" onclick="elad#i#.action.value='editElecAddr';elad#i#.submit();">
 				<input type="button" value="Delete" class="delBtn" onclick="elad#i#.action.value='deleElecAddr';confirmDelete('elad#i#');">
@@ -272,7 +275,7 @@
 			<form name="editPerson" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="agent_id" value="#agent_id#">
 				<input type="hidden" name="action" value="editPerson">
-				<div class="greenbox">
+				<div class="grayishbox">
 					<table>
 						<tr>
 							<td>
@@ -386,7 +389,7 @@
 			<label for="gmemdv">Group Members</label>
 			<cfset i=1>
 			<br />
-			<div id="gmemdv" class="greenbox">
+			<div id="gmemdv" class="grayishbox">
 				<cfloop query="grpMem">
 					<form name="groupMember#i#" method="post" action="editAllAgent.cfm">
 						<input type="hidden" name="action" value="deleteGroupMember" />
@@ -431,7 +434,7 @@
 		<cfset i=1>
 		<br />
 		<label for="anamdv"><span>Agent Names</span></label>
-		<div id="anamdv" class="greenbox">
+		<div id="anamdv" class="grayishbox">
 			<form name="a#i#" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="action">
 				<input type="hidden" name="agent_name_id" value="#pname.agent_name_id#">
@@ -489,7 +492,7 @@
 		</cfquery>
 		</div>
 		<label for="areldv"><span>Relationships</span></label>
-		<div id="areldv" class="greenbox">
+		<div id="areldv" class="grayishbox">
 			<cfset i=1>
 			<cfloop query="relns">
 				<form name="agentRelations#i#" method="post" action="editAllAgent.cfm">
@@ -535,7 +538,7 @@
 			</form>
 		</div></div>
         	<label>Address</label>
-            <div class="greenbox">
+            <div class="grayishbox">
 		<div class="newRec">
 		
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
@@ -660,7 +663,7 @@
 		</cfquery>
 		<cfif media.recordcount gt 0>
 	<label for="amedia"><span>Media</span></label>
-    <div class="greenbox">
+    <div class="grayishbox">
 		<!---div class="detailLabel">Media--->
 		<cfquery name="wrlCount" dbtype="query">
 			select * from media where mime_type = 'model/vrml'

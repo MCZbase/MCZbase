@@ -1,8 +1,9 @@
 <cfinclude template = "includes/_header.cfm">
 <!---- this is an internal use page and needs a security wrapper --->
 <!--- no security --->
-
-<cfif action is "nothing">
+<div style="width: 60em; margin:0 auto;padding: 2em 0 4em 0;" class="barcodes">
+    <cfif action is "nothing">
+        
 <cfoutput>
 <cfquery name="ctContainer_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select container_type from ctcontainer_type order by container_type
@@ -10,23 +11,22 @@
 <cfquery name="ctinstitution_acronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select institution_acronym from collection group by institution_acronym order by institution_acronym
 </cfquery>
-Containers (things that you can stick barcode to) in Arctos must exist (generally as some type of
- label) before they may be used.
-<br>
-This form allows creation of series of containers. You should use this form if you:
-<ul>
+    <h2 class="wikilink">Create Containers for Barcodes</h2>
+<p>Containers (things that you can stick barcode to) in Arctos must exist (generally as some type of
+    label) before they may be used. This form allows creation of series of containers. </p>
+    <p>You should use this form if you:</p>
+<ul class="labels">
 	<li>Have placed, will place, and perhaps have considered placing an order for preprinted-labels.</li>
 	<li>Have printed or intend to print your own series of labels.</li>
 	<li>Wish to reserve a series of labels for any other reason.</li>
 </ul>
-This form does nothing to labels that already exist. Don't try.
- <p>The barcode label will be {prefix}{number}{suffix}. For example, prefix=' 
+    <p>This form does nothing to labels that already exist. Don't try. The barcode label will be {prefix}{number}{suffix}. For example, prefix=' 
       a', number = 1, suffix=' b' will produce barcode ' a1 b'. Make sure you 
       enter <strong>exactly</strong> what the scanner 
       will read, including all spaces!</p>
 <form name="form1" method="post" action="CreateContainersForBarcodes.cfm?action=create">
 	<label for="institution_acronym">Institution Acronym</label>
-    <select name="institution_acronym" id="institution_acronym" class="reqdClr">
+    <select name="institution_acronym" id="institution_acronym" class="reqdClr" style="width:110px;">
 		<cfloop query="ctinstitution_acronym">
 			<option value="#institution_acronym#">#institution_acronym#</option>
 		</cfloop>
@@ -96,11 +96,11 @@ This form does nothing to labels that already exist. Don't try.
 	</cfloop>
 </cfif>	
 </cftransaction>
-	<br> The series of barcodes from #beginBarcode# to #endBarcode# have been uploaded.
+        <h4>The series of barcodes from #beginBarcode# to #endBarcode# have been uploaded.</h4>
 	
   
-	<br>
+	<br><br>
     <a href="CreateContainersForBarcodes.cfm?action=set">Load more barcodes</a></cfoutput> 
 </cfif>
-
+        </div>
 <cfinclude template = "includes/_footer.cfm">
