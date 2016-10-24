@@ -198,6 +198,7 @@
     }
 </cfscript>
 	<cfif isdefined("srchType") and srchType is "key">
+        
 		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display, MCZBASE.is_media_encumbered(media.media_id) hideMedia ">
 		<cfset frm="from media,ctmedia_license">
 		<cfset whr=" where media.media_license_id=ctmedia_license.media_license_id(+) and media.media_id > 0">
@@ -449,7 +450,7 @@
        
         
     
-<table width="100%;">
+<table width="100%;" class="mediaTableRes">
    
 <cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
 	<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -536,7 +537,7 @@
 							<cfelse>
 								<cfset kwds=kw.keywords>
 							</cfif>
-							<div style="font-size:small;max-width:55em;margin-left:1em;margin-top:1em;border:1px solid black;padding:4px;">
+							<div style="font-size:small;max-width:55em;margin-left:0em;margin-top:1em;border:1px solid black;padding:4px;">
 								<strong>Keywords:</strong> #kwds#
 							</div>
 						</cfif>
