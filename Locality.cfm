@@ -137,7 +137,7 @@
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findHG">
 	<cfoutput>
-        <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+        <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
             <cfset title="Find Geography">
 		<h2 class="wikilink">Find Higher Geography:</h2>
 		<form name="getCol" method="post" action="Locality.cfm">
@@ -299,7 +299,7 @@
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLO">
 	<cfoutput>
-           <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+           <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
 		<cfset title="Find Locality">
 		<cfset showLocality=1>
 		  <h2 class="wikilink">Search Locality</h2>
@@ -316,7 +316,7 @@
 	<cfset title="Find Collecting Events">
 	<cfset showLocality=1>
 	<cfset showEvent=1>
-        <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+        <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
 	<h2 class="wikilink">Search Collecting Events:</h2>
     <form name="getCol" method="post" action="Locality.cfm">
 		<input type="hidden" name="Action" value="findCollEvent">
@@ -587,13 +587,13 @@
 			collection,
 	  		collection.collection_id
 	</cfquery>
-	<div style="border:2px solid red; font-weight:bold">
+	<div style="border:2px solid red; font-weight:bold;padding: 1em;margin-bottom: .5em;width: 56em;">
 		This Collecting Event (#collecting_event_id#)
-		<span class="infoLink" onClick="getDocs('collecting_event')">[ help ]</span> contains
+		 contains
 		<cfif whatSpecs.recordcount is 0>
 			no specimens. Please delete it if you don't have plans for it.
 		<cfelse>
-			<ul>
+			<ul class="geol_hier" style="padding-bottom:1em;">
 				<cfloop query="whatSpecs">
 					<li>
 						<a href="SpecimenResults.cfm?collecting_event_id=#collecting_event_id#&collection_id=#collection_id#">
@@ -616,16 +616,16 @@
 			onclick="document.getElementById('locDesc').style.background='red';
 				document.getElementById('hiddenButton').style.visibility='visible';
 				LocalityPick('locality_id','spec_locality','localitypick'); return false;" >
-		Current Locality:
+		<h4>Current Locality:</h4>
 		<div id="locDesc">
-			#locDet.higher_geog#
+            <p><span style="font-weight: 600;color: ##ff0000">HIGHER GEOGRAPHY: </span> #locDet.higher_geog#</p>
 			<cfif len(locDet.VerbatimLatitude) gt 0>
-				<br>#locDet.VerbatimLatitude# #locDet.VerbatimLongitude#
-				<cfif len(locDet.max_error_distance) gt 0>
+                <p><span style="font-weight: 600;color: ##ff0000">COORDINATES:</span> #locDet.VerbatimLatitude# &nbsp;&nbsp; #locDet.VerbatimLongitude#</p>
+                <p><span style="font-weight: 600;color: ##ff0000">MAX ERROR:</span> <cfif len(locDet.max_error_distance) gt 0>
 					&##177; #locDet.max_error_distance# #locDet.max_error_units#
-				</cfif>
+                    </cfif></p>
 			</cfif>
-			<br><em>#locDet.spec_locality#</em>
+            <p><span style="font-weight: 600;color: ##ff0000">SPECIFIC LOCALITY:</span><em>#locDet.spec_locality#</em></p>
 		</div>
 		<div id="hiddenButton" style="visibility:hidden ">
 			Picked Locality:
@@ -633,15 +633,15 @@
 			<input type="submit" value="Save Change" class="savBtn">
 		</div>
 	</form>
-	<hr>
-	OR
-	<hr>
-	<input type="button" value="Edit the current Locality" class="lnkBtn"
+	
+	OR<br>
+	
+	<input type="button" value="Edit the current Locality" class="lnkBtn" style="margin: 1em 0;"
 		onClick="document.location='editLocality.cfm?locality_id=#locDet.locality_id#'">
-	<hr>
-	OR
-	<hr>
-	<strong>Edit this Collecting Event:</strong>
+
+	<br>OR<br>
+
+	<h3 class="wikilink">Edit this Collecting Event:</h3>
 	<cfform name="locality" method="post" action="Locality.cfm">
     	<input type="hidden" name="Action" value="saveCollEventEdit">
 	    <input type="hidden" name="collecting_event_id" value="#locDet.collecting_event_id#">
@@ -649,7 +649,7 @@
 		<label for="verbatim_locality" class="likeLink" onclick="getDocs('collecting_event','verbatim_locality')">
 			Verbatim Locality
 		</label>
-		<input type="text" name="verbatim_locality" id="verbatim_locality" value='#stripQuotes(locDet.verbatim_locality)#' size="200">
+		<input type="text" name="verbatim_locality" id="verbatim_locality" value='#stripQuotes(locDet.verbatim_locality)#' size="130">
 		<label for="specific_locality" class="likeLink" onclick="getDocs('locality','specific_locality')">
 			Specific Locality
 		</label>
@@ -689,7 +689,7 @@
 			</tr>
 		</table>
 		<label for="coll_event_remarks">Remarks</label>
-		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="150">
+		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="130">
 		<label for="collecting_source" class="likeLink" onclick="getDocs('collecting_event','collecting_source')">
 			Collecting Source
 		</label>
@@ -702,11 +702,11 @@
 		<label for="collecting_method" class="likeLink" onclick="getDocs('collecting_event','collecting_method')">
 			Collecting Method
 		</label>
-		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#"  size="50">
+		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#" size="130">
 		<label for="habitat_desc" class="likeLink" onclick="getDocs('collecting_event','habitat')">
 			Habitat
 		</label>
-		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="200">
+		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="130">
         <br><input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
@@ -738,12 +738,12 @@
 	    	<input type="hidden" name="Action" value="newColl">
 	     	<input type="hidden" name="locality_id" value="#locality_id#">
 	     	<label for="verbatim_locality">Verbatim Locality</label>
-	     	<input type="text" name="verbatim_locality" id="verbatim_locality"
+	     	<input type="text" name="verbatim_locality" id="verbatim_locality" size="50"
 			  	<cfif isdefined("verbatim_locality")>
 					value="#stripQuotes(verbatim_locality)#"
 				<cfelseif isdefined("getLoc.spec_locality")>
 					value="#stripQuotes(getLoc.spec_locality)#"
-				</cfif> size="60">
+				</cfif>>
 			<label for="verbatim_date">Verbatim Date</label>
 			<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr"
 			  	<cfif isdefined("verbatim_date")>
@@ -816,7 +816,7 @@
 		</cfquery>
 	</cfif>
 	<cfoutput>
-             <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+             <div style="width: 40em; margin:0 auto; padding: 1em 0 3em 0;">
 	<h2 class="wikilink">Create Locality:</h2>
 	
 		<label>Higher Geography:</label>

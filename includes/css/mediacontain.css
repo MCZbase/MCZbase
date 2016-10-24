@@ -4,6 +4,8 @@
 	/* Prevents multizoomdescription from overlaying page header */
 	color: #444;      /* Serves to demphasize metadata text, see also ul */
 	padding-left: 2em;
+    overflow: hidden;
+    
 }
 /* Override properties of .magnifyarea from multizoom.css */ 
 .magnifyarea {

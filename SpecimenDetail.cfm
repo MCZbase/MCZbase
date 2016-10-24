@@ -118,16 +118,16 @@
  <cfset typeName = typestatuswords>
  <cfif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Holotype' or typestatuswords eq 'Syntype' or typestatuswords eq 'Neotype' or typestatuswords eq 'Hapantotype' or typestatuswords eq 'Lectotype' or typestatuswords eq 'Paralectotype' or typestatuswords eq 'Syntype?' or typestatuswords eq 'Holotype?' or typestatuswords eq 'Lectotype?')>
  <cfset twotypes = '#replace(typestatusplain,"|","<br>")#'>
-      <div class="primaryCont">
+      <div class="primaryCont" style="margin-top:-1em;">
         <div class="primaryType">
     <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes# </span>'>
   <cfelseif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Paratype' or typestatuswords eq 'Paralectotype' or typestatuswords eq 'Alloparatype' or typestatuswords eq 'Alloparalectotype')>
   <cfset  twotypes= '#replace(typestatusplain,"|","<br>")#'>
-       <div class="secondaryCont">
+       <div class="secondaryCont" style="margin-top: -1em;">
            <div class="secondaryType">
      <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes#  </span>'>
 <cfelse>
-     <div class="defaultCont">
+     <div class="defaultCont" style="margin-top: -1em;">
         <div class="defaultType">
   </cfif>
    <ul class="headercol1">

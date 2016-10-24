@@ -345,9 +345,9 @@
           </cfloop>
         </select>
         :&nbsp;
-        <input type="text" name="related_value__1" id="related_value__1" size="66" readonly>
+        <input type="text" name="related_value__1" id="related_value__1" size="70" readonly>
         <input type="hidden" name="related_id__1" id="related_id__1">
-       
+       <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
  
       <label for="labels" style="margin-top:.5em;">Media Labels</label>
@@ -360,7 +360,8 @@
             </cfloop>
           </select>
           :&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1" size="66">&nbsp;<span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
+          <input type="text" name="label_value__1" id="label_value__1" size="70">&nbsp;
+            <br><span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
       </div>
         
        </div>
