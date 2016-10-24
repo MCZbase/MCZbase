@@ -616,7 +616,7 @@ Some Totally Random String Data .....
 						<tr>
 							<td colspan="2" id="d_orig_elev_units">
 								<label for="minimum_elevation">Elevation</label>
-								<span class="f11a">between</span>
+								<span class="f11a" style="padding-right: .71em;">between</span>
 								<input type="text" title="MINIMUM_ELEVATION" name="minimum_elevation" size="4" value="#minimum_elevation#" id="minimum_elevation">
 								<span class="infoLink"
 									onclick="document.getElementById('maximum_elevation').value=document.getElementById('minimum_elevation').value";>&nbsp;>>&nbsp;</span>
@@ -637,9 +637,9 @@ Some Totally Random String Data .....
 						<tr>
 							<td colspan="2" id="d_orig_depth_units">
 								<label for="min_depth">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Depth</label>
-								<span class="f11a">between</span>
+								<span class="f11a" style="padding-right: .71em;">between</span>
 								<input type="text" name="min_depth" size="4" title="MIN_DEPTH" value="#min_depth#" id="min_depth">
-								<span class="infoLink"	onclick="document.getElementById('maximum_depth').value=document.getElementById('minimum_depth').value";>&nbsp;>>&nbsp;</span>
+								<span class="infoLink"	onclick="document.getElementById('max_depth').value=document.getElementById('min_depth').value";>&nbsp;>>&nbsp;</span>
                                 
 								<input type="text" name="max_depth" size="4" title="MAX_DEPTH" value="#max_depth#" id="max_depth">
                                                                                                                                  
