@@ -2350,7 +2350,7 @@ p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 .detailBlock {
 	display: block;
 	padding: 0;
-	font-size: .95em;
+	/*font-size: .95em;*/
 	margin: .7em .5em .7em 1em;
 }
 .innerDetailLabel {
@@ -2376,7 +2376,7 @@ p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 #resultsGoHere {
 	width: 100%;
 	overflow: scroll;
-	font-size: smaller;
+
 }
 .resultsGoHere {
 	width: 100%;
@@ -2395,7 +2395,7 @@ p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 	position: relative;
 	margin: 1px 6px 8px 6px;
 	border-radius: 5px;
-	font-size: .98em;
+/*	font-size: .98em;*/
 	background: white;
 }
 .detailLabel {
@@ -2423,7 +2423,7 @@ table#SD {
 td#SDCellLeft {
 	text-align: right;
 	row-span: 1;
-	font-size: smaller;
+	/*font-size: smaller;*/
 }
 .SDCellLeft {
 	text-align: right;
@@ -2434,7 +2434,7 @@ td#SDCellRight {
 	text-align: left;
 	row-span: 1;
 	padding-left: 1.2em;
-	font-size: 14px;
+	/*font-size: 14px;*/
 	padding-bottom: .25em;
 }
 .SDCellRight {
@@ -2483,7 +2483,7 @@ td#SDCellRight {
 	text-decoration: underline;
 }
 .specResultPartCell {
-	font-size: small;
+/*	font-size: small;*/
 	border: none;
 }
 .windowCloser {
@@ -3666,13 +3666,14 @@ h2.proj_title {font-size: 1.6em; margin:0;}
 .content_box_narrow {width:43em;margin:0 auto;padding: 2em 0 3em 0;}
 
 .content_box_pub select, .content_box_pub input {
-	width: 395px;
+	width: 395px;padding-right: 0;
 }
 .content_box_pub input.schBtn {width: auto;}
 
 .pub_title_box {
-    background-color: #f8f8f8;width: 91%;margin-left: -.75em;padding: 1em .75em .5em .85em;padding-bottom: 1.15em;border: 1px dotted #ccc;
+   
 }
+.pub_title_box label {font-weight: 400;}
 .projPubSearchResults {width: 80em;margin:0 auto;padding-bottom: 2em;padding-top: 1em;}
 .projPubSearchResults table {width: 80em;}
 .projPubSearchResults td.main {width: 50%;vertical-align: top;padding: 0 1em 1em 0;}
@@ -3857,28 +3858,28 @@ ul.pubLinks {
 	margin-left: 0;
 }
 span#locDetailCtl.infoLink {
-	margin-left: 680px;
+	margin-left: 675px;
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
 }
 span#geogDetailCtl.infoLink {
-	margin-left: 680px;
+	margin-left: 675px;
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
 }
 span#eventDetailCtl.infoLink {
-	margin-left: 680px;
+	margin-left: 675px;
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
 }
 span#geogrefDetailCtl.infoLink {
-	margin-left: 680px;
+	margin-left: 675px;
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
@@ -3927,6 +3928,7 @@ p.spacer {height: 3px;}
 	background-color: #f8f8f8;
 	padding: 10px 10px 20px 10px;
 	margin: 20px 0;
+    width: 800px;
 }
 .graydottedbox {
 	border-radius: 5px;
@@ -4171,21 +4173,21 @@ table.navtabs {
 	width: 100%;
 	background-color: #ffffff;
 	z-index: 1;
-	margin: .1em .1% 0 0;
+	margin: -1em .1% 0 0;
 }
 .secondaryCont {
 	float: left;
 	width: 100%;
 	background-color: #ffffff;
 	z-index: 1;
-	margin: .1em .5% 0 0;
+	margin: -1em .5% 0 0;
 }
 .primaryCont {
 	float: left;
 	width: 100%;
 	background-color: #ffffff;
 	z-index: 1;
-	margin: .1em .5% 0 0;
+	margin: -1em .5% 0 0;
 }
 .content_box_footer {
 	width: 80%;
@@ -4911,11 +4913,17 @@ table.noborder {border: none;}
         background: #b58aa5; 
 }
 .geol_hier {width: 56em;margin: 0 auto;padding: 1em 0 3em 0;}
+
 .geol_hier li {margin-left: 1.5em;}
 .geol_hier label {padding-top: .25em;}
 .geol_hier ul {list-style: circle;margin-left: 1.5em;}
 .geol_hier table {padding: 2px 16px;margin-bottom: 1em;}
 .geol_hier p {padding-bottom: .5em;}
+
+ul.agent_act {margin-left:1.5em; padding: .5em 0 1em 0;}
+ul.agent_act ul {list-style: circle;margin-left: 1.5em;}
+
+
 #loadedMsgDiv{display:none;}
 .isGoodEdit {
 	background-color:#00CCCC;
@@ -5108,9 +5116,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', end
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:11px;
 }
-input:focus, textarea:focus, select:focus {
+/*  input:focus, textarea:focus, select:focus {
 	border: 1px solid #FFFF00;
-}
+}*/
 #theTable .fs {
 	border: 1px ridge #669999;
 	width:100%;
