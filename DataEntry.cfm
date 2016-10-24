@@ -613,10 +613,10 @@ Some Totally Random String Data .....
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2" id="d_orig_elev_units">
-								<label for="minimum_elevation">Elevation</label>
-								<span class="f11a" style="padding-right: .71em;">between</span>
-								<input type="text" title="MINIMUM_ELEVATION" name="minimum_elevation" size="4" value="#minimum_elevation#" id="minimum_elevation">
+							<td id="d_orig_elev_units" align="right">
+							
+                                <span class="f11a">Elevation between</span></td>
+								<td><input type="text" title="MINIMUM_ELEVATION" name="minimum_elevation" size="4" value="#minimum_elevation#" id="minimum_elevation">
 								<span class="infoLink"
 									onclick="document.getElementById('maximum_elevation').value=document.getElementById('minimum_elevation').value";>&nbsp;>>&nbsp;</span>
 								<input type="text" title="MAXIMUM_ELEVATION" name="maximum_elevation" size="4" value="#maximum_elevation#" id="maximum_elevation">
@@ -634,10 +634,10 @@ Some Totally Random String Data .....
 <!---Hide depth from this form for some departments (it is still accessible if needed on the grid views)--->
 						<cfif collection_cde is not "VP" and collection_cde is not "IP" and collection_cde is not "Orn" and collection_cde is not "Model">
 						<tr>
-							<td colspan="2" id="d_orig_depth_units">
-								<label for="min_depth">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Depth</label>
-								<span class="f11a" style="padding-right: .71em;">between</span>
-								<input type="text" name="min_depth" size="4" title="MIN_DEPTH" value="#min_depth#" id="min_depth">
+							<td id="d_orig_depth_units" align="right">
+								
+                                <span class="f11a">Depth between</span></td>
+								<td><input type="text" name="min_depth" size="4" title="MIN_DEPTH" value="#min_depth#" id="min_depth">
 								<span class="infoLink"	onclick="document.getElementById('max_depth').value=document.getElementById('min_depth').value";>&nbsp;>>&nbsp;</span>
                                 
 								<input type="text" name="max_depth" size="4" title="MAX_DEPTH" value="#max_depth#" id="max_depth">
