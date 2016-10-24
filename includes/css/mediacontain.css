@@ -5,6 +5,7 @@
 	color: #444;      /* Serves to demphasize metadata text, see also ul */
 	padding-left: 2em;
     overflow: hidden;
+    padding-bottom: 2em;
     
 }
 /* Override properties of .magnifyarea from multizoom.css */ 
@@ -190,7 +191,7 @@ p {
 	float: left;
 	width: 98%;
 	margin: 20px 0 30px 0;
-	height: 170px;
+	height: 210px;
 	clear: both;
 }
 #mediacontain .media_thumbs h4{

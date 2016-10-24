@@ -370,10 +370,10 @@ Some Totally Random String Data .....
 					</td>
 				</tr>
 				<tr><td width="50%" valign="top"><!--- left top of page --->
-					<table cellpadding="0" cellspacing="0" class="fs">
+					<table class="fs">
                         <!--- cat item IDs --->
 						<tr>
-                            <td valign="top" <cfif collection_cde is "Mala">style="background-color: ##5698e2"</cfif><cfif collection_cde is "IZ">style="background-color: ##cd991c"</cfif><cfif collection_cde is "Mamm">style="background-color: ##eff2a4"</cfif><cfif collection_cde is "Ich">style="background-color: ##98c9eb"</cfif><cfif collection_cde is "Orn">style="background-color: ##e68250"</cfif><cfif collection_cde is "IP">style="background-color: ##b8a4bc"</cfif><cfif collection_cde is "VP">style="background-color: ##b9b69e"</cfif><cfif collection_cde is "Herp">style="background-color: ##92a462"</cfif><cfif collection_cde is "Cryo">style="background-color: ##cbd9ee"</cfif><cfif collection_cde is "Ent">style="background-color: ##eedecb"</cfif><cfif collection_cde is "MCZ">style="background-color: ##a5acbf"</cfif><cfif collection_cde is "SC">style="background-color: ##c8bee8"</cfif>>
+                            <td valign="top" <cfif collection_cde is "Mala">style="background-color: ##5698e2;padding-bottom: 4px;"</cfif><cfif collection_cde is "IZ">style="background-color: ##cd991c;padding-bottom: 4px;"</cfif><cfif collection_cde is "Mamm">style="background-color: ##eff2a4;padding-bottom: 4px;"</cfif><cfif collection_cde is "Ich">style="background-color: ##98c9eb;padding-bottom: 4px;"</cfif><cfif collection_cde is "Orn">style="background-color: ##e68250;padding-bottom: 4px;"</cfif><cfif collection_cde is "IP">style="background-color: ##b8a4bc"</cfif><cfif collection_cde is "VP">style="background-color: ##b9b69e;padding-bottom: 4px;"</cfif><cfif collection_cde is "Herp">style="background-color: ##92a462;padding-bottom: 4px;"</cfif><cfif collection_cde is "Cryo">style="background-color: ##cbd9ee;padding-bottom: 4px;"</cfif><cfif collection_cde is "Ent">style="background-color: ##eedecb;padding-bottom: 4px;"</cfif><cfif collection_cde is "MCZ">style="background-color: ##a5acbf"</cfif><cfif collection_cde is "SC">style="background-color: ##c8bee8;padding-bottom: 4px;"</cfif>>
 								<div id="modeDisplayDiv"><cfif len(#loadedMsg#)gt 0>FIX<cfelse>#ucase(pMode)#</cfif></div>
                                     &nbsp;&nbsp;<b>#institution_acronym#:#collection_cde#</b>
                                                     
@@ -387,7 +387,7 @@ Some Totally Random String Data .....
 								</select>
 								--->
 								<span id="catNumLbl" class="f11a">Cat##</span>
-								<input type="text" name="cat_num" value="#cat_num#" title="CAT_NUM" size="13" id="cat_num">
+								<input type="text" name="cat_num" value="#cat_num#" title="CAT_NUM" size="11" id="cat_num">
 								<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 									<span id="d_other_id_num_type_5">
 										<span class="f11a">#session.CustomOtherIdentifier#</span>
@@ -403,11 +403,11 @@ Some Totally Random String Data .....
 									</span>
 								</cfif>
 								<span class="f11a">Accn</span>
-								<input type="text" name="accn" title="ACCN" value="#accn#" size="13" class="reqdClr" id="accn" onchange="isGoodAccn();">
-								<span id="customizeForm" class="infoLink" onclick="customize()">[ customize form ]</span>
-                                <input type="hidden" name="mask_record" value="0" />
-                                <span class="f11a">
-                                    <input type="checkbox" name="mask_record" value="1" <cfif #mask_record# EQ "1">checked</cfif>> mask record</input>
+								<input type="text" name="accn" title="ACCN" value="#accn#" size="9" class="reqdClr" id="accn" onchange="isGoodAccn();">
+								<!---span id="customizeForm" class="infoLink" onclick="customize()">[ customize form ]</span>--->
+                            <cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0><br></cfif> &nbsp;<input type="hidden" name="mask_record" value="0" />
+                                     <span class="f11a">
+                                    <input type="checkbox" style="vertical-align: bottom;" name="mask_record" value="1" <cfif #mask_record# EQ "1">checked</cfif>> mask record</input>
                                 </span>
 							</td>
 						</tr>
@@ -1117,10 +1117,11 @@ Some Totally Random String Data .....
 				<table cellpadding="0" cellspacing="0" class="fs">
 				    <!----- attributes ------->
 					<tr>
-                    	<td rowspan="99" valign="top">
-							<img src="/images/info.gif" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
-                        </td>
+                    	
+							
+                      
 						<td>
+                            <img src="/images/info.gif" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
 							<cfif collection_cde is not "Crus" and collection_cde is not "Herb"
 								and collection_cde is not "ES" and collection_cde is not "Ich"
 								and collection_cde is not "Para" and collection_cde is not "Art" and not
