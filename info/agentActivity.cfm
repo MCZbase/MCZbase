@@ -1,8 +1,10 @@
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/includes/_frameHeader.cfm">
+<div style="padding: 2em;">
+
 <cfset title = "Agent Activity">
 <cfoutput>
 <a href="/agents.cfm?agent_id=#agent_id#" target="_top">Edit Agent</a>
-<div class="red">Please note: your login may prevent you from seeing some data</div>
+<div class="red" style="color: white;padding: 2px 10px; width: 460px;margin-top: 1em;">Please note: your login may prevent you from seeing some data</div>
 <cfquery name="agent" datasource="uam_god">
 	select * FROM agent where agent_id=#agent_id#
 </cfquery>
@@ -12,7 +14,7 @@
 <cfquery name="name" datasource="uam_god">
 	select agent_name_id, agent_name, agent_name_type FROM agent_name where agent_id=#agent_id#
 </cfquery>
-Agent:
+    <h3 class="wikilink" style="margin-bottom: .6em;">Agent:</h3>
 <table border>
 	<tr>
 		<td align="right"><strong>Agent Type:</strong></td>
@@ -49,8 +51,8 @@ Agent:
 		</tr>
 	</cfif>
 </table>
-Agent Names:
-	<ul>
+    <h3 class="wikilink">Other Forms of this Agent Name:</h3>
+	<ul class="agent_act">
 		<cfloop query="name">
 			<li>
 				#name.agent_name# (#agent_name_type#)
@@ -69,7 +71,7 @@ Agent Names:
 						project.project_id
 				</cfquery>
 				<cfif len(project_agent.project_name) gt 0>
-					<div style="font-weight:bold;padding-left:.5em">Projects using this name:</div>
+					<div style="font-weight:bold;padding-left:.5em;padding-top: .5em;">Projects using this name:</div>
 					<ul>
 						<cfloop query="project_agent">
 							<li><a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
@@ -91,7 +93,7 @@ Agent Names:
 						PUBLICATION_TITLE
 				</cfquery>
 				<cfif len(publication_author_name.PUBLICATION_TITLE) gt 0>
-					<div style="font-weight:bold;padding-left:.5em">Publications using this name:</div>
+					<div style="font-weight:bold;padding-left:.5em; padding-top: .5em;">Publications using this name:</div>
 					<ul>
 						<cfloop query="publication_author_name">
 							<li>
@@ -130,7 +132,7 @@ Agent Names:
 		</cfloop>
 	</ul>
 	
-Agent Relationships:
+    <h3 class="wikilink">Agent Relationships:</h3>
 	<cfquery name="agent_relations" datasource="uam_god">
 		select AGENT_RELATIONSHIP,agent_name,RELATED_AGENT_ID
 		from agent_relations,preferred_agent_name
@@ -138,7 +140,7 @@ Agent Relationships:
 		agent_relations.RELATED_AGENT_ID=preferred_agent_name.agent_id and
 		agent_relations.agent_id=#agent_id#
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="agent_relations">
 			<li>#AGENT_RELATIONSHIP# <a href="agentActivity.cfm?agent_id=#RELATED_AGENT_ID#">#agent_name#</a></li>
 		</cfloop>
@@ -150,12 +152,12 @@ Agent Relationships:
 		agent_relations.agent_id=preferred_agent_name.agent_id and
 		RELATED_AGENT_ID=#agent_id#
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="agent_relations">
 			<li><a href="agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a> is #AGENT_RELATIONSHIP#</li>
 		</cfloop>
 	</ul>
-Groups:	
+    <h3 class="wikilink">Groups:	</h3>
 	<cfquery name="group_member" datasource="uam_god">
 		select 
 			agent_name,
@@ -167,30 +169,30 @@ Groups:
 			MEMBER_AGENT_ID=#agent_id#
 		order by agent_name
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="group_member">
 			<li><a href="agentActivity.cfm?agent_id=#GROUP_AGENT_ID#">#agent_name#</a></li>
 		</cfloop>
 	</ul>							 
-Electronic Address:
+    <h3 class="wikilink">Electronic Address:</h3>
 	<cfquery name="electronic_address" datasource="uam_god">
 		select * from electronic_address where agent_id=#agent_id#
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="electronic_address">
 			<li>#ADDRESS_TYPE#: #ADDRESS#</li>
 		</cfloop>
 	</ul>
-Address:	
+    <h3 class="wikilink">Address:</h3>	
 	<cfquery name="addr" datasource="uam_god">
 		select replace(formatted_addr,chr(10),'<br>') formatted_addr from addr where agent_id=#agent_id#
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="addr">
 			<li>#formatted_addr#</li>
 		</cfloop>
 	</ul>
-Collected or Prepared:
+    <h3 class="wikilink">Collected or Prepared:</h3>
 	<cfquery name="collector" datasource="uam_god">
 		select 
 			count(distinct(collector.collection_object_id)) cnt,
@@ -208,14 +210,14 @@ Collected or Prepared:
 			collection.collection,
 	        collection.collection_id
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<CFLOOP query="collector">
 			<li>
 				<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#collector.collection_id#">#collector.cnt# #collector.collection#</a> specimens
 			</li>
 	  	</CFLOOP>
 	</ul>
-Entered:
+    <h3 class="wikilink">Entered:</h3>
 	<cfquery name="entered" datasource="uam_god">
 		select 
 			count(*) cnt,
@@ -233,14 +235,14 @@ Entered:
 			collection,
 			collection.collection_id
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="entered">
 			<li>
 				<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
 			</li>
 		</cfloop>
 	</ul>
-Edited:	
+    <h3 class="wikilink">Edited:	</h3>
 	<cfquery name="last_edit" datasource="uam_god">
 		select 
 			count(*) cnt,
@@ -258,14 +260,14 @@ Edited:
 			collection,
 			collection.collection_id
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="last_edit">
 			<li>
 				<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
 			</li>
 		</cfloop>
 	</ul>
-Attribute Determiner:
+    <h3 class="wikilink">Attribute Determiner: </h3>
 	<cfquery name="attributes" datasource="uam_god">
 		select 
 			count(attributes.collection_object_id) c,
@@ -284,7 +286,7 @@ Attribute Determiner:
 			collection.collection_id,
 			collection 
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="attributes">
 			<li>
 				#c# attributes for #s#
@@ -293,7 +295,7 @@ Attribute Determiner:
 			</li>
 		</cfloop>
 	</ul>
-Media:
+    <h3 class="wikilink">Media:</h3>
 	<cfquery name="media" datasource="uam_god">
 		select media_id from media_relations where media_relationship like '% agent' and
 		related_primary_key=#agent_id#
@@ -304,7 +306,7 @@ Media:
 	<cfquery name="media_labels" datasource="uam_god">
 		select media_id from media_labels where ASSIGNED_BY_AGENT_ID=#agent_id#
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<li>
 			Subject of #media.recordcount# <a href="/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#"> Media entries.</a>
 		</li>
@@ -315,8 +317,8 @@ Media:
 			Assigned #media_labels.recordcount# Media Labels.
 		</li>
 	</ul>
-Encumbrances:
-	<ul>
+    <h3 class="wikilink">Encumbrances:</h3>
+	<ul class="agent_act">
 		<cfquery name="encumbrance" datasource="uam_god">
 			select count(*) cnt from encumbrance where encumbering_agent_id=#agent_id#
 		</cfquery>
@@ -345,7 +347,7 @@ Encumbrances:
 				#specs# #collection#</a> records</li>
 		</cfloop>
 	</ul>
-Identification:
+    <h3 class="wikilink">Identification:</h3>
 	<cfquery name="identification" datasource="uam_god">
 		select 
 			count(*) cnt, 
@@ -366,7 +368,7 @@ Identification:
 			collection.collection_id,
 			collection.collection
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="identification">
 			<li>
 				#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
@@ -374,16 +376,16 @@ Identification:
 			</li>
 		</cfloop>
 	</ul>
-Coordinates:
+    <h3 class="wikilink">Coordinates:</h3>
 	<cfquery name="lat_long" datasource="uam_god">
 		select 
 			count(*) cnt,
 			count(distinct(locality_id)) locs from lat_long where determined_by_agent_id=#agent_id#
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<li>Determined #lat_long.cnt# coordinates for #lat_long.locs# localities</li>
 	</ul>
-Permits:	
+    <h3 class="wikilink">Permits:	</h3>
 	<cfquery name="permit_to" datasource="uam_god">
 		select 
 			PERMIT_NUM,
@@ -393,7 +395,7 @@ Permits:
 		where 
 			ISSUED_TO_AGENT_ID=#agent_id#
 	</cfquery>
-	<ul>
+	<ul class="agent_act">
 		<cfloop query="permit_to">
 			<li>
 				Permit <a href="/Permit.cfm?action=search&ISSUED_TO_AGENT_ID=#agent_id#">#PERMIT_NUM#: #PERMIT_TYPE#</a> was issued to
@@ -426,8 +428,8 @@ Permits:
 			</li>
 		</cfloop>
 	</ul>
-Transactions
-	<ul>
+<h3 class="wikilink">Transactions</h3>
+	<ul class="agent_act">
 		<cfquery name="shipment" datasource="uam_god">
 			select 
 				LOAN_NUMBER,
@@ -575,4 +577,5 @@ Transactions
 		</cfloop>
 	</ul>
 </cfoutput>
-<cfinclude template = "/includes/_footer.cfm">
+    </div>
+<cfinclude template = "/includes/_pickFooter.cfm">

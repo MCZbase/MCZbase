@@ -158,7 +158,7 @@
 <div style="margin-bottom: 5px;margin-left: 5px;">
 	<span id="observations">Include&nbsp;Observations?</span><input type="checkbox" name="showObservations" id="showObservations" value="1" onchange="changeshowObservations(this.checked);"<cfif session.showObservations eq 1> checked="checked"</cfif>>
 	&nbsp;&nbsp;&nbsp;<span id="_is_tissue">Require&nbsp;Tissues?</span><input type="checkbox" name="is_tissue" id="is_tissue" value="1">
-	&nbsp;&nbsp;&nbsp;<span id="_media_type">Require&nbsp;Media</span>:<select name="media_type" id="media_type" size="1">
+	&nbsp;&nbsp;&nbsp;<span id="_media_type">Require&nbsp;Media</span>: <select name="media_type" id="media_type" size="1">
 				<option value=""></option>
                 <option value="any">Any</option>
 				<cfloop query="ctmedia_type">
