@@ -4465,7 +4465,7 @@ line-height: 1.2em;}
 .editMedia2 label {margin-top: .65em;}
 
 table.attributes {font-size: 10px;}
-table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;}
+table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right: 1px dotted #ccc;}
 
 
 @media only screen and (max-width: 1800px) {
