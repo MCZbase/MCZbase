@@ -2376,12 +2376,12 @@ p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 #resultsGoHere {
 	width: 100%;
 	overflow: scroll;
-
 }
 .resultsGoHere {
 	width: 100%;
 	overflow: scroll;
-	font-size: 12px;
+	/*font-size: 12px;*/
+    padding-bottom: 300px;    
 }
 .detailCellSmall {
 	font-size: .72em;
