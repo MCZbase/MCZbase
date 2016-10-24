@@ -728,6 +728,7 @@ div.ui-datepicker {
 	text-align: left;
 	margin-left: 0em;
 	padding: 5px;
+    margin-top: 1.5em;
 }
 #bug_text ul {
 	margin-left: 1em;
@@ -741,12 +742,13 @@ div.ui-datepicker {
 #bug_form {
 	width: 700px;
 	margin-bottom: 3em;
+    padding-bottom: 4em;
 }
 /*end bug form styles*/
 /****************** delete before this ? *************/
 /*************************************************/
 /*********************************************/
-
+.mediaTableRes ul {margin-left: 1.5em;}
 ul {
 	display: block;
 	list-style-type: disc;
@@ -2389,7 +2391,7 @@ p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 	color: #444444;
 }
 .detailCell {
-	border: 1px dotted #ccc;
+	border: 1px dotted #666;
 	text-align: left;
 	padding: 2px 3px 0 15px;
 	position: relative;
@@ -4459,7 +4461,7 @@ table.navtabs {
 }
 .BulkSpec p {margin: .5em 0;
 line-height: 1.2em;}
-.mediaEdit {margin-top:0;}
+.mediaEdit {margin-top:-.5em;padding-bottom: .5em;margin-left:3.5em;}
 
 .arctosSet {margin-bottom: .5em; margin-top:1.5em;padding-bottom: 0;}
 .editMedia2 label {margin-top: .65em;}

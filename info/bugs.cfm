@@ -12,8 +12,10 @@
  <div id="bug_form">
  		<div id="bug_text">
 		<h3>Provide Feedback</h3>
+    <ul class="geol_hier" style="padding-bottom: 0em;">
 		<li>Use this form to report problems you have encountered while using the database.</li>
 		<li>Use this form to make suggestions in relation to database function or data display.</li>
+            </ul>
 		<p>NOTE: To report problems or errors with specimen data, use the "Report Bad Data" link included on the Search Results webpages.</p>
      	<p>Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be    released or publicly displayed on our site.</p>
         </div>
