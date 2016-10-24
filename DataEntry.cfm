@@ -28,7 +28,6 @@ UAM Mammals Data.....
 UAM Data .....
 Some Totally Random String Data .....
 
-
 --->
 <cf_setDataEntryGroups>
 
@@ -417,7 +416,7 @@ Some Totally Random String Data .....
                         <!--- agents --->
 						<tr>
 							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Agent-Data Entry')" class="likeLink" alt="[ help ]">
+								<img src="/images/info.gif" onClick="getMCZDocs('Agent-Data Entry')" class="likeLink" alt="[ help ]">
 							</td>
 							<cfloop from="1" to="8" index="i">
 								<cfif i is 1 or i is 3 or i is 5 or i is 7><tr></cfif>
@@ -471,7 +470,7 @@ Some Totally Random String Data .....
 					    <!----- identification ----->
 						<tr>
 							<td rowspan="99" valign="top">
-								<img src="/images/info.gif" border="0" onClick="getMCZDocs('Identification')" class="likeLink" alt="[ help ]">
+								<img src="/images/info.gif" onClick="getMCZDocs('Identification')" class="likeLink" alt="[ help ]">
 							</td>
 							<td align="right">
 								<span class="f11a">Scientific&nbsp;Name</span>
@@ -742,7 +741,7 @@ Some Totally Random String Data .....
 					<tr>
 						<td>
 							<div id="lat_long_meta" class="noShow">
-								<table cellpadding="0" cellspacing="0">
+								<table>
 									<tr>
 										<td align="right"><span class="f11a">Max Error</span></td>
 										<td>
@@ -831,7 +830,7 @@ Some Totally Random String Data .....
 								</table>
 							</div>
 							<div id="dms" class="noShow">
-								<table cellpadding="0" cellspacing="0">
+								<table>
 									<tr>
 										<td align="right"><span class="f11a">Lat Deg</span></td>
 										<td>
@@ -1114,7 +1113,7 @@ Some Totally Random String Data .....
 					</div>
 				</cfif><!---- /geology ------->
 
-				<table cellpadding="0" cellspacing="0" class="fs">
+				<table class="fs">
 				    <!----- attributes ------->
 					<tr>
                     	
@@ -1390,7 +1389,7 @@ Some Totally Random String Data .....
 					</tr>
 				</table><!---- /attributes ----->
 
-				<table cellpadding="0" cellspacing="0" class="fs">
+				<table class="fs">
 				    <!--- random admin stuff ---->
 					<tr>
 						<td align="right"><span class="f11a">Entered&nbsp;By</span></td>
@@ -1431,7 +1430,7 @@ Some Totally Random String Data .....
 					</tr>
 				</table><!------ random admin stuff ---------->
 
-				<table cellpadding="0" cellspacing="0" class="fs">
+				<table class="fs">
 				    <!------- remarks  ------->
 					<tr id="d_coll_object_remarks">
 						<td colspan="2">
