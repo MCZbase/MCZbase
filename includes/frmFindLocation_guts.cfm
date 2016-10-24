@@ -405,7 +405,7 @@
 		<tr>
 			<td>
 				<label for="verbatim_locality">Verbatim Locality</label>
-				<input type="text" name="verbatim_locality" id="verbatim_locality" size="95">
+				<input type="text" name="verbatim_locality" id="verbatim_locality" size="75">
 			</td>
 		</tr>
 		<tr>
@@ -436,21 +436,21 @@
 			<tr>
 				<td>
 					<label for="verbatim_date">Verbatim Date</label>
-					<input type="text" name="verbatim_date" id="verbatim_date" size="50">
+					<input type="text" name="verbatim_date" id="verbatim_date" size="30">
 				</td>
                 	<td style="padding-left: 1em;">
 					<label for="collecting_method">Collecting Method</label>
-					<input type="text" name="collecting_method" id="collecting_method" size="50">
+					<input type="text" name="collecting_method" id="collecting_method" size="30">
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<label for="coll_event_remarks">Collecting Event Remarks</label>
-					<input type="text" name="coll_event_remarks" id="coll_event_remarks" size="50">
+					<input type="text" name="coll_event_remarks" id="coll_event_remarks" size="30">
 				</td>
                 	<td style="padding-left: 1em;">
 					<label for="habitat_desc">Habitat</label>
-					<input type="text" name="habitat_desc" id="habitat_desc" size="50">
+					<input type="text" name="habitat_desc" id="habitat_desc" size="30">
 				</td>
 			</tr>
 			<tr>
@@ -473,7 +473,7 @@
 		</div>
 		</div>
 		</cfif>
-<table cellpadding="0" cellspacign="0">
+<table>
 	<tr>
 		<td align="center">
 			<input type="submit"

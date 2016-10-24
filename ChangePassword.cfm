@@ -87,6 +87,7 @@
 
 <!----------------------------------------------------------->
 <cfif action is "lostPass">
+    <div class="changePW"></div>
     <p>Lost your password? Passwords are stored in an encrypted format and cannot be recovered.</p>
     <p>If you have saved your email address in your profile, enter it here to reset your password.</p>
 <p>If you have not saved your email address, please submit a bug report to that effect
@@ -100,9 +101,11 @@
         <br>
 	    <input type="submit" value="Request Password" class="lnkBtn">
     </form>
+    </div>
 </cfif>
 <!-------------------------------------------------------------------->
 <cfif action is "update">
+    <div class="changePW">
 	<cfoutput>
 	<cfquery name="getPass" datasource="cf_dbuser">
 		select password from cf_users where username = '#session.username#'
@@ -194,9 +197,11 @@ You will be redirected soon, or you may use the menu above now.
 	}
 </script>
 </cfoutput>
+    </div>
 </cfif>
 <!---------------------------------------------------------------------->
 <cfif action is "findPass">
+    <div class="changePW">
 <cfoutput>
 	<cfquery name="isGoodEmail" datasource="cf_dbuser">
 		select cf_user_data.user_id, email,username from cf_user_data,cf_users
@@ -259,6 +264,7 @@ You will be redirected soon, or you may use the menu above now.
 		<cfset initSession()>
 	</cfif>
 </cfoutput>
+                </div>
 </cfif>
 <!---------------------------------------------------------------------->
 <cfinclude template = "includes/_footer.cfm">

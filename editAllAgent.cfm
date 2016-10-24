@@ -185,6 +185,7 @@
 			</cfquery>
 			<cfset nameStr=#getName.agent_name#>
 		</cfif>
+        <div style="padding: 1em;">
 		<h3 class="wikilink" style="margin-bottom:.5em;"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
 		
 		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#}
@@ -202,6 +203,7 @@
 			</cfif>
 			<input type="button" class="lnkBtn" onclick="rankAgent('#agent_id#');" value="Rank">
 		</cfif>
+            </div>
 	</cfoutput>
 	<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from addr

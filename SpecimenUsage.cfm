@@ -22,7 +22,7 @@
 			<input name="toproject_id" type="hidden" value="#toproject_id#">
 		</cfoutput>
        
-		<table style="width: 100%;padding: 0 .5em;">
+		<table style="width: 100%;">
 			
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                 <tr>
@@ -36,16 +36,16 @@
               <tr>
              
 				<td>
-                 <div class="pub_title_box" style="padding-top:0.25em;">
-					<h4 style="margin-top: .75em;padding-top:0;">Project or Publication Basics</h4>
+                
+					<h4>Project or Publication Basics</h4>
 					<label for="p_title"><span id="project_publication_title">Title</span></label>
 					<input name="p_title" id="p_title" type="text">
 					<label for="author"><span id="project_publication_agent">Participant</span></label>
 					<input name="author" id="author" type="text">
 					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text">
-				</div>
-					<h4>Project Details</h4>
+
+					<h4 style="padding-top: 1em;">Project Details</h4>
 					<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
 					<input name="sponsor" id="sponsor" type="text">
 					<label for="project_type"><span id="project_type">Type</span></label>
