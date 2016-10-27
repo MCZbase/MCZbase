@@ -283,7 +283,7 @@ a.qutBtn {
 				   <input type="hidden" name="collection_object_id" value="#collection_object_id#">
            
                   <li>  
-                      #i#. &nbsp; <span style="font-weight: bold;"></span> #encumbrance#</span> (#encumbrance_action#)  <span style="color: ##666; font-style: italic;"> by #agent_name# made #dateformat(made_date,"yyyy-mm-dd")#,</span><span style="color: ##666"> expires:  #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks#</span>
+                      #i#. &nbsp; <span style="font-weight: bold;"> #encumbrance# (#encumbrance_action#) </span> <span style="color: ##666; font-style: italic;"> by #agent_name# made #dateformat(made_date,"yyyy-mm-dd")#,</span><span style="color: ##666"> expires:  #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks#</span>
 				<div style="margin-top: .25em;margin-left: 8em;text-align:right;margin-bottom:.2em;">
 				<cfif len(collection_object_id) gt 0>
 					<span class="likeLink"  onclick="listEnc#i#.Action.value='saveEncumbrances';listEnc#i#.submit();">
