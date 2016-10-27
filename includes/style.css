@@ -2987,6 +2987,7 @@ input.lnkBtn {
 	border: 1px solid #336666;
 	border-radius: 5px;
 }
+
 input.schBtn {
 	color: #666666;
 	font-size: 10pt;
@@ -4470,6 +4471,11 @@ line-height: 1.2em;}
 
 table.attributes {font-size: 10px;}
 table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right: 1px dotted #ccc;}
+#encumbranceBox1 {
+    width: 60em; 
+    margin: 0 auto; 
+    padding: 1em 0 3em 0;
+}
 
 
 @media only screen and (max-width: 1800px) {

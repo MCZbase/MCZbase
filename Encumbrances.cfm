@@ -1,4 +1,5 @@
 <cfinclude template="includes/_header.cfm">
+    <div id="encumbranceBox1">
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery("#made_date_after").datepicker();
@@ -147,6 +148,67 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------->
 <cfif action is "listEncumbrances">
+    <style>
+.oddRow{
+    background-color: #fff;
+    margin: .5em 0;
+    border: 1px dotted #666;
+    font-size: smaller;
+    display: block;
+    padding: .5em .8em;
+}
+.evenRow {
+    background-color: #f8f8f8;
+    margin: .5em 0;
+    border: 1px dotted #666;
+    font-size: smaller;
+    padding: .5em .8em;
+    display: block;
+}
+ span.lnkBtn, a.lnkBtn {
+    color: #666666;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 2px 5px;
+	background-color: #99CCFF;
+	border: 1px solid #336666;
+	border-radius: 5px;
+    margin-right: .5em;
+}
+span.delBtn {
+    color: #666666;
+	font-size:12px;
+	font-weight: bold;
+	padding: 2px 5px;
+	background-color: #FF9966;
+	border: 1px solid #336666;
+	border-radius: 5px;
+    margin-right: .5em;
+        }
+span.savBtn {
+    color: #666666;
+	font-size:12px;
+	font-weight: bold;
+	padding: 2px 5px;
+	background-color: #FBD29B;
+	border: 1px solid;
+	border-color: #336666;
+    border-radius: 5px;
+    width: auto;
+    margin-right: .5em;
+}
+a.qutBtn {
+  border-radius: 5px;
+	border: 1px solid #666;
+	padding: 1px 5px;
+	cursor: pointer;
+    color: #666;
+    font-weight: bold;
+    background-color: #FF9966;
+	border-color: #336666;
+ }
+#encumbranceBox1 li {list-style: none; text-indent: -1.8em; margin-left:1em;padding-left:1em;}
+  </style>
 	<cfset title="Encumbrance Search Results">
 	<a href="Encumbrances.cfm">Back to Search Encumbrances</a>
 	<br>
@@ -212,34 +274,41 @@
 			<cfabort>
 		</cfif>
 		<cfset i = 1>
+    <ul style="margin-left: -2.5em;">
 		<cfloop query="getEnc">
-			<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-			<form name="listEnc#i#" method="post" action="Encumbrances.cfm">
-				<input type="hidden" name="Action">
-				<input type="hidden" name="encumbrance_id" value="#encumbrance_id#">
-				<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-				#encumbrance# (#encumbrance_action#) by #agent_name# made #dateformat(made_date,"yyyy-mm-dd")#, expires #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks#
-				<br>
+            <div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+			    <form name="listEnc#i#" method="post" action="Encumbrances.cfm">
+				   <input type="hidden" name="Action">
+				   <input type="hidden" name="encumbrance_id" value="#encumbrance_id#">
+				   <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+           
+                  <li>  
+                      #i#. &nbsp; <span style="font-weight: bold;"></span> #encumbrance#</span> (#encumbrance_action#)  <span style="color: ##666; font-style: italic;"> by #agent_name# made #dateformat(made_date,"yyyy-mm-dd")#,</span><span style="color: ##666"> expires:  #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks#</span>
+				<div style="margin-top: .25em;margin-left: 8em;text-align:right;margin-bottom:.2em;">
 				<cfif len(collection_object_id) gt 0>
-					<span class="likeLink" onclick="listEnc#i#.Action.value='saveEncumbrances';listEnc#i#.submit();">
+					<span class="likeLink"  onclick="listEnc#i#.Action.value='saveEncumbrances';listEnc#i#.submit();">
 						[ Add All Items To This Encumbrance ]
 					</span>
-					<span class="likeLink" onclick="listEnc#i#.Action.value='remListedItems';listEnc#i#.submit();">
+					<span class="likeLink lnkBtn" onclick="listEnc#i#.Action.value='remListedItems';listEnc#i#.submit();">
 						[ Remove Listed Items From This Encumbrance ]
 					</span>
 				</cfif>
-				<span class="likeLink" onclick="listEnc#i#.Action.value='deleteEncumbrance';confirmDelete('listEnc#i#');">
-					[ Delete This Encumbrance ]
+				<span class="likeLink savBtn" onclick="listEnc#i#.Action.value='deleteEncumbrance';confirmDelete('listEnc#i#');">
+					Delete This Encumbrance
 				</span>
-				<span class="likeLink" onclick="listEnc#i#.Action.value='updateEncumbrance';listEnc#i#.submit();">
-					[ Modify This Encumbrance ]
+				<span class="likeLink lnkBtn" onclick="listEnc#i#.Action.value='updateEncumbrance';listEnc#i#.submit();">
+					Modify This Encumbrance
 				</span>
-				<a href="/SpecimenResults.cfm?encumbrance_id=#encumbrance_id#">[ See Specimens ]</a>
-				<a href="/Admin/deleteSpecByEncumbrance.cfm?encumbrance_id=#encumbrance_id#">[ Delete Encumbered Specimens ]</a>
+				<a href="/SpecimenResults.cfm?encumbrance_id=#encumbrance_id#" class="lnkBtn">See Specimens</a>
+				<a href="/Admin/deleteSpecByEncumbrance.cfm?encumbrance_id=#encumbrance_id#" class="qutBtn"> Delete Encumbered Specimens</a>
+                    
+                    </li>
+                           
 			</form>
 			</div>
 			<cfset i = #i#+1>
 		</cfloop>
+             </ul>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------->
@@ -624,6 +693,7 @@ UPDATE encumbrance SET
 		</cfoutput>
 	</table>
 </cfif>
+            </div>
 <!------------------------------------------------------------------------------------------------------->	
 <cfinclude template = "includes/_footer.cfm">
 <cf_customizeIFrame>
