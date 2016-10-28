@@ -274,7 +274,7 @@ a.qutBtn {
 			<cfabort>
 		</cfif>
 		<cfset i = 1>
-    <ul style="margin-left: -2.5em;">
+    <ul>
 		<cfloop query="getEnc">
             <div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 			    <form name="listEnc#i#" method="post" action="Encumbrances.cfm">
