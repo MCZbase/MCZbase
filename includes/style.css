@@ -1473,7 +1473,7 @@ input.insBtn {
 input.picBtn {
 	color: #666666;
 	font-size: 10pt;
-	font-weight: bold;
+	 font-weight: bold;
 	background-color: #CCCC99;
 	border-color: #336666;
 	border: 1px solid;
@@ -3036,6 +3036,14 @@ input.picBtn {
 	border: 1px solid #336666;
 	border-radius: 5px;
 }
+span.picBtn {
+	color: #666666;
+	font-size: 10pt;
+	font-weight: bold;
+	background-color: #CCCC99;
+	border: 1px solid #336666;
+	border-radius: 5px;
+}
 input.delBtn {
 	color: #666666;
 	font-size: 10pt;
@@ -4112,6 +4120,16 @@ ul.headercol3 li {
 	font-size: .88em;
 	padding: .5em;
 	border-radius: 5px;
+}
+span.picBtn {
+	color: #666666;
+	font-size: 9pt;
+	font-weight: bold;
+    padding: 2px 5px;
+	background-color: #CCCC99;
+	border: 1px solid #336666;
+	border-radius: 5px;
+    margin-right: 5px;
 }
 .taxDetDiv {
 	padding: .25em;

@@ -173,7 +173,7 @@
 	background-color: #99CCFF;
 	border: 1px solid #336666;
 	border-radius: 5px;
-    margin-right: .5em;
+  /*  margin-right: .5em;*/
 }
 span.delBtn {
     color: #666666;
@@ -207,10 +207,10 @@ a.qutBtn {
     background-color: #FF9966;
 	border-color: #336666;
  }
-#encumbranceBox1 li {list-style: none; text-indent: -1.8em; margin-left:1em;padding-left:1em;}
+#encumbranceBox1 li {list-style: none;}
   </style>
 	<cfset title="Encumbrance Search Results">
-	<a href="Encumbrances.cfm">Back to Search Encumbrances</a>
+	<a href="Encumbrances.cfm" style="margin-left: 3em;">Back to Search Encumbrances</a>
 	<br>
 	<cfoutput>
 		<cfset s="select 
@@ -284,19 +284,20 @@ a.qutBtn {
            
                   <li>  
                       #i#. &nbsp; <span style="font-weight: bold;"> #encumbrance# (#encumbrance_action#) </span> <span style="color: ##666; font-style: italic;"> by #agent_name# made #dateformat(made_date,"yyyy-mm-dd")#,</span><span style="color: ##666"> expires:  #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks#</span>
-				<div style="margin-top: .25em;margin-left: 8em;text-align:right;margin-bottom:.2em;">
+				<div style="margin-top: .25em;margin-left: 0em;text-align:right;margin-bottom:.2em;">
 				<cfif len(collection_object_id) gt 0>
-					<span class="likeLink"  onclick="listEnc#i#.Action.value='saveEncumbrances';listEnc#i#.submit();">
-						[ Add All Items To This Encumbrance ]
+					<span class="likeLink picBtn" style="display:inline-block;margin-bottom: .45em;width:200px;" onclick="listEnc#i#.Action.value='saveEncumbrances';listEnc#i#.submit();">
+						Add All Items To This Encumbrance
+                    </span> 
+					<span class="likeLink picBtn" onclick="listEnc#i#.Action.value='remListedItems';listEnc#i#.submit();">
+						Remove Listed Items From This Encumbrance
 					</span>
-					<span class="likeLink lnkBtn" onclick="listEnc#i#.Action.value='remListedItems';listEnc#i#.submit();">
-						[ Remove Listed Items From This Encumbrance ]
-					</span>
+                    <br>
 				</cfif>
 				<span class="likeLink savBtn" onclick="listEnc#i#.Action.value='deleteEncumbrance';confirmDelete('listEnc#i#');">
 					Delete This Encumbrance
 				</span>
-				<span class="likeLink lnkBtn" onclick="listEnc#i#.Action.value='updateEncumbrance';listEnc#i#.submit();">
+				<span class="likeLink lnkBtn" style="margin-right: .5em;background-color:##ffffcc;" onclick="listEnc#i#.Action.value='updateEncumbrance';listEnc#i#.submit();">
 					Modify This Encumbrance
 				</span>
 				<a href="/SpecimenResults.cfm?encumbrance_id=#encumbrance_id#" class="lnkBtn">See Specimens</a>
