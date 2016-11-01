@@ -746,76 +746,76 @@
 			#valid_catalog_term_fg#,
 			'#source_authority#'
 		<cfif len(#author_text#) gt 0>
-			,'#escapeQuotes(author_text)#'
+			,trim('#escapeQuotes(author_text)#')
 		</cfif>
 		<cfif len(#tribe#) gt 0>
-			,'#tribe#'
+			,trim('#tribe#')
 		</cfif>
 		<cfif len(#infraspecific_rank#) gt 0>
-			,'#infraspecific_rank#'
+			,trim('#infraspecific_rank#')
 		</cfif>
 		<cfif len(#phylclass#) gt 0>
-			,'#phylclass#'
+			,trim('#phylclass#')
 		</cfif>
 		<cfif len(#phylorder#) gt 0>
-			,'#phylorder#'
+			,trim('#phylorder#')
 		</cfif>
 		<cfif len(#suborder#) gt 0>
-			,'#suborder#'
+			,trim('#suborder#')
 		</cfif>
 		<cfif len(#family#) gt 0>
-			,'#family#'
+			,trim('#family#')
 		</cfif>
 		<cfif len(#subfamily#) gt 0>
-			,'#subfamily#'
+			,trim('#subfamily#')
 		</cfif>
 		<cfif len(#genus#) gt 0>
-			,'#genus#'
+			,trim('#genus#')
 		</cfif>
 		<cfif len(#subgenus#) gt 0>
-			,'#subgenus#'
+			,trim('#subgenus#')
 		</cfif>
 		<cfif len(#species#) gt 0>
-			,'#species#'
+			,trim('#species#')
 		</cfif>
 		<cfif len(#subspecies#) gt 0>
-			,'#subspecies#'
+			,trim('#subspecies#')
 		</cfif>
 		<cfif len(#taxon_remarks#) gt 0>
-			,'#escapeQuotes(taxon_remarks)#'
+			,trim('#escapeQuotes(taxon_remarks)#')
 		</cfif>
 		<cfif len(#phylum#) gt 0>
 			,'#phylum#'
 		</cfif>
 		<cfif len(#infraspecific_author#) gt 0>
-			,'#escapeQuotes(infraspecific_author)#'
+			,trim('#escapeQuotes(infraspecific_author)#')
 		</cfif>
 		<cfif len(#kingdom#) gt 0>
-			,'#kingdom#'
+			,trim('#kingdom#')
 		</cfif>
 		<cfif len(#nomenclatural_code#) gt 0>
 			,'#nomenclatural_code#'
 		</cfif>
 		<cfif len(#subphylum#) gt 0>
-			,'#subphylum#'
+			,trim('#subphylum#')
 		</cfif>
 		<cfif len(#superclass#) gt 0>
-			,'#superclass#'
+			,trim('#superclass#')
 		</cfif>
 	 	<cfif len(#subclass#) gt 0>
-			,'#subclass#'
+			,trim('#subclass#')
 		</cfif>
 		<cfif len(#superorder#) gt 0>
-			,'#superorder#'
+			,trim('#superorder#')
 		</cfif>
 		<cfif len(#infraorder#) gt 0>
-			,'#infraorder#'
+			,trim('#infraorder#')
 		</cfif>
 		<cfif len(#superfamily#) gt 0>
-			,'#superfamily#'
+			,trim('#superfamily#')
 		</cfif>
 		<cfif len(#taxon_status#) gt 0>
-			,'#taxon_status#'
+			,trim('#taxon_status#')
 		</cfif>
 		)
 	</cfquery>
@@ -893,12 +893,12 @@
 		valid_catalog_term_fg=#valid_catalog_term_fg#,
 		source_authority = '#source_authority#'
 		<cfif len(#author_text#) gt 0>
-			,author_text='#escapeQuotes(author_text)#'
+			,author_text=trim('#escapeQuotes(author_text)#')
 		<cfelse>
 			,author_text=null
 		</cfif>
 		<cfif len(#tribe#) gt 0>
-			,tribe = '#tribe#'
+			,tribe = trim('#tribe#')
 		<cfelse>
 			,tribe = null
 		</cfif>
@@ -908,62 +908,62 @@
 			,infraspecific_rank = null
 		</cfif>
 		<cfif len(#phylclass#) gt 0>
-			,phylclass = '#phylclass#'
+			,phylclass = trim('#phylclass#')
 		<cfelse>
 			,phylclass = null
 		</cfif>
 		<cfif len(#phylorder#) gt 0>
-			,phylorder = '#phylorder#'
+			,phylorder = trim('#phylorder#')
 		<cfelse>
 			,phylorder = null
 		</cfif>
 		<cfif len(#suborder#) gt 0>
-			,suborder = '#suborder#'
+			,suborder = trim('#suborder#')
 		<cfelse>
 			,suborder = null
 		</cfif>
 		<cfif len(#family#) gt 0>
-			,family = '#family#'
+			,family = trim('#family#')
 		<cfelse>
 			,family = null
 		</cfif>
 		<cfif len(#subfamily#) gt 0>
-			,subfamily = '#subfamily#'
+			,subfamily = trim('#subfamily#')
 		<cfelse>
 			,subfamily = null
 		</cfif>
 		<cfif len(#genus#) gt 0>
-			,genus = '#genus#'
+			,genus = trim('#genus#')
 		<cfelse>
 			,genus = null
 		</cfif>
 		<cfif len(#subgenus#) gt 0>
-			,subgenus = '#subgenus#'
+			,subgenus = trim('#subgenus#')
 		<cfelse>
 			,subgenus = null
 		</cfif>
 		<cfif len(#species#) gt 0>
-			,species = '#species#'
+			,species = trim('#species#')
 		<cfelse>
 			,species = null
 		</cfif>
 		<cfif len(#subspecies#) gt 0>
-			,subspecies = '#subspecies#'
+			,subspecies = trim('#subspecies#')
 		<cfelse>
 			,subspecies = null
 		</cfif>
 		<cfif len(#phylum#) gt 0>
-			,phylum = '#phylum#'
+			,phylum = trim('#phylum#')
 		<cfelse>
 			,phylum = null
 		</cfif>
 		<cfif len(#taxon_remarks#) gt 0>
-			,taxon_remarks = '#escapeQuotes(taxon_remarks)#'
+			,taxon_remarks = trim('#escapeQuotes(taxon_remarks)#')
 		<cfelse>
 			,taxon_remarks = null
 		</cfif>
 		<cfif len(#kingdom#) gt 0>
-			,kingdom = '#kingdom#'
+			,kingdom = trim('#kingdom#')
 		<cfelse>
 			,kingdom = null
 		</cfif>
@@ -973,42 +973,42 @@
 			,nomenclatural_code = null
 		</cfif>
 		<cfif len(#infraspecific_author#) gt 0>
-			,infraspecific_author = '#escapeQuotes(infraspecific_author)#'
+			,infraspecific_author = trim('#escapeQuotes(infraspecific_author)#')
 		<cfelse>
 			,infraspecific_author = null
 		</cfif>
 		<cfif len(#subphylum#) gt 0>
-			,subphylum = '#subphylum#'
+			,subphylum = trim('#subphylum#')
 		<cfelse>
 			,subphylum = null
 		</cfif>
 		<cfif len(#superclass#) gt 0>
-			,superclass = '#superclass#'
+			,superclass = trim('#superclass#')
 		<cfelse>
 			,superclass = null
 		</cfif>
 		<cfif len(#subclass#) gt 0>
-			,subclass = '#subclass#'
+			,subclass = trim('#subclass#')
 		<cfelse>
 			,subclass = null
 		</cfif>
 		<cfif len(#superorder#) gt 0>
-			,superorder = '#superorder#'
+			,superorder = trim('#superorder#')
 		<cfelse>
 			,superorder = null
 		</cfif>
 		<cfif len(#infraorder#) gt 0>
-			,infraorder = '#infraorder#'
+			,infraorder = trim('#infraorder#')
 		<cfelse>
 			,infraorder = null
 		</cfif>
 		<cfif len(#superfamily#) gt 0>
-			,superfamily = '#superfamily#'
+			,superfamily = trim('#superfamily#')
 		<cfelse>
 			,superfamily = null
 		</cfif>
 		<cfif len(#taxon_status#) gt 0>
-			,taxon_status = '#taxon_status#'
+			,taxon_status = trim('#taxon_status#')
 		<cfelse>
 			,taxon_status = null
 		</cfif>
