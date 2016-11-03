@@ -339,7 +339,7 @@
 								WHERE
 									identification.publication_id=formatted_publication.publication_id (+) and
 									identification.collection_object_id = #collection_object_id#
-								ORDER BY accepted_id_fg DESC,made_date DESC
+								ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 							</cfquery>
 							<cfloop query="identification">
 								<cfquery name="getTaxa_r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -447,7 +447,7 @@
 								#type_status# of
 								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 								<cfif find("(ms)", #type_status#) NEQ 0>
-									<!--- Type status with (ms) is used to mark to be published types, 
+									<!--- Type status with (ms) is used to mark to be published types,
 `										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
 										as appropriate to the name of the parent taxon of the new name --->
 									<cfif find(" ", #cited_name#) NEQ 0>
@@ -1274,7 +1274,7 @@
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 					</cfif>
                 </div>
-				
+
 					<cfif len(one.coll_object_remarks) gt 0>
 						<div class="detailBlock">
 							<span class="detailData">
@@ -1460,7 +1460,7 @@
          media_relations.media_relationship like '%cataloged_item' and
          media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
-	order by media.media_type 
+	order by media.media_type
 </cfquery>
 <cfif media.recordcount gt 0>
     <div class="detailCell">
@@ -1514,7 +1514,7 @@
 								media_labels
 							where
 								media_id=#media_id#
-                            
+
 						</cfquery>
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
