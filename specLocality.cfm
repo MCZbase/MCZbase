@@ -36,6 +36,13 @@
 			},
 			function (r) {
 				var s='';
+				var exists = false;
+				if (dataValue !==null)
+				{for (i=0; i<r.ROWCOUNT; ++i) {
+					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
+					}
+				if (exists==false){s='<option value="' + dataValue + '" selected="selected">' + dataValue + '</option>';}
+					}
 				for (i=0; i<r.ROWCOUNT; ++i) {
 					s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
 					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue) {
