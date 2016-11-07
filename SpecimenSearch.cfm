@@ -19,7 +19,7 @@
 	order by search_name
 </cfquery>
 
-<div class="basic_search_box">
+<div class="basic_box" style="margin-top: -1.5em;">
 <table>
 	<tr>
 		<td>
@@ -37,16 +37,16 @@
 			</cfif>
 		</td>
 		<td>
-			<span class="infoLink"  style="font-size: 12px;padding-left: 2em;" onClick="getHelp('CollStats');">
+			<span class="infolink" onClick="getHelp('CollStats');">
 				Holdings Details
-			</span>&nbsp;&nbsp;
-			<span class="infoLink" style="font-size: 12px;" onClick="getHelp('search_help');">
+			</span>
+			<span class="infolink" onClick="getHelp('search_help');">
 				Search Tips
 			</span>
 		</td>
 		<cfif #hasCanned.recordcount# gt 0>
-			<td style="padding-left:2em;padding-right:2em;">
-				<span style="font-size: 13px;">Saved Searches:</span> <select name="goCanned" id="goCanned" size="1" onchange="document.location=this.value;">
+			<td class="infolink">
+				<span>Saved Searches:</span> <select name="goCanned" id="goCanned" size="1" onchange="document.location=this.value;">
 					<option value=""></option>
 					<option value="saveSearch.cfm?action=manage">[ Manage ]</option>
 					<cfloop query="hasCanned">
@@ -55,7 +55,7 @@
 				</select>
 			</td>
 		</cfif>
-		<td style="padding-left:2em;padding-right:2em;">
+		<td class="horiz_padding">
 			<span style="color:red;">
 				<cfif #action# is "dispCollObj">
 					<p>You are searching for items to add to a loan.</p>
@@ -75,18 +75,18 @@
 <form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData">
 <table style="margin: 1em 0;">
 	<tr>
-		<td style="padding: 0 5px 0 0;">
+		<td class="horiz_padding">
 			<input type="submit" value="Search" class="schBtn" 
 			    onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">	
 		</td>
-		<td style="padding: 0 5px;">
+		<td class="horiz_padding">
 			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" 
 			    onmouseover="this.className='clrBtn btnhov'" onmouseout="this.className='clrBtn'">
 		</td>
-		<td style="padding: 0 5px;">
+		<td class="horiz_padding;">
 			<input type="button" name="Previous" value="Use Last Values" class="lnkBtn"	onclick="setPrevSearch()">
 		</td>
-		<td style="padding: 0 5px;">
+		<td class="horiz_padding">
 			<span><b>See results as:</b></span>
 		</td>
 		<td align="left" colspan="2" valign="top">
@@ -168,7 +168,7 @@
                         </span>
                         <cfif listcontainsnocase(session.roles,"coldfusion_user")>
                         <!---  TODO: Needs an appropriate class for styling  --->
-                         &nbsp;&nbsp;&nbsp;<span class="infoLink" id="c_save_showhide">Save current more/fewer options</span>&nbsp;<span id="c_save_showhide_response"></span>
+                        <span class="infolink" id="c_save_showhide">Save current more/fewer options</span>&nbsp;<span id="c_save_showhide_response"></span>
                         </cfif>
 </div>
 <input type="hidden" name="Action" value="#Action#">
@@ -252,7 +252,7 @@
 				&nbsp;
 		</td>
 			<td class="srch">
-				<table cellpadding="0" cellspacing="0">
+				<table>
 					<tr>
 						<td>
 							<label for="custom_id_prefix">OR: Prefix</label>
@@ -773,17 +773,16 @@
 			</td>
 			<td class="srch">
                    <p class="topspace">&nbsp;</p>
-				<input type="text" name="coll" id="coll" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
+				<input type="text" name="coll" id="coll" size="50"> <span class="hints">(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
 			</td>
 		</tr>
 		<tr>
 			<td class="lbl">
-				<span id="year_collected">Year Collected:</span>
+				<span id="year_collected">Years Collected:</span>
 			</td>
 			<td class="srch">
-				<input name="begYear" type="text" size="13">&nbsp;
-				<span class="infoLink" onclick="SpecData.endYear.value=SpecData.begYear.value">-->&nbsp;Copy&nbsp;--></span>
-				&nbsp;<input name="endYear" type="text" size="13">
+				<input name="begYear" type="text" size="13"><span class="copylink" onclick="SpecData.endYear.value=SpecData.begYear.value"> -->&nbsp;Copy&nbsp;--></span>
+                &nbsp;<input name="endYear" type="text" size="13"><br><span class="hints"> (add trip duration or copy date to both fields for one year)</span>
 			</td>
 		</tr>		
 	</table>
@@ -1004,9 +1003,9 @@
 			</td>
 			<td class="srch">
               <p class="topspace">&nbsp;</p>
-				<input type="text" autosuggest="#partlist#" name="partname" delimiter="\">
-				<span class="infoLink" onclick="getCtDoc('ctspecimen_part_name',SpecData.partname.value);">Define</span>
-				<span class="infoLink" onclick="var e=document.getElementById('partname');e.value='='+e.value;">Add = for exact match</span>
+				<input type="text" autosuggest="#partlist#" id="partname" name="partname" delimiter="\">
+				<span class="infolink" onclick="getCtDoc('ctspecimen_part_name',SpecData.partname.value);">Define</span>
+				<span class="infolink" onclick="var e=document.getElementById('partname');e.value='='+e.value;">Add = for exact match</span>
 			</td>
 		</tr>
 		<tr>
@@ -1014,11 +1013,9 @@
 				Preserve Method:
 			</td>
 			<td class="srch">
-				<input type="text" autosuggest="#presmethlist#" name="preservemethod" delimiter="\">
-				
-	
-				<span class="infoLink" onclick="getCtDoc('ctspecimen_preserv_method',SpecData.preservemethod.value);">Define</span>
-				<span class="infoLink" onclick="var e=document.getElementById('preservemethod');e.value='='+e.value;">Add = for exact match</span>
+				<input type="text" autosuggest="#presmethlist#" id="preservemethod" name="preservemethod" delimiter="\">
+				<span class="infolink" onclick="getCtDoc('ctspecimen_preserv_method',SpecData.preservemethod.value);">Define</span>
+				<span class="infolink" onclick="var e=document.getElementById('preservemethod');e.value='='+e.value;">Add = for exact match</span>
 			</td>
 		</tr>
 	</table>

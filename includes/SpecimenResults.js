@@ -342,6 +342,7 @@ function getSpecResultsData (startrow,numrecs,orderBy,orderOrder) {
 		success_getSpecResultsData
 	);
 }
+
 function success_getSpecResultsData(result){
 	var data = result.DATA;
 	var attributes="Associated_MCZ_Collection,abnormality,age,age_class,associated_taxon,bare_parts_coloration,body_length,citation,colors,crown_rump_length,date_collected,date_emerged,diameter,disk_length,disk_width,ear_from_notch,extent,fat_deposition,forearm_length,fork_length,fossil_measurement,head_length,height,hind_foot_with_claw,host,incubation,length,life_cycle_stage,life_stage,max_display_angle,molt_condition,numeric_age,ossification,plumage_coloration,plumage_description,reference,reproductive_condition,reproductive_data,section_length,section_stain,sex,size_fish,snout_vent_length,specimen_length,stage_description,standard_length,stomach_contents,storage,tail_length,temperature_experiment,total_length,total_size,tragus_length,unformatted_measurements,unnamed_form,unspecified_measurement,verbatim_elevation,weight,width,wing_chord";

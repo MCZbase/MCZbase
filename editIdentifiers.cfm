@@ -1,4 +1,5 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
+    <div class="basic_box">
 <cfset title = "Edit Identifiers">
 <cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
@@ -55,14 +56,15 @@
 	from collection
 </cfquery>
 <cfoutput>
-<b>Edit existing Identifiers:
-<table><form name="ids" method="post" action="editIdentifiers.cfm">
+    <h3>Edit existing identifiers:</h3>
+<table>
+    <form name="ids" method="post" action="editIdentifiers.cfm">
   <input type="hidden" name="collection_object_id" value="#collection_object_id#">
 
   <input type="hidden" name="Action" value="saveCatEdits">
   <tr class="evenRow"> 
-    <td><div align="right">Catalog Number:</div></td>
-    <td>
+    <td align="right">Catalog&nbsp;Number:</td>
+    <td colspan="3">
 	<select name="collection_id" size="1" class="reqdClr">
 		<cfset thisCollId=#getIDs.collection_id#>
 		<cfloop query="ctcoll_cde">
@@ -71,14 +73,12 @@
 			value="#collection_id#">#institution_acronym# #collection_cde#</option>
 		</cfloop>
 	</select>
+      
 	<input type="text" name="cat_num" value="#catAF.cat_num#" class="reqdClr">
 	<!---input type="text" name="catalog_number_prefix" value="#catAF.catalog_number_prefix#">
 	<input type="text" name="catalog_number" value="#catAF.catalog_number#" class="reqdClr">
-	<input type="text" name="catalog_number_suffix" value="#catAF.catalog_number_suffix#"---></td>
-	<td>
-	<a href="##" onClick="window.open('/tools/findGap.cfm','','width=400,height=338, resizable,scrollbars');">
-		<img src="/images/info.gif" border="0">
-	</a>
+	<input type="text" name="catalog_number_suffix" value="#catAF.catalog_number_suffix#"--->
+	
 	
 	<input type="submit" 
 	value="Save" 
@@ -87,6 +87,7 @@
    	onmouseout="this.className='savBtn'">
 	
 	 </td>
+   
   </tr>
   
 
@@ -130,7 +131,7 @@
 		</cfif>
 	</cfloop>
 	</table>
-	<table class="newRec"><tr><td>
+	<table class="newRec" style="padding: 1em;width: 100%;"><tr><td>
 	<b>Add New Identifier:</b> <img 
 								class="likeLink" 
 								src="/images/ctinfo.gif"
@@ -264,4 +265,5 @@
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------->
+            </div>
 <cf_customizeIFrame>

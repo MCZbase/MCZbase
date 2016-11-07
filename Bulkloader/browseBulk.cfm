@@ -366,16 +366,13 @@
                   )
             order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 	</cfquery>
-	<div style="background-color:##C0C0C0; font-size:smaller;">
-		Use the top form to filter the table to the records you are interested in. All values are ANDed together. Everything is case-sensitive.
-		You must provide all three values for the filter to apply.
-		<br>Then use the bottom form to update them. Values are case sensitive. There is no control here - you can easily update such 
-		that records will never load. Don't.
-		<br>Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.
-		<br>Click the table headers to sort.
-		<br>
-		Operator values:
-		<ul>
+	<div style="width:48em; margin:0 auto; padding: 1em 0;">
+		<p>Use the top form to filter the table to the records you are interested in. All values are ANDed together. Everything is case-sensitive. You must provide all three values for the filter to apply.</p>
+		<p>Then use the bottom form to update them. Values are case sensitive. There is no control here - you can easily update such 
+            that records will never load. Don't.</p>
+        <p>Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
+        <p>Click the table headers to sort. Operator values:</p>
+		<ul class="geol_hier">
 			<li>=: single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
 			<li>like: partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
 			<li>in: comma-delimited list ("one,two" --> "<strong>one</strong>" OR "<strong>two</strong>")</li>
@@ -384,7 +381,8 @@
 		<p>
 			NOTE: This form will load at most 500 records. Your browser will thank me.
 		</p>
-	</div>
+        </div>
+
 	<form name="filter" method="post" action="browseBulk.cfm">
 		<input type="hidden" name="action" value="sqlTab">
 		<input type="hidden" name="enteredby" value="#enteredby#">

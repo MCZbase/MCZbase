@@ -64,7 +64,7 @@ padding-right:10px;
 <div id="ajaxMsg"></div>
 <table border width="100%">
 	<tr>
-		<td valign="top"><!--------------------------- search pane ----------------------------->
+		<td valign="top" style="padding: 1em;"><!--------------------------- search pane ----------------------------->
 			<div id="searchPane">
 				<form onSubmit="loadTree();return false;">
 				<input type="hidden" name="transaction_id" id="transaction_id">
@@ -118,6 +118,7 @@ padding-right:10px;
 				<input class="clrBtn"
 					type="reset" value="Clear"/>				
 				</form>
+                <br>
 				<span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
 				<br><span class="likeLink" onclick="showTreeOnly()">Drag/Print</span>
 				<br><span class="likeLink" onclick="printLabels()">Print Labels</span>

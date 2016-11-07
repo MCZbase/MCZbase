@@ -1,4 +1,6 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
+    <div class="basic_narrow_box">
+        <h3> Agent as Collector or Preparator</h3>
 <cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
 		agent_name, 
@@ -21,7 +23,7 @@
 </cfquery>
 
 <cfoutput> <cfset i=1>
-
+<br>
 <table>
 <cfloop query="getColls">
 	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
@@ -67,6 +69,7 @@
 	<cfset i = #i#+1>
 </cfloop>
 </table>
+<br>
 <table class="newRec">
 	<tr>
 		<td><strong>Add an Agent:</strong></td>
@@ -153,4 +156,5 @@
 </cfoutput>	
 </cfif>
 <!------------------------------------------------------------------------------------->
+    </div>
 <cf_customizeIFrame>

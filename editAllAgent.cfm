@@ -106,7 +106,7 @@
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "newPerson">
         <div style="padding: 0 0 0 1em;width:95%;">
-<h3 class="wikilink">Add a New Person <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent')" class="likeLink" alt="[ help ]"></h3>
+<h3 class="wikilink">Add a New Person <img src="/images/info_i_2.gif" onClick="getMCZDocs('Agent')" class="likeLink" alt="[ help ]"></h3>
 	<form name="newPerson" action="editAllAgent.cfm" method="post" target="_person">
 		<input type="hidden" name="Action" value="insertPerson">
 		<label for="prefix">Prefix</label>
@@ -196,6 +196,7 @@
 			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) || ' ' || agent_rank agent_rank from agent_rank where agent_id=#agent_id# group by agent_rank
 			</cfquery>
+            <br>
 			<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
 			
 			<cfif rank.recordcount gt 0>
@@ -435,7 +436,7 @@
 		</cfquery>
 		<cfset i=1>
 		<br />
-		<label for="anamdv"><span>Agent Names</span></label>
+		<h4 class="groupAgent">Agent Names </h4>
 		<div id="anamdv" class="grayishbox">
 			<form name="a#i#" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="action">
@@ -445,7 +446,8 @@
 				<label for="agent_name">Preferred Name</label>
 				<input type="text" value="#pname.agent_name#" name="agent_name" id="agent_name">
 				<input type="button" value="Update" class="savBtn" onClick="a#i#.action.value='updateName';a#i#.submit();">
-				<input type="button" value="Copy" class="lnkBtn" onClick="newName.agent_name.value='#pname.agent_name#';">
+                <input type="button" value="Copy" class="lnkBtn" onClick="newName.agent_name.value='#pname.agent_name#';">
+                <span class="hints" style="color: green;">(add a space between initials for all forms with two initials)</span>
 			</form>
             
 			<cfset i=i+1>
@@ -469,7 +471,7 @@
 				<cfset i = i + 1>
 			</cfloop>
 	
-		<div id="nagnndv" class="newRec" style="margin-top: 1em;">
+		<div id="nagnndv" class="newRec" style="padding-top: 0em;">
 			<label for="nagnndv">Add agent name</label>
 			<form name="newName" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="Action" value="newName">
@@ -493,7 +495,7 @@
 			  agent_relations.agent_id=#person.agent_id#
 		</cfquery>
 		</div>
-		<label for="areldv"><span>Relationships</span></label>
+            <h4 class="groupAgent">Relationships</h4>
 		<div id="areldv" class="grayishbox">
 			<cfset i=1>
 			<cfloop query="relns">
@@ -539,7 +541,7 @@
 				<input type="submit" class="insBtn" value="Create Relationship">
 			</form>
 		</div></div>
-        	<label>Address</label>
+        	<h4 class="groupAgent">Address</h4>
             <div class="grayishbox">
 		<div class="newRec">
 		
@@ -664,7 +666,7 @@
 		         media_relations.related_primary_key = #agent_id#
 		</cfquery>
 		<cfif media.recordcount gt 0>
-	<label for="amedia"><span>Media</span></label>
+	<h4 class="groupAgent">Media</h4>
     <div class="grayishbox">
 		<!---div class="detailLabel">Media--->
 		<cfquery name="wrlCount" dbtype="query">
