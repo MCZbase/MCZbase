@@ -24,7 +24,7 @@
 ---->
 
 <cfoutput>
-
+<div style="padding: 3px;">
 <cfset sql = "SELECT 
 					preferred_agent_name.agent_id,
 					preferred_agent_name.agent_name,
@@ -90,10 +90,11 @@
     <span class="error">Nothing Matched.</span>
 </cfif>
 <cfloop query="getAgents">
-	 <a href="editAllAgent.cfm?agent_id=#agent_id#" 
-	 	target="_person">#agent_name#</a> <font size="-1">(#agent_type#: #agent_id#)</font> <cfif #edited# EQ 1>*</cfif>
+	 <span style="display: inline-block;padding:1px 5px;"><a href="editAllAgent.cfm?agent_id=#agent_id#" 
+                                             target="_person">#agent_name#</a> <span style="font-size: smaller;">(#agent_type#: #agent_id#) <cfif #edited# EQ 1>*</cfif></span></span>
    <br>
 </cfloop>
+    </div>
 </cfoutput>
 
 

@@ -48,7 +48,7 @@
 		order by preserve_method
 	</cfquery>
     <div style="width: 100%;padding-top: 1em;">
- 	<b>Edit #getParts.recordcount# Specimen Parts</b>&nbsp;<span class="infoLink" onClick="getDocs('parts')">help</span>
+        <b>Edit Specimen Parts</b>
 	<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#">Part Locations</a>
 	<br><a href="/EditContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#">New Container</a>
 	<br><a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#">Print Labels</a>
@@ -79,7 +79,7 @@
 				<cfset bgc="##669999">
 			</cfif>
 				<tr bgcolor="#bgc#">
-					<td style="width: 50px;">
+					<td style="width: 40px;">
 						<label for="part_name#i#">
 							Part
 							<cfif len(sampled_from_obj_id) gt 0>
@@ -88,7 +88,7 @@
 							&nbsp;<span class="likeLink" style="font-weight:100" onClick="getCtDoc('ctspecimen_part_name')">[ Define values ]</span>
 						</label>
 						<input type="text" name="part_name#i#" id="part_name#i#" class="reqdClr"
-							value="#getParts.part_name#" size="20"
+							value="#getParts.part_name#" size="13"
 							onchange="findPart(this.id,this.value,'#getParts.collection_cde#');"
 							onkeypress="return noenter(event);">
 					</td>
@@ -98,16 +98,16 @@
 							&nbsp;<span class="likeLink" style="font-weight:100" onClick="chgPreserve('#getParts.partID#')">[ History ]</span>
 							<!---span class="likeLink" style="font-weight:100" onClick="getCtDoc('ctspecimen_preserv_method')">[ Define values ]</span--->
 						</label>
-						<select name="preserve_method#i#" size="1" style="width:160px";>
+						<select name="preserve_method#i#" size="1" style="width:155px";>
 			              <option value=""></option>
 			              <cfloop query="ctPreserveMethod">
 				              <option <cfif ctPreserveMethod.preserve_method is getParts.preserve_method> selected </cfif>value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 			              </cfloop>
 			            </select>
 					</td>
-					<td style="width: 50px;">
+					<td style="width: 40px;">
 						<label for="coll_obj_disposition#i#">Disposition</label>
-						<select name="coll_obj_disposition#i#" size="1" class="reqdClr" style="width:130px";>
+						<select name="coll_obj_disposition#i#" size="1" class="reqdClr" style="width:100px";>
 			              <cfloop query="ctDisp">
 				              <option <cfif ctdisp.coll_obj_disposition is getParts.coll_obj_disposition> selected </cfif>value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 			              </cfloop>
@@ -115,10 +115,10 @@
 					</td>
 					<td style="width: 50px;">
 						<label for="condition#i#">Condition&nbsp;<span class="likeLink" style="font-weight: 100;" onClick="chgCondition('#getParts.partID#')">[ History ]</span></label>
-						<input type="text" name="condition#i#" id="condition#i#" value="#getparts.condition#"  class="reqdClr" size="15">
+						<input type="text" name="condition#i#" id="condition#i#" value="#getparts.condition#"  class="reqdClr" size="12">
 					</td>
 					<td style="width: 35px;">
-						<label for="lot_count_modifier#i#">Count Modifier</label>
+						<label for="lot_count_modifier#i#">## Modifier</label>
 						<select name="lot_count_modifier#i#" size="1" style="width:50px";>
 						  <option value=""></option>
 			              <cfloop query="ctModifiers">
@@ -130,9 +130,9 @@
 						<label for="lot_count#i#">##</label>
 						<input type="text" id="lot_count#i#" name="lot_count#i#" value="#getparts.lot_count#"  class="reqdClr" size="2">
 					</td>
-					<td style="width: 200px;">
+					<td style="width: 190px;">
 						<label for="coll_object_remarks#i#">Remark</label>
-						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#getparts.coll_object_remarks#" size="40">
+						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#getparts.coll_object_remarks#" size="36">
 					</td>
 					<td>
 						<label for="label#i#">In&nbsp;Container</label>
@@ -235,7 +235,7 @@
 					<cfelse>
 						--no attributes--
 					</cfif>
-					<td><input type="button" value="Manage Attributes" class="savBtn" style="padding: 2px 5px;"
+					<td><input type="button" value="Manage Attributes" class="savBtn" style="padding: 2px 5px;font-size: 12px;"
 			   			onclick="mgPartAtts(#partID#, '#getParts.collection_cde#');">
 					</td>
 				</tr>
@@ -258,8 +258,10 @@
 </table>
 <a name="newPart"></a>
 
-<table class="newRec"><tr><td>
-<strong>Add Specimen Part</strong>
+<table class="newRec" style="padding: 1em;">
+    
+<tr>
+<td style="padding:5px;"><strong>Add Specimen Part</strong>
 <form name="newPart" method="post" action="editParts.cfm">
 	<input type="hidden" name="Action" value="newPart">
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">

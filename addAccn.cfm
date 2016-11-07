@@ -57,7 +57,7 @@
 		</cfif>
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
-    <div style="width: 50em; margin:0 auto; padding: 2em 0 3em 0;">
+    <div class="basic_wide_box" style="width: 75em;">
 	Add all the items listed below to accession:
 	<form name="addItems" method="post" action="addAccn.cfm">
 		<input type="hidden" name="Action" value="addItems">
@@ -96,7 +96,7 @@
 			</tr>
 		</table>	
 	</form>
-<table border>
+<table border width="100%" style="font-size: 15px;">
 	<tr>
 		<td>Cat Num</td>
 		<td>Scientific Name</td>
@@ -111,9 +111,9 @@
 	<cfoutput query="getItems" group="collection_object_id">
 	<tr>
 		<td>#collection# #cat_num#</td>
-		<td>#scientific_name#</td>
+		<td style="width: 200px;">#scientific_name#</td>
 		<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
-		<td>
+		<td style="width: 200px;">
 			<cfquery name="getAgent" dbtype="query">
 				select agent_name, coll_order from getItems where collection_object_id = #getItems.collection_object_id#
 				order by coll_order
@@ -129,7 +129,7 @@
 		#colls#</td>
 		<td>#higher_geog#</td>
 		<td>#spec_locality#</td>
-		<td>#verbatim_date#</td>
+		<td style="width:100px;">#verbatim_date#</td>
 	</tr>
 </cfoutput>
 </table>

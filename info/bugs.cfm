@@ -218,15 +218,11 @@ Complaint: #complaint#
 #newline##newline#
 #human_importance#
         </cfmail>
-
-	<div align="center">Your report has been successfully submitted.
-
-	</div>
-	<P align="center">Thank you for helping to improve this site!
-
-<p>
-<div align="center">Click <a href="/SpecimenSearch.cfm">here</a> to search MCZbase.</div>
-<p>
+<div class="basic_box">
+    <p align="center">Your report has been successfully submitted.</p>
+    <p align="center">Thank you for helping to improve this site!</p>
+    <p align="center">Click <a href="/SpecimenSearch.cfm">here</a> to search MCZbase.</p>
+</div>
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------>

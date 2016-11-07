@@ -54,14 +54,14 @@
 	DESC
 </cfquery>
 
-
+<div class="basic_box">
 <form name="newID" id="newID" method="post" action="editIdentification.cfm">
 
 	<table class="newRec">
  <tr>
  	<td colspan="2">
-<strong><font size="+1">Add new Determination</font></strong>&nbsp;
-<a href="javascript:void(0);" onClick="getDocs('identification')"><img src="/images/info.gif" border="0"></a>
+        <h3 class="wikilink">Add new Determination
+<a href="javascript:void(0);" onClick="getDocs('identification')"><img src="/images/info.gif" border="0"></a></h3>
 	</td>
  </tr>
     <input type="hidden" name="Action" value="createNew">
@@ -119,7 +119,7 @@
 			<div class="helpLink" id="id_by">ID By:</div>
 		</td>
         <td>
-			<input type="text" name="newIdBy" id="newIdBy" class="reqdClr" size="50"
+			<input type="text" name="newIdBy" id="newIdBy" class="reqdClr" size="40"
 				onchange="getAgent('newIdBy_id',this.id,'newID',this.value);">
             <input type="hidden" name="newIdBy_id" id="newIdBy_id" class="reqdClr">
 			<span class="infoLink" onclick="addNewIdBy('two');">more...</span>
@@ -132,7 +132,7 @@
 			</div>
 		</td>
         <td>
-			<input type="text" name="newIdBy_two" id="newIdBy_two" size="50"
+			<input type="text" name="newIdBy_two" id="newIdBy_two" size="40"
 				onchange="getAgent('newIdBy_two_id',this.id,'newID',this.value);">
             <input type="hidden" name="newIdBy_two_id" id="newIdBy_two_id">
 			<span class="infoLink" onclick="addNewIdBy('three');">more...</span>
@@ -197,9 +197,9 @@
     </tr>
 	</table>
 </form>
-
-<strong><font size="+1">Edit an Existing Determination</font></strong>
-<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink">
+<br><br>
+<h3 class="wikilink">Edit an Existing Determination
+<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
 <cfset i = 1>
 <cfquery name="distIds" dbtype="query">
 	SELECT
@@ -236,7 +236,7 @@
     <input type="hidden" name="Action" value="saveEdits">
     <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 	<input type="hidden" name="number_of_ids" id="number_of_ids" value="#distIds.recordcount#">
-<table border>
+<table border style="border:collapse;" style="width: 80%;">
 <cfloop query="distIds">
 	<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#><td>
 	<cfquery name="identifiers" dbtype="query">
@@ -292,14 +292,14 @@
 			</td>
        	</tr>
         <tr>
-			<td colspan="2">
-				<table id="identifierTable_#i#">
+			<td colspan="2" align="right">
+				<table id="identifierTable_#i#" style="float:left;margin-left: 1.9em;">
 					<tbody id="identifierTableBody_#i#">
 						<cfset idnum=1>
 						<cfloop query="identifiers">
 							<tr id="IdTr_#i#_#idnum#">
-								<td>Identified By:</td>
-								<td>
+								<td align="right">Identified By:</td>
+								<td align="right">
 									<input type="text"
 										name="IdBy_#i#_#idnum#"
 										id="IdBy_#i#_#idnum#"
@@ -323,25 +323,22 @@
 						</cfloop>
 					</tbody>
 				</table>
+                        <span class="infoLink" id="addIdentifier_#i#"
+					onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
 			</td>
-		</tr>
-        <tr>
-			<td>
-				<span class="infoLink" id="addIdentifier_#i#"
-					onclick="addIdentifier('#i#','#idnum#')">Add Identifier</span>
-			</td>
+	       
 		</tr>
 		<tr>
-        	<td>
-				<div class="helpLink" id="identification.made_date">ID Date:</div>
+        	<td align="right">
+				<div id="identification.made_date">ID Date:</div>
 			</td>
             <td>
 				<input type="text" value="#dateformat(made_date,'yyyy-mm-dd')#" name="made_date_#i#" id="made_date_#i#">
            </td>
 		</tr>
         <tr>
-	        <td>
-				<div class="helpLink" id="nature_of_id">Nature of ID:</div>
+	        <td align="right">
+				<div id="nature_of_id">Nature of ID:</div>
 			</td>
 	        <td>
 				<cfset thisID = #nature_of_id#>
@@ -354,8 +351,8 @@
 			</td>
         </tr>
         <tr>
-	        <td>
-				<div class="helpLink" id="identification_publication">Sensu:</div>
+	        <td align="right">
+				<div id="identification_publication">Sensu:</div>
 			</td>
 	        <td>
 				<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
@@ -379,12 +376,13 @@
 </td></tr>
 </cfloop>
 <tr>
-	<td>
+	<td align="right">
 		<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 	</td>
 </tr>
 </table>
 </form>
+</div>
 </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------->
