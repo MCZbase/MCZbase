@@ -996,7 +996,7 @@ function findCollEvent(collIdFld,formName,dispField){
 	var dispField;
 	var formName;
 	var covwin=url+"?collIdFld="+collIdFld+"&dispField="+dispField+"&formName="+formName;
-	ColPickwin=window.open(covwin,"","width=800,height=600, resizable,scrollbars");
+	ColPickwin=window.open(covwin,"","width=1000,height=600, resizable,scrollbars");
 }
 function pickCollEvent(collIdFld,formName,collObjId){
 	var url="/picks/pickCollEvent.cfm";

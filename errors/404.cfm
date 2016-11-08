@@ -41,11 +41,15 @@
 		</cfif>
 	</cfloop>
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
+<div class="basic_box">
 	<cfheader statuscode="404" statustext="Not found">
 	<cfset title="404: not found">
 	<h2>
 		404! The page you tried to access does not exist.
 	</h2>
+        <style>
+            ul {list-style: none;}
+        </style>
 	<script type="text/javascript">
 		var GOOG_FIXURL_LANG = 'en';
 		var GOOG_FIXURL_SITE = 'http://arctos.database.museum/';
@@ -84,20 +88,21 @@
 		</cfif>
 	</cfif>
 	<p>
-		If you followed a link from within Arctos, please <a href="/info/bugs.cfm">submit a bug report</a>
+        If you followed a link from within Arctos, please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
 	 	containing any information that might help us resolve this issue.
 	</p>
 	<p>
 		If you followed an external link, please use your back button and tell the webmaster that
-		something is broken, or <a href="/info/bugs.cfm">submit a bug report</a> telling us how you got this error.
+        something is broken, or <a href="/info/bugs.cfm"><b>submit a bug report</b></a> telling us how you got this error.
 	</p>
-
-	<p><a href="/TaxonomySearch">Search for Taxon Names here</a></p>
-	<p><a href="/SpecimenUsage">Search for Projects and Publications here</a></p>
+<div style="margin: .5em 1.25em">
+        <p><b><a href="/TaxonomySearch">Search for Taxon Names here</a></b></p>
+        <p><b><a href="/SpecimenUsage">Search for Projects and Publications here</a></b></p>
+        </div>
 	<p>
 		If you're trying to find specimens, you may:
-		<ul>
-			<li><a href="/SpecimenSearch">Search for them</a></li>
+		<ul class="geol_hier">
+            <li style="padding-bottom: .5em;"><a href="/SpecimenSearch"><b>Search for them</b></a></li>
 			<li>Access them by URLs of the format:
 				<ul>
 					<li>
@@ -108,7 +113,7 @@
 				</ul>
 			</li>
 		</ul>
-		Some specimens are restricted. You may <a href="/contact.cfm">contact us</a> for more information.
+        Some specimens are restricted. You may <a href="/contact.cfm"><b>contact us</b></a> for more information.
 		<p>
 			Occasionally, a specimen is recataloged. You may be able to find them by using Other Identifiers in Specimen Search.
 		</p>
@@ -145,5 +150,6 @@
 	 <p>
 	 	Use the tabs in the header to continue navigating Arctos.
 	 </p>
+        </div>
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">

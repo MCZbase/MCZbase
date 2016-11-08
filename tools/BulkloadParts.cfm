@@ -1,39 +1,7 @@
-
-
-<!---- relies on table
-
-drop table cf_temp_parts;
-
-CREATE TABLE cf_temp_parts (
-	 KEY  NUMBER NOT NULL,
-	 collection_object_id NUMBER,
-	 institution_acronym VARCHAR2(60),
-	 collection_cde VARCHAR2(60),
-	 OTHER_ID_TYPE VARCHAR2(60),
- 	OTHER_ID_NUMBER VARCHAR2(60),
- 	part_name VARCHAR2(60),
-	part_modifier VARCHAR2(60),
-	preserve_method VARCHAR2(60),
-	disposition VARCHAR2(60),
-	condition VARCHAR2(60),
-	lot_count_modifier VARCHAR2(5 CHAR),
-	lot_count VARCHAR2(60),
-	remarks VARCHAR2(60),
-	use_existing varchar2(1),
-	container_barcode varchar2(255),
-	validated_status varchar2(255),
-	parent_container_id number,
-	use_part_id number,
-	 change_container_type varchar2(255)
-);
-
-create or replace public synonym cf_temp_parts for cf_temp_parts;
-grant all on cf_temp_parts to uam_query,uam_update;
-
----->
 <cfinclude template="/includes/_header.cfm">
-    <div style="width: 56em; margin: 0 auto; padding: 1em 0 3em;">
-<cfif #action# is "nothing">
+    <div class="basic_box">
+
+        <cfif #action# is "nothing">
 <h3 class="wikilink">Bulkload Parts</h3>
 <p>Upload a comma-delimited text file (csv).
     Include column headings, spelled exactly as below.</p>

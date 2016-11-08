@@ -1,4 +1,5 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
+    <div class="basic_box">
 <script type="text/javascript">
 	var initVal="";
 	function chkVal() {
@@ -76,10 +77,9 @@ To split a lot or create a parasite, you can
 <br>
 <div id="cloned" style="display:none" class="redBorder"></div>
 <br>
-<strong>Edit Relationships:</strong>
+<h3>Edit Relationships:</h3>
 <cfset thisCollObjId = #collection_object_id#>
-<br>
-Current Relationships:
+    <p style="margin-top:.5em;"><b>Current Relationships:</b>
 <cfif #getRelns.recordcount# gt 0>
 <cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select biol_indiv_relationship from ctbiol_relations
@@ -121,6 +121,7 @@ Current Relationships:
 <cfelse>
 	None
 </cfif>
+    </p>
 <cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select biol_indiv_relationship from ctbiol_relations
 </cfquery>
@@ -250,4 +251,5 @@ Current Relationships:
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------>
+    </div>
 <cf_customizeIFrame>

@@ -55,9 +55,7 @@
 		);
 	}
 </script>
-<span class="pageHelp likeLink" onClick="getDocs('pageHelp/specLocality');">
-	Page Help
-</span>
+
 <script>
 	function showLLFormat(orig_units) {
 		//alert(orig_units);
@@ -96,6 +94,8 @@
 	}
 </script>
 <cfif action is "nothing">
+    <div class="basic_wide_box" style="width:75em;">
+    <h3 class="wikilink">Locality</h3>
 <cfoutput>
 	<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
@@ -283,8 +283,8 @@
 		<tr>
 			<td>
 				<label for="higher_geog">
-					<a href="javascript:void(0);" onClick="getDocs('higher_geography')">
-						Higher Geography</a>
+					
+						Higher Geography
 						&nbsp;&nbsp;
 					<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank">
 						Edit Higher Geography</a>
@@ -296,8 +296,8 @@
 		<tr>
 			<td>
 				<label for="spec_locality">
-					<a href="javascript:void(0);" onClick="getDocs('locality','specific_locality')">
-						Specific Locality</a>
+					
+						Specific Locality
 						&nbsp;&nbsp;
 					<a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank">
 						Edit Locality</a>
@@ -314,8 +314,8 @@
 		<tr>
 			<td>
 				<label for="verbatim_locality">
-					<a href="javascript:void(0);" onClick="getDocs('locality','verbatim_locality')">
-						Verbatim Locality</a>
+					
+						Verbatim Locality
 						&nbsp;&nbsp;
 					<a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank">
 						Edit Collecting Event</a>
@@ -332,8 +332,8 @@
 		<tr>
 			<td>
 				<label for="verbatim_date">
-						<a href="javascript:void(0);" onClick="getDocs('locality','verbatim_date')">
-							Verbatim Date</a>
+					
+							Verbatim Date
 				</label>
 				<cfinput type="text"
 					name="verbatim_date"
@@ -373,7 +373,7 @@
 			<td>
 				<table>
 					<td>
-							<label for="began_date"><a href="javascript:void(0);" onClick="getDocs('locality','began_date')">
+							<label for="began_date">
 								Began Date/Time</a></label>
 							<input type="text"
 								name="began_date"
@@ -383,8 +383,8 @@
 						</td>
 						<td>
 							<label for="ended_date">
-								<a href="javascript:void(0);" onClick="getDocs('locality','ended_date')">
-									Ended Date/Time</a>
+								
+									Ended Date/Time
 							</label>
 							<input type="text"
 								name="ended_date"
@@ -411,8 +411,7 @@
 		<tr>
 			<td>
 				<label for="collecting_source">
-					<a href="javascript:void(0);"
-						onClick="getDocs('collecting_source','collecting_method')">Collecting Source</a>
+					Collecting Source
 				</label>
 				<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
 					<option value=""></option>
@@ -425,8 +424,7 @@
 		</tr>
 			<td>
 				<label for="collecting_method">
-					<a href="javascript:void(0);"
-						onClick="getDocs('collecting_event','collecting_method')">Collecting Method</a>
+			Collecting Method
 				</label>
 				<input type="text"
 					name="collecting_method"
@@ -438,8 +436,7 @@
 		<tr>
 			<td>
 				<label for="habitat_desc">
-					<a href="javascript:void(0);"
-						onClick="getDocs('collecting_event','habitat')">Habitat</a>
+					Habitat
 				</label>
 				<input type="text"
 					name="habitat_desc"
@@ -452,10 +449,10 @@
             <td>
 				<table>
 					<tr>
-						<td>
+						<td style="width: 100px;">
 							<label for="minimum_elevation">
-								<a href="javascript:void(0);" class="novisit" onClick="getDocs('locality','elevation')">
-									Minimum Elevation</a>
+								
+									Min. Elevation
 							</label>
 							<cfinput
 								type="text"
@@ -466,10 +463,10 @@
 								validate="numeric"
 								message="Minimum Elevation is a number.">
 						</td>
-						<td>
+						<td style="width: 100px;">
 							<label for="maximum_elevation">
-								<a href="javascript:void(0);" class="novisit" onClick="getDocs('locality','elevation')">
-									Maximum Elevation</a>
+								
+									Max. Elevation
 							</label>
 							<cfinput type="text"
 								id="maximum_elevation"
@@ -479,10 +476,10 @@
 								validate="numeric"
 								message="Maximum Elevation is a number.">
 						</td>
-						<td>
+						<td style="width: 100px;">
 							<label for="orig_elev_units">
-								<a href="javascript:void(0);" class="novisit" onClick="getDocs('locality','elevation')">
-									Elevation Units</a>
+								
+									Elevation Units
 							</label>
 							<select name="orig_elev_units" id="orig_elev_units" size="1">
 								<option value=""></option>
@@ -500,25 +497,25 @@
             <td>
 				<table>
 					<tr>
-						<td>
-							<label for="min_depth" onClick="getDocs('locality','depth')" class="likeLink">
-									Minimum Depth
+						<td style="width:100px;">
+							<label for="min_depth">
+									Min. Depth
 							</label>
 							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" size="3"
 								validate="numeric"
 								message="Minimum Depth is a number.">
 						</td>
-						<td>
-							<label for="max_depth"  onClick="getDocs('locality','depth')" class="likeLink">
-									Maximum Depth
+						<td style="width:100px;">
+							<label for="max_depth"  >
+									Max. Depth
 							</label>
 							<cfinput type="text" id="max_depth" name="max_depth"
 								value="#l.max_depth#" size="3"
 								validate="numeric"
 								message="Maximum Depth is a number.">
 						</td>
-						<td>
-							<label for="depth_units" onClick="getDocs('locality','depth')" class="likeLink">
+						<td style="width:100px;">
+							<label for="depth_units" >
 									Depth Units
 							</label>
 							<select name="depth_units" id="depth_units" size="1">
@@ -541,17 +538,17 @@
         </tr>
 		<tr>
             <td>
-				<label for="NoGeorefBecause" class="likeLink" onClick="getDocs('locality','nogeorefbecause')">
+				<label for="NoGeorefBecause">
 					Not Georefererenced Because
 				</label>
 				<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#"  size="75">
 				<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
-					<div style="background-color:red">
+					<div class="redMessage">
 						NoGeorefBecause should be NULL for localities with georeferences.
 						Please review this locality and update accordingly.
 					</div>
 				<cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
-					<div style="background-color:red">
+					<div class="redMessage">
 						Please georeference this locality or enter a value for NoGeorefBecause.
 					</div>
 				</cfif>
@@ -563,7 +560,7 @@
 		<table>
 		<tr>
 			<td>
-				<label for="ORIG_LAT_LONG_UNITS" class="likeLink" onClick="getDocs('lat_long','original_units')">
+				<label for="ORIG_LAT_LONG_UNITS">
 					Original Coordinate Units
 				</label>
 				<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
@@ -580,7 +577,7 @@
 	<table id="llMeta" style="display:none;">
 		<tr>
 			<td>
-				<label for="coordinate_determiner" class="likeLink" onClick="getDocs('lat_long','determiner')">
+				<label for="coordinate_determiner">
 					Coordinate Determiner
 				</label>
 				<input type="text"
@@ -592,7 +589,7 @@
 					<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#">
 			</td>
 			<td>
-				<label for="DETERMINED_DATE" class="likeLink" onClick="getDocs('lat_long','date')">
+				<label for="DETERMINED_DATE">
 					Determined Date
 				</label>
 				<input type="text" name="determined_date" id="determined_date"
@@ -629,7 +626,7 @@
 		</tr>
 		<tr>
 			<td>
-				<label for="georefMethod" class="likeLink" onClick="getDocs('lat_long','georefMethod')">
+				<label for="georefMethod">
 					Georeference Method
 				</label>
 				<cfset thisGeoMeth = #l.georefMethod#>
@@ -650,13 +647,13 @@
 		</tr>
 		<tr>
 			<td>
-				<label for="GpsAccuracy" class="likeLink" onClick="getDocs('lat_long','gps_accuracy')">
+				<label for="GpsAccuracy">
 					GPS Accuracy
 				</label>
 				<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" size="7">
 			</td>
 			<td>
-				<label for="VerificationStatus" class="likeLink" onClick="getDocs('lat_long','verification_status')">
+				<label for="VerificationStatus">
 					Verification Status
 				</label>
 				<cfset thisVerificationStatus = #l.VerificationStatus#>
@@ -950,7 +947,9 @@
 	<script>
 		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 	</script>
+     
 	</cfoutput>
+                   </div>
 </cfif>
       <!---------------------------------------------------------------------------------------------------->
 <cfif #action# is "saveChange">

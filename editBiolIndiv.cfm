@@ -93,8 +93,9 @@
 	}
 </script>
 <cfif action is "nothing">
-	<strong>Edit Individual Attributes</strong>
-	<span class="infoLInk" onClick="windowOpener('/info/attributeHelpPick.cfm','','width=600,height=600, resizable,scrollbars');">Help</span>
+    <div class="basic_wide_box">
+	<h3 style="margin-top: 2em;">Edit Individual Attributes
+        <span class="infoLInk" onClick="windowOpener('/info/attributeHelpPick.cfm','','width=600,height=600, resizable,scrollbars');">Help</span></h3>
 	<cfoutput>
 		<cfquery name="raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -372,6 +373,7 @@
 			</div>
 		</form>
 	</cfoutput>
+</div>
 </cfif>
 <!------------------------------------------------------------------------------>
 <cfif action is "save">

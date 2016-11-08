@@ -1,10 +1,11 @@
 <cfinclude template="/includes/_header.cfm">
+   
 <cfset title="Bulkload Specimens">
 <cfif #action# is "nothing">
- 
+ <div class="basic_box">
     <div class="BulkSpec">
            <h2 class="wikilink">Load your .csv file.</h2>
-        <p>Step 1: Upload a comma-delimited text file (csv).</p>
+        <p>Upload a comma-delimited text file (csv).</p>
         <p>If your text file does not load, you can build templates that will load using the <a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>.</p>
    
         <br><br>
@@ -21,6 +22,7 @@
 		<option value="unicode">unicode</option>
 	</input>
   </cfform>
+    </div>
 </cfif>
     </div>
 <!------------------------------------------------------->
@@ -59,13 +61,16 @@
 </cfif>
 <!------------------------------------------------------->
 <cfif #action# is "validate">
+     <div class="basic_wide_box">
 <cfoutput>
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) as cnt from bulkloader_stage
 	</cfquery>
-	You successfully loaded #c.cnt# records into the <em><strong>staging</strong></em> table.
-	They have not been checked or processed yet. You aren't done here!
-	<ul>
+    <h3>Success!</h3>
+    <p>You successfully loaded #c.cnt# records into the <em><strong>staging</strong></em> table.
+	They have not been checked or processed yet. You aren't done here!</p>
+	
+	<ul class="geol_hier">
 		<li>
 			<a href="BulkloadSpecimens.cfm?action=checkStaged" target="_self">Check and load these records</a>.
 			This is a slow process, but completing it will allow you to re-load your data as necessary.
@@ -76,13 +81,14 @@
 		<li>
 			<a href="BulkloadSpecimens.cfm?action=loadAnyway" target="_self">Just load these records</a>.
 			Use this method if you wish to use Arctos' tools to fix any errors. Everything will go to the normal
-			Bulkloader tables and be available via <a href="Bulkloader/browseBulk.cfm">the Browse Bulk</a> app.
+			Bulkloader tables and be available via <a href="Bulkloader/browseBulk.cfm">the Browse Bulk app</a>.
 			You need a thorough understanding of Arctos' bulkloader tools and great confidence in your data
 			to use this application. Misuse can result in
 			a huge mess in the Bulkloader, which may require sorting out record by record.
 		</li>
 	</ul>
 </cfoutput>
+    </div>
 </cfif>
 <!------------------------------------------------------->
 <cfif #action# is "loadAnyway">
@@ -157,4 +163,5 @@
 	</cfif>
 </cfoutput>
 </cfif>
+    
 <cfinclude template="/includes/_footer.cfm">

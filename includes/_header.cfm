@@ -43,7 +43,7 @@
   try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
 </noscript>
 
-<div id="headerContent" style='background-color: #Application.header_color#;'>
+<div id="headerContent" style="background-color: #Application.header_color#;">
      <div id="image_headerWrap">
            <div class="headerText"> 
               <a href="http://www.mcz.harvard.edu" target="_blank">
@@ -301,7 +301,7 @@
                    </ul>
             </li>
       </ul><!---sf-menu--->
-                     <div id="headerLinks">
+       <div id="headerLinks">
         <cfif len(#session.username#) gt 0>
             <ul><li><a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a></li>
                   <cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>

@@ -1,6 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cf_setDataEntryGroups>
-    <div class="basic_search_box">
+ 
 <cfquery name="bulkSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
 		loaded, 
@@ -136,6 +136,6 @@
 		</tr>
 	</cfloop>
 	</table>
-    </div>
+
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">

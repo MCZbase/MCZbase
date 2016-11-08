@@ -777,9 +777,8 @@
 		<br>
 		<input type="button" value="Save Edits" class="savBtn"
 			onClick="editloan.action.value='saveEdits';submit();">
-		<input type="button" value="Delete #scope#" class="delBtn"
-			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-   		<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
+		
+   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
 		<input type="button" value="Add Items" class="lnkBtn"
 			onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
@@ -787,6 +786,8 @@
 
 		<input type="button" value="Review Items" class="lnkBtn"
 			onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+                            <input style="margin-left: 30px;" type="button" value="Delete #scope#" class="delBtn"
+			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
    		<br />
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
