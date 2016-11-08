@@ -120,6 +120,13 @@
 			},
 			function (r) {
 				var s='';
+				var exists = false;
+				if (dataValue !==null){
+				for (i=0; i<r.ROWCOUNT; ++i) {
+					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
+					}
+				if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red">' + dataValue + '</option>';}
+					}
 				for (i=0; i<r.ROWCOUNT; ++i) {
 					s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
 					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue) {
@@ -256,12 +263,12 @@
 					contains no specimens. Please delete it if you don't have plans for it!</font>
   				<cfelseif #whatSpecs.recordcount# is 1>
 					<font color="##FF0000">This Locality (#locDet.locality_id#)
-				
+
 					contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
 					<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
 				<cfelse>
 					<font color="##FF0000">This Locality (#locDet.locality_id#)
-				
+
 					contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
 					<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
 						<cfloop query="whatSpecs">

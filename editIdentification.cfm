@@ -35,7 +35,8 @@
 		identification_remarks,
 		identification_agent_id,
 		formatted_publication,
-		identification.publication_id
+		identification.publication_id,
+		identification.sort_order
 	FROM
 		cataloged_item,
 		identification,
@@ -50,7 +51,7 @@
 		cataloged_item.collection_id=collection.collection_id AND
 		identification.publication_id=formatted_publication.publication_id (+) and
 		cataloged_item.collection_object_id = #collection_object_id#
-		ORDER BY accepted_id_fg
+		ORDER BY accepted_id_fg, sort_order
 	DESC
 </cfquery>
 
@@ -213,7 +214,8 @@
 		accepted_id_fg,
 		identification_remarks,
 		formatted_publication,
-		publication_id
+		publication_id,
+		sort_order
 	FROM
 		getID
 	GROUP BY
@@ -227,11 +229,15 @@
 		accepted_id_fg,
 		identification_remarks,
 		formatted_publication,
-		publication_id
+		publication_id,
+		sort_order
 	ORDER BY
 		accepted_id_fg DESC,
-		made_date
+		sort_order,
+		made_date DESC
+
 </cfquery>
+<cfset sortCount=distIds.recordcount - 1>
 <form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
     <input type="hidden" name="Action" value="saveEdits">
     <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
@@ -371,6 +377,23 @@
 					value="#stripQuotes(identification_remarks)#" size="50">
 			</td>
         </tr>
+		<cfif #accepted_id_fg# is 0>
+		<tr>
+			<td>
+				<div div align="right">Sort Order:</div>
+			</td>
+			<td>
+				<select name="sort_order_#i#" id="sort_order_#i#" size="1">
+	                <option <cfif #sort_order# is ""> selected </cfif> value=""></option>
+	                <cfloop index="X" from="1" to="#sortCount#">
+	                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
+	                </cfloop>
+	           	</select>
+			</td>
+        </tr>
+		<cfelse>
+			<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
+		</cfif>
 	</table>
   <cfset i = #i#+1>
 </td></tr>
@@ -397,13 +420,14 @@
 			<cfset thisNature = #evaluate("NATURE_OF_ID_" & n)#>
 			<cfset thisNumIds = #evaluate("NUMBER_OF_IDENTIFIERS_" & n)#>
 			<cfset thisPubId = #evaluate("publication_id_" & n)#>
+			<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
 
 			<cfif thisAcceptedIdFg is 1>
 				<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE identification SET ACCEPTED_ID_FG=0 where collection_object_id = #collection_object_id#
 				</cfquery>
 				<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE identification SET ACCEPTED_ID_FG=1 where identification_id = #thisIdentificationId#
+					UPDATE identification SET ACCEPTED_ID_FG=1, sort_order = null where identification_id = #thisIdentificationId#
 				</cfquery>
 			</cfif>
 			<cfif thisAcceptedIdFg is "DELETE">
@@ -427,6 +451,11 @@
 							,publication_id = #thisPubId#
 						<cfelse>
 							,publication_id = NULL
+						</cfif>
+						<cfif len(thisSortOrder) gt 0>
+							,sort_order = #thisSortOrder#
+						<cfelse>
+							,sort_order = NULL
 						</cfif>
 					where identification_id=#thisIdentificationId#
 				</cfquery>
