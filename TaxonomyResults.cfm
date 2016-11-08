@@ -376,7 +376,7 @@
 </cfquery>
 
 <CFOUTPUT>
-    <div style="width: 56em;margin: 0 0 0 2em; padding: 2em 0 1em 0;">
+    <div style="width: 56em;margin: 0 0 0 2em; padding: 0em 0 .25em 0;">
     <h3 class="wikilink">Taxonomy Search Results</h3>
 <h4 style="padding-top: .5em; margin-top:0;">
 Found #summary.cnt# records.
@@ -424,8 +424,8 @@ function toggleColumn(n) {
     }
 }
     </script>
-    <div style="width: 650px;border: 1px solid gray;padding: 1em;"><span style="font-weight: bold;">Show/Hide Columns:</span>
-       <a class="schBtn" onclick="toggleColumn(3);toggleColumn(4);toggleColumn(6);toggleColumn(7);toggleColumn(8);toggleColumn(9);toggleColumn(12);toggleColumn(14);toggleColumn(15);toggleColumn(16);toggleColumn(18);toggleColumn(19);">Super/Sub/Infra</a>
+    <div style="width: 640px;border: 1px solid gray;padding: .5em 1em 1em 1em;"><span style="font-weight: bold;">Show/Hide Columns:</span>
+       <a class="schBtn" onclick="toggleColumn(3);toggleColumn(4);toggleColumn(6);toggleColumn(7);toggleColumn(8);toggleColumn(9);toggleColumn(11);toggleColumn(12);toggleColumn(14);toggleColumn(15);toggleColumn(16);toggleColumn(18);toggleColumn(19);">Super/Sub/Infra</a>
      
         <a class="schBtn" onclick="toggleColumn('02');">Common Name</a>
      
