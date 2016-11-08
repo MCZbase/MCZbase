@@ -109,7 +109,7 @@ Some Totally Random String Data .....
 				</cfquery>
 			</cfif>
 		</cfloop>
-        <div class="basic_search_box">
+        <div class="basic_box">
          
         <div class="welcomeback" style="padding-top: 2em;margin-left:0;">
 		<h3>Welcome to the data entry (and edit) application, #session.username#</h3>
@@ -549,7 +549,7 @@ Some Totally Random String Data .....
 						<tr>
 							<td align="right"><span class="f11a">Verbatim Date</span></td>
 							<td>
-								<input type="text" name="verbatim_date" title="VERBATIM_DATE" class="reqdClr" value="#verbatim_date#" id="verbatim_date" size="16">
+								<input type="text" name="verbatim_date" title="VERBATIM_DATE" class="reqdClr" value="#verbatim_date#" id="verbatim_date" size="14">
 								<span class="infoLink"
 									onClick="copyVerbatim($('##verbatim_date').val());"> >> </span>
 								<span class="f11a">Begin</span>
@@ -670,10 +670,10 @@ Some Totally Random String Data .....
         	<tr>
 							<td colspan="3">
 								<table>
-									<tr>
-                                        <td><span class="f11a">OR only use ID</span></td>
-                                        <td id="d_locality_id" align="right" style="padding-left: 0em;border: 2px solid green;margin: 2px 5px 2px 2px; padding: 0 3px;">
-											<label for="fetched_locid">Existing Locality ID</label>
+								  <tr>
+                                    <td><span class="f11a">OR only use ID</span></td>
+                                        <td id="d_locality_id" class="extLoc">
+											<label style="float: left;padding-left: 1em;" for="fetched_locid">Existing Locality ID</label>
 											<input type="hidden" id="fetched_locid">
 											<input type="text" name="locality_id" title="LOCALITY_ID" id="locality_id" value="#locality_id#" readonly class="readClr" size="8">
 											<span class="infoLink" id="localityPicker"
@@ -687,12 +687,13 @@ Some Totally Random String Data .....
 												Depick&nbsp;Locality
 											</span>
 										</td>
-										<td id="d_collecting_event_id" style="padding-left: 0em;border: 2px solid green;margin: 2px 5px 2px 7px; padding: 0 5px 0 5px;">
-											<label for="collecting_event_id">Existing&nbsp;Event ID</label>
-											<input title="EXISTING_EVENT_ID"type="text" name="collecting_event_id" id="collecting_event_id" value="#collecting_event_id#" readonly class="readClr" size="8">
+										<td id="d_collecting_event_id" class="extLoc">
+											<label style="text-align: right;padding-left:3px;" for="collecting_event_id">Existing Event ID</label>
+											<input title="EXISTING_EVENT_ID" type="text" name="collecting_event_id" id="collecting_event_id" value="#collecting_event_id#" readonly class="readClr" size="8"
+                                                style="margin-right: 3px;">
 											<input type="hidden" id="fetched_eventid">
 											<span class="infoLink" id="eventPicker" onclick="findCollEvent('collecting_event_id','dataEntry','verbatim_locality'); return false;">
-												Pick&nbsp;Event
+												Pick Event&nbsp;
 											</span>
 											<span class="infoLink" id="eventUnPicker" style="display:none;" onclick="unpickEvent()">
 												Depick&nbsp;Event
@@ -1169,7 +1170,9 @@ Some Totally Random String Data .....
 												id="attribute_determiner_1" />
 											<span class="infoLink" onclick="copyAttributeDetr('attribute_determiner_1');">Sync Att.</span>
 											<span class="f11a">Meth</span>
-											<input title="ATTRIBUTE_DET_METH_1" type="text" name="attribute_det_meth_1"
+											<input
+                                            size="15"       
+                                            title="ATTRIBUTE_DET_METH_1" type="text" name="attribute_det_meth_1"
 												value="#attribute_det_meth_1#"
 												id="attribute_det_meth_1">
 										</td>
@@ -1277,19 +1280,19 @@ Some Totally Random String Data .....
 											<input type="hidden" name="attribute_date_3" value="#attribute_date_3#" id="attribute_date_3" />
 											<input type="hidden" name="attribute_determiner_3" value="#attribute_determiner_3#" id="attribute_determiner_3" />
 											<input type="hidden" name="attribute_3" value="fat deposition" />
-											<input type="text" name="attribute_value_3" value="#attribute_value_3#" size="15" id="attribute_value_3">
+											<input type="text" name="attribute_value_3" value="#attribute_value_3#" size="12" id="attribute_value_3">
 										</td>
 										<td>
 											<input type="hidden" name="attribute_date_4" value="#attribute_date_4#" id="attribute_date_4" />
 											<input type="hidden" name="attribute_determiner_4" value="#attribute_determiner_4#" id="attribute_determiner_4" />
 											<input type="hidden" name="attribute_4" value="molt condition" />
-											<input type="text" name="attribute_value_4" value="#attribute_value_4#" size="15" id="attribute_value_4">
+											<input type="text" name="attribute_value_4" value="#attribute_value_4#" size="12" id="attribute_value_4">
 										</td>
 										<td>
 											<input type="hidden" name="attribute_date_5" value="#attribute_date_5#" id="attribute_date_5" />
 											<input type="hidden" name="attribute_determiner_5" value="#attribute_determiner_5#" id="attribute_determiner_5" />
 											<input type="hidden" name="attribute_5" value="ossification" />
-											<input type="text" name="attribute_value_5" value="#attribute_value_5#" size="15" id="attribute_value_5">
+											<input type="text" name="attribute_value_5" value="#attribute_value_5#" size="13" id="attribute_value_5">
 										</td>
 										<td>
 											<input type="hidden" name="attribute_date_6" value="#attribute_date_6#" id="attribute_date_6" />
@@ -1298,21 +1301,21 @@ Some Totally Random String Data .....
 											<input type="text" name="attribute_value_6" value="#attribute_value_6#" size="2" id="attribute_value_6">
 										</td>
 										<td>
-											<select name="attribute_units_6" size="1" id="attribute_units_6" >
+											<select name="attribute_units_6" size="1" id="attribute_units_6" style="width: 35px;">
 												<cfloop query="ctWeight_Units">
 													<option <cfif #data.attribute_units_6# is #Weight_Units#> selected </cfif>value="#Weight_Units#">#Weight_Units#</option>
 												</cfloop>
 											</select>
 										</td>
 										<td>
-											<input type="text" name="attribute_date_2" id="attribute_date_2" value="#attribute_date_2#">
+											<input type="text" name="attribute_date_2" id="attribute_date_2" value="#attribute_date_2#" size="9">
 										</td>
 										<td>
 											<input type="text"
-												name="attribute_determiner_2"
+											size="14"	name="attribute_determiner_2"
 												id="attribute_determiner_2"
 												value="#attribute_determiner_2#"
-												onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
+        onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 												onkeypress="return noenter(event);">
 										</td>
 									</tr>
@@ -1435,7 +1438,7 @@ Some Totally Random String Data .....
 					<tr id="d_coll_object_remarks">
 						<td colspan="2">
 							<span class="f11a">Spec Remark</span>
-								<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" cols="80">#coll_object_remarks#</textarea>
+								<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" cols="60">#coll_object_remarks#</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -1624,7 +1627,7 @@ Some Totally Random String Data .....
 						<span id="enterMode" style="display:none;">						
                             <input type="button"
 								value="Edit Last Record"
-                                style="padding: 1px 3px 0 3px;"
+                                style="padding: 2px 5px 2px 5px;"
 								class="lnkBtn"
                                    
 								onclick="editThis();">
@@ -1633,13 +1636,15 @@ Some Totally Random String Data .....
 								<input type="button"
 									value="Clone This Record"
 									class="lnkBtn"
+                                       style="font-size: 13px;padding: 2px 10px;"
 									onclick="createClone();">
 						</span>
 					</td>
 					<td width="16%" nowrap="nowrap">
 						 <span id="theSaveButton" style="display:none;">
-							<input type="button" value="Save Edits" class="savBtn" onclick="saveEditedRecord();" />
-							<input type="button" value="Delete Record" class="delBtn" onclick="deleteThisRec();" />
+							<input type="button" value="Save Edits"
+                                   style="font-size: 13px;padding: 2px 10px;" class="savBtn" onclick="saveEditedRecord();" />
+							<input type="button" value="Delete Record" class="delBtn" onclick="deleteThisRec();" style="font-size:13px;padding: 2px 10px;" />
 						</span>
 					</td>
 					<td width="16%">

@@ -18,12 +18,12 @@
 <td>
 
 </td>
-<h3 class="wikilink">Search for an agent <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h3>
+<h3 class="wikilink">Search for an agent <img src="/images/info_i_2.gif" onClick="getMCZDocs('Agent_Search')" class="likeLink" alt="[ help ]"></h3>
 <br>
 <cfoutput>
 <form name="agntSearch" action="AgentGrid.cfm" method="post" target="_pick">
 	<input type="hidden" name="Action" value="search">
-<table border style="width: 100%;">	
+<table>	
 	<tr>
 		<td>
 			<label for="prefix">Prefix</label>
@@ -39,21 +39,8 @@
 			<input type="text" name="first_name">
 		</td>
 	</tr>
-		<td>
-			<label for="middle_name">
-				Middle Name
-			</label>
-			<input type="text" name="middle_name" id="middle_name">
-		</td>
-		<td>
-			<label for="last_name">
-			Last Name
-			</label>
-			<input type="text" name="last_name" id="last_name">
-		</td>
-	<tr>
-	<tr>
-		<td>
+    <tr>
+       <td>
 			<label for="suffix">
 				Suffix
 			</label>
@@ -65,14 +52,14 @@
 	   		 </select>
 		</td>
 		<td>
-			<label for="agent_id">
-				Agent ID
+			<label for="middle_name">
+				Middle Name
 			</label>
-			<input type="text" name="agent_id" size="6" id="agent_id">
+			<input type="text" name="middle_name" id="middle_name">
 		</td>
-	</tr>
-	<tr>
-		<td>
+    </tr>
+    <tr>
+        <td>
 			<label for="birthOper">
 				Birth Date
 			</label>
@@ -81,8 +68,16 @@
 				<option selected value="=" >Is</option>
 				<option value=">=">After</option>
 			</select>
-			<input type="text" size="6" name="birth_date" id="birth_date">
+			<input type="text" size="10" name="birth_date" id="birth_date">
 		</td>
+		<td>
+			<label for="last_name">
+			Last Name
+			</label>
+			<input type="text" name="last_name" id="last_name">
+		</td>
+	<tr>
+	<tr>
 		<td>
 			<label for="deathOper">
 				Death Date
@@ -92,48 +87,59 @@
 				<option selected value="=" >Is</option>
 				<option value=">=">After</option>
 			</select>
-			<input type="text" size="6" name="death_date" id="death_date">
+			<input type="text" size="10" name="death_date" id="death_date">
+		</td>
+		<td>
+			<label for="agent_id">
+				Agent ID
+			</label>
+			<input type="text" name="agent_id" size="10" id="agent_id">
 		</td>
 	</tr>
+
 	<tr>
 		<td>
 			<label for="address">
 			Address
 			</label>
-			<input type="text" name="address" id="address">
+			<input type="text" name="address" id="address" size="25">
 		</td>
 		<td>
 			<label for="anyName">
 				Any part of any name
 			</label>
-			<input type="text" name="anyName" id="anyName">
+			<input type="text" name="anyName" id="anyName" size="25">
 		</td>
 	</tr>
+   
 	<tr>
-		<td colspan="2" align="center">
-			<input type="submit" 
-				value="Search" 
-				class="schBtn"
-				onmouseover="this.className='schBtn btnhov'"
-				onmouseout="this.className='schBtn'">
-			<input type="reset" 
-				value="Clear Form" 
-				class="clrBtn"
-				onmouseover="this.className='clrBtn btnhov'"
-				onmouseout="this.className='clrBtn'">
-				<br>
-				<input type="button" 
-					value="New Person" 
-					class="insBtn"
-					onmouseover="this.className='insBtn btnhov'"
-					onmouseout="this.className='insBtn'"
-					onClick="window.open('editAllAgent.cfm?action=newPerson','_person');">
-				<input type="button" 
+		<td colspan="2" align="center" style="padding-top: 1em;font-size: 15px;">
+		      <input type="button" 
 					value="New Other Agent" 
 					class="insBtn"
+                     style="padding: 2px 6px;"
 					onmouseover="this.className='insBtn btnhov'"
 					onmouseout="this.className='insBtn'"
 					onClick="window.open('editAllAgent.cfm?Action=newOtherAgent','_person');">
+            <input type="button" 
+					value="New Person" 
+					class="insBtn"
+                   style="padding: 2px 6px;"
+					onmouseover="this.className='insBtn btnhov'"
+					onmouseout="this.className='insBtn'"
+					onClick="window.open('editAllAgent.cfm?action=newPerson','_person');">
+            <input type="reset" 
+				value="Clear Form" 
+				class="clrBtn"
+                   style="padding: 2px 6px;"
+				onmouseover="this.className='clrBtn btnhov'"
+				onmouseout="this.className='clrBtn'">	
+            <input type="submit" 
+				value="Search" 
+				class="schBtn"
+                   style="padding: 2px 20px;"
+				onmouseover="this.className='schBtn btnhov'"
+				onmouseout="this.className='schBtn'">
 		</td>
 	</tr>
 </table>

@@ -1,5 +1,6 @@
 <cfinclude template = "includes/_header.cfm">
 <script src="/includes/sorttable.js"></script>
+
 <script type="text/javascript">
 	function getTaxaResultsData (val){
 		var ar = val.split(',');
@@ -375,7 +376,7 @@
 </cfquery>
 
 <CFOUTPUT>
-    <div style="width: 56em;margin: 0 0 0 2em; padding: 2em 0 1em 0;">
+    <div style="width: 56em;margin: 0 0 0 2em; padding: 0em 0 .25em 0;">
     <h3 class="wikilink">Taxonomy Search Results</h3>
 <h4 style="padding-top: .5em; margin-top:0;">
 Found #summary.cnt# records.
@@ -412,37 +413,56 @@ Found #summary.cnt# records.
 </h4>   </div>
 </CFOUTPUT>
 <div class="resultsGoHere">
+    <script>
+function toggleColumn(n) {
+    var currentClass = document.getElementById("tre").className;
+    if (currentClass.indexOf("show"+n) != -1) {
+        document.getElementById("tre").className = currentClass.replace("show"+n, "");
+    }
+    else {
+        document.getElementById("tre").className += " " + "show"+n;
+    }
+}
+    </script>
+    <div style="width: 640px;border: 1px solid gray;padding: .5em 1em 1em 1em;"><span style="font-weight: bold;">Show/Hide Columns:</span>
+       <a class="schBtn" onclick="toggleColumn(3);toggleColumn(4);toggleColumn(6);toggleColumn(7);toggleColumn(8);toggleColumn(9);toggleColumn(11);toggleColumn(12);toggleColumn(14);toggleColumn(15);toggleColumn(16);toggleColumn(18);toggleColumn(19);">Super/Sub/Infra</a>
+     
+        <a class="schBtn" onclick="toggleColumn('02');">Common Name</a>
+     
+    <a class="schBtn" onclick="toggleColumn(20);toggleColumn(21);toggleColumn(22);toggleColumn(23);toggleColumn(24);toggleColumn(25);toggleColumn(26);">Scientific Name</a>
+    </div>
 <table border="1" id="tre" class="sortable">
-	<tr>
-  		<th>Name</th>
-		<th>Common&nbsp;Name(s)</th>
-		<th>Nomenclatural&nbsp;Code</th>
-		<th>Kingdom</th>
-		<th>Phylum</th>
-		<th>Subphylum</th>
-		<th>Division</th>
-		<th>Subdivision</th>
-		<th>Superclass</th>
-		<th>Class</th>
-		<th>Subclass</th>
-		<th>Superorder</th>
-        <th>Order</th>
-        <th>Suborder</th>
-		<th>Infraorder</th>
-        <th>Superfamily</th>
-        <th>Family</th>
-	    <th>Subfamily</th>
-        <th>Tribe</th>
-        <th>Genus</th>
-        <th>Subgenus</th>
-        <th>Species</th>
-        <th>Author</th>
-		<th>Infraspecific&nbsp;Rank</th>
-        <th>Subspecies</th>
-        <th>Infraspecific&nbsp;Author</th>
-        <th>Authority</th>
-        <th>Status</th>
-        <th>Remark</th>
+     
+    <tr>
+  		<th class="col01">Name</th>
+        <th class="col02">Common&nbsp;Name(s)</th>
+        <th class="col3">Nomenclatural&nbsp;Code</th>
+        <th class="col4">Kingdom</th>
+        <th class="col5">Phylum</th>
+        <th class="col6">Subphylum</th>
+        <th class="col7">Division</th>
+        <th class="col8">Subdivision</th>
+        <th class="col9">Superclass</th>
+        <th class="col10">Class</th>
+		<th class="col11">Subclass</th>
+		<th class="col12">Superorder</th>
+        <th class="col13">Order</th>
+        <th class="col14">Suborder</th>
+		<th class="col15">Infraorder</th>
+        <th class="col16">Superfamily</th>
+        <th class="col17">Family</th>
+	    <th class="col18">Subfamily</th>
+        <th class="col19">Tribe</th>
+        <th class="col20">Genus</th>
+        <th class="col21">Subgenus</th>
+        <th class="col22">Species</th>
+        <th class="col23">Author</th>
+		<th class="col24">Infra.&nbsp;Rank</th>
+        <th class="col25">Subspecies</th>
+        <th class="col26">Infraspecific&nbsp;Author</th>
+        <th class="col27">Authority</th>
+        <th class="col28">Status</th>
+        <th class="col29">Remark</th>
     </tr>
   <cfset i=1>
   <cfoutput query="getTaxa">
@@ -456,7 +476,8 @@ Found #summary.cnt# records.
 	</cfloop>
 	<cfset thisSearch = replace(thisSearch,"'","\'","all")>
     <tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-		<td nowrap>
+ 
+		<td class="col01" nowrap>
 
 			<div class="submenu">
 				<ul>
@@ -495,7 +516,8 @@ Found #summary.cnt# records.
 					padding:0;
 					margin:0;"><li>list</li></ul>	--->
 	</td>
-    <td nowrap>
+   
+    <td class="col02" nowrap>
 		<div style="max-height:5em;overflow:auto;">
 			<cfif cName.recordcount is 0>
 				<font size="-1" color="##FF0000">None recorded</font>
@@ -506,36 +528,38 @@ Found #summary.cnt# records.
 			</cfif>
 		</div>
 	</td>
-	<td>#nomenclatural_code#&nbsp;</td>
-	<td>#kingdom#&nbsp;</td>
-	<td><span class="browseLink" type="phylum" dval="#phylum#">#phylum#</span></td>
-	<td><span class="browseLink" type="subphylum" dval="#subphylum#">#subphylum#</span></td>
-	<td><span class="browseLink" type="division" dval="#division#">#division#</span></td>
-	<td><span class="browseLink" type="subdivision" dval="#subdivision#">#subdivision#</span></td>
-	<td><span class="browseLink" type="superclass" dval="#superclass#">#Superclass#</span></td>
-	<td><span class="browseLink" type="Phylclass" dval="#Phylclass#">#Phylclass#</span></td>
-	<td><span class="browseLink" type="subclass" dval="#subclass#">#subclass#</span></td>
-	<td><span class="browseLink" type="superorder" dval="#superorder#">#superorder#</span></td>
-    <td><span class="browseLink" type="Phylorder" dval="#Phylorder#">#Phylorder#</span></td>
-    <td><span class="browseLink" type="Suborder" dval="#Suborder#">#Suborder#</span></td>
-	<td><span class="browseLink" type="infraorder" dval="#infraorder#">#infraorder#</span></td>
-    <td><span class="browseLink" type="superfamily" dval="#superfamily#">#superfamily#</span></td>
-    <td><span class="browseLink" type="family" dval="#family#">#family#</span></td>
-	<td><span class="browseLink" type="Subfamily" dval="#Subfamily#">#Subfamily#</span></td>
-    <td><span class="browseLink" type="Tribe" dval="#Tribe#">#Tribe#</span></td>
-    <td><span class="browseLink" type="Genus" dval="#Genus#">#Genus#</span></td>
-    <td><span class="browseLink" type="Subgenus" dval="#Subgenus#">#Subgenus#</span></td>
-    <td><span class="browseLink" type="Species" dval="#Species#">#Species#</span></td>
-    <td nowrap="nowrap"><span class="browseLink" type="author_text" dval="#author_text#">#author_text#</span></td>
-    <td>#infraspecific_rank#&nbsp;</td>
-    <td><span class="browseLink" type="Subspecies" dval="#Subspecies#">#Subspecies#</span></td>
-    <td nowrap="nowrap"><span class="browseLink" type="infraspecific_author" dval="#infraspecific_author#">#infraspecific_author#</span></td>
-    <td nowrap="nowrap">#source_authority#&nbsp;</td>
-	<td nowrap="nowrap">#taxon_status#&nbsp;</td>
-    <td nowrap="nowrap">#taxon_remarks#&nbsp;</td>
+	<td class="col3">#nomenclatural_code#&nbsp;</td>
+	<td class="col4">#kingdom#&nbsp;</td>
+	<td class="col5"><span class="browseLink" type="phylum" dval="#phylum#">#phylum#</span></td>
+    <td class="col6"><span class="browseLink" type="subphylum" dval="#subphylum#">#subphylum#</span></td>
+	<td class="col7"><span class="browseLink" type="division" dval="#division#">#division#</span></td>
+	<td class="col8"><span class="browseLink" type="subdivision" dval="#subdivision#">#subdivision#</span></td>
+	<td class="col9"><span class="browseLink" type="superclass" dval="#superclass#">#Superclass#</span></td>
+	<td class="col10"><span class="browseLink" type="Phylclass" dval="#Phylclass#">#Phylclass#</span></td>
+	<td class="col11"><span class="browseLink" type="subclass" dval="#subclass#">#subclass#</span></td>
+	<td class="col12"><span class="browseLink" type="superorder" dval="#superorder#">#superorder#</span></td>
+    <td class="col13"><span class="browseLink" type="Phylorder" dval="#Phylorder#">#Phylorder#</span></td>
+    <td class="col14"><span class="browseLink" type="Suborder" dval="#Suborder#">#Suborder#</span></td>
+	<td class="col15"><span class="browseLink" type="infraorder" dval="#infraorder#">#infraorder#</span></td>
+    <td class="col16"><span class="browseLink" type="superfamily" dval="#superfamily#">#superfamily#</span></td>
+    <td class="col17"><span class="browseLink" type="family" dval="#family#">#family#</span></td>
+	<td class="col18"><span class="browseLink" type="Subfamily" dval="#Subfamily#">#Subfamily#</span></td>
+    <td class="col19"><span class="browseLink" type="Tribe" dval="#Tribe#">#Tribe#</span></td>
+   <td class="col20"><span class="browseLink" type="Genus" dval="#Genus#">#Genus#</span></td>
+    <td class="col21"><span class="browseLink" type="Subgenus" dval="#Subgenus#">#Subgenus#</span></td>
+   <td class="col22"><span class="browseLink" type="Species" dval="#Species#">#Species#</span></td>
+    <td class="col23" nowrap="nowrap"><span class="browseLink" type="author_text" dval="#author_text#">#author_text#</span></td>
+   <td class="col24">#infraspecific_rank#&nbsp;</td>
+   <td class="col25"><span class="browseLink" type="Subspecies" dval="#Subspecies#">#Subspecies#</span></td>
+    <td class="col26" nowrap="nowrap"><span class="browseLink" type="infraspecific_author" dval="#infraspecific_author#">#infraspecific_author#</span></td>
+   <td class="col27" nowrap="nowrap">#source_authority#&nbsp;</td>
+	<td class="col28" nowrap="nowrap">#taxon_status#&nbsp;</td>
+    <td class="col29" nowrap="nowrap">#taxon_remarks#&nbsp;</td>
   </tr>
   <cfset i=i+1>
   </cfoutput>
 </table>
+    
+       
 </div>
 <cfinclude template = "includes/_footer.cfm">

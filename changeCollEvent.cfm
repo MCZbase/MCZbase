@@ -71,7 +71,8 @@
 		accepted_lat_long.determined_by_agent_id = preferred_agent_name.agent_id (+) AND
 		cataloged_item.collection_object_id = #collection_object_id#
  </cfquery>
- <b>Existing collecting Event for <a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#getLoc.collection_cde# #getLoc.cat_num#</a>:</b>
+<div class="basic_box">
+ <h3>Existing collecting Event for <a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#getLoc.collection_cde# #getLoc.cat_num#</a>:</h3>
  <form name="newCollEvent" method="post" action="changeCollEvent.cfm">
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 	<input type="hidden" name="collecting_event_id" value="">
@@ -87,18 +88,18 @@
  
  </cfoutput>
  <cfoutput query="getLoc">
- <div style="border-color:##3366CC; border-style:groove; width:620px;" align="center">
- 	<table border width="600">
+
+ 	<table border>
 		<tr>
-			<td align="right" width="30%"><strong>Higher Geog</strong></td>
+			<td align="right" width="200px"><strong>Higher Geog</strong></td>
 			<td>#higher_geog#</td>
 		</tr>
 	</table>
- </div>
- <div style="border-color:##339966; border-style:groove; width:620px;" align="center">
- 	<table border width="600">
+ <br><br>
+ 
+ 	<table border>
 		<tr>
-			<td align="right" width="30%"><strong>Specific Locality</strong></td>
+			<td align="right" width="200px"><strong>Specific Locality</strong></td>
 			<td>
 				<cfif len(#SPEC_LOCALITY#) gt 0>
 					#SPEC_LOCALITY#
@@ -108,7 +109,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Elevation</strong></td>
+			<td align="right" width="200px"><strong>Elevation</strong></td>
 			<td>
 				<cfif len(#MINIMUM_ELEVATION#) gt 0 OR len(#MAXIMUM_ELEVATION#) gt 0>
 					#MINIMUM_ELEVATION# - #MAXIMUM_ELEVATION# #ORIG_ELEV_UNITS#
@@ -118,7 +119,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Locality Remarks</strong></td>
+			<td align="right" width="200px"><strong>Locality Remarks</strong></td>
 			<td>
 				<cfif len(#LOCALITY_REMARKS#) gt 0>
 					#LOCALITY_REMARKS#
@@ -128,7 +129,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Depth</strong></td>
+			<td align="right" width="200px"><strong>Depth</strong></td>
 			<td>
 				<cfif len(#min_DEPTH#) gt 0 OR len(#max_depth#) gt 0>
 					#min_DEPTH# - #max_depth# #DEPTH_UNITS#
@@ -140,11 +141,11 @@
 		
 		
 	</table>
- </div>
-  <div style="border-color:##CC6633; border-style:groove; width:620px;" align="center">
- 	<table border width="600">
+<br><br>
+ 
+ 	<table border>
 		<tr>
-			<td align="right" width="30%"><strong>Collecting Date</strong></td>
+			<td align="right" width="200px"><strong>Collecting Date</strong></td>
 			<td>
 				<cfif (verbatim_date is began_date) AND
 			 		(verbatim_date is ended_date)>
@@ -163,7 +164,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Verbatim Locality</strong></td>
+			<td align="right" width="200px"><strong>Verbatim Locality</strong></td>
 			<td>
 				<cfif len(#verbatim_locality#) gt 0>
 					#verbatim_locality#
@@ -173,7 +174,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Collecting Event Remarks</strong></td>
+			<td align="right" width="200px"><strong>Collecting Event Remarks</strong></td>
 			<td>
 				<cfif len(#coll_event_remarks#) gt 0>
 					#coll_event_remarks#
@@ -183,7 +184,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Valid Distribution</strong></td>
+			<td align="right" width="200px"><strong>Valid Distribution</strong></td>
 			<td>
 				<cfif #valid_distribution_fg# is 1>
 				yes
@@ -193,14 +194,14 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Collecting Source</strong></td>
+			<td align="right" width="200px"><strong>Collecting Source</strong></td>
 			<td>
 				#collecting_source#
 		  </td>
 		</tr>
 		
 		<tr>
-			<td align="right" width="30%"><strong>Habitat Description</strong></td>
+			<td align="right" width="200px"><strong>Habitat Description</strong></td>
 			<td>
 				<cfif len(#habitat_desc#) gt 0>
 					#habitat_desc#
@@ -210,11 +211,10 @@
 		  </td>
 		</tr>
 	</table>
- </div>
- <div style="border-color:##33FF66; border-style:groove; width:620px;" align="center">
- 	<table border width="600">
+<br><br>
+ 	<table border>
 		<tr>
-			<td align="right" width="30%"><strong>Coordinates</strong></td>
+			<td align="right" width="200px"><strong>Coordinates</strong></td>
 			<td>
 				<cfif len(#verbatimLatitude#) gt 0>
 					#verbatimLatitude# #verbatimLongitude#
@@ -224,7 +224,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Datum</strong></td>
+			<td align="right" width="200px"><strong>Datum</strong></td>
 			<td>
 				<cfif len(#Datum#) gt 0>
 					#Datum#
@@ -234,7 +234,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Determined By</strong></td>
+			<td align="right" width="200px"><strong>Determined By</strong></td>
 			<td>
 				<cfif len(#determined_agent#) gt 0>
 					#determined_agent#
@@ -254,7 +254,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Reference</strong></td>
+			<td align="right" width="200px"><strong>Reference</strong></td>
 			<td>
 				<cfif len(#LAT_LONG_REF_SOURCE#) gt 0>
 					#LAT_LONG_REF_SOURCE#
@@ -264,7 +264,7 @@
 		  </td>
 		</tr>
 		<tr>
-			<td align="right" width="30%"><strong>Remarks</strong></td>
+			<td align="right" width="200px"><strong>Remarks</strong></td>
 			<td>
 				<cfif len(#LAT_LONG_REMARKS#) gt 0>
 					#LAT_LONG_REMARKS#

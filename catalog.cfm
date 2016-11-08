@@ -4,6 +4,7 @@
 	<script type='text/javascript' src='/ajax/core/util.js'></script>
 	<script type='text/javascript' src='/ajax/core/settings.js'></script>
 	<script type='text/javascript' src='/includes/_CatAjax.js'></script>
+    <div class="basic_wide_box" style="width:78em;">
 <cfoutput>
 <cfset detSelect = "
 	SELECT DISTINCT
@@ -364,7 +365,7 @@
 		<td valign="top"><!--- left half of page --->
 			
 	<!------------------------------------- agents ---------------------------------------------------->
-	<table cellpadding="0" cellspacing="0" class="fs">
+	<table class="fs">
 		<tr>
 			<td>
 				<span style="font-size:12px; font-weight:600;">
@@ -378,7 +379,7 @@
 	</table>
 	<!------------------------------------- /agents ---------------------------------------------------->
 <!------------------------------------- Accn and Locality ---------------------------------------------------->
-	<table cellpadding="0" cellspacing="0" class="fs">
+	<table class="fs">
 		<tr>
 			<td>
 				<span style="font-size:12px; font-weight:600;">
@@ -401,7 +402,7 @@
 <!------------------------------------- /Accn and Locality ---------------------------------------------------->
 	</td>
 	<td valign="top"><!----- right half of page ---->
-		<table cellpadding="0" cellspacing="0" class="fs">
+		<table class="fs">
 		<tr>
 			<td>
 				<span style="font-size:12px; font-weight:600;">
@@ -702,11 +703,11 @@
 		<!------------------------------------/parts----------------------------->
 		<!------------------------------------------------------ attributes -------------------------------------->
 		
-				<table cellpadding="0" cellspacing="0" class="fs">
+				<table class="fs">
 			<tr>
 				<td>
 					<cfset i=1>
-<table border cellpadding="0" cellspacing="0">
+<table border>
 	<tbody id="attrTbod">
 	<tr>
 		<td><span class="d11a">Attribute</span></td>
@@ -1026,3 +1027,4 @@
 		changeStyle('#detail.institution_acronym#');
 </script>
 </cfoutput>
+</div>

@@ -532,9 +532,10 @@
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "editCollEvnt">
+               <div class="basic_box">
 <cfset title="Edit Collecting Event">
 <cfoutput>
-        <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+      
 	<h2 class="wikilink">Edit Collecting Events:</h2>
       <cfquery name="locDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
@@ -587,7 +588,8 @@
 			collection,
 	  		collection.collection_id
 	</cfquery>
-	<div style="border:2px solid red; font-weight:bold;padding: 1em;margin-bottom: .5em;width: 56em;">
+ 
+	<div style="border:2px solid red; font-weight:bold;padding: 1em;">
 		This Collecting Event (#collecting_event_id#)
 		 contains
 		<cfif whatSpecs.recordcount is 0>
@@ -618,15 +620,16 @@
 				LocalityPick('locality_id','spec_locality','localitypick'); return false;" >
 		<h4>Current Locality:</h4>
 		<div id="locDesc">
-            <p><span style="font-weight: 600;color: ##ff0000">HIGHER GEOGRAPHY: </span> #locDet.higher_geog#</p>
+            <p><span style="font-weight: 600;color: ##ff0000;width: 210px;display:inline-block;text-align:right;">HIGHER GEOGRAPHY: </span> #locDet.higher_geog#</p>
 			<cfif len(locDet.VerbatimLatitude) gt 0>
-                <p><span style="font-weight: 600;color: ##ff0000">COORDINATES:</span> #locDet.VerbatimLatitude# &nbsp;&nbsp; #locDet.VerbatimLongitude#</p>
-                <p><span style="font-weight: 600;color: ##ff0000">MAX ERROR:</span> <cfif len(locDet.max_error_distance) gt 0>
+                <p><span style="font-weight: 600;color: ##ff0000; width: 210px;display:inline-block;">COORDINATES:</span> #locDet.VerbatimLatitude# &nbsp;&nbsp; #locDet.VerbatimLongitude#</p>
+                <p><span style="font-weight: 600;color: ##ff0000; width: 210px;display:inline-block;text-align:right;">MAX ERROR:</span> <cfif len(locDet.max_error_distance) gt 0>
 					&##177; #locDet.max_error_distance# #locDet.max_error_units#
                     </cfif></p>
 			</cfif>
-            <p><span style="font-weight: 600;color: ##ff0000">SPECIFIC LOCALITY:</span><em>#locDet.spec_locality#</em></p>
+            <p><span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">SPECIFIC LOCALITY:</span> #locDet.spec_locality#</p>
 		</div>
+             <br><br>
 		<div id="hiddenButton" style="visibility:hidden ">
 			Picked Locality:
 			<input type="text" name="spec_locality" size="50">
@@ -646,20 +649,24 @@
     	<input type="hidden" name="Action" value="saveCollEventEdit">
 	    <input type="hidden" name="collecting_event_id" value="#locDet.collecting_event_id#">
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		<label for="verbatim_locality" class="likeLink" onclick="getDocs('collecting_event','verbatim_locality')">
+		<div style="border: 1px solid green;padding: .5em;">
+        <label for="verbatim_locality">
 			Verbatim Locality
 		</label>
-		<input type="text" name="verbatim_locality" id="verbatim_locality" value='#stripQuotes(locDet.verbatim_locality)#' size="130">
-		<label for="specific_locality" class="likeLink" onclick="getDocs('locality','specific_locality')">
+		<input type="text" name="verbatim_locality" id="verbatim_locality" value='#stripQuotes(locDet.verbatim_locality)#' size="115">
+		<label for="specific_locality">
 			Specific Locality
 		</label>
 		<div id="specific_locality">
 			#locDet.spec_locality#
 		</div>
-		<label for="verbatim_date" class="likeLink" onclick="getDocs('collecting_event','verbatim_date')">
+		<label for="verbatim_date">
 			Verbatim Date
 		</label>
+          
+     
 		<input type="text" name="VERBATIM_DATE" id="verbatim_date" value="#locDet.VERBATIM_DATE#" class="reqdClr">
+              <br><br>
 		<table>
 			<tr>
 				<td>
@@ -675,13 +682,13 @@
 		<table>
 			<tr>
 				<td>
-					<label for="began_date" class="likeLink" onclick="getDocs('collecting_event','began_date')">
+					<label for="began_date">
 						Began Date/Time
 					</label>
 					<input type="text" name="began_date" id="began_date" value="#locDet.began_date#" size="20">
 				</td>
 				<td>
-					<label for="ended_date" class="likeLink" onclick="getDocs('collecting_event','ended_date')">
+					<label for="ended_date">
 						Ended Date/Time
 					</label>
 					<input type="text" name="ended_date" id="ended_date" value="#locDet.ended_date#" size="20">
@@ -689,8 +696,8 @@
 			</tr>
 		</table>
 		<label for="coll_event_remarks">Remarks</label>
-		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="130">
-		<label for="collecting_source" class="likeLink" onclick="getDocs('collecting_event','collecting_source')">
+		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="115">
+		<label for="collecting_source">
 			Collecting Source
 		</label>
 		<select name="collecting_source" id="collecting_source" size="1">
@@ -699,14 +706,14 @@
 					value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
 			</cfloop>
 		</select>
-		<label for="collecting_method" class="likeLink" onclick="getDocs('collecting_event','collecting_method')">
+		<label for="collecting_method">
 			Collecting Method
 		</label>
-		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#" size="130">
-		<label for="habitat_desc" class="likeLink" onclick="getDocs('collecting_event','habitat')">
+		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#" size="115">
+		<label for="habitat_desc">
 			Habitat
 		</label>
-		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="130">
+		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="115">
         <br><input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
@@ -714,14 +721,16 @@
 		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#locDet.verbatim_locality#&began_date=#locDet.began_date#&ended_date=#locDet.began_date#&verbatim_date=#locDet.verbatim_date#&coll_event_remarks=#locDet.coll_event_remarks#&collecting_source=#locDet.collecting_source#&collecting_method=#locDet.collecting_method#&habitat_desc=#locDet.habitat_desc#">
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#dLoc#';">
 	</cfform>
-            </div>
+          
+               
   </cfoutput>
+             </div>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newCollEvent">
 	<cfset title="Create Collecting Event">
 	<cfoutput>
-            <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+            <div class="basic_box">
 	<h2 class="wikilink">Create Collecting Events:</h2>
 	  	<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
@@ -732,8 +741,8 @@
 			geog_auth_rec_id=#getLoc.geog_auth_rec_id#
 		</cfquery>
 		<h3>Create Collecting Event</h3>
-	   	<br>Higher Geography:  #getGeo.higher_geog#
-	    <br>Spec Locality: #getLoc.spec_locality#
+                <br>Higher Geography: #getGeo.higher_geog#
+                <br>Spec Locality: #getLoc.spec_locality#
 	    <form name="newCollEvnt" action="Locality.cfm" method="post">
 	    	<input type="hidden" name="Action" value="newColl">
 	     	<input type="hidden" name="locality_id" value="#locality_id#">
@@ -1436,6 +1445,7 @@ INSERT INTO geog_auth_rec (
 <!--------------------------- Results -------------------------------------------------->
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findCollEvent">
+    <div style="padding-bottom:5em;">
 	<cfoutput>
 		<form name="tools" method="post" action="Locality.cfm">
 			<input type="hidden" name="action" value="massMoveCollEvent" />
@@ -1539,12 +1549,14 @@ INSERT INTO geog_auth_rec (
 	</cfloop>
 </table>
 			<input type="submit"
+                   style="float:right"
 				value="Move These Collecting Events to new Locality"
 				class="savBtn"
 				onmouseover="this.className='savBtn btnhov'"
 				onmouseout="this.className='savBtn'" />
 		</form>
 	</cfoutput>
+        </div>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 
