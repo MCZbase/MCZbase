@@ -286,7 +286,7 @@ a.qutBtn {
                       #i#. &nbsp; <span style="font-weight: bold;"> #encumbrance# (#encumbrance_action#) </span> <span style="color: ##666; font-style: italic;"> by #agent_name# made #dateformat(made_date,"yyyy-mm-dd")#,</span><span style="color: ##666"> expires:  #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks#</span>
 				<div style="margin-top: .25em;margin-left: 0em;text-align:right;margin-bottom:.2em;">
 				<cfif len(collection_object_id) gt 0>
-					<span class="likeLink picBtn" style="display:inline-block;margin-bottom: .45em;width:200px;" onclick="listEnc#i#.Action.value='saveEncumbrances';listEnc#i#.submit();">
+					<span class="likeLink picBtn" style="display:inline-block;margin-bottom: .45em;width:auto;" onclick="listEnc#i#.Action.value='saveEncumbrances';listEnc#i#.submit();">
 						Add All Items To This Encumbrance
                     </span> 
 					<span class="likeLink picBtn" onclick="listEnc#i#.Action.value='remListedItems';listEnc#i#.submit();">
