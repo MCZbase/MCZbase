@@ -1759,7 +1759,7 @@ div.submenu a, div.submenu h2 {
 	border-style: solid;
 	border-color: #ccc #888 #555 #bbb;
 	margin: 0;
-	padding: 2px 3px;
+	padding: 2px 20px 2px 3px;
 }
 div.submenu h2 {
 	color: #0000FF;
@@ -5127,8 +5127,7 @@ div#loadedMsgDiv {
     font-size: 15px;
     background-color: white
     padding: 3px 2px;
-   width:80%;
-  
+   width:80%;  
 }
 .DE_far_right {width: 18%;}
 .barcodes p {padding: .25em 0;}

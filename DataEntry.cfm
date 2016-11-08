@@ -1627,7 +1627,7 @@ Some Totally Random String Data .....
 						<span id="enterMode" style="display:none;">						
                             <input type="button"
 								value="Edit Last Record"
-                                style="padding: 1px 3px 0 3px;"
+                                style="padding: 2px 5px 2px 5px;"
 								class="lnkBtn"
                                    
 								onclick="editThis();">
