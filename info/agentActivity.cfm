@@ -1,6 +1,5 @@
 <cfinclude template = "/includes/_frameHeader.cfm">
 <div style="padding: 2em;">
-
 <cfset title = "Agent Activity">
 <cfoutput>
 <a href="/agents.cfm?agent_id=#agent_id#" target="_top">Edit Agent</a>

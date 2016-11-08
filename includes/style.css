@@ -2426,8 +2426,9 @@ p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 #resultsGoHere {
 	min-width: 1px;
     padding-bottom: 130px;
-    
+
 }
+#resultsGoHere{margin-right: 100px;}
 .resultsGoHere {
     min-width: 1px;
 	/*font-size: 12px;*/
@@ -4295,7 +4296,7 @@ table.navtabs {
 	margin: -1em .5% 0 0;
 }
 .content_box_footer {
-	width: 80%;
+	width: 90%;
 	margin: 0 auto;
 }
 .footer2 {
@@ -4576,17 +4577,7 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
     margin: 0 auto; 
     padding: 1em 0 3em 0;
 }
-html {height: 100%;}
-body {
-    min-height: 100%;
-    display: flex;
-    flex-direction:column;
-}
 
-#headerContent,
-#footerContentBox {
-  flex: none; /* 2 */
-}
 .groupAgent {margin-left: 14px;margin-bottom:0;padding-bottom: 0;}
 
 .basic_box::after,.basic_narrow_box::after, .basic_wide_box::after {
@@ -4603,6 +4594,7 @@ body {
 .basic_box--full::after,.basic_narrow_box--full::after, .basic_wide_box--full::after {
   content: none;
 }
+iframe table
 
 @media only screen and (max-width: 1800px) {
 #headerContent {
