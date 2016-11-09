@@ -37,8 +37,13 @@
 			function (r) {
 				var s='';
 				var exists = false;
+<<<<<<< HEAD
 				if (dataValue !==null)
 				{for (i=0; i<r.ROWCOUNT; ++i) {
+=======
+				if (dataValue !==null){
+				for (i=0; i<r.ROWCOUNT; ++i) {
+>>>>>>> 76eb5eeaa32300717241e116bd5868f6cc035616
 					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
 					}
 				if (exists==false){s='<option value="' + dataValue + '" selected="selected">' + dataValue + '</option>';}
