@@ -2,8 +2,13 @@
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		$("#determined_date").datepicker();
-		$("#began_date").datepicker();
-		$("#ended_date").datepicker();
+		$("#began_date").datepicker({
+			showOn: "button",
+			buttonImage: "images/cal_icon.gif",
+			buttonImageOnly: true});
+		$("#ended_date").datepicker({showOn: "button",
+			buttonImage: "images/cal_icon.gif",
+			buttonImageOnly: true});
 		$(":input[id^='geo_att_determined_date']").each(function(e){
 			$("#" + this.id).datepicker();
 		});
@@ -384,7 +389,8 @@
 								name="began_date"
 								id="began_date"
 								value="#l.began_date#"
-								class="reqdClr">
+								class="reqdClr"
+                                style="vertical-align:top;">
 						</td>
 						<td>
 							<label for="ended_date">
@@ -395,7 +401,8 @@
 								name="ended_date"
 								id="ended_date"
 								value="#l.ended_date#"
-								class="reqdClr">
+								class="reqdClr"
+                                style="vertical-align:top;">
 						</td>
 					</tr>
 				</table>
