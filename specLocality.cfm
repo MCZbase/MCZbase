@@ -2,15 +2,20 @@
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		$("#determined_date").datepicker();
-		$("#began_date").datepicker();
-		$("#ended_date").datepicker();
+		$("#began_date").datepicker({
+			showOn: "button",
+			buttonImage: "images/cal_icon.gif",
+			buttonImageOnly: true});
+		$("#ended_date").datepicker({showOn: "button",
+			buttonImage: "images/cal_icon.gif",
+			buttonImageOnly: true});
 		$(":input[id^='geo_att_determined_date']").each(function(e){
 			$("#" + this.id).datepicker();
 		});
 		$("select[id^='geology_attribute_']").each(function(e){
 			populateGeology(this.id);
 		});
-	});
+	}); 
 	function populateGeology(id) {
 		if (id.indexOf('__') > -1) {
 			var idNum=id.replace('geology_attribute__','');
@@ -37,8 +42,10 @@
 			function (r) {
 				var s='';
 				var exists = false;
-				if (dataValue !==null){
-				for (i=0; i<r.ROWCOUNT; ++i) {
+
+				if (dataValue !==null)
+				{for (i=0; i<r.ROWCOUNT; ++i) {
+
 					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
 					}
 				if (exists==false){s='<option value="' + dataValue + '" selected="selected">' + dataValue + '</option>';}
@@ -379,7 +386,8 @@
 								name="began_date"
 								id="began_date"
 								value="#l.began_date#"
-								class="reqdClr">
+								class="reqdClr"
+                                style="vertical-align:top;">
 						</td>
 						<td>
 							<label for="ended_date">
@@ -390,7 +398,8 @@
 								name="ended_date"
 								id="ended_date"
 								value="#l.ended_date#"
-								class="reqdClr">
+								class="reqdClr"
+                                style="vertical-align:top;">
 						</td>
 					</tr>
 				</table>
