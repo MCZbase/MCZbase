@@ -628,6 +628,7 @@ div.ui-datepicker {
 	border-collapse: collapse;
 	margin: 0 0 .4em;
 }
+
 .ui-datepicker th {
 	padding: .7em .3em;
 	text-align: center;
@@ -713,7 +714,10 @@ div.ui-datepicker {
 	width: 200px; /*must have*/
 	height: 200px; /*must have*/
 }
+.ui-datepicker-trigger {position:relative;top:10px;right:0px;height:20px}
+
 /*Bug form styles*/
+
 #bug_text {
 	left: 600px;
 	width: 650px;

@@ -1,20 +1,24 @@
 jQuery(document).ready(function() {
 	$("#made_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.gif",
+			buttonImage: "../images/cal_icon.png",
 			buttonImageOnly: true});
 	$("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.gif",
+			buttonImage: "../images/cal_icon.png",
 			buttonImageOnly: true });
 	$("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.gif",
+			buttonImage: "../images/cal_icon.png",
 			buttonImageOnly: true});	
 	$("#determined_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.gif",
+			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true});
 	for (i=1;i<=14;i++){
 		$("#geo_att_determined_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
 		$("#attribute_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
 	}
+    $(".ui-datepicker-trigger").css("margin-bottom","-5px");
+    $(".ui-datepicker-trigger").css("height","21px");
+    $(".ui-datepicker-trigger").css("width","18px");
+
 	$("input[type=text]").focus(function(){
 	    //this.select();
 	});
