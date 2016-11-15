@@ -2,9 +2,16 @@
 <cf_customizeIFrame>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-		$("#began_date").datepicker();
-		$("#ended_date").datepicker();
+		$("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+            $(".ui-datepicker-trigger").css("margin-bottom","-7px");
+
 	});
+    
 </script>
 <cfoutput>
 <!--- see if action is duplicated --->

@@ -3746,19 +3746,16 @@ h2.proj_title {font-size: 1.6em; margin:0;}
 .content_box_pub {
 	width: 56em;
 	margin: 0 auto;
-	margin-bottom: 1em;
-    padding: 2em 0;
+    padding: 2em 0 5em 0;
 }
+.content_box_pub table {margin-bottom: 3em;}
 .content_box_narrow {width:43em;margin:0 auto;padding: 2em 0 3em 0;}
 
 .content_box_pub select, .content_box_pub input {
-	width: 395px;padding-right: 0;
+	width: 395px;padding: 2px;
 }
 .content_box_pub input.schBtn {width: auto;}
 
-.pub_title_box {
-   
-}
 .pub_title_box label {font-weight: 400;}
 .projPubSearchResults {width: 80em;margin:0 auto;padding-bottom: 2em;padding-top: 1em;}
 .projPubSearchResults table {width: 80em;}
