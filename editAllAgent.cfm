@@ -1287,12 +1287,18 @@
 			</cfif>
 			<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select agent_id,agent_name from agent_name where upper(agent_name) like '%#ucase(pref_name)#%'
+					select agent.agent_type,agent_name.agent_id,agent_name.agent_name from agent_name, agent where agent_name.agent_id = agent.agent_id
+                    and upper(agent_name.agent_name) like '%#ucase(pref_name)#%'
 				</cfquery>
 				<cfif dupPref.recordcount gt 0>
-					<p>That agent may already exist! Click to see details.</p>
+                    <div style="padding: 1em;width: 75%;">
+                        <h3>That agent may already exist!</h3>
+                        <p>The name you entered is either a preferred name or other name for an existing agent.</p>
+                        <p>A duplicated preferred name will prevent MCZbase from functioning normally. 
+                        </p>
+                        <p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
 					<cfloop query="dupPref">
-						<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a>
+						<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name# (agent ID ## #agent_id# - #agent_type#)</a>
 					</cfloop>
 					<p>Are you sure you want to continue?</p>
 					<form name="ac" method="post" action="editAllAgent.cfm">
@@ -1304,10 +1310,15 @@
 						<input type="hidden" name="SUFFIX" value="#SUFFIX#">
 						<input type="hidden" name="pref_name" value="#pref_name#">
 						<input type="hidden" name="ignoreDupChek" value="true">
-						<input type="submit" class="insBtn" value="Of course. I carefully checked for duplicates before creating this agent.">
-						<br><input type="button" class="qutBtn" onclick="back()" value="Oh - back one step, please.">
+						<input type="submit" class="insBtn" value="Create Agent">
+					
 					</form>
+                      <br><br>
+                         <input type="cancel" value="Cancel" class="insBtn" style="background-color: ##ffcc00;border: 1px solid ##336666; width: 42px;" onclick="javascript:window.location='';return false;">
 					<cfabort>
+                        
+                        
+                        </div>
 				</cfif>
 			</cfif>
 			<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

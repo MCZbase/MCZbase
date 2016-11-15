@@ -4,10 +4,10 @@
 		$("#determined_date").datepicker();
 		$("#began_date").datepicker({
 			showOn: "button",
-			buttonImage: "images/cal_icon.gif",
+			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true});
 		$("#ended_date").datepicker({showOn: "button",
-			buttonImage: "images/cal_icon.gif",
+			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true});
 		$(":input[id^='geo_att_determined_date']").each(function(e){
 			$("#" + this.id).datepicker();

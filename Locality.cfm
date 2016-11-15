@@ -2,9 +2,16 @@
 <cf_customizeIFrame>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-		$("#began_date").datepicker();
-		$("#ended_date").datepicker();
+		$("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+            $(".ui-datepicker-trigger").css("margin-bottom","-7px");
+
 	});
+    
 </script>
 <cfoutput>
 <!--- see if action is duplicated --->
@@ -619,7 +626,7 @@
 				document.getElementById('hiddenButton').style.visibility='visible';
 				LocalityPick('locality_id','spec_locality','localitypick'); return false;" >
 		<h4>Current Locality:</h4>
-		<div id="locDesc">
+		<div id="locDesc" style="border:1px solid green;padding: .5em;">
             <p><span style="font-weight: 600;color: ##ff0000;width: 210px;display:inline-block;text-align:right;">HIGHER GEOGRAPHY: </span> #locDet.higher_geog#</p>
 			<cfif len(locDet.VerbatimLatitude) gt 0>
                 <p><span style="font-weight: 600;color: ##ff0000; width: 210px;display:inline-block;">COORDINATES:</span> #locDet.VerbatimLatitude# &nbsp;&nbsp; #locDet.VerbatimLongitude#</p>
@@ -629,8 +636,8 @@
 			</cfif>
             <p><span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">SPECIFIC LOCALITY:</span> #locDet.spec_locality#</p>
 		</div>
-             <br><br>
-		<div id="hiddenButton" style="visibility:hidden ">
+            
+		<div id="hiddenButton" style="visibility:hidden;margin-bottom: 0; padding-bottom:0;height: 18px; ">
 			Picked Locality:
 			<input type="text" name="spec_locality" size="50">
 			<input type="submit" value="Save Change" class="savBtn">

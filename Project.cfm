@@ -3,8 +3,13 @@
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery("#start_date").datepicker();
-		jQuery("#end_date").datepicker();
-		jQuery("#ended_date").datepicker();	
+		jQuery("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		jQuery("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+          jQuery(".ui-datepicker-trigger").css("margin-bottom","-7px");	
 	});
 	function addProjTaxon() {
 		if (document.getElementById('newTaxId').value.length == 0){
@@ -367,7 +372,7 @@
 						<input type="hidden" name="Action" value="newAgent">
 						<input type="hidden" name="project_id" value="#getDetails.project_id#">
 						<td>	
-							##<select name="agent_position" size="1" class="reqdClr">
+							## <select name="agent_position" size="1" class="reqdClr">
 								<cfloop from="1" to="#numberOfAgents#" index="i">
 									<option 
 										<cfif numberOfAgents is i> selected </cfif>	value="#i#">#i#</option>
