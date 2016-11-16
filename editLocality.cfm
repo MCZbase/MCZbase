@@ -125,11 +125,8 @@
 				for (i=0; i<r.ROWCOUNT; ++i) {
 					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
 					}
-<<<<<<< HEAD
-				if (exists==false){s='<option value="' + dataValue + '" selected="selected">' + dataValue + '</option>';}
-=======
-				if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red">' + dataValue + '</option>';}
->>>>>>> 76eb5eeaa32300717241e116bd5868f6cc035616
+if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red">' + dataValue + '</option>';}
+
 					}
 				for (i=0; i<r.ROWCOUNT; ++i) {
 					s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
@@ -450,7 +447,7 @@
 						</div>
 					<cfelseif getLL.recordcount is 0 AND len(#NoGeorefBecause#) is 0>
 						<div style="background-color:red">
-							Please georeference this locality or enter a value for NoGeorefBecause.
+							Please georeference this locality or enter a value for Not Georeferenced Because.
 						</div>
 					</cfif>
 				</td>
