@@ -125,11 +125,9 @@
 				for (i=0; i<r.ROWCOUNT; ++i) {
 					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
 					}
-<<<<<<< HEAD
-				if (exists==false){s='<option value="' + dataValue + '" selected="selected">' + dataValue + '</option>';}
-=======
+
 				if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red">' + dataValue + '</option>';}
->>>>>>> 76eb5eeaa32300717241e116bd5868f6cc035616
+
 					}
 				for (i=0; i<r.ROWCOUNT; ++i) {
 					s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
@@ -638,7 +636,7 @@
 					<label for="georefMethod#i#">
 						Georeference Method
 					</label>
-					<select name="georefMethod" id="georefMethod#i#" size="1" class="reqdClr narrowselect">
+					<select name="georefMethod" id="georefMethod#i#" size="1" class="reqdClr narrowselect" style="width: 300px !important;">
 				   		<cfloop query="ctGeorefMethod">
 							<option class="reqdClr
 								<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>"
@@ -948,7 +946,7 @@
 					<label for="georefMethod">
 						Georeference Method
 					</label>
-					<select name="georefMethod" id="georefMethod" size="1" class="reqdClr">
+					<select name="georefMethod" id="georefMethod" size="1" class="reqdClr narrowselect" style="width: 300px !important;">
 				   		<cfloop query="ctGeorefMethod">
 							<option value="#georefMethod#">#georefMethod#</option>
 						</cfloop>
