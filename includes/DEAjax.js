@@ -15,7 +15,7 @@ jQuery(document).ready(function() {
 		$("#geo_att_determined_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
 		$("#attribute_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
 	}
-    $(".ui-datepicker-trigger").css("margin-bottom","-5px");
+  $(".ui-datepicker-trigger").css("vertical-align","middle");
     $(".ui-datepicker-trigger").css("height","20px");
     $(".ui-datepicker-trigger").css("width","18px");
 

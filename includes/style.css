@@ -714,7 +714,7 @@ div.ui-datepicker {
 	width: 200px; /*must have*/
 	height: 200px; /*must have*/
 }
-.ui-datepicker-trigger {position:relative;top:10px;right:0px;height:20px}
+.ui-datepicker-trigger {position:relative;top:0px;right:0px;height:20px}
 
 /*Bug form styles*/
 

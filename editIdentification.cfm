@@ -6,7 +6,9 @@
 	jQuery(document).ready(function() {
 		$("#made_date").datepicker();
 		$("input[id^='made_date_']").each(function(){
-			$("#" + this.id).datepicker();
+			$("#" + this.id).datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
 		});
 	});
 </script>
@@ -62,7 +64,7 @@
  <tr>
  	<td colspan="2">
         <h3 class="wikilink">Add new Determination
-<a href="javascript:void(0);" onClick="getDocs('identification')"><img src="/images/info.gif" border="0"></a></h3>
+<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><img src="/images/info.gif" border="0"></a></h3>
 	</td>
  </tr>
     <input type="hidden" name="Action" value="createNew">
