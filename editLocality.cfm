@@ -448,7 +448,7 @@
 						</div>
 					<cfelseif getLL.recordcount is 0 AND len(#NoGeorefBecause#) is 0>
 						<div style="background-color:red">
-							Please georeference this locality or enter a value for NoGeorefBecause.
+							Please georeference this locality or enter a value for Not Georeferenced Because.
 						</div>
 					</cfif>
 				</td>
