@@ -116,6 +116,7 @@
 
 <cfoutput query="detail" group="cat_num">
  <cfset typeName = typestatuswords>
+ <cfif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Holotype' or typestatuswords eq 'Syntype' or typestatuswords eq 'Neotype' or typestatuswords eq 'Hapantotype' or typestatuswords eq 'Lectotype' or typestatuswords eq 'Syntype?' or typestatuswords eq 'Holotype?' or typestatuswords eq 'Lectotype?' )>
  <cfset twotypes = '#replace(typestatusplain,"|","<br>")#'>
       <div class="primaryCont" style="margin-top:-1em;">
         <div class="primaryType">
