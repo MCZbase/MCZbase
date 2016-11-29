@@ -17,7 +17,7 @@
           </div>
         
          <div class="databases">
-         <a href="http://arctos.database.museum">
+         <a href="https://arctosdb.org/">
                <img src="/images/arctos2.png" class="arctos_logo" ALT="[ Link to home page. ]">
              </a>
                <a href="http://www.gbif.org/">

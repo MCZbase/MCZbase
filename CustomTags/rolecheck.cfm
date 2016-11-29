@@ -21,7 +21,8 @@
 	</cfif>
 	<cfif isdefined("bad") and bad is true>
 	    <cfoutput>
-		    <cftry>
+            <div class="basic_box">
+                <cftry>
 		    <cfmail subject="Access Violation" to="#Application.technicalEmail#" from="Security@#Application.fromEmail#" type="html">
 				IP address (#cgi.HTTP_X_Forwarded_For# - #remote_host#) tried to access
 				#cgi.script_name#
@@ -32,15 +33,18 @@
 			<cfcatch></cfcatch>
 			</cftry>
 			<!--- make sure they're really logged out --->
-			<img src="/images/oops.gif" alt="[ unauthorized access ]">
-			<div style="color:red;font-size:large;">
-				You tried to visit a form for which you are not authorized, or your login has expired.
+			
+			<div style="color:red;font-size:large;margin-left: 4em;">
+				 <img src="/images/oops.gif" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;"><p>You tried to visit a form for which you are not authorized, or your login has expired.
 				<br>
-				If this message is in error, please <a href="/contact.cfm">contact us</a>.
-				<br>
+				If this message is in error, please <a class="underline" href="/contact.cfm">contact us</a>.
+                </p>
+                
 			</div>
+               
 			<cfheader statuscode="403" statustext="Forbidden">
 			<cfabort>
+                </div>
 		</cfoutput>
 	</cfif>
 </cfif>
