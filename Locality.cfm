@@ -1557,7 +1557,7 @@ INSERT INTO geog_auth_rec (
 </table>
 			<input type="submit"
                    style="float:left"
-				value="Move These Collecting Events to new Locality"
+				value="Move These Collecting Events to New Locality"
 				class="savBtn"
 				onmouseover="this.className='savBtn btnhov'"
 				onmouseout="this.className='savBtn'" />
