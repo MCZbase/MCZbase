@@ -102,13 +102,13 @@
 			<label for="address">
 			Address
 			</label>
-			<input type="text" name="address" id="address" size="25">
+			<input type="text" name="address" id="address" size="20">
 		</td>
 		<td>
 			<label for="anyName">
 				Any part of any name
 			</label>
-			<input type="text" name="anyName" id="anyName" size="25">
+			<input type="text" name="anyName" id="anyName" size="20">
 		</td>
 	</tr>
    

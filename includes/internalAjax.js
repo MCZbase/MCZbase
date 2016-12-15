@@ -272,6 +272,7 @@ function clickUploadPreview(){
 }
 function pickedRelationship (id){
 	var relationship=document.getElementById(id).value;
+	var formName=document.getElementById(id).form.getAttribute('name');
 	var ddPos = id.lastIndexOf('__');
 	var elementNumber=id.substring(ddPos+2,id.length);
 	var relatedTableAry=relationship.split(" ");
@@ -286,21 +287,21 @@ function pickedRelationship (id){
 		// do nothing, cleanup already happened
 	} else if (relatedTable=='agent'){
 		//addAgentRelation(elementNumber);
-		getAgent(idInputName,dispInputName,'newMedia','');		
+		getAgent(idInputName,dispInputName,formName,'');		
 	} else if (relatedTable=='locality'){
-		LocalityPick(idInputName,dispInputName,'newMedia'); 
+		LocalityPick(idInputName,dispInputName,formName); 
 	} else if (relatedTable=='collecting_event'){
-		findCollEvent(idInputName,'newMedia',dispInputName);
+		findCollEvent(idInputName,formName,dispInputName);
 	} else if (relatedTable=='cataloged_item'){
-		findCatalogedItem(idInputName,dispInputName,'newMedia');
+		findCatalogedItem(idInputName,dispInputName,formName);
 	} else if (relatedTable=='project'){
-		getProject(idInputName,dispInputName,'newMedia');
+		getProject(idInputName,dispInputName,formName);
 	} else if (relatedTable=='taxonomy'){
-		taxaPick(idInputName,dispInputName,'newMedia');
+		taxaPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='publication'){
-		getPublication(dispInputName,idInputName,'','newMedia');
+		getPublication(dispInputName,idInputName,'',formName);
 	} else if (relatedTable=='accn'){
-		getAccn(dispInputName,idInputName,'newMedia');
+		getAccn(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 	} else if (relatedTable=='delete'){
