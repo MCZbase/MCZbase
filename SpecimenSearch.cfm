@@ -71,16 +71,16 @@
 			</span>
 		</td>
 	</tr>
-</table>	
+</table>
 <form method="post" action="SpecimenResults.cfm" name="SpecData" id="SpecData">
 <table style="margin: 1em 0;">
 	<tr>
 		<td class="horiz_padding">
-			<input type="submit" value="Search" class="schBtn" 
-			    onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">	
+			<input type="submit" value="Search" class="schBtn"
+			    onmouseover="this.className='schBtn btnhov'" onmouseout="this.className='schBtn'">
 		</td>
 		<td class="horiz_padding">
-			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" 
+			<input type="reset" name="Reset" value="Clear Form" class="clrBtn"
 			    onmouseover="this.className='clrBtn btnhov'" onmouseout="this.className='clrBtn'">
 		</td>
 		<td class="horiz_padding;">
@@ -152,7 +152,7 @@
 				</select>
 			</div>
 		</td>
-		
+
 	</tr>
 </table>
 <div style="margin-bottom: 5px;margin-left: 5px;">
@@ -174,20 +174,20 @@
 <input type="hidden" name="Action" value="#Action#">
 <div class="secDiv" style="border-top: 1px dotted ##ccc;">
 	<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT institution_acronym, collection, collection_id FROM collection 
+		SELECT institution_acronym, collection, collection_id FROM collection
 	    <cfif len(#session.exclusive_collection_id#) gt 0>
 			WHERE collection_id = #session.exclusive_collection_id#
 		</cfif>
 		order by collection
 	</cfquery>
-	
+
                     <cfquery name="hasPrefSuff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT max(CATNUM_PREF_FG) as prefFG, max(CATNUM_SUFF_FG) as suffFG from collection
 						<cfif len(#session.exclusive_collection_id#) gt 0>
 							WHERE collection_id = #session.exclusive_collection_id#
-						</cfif>						
+						</cfif>
 					</cfquery>
-					
+
 	<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
 		<cfset thisCollId = #collection_id#>
 	<cfelse>
@@ -224,7 +224,7 @@
 					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft"></textarea>
 				<cfelse>
 					<input type="text" name="listcatnum" id="listcatnum" size="21" value="">
-				</cfif>	
+				</cfif>
 			</td>
 		</tr>
 		<tr>
@@ -242,7 +242,7 @@
 					<option value="IS">is</option>
 					<option value="" selected="selected">contains</option>
 					<option value="LIST">in list</option>
-					<option value="BETWEEN">in range</option>								
+					<option value="BETWEEN">in range</option>
 				</select>&nbsp;<input type="text" name="CustomIdentifierValue" id="CustomIdentifierValue" size="50">
 			</td>
 		</tr>
@@ -275,7 +275,7 @@
 </table>
 <div id="e_identifiers">
 
-    <table id="t_identifiers" class="ssrch">	
+    <table id="t_identifiers" class="ssrch">
     		<cfif isdefined("session.portal_id") and session.portal_id gt 0>
     			<cftry>
     				<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -292,7 +292,7 @@
     				select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
     			</cfquery>
     		</cfif>
-    	<tr>					
+    	<tr>
     		<td class="lbl">
     			<span id="other_id_type">Other&nbsp;Identifier&nbsp;Type:</span>
     		</td>
@@ -302,14 +302,14 @@
     					class="reqdClr" </cfif>>
     				<option value=""></option>
     				<cfloop query="OtherIdType">
-    					<option 
+    					<option
     						<cfif isdefined("OIDType") and len(#OIDType#) gt 0>
     							<cfif #OIDType# is #OtherIdType.other_id_type#>
     								selected
     							</cfif>
     						</cfif>
     						value="#OtherIdType.other_id_type#">#OtherIdType.other_id_type#</option>
-    				</cfloop> 
+    				</cfloop>
     			</select><span class="infoLink" onclick="getCtDoc('ctcoll_other_id_type',SpecData.OIDType.value);">Define</span>
     		</td>
     	</tr>
@@ -389,7 +389,7 @@
          			selectFirst:false
          		});
          	});
-			
+
          </script>
          <cfquery name="ctNatureOfId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          	SELECT DISTINCT(nature_of_id) FROM ctnature_of_id ORDER BY nature_of_id
@@ -416,7 +416,7 @@
          		</td>
          		<td class="srch">
          		 	<input type="text" name="phylclass" id="phylclass" size="50">
-         			<span class="infoLink" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">Add = for exact match</span>		
+         			<span class="infoLink" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">Add = for exact match</span>
          		</td>
          	</tr>
          	<tr>
@@ -425,7 +425,7 @@
          		</td>
          		<td class="srch">
          			<input type="text" name="genus" id="genus" size="50">
-         			<span class="infoLink" onclick="var e=document.getElementById('genus');e.value='='+e.value;">Add = for exact match</span>		
+         			<span class="infoLink" onclick="var e=document.getElementById('genus');e.value='='+e.value;">Add = for exact match</span>
          		</td>
          	</tr>
          	<tr>
@@ -464,7 +464,7 @@
          				<cfloop query="ctNatureOfId">
          					<option value="#ctNatureOfId.nature_of_id#">#ctNatureOfId.nature_of_id#</option>
          				</cfloop>
-         			</select><span class="infoLink" 
+         			</select><span class="infoLink"
          							onclick="getCtDoc('ctnature_of_id',SpecData.nature_of_id.value);">Define</span>
          		</td>
          	</tr>
@@ -496,7 +496,7 @@
 				<span class="secControl" id="c_locality" onclick="showHide('locality',1)">Show More Options</span>
 			</td>
 		</tr>
-		<tr>	
+		<tr>
 			<td class="lbl">
 				<span id="any_geog_term">Any&nbsp;Geographic&nbsp;Element:</span>
 			</td>
@@ -525,7 +525,7 @@
        			multiple: false,
        			scroll: true,
        			scrollHeight: 300
-       		});	
+       		});
        	});
        </script>
        <cfquery name="ctElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -547,19 +547,19 @@
        	select distinct(Feature) from geog_auth_rec order by Feature
        </cfquery>
        <cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-       	select attribute from geology_attribute_hierarchy group by attribute order by attribute 
+       	select attribute from geology_attribute_hierarchy group by attribute order by attribute
        </cfquery>
        <cfquery name="ctgeology_attribute_val"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-       	select attribute_value from geology_attribute_hierarchy group by attribute_value order by attribute_value 
+       	select attribute_value from geology_attribute_hierarchy group by attribute_value order by attribute_value
        </cfquery>
        <cfquery name="ctlat_long_error_units"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-       	select lat_long_error_units from ctlat_long_error_units group by lat_long_error_units order by lat_long_error_units 
+       	select lat_long_error_units from ctlat_long_error_units group by lat_long_error_units order by lat_long_error_units
        </cfquery>
        <cfquery name="ctverificationstatus"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-       	select verificationstatus from ctverificationstatus group by verificationstatus order by verificationstatus 
+       	select verificationstatus from ctverificationstatus group by verificationstatus order by verificationstatus
        </cfquery>
        <table id="t_identifiers" class="ssrch">
-       	
+
        	<tr>
        		<td class="lbl">
        			<span id="_geology_attribute">Geology Attribute:</span>
@@ -570,9 +570,9 @@
        				<cfloop query="ctgeology_attribute">
        					<option value="#attribute#">#attribute#</option>
        				</cfloop>
-       			</select>		
+       			</select>
        		</td>
-       	</tr>			
+       	</tr>
        	<tr>
        		<td class="lbl">
        			<span id="_geology_attribute_value">Geology Attribute Value:</span>
@@ -589,7 +589,7 @@
        			<select name="geology_hierarchies" id="geology_hierarchies" size="1">
        				<option value="1">yes</option>
        				<option value="0">no</option>
-       			</select>	
+       			</select>
        		</td>
        	</tr>
        	<tr>
@@ -600,7 +600,7 @@
        			<select name="continent_ocean" id="continent_ocean" size="1">
        				<option value=""></option>
        				<option value="NULL">NULL</option>
-       				<cfloop query="ContOcean"> 
+       				<cfloop query="ContOcean">
        					<option value="#ContOcean.continent_ocean#">#ContOcean.continent_ocean#</option>
        				</cfloop>
        			</select>
@@ -655,9 +655,9 @@
        			<select name="island_group" id="island_group" size="1">
        				  <option value=""></option>
        				  <option value="NULL">NULL</option>
-       				  <cfloop query="IslGrp"> 
+       				  <cfloop query="IslGrp">
        					<option value="#IslGrp.Island_Group#">#IslGrp.Island_Group#</option>
-       				  </cfloop> 
+       				  </cfloop>
        			</select>
        		</td>
        	</tr>
@@ -699,7 +699,7 @@
        			<span id="elevation">Elevation:</span>
        		</td>
        		<td class="srch">
-       			<input type="text" name="minimum_elevation" id="minimum_elevation" size="5"> - 
+       			<input type="text" name="minimum_elevation" id="minimum_elevation" size="5"> -
        			<input type="text" name="maximum_elevation" id="maximum_elevation" size="5">
        			<select name="orig_elev_units" id="orig_elev_units" size="1" style="width:55px">
        				<option value=""></option>
@@ -714,7 +714,7 @@
        			<span id="depth">Depth:</span>
        		</td>
        		<td class="srch">
-       			<input type="text" name="minimum_depth" id="minimum_depth" size="5"> - 
+       			<input type="text" name="minimum_depth" id="minimum_depth" size="5"> -
        			<input type="text" name="maximum_depth" id="maximum_depth" size="5">
        			<select name="depth_units" id="depth_units" size="1" style="width:55px">
        				<option value=""></option>
@@ -723,7 +723,7 @@
        				</cfloop>
        			</select>
        		</td>
-       	</tr>	
+       	</tr>
        	<tr>
        		<td class="lbl">
        			<span id="_verificationstatus">Verification Status:</span>
@@ -742,7 +742,7 @@
        			<span id="max_error_distance">Maximum Uncertainty:</span>
        		</td>
        		<td class="srch">
-       			<input type="text" name="min_max_error" id="min_max_error" size="5"> - 
+       			<input type="text" name="min_max_error" id="min_max_error" size="5"> -
        			<input type="text" name="max_max_error" id="max_max_error" size="5">
        			<select name="max_error_units" id="max_error_units" size="1">
        				<option value=""></option>
@@ -784,7 +784,7 @@
 				<input name="begYear" type="text" size="13"><span class="copylink" onclick="SpecData.endYear.value=SpecData.begYear.value"> -->&nbsp;Copy&nbsp;--></span>
                 &nbsp;<input name="endYear" type="text" size="13"><br><span class="hints"> (add trip duration or copy date to both fields for one year)</span>
 			</td>
-		</tr>		
+		</tr>
 	</table>
 	<div id="e_collevent">
 
@@ -824,7 +824,7 @@
         							<option value="09">September</option>
         							<option value="10">October</option>
         							<option value="11">November</option>
-        							<option value="12">December</option>						
+        							<option value="12">December</option>
         						</select>
         					</td>
         					<td>
@@ -871,7 +871,7 @@
         							<option value="09">September</option>
         							<option value="10">October</option>
         							<option value="11">November</option>
-        							<option value="12">December</option>						
+        							<option value="12">December</option>
         						</select>
         					</td>
         					<td>
@@ -911,7 +911,7 @@
         				<option value="'09'">September</option>
         				<option value="'10'">October</option>
         				<option value="'11'">November</option>
-        				<option value="'12'">December</option>						
+        				<option value="'12'">December</option>
         			</select>
         		</td>
         	</tr>
@@ -969,7 +969,7 @@
     </div>
 </div>
 <cfquery name="Part" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select part_name from 
+	select part_name from
 		<cfif len(#session.exclusive_collection_id#) gt 0>
 			cctspecimen_part_name#session.exclusive_collection_id#
 		<cfelse>
@@ -979,7 +979,7 @@
 </cfquery>
 <cfset partlist=#valuelist(Part.part_name,"\")#>
 <cfquery name="PreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select preserve_method from 
+	select preserve_method from
 		<cfif len(#session.exclusive_collection_id#) gt 0>
 			cctspecimen_preserv_method#session.exclusive_collection_id#
 		<cfelse>
@@ -1040,7 +1040,7 @@
           	<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
           		select distinct(attribute_type) from ctattribute_type order by attribute_type
           	</cfquery>
-          </cfif>		
+          </cfif>
           <table id="t_identifiers" class="ssrch">
           	<tr>
           		<td class="lbl">
@@ -1064,7 +1064,7 @@
           			<select name="derived_relationship" id="derived_relationship" size="1">
           				<option value=""></option>
           					<option value="offspring of">offspring of</option>
-          			</select>	
+          			</select>
           		</td>
           	</tr>
           	<tr>
@@ -1074,7 +1074,7 @@
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">
           						<option value="#ctAttributeType.attribute_type#">#ctAttributeType.attribute_type#</option>
-          					</cfloop>			
+          					</cfloop>
           			  </select>
           		</td>
           		<td class="srch">
@@ -1085,7 +1085,7 @@
           				<option value="less">less than</option>
           			</select>
           			<input type="text" name="attribute_value_1" size="20">
-          			<span class="infoLink" 
+          			<span class="infoLink"
           				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=1&attribute='+SpecData.attribute_type_1.value,'attPick','width=600,height=600, resizable,scrollbars');">
           				Pick
           			</span>
@@ -1099,7 +1099,7 @@
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">
           						<option value="#ctAttributeType.attribute_type#">#ctAttributeType.attribute_type#</option>
-          					</cfloop>			
+          					</cfloop>
           			  </select>
           		</td>
           		<td class="srch">
@@ -1110,7 +1110,7 @@
           				<option value="less">less than</option>
           			</select>
           			<input type="text" name="attribute_value_2" size="20">
-          			<span class="infoLink" 
+          			<span class="infoLink"
           				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=1&attribute='+SpecData.attribute_type_1.value,'attPick','width=600,height=600, resizable,scrollbars');">
           				Pick
           			</span>
@@ -1124,7 +1124,7 @@
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">
           						<option value="#ctAttributeType.attribute_type#">#ctAttributeType.attribute_type#</option>
-          					</cfloop>			
+          					</cfloop>
           			  </select>
           		</td>
           		<td class="srch">
@@ -1135,7 +1135,7 @@
           				<option value="less">less than</option>
           			</select>
           			<input type="text" name="attribute_value_3" size="20">
-          			<span class="infoLink" 
+          			<span class="infoLink"
           				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=1&attribute='+SpecData.attribute_type_1.value,'attPick','width=600,height=600, resizable,scrollbars');">
           				Pick
           			</span>
@@ -1176,18 +1176,18 @@
 				<select name="type_status" id="type_status" size="1">
 					<option value=""></option>
 					<option value="any">Any</option>
-					<option value="type">Any TYPE</option>
+					<option value="any type">Any TYPE</option>
 					<cfloop query="ctTypeStatus">
 						<option value="#ctTypeStatus.type_status#">#ctTypeStatus.type_status#</option>
 					</cfloop>
 				</select>
-				<span class="infoLink" onclick="getCtDoc('ctcitation_type_status', SpecData.type_status.value);">Define</span>	
+				<span class="infoLink" onclick="getCtDoc('ctcitation_type_status', SpecData.type_status.value);">Define</span>
 			</td>
 		</tr>
 	</table>
 	<div id="e_usage">
          <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-         
+
          	select media_type from ctmedia_type order by media_type
          </cfquery>
          <script type="text/javascript" language="javascript">
@@ -1236,9 +1236,9 @@
          			<span id="accessioned_by_project">Contributed by Project:</span>
          		</td>
          		<td class="srch">
-         			<input type="text" name="project_name" id="project_name" size="50">					
+         			<input type="text" name="project_name" id="project_name" size="50">
          		</td>
-         	</tr>	
+         	</tr>
          	<tr>
          		<td class="lbl">
          			<span id="loaned_to_project">Used by Project:</span>
@@ -1246,7 +1246,7 @@
          		<td class="srch">
          			<input type="text" name="loan_project_name" id="loan_project_name" size="50">
          		</td>
-         	</tr>		
+         	</tr>
          	<tr>
          		<td class="lbl">
          			<span id="_project_sponsor">Project Sponsor:</span>
@@ -1254,7 +1254,7 @@
          		<td class="srch">
          			<input type="text" name="project_sponsor" id="project_sponsor" size="50">
          		</td>
-         	</tr>		
+         	</tr>
          </table>
     </div>
 </div>
@@ -1296,7 +1296,7 @@
          </cfquery>
          <cfquery name="ctFlags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          	select flags from ctflags
-         </cfquery>		
+         </cfquery>
          <table id="t_identifiers" class="ssrch">
          	<tr>
          		<td class="lbl">
@@ -1332,7 +1332,7 @@
          				<option value=""></option>
          				<cfloop query="ctPermitType">
          					<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type#</option>
-         				 </cfloop>			
+         				 </cfloop>
            			</select>
          		</td>
          	</tr>
@@ -1416,12 +1416,12 @@
          				</cfloop>
          			</select>
          		</td>
-         	</tr>				
+         	</tr>
          </table>
 
         </div>
 	</div>
-</cfif>	
+</cfif>
 <table style="margin: 1em 0;">
 	<tr>
 		<td valign="top" style="padding: 0 5px 0 0;">
@@ -1430,7 +1430,7 @@
 		</td>
 		<td valign="top" style="padding: 0 5px;">
 			<input type="reset" name="Reset" value="Clear Form" class="clrBtn" >
-			
+
 		</td>
 		<td valign="top" style="padding: 0 5px;">
 			<input type="button" name="Previous" value="Use Last Values" class="lnkBtn"	onclick="setPrevSearch()">
@@ -1502,7 +1502,7 @@
 			</div>
 		</td>
 	</tr>
-</table> 
+</table>
 <cfif isdefined("transaction_id") and len(transaction_id) gt 0>
 	<input type="hidden" name="transaction_id" value="#transaction_id#">
 </cfif>
@@ -1528,11 +1528,11 @@ $(function() {
 </script>
 <script type='text/javascript' language='javascript'>
 	jQuery(document).ready(function() {
-       
+
 	  	var tval = document.getElementById('tgtForm').value;
 		changeTarget('tgtForm',tval);
 		changeGrp('groupBy');
-                setupSpecSrchPref();  
+                setupSpecSrchPref();
                 // set all show fewer/
 		jQuery.getJSON("/component/functions.cfc",
 			{
@@ -1551,7 +1551,7 @@ $(function() {
 					r_getSpecSrchPref(getResult);
 			}
 		);
-                $("##c_save_showhide").click(function(e) { 
+                $("##c_save_showhide").click(function(e) {
                      $("##c_save_showhide_response").html('<img src="images/indicator.gif">');
                      var onList = getCurrentSpecSrchPref();
 		     jQuery.get("/component/functions.cfc",
@@ -1561,7 +1561,7 @@ $(function() {
 				returnformat : "plain",
 				queryformat : 'column'
 			},
-			function (result) {   
+			function (result) {
                            $("##c_save_showhide_response").text(result);
                            setTimeout("$('##c_save_showhide_response').text('');",3000);
                         }
@@ -1581,7 +1581,7 @@ $(function() {
 	});
 
         function setupSpecSrchPref() {
-                // Set all show fewer/more options to show fewer. 
+                // Set all show fewer/more options to show fewer.
                 showHide('identifiers',0);
                 showHide('taxonomy',0);
                 showHide('locality',0);
@@ -1589,8 +1589,8 @@ $(function() {
                 showHide('biolindiv',0);
                 showHide('usage',0);
                 showHide('curatorial',0);
-        }	
-        function getCurrentSpecSrchPref() { 
+        }
+        function getCurrentSpecSrchPref() {
                 // Obtain a comma separated list of the currently turned on show fewer/more specimen search option blocks.
                 var onList = "";
                 if ($("##e_identifiers").is(':visible')) { onList = onList + "identifiers,";  }
