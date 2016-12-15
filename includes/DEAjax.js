@@ -136,7 +136,9 @@ function getGeolocate(evt) {
         var message;
         if (evt.origin !== "http://www.museum.tulane.edu") {
         alert( "iframe url does not have permision to interact with me" );
+		alert(evt.origin);
         closeGeoLocate('intruder alert');
+		
     }
     else {
         var breakdown = evt.data.split("|");

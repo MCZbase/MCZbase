@@ -11,13 +11,10 @@
     </cfscript>
 </cffunction>
 <cfif not isdefined("action") or action is not "p">
-	Oops. It looks like you are on our blacklist. That's probably because someone from your IP
-	made a lame attempt to hack us, or possibly we were just feeling exceptionally paranoid when you
-	tried to do something legit, so you ended up in our logs anyway. We get like that sometimes, and we'd
-	like to apologize now if you are neither a robot nor a hacker.
-	<p>Use the form below to convince us that you
-	are a non-malicious carbon-based life form and we'll happily restore your access.</p>
-	<p>Sometimes the text gets messed up, so just click reload if you can't read it.</p>
+	It looks like your IP address is our blacklist. This is the result of a request originating from your current IP address
+	that appeared to be an attempt to hack this site. Occasionally this happens entirely by accident due to a malformed URL. Our apologies if this is in error.
+	<p>Use the form below to request removal from the blacklist.</p>
+	<p>Please reload if you cannot read the text.</p>
 	<cfset captcha = makeRandomString()>
 	<cfset captchaHash = hash(captcha)>
 	<cfform name="g" method="post" action="/errors/gtfo.cfm">

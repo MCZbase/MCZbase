@@ -32,7 +32,8 @@
                 <a href="http://vertnet.org">
                   <img src="/images/vertnet_logo_small.png" alt="Vertnet" class="vertnet_logo">
               </a> 
-             <p style="float: left;width:517px;font-size: 12px; margin-left:72px;letter-spacing: .07em;margin-top:-1.3em;">Delivering Data to the Natural Sciences Community &amp; Beyond</p>
+
+              <p style="float: left;width:517px;font-size: 12px; margin-left:72px;letter-spacing: .07em;margin-top:-1.3em;">Delivering Data to the Natural Sciences Community &amp; Beyond</p>
           </div>
     </cfif>
     </div><!---end footer2--->

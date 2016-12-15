@@ -1556,8 +1556,8 @@ INSERT INTO geog_auth_rec (
 	</cfloop>
 </table>
 			<input type="submit"
-                   style="float:right"
-				value="Move These Collecting Events to new Locality"
+                   style="float:left"
+				value="Move These Collecting Events to New Locality"
 				class="savBtn"
 				onmouseover="this.className='savBtn btnhov'"
 				onmouseout="this.className='savBtn'" />

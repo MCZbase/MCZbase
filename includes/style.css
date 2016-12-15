@@ -4584,8 +4584,8 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 .groupAgent {margin-left: 14px;margin-bottom:0;padding-bottom: 0;}
 /*
 .basic_box::after,.basic_narrow_box::after, .basic_wide_box::after {
-  content: '\00a0'; /* &nbsp; */
- /* display: block;
+  content: '\00a0'; 
+ display: block;
   margin-top: 100px;
   height:170px;
   visibility: hidden;
@@ -4598,7 +4598,6 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
   content: none;
 }
 */
-
 @media only screen and (max-width: 1800px) {
 #headerContent {
 	width: 90%;
