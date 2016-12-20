@@ -605,33 +605,38 @@ function success_getSpecResultsData(result){
 			orderedCollObjIdArray.push(data.COLLECTION_OBJECT_ID[i]);
 
                         var isType = false;
+                        var isPSType = false;
                         var typestatus = "";
-                        var rowClass = "secTypeRow";
+                        var rowClass = "";
 			if (data.COLUMNLIST[0].indexOf('TYPESTATUS') > -1) {
-                             if (data.TYPESTATUS[i]!=null && data.TYPESTATUS[i].length>0) { 
-                                 isType = true;
-                                 typestatus = data.TYPESTATUS[i].replace("|","<BR>");
-                                 if (typestatus.indexOf("Holotype")>-1 || 
-                                     typestatus.indexOf("Syntype")>-1 || 
-                                     typestatus.indexOf("Hapanotype")>-1 || 
-                                     typestatus.indexOf("Lectotype")>-1 || 
-                                     typestatus.indexOf("Neotype")>-1 
-                                    ) { 
+			     if (data.TYPESTATUS[i]!=null && data.TYPESTATUS[i].length>0) { 
+			        isType = true;
+			        typestatus = data.TYPESTATUS[i].replace("|","<BR>");
+                             }
+                        }
+			if (data.COLUMNLIST[0].indexOf('TOPTYPESTATUSKIND') > -1) {
+                             if (data.TOPTYPESTATUSKIND[i]!=null && data.TOPTYPESTATUSKIND[i].length>0) { 
+                                 typestatuskind = data.TOPTYPESTATUSKIND[i];
+                                 if (typestatuskind.indexOf("Primary")>-1) { 
+                                     isPSType = true;
                                      rowClass = "typeRow";
-                                       }
-                                  }
+                                 }
+                                 if (typestatuskind.indexOf("Secondary")>-1) { 
+                                     isPSType = true;
+                                     rowClass = "secTypeRow";
+                                 }
+                             }
 			}
-                if (isType) { 
+                        if (isPSType) { 
 				theInnerHtml += '<tr class="' + rowClass +  '">';
-                } else { 
-			   	if (i%2) {
+                        } else { 
+			    if (i%2) {
 				theInnerHtml += '<tr class="oddRow">';
 			    } else {
 				theInnerHtml += '<tr class="evenRow">';
 			    }
-                    }
+                        }
 	
-			
 			
 				if (killrow == 1){
 					theInnerHtml += '<td align="center"><input type="checkbox" onchange="toggleKillrow(' + "'";
