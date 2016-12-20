@@ -72,6 +72,7 @@
 		#session.flatTableName#.cited_as,
 		#session.flatTableName#.typestatuswords,
 		#session.flatTableName#.typestatusplain,
+		#session.flatTableName#.toptypestatuskind,
 		concatparts(#session.flatTableName#.collection_object_id) as partString,
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
 		#session.flatTableName#.dec_lat,
@@ -116,20 +117,23 @@
 
 <cfoutput query="detail" group="cat_num">
  <cfset typeName = typestatuswords>
- <cfif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Holotype' or typestatuswords eq 'Syntype' or typestatuswords eq 'Neotype' or typestatuswords eq 'Lectotype' )>
- <cfset twotypes = '#replace(typestatusplain,"|","<br>")#'>
-      <div class="primaryCont" style="margin-top:-1em;">
-        <div class="primaryType">
-    <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes# </span>'>
-  <cfelseif isDefined("cited_as") and len(cited_as) gt 0 and (typestatuswords eq 'Paratype' or typestatuswords eq 'Paralectotype')>
-  <cfset  twotypes= '#replace(typestatusplain,"|","<br>")#'>
-       <div class="secondaryCont" style="margin-top: -1em;">
-           <div class="secondaryType">
-     <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes#  </span>'>
-<cfelse>
-     <div class="defaultCont" style="margin-top: -1em;">
-        <div class="defaultType">
-  </cfif>
+ <cfif toptypestatuskind eq 'Primary' >
+   <!--- Highlight as a primary type ---> 
+   <cfset twotypes = '#replace(typestatusplain,"|","<br>")#'>
+   <div class="primaryCont" style="margin-top:-1em;">
+       <div class="primaryType">
+       <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes# </span>'>
+ <cfelseif toptypestatuskind eq 'Secondary' >
+   <!--- Highlight as a secondary type ---> 
+   <cfset  twotypes= '#replace(typestatusplain,"|","<br>")#'>
+   <div class="secondaryCont" style="margin-top: -1em;">
+      <div class="secondaryType">
+      <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes#  </span>'>
+ <cfelse>
+   <!--- voucher or not a cited specimen --->
+   <div class="defaultCont" style="margin-top: -1em;">
+      <div class="defaultType">
+ </cfif>
    <ul class="headercol1">
     <li>#collection#&nbsp;#cat_num#
       <cfif len(web_link) gt 0>
