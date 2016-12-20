@@ -616,12 +616,12 @@ function success_getSpecResultsData(result){
                         }
 			if (data.COLUMNLIST[0].indexOf('TOPTYPESTATUSKIND') > -1) {
                              if (data.TOPTYPESTATUSKIND[i]!=null && data.TOPTYPESTATUSKIND[i].length>0) { 
-                                 typestatuskind = data.TOPTYPESTATUSKIND;
-                                 if (typestatus.indexOf("Primary")>-1) { 
+                                 typestatuskind = data.TOPTYPESTATUSKIND[i];
+                                 if (typestatuskind.indexOf("Primary")>-1) { 
                                      isPSType = true;
                                      rowClass = "typeRow";
                                  }
-                                 if (typestatus.indexOf("Primary")>-1) { 
+                                 if (typestatuskind.indexOf("Secondary")>-1) { 
                                      isPSType = true;
                                      rowClass = "secTypeRow";
                                  }
