@@ -534,13 +534,33 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
-	<cfif left(phylclass,1) is '='>
-		<cfset basQual = " #basQual# AND upper(taxonomy.phylclass) = '#ucase(right(phylclass,len(phylclass)-1))#'">
-	<cfelseif compare(phylclass,"NULL") is 0>
-		<cfset basQual = " #basQual# AND taxonomy.phylclass is NULL">
-	<cfelse>
-		<cfset basQual = " #basQual# AND upper(taxonomy.phylclass) like '%#ucase(phylclass)#%'">
-	</cfif>
+    <cfif phylclass contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(phylclass,1) is '='>
+            <cfset phylclass = Replace(phylclass,"=","","All")>
+            <cfloop index="classbit" list="#phylclass#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) = '#ucase(trim(classbit)#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset phylclass = Replace(phylclass,"=","","All")>
+            <cfloop index="classbit" list="#phylclass#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) like '%#ucase(trim(classbit)#'%">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(phylclass,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylclass) = '#ucase(right(phylclass,len(phylclass)-1))#'">
+    	<cfelseif compare(phylclass,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.phylclass is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.phylclass) like '%#ucase(phylclass)#%'">
+	    </cfif>
+    </cfif>
 </cfif>
 <cfif isdefined("any_taxa_term") AND len(any_taxa_term) gt 0>
 	<cfif isdefined("searchOnlyCurrent") AND searchOnlyCurrent EQ "Yes">
