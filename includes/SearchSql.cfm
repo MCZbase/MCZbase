@@ -540,14 +540,14 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
         <cfif left(phylclass,1) is '='>
             <cfset phylclass = Replace(phylclass,"=","","All")>
             <cfloop index="classbit" list="#phylclass#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) = '#ucase(trim(classbit)#'">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) = '#ucase(trim(classbit))#'">
                  <cfset orbit = " OR ">
             </cfloop>
 	    	<cfset basQual = " #basQual# AND (#clause#) ">
         <cfelse>
             <cfset phylclass = Replace(phylclass,"=","","All")>
             <cfloop index="classbit" list="#phylclass#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) like '%#ucase(trim(classbit)#'%">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) like '%#ucase(trim(classbit))#'%">
                  <cfset orbit = " OR ">
             </cfloop>
 	    	<cfset basQual = " #basQual# AND (#clause#) ">
