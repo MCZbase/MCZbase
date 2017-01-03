@@ -591,7 +591,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
             <cfset orbit = "">
             <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
             <cfloop index="any_taxa_termbit" list="#any_taxa_term#" delimiters="|">
-		         <cfset clause = " #clause# #orbit# taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%' ">
+		         <cfset clause = " #clause# #orbit# taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_termbit))#%' ">
                  <cfset orbit = " OR ">
             </cfloop>
             <cfset basQual = " #basQual# AND (#clause#) ">
@@ -606,7 +606,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
             <cfset orbit = "">
             <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
             <cfloop index="any_taxa_termbit" list="#any_taxa_term#" delimiters="|">
-		         <cfset clause = " #clause# #orbit# taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%' ">
+		         <cfset clause = " #clause# #orbit# taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_termbit))#%' ">
                  <cfset orbit = " OR ">
             </cfloop>
             <cfset basQual = " #basQual# AND (#clause#) ">
