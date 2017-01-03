@@ -163,9 +163,15 @@
 			<cfheader name="Location" value="http://digir.mcz.harvard.edu/ipt/">
 		<cfelse>
 			<cftry>
-				<cfscript>
-					getPageContext().forward(cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string);
-				</cfscript>
+                <cfif !isSet(cgi.REDIRECT_URL) or !isSet(cgi.redirect_query_string)> 
+				   <cfscript>
+				      	getPageContext().forward("/errors/404.cfm");
+				   </cfscript>
+                <cfelse>  
+			    	<cfscript>
+		    			getPageContext().forward(cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string);
+	    			</cfscript>
+                </cfif>
 				<cfabort>
 			<cfcatch>
 				<cfscript>
