@@ -430,64 +430,32 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset basQual = " #basQual# AND UPPER(taxonomy.Full_Taxon_Name) LIKE '%#ucase(HighTaxa)#%'">
 </cfif>
 <cfif isdefined("AnySciName") AND len(AnySciName) gt 0>
-    <cfif AnySciName contains "|">
-        <cfset clause1 = "">
-        <cfset clause2 = "">
-        <cfset orbit = "">
-        <cfif left(AnySciName,1) is '='>
-            <cfset AnySciName = Replace(AnySciName,"=","","All")>
-            <cfloop index="AnySciNamebit" list="#AnySciName#" delimiters="|">
-		         <cfset clause1 = " #clause1# #orbit# UPPER(scientific_name) = '#ucase(trim(AnySciNamebit))#' ">
-		         <cfset clause2 = " #clause2# #orbit# UPPER(RelTax.scientific_name) = '#ucase(trim(AnySciNamebit))#' ">
-                 <cfset orbit = " OR ">
-            </cfloop>
-	    	<cfset bit1 = " (#clause1#) ">
-	    	<cfset bit2 = " (#clause2#) ">
-        <cfelse>
-            <cfset AnySciName = Replace(AnySciName,"=","","All")>
-            <cfloop index="AnySciNamebit" list="#AnySciName#" delimiters="|">
-		         <cfset clause1 = " #clause1# #orbit# UPPER(scientific_name) like '%#ucase(trim(AnySciNamebit))#%' ">
-		         <cfset clause2 = " #clause2# #orbit# UPPER(RelTax.scientific_name) = '%#ucase(trim(AnySciNamebit))#%' ">
-                 <cfset orbit = " OR ">
-            </cfloop>
-	    	<cfset bit1 = " (#clause1#) ">
-	    	<cfset bit2 = " (#clause2#) ">
-        </cfif>
-    <cfelse>
-    	<cfif left(AnySciName,1) is '='>
-		    <cfset bit1 = " UPPER(scientific_name) = '#ucase(right(AnySciName,len(AnySciName)-1))#' ">
-		    <cfset bit2 = " UPPER(RelTax.scientific_name) = '#ucase(right(AnySciName,len(AnySciName)-1))#' ">
-    	<cfelse>
-		    <cfset bit1 = " UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%' ">
-		    <cfset bit2 = " UPPER(RelTax.scientific_name) LIKE '%#ucase(AnySciName)#%' ">
-	    </cfif>
-    </cfif>
-	<cfset mapurl = "#mapurl#&AnySciName=#AnySciName#">
-		<cfset basQual = " #basQual# AND ( cataloged_item.collection_object_id IN
-			(select collection_object_id FROM identification where
-				#bit1# )
-			OR cataloged_item.collection_object_id IN
-				(select collection_object_id FROM
-					citation,
-					taxonomy
-				WHERE
-					citation.cited_taxon_name_id = taxonomy.taxon_name_id AND
-					#bit1# )
-				OR cataloged_item.collection_object_id IN (
-					select collection_object_id FROM
-						identification,
-						identification_taxonomy,
-						taxonomy AccTax,
-						taxonomy RelTax,
-						taxon_relations
-					WHERE
-						identification.identification_id=identification_taxonomy.identification_id AND
-						identification_taxonomy.taxon_name_id=AccTax.taxon_name_id AND
-						AccTax.taxon_name_id=taxon_relations.taxon_name_id AND
-						taxon_relations.related_taxon_name_id = RelTax.taxon_name_id AND
-						#bit2#
-					)
-					)">
+    <cfset mapurl = "#mapurl#&AnySciName=#AnySciName#">
+        <cfset basQual = " #basQual# AND ( cataloged_item.collection_object_id IN
+            (select collection_object_id FROM identification where
+                UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
+            OR cataloged_item.collection_object_id IN
+                (select collection_object_id FROM
+                    citation,
+                    taxonomy
+                WHERE
+                    citation.cited_taxon_name_id = taxonomy.taxon_name_id AND
+                    UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
+                OR cataloged_item.collection_object_id IN (
+                    select collection_object_id FROM
+                        identification,
+                        identification_taxonomy,
+                        taxonomy AccTax,
+                        taxonomy RelTax,
+                        taxon_relations
+                    WHERE
+                        identification.identification_id=identification_taxonomy.identification_id AND
+                        identification_taxonomy.taxon_name_id=AccTax.taxon_name_id AND
+                        AccTax.taxon_name_id=taxon_relations.taxon_name_id AND
+                        taxon_relations.related_taxon_name_id = RelTax.taxon_name_id AND
+                        UPPER(RelTax.scientific_name) LIKE '%#ucase(AnySciName)#%'
+                    )
+                    )">
 </cfif>
 <cfif isdefined("genus") AND len(genus) gt 0>
 	<cfset mapurl = "#mapurl#&genus=#genus#">
