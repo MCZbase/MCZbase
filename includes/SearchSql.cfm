@@ -472,10 +472,30 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
-	<cfif left(genus,1) is '='>
-		<cfset basQual = " #basQual# AND upper(taxonomy.genus) = '#ucase(right(genus,len(genus)-1))#'">
-	<cfelse>
-		<cfset basQual = " #basQual# AND upper(taxonomy.genus) like '%#ucase(genus)#%'">
+    <cfif genus contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(genus,1) is '='>
+            <cfset genus = Replace(genus,"=","","All")>
+            <cfloop index="genusbit" list="#genus#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.genus) = '#ucase(trim(genusbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset genus = Replace(genus,"=","","All")>
+            <cfloop index="genusbit" list="#genus#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.genus) like '%#ucase(trim(genusbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(genus,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.genus) = '#ucase(right(genus,len(genus)-1))#'">
+    	<cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.genus) like '%#ucase(genus)#%'">
+	    </cfif>
 	</cfif>
 </cfif>
 <cfif isdefined("species") AND len(species) gt 0>
