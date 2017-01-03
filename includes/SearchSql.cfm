@@ -582,15 +582,65 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	    </cfif>
     </cfif>
 </cfif>
+
+    <cfif genus contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(genus,1) is '='>
+            <cfset genus = Replace(genus,"=","","All")>
+            <cfloop index="genusbit" list="#genus#" delimiters="|">
+                 <cfset clause = " #clause# #orbit# upper(taxonomy.genus) = '#ucase(trim(genusbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+            <cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset genus = Replace(genus,"=","","All")>
+            <cfloop index="genusbit" list="#genus#" delimiters="|">
+                 <cfset clause = " #clause# #orbit# upper(taxonomy.genus) like '%#ucase(trim(genusbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+            <cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+        <cfif left(genus,1) is '='>
+            <cfset basQual = " #basQual# AND upper(taxonomy.genus) = '#ucase(right(genus,len(genus)-1))#'">
+        <cfelse>
+            <cfset basQual = " #basQual# AND upper(taxonomy.genus) like '%#ucase(genus)#%'">
+        </cfif>
+    </cfif>
+
+
 <cfif isdefined("any_taxa_term") AND len(any_taxa_term) gt 0>
 	<cfif isdefined("searchOnlyCurrent") AND searchOnlyCurrent EQ "Yes">
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#">
 		<cfset basJoin = " #basJoin# inner join taxa_terms on (#session.flatTableName#.collection_object_id = taxa_terms.collection_object_id)">
-		<cfset basQual = " #basQual# AND taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+        <cfif any_taxa_term contains "|">
+            <cfset clause = "">
+            <cfset orbit = "">
+            <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
+            <cfloop index="any_taxa_termbit" list="#any_taxa_term#" delimiters="|">
+		         <cfset clause = " #clause# #orbit# taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%' ">
+                 <cfset orbit = " OR ">
+            </cfloop>
+            <cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+		    <cfset basQual = " #basQual# AND taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+        </cfif>
 	<cfelse>
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#&searchUnaccepted=Yes">
 		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (#session.flatTableName#.collection_object_id = taxa_terms_all.collection_object_id)">
-		<cfset basQual = " #basQual# AND taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+        <cfif any_taxa_term contains "|">
+            <cfset clause = "">
+            <cfset orbit = "">
+            <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
+            <cfloop index="any_taxa_termbit" list="#any_taxa_term#" delimiters="|">
+		         <cfset clause = " #clause# #orbit# taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%' ">
+                 <cfset orbit = " OR ">
+            </cfloop>
+            <cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+  		    <cfset basQual = " #basQual# AND taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+        </cfif>
 	</cfif>
 </cfif>
 <cfif isdefined("identified_agent_id") AND len(identified_agent_id) gt 0>
