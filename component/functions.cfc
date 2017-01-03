@@ -1573,6 +1573,7 @@
 			coll_object.LOT_COUNT,
 			coll_object.CONDITION,
 			specimen_part.PART_NAME,
+			specimen_part.PRESERVE_METHOD,
 			specimen_part.SAMPLED_FROM_OBJ_ID,
 			concatEncumbrances(cataloged_item.collection_object_id) as encumbrance_action,
 			loan_item.transaction_id,
