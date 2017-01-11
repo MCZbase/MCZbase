@@ -100,6 +100,9 @@
 	<cfargument name="attribute" type="string" required="yes">
 	<cfargument name="collection_cde" type="string" required="yes">
 	<cfargument name="element" type="string" required="yes">
+        <cftry>
+        <cfset threadname = "getAttCodeTblThread">
+        <cfthread name="#threadname#"  >
 	<cfquery name="isCtControlled" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select VALUE_CODE_TABLE,UNITS_CODE_TABLE from ctattribute_code_tables where attribute_type='#attribute#'
 	</cfquery>
@@ -123,12 +126,12 @@
 			</cfloop>
 			<cfif len(#collCode#) gt 0>
 				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCodes from valCT
+					SELECT #columnName# as valCode from valCT
 					WHERE collection_cde='#collection_cde#'
 				</cfquery>
 			  <cfelse>
 				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCodes from valCT
+					SELECT #columnName# as valCode from valCT
 				</cfquery>
 			</cfif>
 			<cfset result = QueryNew("V")>
@@ -139,7 +142,7 @@
 			<cfset i=3>
 			<cfloop query="valCodes">
 				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "#valCodes#",#i#)>
+				<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
 				<cfset i=#i#+1>
 			</cfloop>
 
@@ -162,12 +165,12 @@
 			</cfloop>
 			<cfif len(#collCode#) gt 0>
 				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCodes from valCT
+					SELECT #columnName# as valCode from valCT
 					WHERE collection_cde='#collection_cde#'
 				</cfquery>
 			  <cfelse>
 				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCodes from valCT
+					SELECT #columnName# as valCode from valCT
 				</cfquery>
 			</cfif>
 			<cfset result = "unit - #isCtControlled.UNITS_CODE_TABLE#">
@@ -179,7 +182,7 @@
 			<cfset i=3>
 			<cfloop query="valCodes">
 				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "#valCodes#",#i#)>
+				<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
 				<cfset i=#i#+1>
 			</cfloop>
 		<cfelse>
@@ -196,7 +199,19 @@
 		<cfset newRow = QueryAddRow(result, 1)>
 		<cfset temp = QuerySetCell(result, "v", "#element#",2)>
 	</cfif>
-	<cfreturn result>
+        <cfoutput>#SerializeJSON(result,true)#</cfoutput>
+        </cfthread>
+        <cfthread action="join" name="#threadname#" />
+        <cfcatch>
+		<cfset result = QueryNew("V")>
+		<cfset newRow = QueryAddRow(result, 1)>
+		<cfset temp = QuerySetCell(result, "v", "ERROR")>
+		<cfset newRow = QueryAddRow(result, 1)>
+		<cfset temp = QuerySetCell(result, "v", "#element#",2)>
+	        <cfreturn result>
+        </cfcatch>
+        </cftry>
+        <cfreturn getAttCodeTblThread.output>
 </cffunction>
 <!---------------------------------------------------------------->
 <cffunction name="removeAccnContainer" access="remote">
