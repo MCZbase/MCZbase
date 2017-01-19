@@ -831,24 +831,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 				</div>
 			</cfif>
 <!------------------------------------ relationships ---------------------------------------------->
-			<cfquery name="invRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            SELECT
-                ctrel.inverse_relation as biol_indiv_relationship,
-                collection as related_collection,
-                irel.collection_object_id as related_coll_object_id,
-                rcat.cat_num as related_cat_num
-            FROM
-                biol_indiv_relations irel
-                left join ctbiol_relations ctrel 
-                  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-                left join cataloged_item rcat 
-                  on irel.collection_object_id = rcat.collection_object_id
-                left join collection
-                  on collection.collection_id = rcat.collection_id
-            WHERE irel.related_coll_object_id=#collection_object_id#
-                and ctrel.rel_type <> 'hide'
-          </cfquery>
-			<cfif len(relns.biol_indiv_relationship) gt 0 OR len(invRel.biol_indiv_relationship) gt 0>
+			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<div class="detailCell">
 					<div class="detailLabel">Relationships
 						<cfif oneOfUs is 1>
