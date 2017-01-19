@@ -448,7 +448,6 @@
     							<option value="curatorial">Curatorial</option>
 	    						<option value="functional">Functional</option>
 						    </select>
-							<input type="text" name="rel_type" value="biological" size="25">
 						</td>				
 					<td>
 						<input type="submit" 
@@ -825,6 +824,12 @@
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
+	<cfelseif tbl is "ctbiol_relations">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctbiol_relations
+			where
+                BIOL_INDIV_RELATIONSHIP='#origData#'
+		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcoll_other_id_type
@@ -876,6 +881,15 @@
 				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#loan_type#" />,
 				SCOPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
 				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+			where
+				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctbiol_relations">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctbiol_relations set 
+				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="cf_sql_varchar" value="#biol_indiv_relationship#" />,
+				INVERSE_RELATION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
+				REL_TYPE= <cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
@@ -957,6 +971,18 @@
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
 				<cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctbiol_relations">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctbiol_relations (
+				biol_indiv_relationship,
+				inverse_relation,
+				rel_type
+			) values (
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
+				<cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
