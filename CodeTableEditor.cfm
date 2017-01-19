@@ -891,7 +891,7 @@
 				INVERSE_RELATION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
 				REL_TYPE= <cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
 			where
-				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
