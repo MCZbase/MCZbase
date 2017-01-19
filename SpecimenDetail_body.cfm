@@ -249,20 +249,36 @@
 		attributes.collection_object_id = #collection_object_id#
 </cfquery>
 <cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		biol_indiv_relations.biol_indiv_relationship,
-		biol_indiv_relations.related_coll_object_id,
-		related_cat_item.cat_num related_cat_num,
-		related_coll.collection as related_collection
-	from
-		biol_indiv_relations,
-		cataloged_item related_cat_item,
-		collection related_coll
-	where
-		biol_indiv_relations.related_coll_object_id = related_cat_item.collection_object_id AND
-		related_cat_item.collection_id = related_coll.collection_id and
-		biol_indiv_relations.biol_indiv_relationship <> 'cloned from record' and
-		biol_indiv_relations.collection_object_id = #collection_object_id#
+SELECT
+     rel.biol_indiv_relationship as biol_indiv_relationship,  
+     collection as related_collection,
+     rel.related_coll_object_id as related_coll_object_id, 
+     rcat.cat_num as related_cat_num
+FROM
+     biol_indiv_relations rel 
+     left join cataloged_item rcat 
+         on rel.related_coll_object_id = rcat.collection_object_id
+     left join collection
+         on collection.collection_id = rcat.collection_id
+WHERE rel.collection_object_id=#collection_object_id#
+UNION
+SELECT
+     ctrel.inverse_relation as biol_indiv_relationship,
+     collection as related_collection,
+     irel.collection_object_id as related_coll_object_id,
+     rcat.cat_num as related_cat_num
+FROM
+     biol_indiv_relations irel
+     left join ctbiol_relations ctrel 
+      on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+     left join cataloged_item rcat 
+      on irel.collection_object_id = rcat.collection_object_id
+     left join collection
+      on collection.collection_id = rcat.collection_id
+WHERE irel.related_coll_object_id=#collection_object_id#
+     and irel.biol_indiv_relationship <> 'cloned from record'
+     and ctrel.biol_indiv_relationship <> ctrel.inverse_relation
+     and ctrel.rel_type <> 'admin'
 </cfquery>
 <cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
@@ -813,19 +829,24 @@
 			</cfif>
 <!------------------------------------ relationships ---------------------------------------------->
 			<cfquery name="invRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					collection.collection,
-					cat_num,
-					biol_indiv_relations.collection_object_id,
-					BIOL_INDIV_RELATIONSHIP
-				from
-					biol_indiv_relations,cataloged_item,collection
-				where
-					biol_indiv_relations.collection_object_id = cataloged_item.collection_object_id and
-					cataloged_item.collection_id = collection.collection_id AND
-					biol_indiv_relations.biol_indiv_relationship <> 'cloned from record' and
-					RELATED_COLL_OBJECT_ID = #collection_object_id#
-			</cfquery>
+            SELECT
+                ctrel.inverse_relation as biol_indiv_relationship,
+                collection as related_collection,
+                irel.collection_object_id as related_coll_object_id,
+                rcat.cat_num as related_cat_num
+            FROM
+                biol_indiv_relations irel
+                left join ctbiol_relations ctrel 
+                  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+                left join cataloged_item rcat 
+                  on irel.collection_object_id = rcat.collection_object_id
+                left join collection
+                  on collection.collection_id = rcat.collection_id
+            WHERE irel.related_coll_object_id=#collection_object_id#
+                and irel.biol_indiv_relationship <> 'cloned from record'
+                and ctrel.biol_indiv_relationship <> ctrel.inverse_relation
+                and ctrel.rel_type <> 'admin'
+          </cfquery>
 			<cfif len(relns.biol_indiv_relationship) gt 0 OR len(invRel.biol_indiv_relationship) gt 0>
 				<div class="detailCell">
 					<div class="detailLabel">Relationships
@@ -848,29 +869,6 @@
 							<span class="detailData">
 								<span class="innerDetailLabel"></span>
 									&nbsp;&nbsp;&nbsp;<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">"Related To" Specimens List</a>
-							</span>
-						</div>
-					</cfif>
-					<cfloop query="invRel">
-						<cfset invReln=BIOL_INDIV_RELATIONSHIP>
-						<cfif right(invReln,3) is " of">
-							<cfset invReln=left(invReln,len(invReln)-3) & ' IS'>
-						<cfelseif right(invReln,4) is " ate">
-							<cfset invReln=left(invReln,len(invReln)-4) & ' eaten by'>
-						</cfif>
-						<div class="detailBlock">
-							<span class="detailData">
-								<span class="innerDetailLabel">#invReln#</span>
-								<a href="/SpecimenDetail.cfm?collection_object_id=#invRel.collection_object_id#"
-									target="_top">#invRel.collection# #invRel.cat_num#</a>
-							</span>
-						</div>
-					</cfloop>
-					<cfif len(invRel.biol_indiv_relationship) gt 0>
-						<div class="detailBlock">
-							<span class="detailData">
-								<span class="innerDetailLabel"></span>
-								&nbsp;&nbsp;&nbsp;<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(invRel.collection_object_id)#" target="_top">"Related IS" Specimens List</a>
 							</span>
 						</div>
 					</cfif>

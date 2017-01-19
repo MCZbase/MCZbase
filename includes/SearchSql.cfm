@@ -430,32 +430,32 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset basQual = " #basQual# AND UPPER(taxonomy.Full_Taxon_Name) LIKE '%#ucase(HighTaxa)#%'">
 </cfif>
 <cfif isdefined("AnySciName") AND len(AnySciName) gt 0>
-	<cfset mapurl = "#mapurl#&AnySciName=#AnySciName#">
-		<cfset basQual = " #basQual# AND ( cataloged_item.collection_object_id IN
-			(select collection_object_id FROM identification where
-				UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
-			OR cataloged_item.collection_object_id IN
-				(select collection_object_id FROM
-					citation,
-					taxonomy
-				WHERE
-					citation.cited_taxon_name_id = taxonomy.taxon_name_id AND
-					UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
-				OR cataloged_item.collection_object_id IN (
-					select collection_object_id FROM
-						identification,
-						identification_taxonomy,
-						taxonomy AccTax,
-						taxonomy RelTax,
-						taxon_relations
-					WHERE
-						identification.identification_id=identification_taxonomy.identification_id AND
-						identification_taxonomy.taxon_name_id=AccTax.taxon_name_id AND
-						AccTax.taxon_name_id=taxon_relations.taxon_name_id AND
-						taxon_relations.related_taxon_name_id = RelTax.taxon_name_id AND
-						UPPER(RelTax.scientific_name) LIKE '%#ucase(AnySciName)#%'
-					)
-					)">
+    <cfset mapurl = "#mapurl#&AnySciName=#AnySciName#">
+        <cfset basQual = " #basQual# AND ( cataloged_item.collection_object_id IN
+            (select collection_object_id FROM identification where
+                UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
+            OR cataloged_item.collection_object_id IN
+                (select collection_object_id FROM
+                    citation,
+                    taxonomy
+                WHERE
+                    citation.cited_taxon_name_id = taxonomy.taxon_name_id AND
+                    UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
+                OR cataloged_item.collection_object_id IN (
+                    select collection_object_id FROM
+                        identification,
+                        identification_taxonomy,
+                        taxonomy AccTax,
+                        taxonomy RelTax,
+                        taxon_relations
+                    WHERE
+                        identification.identification_id=identification_taxonomy.identification_id AND
+                        identification_taxonomy.taxon_name_id=AccTax.taxon_name_id AND
+                        AccTax.taxon_name_id=taxon_relations.taxon_name_id AND
+                        taxon_relations.related_taxon_name_id = RelTax.taxon_name_id AND
+                        UPPER(RelTax.scientific_name) LIKE '%#ucase(AnySciName)#%'
+                    )
+                    )">
 </cfif>
 <cfif isdefined("genus") AND len(genus) gt 0>
 	<cfset mapurl = "#mapurl#&genus=#genus#">
@@ -472,10 +472,30 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
-	<cfif left(genus,1) is '='>
-		<cfset basQual = " #basQual# AND upper(taxonomy.genus) = '#ucase(right(genus,len(genus)-1))#'">
-	<cfelse>
-		<cfset basQual = " #basQual# AND upper(taxonomy.genus) like '%#ucase(genus)#%'">
+    <cfif genus contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(genus,1) is '='>
+            <cfset genus = Replace(genus,"=","","All")>
+            <cfloop index="genusbit" list="#genus#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.genus) = '#ucase(trim(genusbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset genus = Replace(genus,"=","","All")>
+            <cfloop index="genusbit" list="#genus#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.genus) like '%#ucase(trim(genusbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(genus,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.genus) = '#ucase(right(genus,len(genus)-1))#'">
+    	<cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.genus) like '%#ucase(genus)#%'">
+	    </cfif>
 	</cfif>
 </cfif>
 <cfif isdefined("species") AND len(species) gt 0>
@@ -534,23 +554,65 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
-	<cfif left(phylclass,1) is '='>
-		<cfset basQual = " #basQual# AND upper(taxonomy.phylclass) = '#ucase(right(phylclass,len(phylclass)-1))#'">
-	<cfelseif compare(phylclass,"NULL") is 0>
-		<cfset basQual = " #basQual# AND taxonomy.phylclass is NULL">
-	<cfelse>
-		<cfset basQual = " #basQual# AND upper(taxonomy.phylclass) like '%#ucase(phylclass)#%'">
-	</cfif>
+    <cfif phylclass contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(phylclass,1) is '='>
+            <cfset phylclass = Replace(phylclass,"=","","All")>
+            <cfloop index="classbit" list="#phylclass#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) = '#ucase(trim(classbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset phylclass = Replace(phylclass,"=","","All")>
+            <cfloop index="classbit" list="#phylclass#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) like '%#ucase(trim(classbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(phylclass,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylclass) = '#ucase(right(phylclass,len(phylclass)-1))#'">
+    	<cfelseif compare(phylclass,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.phylclass is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.phylclass) like '%#ucase(phylclass)#%'">
+	    </cfif>
+    </cfif>
 </cfif>
 <cfif isdefined("any_taxa_term") AND len(any_taxa_term) gt 0>
 	<cfif isdefined("searchOnlyCurrent") AND searchOnlyCurrent EQ "Yes">
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#">
 		<cfset basJoin = " #basJoin# inner join taxa_terms on (#session.flatTableName#.collection_object_id = taxa_terms.collection_object_id)">
-		<cfset basQual = " #basQual# AND taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+        <cfif any_taxa_term contains "|">
+            <cfset clause = "">
+            <cfset orbit = "">
+            <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
+            <cfloop index="any_taxa_termbit" list="#any_taxa_term#" delimiters="|">
+		         <cfset clause = " #clause# #orbit# taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_termbit))#%' ">
+                 <cfset orbit = " OR ">
+            </cfloop>
+            <cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+		    <cfset basQual = " #basQual# AND taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+        </cfif>
 	<cfelse>
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#&searchUnaccepted=Yes">
 		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (#session.flatTableName#.collection_object_id = taxa_terms_all.collection_object_id)">
-		<cfset basQual = " #basQual# AND taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+        <cfif any_taxa_term contains "|">
+            <cfset clause = "">
+            <cfset orbit = "">
+            <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
+            <cfloop index="any_taxa_termbit" list="#any_taxa_term#" delimiters="|">
+		         <cfset clause = " #clause# #orbit# taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_termbit))#%' ">
+                 <cfset orbit = " OR ">
+            </cfloop>
+            <cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+  		    <cfset basQual = " #basQual# AND taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+        </cfif>
 	</cfif>
 </cfif>
 <cfif isdefined("identified_agent_id") AND len(identified_agent_id) gt 0>
