@@ -249,6 +249,7 @@
 		attributes.collection_object_id = #collection_object_id#
 </cfquery>
 <cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+SELECT distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num FROM ( 
 SELECT
      rel.biol_indiv_relationship as biol_indiv_relationship,  
      collection as related_collection,
@@ -260,8 +261,10 @@ FROM
          on rel.related_coll_object_id = rcat.collection_object_id
      left join collection
          on collection.collection_id = rcat.collection_id
+     left join ctbiol_relations ctrel 
+      on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 WHERE rel.collection_object_id=#collection_object_id#
-      and rel.biol_indiv_relationship <> 'cloned from record'
+      and ctrel.rel_type <> 'curatorial'
 UNION
 SELECT
      ctrel.inverse_relation as biol_indiv_relationship,
@@ -277,7 +280,8 @@ FROM
      left join collection
       on collection.collection_id = rcat.collection_id
 WHERE irel.related_coll_object_id=#collection_object_id#
-      and ctrel.rel_type <> 'hide'
+      and ctrel.rel_type <> 'curatorial'
+) 
 </cfquery>
 <cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
