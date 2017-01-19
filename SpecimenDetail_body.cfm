@@ -261,6 +261,7 @@ FROM
      left join collection
          on collection.collection_id = rcat.collection_id
 WHERE rel.collection_object_id=#collection_object_id#
+      and rel.biol_indiv_relationship <> 'cloned from record'
 UNION
 SELECT
      ctrel.inverse_relation as biol_indiv_relationship,
@@ -276,9 +277,7 @@ FROM
      left join collection
       on collection.collection_id = rcat.collection_id
 WHERE irel.related_coll_object_id=#collection_object_id#
-     and irel.biol_indiv_relationship <> 'cloned from record'
-     and ctrel.biol_indiv_relationship <> ctrel.inverse_relation
-     and ctrel.rel_type <> 'admin'
+      and ctrel.rel_type <> 'hide'
 </cfquery>
 <cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
@@ -843,9 +842,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
                 left join collection
                   on collection.collection_id = rcat.collection_id
             WHERE irel.related_coll_object_id=#collection_object_id#
-                and irel.biol_indiv_relationship <> 'cloned from record'
-                and ctrel.biol_indiv_relationship <> ctrel.inverse_relation
-                and ctrel.rel_type <> 'admin'
+                and ctrel.rel_type <> 'hide'
           </cfquery>
 			<cfif len(relns.biol_indiv_relationship) gt 0 OR len(invRel.biol_indiv_relationship) gt 0>
 				<div class="detailCell">
