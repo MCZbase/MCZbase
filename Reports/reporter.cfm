@@ -66,6 +66,8 @@
                 <option <cfif f is e.report_format> selected="selected" </cfif>value="#f#">#f#</option>
             </cfloop>
         </select>
+        <label for="description">Description/Assumptions</label>
+        <textarea name="description" id="description" rows="10" cols="120" wrap="soft"></textarea>
         <label for="sql_text">SQL</label>
         <textarea name="sql_text" id="sql_text" rows="40" cols="120" wrap="soft"></textarea>
         <br>
