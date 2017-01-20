@@ -421,6 +421,97 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "ctbiol_relations"><!---------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select * from ctbiol_relations order by biol_indiv_relationship
+		</cfquery>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="ctbiol_relations">
+			<table class="newRec">
+				<tr>
+					<th>Relationship</th>
+					<th>Inverse Relation</th>
+					<th>Type</th>
+					<th></th>
+				</tr>
+				<tr>
+						<td>
+							<input type="text" name="newData" size="50">
+						</td>
+						<td>
+							<input type="text" name="inverse_relation" size="50">
+						</td>
+						<td>
+						    <select name="rel_type">
+							    <option value="biological" selected='selected'>Biological</option>
+    							<option value="curatorial">Curatorial</option>
+	    						<option value="functional">Functional</option>
+						    </select>
+						</td>				
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<cfset i = 1>
+		<table>
+			<tr>
+			    <th>Relationship</th>
+		        <th>Inverse Relation</th>
+				<th>Type</th>
+			</tr>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="ctbiol_relations">
+						<input type="hidden" name="origData" value="#biol_indiv_relationship#">
+						<td>
+							<input type="text" name="biol_indiv_relationship" value="#biol_indiv_relationship#" size="50">
+						</td>
+						<td>
+							<input type="text" name="inverse_relation" value="#inverse_relation#" size="50">
+						</td>
+						<td>
+                            <cfif rel_type EQ "biological">
+                                <cfset scopepriselected = "selected='selected'">
+                                <cfset scopesecselected = "">
+                                <cfset scopevouselected = "">
+                            <cfelseif rel_type EQ "curatorial">
+                                <cfset scopepriselected = "">
+                                <cfset scopesecselected = "selected='selected'">
+                                <cfset scopevouselected = "">
+                            <cfelse>
+                                <cfset scopepriselected = "">
+                                <cfset scopesecselected = "">
+                                <cfset scopevouselected = "selected='selected'">
+                            </cfif>
+                            <select name="rel_type">
+                                <option value="biological" #scopepriselected# >Biological</option>
+                                <option value="curatorial" #scopesecselected# >Curatorial</option>
+                                <option value="functional" #scopevouselected# >Functional</option>
+                            </select>
+						</td>				
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">	
+			
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctcoll_other_id_type"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from ctcoll_other_id_type order by other_id_type
@@ -733,6 +824,12 @@
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
+	<cfelseif tbl is "ctbiol_relations">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctbiol_relations
+			where
+                BIOL_INDIV_RELATIONSHIP='#origData#'
+		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcoll_other_id_type
@@ -786,6 +883,15 @@
 				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctbiol_relations">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctbiol_relations set 
+				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="cf_sql_varchar" value="#biol_indiv_relationship#" />,
+				INVERSE_RELATION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
+				REL_TYPE= <cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
+			where
+				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -865,6 +971,18 @@
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
 				<cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctbiol_relations">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctbiol_relations (
+				biol_indiv_relationship,
+				inverse_relation,
+				rel_type
+			) values (
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
+				<cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
