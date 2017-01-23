@@ -1013,7 +1013,7 @@ function getPublication(pubStringFld,pubIdFld,publication_title,formName){
 }
 function getAccn(StringFld,IdFld,formName){
 	var url="/picks/findAccn.cfm";
-	var pickwin=url//+"?AccnNumFld="+StringFld+"&AccnIdFld="+IdFld+"&formName="+formName;
+	var pickwin=url+"?AccnNumFld="+StringFld+"&AccnIdFld="+IdFld+"&formName="+formName;
 	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
 }
 function getGeog(geogIdFld,geogStringFld,formName,geogString){
