@@ -105,6 +105,24 @@
                               $("##preserve_limit_section").hide();
                            }
 
+                          $.getJSON("/component/functions.cfc",
+                            {
+                              method : "getReportDescription",
+                              report_id : sel,
+                              returnformat : "json",
+                              queryformat : 'column'
+                            },
+                            function (r){
+                               var result=r.DATA;
+                               var status=result.STATUS[0];
+                               if (status=='error') {
+                                   var msg=result.MSG[0];
+                                   alert(msg);
+                               } else {
+                                  $("##report_description_section").html(result.DESCRIPTION);
+                               }
+                            }
+                           );
                        });
                    </script>
 		</cfif>
