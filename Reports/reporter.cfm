@@ -5,7 +5,7 @@
 <cfif #action# is "delete">
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         delete from cf_report_sql
-        where report_id= <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_NUMBER">
+        where report_id= <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
     </cfquery>
     <cflocation url="reporter.cfm">
 </cfif>
@@ -27,7 +27,7 @@
         description = <CFQUERYPARAM VALUE="#description#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
         pre_function = <CFQUERYPARAM VALUE="#pre_function#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
         report_format = <CFQUERYPARAM VALUE="#report_format#" CFSQLTYPE="CF_SQL_VARCHAR">
-        where report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_NUMBER"> ,
+        where report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL"> ,
     </cfquery>
     <cflocation url="reporter.cfm?action=edit&report_id=#report_id#">
 </cfif>
