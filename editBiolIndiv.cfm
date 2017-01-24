@@ -45,7 +45,7 @@
 		$("#agent_name_" + id).toggle();
 	}
 	function populateAttribute(aid) {
-		jQuery.getJSON("/component/DataEntry.cfc",
+		jQuery.getJSON("/component/functions.cfc",
 			{
 				method : "getAttCodeTbl",
 				attribute : $("#attribute_type_" + aid).val(),
