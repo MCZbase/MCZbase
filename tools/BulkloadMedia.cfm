@@ -101,7 +101,7 @@ sho err
 
     <p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
     <p style="margin-top:.5em;font-weight:bold;">Examples:</p>
-	<ul  class="geol_hier" style="padding-bottom:2em;padding-top:.25em;">
+	<ul  class="geol_hier" style="padding-top:.25em;padding-bottom: 1em;">
 		<li>
 			audio bit resolution=whatever
 		</li>
@@ -112,7 +112,14 @@ sho err
 			audio bit resolution=2;audio cut id=5;made date=7 January 1964
 		</li>
 	</ul>
-
+        <p style="font-weight:bold;">Errors:</p>
+<ul  class="geol_hier" style="padding-bottom:2em;padding-top:.25em;">
+		<li>
+			See <a href="https://code.mcz.harvard.edu/wiki/index.php/MCZbase_error_message_translation">MCZbase Wiki</a> for error message translations.
+		</li>
+		<li><b>Note:</b>  If you receive the same error messages after fixing them, you may have to clear your browser's cache to have the fixed .csv sheet load cleanly.
+		</li>
+	</ul>
 
 <cfform name="atts" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
