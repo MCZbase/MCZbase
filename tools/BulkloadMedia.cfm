@@ -1,3 +1,4 @@
+<cfheader name="Cache-Control" value="no-cache, must-revalidate">
 <!---
 drop table cf_temp_media;
 drop table cf_temp_media_relations;
