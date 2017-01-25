@@ -1,3 +1,4 @@
+<cfheader name="Cache-Control" value="no-cache, must-revalidate">
 <cfset usealternatehead="DataEntry">
 <cfinclude template="/includes/_header.cfm">
 <div id="msg"></div>

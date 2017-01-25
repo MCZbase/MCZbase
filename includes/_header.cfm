@@ -6,6 +6,9 @@
       <cfinclude template="/includes/feedReaderInclude.cfm">
       <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">
       <cfinclude template="/includes/DataEntryInclude.cfm">
+      <cfoutput>
+          <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+      </cfoutput>
       <cfelse>
       <!--- Default elements to be included at the top of the html head --->
       <cfinclude template="/includes/alwaysInclude.cfm">
