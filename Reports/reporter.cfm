@@ -5,7 +5,7 @@
 <cfif #action# is "delete">
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         delete from cf_report_sql
-        where report_id=#report_id#
+        where report_id= <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
     </cfquery>
     <cflocation url="reporter.cfm">
 </cfif>
@@ -21,12 +21,13 @@
 	</cfif>
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         update cf_report_sql set
-        report_name ='#report_name#',
-        report_template  ='#report_template#',
+        report_name = <CFQUERYPARAM VALUE="#report_name#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+        report_template  = <CFQUERYPARAM VALUE="#report_template#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
         sql_text = <CFQUERYPARAM VALUE="#sql_text#" CFSQLTYPE="CF_SQL_CLOB"> ,
-        pre_function ='#pre_function#',
-        report_format ='#report_format#'
-        where report_id=#report_id#
+        description = <CFQUERYPARAM VALUE="#description#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+        pre_function = <CFQUERYPARAM VALUE="#pre_function#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+        report_format = <CFQUERYPARAM VALUE="#report_format#" CFSQLTYPE="CF_SQL_VARCHAR">
+        where report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
     </cfquery>
     <cflocation url="reporter.cfm?action=edit&report_id=#report_id#">
 </cfif>
@@ -66,6 +67,8 @@
                 <option <cfif f is e.report_format> selected="selected" </cfif>value="#f#">#f#</option>
             </cfloop>
         </select>
+        <label for="description">Description/Assumptions</label>
+        <textarea name="description" id="description" rows="10" cols="120" wrap="soft">#e.description#</textarea>
         <label for="sql_text">SQL</label>
         <textarea name="sql_text" id="sql_text" rows="40" cols="120" wrap="soft"></textarea>
         <br>
@@ -120,10 +123,12 @@
         insert into cf_report_sql (
             report_name,
             report_template,
+            description,
             sql_text)
         values (
-            'Clone_Of_#e.report_name#_#tc#',
+            substring('Clone_Of_#e.report_name#_#tc#',38),
             '#e.report_template#',
+            <CFQUERYPARAM VALUE="#e.description#" CFSQLTYPE="CF_SQL_CLOB">,
             <CFQUERYPARAM VALUE="#e.sql_text#" CFSQLTYPE="CF_SQL_CLOB"> )
     </cfquery>
     <cflocation url="reporter.cfm">

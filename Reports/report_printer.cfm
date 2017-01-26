@@ -95,18 +95,38 @@
                 </cfloop>
                 <cfif len(#reportsWithPreserveRewrite#) GT 0>
                    <cfset reportsWithPreserveRewrite = "(#reportsWithPreserveRewrite#)">
-                   <script>
+		</cfif>
+                <script>
                     	$("##report_id").change( function () { 
-			   var sel = $(this).find(":selected").text();
-          		   var match = sel.match(/^#reportsWithPreserveRewrite#$/);
+                           var sel = $(this).find(":selected").text();
+                           var match = sel.match(/^#reportsWithPreserveRewrite#$/);
                            if (match!=null && match.length>0) { 
                               $("##preserve_limit_section").show();
                            } else { 
                               $("##preserve_limit_section").hide();
                            }
- 			});
-                   </script>
-		</cfif>
+
+                           $.getJSON("/component/functions.cfc",
+                            {
+                              method : "getReportDescription",
+                              report_id : sel,
+                              returnformat : "json",
+                              queryformat : 'column'
+                            },
+                            function (r){
+                               var result=r.DATA;
+                               var description=result.DESCRIPTION;
+                               if (description.length==0) {
+                                   description = 'No Description';
+                               }
+                               if (result!=null) { 
+                                  $("##report_description_section").show();
+                                  $("##report_description_section").html(' ' + description);
+                               }
+                            }
+                           );
+                       });
+                </script>
                 <script>
 			jQuery(document).ready(function() {
                               $("##preserve_limit_section").hide();
@@ -133,6 +153,7 @@
         	      </cfif>
                       <p>Many reports are configured to limit printing of labels to a class of preservation type (e.g. fluid or dry), but will print one label for each preservation type in that class.  In some cases it is desirable to print reports for only one particular preservation type.  Reports that have been configured to also use this pick list can limit labels to a single preservation type (e.g 70% ethanol).  If you pick "All", one label will be printed for each part with the preservation type allowed for by the label (e.g. any fluid type).  If you pick a specific preservation type from the picklist, one label will be printed for each part with the preservation type that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report, if you pick "Dry", or another preservation type that isn't normally included on that particular label report, for a Fluid label, you will get an empty report. </p>
                       </div>
+                      <div id="report_description_section">Select a report from the list.</div>
 		    </td>
 		  </tr>
 		</table>

@@ -709,8 +709,16 @@
 	</cfquery>
 	<cfreturn d>
 </cffunction>
-
 <!------------------------------------------------------->
+<cffunction name="getReportDescription" access="remote">
+	<cfargument name="report_id" type="string" required="yes">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT description from cf_report_sql where report_name = <cfqueryparam value="#report_id#" CFSQLType="CF_SQL_VARCHAR">
+	</cfquery>
+	<cfreturn d>
+</cffunction>
+<!------------------------------------------------------->
+
 <cffunction name="saveAgentRank" access="remote">
 	<cfargument name="agent_id" type="numeric" required="yes">
 	<cfargument name="agent_rank" type="string" required="yes">
