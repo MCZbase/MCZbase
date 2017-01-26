@@ -27,7 +27,7 @@
         description = <CFQUERYPARAM VALUE="#description#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
         pre_function = <CFQUERYPARAM VALUE="#pre_function#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
         report_format = <CFQUERYPARAM VALUE="#report_format#" CFSQLTYPE="CF_SQL_VARCHAR">
-        where report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL"> ,
+        where report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
     </cfquery>
     <cflocation url="reporter.cfm?action=edit&report_id=#report_id#">
 </cfif>
