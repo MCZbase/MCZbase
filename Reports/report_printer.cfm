@@ -95,7 +95,8 @@
                 </cfloop>
                 <cfif len(#reportsWithPreserveRewrite#) GT 0>
                    <cfset reportsWithPreserveRewrite = "(#reportsWithPreserveRewrite#)">
-                   <script>
+		</cfif>
+                <script>
                     	$("##report_id").change( function () { 
                            var sel = $(this).find(":selected").text();
                            var match = sel.match(/^#reportsWithPreserveRewrite#$/);
@@ -105,7 +106,7 @@
                               $("##preserve_limit_section").hide();
                            }
 
-                          $.getJSON("/component/functions.cfc",
+                           $.getJSON("/component/functions.cfc",
                             {
                               method : "getReportDescription",
                               report_id : sel,
@@ -114,18 +115,18 @@
                             },
                             function (r){
                                var result=r.DATA;
-                               var status=result.STATUS[0];
-                               if (status=='error') {
-                                   var msg=result.MSG[0];
-                                   alert(msg);
-                               } else {
-                                  $("##report_description_section").html(result.DESCRIPTION);
+                               var description=result.DESCRIPTION;
+                               if (description.length==0) {
+                                   description = 'No Description';
+                               }
+                               if (result!=null) { 
+                                  $("##report_description_section").show();
+                                  $("##report_description_section").html(description);
                                }
                             }
                            );
                        });
-                   </script>
-		</cfif>
+                </script>
                 <script>
 			jQuery(document).ready(function() {
                               $("##preserve_limit_section").hide();
