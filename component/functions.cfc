@@ -713,7 +713,7 @@
 <cffunction name="getReportDescription" access="remote">
 	<cfargument name="report_id" type="string" required="yes">
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT description from ct_report_sql where report_id = <cfqueryparam value="#report_id#" CFSQLType="CF_SQL_DECIMAL">
+		SELECT description from ct_report_sql where report_id = <cfqueryparam value="#report_id#" CFSQLType="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfreturn d>
 </cffunction>
