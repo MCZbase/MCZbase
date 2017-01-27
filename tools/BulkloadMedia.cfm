@@ -139,66 +139,68 @@ sho err
 
 <!------------------------------------------------------->
 <cfif #action# is "getFile">
-<cfoutput>
-	<!--- put this in a temp table --->
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from cf_temp_media
-	</cfquery>
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from cf_temp_media_relations
-	</cfquery>
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from cf_temp_media_labels
-	</cfquery>
+       <cfif !isdefined("FiletoUpload") OR len(FiletoUpload) eq 0 >
+           <cfoutput>
+	   You must select a file to upload.
+	   Use your back button.
+           </cfoutput>
+       <cfelse>
+           <!--- TODO: put this in a temp table --->
+           <!--- *** Only one user can bulkload media at the same time *** --->
+           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           	delete from cf_temp_media
+           </cfquery>
+           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           	delete from cf_temp_media_relations
+           </cfquery>
+           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           	delete from cf_temp_media_labels
+           </cfquery>
 
-
-	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-	<cfset fileContent=replace(fileContent,"'","''","all")>
-	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-	<cfdump var=#arrResult#>
-
-
-	<cfset numberOfColumns = ArrayLen(arrResult[1])>
-
-
-	<cfset colNames="">
-	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-		<cfset colVals="">
-			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				 <!---
-				 <cfdump var="#arrResult[o]#">
-				 --->
-				 <cfset numColsRec = ArrayLen(arrResult[o])>
-				<cfset thisBit=arrResult[o][i]>
-				<cfif #o# is 1>
-					<cfset colNames="#colNames#,#thisBit#">
-				<cfelse>
-					<cfset colVals="#colVals#,'#thisBit#'">
-				</cfif>
-			</cfloop>
-		<cfif #o# is 1>
-			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>
-		<cfif len(#colVals#) gt 1>
-			<cfset colVals=replace(colVals,",","","first")>
-			<cfif numColsRec lt numberOfColumns>
-				<cfset missingNumber = numberOfColumns - numColsRec>
-				<cfloop from="1" to="#missingNumber#" index="c">
-					<cfset colVals = "#colVals#,''">
-				</cfloop>
-			</cfif>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into cf_temp_media (#colNames#) values (#preservesinglequotes(colVals)#)
-			</cfquery>
-
-		</cfif>
-	</cfloop>
-</cfoutput>
-	<cflocation url="BulkloadMedia.cfm?action=validate">
- <!---
-
----->
-</cfif>
+           <cfoutput>
+           <cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+           <cfset fileContent=replace(fileContent,"'","''","all")>
+           <cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+           <cfdump var=#arrResult#>
+        
+           <cfset numberOfColumns = ArrayLen(arrResult[1])>
+        
+           <cfset colNames="">
+           <cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
+              <cfset colVals="">
+                 <cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
+                     <!---
+                     <cfdump var="#arrResult[o]#">
+                     --->
+                     <cfset numColsRec = ArrayLen(arrResult[o])>
+                    <cfset thisBit=arrResult[o][i]>
+                    <cfif #o# is 1>
+                       <cfset colNames="#colNames#,#thisBit#">
+                    <cfelse>
+                       <cfset colVals="#colVals#,'#thisBit#'">
+                    </cfif>
+                 </cfloop>
+              <cfif #o# is 1>
+                 <cfset colNames=replace(colNames,",","","first")>
+              </cfif>
+              <cfif len(#colVals#) gt 1>
+                 <cfset colVals=replace(colVals,",","","first")>
+                 <cfif numColsRec lt numberOfColumns>
+                    <cfset missingNumber = numberOfColumns - numColsRec>
+                    <cfloop from="1" to="#missingNumber#" index="c">
+                       <cfset colVals = "#colVals#,''">
+                    </cfloop>
+                 </cfif>
+                 <cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                    insert into cf_temp_media (#colNames#) values (#preservesinglequotes(colVals)#)
+                 </cfquery>
+        
+              </cfif>
+           </cfloop>
+           </cfoutput>
+           <cflocation url="BulkloadMedia.cfm?action=validate">
+       </cfif> <!--- File was selected --->
+</cfif> <!--- action getFile --->
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 <cfif #action# is "validate">
