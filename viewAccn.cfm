@@ -26,12 +26,15 @@
 				trans.collection_id=collection.collection_id and
 				trans.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" />
 		</cfquery>
+          <div style="width: 56em; margin: 1em 2em 0em 8em;padding-bottom: 3em;">
 		<cfif d.is_public_fg is not 1>
 			<div class="error">Data restricted by collection.</div>
 			<cfabort>
 		</cfif>
+           
 		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-	        <a href="/editAccn.cfm?action=edit&transaction_id=#transaction_id#">[ edit accession ]</a>
+	      
+               <a href="/editAccn.cfm?action=edit&transaction_id=#transaction_id#">[ edit accession ]</a>
 	    </cfif>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 
@@ -50,9 +53,7 @@
 				trans_agent_role,
 				agent_name
 		</cfquery>
-		<p>
-			<strong>Accession #d.collection# #d.accn_number#</strong>
-		</p>
+		<h3>Accession #d.collection# #d.accn_number#</h3>
 		<cfset title="Accession #d.collection# #d.accn_number#">
 		<br><strong>Obtained by:</strong> #d.accn_type#
 		<br><strong>Status:</strong> #d.accn_status#
@@ -89,7 +90,7 @@
 		<p>
 			<cfif projs.recordcount gt 0>
 				Projects associated with this accession:
-				<ul>
+				<ul style="margin-left: 2em;">
 					<cfloop query="projs">
 						<li>
 							<a href="/project/#pn#">#project_name#</a>
@@ -116,8 +117,8 @@
 				media.media_id=media_labels.media_id (+) and
 				media.media_id=media_relations.media_id and
 				media_relationship like '% accn' and
-                                MCZBASE.is_media_encumbered(media.media_id) < 1
-				related_primary_key=<cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" />
+                                MCZBASE.is_media_encumbered(media.media_id) < 1 and
+				related_primary_key=<cfqueryparam cfsqltype="cf_sql_integer" value="#transaction_id#">
 		</cfquery>
 		<p>
 		<cfif media.recordcount gt 0>
@@ -249,7 +250,7 @@
 			<br>There are <a href="/SpecimenResults.cfm?accn_trans_id=#transaction_id#">#sspec.tc# specimens</a> in this accession.
 					[ <a href="/bnhmMaps/bnhmMapData.cfm?accn_trans_id=#transaction_id#">BerkeleyMapper</a> ]
 
-			<ul>
+			<ul style="margin-left: 2em;">
 				<cfloop query="spec">
 					<li>
 						<a href="/SpecimenResults.cfm?accn_trans_id=#transaction_id#&collection_id=#collection_id#">#c# #collection#</a>
@@ -261,5 +262,6 @@
 			There are no specimens associated with this accession.
 		</cfif>
 		</p>
+                    </div>
 	</cfoutput>
 <cfinclude template="includes/_footer.cfm">

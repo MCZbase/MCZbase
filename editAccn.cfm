@@ -380,7 +380,7 @@
 						</cfform>
 
 			<strong>Media associated with this Accn:</strong>
-			<!---
+			
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					media.media_id,
@@ -398,7 +398,8 @@
 					media_relationship like '% accn' and
 					related_primary_key=#transaction_id#
 			</cfquery>
-			<ul>
+			<!---
+            <ul>
 				<cfif #media.recordcount# gt 0>
 					<cfloop query="media">
 						<li>
