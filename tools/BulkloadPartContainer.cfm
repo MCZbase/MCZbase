@@ -40,31 +40,36 @@ sho err
 <cfif action is  "nothing">
     <h3 class="wikilink">Bulkload Part Containers</h3>
 	Use this form to put collection objects (that is, parts) in containers. Parts and containers must already exist.
+    <p style="margin: .5em 0;"><a href="BulkloadPartContainer.cfm?action=makeTemplate">download a CSV template</a></p>
 	<ul class="geol_hier">
-		<li><a href="BulkloadPartContainer.cfm?action=makeTemplate">download a CSV template</a></li>
-		<li>
-			<a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">[ OTHER_ID_TYPE values ]</a>
-			<br>"catalog number" is also a valid other_id_type.
-		<!---cfset header=",,
-				
-					PRINT_FG,,"--->
-		</li>
-		<li>Collection_Cde is case-sensitive, e.g., "Mamm"</li>
-		<li>Institution_Acronym is case-sensitive, e.g., "MCZ"</li>
 		
-		<li>
-			Part_Name is case-sensitive and collection-specific	
-			<br><a href="/info/ctDocumentation.cfm?table=ctspecimen_part_name" target="_blank">part_name values</a>
+        <li style="color: red;">other_id_type</li>
+        <ul><li>"catalog number" is also a valid other_id_type</li>
+		<li>	<a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">other_id_type values list</a></li>
+    </ul>
+	
 		</li>
-		<li>
-			Preserve_Method is case-sensitive and collection-specific	
-			<br><a href="/info/ctDocumentation.cfm?table=ctspecimen_preserv_method" target="_blank">preserve_method values</a>
+		<li style="color: red;">Collection_Cde</li>
+    <li style="color: red;">Institution_Acronym  <span style="color:black;">(case-sensitive, e.g., "MCZ")</span></li>
+		
+		<li style="color: red;">
+			Part_Name
+			<!--<br><a href="/info/ctDocumentation.cfm?table=ctspecimen_part_name" target="_blank">part_name values</a>-->
 		</li>
-		<li>BARCODE is the barcode of the container (usually a NUNC tube) into which you want to place the part</li>
-		<li>
-			NEW_CONTAINER_TYPE - the container into which you wish to place the part may be a label of some sort.
-			Use this to change it to a 
-			<a href="/info/ctDocumentation.cfm?table=ctcontainer_type" target="_blank">valid container type</a>
+		<li style="color: red">
+			Preserve_Method
+          
+		</li>
+		<li style="color: red">barcode
+            <ul style="color: black;"><li>is the barcode of the container into which you want to place the part</li></ul>
+            
+        </li>
+		<li style="color: red">
+			new_container_type
+            <ul style="color:black;"><li>the container type into which you wish to place the part may be a label of some sort</li>
+                <li>container must already exist in MCZbase</li>
+                <li><a href="/info/ctDocumentation.cfm?table=ctcontainer_type" target="_blank">valid container type list</a></li></ul>
+			
 		</li>
 	</ul>
 

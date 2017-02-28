@@ -26,12 +26,19 @@ sho err
 		<label for="t">Copy the existing code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM</textarea>
 	</div>
-<p></p>
+    
+   
+		<cfset attribute_type="">
+            <cfset collection_cde="">
+                
+            <cfset colNames="">
+	
+           
+                         <p>This tool adds attributes to the specimen record.  The attribute has to be in the code table prior to uploading this .csv. </p>
 
+                <p><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></p>
 
-
-
-Columns in <span style="color:red">red</span> are required; others are optional:
+                <p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
 <ul class="geol_hier">
 	<li style="color:red">COLLECTION_CDE</li>
 	<li style="color:red">INSTITUTION_ACRONYM</li>
@@ -40,7 +47,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li style="color:red">ATTRIBUTE</li>
 	<li style="color:red">ATTRIBUTE_VALUE</li>
 	<li>ATTRIBUTE_UNITS</li>
-	<li>ATTRIBUTE_DATE</li>
+	<li style="color:red">ATTRIBUTE_DATE</li>
 	<li>ATTRIBUTE_METH</li>
 	<li style="color:red">DETERMINER</li>
 	<li>REMARKS</li>

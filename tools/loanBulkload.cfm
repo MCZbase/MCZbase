@@ -41,18 +41,25 @@ transaction_id number
 		<li>Loan Item reconciled person is you (<i>#session.username#</i>)</li>
 		<li>Loan Item reconciled date is today (#dateformat(now(),"yyyy-mm-dd")#)</li>
 	</ul>
-    <p>Upload a file comma-delimited text file (CSV) in the following format. (You may copy the template below and save as .CSV) Include column headers.</p>
+    <p>Upload a file comma-delimited text file (CSV) in the following format. (You may copy the template below and save as .CSV.) Column headers in red are mandatory.</p>
+    
+        <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
+	<div id="template" style="display:none; margin: 1em 0;">
+		<label for="t">Copy the following code and save as a .csv file</label>
+		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
+	</div>
+    
 <ul class="geol_hier">
-	<li>Institution_Acronym (required)</li>
-	<li>Collection_Cde (required)</li>
-	<li>Other_Id_Type (required. "catalog number" is acceptable)</li>
-	<li>Other_Id_Number (required; display value)</li>
-	<li>Part_Name (required)</li>
+	<li style="color: red;">Institution_Acronym (required)</li>
+	<li style="color: red;">Collection_Cde (required)</li>
+	<li style="color: red;">Other_Id_Type (required. "catalog number" is acceptable)</li>
+	<li style="color: red;">Other_Id_Number (required; display value)</li>
+	<li style="color: red;">Part_Name (required)</li>
 	<li>Item_Description</li>
 	<li>Item_Remarks</li>
 	<li>Barcode</li>
-	<li>subsample (required. "yes" creates a new part subsample. "no" puts the entire part on loan)</li>
-	<li>Loan_Number (required)</li>
+	<li style="color: red;">subsample (required. "yes" creates a new part subsample. "no" puts the entire part on loan)</li>
+	<li style="color: red;">Loan_Number (required)</li>
 </ul>
 
 </cfoutput>
