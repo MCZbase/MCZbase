@@ -49,12 +49,19 @@ sho err
 		<li>Loan Item reconciled date is today (#dateformat(now(),"yyyy-mm-dd")#)</li>
 	</ul>
     <p>Upload a file comma-delimited text file (CSV) in the following format. (You may copy the template below and save as .CSV)  Include column headers. </p>
+    
+            <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
+	<div id="template" style="display:none; margin: 1em 0;">
+		<label for="t">Copy the following code and save as a .csv file</label>
+		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,LOAN_NUMBER</textarea>
+	</div>
+    
 <ul class="geol_hier">
-	<li>Institution_Acronym (required)</li>
-	<li>Collection_Cde (required)</li>
-	<li>Other_Id_Type (required. "catalog number" is acceptable)</li>
-	<li>Other_Id_Number (required; display value)</li>
-	<li>Loan_Number (required)</li>
+	<li style="color:red;">Institution_Acronym (required)</li>
+	<li style="color: red;">Collection_Cde (required)</li>
+	<li style="color:red;">Other_Id_Type (required. "catalog number" is acceptable)</li>
+	<li style="color: red;">Other_Id_Number (required; display value)</li>
+	<li style="color:red;">Loan_Number (required)</li>
 </ul>
 </cfoutput>
 

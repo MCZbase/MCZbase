@@ -119,13 +119,13 @@
  <cfset typeName = typestatuswords>
  <cfif toptypestatuskind eq 'Primary' >
    <!--- Highlight as a primary type ---> 
-   <cfset twotypes = '#replace(typestatusplain,"|","<br>")#'>
+   <cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
    <div class="primaryCont" style="margin-top:-1em;">
        <div class="primaryType">
        <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes# </span>'>
  <cfelseif toptypestatuskind eq 'Secondary' >
    <!--- Highlight as a secondary type ---> 
-   <cfset  twotypes= '#replace(typestatusplain,"|","<br>")#'>
+   <cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
    <div class="secondaryCont" style="margin-top: -1em;">
       <div class="secondaryType">
       <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes#  </span>'>
