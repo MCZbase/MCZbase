@@ -458,7 +458,7 @@
             <td>
 				<table>
 					<tr>
-						<td style="width: 100px;">
+						<td style="width: 110px;">
 							<label for="minimum_elevation">
 								
 									Min. Elevation
@@ -468,11 +468,11 @@
 								name="minimum_elevation"
 								id="minimum_elevation"
 								value="#l.MINIMUM_ELEVATION#"
-								size="5"
+								size="10"
 								validate="numeric"
 								message="Minimum Elevation is a number.">
 						</td>
-						<td style="width: 100px;">
+						<td style="width: 110px;">
 							<label for="maximum_elevation">
 								
 									Max. Elevation
@@ -481,7 +481,7 @@
 								id="maximum_elevation"
 								name="maximum_elevation"
 								value="#l.MAXIMUM_ELEVATION#"
-								size="5"
+								size="10"
 								validate="numeric"
 								message="Maximum Elevation is a number.">
 						</td>
@@ -506,20 +506,20 @@
             <td>
 				<table>
 					<tr>
-						<td style="width:100px;">
+						<td style="width:110px;">
 							<label for="min_depth">
 									Min. Depth
 							</label>
-							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" size="3"
+							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" size="10"
 								validate="numeric"
 								message="Minimum Depth is a number.">
 						</td>
-						<td style="width:100px;">
+						<td style="width:110px;">
 							<label for="max_depth"  >
 									Max. Depth
 							</label>
 							<cfinput type="text" id="max_depth" name="max_depth"
-								value="#l.max_depth#" size="3"
+								value="#l.max_depth#" size="10"
 								validate="numeric"
 								message="Maximum Depth is a number.">
 						</td>

@@ -347,7 +347,7 @@
 				<td>
 					<table>
 						<tr>
-							<td>
+							<td style="width: 134px;">
 								<label for="minimum_elevation">
 									<a href="javascript:void(0);" onClick="getDocs('locality','elevation')">
 										Min. Elev.
@@ -355,9 +355,9 @@
 								</label>
 								<input type="text" name="minimum_elevation"
 									id="minimum_elevation"
-									value="#minimum_elevation#" size="3">&nbsp;TO&nbsp;
+									value="#minimum_elevation#" size="10">&nbsp;TO&nbsp;
 							</td>
-							<td>
+							<td style="width:115px;">
 								<label for="maximum_elevation">
 									<a href="javascript:void(0);" onClick="getDocs('locality','elevation')">
 										Max. Elev.
@@ -365,7 +365,7 @@
 								</label>
 								<input type="text" name="maximum_elevation"
 									id="maximum_elevation"
-									value="#maximum_elevation#" size="3">&nbsp;&nbsp;
+									value="#maximum_elevation#" size="10">&nbsp;&nbsp;
 							</td>
 							<td>
 								<label for="orig_elev_units">
@@ -388,7 +388,7 @@
 				<td>
 					<table>
 						<tr>
-							<td>
+							<td style="width: 134px;">
 								<label for="min_depth">
 									<a href="javascript:void(0);" onClick="getDocs('locality','depth')">
 										Min. Depth.
@@ -396,9 +396,9 @@
 								</label>
 								<input type="text" name="min_depth"
 									id="min_depth"
-									value="#min_depth#" size="3">&nbsp;TO&nbsp;
+									value="#min_depth#" size="10">&nbsp;TO&nbsp;
 							</td>
-							<td>
+							<td style="width: 115px;">
 								<label for="max_depth">
 									<a href="javascript:void(0);" onClick="getDocs('locality','depth')">
 										Max. Depth.
@@ -406,7 +406,7 @@
 								</label>
 								<input type="text" name="max_depth"
 									id="max_depth"
-									value="#max_depth#" size="3">&nbsp;&nbsp;
+									value="#max_depth#" size="10">&nbsp;&nbsp;
 							</td>
 							<td>
 								<label for="depth_units">
