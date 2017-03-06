@@ -1,15 +1,16 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
 <script language="javascript" type="text/javascript">
+
+
 	jQuery(document).ready(function() {
-		jQuery("input[id^='determined_date_']").each(function(){
-			$("#" + this.id).datepicker();
-		});
-		$("#determined_date").datepicker();
-		$("#mammgrid_determined_date").datepicker();
-		$("input[id^='attribute_id_']").each(function(){
-			populateAttribute($("#" + this.id).val());
-		});
+		$("#determined_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+            $(".ui-datepicker-trigger").css("margin-bottom","-7px");
+
 	});
+    
+
 	function deleteAttribute(id){
 		var d='<input type="hidden" id="deleted_attribute_type_' + id + '" name="deleted_attribute_type_' + id + '">';
 		$("#atttype_" + id).append(d);
