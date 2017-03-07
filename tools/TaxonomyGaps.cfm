@@ -1,4 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 100%;">
+        <div style="width: 50em; margin: 0 auto;padding: 2em 0;">
 <cfset title="Taxonomy is a mess">
 <cfif not isdefined("limit")>
 	<cfset limit=1000>
@@ -280,4 +282,5 @@
 		</table>
 	</cfoutput>
 </cfif>
+            </div></div>
 <cfinclude template="/includes/_footer.cfm">

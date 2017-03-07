@@ -26,6 +26,8 @@ test-uam> desc uam_query.query_stats_coll
 ---->
 
 <cfinclude template="/includes/_header.cfm">
+    <div style="width: 100%;">
+        <div style="width: 50em; margin: 0 auto;padding: 0 0 3em 0;">
 <script src="/includes/sorttable.js"></script>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
@@ -355,4 +357,5 @@ test-uam> desc uam_query.query_stats_coll
 	</table>
 </cfoutput>
 </cfif>
+    </div></div>
 <cfinclude template="/includes/_footer.cfm">

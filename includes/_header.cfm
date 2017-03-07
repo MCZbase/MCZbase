@@ -250,9 +250,9 @@
                 <li><a target="_top" href="/Reports/reporter.cfm">Reporter</a></li>
                 <li><a target="_top" href="/info/mia_in_genbank.cfm">GenBank MIA</a></li>
                 <li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
-                <li><a target="_top" href="/info/loanStats.cfm">Loan/Citation Stats</a></li>
-                <li><a target="_top" href="/info/Citations.cfm">More Citation Stats</a></li>
-                <li><a target="_top" href="/info/MoreCitationStats.cfm">Even More Citation Stats</a></li>
+                <li><a target="_top" href="/info/loanStats.cfm">Loan Stats</a></li>
+                <li><a target="_top" href="/info/Citations.cfm">Citation Stats</a></li>
+                <li><a target="_top" href="/info/MoreCitationStats.cfm">More Citation Stats</a></li>
                 <li><a target="_top" href="/Admin/download.cfm">Download Stats</a></li>
                 <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
                 <li><a target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a></li>

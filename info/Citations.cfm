@@ -1,5 +1,7 @@
 <cfinclude template="/includes/_header.cfm">
 <cfoutput>
+    <div style="width: 100%;">
+        <div style="width: 54em;margin:0 auto;padding: 1em 0 5em 0;">
 <cfset title="Citation Statistics">
 <cfif action is "nothing">
 	<h2>Citation Summary</h2>
@@ -44,9 +46,9 @@
 				<option value="#collection_id#">#collection#</option>
 			</cfloop>
 		</select>
-		<label for="ismatch">ID & Citation match?</label>
+		<label for="ismatch">ID &amp; Citation match?</label>
 		<select name="ismatch" id="ismatch">
-			<option value="">whatever</option>
+			<option value="">all</option>
 			<option value="1">yes</option>
 			<option value="0">no</option>
 		</select>
@@ -127,5 +129,5 @@
 
 
 </cfoutput>
-
+    </div></div>
 <cfinclude template="/includes/_footer.cfm">
