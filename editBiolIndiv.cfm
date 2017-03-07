@@ -3,17 +3,21 @@
 
 	jQuery(document).ready(function() {
 		jQuery("input[id^='determined_date_']").each(function(){
-			$("#" + this.id).datepicker();
+			$("#" + this.id).datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
 		});
 		
-		$("#mammgrid_determined_date").datepicker();
+		$("#mammgrid_determined_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
 		$("input[id^='attribute_id_']").each(function(){
 			populateAttribute($("#" + this.id).val());
 		});
         $("#determined_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
-            $(".ui-datepicker-trigger").css("margin-bottom","-7px");
+            $(".ui-datepicker-trigger").css("margin-left","1px");
 	});
 
 	function deleteAttribute(id){
