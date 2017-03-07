@@ -20,7 +20,7 @@
 	 trans.collection_id=collection.collection_id
 </cfquery>
 <cfoutput>
-	<h2>Loan Statistics</h2>
+	<h2>&nbsp;&nbsp;Loan Statistics</h2>
 <div style="background-color:lightgray;font-size:small;padding:1em; width:50%; align:center;margin-left:3em;margin:1em;">
 	Citations apply to cataloged items and do not reflect activity resulting from any particular loan.
 </div>
