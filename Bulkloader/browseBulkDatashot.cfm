@@ -82,14 +82,16 @@
         select user_tab_cols.column_name from user_tab_cols
                left outer join BULKLOADER_FIELD_ORDER
                on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-            where user_tab_cols.table_name='BULKLOADER' 
+            where user_tab_cols.table_name='BULKLOADER_LEPIDOPTERA' 
                   and 
-                  (
-                     (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
+                  (  (
+                       BULKLOADER_FIELD_ORDER.SHOW = 1 
+                       and BULKLOADER_FIELD_ORDER.department = 'All'
+                       and BULKLOADER_FIELD_ORDER.column_name <> 'FISH_FIELD_NUMBER'
+                       and BULKLOADER_FIELD_ORDER.column_name not like 'GEO_%' 
+                     )
                      or BULKLOADER_FIELD_ORDER.column_name is null
                   )
-                  and BULKLOADER_FIELD_ORDER.column_name <> 'FISH_FIELD_NUMBER'
-                  and BULKLOADER_FIELD_ORDER.column_name not like 'GEO_%'
             order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
