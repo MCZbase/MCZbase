@@ -44,9 +44,10 @@ show error------>
 	<li style="color:red">COLLECTION_CDE</li>
 	<li style="color:red">OTHER_ID_TYPE ("catalog number" is OK)</li>
 	<li style="color:red">OTHER_ID_NUMBER</li>
-	<li style="color:red">PUBLICATION_TITLE</li>
+	<li>PUBLICATION_TITLE (You must include either a Publication Title OR a Publication ID)</li>
+	<li>PUBLICATION_ID</li>
 	<li style="color:red">CITED_SCIENTIFIC_NAME</li>
-	<li style="color:red">OCCURS_PAGE_NUMBER</li>
+	<li>OCCURS_PAGE_NUMBER</li>
 	<li style="color:red">TYPE_STATUS</li>
 	<li style="color:red">CITATION_REMARKS</li>
 </ul>
@@ -67,7 +68,7 @@ show error------>
   </cfform>
 
 </cfif>
-      
+
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 
@@ -117,7 +118,7 @@ show error------>
 		other_id_number is null or
 		collection_cde is null or
 		institution_acronym is null or
-		PUBLICATION_TITLE is null or
+		(PUBLICATION_TITLE is null and PUBLICATION_ID is null) or
 		CITED_SCIENTIFIC_NAME is null or
 		<!---OCCURS_PAGE_NUMBER is null or--->
 		TYPE_STATUS is null
@@ -170,10 +171,17 @@ show error------>
 				</cfquery>
 			</cfif>
 			<cfset noHTMLpubstr = REreplace(#publication_title#,"(<[/]{0,1}[i|b|sup|sub]>)", "", "ALL")>
-			<cfquery name="isPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select publication_id from publication where regexp_replace(publication_title, '(<[/]{0,1}[i|b|sup|sub]>)', '') = '#noHTMLpubstr#'
-				group by publication_id
-			</cfquery>
+				<cfif len(publication_id) is 0>
+				<cfquery name="isPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select publication_id from publication where regexp_replace(publication_title, '(<[/]{0,1}[i|b|sup|sub]>)', '') = '#noHTMLpubstr#'
+					group by publication_id
+				</cfquery>
+				<cfelse>
+				<cfquery name="isPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select publication_id from publication where publication_id = #data.publication_id#
+					group by publication_id
+				</cfquery>
+			</cfif>
 			<cfif #isPub.recordcount# is not 1>
 				<cfif len(#problem#) is 0>
 					<cfset problem = "publication not found; check markup">
@@ -181,10 +189,12 @@ show error------>
 					<cfset problem = "#problem#; publication not found; check markup">
 				</cfif>
 			<cfelse>
+				<cfif len(publication_id) is 0>
 				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation SET publication_id = #isPub.publication_id# where
 					key = #key#
 				</cfquery>
+				</cfif>
 			</cfif>
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select taxon_name_id from taxonomy where scientific_name = '#cited_scientific_name#'
@@ -307,7 +317,7 @@ show error------>
 		</cfloop>
 	</cfoutput>
 </cfif>
-  
+
 </div><!---end inside inline box--->
-                   
+
 <cfinclude template="/includes/_footer.cfm">
