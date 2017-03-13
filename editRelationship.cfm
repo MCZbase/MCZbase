@@ -1,5 +1,5 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
-    <div class="basic_box">
+    <div class="basic_box" style="width: 77em;">
 <script type="text/javascript">
 	var initVal="";
 	function chkVal() {
@@ -18,7 +18,8 @@
 		cataloged_item.collection_object_id,
 		biol_indiv_relationship,
 		thisSpecimenId.scientific_name scientific_name,
-		relatedSpecimenId.scientific_name CatItemSciName
+		relatedSpecimenId.scientific_name CatItemSciName,
+       biol_indiv_relations.biol_indiv_relation_remarks
 		<cfif len(session.CustomOtherIdentifier) gt 0>
 			,concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#')	CustomID
 		</cfif>
@@ -92,6 +93,7 @@ To split a lot or create a parasite, you can
 			<input type="hidden" name="action" value="deleReln">
 			<input type="hidden" name="origRelCollObjId" value="#getRelns.collection_object_id#">
 			<input type="hidden" name="origReln" value="#getRelns.biol_indiv_relationship#">
+            <input type="hidden" name="biol_indiv_relation_remarks" value="#getRelns.biol_indiv_relation_remarks#">
 			<tr>
 				<td>
 					#biol_indiv_relationship# #collection# #cat_num# 
@@ -104,7 +106,8 @@ To split a lot or create a parasite, you can
 						 	value="Delete" 
 							class="delBtn"
 							onclick="reln#i#.action.value='deleReln'; confirmDelete('reln#i#','this relationship');">
-					<a href="SpecimenDetail.cfm?collection_object_id=#getRelns.collection_object_id#" class="infoLink">
+					<span>#BIOL_INDIV_RELATION_REMARKS#</span>
+                    <a href="SpecimenDetail.cfm?collection_object_id=#getRelns.collection_object_id#" class="infoLink">
 						View Related Specimen
 					</a>
 					<cfif #biol_indiv_relationship# is "parent of" and (#scientific_name# neq #CatItemSciName#)>
@@ -148,17 +151,7 @@ To split a lot or create a parasite, you can
 					</cfloop>
 				</select>
 		  </td>
-			<td>
-				<font size="-2">Picked Cataloged Item:<br></font>
-				<input onchange="alert('c');"
-			 type="text"  
-			 id="catColl"
-				 	name="catColl" 
-					readonly="yes" 
-					size="40" 
-					style="background-color:transparent;border:none; "
-					>
-		  </td>
+		
 		  <td>
 		  		<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select collection from collection 
@@ -178,7 +171,7 @@ To split a lot or create a parasite, you can
 			select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
 		</cfquery>
 		<font size="-2">Other ID Type:<br></font>
-		<select name="other_id_type" size="1">
+		<select name="other_id_type" size="1" style="width: 210px;">
 			<option value="catalog_number">Catalog Number</option>
 			<cfloop query="ctOtherIdType">
 				<option value="#ctOtherIdType.other_id_type#">#ctOtherIdType.other_id_type#</option>
@@ -191,6 +184,11 @@ To split a lot or create a parasite, you can
 					onChange="findCatalogedItem('related_coll_object_id','catColl','newRelationship',other_id_type.value,this.value,collection.value); return false;"
 					onKeyPress="return noenter(event);">
 		  </td>
+    	
+        <td><font size="-2">Remarks:</font>
+            <input type="text" id="" name="biol_indiv_relation_remarks" size="50" style="background-color:white;">
+    
+    </td>
 		  <td id="saveNewCell" style="display:none;">
 		  	<font size="-2">&nbsp;<br></font>		
 			<input type="submit" id="theSubmit" 
@@ -198,6 +196,18 @@ To split a lot or create a parasite, you can
 						class="savBtn"
    						onmouseover="this.className='savBtn btnhov'" 
 						onmouseout="this.className='savBtn'"></td>
+    <td>
+				<font size="-2">Picked Cataloged Item:<br></font>
+				<input onchange="alert('c');"
+			 type="text"  
+			 id="catColl"
+				 	name="catColl" 
+					readonly="yes" 
+					size="46" 
+					style="background-color:transparent;border:none;"
+                   
+					>
+		  </td>
 		</form>
 	</tr>
 </table>
@@ -211,11 +221,13 @@ To split a lot or create a parasite, you can
 			INSERT INTO biol_indiv_relations (
 			 COLLECTION_OBJECT_ID,
 			 RELATED_COLL_OBJECT_ID,
-			 BIOL_INDIV_RELATIONSHIP )
+			 BIOL_INDIV_RELATIONSHIP,
+            BIOL_INDIV_RELATION_REMARKS)
 			VALUES (     
 			#COLLECTION_OBJECT_ID#,
 			 #relCollObjId#,
-			 '#biol_indiv_relationship#' )
+			 '#biol_indiv_relationship#',
+            '#BIOL_INDIV_RELATION_REMARKS#')
 		</cfquery>
 	</cfloop>
 	<cflocation url="editRelationship.cfm?collection_object_id=#collection_object_id#">
@@ -229,11 +241,13 @@ To split a lot or create a parasite, you can
 		SET
 		collection_object_id = #collection_object_id#,
 		RELATED_COLL_OBJECT_ID = #RELATED_COLL_OBJECT_ID#,
-			 BIOL_INDIV_RELATIONSHIP='#BIOL_INDIV_RELATIONSHIP#'
+			 BIOL_INDIV_RELATIONSHIP='#BIOL_INDIV_RELATIONSHIP#',
+             biol_indiv_relation_remarks='#BIOL_INDIV_RELATION_REMARKS#'
 			WHERE
 			collection_object_id = #collection_object_id# AND
-		RELATED_COLL_OBJECT_ID = #origRelCollObjId# AND
-			 BIOL_INDIV_RELATIONSHIP='#origReln#'
+		    RELATED_COLL_OBJECT_ID = #origRelCollObjId# AND
+			BIOL_INDIV_RELATIONSHIP='#origReln#' AND
+            
 	</cfquery>
 	 <cflocation url="editRelationship.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>

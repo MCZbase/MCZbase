@@ -29,8 +29,11 @@
 	}
 </script>
 <cfoutput>
+    <div style="width: 100%;">
+        <div style="width: 54em; margin: 0 auto;padding-bottom: 3em;">
 <cfset title="Agent Duplicates">
 <cfif action is "nothing">
+    <h2>Cleaning up agents</h2>
 	<p>
 		The following links perform queries that attempt to locate duplicate agents. Not all results will be duplicates
 		(in the sense of one individual with multiple agent_ids). There really are two people named Robert Rausch, for example. 
@@ -40,26 +43,23 @@
 	<p>
 		"Whodunit" links, when provided, simply search the SQL logs 
 		(Reports/Audit SQL) for the relevant term. Log data is incomplete, and the suggested search
-		may not make sense.
-	</p>	
-	<p>
-		It may also be possible to determine who created duplicates by examining Agent Activity. Please do so; they need remedial training.
+		may not make sense.	It may also be possible to determine who created duplicates by examining Agent Activity. Please do so; they need remedial training.
 	</p>
 	<p>Each agent will appear only one time in the resulting table, so given agents:</p>
-	<ul>
+	<ul style="margin-left: 2.5em;">
 		<li>Bob Jones (1)</li>
 		<li>Bob Jones (2)</li>
 		<li>Bob Jones (3)</li>
 	</ul>
-	you will see only
-	<table border>
+    <p style="margin-top: 1em;">you will see only:</p>
+	<table border style="margin-left: 2.5em;">
 		<tr>
 			<td>Bob Jones (1)</td>
 			<td>Bob Jones (2)</td>
 		</tr>
 	</table>
 	<p>rather than all possibilities, e.g.,</p>
-	<table border>
+	<table border style="margin-left: 2.5em;">
 		<tr>
 			<td>Bob Jones (1)</td>
 			<td>Bob Jones (2)</td>
@@ -80,8 +80,8 @@
 	<p>
 		Merge agents and return to this form to see agents excluded by the "appears only once" rule.
 	</p>
-	<p>Format is:</p>
-	<blockquote>
+	<p style="font-weight: bold;">The format on the duplicate agent pages is:</p>
+	<blockquote style="font-weight:bold;">
 		<div>
 			preferred_name
 			<span style="font-size:small"> (agent_id)</span>
@@ -101,35 +101,32 @@
 	</p>
 	<p>
 		Some guidelines, which are only guidelines and may be mutually exclusive or self-defeating:
-		<ul>
+		<ul style="margin-left: 2.5em;">
 			<li>Flag "badDupOf" for the agent with the least activity. Agents who have addresses, produce publications,
 				have relationships, etc. are difficult to deal with. Keep them if you can.
-			</li>
-			<li>
-				Don't even try to use this form if both duplicates have activity. Clean those up manually. Agent Actiity
-				is a good place to start.
-			</li>
+            </li>
 			<li>
 				Don't keep superflous junk. Given two agents representing the same person, both with no activity:
-				<ul>
+				<ul style="margin-left: 4em;">
 					<li>Bob Jones (preferred)</li>
 				</ul>
-				and
-				<ul>
+				<p style="margin-left:1.5em;">and</p>
+				<ul style="margin-left: 4em;">
 					<li>Bob Jones (preferred)</li>
 					<li>Bob Jones (full)</li>
-					<li>Jones, B. (last plus initials)</li>
-					<li>Jones, B. (AKA)</li>
+					<li>Jones, B. (author)</li>
+					<li>Bobby Jones (a.k.a.)</li>
 				</ul>
-				keep the simple one and ditch the more complex variant.
+				keep the more complex variant. Someone may have filled it out because they are going to use it.
 			</li>
 		</ul>
 	</p>
 	
 	
-	
-	<a href="dupAgent.cfm?action=fullDup">Find Agents that share a name</a>
-	<br><a href="dupAgent.cfm?action=shareFL">Find Person agents that share first and last name</a>
+	<div style="margin:2em 0;font-weight:bold;">
+    <p><a href="dupAgent.cfm?action=fullDup">Find Agents that share a name</a></p>
+    <p><a href="dupAgent.cfm?action=shareFL">Find Person agents that share first and last name</a></p>
+    </div>
 </cfif>
 <cfif not isdefined("start")>
 	<cfset start=1>
@@ -196,7 +193,8 @@
 			) a where rownum <= #stop#
 		) where rnum >= #start#
 	</cfquery>
-	#start# to #stop# Agents that fully share a namestring.
+        <h2>Duplicate Agents?</h2>
+	#start# to #stop# Agents that fully share a namestring (in orange).
 </cfif>
 <cfif isdefined("d")>
 	<cfif start gt 1>
@@ -215,7 +213,7 @@
 			<cfset usedAgentIdList=listappend(usedAgentIdList,id1)>
 			<cfset usedAgentIdList=listappend(usedAgentIdList,id2)>
 			<tr>
-				<td valign="top">
+				<td valign="bottom" style="width: 415px;height: 100px;padding-top:.4em;">
 					<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
 							agent_name,
@@ -242,15 +240,14 @@
 						agent_name != '#name1#'
 						order by agent_name
 					</cfquery>
-					<div>
-						#p1.agent_name#
-						<span style="font-size:small"> (#d.id1#)</span>
+					<div style="padding-left: 1.5em;font-weight: 562;">
+						#p1.agent_name# <span style="font-size: small;">(agent id: #d.id1#)</span>
 					</div>
-					<div style="color:red;">
-						#d.name1#
+					<div style="color:orange;padding-left: 1.5em;">
+						= #d.name1# 
 					</div>
 					<cfloop query="np1">
-						<div>
+						<div style="padding-left: 1.5em;">
 							#agent_name# (#agent_name_type#)
 						</div>
 					</cfloop>
@@ -263,7 +260,7 @@
 							project_agent.agent_name_id IN (#valuelist(one.agent_name_id)#)
 					</cfquery>
 					<cfif project_agent.c gt 0>
-						<div style="color:red;">project agent</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! project agent</div>
 					</cfif>
 					<cfquery name="publication_author_name" datasource="uam_god">
 						select 
@@ -274,7 +271,7 @@
 							publication_author_name.agent_name_id IN (#valuelist(one.agent_name_id)#)
 					</cfquery>
 					<cfif publication_author_name.c gt 0>
-						<div style="color:red;">publication agent</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! publication agent</div>
 					</cfif>
 					<cfquery name="project_sponsor" datasource="uam_god">
 						select 
@@ -285,19 +282,19 @@
 							 project_sponsor.agent_name_id IN (#valuelist(one.agent_name_id)#)
 					</cfquery>
 					<cfif project_sponsor.c gt 0>
-						<div style="color:red;">proj sponsor agent</div>
+						<div style="color:red;padding-left: 1.5em;">proj sponsor agent</div>
 					</cfif>
 					<cfquery name="electronic_address" datasource="uam_god">
 						select count(*) c from electronic_address where agent_id=#id1#
 					</cfquery>
 					<cfif electronic_address.c gt 0>
-						<div style="color:red;">electronic_address</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! electronic address</div>
 					</cfif>
 					<cfquery name="addr" datasource="uam_god">
 						select count(*) c from addr where agent_id=#id1#
 					</cfquery>
 					<cfif addr.c gt 0>
-						<div style="color:red;">addr</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! address</div>
 					</cfif>
 					<cfquery name="shipment" datasource="uam_god">
 						select 
@@ -308,7 +305,7 @@
 							PACKED_BY_AGENT_ID=#id1#		
 					</cfquery>
 					<cfif shipment.c gt 0>
-						<div style="color:red;">shipment</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! shipment</div>
 					</cfif>
 					<cfquery name="ship_to" datasource="uam_god">
 						select 
@@ -321,7 +318,7 @@
 							addr.agent_id=#id1#
 					</cfquery>
 					<cfif ship_to.c gt 0>
-						<div style="color:red;">ship_to</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! ship to</div>
 					</cfif>
 					<cfquery name="ship_from" datasource="uam_god">
 						select 
@@ -334,7 +331,7 @@
 							addr.agent_id=#id1#
 					</cfquery>
 					<cfif ship_from.c gt 0>
-						<div style="color:red;">ship_from</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! ship_from</div>
 					</cfif>				
 					<cfquery name="agent_relations" datasource="uam_god">
 						select count(*) c 
@@ -347,7 +344,7 @@
 						agent_relationship != 'bad duplicate of'
 					</cfquery>
 					<cfif agent_relations.c gt 0>
-						<div style="color:red;">agent_relations</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! agent relationship</div>
 					</cfif>
 					<cfquery name="coll" datasource="uam_god">
 						select 
@@ -377,18 +374,22 @@
 								collector.agent_id=#id1#
 						</cfquery>
 						<div style="font-size:smaller;">
-							#valuelist(coll.collection)#
-							<br>#dates.edate#<cfif dates.edate is not dates.ldate>-#dates.ldate#</cfif> 
+                            <p style="padding-left:1.5em;padding-bottom: .12em;margin-bottom:0;"><span style="font-style:italic;">Collection(s):</span> #valuelist(coll.collection)#</p>
+                            <p style="padding-left:1.5em;padding-bottom: .25em;padding-top:0;"><span style="font-style:italic;">Specimen date(s):</span> #dates.edate#<cfif dates.edate is not dates.ldate>-#dates.ldate#</cfif> </p>
 						<div>
 					</cfif>
-					<div>
-						[<a class="likeLink" href="/agents.cfm?agent_id=#id1#">Edit</a>]
-						[<a class="likeLink" href="/Admin/ActivityLog.cfm?action=search&object=agent_name&sql=#name1#">Whodunit</a>]
-						[<a class="likeLink" href="/info/agentActivity.cfm?agent_id=#id1#">Activity</a>]
-						[<span id="fg_#id1#" class="likeLink" onclick="flagDupAgent(#id1#,#id2#)">IsBadDupOf--></span>]
+                           
+					<div style="margin-top: .5em;">
+						<ul id="navbar"><li>
+                            <a class="likeLink" href="/agents.cfm?agent_id=#id1#" target="_blank">Edit</a></li>
+                           <!--- <li><a class="likeLink" href="/Admin/ActivityLog.cfm?action=search&object=agent_name&sql=#name1#">Whodunit</a></li>--->
+                            <li><a class="likeLink" href="/info/agentActivity.cfm?agent_id=#id1#" target="_blank">Activity</a></li>
+                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                            <li><span id="fg_#id1#" class="likeLink" onclick="flagDupAgent(#id1#,#id2#)">IsBadDupOf &rarr;</span></li>
+                        </ul>
 					</div>
 				</td>
-				<td valign="top">
+				<td valign="bottom" style="width: 415px;height: 100px;padding-top:.4em;">
 					<cfquery name="two" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
 							agent_name,
@@ -416,15 +417,15 @@
 						agent_name != '#name2#'
 						order by agent_name
 					</cfquery>
-					<div>
+					<div style="padding-left: 1.5em;">
 						#p2.agent_name#
-						<span style="font-size:small"> (#d.id2#)</span>
+						<span style="font-size:small"> (agent id: #d.id2#)</span>
 					</div>
-					<div style="color:red;">
-						#d.name2#
+					<div style="color:orange;padding-left: 1.5em;">
+						= #d.name2# 
 					</div>
 					<cfloop query="np2">
-						<div>
+						<div style="padding-left: 1.5em;">
 							#agent_name# (#agent_name_type#)
 						</div>
 					</cfloop>
@@ -437,7 +438,7 @@
 							project_agent.agent_name_id IN (#valuelist(two.agent_name_id)#)
 					</cfquery>
 					<cfif project_agent.c gt 0>
-						<div style="color:red;">project agent</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! project agent</div>
 					</cfif>
 					<cfquery name="publication_author_name" datasource="uam_god">
 						select 
@@ -448,7 +449,7 @@
 							publication_author_name.agent_name_id IN (#valuelist(two.agent_name_id)#)
 					</cfquery>
 					<cfif publication_author_name.c gt 0>
-						<div style="color:red;">publication agent</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! publication agent</div>
 					</cfif>
 					<cfquery name="project_sponsor" datasource="uam_god">
 						select 
@@ -459,19 +460,19 @@
 							 project_sponsor.agent_name_id IN (#valuelist(two.agent_name_id)#)
 					</cfquery>
 					<cfif project_sponsor.c gt 0>
-						<div style="color:red;">proj sponsor agent</div>
+						<div style="color:red;padding-left:1.5em;">Attn! proj sponsor agent</div>
 					</cfif>
 					<cfquery name="electronic_address" datasource="uam_god">
 						select count(*) c from electronic_address where agent_id=#id2#
 					</cfquery>
 					<cfif electronic_address.c gt 0>
-						<div style="color:red;">electronic_address</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! electronic address</div>
 					</cfif>
 					<cfquery name="addr" datasource="uam_god">
 						select count(*) c from addr where agent_id=#id2#
 					</cfquery>
 					<cfif addr.c gt 0>
-						<div style="color:red;">addr</div>
+                        <div style="color:red;padding-left: 1.5em;">Attn! address</div>
 					</cfif>
 					<cfquery name="shipment" datasource="uam_god">
 						select 
@@ -482,7 +483,7 @@
 							PACKED_BY_AGENT_ID=#id2#		
 					</cfquery>
 					<cfif shipment.c gt 0>
-						<div style="color:red;">shipment</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! shipment</div>
 					</cfif>
 					<cfquery name="ship_to" datasource="uam_god">
 						select 
@@ -495,7 +496,7 @@
 							addr.agent_id=#id2#
 					</cfquery>
 					<cfif ship_to.c gt 0>
-						<div style="color:red;">ship_to</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! ship to</div>
 					</cfif>
 					<cfquery name="ship_from" datasource="uam_god">
 						select 
@@ -508,7 +509,7 @@
 							addr.agent_id=#id2#
 					</cfquery>
 					<cfif ship_from.c gt 0>
-						<div style="color:red;">ship_from</div>
+						<div style="color:red;">! ship from</div>
 					</cfif>
 					<cfquery name="agent_relations" datasource="uam_god">
 						select count(*) c 
@@ -519,9 +520,10 @@
 							RELATED_AGENT_ID=#id2#
 						) and
 						agent_relationship != 'bad duplicate of'
+                        
 					</cfquery>
 					<cfif agent_relations.c gt 0>
-						<div style="color:red;">agent_relations</div>
+						<div style="color:red;padding-left: 1.5em;">Attn! agent relationship</div>
 					</cfif>
 					<cfquery name="coll" datasource="uam_god">
 						select 
@@ -551,16 +553,24 @@
 								collector.agent_id=#id2#
 						</cfquery>
 						<div style="font-size:smaller;">
-							#valuelist(coll.collection)#
-							<br>#dates.edate#<cfif dates.edate is not dates.ldate>-#dates.ldate#</cfif> 
+                            <p style="padding-left:1.5em;padding-bottom: .12em;margin-bottom:0;"><span style="font-style:italic;">Collection(s):</span> #valuelist(coll.collection)# </p>
+                            <p style="padding-left:1.5em;padding-bottom: .25em;padding-top:0;"><span style="font-style:italic;">Specimen date(s):</span> #dates.edate#<cfif dates.edate is not dates.ldate>-#dates.ldate#</cfif> </p>
 						<div>
 					</cfif>
 					
-					<div>
-						[<a class="likeLink" href="/agents.cfm?agent_id=#id2#">Edit</a>]
-						[<a class="likeLink" href="/Admin/ActivityLog.cfm?action=search&object=agent_name&sql=#name2#">Whodunit</a>]	
-						[<a class="likeLink" href="/info/agentActivity.cfm?agent_id=#id2#">Activity</a>]
-						[<span id="fg_#id2#" class="likeLink" onclick="flagDupAgent(#id2#,#id1#)"><---IsBadDupOf</span>]	
+					<div style="margin-top: .5em;">
+                        <ul id="navbar">
+                        <li><span id="fg_#id2#" class="likeLink" onclick="flagDupAgent(#id2#,#id1#)"> &larr; IsBadDupOf</span></li>
+                            <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                        <li><a class="likeLink" href="/agents.cfm?agent_id=#id2#" target="_blank">Edit</a></li>
+                       <!--- <li><a class="likeLink" href="/Admin/ActivityLog.cfm?action=search&object=agent_name&sql=#name2#">Whodunit</a></li>--->
+                        <li><a class="likeLink" href="/info/agentActivity.cfm?agent_id=#id2#" target="_blank">Activity</a></li>
+                       
+                        </ul>
+						
+						
+						
+						
 					</div>
 				</td>
 			</tr>
@@ -568,5 +578,6 @@
 	</cfloop>
 	</table>
 </cfif>
+                </div></div>
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">
