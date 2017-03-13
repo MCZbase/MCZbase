@@ -249,12 +249,13 @@
 		attributes.collection_object_id = #collection_object_id#
 </cfquery>
 <cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-SELECT distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num FROM ( 
+SELECT distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM ( 
 SELECT
      rel.biol_indiv_relationship as biol_indiv_relationship,  
      collection as related_collection,
      rel.related_coll_object_id as related_coll_object_id, 
-     rcat.cat_num as related_cat_num
+     rcat.cat_num as related_cat_num,
+    rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 FROM
      biol_indiv_relations rel 
      left join cataloged_item rcat 
@@ -270,7 +271,8 @@ SELECT
      ctrel.inverse_relation as biol_indiv_relationship,
      collection as related_collection,
      irel.collection_object_id as related_coll_object_id,
-     rcat.cat_num as related_cat_num
+     rcat.cat_num as related_cat_num,
+    irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 FROM
      biol_indiv_relations irel
      left join ctbiol_relations ctrel 
@@ -833,19 +835,22 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 <!------------------------------------ relationships ---------------------------------------------->
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<div class="detailCell">
-					<div class="detailLabel">Relationships
+					<div class="detailLabel" style="padding-bottom: .25em;">Relationships
 						<cfif oneOfUs is 1>
 							<span class="detailEditCell" onclick="window.parent.loadEditApp('editRelationship');">Edit</span>
 						</cfif>
 					</div>
 					<cfloop query="relns">
-						<div class="detailBlock">
+						<div class="detailBlock" style="margin-top: .5em; padding-top: 0;margin-bottom: .5em; padding-bottom:0;">
 							<span class="detailData">
 								<span class="innerDetailLabel">#biol_indiv_relationship#</span>
 								<a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top">
 									#related_collection# #related_cat_num#
 								</a>
-							</span>
+                                <cfif len(relns.biol_indiv_relation_remarks) gt 0>
+                                    <span> (Remark: #biol_indiv_relation_remarks#)</span>
+                                </cfif>
+							</span>                            
 						</div>
 					</cfloop>
 					<cfif len(relns.biol_indiv_relationship) gt 0>
