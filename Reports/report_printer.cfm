@@ -41,11 +41,11 @@
 	</cfquery>
 	<!-- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for -->
 	<cfquery name="usersColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select reportprefs from CF_USERS where username='#session.username#
+        select reportprefs from CF_USERS where username='#session.username#'
 	</cfquery>
 	<cfset collList = []>
 	<cfloop query="usersColls">
-		<cfset collList = listToArray(collList,"#reportprefs#") >
+		<cfset collList = listToArray("#reportprefs#") >
 	</cfloop>
     <!-- Add the All code so that reports in the form __All will be shown to everyone.  -->
 	<cfset added = ArrayPrepend(collList,"All") >
