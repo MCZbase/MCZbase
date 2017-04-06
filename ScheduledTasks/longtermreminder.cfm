@@ -56,16 +56,16 @@
 				loan_type in ('returnable', 'consumable') and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id(+)
-				and loan.transaction_id not in (select transaction_id from trans_agent where agent_id = 101150 and trans_agent_role = 'in-house contact')
+				<!---and loan.transaction_id not in (select transaction_id from trans_agent where agent_id in (101150,16733) and trans_agent_role = 'in-house contact')--->
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
-			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name
+			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' and agent_id not in (102368,100885,100871,100884,100877) order by agent_name
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" <!---startrow=1 endrow=300--->>
+<cfloop query="agent" startrow=1 endrow=88>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2016-06-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2017-01-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -356,12 +356,12 @@
 				<br>
 				------
 				<br><br>
-				<cfif specialmail NEQ "noemails">
-					<cfquery name="upLogTable" datasource="uam_god">
-						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-						values(#agent.agent_id#, SYSDATE, #transaction_id#, 'L', '#toaddresses#')
-					</cfquery>
-				</cfif>
+
+				<cfquery name="upLogTable" datasource="uam_god">
+					insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
+					values(#agent.agent_id#, SYSDATE, #transaction_id#, 'L', <cfif specialmail NEQ "noemails">'#toaddresses#'<cfelse>'noemails'</cfif>)
+				</cfquery>
+
 				</cfloop>
 				Approved Borrower: #receivedby.agent_name#
 				<!---cfquery name="address" datasource="uam_god">
