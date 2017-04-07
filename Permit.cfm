@@ -177,8 +177,8 @@ where
 <cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	#preservesinglequotes(thisSql)#
 </cfquery>
-
-<table border>
+<div style="padding: 2em 0 8em 0;">
+    <table border>
 	<tr>
 	<form name="reorder" method="post" action="Permit.cfm">
 		<input type="hidden" name="sql" value="#sql#">
@@ -380,7 +380,7 @@ where
 	</tr>
 
 
-
+        </div>
 
 </cfoutput>
 </table>
