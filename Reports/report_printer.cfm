@@ -39,15 +39,16 @@
 	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	   select * from cf_report_sql where report_name not like 'mcz_loan_%' order by report_name
 	</cfquery>
-	<!-- Obtain a list of collection codes that this user has access to in the VPD from the VPD_COLLECTION_CDE table -->
+	<!-- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for -->
 	<cfquery name="usersColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	    select collection_cde from VPD_COLLECTION_CDE
+        select reportprefs from CF_USERS where username='#session.username#'
 	</cfquery>
 	<cfset collList = []>
-	<cfset added = ArrayAppend(collList,"All") >
 	<cfloop query="usersColls">
-		<cfset added = ArrayAppend(collList,"#collection_cde#") >
+		<cfset collList = listToArray("#reportprefs#") >
 	</cfloop>
+    <!-- Add the All code so that reports in the form __All will be shown to everyone.  -->
+	<cfset added = ArrayPrepend(collList,"All") >
 
 
 	<form name="print" id="print" method="post" action="report_printer.cfm">
