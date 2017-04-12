@@ -41,7 +41,7 @@
 	<form name="editPub" method="post" action="Publication.cfm">
  
         <div class="cellDiv">
-      <p style="margin:0; padding:0;">The Basics:</p>
+            <p style="margin:0; padding:0;">The Basics <span style="font-size: 14px;">(Publication ID #pub.publication_id#)</span>:</p>
       
 		<input type="hidden" name="publication_id" value="#pub.publication_id#">
 		<input type="hidden" name="action" value="saveEdit">

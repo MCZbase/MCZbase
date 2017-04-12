@@ -487,7 +487,8 @@
 	</cfquery>
 	<cfloop query="pubs">
 		<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-			<p class="indent">
+            <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><p style="margin: .25em 0;padding-bottom: 0;">Publication ID: #publication_id#</p></cfif>
+            <p class="indent" style="margin-top: .5em;">
 				#formatted_publication#
 			</p>
 			<ul>
