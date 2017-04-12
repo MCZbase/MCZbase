@@ -324,7 +324,7 @@
         </select>
         <a class="infoLink" onClick="popupDefine()">Define</a><br/>
         <ul class="lisc">
-            <p>Notes:</p>
+          Notes:
           <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted</li>
           <li>remove media immediately if owner requests it</li>
           <li>contact <a href="mailto:Mcz_collections_operations@oeb.harvard.edu?subject=licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>

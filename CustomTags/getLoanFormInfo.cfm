@@ -176,7 +176,7 @@ select
 				'deg. min. sec.', to_char(long_deg) || '&deg; ' || to_char(long_min) || '&acute; ' || to_char(long_sec) || '&acute;&acute; ' || long_dir,
 				'degrees dec. minutes', to_char(long_deg) || '&deg; ' || to_char(dec_long_min) || '&acute; ' || long_dir
 			)  VerbatimLongitude,
-		HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors
+		concatColl(cataloged_item.collection_object_id) as collectors
 	 from 
 		loan_item, 
 		loan,
