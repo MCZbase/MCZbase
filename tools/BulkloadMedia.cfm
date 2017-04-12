@@ -162,9 +162,9 @@ sho err
            <cfset fileContent=replace(fileContent,"'","''","all")>
            <cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
            <cfdump var=#arrResult#>
-        
+
            <cfset numberOfColumns = ArrayLen(arrResult[1])>
-        
+
            <cfset colNames="">
            <cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
               <cfset colVals="">
@@ -194,7 +194,7 @@ sho err
                  <cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                     insert into cf_temp_media (#colNames#) values (#preservesinglequotes(colVals)#)
                  </cfquery>
-        
+
               </cfif>
            </cfloop>
            </cfoutput>
@@ -412,12 +412,12 @@ sho err
 	<cfif len(c.MEDIA_TYPE) is 0>
 		<cfset rec_stat=listappend(rec_stat,'MEDIA_TYPE #MEDIA_TYPE# is invalid',";")>
 	</cfif>
-	<cfhttp url="#media_uri#" charset="utf-8" method="get" />
+	<cfhttp url="#media_uri#" charset="utf-8" timeout=5 method="get" />
 	<cfif left(cfhttp.statuscode,3) is not "200">
 		<cfset rec_stat=listappend(rec_stat,'#media_uri# is invalid',";")>
 	</cfif>
 	<cfif len(preview_uri) gt 0>
-		<cfhttp url="#preview_uri#" charset="utf-8" method="get" />
+		<cfhttp url="#preview_uri#" charset="utf-8" timeout=5 method="get" />
 		<cfif left(cfhttp.statuscode,3) is not "200">
 			<cfset rec_stat=listappend(rec_stat,'#preview_uri# is invalid',";")>
 		</cfif>
