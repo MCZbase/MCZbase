@@ -144,7 +144,7 @@
       </cfif>
     </li>
     <li class="sciname">
-      <cfset sciname = '#replace(Scientific_Name," or ","</i>&nbsp;or&nbsp;<i>")#'>
+        <cfset sciname = '#replace(Scientific_Name," or ","<span style='font-style:normmal;'>&nbsp;or&nbsp;</span>")#'>
     #sciname#  <!---&nbsp; &nbsp;     <cfif isDefined("cited_as") and len(cited_as) gt 0>
         <span style="font-size: 15px;">#typeName#</span>
       </cfif>--->
