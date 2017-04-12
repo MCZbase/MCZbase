@@ -252,7 +252,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		select media.media_id, preview_uri, media.media_uri,
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 			   media.mime_type, media.media_type,
-			   ctmedia_license.display as license, ctmedia_license.uri as license_uri,
+			   CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license, 
+                           ctmedia_license.uri as license_uri,
+                           mczbase.get_media_credit(media.media_id) as credit,
             		   MCZBASE.is_media_encumbered(media.media_id) as hideMedia
         from media_relations
              left join media on media_relations.media_id = media.media_id
@@ -283,6 +285,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
            <cfset labellist="<ul>">
            <cfset labellist = "#labellist#<li>media: #media_type# (#mime_type#)</li>">
            <!---<cfset labellist = "#labellist#<li>license: <a href='#license_uri#'>#license#</a></li>">--->
+           <cfset labellist = "#labellist#<li>credit: #credit#</li>" >
            <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                        select media_label, label_value
                        from media_labels
