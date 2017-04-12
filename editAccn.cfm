@@ -447,10 +447,10 @@
 				permit.issued_to_agent_id = issuedTo.agent_id AND
 				permit_trans.transaction_id = #accnData.transaction_id#
 		</cfquery>
-		<div style="float:left;width:55%;">
+		<div style="float:left;width:95%;">
 			<br><strong>Permits:</strong>  
 			<cfloop query="getPermits">
-				<p><strong>Permit ## #permit_Num# (#permit_Type#)</strong> issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_date,"yyyy-mm-dd")#. <cfif len(#renewed_date#) gt 0> (renewed #renewed_date#)</cfif>Expires #dateformat(exp_date,"yyyy-mm-dd")#  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> 
+				<p><strong>Permit ## #permit_Num# (#permit_Type#)</strong> issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_date,"yyyy-mm-dd")#. <cfif len(#renewed_date#) gt 0> (renewed #renewed_date#)</cfif> Expires #dateformat(exp_date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> 
 				<form name="killPerm#currentRow#" method="post" action="editAccn.cfm">
 					<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
 					<input type="hidden" name="action" value="delePermit">
