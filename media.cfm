@@ -37,7 +37,7 @@
 	select mime_type from ctmime_type order by mime_type
 </cfquery>
 <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_license_id,display media_license from ctmedia_license order by display
+	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
 <!----------------------------------------------------------------------------------------->
 
@@ -316,18 +316,18 @@
       </select>
       <div class="license_box">
         <label for="media_license_id">License</label>
-        <select name="media_license_id" id="media_license_id">
+        <select name="media_license_id" id="media_license_id" style="width:300px;">
           <option value="">Research copyright &amp; then choose...</option>
           <cfloop query="ctmedia_license">
             <option value="#media_license_id#">#media_license#</option>
           </cfloop>
         </select>
-        <a class="infoLink" onClick="popupDefine()">Define</a><br/>
+        <a class="infoLink" onClick="popupDefine()">Define Licenses</a><br/>
         <ul class="lisc">
             <p>Notes:</p>
           <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted</li>
           <li>remove media immediately if owner requests it</li>
-          <li>contact <a href="mailto:Mcz_collections_operations@oeb.harvard.edu?subject=licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+          <li>contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
         </ul>
       </div>
       <label for="mask_media_fg">Media Record Visibility</label>
