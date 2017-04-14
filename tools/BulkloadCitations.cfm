@@ -36,7 +36,7 @@ show error------>
     <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none; margin: 1em 0;">
 		<label for="t">Copy the following code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_TITLE,PUBLICATION_ID,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS</textarea>
+		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_TITLE,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS</textarea>
 	</div>
 
 <ul class="geol_hier">
@@ -44,7 +44,7 @@ show error------>
 	<li style="color:red">COLLECTION_CDE</li>
 	<li style="color:red">OTHER_ID_TYPE ("catalog number" is OK)</li>
 	<li style="color:red">OTHER_ID_NUMBER</li>
-	<li>PUBLICATION_TITLE</li>
+	<li>PUBLICATION_TITLE (You must include either a Publication Title OR a Publication ID)</li>
 	<li>PUBLICATION_ID</li>
 	<li style="color:red">CITED_SCIENTIFIC_NAME</li>
 	<li>OCCURS_PAGE_NUMBER</li>

@@ -5,27 +5,27 @@
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 
-<!---  Skin UI as Loan or Gift, either based on request, or for editing existing data the loan_type.  ---> 
+<!---  Skin UI as Loan or Gift, either based on request, or for editing existing data the loan_type.  --->
 <cfif not isdefined("scope")>
     <!--- Default scope is Loan --->
     <cfset scope = 'Loan'>
-<cfelse>  
+<cfelse>
    <!--- Only allowed scopes are Loan and Gift.  --->
     <cfif scope neq 'Gift'><cfset scope = 'Loan'></cfif>
 </cfif>
 <cfif action is "editLoan">
-     <!--- for existing records, look up the scope from the record.  ---> 
+     <!--- for existing records, look up the scope from the record.  --->
 	<cfquery name="loanScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              select scope from loan left join ctloan_type on loan.loan_type = ctloan_type.loan_type where loan.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
         </cfquery>
         <cfset scope = loanScope.scope >
 </cfif>
 
-<!--- Loan types relevant to the current scope ---> 
+<!--- Loan types relevant to the current scope --->
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_type from ctloan_type where scope = <cfqueryparam value=#scope# CFSQLType="CF_SQL_VARCHAR" > order by ordinal asc, loan_type
 </cfquery>
-<!--- All loan types for loan and gift query ---> 
+<!--- All loan types for loan and gift query --->
 <cfquery name="ctAllLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_type from ctloan_type order by ordinal asc, loan_type
 </cfquery>
@@ -43,22 +43,22 @@
 	select * from collection order by collection
 </cfquery>
 <cfscript>
-   function isAllowedLoanStateChange(oldState, newState) { 
+   function isAllowedLoanStateChange(oldState, newState) {
       if (oldState eq newState) return True;
       if (newState.length() eq 0) return False;
 
-      if (left(oldState,4) eq 'open' and newState eq 'closed') { return True; } 
+      if (left(oldState,4) eq 'open' and newState eq 'closed') { return True; }
 
-      if (oldState eq 'in process' and newState eq 'open') { return True; } 
-      if (oldState eq 'in process' and newState eq 'open in-house') { return True; } 
+      if (oldState eq 'in process' and newState eq 'open') { return True; }
+      if (oldState eq 'in process' and newState eq 'open in-house') { return True; }
 
-      if (oldState eq 'open' and newState eq 'open partially returned') { return True; } 
-      if (oldState eq 'open' and newState eq 'open under-review') { return True; } 
+      if (oldState eq 'open' and newState eq 'open partially returned') { return True; }
+      if (oldState eq 'open' and newState eq 'open under-review') { return True; }
 
-      if (oldState eq 'open in-house' and newState eq 'open partially returned') { return True; } 
-      if (oldState eq 'open in-house' and newState eq 'open under-review') { return True; } 
+      if (oldState eq 'open in-house' and newState eq 'open partially returned') { return True; }
+      if (oldState eq 'open in-house' and newState eq 'open under-review') { return True; }
 
-      if (oldState eq 'open partially returned' and newState eq 'open under-review') { return True; } 
+      if (oldState eq 'open partially returned' and newState eq 'open under-review') { return True; }
 
       return False;
    }
@@ -209,13 +209,13 @@
 						   });
     						   // on page load, bind a function to loan_type to hide/show the insurance section.
 						   $("##loan_type").change( function () {
-           						if ($("##loan_type").val() == "exhibition-master") { 
+           						if ($("##loan_type").val() == "exhibition-master") {
                                                             $("##insurance_section").show();
                           				    $("##return_due_date").datepicker('option','disabled',false);
-							} else if ($("##loan_type").val() == "exhibition-subloan") { 
+							} else if ($("##loan_type").val() == "exhibition-subloan") {
 							    $("##insurance_section").hide();
                           				    $("##return_due_date").datepicker('option','disabled',true);
-                                                        } else { 
+                                                        } else {
                                                             $("##insurance_section").hide();
                           				    $("##return_due_date").datepicker('option','disabled',false);
                                                         }
@@ -248,7 +248,7 @@
 						<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#">
 					</td>
 					<td>
-                                             <cfif scope eq 'Loan'> 
+                                             <cfif scope eq 'Loan'>
 						<label for="return_due_date">Return Due Date</label>
 						<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" >
                                              <cfelse>
@@ -400,6 +400,7 @@
 			nature_of_material,
 			trans_remarks,
 			return_due_date,
+			to_char(closed_date, 'YYYY-MM-DD') closed_date,
 			trans.collection_id,
 			collection.collection,
 			concattransagent(trans.transaction_id,'entered by') enteredby,
@@ -431,17 +432,17 @@
 			trans_agent_role,
 			agent_name
 	</cfquery>
- 	<!--- Parent exhibition-master loan of the current exhibition-subloan loan, if applicable---> 
+ 	<!--- Parent exhibition-master loan of the current exhibition-subloan loan, if applicable--->
 	<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              select p.loan_number, p.transaction_id from loan c left join loan_relations lr on c.transaction_id = lr.related_transaction_id left join loan p on lr.transaction_id = p.transaction_id where lr.relation_type = 'Subloan' and c.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
         </cfquery>
- 	<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) ---> 
+ 	<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) --->
 	<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              select c.loan_number, c.transaction_id from loan p left join loan_relations lr on p.transaction_id = lr.transaction_id left join loan c on lr.related_transaction_id = c.transaction_id where lr.relation_type = 'Subloan' and p.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >  order by c.loan_number
         </cfquery>
   	<!---  Loans which are available to be used as subloans for an exhibition master loan (exhibition-subloans that are not allready children) --->
 	<cfquery name="potentialChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-             select pc.loan_number, pc.transaction_id from loan pc left join loan_relations lr on pc.transaction_id = lr.related_transaction_id 
+             select pc.loan_number, pc.transaction_id from loan pc left join loan_relations lr on pc.transaction_id = lr.related_transaction_id
              where pc.loan_type = 'exhibition-subloan' and (lr.transaction_id is null or lr.relation_type <> 'Subloan')
              order by pc.loan_number
         </cfquery>
@@ -487,17 +488,17 @@
 			});
 			// on page load, bind a function to loan_type to hide/show the insurance section.
 			$("##loan_type").change( function () {
-				if ($("##loan_type").val() == "exhibition-master") { 
+				if ($("##loan_type").val() == "exhibition-master") {
 					$("##insurance_section").show();
 					$("##subloan_section").show();
 					$("##parentloan_section").hide();
                           		$("##return_due_date").datepicker('option','disabled',false);
-				} else if ($("##loan_type").val() == "exhibition-subloan") { 
+				} else if ($("##loan_type").val() == "exhibition-subloan") {
 					$("##insurance_section").hide();
 					$("##subloan_section").hide();
 					$("##parentloan_section").show();
                           		$("##return_due_date").datepicker('option','disabled',true);
-				} else { 
+				} else {
 					$("##insurance_section").hide();
 					$("##subloan_section").hide();
 					$("##parentloan_section").hide();
@@ -505,9 +506,9 @@
 				}
 			});
 			$("##saveNewProject").change( function () {
-				if ($("##saveNewProject").is(":checked")) { 
+				if ($("##saveNewProject").is(":checked")) {
 					$("##create_project").show();
-				} else { 
+				} else {
 					$("##create_project").hide();
 				}
 			});
@@ -519,13 +520,13 @@
 	<table class="editLoanTable">
     <tr>
     <td valign="top" class="leftCell"><!--- left cell ---->
-	
+
   <form name="editloan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
-            
+
 		<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
-	
+
     <table class="IDloan">
     <tr>
     <td>
@@ -564,7 +565,7 @@
 				<th></th>
 				<td rowspan="99">
                      <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
-                                        <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  ---> 
+                                        <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
 					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
 						<span style="color:green;font-size:small">OK to print</span>
 					<cfelse>
@@ -624,7 +625,7 @@
 		</table><!-- end agents table --->
 		<table width="100%">
 			<tr>
-				<td>
+				<td width="44%">
 					<label for="loan_type">#scope# Type</label>
 					<select name="loan_type" id="loan_type" class="reqdClr">
 						<cfloop query="ctLoanType">
@@ -649,6 +650,9 @@
                                                      </cfif>
 						</cfloop>
 					</select>
+					<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
+						Date Closed: #loanDetails.closed_date#
+					</cfif>
 				</td>
 			</tr>
 			<tr>
@@ -658,7 +662,7 @@
 						value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr">
 				</td>
 				<td>
-                                      <cfif scope eq 'Loan'> 
+                                      <cfif scope eq 'Loan'>
 					<label for="return_due_date">Due Date</label>
 					<input type="text" id="return_due_date" name="return_due_date"
 						value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
@@ -667,7 +671,7 @@
                                       </cfif>
 				</td>
 			</tr>
-                	<tr id="insurance_section">
+            <tr id="insurance_section">
 				<td>
 			   		<label for="insurance_value">Insurance value</label>
 					<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40">
@@ -679,7 +683,7 @@
 			</tr>
 		</table>
                 <div id="parentloan_section">
-                     Exhibition-Master Loan: 
+                     Exhibition-Master Loan:
                      <cfif parentLoan.RecordCount GT 0>
 			<cfloop query="parentLoan">
                   <a href="Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
@@ -690,7 +694,7 @@
                 </div>
                 <div id="subloan_section">
                      <span id="subloan_list">
-                     Exhibition-Subloans (#childLoans.RecordCount#): 
+                     Exhibition-Subloans (#childLoans.RecordCount#):
                      <cfif childLoans.RecordCount GT 0>
                         <cfset childLoanCounter = 0>
                         <cfset childseparator = "">
@@ -699,12 +703,12 @@
                        <a href="Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
                            <button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
                            <script>
-			   $(function() { 
-				$("##button_remove_subloan_#childLoanCounter#").click( function(event) {  
+			   $(function() {
+				$("##button_remove_subloan_#childLoanCounter#").click( function(event) {
                      			event.preventDefault();
-					$.get( "component/functions.cfc", 
- 						{ transaction_id : "#loanDetails.transaction_id#", 
-						  subloan_transaction_id : "#childLoans.transaction_id#" , 
+					$.get( "component/functions.cfc",
+ 						{ transaction_id : "#loanDetails.transaction_id#",
+						  subloan_transaction_id : "#childLoans.transaction_id#" ,
 						  method : "removeSubLoan",
 						  returnformat : "json",
 						  queryformat : 'column'
@@ -712,7 +716,7 @@
 						function(r) {
                                                     var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
                                                     var separator = "";
-                                                    for (var i=0; i<r.ROWCOUNT; i++) {  
+                                                    for (var i=0; i<r.ROWCOUNT; i++) {
       							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
                                                         separator = ";&nbsp";
 						    };
@@ -722,7 +726,7 @@
 						"json"
 					);
  				});
- 			    }); 
+ 			    });
                             </script>
                             <cfset childLoanCounter = childLoanCounter + 1 >
                             <cfset childseparator = ";&nbsp;">
@@ -731,12 +735,12 @@
 		     <br>
                      </span>
                      <script>
-			$(function() { 
-				$("##button_add_subloans").click( function(event) {  
+			$(function() {
+				$("##button_add_subloans").click( function(event) {
                      			event.preventDefault();
-					$.get( "component/functions.cfc", 
- 						{ transaction_id : "#loanDetails.transaction_id#", 
-						  subloan_transaction_id : $("##possible_subloans").val() , 
+					$.get( "component/functions.cfc",
+ 						{ transaction_id : "#loanDetails.transaction_id#",
+						  subloan_transaction_id : $("##possible_subloans").val() ,
 						  method : "addSubLoanToLoan",
 						  returnformat : "json",
 						  queryformat : 'column'
@@ -744,7 +748,7 @@
 						function(r) {
                                                     var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
                                                     var separator = "";
-                                                    for (var i=0; i<r.ROWCOUNT; i++) {  
+                                                    for (var i=0; i<r.ROWCOUNT; i++) {
       							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
                                                         separator = ";&nbsp";
 						    };
@@ -777,7 +781,7 @@
 		<br>
 		<input type="button" value="Save Edits" class="savBtn"
 			onClick="editloan.action.value='saveEdits';submit();">
-		
+
    		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
 		<input type="button" value="Add Items" class="lnkBtn"
 			onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
@@ -848,8 +852,8 @@
 	</td><!---- end left cell --->
 	<td valign="top" class="rightCell"><!---- right cell ---->
    <div id="project">
-	 		
-			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>            
+
+			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
 			project_trans where
@@ -912,8 +916,8 @@
     </tr>
     </table>
       </div>
-    
-    
+
+
 	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from shipment where transaction_id = #transaction_id#
 	</cfquery>
@@ -1239,15 +1243,15 @@
 					</cfquery>
 				</cfif>
 				<cfif isdefined("loan_type") and loan_type EQ 'exhibition-master' >
-`					<!--- Propagate due date to child exhibition-subloans ---> 
+`					<!--- Propagate due date to child exhibition-subloans --->
 					<cfset formatted_due_date = dateformat(return_due_date,"yyyy-mm-dd")>
 					<cfquery name="upChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE loan
  						SET
 						      return_due_date = <cfqueryparam value = "#formatted_due_date#" CFSQLType="CF_SQL_DATE">
-						WHERE loan_type = 'exhibition-subloan' AND 
- 						      transaction_id in (select lr.related_transaction_id from loan_relations lr where 
-						      lr.relation_type = 'Subloan' AND 
+						WHERE loan_type = 'exhibition-subloan' AND
+ 						      transaction_id in (select lr.related_transaction_id from loan_relations lr where
+						      lr.relation_type = 'Subloan' AND
 						      lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">)
 					</cfquery>
 				</cfif>
@@ -1719,6 +1723,7 @@
 		to_char(return_due_date,'YYYY-MM-DD') return_due_date,
                 return_due_date - trunc(sysdate) dueindays,
 		trans_date,
+		to_char(closed_date, 'YYYY-MM-DD') closed_date,
 		project_name,
 		project.project_id pid,
 		collection.collection">
@@ -1900,6 +1905,7 @@
 		 	trans_remarks,
 		 	return_due_date,
 		  	trans_date,
+		  	closed_date,
 		   	project_name,
 		 	project.project_id,
 		 	collection.collection
@@ -1922,7 +1928,7 @@
        <cfset loannum = ''>
     <cfif #allLoans.recordcount# eq 1>
     <cfset loannum = 'item'>
-    	
+
     </cfif>
     <cfif #allLoans.recordcount# gt 1>
     <cfset loannum = 'items'>
@@ -1965,7 +1971,7 @@
 		    </cfquery>
 <div class="loan_results">
     <div id="listloans">
-   
+
     <p>#i# of #allLoans.recordcount# #loannum#</p>
        <dl>
          <dt>Collection &amp; Number:</dt>
@@ -1981,25 +1987,25 @@
                    <dd class="emptystatus">N/A</dd>
                     </cfif>
                 <dt title="primary in-house contact; 1 of 2 possible in-house contacts to receive email reminder">In-house Contact:</dt>
-              
+
                   <cfif len(inHouse_agent) GT 0>
                      <dd class="mandcolr"> #inHouse_agent#</dd>
                     <cfelse>
                    <dd class="emptystatus">N/A</dd>
                   </cfif>
-                  
-                
+
+
                 <dt title="primary in-house contact; 1 of 2 possible in-house contacts to receive email reminder">Additional In-house Contact:</dt>
                   <cfif len(addInhouse_agent) GT 0>
                     <dd>#addInhouse_agent#</dd>
                     <cfelse>
                   <dd class="emptystatus">N/A</dd>
                   </cfif>
-                
+
                 <dt title="this is the primary borrower; listed on email reminder; 1 of 3 possible outside agents to receive email reminder; ship to address should be for this agent">Recipient:</dt>
                 <dd class="mandcolr" title="1 of 3 possible outside agents to receive email reminder; listed on email reminder">#rec_agent#</dd>
                 <dt title="1 of 3 possible outside agents to receive email reminder; listed on email reminder">For use by:</dt>
-               
+
                   <cfif len(foruseby_agent) GT 0>
                     <dd>#foruseby_agent#</dd>
                     <cfelse>
@@ -2021,21 +2027,21 @@
                 <dt title="included in email reminder">Type:</dt>
                 <dd class="mandcolr">#loan_type#</dd>
                 <dt title="included in email reminder">Status:</dt>
-                <dd class="mandcolr">#loan_status#</dd>
+                <dd class="mandcolr">#loan_status# <cfif loan_status EQ 'closed' and len(closed_date) GT 0>(#closed_date#)</cfif></dd>
                 <dt title="included in email reminder">Transaction Date:</dt>
                  <cfif len(trans_date) GT 0>
                 <dd  class="mandcolr">#dateformat(trans_date,"yyyy-mm-dd")#</dd>
                 <cfelse>
                 <dd class="mandcolrstatus">N/A</dd>
                 </cfif>
-               
+
                 <dt title="included in email reminder">Due Date:</dt>
                 <cfif len(return_due_date) GT 0>
                 <dd #overdue# class="mandcolr"><strong>#return_due_date#</strong> #overduemsg#</dd>
 				<cfelse>
                 <dd class="mandcolrstatus">N/A</dd>
-                </cfif>               
-               
+                </cfif>
+
                 <dt title="included in email reminder">Nature of Material:</dt>
                 <cfif len(nature_of_material) GT 0>
                 <dd class="mandcolr large">#nature_of_material#</dd>
@@ -2048,22 +2054,22 @@
                     <cfelse>
                    <dd class="large emptystatus">N/A</dd>
                   </cfif>
-               
+
                 <dt>Instructions:</dt>
                  <cfif len(loan_instructions) GT 0>
                     <dd class="large">#loan_instructions#</dd>
                     <cfelse>
                     <dd class="large emptystatus">N/A</dd>
                   </cfif>
-              
+
                 <dt>Internal Remarks:</dt>
-               
+
                   <cfif len(trans_remarks) GT 0>
                     <dd class="large">#trans_remarks#</dd>
                     <cfelse>
                     <dd class="large emptystatus">N/A</dd>
                   </cfif>
-               
+
                 <dt>Entered By:</dt>
                  <cfif len(ent_agent) GT 0>
                  <dd>#ent_agent#</dd>
@@ -2079,7 +2085,7 @@
                   <cfloop query="p">
                     <cfif len(P.project_name)>
                       <CFIF P.RECORDCOUNT gt 1>
-                   
+
                       </CFIF>
                       <a href="/Project.cfm?Action=editProject&project_id=#p.pid#"> <strong>#P.project_name#</strong> </a><BR>
                       <cfelse>
@@ -2098,9 +2104,9 @@
          </cfif>
      </cfif>
   </ul>
-                
+
               </dl>
-   
+
 
         </div>
         </div>
@@ -2130,7 +2136,7 @@
       </cfif>
       <cfset i=#i#+1>
     </cfoutput>
-  
+
 	<cfif csv is true>
 		<cfscript>
 			variables.joFileWriter.close();

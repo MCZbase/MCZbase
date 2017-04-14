@@ -249,20 +249,20 @@
 		attributes.collection_object_id = #collection_object_id#
 </cfquery>
 <cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-SELECT distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM ( 
+SELECT distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 SELECT
-     rel.biol_indiv_relationship as biol_indiv_relationship,  
+     rel.biol_indiv_relationship as biol_indiv_relationship,
      collection as related_collection,
-     rel.related_coll_object_id as related_coll_object_id, 
+     rel.related_coll_object_id as related_coll_object_id,
      rcat.cat_num as related_cat_num,
     rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 FROM
-     biol_indiv_relations rel 
-     left join cataloged_item rcat 
+     biol_indiv_relations rel
+     left join cataloged_item rcat
          on rel.related_coll_object_id = rcat.collection_object_id
      left join collection
          on collection.collection_id = rcat.collection_id
-     left join ctbiol_relations ctrel 
+     left join ctbiol_relations ctrel
       on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 WHERE rel.collection_object_id=#collection_object_id#
       and ctrel.rel_type <> 'curatorial'
@@ -275,15 +275,15 @@ SELECT
     irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 FROM
      biol_indiv_relations irel
-     left join ctbiol_relations ctrel 
+     left join ctbiol_relations ctrel
       on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-     left join cataloged_item rcat 
+     left join cataloged_item rcat
       on irel.collection_object_id = rcat.collection_object_id
      left join collection
       on collection.collection_id = rcat.collection_id
 WHERE irel.related_coll_object_id=#collection_object_id#
       and ctrel.rel_type <> 'curatorial'
-) 
+)
 </cfquery>
 <cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
@@ -850,7 +850,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
                                 <cfif len(relns.biol_indiv_relation_remarks) gt 0>
                                     <span> (Remark: #biol_indiv_relation_remarks#)</span>
                                 </cfif>
-							</span>                            
+							</span>
 						</div>
 					</cfloop>
 					<cfif len(relns.biol_indiv_relationship) gt 0>
@@ -1510,7 +1510,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<cfif desc.recordcount is 1>
 							<cfset alt=desc.label_value>
 						</cfif>
-						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item">
+						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
                         	<cfset one_thumb = "<div class='one_thumb_box'>">
 							<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 							<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >

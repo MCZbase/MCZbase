@@ -259,7 +259,7 @@
 					<option
 						<cfif isdefined("islandgroup")>
 							<cfif ctIslandGroup.island_group is islandgroup> selected="selected" </cfif>
-						</cfif>value="#ctIslandGroup.island_group#">#escapeQuotes(ctIslandGroup.island_group)#
+					</cfif>value="#ctIslandGroup.island_group#">#ctIslandGroup.island_group#
 					</option>
 				</cfloop>
 			</select></td>
@@ -267,7 +267,7 @@
 			<tr>
 				<td align="right">Island:</td>
 				<td>
-					<input type="text" name="island" <cfif isdefined("island")> value = "#island#"</cfif> size="50">
+					<input type="text" name="island" <cfif isdefined("island")> value = "#escapeQuotes(island)#"</cfif> size="50">
 				</td>
 			</tr>
 			<tr>

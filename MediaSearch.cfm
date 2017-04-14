@@ -199,7 +199,7 @@
 </cfscript>
 	<cfif isdefined("srchType") and srchType is "key">
         
-		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display, MCZBASE.is_media_encumbered(media.media_id) hideMedia ">
+		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as uri, CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as display, MCZBASE.is_media_encumbered(media.media_id) hideMedia, MCZBASE.get_media_credit(media.media_id) as credit ">
 		<cfset frm="from media,ctmedia_license">
 		<cfset whr=" where media.media_license_id=ctmedia_license.media_license_id(+) and media.media_id > 0">
                 <!--- check for encumbered media in all cases ---> 
@@ -248,7 +248,7 @@
 			#preservesinglequotes(ssql)#
 		</cfquery>
 	<cfelse>
-		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,ctmedia_license.uri,ctmedia_license.display, MCZBASE.is_media_encumbered(media.media_id) hideMedia ">
+		<cfset sel="select distinct media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as uri, CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as display, MCZBASE.is_media_encumbered(media.media_id) hideMedia, MCZBASE.get_media_credit(media.media_id) as credit ">
 		<cfset frm="from media,ctmedia_license">
 		<cfset whr=" where media.media_license_id=ctmedia_license.media_license_id(+) and media.media_id > 0">
 		<cfset whr="#whr# AND MCZBASE.is_media_encumbered(media.media_id)  < 1 ">
@@ -463,7 +463,8 @@
 			preferred_agent_name
 		where
 			media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-			media_id=#media_id#
+			media_id= <cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
+                        and media_label <> 'credit'  -- obtained in the findIDs query.
 	</cfquery>
 	<cfquery name="labels" dbtype="query">
 		select media_label,label_value from labels_raw where media_label != 'description'
@@ -473,7 +474,7 @@
 	</cfquery>
 	<cfif isdefined("findIDs.keywords")>
 		<cfquery name="kw" dbtype="query">
-			select keywords from findIDs where media_id=#media_id#
+			select keywords from findIDs where media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
 		</cfquery>
 	</cfif>
 	<cfset alt="#media_uri#">
@@ -512,6 +513,9 @@
 										#media_label#: #label_value#
 									</li>
 								</cfloop>
+								<cfif len(credit) gt 0>
+								    <li>credit: #credit#</li>
+								</cfif>
 							</ul>
 						</cfif>
 						<cfset mrel=getMediaRelations(#media_id#)>

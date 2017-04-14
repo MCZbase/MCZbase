@@ -314,20 +314,20 @@
           <option value="#media_type#">#media_type#</option>
         </cfloop>
       </select>
-      <div class="license_box">
+      <div class="license_box" style="padding-bottom: 1em;padding-left: 1.15em;">
         <label for="media_license_id">License</label>
-        <select name="media_license_id" id="media_license_id" style="width:300px;">
+        <select name="media_license_id" id="media_license_id">
           <option value="">Research copyright &amp; then choose...</option>
           <cfloop query="ctmedia_license">
             <option value="#media_license_id#">#media_license#</option>
           </cfloop>
         </select>
-        <a class="infoLink" onClick="popupDefine()">Define Licenses</a><br/>
+        <a class="infoLink" onClick="popupDefine()">Define</a><br/>
         <ul class="lisc">
             <p>Notes:</p>
           <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted</li>
           <li>remove media immediately if owner requests it</li>
-          <li>contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+          <li>contact <a href="mailto:Mcz_collections_operations@oeb.harvard.edu?subject=licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
         </ul>
       </div>
       <label for="mask_media_fg">Media Record Visibility</label>

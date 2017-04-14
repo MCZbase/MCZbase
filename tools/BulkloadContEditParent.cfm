@@ -3,13 +3,13 @@
          <h3>Bulkload Container Edit Parent</h3>
 <cfset title="Bulk Edit Container">
 <cfif #action# is "nothing">
-<p>Upload a comma-delimited text file (csv). 
+<p>Upload a comma-delimited text file (csv).
     Include column headings, spelled exactly as below. </p>
 <span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">barcode,parent_barcode,container_type,label,description,remarks,width,height,length,number_positions</textarea>
-	</div> 
+	</div>
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
 <ul class="geol_hier">
@@ -22,7 +22,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	<li>width</li>
 	<li>height</li>
 	<li>length</li>
-	<li>number_positions</li>	 
+	<li>number_positions</li>
 </ul>
 
 
@@ -34,7 +34,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		   size="45">
 			 <input type="submit" value="Upload this file"
 		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'" 
+		onmouseover="this.className='savBtn btnhov'"
 		onmouseout="this.className='savBtn'">
   </cfform>
 
@@ -68,7 +68,7 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			</cfloop>
 		<cfif #o# is 1>
 			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
+		</cfif>
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
 			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -109,8 +109,8 @@ validate
 		update cf_temp_cont_edit set status = 'missing_label'
 		where label is null
 	</cfquery>
-	
-	<cfquery name="lq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+	<!---cfquery name="lq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select container_id,parent_container_id,key from cf_temp_cont_edit
 	</cfquery>
 	<cfloop query="lq">
@@ -134,7 +134,7 @@ validate
 				</cfquery>
 			</cfif>
 		</cfif>
-	</cfloop>
+	</cfloop--->
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_cont_edit
 	</cfquery>
