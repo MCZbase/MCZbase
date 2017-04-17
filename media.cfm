@@ -325,7 +325,7 @@
         <a class="infoLink" onClick="popupDefine()">Define Licenses</a><br/>
         <ul class="lisc">
             <p>Notes:</p>
-          <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted</li>
+          <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
           <li>remove media immediately if owner requests it</li>
           <li>contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
         </ul>
