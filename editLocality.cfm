@@ -853,18 +853,22 @@
 
 		<tr>
 			<td id="addNewLL">
+
 				<label for="ORIG_LAT_LONG_UNITS">
-						<a href="javascript:void(0);" onClick="getDocs('lat_long','original_units')">Original Units</a>
-					</label>
-					<select name="ORIG_LAT_LONG_U"
-						id="ORIG_LAT_LONG_U" size="1"
-						class="reqdClr"
-						onchange="document.getElementById('ORIG_LAT_LONG_UNITS').value=this.value; showLLFormat(this.value,'')">
-	                    <option selected value="">Pick one...</option>
-	                    <cfloop query="ctunits">
-	                      <option value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
-	                    </cfloop>
-	                  </select>
+					<a href="javascript:void(0);" onClick="getDocs('lat_long','original_units')">Original Units</a>
+				</label>
+				<select name="ORIG_LAT_LONG_U"
+					id="ORIG_LAT_LONG_U" size="1"
+					class="reqdClr"
+					onchange="document.getElementById('ORIG_LAT_LONG_UNITS').value=this.value; showLLFormat(this.value,'')">
+	                    		<option selected value="">Pick one...</option>
+					<cfloop query="ctunits">
+						<option value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
+					</cfloop>
+	                  	</select> 
+				or
+				<input type="button" value="Georeference with GeoLocate" class="insBtn"
+					onClick="showLLFormat('decimal degrees',''); geolocate();">
 			</td>
 		</tr>
 		<tr>
