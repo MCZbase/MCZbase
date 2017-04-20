@@ -60,10 +60,10 @@
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
-			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' and agent_id not in (102368,100885,100871,100884,100877) order by agent_name
+			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" startrow=1 endrow=88>
+<cfloop query="agent" startrow=1 endrow=100>
 	<cfquery name="chkLog" datasource="uam_god">
 		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2017-01-01', 'YYYY-MM-DD')
 	</cfquery>
