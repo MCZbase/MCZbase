@@ -1024,7 +1024,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								<th><span class="innerDetailLabel">Disposition</span></th>
 								<th><span class="innerDetailLabel">##</span></th>
 								<cfif oneOfus is "1">
-									<th><span class="innerDetailLabel">Label</span></th>
+									<th><span class="innerDetailLabel">Container Label</span></th>
 								</cfif>
 								<th><span class="innerDetailLabel">Remarks</span></th>
 							</tr>

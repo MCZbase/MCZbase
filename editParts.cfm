@@ -117,9 +117,9 @@
 						<label for="condition#i#">Condition&nbsp;<span class="likeLink" style="font-weight: 100;" onClick="chgCondition('#getParts.partID#')">[ History ]</span></label>
 						<input type="text" name="condition#i#" id="condition#i#" value="#getparts.condition#"  class="reqdClr" size="12">
 					</td>
-					<td style="width: 35px;">
-						<label for="lot_count_modifier#i#">## Modifier</label>
-						<select name="lot_count_modifier#i#" size="1" style="width:50px";>
+					<td style="width: 55px;">
+						<label for="lot_count_modifier#i#" style="width:50px;">## Modifier</label>
+						<select name="lot_count_modifier#i#" size="1" style="width:50px;">
 						  <option value=""></option>
 			              <cfloop query="ctModifiers">
 				              <option <cfif ctModifiers.modifier is getParts.lot_count_modifier> selected </cfif>value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
@@ -259,7 +259,7 @@
 <a name="newPart"></a>
 
 <table class="newRec" style="padding: 1em;">
-    
+
 <tr>
 <td style="padding:5px;"><strong>Add Specimen Part</strong>
 <form name="newPart" method="post" action="editParts.cfm">
