@@ -528,17 +528,9 @@
         <table>
 			<tr>
 				<td>
-					Coordinates for this locality:
+					<h3 style="margin: 1.5em 0 1em 0;">Coordinates for this locality:</h3>
 				</td>
-				<td>
-					&nbsp;&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Georeferencing_links')" class="likeLink" alt="[ help ]">
-				</td>
-				<td>
-					&nbsp;&nbsp;&nbsp;
-					<span style="font-size:smaller;">
-				        <a href="http://manisnet.org/gci2.html" target="_blank">Georef Calculator<img src="/images/linkOut.gif" border="0"></a>
-				     </span>
-				</td>
+			
 			</tr>
 		</table>
 		<cfset i=1>
@@ -844,15 +836,23 @@
             <input type="hidden" name="Action" value="AddLatLong">
             <input type="hidden" name="locality_id" value="#locDet.locality_id#">
 
-		<table class="newRec">
-			<tr>
+		
+		
+<table> <tr><td><h4 style="margin: 1.5em 0 .5em 0;">Add Coordinate Determination&nbsp;&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Georeferencing')" class="likeLink" alt="[ help ]"></h4></td>
+			
 				<td>
-					Add Coordinate Determination
+					&nbsp;&nbsp;&nbsp;
+					<span style="font-size:smaller;">
+				        <a href="http://manisnet.org/gci2.html" target="_blank">Georef Calculator<img src="/images/linkOut.gif" border="0"></a>
+				     </span>
 				</td>
-			</tr>
-
+    </tr>
+            </table>
+<table class="newRec" style="padding: .5em 0;margin: 0 0 1em 0;background-color:none;padding-left: 5px;padding-right: 8px;">
+   
 		<tr>
-			<td id="addNewLL">
+            <td style="padding-right:20px;width:150px;"><p><i>You have original coordinates:</i><br/> <b>Enter manually</b></p></td>
+			<td id="addNewLL" colspan="4" style="border-right: 1px solid green;padding-right: 10px;">
 
 				<label for="ORIG_LAT_LONG_UNITS">
 					<a href="javascript:void(0);" onClick="getDocs('lat_long','original_units')">Original Units</a>
@@ -860,17 +860,26 @@
 				<select name="ORIG_LAT_LONG_U"
 					id="ORIG_LAT_LONG_U" size="1"
 					class="reqdClr"
+                    style="width: 220px"
 					onchange="document.getElementById('ORIG_LAT_LONG_UNITS').value=this.value; showLLFormat(this.value,'')">
 	                    		<option selected value="">Pick one...</option>
 					<cfloop query="ctunits">
 						<option value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 					</cfloop>
 	                  	</select> 
-				or
-				<input type="button" value="Georeference with GeoLocate" class="insBtn"
+            </td>
+                <td>&nbsp;</td>
+            <td><label>&nbsp;</label>&nbsp;or&nbsp;</td>
+            <td>&nbsp;</td>
+            <td colspan="2" style="border-left: 1px solid green;padding-left: 20px;"><p><i>You have a specific locality: <br/></i><b>Use GeoLocate</b></p></td>
+            <td style="padding-left: 20px;">
+                <label>&nbsp;</label>
+				<input type="button" value="GeoLocate" class="insBtn" style="background-color: ##ccffcc;"
 					onClick="showLLFormat('decimal degrees',''); geolocate();">
+                <p style="font-size:11px;">Some fields will still need to be entered manually after saving the georeference in the GeoLocate app.</p>
 			</td>
-		</tr>
+    </tr>
+
 		<tr>
 			<td>
 		<table border id="llMeta" style="display:none;">
@@ -1113,13 +1122,13 @@
 				</td>
 			</tr>
               <tr>
-                <td colspan="4">
-				<input type="button" value="Georeference with GeoLocate" class="insBtn"
-						 onClick="geolocate();">
+          <td colspan="4">
+				  <!---  <input type="button" value="Georeference with GeoLocate" class="insBtn"
+						 onClick="geolocate();">--->
 				<input type="submit" value="Create Determination" class="insBtn"
   						 onmouseover="this.className='insBtn btnhov'"
 						 onmouseout="this.className='insBtn'">
-				</td>
+                  </td>
               </tr>
             </table>
 		</td>
@@ -1128,7 +1137,8 @@
 
 	<table >
 	<hr>
-	Edit Geology Attributes
+ 
+	<h3 style="margin: 1.5em 0 1em 0">Geology Attributes</h3>
 	<cfif geolDet.recordcount gt 0>
 		<table border>
 			<form name="editGeolAtt" method="post" action="editLocality.cfm">
@@ -1187,9 +1197,10 @@
 
 		</form>
 	</cfif>
+        <h4 style="margin: 1.5em 0 .5em 0">Create Geology Determination</h4>
 	<table class="newRec">
 		<tr><td>
-	Create Geology Determination
+	
 	<form name="newGeolDet" method="post" action="editLocality.cfm">
             <input type="hidden" name="Action" value="AddGeol">
             <input type="hidden" name="locality_id" value="#locDet.locality_id#">
