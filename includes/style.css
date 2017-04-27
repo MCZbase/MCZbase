@@ -2396,10 +2396,16 @@ table.ssrch tr:first-child {
 	line-height: 1.5em;
 }
 td.lbl {
-	width: 15em;
+	width: 16em;
 	text-align: right;
 	padding-right: 5px;
+    background-color: aliceblue;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
 }
+td.lblval {padding: .15em .5em;}
+td.lblextra {padding: 5px .5em;}
 p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 .detailBlock {
 	display: block;

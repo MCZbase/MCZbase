@@ -23,28 +23,27 @@
 		height:400px;	
 overflow-y:scroll;
 overflow-x:auto;
-padding-right:10px;	
+padding: 1em 1em 0 1em;
 	}
 	.ajaxWorking{ 
-		top: 20%; 
+		top: 15%; 
 		color: green; 
 		text-align: center;
 		margin: auto;
 		position:absolute;
 		max-width: 50%;
-		right:2%;
+		right:55%;
 		background-color:white;
 		padding:1em;
 		border:1px solid;
 		overflow:hidden;
 		z-index:1;
-		overflow-y:scroll;	
+		/*overflow-y:scroll;*/	
 		}
 	.ajaxDone {display:none}
 	.ajaxMessage {color:green;}
 	.ajaxError {color:red;}
 </style>
-
 
 <script type='text/javascript' src='/includes/_treeAjax.js'></script>
 
@@ -64,69 +63,90 @@ padding-right:10px;
 <div id="ajaxMsg"></div>
 <table border width="100%">
 	<tr>
-		<td valign="top" style="padding: 1em;"><!--------------------------- search pane ----------------------------->
-			<div id="searchPane">
-				<form onSubmit="loadTree();return false;">
-				<input type="hidden" name="transaction_id" id="transaction_id">
-				<label for="cat_num">Cat Num (comma-list OK)</label>
-				<input type="text" name="cat_num" id="cat_num"  />
-				<label for="barcode">Barcode (comma-list OK)</label>
-				<input type="text" name="barcode" id="barcode"  />
-				<label for="container_label">Label (% for wildcard)</label>
-				<input type="text" name="container_label" id="container_label"  />
-				<label for="collection_id">Collection</label>
-				<select name="collection_id" id="collection_id" size="1">
-					<option value=""></option>
-						<cfloop query="collections"> 
-							<option value="#collection_id#">#coll#</option>
-				  		</cfloop>
-				</select>
-				<label for="description">Description (% for wildcard)</label>
-				<input type="text" name="description" id="description"  />
-				<label for="part_name">Part</label>
-				<input type="text" id="part_name" name="part_name">
-				<label for="container_type">Container Type</label>
-				<select name="container_type" id="container_type" size="1">
-					<option value=""></option>
-					  <cfloop query="contType"> 
-						<option value="#contType.container_type#">#contType.container_type#</option>
-					  </cfloop>
-				</select>
-				<label for="in_container_type">Contained By Container Type</label>
-				<select name="in_container_type" id="in_container_type" size="1">
-					<option value=""></option>
-					  <cfloop query="contType"> 
-						<option value="#contType.container_type#">#contType.container_type#</option>
-					  </cfloop>
-				</select>
-				<label for="other_id_type">OID Type</label>
-				<select name="other_id_type" id="other_id_type" size="1" style="width:120px;">
-					<option value=""></option>
-					<cfloop query="ctcoll_other_id_type"> 
-						<option value="#ctcoll_other_id_type.other_id_type#">#ctcoll_other_id_type.other_id_type#</option>
-					</cfloop>
-				</select>	
-				<label for="other_id_value">OID Value (% for wildcard)</label>
-				<input type="text" name="other_id_value" id="other_id_value" />
-				<input type="hidden" name="collection_object_id" id="collection_object_id" />
-				<input type="hidden" name="loan_trans_id" id="loan_trans_id" />
-				<input type="text" name="table_name" id="table_name" />
-				<br>
-				<input type="submit" value="Search"
-					class="schBtn">
-				&nbsp;&nbsp;&nbsp;
-				<input class="clrBtn"
-					type="reset" value="Clear"/>				
-				</form>
-                <br>
-				<span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
-				<br><span class="likeLink" onclick="showTreeOnly()">Drag/Print</span>
-				<br><span class="likeLink" onclick="printLabels()">Print Labels</span>
-			</div>
-				
-				
-		</td><!--------------------------------- end search pane ------------------------------------->
-		<td><!------------------------------------- tree pane --------------------------------------------->
+		 <td valign="top" style="padding: 1em;"><!--------------------------- search pane ----------------------------->
+        
+        <h4>Find Container:</h4>
+        <div id="searchPane">
+          <div style="border: 1px solid green; padding:.5em; width: 375px;">
+          <form onSubmit="loadTree();return false;">
+            <table>
+              <tr>
+                <td style="padding-right: 1em;"><label for="container_label">Label (% for wildcard)</label>
+                  <input type="text" name="container_label" id="container_label"  /></td>
+                <td><input type="hidden" name="transaction_id" id="transaction_id">
+                  <label for="barcode">Barcode (comma-list OK)</label>
+                  <input type="text" name="barcode" id="barcode"  /></td>
+              </tr>
+              <tr>
+                <td><label for="container_type">Container Type</label>
+                  <select name="container_type" id="container_type" size="1" style="width: 170px;">
+                    <option value=""></option>
+                    <cfloop query="contType">
+                      <option value="#contType.container_type#">#contType.container_type#</option>
+                    </cfloop>
+                  </select></td>
+                <td><label for="description">Description (% for wildcard)</label>
+                  <input type="text" name="description" id="description"  /></td>
+              </tr>
+              <tr>
+                <td><label for="in_container_type">Contained By Container Type</label>
+                  <select name="in_container_type" id="in_container_type" size="1" style="width: 170px;">
+                    <option value=""></option>
+                    <cfloop query="contType">
+                      <option value="#contType.container_type#">#contType.container_type#</option>
+                    </cfloop>
+                  </select></td>
+                <td style="vertical-align:bottom"><input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">
+                  &nbsp;
+                  <input class="clrBtn" type="reset" value="Clear"/></td>
+              </tr>
+            </table>
+            </div>
+            <h5 style="margin-top: 2.5em;">Find container by the collection object it contains:</h5>
+            <div style="border: 1px solid green; padding: .5em;width: 375px;">
+              <table>
+                <tr>
+                  <td style="padding-right: 1em;"><label for="collection_id">Collection</label>
+                    <select name="collection_id" id="collection_id" size="1" style="width: 170px;">
+                      <option value=""></option>
+                      <cfloop query="collections">
+                        <option value="#collection_id#">#coll#</option>
+                      </cfloop>
+                    </select></td>
+                  <td><label for="cat_num">Cat Num (comma-list OK)</label>
+                    <input type="text" name="cat_num" id="cat_num"  /></td>
+                </tr>
+                <tr>
+                  <td><label for="other_id_type">Other ID Type</label>
+                    <select name="other_id_type" id="other_id_type" size="1" style="width:170px;">
+                      <option value=""></option>
+                      <cfloop query="ctcoll_other_id_type">
+                        <option value="#ctcoll_other_id_type.other_id_type#">#ctcoll_other_id_type.other_id_type#</option>
+                      </cfloop>
+                    </select></td>
+                  <td><label for="other_id_value">Other ID Value (% for wildcard)</label>
+                    <input type="text" name="other_id_value" id="other_id_value" />
+                    <input type="hidden" name="collection_object_id" id="collection_object_id" /></td>
+                </tr>
+                <tr>
+                  <td><label for="part_name">Part</label>
+                    <input type="text" id="part_name" name="part_name">
+                    <input type="hidden" name="loan_trans_id" id="loan_trans_id" />
+                    <input type="hidden" name="table_name" id="table_name" /></td>
+                  <td style="vertical-align:bottom"><input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">
+                    &nbsp;
+                    <input class="clrBtn" type="reset" value="Clear"/></td>
+                </tr>
+              </table>
+            </div>
+            <br>
+          </form>
+          <div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span> <br>
+            <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
+            <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
+        </div></td>
+      <!--------------------------------- end search pane ------------------------------------->
+		<td valign="top"><!------------------------------------- tree pane --------------------------------------------->
 			<div id="treePane" class="cTreePane"></div>
 		</td><!------------------------------------- end tree pane --------------------------------------------->
 		
