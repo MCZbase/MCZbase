@@ -32,42 +32,43 @@
 		cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 		container.container_id=#container_id#
 </cfquery>
-<font size="+1"><strong> Container Details</strong></font>
+    <div style="padding-left: 1em;padding-top: 1em;">
+        <h4>Container Details</h4>
 <cfoutput query="Detail">
 	
 
 	
-	<table border="1">
+	<table border="1" style="padding: .5em;">
 		<tr>
 		   <td class="lbl">Container Type:</td>
-			<td>#container_type#</td>
+			<td class="lblval">#container_type#</td>
 		</tr>
 		<tr>
 			<td class="lbl">Label:</td>
-			<td> #label#</td>
+			<td class="lblval"> #label#</td>
 		</tr>
 		<cfif len(#description#) gt 0>
 		  <tr>
 			<td class="lbl"> Description:</td>
-			<td> #description#</td>
+			<td class="lblval"> #description#</td>
 		  </tr>
 		</cfif>
 		<cfif len(#container_remarks#) gt 0>
 		  <tr>
 			<td class="lbl">Container Remarks:</td>
-			<td>#container_remarks#</td>
+			<td class="lblval">#container_remarks#</td>
 		  </tr>
 		</cfif>
 		<cfif len(#barcode#) gt 0>
 		  <tr>
 			<td class="lbl">Barcode:</td>
-			<td>#barcode#</td>
+			<td class="lblval">#barcode#</td>
 		  </tr>
 		</cfif>
 		<cfif len(#parent_install_date#) gt 0>
 		  <tr>
 			<td class="lbl">Install Date:</td>
-			<td>#dateformat(parent_install_date,"yyyy-mm-dd")#
+			<td class="lblval">#dateformat(parent_install_date,"yyyy-mm-dd")#
 			&nbsp;
 			#timeformat(parent_install_date,"hh:mm:ss")#</td>
 		  </tr>
@@ -75,63 +76,64 @@
 		<cfif len(#part_name#) gt 0>
 		  <tr>
 			<td class="lbl">Part Name:</td>
-			<td>#part_name#</td>
+			<td class="lblval">#part_name#</td>
 		  </tr>
 		  <tr>
 			<td class="lbl">Catalog Number:</td>
-			<td>#cat_num# </td>
+			<td class="lblval">#cat_num# </td>
 		  </tr>
 		  <cfif len(#CustomID#) gt 0>
 		  <tr>
 			<td class="lbl">#session.CustomOtherIdentifier#:</td>
-			<td>#CustomID#</td>
+			<td class="lblval">#CustomID#</td>
 		  </tr>
 		  </cfif>
 		  <tr>
 			<td class="lbl">Scientific Name: </td>
-			<td><em>#scientific_name#</em></td>
+			<td class="lblval"><em>#scientific_name#</em></td>
 		  </tr>
 		</cfif>
 		<cfif len(#WIDTH#) gt 0 OR len(#HEIGHT#) gt 0 OR len(#length#) gt 0>
 		  <tr>
 			<td class="lbl">Dimensions (W x H x D): </td>
-			<td> #WIDTH# x #HEIGHT# x #length# CM</td>
+			<td class="lblval"> #WIDTH# x #HEIGHT# x #length# CM</td>
 		  </tr>
 		</cfif>
 		<cfif len(#NUMBER_POSITIONS#) gt 0>
 		  <tr>
 			<td class="lbl">Number of Positions: </td>
-			<td> #NUMBER_POSITIONS#</td>
+			<td class="lblval"> #NUMBER_POSITIONS#</td>
 		  </tr>
 		</cfif>
 		<cfif len(#collection_object_id#) gt 0>
 			<tr>
-				<td colspan="2"><a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#" 
-				target="_blank">Specimen</a>(new window)</td>
+				<td colspan="2" class="lblval"><a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#" 
+                                   target="_blank">Specimen</a> <span style="font-size: small"> (new window)</span></td>
 			</tr>
 		<cfelse>
 			<tr>
-				<td colspan="2">
-					<a href="EditContainer.cfm?container_id=#container_id#" target="_blank">Edit this container</a> (new window)
+				<td colspan="2" class="lblval lblextra">
+                    <a href="EditContainer.cfm?container_id=#container_id#" target="_blank">Edit this container</a> <span style="font-size: small"> (new window)</span>
 			</td>
 			</tr>
 		</cfif>
 		<tr>
-			<td colspan="2">
+			<td colspan="2" class="lblval lblextra">
 				<a href="allContainerLeafNodes.cfm?container_id=#container_id#" target="_blank">
 						See all collection objects in this container</a>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">
+			<td colspan="2" class="lblval lblextra">
 				<a href="/containerPositions.cfm?container_id=#container_id#" 
-					target="_blank">Positions</a><font size="-1">(new window)</font>
+					target="_blank">Positions</a> <span style="font-size: small;"> (new window)</span>
 			</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td colspan="2" class="lblval lblextra">
 					<a href="javascript:void(0)" onClick="getHistory('#container_id#'); return false;">History</a>
 				</td>
 			</tr>
 		</table>
+        </div>
 </cfoutput>
