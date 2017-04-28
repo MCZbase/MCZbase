@@ -146,6 +146,7 @@ ________________________________________________________________________________
 		trunc(sum(decode(dec_lat, null, 0, TOTAL_PARTS))/sum(decode(TOTAL_PARTS, null, 1, TOTAL_PARTS)),3)*100 || '%' georefspecs
 		from flat f, coll_object co where
 		collection_cde = '#colls.collection_cde#' and
+		CO.COLL_OBJECT_ENTERED_DATE < '#datefilter#' and
 		F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID
 		and cat_num_prefix is null
 		and family = 'Formicidae'

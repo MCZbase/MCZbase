@@ -32,7 +32,7 @@
 		cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 		container.container_id=#container_id#
 </cfquery>
-    <div style="padding-left: 1em;padding-top: 1em;">
+    <div style="padding-left: 1em;padding-top: 1em;z-index: 0;">
         <h4>Container Details</h4>
 <cfoutput query="Detail">
 	
@@ -40,34 +40,34 @@
 	
 	<table border="1" style="padding: .5em;">
 		<tr>
-		   <td class="lbl">Container Type:</td>
+		   <td class="lbl2">Container Type:</td>
 			<td class="lblval">#container_type#</td>
 		</tr>
 		<tr>
-			<td class="lbl">Label:</td>
+			<td class="lbl2">Label:</td>
 			<td class="lblval"> #label#</td>
 		</tr>
 		<cfif len(#description#) gt 0>
 		  <tr>
-			<td class="lbl"> Description:</td>
+			<td class="lbl2"> Description:</td>
 			<td class="lblval"> #description#</td>
 		  </tr>
 		</cfif>
 		<cfif len(#container_remarks#) gt 0>
 		  <tr>
-			<td class="lbl">Container Remarks:</td>
+			<td class="lbl2">Container Remarks:</td>
 			<td class="lblval">#container_remarks#</td>
 		  </tr>
 		</cfif>
 		<cfif len(#barcode#) gt 0>
 		  <tr>
-			<td class="lbl">Barcode:</td>
+			<td class="lbl2">Barcode:</td>
 			<td class="lblval">#barcode#</td>
 		  </tr>
 		</cfif>
 		<cfif len(#parent_install_date#) gt 0>
 		  <tr>
-			<td class="lbl">Install Date:</td>
+			<td class="lbl2">Install Date:</td>
 			<td class="lblval">#dateformat(parent_install_date,"yyyy-mm-dd")#
 			&nbsp;
 			#timeformat(parent_install_date,"hh:mm:ss")#</td>
@@ -75,33 +75,33 @@
 		</cfif>
 		<cfif len(#part_name#) gt 0>
 		  <tr>
-			<td class="lbl">Part Name:</td>
+			<td class="lbl2">Part Name:</td>
 			<td class="lblval">#part_name#</td>
 		  </tr>
 		  <tr>
-			<td class="lbl">Catalog Number:</td>
+			<td class="lbl2">Catalog Number:</td>
 			<td class="lblval">#cat_num# </td>
 		  </tr>
 		  <cfif len(#CustomID#) gt 0>
 		  <tr>
-			<td class="lbl">#session.CustomOtherIdentifier#:</td>
+			<td class="lbl2">#session.CustomOtherIdentifier#:</td>
 			<td class="lblval">#CustomID#</td>
 		  </tr>
 		  </cfif>
 		  <tr>
-			<td class="lbl">Scientific Name: </td>
+			<td class="lbl2">Scientific Name: </td>
 			<td class="lblval"><em>#scientific_name#</em></td>
 		  </tr>
 		</cfif>
 		<cfif len(#WIDTH#) gt 0 OR len(#HEIGHT#) gt 0 OR len(#length#) gt 0>
 		  <tr>
-			<td class="lbl">Dimensions (W x H x D): </td>
+			<td class="lbl2">Dimensions (W x H x D): </td>
 			<td class="lblval"> #WIDTH# x #HEIGHT# x #length# CM</td>
 		  </tr>
 		</cfif>
 		<cfif len(#NUMBER_POSITIONS#) gt 0>
 		  <tr>
-			<td class="lbl">Number of Positions: </td>
+			<td class="lbl2">Number of Positions: </td>
 			<td class="lblval"> #NUMBER_POSITIONS#</td>
 		  </tr>
 		</cfif>

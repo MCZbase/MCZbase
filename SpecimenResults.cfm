@@ -7,7 +7,7 @@
 <cfoutput>
 <script type="text/javascript" language="javascript">
 jQuery( function($) {
-   
+
 	$("##customizeButton").live('click', function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
@@ -19,15 +19,15 @@ jQuery( function($) {
 		var dval=$(this).attr('dval');
 		var theDiv = document.createElement('div');
 		theDiv.id = 'customDiv';
-		theDiv.className = 'customBox';		
+		theDiv.className = 'customBox';
 		document.body.appendChild(theDiv);
 		var guts = "/info/SpecimenResultsPrefs.cfm";
 		$('##customDiv').load(guts,{},function(){
 			viewport.init("##customDiv");
 			viewport.init("##bgDiv");
-		});		
+		});
 	});
-    
+
 	$(".browseLink").live('click', function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
@@ -62,31 +62,31 @@ jQuery( function($) {
 		var resultList=document.getElementById('resultList').value;
 		var customID=document.getElementById('customID').value;
 		var result_sort=document.getElementById('result_sort').value;
-		var displayRows=document.getElementById('displayRows').value;		
-		
+		var displayRows=document.getElementById('displayRows').value;
+
 		theDiv.innerHTML+='<label for="result_sort">Primary Sort</label>';
 		var temp='<select name="result_sort" id="result_sort" onchange=";changeresultSort(this.value);" size="1">';
 		if (customID.length > 0) {
-			temp+='<option value="' + customID + '">' + customID + '</option>';			
+			temp+='<option value="' + customID + '">' + customID + '</option>';
 		}
 		var rAry=resultList.split(',');
 		for (i = 0; i < rAry.length; i++) {
 			temp+='<option value="' + rAry[i] + '">' + rAry[i] + '</option>';
-		}	
+		}
 		temp+='</select>';
 		theDiv.innerHTML+=temp;
-		
+
 		theDiv.innerHTML+='<label for="result_sort">Remove Rows</label>';
 		var temp='<input type="checkbox" name="killRows" id="killRows" onchange=";changekillRows();" <cfif session.killrow is 1>checked="checked"</cfif>>';
 		theDiv.innerHTML+=temp;
 		theDiv.innerHTML+='<span style="font-size:small">(Requires Refresh)</span>';
-		
+
 		document.body.appendChild(theDiv);
 		document.getElementById('result_sort').value=result_sort;
 		document.getElementById('displayRows').value=displayRows;
 		$("##helpDiv").css({position:"absolute", top: e.pageY, left: e.pageX});
 
-	});	
+	});
 });
 function closeBrowse(){
 	var theDiv = document.getElementById('browseDiv');
@@ -116,7 +116,7 @@ function removeHelpDiv() {
 		<cfset detail_level = #session.detailLevel#>
 	<cfelse>
 		<cfset detail_level = 1>
-	</cfif>	
+	</cfif>
 </cfif>
 <cfif not isdefined("displayrows")>
 	<cfset displayrows = session.displayrows>
@@ -157,7 +157,7 @@ function removeHelpDiv() {
 </cfloop>
 <cfset basSelect = " SELECT distinct #session.flatTableName#.collection_object_id">
 <cfif len(session.CustomOtherIdentifier) gt 0>
-	<cfset basSelect = "#basSelect# 
+	<cfset basSelect = "#basSelect#
 		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		'#session.CustomOtherIdentifier#' as myCustomIdType,
 		to_number(ConcatSingleOtherIdInt(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
@@ -169,7 +169,7 @@ function removeHelpDiv() {
 	</cfif>
 </cfloop>
 
-<!--- things that start with _ need special handling 
+<!--- things that start with _ need special handling
 they also need special handling at TAG:SORTRESULT (do find in this document)--->
 <!--- this special handling is how to add it to the select statement --->
 <cfif ListContainsNoCase(session.resultColumnList,"_elev_in_m")>
@@ -182,18 +182,18 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 </cfif>
 <cfif ListContainsNoCase(session.resultColumnList,"_original_elevation")>
 	<cfset basSelect = "#basSelect#,MINIMUM_ELEVATION,MAXIMUM_ELEVATION,ORIG_ELEV_UNITS">
-</cfif> 
+</cfif>
 	<cfset basFrom = " FROM #session.flatTableName#">
 	<cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
-	<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">	
+	<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">
 
 	<cfset basQual = "">
-	<cfset basOrder = "">	
+	<cfset basOrder = "">
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
 	<!--- wrap everything up in a string --->
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual# #basOrder#">
-	
+
 	<cfset sqlstring = replace(sqlstring,"flatTableName","#session.flatTableName#","all")>
 
 <!---cfoutput>[#sqlstring#]</cfoutput--->
@@ -213,11 +213,11 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	</cfif>
 	<!--- ... and abort if there's nothing left --->
 	<cfif len(srchTerms) is 0>
-		<CFSETTING ENABLECFOUTPUTONLY=0>			
-		<font color="##FF0000" size="+2">You must enter some search criteria!</font>	  
+		<CFSETTING ENABLECFOUTPUTONLY=0>
+		<font color="##FF0000" size="+2">You must enter some search criteria!</font>
 		<cfabort>
 	</cfif>
-<cfset thisTableName = "SearchResults_#cfid#_#cftoken#">	
+<cfset thisTableName = "SearchResults_#cfid#_#cftoken#">
 <!--- try to kill any old tables that they may have laying around --->
 <cftry>
 	<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -261,35 +261,35 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 			<li>Check your form input, or use the Clear Form button to start over.</li>
 			<li>
 				If you searched by taxonomy, consult <a href="/TaxonomySearch.cfm" class="novisit">The Taxonomy List</a>.
-				Taxa are often synonymized and revised, and may not be consistent across collections. Previous Identifications, 
-				which are separate from the taxonomy used in Identifications, may be located using the scientific name 
+				Taxa are often synonymized and revised, and may not be consistent across collections. Previous Identifications,
+				which are separate from the taxonomy used in Identifications, may be located using the scientific name
 				"is/was/cited/related" option.
 			</li>
 			<li>
-				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, or use a substring match. 
+				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, or use a substring match.
 				Don't assume we've accurately or predictably recorded data.
 			</li>
 			<li>
 				 Not all specimens have coordinates - the spatial query tool will not locate all specimens.
 			</li>
 			<li>
-				Use dropdowns or partial word matches instead of text strings, which may be entered in unexpected ways. 
+				Use dropdowns or partial word matches instead of text strings, which may be entered in unexpected ways.
 				"Doe" is a good choice for a collector if "John P. Doe" didn't match anything, for example.
 			</li>
 			<cfif #cgi.HTTP_HOST# DOES NOT CONTAIN "harvard.edu">
 			   <li>
-				  Read the documentation for individual search fields (click the title of the field to see documentation). 
+				  Read the documentation for individual search fields (click the title of the field to see documentation).
 				  Arctos fields may not be what you expect them to be.  See: <a href='https://code.mcz.harvard.edu/wiki/index.php/Glossary_of_MCZbase_Field_Names'>The glossary of MCZbase Field Names</a>
 			   </li>
 			<cfelse>
 				<li>
-				  Read the documentation for individual search fields. 
+				  Read the documentation for individual search fields.
 				  See: <a href='https://code.mcz.harvard.edu/wiki/index.php/Glossary_of_MCZbase_Field_Names'>The glossary of MCZbase Field Names</a>
 			    </li>
 			</cfif>
 			<li>
-				<a href="/googlesearch.cfm">Try our Google search</a>. Not everything in Arctos 
-				is indexed in Google, but it may provide a starting point to locate specific items.  		
+				<a href="/googlesearch.cfm">Try our Google search</a>. Not everything in Arctos
+				is indexed in Google, but it may provide a starting point to locate specific items.
 			</li>
 			<li>
 				<a href="/contact.cfm">Contact us</a> if you still can't find what you need. We'll help if we can.
@@ -348,7 +348,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 	<input type="hidden" name="displayRows" id="displayRows" value="#session.displayRows#">
        <p style="margin-left: 5px;padding-top: 0em;"><strong>#mappable.cnt#</strong> of these <strong>#summary.recordcount#</strong> records have coordinates
         <cfif #mappable.cnt# gt 0>
-          and can be displayed with 
+          and can be displayed with
 			<span class="controlButton"
 				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?#mapurl#','_blank');">BerkeleyMapper</span>
 			<span class="controlButton"
@@ -401,7 +401,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 				<cfloop list="#resultList#" index="i">
 					<option <cfif #session.result_sort# is #i#>selected="selected" </cfif>value="#i#">#i#</option>
 				</cfloop>
-			</select>			
+			</select>
 		</td>
 		<td>
 			<label for="orderBy2">...then order by</label>
@@ -413,8 +413,8 @@ If your item needs to be sorted in a special way, then do that here. --->
 		</td>
 		<td>
 			<label for="">&nbsp;</label>
-			<span class="controlButton" 
-				onmouseover="this.className='controlButton btnhov'" 
+			<span class="controlButton"
+				onmouseover="this.className='controlButton btnhov'"
 				onmouseout="this.className='controlButton'"
 				onclick="var pr=document.getElementById('page_record');
 					var c=pr.value;
@@ -426,7 +426,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 		<td>
 			<label for="">&nbsp;</label>
 			<span class="controlButton"
-				onmouseover="this.className='controlButton btnhov'" 
+				onmouseover="this.className='controlButton btnhov'"
 				onmouseout="this.className='controlButton'"
 				onclick="var pr=document.getElementById('page_record');
 					var c=pr.value;
@@ -444,10 +444,10 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<input type="hidden" name="killRowList" id="killRowList">
 			<span id="removeChecked"
 				style="display:none;"
-				class="controlButton" 
-				onmouseover="this.className='controlButton btnhov'" 
+				class="controlButton"
+				onmouseover="this.className='controlButton btnhov'"
 				onmouseout="this.className='controlButton'"
-				onclick="removeItems();">Remove&nbsp;Checked</span>	
+				onclick="removeItems();">Remove&nbsp;Checked</span>
 		</td>
 		<td>
 			<label for="">&nbsp;</label>
@@ -457,19 +457,19 @@ If your item needs to be sorted in a special way, then do that here. --->
 		<td>
 			<label for="">&nbsp;</label>
 			<span class="controlButton"
-							onmouseover="this.className='controlButton btnhov'" 
+							onmouseover="this.className='controlButton btnhov'"
 				onmouseout="this.className='controlButton'"
 				onclick="window.open('/SpecimenResultsDownload.cfm?tableName=#session.SpecSrchTab#','_blank');">Download</span>
 		</td>
 		<td>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><label for="">&nbsp;</label>
 			<span class="controlButton"
-			onmouseover="this.className='controlButton btnhov'" 
+			onmouseover="this.className='controlButton btnhov'"
 				onmouseout="this.className='controlButton'"
                   onclick="saveSearch('#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#');">Save Search</span></cfif>
 		</td>
 		<td nowrap="nowrap">
-			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>					
+			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
 				<label for="goWhere">Manage...</label>
 				<select name="goWhere" id="goWhere" size="1">
 					<option value="">::Change Stuff::</option>
@@ -478,7 +478,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 					</option>
 					<option value="tissueParts.cfm">
 						Flag Parts as Tissues
-					</option>					
+					</option>
 					<option value="/multiIdentification.cfm">
 						Identification
 					</option>
@@ -502,7 +502,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 					<option value="/tools/bulkPart.cfm">
 						Modify Parts
 					</option>
-					
+
 					<option value="">::Print Stuff::</option>
 					<cfif #cgi.HTTP_HOST# DOES NOT CONTAIN "harvard.edu">
 					<option value="/Reports/report_printer.cfm?report=uam_mamm_vial">
@@ -510,7 +510,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 					</option>
 					<option value="/Reports/report_printer.cfm?report=uam_mamm_box">
 						UAM Mammals Box Labels
-					</option>					
+					</option>
 					<option value="/Reports/report_printer.cfm?report=MSB_vial_label">
 						MSB Mammals Vial Labels
 					</option>
@@ -535,11 +535,15 @@ If your item needs to be sorted in a special way, then do that here. --->
                     <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
 						Print Any Report
 					</option>
+					<option value="/tools/downloadParts.cfm">
+						Download Parts
+					</option>
+
 				</select>
-				<input type="button" 
-					value="Go" 
+				<input type="button"
+					value="Go"
 					class="lnkBtn"
-		   			onmouseover="this.className='lnkBtn btnhov'" 
+		   			onmouseover="this.className='lnkBtn btnhov'"
 					onmouseout="this.className='lnkBtn'"
 					onClick="reporter();">
 			</cfif>
@@ -577,7 +581,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 		u += '&sort=' + s;
 		var reportWin=window.open(u);
 	}
-   
+
 </script>
 </cfoutput>
 <!---

@@ -2395,7 +2395,7 @@ table.ssrch {
 table.ssrch tr:first-child {
 	line-height: 1.5em;
 }
-td.lbl {
+td.lbl2 {
 	width: 16em;
 	text-align: right;
 	padding-right: 5px;

@@ -119,7 +119,7 @@
 			<cfquery name="isFluid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM fluid_container_history WHERE container_id = #container_id#
 			</cfquery>	
-			<cfif isFluid.recordcount gt 0 AND len(isFluid.container_id) gt 0>
+			<!---<cfif isFluid.recordcount gt 0 AND len(isFluid.container_id) gt 0>
 				<cfquery name="updateFluidContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE 
 						Fluid_Container_History 
@@ -150,14 +150,14 @@
 						)
 					</cfquery>
 				</cfif>
-		    </cfif>
+		    </cfif>--->
 		</cftransaction>
 	<cflocation url="EditContainer.cfm?container_id=#container_id#" addtoken="false">
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------->
 <cfif action is "nothing">
-    <div class="basic_search_box" style="width: 43em;">
+    <div class="basic_search_box" style="width: 43em;z-index: 0;">
 	<cfset title="Edit Container">
 	<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
@@ -240,7 +240,7 @@
 								cataloged_item.collection_id = collection.collection_id and
 								coll_obj_cont_hist.container_id = #container_id#
 						</cfquery>
-						<input type="text" name="container_type" id="container_type" value="collection object" readonly="yes" />
+						<input type="text" name="container_type" id="container_type" value="collection object" readonly />
 						<cfif #findItem.recordcount# is 1>
 							<a href="/SpecimenDetail.cfm?collection_object_id=#findItem.collection_object_id#" target="_blank">
 								#findItem.institution_acronym# #findItem.collection_cde# #findItem.cat_num#</a>

@@ -199,7 +199,8 @@
 		<cfif frm does not contain " cataloged_item ">
 			<cfset frm = "#frm# inner join cataloged_item on (specimen_part.derived_from_cat_item=cataloged_item.collection_object_id)">
 		</cfif>
-    
+		<cfset whr = "#whr# AND cataloged_item.cat_num IN (#cat_num#)">
+	</cfif>
 	 
 	<cfif len(other_id_type) gt 0>
 		<cfif frm does not contain " coll_obj_cont_hist ">
