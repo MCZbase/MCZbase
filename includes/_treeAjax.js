@@ -85,10 +85,11 @@ function loadTree_success(r) {
 		post(1,errr);
 	} else{
 		theTreeDiv.className="cTreePane";
-		theTreeDiv.innerHTML = '';
+        theTreeDiv.innerHTML = '';
+		theTreeDiv.innerHTML = '<h4>Container Hierarchy</h4>';
 		newTree=new dhtmlXTreeObject("treePane","100%","100%;",0);
 		newTree.setImagePath("/images/dhtmlxTree/");
-		newTree.insertNewItem("0","container0","The Universe",0,0,0,0,"SELECT");
+		newTree.insertNewItem("0","container0","Museum of Comparative Zoology",0,0,0,0,"SELECT");
 		newTree.enableCheckBoxes(1);
 		newTree.enableDragAndDrop("temporary_disabled");
 		newTree.attachEvent("onDblClick","expandNode")

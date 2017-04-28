@@ -119,7 +119,7 @@
 			<cfquery name="isFluid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM fluid_container_history WHERE container_id = #container_id#
 			</cfquery>	
-			<cfif isFluid.recordcount gt 0 AND len(isFluid.container_id) gt 0>
+			<!---<cfif isFluid.recordcount gt 0 AND len(isFluid.container_id) gt 0>
 				<cfquery name="updateFluidContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE 
 						Fluid_Container_History 
@@ -150,14 +150,14 @@
 						)
 					</cfquery>
 				</cfif>
-		    </cfif>
+		    </cfif>--->
 		</cftransaction>
 	<cflocation url="EditContainer.cfm?container_id=#container_id#" addtoken="false">
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------->
 <cfif action is "nothing">
-    <div class="basic_search_box">
+    <div class="basic_search_box" style="width: 43em;z-index: 0;">
 	<cfset title="Edit Container">
 	<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
@@ -240,7 +240,7 @@
 								cataloged_item.collection_id = collection.collection_id and
 								coll_obj_cont_hist.container_id = #container_id#
 						</cfquery>
-						<input type="text" name="container_type" id="container_type" value="collection object" readonly="yes" />
+						<input type="text" name="container_type" id="container_type" value="collection object" readonly />
 						<cfif #findItem.recordcount# is 1>
 							<a href="/SpecimenDetail.cfm?collection_object_id=#findItem.collection_object_id#" target="_blank">
 								#findItem.institution_acronym# #findItem.collection_cde# #findItem.cat_num#</a>
@@ -267,19 +267,19 @@
 						<tr>
 							<td>
 								<label for="width">Width (cm)</label>
-								<input type="text" id="width" name="width" value="#getCont.width#" size="4">
+								<input type="text" id="width" name="width" value="#getCont.width#" size="5">
 							</td>
 							<td>
 								<label for="height">Height (cm)</label>
-								<input type="text" id="height" name="height" value="#getCont.height#" size="4">
+								<input type="text" id="height" name="height" value="#getCont.height#" size="5">
 							</td>
 							<td>
 								<label for="length">Length (cm)</label>
-								<input type="text" id="length" name="length" value="#getCont.length#" size="4">
+								<input type="text" id="length" name="length" value="#getCont.length#" size="5">
 							</td>
 							<td>
 								<label for="number_positions">## Positions</label>
-								<input type="text" name="number_positions" value="#getCont.number_positions#" size="2" id="number_positions">
+								<input type="text" name="number_positions" value="#getCont.number_positions#" size="5" id="number_positions">
 							</td>
 						</tr>
 					</table>
@@ -289,7 +289,7 @@
 	  		<tr>
 				<td colspan="2">
 					<label for="description">Description</label>
-					<textarea rows="2" cols="40" name="description" id="description">#getCont.Description#</textarea>
+					<textarea rows="2" cols="50" name="description" id="description">#getCont.Description#</textarea>
 				</td>
 			</tr>
 	 		<tr>
@@ -299,7 +299,7 @@
 				</td>
 				<td>
 					<label for="parent_install_date">Install Date</label>
-					<input name="parent_install_date" id="parent_install_date" type="text" value="#Dateformat(getCont.parent_install_date, "yyyy-mm-dd")#">
+					<input name="parent_install_date" id="parent_install_date" type="text" style="width: 105px" value="#Dateformat(getCont.parent_install_date, "yyyy-mm-dd")#">
 				</td>
 			</tr>
 	  		<tr>
@@ -313,11 +313,11 @@
 			</tr>
 	 		<tr>
 				<td colspan="2">
-					<label for="container_remarks">Remarks?</label>
-					<textarea rows="2" cols="40" id="container_remarks" name="container_remarks">#getCont.container_remarks#</textarea>
+					<label for="container_remarks">Remarks</label>
+					<textarea rows="2" cols="50" id="container_remarks" name="container_remarks">#getCont.container_remarks#</textarea>
 				</td>
 			</tr>
-	  		<tr>
+	  	<!--	<tr>
 				<td colspan="2">
 					<table cellspacing="0" cellpadding="0" width="100%">
 						<tr>
@@ -358,42 +358,47 @@
 						</tr>
 					</table>
 				</td>
-			<tr>
-			<tr>
+</tr>-->
+			<!--<tr>
 				<td colspan="2">
 					<label for="fluid_remarks">Fluid Remarks</label>
 					<input name="fluid_remarks" id="fluid_remarks" type="text" value="#getCont.fluid_remarks#" size="80">
 				</td>
-			</tr>
+			</tr>-->
 			<tr>
 				<td colspan="2">
 					<table cellpadding="0" cellspacing="0" width="100%">
-						<tr>
-							<td>
+						<tr><td>
+								<label for="newParentBarcode">Move To Barcode (Parent)</label>
+								<input type="text" name="newParentBarcode" id="newParentBarcode" />
+							</td>
+                        </tr>
+                        <tr>
+							<td style="display: none;">
 								<input type="button"
 									value="Print" 
 									class="lnkBtn"
 									onclick="window.open('Reports/report_printer.cfm?container_id=#getCont.container_id#');">
 							</td>
-							<td>
+							<td  style="padding: 1em 0;">
 								<input type="button"
 									value="Update" 
 									class="savBtn"
 									onclick="form1.action.value='update';submit();">
 							</td>
-							<td>
+							<td style="padding: 1em 0;">
 								<input type="button" 
 									value="Delete" 
 									class="delBtn"
-									onclick="form1.action.value='delete';confirmDelete('form1');" >
+									onclick="form1.action.value='delete';confirmDelete('form1');" >&nbsp;
 							</td>
-							<td>
+							<td style="padding: 1em 0;">
 								<input type="button"
 									value="Clone" 
 									class="insBtn"
-									onclick="form1.action.value='newContainer';submit();">
+									onclick="form1.action.value='newContainer';submit();">&nbsp;
 							</td>
-							<td>
+							<td style="padding: 1em 0;"> 
 								<cfif getCont.parent_container_id gt 0>
 									<input type="button"
 										value="Edit Parent"
@@ -401,10 +406,7 @@
 										onclick="document.location='EditContainer.cfm?container_id=#getCont.parent_container_id#';">
 								</cfif>
 							</td>
-							<td>
-								<label for="newParentBarcode">Move To Barcode</label>
-								<input type="text" name="newParentBarcode" id="newParentBarcode" />
-							</td>
+							
 						</tr>
 					</table>
 					<input type="hidden" name="action" value="update">
@@ -434,7 +436,7 @@
 				<label for="check_remark">Check Remark</label>
 				<input type="text" name="check_remark" id="check_remark">
 			</td>
-			<td>
+			<td valign="bottom">
 				<input type="submit" value="Save Check" class="savBtn">
 			</td>
 			
