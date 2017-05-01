@@ -470,9 +470,18 @@ If your item needs to be sorted in a special way, then do that here. --->
 		</td>
 		<td nowrap="nowrap">
 			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
-				<label for="goWhere">Manage...</label>
+				<label for="goWhere">Manage results by...</label>
 				<select name="goWhere" id="goWhere" size="1">
-					<option value="">::Change Stuff::</option>
+					<option value="">choose</option>
+                    <option value="/addAccn.cfm">
+						Accession
+					</option>
+                    <option value="/multiAgent.cfm">
+						Agents
+					</option>
+                    <option value="/bulkCollEvent.cfm">
+						Collecting Events
+					</option>
 					<option value="/Encumbrances.cfm">
 						Encumbrances
 					</option>
@@ -482,63 +491,21 @@ If your item needs to be sorted in a special way, then do that here. --->
 					<option value="/multiIdentification.cfm">
 						Identification
 					</option>
-					<option value="/multiAgent.cfm">
-						Agents
+                     <option value="/bnhmMaps/SpecimensByLocality.cfm">
+						Map By Locality
+					</option>
+					<option value="/tools/downloadParts.cfm">
+						Parts (Download Report)
 					</option>
 					<option value="/findContainer.cfm?showControl=1">
-						Part Locations
+						Parts (Locations)
 					</option>
-					<option value="/bulkCollEvent.cfm">
-						Collecting Events
-					</option>
-					<option value="/addAccn.cfm">
-						Accession
-					</option>
-                    <cfif #cgi.HTTP_HOST# DOES NOT CONTAIN "harvard.edu">
-						<option value="compDGR.cfm">
-							MSB<->DGR
-						</option>
-                    </cfif>
 					<option value="/tools/bulkPart.cfm">
-						Modify Parts
-					</option>
-
-					<option value="">::Print Stuff::</option>
-					<cfif #cgi.HTTP_HOST# DOES NOT CONTAIN "harvard.edu">
-					<option value="/Reports/report_printer.cfm?report=uam_mamm_vial">
-						UAM Mammals Vial Labels
-					</option>
-					<option value="/Reports/report_printer.cfm?report=uam_mamm_box">
-						UAM Mammals Box Labels
-					</option>
-					<option value="/Reports/report_printer.cfm?report=MSB_vial_label">
-						MSB Mammals Vial Labels
-					</option>
-					<cfif isdefined('permit_num') and len(permit_num) gt 0>
-						<option value="/Reports/permit.cfm">
-							MVZ Permit Report
-						</option>
-					</cfif>
-					<option value="/Reports/kenai.cfm">
-						download bug .tex
-					</option>
-					<option value="/Reports/print_nk.cfm">
-						Print NK pages
-					</option>
-					<option value="/Reports/report_printer.cfm?report=ala_label">
-						ALA Labels
-					</option>
-					</cfif>
-					<option value="/bnhmMaps/SpecimensByLocality.cfm">
-						Map By Locality
+						Parts (Modify)
 					</option>
                     <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
 						Print Any Report
 					</option>
-					<option value="/tools/downloadParts.cfm">
-						Download Parts
-					</option>
-
 				</select>
 				<input type="button"
 					value="Go"
