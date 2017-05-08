@@ -1,4 +1,4 @@
-<cfinclude template="includes/_frameHeader.cfm">
+
 <cfif not isdefined("container_id")>
 	<cfabort><!--- need an ID to do anything --->
 </cfif>
@@ -35,9 +35,6 @@
     <div style="padding-left: 1em;padding-top: 1em;z-index: 0;">
         <h4>Container Details</h4>
 <cfoutput query="Detail">
-	
-
-	
 	<table border="1" style="padding: .5em;">
 		<tr>
 		   <td class="lbl2">Container Type:</td>
