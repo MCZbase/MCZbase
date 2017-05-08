@@ -25,12 +25,17 @@
       enter <strong>exactly</strong> what the scanner 
       will read, including all spaces!</p>
 <form name="form1" method="post" action="CreateContainersForBarcodes.cfm?action=create">
-	<label for="institution_acronym">Institution Acronym</label>
+
+     <label for="parent_container_id">Parent Container ID for series</label>
+    <input type="text" name="parent_container_id" id="parent_container_id">
+    <br/><br/>
+    <label for="institution_acronym">Institution Acronym</label>
     <select name="institution_acronym" id="institution_acronym" class="reqdClr" style="width:110px;">
 		<cfloop query="ctinstitution_acronym">
 			<option value="#institution_acronym#">#institution_acronym#</option>
 		</cfloop>
 	</select> 
+   
 	<input type="checkbox" name="cryoBarcode" value="cryoBarcode">Create "PLACE" barcodes for Cryo Collection</input>
     <label for="beginBarcode">Low number in series</label>
     <input type="text" name="beginBarcode" id="beginBarcode">
@@ -70,7 +75,7 @@
 	<cfset mczbarcode=left(numberFormat(barcode,00000000),4) & "PLACE" & right(numberFormat(barcode,00000000),4)>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO container (container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
-			VALUES (sq_container_id.nextval, 0, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
+			VALUES (sq_container_id.nextval, #parent_container_id#, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
 	</cfquery>
 			<cfset num = #num# + 1>
 			<cfset barcode = #barcode# + 1>
@@ -89,7 +94,7 @@
 	</cfif>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO container (container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
-			VALUES (sq_container_id.nextval, 0, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
+			VALUES (sq_container_id.nextval, #parent_container_id#, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
 	</cfquery>
 			<cfset num = #num# + 1>
 			<cfset barcode = #barcode# + 1>
