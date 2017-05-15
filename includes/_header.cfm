@@ -244,7 +244,7 @@
               </cfif>
             </ul>
           </li>
-         <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
+           <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
             <li><a target="_top" href="##">Reports</a>
                   <ul>
                         <li><a target="_top" href="/Reports/reporter.cfm">Reporter</a></li>
