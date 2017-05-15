@@ -4,22 +4,22 @@
 <cfoutput>
 <cfif isdefined("container_id")>
 	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
-			container.container_id, 
+		select
+			container.container_id,
 			container.container_type,
 			container.label,
 			container.description,
 			p.barcode,
 			container.container_remarks
-		from 
+		from
 			container,
 			container p
-		where 
+		where
 			container.parent_container_id=p.container_id (+) and
 			container.container_type='collection object'
-		start with 
+		start with
 			container.container_id=#container_id#
-		connect by 
+		connect by
 			container.parent_container_id = prior container.container_id
 	</cfquery>
 	<strong>
@@ -34,16 +34,18 @@
 			<td><strong>Part Name</strong></td>
 			<td><strong>Cat Num</strong></td>
 			<td><strong>Scientific Name</strong></td>
+			<td><strong>Stored As</strong></td>
 		</tr>
 		<cfloop query="leaf">
 		<cfquery name="specData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 
+			select
 				cataloged_item.collection_object_id,
 				scientific_name,
 				part_name,
 				cat_num,
 				cataloged_item.collection_cde,
-				institution_acronym
+				institution_acronym,
+				get_storedas_by_contid(#container_id#) storedAs
 			FROM
 				coll_obj_cont_hist,
 				specimen_part,
@@ -72,6 +74,7 @@
 				</a>
 			</td>
 			<td>#specData.scientific_name#</td>
+			<td>#specData.storedAs#</td>
 		</tr>
 		</cfloop>
 	</table>
@@ -87,7 +90,7 @@
 	<cfabort>
 </cfif>
 <cfset sel = "
-SELECT 
+SELECT
 	 container.container_id,
 	 container.parent_container_id,
 	 container_type,
@@ -96,25 +99,25 @@ SELECT
 	 FROM
 	 container">
 <cfset whr = "
-	WHERE 
+	WHERE
 		">
-	
- 
+
+
 
 	 <cfif #srch# is "Part">
 	 <cfset frm = "#frm#,coll_obj_cont_hist,specimen_part,cataloged_item">
-	 <cfset whr = "#whr# container.container_id = coll_obj_cont_hist.container_id 
+	 <cfset whr = "#whr# container.container_id = coll_obj_cont_hist.container_id
 	 				AND coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
 					AND specimen_part.derived_from_cat_item = cataloged_item.collection_object_id">
 	 </cfif>
 	 <cfif #srch# is "Container">
-		 <cfset frm = "#frm#,fluid_container_history">	
+		 <cfset frm = "#frm#,fluid_container_history">
 		<cfset whr = "#whr# container.container_id = fluid_container_history.container_id (+)">
 	 	<!--- don't need to add anything --->
 	 </cfif>
 
-	
-	 
+
+
 <cfif isdefined("af_num")>
 	<cfset aflist = "">
 	<cfloop list="#af_num#" index="i">
@@ -135,7 +138,7 @@ SELECT
  	<cfset whr = "#whr# AND cataloged_item.collection_cde='#collection_cde#'">
  </cfif>
 
- 
+
  <cfif isdefined("Tissue_Type")>
  	<cfset whr = "#whr# AND Tissue_Type='#Tissue_Type#'">
  </cfif>
@@ -145,7 +148,7 @@ SELECT
  <cfif isdefined("Scientific_Name")>
  	<cfset frm = "#frm#,identification,taxonomy">
  	<cfset whr = "#whr# AND cataloged_item.collection_object_id = identification.collection_object_id
-					AND identification.accepted_id_fg = 1 
+					AND identification.accepted_id_fg = 1
 					AND identification.taxon_name_id = taxonomy.taxon_name_id
 					AND upper(Scientific_Name) like '%#ucase(Scientific_Name)#%'">
  </cfif>
@@ -155,7 +158,7 @@ SELECT
 		<cfelse>
 			<cfset whr = "#whr# AND label = '#container_label#'">
 	</cfif>
- 
+
  </cfif>
  <cfif isdefined("description")>
  	<cfif isdefined("wildLbl") and #wildLbl# is 1>
@@ -163,8 +166,8 @@ SELECT
 		<cfelse>
 			<cfset whr = "#whr# AND description='#description#'">
 	</cfif>
-	
-	
+
+
  </cfif>
  <cfif isdefined("collection_object_id")>
  	<cfset whr = "#whr# AND cataloged_item.collection_object_id=#collection_object_id#">
@@ -204,7 +207,7 @@ SELECT
 <!---------------- search by container_id (ie, for all the containers in a container
 	from a previous search ---------------------------------->
 <cfif #action# is "contentsSearch">
-<cfset sql = "SELECT container_id 
+<cfset sql = "SELECT container_id
 	FROM
 	container
 	WHERE
@@ -229,9 +232,9 @@ SELECT
 
 
  <cfloop query="allRecords">
- 
+
 	<cfquery name="thisRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select 
+	select
 	CONTAINER_ID,
 	PARENT_CONTAINER_ID,
 	CONTAINER_TYPE,
@@ -241,7 +244,7 @@ SELECT
 	label
 	 from container
 	start with container_id=<cfoutput>#allRecords.container_id#</cfoutput>
-	connect by prior parent_container_id = container_id 
+	connect by prior parent_container_id = container_id
 	</cfquery>
 		<cfoutput>
 			<cfloop query="thisRecord">
@@ -249,39 +252,39 @@ SELECT
 					<cfif #thisRecord.container_type# is "collection object">
 					<!--- get the collection_object-id --->
 					<!---<cfquery name="collobjid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select 
+						select
 							a.derived_from_biol_indiv,
 							c.derived_from_biol_indv
-						from 
-							tissue_sample a, 
+						from
+							tissue_sample a,
 							coll_obj_cont_hist b,
 							specimen_part c
-						where 
+						where
 							a.collection_object_id = b.collection_object_id (+) AND
 							a.collection_object_id = c.collection_object_id (+) AND
 							container_id=#thisRecord.container_id#
 					</cfquery>--->
-					<!--- 
-						just plaster the derived_from_biol_indiv and derived_from_biol_indv 
-						numbers together in the URL because we'll only ever return one of them 
+					<!---
+						just plaster the derived_from_biol_indiv and derived_from_biol_indv
+						numbers together in the URL because we'll only ever return one of them
 					--->
-					
-							
-						<cftreeitem 
-							value="#thisRecord.container_id#--ContDet.cfm?container_id=#thisRecord.container_id#&objType=CollObj" 
+
+
+						<cftreeitem
+							value="#thisRecord.container_id#--ContDet.cfm?container_id=#thisRecord.container_id#&objType=CollObj"
 							display="#thisRecord.label#"
-							parent="#thisRecord.parent_container_id#" 
-							expand="yes" 
+							parent="#thisRecord.parent_container_id#"
+							expand="yes"
 							href="ContDet.cfm?container_id=#thisRecord.container_id#"
 							target="_detail">
-					
+
 					<cfelse>
 					<cftreeitem value="#thisRecord.container_id#" display="#thisRecord.label#" parent="#thisRecord.parent_container_id#" href="ContDet.cfm?container_id=#thisRecord.container_id#" target="_detail" expand="yes">
 					</cfif>
-				
-				<cfset placedContainers = listappend(placedContainers,#thisRecord.container_id#)> 
+
+				<cfset placedContainers = listappend(placedContainers,#thisRecord.container_id#)>
 				</cfif>
-				
+
 			</cfloop>
 		</cfoutput>
  </cfloop>

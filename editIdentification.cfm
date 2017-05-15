@@ -10,8 +10,23 @@
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
 		});
-	});
+	})
 </script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+            <script type="text/javascript">
+                $(function () {
+                    $(".check").change(function () {
+                        if ($(this).is(":checked")) {
+                            $(".check").not($(this)).each(function () {
+                                $(this).removeAttr("checked");
+                            })
+                        }
+                    })
+                })
+            </script>
+
 <!----------------------------------------------------------------------------------->
 <cfif action is "nothing">
 <cfoutput>
@@ -38,7 +53,8 @@
 		identification_agent_id,
 		formatted_publication,
 		identification.publication_id,
-		identification.sort_order
+		identification.sort_order,
+		identification.stored_as_fg
 	FROM
 		cataloged_item,
 		identification,
@@ -217,7 +233,8 @@
 		identification_remarks,
 		formatted_publication,
 		publication_id,
-		sort_order
+		sort_order,
+		stored_as_fg
 	FROM
 		getID
 	GROUP BY
@@ -232,7 +249,8 @@
 		identification_remarks,
 		formatted_publication,
 		publication_id,
-		sort_order
+		sort_order,
+		stored_as_fg
 	ORDER BY
 		accepted_id_fg DESC,
 		sort_order,
@@ -334,7 +352,7 @@
                         <span class="infoLink" id="addIdentifier_#i#"
 					onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
 			</td>
-	       
+
 		</tr>
 		<tr>
         	<td align="right">
@@ -382,7 +400,7 @@
 		<cfif #accepted_id_fg# is 0>
 		<tr>
 			<td>
-				<div div align="right">Sort Order:</div>
+				<div align="right">Sort Order:</div>
 			</td>
 			<td>
 				<select name="sort_order_#i#" id="sort_order_#i#" size="1">
@@ -391,10 +409,14 @@
 	                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
 	                </cfloop>
 	           	</select>
+	        </td>
+	        <td>
+	           	Stored As: <input type="checkbox" class="check" name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
 			</td>
         </tr>
 		<cfelse>
 			<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
+			<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
 		</cfif>
 	</table>
   <cfset i = #i#+1>
@@ -406,13 +428,16 @@
 	</td>
 </tr>
 </table>
+
 </form>
 </div>
 </cfoutput>
+
 </cfif>
 <!----------------------------------------------------------------------------------->
 <cfif #Action# is "saveEdits">
 <cfoutput>
+	<cfquery datasource="uam_god">alter trigger tr_stored_as_fg disable</cfquery>
 	<cftransaction>
 		<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
 			<cfset thisAcceptedIdFg = #evaluate("ACCEPTED_ID_FG_" & n)#>
@@ -423,13 +448,30 @@
 			<cfset thisNumIds = #evaluate("NUMBER_OF_IDENTIFIERS_" & n)#>
 			<cfset thisPubId = #evaluate("publication_id_" & n)#>
 			<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
-
+			<cfif #isdefined("storedas_" & n)#>
+				<cfset thisStoredAs = #evaluate("storedas_" & n)#>
+			<cfelse>
+				<cfset thisStoredAs = 0>
+			</cfif>
 			<cfif thisAcceptedIdFg is 1>
 				<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE identification SET ACCEPTED_ID_FG=0 where collection_object_id = #collection_object_id#
 				</cfquery>
 				<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE identification SET ACCEPTED_ID_FG=1, sort_order = null where identification_id = #thisIdentificationId#
+				</cfquery>
+				<cfset thisStoredAs = 0>
+			</cfif>
+			<cfif thisStoredAs is 1>
+				<cfquery name="upStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE identification SET STORED_AS_FG=0 where collection_object_id = #collection_object_id#
+				</cfquery>
+				<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE identification SET STORED_AS_FG=1 where identification_id = #thisIdentificationId#
+				</cfquery>
+			<cfelse>
+				<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE identification SET STORED_AS_FG=0 where identification_id = #thisIdentificationId#
 				</cfquery>
 			</cfif>
 			<cfif thisAcceptedIdFg is "DELETE">
@@ -510,6 +552,7 @@
 			</cfif>
 		</cfloop>
 	</cftransaction>
+	<cfquery datasource="uam_god">alter trigger tr_stored_as_fg enable</cfquery>
 	<cflocation url="editIdentification.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
 </cfif>
@@ -591,6 +634,7 @@
 			 <cfif len(new_publication_id) gt 0>
 				,publication_id
 			</cfif>
+			,stored_as_fg
 		) VALUES (
 			sq_identification_id.nextval,
 			#COLLECTION_OBJECT_ID#
@@ -607,6 +651,7 @@
 			 <cfif len(new_publication_id) gt 0>
 				,#new_publication_id#
 			</cfif>
+			,0
 		)
 	</cfquery>
 	<cfquery name="newIdAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
