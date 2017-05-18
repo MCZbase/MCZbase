@@ -188,7 +188,7 @@
     <cfset mapurl = "#mapurl#&last_edited_person_id=#last_edited_person_id#">
 </cfif>
         
-       select * from agent_name an, coll_object co where co.last_edited_person_id = an.AGENT_ID and an.AGENT_NAME like '%Michelle M. H.%'; 
+
         
 <cfif isdefined("media_type") AND len(#media_type#) gt 0>
 	<cfset mapurl = "#mapurl#&media_type=#media_type#">
