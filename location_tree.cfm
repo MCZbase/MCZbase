@@ -13,7 +13,7 @@
 	<cfset srch="part">
 </cfif>
 <cfset sel = "
-SELECT 
+SELECT
 	 container.container_id,
 	 container.parent_container_id,
 	 container_type,
@@ -24,12 +24,12 @@ SELECT
 <cfset whr = " WHERE ">
 	 <cfif #srch# is "Part">
 	 <cfset frm = "#frm#,coll_obj_cont_hist,specimen_part,cataloged_item">
-	 <cfset whr = "#whr# container.container_id = coll_obj_cont_hist.container_id 
+	 <cfset whr = "#whr# container.container_id = coll_obj_cont_hist.container_id
 	 				AND coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
 					AND specimen_part.derived_from_cat_item = cataloged_item.collection_object_id">
 	 </cfif>
 	 <cfif #srch# is "Container">
-		 <cfset frm = "#frm#,fluid_container_history">	
+		 <cfset frm = "#frm#,fluid_container_history">
 		<cfset whr = "#whr# container.container_id = fluid_container_history.container_id (+)">
 	 	<!--- don't need to add anything --->
 	 </cfif>
@@ -42,7 +42,7 @@ SELECT
 					AND container.container_id = fluid_container_history.container_id (+)">
 
 	---->
-	
+
 <cfif isdefined("af_num")>
 	<cfset aflist = "">
 	<cfloop list="#af_num#" index="i">
@@ -63,7 +63,7 @@ SELECT
  	<cfset whr = "#whr# AND cataloged_item.collection_cde='#collection_cde#'">
  </cfif>
 
- 
+
  <cfif isdefined("Tissue_Type")>
  	<cfset whr = "#whr# AND Tissue_Type='#Tissue_Type#'">
  </cfif>
@@ -73,7 +73,7 @@ SELECT
  <cfif isdefined("Scientific_Name")>
  	<cfset frm = "#frm#,identification">
  	<cfset whr = "#whr# AND cataloged_item.collection_object_id = identification.collection_object_id
-					AND identification.accepted_id_fg = 1 
+					AND identification.accepted_id_fg = 1
 					AND upper(Scientific_Name) like '%#ucase(Scientific_Name)#%'">
  </cfif>
  <cfif isdefined("container_label")>
@@ -82,7 +82,7 @@ SELECT
 		<cfelse>
 			<cfset whr = "#whr# AND label = '#container_label#'">
 	</cfif>
- 
+
  </cfif>
  <cfif isdefined("description")>
  	<cfif isdefined("wildLbl") and #wildLbl# is 1>
@@ -90,8 +90,8 @@ SELECT
 		<cfelse>
 			<cfset whr = "#whr# AND description='#description#'">
 	</cfif>
-	
-	
+
+
  </cfif>
  <cfif isdefined("collection_object_id")>
  	<cfset whr = "#whr# AND cataloged_item.collection_object_id IN (#collection_object_id#)">
@@ -118,10 +118,10 @@ SELECT
  </cfif>
 <cfif isdefined("loan_trans_id")>
  	<cfset frm = "#frm#,loan_item">
-	<cfset whr = "#whr# AND loan_item.collection_object_id = specimen_part.collection_object_id	
+	<cfset whr = "#whr# AND loan_item.collection_object_id = specimen_part.collection_object_id
 		AND loan_item.transaction_id = #loan_trans_id#">
 </cfif>
-	
+
  <cfset sql = "#sel# #frm# #whr# ORDER BY label">
  <!----
 <cfoutput>
@@ -129,7 +129,7 @@ SELECT
  </cfoutput>
  <cfflush>
  ---->
- 
+
  <cfif #whr# is " WHERE ">
  	<!--- WAITING FOR SEARCH TERMS --->
 	<cfabort>
@@ -168,7 +168,7 @@ parent_container_id,
 
 	<p><a href="javascript: d.openAll();">open all</a> | <a href="javascript: d.closeAll();">close all</a></p>
 	<cfset a="d.add(0,-1,'Part Locations');">
-	<cfset placedContainers = ""> 
+	<cfset placedContainers = "">
 	<cfoutput>
 	<cfloop query="queriedFor">
 		<cfif not listfind(placedContainers,#container_id#)>
@@ -179,11 +179,11 @@ parent_container_id,
 			</cfif>
 			<cfset a = "#a#
 				d.add(#container_id#,#parent_container_id#,'#label# (#container_type#) #expand#','ContDet.cfm?container_id=#container_id#&objType=CollObj','','_detail');">
-			<cfset placedContainers = listappend(placedContainers,#container_id#)> 
+			<cfset placedContainers = listappend(placedContainers,#container_id#)>
 		</cfif>
-		
+
 		<cfquery name="thisRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="60">
-	select 
+	select
 	CONTAINER_ID,
 	PARENT_CONTAINER_ID,
 	CONTAINER_TYPE,
@@ -191,10 +191,11 @@ parent_container_id,
 	PARENT_INSTALL_DATE,
 	CONTAINER_REMARKS,
 	barcode,
-	label
+	label,
+	 GET_STOREDAS_BY_CONTID(#container_id#)
 	 from container
 	start with container_id=#container_id#
-	connect by prior parent_container_id = container_id 
+	connect by prior parent_container_id = container_id
 	</cfquery>
 		<cfloop query="thisRecord">
 		<cfif not listfind(placedContainers,#container_id#)>
@@ -206,9 +207,9 @@ parent_container_id,
 			<cfset a = "#a#
 			d.add(#container_id#,#parent_container_id#,'#label# (#container_type#) [#barcode#] #expand#','ContDet.cfm?container_id=#container_id#&objType=CollObj','','_detail');">
 		</cfif>
-		<cfset placedContainers = listappend(placedContainers,#container_id#)> 
+		<cfset placedContainers = listappend(placedContainers,#container_id#)>
 	</cfloop>
-	
+
 	</cfloop>
 	<script type="text/javascript">
 		d = new dTree('d');
@@ -256,17 +257,17 @@ parent_container_id,
 	 <form method="post" action="locDownload.cfm" target="_blank">
 		<cfoutput>
 			<input type="hidden" name="sql" value="#preservesinglequotes(sql)#">
-			<input type="submit" 
+			<input type="submit"
 				value="Download Summary" class="lnkBtn"
-   					onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">	
+   					onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 		</cfoutput>
 	 </form>
 	 <form method="post" action="locDownload2.cfm" target="_blank">
 		<cfoutput>
 			<input type="hidden" name="sql" value="#preservesinglequotes(sql)#">
-			<input type="submit" 
+			<input type="submit"
 				value="DLM" class="lnkBtn"
-   					onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">	
+   					onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 		</cfoutput>
 	 </form>
  </cfif>

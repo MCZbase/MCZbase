@@ -244,36 +244,42 @@
               </cfif>
             </ul>
           </li>
-              <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
+           <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
             <li><a target="_top" href="##">Reports</a>
                   <ul>
-                <li><a target="_top" href="/Reports/reporter.cfm">Reporter</a></li>
-                <li><a target="_top" href="/info/mia_in_genbank.cfm">GenBank MIA</a></li>
-                <li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
-                <li><a target="_top" href="/info/loanStats.cfm">Loan Stats</a></li>
-                <li><a target="_top" href="/info/Citations.cfm">Citation Stats</a></li>
-                <li><a target="_top" href="/info/MoreCitationStats.cfm">More Citation Stats</a></li>
-                <li><a target="_top" href="/Admin/download.cfm">Download Stats</a></li>
-                <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
-                <li><a target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a></li>
-                <li><a target="_top" href="/tools/downloadData.cfm">Download Tables</a></li>
-                <li><a target="_top" href="/tools/access_report.cfm">Oracle Roles</a></li>
-                <cfif listfind(formList,"/tools/userSQL.cfm")>
-                      <li><a target="_top" href="/tools/userSQL.cfm">Write SQL</a></li>
-                    </cfif>
-                <li><a target="_top" href="##">Funky Data</a>
-                      <ul>
-                    <li><a target="_top" href="/info/collnHoldgByClass.cfm">Collection Holdings by Class</a></li>
-                    <li><a target="_top" href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a></li>
-                    <li><a target="_top" href="/tools/TaxonomyScriptGap.cfm">Unscriptable Taxonomy Gaps</a></li>
-                    <li><a target="_top" href="/info/slacker.cfm">Suspect Data</a></li>
-                    <li><a target="_top" href="/info/noParts.cfm">Partless Specimens</a></li>
-                    <li><a target="_top" href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a></li>
-                    <li><a target="_top" href="/tools/findGap.cfm">Catalog Number Gaps</a></li>
-                    <li><a target="_top" href="/info/dupAgent.cfm">Duplicate Agents</a></li>
-                    <li><a target="_top" href="/Reports/partusage.cfm">Part Usage</a></li>
-                  </ul>
+                        <li><a target="_top" href="/Reports/reporter.cfm">Reporter</a></li>
+                        <li><a target="_top" href="/info/mia_in_genbank.cfm">GenBank MIA</a></li>
+                        <li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
+                        <li><a target="_top" href="/info/loanStats.cfm">Loan Stats</a></li>
+                        <li><a target="_top" href="/info/Citations.cfm">Citation Stats</a></li>
+                        <li><a target="_top" href="/info/MoreCitationStats.cfm">More Citation Stats</a></li>
+                        <li><a target="_top" href="/Admin/download.cfm">Download Stats</a></li>
+                        <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
+                       <li><a target="_top" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a></li>
+                    
+                        <li><a target="_top" href="##">Funky Data</a>
+                           <ul>
+                            <li><a target="_top" href="/info/collnHoldgByClass.cfm">Collection Holdings by Class</a></li>
+                            <li><a target="_top" href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a></li>
+                            <li><a target="_top" href="/tools/TaxonomyScriptGap.cfm">Unscriptable Taxonomy Gaps</a></li>
+                            <li><a target="_top" href="/info/slacker.cfm">Suspect Data</a></li>
+                            <li><a target="_top" href="/info/noParts.cfm">Partless Specimens</a></li>
+                            <li><a target="_top" href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a></li>
+                            <li><a target="_top" href="/tools/findGap.cfm">Catalog Number Gaps</a></li>
+                            <li><a target="_top" href="/info/dupAgent.cfm">Duplicate Agents</a></li>
+                            <li><a target="_top" href="/Reports/partusage.cfm">Part Usage</a></li>
+                          </ul>
                     </li>
+                          <li><a target="_top" href="##">Oracle/SQL</a>
+                           <ul>
+                            <li><a target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a></li>
+                           <li><a target="_top" href="/tools/downloadData.cfm">Download Tables</a></li>
+                           <li><a target="_top" href="/tools/access_report.cfm">Oracle Roles</a></li>
+                            <cfif listfind(formList,"/tools/userSQL.cfm")>
+                            <li><a target="_top" href="/tools/userSQL.cfm">Write SQL</a></li>
+                            </cfif>
+                           </ul>
+                       </li>
               </ul>
                 </li>
           </cfif>

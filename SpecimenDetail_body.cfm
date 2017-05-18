@@ -353,7 +353,8 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									accepted_id_fg,
 									taxa_formula,
 									formatted_publication,
-									identification.publication_id
+									identification.publication_id,
+									stored_as_fg
 								FROM
 									identification,
 									(select * from formatted_publication where format_style='short') formatted_publication
@@ -414,6 +415,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									</cfloop>
 									#thisSciName#
 								</cfif>
+								<cfif oneOfUs is 1 and stored_as_fg is 1><span style="background-color: ##cccccc; float: right;border-radius: 2px; padding: 2px;">STORED AS</span></cfif>
 								<cfif not isdefined("metaDesc")>
 									<cfset metaDesc="">
 								</cfif>
