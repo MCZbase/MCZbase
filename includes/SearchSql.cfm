@@ -184,7 +184,7 @@
     <cfif #basJoin# does not contain "CatItemCollObject">
         <cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
     </cfif>
-    <cfset basQual = "#basQual#  AND CatItemCollObject.agent_id = #last_edited_person_id#" >
+    <cfset basQual = "#basQual#  AND CatItemCollObject.last_edited_by = #last_edited_person_id#" >
     <cfset mapurl = "#mapurl#&last_edited_person_id=#last_edited_person_id#">
 </cfif>
         
