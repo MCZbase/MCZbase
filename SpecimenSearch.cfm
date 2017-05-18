@@ -1345,14 +1345,7 @@
          			<span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span>
          		</td>
          	</tr>
-         	<tr>
-         		<td class="lbl">
-         			<span id="entered_by">Entered By:</span>
-         		</td>
-         		<td class="srch">
-         			<input type="text" name="entered_by" id="entered_by" size="50">
-         		</td>
-         	</tr>
+         
          	<tr>
          		<td class="lbl">
          			<span id="disposition">Part Disposition:</span>
@@ -1376,6 +1369,14 @@
          				<option value="1">Box</option>
          				<option value="2">Vial</option>
          			</select>
+         		</td>
+         	</tr>
+             	<tr>
+         		<td class="lbl">
+         			<span id="entered_by">Entered By:</span>
+         		</td>
+         		<td class="srch">
+         			<input type="text" name="entered_by" id="entered_by" size="50">
          		</td>
          	</tr>
          	<tr>
