@@ -173,7 +173,7 @@
         
         
 <cfif isdefined("edited_by") AND len(edited_by) gt 0>
-	<cfset mapurl = "#mapurl#&entered_by=#edited_by#">
+	<cfset mapurl = "#mapurl#&edited_by=#edited_by#">
 	<cfif basJoin does not contain "CatItemCollObject">
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
