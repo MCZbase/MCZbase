@@ -1392,7 +1392,7 @@
          			<span id="edited_by">Last Edited By:</span>
          		</td>
          		<td class="srch">
-         			<input type="text" name="edited_by" id="edited_by" size="10">
+         			<input type="text" name="edited_by" id="edited_by" size="50">
          		</td>
          	</tr>
          	<tr>
