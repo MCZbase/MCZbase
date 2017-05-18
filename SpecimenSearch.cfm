@@ -1389,10 +1389,10 @@
          	</tr>
              	<tr>
          		<td class="lbl">
-         			<span id="last_edit_date">Last Edited By:</span>
+         			<span id="edited_by">Last Edited By:</span>
          		</td>
          		<td class="srch">
-         			<input type="text" name="last_edited_person_id" id="last_edited_person_id" size="10">
+         			<input type="text" name="edited_by" id="edited_by" size="10">
          		</td>
          	</tr>
          	<tr>

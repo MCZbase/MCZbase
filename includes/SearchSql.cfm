@@ -151,6 +151,9 @@
 		<cfset basQual = "#basQual# AND upper(geology_attributes.geo_att_value) like '%#ucase(geology_attribute_value)#%'">
 	</cfif>
 </cfif>
+            
+            
+            
 <cfif isdefined("entered_by") AND len(entered_by) gt 0>
 	<cfset mapurl = "#mapurl#&entered_by=#entered_by#">
 	<cfif basJoin does not contain "CatItemCollObject">
@@ -166,13 +169,27 @@
     <cfset basQual = "#basQual#  AND CatItemCollObject.entered_person_id = #entered_by_id#" >
     <cfset mapurl = "#mapurl#&entered_by_id=#entered_by_id#">
 </cfif>
+        
+        
+        
+<cfif isdefined("edited_by") AND len(edited_by) gt 0>
+	<cfset mapurl = "#mapurl#&entered_by=#edited_by#">
+	<cfif basJoin does not contain "CatItemCollObject">
+		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
+	</cfif>
+	<cfset basJoin = " #basJoin# INNER JOIN agent_name edited_by ON	(CatItemCollObject.last_edited_person_id = edited_by.agent_id)">
+	<cfset basQual = "#basQual#  AND upper(edited_by.agent_name) like '%#ucase(edited_by)#%'" >
+</cfif>
 <cfif isdefined("last_edited_person_id") AND len(#last_edited_person_id#) gt 0>
     <cfif #basJoin# does not contain "CatItemCollObject">
         <cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
     </cfif>
-    <cfset basQual = "#basQual#  AND CatItemCollObject.last_edited_person_id = #last_edited_person_id#" >
+    <cfset basQual = "#basQual#  AND CatItemCollObject.agent_id = #last_edited_person_id#" >
     <cfset mapurl = "#mapurl#&last_edited_person_id=#last_edited_person_id#">
 </cfif>
+        
+       select * from agent_name an, coll_object co where co.last_edited_person_id = an.AGENT_ID and an.AGENT_NAME like '%Michelle M. H.%'; 
+        
 <cfif isdefined("media_type") AND len(#media_type#) gt 0>
 	<cfset mapurl = "#mapurl#&media_type=#media_type#">
 	<cfif basJoin does not contain "media_relations">
