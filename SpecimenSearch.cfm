@@ -1387,6 +1387,14 @@
          			<input type="text" name="end_entered_date" id="end_entered_date" size="10" />
          		</td>
          	</tr>
+             	<tr>
+         		<td class="lbl">
+         			<span id="last_edit_date">Last Edited By:</span>
+         		</td>
+         		<td class="srch">
+         			<input type="text" name="last_edited_person_id" id="last_edited_person_id" size="10">
+         		</td>
+         	</tr>
          	<tr>
          		<td class="lbl">
          			<span id="last_edit_date">Last Edited Date:</span>

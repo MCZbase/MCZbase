@@ -166,6 +166,13 @@
     <cfset basQual = "#basQual#  AND CatItemCollObject.entered_person_id = #entered_by_id#" >
     <cfset mapurl = "#mapurl#&entered_by_id=#entered_by_id#">
 </cfif>
+<cfif isdefined("last_person_edited_id") AND len(#last_person_edited_id#) gt 0>
+    <cfif #basJoin# does not contain "CatItemCollObject">
+        <cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
+    </cfif>
+    <cfset basQual = "#basQual#  AND CatItemCollObject.last_edited_person_id = #last_edited_person_id#" >
+    <cfset mapurl = "#mapurl#&last_edited_person_id=#last_edited_person_id#">
+</cfif>
 <cfif isdefined("media_type") AND len(#media_type#) gt 0>
 	<cfset mapurl = "#mapurl#&media_type=#media_type#">
 	<cfif basJoin does not contain "media_relations">
