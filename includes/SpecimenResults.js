@@ -546,6 +546,9 @@ function success_getSpecResultsData(result){
 			if (data.COLUMNLIST[0].indexOf('ENDED_DATE')> -1) {
 				theInnerHtml += '<th>Ended&nbsp;Date</th>';
 			}
+            if (data.COLUMNLIST[0].indexOf('LAST_EDIT_DATE')> -1) {
+				theInnerHtml += '<th>Last&nbsp;Edit&nbsp;Date</th>';
+			}
 			if (data.COLUMNLIST[0].indexOf('COLLECTING_TIME')> -1) {
 				theInnerHtml += '<th>Collecting&nbsp;Time</th>';
 			}
@@ -852,6 +855,9 @@ function success_getSpecResultsData(result){
 				}
 				if (data.COLUMNLIST[0].indexOf('ENDED_DATE')> -1) {
 					theInnerHtml += '<td>' + data.ENDED_DATE[i] + '</td>';
+				}
+                if (data.COLUMNLIST[0].indexOf('LAST_EDIT_DATE')> -1) {
+					theInnerHtml += '<td>' + data.LAST_EDIT_DATE[i] + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('COLLECTING_TIME')> -1) {
 					theInnerHtml += '<td>' + data.COLLECTING_TIME[i] + '</td>';
