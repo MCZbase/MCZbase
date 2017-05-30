@@ -39,7 +39,7 @@
 					class="delBtn"
 					onmouseover="this.className='delBtn btnhov'"
 					onmouseout="this.className='delBtn'"
-					value="Remove Item from Loan" 
+					value="Remove Item from Deaccession" 
 					onclick="cC.action.value='saveDisp'; submit();" />
 				
 				<p /><input type="button" 
@@ -62,7 +62,7 @@
 			<br />Use the form below if you'd like to change the disposition and remove the item 
 			from the loan.
 			
-			<form name="cC" method="post" action="a_loanItemReview.cfm">
+			<form name="cC" method="post" action="a_deaccItemReview.cfm">
 				<input type="hidden" name="action" />
 				<input type="hidden" name="transaction_id" value="#transaction_id#" />
 				<input type="hidden" name="item_instructions" value="#item_instructions#" />
@@ -90,7 +90,7 @@
 			<cfabort>
 		</cfif>
 	</cfif>
-	<cfquery name="deleLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		DELETE FROM deacc_item where collection_object_id = #partID#
 		and transaction_id = #transaction_id#
 	</cfquery>
