@@ -417,16 +417,16 @@
 				<td width="44%">
 					<label for="deacc_type">Deaccession Type</label>
 					<select name="deacc_type" id="deacc_type" class="reqdClr">
-						<cfloop query="ctDeaccType">
-							  <option selected="selected" value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>           
+						<cfloop query="deaccDetails">
+							  <option selected="selected" value="#deaccDetails.deacc_type#">#deaccDetails.deacc_type#</option>           
 						</cfloop>
 					</select>
 				</td>
 				<td>
 					<label for="deacc_status">Deaccession Status</label>
 					<select name="deacc_status" id="deacc_status" class="reqdClr">
-						<cfloop query="ctDeaccStatus">                      
-						<option selected="selected" value="#ctDeaccStatus.deacc_status#">#ctDeaccStatus.deacc_status#</option>
+						<cfloop query="deaccDetails">                      
+						<option selected="selected" value="#deaccDetails.deacc_status#">#deaccDetails.deacc_status#</option>
 						</cfloop>
 					</select>
 				</td>
@@ -454,14 +454,14 @@
 		<input type="button" value="Save Edits" class="savBtn"
 			onClick="editDeacc.action.value='saveEdits';submit();">
 
-   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
+   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'deaccession.cfm?Action=search'">
 		<input type="button" value="Add Items" class="lnkBtn"
 			onClick="window.open('SpecimenSearch.cfm?action=dispCollObj&transaction_id=#transaction_id#');">
 		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
 			onClick="window.open('deaccByBarcode.cfm?transaction_id=#transaction_id#');">
 
 		<input type="button" value="Review Items" class="lnkBtn"
-			onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+			onClick="window.open('a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
                             <input style="margin-left: 30px;" type="button" value="Delete Deaccession" class="delBtn"
 			onClick="editDeacc.action.value='deleLoan';confirmDelete('editDeacc');">
    		<br />
