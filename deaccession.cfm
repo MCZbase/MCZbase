@@ -777,7 +777,7 @@
 		select deacc_status from ctdeacc_status order by deacc_status
 	</cfquery>
 
-      <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctCollObjDispDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select coll_obj_disposition from ctcoll_obj_disp
 	</cfquery>
       <br>
@@ -1246,7 +1246,7 @@
    <ul class="loan_buttons">
       <li><a href="a_deaccItemReview.cfm?transaction_id=#transaction_id#">Review Items</a></li>
        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-       <li class="add"><a href="SpecimenSearch.cfm?action=dispCollObj&transaction_id=#transaction_id#">Add Items</a></li>
+       <li class="add"><a href="SpecimenSearch.cfm?scope=Deaccession&transaction_id=#transaction_id#">Add Items</a></li>
        <li class="barcode"><a href="deaccByBarcode.cfm?transaction_id=#transaction_id#">Add Items by Barcode</a></li>
        <li class="edit"><a href="deaccession.cfm?transaction_id=#transaction_id#&action=editDeacc">Edit Deaccession</a></li>
      </cfif>
