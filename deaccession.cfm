@@ -456,7 +456,7 @@
 
    		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'deaccession.cfm?Action=search'">
 		<input type="button" value="Add Items" class="lnkBtn"
-			onClick="window.open('SpecimenSearch.cfm?action=dispCollObj&transaction_id=#transaction_id#');">
+			onClick="window.open('SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
 		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
 			onClick="window.open('deaccByBarcode.cfm?transaction_id=#transaction_id#');">
 
@@ -1246,7 +1246,7 @@
    <ul class="loan_buttons">
       <li><a href="a_deaccItemReview.cfm?transaction_id=#transaction_id#">Review Items</a></li>
        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-       <li class="add"><a href="SpecimenSearch.cfm?scope=Deaccession&transaction_id=#transaction_id#">Add Items</a></li>
+       <li class="add"><a href="SpecimenSearch.cfm?action=dispCollObj&transaction_id=#transaction_id#">Add Items</a></li>
        <li class="barcode"><a href="deaccByBarcode.cfm?transaction_id=#transaction_id#">Add Items by Barcode</a></li>
        <li class="edit"><a href="deaccession.cfm?transaction_id=#transaction_id#&action=editDeacc">Edit Deaccession</a></li>
      </cfif>
