@@ -456,7 +456,7 @@
 
    		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'deaccession.cfm?Action=search'">
 		<input type="button" value="Add Items" class="lnkBtn"
-			onClick="window.open('SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
+			onClick="window.open('SpecimenSearch.cfm?action=dispCollObj&transaction_id=#transaction_id#');">
 		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
 			onClick="window.open('deaccByBarcode.cfm?transaction_id=#transaction_id#');">
 
