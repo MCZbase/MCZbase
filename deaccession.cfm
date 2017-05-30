@@ -70,11 +70,12 @@
 <cfif  action is "newDeacc">
 <cfset title="New Deaccession">
 	<cfoutput>
+      <div class="newLoanWidth">
   <form name="newDeacc" id="newDeacc" action="deaccession.cfm" method="post" onSubmit="return noenter();">
-    <div class="newLoanWidth">
+  
     	<h2 class="wikilink" style="margin-left: 0;">Initiate a Deaccession
-	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
-       </h2>
+	      <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
+        </h2>
            <input type="hidden" name="action" value="makeDeacc">
 			<table border>
 				<tr>
@@ -556,6 +557,8 @@
 				where
 					transaction_id = #transaction_id#
 			  </cfquery>
+              <cfif not isdefined("deacc_status") or deacc_status eq 'completed'>
+              <!--- If there is no value set for return_due_date, don't overwrite an existing value.  --->
 			  <cfquery name="upDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				 UPDATE DEACCESSION SET
 					TRANSACTION_ID = #TRANSACTION_ID#,
@@ -566,6 +569,7 @@
 					DEACC_DESCRIPTION = '#deacc_description#',
 					where TRANSACTION_ID = #TRANSACTION_ID#
 			    </cfquery>
+                </cfif>
 		        <cfloop from="1" to="#numAgents#" index="n">
 				   <cfif IsDefined("trans_agent_id_" & n) >
 					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
