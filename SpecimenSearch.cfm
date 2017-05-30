@@ -59,8 +59,8 @@
 			<span style="color:red;">
 				<cfif #action# is "dispCollObj">
 					<p>You are searching for items to add to a loan.</p>
-                    <cfif #action# is "dispCollObjDeacc">
-					<p>You are searching for items to add to a deaccesion.</p>
+                <cfelseif #scope# is "Deaccession">
+					<p>You are searching for items to add to a deaccession.</p>
 				<cfelseif #action# is "encumber">
 					<p>You are searching for items to encumber.</p>
 				<cfelseif #action# is "collEvent">
