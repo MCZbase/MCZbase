@@ -71,7 +71,7 @@
 		#session.flatTableName#.ended_date,
 		#session.flatTableName#.cited_as,
 		#session.flatTableName#.typestatuswords,
-		#session.flatTableName#.typestatusplain,
+		MCZBASE.concattypestatus_plain_s(#session.flatTableName#.collection_object_id,1,1,0) as typestatusplain,
 		#session.flatTableName#.toptypestatuskind,
 		concatparts(#session.flatTableName#.collection_object_id) as partString,
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
