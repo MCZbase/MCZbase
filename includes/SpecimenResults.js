@@ -257,7 +257,7 @@ function success_makePartDeaccThingy(r){
 		var cid = 'partCell_' + result.COLLECTION_OBJECT_ID[i];
 		if (document.getElementById(cid)){
 			var theCell = document.getElementById(cid);
-			theCell.innerHTML='Fetching loan data....';
+			theCell.innerHTML='Fetching deaccession data....';
 			if (lastID == result.COLLECTION_OBJECT_ID[i]) {
 				theTable += "<tr>";
 			} else {
@@ -273,9 +273,7 @@ function success_makePartDeaccThingy(r){
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += 'Remark:&nbsp;<input type="text" name="item_remark" size="10" id="item_remark_' + result.PARTID[i] + '">';
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += 'Instr.:&nbsp;<input type="text" name="item_instructions" size="10" id="item_instructions_' + result.PARTID[i] + '">';
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += 'Subsample?:&nbsp;<input type="checkbox" name="subsample" id="subsample_' + result.PARTID[i] + '">';
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += '<input type="button" id="theButton_' + result.PARTID[i] + '"';
 			theTable += ' class="insBtn"';
