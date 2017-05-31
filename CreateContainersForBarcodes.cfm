@@ -3,7 +3,7 @@
 <!--- no security --->
 <div style="width: 60em; margin:0 auto;padding: 2em 0 4em 0;" class="barcodes">
     <cfif action is "nothing">
-        
+
 <cfoutput>
 <cfquery name="ctContainer_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select container_type from ctcontainer_type order by container_type
@@ -20,9 +20,9 @@
 	<li>Have printed or intend to print your own series of labels.</li>
 	<li>Wish to reserve a series of labels for any other reason.</li>
 </ul>
-    <p>This form does nothing to labels that already exist. Don't try. The barcode label will be {prefix}{number}{suffix}. For example, prefix=' 
-      a', number = 1, suffix=' b' will produce barcode ' a1 b'. Make sure you 
-      enter <strong>exactly</strong> what the scanner 
+    <p>This form does nothing to labels that already exist. Don't try. The barcode label will be {prefix}{number}{suffix}. For example, prefix='
+      a', number = 1, suffix=' b' will produce barcode ' a1 b'. Make sure you
+      enter <strong>exactly</strong> what the scanner
       will read, including all spaces!</p>
 <form name="form1" method="post" action="CreateContainersForBarcodes.cfm?action=create">
 
@@ -34,8 +34,8 @@
 		<cfloop query="ctinstitution_acronym">
 			<option value="#institution_acronym#">#institution_acronym#</option>
 		</cfloop>
-	</select> 
-   
+	</select>
+
 	<input type="checkbox" name="cryoBarcode" value="cryoBarcode">Create "PLACE" barcodes for Cryo Collection</input>
     <label for="beginBarcode">Low number in series</label>
     <input type="text" name="beginBarcode" id="beginBarcode">
@@ -51,13 +51,13 @@
     <input type="text" name="label_suffix" id="label_suffix">
     <label for="container_type">Container Type</label>
     <select name="container_type" size="1" id="container_type">
-        <cfloop query="ctContainer_Type"> 
+        <cfloop query="ctContainer_Type">
           <option value="#ctContainer_Type.Container_Type#">#ctContainer_Type.Container_Type#</option>
-        </cfloop> 
+        </cfloop>
      </select>
 	<label for="remarks">Remarks</label>
     <input type="text" name="remarks" id="remarks">
-	<input type="submit" value="Create Series" class="insBtn">	
+	<input type="submit" value="Create Series" class="insBtn">
     </form>
 	</cfoutput>
 </cfif>
@@ -75,17 +75,17 @@
 	<cfset mczbarcode=left(numberFormat(barcode,00000000),4) & "PLACE" & right(numberFormat(barcode,00000000),4)>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO container (container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
-			VALUES (sq_container_id.nextval, #parent_container_id#, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
+			VALUES (sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>0</cfif>, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
 	</cfquery>
 			<cfset num = #num# + 1>
 			<cfset barcode = #barcode# + 1>
-	</cfloop>	
+	</cfloop>
 <cfelse>
 	<cfloop index="index" from="1" to = "#num#">
-	<cfif #label_prefix# EQ "" and LEN(#prefix#) GT 0> 
+	<cfif #label_prefix# EQ "" and LEN(#prefix#) GT 0>
 		<cfset label_prefix=prefix>
 	</cfif>
-	<cfif #label_suffix# EQ "" and LEN(#suffix#) GT 0> 
+	<cfif #label_suffix# EQ "" and LEN(#suffix#) GT 0>
 		<cfset label_suffix=suffix>
 	</cfif>
 	<cfif left(#beginBarcode#,1) EQ "0" and isNumeric(#beginBarcode#)>
@@ -94,18 +94,18 @@
 	</cfif>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO container (container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
-			VALUES (sq_container_id.nextval, #parent_container_id#, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
+			VALUES (sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>0</cfif>, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
 	</cfquery>
 			<cfset num = #num# + 1>
 			<cfset barcode = #barcode# + 1>
 	</cfloop>
-</cfif>	
+</cfif>
 </cftransaction>
         <h4>The series of barcodes from #beginBarcode# to #endBarcode# have been uploaded.</h4>
-	
-  
+
+
 	<br><br>
-    <a href="CreateContainersForBarcodes.cfm?action=set">Load more barcodes</a></cfoutput> 
+    <a href="CreateContainersForBarcodes.cfm?action=set">Load more barcodes</a></cfoutput>
 </cfif>
         </div>
 <cfinclude template = "includes/_footer.cfm">
