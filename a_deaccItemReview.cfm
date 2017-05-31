@@ -266,7 +266,7 @@
           where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 </cfquery>
 <cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
-	<cfset fileName = "/download/ArctosLoanData_#getPartDeaccRequests.loan_number#.csv">
+	<cfset fileName = "/download/ArctosLoanData_#getPartDeaccRequests.deacc_number#.csv">
 				<cfset ac=getPartDeaccRequests.columnlist>
 				<cfset header=#trim(ac)#>
 				<cffile action="write" file="#Application.webDirectory##fileName#" addnewline="yes" output="#header#">
