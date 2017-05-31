@@ -11,7 +11,7 @@
             $(".ui-datepicker-trigger").css("margin-bottom","-7px");
 
 	});
-    
+
 </script>
 <cfoutput>
 <!--- see if action is duplicated --->
@@ -157,6 +157,7 @@
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newHG">
 <cfoutput>
+<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
        <div style="width: 40em; margin:0 auto; padding: 1em 0 3em 0;">
 	<cfset title="Create Higher Geography">
         <h2 class="wikilink">Create Higher Geography:</h2>
@@ -184,7 +185,7 @@
 			<tr>
 				<td align="right">
                                         Ocean Region:
-                                   
+
                                 </td>
 				<td>
 				<cfif isdefined("ocean_region")>
@@ -301,6 +302,9 @@
 	</table>
 	</cfform>
 </div>
+<cfelse>
+You do not have permission to create Higher Geographies
+</cfif>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -443,7 +447,7 @@
 						</label>
 						<input type="text" name="state_prov" id="state_prov" value="#state_prov#">
 					</td>
-				
+
 				</tr>
 				<tr>
                     	<td>
@@ -523,13 +527,17 @@
 				</tr>
 				<tr>
 	                <td colspan="4" nowrap style="padding-top: 1em;">
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 						<input type="submit" value="Save Edits"	class="savBtn">&nbsp;
 						<input type="button" value="Delete" class="delBtn"
 							onClick="document.location='Locality.cfm?Action=deleteGeog&geog_auth_rec_id=#geog_auth_rec_id#';">&nbsp;
+						</cfif>
 						<input type="button" value="See Localities" class="lnkBtn"
 							onClick="document.location='Locality.cfm?Action=findLocality&geog_auth_rec_id=#geog_auth_rec_id#';">&nbsp;
 						<cfset dloc="Locality.cfm?action=newHG&continent_ocean=#continent_ocean#&ocean_region=#ocean_region#&ocean_subregion=#ocean_subregion#&country=#country#&state_prov=#state_prov#&county=#county#&quad=#quad#&feature=#feature#&island_group=#island_group#&island=#island#&sea=#sea#">
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 						<input type="button" value="Create Clone" class="insBtn" onclick="document.location='#dloc#';">
+						</cfif>
 					</td>
 				</tr>
 			</table>
@@ -542,7 +550,7 @@
                <div class="basic_box">
 <cfset title="Edit Collecting Event">
 <cfoutput>
-      
+
 	<h2 class="wikilink">Edit Collecting Events:</h2>
       <cfquery name="locDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
@@ -595,7 +603,7 @@
 			collection,
 	  		collection.collection_id
 	</cfquery>
- 
+
 	<div style="border:2px solid red; font-weight:bold;padding: 1em;">
 		This Collecting Event (#collecting_event_id#)
 		 contains
@@ -636,16 +644,16 @@
 			</cfif>
             <p><span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">SPECIFIC LOCALITY:</span> #locDet.spec_locality#</p>
 		</div>
-            
+
 		<div id="hiddenButton" style="visibility:hidden;margin-bottom: 0; padding-bottom:0;height: 18px; ">
 			Picked Locality:
 			<input type="text" name="spec_locality" size="50">
 			<input type="submit" value="Save Change" class="savBtn">
 		</div>
 	</form>
-	
+
 	OR<br>
-	
+
 	<input type="button" value="Edit the current Locality" class="lnkBtn" style="margin: 1em 0;"
 		onClick="document.location='editLocality.cfm?locality_id=#locDet.locality_id#'">
 
@@ -670,8 +678,8 @@
 		<label for="verbatim_date">
 			Verbatim Date
 		</label>
-          
-     
+
+
 		<input type="text" name="VERBATIM_DATE" id="verbatim_date" value="#locDet.VERBATIM_DATE#" class="reqdClr">
               <br><br>
 		<table>
@@ -728,8 +736,8 @@
 		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#locDet.verbatim_locality#&began_date=#locDet.began_date#&ended_date=#locDet.began_date#&verbatim_date=#locDet.verbatim_date#&coll_event_remarks=#locDet.coll_event_remarks#&collecting_source=#locDet.collecting_source#&collecting_method=#locDet.collecting_method#&habitat_desc=#locDet.habitat_desc#">
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#dLoc#';">
 	</cfform>
-          
-               
+
+
   </cfoutput>
              </div>
 </cfif>
@@ -834,7 +842,7 @@
 	<cfoutput>
              <div style="width: 40em; margin:0 auto; padding: 1em 0 3em 0;">
 	<h2 class="wikilink">Create Locality:</h2>
-	
+
 		<label>Higher Geography:</label>
 		<form name="geog" action="Locality.cfm" method="post">
             <input type="hidden" name="Action" value="makenewLocality">
@@ -1724,7 +1732,7 @@ INSERT INTO geog_auth_rec (
 			orig_elev_units
 
 	</cfquery>
-      
+
 <cfif #localityResults.recordcount# lt 1000>
 	<cfset thisLocId="">
 	<cfloop query="localityResults">
