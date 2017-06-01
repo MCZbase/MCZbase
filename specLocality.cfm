@@ -15,7 +15,7 @@
 		$("select[id^='geology_attribute_']").each(function(e){
 			populateGeology(this.id);
 		});
-	}); 
+	});
 	function populateGeology(id) {
 		if (id.indexOf('__') > -1) {
 			var idNum=id.replace('geology_attribute__','');
@@ -290,11 +290,13 @@
 		<tr>
 			<td>
 				<label for="higher_geog">
-					
+
 						Higher Geography
+				<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 						&nbsp;&nbsp;
 					<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank">
 						Edit Higher Geography</a>
+				</cfif>
 				</label>
 				<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
 					onchange="getGeog('nothing','higher_geog','loc',this.value); return false;">
@@ -303,7 +305,7 @@
 		<tr>
 			<td>
 				<label for="spec_locality">
-					
+
 						Specific Locality
 						&nbsp;&nbsp;
 					<a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank">
@@ -321,7 +323,7 @@
 		<tr>
 			<td>
 				<label for="verbatim_locality">
-					
+
 						Verbatim Locality
 						&nbsp;&nbsp;
 					<a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank">
@@ -339,7 +341,7 @@
 		<tr>
 			<td>
 				<label for="verbatim_date">
-					
+
 							Verbatim Date
 				</label>
 				<cfinput type="text"
@@ -391,7 +393,7 @@
 						</td>
 						<td>
 							<label for="ended_date">
-								
+
 									Ended Date/Time
 							</label>
 							<input type="text"
@@ -460,7 +462,7 @@
 					<tr>
 						<td style="width: 110px;">
 							<label for="minimum_elevation">
-								
+
 									Min. Elevation
 							</label>
 							<cfinput
@@ -474,7 +476,7 @@
 						</td>
 						<td style="width: 110px;">
 							<label for="maximum_elevation">
-								
+
 									Max. Elevation
 							</label>
 							<cfinput type="text"
@@ -487,7 +489,7 @@
 						</td>
 						<td style="width: 100px;">
 							<label for="orig_elev_units">
-								
+
 									Elevation Units
 							</label>
 							<select name="orig_elev_units" id="orig_elev_units" size="1">
@@ -956,7 +958,7 @@
 	<script>
 		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 	</script>
-     
+
 	</cfoutput>
                    </div>
 </cfif>

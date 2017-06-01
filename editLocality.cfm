@@ -310,10 +310,12 @@
 			 				style="display:none"
 							onmouseover="this.className='savBtn btnhov'"
 							onmouseout="this.className='savBtn'">
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 						<input type="button" value="Edit" class="lnkBtn"
 							onmouseover="this.className='lnkBtn btnhov'"
 							onmouseout="this.className='lnkBtn'"
 							onClick="document.location='Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
+						</cfif>
 				</td>
 			</tr>
          </form>
@@ -530,7 +532,7 @@
 				<td>
 					<h3 style="margin: 1.5em 0 1em 0;">Coordinates for this locality:</h3>
 				</td>
-			
+
 			</tr>
 		</table>
 		<cfset i=1>
@@ -836,10 +838,10 @@
             <input type="hidden" name="Action" value="AddLatLong">
             <input type="hidden" name="locality_id" value="#locDet.locality_id#">
 
-		
-		
+
+
 <table> <tr><td><h4 style="margin: 1.5em 0 .5em 0;">Add Coordinate Determination&nbsp;&nbsp;<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Georeferencing')" class="likeLink" alt="[ help ]"></h4></td>
-			
+
 				<td>
 					&nbsp;&nbsp;&nbsp;
 					<span style="font-size:smaller;">
@@ -849,7 +851,7 @@
     </tr>
             </table>
 <table class="newRec" style="padding: .5em 0;margin: 0 0 1em 0;background-color:none;padding-left: 5px;padding-right: 8px;">
-   
+
 		<tr>
             <td style="padding-right:20px;width:150px;"><p><i>You have original coordinates:</i><br/> <b>Enter manually</b></p></td>
 			<td id="addNewLL" colspan="4" style="border-right: 1px solid green;padding-right: 10px;">
@@ -866,7 +868,7 @@
 					<cfloop query="ctunits">
 						<option value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 					</cfloop>
-	                  	</select> 
+	                  	</select>
             </td>
                 <td>&nbsp;</td>
             <td><label>&nbsp;</label>&nbsp;or&nbsp;</td>
@@ -1137,7 +1139,7 @@
 
 	<table >
 	<hr>
- 
+
 	<h3 style="margin: 1.5em 0 1em 0">Geology Attributes</h3>
 	<cfif geolDet.recordcount gt 0>
 		<table border>
@@ -1200,7 +1202,7 @@
         <h4 style="margin: 1.5em 0 .5em 0">Create Geology Determination</h4>
 	<table class="newRec">
 		<tr><td>
-	
+
 	<form name="newGeolDet" method="post" action="editLocality.cfm">
             <input type="hidden" name="Action" value="AddGeol">
             <input type="hidden" name="locality_id" value="#locDet.locality_id#">

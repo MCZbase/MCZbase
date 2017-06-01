@@ -31,7 +31,7 @@
                                // $("#footerContentBox").hide();
                                 $("#headerContent").hide();
                                 $(".sf-mainMenuWrapper").hide();
-                          
+
                 }
             });
 	</script>
@@ -48,19 +48,19 @@
 
 <div id="headerContent" style="background-color: #Application.header_color#;">
      <div id="image_headerWrap">
-           <div class="headerText"> 
+           <div class="headerText">
               <a href="http://www.mcz.harvard.edu" target="_blank">
               <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
-              </a> 
+              </a>
               <h1 style="color:#Application.collectionlinkcolor#;">  <a href="http://www.mcz.harvard.edu" target="_blank">#Application.collection_link_text#</a></h1>
               <h2 style="color:#Application.institutionlinkcolor#;">#session.institution_link_text#</h2>
          </div><!---end headerText--->
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
       <div class="sf-mainMenuWrapper">
-     
+
   <ul class="sf-menu">
-        <li><!--main menu element--> 
+        <li><!--main menu element-->
             <a target="_top" href="/SpecimenSearch.cfm">Search</a>
               <ul>
                  <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
@@ -80,7 +80,7 @@
 							where upper(role_name)  not in (#ucase(preservesinglequotes(r))#)
 						</cfquery>
               <cfset formList = valuelist(roles.form_path)>
-              <li><!--main menu element--> 
+              <li><!--main menu element-->
                   <a href="##">Enter Data</a>
                    <ul>
                      <li><a target="_top" href="/DataEntry.cfm">Data Entry</a></li>
@@ -98,7 +98,7 @@
                    </ul>
               </li>
                   <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
-                  <li><!--main menu element--> 
+                  <li><!--main menu element-->
                     <a target="_top" href="##">Batch Tools</a>
                       <ul>
                          <li><a target="_top" href="/tools/BulkloadParts.cfm">Bulkload Parts</a></li>
@@ -122,14 +122,16 @@
                  </cfif>
                 </ul>
               </li>
-              <li><!--main menu element--> 
+              <li><!--main menu element-->
                   <a target="_top" href="##">Manage Data</a>
             <ul>
                   <cfif listfind(formList,"/Locality.cfm")>
                 <li><a target="_top" href="##">Location</a>
                       <ul>
                     <li><a target="_top" href="/Locality.cfm?action=findHG">Find Geography</a></li>
-                    <li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
+					<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+                    	<li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
+					</cfif>
                     <li><a target="_top" href="/Locality.cfm?action=findLO">Find Locality</a></li>
                     <li><a target="_top" href="/Locality.cfm?action=newLocality">Create Locality</a></li>
                     <li><a target="_top" href="/Locality.cfm?action=findCO">Find Event</a></li>
@@ -256,7 +258,7 @@
                         <li><a target="_top" href="/Admin/download.cfm">Download Stats</a></li>
                         <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
                        <li><a target="_top" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a></li>
-                    
+
                         <li><a target="_top" href="##">Funky Data</a>
                            <ul>
                             <li><a target="_top" href="/info/collnHoldgByClass.cfm">Collection Holdings by Class</a></li>
@@ -331,13 +333,13 @@
                         <form name="logIn" method="post" action="/login.cfm">
                           <input type="hidden" name="action" value="signIn">
                           <input type="hidden" name="gotopage" value="#gtp#">
-                         
+
                         <ul><li><span>Username:</span></li>
                             <li><input type="text" name="username" title="Username" size="14"
                                                       class="loginTxt" onfocus="if(this.value==this.title){this.value=''};"></li>
                             <li><span>Password:</span></li>
                             <li><input type="password" name="password" title="Password" size="14" class="loginTxt"></li>
-                            <li><input type="submit" value="Log In" class="smallBtn"> <span>or</span> 
+                            <li><input type="submit" value="Log In" class="smallBtn"> <span>or</span>
                                   <input type="button" value="Create Account" class="smallBtn" onClick="logIn.action.value='newUser';submit();"></li>
                             </ul>
                          </form>
@@ -347,6 +349,6 @@
 
 
 <cf_rolecheck>
-</cfoutput> 
+</cfoutput>
 <div id="pg_container">
 <div class="content_box">
