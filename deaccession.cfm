@@ -1,0 +1,1292 @@
+<cfset jquery11=true>
+<cfinclude template="includes/_header.cfm">
+<cfset MAGIC_MCZ_COLLECTION = 12>
+<cfset MAGIC_MCZ_CRYO = 11>
+<script type='text/javascript' src='/includes/internalAjax.js'></script>
+<cfif not isdefined("project_id")><cfset project_id = -1></cfif>
+<cfif not isdefined("scope")>
+    <cfset scope = 'Deaccession'>
+</cfif>
+
+<!--- Deaccession types relevant to the current scope --->
+<cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select deacc_type from ctdeacc_type
+</cfquery>
+<!--- All deaccession types--->
+<cfquery name="ctAllDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select deacc_type from ctdeacc_type
+</cfquery>
+<cfquery name="ctDeaccStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select deacc_status from ctdeacc_status
+</cfquery>
+<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection_cde from ctcollection_cde order by collection_cde
+</cfquery>
+<!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
+<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'associated with agency' and trans_agent_role != 'received from' order by trans_agent_role
+</cfquery>
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select * from collection order by collection
+</cfquery>
+
+<cfoutput>
+<script language="javascript" type="text/javascript">
+	jQuery(document).ready(function() {
+               $("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
+               $("##to_trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
+               $("##initiating_date").datepicker({ dateFormat: 'yy-mm-dd'});
+               $("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
+	});
+	// Set the loan number and collection for a deaccession.
+	function setDeaccNum(cid,deaccNum) {
+           $("##deacc_number").val(deaccNum);
+           $("##collection_id").val(cid);
+           $("##collection_id").change();
+	}
+	function dCount() {
+		var countThingees=new Array();
+		countThingees.push('deacc_reason');
+		countThingees.push('deacc_description');
+		countThingees.push('trans_remarks');
+		for (i=0;i<countThingees.length;i++) {
+			var els = countThingees[i];
+			var el=document.getElementById(els);
+			var elVal=el.value;
+			var ds='lbl_'+els;
+			var d=document.getElementById(ds);
+			var lblVal=d.innerHTML;
+			d.innerHTML=elVal.length + " characters";
+		}
+		var t=setTimeout("dCount()",500);
+	}
+</script>
+</cfoutput>
+<!-------------------------------------------------------------------------------------------------->
+<cfif action is "nothing">
+	<cflocation url="deaccession.cfm?action=search" addtoken="false">
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
+<cfif  action is "newDeacc">
+<cfset title="New Deaccession">
+	<cfoutput>
+      <div class="newLoanWidth">
+  <form name="newDeacc" id="newDeacc" action="deaccession.cfm" method="post" onSubmit="return noenter();">
+  
+    	<h2 class="wikilink" style="margin-left: 0;">Initiate a Deaccession
+	      <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
+        </h2>
+           <input type="hidden" name="action" value="makeDeacc">
+			<table border>
+				<tr>
+					<td>
+						<label for="collection_id">Collection
+						</label>
+						<select name="collection_id" size="1" id="collection_id">
+							<cfloop query="ctcollection">
+								<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+							</cfloop>
+						</select>
+					</td>
+					<td>
+						<label for="deacc_number">Deaccession Number</label>
+						<input type="text" name="deacc_number" class="reqdClr" id="deacc_number">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="auth_agent_name">Authorized By</label>
+						<input type="text" name="auth_agent_name" class="reqdClr" size="40"
+						  onchange="getAgent('auth_agent_id','auth_agent_name','newDeacc',this.value); return false;"
+						  onKeyPress="return noenter(event);">
+						<input type="hidden" name="auth_agent_id">
+					</td>
+					<td>
+						<label for="rec_agent_name">Received By:</label>
+						<input type="text" name="rec_agent_name" class="reqdClr" size="40"
+						  onchange="getAgent('rec_agent_id','rec_agent_name','newDeacc',this.value); return false;"
+						  onKeyPress="return noenter(event);">
+						<input type="hidden" name="rec_agent_id">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="in_house_contact_agent_name">In-House Contact:</label>
+						<input type="text" name="in_house_contact_agent_name" class="reqdClr" size="40"
+						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newDeacc',this.value); return false;"
+						  onKeyPress="return noenter(event);">
+						<input type="hidden" name="in_house_contact_agent_id">
+					</td>
+					<td>
+						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+						<input type="text" name="additional_contact_agent_name" size="40"
+						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newDeacc',this.value); return false;"
+						  onKeyPress="return noenter(event);">
+						<input type="hidden" name="additional_contact_agent_id">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="recipient_institution_agent_name">Recipient Institution:</label>
+						<input type="text" name="recipient_institution_agent_name" class="reqdClr" size="40"
+						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newDeacc',this.value); return false;"
+						  onKeyPress="return noenter(event);">
+						<input type="hidden" name="recipient_institution_agent_id">
+					</td>
+					<td>
+						<label for="foruseby_agent_name">For Use By:</label>
+						<input type="text" name="foruseby_agent_name" size="40"
+						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newDeacc',this.value); return false;"
+						  onKeyPress="return noenter(event);">
+						<input type="hidden" name="foruseby_agent_id">
+					</td>
+				</tr>
+				<tr>
+				<tr>
+					<td>
+						<label for="deacc_type">Deaccession Type</label>
+						
+						<select name="deacc_type" id="deacc_type" class="reqdClr">
+							<cfloop query="ctDeaccType">
+								<option value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
+							</cfloop>
+						</select>
+
+					</td>
+					<td>
+						<label for="deacc_status">Deaccession Status</label>
+						<select name="deacc_status" id="deacc_status" class="reqdClr">
+							<cfloop query="ctDeaccStatus">
+								<option value="#ctDeaccStatus.deacc_status#">
+							</cfloop>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="initiating_date">Transaction Date</label>
+						<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<label for="nature_of_material">Nature of Material</label>
+					<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr"></textarea>
+					</td>
+				</tr>
+                <tr>
+					<td colspan="2">
+						<label for="deacc_reason">Reason for Deaccession</label>
+					<textarea name="deacc_reason" id="deacc_reason" rows="3" cols="80" class="reqdClr"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<label for="deacc_description">Description</label>
+						<textarea name="deacc_description" id="deacc_description" rows="3" cols="80"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<label for="trans_remarks">Internal Remarks</label>
+						<textarea name="trans_remarks" id="trans_remarks" rows="3" cols="80"></textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="center">
+						<input type="submit" value="Create Deaccession" class="insBtn">
+						&nbsp;
+						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'deaccession.cfm'">
+			   		</td>
+				</tr>
+			</table>
+		</form>
+               
+		<div class="nextnum">
+			<p>Next Available #scope# Number:</p>
+			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select * from collection order by collection
+			</cfquery>
+			<cfloop query="all_coll">
+				<cfif (institution_acronym is 'MCZ')>
+					<!---- yyyy-n-CCDE format --->
+					<cfset stg="'#dateformat(now(),"yyyy")#-' || max(to_number(substr(deacc_number,instr(deacc_number,'-')+1,instr(deacc_number,'-',1,2)-instr(deacc_number,'-')-1) + 1)) || '-#collection_cde#'">
+					<cfset whr=" AND substr(deacc_number, 1,4) ='#dateformat(now(),"yyyy")#'">
+				<cfelse>
+					<!--- n format --->
+					<cfset stg="'#dateformat(now(),"yyyy")#.' || max(to_number(substr(deacc_number,instr(deacc_number,'.')+1,instr(deacc_number,'.',1,2)-instr(deacc_number,'.')-1) + 1)) || '.#collection_cde#'">
+					<cfset whr=" AND is_number(deacc_number)=1 and substr(deacc_number, 1,4) ='#dateformat(now(),"yyyy")#'">
+				</cfif>
+				<cftry>
+					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select
+							 #preservesinglequotes(stg)# nn
+						from
+							deaccession,
+							trans,
+							collection
+						where
+							deaccession.transaction_id=trans.transaction_id and
+							trans.collection_id=collection.collection_id
+							<cfif institution_acronym is "MCZ">
+								and	collection.collection_id=#collection_id#
+							</cfif>
+							#preservesinglequotes(whr)#
+					</cfquery>
+					<cfcatch>
+						<hr>
+						#cfcatch.detail#
+						<br>
+						#cfcatch.message#
+						<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select
+								 'check data' nn
+							from
+								dual
+						</cfquery>
+					</cfcatch>
+				</cftry>
+				<cfif len(thisQ.nn) gt 0>
+					<span class="likeLink" onclick="setDeaccNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
+				<cfelse>
+					<span style="font-size:x-small">
+						No data available for #collection#.
+					</span>
+				</cfif>
+				<br>
+			</cfloop>
+		</div>
+       </div>
+	</cfoutput>
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
+<cfif action is "editDeacc">
+	<cfset title="Edit Deaccession">
+	<cfoutput>
+	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select
+			trans.transaction_id,
+			trans.trans_date,
+			deaccession.deacc_number,
+			deaccession.deacc_type,
+			deaccession.deacc_status,
+			deaccession.deacc_reason,
+			deaccession.deacc_description,
+			trans.nature_of_material,
+			trans.trans_remarks,
+			to_char(closed_date, 'YYYY-MM-DD') closed_date,
+			trans.collection_id,
+			collection.collection,
+			concattransagent(trans.transaction_id,'entered by') enteredby 
+		 from
+			deaccession,
+			trans,
+			collection
+		where
+			deaccession.transaction_id = trans.transaction_id AND
+			trans.collection_id=collection.collection_id and
+			trans.transaction_id = #transaction_id#
+	</cfquery>
+	<cfquery name="deaccAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select
+			trans_agent_id,
+			trans_agent.agent_id,
+			agent_name,
+			trans_agent_role
+		from
+			trans_agent,
+			preferred_agent_name
+		where
+			trans_agent.agent_id = preferred_agent_name.agent_id and
+			trans_agent_role != 'entered by' and
+			trans_agent.transaction_id=#transaction_id#
+		order by
+			trans_agent_role,
+			agent_name
+	</cfquery>
+       <div class="editLoanbox">
+       <h2 class="wikilink" style="margin-left: 0;">Edit Deaccession <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
+        <span class="loanNum">#deaccDetails.collection# #deaccDetails.deacc_number# </span>	</h2>
+	<table class="editLoanTable">
+    <tr>
+    <td valign="top" class="leftCell"><!--- left cell ---->
+
+  <form name="editDeacc" action="deaccession.cfm" method="post">
+		<input type="hidden" name="action" value="saveEdits">
+		<input type="hidden" name="transaction_id" value="#deaccDetails.transaction_id#">
+		<span style="font-size:14px;">Entered by #deaccDetails.enteredby#</span>
+    <table class="IDloan">
+    <tr>
+    <td>
+      <label>Department</label>
+		<select name="collection_id" id="collection_id" size="1">
+			<cfloop query="ctcollection">
+				<option <cfif ctcollection.collection_id is deaccDetails.collection_id> selected </cfif>
+					value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+			</cfloop>
+		</select>
+       </td>
+       <td>
+          <label for="deacc_number">Deaccession Number</label>
+		<input type="text" name="deacc_number" id="deacc_number" value="#deaccDetails.deacc_number#" class="reqdClr">
+        </td>
+        </tr>
+        </table>
+		<cfquery name="inhouse" dbtype="query">
+			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='in-house contact'
+		</cfquery>
+		<cfquery name="outside" dbtype="query">
+			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='received by'
+		</cfquery>
+		<cfquery name="authorized" dbtype="query">
+			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='authorized by'
+		</cfquery>
+		<cfquery name="recipientinstitution" dbtype="query">
+			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='recipient institution'
+		</cfquery>
+		<table id="deaccAgents">
+			<tr style="height: 20px;">
+				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
+				<th>Role</th>
+				<th>Delete?</th>
+				<th>CloneAs</th>
+				<th></th>
+				<td rowspan="99">
+        
+					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+						<span style="color:green;font-size:small">OK to print</span>
+					<cfelse>
+						<span style="color:red;font-size:small">
+							One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms.
+						</span>
+					</cfif>
+                        
+					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+						<span style="color:green;font-size:small">OK to print</span>
+					<cfelse>
+						<span style="color:red;font-size:small">
+							One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well.
+						</span>
+					</cfif>
+                                    
+				</td>
+			</tr>
+        
+			<cfset i=1>
+			<cfloop query="deaccAgents">
+				<tr>
+					<td>
+						<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
+		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
+		  					onKeyPress="return noenter(event);">
+		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#">
+					</td>
+					<td>
+						<select name="trans_agent_role_#i#" id="trans_agent_role_#i#">
+							<cfloop query="cttrans_agent_role">
+								<option
+									<cfif cttrans_agent_role.trans_agent_role is deaccAgents.trans_agent_role>
+										selected="selected"
+									</cfif>
+									value="#trans_agent_role#">#trans_agent_role#</option>
+							</cfloop>
+						</select>
+					</td>
+					<td>
+						<input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1">
+					</td>
+					<td>
+						<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" style="width:8em">
+							<option value=""></option>
+							<cfloop query="cttrans_agent_role">
+								<option value="#trans_agent_role#">#trans_agent_role#</option>
+							</cfloop>
+						</select>
+					</td>
+					<td><span class="infoLink" onclick="rankAgent('#agent_id#');">Rank</span></td>
+				</tr>
+				<cfset i=i+1>
+			</cfloop>
+			<cfset na=i-1>
+			<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+		</table><!-- end agents table --->
+		<table width="100%">
+			<tr>
+				<td width="44%">
+					<label for="deacc_type">Deaccession Type</label>
+					<select name="deacc_type" id="deacc_type" class="reqdClr">
+						<cfloop query="deaccDetails">
+							  <option selected="selected" value="#deaccDetails.deacc_type#">#deaccDetails.deacc_type#</option>           
+						</cfloop>
+					</select>
+				</td>
+				<td>
+					<label for="deacc_status">Deaccession Status</label>
+					<select name="deacc_status" id="deacc_status" class="reqdClr">
+						<cfloop query="deaccDetails">                      
+						<option selected="selected" value="#deaccDetails.deacc_status#">#deaccDetails.deacc_status#</option>
+						</cfloop>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="initiating_date">Transaction Date</label>
+					<input type="text" name="initiating_date" id="initiating_date"
+						value="#dateformat(deaccDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr">
+				</td>
+			</tr>
+		</table>
+		<label for="nature_of_material">Nature of Material </label>
+		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="60"
+			class="reqdClr">#deaccDetails.nature_of_material#</textarea>
+        <label for="deacc_reason">Reason for Deaccession</label>
+		<textarea name="deacc_reason" id="deacc_reason" rows="7"
+			cols="60">#deaccDetails.deacc_reason#</textarea>
+		<label for="deacc_description">Description</label>
+		<textarea name="deacc_description" id="deacc_description" rows="7"
+			cols="60">#deaccDetails.deacc_description#</textarea>
+		<label for="trans_remarks">Internal Remarks</label>
+		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="60">#deaccDetails.trans_remarks#</textarea>
+		<br>
+		<input type="button" value="Save Edits" class="savBtn"
+			onClick="editDeacc.action.value='saveEdits';submit();">
+
+   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'deaccession.cfm?action=search'">
+		<input type="button" value="Add Items" class="lnkBtn"
+			onClick="window.open('SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
+		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
+			onClick="window.open('deaccByBarcode.cfm?transaction_id=#transaction_id#');">
+
+		<input type="button" value="Review Items" class="lnkBtn"
+			onClick="window.open('a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
+                            <input style="margin-left: 30px;" type="button" value="Delete Deaccession" class="delBtn"
+			onClick="editDeacc.action.value='deleLoan';confirmDelete('editDeacc');">
+   		<br />
+   		<label for="redir">Print...</label>
+		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+   			<option value=""></option>
+			
+			<cfif #cgi.HTTP_HOST# contains "harvard.edu">
+                          <!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
+                                 sort={a field name that is in the select portion of the query specified in the custom tag}, or
+                                 sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
+                          --->
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and scope EQ 'Deaccession' >
+                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
+                          </cfif>
+		          <cfif inhouse.c is 1 and outside.c is 1 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
+                          </cfif>
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+		            <cfif scope eq 'Gift' >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
+                            </cfif>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
+                          </cfif>
+		          <cfif inhouse.c is 1 and outside.c is 1 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
+                          </cfif>
+                          <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
+                          <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
+            <cfelse>
+   			        <option value="">Host not recognized.</option>
+            </cfif>
+		</select>
+        </form>
+	</td><!---- end left cell --->
+    </tr>
+    </table>
+    </div>
+</cfoutput>
+<script>
+	dCount();
+</script>
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
+<cfif action is "deleDeacc">
+	<cftry>
+	<cftransaction>
+		<cfquery name="killDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from deaccession where transaction_id=#transaction_id#
+		</cfquery>
+	<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from trans_agent where transaction_id=#transaction_id#
+		</cfquery>
+		<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from trans where transaction_id=#transaction_id#
+		</cfquery>
+	</cftransaction>
+	Deaccession deleted.....
+	<cfcatch>
+		DELETE FAILED
+		<p>You cannot delete an active loan. This deaccession probably has specimens or
+		other transactions attached. Use your back button.</p>
+		<p>
+			<cfdump var=#cfcatch#>
+		</p>
+	</cfcatch>
+	</cftry>
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
+<cfif action is "delePermit">
+	<cfquery name="killPerm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and
+		permit_id=#permit_id#
+	</cfquery>
+	<cflocation url="deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
+<cfif action is "saveEdits">
+	<cfoutput>
+		<cftransaction>
+			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE  trans  SET
+					collection_id=#collection_id#,
+					TRANS_DATE = '#dateformat(initiating_date,"yyyy-mm-dd")#',
+					nature_of_material = '#nature_of_material#',
+					trans_remarks = '#trans_remarks#'
+				where
+					transaction_id = #transaction_id#
+			  </cfquery>
+              <cfif not isdefined("deacc_status") or deacc_status eq 'completed'>
+              <!--- If there is no value set for return_due_date, don't overwrite an existing value.  --->
+			  <cfquery name="upDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 UPDATE DEACCESSION SET
+					TRANSACTION_ID = #TRANSACTION_ID#,
+					DEACC_TYPE = '#deacc_type#',
+					DEACC_NUMBER = '#deacc_number#',
+					DEACC_STATUS = '#deacc_status#',
+                    DEACC_REASON = '#deacc_reason#',
+					DEACC_DESCRIPTION = '#deacc_description#',
+					where TRANSACTION_ID = #TRANSACTION_ID#
+			    </cfquery>
+                </cfif>
+		        <cfloop from="1" to="#numAgents#" index="n">
+				   <cfif IsDefined("trans_agent_id_" & n) >
+					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
+					<cfset agent_id_ = evaluate("agent_id_" & n)>
+					<cfset trans_agent_role_ = evaluate("trans_agent_role_" & n)>
+					<cftry>
+						<cfset del_agnt_=evaluate("del_agnt_" & n)>
+					<cfcatch>
+						<cfset del_agnt_=0>
+					</cfcatch>
+					</cftry>
+					<cfif  del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							delete from trans_agent where trans_agent_id=#trans_agent_id_#
+						</cfquery>
+					<cfelse>
+						<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
+							<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								insert into trans_agent (
+									transaction_id,
+									agent_id,
+									trans_agent_role
+								) values (
+									#transaction_id#,
+									#agent_id_#,
+									'#trans_agent_role_#'
+								)
+							</cfquery>
+						<cfelseif del_agnt_ is 0>
+							<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								update trans_agent set
+									agent_id = #agent_id_#,
+									trans_agent_role = '#trans_agent_role_#'
+								where
+									trans_agent_id=#trans_agent_id_#
+							</cfquery>
+						</cfif>
+					</cfif>
+				   </cfif>
+				</cfloop>
+			</cftransaction>
+			<cflocation url="deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">
+	</cfoutput>
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
+<cfif action is "makeDeacc">
+	<cfoutput>
+	<cftransaction>
+			<cfquery name="newDeaccTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans (
+					TRANSACTION_ID,
+					TRANS_DATE,
+					CORRESP_FG,
+					TRANSACTION_TYPE,
+					NATURE_OF_MATERIAL,
+					collection_id
+					<cfif len(#trans_remarks#) gt 0>
+						,trans_remarks
+					</cfif>)
+				VALUES (
+					sq_transaction_id.nextval,
+					'#initiating_date#',
+					0,
+					'deaccession',
+					'#nature_of_material#',
+					#collection_id#
+					<cfif len(#trans_remarks#) gt 0>
+						,'#trans_remarks#'
+					</cfif>
+					)
+			</cfquery>
+			<cfquery name="newDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO deaccession (
+					TRANSACTION_ID,
+					DEACC_TYPE,
+					DEACC_NUMBER
+					<cfif len(#deacc_status#) gt 0>
+						,deacc_status
+					</cfif>
+					
+					<cfif len(#DEACC_reason#) gt 0>
+						,DEACC_REASON
+					</cfif>
+					<cfif len(#deacc_description#) gt 0>
+						,deacc_description
+					</cfif>
+					 )
+				values (
+					sq_transaction_id.currval,
+					'#deacc_type#',
+					'#deacc_number#'
+					<cfif len(#deacc_status#) gt 0>
+						,'#deacc_status#'
+					</cfif>
+					<cfif len(#DEACC_REASON#) gt 0>
+						,'#DEACC_REASON#'
+					</cfif>
+					<cfif len(#deacc_description#) gt 0>
+						,'#deacc_description#'
+					</cfif>
+					)
+			</cfquery>
+			<cfquery name="authBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#auth_agent_id#,
+					'authorized by')
+			</cfquery>
+			<cfquery name="in_house_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#in_house_contact_agent_id#,
+					'in-house contact')
+			</cfquery>
+			<cfquery name="recipient_institution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#recipient_institution_agent_id#,
+					'recipient institution')
+			</cfquery>
+		<cfif isdefined("additional_contact_agent_id") and len(additional_contact_agent_id) gt 0>
+			<cfquery name="additional_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#additional_contact_agent_id#,
+					'additional outside contact')
+			</cfquery>
+		</cfif>
+		<cfif isdefined("foruseby_agent_id") and len(foruseby_agent_id) gt 0>
+			<cfquery name="foruseby_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#foruseby_agent_id#,
+					'for use by')
+			</cfquery>
+		</cfif>
+			<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+				    transaction_id,
+				    agent_id,
+				    trans_agent_role
+				) values (
+					sq_transaction_id.currval,
+					#REC_AGENT_ID#,
+					'received by')
+			</cfquery>
+			<cfquery name="nextTransId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_transaction_id.currval nextTransactionId from dual
+			</cfquery>
+		</cftransaction>
+		<cflocation url="deaccession.cfm?action=editDeacc&transaction_id=#nextTransId.nextTransactionId#" addtoken="false">
+	</cfoutput>
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
+<cfif action is "search">
+  <cfset title="Search for Deaccessions/Gifts/Transfers">
+  <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
+  <script>
+		jQuery(document).ready(function() {
+	  		jQuery("#part_name").autocomplete("/ajax/part_name.cfm", {
+				width: 320,
+				max: 50,
+				autofill: false,
+				multiple: false,
+				scroll: true,
+				scrollHeight: 300,
+				matchContains: true,
+				minChars: 1,
+				selectFirst:false
+			});
+		});
+
+
+
+</script>
+  <cfoutput>
+   <div class="searchLoanWidth">
+     <h2 class="wikilink">Find Deaccessions/Gifts <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+      </h2>
+    <div id="loan">
+      <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select deacc_type from ctdeacc_type order by deacc_type
+	</cfquery>
+      <cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select deacc_status from ctdeacc_status order by deacc_status
+	</cfquery>
+
+      <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select coll_obj_disposition from ctcoll_obj_disp
+	</cfquery>
+      <br>
+      <form name="SpecData" action="deaccession.cfm" method="post">
+        <input type="hidden" name="action" value="listDeacc">
+        <input type="hidden" name="project_id" <cfif project_id gt 0> value="#project_id#" </cfif>>
+        <table>
+          <tr>
+            <td align="right">Collection Name: </td>
+            <td><select name="collection_id" size="1">
+                <option value=""></option>
+                <cfloop query="ctcollection">
+                  <option value="#collection_id#">#collection#</option>
+                </cfloop>
+              </select>
+              <img src="images/nada.gif" width="2" height="1"> Number: <span class="lnum">
+              <input type="text" name="deacc_number">
+              </span></td>
+          </tr>
+          <tr>
+            <td align="right"><select name="trans_agent_role_1">
+                <option value="">Please choose an agent role...</option>
+                <cfloop query="cttrans_agent_role">
+                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
+                </cfloop>
+              </select></td>
+            <td><input type="text" name="agent_1"  size="50"></td>
+          </tr>
+          <tr>
+            <td align="right"><select name="trans_agent_role_2">
+                <option value="">Please choose an agent role...</option>
+                <cfloop query="cttrans_agent_role">
+                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
+                </cfloop>
+              </select></td>
+            <td><input type="text" name="agent_2"  size="50"></td>
+          </tr>
+          <tr>
+            <td align="right"><select name="trans_agent_role_3">
+                <option value="">Please choose an agent role...</option>
+                <cfloop query="cttrans_agent_role">
+                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
+                </cfloop>
+              </select></td>
+            <td><input type="text" name="agent_3"  size="50"></td>
+          </tr>
+        <tr>
+            <td align="right">Type: </td>
+            <td><select name="deacc_type">
+                <option value=""></option>
+                <cfloop query="ctType">
+                  <option value="#ctType.deacc_type#">#ctType.deacc_type#</option>
+                </cfloop>
+              </select>
+              <img src="images/nada.gif" width="25" height="1"> Status:&nbsp;
+              <select name="deacc_status">
+                <option value=""></option>
+                <cfloop query="ctStatus">
+                  <option value="#ctStatus.deacc_status#">#ctStatus.deacc_status#</option>
+                </cfloop>
+                <option value="not closed">closed</option>
+              </select></td>
+          </tr>
+          <tr>
+            <td align="right">Transaction Date:</td>
+            <td><input name="trans_date" id="trans_date" type="text">
+             &nbsp; To:
+              <input type='text' name='to_trans_date' id="to_trans_date"></td>
+          </tr>
+         
+          <tr>
+            <td align="right">Permit Number:</td>
+            <td><input type="text" name="permit_num" size="50">
+              <span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span></td>
+          </tr>
+             <tr>
+            <td align="right">Nature of Material:</td>
+            <td><textarea name="nature_of_material" rows="3" cols="50"></textarea></td>
+          </tr>
+          <tr>
+            <td align="right">Reason for Deaccession:</td>
+            <td><textarea name="deacc_reason" rows="3" cols="50"></textarea></td>
+          </tr>
+          <tr>
+            <td align="right">Description: </td>
+            <td><textarea name="deacc_description" rows="3" cols="50"></textarea></td>
+          </tr>
+          <tr>
+          <tr>
+            <td align="right">Internal Remarks: </td>
+            <td><textarea name="deacc_remarks" rows="3" cols="50"></textarea></td>
+          </tr>
+          <tr>
+            <td class="parts1"> Parts: </td>
+            <td><table class="partloan">
+                <tr>
+                  <td valign="top"><label for="part_name_oper">Part<br/>
+                      Match</label>
+                    <select id="part_name_oper" name="part_name_oper">
+                      <option value="is">is</option>
+                      <option value="contains">contains</option>
+                    </select></td>
+                  <td valign="top"><label for="part_name">Part<br/>
+                      Name</label>
+                    <input type="text" id="part_name" name="part_name"></td>
+                  <td valign="top"><label for="part_disp_oper">Disposition&nbsp;<br/>
+                      Match</label>
+                    <select id="part_disp_oper" name="part_disp_oper">
+                      <option value="is">is</option>
+                      <option value="isnot">is not</option>
+                    </select></td>
+                  <td valign="top"><label for="coll_obj_disposition">Part Disposition</label>
+                    <select name="coll_obj_disposition" id="coll_obj_disposition" size="5" multiple="multiple">
+                      <option value=""></option>
+                      <cfloop query="ctCollObjDisp">
+                        <option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
+                      </cfloop>
+                    </select></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+            <input type="submit" value="Search" class="schBtn">
+              &nbsp;
+            <input type="reset" value="Clear" class="qutBtn">
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    </div>
+  </cfoutput>
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
+<cfif action is "listDeacc">
+<cfoutput>
+	<cfset title="Deaccession Item List">
+	<cfset sel = "select
+		trans.transaction_id,
+		deacc_number,
+		deaccession.deacc_type deacc_type,
+		deacc_status,
+		deacc_description,
+		concattransagent(trans.transaction_id,'authorized by') auth_agent,
+		concattransagent(trans.transaction_id,'entered by') ent_agent,
+		concattransagent(trans.transaction_id,'received by') rec_agent,
+		concattransagent(trans.transaction_id,'for use by') foruseby_agent,
+		concattransagent(trans.transaction_id,'in-house contact') inHouse_agent,
+		concattransagent(trans.transaction_id,'additional in-house contact') addInhouse_agent,
+		concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent,
+		concattransagent(trans.transaction_id,'recipient institution') recip_inst,
+		deacc_reason,
+		trans_remarks,
+		trans_date,
+		to_char(closed_date, 'YYYY-MM-DD') closed_date,
+		project_name,
+		project.project_id pid,
+		collection.collection">
+	<cfset frm = " from
+		deaccession,
+		trans,
+		project_trans,
+		project,
+		permit_trans,
+		permit,
+		collection,
+                ctdeacc_type">
+	<cfset sql = "where
+		deaccession.transaction_id = trans.transaction_id AND
+		trans.collection_id = collection.collection_id AND
+		trans.transaction_id = project_trans.transaction_id (+) AND
+		project_trans.project_id = project.project_id (+) AND
+		deaccession.transaction_id = permit_trans.transaction_id (+) AND
+		deaccession.deacc_type= ctdeacc_type.deacc_type (+) AND
+		permit_trans.permit_id = permit.permit_id (+)">
+	<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
+		<cfset frm="#frm#,trans_agent trans_agent_1">
+		<cfset sql="#sql# and trans.transaction_id = trans_agent_1.transaction_id">
+		<cfset sql = "#sql# AND trans_agent_1.trans_agent_role = '#trans_agent_role_1#'">
+	</cfif>
+
+
+	<cfif isdefined("agent_1") AND len(agent_1) gt 0>
+		<cfif #sql# does not contain "trans_agent_1">
+			<cfset frm="#frm#,trans_agent trans_agent_1">
+			<cfset sql="#sql# and trans.transaction_id = trans_agent_1.transaction_id">
+		</cfif>
+		<cfset frm="#frm#,preferred_agent_name trans_agent_name_1">
+		<cfset sql="#sql# and trans_agent_1.agent_id = trans_agent_name_1.agent_id">
+		<cfset sql = "#sql# AND upper(trans_agent_name_1.agent_name) like '%#ucase(agent_1)#%'">
+	</cfif>
+	<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
+		<cfset frm="#frm#,trans_agent trans_agent_2">
+		<cfset sql="#sql# and trans.transaction_id = trans_agent_2.transaction_id">
+		<cfset sql = "#sql# AND trans_agent_2.trans_agent_role = '#trans_agent_role_2#'">
+	</cfif>
+	<cfif isdefined("agent_2") AND len(agent_2) gt 0>
+		<cfif #sql# does not contain "trans_agent_2">
+			<cfset frm="#frm#,trans_agent trans_agent_2">
+			<cfset sql="#sql# and trans.transaction_id = trans_agent_2.transaction_id">
+		</cfif>
+		<cfset frm="#frm#,preferred_agent_name trans_agent_name_2">
+		<cfset sql="#sql# and trans_agent_2.agent_id = trans_agent_name_2.agent_id">
+		<cfset sql = "#sql# AND upper(trans_agent_name_2.agent_name) like '%#ucase(agent_2)#%'">
+	</cfif>
+	<cfif isdefined("trans_agent_role_3") AND len(#trans_agent_role_3#) gt 0>
+		<cfset frm="#frm#,trans_agent trans_agent_3">
+		<cfset sql="#sql# and trans.transaction_id = trans_agent_3.transaction_id">
+		<cfset sql = "#sql# AND trans_agent_3.trans_agent_role = '#trans_agent_role_3#'">
+	</cfif>
+	<cfif isdefined("agent_3") AND len(#agent_3#) gt 0>
+		<cfif #sql# does not contain "trans_agent_3">
+			<cfset frm="#frm#,trans_agent trans_agent_3">
+			<cfset sql="#sql# and trans.transaction_id = trans_agent_3.transaction_id">
+		</cfif>
+		<cfset frm="#frm#,preferred_agent_name trans_agent_name_3">
+		<cfset sql="#sql# and trans_agent_3.agent_id = trans_agent_name_3.agent_id">
+		<cfset sql = "#sql# AND upper(trans_agent_name_3.agent_name) like '%#ucase(agent_3)#%'">
+	</cfif>
+	<cfif isdefined("deacc_number") AND len(#deacc_number#) gt 0>
+		<cfset sql = "#sql# AND upper(deacc_number) like '%#ucase(deacc_number)#%'">
+	</cfif>
+	<cfif isdefined("permit_num") AND len(#permit_num#) gt 0>
+		<cfset sql = "#sql# AND PERMIT_NUM = '#PERMIT_NUM#'">
+	</cfif>
+	<cfif isdefined("collection_id") AND len(#collection_id#) gt 0>
+		<cfset sql = "#sql# AND trans.collection_id = #collection_id#">
+	</cfif>
+	<cfif isdefined("deacc_type") AND len(#deacc_type#) gt 0>
+		<cfset sql = "#sql# AND deaccession.deacc_type = '#deacc_type#'">
+	</cfif>
+	<cfif isdefined("deacc_status") AND len(#deacc_status#) gt 0>
+    	<cfif deacc_status eq "not closed">
+        	<cfset sql = "#sql# AND deacc_status <> 'closed'">
+    	<cfelse>
+			<cfset sql = "#sql# AND deacc_status = '#deacc_status#'">
+        </cfif>
+	</cfif>
+	<cfif isdefined("rec_agent") AND len(#rec_agent#) gt 0>
+		<cfset sql = "#sql# AND upper(recAgnt.agent_name) LIKE '%#ucase(escapeQuotes(rec_agent))#%'">
+	</cfif>
+	<cfif isdefined("auth_agent") AND len(#auth_agent#) gt 0>
+		<cfset sql = "#sql# AND upper(authAgnt.agent_name) LIKE '%#ucase(escapeQuotes(auth_agent))#%'">
+	</cfif>
+	<cfif isdefined("ent_agent") AND len(#ent_agent#) gt 0>
+		<cfset sql = "#sql# AND upper(entAgnt.agent_name) LIKE '%#ucase(escapeQuotes(ent_agent))#%'">
+	</cfif>
+	<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
+		<cfset sql = "#sql# AND upper(nature_of_material) LIKE '%#ucase(escapeQuotes(nature_of_material))#%'">
+	</cfif>
+	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
+		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
+			<cfset to_trans_date=trans_date>
+		</cfif>
+		<cfset sql = "#sql# AND trans_date between to_date('#dateformat(trans_date, "yyyy-mm-dd")#')
+			and to_date('#dateformat(to_trans_date, "yyyy-mm-dd")#')">
+	</cfif>
+	<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
+		<cfset sql = "#sql# AND upper(trans_remarks) LIKE '%#ucase(trans_remarks)#%'">
+	</cfif>
+	<cfif isdefined("deacc_description") AND len(#deacc_description#) gt 0>
+		<cfset sql = "#sql# AND upper(deacc_description) LIKE '%#ucase(deacc_description)#%'">
+	</cfif>
+	<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0>
+		<cfset frm="#frm#, deacc_item">
+		<cfset sql = "#sql# AND deaccession.transaction_id=deacc_item.transaction_id AND deacc_item.collection_object_id IN (#collection_object_id#)">
+	</cfif>
+	<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+		<cfif frm does not contain "deacc_item">
+			<cfset frm="#frm#, deacc_item">
+			<cfset sql = "#sql# AND deaccession.transaction_id=deacc_item.transaction_id ">
+		</cfif>
+		<cfif frm does not contain "coll_object">
+			<cfset frm="#frm#,coll_object">
+			<cfset sql=sql & " and deacc_item.collection_object_id=coll_object.collection_object_id ">
+		</cfif>
+		<cfif frm does not contain "specimen_part">
+			<cfset frm="#frm#,specimen_part">
+			<cfset sql=sql & " and coll_object.collection_object_id = specimen_part.collection_object_id ">
+		</cfif>
+
+		<cfif isdefined("part_name") AND len(part_name) gt 0>
+			<cfif not isdefined("part_name_oper")>
+				<cfset part_name_oper='is'>
+			</cfif>
+			<cfif part_name_oper is "is">
+				<cfset sql=sql & " and specimen_part.part_name = '#part_name#'">
+			<cfelse>
+				<cfset sql=sql & " and upper(specimen_part.part_name) like  '%#ucase(part_name)#%'">
+			</cfif>
+		</cfif>
+		<cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
+			<cfif not isdefined("part_disp_oper")>
+				<cfset part_disp_oper='is'>
+			</cfif>
+			<cfif part_disp_oper is "is">
+				<cfset sql=sql & " and coll_object.coll_obj_disposition IN ( #listqualify(coll_obj_disposition,'''')# )">
+			<cfelse>
+				<cfset sql=sql & " and coll_object.coll_obj_disposition NOT IN ( #listqualify(coll_obj_disposition,'''')# )">
+			</cfif>
+		</cfif>
+	</cfif>
+	<cfset sql ="#sel# #frm# #sql#
+		group by
+		 	trans.transaction_id,
+		   	deacc_number,
+		    deaccession.deacc_type,
+		    deacc_status,
+		    deacc_description,
+			concattransagent(trans.transaction_id,'authorized by'),
+		 	concattransagent(trans.transaction_id,'entered by'),
+		 	concattransagent(trans.transaction_id,'received by'),
+			concattransagent(trans.transaction_id,'additional outside contact'),
+			concattransagent(trans.transaction_id,'additional in-house contact'),
+			concattransagent(trans.transaction_id,'in-house contact'),
+			concattransagent(trans.transaction_id,'recipient institution'),
+		 	deacc_reason,
+		 	trans_remarks,
+		  	trans_date,
+		  	closed_date,
+		   	project_name,
+		 	project.project_id,
+		 	collection.collection
+		ORDER BY to_number(regexp_substr (deacc_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (deacc_number, '[0-9]+', 1, 2)), deacc_number
+    ">
+	 <cfquery name="allDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		#preservesinglequotes(sql)#
+	</cfquery>
+    <cfif allDeacc.recordcount is 0>
+      Nothing matched your search criteria.
+    </cfif>
+
+    <cfset rURL="deaccession.cfm?csv=true">
+    <cfloop list="#StructKeyList(form)#" index="key">
+    <cfset allDeacc.recordcount ++ />
+      <cfif len(form[key]) gt 0>
+        <cfset rURL='#rURL#&#key#=#form[key]#'>
+      </cfif>
+    </cfloop>
+       <cfset deaccnum = ''>
+    <cfif #allDeacc.recordcount# eq 1>
+    <cfset deaccnum = 'item'>
+
+    </cfif>
+    <cfif #allDeacc.recordcount# gt 1>
+    <cfset deaccnum = 'items'>
+    </cfif>
+    
+ <header style="margin: 0 6em;">
+ 
+     <div id="page_title">
+      <h1  style="font-size: 1.5em;line-height: 1.6em;margin: 0;padding: 1em 0 0 0;">Deaccession Search Results<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
+    </div>
+   <p> #allDeacc.recordcount# #deaccnum# <a href="#rURL#" class="download">Download these results as a CSV file</a></p>
+   </header>
+    <hr/>
+  </cfoutput>
+
+    <cfset i=1>
+
+    <cfif not isdefined("csv")>
+      <cfset csv=false>
+    </cfif>
+    <cfif csv is true>
+      <cfset dlFile = "ArctosLoanData.csv">
+      <cfset variables.fileName="#Application.webDirectory#/download/#dlFile#">
+      <cfset variables.encoding="UTF-8">
+      <cfscript>
+			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
+			d='deacc_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,deacc_description,trans_remarks,ent_agent,Project';
+		 	variables.joFileWriter.writeLine(d);
+	</cfscript>
+    </cfif>
+    <cfoutput query="allDeacc" group="transaction_id">
+
+<div class="loan_results">
+    <div id="listloans">
+
+    <p>#i# of #allDeacc.recordcount# #deaccnum#</p>
+       <dl>
+         <dt>Collection &amp; Number:</dt>
+         <dd><strong>#collection# / #deacc_number#</strong>
+           
+         </dd>
+                <dt>Authorized By:</dt>
+                 <cfif len(auth_agent) GT 0>
+                  <dd class="mandcolr">#auth_agent#</dd>
+                       <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                    </cfif>
+                <dt title="primary in-house contact; 1 of 2 possible in-house contacts to receive email reminder">In-house Contact:</dt>
+
+                  <cfif len(inHouse_agent) GT 0>
+                     <dd class="mandcolr"> #inHouse_agent#</dd>
+                    <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                  </cfif>
+
+
+                <dt title="primary in-house contact; 1 of 2 possible in-house contacts to receive email reminder">Additional In-house Contact:</dt>
+                  <cfif len(addInhouse_agent) GT 0>
+                    <dd>#addInhouse_agent#</dd>
+                    <cfelse>
+                  <dd class="emptystatus">N/A</dd>
+                  </cfif>
+
+                <dt title="this is the primary borrower; listed on email reminder; 1 of 3 possible outside agents to receive email reminder; ship to address should be for this agent">Recipient:</dt>
+                <dd class="mandcolr" title="1 of 3 possible outside agents to receive email reminder; listed on email reminder">#rec_agent#</dd>
+                <dt title="1 of 3 possible outside agents to receive email reminder; listed on email reminder">For use by:</dt>
+
+                  <cfif len(foruseby_agent) GT 0>
+                    <dd>#foruseby_agent#</dd>
+                    <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                  </cfif>
+                 <dt>Recipient Institution:</dt>
+                  <cfif len(recip_inst) GT 0>
+                    <dd>#recip_inst#</dd>
+                    <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                  </cfif>
+                <dt title="1 of 3 possible outside agents to receive email reminder">Additional Outside Contact:</dt>
+                <cfif len(addOutside_agent) GT 0>
+                    <dd>#addOutside_agent#</dd>
+                    <cfelse>
+                   <dd class="emptystatus">N/A</dd>
+                  </cfif>
+                </dd>
+                <dt title="included in email reminder">Type:</dt>
+                <dd class="mandcolr">#deacc_type#</dd>
+                <dt title="included in email reminder">Status:</dt>
+                <dd class="mandcolr">#deacc_status# <cfif deacc_status EQ 'completed' and len(closed_date) GT 0>(#closed_date#)</cfif></dd>
+                <dt title="included in email reminder">Transaction Date:</dt>
+                 <cfif len(trans_date) GT 0>
+                <dd  class="mandcolr">#dateformat(trans_date,"yyyy-mm-dd")#</dd>
+                <cfelse>
+                <dd class="mandcolrstatus">N/A</dd>
+                </cfif>
+				<dt title="included in email reminder">Reason for Deaccession:</dt>
+                <cfif len(deacc_reason) GT 0>
+                <dd class="mandcolr large">#deacc_reason#</dd>
+                <cfelse>
+                <dd class="mandcolrstatus large">N/A</dd>
+                </cfif>
+                <dt>Description:</dt>
+                <cfif len(deacc_description) GT 0>
+                   <dd class="large">#deacc_description#</dd>
+                    <cfelse>
+                   <dd class="large emptystatus">N/A</dd>
+                  </cfif>
+                <dt>Internal Remarks:</dt>
+				<cfif len(trans_remarks) GT 0>
+                    <dd class="large">#trans_remarks#</dd>
+                    <cfelse>
+                    <dd class="large emptystatus">N/A</dd>
+                  </cfif>
+
+                <dt>Entered By:</dt>
+                 <cfif len(ent_agent) GT 0>
+                 <dd>#ent_agent#</dd>
+                 <cfelse>
+                 <dd>N/A</dd>
+                 </cfif>
+         
+   <ul class="loan_buttons">
+      <li><a href="a_deaccItemReview.cfm?transaction_id=#transaction_id#">Review Items</a></li>
+       <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+       <li class="add"><a href="SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#">Add Items</a></li>
+       <li class="barcode"><a href="deaccByBarcode.cfm?transaction_id=#transaction_id#">Add Items by Barcode</a></li>
+       <li class="edit"><a href="deaccession.cfm?transaction_id=#transaction_id#&action=editDeacc">Edit Deaccession</a></li>
+     </cfif>
+  </ul>
+</dl>
+ </div>
+        </div>
+      <cfif csv is true>
+        <cfset d='"#escapeDoubleQuotes(collection)# #escapeDoubleQuotes(deacc_number)#"'>
+        <cfset d=d &',"#c.c#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(auth_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(inHouse_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(addInhouse_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(rec_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(foruseby_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(addOutside_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(deacc_type)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(deacc_status)#"'>
+        <cfset d=d &',"#dateformat(trans_date,"yyyy-mm-dd")#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(deacc_reason)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(deacc_description)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(trans_remarks)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(ent_agent)#"'>
+        <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>
+        <cfscript>
+				variables.joFileWriter.writeLine(d);
+			</cfscript>
+      </cfif>
+      <cfset i=#i#+1>
+    </cfoutput>
+
+	<cfif csv is true>
+		<cfscript>
+			variables.joFileWriter.close();
+		</cfscript>
+		<cflocation url="/download.cfm?file=#dlFile#" addtoken="false">
+	</cfif>
+</table>
+</cfif>
+
+<cfinclude template="includes/_footer.cfm">

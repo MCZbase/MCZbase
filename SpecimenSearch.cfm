@@ -59,6 +59,8 @@
 			<span style="color:red;">
 				<cfif #action# is "dispCollObj">
 					<p>You are searching for items to add to a loan.</p>
+                <cfelseif #action# is "dispCollObjDeacc">
+					<p>You are searching for items to add to a deaccession.</p>
 				<cfelseif #action# is "encumber">
 					<p>You are searching for items to encumber.</p>
 				<cfelseif #action# is "collEvent">
@@ -1345,14 +1347,7 @@
          			<span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span>
          		</td>
          	</tr>
-         	<tr>
-         		<td class="lbl">
-         			<span id="entered_by">Entered By:</span>
-         		</td>
-         		<td class="srch">
-         			<input type="text" name="entered_by" id="entered_by" size="50">
-         		</td>
-         	</tr>
+         
          	<tr>
          		<td class="lbl">
          			<span id="disposition">Part Disposition:</span>
@@ -1378,6 +1373,14 @@
          			</select>
          		</td>
          	</tr>
+             	<tr>
+         		<td class="lbl">
+         			<span id="entered_by">Entered By:</span>
+         		</td>
+         		<td class="srch">
+         			<input type="text" name="entered_by" id="entered_by" size="50">
+         		</td>
+         	</tr>
          	<tr>
          		<td class="lbl">
          			<span id="entered_date">Entered Date:</span>
@@ -1385,6 +1388,14 @@
          		<td class="srch">
          			<input type="text" name="beg_entered_date" id="beg_entered_date" size="10" />-
          			<input type="text" name="end_entered_date" id="end_entered_date" size="10" />
+         		</td>
+         	</tr>
+             	<tr>
+         		<td class="lbl">
+         			<span id="edited_by">Last Edited By:</span>
+         		</td>
+         		<td class="srch">
+         			<input type="text" name="edited_by" id="edited_by" size="50">
          		</td>
          	</tr>
          	<tr>
