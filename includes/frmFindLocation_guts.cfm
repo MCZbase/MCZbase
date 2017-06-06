@@ -431,27 +431,35 @@
 		<div id="eventDetail" class="noShow">
 			<table cellpadding="0" cellspacign="0">
 			<tr>
-				<td>
+				<td style="padding-right: 1em;">
 					<label for="verbatim_date">Verbatim Date</label>
 					<input type="text" name="verbatim_date" id="verbatim_date" size="30">
 				</td>
+                <td>
+                	<label for="verbatimCoordinates">Verbatim Coordinates</label>
+					<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" size="30">
+                  </td>
                 	<td style="padding-left: 1em;">
 					<label for="collecting_method">Collecting Method</label>
 					<input type="text" name="collecting_method" id="collecting_method" size="30">
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td style="padding-right: 1em;">
 					<label for="coll_event_remarks">Collecting Event Remarks</label>
 					<input type="text" name="coll_event_remarks" id="coll_event_remarks" size="30">
 				</td>
+                 <td>
+                	<label for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
+					<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" size="30">
+                  </td>
                 	<td style="padding-left: 1em;">
 					<label for="habitat_desc">Habitat</label>
 					<input type="text" name="habitat_desc" id="habitat_desc" size="30">
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td style="padding-right: 1em;">
 					<label for="collecting_source">Collecting Source</label>
 					<select name="collecting_source" id="collecting_source" size="1">
 		            	<option value=""></option>
@@ -460,6 +468,10 @@
 		                </cfloop>
 		           	</select>
 				</td>
+                	 <td>
+                	<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
+					<input type="text" name="verbatimSRS" id="verbatimSRS" size="30">
+                  </td>
                 	<td style="padding-left: 1em;">
 					<label for="collecting_event_id">Collecting Event ID</label>
 					<input type="text" name="collecting_event_id" id="collecting_event_id" >

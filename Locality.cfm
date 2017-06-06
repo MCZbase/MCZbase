@@ -570,16 +570,21 @@ You do not have permission to create Higher Geographies
 					WHEN 'decimal degrees' THEN dec_lat || 'd'
 					WHEN 'deg. min. sec.' THEN lat_deg || 'd ' || lat_min || 'm ' || lat_sec || 's ' || lat_dir
 					WHEN 'degrees dec. minutes' THEN lat_deg || 'd ' || dec_lat_min || 'm ' || lat_dir
-				END as VerbatimLatitude,
+				END as LatitudeString,
 				CASE orig_lat_long_units
 					WHEN 'decimal degrees' THEN dec_long || 'd'
 					WHEN'degrees dec. minutes' THEN long_deg || 'd ' || dec_long_min || 'm ' || long_dir
 					WHEN 'deg. min. sec.' THEN long_deg || 'd ' || long_min || 'm ' || long_sec || 's ' || long_dir
-				END as VerbatimLongitude,
+				END as LongitudeString,
 			max_error_distance,
 			max_error_units,
 			collecting_time,
-			fish_field_number
+			fish_field_number,
+			VERBATIMCOORDINATES,
+		    VERBATIMLATITUDE,
+		    VERBATIMLONGITUDE,
+		    VERBATIMCOORDINATESYSTEM,
+		    VERBATIMSRS
 		from
 			locality
 			inner join geog_auth_rec on (locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id)
@@ -636,8 +641,8 @@ You do not have permission to create Higher Geographies
 		<h4>Current Locality:</h4>
 		<div id="locDesc" style="border:1px solid green;padding: .5em;">
             <p><span style="font-weight: 600;color: ##ff0000;width: 210px;display:inline-block;text-align:right;">HIGHER GEOGRAPHY: </span> #locDet.higher_geog#</p>
-			<cfif len(locDet.VerbatimLatitude) gt 0>
-                <p><span style="font-weight: 600;color: ##ff0000; width: 210px;display:inline-block;">COORDINATES:</span> #locDet.VerbatimLatitude# &nbsp;&nbsp; #locDet.VerbatimLongitude#</p>
+			<cfif len(locDet.LatitudeString) gt 0>
+                <p><span style="font-weight: 600;color: ##ff0000; width: 210px;display:inline-block;text-align:right;">COORDINATES:</span> #locDet.LatitudeString# &nbsp;&nbsp; #locDet.LongitudeString#</p>
                 <p><span style="font-weight: 600;color: ##ff0000; width: 210px;display:inline-block;text-align:right;">MAX ERROR:</span> <cfif len(locDet.max_error_distance) gt 0>
 					&##177; #locDet.max_error_distance# #locDet.max_error_units#
                     </cfif></p>
@@ -669,22 +674,50 @@ You do not have permission to create Higher Geographies
 			Verbatim Locality
 		</label>
 		<input type="text" name="verbatim_locality" id="verbatim_locality" value='#stripQuotes(locDet.verbatim_locality)#' size="115">
+		<table>
+			<tr>
+				<td><label for="verbatimCoordinates">Verbatim Coordinates (summary)<label>
+						<input type="text" name="verbatimCoordinates" value="#stripQuotes(locDet.verbatimCoordinates)#" id="verbatimCoordinates" size="115">
+				</td>
+            </tr>
+           </table>
+           <table>
+           <tr>
+				<td style="padding-right: 1.5em;"><label for="verbatimLatitude">Verbatim Latitude<label>
+						<input type="text" name="verbatimLatitude" value="#stripQuotes(locDet.verbatimLatitude)#" id="verbatimLatitude" size="30">
+				</td>
+				<td><label for="verbatimLongitude">Verbatim Longitude<label>
+						<input type="text" name="verbatimLongitude" value="#stripQuotes(locDet.verbatimLongitude)#" id="verbatimLongitude" size="30">
+				</td>
+			</tr>
+           </table>
+           <table>
+			<tr>
+				<td style="padding-right: 1.5em;"><label for="verbatimCoordinateSystem">Verbatim Coordinate System (e.g., decimal degrees)<label>
+						<input type="text" name="verbatimCoordinateSystem" value="#stripQuotes(locDet.verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" size="50">
+				</td>
+				<td ><label for="verbatimSRS">Verbatim SRS (includes ellipsoid model/Datum)<label>
+						<input type="text" name="verbatimSRS" value="#stripQuotes(locDet.verbatimSRS)#" id="verbatimSRS" size="50">
+				</td>
+			</tr>
+		</table>
+
 		<label for="specific_locality">
 			Specific Locality
 		</label>
-		<div id="specific_locality">
+		<div id="specific_locality" style="padding: .25em 0 .5em 0;">
 			#locDet.spec_locality#
 		</div>
-		<label for="verbatim_date">
-			Verbatim Date
-		</label>
-
-
-		<input type="text" name="VERBATIM_DATE" id="verbatim_date" value="#locDet.VERBATIM_DATE#" class="reqdClr">
-              <br><br>
 		<table>
 			<tr>
-				<td>
+				<td><label for="verbatim_date">
+			Verbatim Date
+		</label>
+<input type="text" name="VERBATIM_DATE" id="verbatim_date" value="#locDet.VERBATIM_DATE#" class="reqdClr">
+             </td></tr></table>
+		<table>
+			<tr>
+				<td style="padding-right: 1.5em;">
 					<label for="collecting_time">Collecting Time</label>
 					<input type="text" name="collecting_time" id="collecting_time" value="#locDet.collecting_time#" size="20">
 				</td>
@@ -712,7 +745,9 @@ You do not have permission to create Higher Geographies
 		</table>
 		<label for="coll_event_remarks">Remarks</label>
 		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="115">
-		<label for="collecting_source">
+		<table>
+        <tr>
+        <td style="padding-right: 2em;"><label for="collecting_source">
 			Collecting Source
 		</label>
 		<select name="collecting_source" id="collecting_source" size="1">
@@ -720,16 +755,18 @@ You do not have permission to create Higher Geographies
 				<option <cfif ctCollecting_Source.Collecting_Source is locDet.collecting_source> selected="selected" </cfif>
 					value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
 			</cfloop>
-		</select>
+		</select></td>
+        <td>
 		<label for="collecting_method">
 			Collecting Method
 		</label>
-		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#" size="115">
+		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#" size="92"></td>
+        </tr></table>
 		<label for="habitat_desc">
 			Habitat
 		</label>
 		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="115">
-        <br><input type="submit" value="Save" class="savBtn">
+        <br><br><input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
 			onClick="document.location='Locality.cfm?Action=deleteCollEvent&collecting_event_id=#locDet.collecting_event_id#';">
@@ -768,6 +805,27 @@ You do not have permission to create Higher Geographies
 				<cfelseif isdefined("getLoc.spec_locality")>
 					value="#stripQuotes(getLoc.spec_locality)#"
 				</cfif>>
+			<table>
+			<tr>
+				<td colspan="2"><label for="verbatimCoordinates">Verbatim Coordinates<label>
+						<input type="text" name="verbatimCoordinates" <cfif isdefined("verbatimCoordinates")> value="#stripQuotes(verbatimCoordinates)#"</cfif> id="verbatimCoordinates">
+				</td>
+				<td ><label for="verbatimLatitude">Verbatim Latitude<label>
+						<input type="text" name="verbatimLatitude" <cfif isdefined("verbatimLatitude")> value="#stripQuotes(verbatimLatitude)#"</cfif> id="verbatimLatitude" size="4">
+				</td>
+				<td ><label for="verbatimLongitude">Verbatim Longitude<label>
+						<input type="text" name="verbatimLongitude" <cfif isdefined("verbatimLongitude")>value="#stripQuotes(verbatimLongitude)#"</cfif> id="verbatimLongitude" size="4">
+				</td>
+			</tr>
+			<tr>
+				<td ><label for="verbatimCoordinateSystem">Verbatim Coordinate System<label>
+						<input type="text" name="verbatimCoordinateSystem" <cfif isdefined("verbatimCoordinateSystem")>value="#stripQuotes(verbatimCoordinateSystem)#"</cfif> id="verbatimCoordinateSystem">
+				</td>
+				<td ><label for="verbatimSRS">Verbatim SRS<label>
+						<input type="text" name="verbatimSRS" <cfif isdefined("verbatimSRS")>value="#stripQuotes(verbatimSRS)#"</cfif> id="verbatimSRS">
+				</td>
+			</tr>
+		</table>
 			<label for="verbatim_date">Verbatim Date</label>
 			<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr"
 			  	<cfif isdefined("verbatim_date")>
@@ -991,6 +1049,31 @@ You deleted a collecting event.
 	<cfelse>
 		<cfset sql = "#sql#,FISH_FIELD_NUMBER = null">
 	</cfif>
+	<cfif len(#verbatimCoordinates#) gt 0>
+		<cfset sql = "#sql#,verbatimCoordinates = '#escapeQuotes(verbatimCoordinates)#'">
+	<cfelse>
+		<cfset sql = "#sql#,verbatimCoordinates = null">
+	</cfif>
+	<cfif len(#verbatimLatitude#) gt 0>
+		<cfset sql = "#sql#,verbatimLatitude = '#escapeQuotes(verbatimLatitude)#'">
+	<cfelse>
+		<cfset sql = "#sql#,verbatimLatitude = null">
+	</cfif>
+	<cfif len(#verbatimLongitude#) gt 0>
+		<cfset sql = "#sql#,verbatimLongitude = '#escapeQuotes(verbatimLongitude)#'">
+	<cfelse>
+		<cfset sql = "#sql#,verbatimLongitude = null">
+	</cfif>
+	<cfif len(#verbatimCoordinateSystem#) gt 0>
+		<cfset sql = "#sql#,verbatimCoordinateSystem = '#escapeQuotes(verbatimCoordinateSystem)#'">
+	<cfelse>
+		<cfset sql = "#sql#,verbatimCoordinateSystem = null">
+	</cfif>
+	<cfif len(#verbatimSRS#) gt 0>
+		<cfset sql = "#sql#,verbatimSRS = '#escapeQuotes(verbatimSRS)#'">
+	<cfelse>
+		<cfset sql = "#sql#,verbatimSRS = null">
+	</cfif>
 	<cfset sql = "#sql# where collecting_event_id = #collecting_event_id#">
 	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
@@ -1191,6 +1274,12 @@ INSERT INTO geog_auth_rec (
 		,COLL_EVENT_REMARKS
 		,COLLECTING_METHOD
 		,HABITAT_DESC
+		,collecting_time
+		,VERBATIMCOORDINATES
+		,VERBATIMLATITUDE
+		,VERBATIMLONGITUDE
+		,VERBATIMCOORDINATESYSTEM
+		,VERBATIMSRS
 		)
 	VALUES (
 		#nextColl.nextColl#,
@@ -1219,10 +1308,40 @@ INSERT INTO geog_auth_rec (
 		<cfelse>
 			,NULL
 		</cfif>
+		<cfif len(#collecting_time#) gt 0>
+			,'#collecting_time#'
+		<cfelse>
+			,NULL
+		</cfif>
+		<cfif len(#VERBATIMCOORDINATES#) gt 0>
+			,'#escapequotes(VERBATIMCOORDINATES)#'
+		<cfelse>
+			,NULL
+		</cfif>
+		<cfif len(#VERBATIMLATITUDE#) gt 0>
+			,'#escapequotes(VERBATIMLATITUDE)#'
+		<cfelse>
+			,NULL
+		</cfif>
+		<cfif len(#VERBATIMLONGITUDE#) gt 0>
+			,'#escapequotes(VERBATIMLONGITUDE)#'
+		<cfelse>
+			,NULL
+		</cfif>
+		<cfif len(#VERBATIMCOORDINATESYSTEM#) gt 0>
+			,'#escapequotes(VERBATIMCOORDINATESYSTEM)#'
+		<cfelse>
+			,NULL
+		</cfif>
+		<cfif len(#VERBATIMSRS#) gt 0>
+			,'#escapequotes(VERBATIMSRS)#'
+		<cfelse>
+			,NULL
+		</cfif>
 		)
 		</cfquery>
 
-	<cflocation addtoken="no" url="#cgi.HTTP_REFERER#?Action=editCollEvnt&collecting_event_id=#nextColl.nextColl#">
+	<cflocation addtoken="no" url="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#nextColl.nextColl#">
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1472,8 +1591,8 @@ INSERT INTO geog_auth_rec (
 					geog_auth_rec_id,
 					spec_locality,
 					geolAtts,
-					VerbatimLatitude,
-					VerbatimLongitude,
+					LatitudeString,
+					LongitudeString,
 					nogeorefbecause,
 					locality_id,
 					verbatim_locality,
@@ -1496,8 +1615,8 @@ INSERT INTO geog_auth_rec (
 					geog_auth_rec_id,
 					spec_locality,
 					geolAtts,
-					VerbatimLatitude,
-					VerbatimLongitude,
+					LatitudeString,
+					LongitudeString,
 					nogeorefbecause,
 					locality_id,
 					verbatim_locality,
@@ -1541,8 +1660,8 @@ INSERT INTO geog_auth_rec (
 
          <cfif len(minimum_elevation) gt 0> (min-elevation: #minimum_elevation##orig_elev_units#,</cfif>
          <cfif len(maximum_elevation) gt 0> max-elevation: #maximum_elevation##orig_elev_units#)</cfif>
-					<cfif len(#VerbatimLatitude#) gt 0>
-						<br>#VerbatimLatitude#/#VerbatimLongitude#
+					<cfif len(#LatitudeString#) gt 0>
+						<br>#LatitudeString#/#LongitudeString#
 					<cfelse>
 						<br>#nogeorefbecause#
 					</cfif>
@@ -1698,8 +1817,8 @@ INSERT INTO geog_auth_rec (
             geog_auth_rec_id,
             spec_locality,
             higher_geog,
-            verbatimLatitude,
-            verbatimLongitude,
+            LatitudeString,
+            LongitudeString,
             NoGeorefBecause,
             coordinateDeterminer,
             lat_long_ref_source,
@@ -1717,8 +1836,8 @@ INSERT INTO geog_auth_rec (
             geog_auth_rec_id,
             spec_locality,
             higher_geog,
-            verbatimLatitude,
-            verbatimLongitude,
+            LatitudeString,
+            LongitudeString,
             NoGeorefBecause,
             coordinateDeterminer,
             lat_long_ref_source,
@@ -1777,8 +1896,8 @@ INSERT INTO geog_auth_rec (
         <td>
           <font size="-1">
 		 &nbsp;
-          <cfif len(verbatimLatitude) gt 0>
-            #verbatimLatitude# / #verbatimLongitude#
+          <cfif len(LatitudeString) gt 0>
+            #LatitudeString# / #LongitudeString#
             <cfelse>
             <b>NoGeorefBecause: #NoGeorefBecause#</b>
           </cfif>
@@ -1801,7 +1920,7 @@ INSERT INTO geog_auth_rec (
 <!---------------------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findGeog">
-         <div style="width: 60em; margin:0 auto; padding: 2em 0 3em 0;">
+         <div style="width: 49em; margin:0 auto; padding: 2em 0 3em 0;">
 <cfoutput>
 		<cf_findLocality>
 		<!--- need to filter out distinct --->
@@ -1817,7 +1936,7 @@ INSERT INTO geog_auth_rec (
 	<td><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
 	<td>
 		<!--- make this as input that looks like test to make copying easier --->
-		<input style="border:none;" value="#higher_geog#" size="120" readonly/>
+		<input style="border:none;" value="#higher_geog#" size="80" readonly/>
 	</td>
 </tr>
 </cfloop>

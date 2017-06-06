@@ -561,6 +561,11 @@ Some Totally Random String Data .....
 								<span class="infoLink" onclick="copyAllDates('ended_date');">Copy2All</span>
 							</td>
 						</tr>
+                         <tr>
+                            <td align="right"><span class="f11a">Collecting Time</span></td>
+                            <td><input type="text" name="collecting_time" title="COLLECTING_TIME" value="#collecting_time#" id="collecting_time" size="14"></td>
+						</tr>
+						<tr>
 						<tr>
 							<td colspan="2" id="dateConvertStatus"></td>
 						</tr>
@@ -613,6 +618,21 @@ Some Totally Random String Data .....
 								<input type="text" title="COLL_OBJECT_HABITAT" name="coll_object_habitat" size="75" id="coll_object_habitat" value="#coll_object_habitat#">
 							</td>
 						</tr>
+                          <tr>
+                        <td align="right"><span class="f11a">Verbatim Coordinates</span></td>
+                        <td>
+                        <input type="text" title="verbatimCoordinates" name="verbatimCoordinates" size="75" id="verbatimCoordinates" value="#verbatimCoordinates#"><span class="f11a">(summary as given)</span></td></tr>
+     <td align="right"><span class="f11a">Verbatim Latitude</span></td>
+                      <td><input type="text" title="verbatimLatitude" name="verbatimLatitude" size="14" id="verbatimLatitude" value="#verbatimLatitude#">
+                        <span class="f11a">Verbatim Longitude</span>
+                       <input type="text" title="verbatimLongitude" name="verbatimLongitude" size="14" id="verbatimLongitude" value="#verbatimLongitude#"></td></tr>
+                       
+                      <tr><td align="right"><span class="f11a">Verbatim Coordinate System</span></td>
+                       <td><input type="text" title="verbatimCoordinateSystem" name="verbatimCoordinateSystem" size="24" id="verbatimCoordinateSystem" value="#verbatimCoordinateSystem#"><span class="f11a">(e.g., decimal degrees, degrees minutes seconds, etc.)</span></td></tr>
+                        <td align="right"><span class="f11a">Verbatim SRS or Datum</span></td>
+                        <td><input type="text" title="verbatimSRS" name="verbatimSRS" size="24" id="verbatimSRS" value="#verbatimSRS#"><span class="f11a">(e.g., WGS84, Clark 1866, etc.)</span></td>
+                        </tr>
+						<tr>
 						<tr>
 							<td id="d_orig_elev_units" align="right">
 							
