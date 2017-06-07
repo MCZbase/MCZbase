@@ -295,7 +295,7 @@
         <table>
         <tr>
         <td valign="top"><!--- left half of page --->
-          
+
           <table>
             <tr>
               <td><label for="higher_geog"> Higher Geography
@@ -342,7 +342,7 @@
             </tr>
             <tr>
               <td><table>
-                  
+
                     <td><label for="collecting time"> Collecting Time </label>
                       <cfinput type="text"
 					name="collecting_time"
@@ -359,7 +359,7 @@
             </tr>
             <tr>
               <td><table>
-                  
+
                     <td><label for="began_date"> Began Date/Time</a></label>
                       <input type="text"
 								name="began_date"
@@ -395,7 +395,7 @@
                   </cfloop>
                 </select></td>
             </tr>
-            
+
               <td><label for="collecting_method"> Collecting Method </label>
                 <input type="text"
 					name="collecting_method"
@@ -626,119 +626,119 @@
           </table>
           <table id="ddm" style="display:none;">
               <tr>
-            
+
               <td>
-            
+
               <label for="dmlat_deg">
             Lat. Deg.
               <label>
-            
+
             <input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr">
               </td>
-            
+
               <td>
-            
+
               <label for="dec_lat_min">
             Lat. Dec. Min.
               <label>
-            
+
             <cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr"
 					validate="numeric">
               </td>
-            
+
               <td>
-            
+
               <label for="dmlat_dir">
             Lat. Dir.
               <label>
-            
+
             <select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr">
               <option value=""></option>
               <option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
               <option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
             </select>
               </td>
-            
+
               </tr>
-            
+
               <tr>
-            
+
               <td>
-            
+
               <label for="dmlong_deg">
             Long. Deg.
               <label>
-            
+
             <cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr"
 					validate="numeric">
               </td>
-            
+
               <td>
-            
+
               <label for="dec_long_min">
             Long. Dec. Min.
               <label>
-            
+
             <cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr"
 					validate="numeric">
               </td>
-            
+
               <td>
-            
+
               <label for="dmlong_dir">
             Long. Dir.
               <label>
-            
+
             <select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr">
               <option value=""></option>
               <option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
               <option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
             </select>
               </td>
-            
+
               </tr>
-            
+
           </table>
           <table id="utm" style="display:none;">
               <tr>
-            
+
               <td>
-            
+
               <label for="utm_zone">
             UTM Zone
               <label>
-            
+
             <cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr"
 					validate="numeric">
               </td>
-            
+
               <td>
-            
+
               <label for="utm_ew">
             UTM East/West
               <label>
-            
+
             <cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr"
 					validate="numeric">
               </td>
-            
+
               <td>
-            
+
               <label for="utm_ns">
             UTM North/South
               <label>
-            
+
             <cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr"
 					validate="numeric">
               </td>
-            
+
               </tr>
-            
+
               </td>
-            
+
           </table>
           <table>
-      
+
                    <tr>
               <td><label>Verbatim Coordinates (summary)</label>
                 <cfinput type="text"
@@ -746,7 +746,6 @@
 					id="verbatimCoordinates"
 					value="#stripQuotes(l.verbatimCoordinates)#"
 					size="80"
-					required="true"
 					></td>
             </tr>
           </table>
@@ -758,7 +757,6 @@
 					id="verbatimLatitude"
 					value="#stripQuotes(l.verbatimLatitude)#"
 					size="36"
-					required="true"
 					></td>
               <td><label>Verbatim Longitude</label>
                 <cfinput type="text"
@@ -766,7 +764,6 @@
 					id="verbatimLongitude"
 					value="#stripQuotes(l.verbatimLongitude)#"
 					size="36"
-					required="true"
 					></td>
             </tr>
           </table>
@@ -778,7 +775,6 @@
 					id="verbatimCoordinateSystem"
 					value="#stripQuotes(l.verbatimCoordinateSystem)#"
 					size="39"
-					required="true"
 					></td>
               <td><label>Verbatim SRS (e.g., datum)</label>
                 <cfinput type="text"
@@ -786,64 +782,63 @@
 					id="verbatimSRS"
 					value="#stripQuotes(l.verbatimSRS)#"
 					size="33"
-					required="true"
 					></td>
             </tr>
           </table>
  <!---         <table id="vc">
               <tr>
-            
+
               <td colspan="2">
               <label for="verbatimCoordinates">
             Verbatim Coordinates
               <label>
-            
+
             <cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates">
               </td>
-            
+
               <td >
               <label for="verbatimLatitude">
             Verbatim Latitude
               <label>
-            
+
             <cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4">
               </td>
-            
+
               <td >
               <label for="verbatimLongitude">
             Verbatim Longitude
               <label>
-            
+
             <cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4">
               </td>
-            
+
               </tr>
-            
+
               <tr>
-            
+
               <td >
               <label for="verbatimCoordinateSystem">
             Verbatim Coordinate System
               <label>
-            
+
             <cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem">
               </td>
-            
+
               <td >
               <label for="verbatimSRS">
             Verbatim SRS
               <label>
-            
+
             <cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS">
               </td>
-            
+
               </tr>
-            
+
           </table>--->
             <label for="gTab">
           Geology
             <label>
-          
+
           <table id="gTab" border="1" cellpadding="0" cellspacing="0">
             <tr>
               <td>Attribute</td>
@@ -920,9 +915,9 @@
             </tr>
           </table>
             </td>
-          
+
             </tr>
-          
+
           <tr>
             <td colspan="2" align="center"><input type="submit" value="Save Changes" class="savBtn"
    				onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'"></td>
@@ -931,7 +926,7 @@
       </cfform>
       <script>
 		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
-	</script> 
+	</script>
     </cfoutput> </div>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1007,7 +1002,7 @@
 					NVL(LONG_MIN,-1) = nvl('#LONG_MIN#',-1) AND
 					NVL(LONG_SEC,-1) = nvl('#LONG_SEC#',-1)
 		">
-      <!--- see if there are any geology attributes to deal with ---> 
+      <!--- see if there are any geology attributes to deal with --->
       <!---
 		<cfdump var="#form#">
 		<cfdump var="#variables#">
@@ -1051,7 +1046,7 @@
         </cfif>
       </cfloop>
       <cfif len(geology_attribute) gt 0>
-        <!--- new attribute ---> 
+        <!--- new attribute --->
         were making a new geology_attribute
         <cfset hasGeol=1>
         <cfquery name="gatt"  datasource="uam_god">
@@ -1064,7 +1059,7 @@
 					NVL(GEO_ATT_REMARK,'NULL') = NVL('#escapeQuotes(geo_att_remark)#','NULL')
 			</cfquery>
         <cfif len(gatt.GEOLOGY_ATTRIBUTE_ID) is 0>
-          <!--- no such attribute already esists, make sure we return nothing ---> 
+          <!--- no such attribute already esists, make sure we return nothing --->
           .....no such attribute already esists.....
           <cfset gattlst=listappend(gattlst,-1)>
           <cfelse>
@@ -1094,8 +1089,8 @@
         <cfset etime=now()>
         <cfset tt=DateDiff("s", btime, etime)>
         <br>
-        Runtime: #tt# 
-        
+        Runtime: #tt#
+
         <!--- need to make a locality --->
         <cfquery name="nlid" datasource="uam_god">
 				select sq_locality_id.nextval nlid from dual
@@ -1153,8 +1148,8 @@
         <cfset etime=now()>
         <cfset tt=DateDiff("s", btime, etime)>
         <br>
-        Runtime: #tt# 
-        
+        Runtime: #tt#
+
         <!--- and new geology.... --->
         <cfset ffldn=form.fieldnames>
         <cfloop from="1" to="#maxNumGeolAtts#" index="i">
@@ -1389,7 +1384,7 @@
           Runtime: #tt#
         </cfif>
       </cfif>
-      <!--- end make new locality ---> 
+      <!--- end make new locality --->
       <!--- we now have a locality --->
       <cfquery name="hasColl" datasource="uam_god">
 			select
@@ -1520,9 +1515,9 @@
     </cftransaction>
     done.....
     <cflocation url="specLocality.cfm?collection_object_id=#collection_object_id#">
-    
+
     <!---
 
-	---> 
+	--->
   </cfoutput>
 </cfif>

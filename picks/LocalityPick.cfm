@@ -12,7 +12,7 @@
 <cfset title = "Locality Pick Search">
 <cfif action is "nothing">
 <cfoutput>
-    
+
 <cfset showLocality=1>
 <form name="getLoc" method="post" action="LocalityPick.cfm">
 	<input type="hidden" name="Action" value="findLocality">
@@ -30,9 +30,9 @@
 <cfoutput>
 	<cf_findLocality>
 	<cfquery name="localityResults" dbtype="query">
-		select 
+		select
 			locality_id,geog_auth_rec_id,locality_id,spec_locality,higher_geog,
-			verbatimLatitude,verbatimLongitude,NoGeorefBecause,
+			LatitudeString,LongitudeString,NoGeorefBecause,
 			minimum_elevation,maximum_elevation,orig_elev_units,
 			coordinateDeterminer,
 			determined_date,
@@ -40,8 +40,8 @@
 			geolAtts
 		from localityResults
 		group by
-			locality_id,geog_auth_rec_id,locality_id,spec_locality,higher_geog,verbatimLatitude,
-			verbatimLongitude,NoGeorefBecause,
+			locality_id,geog_auth_rec_id,locality_id,spec_locality,higher_geog,LatitudeString,
+			LongitudeString,NoGeorefBecause,
 			minimum_elevation,maximum_elevation,orig_elev_units,
 			coordinateDeterminer,
 			determined_date,
@@ -49,11 +49,11 @@
 			geolAtts
 	</cfquery>
 	<table border>
-    	<tr> 
+    	<tr>
       		<td><b>&nbsp;</b></td>
 	   		<td><b>Spec Locality</b></td>
     	</tr>
-    	 <cfloop query="localityResults"> 
+    	 <cfloop query="localityResults">
       		<tr #iif(currentrow MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
        			<td>
 		  			<input type="button" value="Accept" class="lnkBtn"
@@ -62,14 +62,14 @@
 						opener.document.#formName#.#speclocFld#.value='#URLEncodedFormat(spec_locality)#';
 						self.close();">
 				</td>
-				<td> 
+				<td>
           			<span style="font-size:.7em">#higher_geog#</span>
 					<br>#localityResults.spec_locality#
 					<cfif len(geolAtts) gt 0> [#geolAtts#] </cfif>
 					<br>
 					<span style="font-size:.7em">
-						<cfif len(#verbatimLatitude#) gt 0 and len(#verbatimLongitude#) gt 0>
-							#verbatimLatitude# #verbatimLongitude# 
+						<cfif len(#LatitudeString#) gt 0 and len(#LongitudeString#) gt 0>
+							#LatitudeString# #LongitudeString#
 							(#coordinateDeterminer# on #dateformat(determined_date,"yyyy-mm-dd")# ref. #lat_long_ref_source#)
 						<cfelse>
 							#NoGeorefBecause#
@@ -82,18 +82,18 @@
 						</span>
 					</cfif>
 				</td>
-				
-</tr>   
+
+</tr>
 
 </cfloop>
                           </table>
-  
-  
-		
-		
+
+
+
+
 		<!---
 		<br><a href="javascript: opener.document.#formName#.#localityIdFld#.value='#locality_id#';opener.document.#formName#.#speclocFld#.value='#spec_locality#';self.close();" onClick="">#spec_locality#</a>
 --->
-    </cfoutput> 
+    </cfoutput>
 </cfif>
 <cfinclude template="../includes/_pickFooter.cfm">
