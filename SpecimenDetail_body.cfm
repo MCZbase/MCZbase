@@ -102,6 +102,11 @@
 					to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
 			)
 		end VerbatimLongitude,
+		collecting_event.verbatimcoordinates,
+		collecting_event.verbatimlatitude verblat,
+		collecting_event.verbatimlongitude verblong,
+		collecting_event.verbatimcoordinatesystem,
+		collecting_event.verbatimSRS,
 		accepted_lat_long.dec_lat,
 		accepted_lat_long.dec_long,
 		accepted_lat_long.max_error_distance,
@@ -641,6 +646,9 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							</tr>
 						</cfif>
 					</cfif>
+
+
+
 					<cfif len(one.locality_remarks) gt 0>
 						<tr class="detailData">
 							<td id="SDCellLeft" class="innerDetailLabel">Locality Remarks:</td>
@@ -699,7 +707,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								<td id="SDCellLeft" class="innerDetailLabel">Coordinates:</td>
 								<td id="SDCellRight">#one.VerbatimLatitude# #one.verbatimLongitude#
 									<cfif len(one.datum) gt 0>
-										(#one.datum#)
+										(Datum: #one.datum#)
 									</cfif>
 									<cfif len(one.max_error_distance) gt 0>
 										, Error: #one.max_error_distance# #one.max_error_units#
@@ -712,11 +720,11 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									<cfset determination = '#determination#; #dateformat(one.latLongDeterminedDate, "yyyy-mm-dd")#'>
 								</cfif>
 								<cfif len(one.lat_long_ref_source) gt 0>
-									<cfset determination = '#determination#; #one.lat_long_ref_source#'>
+									<cfset determination = '#determination#; Source: #one.lat_long_ref_source#'>
 								</cfif>
 								<tr>
 									<td></td>
-									<td id="SDCellRight" class="detailCellSmall">
+									<td id="SDCellRight" class="detailCellSmall" style="padding-left: 1.75em;padding-top: 0;padding-bottom: .5em;">
 										#determination#
 									</td>
 								</tr>
@@ -724,8 +732,32 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							<cfif len(one.lat_long_remarks) gt 0>
 								<tr class="detailCellSmall">
 									<td></td>
-									<td class="innerDetailLabel">Coordinate Remarks:
+									<td class="innerDetailLabel" style="padding-left: 1.75em;padding-top: 0;padding-bottom: .5em;">Coordinate Remarks:
 										#one.lat_long_remarks#
+									</td>
+								</tr>
+							</cfif>
+							<cfif len(one.verbatimcoordinates) gt 0>
+								<tr class="detailData">
+									<td id="SDCellLeft" class="innerDetailLabel">Verbatim Coordinates:</td>
+									<td id="SDCellRight">#one.verbatimcoordinates#</td>
+								</tr>
+							</cfif>
+							<!---<cfif len(one.verblat) gt 0 or len(one.verblong) gt 0>
+								<tr class="detailData">
+									<td id="SDCellLeft" class="innerDetailLabel">Verbatim Lat.: </td>
+									<td id="SDCellRight">#one.verblat#</td>
+                               </tr>
+                               <tr>
+									<td id="SDCellLeft" class="innerDetailLabel">Verbatim Long.:</td>
+									<td id="SDCellRight">#one.verblat#</td>
+								</tr>
+							</cfif>--->
+                            <cfif len(one.VerbatimCoordinateSystem) gt 0 or len(one.VerbatimSRS) gt 0 >
+								<tr class="detailCellSmall">
+                                <td></td>
+									<td class="innerDetailLabel" style="padding-left: 1.75em;padding-top: 0;padding-bottom: .5em;">
+										System: #one.verbatimCoordinateSystem#; Datum: #one.VerbatimSRS#
 									</td>
 								</tr>
 							</cfif>
@@ -1017,31 +1049,28 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<span class="detailEditCell" onClick="getInfo('parts','#one.collection_object_id#');">Details</span>--->
 					</cfif>
 				</div>
-				<div class="detailBlock">
-					<span class="detailData">
-						<table border>
+			<div class="detailBlock" style="margin-left: 0px;">
+						<table class="partname">
 							<tr>
-								<th><span class="innerDetailLabel">Part Name</span></th>
-								<th><span class="innerDetailLabel">Condition</span></th>
-								<th><span class="innerDetailLabel">Disposition</span></th>
-								<th><span class="innerDetailLabel">##</span></th>
+			<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
+								<th class="inside"><span class="innerDetailLabel">Condition</span></th>
+								<th class="inside"><span class="innerDetailLabel">Disposition</span></th>
+								<th class="inside"><span class="innerDetailLabel">##</span></th>
 								<cfif oneOfus is "1">
-									<th><span class="innerDetailLabel">Container Label</span></th>
+									<th class="inside"><span class="innerDetailLabel">Container Label</span></th>
 								</cfif>
-								<th><span class="innerDetailLabel">Remarks</span></th>
+								<th class="inside"><span class="innerDetailLabel">Remarks</span></th>
 							</tr>
 							<cfloop query="mPart">
 								<tr>
-									<td>
-										#part_name#
-									</td>
-									<td>#part_condition#</td>
-									<td>#part_disposition#</td>
-									<td>#lot_count#</td>
+									<td class="inside">#part_name#</td>
+									<td class="inside">#part_condition#</td>
+									<td class="inside">#part_disposition#</td>
+									<td class="inside">#lot_count#</td>
 									<cfif oneOfus is 1>
-										<td>#label#</td>
+										<td class="inside">#label#</td>
 									</cfif>
-									<td>#part_remarks#</td>
+									<td class="inside">#part_remarks#</td>
 								</tr>
 							<cfquery name="patt" dbtype="query">
 									select
@@ -1066,7 +1095,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								</cfquery>
 								<cfif patt.recordcount gt 0>
 									<tr>
-										<td colspan="6">
+										<td colspan="6" class="partnameatts">
 											<cfloop query="patt">
 												<div style="margin-left:1em;" class="detailCellSmall">
 													<strong>#attribute_type#</strong>=<strong>#attribute_value#</strong>
@@ -1107,7 +1136,6 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								</cfloop>
 							</cfloop>
 						</table>
-					</span>
 				</div>
 			</div>
 

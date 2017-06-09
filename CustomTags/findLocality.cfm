@@ -18,12 +18,12 @@
 			WHEN 'decimal degrees' THEN dec_lat || 'd'
 			WHEN 'deg. min. sec.' THEN lat_deg || 'd ' || lat_min || 'm ' || lat_sec || 's ' || lat_dir
 			WHEN 'degrees dec. minutes' THEN lat_deg || 'd ' || dec_lat_min || 'm ' || lat_dir
-		END VerbatimLatitude,
+		END LatitudeString,
 		CASE orig_lat_long_units
 			WHEN 'decimal degrees' THEN dec_long || 'd'
 			WHEN'degrees dec. minutes' THEN long_deg || 'd ' || dec_long_min || 'm ' || long_dir
 			WHEN 'deg. min. sec.' THEN long_deg || 'd ' || long_min || 'm ' || long_sec || 's ' || long_dir
-		END VerbatimLongitude,
+		END LongitudeString,
 		nogeorefbecause,
 		max_error_distance,
 		max_error_units,

@@ -101,7 +101,8 @@
                   <li><!--main menu element-->
                     <a target="_top" href="##">Batch Tools</a>
                       <ul>
-                         <li><a target="_top" href="/tools/BulkloadParts.cfm">Bulkload Parts</a></li>
+                         <li><a target="_top" href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
+                         <li><a target="_top" href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts</a></li>
                          <li><a target="_top" href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
                          <li><a target="_top" href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
                          <li><a target="_top" href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers</a></li>

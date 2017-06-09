@@ -17,7 +17,7 @@
 			<cfcatch>
 				<cfinclude template="/errors/404.cfm">
 			</cfcatch>
-		</cftry>				
+		</cftry>
 	<cfelseif listfindnocase(rdurl,'specimen',"/")>
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"specimen","/")>
@@ -42,13 +42,13 @@
 				<cfset p=listgetat(rdurl,gPos+2,"/")>
 				<cfcatch></cfcatch>
 			</cftry>
-			
+
 			<cfinclude template="/document.cfm">
 			<cfcatch>
 				<cfdump var=#cfcatch#>
 				<!---
-				
-				
+
+
 			<cfif listgetat(rdurl,gPos+2,"/")>
 				<cfset p=listgetat(rdurl,gPos+2,"/")>
 			<cfelse>
@@ -58,7 +58,7 @@
 				--->
 			</cfcatch>
 		</cftry>
-		</cfoutput>	
+		</cfoutput>
 	<cfelseif listfindnocase(rdurl,'name',"/")>
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"name","/")>
@@ -155,7 +155,7 @@
 				<cfinclude template="/errors/404.cfm">
 			</cfcatch>
 		</cftry>
-		</Cfoutput>		
+		</Cfoutput>
 	<cfelse><!--- all the rest --->
 		<!--- see if we can handle the peristent 404s elegantly --->
 		<cfif cgi.SCRIPT_NAME contains "/DiGIRprov/www/DiGIR.php">
@@ -163,11 +163,11 @@
 			<cfheader name="Location" value="http://digir.mcz.harvard.edu/ipt/">
 		<cfelse>
 			<cftry>
-                <cfif !isSet(cgi.REDIRECT_URL) or !isSet(cgi.redirect_query_string)> 
+                <cfif !isSet(cgi.REDIRECT_URL) or !isSet(cgi.redirect_query_string)>
 				   <cfscript>
 				      	getPageContext().forward("/errors/404.cfm");
 				   </cfscript>
-                <cfelse>  
+                <cfelse>
 			    	<cfscript>
 		    			getPageContext().forward(cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string);
 	    			</cfscript>

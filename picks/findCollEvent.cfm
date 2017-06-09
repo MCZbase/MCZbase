@@ -18,21 +18,21 @@
 
 <cfoutput>
 	<cf_findLocality>
-	
+
 	<table border>
 		<tr>
-						
+
 			<tr>
 			<td rowspan="3"> <b>Geog</b></td>
 			<td rowspan="3"><b>Locality</b></td>
 			<td rowspan="3">&nbsp;
-			
+
 			</td>
 			<td><b>Verb. Loc.</b></td>
 			<td><strong>Coll Date</strong></td>
 			</tr>
 		<tr>
-			
+
 			<td>
 				<strong>Feature</strong>
 			</td>
@@ -41,27 +41,27 @@
 			</td>
 		</tr>
 		<tr>
-			
+
 			<td colspan="2">
 				<strong>Coordinates</strong>
 			</td>
 		</tr>
-		
-		
-		
+
+
+
 	<cfset i = 1>
 	<cfloop query="localityResults">
 		 <tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
-			<td rowspan="3"> 
+			<td rowspan="3">
 				<font size="-2">
-					#higher_geog# 
-					(<a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" 
+					#higher_geog#
+					(<a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#"
 						target="_blank">#geog_auth_rec_id#</a>)
 				</font></td>
 			<td rowspan="3">
 				<font size="-2">
-					#spec_locality# 
-					(<a href="/Locality.cfm?Action=editLocality&locality_id=#locality_id#" 
+					#spec_locality#
+					(<a href="/Locality.cfm?Action=editLocality&locality_id=#locality_id#"
 						target="_blank">#locality_id#</a>)
 				</font>
 </td>
@@ -74,20 +74,20 @@
 				<table>
 				<tr>
 					<td>
-						<input type="button" 
-							value="Select" 
+						<input type="button"
+							value="Select"
 							class="savBtn"
-							onmouseover="this.className='savBtn btnhov'" 
+							onmouseover="this.className='savBtn btnhov'"
 							onmouseout="this.className='savBtn'"
-							onclick="javascript: opener.document.#formName#.#collIdFld#.value='#collecting_event_id#'; 
+							onclick="javascript: opener.document.#formName#.#collIdFld#.value='#collecting_event_id#';
 								opener.document.#formName#.#dispField#.value='#URLEncodedFormat(verbatim_locality)#';
 								self.close();">
 					</td>
 				</tr>
 			</table>
-			
-						
-						
+
+
+
 			</form>
 			</td>
 			<td>#verbatim_locality#</td>
@@ -103,11 +103,11 @@
 			<cfelse>
 					<cfset thisDate = "#verbatim_date# (#began_date# - #ended_date#)">
 			</cfif>
-			
+
 			<td>#thisDate#</td>
 			</tr>
 		<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
-			
+
 			<td>
 				#feature#
 			</td>
@@ -116,16 +116,16 @@
 			</td>
 		</tr>
 		<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
-			
+
 			<td colspan="2">
 				<font size="-1">
-					#VerbatimLatitude# / #verbatimLongitude# &plusmn; #max_error_distance# #max_error_units# <em><strong>Ref:</strong></em> #lat_long_ref_source#
+					#LatitudeString# / #LongitudeString# &plusmn; #max_error_distance# #max_error_units# <em><strong>Ref:</strong></em> #lat_long_ref_source#
 				</font>
 			</td>
 		</tr>
 	<cfset i=#i#+1>
 	</cfloop>
-		
+
 	</table>
 	</cfoutput>
 </cfif>

@@ -30,22 +30,22 @@
  						d+='<br>County: <strong>' + r.DATA.COUNTY[0] + '</strong>';
  					}
  					if(r.DATA.QUAD[0]){
- 						d+='<br>USGS Quad: <strong>' + r.DATA.QUAD[0] + '</strong>'; 						
+ 						d+='<br>USGS Quad: <strong>' + r.DATA.QUAD[0] + '</strong>';
  					}
  					if(r.DATA.FEATURE[0]){
- 						d+='<br>Feature: <strong>' + r.DATA.FEATURE[0] + '</strong>'; 						
+ 						d+='<br>Feature: <strong>' + r.DATA.FEATURE[0] + '</strong>';
  					}
  					if(r.DATA.ISLAND_GROUP[0]){
- 						d+='<br>Island Group: <strong>' + r.DATA.ISLAND_GROUP[0] + '</strong>'; 						
+ 						d+='<br>Island Group: <strong>' + r.DATA.ISLAND_GROUP[0] + '</strong>';
  					}
  					if(r.DATA.ISLAND[0]){
- 						d+='<br>Island: <strong>' + r.DATA.ISLAND[0] + '</strong>'; 						
+ 						d+='<br>Island: <strong>' + r.DATA.ISLAND[0] + '</strong>';
  					}
  					if(r.DATA.SEA[0]){
- 						d+='<br>Sea: <strong>' + r.DATA.SEA[0] + '</strong>'; 						
+ 						d+='<br>Sea: <strong>' + r.DATA.SEA[0] + '</strong>';
  					}
  					if(r.DATA.SOURCE_AUTHORITY[0]){
- 						d+='<br>Source: <strong>' + r.DATA.SOURCE_AUTHORITY[0] + '</strong>'; 						
+ 						d+='<br>Source: <strong>' + r.DATA.SOURCE_AUTHORITY[0] + '</strong>';
  					}
 					$('<div />').addClass('bgDiv').attr("id","bgDiv").bind("click",removeDetail).appendTo('body').show();
 		            $('<div />').html(d).attr("id","customDiv").addClass('infoPop').appendTo('body');
@@ -57,7 +57,7 @@
 			}
 		);
 	}
-	
+
 	function expand(variable, value){
 		$('<div />').addClass('bgDiv').attr("id","bgDiv").bind("click",removeDetail).appendTo('body').show();
 		$('<div />').attr("id","customDiv").addClass('infoPop').appendTo('body');
@@ -70,18 +70,18 @@
 </script>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
-<cfoutput> 
+<cfoutput>
 	<cfset title="Explore Localities">
 	<cfset showLocality=1>
 	<cfset showEvent=1>
     <div class="basic_search_box" style="width: 52em;">
-	<h2 class="wikilink">Search Places 
+	<h2 class="wikilink">Search Places
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
     <img src="/images/info_i_2.gif" onClick="getMCZDocs('Find Locality')" class="likeLink" alt="[ help ]" style="vertical-align:top;">
     </cfif>
     </h2>
     <form name="getCol" method="post" action="showLocality.cfm" style="margin-top: 0">
-		<input type="hidden" name="action" value="srch">	
+		<input type="hidden" name="action" value="srch">
 		<cfinclude template="/includes/frmFindLocation_guts.cfm">
     </form>
     </div>
@@ -100,8 +100,8 @@
 				geog_auth_rec_id,
 				spec_locality,
 				geolAtts,
-				VerbatimLatitude,
-				VerbatimLongitude,
+				LatitudeString,
+				LongitudeString,
 				nogeorefbecause,
 				locality_id,
 				verbatim_locality,
@@ -111,14 +111,14 @@
 				collecting_source,
 				collecting_method
 			from localityResults
-			group by 
+			group by
 				collecting_event_id,
 				higher_geog,
 				geog_auth_rec_id,
 				spec_locality,
 				geolAtts,
-				VerbatimLatitude,
-				VerbatimLongitude,
+				LatitudeString,
+				LongitudeString,
 				nogeorefbecause,
 				locality_id,
 				verbatim_locality,
@@ -164,14 +164,14 @@
 								[null]
 							</cfif>
 							<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
-							<cfif len(#VerbatimLatitude#) gt 0>
-								<br>#VerbatimLatitude#/#VerbatimLongitude#
+							<cfif len(#LatitudeString#) gt 0>
+								<br>#LatitudeString#/#LongitudeString#
 							<cfelse>
 								<br>#nogeorefbecause#
 							</cfif>
 						<cfelse>
 							[no localities]
-						</cfif> 
+						</cfif>
 					<td>
 						<cfif len(collecting_event_id) gt 0>
 							<span class="infoLink" onclick="expand('collecting_event_id', #collecting_event_id#)">[&nbsp;details&nbsp;]</span>
@@ -184,7 +184,7 @@
 							</cfif>
 							</a>
 							<br>#thisDate#; #collecting_source#
-							<cfif len(collecting_method) gt 0> 
+							<cfif len(collecting_method) gt 0>
 								(#collecting_method#)
 							</cfif>
 						<cfelse>
