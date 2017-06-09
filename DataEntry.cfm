@@ -54,7 +54,7 @@ Some Totally Random String Data .....
 <cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
 <!--------------------------------   default page    ---------------------------------------------------->
 <cfif action is "nothing">
-    
+
     <div class="welcome">
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -111,7 +111,7 @@ Some Totally Random String Data .....
 			</cfif>
 		</cfloop>
         <div class="basic_box">
-         
+
         <div class="welcomeback" style="padding-top: 2em;margin-left:0;">
 		<h3>Welcome to the data entry (and edit) application, #session.username#</h3>
             <br/>
@@ -323,7 +323,7 @@ Some Totally Random String Data .....
 		<!----------------- end dropdowns --------------------->
 
         <!--- Note: MAXTEMPLATE is the largest collection_id used for a template in bulkloader by using the collection_id as the value in bulkloader.collection_object_id --->
-		   
+
 		<cfset sql = "select collection_object_id from bulkloader where collection_object_id > #MAXTEMPLATE#">
 		<cfif ImAGod is "no">
 			 <cfset sql = "#sql# AND enteredby = '#session.username#'">
@@ -342,7 +342,7 @@ Some Totally Random String Data .....
 		<cfquery name="whatIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			#preservesinglequotes(sql)#
 		</cfquery>
-	
+
 		<cfset idList=valuelist(whatIds.collection_object_id)>
 		<cfset currentPos = listFind(idList,data.collection_object_id)>
 		<cfif len(loadedMsg) gt 0>
@@ -376,7 +376,7 @@ Some Totally Random String Data .....
                             <td valign="top" <cfif collection_cde is "Mala">style="background-color: ##5698e2;padding-bottom: 4px;"</cfif><cfif collection_cde is "IZ">style="background-color: ##cd991c;padding-bottom: 4px;"</cfif><cfif collection_cde is "Mamm">style="background-color: ##eff2a4;padding-bottom: 4px;"</cfif><cfif collection_cde is "Ich">style="background-color: ##98c9eb;padding-bottom: 4px;"</cfif><cfif collection_cde is "Orn">style="background-color: ##e68250;padding-bottom: 4px;"</cfif><cfif collection_cde is "IP">style="background-color: ##b8a4bc"</cfif><cfif collection_cde is "VP">style="background-color: ##b9b69e;padding-bottom: 4px;"</cfif><cfif collection_cde is "Herp">style="background-color: ##92a462;padding-bottom: 4px;"</cfif><cfif collection_cde is "Cryo">style="background-color: ##cbd9ee;padding-bottom: 4px;"</cfif><cfif collection_cde is "Ent">style="background-color: ##eedecb;padding-bottom: 4px;"</cfif><cfif collection_cde is "MCZ">style="background-color: ##a5acbf"</cfif><cfif collection_cde is "SC">style="background-color: ##c8bee8;padding-bottom: 4px;"</cfif>>
 								<div id="modeDisplayDiv"><cfif len(#loadedMsg#)gt 0>FIX<cfelse>#ucase(pMode)#</cfif></div>
                                     &nbsp;&nbsp;<b>#institution_acronym#:#collection_cde#</b>
-                                                    
+
 								<!---
 								<span class="f11a">Coll:</span>
 								<select name="colln" id="colln" class="reqdClr" onchange="changeCollection(this.value)">
@@ -535,7 +535,7 @@ Some Totally Random String Data .....
 									id="spec_locality"	value="#stripQuotes(spec_locality)#" size="75">
 							</td>
 						</tr>
-					
+
 						<tr>
 							<td align="right"><span class="f11a">Verbatim Locality</span></td>
 							<td>
@@ -621,21 +621,21 @@ Some Totally Random String Data .....
                           <tr>
                         <td align="right"><span class="f11a">Verbatim Coordinates</span></td>
                         <td>
-                        <input type="text" title="verbatimCoordinates" name="verbatimCoordinates" size="75" id="verbatimCoordinates" value="#verbatimCoordinates#"><span class="f11a">(summary as given)</span></td></tr>
+                        <input type="text" title="verbatimcoordinates" name="verbatimcoordinates" size="75" id="verbatimcoordinates" value="#verbatimcoordinates#"><span class="f11a">(summary as given)</span></td></tr>
      <td align="right"><span class="f11a">Verbatim Latitude</span></td>
-                      <td><input type="text" title="verbatimLatitude" name="verbatimLatitude" size="14" id="verbatimLatitude" value="#verbatimLatitude#">
+                      <td><input type="text" title="verbatimLatitude" name="verbatimlatitude" size="14" id="verbatimlatitude" value="#verbatimlatitude#">
                         <span class="f11a">Verbatim Longitude</span>
-                       <input type="text" title="verbatimLongitude" name="verbatimLongitude" size="14" id="verbatimLongitude" value="#verbatimLongitude#"></td></tr>
-                       
+                       <input type="text" title="verbatimlongitude" name="verbatimlongitude" size="14" id="verbatimlongitude" value="#verbatimlongitude#"></td></tr>
+
                       <tr><td align="right"><span class="f11a">Verbatim Coordinate System</span></td>
-                       <td><input type="text" title="verbatimCoordinateSystem" name="verbatimCoordinateSystem" size="24" id="verbatimCoordinateSystem" value="#verbatimCoordinateSystem#"><span class="f11a">(e.g., decimal degrees, degrees minutes seconds, etc.)</span></td></tr>
+                       <td><input type="text" title="verbatimcoordinatesystem" name="verbatimcoordinatesystem" size="24" id="verbatimcoordinatesystem" value="#verbatimcoordinatesystem#"><span class="f11a">(e.g., decimal degrees, degrees minutes seconds, etc.)</span></td></tr>
                         <td align="right"><span class="f11a">Verbatim SRS or Datum</span></td>
-                        <td><input type="text" title="verbatimSRS" name="verbatimSRS" size="24" id="verbatimSRS" value="#verbatimSRS#"><span class="f11a">(e.g., WGS84, Clark 1866, etc.)</span></td>
+                        <td><input type="text" title="verbatimsrs" name="verbatimsrs" size="24" id="verbatimsrs" value="#verbatimsrs#"><span class="f11a">(e.g., WGS84, Clark 1866, etc.)</span></td>
                         </tr>
 						<tr>
 						<tr>
 							<td id="d_orig_elev_units" align="right">
-							
+
                                 <span class="f11a">Elevation between</span></td>
 								<td><input type="text" title="MINIMUM_ELEVATION" name="minimum_elevation" size="4" value="#minimum_elevation#" id="minimum_elevation">
 								<span class="infoLink"
@@ -656,13 +656,13 @@ Some Totally Random String Data .....
 						<cfif collection_cde is not "VP" and collection_cde is not "IP" and collection_cde is not "Orn" and collection_cde is not "Model">
 						<tr>
 							<td id="d_orig_depth_units" align="right">
-								
+
                                 <span class="f11a">Depth between</span></td>
 								<td><input type="text" name="min_depth" size="4" title="MIN_DEPTH" value="#min_depth#" id="min_depth">
 								<span class="infoLink"	onclick="document.getElementById('max_depth').value=document.getElementById('min_depth').value";>&nbsp;>>&nbsp;</span>
-                                
+
 								<input type="text" name="max_depth" size="4" title="MAX_DEPTH" value="#max_depth#" id="max_depth">
-                                                                                                                                 
+
 								<select name="depth_units" title="DEPTH_UNITS" size="1"  style="width: 47px;" id="depth_units">
 									<option value=""></option>
 									<cfloop query="ctDepthUnits">
@@ -671,8 +671,8 @@ Some Totally Random String Data .....
 											value="#depth_units#">#depth_units#</option>
 									</cfloop>
 								</select>
-                                                                 
-                       <span class="f11a">(shallowest-deepest)</span>                                          
+
+                       <span class="f11a">(shallowest-deepest)</span>
 							</td>
 						</tr>
 						</cfif>
@@ -1138,9 +1138,9 @@ Some Totally Random String Data .....
 				<table class="fs">
 				    <!----- attributes ------->
 					<tr>
-                    	
-							
-                      
+
+
+
 						<td>
                             <img src="/images/info.gif" onClick="getMCZDocs('Attributes - Data Entry')" class="likeLink" alt="[ help ]">
 							<cfif collection_cde is not "Crus" and collection_cde is not "Herb"
@@ -1151,7 +1151,7 @@ Some Totally Random String Data .....
 								(collection_cde is "HerpOBS" and institution_acronym is "MCZ")>
 								<table cellpadding="0" cellspacing="0">
 									<tr>
-									
+
 										<td nowrap="nowrap">
 											<span class="f11a">Sex</span>
 											 <input type="hidden" name="attribute_1" value="sex">
@@ -1192,7 +1192,7 @@ Some Totally Random String Data .....
 											<span class="infoLink" onclick="copyAttributeDetr('attribute_determiner_1');">Sync Att.</span>
 											<span class="f11a">Meth</span>
 											<input
-                                            size="15"       
+                                            size="15"
                                             title="ATTRIBUTE_DET_METH_1" type="text" name="attribute_det_meth_1"
 												value="#attribute_det_meth_1#"
 												id="attribute_det_meth_1">
@@ -1487,8 +1487,8 @@ Some Totally Random String Data .....
 			<td colspan="2">
 			    <!-------- parts block ---------->
 				<table class="fs" style="position: relative;"><tr>
-                  
-					
+
+
 				<th>  <img src="/images/info.gif" onClick="getMCZDocs('Parts - Data Entry')" class="likeLink" alt="[ help ]" style="position: absolute; left:3px;top: 3px;"><span class="f11a">Part Name</span> </th>
 						<th><span class="f11a">Preserve Method</span></th>
 						<th><span class="f11a">Condition</span></th>
@@ -1645,12 +1645,12 @@ Some Totally Random String Data .....
 						 </span>
 					</td>
 					<td width="16%">
-						<span id="enterMode" style="display:none;">						
+						<span id="enterMode" style="display:none;">
                             <input type="button"
 								value="Edit Last Record"
                                 style="padding: 2px 5px 2px 5px;"
 								class="lnkBtn"
-                                   
+
 								onclick="editThis();">
 						</span>
 						<span id="editMode" style="display:none">

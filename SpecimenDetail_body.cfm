@@ -1049,31 +1049,28 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<span class="detailEditCell" onClick="getInfo('parts','#one.collection_object_id#');">Details</span>--->
 					</cfif>
 				</div>
-				<div class="detailBlock" style="margin-left: 5px;">
-					<span class="detailData">
-						<table>
+			<div class="detailBlock" style="margin-left: 0px;">
+						<table class="partname">
 							<tr>
-								<th style="border: 1px solid gray;padding: 1px 3px; background-color: ##f8f8f8;font-size: 15px;"><span class="innerDetailLabel">Part Name</span></th>
-								<th style="border: 1px solid gray;padding: 1px 3px; background-color: ##f8f8f8;font-size: 15px;"><span class="innerDetailLabel">Condition</span></th>
-								<th style="border: 1px solid gray;padding: 1px 3px; background-color: ##f8f8f8;font-size: 15px;"><span class="innerDetailLabel">Disposition</span></th>
-								<th style="border: 1px solid gray;padding: 1px 3px; background-color: ##f8f8f8;font-size: 15px;"><span class="innerDetailLabel">##</span></th>
+			<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
+								<th class="inside"><span class="innerDetailLabel">Condition</span></th>
+								<th class="inside"><span class="innerDetailLabel">Disposition</span></th>
+								<th class="inside"><span class="innerDetailLabel">##</span></th>
 								<cfif oneOfus is "1">
-									<th style="border: 1px solid gray;padding: 1px 3px; background-color: ##f8f8f8;font-size: 15px;"><span class="innerDetailLabel">Container Label</span></th>
+									<th class="inside"><span class="innerDetailLabel">Container Label</span></th>
 								</cfif>
-								<th style="border: 1px solid gray;padding: 1px 3px; background-color: ##f8f8f8;font-size: 15px;"><span class="innerDetailLabel">Remarks</span></th>
+								<th class="inside"><span class="innerDetailLabel">Remarks</span></th>
 							</tr>
 							<cfloop query="mPart">
 								<tr>
-									<td style="border: 1px solid gray;padding: 1px 1px 2px 2px;">
-										#part_name#
-									</td>
-									<td style="border: 1px solid gray;padding: 1px 1px 2px 2px;">#part_condition#</td>
-									<td style="border: 1px solid gray;padding: 1px 1px 2px 2px;">#part_disposition#</td>
-									<td style="border: 1px solid gray;padding: 1px 1px 2px 2px;">#lot_count#</td>
+									<td class="inside">#part_name#</td>
+									<td class="inside">#part_condition#</td>
+									<td class="inside">#part_disposition#</td>
+									<td class="inside">#lot_count#</td>
 									<cfif oneOfus is 1>
-										<td style="border: 1px solid gray;padding: 1px 1px 2px 2px;">#label#</td>
+										<td class="inside">#label#</td>
 									</cfif>
-									<td style="border: 1px solid gray;padding: 1px 1px 2px 2px;">#part_remarks#</td>
+									<td class="inside">#part_remarks#</td>
 								</tr>
 							<cfquery name="patt" dbtype="query">
 									select
@@ -1098,9 +1095,9 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								</cfquery>
 								<cfif patt.recordcount gt 0>
 									<tr>
-										<td colspan="6" style="border: 1px solid gray;border-top: none;padding: 1px 1px 2px 2px;padding-top: none;">
+										<td colspan="6" class="partnameatts">
 											<cfloop query="patt">
-												<div class="detailCellSmall" style="font-size: 12px;">
+												<div style="margin-left:1em;" class="detailCellSmall">
 													<strong>#attribute_type#</strong>=<strong>#attribute_value#</strong>
 													<cfif len(attribute_units) gt 0>
 													 	<strong>#attribute_units#</strong>
@@ -1139,7 +1136,6 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								</cfloop>
 							</cfloop>
 						</table>
-					</span>
 				</div>
 			</div>
 
