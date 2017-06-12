@@ -957,7 +957,7 @@
       width: 480,
       modal: true,
       buttons: {
-        "AddShipment": addShippment,
+        "AddShipment": addShipment,
         Cancel: function() {
           dialogCreateShipment.dialog( "close" );
         }
@@ -1158,7 +1158,7 @@
 				'resizable,scrollbars=yes,width=600,height=600')">
 	</form>
 
-	<h3>Accessions:</h3>
+	<h3>Accessions (and permits):</h3>
         <!--- List Accessions for collection objects included in the Loan --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from 
@@ -1171,16 +1171,17 @@
         </cfquery>
         <ul>
 	<cfloop query="getAccessions">
-            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #received_date#</li>
+            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #dateformat(received_date,'yyyy-mm-dd'#</li>
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id 
 		from permit_trans left join permit on permit_trans.permit_id = permit.permit_id
 		where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+                order by permit_type, issued_date
             </cfquery>
              <cfif getAccnPermits.recordcount gt 0>
 	      <ul>
               <cfloop query="getAccnPermits">
-                 <li><#permit_num# #permit_type# #issued_date#</li>
+                 <li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')#</li>
               </cfloop>
               </ul>
 	    </cfif>
