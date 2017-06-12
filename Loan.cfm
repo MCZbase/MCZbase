@@ -1172,6 +1172,18 @@
         <ul>
 	<cfloop query="getAccessions">
             <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #received_date#</li>
+            <cfquery name="getAccnPermits">
+		select distinct permit_num, permit_type, issued_date, permit.permit_id 
+		from permit_trans left join permit on permit_trans.permit_id = permit.permit_id
+		where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+            </cfquery>
+             <cfif getAccnPermits.recordcount gt 0>
+	      <ul>
+              <cfloop query="getAccnPermits">
+                 <li><#permit_num# #permit_type# #issued_date#</li>
+              </cfloop>
+              </ul>
+	    </cfif>
 	</cfloop>
         <!--- TODO: Print permits associated with these accessions --->
         </ul>
