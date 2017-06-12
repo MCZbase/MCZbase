@@ -927,7 +927,7 @@
                  from shipment sh
                     left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
                     left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
-		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL", value="#loanDetails.transaction_id#">
+		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 	</cfquery>
     <!--- TODO:  List existing shipments  --->
     <table>
@@ -944,7 +944,7 @@
        <tr>
           <!--- TODO:  Edit a shipment  --->
           <td>Edit</td>
-          <td>#shipped_date#</td>
+          <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
           <td>#shipped_carrier_method#</td>
           <td>#no_of_packages#</td>
           <td>#carriers_tracking_number#</td>
@@ -964,9 +964,7 @@
     $(function() {
       $("##dialog-create-shipment").dialog({
         autoOpen: false,
-        height: 640,
-        width: 480,
-         modal: true,
+        modal: true,
         buttons: {
           "AddShipment": addShipment,
           Cancel: function() {
@@ -984,8 +982,8 @@
 
 <div id="dialog-create-shipment" title="Create new Shipment">
   <form>
-	<input type="hidden" name="transaction_id" value="#transaction_id#">
     <fieldset>
+	<input type="hidden" name="transaction_id" value="#transaction_id#">
 		<label for="shipped_carrier_method">Shipped Method</label>
 		<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
 			<option value=""></option>
@@ -993,6 +991,11 @@
 				<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
 			</cfloop>
 		</select>
+		<label for="packed_by_agent">Packed By Agent</label>
+		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value=""
+			  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipment',this.value); return false;"
+			  onKeyPress="return noenter(event);">
+		<input type="hidden" name="packed_by_agent_id" value="">
 		<label for="no_of_packages">Number of Packages</label>
 		<input type="text" value="1" name="no_of_packages" id="no_of_packages">
 		<label for="shipped_date">Ship Date</label>
@@ -1011,7 +1014,7 @@
   </form>
 </div>
 
-
+<!---
 	<cfif ship.recordcount gt 0>
 	<!--- get some other info --->
 		<cfquery name="packed_by_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1117,57 +1120,8 @@
 		</select>
 		<br><input type="submit" value="Save Shipment" class="savBtn">
 	</cfform>
+--->
 <!---  TODO: Permits tied to shipments, not loans  --->
-	<cfquery name="getPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT
-			permit.permit_id,
-			issuedBy.agent_name as IssuedByAgent,
-			issuedTo.agent_name as IssuedToAgent,
-			issued_Date,
-			renewed_Date,
-			exp_Date,
-			permit_Num,
-			permit_Type,
-			permit_remarks
-		FROM
-			permit,
-			permit_trans,
-			preferred_agent_name issuedTo,
-			preferred_agent_name issuedBy
-		WHERE
-			permit.permit_id = permit_trans.permit_id AND
-			permit.issued_by_agent_id = issuedBy.agent_id AND
-			permit.issued_to_agent_id = issuedTo.agent_id AND
-			permit_trans.transaction_id = #loanDetails.transaction_id#
-	</cfquery><br><br>
-	<h4>Permits for shipment:</h4>
-	<cfloop query="getPermits">
-		<form name="killPerm#currentRow#" method="post" action="Loan.cfm">
-			<p>
-				<strong>Permit ## #permit_Num# (#permit_Type#)</strong> issued to
-			 	#IssuedToAgent# by #IssuedByAgent# on
-				#dateformat(issued_Date,"yyyy-mm-dd")#.
-				<cfif len(renewed_Date) gt 0>
-					(renewed #renewed_Date#)
-				</cfif>
-				Expires #dateformat(exp_Date,"yyyy-mm-dd")#
-				<cfif len(permit_remarks) gt 0>Remarks: #permit_remarks#</cfif>
-				<br>
-				<input type="hidden" name="transaction_id" value="#transaction_id#">
-				<input type="hidden" name="action" value="delePermit">
-				<input type="hidden" name="permit_id" value="#permit_id#">
-				<input type="submit" value="Remove this Permit" class="delBtn">
-			</p>
-		</form>
-	</cfloop>
-	<form name="addPermit" action="Loan.cfm" method="post">
-		<input type="hidden" name="transaction_id" value="#transaction_id#">
-		<input type="hidden" name="permit_id">
-		<label for="">Click to add Permit. Reload to see added permits.</label>
-		<input type="button" value="Add a permit" class="picBtn"
-		 	onClick="window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick',
-				'resizable,scrollbars=yes,width=600,height=600')">
-	</form>
 
 	<h3>Accessions (and their permits) for material in this loan:</h3>
         <!--- List Accessions for collection objects included in the Loan --->
