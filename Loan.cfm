@@ -923,7 +923,11 @@
 		select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
 	</cfquery>
 	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from shipment where transaction_id = #loanDetails.transaction_id#
+                 select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
+                 from shipment sh
+                    left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
+                    left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
+		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL", value="#loanDetails.transaction_id#">
 	</cfquery>
     <!--- TODO:  List existing shipments  --->
     <table>
@@ -933,6 +937,8 @@
           <th>Method</th>
           <th>Packages</th>
           <th>Tracking Number</th>
+          <th>To</th>
+          <th>From</th>
        </tr>
     <cfloop query="ship">
        <tr>
@@ -942,8 +948,11 @@
           <td>#shipped_carrier_method#</td>
           <td>#no_of_packages#</td>
           <td>#carriers_tracking_number#</td>
+          <td>#toinst# #tocountry#</td>
+          <td>#frominst# #fromcountry#</td>
        </tr>
     </cfloop>
+    </table>
     <!--- TODO:  Add a shipment  --->
 <script>
     function addShipment() { 
