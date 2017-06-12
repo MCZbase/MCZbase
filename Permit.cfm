@@ -497,7 +497,7 @@ where
 		permit.issued_by_agent_id = issuedBy.agent_id (+) and
 	permit.issued_to_agent_id = issuedTo.agent_id (+) AND
 	permit.contact_agent_id = contact.agent_id (+)
-	and permit_id=#permit_id#
+	and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 	order by permit_id
 </cfquery>
 </cfoutput>
@@ -581,6 +581,8 @@ where
 			</td>
 		</tr>
 	</table>
+    <!---  TODO: Show/add media copy of permit --->
+    <!---  TODO: list/add media copy of associated documents --->
 </cfform>
 </cfoutput>
 </cfif>

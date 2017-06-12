@@ -918,12 +918,33 @@
       </div>
 
 
-	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from shipment where transaction_id = #transaction_id#
-	</cfquery>
 	<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
 	</cfquery>
+	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * from shipment where transaction_id = #transaction_id#
+	</cfquery>
+    <!--- TODO:  List existing shipments  --->
+    <table>
+       <tr>
+          <th></th>
+          <th>Ship Date</th>
+          <th>Method</th>
+          <th>Packages</th>
+          <th>Tracking Number</th>
+       </tr>
+    <cfloop query="ship">
+       <tr>
+          <!--- TODO:  Edit a shipment  --->
+          <td>Edit</td>
+          <td>#shipped_date#</td>
+          <td>#shipped_carrier_method#</td>
+          <td>#no_of_packages#</td>
+          <td>#carriers_tracking_number#</td>
+       </tr>
+    </cfloop>
+    <!--- TODO:  Add a shipment  --->
+    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="alert('TODO')">
 	<cfif ship.recordcount gt 0>
 	<!--- get some other info --->
 		<cfquery name="packed_by_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1030,6 +1051,7 @@
 		</select>
 		<br><input type="submit" value="Save Shipment" class="savBtn">
 	</cfform>
+<!---  TODO: Permits tied to shipments, not loans  --->
 	<cfquery name="getPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
 			permit.permit_id,
