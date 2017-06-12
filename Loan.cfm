@@ -951,7 +951,7 @@
        return valid;
     }
 
-    var dialogCreateShipment = $( "#dialog-create-shipment" ).dialog({
+    var dialogCreateShipment = $( "##dialog-create-shipment" ).dialog({
       autoOpen: false,
       height: 640,
       width: 480,
@@ -1157,6 +1157,24 @@
 		 	onClick="window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick',
 				'resizable,scrollbars=yes,width=600,height=600')">
 	</form>
+
+	<h3>Accessions:</h3>
+        <!--- List Accessions for collection objects included in the Loan --->
+	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from 
+		   loan l 
+		   left join loan_item li on l.transaction_id = li.transaction_id
+		   left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+		   left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+		   left join accn on ci.accn_id = accn.transaction_id
+		   where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+        </cfquery>
+        <ul>
+	<cfloop query="getAccessions">
+            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #received_date#</li>
+	</cfloop>
+        <!--- TODO: Print permits associated with these accessions --->
+        </ul>
     </div>
 </cfoutput>
 <script>
