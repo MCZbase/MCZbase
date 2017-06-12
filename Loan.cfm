@@ -951,24 +951,26 @@
        return valid;
     }
 
-    var dialogCreateShipment = $( "##dialog-create-shipment" ).dialog({
-      autoOpen: false,
-      height: 640,
-      width: 480,
-      modal: true,
-      buttons: {
-        "AddShipment": addShipment,
-        Cancel: function() {
-          dialogCreateShipment.dialog( "close" );
+    $(function() {
+      $("##dialog-create-shipment").dialog({
+        autoOpen: false,
+        height: 640,
+        width: 480,
+         modal: true,
+        buttons: {
+          "AddShipment": addShipment,
+          Cancel: function() {
+            $(this).dialog( "close" );
+          }
+        },
+        close: function() {
+          form[ 0 ].reset();
+          allFields.removeClass( "ui-state-error" );
         }
-      },
-      close: function() {
-        form[ 0 ].reset();
-        allFields.removeClass( "ui-state-error" );
-      }
+      });
     });
 </script>
-    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="alert('TODO')">
+    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="dialogCreateShipment.dialog('open')">
 
 <div id="dialog-create-shipment" title="Create new Shipment">
   <form>
@@ -1171,7 +1173,7 @@
         </cfquery>
         <ul>
 	<cfloop query="getAccessions">
-            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #dateformat(received_date,'yyyy-mm-dd'#</li>
+            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #dateformat(received_date,'yyyy-mm-dd')#</li>
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id 
 		from permit_trans left join permit on permit_trans.permit_id = permit.permit_id
