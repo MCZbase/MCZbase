@@ -917,12 +917,13 @@
     </table>
       </div>
 
+    <h3>Shipment Information:</h3>
 
 	<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
 	</cfquery>
 	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from shipment where transaction_id = #transaction_id#
+		select * from shipment where transaction_id = #loanDetails.transaction_id#
 	</cfquery>
     <!--- TODO:  List existing shipments  --->
     <table>
@@ -970,7 +971,7 @@
       });
     });
 </script>
-    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="dialogCreateShipment.dialog('open')">
+    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-create-shipment').dialog('open')">
 
 <div id="dialog-create-shipment" title="Create new Shipment">
   <form>
@@ -1051,7 +1052,6 @@
 		<cfset shipped_from_addr_id = "">
 	</cfif>
 	<div class="shippingBlock">
-    <h3>Shipment Information:</h3>
 	<cfform name="shipment" method="post" action="Loan.cfm">
 		<input type="hidden" name="Action" value="saveShip">
 		<input type="hidden" name="transaction_id" value="#transaction_id#">
@@ -1131,7 +1131,7 @@
 			permit.issued_to_agent_id = issuedTo.agent_id AND
 			permit_trans.transaction_id = #loanDetails.transaction_id#
 	</cfquery><br><br>
-	<h3>Permits:</h3>
+	<h4>Permits for shipment:</h4>
 	<cfloop query="getPermits">
 		<form name="killPerm#currentRow#" method="post" action="Loan.cfm">
 			<p>
@@ -1160,7 +1160,7 @@
 				'resizable,scrollbars=yes,width=600,height=600')">
 	</form>
 
-	<h3>Accessions (and permits):</h3>
+	<h3>Accessions (and their permits) for material in this loan:</h3>
         <!--- List Accessions for collection objects included in the Loan --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from 
