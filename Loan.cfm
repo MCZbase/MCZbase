@@ -944,7 +944,62 @@
        </tr>
     </cfloop>
     <!--- TODO:  Add a shipment  --->
+<script>
+    function addShipment() { 
+       var valid = true;
+       <!--- TODO: Implement ajax add shipment save --->
+       return valid;
+    }
+
+    var dialogCreateShipment = $( "#dialog-create-shipment" ).dialog({
+      autoOpen: false,
+      height: 640,
+      width: 480,
+      modal: true,
+      buttons: {
+        "AddShipment": addShippment,
+        Cancel: function() {
+          dialogCreateShipment.dialog( "close" );
+        }
+      },
+      close: function() {
+        form[ 0 ].reset();
+        allFields.removeClass( "ui-state-error" );
+      }
+    });
+</script>
     <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="alert('TODO')">
+
+<div id="dialog-create-shipment" title="Create new Shipment">
+  <form>
+	<input type="hidden" name="transaction_id" value="#transaction_id#">
+    <fieldset>
+		<label for="shipped_carrier_method">Shipped Method</label>
+		<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
+			<option value=""></option>
+			<cfloop query="ctShip">
+				<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
+			</cfloop>
+		</select>
+		<label for="no_of_packages">Number of Packages</label>
+		<input type="text" value="1" name="no_of_packages" id="no_of_packages">
+		<label for="shipped_date">Ship Date</label>
+		<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
+		<label for="shipment_remarks">Remarks</label>
+		<input type="text" value="" name="shipment_remarks" id="shipment_remarks">
+		<label for="contents">Contents</label>
+		<input type="text" value="" name="contents" id="contents" size="60">
+		<label for="foreign_shipment_fg">Foreign shipment?</label>
+		<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
+			<option selected value="0">no</option>
+			<option value="1">yes</option>
+		</select>
+
+    </fieldset>
+  </form>
+</div>
+
+
 	<cfif ship.recordcount gt 0>
 	<!--- get some other info --->
 		<cfquery name="packed_by_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
