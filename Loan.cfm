@@ -1172,7 +1172,7 @@
         <ul>
 	<cfloop query="getAccessions">
             <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #received_date#</li>
-            <cfquery name="getAccnPermits">
+	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id 
 		from permit_trans left join permit on permit_trans.permit_id = permit.permit_id
 		where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
