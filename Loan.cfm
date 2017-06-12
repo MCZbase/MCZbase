@@ -941,9 +941,35 @@
           <th>From</th>
        </tr>
     <cfloop query="ship">
+       <script>
+          function addShipment_#shipment_id#() { 
+             var valid = true;
+             <!--- TODO: Implement ajax edit shipment save --->
+             return valid;
+          }
+
+          $(function() {
+             $("##dialog-edit-shipment_#shipment_id#").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                  "Save": saveShipment_#shipment_id#,
+                  Cancel: function() {
+                    $(this).dialog( "close" );
+                  }
+                },
+                close: function() {
+                  form[ 0 ].reset();
+                  allFields.removeClass( "ui-state-error" );
+                }
+              });
+            });
+       </script>
        <tr>
           <!--- TODO:  Edit a shipment  --->
-          <td>Edit</td>
+          <td>
+             <input type="button" style="margin-left: 30px;" value="Edit" class="lnkBtn" onClick="$('##dialog-edit-shipment_#shipment_id#').dialog('open')">
+          </td>
           <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
           <td>#shipped_carrier_method#</td>
           <td>#no_of_packages#</td>
@@ -951,6 +977,17 @@
           <td>#toinst# #tocountry#</td>
           <td>#frominst# #fromcountry#</td>
        </tr>
+       <div id="dialog-edit-shipment_#shipment_id#" title="Edit Shipment">
+          <form name="editShipmentForm_#shipment_id#">
+          <fieldset>
+  	        <input type="hidden" name="shipment_id" value="#shipment_id#">
+		    <label for="no_of_packages">Number of Packages</label>
+  		    <input type="text" value="#number_of_packages#" name="no_of_packages" id="no_of_packages_#shipment_id#">
+	   	    <label for="shipped_date">Ship Date</label>
+		    <input type="text" value="#dateformat(shipped_date,'yyyy-mm-dd')#" name="shipped_date" id="shipped_date_#shipment_id#">
+          </fieldset>
+          </form>
+       </div>
     </cfloop>
     </table>
     <!--- TODO:  Add a shipment  --->
@@ -981,7 +1018,7 @@
     <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-create-shipment').dialog('open')">
 
 <div id="dialog-create-shipment" title="Create new Shipment">
-  <form>
+  <form name="addShipmentForm">
     <fieldset>
 	<input type="hidden" name="transaction_id" value="#transaction_id#">
 		<label for="shipped_carrier_method">Shipped Method</label>
@@ -993,7 +1030,7 @@
 		</select>
 		<label for="packed_by_agent">Packed By Agent</label>
 		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value=""
-			  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipment',this.value); return false;"
+			  onchange="getAgent('packed_by_agent_id','packed_by_agent','addShipmentForm',this.value); return false;"
 			  onKeyPress="return noenter(event);">
 		<input type="hidden" name="packed_by_agent_id" value="">
 		<label for="no_of_packages">Number of Packages</label>
