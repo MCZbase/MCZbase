@@ -925,7 +925,7 @@ function loadShipment(shipmentId,form) {
     s.className='ajaxStatus';
     s.innerHTML='Checking for Shipment...';
     document.body.appendChild(s);
-    jQuery.getJSON("/component/functions.cfc",
+    jQuery.getJSON("/ajax/functions.cfm",
         {
             method : "getShipments",
             shipmentidList : shipmentId,
