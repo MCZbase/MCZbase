@@ -1830,6 +1830,86 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getShipments" returntype="query" access="remote">
+	<cfargument name="shipmentidList" type="string" required="yes">
+	<cftry>
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
+                   hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
+                   shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr
+             from shipment
+                  left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+                  left join addr toaddr on shipment.shipped_from_addr_id = toaddr.addr_id
+             where shipment_id in (#shipmentidList#)
+		</cfquery>
+		<cfif theResult.recordcount eq 0>
+	  	  <cfset theResult=queryNew("status, message")>
+		  <cfset t = queryaddrow(theResult,1)>
+		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+		  <cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+		</cfif>		
+	  <cfcatch>
+	   	<cfset theResult=queryNew("status, message")>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+	  </cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getShipmentsByTrans" returntype="query">
+	<cfargument name="transaction_id" type="string" required="yes">
+    <cfargument name="asTable" type="string" required="no">
+	<cfset r=1>
+	<cftry>
+	    <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
+                   hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
+                   shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr
+             from shipment
+                  left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+                  left join addr toaddr on shipment.shipped_from_addr_id = toaddr.addr_id
+             where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+           <cfif isDefined("asTable") AND asTable eq "true"> 
+              <cfset resulthtml = "<table> <tr> <th></th> <th>Ship Date</th> <th>Method</th> <th>Packages</th> <th>Tracking Number</th> <th>To</th> <th>From</th> </tr>">
+	      <cfloop query="theResult">
+                <!---  cfset resulthtml = retulthtml & "<tr> <td> <input type='button' style='margin-left: 30px;' value='Edit' class='lnkBtn' onClick=""$('##dialog-edit-shipment').dialog('open'); loadShipment(#shipment_id#,'editShipmentForm');""> </td> " --->
+		<cfset resulthtml = resulthtml & " <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td> ">
+		<cfset resulthtml = resulthtml & " <td>#shipped_carrier_method#</td> ">
+                <cfset resulthtml = resulthtml & " <td>#no_of_packages#</td> ">
+		<cfset resulthtml = resulthtml & " <td>#carriers_tracking_number#</td> ">
+		<cfset resulthtml = resulthtml & " <td>#toinst# #tocountry#</td> ">
+		<cfset resulthtml = resulthtml & " <td>#frominst# #fromcountry#</td> ">
+                <cfset resulthtml = retulthtml & "</tr>">
+	      </cfloop>
+            <cfset resulthtml = retulthtml & "</table>">
+        </cfif>
+		<cfif theResult.recordcount eq 0>
+	  	  <cfset theResult=queryNew("status, message")>
+		  <cfset t = queryaddrow(theResult,1)>
+		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+		  <cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+		</cfif>		
+	<cfcatch>
+	  <cfset theResult=queryNew("status, message")>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+	  </cfcatch>
+	</cftry>
+    <cfif isDefined("asTable") AND asTable eq "true"> 
+	    <cfreturn resulthtml>
+    <cfelse>  
+   	    <cfreturn theResult>
+    </cfif>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+
+<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="saveSearch" access="remote">
 	<cfargument name="returnURL" type="string" required="yes">
 	<cfargument name="srchName" type="string" required="yes">

@@ -924,8 +924,9 @@ function loadShipment(shipmentId,form) {
     s.id='ajaxStatus';
     s.className='ajaxStatus';
     s.innerHTML='Checking for Shipment...';
+    $("##dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
     document.body.appendChild(s);
-    jQuery.getJSON("/ajax/functions.cfm",
+    jQuery.getJSON("/component/functions.cfc",
         {
             method : "getShipments",
             shipmentidList : shipmentId,
@@ -937,12 +938,11 @@ function loadShipment(shipmentId,form) {
             try{
                 sBox.innerHTML='Processing Shipments....';
                 for (i=0; i<result.ROWCOUNT; ++i) {
-                    var sid=result.DATA.COLLECTION_OBJECT_ID[i];
-                    var tl=result.DATA.TYPELIST[i];
+                    var sid=result.COLUMNS[i];
                     var sel= form + '.' + sid;
                     if (sel.length>0){
                         var el=document.getElementById(sel);
-                        el.value=ns;
+                        el.value=result.DATA[i];
                     }
                 }
             }
@@ -980,7 +980,7 @@ function loadShipment(shipmentId,form) {
        <tr>
           <!--- TODO:  Edit a shipment  --->
           <td>
-             <input type="button" style="margin-left: 30px;" value="Edit" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
+             <input type="button" style="margin-left: 30px;" value="Edit" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');  ">
           </td>
           <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
           <td>#shipped_carrier_method#</td>
@@ -1004,6 +1004,7 @@ function loadShipment(shipmentId,form) {
       $("##dialog-shipment").dialog({
         autoOpen: false,
         modal: true,
+        width: 640,
         buttons: {
           "Save": saveShipment,
           Cancel: function() {
@@ -1011,8 +1012,7 @@ function loadShipment(shipmentId,form) {
           }
         },
         close: function() {
-          form[ 0 ].reset();
-          allFields.removeClass( "ui-state-error" );
+            $(this).dialog( "close" );
         }
       });
     });
