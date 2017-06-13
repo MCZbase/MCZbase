@@ -980,7 +980,7 @@ function loadShipment(shipmentId,form) {
        <tr>
           <!--- TODO:  Edit a shipment  --->
           <td>
-             <input type="button" style="margin-left: 30px;" value="Edit" class="lnkBtn" onClick="$('##dialog-edit-shipment').dialog('open'); loadShipment(#shipment_id#,'editShipmentForm');">
+             <input type="button" style="margin-left: 30px;" value="Edit" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
           </td>
           <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
           <td>#shipped_carrier_method#</td>
@@ -992,56 +992,20 @@ function loadShipment(shipmentId,form) {
     </cfloop>
     </table>
     </div>
-       <script>
-          function saveShipment() { 
-             var valid = true;
-             <!--- TODO: Implement ajax edit shipment save --->
-             <!--- ajax reload shipment table --->
-             return valid;
-          }
-
-          $(function() {
-             $("##dialog-edit-shipment").dialog({
-                autoOpen: false,
-                modal: true,
-                buttons: {
-                  "Save": saveShipment,
-                  Cancel: function() {
-                    $(this).dialog( "close" );
-                  }
-                },
-                close: function() {
-                  form[ 0 ].reset();
-                  allFields.removeClass( "ui-state-error" );
-                }
-              });
-            });
-       </script>
-       <div id="dialog-edit-shipment" title="Edit Shipment">
-          <form name="editShipmentForm">
-          <fieldset>
-  	        <input type="hidden" name="shipment_id" value="#shipment_id#">
-		    <label for="no_of_packages">Number of Packages</label>
-  		    <input type="text" value="#number_of_packages#" name="no_of_packages" id="no_of_packages_#shipment_id#">
-	   	    <label for="shipped_date">Ship Date</label>
-		    <input type="text" value="#dateformat(shipped_date,'yyyy-mm-dd')#" name="shipped_date" id="shipped_date_#shipment_id#">
-          </fieldset>
-          </form>
-       </div>
     <!--- TODO:  Add a shipment  --->
 <script>
-    function addShipment() { 
+    function saveShipment() { 
        var valid = true;
        <!--- TODO: Implement ajax add shipment save --->
        return valid;
     }
 
     $(function() {
-      $("##dialog-create-shipment").dialog({
+      $("##dialog-shipment").dialog({
         autoOpen: false,
         modal: true,
         buttons: {
-          "AddShipment": addShipment,
+          "Save": saveShipment,
           Cancel: function() {
             $(this).dialog( "close" );
           }
@@ -1053,10 +1017,10 @@ function loadShipment(shipmentId,form) {
       });
     });
 </script>
-    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-create-shipment').dialog('open')">
+    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open')">
 
-<div id="dialog-create-shipment" title="Create new Shipment">
-  <form name="addShipmentForm">
+<div id="dialog-shipment" title="Create new Shipment">
+  <form name="shipmentForm">
     <fieldset>
 	<input type="hidden" name="transaction_id" value="#transaction_id#">
 		<label for="shipped_carrier_method">Shipped Method</label>
@@ -1068,7 +1032,7 @@ function loadShipment(shipmentId,form) {
 		</select>
 		<label for="packed_by_agent">Packed By Agent</label>
 		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value=""
-			  onchange="getAgent('packed_by_agent_id','packed_by_agent','addShipmentForm',this.value); return false;"
+			  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
 			  onKeyPress="return noenter(event);">
 		<input type="hidden" name="packed_by_agent_id" value="">
 		<label for="no_of_packages">Number of Packages</label>
