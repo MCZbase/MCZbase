@@ -938,12 +938,9 @@ function loadShipment(shipmentId,form) {
             try{
                 sBox.innerHTML='Processing Shipments....';
                 for (i=0; i<result.ROWCOUNT; ++i) {
-                    var sid=result.COLUMNS[i];
-                    var sel= form + '.' + sid;
-                    if (sel.length>0){
-                        var el=document.getElementById(sel);
-                        el.value=result.DATA[i];
-                    }
+                   $("##shipped_date").val(result.DATA.SHIPPED_DATE[i]);
+                   $("##contents").val(result.DATA.CONTENTS[i]);
+                   $("##no_of_packages").val(result.DATA.NO_OF_PACKAGES[i]);
                 }
             }
             catch(e){}
