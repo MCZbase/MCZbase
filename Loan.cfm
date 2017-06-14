@@ -965,9 +965,9 @@ function loadShipment(shipmentId,form) {
 		           $("##packed_by_agent_id").val(result.DATA.PACKED_BY_AGENT_ID[i]);
                    $("##shipment_remarks").val(result.DATA.SHIPMENT_REMARKS[i]);
                    $("##shipped_to_address").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
-                   $("##shipped_to_address_id").val(result.DATA.SHIPPED_TO_ADDRESS_ID[i]);
+                   $("##shipped_to_addr_id").val(result.DATA.SHIPPED_TO_ADDR_ID[i]);
                    $("##shipped_from_address").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
-                   $("##shipped_from_address_id").val(result.DATA.SHIPPED_FROM_ADDRESS_ID[i]);
+                   $("##shipped_from_addr_id").val(result.DATA.SHIPPED_FROM_ADDR_ID[i]);
 		           $("##shipped_carrier_method").selected(result.DATA.SHIPPED_CARRIER_METHID[i]);
                    $("##foreign_shipment_fg").val(result.DATA.foreign_shipment_fg[i]);
                 }

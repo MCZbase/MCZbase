@@ -1839,10 +1839,11 @@
 	<cfargument name="shipmentidList" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 1 as status, shipment_id, packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent,
+		   select 1 as status, shipment_id, transaction_id, 
+                   packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent,
                    shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
-                   shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr
+                   shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
                   left join addr toaddr on shipment.shipped_from_addr_id = toaddr.addr_id
