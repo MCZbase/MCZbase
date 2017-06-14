@@ -1066,7 +1066,7 @@ function loadShipment(shipmentId,form) {
     <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open')">
 
 <div id="dialog-shipment" title="Create new Shipment">
-  <form name="shipmentForm">
+  <form name="shipmentForm" id="shipmentForm" >
     <fieldset>
 	<input type="hidden" name="transaction_id" value="#transaction_id#">
 	<input type="hidden" name="shipment_id" value="">
