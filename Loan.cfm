@@ -936,7 +936,7 @@ function loadShipment(shipmentId,form) {
         function (result) {
             var sBox=document.getElementById('ajaxStatus');
             try{
-                sBox.innerHTML='Processing Shipments....';
+                sBox.innerHTML='Loading Shipments....';
                 for (i=0; i<result.ROWCOUNT; ++i) {
                    $("##shipped_date").val(result.DATA.SHIPPED_DATE[i]);
                    $("##contents").val(result.DATA.CONTENTS[i]);
