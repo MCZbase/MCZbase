@@ -917,8 +917,26 @@
     </table>
       </div>
 
+	<div class="shippingBlock">
     <h3>Shipment Information:</h3>
 <script>
+function loadShipments(transaction_id) {
+    var s=document.createElement('DIV');
+    s.id='ajaxStatus';
+    s.className='ajaxStatus';
+    s.innerHTML='Checking for Shipments..';
+    document.body.appendChild(s);
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "getShipmentsHtml",
+            transaction_id : transaction_id
+        },
+        function (result) {
+           $("##shipmentTable").html(result);
+            document.body.removeChild($('##ajaxStatus'));
+        }
+     )};
+
 function loadShipment(shipmentId,form) {
     var s=document.createElement('DIV');
     s.id='ajaxStatus';
@@ -938,9 +956,19 @@ function loadShipment(shipmentId,form) {
             try{
                 sBox.innerHTML='Loading Shipments....';
                 for (i=0; i<result.ROWCOUNT; ++i) {
+                   $("##transaction_id").val(result.DATA.TRANSACTION_ID[i]);
                    $("##shipped_date").val(result.DATA.SHIPPED_DATE[i]);
                    $("##contents").val(result.DATA.CONTENTS[i]);
                    $("##no_of_packages").val(result.DATA.NO_OF_PACKAGES[i]);
+		           $("##packed_by_agent").val(result.DATA.PACKED_BY_AGENT[i]);
+		           $("##packed_by_agent_id").val(result.DATA.PACKED_BY_AGENT_ID[i]);
+                   $("##shipment_remarks").val(result.DATA.SHIPMENT_REMARKS[i]);
+                   $("##shipped_to_address").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
+                   $("##shipped_to_address_id").val(result.DATA.SHIPPED_TO_ADDRESS_ID[i]);
+                   $("##shipped_from_address").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
+                   $("##shipped_from_address_id").val(result.DATA.SHIPPED_FROM_ADDRESS_ID[i]);
+		           $("##shipped_carrier_method").selected(result.DATA.SHIPPED_CARRIER_METHID[i]);
+                   $("##foreign_shipment_fg").val(result.DATA.foreign_shipment_fg[i]);
                 }
             }
             catch(e){}
@@ -988,14 +1016,31 @@ function loadShipment(shipmentId,form) {
        </tr>
     </cfloop>
     </table>
-    </div>
+    </div> <!--- shippmentTable for ajax replace --->
+    </div> <!--- Shippign block --->
     <!--- TODO:  Add a shipment  --->
+    <!--- TODO: Implement ajax add shipment save --->
 <script>
     function saveShipment() { 
        var valid = true;
-       <!--- TODO: Implement ajax add shipment save --->
+       var s=document.createElement('DIV');
+       s.id='ajaxStatus';
+       s.className='ajaxStatus';
+       s.innerHTML='Saving Shipment...';
+       document.body.appendChild(s);
+       jQuery.getJSON("/component/functions.cfc",
+          {
+            method : "saveShipment",
+            transaction_id : transaction_id,
+            shipment_id : shipment_id,
+          },
+          function (result) {
+            loadShipments(#transaction_id#);
+            document.body.removeChild($('##ajaxStatus'));
+          }
+       );
        return valid;
-    }
+    };
 
     $(function() {
       $("##dialog-shipment").dialog({
@@ -1020,7 +1065,8 @@ function loadShipment(shipmentId,form) {
   <form name="shipmentForm">
     <fieldset>
 	<input type="hidden" name="transaction_id" value="#transaction_id#">
-		<label for="shipped_carrier_method">Shipped Method</label>
+	<input type="hidden" name="shipment_id" value="">
+		<label for="shipped_carrier_method">Shipping Method</label>
 		<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
 			<option value=""></option>
 			<cfloop query="ctShip">
@@ -1036,6 +1082,17 @@ function loadShipment(shipmentId,form) {
 		<input type="text" value="1" name="no_of_packages" id="no_of_packages">
 		<label for="shipped_date">Ship Date</label>
 		<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
+		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
+			readonly="yes" class="reqdClr"></textarea>
+		<input type="hidden" name="shipped_to_addr_id" value="">
+		<input type="button" value="Pick Address" class="picBtn"
+			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipment'); return false;">
+		<label for="packed_by_agent">Shipped From Address</label>
+		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
+			readonly="yes" class="reqdClr"></textarea>
+		<input type="hidden" name="shipped_from_addr_id" value="">
+		<input type="button" value="Pick Address" class="picBtn"
+			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipment'); return false;">
 		<label for="shipment_remarks">Remarks</label>
 		<input type="text" value="" name="shipment_remarks" id="shipment_remarks">
 		<label for="contents">Contents</label>
@@ -1051,55 +1108,6 @@ function loadShipment(shipmentId,form) {
 </div>
 
 <!---
-	<cfif ship.recordcount gt 0>
-	<!--- get some other info --->
-		<cfquery name="packed_by_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select agent_name from preferred_agent_name where
-			agent_id = #ship.packed_by_agent_id#
-		</cfquery>
-			<cfset packed_by_agent = packed_by_agent.agent_name>
-			<cfset packed_by_agent_id = ship.packed_by_agent_id>
-			<cfset thisCarrier = ship.shipped_carrier_method>
-			<cfset carriers_tracking_number = ship.carriers_tracking_number>
-			<cfset shipped_date = ship.shipped_date>
-			<cfset package_weight = ship.package_weight>
-			<cfset no_of_packages = ship.no_of_packages>
-			<cfset hazmat_fg = ship.hazmat_fg>
-			<cfset INSURED_FOR_INSURED_VALUE = ship.INSURED_FOR_INSURED_VALUE>
-			<cfset shipment_remarks = ship.shipment_remarks>
-			<cfset contents = ship.contents>
-			<cfset FOREIGN_SHIPMENT_FG = ship.FOREIGN_SHIPMENT_FG>
-		<cfquery name="shipped_to_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select formatted_addr from addr where
-			addr_id = #ship.shipped_to_addr_id#
-		</cfquery>
-			<cfset shipped_to_addr = shipped_to_addr_id.formatted_addr>
-			<cfset shipped_to_addr_id = ship.shipped_to_addr_id>
-		<cfquery name="shipped_from_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select formatted_addr from addr where
-			addr_id = #ship.shipped_from_addr_id#
-		</cfquery>
-			<cfset shipped_from_addr = shipped_from_addr_id.formatted_addr>
-			<cfset shipped_from_addr_id = ship.shipped_from_addr_id>
-	<cfelse>
-		<cfset packed_by_agent = "">
-		<cfset packed_by_agent_id = "">
-		<cfset thisCarrier = "">
-		<cfset carriers_tracking_number = "">
-		<cfset shipped_date = "">
-		<cfset package_weight = "">
-		<cfset no_of_packages = "">
-		<cfset hazmat_fg = "">
-		<cfset INSURED_FOR_INSURED_VALUE = "">
-		<cfset shipment_remarks = "">
-		<cfset contents = "">
-		<cfset FOREIGN_SHIPMENT_FG = "">
-		<cfset shipped_to_addr = "">
-		<cfset shipped_to_addr_id = "">
-		<cfset shipped_from_addr = "">
-		<cfset shipped_from_addr_id = "">
-	</cfif>
-	<div class="shippingBlock">
 	<cfform name="shipment" method="post" action="Loan.cfm">
 		<input type="hidden" name="Action" value="saveShip">
 		<input type="hidden" name="transaction_id" value="#transaction_id#">
