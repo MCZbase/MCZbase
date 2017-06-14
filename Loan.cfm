@@ -1028,17 +1028,21 @@ function loadShipment(shipmentId,form) {
        s.className='ajaxStatus';
        s.innerHTML='Saving Shipment...';
        document.body.appendChild(s);
-       jQuery.getJSON("/component/functions.cfc",
-          {
-            method : "saveShipment",
-            data: $("##shipmentForm").serialize();
-            shipment_id : shipment_id,
-          },
-          function (result) {
+       $('<input />').attr('type', 'hidden')
+          .attr('name', "method")
+          .attr('value', "saveShipment")
+          .appendTo('##shipmentForm');
+       $.ajax({
+          url : "/component/functions.cfc",
+          type : "post",
+          dataType : "json",
+          data: $("##shipmentForm").serialize(),
+          success: function (result) {
             loadShipments(#transaction_id#);
             document.body.removeChild($('##ajaxStatus'));
+            $("##dialog-shipment").dialog( "close" );
           }
-       );
+       });
        return valid;
     };
 
