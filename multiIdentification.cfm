@@ -1,7 +1,9 @@
 <cfinclude template="/includes/_header.cfm">
 <script language="JavaScript" type="text/javascript">
 	jQuery(document).ready(function() {
-		jQuery("#made_date").datepicker();
+		jQuery("#made_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
 	script});
 </SCRIPT>
 <script type='text/javascript' src='/includes/_editIdentification.js'></script>
