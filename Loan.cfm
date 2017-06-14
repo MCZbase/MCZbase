@@ -961,18 +961,24 @@ function loadShipment(shipmentId,form) {
                    $("##shipped_date").val(result.DATA.SHIPPED_DATE[i]);
                    $("##contents").val(result.DATA.CONTENTS[i]);
                    $("##no_of_packages").val(result.DATA.NO_OF_PACKAGES[i]);
-		           $("##packed_by_agent").val(result.DATA.PACKED_BY_AGENT[i]);
-		           $("##packed_by_agent_id").val(result.DATA.PACKED_BY_AGENT_ID[i]);
+		   $("##packed_by_agent").val(result.DATA.PACKED_BY_AGENT[i]);
+		   $("##packed_by_agent_id").val(result.DATA.PACKED_BY_AGENT_ID[i]);
                    $("##shipment_remarks").val(result.DATA.SHIPMENT_REMARKS[i]);
                    $("##shipped_to_address").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
                    $("##shipped_to_addr_id").val(result.DATA.SHIPPED_TO_ADDR_ID[i]);
                    $("##shipped_from_address").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
                    $("##shipped_from_addr_id").val(result.DATA.SHIPPED_FROM_ADDR_ID[i]);
-		           $("##shipped_carrier_method").selected(result.DATA.SHIPPED_CARRIER_METHID[i]);
-                   $("##foreign_shipment_fg").val(result.DATA.foreign_shipment_fg[i]);
+		   $("##shipped_carrier").val(result.DATA.SHIPPED_CARRIER_METHOD[i]).prop("selected",true);
+                   if (result.DATA.foreign_shipment_fg[i] == 0) { 
+                          $("##foreign_shipment_fg option[value='yes']").prop('selected',false);
+                          $("##foreign_shipment_fg option[value='no']").prop('selected',true); 
+                   } else { 
+                          $("##foreign_shipment_fg option[value='no']").prop('selected',false);
+                          $("##foreign_shipment_fg option[value='yes']").prop('selected',true); 
+                   }
                 }
             }
-            catch(e){}
+            catch(e){ alert(e); }
             document.body.removeChild(sBox);
         }
     );
