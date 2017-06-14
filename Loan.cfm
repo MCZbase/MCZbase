@@ -926,7 +926,7 @@ function loadShipments(transaction_id) {
     s.className='ajaxStatus';
     s.innerHTML='Checking for Shipments..';
     document.body.appendChild(s);
-    jQuery.getJSON("/component/functions.cfc",
+    jQuery.get("/component/functions.cfc",
         {
             method : "getShipmentsHtml",
             transaction_id : transaction_id
@@ -1031,7 +1031,7 @@ function loadShipment(shipmentId,form) {
        jQuery.getJSON("/component/functions.cfc",
           {
             method : "saveShipment",
-            transaction_id : transaction_id,
+            data: $("##shipmentForm").serialize();
             shipment_id : shipment_id,
           },
           function (result) {
@@ -1086,13 +1086,13 @@ function loadShipment(shipmentId,form) {
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_to_addr_id" value="">
 		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipment'); return false;">
+			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
 		<label for="packed_by_agent">Shipped From Address</label>
 		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_from_addr_id" value="">
 		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipment'); return false;">
+			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
 		<label for="shipment_remarks">Remarks</label>
 		<input type="text" value="" name="shipment_remarks" id="shipment_remarks">
 		<label for="contents">Contents</label>
