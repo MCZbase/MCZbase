@@ -957,6 +957,7 @@ function loadShipment(shipmentId,form) {
                 sBox.innerHTML='Loading Shipments....';
                 for (i=0; i<result.ROWCOUNT; ++i) {
                    $("##transaction_id").val(result.DATA.TRANSACTION_ID[i]);
+                   $("##shipment_id").val(result.DATA.SHIPMENT_ID[i]);
                    $("##shipped_date").val(result.DATA.SHIPPED_DATE[i]);
                    $("##contents").val(result.DATA.CONTENTS[i]);
                    $("##no_of_packages").val(result.DATA.NO_OF_PACKAGES[i]);
@@ -977,7 +978,6 @@ function loadShipment(shipmentId,form) {
     );
 }
 </script>
-
 
 	<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
@@ -1021,6 +1021,13 @@ function loadShipment(shipmentId,form) {
     <!--- TODO:  Add a shipment  --->
     <!--- TODO: Implement ajax add shipment save --->
 <script>
+    function setupNewShipment() { 
+        $("##dialog-shipment").dialog( "option", "title", "Create New Shipment" );
+        $("##shipment_id").val("");
+        $("##transaction_id").val("#transaction_id#");
+        $("##shipped_date").val("#dateformat(Now(),'yyyy-mm-dd')#");
+    }
+
     function saveShipment() { 
        var valid = true;
        var s=document.createElement('DIV');
@@ -1064,7 +1071,7 @@ function loadShipment(shipmentId,form) {
       });
     });
 </script>
-    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open')">
+    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment();">
 
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >
