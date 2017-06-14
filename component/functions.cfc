@@ -1832,7 +1832,7 @@
 <!----------------------------------------------------------------------------------------------------------------->
 
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getShipments" returntype="text" access="remote">
+<cffunction name="getPermitsForShipment" returntype="text" access="remote">
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getShipments" returntype="query" access="remote">
