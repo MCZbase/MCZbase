@@ -1028,7 +1028,8 @@ function loadShipment(shipmentId,form) {
        s.className='ajaxStatus';
        s.innerHTML='Saving Shipment...';
        document.body.appendChild(s);
-       $('<input />').attr('type', 'hidden')
+       $('##methodSaveShipmentInput').remove();
+       $('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
           .attr('name', "method")
           .attr('value', "saveShipment")
           .appendTo('##shipmentForm');
