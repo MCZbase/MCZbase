@@ -964,17 +964,19 @@ function loadShipment(shipmentId,form) {
 		   $("##packed_by_agent").val(result.DATA.PACKED_BY_AGENT[i]);
 		   $("##packed_by_agent_id").val(result.DATA.PACKED_BY_AGENT_ID[i]);
                    $("##shipment_remarks").val(result.DATA.SHIPMENT_REMARKS[i]);
-                   $("##shipped_to_address").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
+                   $("##shipped_to_address").html(result.DATA.SHIPPED_TO_ADDRESS[i]);
                    $("##shipped_to_addr_id").val(result.DATA.SHIPPED_TO_ADDR_ID[i]);
-                   $("##shipped_from_address").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
+                   $("##shipped_from_address").html(result.DATA.SHIPPED_FROM_ADDRESS[i]);
                    $("##shipped_from_addr_id").val(result.DATA.SHIPPED_FROM_ADDR_ID[i]);
-		   $("##shipped_carrier").val(result.DATA.SHIPPED_CARRIER_METHOD[i]).prop("selected",true);
-                   if (result.DATA.foreign_shipment_fg[i] == 0) { 
-                          $("##foreign_shipment_fg option[value='yes']").prop('selected',false);
-                          $("##foreign_shipment_fg option[value='no']").prop('selected',true); 
+                   $("##shipped_carrier_method").val(result.DATA.SHIPPED_CARRIER_METHOD[i]);
+                   var target = "##shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
+		   $(target).attr("selected",true);
+                   if (result.DATA.FOREIGN_SHIPMENT_FG[i] == 0) { 
+                          $("##foreign_shipment_fg option[value='1']").prop('selected',false);
+                          $("##foreign_shipment_fg option[value='0']").prop('selected',true); 
                    } else { 
-                          $("##foreign_shipment_fg option[value='no']").prop('selected',false);
-                          $("##foreign_shipment_fg option[value='yes']").prop('selected',true); 
+                          $("##foreign_shipment_fg option[value='0']").prop('selected',false);
+                          $("##foreign_shipment_fg option[value='1']").prop('selected',true); 
                    }
                 }
             }
