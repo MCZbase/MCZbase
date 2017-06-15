@@ -957,13 +957,14 @@ function loadShipment(shipmentId,form) {
                 sBox.innerHTML='Loading Shipments....';
                 if (result.ROWCOUNT == 1) {
                    var i = 0;
-                   $("##transaction_id").val(result.DATA.TRANSACTION_ID[i]);
+                   $(" ##" + form + " input[name=transaction_id]").val(result.DATA.TRANSACTION_ID[i]);
                    $("##shipment_id").val(result.DATA.SHIPMENT_ID[i]);
                    $("##shipped_date").val(result.DATA.SHIPPED_DATE[i]);
                    $("##contents").val(result.DATA.CONTENTS[i]);
                    $("##no_of_packages").val(result.DATA.NO_OF_PACKAGES[i]);
-		           $("##packed_by_agent").val(result.DATA.PACKED_BY_AGENT[i]);
-		           $("##packed_by_agent_id").val(result.DATA.PACKED_BY_AGENT_ID[i]);
+                   $("##package_weight").val(result.DATA.PACKAGE_WEIGHT[i]);
+                   $("##packed_by_agent").val(result.DATA.PACKED_BY_AGENT[i]);
+                   $("##packed_by_agent_id").val(result.DATA.PACKED_BY_AGENT_ID[i]);
                    $("##shipment_remarks").val(result.DATA.SHIPMENT_REMARKS[i]);
                    $("##shipped_to_addr_id").val(result.DATA.SHIPPED_TO_ADDR_ID[i]);
                    $("##shipped_from_addr_id").val(result.DATA.SHIPPED_FROM_ADDR_ID[i]);
@@ -978,6 +979,13 @@ function loadShipment(shipmentId,form) {
                    } else { 
                           $("##foreign_shipment_fg option[value='0']").prop('selected',false);
                           $("##foreign_shipment_fg option[value='1']").prop('selected',true); 
+                   }
+                   if (result.DATA.HAZMAT_FG[i] == 0) { 
+                          $("##hazmat_fg option[value='1']").prop('selected',false);
+                          $("##hazmat_fg option[value='0']").prop('selected',true); 
+                   } else { 
+                          $("##hazmat_fg option[value='0']").prop('selected',false);
+                          $("##hazmat_fg option[value='1']").prop('selected',true); 
                    }
                 } else { 
                     sBox.innerHTML='Other than 1 shipment found.';
@@ -1088,8 +1096,8 @@ function loadShipment(shipmentId,form) {
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >
     <fieldset>
-	<input type="hidden" name="transaction_id" value="#transaction_id#">
-	<input type="hidden" name="shipment_id" value="">
+	<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
+	<input type="hidden" name="shipment_id" value="" id="shipment_id">
 		<label for="shipped_carrier_method">Shipping Method</label>
 		<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
 			<option value=""></option>
@@ -1098,10 +1106,10 @@ function loadShipment(shipmentId,form) {
 			</cfloop>
 		</select>
 		<label for="packed_by_agent">Packed By Agent</label>
-		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value=""
+		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
 			  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
 			  onKeyPress="return noenter(event);">
-		<input type="hidden" name="packed_by_agent_id" value="">
+		<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
 		<label for="no_of_packages">Number of Packages</label>
 		<input type="text" value="1" name="no_of_packages" id="no_of_packages">
 		<label for="shipped_date">Ship Date</label>
@@ -1123,6 +1131,11 @@ function loadShipment(shipmentId,form) {
 		<input type="text" value="" name="contents" id="contents" size="60">
 		<label for="foreign_shipment_fg">Foreign shipment?</label>
 		<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
+			<option selected value="0">no</option>
+			<option value="1">yes</option>
+		</select>
+		<label for="hazmat_fg">HAZMAT?</label>
+		<select name="hazmat_fg" id="hazmat_fg" size="1">
 			<option selected value="0">no</option>
 			<option value="1">yes</option>
 		</select>
