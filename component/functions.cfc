@@ -1858,7 +1858,7 @@
       <cfset theResult=queryNew("status, message")>
       <cfset t = queryaddrow(theResult,1)>
       <cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-      <cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+      <cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
    </cfcatch>
    </cftry>
    <cfreturn theResult>
@@ -1917,7 +1917,7 @@
 	<cfcatch>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
 	</cfcatch>
       </cftry>
     <cfreturn theResult>
@@ -1995,7 +1995,7 @@
 	<cfcatch>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
 	</cfcatch>
     </cftry>
     <cfreturn theResult>
@@ -2044,7 +2044,7 @@
 	   	<cfset theResult=queryNew("status, message")>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
 	  </cfcatch>
 	</cftry>
 	<cfreturn theResult>
@@ -2088,7 +2088,7 @@
 	  <cfset theResult=queryNew("status, message")>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
 	  </cfcatch>
 	</cftry>
     <cfif isDefined("asTable") AND asTable eq "true"> 

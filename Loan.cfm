@@ -1112,6 +1112,13 @@ function loadShipment(shipmentId,form) {
 		<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
 		<label for="no_of_packages">Number of Packages</label>
 		<input type="text" value="1" name="no_of_packages" id="no_of_packages">
+		<label for="carriers_tracking_number">Tracking Number</label>
+		<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number">
+		<label for="package_weight">Package Weight (TEXT, include units)</label>
+		<input type="text" value="" name="package_weight" id="package_weight">
+		<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
+		<cfinput type="text" validate="float" label="Numeric value required."
+			 value="" name="insured_for_insured_value" id="insured_for_insured_value">
 		<label for="shipped_date">Ship Date</label>
 		<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
 		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
