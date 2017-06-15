@@ -1879,7 +1879,7 @@
    <cfargument name="permit_remarks" type="string" required="yes">
    <cfset theResult=queryNew("status, message")>
    <cftry>
-      <cfif permit_id==""> 
+      <cfif permit_id EQ ""> 
          <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              insert into permit (
                 permit_num, permit_type, issued_date, renewed_date, exp_date, 
@@ -1919,6 +1919,7 @@
 		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
 		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
 	</cfcatch>
+      </cftry>
     <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -1945,7 +1946,7 @@
    <cfargument name="shipped_from_addr_id" type="string" required="no">
    <cfset theResult=queryNew("status, message")>
    <cftry>
-      <cfif shipment_id==""> 
+      <cfif shipment_id EQ ""> 
          <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              insert into shipment (
                 transaction_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, 
@@ -1996,6 +1997,7 @@
 		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
 		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
 	</cfcatch>
+    </cftry>
     <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -2029,7 +2031,7 @@
                    shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
-                  left join addr toaddr on shipment.shipped_from_addr_id = toaddr.addr_id
+                  left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
              where shipment_id in (#shipmentidList#)
 		</cfquery>
 		<cfif theResult.recordcount eq 0>
