@@ -1832,7 +1832,190 @@
 <!----------------------------------------------------------------------------------------------------------------->
 
 <!----------------------------------------------------------------------------------------------------------------->
+<!--- get permits as query json objects by a list of permit ids
+      @param permitIdList a comma delimited list of permit_id values.
+      @return a query object containing permit records (with status=1) or containing status=0|-1 and message.
+--->
+<cffunction name="getPermits" returntype="query" access="remote">
+   <cfargument name="permitidList" type="string" required="yes">
+   <cftry>
+      <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select distinct 1 as status, permit_id, permit_num, permit_type, issued_date, renewed_date, exp_date, 
+                issued_by_agent_id, mczbase.get_agentnamebytype(issued_by_agent_id,'preferred') as issued_by_agent,
+                issued_to_agent_id, mczbase.get_agentnamebytype(issued_to_agent_id,'preferred') as issued_to_agent,
+                permit_remarks
+           from permit 
+           where permit.permit_id in ( #permitidList# )
+           order by permit_type, issued_date
+      </cfquery>
+      <cfif theResult.recordcount eq 0>
+         <cfset theResult=queryNew("status, message")>
+         <cfset t = queryaddrow(theResult,1)>
+         <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+         <cfset t = QuerySetCell(theResult, "message", "No permits found.", 1)>
+      </cfif>		
+   <cfcatch>
+      <cfset theResult=queryNew("status, message")>
+      <cfset t = queryaddrow(theResult,1)>
+      <cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+      <cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+   </cfcatch>
+   </cftry>
+   <cfreturn theResult>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- 
+   Save a permit record.  Creates a new permit if no permit_id is provided, otherwise updates permit record.
+--->
+<cffunction name="savePermit" returntype="query" access="remote">
+   <cfargument name="permit_id" type="string" required="yes">
+   <cfargument name="permit_num" type="string" required="yes"> 
+   <cfargument name="permit_type" type="string" required="yes"> 
+   <cfargument name="issued_date" type="string" required="yes">
+   <cfargument name="renewed_date" type="string" required="yes">
+   <cfargument name="exp_date" type="string" required="yes"> 
+   <cfargument name="issued_by_agent_id" type="string" required="yes">
+   <cfargument name="issued_to_agent_id" type="string" required="yes">
+   <cfargument name="permit_remarks" type="string" required="yes">
+   <cfset theResult=queryNew("status, message")>
+   <cftry>
+      <cfif permit_id==""> 
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             insert into permit (
+                permit_num, permit_type, issued_date, renewed_date, exp_date, 
+                issued_by_agent_id, issued_to_agent_id, permit_remarks
+             ) 
+             values ( 
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_num#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">,
+                <cfqueryparam cfsqltype="CF_SQL_DATE" value="#issued_date#">,
+                <cfqueryparam cfsqltype="CF_SQL_DATE" value="#renewed_date#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_by_agent_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_to_agent_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_remarks#">
+             }
+         </cfquery>
+      <cfelse>
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             update permit set 
+                issued_to_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_to_agent_id#">, 
+                issued_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_by_agent_id#">, 
+                permit_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_num#">, 
+                permit_type = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_type#">,
+                issued_date = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_date#">,
+                renewed_date = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#renewed_date#">,
+                exp_date = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#exp_date#">,
+                permit_remarks = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_remarks#">,,
+             where
+                permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+          </cfquery>
+      </cfif>
+      <cfset t = queryaddrow(theResult,1)>
+      <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+      <cfset t = QuerySetCell(theResult, "message", "Saved.", 1)>
+	<cfcatch>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+	</cfcatch>
+    <cfreturn theResult>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- 
+   Function to create save a shipment from a ajax post
+   @param shipment_id the shipment_id of the shipment to save, if null, then create a new shipment.
+   @param transaction_id the transaction with which this shipment is associated.
+   @return json query structure with STATUS = 0|1 and MESSAGE, status = 0 on a failure. 
+ --->
+<cffunction name="saveShipment" returntype="query" access="remote">
+   <cfargument name="shipment_id" type="string" required="yes">
+   <cfargument name="transaction_id" type="string" required="yes">
+   <cfargument name="packed_by_agent_id" type="string" required="no"> 
+   <cfargument name="shipped_carrier_method" type="string" required="no"> 
+   <cfargument name="shipped_date" type="string" required="no"> 
+   <cfargument name="package_weight" type="string" required="no"> 
+   <cfargument name="no_of_packages" type="string" required="no">
+   <cfargument name="hazmat_fg" type="string" required="no"> 
+   <cfargument name="insured_for_insured_value" type="string" required="no"> 
+   <cfargument name="shipment_remarks" type="string" required="no"> 
+   <cfargument name="contents" type="string" required="no">
+   <cfargument name="foreign_shipment_fg" type="string" required="no">
+   <cfargument name="shipped_to_addr_id" type="string" required="no">
+   <cfargument name="shipped_from_addr_id" type="string" required="no">
+   <cfset theResult=queryNew("status, message")>
+   <cftry>
+      <cfif shipment_id==""> 
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             insert into shipment (
+                transaction_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, 
+                no_of_packages, hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, 
+                shipped_to_addr_id, shipped_from_addr_id
+             ) 
+             values ( 
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#packed_by_agent_id#">, 
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipped_carrier_method#">, 
+                <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">, 
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">, 
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">, 
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">, 
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">, 
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">
+             }
+         </cfquery>
+      <cfelse>
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             update shipment set 
+                packed_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#packed_by_agent_id#">, 
+                shipped_carrier_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipped_carrier_method#">, 
+                shipped_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">, 
+                package_weight = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">, 
+                no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#">,
+                hazmat_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">, 
+                insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">, 
+                shipment_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
+                contents = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">, 
+                foreign_shipment_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">, 
+                shipped_to_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
+                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
+             where
+                shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> and
+                transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+          </cfquery>
+      </cfif>
+      <cfset t = queryaddrow(theResult,1)>
+      <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+      <cfset t = QuerySetCell(theResult, "message", "Saved.", 1)>
+	<cfcatch>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.detail#", 1)>
+	</cfcatch>
+    <cfreturn theResult>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getPermitsForShipment" returntype="text" access="remote">
+   <cfargument name="shipment_id" type="string" required="yes">
+   <cfset result="">
+   <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select distinct permit_num, permit_type, issued_date, permit.permit_id
+        from permit_shhipment left join permit on permit_shipment.permit_id = permit.permit_id
+        where permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shipment_id#>
+        order by permit_type, issued_date
+   </cfquery>
+   <cfif query.recordcount gt 0>
+       <cfset result="<ul>">
+       <cfloop query="getAccnPermits">
+          <cfset result = result & "<li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')#</li>">
+       </cfloop>
+       <cfset result= result & "</ul>">
+   </cfif>
+   <cfreturn result>;
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getShipments" returntype="query" access="remote">
