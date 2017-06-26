@@ -688,8 +688,17 @@ INSERT INTO permit (
 	 	,PERMIT_NUM
 	 </cfif>
 	 ,PERMIT_TYPE
-	<cfif len(#PERMIT_REMARKS#) gt 0>
+	 <cfif len(#PERMIT_REMARKS#) gt 0>
 	 	,PERMIT_REMARKS
+	 </cfif>
+	 <cfif len(#restrictions_summary#) gt 0>
+	 	,restrictions_summary
+	 </cfif>
+	 <cfif len(#benefits_summary#) gt 0>
+	 	,benefits_summary
+	 </cfif>
+	 <cfif len(#benefits_provided#) gt 0>
+	 	,benefits_provided
 	 </cfif>
 	  <cfif len(#contact_agent_id#) gt 0>
 	 	,contact_agent_id
@@ -712,10 +721,18 @@ VALUES (
 	 </cfif>
 	 ,'#PERMIT_TYPE#'
 	<cfif len(#PERMIT_REMARKS#) gt 0>
-	 	<cfset remarks = #replace(permit_remarks,"'","''")#>
-		,'#remarks#'
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
 	 </cfif>
-	   <cfif len(#contact_agent_id#) gt 0>
+	 <cfif len(#restrictions_summary#) gt 0>
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restrictions_summary#">
+     </cfif>
+	 <cfif len(#benefits_summary#) gt 0>
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+     </cfif>
+	 <cfif len(#benefits_provided#) gt 0>
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="'#benefits_provided#">
+     </cfif>
+	 <cfif len(#contact_agent_id#) gt 0>
 	 	,#contact_agent_id#
 	 </cfif>)
 </cfquery>
