@@ -1932,19 +1932,19 @@
 <cffunction name="saveShipment" returntype="query" access="remote">
    <cfargument name="shipment_id" type="numeric" required="no">
    <cfargument name="transaction_id" type="numeric" required="yes">
-   <cfargument name="packed_by_agent_id" type="numeric" required="no"> 
+   <cfargument name="packed_by_agent_id" type="numeric" required="no">
    <cfargument name="shipped_carrier_method" type="string" required="no"> 
    <cfargument name="carriers_tracking_number" type="string" required="no"> 
    <cfargument name="shipped_date" type="string" required="no"> 
    <cfargument name="package_weight" type="string" required="no"> 
    <cfargument name="no_of_packages" type="numeric" required="no">
    <cfargument name="hazmat_fg" type="numeric" required="no"> 
-   <cfargument name="insured_for_insured_value" type="numeric" required="no"> 
+   <cfargument name="insured_for_insured_value" type="string" required="no"> 
    <cfargument name="shipment_remarks" type="string" required="no"> 
    <cfargument name="contents" type="string" required="no">
    <cfargument name="foreign_shipment_fg" type="numeric" required="no">
-   <cfargument name="shipped_to_addr_id" type="numeric" required="no">
-   <cfargument name="shipped_from_addr_id" type="numeric" required="no">
+   <cfargument name="shipped_to_addr_id" type="string" required="no">
+   <cfargument name="shipped_from_addr_id" type="string" required="no">
    <cfset theResult=queryNew("status, message")>
    <cftry>
       <cfif NOT IsDefined("shipment_id") OR shipment_id EQ ""> 
@@ -1961,9 +1961,9 @@
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#carriers_tracking_number#">, 
                 <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">, 
-                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#" null="yes">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">, 
-                <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#insured_for_insured_value#">, 
+                <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#insured_for_insured_value#" null="yes">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">
