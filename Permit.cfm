@@ -402,7 +402,7 @@ where
 			  onKeyUp="return noenter();">
 
 
-</td>
+		    </td>
 		</tr>
 			<tr>
 			<td>Issued To</td>
@@ -413,7 +413,7 @@ where
 			  onKeyUp="return noenter();">
 
 
-		</td>
+		    </td>
 		</tr>
 		<tr>
 			<td>Contact Person</td>
@@ -424,7 +424,7 @@ where
 			  	onKeyUp="return noenter();">
 
 
-		</td>
+		    </td>
 		</tr>
 		<tr>
 			<td>Issued Date</td>
@@ -450,6 +450,18 @@ where
 			</td>
 			<td>Remarks</td>
 			<td><input type="text" name="permit_remarks"></td>
+		</tr>
+		<tr>
+			<td>Summary of Restrictions on use</td>
+			<td><input type="text" name="restriction_summary"></td>
+			<td></td><!--- TODO: Controled vocabulary for restrictions could go here --->
+			<td></td>
+		</tr>
+		<tr>
+			<td>ABS: Summary of Agreed Benefits</td>
+			<td><input type="text" name="benefits_summary"></td>
+			<td>ABS: Benefits Provided</td>
+			<td><input type="text" name="benefits_provided"></td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
@@ -485,6 +497,9 @@ where
 	issued_Date,
 	renewed_Date,
 	exp_Date,
+    restriction_summary,
+    benefits_summary,
+    benefits_provided,
 	permit_Num,
 	permit_Type,
 	permit_remarks
@@ -535,8 +550,6 @@ where
 			<input type="text" name="ContactAgent" class="reqdClr" size="50" value="#ContactAgent#"
 		 onchange="getAgent('contact_agent_id','ContactAgent','newPermit',this.value); return false;"
 			  onKeyUp="return noenter();">
-
-
 		</td>
 		</tr>
 		<tr>
@@ -551,6 +564,19 @@ where
 			<td>Permit Number</td>
 			<td><input type="text" name="permit_Num" value="#permit_Num#"></td>
 		</tr>
+        <tr>
+            <td>Summary of Restrictions on use</td>
+            <td><input type="text" name="restriction_summary" value="#restriction_summary#"></td>
+            <td></td><!--- TODO: Controled vocabulary for restrictions could go here --->
+            <td></td>
+        </tr>
+        <tr>
+            <td>ABS: Summary of Agreed Benefits</td>
+            <td><input type="text" name="benefits_summary" value="#benefits_summary#"></td>
+            <td>ABS: Benefits Provided</td>
+            <td><input type="text" name="benefits_provided" value="#benefits_provided#"></td>
+        </tr>
+
 		<tr>
 			<td>Permit Type</td>
 			<td>
@@ -582,6 +608,7 @@ where
 		</tr>
 	</table>
     <!---  TODO: Show/add media copy of permit --->
+    <div id="copyofpermit"></div>
     <!---  TODO: list/add media copy of associated documents --->
 </cfform>
 </cfoutput>
@@ -592,7 +619,7 @@ where
 <cfoutput>
 <cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 UPDATE permit SET
-	permit_id = #permit_id#
+	permit_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#permit_id#">
 	<cfif len(#issuedByAgentId#) gt 0>
 	 	,ISSUED_BY_AGENT_ID = #issuedByAgentId#
     </cfif>
@@ -616,6 +643,15 @@ UPDATE permit SET
 	 </cfif>
 	<cfif len(#PERMIT_REMARKS#) gt 0>
 	 	,PERMIT_REMARKS = '#PERMIT_REMARKS#'
+    </cfif>
+	<cfif len(#restrictions_summary#) gt 0>
+	 	,restrictions_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restrictions_summary#">
+    </cfif>
+	<cfif len(#benefits_summary#) gt 0>
+	 	,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+    </cfif>
+	<cfif len(#benefits_provided#) gt 0>
+	 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="'#benefits_provided#">
     </cfif>
 	 <cfif len(#contact_agent_id#) gt 0>
 	 	,contact_agent_id = #contact_agent_id#
