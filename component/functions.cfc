@@ -1951,7 +1951,13 @@
          <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              insert into shipment (
                 transaction_id, packed_by_agent_id, shipped_carrier_method, carriers_tracking_number, shipped_date, package_weight, 
-                no_of_packages, hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, 
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                  no_of_packages, 
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                  insured_for_insured_value, 
+                </cfif>
+                hazmat_fg, shipment_remarks, contents, foreign_shipment_fg, 
                 shipped_to_addr_id, shipped_from_addr_id
              ) 
              values ( 
@@ -1961,9 +1967,13 @@
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#carriers_tracking_number#">, 
                 <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">, 
-                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#" null="yes">,
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#" null="yes">,
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                   <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#insured_for_insured_value#" null="yes">, 
+                </cfif>
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">, 
-                <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#insured_for_insured_value#" null="yes">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">
@@ -1978,9 +1988,13 @@
                 shipped_carrier_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipped_carrier_method#">, 
                 shipped_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">, 
                 package_weight = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">, 
-                no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#">,
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#">,
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                   insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">, 
+                </cfif>
                 hazmat_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">, 
-                insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">, 
                 shipment_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
                 contents = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">, 
                 foreign_shipment_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">, 
