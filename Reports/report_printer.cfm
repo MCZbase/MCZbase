@@ -37,7 +37,7 @@
 	<a href="reporter.cfm" target="_blank">Manage Reports</a><br/>
 	<!-- Obtain the list of reports -->
 	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	   select * from cf_report_sql where report_name not like 'mcz_loan_%' order by report_name
+	   select * from cf_report_sql where report_name not like 'mcz_%' order by report_name
 	</cfquery>
 	<!-- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for -->
 	<cfquery name="usersColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
