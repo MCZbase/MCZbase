@@ -1122,16 +1122,16 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								</cfquery>
 								<cfloop query="sPart">
 									<tr>
-										<td>
+										<td class="inside">
 											#part_name#
 										</td>
-										<td>#part_condition#</td>
-										<td>#part_disposition#</td>
-										<td>#lot_count#</td>
+										<td class="inside">#part_condition#</td>
+										<td class="inside">#part_disposition#</td>
+										<td class="inside">#lot_count#</td>
 										<cfif oneOfus is 1>
-											<td>#label#</td>
+											<td class="inside">#label#</td>
 										</cfif>
-										<td>#part_remarks#</td>
+										<td class="inside">#part_remarks#</td>
 									</tr>
 								</cfloop>
 							</cfloop>
