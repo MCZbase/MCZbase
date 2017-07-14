@@ -1123,13 +1123,13 @@ function loadShipment(shipmentId,form) {
 		<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
 		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
-		<input type="hidden" name="shipped_to_addr_id" value="">
+		<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 		<input type="button" value="Pick Address" class="picBtn"
 			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
 		<label for="packed_by_agent">Shipped From Address</label>
 		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
-		<input type="hidden" name="shipped_from_addr_id" value="">
+		<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
 		<input type="button" value="Pick Address" class="picBtn"
 			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
 		<label for="shipment_remarks">Remarks</label>

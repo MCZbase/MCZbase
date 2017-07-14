@@ -1937,7 +1937,7 @@
    <cfargument name="carriers_tracking_number" type="string" required="no"> 
    <cfargument name="shipped_date" type="string" required="no"> 
    <cfargument name="package_weight" type="string" required="no"> 
-   <cfargument name="no_of_packages" type="numeric" required="no">
+   <cfargument name="no_of_packages" type="string" required="no">
    <cfargument name="hazmat_fg" type="numeric" required="no"> 
    <cfargument name="insured_for_insured_value" type="string" required="no"> 
    <cfargument name="shipment_remarks" type="string" required="no"> 
@@ -1989,7 +1989,7 @@
                 shipped_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">, 
                 package_weight = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">, 
                 <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
-                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#">,
+                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#" null="yes">,
                 </cfif>
                 <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
                    insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">, 
@@ -1999,7 +1999,7 @@
                 contents = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">, 
                 foreign_shipment_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">, 
                 shipped_to_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
-                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
+                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">
              where
                 shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> and
                 transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
