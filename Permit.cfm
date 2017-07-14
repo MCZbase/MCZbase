@@ -607,10 +607,11 @@ where
 			</td>
 		</tr>
 	</table>
+</cfform>
     <!---  TODO: Show/add media copy of permit --->
     <div id="copyofpermit"></div>
     <!---  TODO: list/add media copy of associated documents --->
-</cfform>
+    <div id="associateddocuments"></div>
 </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->

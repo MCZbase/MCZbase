@@ -2490,5 +2490,58 @@
         </cfquery>
         <cfreturn childLoans>
 </cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getMediaOfPermit" access="remote">
+	<cfargument name="permitid" type="string" required="yes">
+	<cfargument name="correspondence" type="string" required="no">
+	<cfset theResult=queryNew("media_id,collection_object_id,media_relationship")>
+	<cfset r=1>
+	<cfif isdefined("correspondence") and len(#correspondence#) gt 0>
+       <cfset relation = "shows permit docs">
+    <cfelse>
+       <cfset relation = "shows permit">
+    </cfif>
+	<cftry>
+	        <cfset threadname = "getMediaPermitThread">
+	        <cfthread name="#threadname#" >
+		   <cfloop list="#idList#" index="cid">
+			<cfloop list="#tableList#" index="tabl">
+				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                    select media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type,
+                           MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+                       from media_relations left join media on media_relations.media_id = media.media_id
+                       where media_relations.media_relationship = <cfqueryparam value="#relation#" CFSQLType="CF_SQL_VARCHAR">
+                             and media_relations.related_primary_key = <cfqueryparam value="#permitid#" CFSQLType="CF_SQL_DECIMAL">
+				</cfquery>
+				<cfif len(mid.midList) gt 0>
+					<cfset t = queryaddrow(theResult,1)>
+					<cfset t = QuerySetCell(theResult, "media_id", "#mid.media_id#", r)>
+					<cfset t = QuerySetCell(theResult, "preview_uri", "#mid.preview_uri#", r)>
+					<cfset t = QuerySetCell(theResult, "media_uri", "#mid.media_uri#", r)>
+					<cfset t = QuerySetCell(theResult, "mime_type", "#mid.mime_type#", r)>
+					<cfset t = QuerySetCell(theResult, "media_type", "#mid.media_type#", r)>
+					<cfset t = QuerySetCell(theResult, "hide_media", "#mid.hide_media#", r)>
+					<cfset r=r+1>
+				</cfif>
+			</cfloop>
+		   </cfloop>
+	        </cfthread>
+        	<cfthread action="join" name="#threadname#" />
+		<cfif theResult.recordcount eq 0>
+	  	  <cfset theResult=queryNew("status, message")>
+		  <cfset t = queryaddrow(theResult,1)>
+		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+		  <cfset t = QuerySetCell(theResult, "message", "No media found.", 1)>
+		</cfif>		
+	<cfcatch>
+	   	<cfset theResult=queryNew("status, message")>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		<cfreturn craps>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
 <!-------------------------------------------->
 </cfcomponent>
