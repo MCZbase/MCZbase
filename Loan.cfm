@@ -1081,7 +1081,7 @@
 				'resizable,scrollbars=yes,width=600,height=600')">
 	</form>
 
-    <cfif collection_id EQ MAGIC_MCZ_CRYO >
+    <cfif loanDetails.collection_id EQ MAGIC_MCZ_CRYO >
       <!--- For not, just for cryo, display the list of accessions and permits for the material in this loan --->
 
     <h3>Accessions (and their permits) for material in this loan:</h3>
