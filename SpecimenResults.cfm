@@ -482,6 +482,9 @@ If your item needs to be sorted in a special way, then do that here. --->
                     <option value="/bulkCollEvent.cfm">
 						Collecting Events
 					</option>
+					<option value="/bulkLocality.cfm">
+						Localities
+					</option>
 					<option value="/Encumbrances.cfm">
 						Encumbrances
 					</option>
