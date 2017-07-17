@@ -164,7 +164,9 @@
 		    VERBATIMLATITUDE,
 		    VERBATIMLONGITUDE,
 		    VERBATIMCOORDINATESYSTEM,
-		    VERBATIMSRS
+		    VERBATIMSRS,
+		    STARTDAYOFYEAR,
+		    ENDDAYOFYEAR
 		from
 			spec_with_loc
 		where
@@ -228,7 +230,9 @@
 		    VERBATIMLATITUDE,
 		    VERBATIMLONGITUDE,
 		    VERBATIMCOORDINATESYSTEM,
-		    VERBATIMSRS
+		    VERBATIMSRS,
+		    STARTDAYOFYEAR,
+		    ENDDAYOFYEAR
 	</cfquery>
       <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -354,6 +358,23 @@
 					name="ich_field_number"
 					id="ich_field_number"
 					value="#stripQuotes(l.fish_field_number)#"
+					size="20"></td>
+                </table>
+            </tr>
+            <tr>
+              <td><table>
+
+                    <td><label for="startDayofYear"> Start Day of Year</label>
+                      <cfinput type="text"
+					name="startDayofYear"
+					id="startDayofYear"
+					value="#l.startdayofyear#"
+					size="20"></td>
+                    <td><label for="endDayofYear"> End Day of Year </label>
+                      <cfinput type="text"
+					name="endDayofYear"
+					id="endDayofYear"
+					value="#l.enddayofyear#"
 					size="20"></td>
                 </table>
             </tr>
@@ -1407,7 +1428,10 @@
 				NVL(verbatimLatitude,'NULL') = NVL('#escapeQuotes(verbatimLatitude)#','NULL') AND
 				NVL(verbatimLongitude,'NULL') = NVL('#escapeQuotes(verbatimLongitude)#','NULL') AND
 				NVL(verbatimCoordinateSystem,'NULL') = NVL('#escapeQuotes(verbatimCoordinateSystem)#','NULL') AND
-				NVL(verbatimSRS,'NULL') = NVL('#escapeQuotes(verbatimSRS)#','NULL')
+				NVL(verbatimSRS,'NULL') = NVL('#escapeQuotes(verbatimSRS)#','NULL') AND
+				NVL(startDayOfYear,'NULL') = NVL('#escapeQuotes(startDayOfYear)#','NULL')
+				NVL(endDayOfYear,'NULL') = NVL('#escapeQuotes(endDayOfYear)#','NULL')
+
 		</cfquery>
       gor event....
       <cfif hasColl.collecting_event_id is -1>
@@ -1435,7 +1459,9 @@
 					verbatimLatitude,
 					verbatimLongitude,
 					verbatimCoordinateSystem,
-					verbatimSRS
+					verbatimSRS,
+					startDayOfYear,
+					endDayOfYear
 				) values (
 					#ncollecting_event_id#,
 					#nLocalityId#,
@@ -1453,7 +1479,9 @@
 					'#escapeQuotes(verbatimLatitude)#',
 					'#escapeQuotes(verbatimLongitude)#',
 					'#escapeQuotes(verbatimCoordinateSystem)#',
-					'#escapeQuotes(verbatimSRS)#'
+					'#escapeQuotes(verbatimSRS)#',
+					'#escapeQuotes(startDayOfYear)#',
+					'#escapeQuotes(endDayOfYear)#'
 				)
 			</cfquery>
         <cfelse>

@@ -9,6 +9,7 @@
 		cataloged_item.collecting_event_id,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		identification.scientific_name,
+		locality.locality_id,
 		locality.spec_locality,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
@@ -40,7 +41,7 @@
 				and flat.family in (#listqualify(filterFamily, "'")#)
 		</cfif>
 	ORDER BY
-		cataloged_item.collection_object_id
+		phylorder, family
 </cfquery>
 
 <cfif #Action# is "nothing">
@@ -165,7 +166,7 @@
 
 			<tr>
 				<td width="33%">Order:
-				<select name="filterOrder" style="width:150px" class="chosen-select">
+				<select name="filterOrder" style="width:150px" class="chosen-select-deselect">
 					<option></option>
 					<cfloop query="orders">
 						<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
@@ -196,6 +197,7 @@
 	<td>Order</td>
 	<td>Family</td>
 	<td><strong>Accepted Scientific Name</strong></td>
+	<td><strong>Locality ID</strong></td>
 	<td><strong>Spec Locality</strong></td>
 	<td><strong>higher_geog</strong></td>
 </tr>
@@ -214,6 +216,7 @@
 	<td>#phylorder#</td>
 	<td>#family#</td>
 	<td><i>#Scientific_Name#</i></td>
+	<td>#locality_id#</td>
 	<td>#spec_locality#</td>
 	<td>#higher_geog#</td>
 </tr>
@@ -249,8 +252,8 @@
 				</cfquery>
 				<cfset newCollEventID = getId.newId>
 				<cfquery name="cloneCE" datasource="uam_god">
-					insert into collecting_event(COLLECTING_EVENT_ID,LOCALITY_ID,DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS)
-					select #newCollEventID#, #newLocality_ID#,DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS
+					insert into collecting_event(COLLECTING_EVENT_ID,LOCALITY_ID,DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS, STARTDAYOFYEAR,ENDDAYOFYEAR)
+					select #newCollEventID#, #newLocality_ID#,DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,STARTDAYOFYEAR,ENDDAYOFYEAR
 						from collecting_event where collecting_event_id = #CEID#
 				</cfquery>
 				<cfquery name="updateSpecs" datasource="uam_god">
