@@ -962,6 +962,7 @@ function loadShipment(shipmentId,form) {
                    $("##shipped_date").val(result.DATA.SHIPPED_DATE[i]);
                    $("##contents").val(result.DATA.CONTENTS[i]);
                    $("##no_of_packages").val(result.DATA.NO_OF_PACKAGES[i]);
+                   $("##carriers_tracking_number").val(result.DATA.CARRIERS_TRACKING_NUMBER[i]);
                    $("##package_weight").val(result.DATA.PACKAGE_WEIGHT[i]);
                    $("##packed_by_agent").val(result.DATA.PACKED_BY_AGENT[i]);
                    $("##packed_by_agent_id").val(result.DATA.PACKED_BY_AGENT_ID[i]);
