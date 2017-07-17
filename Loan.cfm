@@ -1066,10 +1066,20 @@ function loadShipment(shipmentId,form) {
           dataType : "json",
           data: $("##shipmentForm").serialize(),
           success: function (result) {
-            loadShipments(#transaction_id#);
-            document.body.removeChild($('##ajaxStatus'));
-            $("##dialog-shipment").dialog( "close" );
-          }
+             if (result.status==0) { 
+               alert(result.message);
+               $("##shipmentFormStatus").innerHTML=result.message;
+             } else { 
+               loadShipments(#transaction_id#);
+               $("##dialog-shipment").dialog( "close" );
+             }
+           },
+           fail: function (jqXHR,textStatus) {
+               $("##shipmentFormStatus").innerHTML="Error Submitting Form: " +textStatus;
+           },
+           always: function() { 
+               document.body.removeChild($('##ajaxStatus'));
+           }
        });
        return valid;
     };
@@ -1149,6 +1159,7 @@ function loadShipment(shipmentId,form) {
 
     </fieldset>
   </form>
+  <div id="shipmentFormStatus"></div>
 </div>
 
 <!---
