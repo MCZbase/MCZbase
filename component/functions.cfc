@@ -1937,7 +1937,7 @@
    <cfargument name="carriers_tracking_number" type="string" required="no"> 
    <cfargument name="shipped_date" type="string" required="no"> 
    <cfargument name="package_weight" type="string" required="no"> 
-   <cfargument name="no_of_packages" type="numeric" required="no">
+   <cfargument name="no_of_packages" type="string" required="no">
    <cfargument name="hazmat_fg" type="numeric" required="no"> 
    <cfargument name="insured_for_insured_value" type="string" required="no"> 
    <cfargument name="shipment_remarks" type="string" required="no"> 
