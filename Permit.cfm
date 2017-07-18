@@ -634,7 +634,7 @@ where
         jQuery.get("/component/functions.cfc",
         {
             method : "getPermitMediaHtml",
-            transaction_id : transaction_id,
+            permit_id : permit_id,
             correspondence : "yes"
         },
         function (result) {
@@ -642,8 +642,8 @@ where
         }
      )};
 
-	 jQuery(document).ready(loadPermitMedia(#permit_id#);
-	 jQuery(document).ready(loadPermitRelatedMedia(#permit_id#);
+     jQuery(document).ready(loadPermitMedia(#permit_id#));
+     jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
      </script>
 </cfoutput>
 </cfif>

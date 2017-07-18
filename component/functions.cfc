@@ -1923,7 +1923,7 @@
     <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getPermitMediaHtml" returntype="text" access="remote">
+<cffunction name="getPermitMediaHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="permit_id" type="string" required="yes">
    <cfargument name="correspondence" type="string" required="no">
    <cfif isdefined("correspondence") and len(#correspondence#) gt 0>
@@ -1941,15 +1941,15 @@
          where media_relations.media_relationship = <cfqueryparam value="#relation#" CFSQLType="CF_SQL_VARCHAR">
                and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
-   <cfset result="<h3>#heading#</h3>">
+   <cfset result="<h3>#heading# Media</h3>">
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
-          <cfset result = result & "<li><a href="#media_uri#"><img src="#preview_uri#"></a></li>">
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#preview_uri#'></a></li>" >
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
-   <cfreturn result>;
+   <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <!--- 

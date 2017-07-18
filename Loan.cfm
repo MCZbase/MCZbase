@@ -1044,8 +1044,8 @@ function loadShipment(shipmentId,form) {
         $("##shipment_remarks").val("");
         $("##shipped_to_addr_id").val("");
         $("##shipped_from_addr_id").val("");
-        $("##shipped_to_addr").text("");
-        $("##shipped_from_addr").text("");
+        $("##shipped_to_addr").val("");
+        $("##shipped_from_addr").val("");
         $("##shipped_carrier_method").val("");
         $("##foreign_shipment_fg option[value='1']").prop('selected',false);
         $("##foreign_shipment_fg option[value='0']").prop('selected',true); 
@@ -1129,12 +1129,13 @@ function loadShipment(shipmentId,form) {
 			 value="" name="insured_for_insured_value" id="insured_for_insured_value">
 		<label for="shipped_date">Ship Date</label>
 		<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
+		<label for="shipped_to_addr">Shipped To Address</label>
 		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 		<input type="button" value="Pick Address" class="picBtn"
 			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
-		<label for="packed_by_agent">Shipped From Address</label>
+		<label for="shipped_from_addr">Shipped From Address</label>
 		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
