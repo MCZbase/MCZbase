@@ -612,6 +612,39 @@ where
     <div id="copyofpermit"></div>
     <!---  TODO: list/add media copy of associated documents --->
     <div id="associateddocuments"></div>
+
+    <script>
+    function loadPermitMedia(permit_id) {
+        var s=document.createElement('DIV');
+        s.id='ajaxStatus';
+        s.className='ajaxStatus';
+        s.innerHTML='Checking for Media..';
+        document.body.appendChild(s);
+        jQuery.get("/component/functions.cfc",
+        {
+            method : "getPermitMediaHtml",
+            permit_id : permit_id
+        },
+        function (result) {
+           $("##copyofpermit").html(result);
+            document.body.removeChild($('##ajaxStatus'));
+        }
+     )};
+    function loadPermitRelatedMedia(permit_id) {
+        jQuery.get("/component/functions.cfc",
+        {
+            method : "getPermitMediaHtml",
+            transaction_id : transaction_id,
+            correspondence : "yes"
+        },
+        function (result) {
+           $("##associateddocuments").html(result);
+        }
+     )};
+
+	 jQuery(document).ready(loadPermitMedia(#permit_id#);
+	 jQuery(document).ready(loadPermitRelatedMedia(#permit_id#);
+     </script>
 </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->

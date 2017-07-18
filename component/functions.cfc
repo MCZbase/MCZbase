@@ -1923,6 +1923,35 @@
     <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getPermitMediaHtml" returntype="text" access="remote">
+   <cfargument name="permit_id" type="string" required="yes">
+   <cfargument name="correspondence" type="string" required="no">
+   <cfif isdefined("correspondence") and len(#correspondence#) gt 0>
+       <cfset relation = "shows permit docs">
+       <cfset heading = "Additional Documents">
+   <cfelse>
+       <cfset relation = "shows permit">
+       <cfset heading = "Permit">
+   </cfif>
+   <cfset result="">
+   <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type,
+               MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+         from media_relations left join media on media_relations.media_id = media.media_id
+         where media_relations.media_relationship = <cfqueryparam value="#relation#" CFSQLType="CF_SQL_VARCHAR">
+               and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
+   </cfquery>
+   <cfset result="<h3>#heading#</h3>">
+   <cfif query.recordcount gt 0>
+       <cfset result=result & "<ul>">
+       <cfloop query="query">
+          <cfset result = result & "<li><a href="#media_uri#"><img src="#preview_uri#"></a></li>">
+       </cfloop>
+       <cfset result= result & "</ul>">
+   </cfif>
+   <cfreturn result>;
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <!--- 
    Function to create save a shipment from a ajax post
    @param shipment_id the shipment_id of the shipment to save, if null, then create a new shipment.
