@@ -1429,7 +1429,7 @@
 				NVL(verbatimLongitude,'NULL') = NVL('#escapeQuotes(verbatimLongitude)#','NULL') AND
 				NVL(verbatimCoordinateSystem,'NULL') = NVL('#escapeQuotes(verbatimCoordinateSystem)#','NULL') AND
 				NVL(verbatimSRS,'NULL') = NVL('#escapeQuotes(verbatimSRS)#','NULL') AND
-				NVL(startDayOfYear,'NULL') = NVL('#escapeQuotes(startDayOfYear)#','NULL')
+				NVL(startDayOfYear,'NULL') = NVL('#escapeQuotes(startDayOfYear)#','NULL') AND
 				NVL(endDayOfYear,'NULL') = NVL('#escapeQuotes(endDayOfYear)#','NULL')
 
 		</cfquery>
