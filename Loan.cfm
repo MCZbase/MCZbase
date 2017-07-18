@@ -921,29 +921,21 @@
     <h3>Shipment Information:</h3>
 <script>
 function loadShipments(transaction_id) {
-    var s=document.createElement('DIV');
-    s.id='ajaxStatus';
-    s.className='ajaxStatus';
-    s.innerHTML='Checking for Shipments..';
-    document.body.appendChild(s);
-    jQuery.get("/component/functions.cfc",
-        {
-            method : "getShipmentsHtml",
+    jQuery.ajax({
+          url: "/component/functions.cfc",
+          data : {
+            method : "getShipmentsByTransHtml",
             transaction_id : transaction_id
-        },
-        function (result) {
+         },
+        success: function (result) {
            $("##shipmentTable").html(result);
-            document.body.removeChild($('##ajaxStatus'));
-        }
+        },
+        dataType: "html"
+       }
      )};
 
 function loadShipment(shipmentId,form) {
-    var s=document.createElement('DIV');
-    s.id='ajaxStatus';
-    s.className='ajaxStatus';
-    s.innerHTML='Checking for Shipment...';
     $("##dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
-    document.body.appendChild(s);
     jQuery.getJSON("/component/functions.cfc",
         {
             method : "getShipments",
@@ -952,9 +944,7 @@ function loadShipment(shipmentId,form) {
             queryformat : 'column'
         },
         function (result) {
-            var sBox= $('##ajaxStatus');
             try{
-                sBox.innerHTML='Loading Shipments....';
                 if (result.ROWCOUNT == 1) {
                    var i = 0;
                    $(" ##" + form + " input[name=transaction_id]").val(result.DATA.TRANSACTION_ID[i]);
@@ -989,12 +979,10 @@ function loadShipment(shipmentId,form) {
                           $("##hazmat_fg option[value='1']").prop('selected',true); 
                    }
                 } else { 
-                    sBox.innerHTML='Other than 1 shipment found.';
                     $("##dialog-shipment").dialog( "close" );
                 }
             }
             catch(e){ alert(e); }
-            document.body.removeChild(sBox);
         }
     );
 }
@@ -1047,15 +1035,26 @@ function loadShipment(shipmentId,form) {
         $("##shipment_id").val("");
         $("##transaction_id").val("#transaction_id#");
         $("##shipped_date").val("#dateformat(Now(),'yyyy-mm-dd')#");
+        $("##contents").val("");
+        $("##no_of_packages").val("1");
+        $("##carriers_tracking_number").val("");
+        $("##package_weight").val("");
+        $("##packed_by_agent").val("");
+        $("##packed_by_agent_id").val("");
+        $("##shipment_remarks").val("");
+        $("##shipped_to_addr_id").val("");
+        $("##shipped_from_addr_id").val("");
+        $("##shipped_to_addr").text("");
+        $("##shipped_from_addr").text("");
+        $("##shipped_carrier_method").val("");
+        $("##foreign_shipment_fg option[value='1']").prop('selected',false);
+        $("##foreign_shipment_fg option[value='0']").prop('selected',true); 
+        $("##hazmat_fg option[value='1']").prop('selected',false);
+        $("##hazmat_fg option[value='0']").prop('selected',true); 
     }
 
     function saveShipment() { 
        var valid = true;
-       var s=document.createElement('DIV');
-       s.id='ajaxStatus';
-       s.className='ajaxStatus';
-       s.innerHTML='Saving Shipment...';
-       document.body.appendChild(s);
        $('##methodSaveShipmentInput').remove();
        $('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
           .attr('name', "method")
@@ -1077,9 +1076,6 @@ function loadShipment(shipmentId,form) {
            },
            fail: function (jqXHR,textStatus) {
                $("##shipmentFormStatus").innerHTML="Error Submitting Form: " +textStatus;
-           },
-           always: function() { 
-               document.body.removeChild($('##ajaxStatus'));
            }
        });
        return valid;
@@ -1109,6 +1105,7 @@ function loadShipment(shipmentId,form) {
     <fieldset>
 	<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
 	<input type="hidden" name="shipment_id" value="" id="shipment_id">
+	<input type="hidden" name="returnFormat" value="json" id="returnFormat">
 		<label for="shipped_carrier_method">Shipping Method</label>
 		<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
 			<option value=""></option>

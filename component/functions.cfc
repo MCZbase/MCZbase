@@ -1959,7 +1959,7 @@
    @return json query structure with STATUS = 0|1 and MESSAGE, status = 0 on a failure. 
  --->
 <cffunction name="saveShipment" returntype="query" access="remote">
-   <cfargument name="shipment_id" type="numeric" required="no">
+   <cfargument name="shipment_id" required="no">
    <cfargument name="transaction_id" type="numeric" required="yes">
    <cfargument name="packed_by_agent_id" type="numeric" required="no">
    <cfargument name="shipped_carrier_method" type="string" required="no"> 
@@ -1976,7 +1976,9 @@
    <cfargument name="shipped_from_addr_id" type="string" required="no">
    <cfset theResult=queryNew("status, message")>
    <cftry>
+      <cfset debug = shipment_id >
       <cfif NOT IsDefined("shipment_id") OR shipment_id EQ ""> 
+         <cfset debug = shipment_id & "Insert" >
          <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              insert into shipment (
                 transaction_id, packed_by_agent_id, shipped_carrier_method, carriers_tracking_number, shipped_date, package_weight, 
@@ -2005,12 +2007,13 @@
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
-                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">
-             }
+             )
          </cfquery>
       <cfelse>
+         <cfset debug = shipment_id & "Update" >
          <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              update shipment set 
                 packed_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#packed_by_agent_id#">, 
@@ -2022,7 +2025,7 @@
                    no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#" null="yes">,
                 </cfif>
                 <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
-                   insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">, 
+                   insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">,
                 </cfif>
                 hazmat_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">, 
                 shipment_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
@@ -2041,7 +2044,7 @@
 	<cfcatch>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#debug# #cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
 	</cfcatch>
     </cftry>
     <cfreturn theResult>
@@ -2096,9 +2099,8 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getShipmentsByTrans" returntype="query">
+<cffunction name="getShipmentsByTrans" returntype="query" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">
-    <cfargument name="asTable" type="string" required="no">
 	<cfset r=1>
 	<cftry>
 	    <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2110,20 +2112,6 @@
                   left join addr toaddr on shipment.shipped_from_addr_id = toaddr.addr_id
              where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
-           <cfif isDefined("asTable") AND asTable eq "true"> 
-              <cfset resulthtml = "<table> <tr> <th></th> <th>Ship Date</th> <th>Method</th> <th>Packages</th> <th>Tracking Number</th> <th>To</th> <th>From</th> </tr>">
-	      <cfloop query="theResult">
-                <!---  cfset resulthtml = retulthtml & "<tr> <td> <input type='button' style='margin-left: 30px;' value='Edit' class='lnkBtn' onClick=""$('##dialog-edit-shipment').dialog('open'); loadShipment(#shipment_id#,'editShipmentForm');""> </td> " --->
-		<cfset resulthtml = resulthtml & " <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td> ">
-		<cfset resulthtml = resulthtml & " <td>#shipped_carrier_method#</td> ">
-                <cfset resulthtml = resulthtml & " <td>#no_of_packages#</td> ">
-		<cfset resulthtml = resulthtml & " <td>#carriers_tracking_number#</td> ">
-		<cfset resulthtml = resulthtml & " <td>#toinst# #tocountry#</td> ">
-		<cfset resulthtml = resulthtml & " <td>#frominst# #fromcountry#</td> ">
-                <cfset resulthtml = retulthtml & "</tr>">
-	      </cfloop>
-            <cfset resulthtml = retulthtml & "</table>">
-        </cfif>
 		<cfif theResult.recordcount eq 0>
 	  	  <cfset theResult=queryNew("status, message")>
 		  <cfset t = queryaddrow(theResult,1)>
@@ -2144,6 +2132,41 @@
     </cfif>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getShipmentsByTransHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfset r=1>
+	<cftry>
+	    <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
+                   hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
+                   shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
+                   toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
+             from shipment
+                  left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+                  left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
+             where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+              <cfset resulthtml = "<table> <tr> <th></th> <th>Ship Date</th> <th>Method</th> <th>Packages</th> <th>Tracking Number</th> <th>To</th> <th>From</th> </tr>">
+	      <cfloop query="theResult">
+                <cfset resulthtml = resulthtml & "<tr> <td> <input type='button' style='margin-left: 30px;' value='Edit' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm'); ""> </td> " >
+		<cfset resulthtml = resulthtml & " <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td> ">
+		<cfset resulthtml = resulthtml & " <td>#shipped_carrier_method#</td> ">
+                <cfset resulthtml = resulthtml & " <td>#no_of_packages#</td> ">
+		<cfset resulthtml = resulthtml & " <td>#carriers_tracking_number#</td> ">
+		<cfset resulthtml = resulthtml & " <td>#toinst# #tocountry#</td> ">
+		<cfset resulthtml = resulthtml & " <td>#frominst# #fromcountry#</td> ">
+                <cfset resulthtml = resulthtml & "</tr>">
+	      </cfloop>
+            <cfset resulthtml = resulthtml & "</table>">
+	    <cfif theResult.recordcount eq 0>
+                  <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
+		</cfif>		
+	<cfcatch>
+		<cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
+	  </cfcatch>
+	</cftry>
+    <cfreturn resulthtml>
+</cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="saveSearch" access="remote">
