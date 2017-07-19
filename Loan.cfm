@@ -1046,68 +1046,16 @@ function opendialog(page,id,title) {
                     left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 	</cfquery>
-    <!--- TODO:  List existing shipments  --->
-    <div id="shipmentTable">
-    <table>
-       <tr>
-          <th></th>
-          <th>Ship Date</th>
-          <th>Method</th>
-          <th>Packages</th>
-          <th>Tracking Number</th>
-          <th>To</th>
-          <th>From</th>
-       </tr>
-    <cfloop query="ship">
-	   <cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           select permit.permit_id,
-             issuedBy.agent_name as IssuedByAgent,
-             issued_Date,
-             renewed_Date,
-             exp_Date,
-             permit_Num,
-             permit_Type
-           from
-             permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
-             left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-           where
-             permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> 
-       </cfquery>
-       <tr>
-          <td>
-             <input type="button" style="margin-left: 30px;" value="Edit" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');  ">
-          </td>
-          <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
-          <td>#shipped_carrier_method#</td>
-          <td>#no_of_packages#</td>
-          <td>#carriers_tracking_number#</td>
-          <td>#toinst# #tocountry#</td>
-          <td>#frominst# #fromcountry#</td>
-       </tr>
-       <tr>
-          <td></td>
-          <td colspan="6"><span id="permits_ship_#shipment_id#"><ul>
-          <cfloop query="shippermit">
-             <li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a> <a onClick="deletePermitFromShipment(#ship.shipment_id#,#permit_id#)">Remove</a></li>
-          </cfloop>
-          <li>
-          <div id="addPermit_#shipment_id#">
-             <input type="button" style="margin-left: 30px;" value="Add Permit" class="lnkBtn" onClick="opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "></div><div id="addPermitDlg_#shipment_id#"></div>
-          </li>
-          </ul></span></td>
-       </tr>
-    </cfloop>
-    </table>
-	<cfif ship.recordcount eq 0>
-         No shipments found for this transaction.
-	</cfif>		
-    </div> <!--- shippmentTable for ajax replace --->
+    <div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
     </div> <!--- Shipping block --->
 <script>
-    function setupNewShipment() { 
+
+$( document ).ready(loadShipments(#transaction_id#));
+
+    function setupNewShipment(transaction_id) { 
         $("##dialog-shipment").dialog( "option", "title", "Create New Shipment" );
         $("##shipment_id").val("");
-        $("##transaction_id").val("#transaction_id#");
+        $("##transaction_id").val(transaction_id);
         $("##shipped_date").val("#dateformat(Now(),'yyyy-mm-dd')#");
         $("##contents").val("");
         $("##no_of_packages").val("1");
@@ -1172,7 +1120,7 @@ function opendialog(page,id,title) {
       });
     });
 </script>
-    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment();">
+    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >

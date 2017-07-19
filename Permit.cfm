@@ -678,8 +678,8 @@ UPDATE permit SET
 	<cfif len(#PERMIT_REMARKS#) gt 0>
 	 	,PERMIT_REMARKS = '#PERMIT_REMARKS#'
     </cfif>
-	<cfif len(#restrictions_summary#) gt 0>
-	 	,restrictions_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restrictions_summary#">
+	<cfif len(#restriction_summary#) gt 0>
+	 	,restriction_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
     </cfif>
 	<cfif len(#benefits_summary#) gt 0>
 	 	,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
@@ -725,8 +725,8 @@ INSERT INTO permit (
 	 <cfif len(#PERMIT_REMARKS#) gt 0>
 	 	,PERMIT_REMARKS
 	 </cfif>
-	 <cfif len(#restrictions_summary#) gt 0>
-	 	,restrictions_summary
+	 <cfif len(#restriction_summary#) gt 0>
+	 	,restriction_summary
 	 </cfif>
 	 <cfif len(#benefits_summary#) gt 0>
 	 	,benefits_summary
@@ -757,8 +757,8 @@ VALUES (
 	<cfif len(#PERMIT_REMARKS#) gt 0>
 	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
 	 </cfif>
-	 <cfif len(#restrictions_summary#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restrictions_summary#">
+	 <cfif len(#restriction_summary#) gt 0>
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
      </cfif>
 	 <cfif len(#benefits_summary#) gt 0>
 	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
