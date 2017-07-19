@@ -2212,7 +2212,7 @@
                 <cfset resulthtml = resulthtml & "</tr>">
                 <cfset resulthtml = resulthtml & "<tr> <td></td> <td colspan='6'><span id='permits_ship_#shipment_id#'><ul>">
                 <cfloop query="shippermit">
-                   <cfset resulthtml = resulthtml & "<li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href='Permit.cfm?Action=editPermit&permit_id=#permit_id#' target='_blank'>Edit</a> <a onClick='deletePermitFromShipment(#theResult.shipment_id#,#permit_id#)'>Remove</a>  </li>">
+                   <cfset resulthtml = resulthtml & "<li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href='Permit.cfm?Action=editPermit&permit_id=#permit_id#' target='_blank'>Edit</a> <a onClick='deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#)'>Remove</a>  </li>">
                 </cfloop>
                 <cfset resulthtml = resulthtml & "<li><div id='addPermit_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Add Permit' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></li>">
                 <cfset resulthtml = resulthtml & "</ul></span></td></tr>" >
