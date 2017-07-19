@@ -934,6 +934,20 @@ function loadShipments(transaction_id) {
        }
      )};
 
+function loadShipmentFormPermits(shipment_id) {
+    jQuery.ajax({
+          url: "/component/functions.cfc",
+          data : {
+            method : "getPermitsForShipment",
+            shipment_id : shipment_id
+         },
+        success: function (result) {
+           $("##shipmentFormPermits").html(result);
+        },
+        dataType: "html"
+       }
+     )};
+
 function loadShipment(shipmentId,form) {
     $("##dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
     jQuery.getJSON("/component/functions.cfc",
@@ -981,11 +995,14 @@ function loadShipment(shipmentId,form) {
                 } else { 
                     $("##dialog-shipment").dialog( "close" );
                 }
+                loadShipmentFormPermits(shipment_id);
             }
             catch(e){ alert(e); }
         }
     );
-}
+};
+
+
 </script>
 
 	<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1011,8 +1028,21 @@ function loadShipment(shipmentId,form) {
           <th>From</th>
        </tr>
     <cfloop query="ship">
+	   <cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select permit.permit_id,
+             issuedBy.agent_name as IssuedByAgent,
+             issued_Date,
+             renewed_Date,
+             exp_Date,
+             permit_Num,
+             permit_Type
+           from
+             permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
+             left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+           where
+             permit_shippment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> 
+       </cfquery>
        <tr>
-          <!--- TODO:  Edit a shipment  --->
           <td>
              <input type="button" style="margin-left: 30px;" value="Edit" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');  ">
           </td>
@@ -1023,10 +1053,21 @@ function loadShipment(shipmentId,form) {
           <td>#toinst# #tocountry#</td>
           <td>#frominst# #fromcountry#</td>
        </tr>
+       <tr>
+          <td></td>
+          <td colspan="6"><span id="permits_ship_#shipmentid#">
+          <cfloop query="shippermit">
+             #permit_type# #permit_Num#<br>
+          </cfloop>
+          </span></td>
+       </tr>
     </cfloop>
     </table>
+	<cfif ship.recordcount eq 0>
+         No shipments found for this transaction.
+	</cfif>		
     </div> <!--- shippmentTable for ajax replace --->
-    </div> <!--- Shippign block --->
+    </div> <!--- Shipping block --->
     <!--- TODO:  Add a shipment  --->
     <!--- TODO: Implement ajax add shipment save --->
 <script>
@@ -1158,6 +1199,7 @@ function loadShipment(shipmentId,form) {
 
     </fieldset>
   </form>
+  <div id="shipmentFormPermits"></div>
   <div id="shipmentFormStatus"></div>
 </div>
 

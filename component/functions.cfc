@@ -2050,7 +2050,7 @@
     <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getPermitsForShipment" returntype="text" access="remote">
+<cffunction name="getPermitsForShipment" returntype="string" access="remote" returnformat="plain">
    <cfargument name="shipment_id" type="string" required="yes">
    <cfset result="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2061,12 +2061,12 @@
    </cfquery>
    <cfif query.recordcount gt 0>
        <cfset result="<ul>">
-       <cfloop query="getAccnPermits">
+       <cfloop query="query">
           <cfset result = result & "<li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')#</li>">
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
-   <cfreturn result>;
+   <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getShipments" returntype="query" access="remote">
@@ -2148,6 +2148,22 @@
 		</cfquery>
               <cfset resulthtml = "<table> <tr> <th></th> <th>Ship Date</th> <th>Method</th> <th>Packages</th> <th>Tracking Number</th> <th>To</th> <th>From</th> </tr>">
 	      <cfloop query="theResult">
+       <cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select permit.permit_id,
+             issuedBy.agent_name as IssuedByAgent,
+             issued_Date,
+             renewed_Date,
+             exp_Date,
+             permit_Num,
+             permit_Type
+           from
+             permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
+             left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+           where
+             permit_shippment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+       </cfquery>
+
+
                 <cfset resulthtml = resulthtml & "<tr> <td> <input type='button' style='margin-left: 30px;' value='Edit' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm'); ""> </td> " >
 		<cfset resulthtml = resulthtml & " <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td> ">
 		<cfset resulthtml = resulthtml & " <td>#shipped_carrier_method#</td> ">
@@ -2156,11 +2172,16 @@
 		<cfset resulthtml = resulthtml & " <td>#toinst# #tocountry#</td> ">
 		<cfset resulthtml = resulthtml & " <td>#frominst# #fromcountry#</td> ">
                 <cfset resulthtml = resulthtml & "</tr>">
-	      </cfloop>
+                <cfset resulthtml = resulthtml & "<tr> <td></td> <td colspan='6'><span id='permits_ship_#shipmentid#'>">
+                <cfloop query="shippermit">
+                   <cfset resulthtml = resulthtml & " #permit_type# #permit_Num#<br>">
+                </cfloop>
+                <cfset resulthtml = resulthtml & "</span></td></tr>" >
+	        </cfloop>
             <cfset resulthtml = resulthtml & "</table>">
-	    <cfif theResult.recordcount eq 0>
+	        <cfif theResult.recordcount eq 0>
                   <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
-		</cfif>		
+		    </cfif>		
 	<cfcatch>
 		<cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
 	  </cfcatch>
