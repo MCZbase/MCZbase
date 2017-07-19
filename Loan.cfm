@@ -953,7 +953,7 @@ function deletePermitFromShipment(shipmentId,permitId) {
         {
             method : "removePermitFromShipment",
             shipment_id : shipmentId,
-            permit_id : shipmentId,
+            permit_id : permitId,
             returnformat : "json",
             queryformat : 'column'
         },
@@ -1088,7 +1088,7 @@ function opendialog(page,id,title) {
           <td></td>
           <td colspan="6"><span id="permits_ship_#shipment_id#"><ul>
           <cfloop query="shippermit">
-             <li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a> <a onClick="deletePermitFromShipment(#shipment_id#,#permit_id#)">Remove</a></li>
+             <li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a> <a onClick="deletePermitFromShipment(#ship.shipment_id#,#permit_id#)">Remove</a></li>
           </cfloop>
           <li>
           <div id="addPermit_#shipment_id#">
