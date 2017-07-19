@@ -995,7 +995,7 @@ function loadShipment(shipmentId,form) {
                 } else { 
                     $("##dialog-shipment").dialog( "close" );
                 }
-                loadShipmentFormPermits(shipment_id);
+                loadShipmentFormPermits(shipmentId);
             }
             catch(e){ alert(e); }
         }
@@ -1040,7 +1040,7 @@ function loadShipment(shipmentId,form) {
              permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
              left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
            where
-             permit_shippment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> 
+             permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> 
        </cfquery>
        <tr>
           <td>
@@ -1055,11 +1055,12 @@ function loadShipment(shipmentId,form) {
        </tr>
        <tr>
           <td></td>
-          <td colspan="6"><span id="permits_ship_#shipmentid#">
+          <td colspan="6"><span id="permits_ship_#shipment_id#"><ul>
           <cfloop query="shippermit">
-             #permit_type# #permit_Num#<br>
+             <li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
           </cfloop>
-          </span></td>
+          <li>Add Permit</li>
+          </ul></span></td>
        </tr>
     </cfloop>
     </table>
@@ -1068,8 +1069,6 @@ function loadShipment(shipmentId,form) {
 	</cfif>		
     </div> <!--- shippmentTable for ajax replace --->
     </div> <!--- Shipping block --->
-    <!--- TODO:  Add a shipment  --->
-    <!--- TODO: Implement ajax add shipment save --->
 <script>
     function setupNewShipment() { 
         $("##dialog-shipment").dialog( "option", "title", "Create New Shipment" );
@@ -1278,15 +1277,17 @@ function loadShipment(shipmentId,form) {
 	<cfloop query="getAccessions">
             <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #dateformat(received_date,'yyyy-mm-dd')#</li>
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct permit_num, permit_type, issued_date, permit.permit_id 
+		select distinct permit_num, permit_type, issued_date, permit.permit_id,
+                    issuedBy.agent_name as IssuedByAgent
 		from permit_trans left join permit on permit_trans.permit_id = permit.permit_id
+                     left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
 		where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
                 order by permit_type, issued_date
             </cfquery>
              <cfif getAccnPermits.recordcount gt 0>
 	      <ul>
               <cfloop query="getAccnPermits">
-                 <li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')#</li>
+                 <li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
               </cfloop>
               </ul>
 	    </cfif>

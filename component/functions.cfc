@@ -2054,15 +2054,17 @@
    <cfargument name="shipment_id" type="string" required="yes">
    <cfset result="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select distinct permit_num, permit_type, issued_date, permit.permit_id
-        from permit_shhipment left join permit on permit_shipment.permit_id = permit.permit_id
+        select distinct permit_num, permit_type, issued_date, permit.permit_id,
+             issuedBy.agent_name as IssuedByAgent
+        from permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
+             left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
         where permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shipment_id#>
         order by permit_type, issued_date
    </cfquery>
    <cfif query.recordcount gt 0>
        <cfset result="<ul>">
        <cfloop query="query">
-          <cfset result = result & "<li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')#</li>">
+          <cfset result = result & "<li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</li>">
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
@@ -2160,7 +2162,7 @@
              permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
              left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
            where
-             permit_shippment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+             permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
        </cfquery>
 
 
@@ -2172,11 +2174,12 @@
 		<cfset resulthtml = resulthtml & " <td>#toinst# #tocountry#</td> ">
 		<cfset resulthtml = resulthtml & " <td>#frominst# #fromcountry#</td> ">
                 <cfset resulthtml = resulthtml & "</tr>">
-                <cfset resulthtml = resulthtml & "<tr> <td></td> <td colspan='6'><span id='permits_ship_#shipmentid#'>">
+                <cfset resulthtml = resulthtml & "<tr> <td></td> <td colspan='6'><span id='permits_ship_#shipment_id#'><ul>">
                 <cfloop query="shippermit">
-                   <cfset resulthtml = resulthtml & " #permit_type# #permit_Num#<br>">
+                   <cfset resulthtml = resulthtml & " #permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href='Permit.cfm?Action=editPermit&permit_id=#permit_id#' target='_blank'>Edit</a> </li>">
                 </cfloop>
-                <cfset resulthtml = resulthtml & "</span></td></tr>" >
+                <cfset resulthtml = resulthtml & "<li>Add Permit</li>" >
+                <cfset resulthtml = resulthtml & "</ul></span></td></tr>" >
 	        </cfloop>
             <cfset resulthtml = resulthtml & "</table>">
 	        <cfif theResult.recordcount eq 0>
