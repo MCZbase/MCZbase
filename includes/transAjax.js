@@ -118,7 +118,7 @@ function loadShipment(shipmentId,form) {
         $("#hazmat_fg option[value='0']").prop('selected',true); 
     }
 
-    function saveShipment() { 
+    function saveShipment(transactionId) { 
        var valid = true;
        $('#methodSaveShipmentInput').remove();
        $('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
@@ -135,7 +135,7 @@ function loadShipment(shipmentId,form) {
                alert(result.message);
                $("#shipmentFormStatus").innerHTML=result.message;
              } else { 
-               loadShipments(#transaction_id#);
+               loadShipments(transactionId);
                $("#dialog-shipment").dialog( "close" );
              }
            },

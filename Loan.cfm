@@ -964,7 +964,7 @@ $( document ).ready(loadShipments(#transaction_id#));
         modal: true,
         width: 640,
         buttons: {
-          "Save": saveShipment,
+          "Save": function() {  saveShipment(#transaction_id#); } ,
           Cancel: function() {
             $(this).dialog( "close" );
           }
