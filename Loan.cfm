@@ -1002,6 +1002,22 @@ function loadShipment(shipmentId,form) {
     );
 };
 
+function opendialog(page,id,title) {
+  var $dialog = $(id)
+  .html('<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
+  .dialog({
+    title: title,
+    autoOpen: false,
+    dialogClass: 'dialog_fixed,ui-widget-header',
+    modal: true,
+    height: 500,
+    minWidth: 400,
+    minHeight: 400,
+    draggable:true,
+    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("close"); } }
+  });
+  $dialog.dialog('open');
+};
 
 </script>
 
@@ -1059,7 +1075,14 @@ function loadShipment(shipmentId,form) {
           <cfloop query="shippermit">
              <li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
           </cfloop>
-          <li>Add Permit</li>
+          <li>
+          <div id="addPermit_#shipment_id#">Add Permit</div><div id="addPermitDlg_#shipment_id#"></div>
+            <script>
+              $("##addPermit_#shipment_id#").click(function() {
+                   opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#',"##addPermitDlg_#shipment_id#",'Pick Permit for Shipment');
+               });
+             </script>
+          </li>
           </ul></span></td>
        </tr>
     </cfloop>
