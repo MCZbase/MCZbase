@@ -1011,6 +1011,7 @@ function opendialog(page,id,title) {
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
     height: 500,
+    width: 800,
     minWidth: 400,
     minHeight: 400,
     draggable:true,
@@ -1076,12 +1077,8 @@ function opendialog(page,id,title) {
              <li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
           </cfloop>
           <li>
-          <div id="addPermit_#shipment_id#">Add Permit</div><div id="addPermitDlg_#shipment_id#"></div>
-            <script>
-              $("##addPermit_#shipment_id#").click(function() {
-                   opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#',"##addPermitDlg_#shipment_id#",'Pick Permit for Shipment');
-               });
-             </script>
+          <div id="addPermit_#shipment_id#">
+             <input type="button" style="margin-left: 30px;" value="Add Permit" class="lnkBtn" onClick="opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "></div><div id="addPermitDlg_#shipment_id#"></div>
           </li>
           </ul></span></td>
        </tr>

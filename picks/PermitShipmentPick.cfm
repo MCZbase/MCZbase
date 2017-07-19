@@ -6,9 +6,9 @@
 <cfoutput>
 
 Search for permits. Any part of dates and names accepted, case isn't important.<br>
-<cfform name="findPermit" action="PermitPick.cfm" method="post">
+<cfform name="findPermit" action="PermitShipmentPick.cfm" method="post">
 	<input type="hidden" name="Action" value="search">
-	<input type="hidden" name="shipmnent_id" value="#shipmnent_id#">
+	<input type="hidden" name="shipment_id" value="#shipment_id#">
 	<table>
 		<tr>
 			<td>Issued By</td>
@@ -129,8 +129,8 @@ where
 <cfset i=1>
 <cfoutput query="matchPermit" group="permit_id">
 <div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
-	<form action="PermitPick.cfm" method="post" name="save">
-	<input type="hidden" value="#shipmnent_id#" name="shipmnent_id">
+	<form action="PermitShipmentPick.cfm" method="post" name="save">
+	<input type="hidden" value="#shipment_id#" name="shipment_id">
 	<input type="hidden" name="permit_id" value="#permit_id#">
 	<input type="hidden" name="Action" value="addThisOne">
 	Permit Number #permit_Num# (#permit_Type#) issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,"yyyy-mm-dd")# <cfif len(#renewed_Date#) gt 0> (renewed #dateformat(renewed_Date,"yyyy-mm-dd")#)</cfif>. Expires #dateformat(exp_Date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> (ID## #permit_id#)
@@ -144,14 +144,14 @@ where
 	</cfif>
 <cfif #Action# is "AddThisOne">
 	<cfoutput>
-		<cfif not (len(#shipmnent_id#) gt 0 and len(#permit_id#) gt 0)>
+		<cfif not (len(#shipment_id#) gt 0 and len(#permit_id#) gt 0)>
 			something bad happened <cfabort>
 		</cfif>
 		<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			INSERT INTO permit_shipment (permit_id, shipmnent_id) VALUES (#permit_id#, #shipmnent_id#)
+			INSERT INTO permit_shipment (permit_id, shipment_id) VALUES (#permit_id#, #shipment_id#)
 		</cfquery>
 		
-		Added permit #permit_id# to shipment #shipmnent_id#. 
+		Added permit #permit_id# to shipment #shipment_id#. 
 		<br>Search to add another permit to this accession or click OK to close this dialog.
 	</cfoutput>	
 	
