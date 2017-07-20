@@ -6,9 +6,11 @@
 <cfoutput>
    <cfif action is "nothing">
       Search for permits. Any part of dates and names accepted, case isn't important.<br>
-      <cfform name="findPermit" action="PermitPick.cfm" method="post">
+      <cfform name="findPermit" action="findPermit.cfm" method="post">
               <input type="hidden" name="Action" value="search">
-              <input type="hidden" name="transaction_id" value="#transaction_id#">
+              <input type="hidden" name="PermitNumFld" value="#PermitNumFld#">
+              <input type="hidden" name="PermitIdFld" value="#PermitIdFld#">
+              <input type="hidden" name="formName" value="#formName#">
               <table>
                       <tr>
                               <td>Issued By</td>
@@ -59,6 +61,7 @@
               </table>
       </cfform>
    </cfif>
+</cfoutput>
    <cfif action is "search">
 
 <cfset sql = "select permit.permit_id,
@@ -124,24 +127,24 @@ where
 <cfoutput query="matchPermit" group="permit_id">
 
 <cfif #matchPermit.recordcount# is 0>
-    Nothing matched. <a href="findOermit.cfm?formName=#formName#&PermitNumFld=#PermitNumFld#&PermitIdFld=#PermitIdFld#">Try again.</a>
-<cfelse>
-<cfif #matchPermit.recordcount# is 1>
+    Nothing matched. <a href="findPermit.cfm?formName=#formName#&PermitNumFld=#PermitNumFld#&PermitIdFld=#PermitIdFld#">Try again.</a>
+<cfelseif #matchPermit.recordcount# is 1>
     <script>
-       opener.document.#formName#.#PermitNumFld#.value='#collection# #accn_number#';
-       opener.document.#formName#.#PermitIdFld#.value='#transaction_id#';
+       opener.document.#formName#.#PermitNumFld#.value='#permit_Num# (#permit_Type#)';
+       opener.document.#formName#.#PermitIdFld#.value='#permit_id#';
        opener.document.#formName#.#PermitNumFld#.style.background='##8BFEB9';
        self.close();
    </script>
 <cfelse>
    <tr>
    <td>
-      <a onClick="javascript: opener.document.#formName#.#PermitNumFld#.value='#collection# #accn_number#';
-          opener.document.#formName#.#PermitIdFld#.value='#transaction_id#';self.close();">Permit Number #permit_Num# (#permit_Type#)</a> 
+      <a onClick="javascript: opener.document.#formName#.#PermitNumFld#.value='#permit_Num# (#permit_Type#)';
+          opener.document.#formName#.#PermitIdFld#.value='#permit_id#';self.close();">Permit Number #permit_Num# (#permit_Type#)</a> 
       issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,"yyyy-mm-dd")# <cfif len(#renewed_Date#) gt 0> (renewed #dateformat(renewed_Date,"yyyy-mm-dd")#)</cfif>. Expires #dateformat(exp_Date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> (ID## #permit_id#)
    </td>
    </tr>
 </cfif>
 </cfoutput>
 
+</cfif>
 <cfinclude template="../includes/_pickFooter.cfm">

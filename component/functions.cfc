@@ -1948,6 +1948,9 @@
           <cfset result = result & "<li><a href='#media_uri#'><img src='#preview_uri#'></a></li>" >
        </cfloop>
        <cfset result= result & "</ul>">
+   <cfelse>
+      <cfset result = result & "<span class='likeLink' onclick='addMediaHere('#permit_id#','#permit_id#');'>Create Media">
+      <cfset result = result & "</span>&nbsp;~&nbsp;<a href='/MediaSearch.cfm' target='_blank'>Link Media</a>">
    </cfif>
    <cfreturn result>
 </cffunction>
