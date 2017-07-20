@@ -302,6 +302,8 @@ function pickedRelationship (id){
 		getPublication(dispInputName,idInputName,'',formName);
 	} else if (relatedTable=='accn'){
 		getAccn(dispInputName,idInputName,formName);
+	} else if (relatedTable=='permit'){
+		getPermit(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 	} else if (relatedTable=='delete'){
