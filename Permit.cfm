@@ -645,6 +645,56 @@ where
      jQuery(document).ready(loadPermitMedia(#permit_id#));
      jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
      </script>
+     <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join accn on trans.transaction_id = accn.transaction_id
+  where trans.transaction_type = 'accn'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join loan on trans.transaction_id = loan.transaction_id
+  where trans.transaction_type = 'loan'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join deaccession on trans.transaction_id = deaccession.transaction_id
+  where trans.transaction_type = 'deacc'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join borrow on trans.transaction_id = borrow.transaction_id
+  where trans.transaction_type = 'borrow'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix
+from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join trans on shipment.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join loan on trans.transaction_id = loan.transaction_id
+  where trans.transaction_type = 'loan'
+        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix
+from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join trans on shipment.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join accn on trans.transaction_id = accn.transaction_id
+  where trans.transaction_type = 'accn'
+        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+     </cfquery>
+     <div id="permitsusedin"><h3>Permit used in</h3><ul>
+        <cfloop query="permituse">
+           <li>#transaction_type# #ontype# #type# #tnumber# #trans_date# #guid_prefix#</li>
+        </cfloop>
+     </ul></div>
 </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->
