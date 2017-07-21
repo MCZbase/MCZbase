@@ -113,7 +113,7 @@ function loadShipment(shipmentId,form) {
         $("#shipment_id").val("");
         $("#transaction_id").val(transaction_id);
         var date = new Date();
-        var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" ("0" + date.getDate()).slice(-2);
+        var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
         $("#shipped_date").val(datestring);
         $("#contents").val("");
         $("#no_of_packages").val("1");
@@ -160,3 +160,25 @@ function loadShipment(shipmentId,form) {
        });
        return valid;
     };
+
+// Confirm dialog for some action, takes the function to fire on pressing OK as a parameter.
+function confirmAction(dialogText, dialogTitle, okFunction) {
+  $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+    modal: true,
+    resizable: false,
+    draggable: true,
+    width: 'auto',
+    minHeight: 80,
+    title: dialogTitle,
+    buttons: {
+      OK: function () {
+        setTimeout(okFunction, 30);
+        $(this).dialog('destroy');
+      },
+      Cancel: function () {
+        $(this).dialog('destroy');
+      }
+    }
+  });
+};
+

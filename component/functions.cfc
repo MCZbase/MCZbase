@@ -2272,7 +2272,7 @@
                 </cfloop>
                 <cfset resulthtml = resulthtml & "<li><div id='addPermit_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Add Permit' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></li>">
 		<cfif shippermit.recordcount eq 0>
-                    <cfset resulthtml = resulthtml & "<li><div id='removeShipment_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Delete Shipment' class='lnkBtn' onClick="" deleteShipment(#shipment_id#,#transaction_id#); "" ></div></li>">
+                    <cfset resulthtml = resulthtml & "<li><div id='removeShipment_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Delete Shipment' class='lnkBtn' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div></li>">
                 </cfif>
                 <cfset resulthtml = resulthtml & "</ul></span></td></tr>" >
 	        </cfloop>
