@@ -133,7 +133,10 @@ function loadShipment(shipmentId,form) {
         $("#hazmat_fg option[value='0']").prop('selected',true); 
     }
 
-    function saveShipment(transactionId) { 
+// Given a form with id saveShipment (with form fields matching shipment fields), invoke a backing
+// function to save that shipment.
+// Assumes an element with id shipmentFormStatus exists to present feedback.
+function saveShipment(transactionId) { 
        var valid = true;
        $('#methodSaveShipmentInput').remove();
        $('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
@@ -172,12 +175,15 @@ function confirmAction(dialogText, dialogTitle, okFunction) {
     title: dialogTitle,
     buttons: {
       OK: function () {
-        setTimeout(okFunction, 30);
-        $(this).dialog('destroy');
+         setTimeout(okFunction, 30);
+         $(this).dialog('destroy');
       },
       Cancel: function () {
-        $(this).dialog('destroy');
+         $(this).dialog('destroy');
       }
+    },
+    close: function() {
+       $(this).dialog( "destroy" );
     }
   });
 };
