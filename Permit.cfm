@@ -638,11 +638,6 @@ where
      function removeMediaDiv() { };
 
     function loadPermitMedia(permit_id) {
-        var s=document.createElement('DIV');
-        s.id='ajaxStatus';
-        s.className='ajaxStatus';
-        s.innerHTML='Checking for Media..';
-        document.body.appendChild(s);
         jQuery.get("/component/functions.cfc",
         {
             method : "getPermitMediaHtml",
@@ -650,9 +645,10 @@ where
         },
         function (result) {
            $("##copyofpermit").html(result);
-            document.body.removeChild($('##ajaxStatus'));
         }
-     )};
+        );
+    };
+
     function loadPermitRelatedMedia(permit_id) {
         jQuery.get("/component/functions.cfc",
         {

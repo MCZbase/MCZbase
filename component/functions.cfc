@@ -1,4 +1,5 @@
 <cfcomponent>
+<cfinclude template = "../includes/functionLib.cfm">
 <!------------------------------------------------------------------->
 <cffunction name="getExternalStatus" access="remote">
 	<cfargument name="uri" type="string" required="yes">
@@ -1935,7 +1936,7 @@
    </cfif>
    <cfset result="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type,
+        select distinct media.media_id as media_id, preview_uri, media.media_uri, media.mime_type, media.media_type as media_type,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia
          from media_relations left join media on media_relations.media_id = media.media_id
          where media_relations.media_relationship = <cfqueryparam value="#relation#" CFSQLType="CF_SQL_VARCHAR">
@@ -1945,8 +1946,9 @@
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#preview_uri#'></a></li>" >
-       </cfloop>
+          <cfset puri=getMediaPreview(preview_uri,media_type) >
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#'></a> #mime_type# #media_type# <a href='/media/#media_id#' target='_blank'>Media Details</a> </li>" >
+       </cfloop> 
        <cfset result= result & "</ul>">
    <cfelse>
       <cfset result = result & "<span class='likeLink' onclick='addMediaHere('#permit_id#','#permit_id#');'>Create Media">
