@@ -1980,6 +1980,11 @@
    <cfset theResult=queryNew("status, message")>
    <cftry>
       <cfset debug = shipment_id >
+      <!---  Try to obtain a numeric value for no_of_packages, if this fails, set no_of_packages to empty string to not include --->
+      <cfset noofpackages = val(#no_of_packages#) >
+      <cfif noofpackages EQ 0>
+          <cfset no_of_packages = "">
+      </cfif>
       <cfif NOT IsDefined("shipment_id") OR shipment_id EQ ""> 
          <cfset debug = shipment_id & "Insert" >
          <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2002,8 +2007,8 @@
                 <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">, 
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">, 
                 <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
-                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#" null="yes">,
-                </cfif>
+                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#noofpackages#">,
+                </cfif> 
                 <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
                    <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#insured_for_insured_value#" null="yes">, 
                 </cfif>
@@ -2025,7 +2030,9 @@
                 shipped_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">, 
                 package_weight = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">, 
                 <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
-                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#no_of_packages#" null="yes">,
+                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#noofpackages#" >,
+                <cfelse>
+                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_NULL" null="yes" value="" >,
                 </cfif>
                 <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
                    insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">,

@@ -99,7 +99,9 @@ function loadShipment(shipmentId,form) {
         $("#dialog-shipment").dialog( "option", "title", "Create New Shipment" );
         $("#shipment_id").val("");
         $("#transaction_id").val(transaction_id);
-        $("#shipped_date").val("#dateformat(Now(),'yyyy-mm-dd')#");
+        var date = new Date();
+        var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" ("0" + date.getDate()).slice(-2);
+        $("#shipped_date").val(datestring);
         $("#contents").val("");
         $("#no_of_packages").val("1");
         $("#carriers_tracking_number").val("");
