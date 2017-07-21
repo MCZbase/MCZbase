@@ -2086,7 +2086,7 @@
         <cfargument name="shipment_id" type="string" required="yes">
         <cfset r=1>
         <cftry>
-            <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+            <cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
              delete from permit_shipment 
              where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
                and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
@@ -2115,6 +2115,49 @@
     <cfelse>
             <cfreturn theResult>
     </cfif>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="removeShipment" returntype="query" access="remote">
+        <cfargument name="shipment_id" type="string" required="yes">
+        <cfargument name="transaction_id" type="string" required="yes">
+        <cfset r=1>
+        <cftry>
+            <cfquery name="countPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+             select count(*) as ct from permit_shipment
+             where shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+            </cfquery>
+            <cfif countPermits.ct EQ 0 > 
+               <cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+                delete from shipment
+                where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+                 and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+               </cfquery>
+                <cfif deleteResult.recordcount eq 0>
+                  <cfset theResult=queryNew("status, message")>
+                  <cfset t = queryaddrow(theResult,1)>
+                  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "No records deleted. #shipment_id# #deleteResult.sql#", 1)>
+                </cfif>
+                <cfif deleteResult.recordcount eq 1>
+                  <cfset theResult=queryNew("status, message")>
+                  <cfset t = queryaddrow(theResult,1)>
+                  <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+                </cfif>
+            <cfelse>
+                <cfset theResult=queryNew("status, message")>
+                <cfset t = queryaddrow(theResult,1)>
+                <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+                <cfset t = QuerySetCell(theResult, "message", "Can't delete shipment with attached permits.", 1)>
+            </cfif>
+        <cfcatch>
+          <cfset theResult=queryNew("status, message")>
+                <cfset t = queryaddrow(theResult,1)>
+                <cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+                <cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+          </cfcatch>
+        </cftry>
+        <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getShipments" returntype="query" access="remote">
@@ -2180,6 +2223,9 @@
     </cfif>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<!---  Obtain the list of shipments and their permits for a transaction formatted in html for display on a transaction page --->
+<!---  @param transaction_id  the transaction for which to obtain a list of shipments and their permits.  --->
+<!---  @return html list of shipments and permits, including editing controls for adding/editing/removing shipments and permits. --->
 <cffunction name="getShipmentsByTransHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfset r=1>
@@ -2225,6 +2271,9 @@
                    <cfset resulthtml = resulthtml & "<li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href='Permit.cfm?Action=editPermit&permit_id=#permit_id#' target='_blank'>Edit</a> <a onClick='deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#)'>Remove</a>  </li>">
                 </cfloop>
                 <cfset resulthtml = resulthtml & "<li><div id='addPermit_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Add Permit' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></li>">
+		<cfif shippermit.recordcount eq 0>
+                    <cfset resulthtml = resulthtml & "<li><div id='removeShipment_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Delete Shipment' class='lnkBtn' onClick="" deleteShipment(#shipment_id#,#transaction_id#); "" ></div></li>">
+                </cfif>
                 <cfset resulthtml = resulthtml & "</ul></span></td></tr>" >
 	        </cfloop>
             <cfset resulthtml = resulthtml & "</table>">

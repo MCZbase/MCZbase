@@ -40,6 +40,19 @@ function deletePermitFromShipment(shipmentId,permitId,transactionId) {
            loadShipments(transactionId);
         }
       )};
+function deleteShipment(shipmentId,transactionId) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "removeShipment",
+            shipment_id : shipmentId,
+            transaction_id : transactionId,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           loadShipments(transactionId);
+        }
+      )};
 
 function loadShipment(shipmentId,form) {
     $("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
