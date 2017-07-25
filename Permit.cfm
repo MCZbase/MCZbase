@@ -628,9 +628,9 @@ function opendialog(page,id,title) {
 		</tr>
 	</table>
 </cfform>
-    <!---  TODO: Show/add media copy of permit --->
+    <!---  TODO: Show/add media copy of permit  (shows permit) --->
     <div id="copyofpermit"></div>
-    <!---  TODO: list/add media copy of associated documents --->
+    <!---  TODO: list/add media copy of associated documents (document for permit) --->
     <div id="associateddocuments"></div>
 
     <script>

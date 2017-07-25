@@ -1928,7 +1928,7 @@
    <cfargument name="permit_id" type="string" required="yes">
    <cfargument name="correspondence" type="string" required="no">
    <cfif isdefined("correspondence") and len(#correspondence#) gt 0>
-       <cfset relation = "shows permit docs">
+       <cfset relation = "document for permit">
        <cfset heading = "Additional Documents">
    <cfelse>
        <cfset relation = "shows permit">
@@ -2672,7 +2672,7 @@
 	<cfset theResult=queryNew("media_id,collection_object_id,media_relationship")>
 	<cfset r=1>
 	<cfif isdefined("correspondence") and len(#correspondence#) gt 0>
-       <cfset relation = "shows permit docs">
+       <cfset relation = "document for permit">
     <cfelse>
        <cfset relation = "shows permit">
     </cfif>
