@@ -146,7 +146,6 @@ fieldset {border: none;}
 					</td>
 				</tr>
 				<tr>
-				<tr>
 					<td>
 						<label for="deacc_type">Deaccession Type</label>
 						
@@ -160,9 +159,8 @@ fieldset {border: none;}
 					<td>
 						<label for="deacc_status">Deaccession Status</label>
 						<select name="deacc_status" id="deacc_status" class="reqdClr">
-							<cfloop query="ctDeaccStatus">
-								<option value="#ctDeaccStatus.deacc_status#">
-							</cfloop>
+								<option value="in process">in process</option>
+                                <option value="completed">completed</option>
 						</select>
 					</td>
 				</tr>
@@ -693,10 +691,10 @@ fieldset {border: none;}
 						,'#DEACC_REASON#'
 					</cfif>
                   <cfif len(#value#) gt 0>
-						,VALUE
+						,'#VALUE#'
 					</cfif>
                     <cfif len(#method#) gt 0>
-						,METHOD
+						,'#METHOD#'
                 </cfif>
 					)
 			</cfquery>
