@@ -596,6 +596,7 @@
 				INSURED_FOR_INSURED_VALUE,
 				SHIPMENT_REMARKS,
 				CONTENTS,
+                NO_OF_PACKAGES,
 				FOREIGN_SHIPMENT_FG,
 				SHIPPED_TO_ADDR_ID,
 				ship_to.formatted_addr shipped_to_addr,
@@ -658,6 +659,8 @@
 			<input type="text" name="shipment_remarks" id="shipment_remarks">
 			<label for="contents">Contents</label>
 			<input type="text" name="contents" id="contents" size="60">
+            <label for="no_of_packages">No. of Packages</label>
+			<input type="text" name="no_of_packages" id="no_of_packages">
 			<label for="foreign_shipment_fg">Foreign shipment?</label>
 			<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
 				<option value="0">no</option>
@@ -718,6 +721,8 @@
 				<input type="text" value="#shipment_remarks#" name="shipment_remarks" id="shipment_remarks">
 				<label for="contents">Contents</label>
 				<input type="text" value="#contents#" name="contents" id="contents" size="60">
+            <label for="no_of_packages">No. of Packages</label>
+				<input type="text" value="#no_of_packages#" name="no_of_packages" id="no_of_packages">
 				<label for="foreign_shipment_fg">Foreign shipment?</label>
 				<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
 					<option <cfif foreign_shipment_fg is 0> selected="selected" </cfif>value="0">no</option>
@@ -832,6 +837,7 @@
 				</cfif>
 				,SHIPMENT_REMARKS='#SHIPMENT_REMARKS#'
 				,CONTENTS='#CONTENTS#'
+                ,NO_OF_PACKAGES='#NO_OF_PACKAGES#'
 				,FOREIGN_SHIPMENT_FG=#FOREIGN_SHIPMENT_FG#
 				,SHIPPED_TO_ADDR_ID=#SHIPPED_TO_ADDR_ID#
 				,SHIPPED_FROM_ADDR_ID=#SHIPPED_FROM_ADDR_ID#
@@ -856,6 +862,7 @@
 					,INSURED_FOR_INSURED_VALUE
 					,SHIPMENT_REMARKS
 					,CONTENTS
+                    ,NO_OF_PACKAGES
 					,FOREIGN_SHIPMENT_FG
 					,SHIPPED_TO_ADDR_ID
 					,SHIPPED_FROM_ADDR_ID
@@ -874,6 +881,7 @@
 					</cfif>
 					,'#SHIPMENT_REMARKS#'
 					,'#CONTENTS#'
+                    ,'#NO_OF_PACKAGES#'
 					,#FOREIGN_SHIPMENT_FG#
 					,#SHIPPED_TO_ADDR_ID#
 					,#SHIPPED_FROM_ADDR_ID#
