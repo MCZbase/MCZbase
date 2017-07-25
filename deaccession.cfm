@@ -358,7 +358,7 @@ fieldset {border: none;}
 		</cfquery>
 		<table id="deaccAgents">
 			<tr style="height: 20px;">
-				<th>Agent Name <span class="linkButton" onclick="addTransAgentDeacc()">Add Row</span></th>
+				<th>Agent Name <span class="linkButton" onclick="addTransAgentDeacc()" style="cursor:pointer;">Add Row</span></th>
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
@@ -488,13 +488,20 @@ fieldset {border: none;}
                                  sort={a field name that is in the select portion of the query specified in the custom tag}, or
                                  sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
                           --->
-		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and scope EQ 'Deaccession' >
+                
+                  <cfif inhouse.c is 1 and authorized.c GT 0 and scope EQ 'Deaccession' >
+                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Deaccession Header</option>
+                  </cfif>
+                  <cfif inhouse.c is 1 and authorized.c GT 0 and scope EQ 'Deaccession' >
+                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items">MCZ Deaccession Items</option>
+                </cfif>
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and scope EQ 'Loan' >
                              <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
                           </cfif>
-		          <cfif inhouse.c is 1 and outside.c is 1 >
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0>
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
                           </cfif>
-		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0>
 		            <cfif scope eq 'Gift' >
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
