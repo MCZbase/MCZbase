@@ -587,7 +587,8 @@ fieldset {border: none;}
 					DEACC_NUMBER = '#deacc_number#',
 					DEACC_STATUS = '#deacc_status#',
                     DEACC_REASON = '#deacc_reason#',
-					DEACC_DESCRIPTION = '#deacc_description#',
+                    VALUE = '#value#',
+                    METHOD = '#method#'
 					where TRANSACTION_ID = #TRANSACTION_ID#
 			    </cfquery>
                 </cfif>
@@ -674,8 +675,11 @@ fieldset {border: none;}
 					<cfif len(#DEACC_reason#) gt 0>
 						,DEACC_REASON
 					</cfif>
-					<cfif len(#deacc_description#) gt 0>
-						,deacc_description
+					  <cfif len(#value#) gt 0>
+						,VALUE
+					</cfif>
+                    <cfif len(#method#) gt 0>
+						,METHOD
 					</cfif>
 					 )
 				values (
@@ -688,9 +692,12 @@ fieldset {border: none;}
 					<cfif len(#DEACC_REASON#) gt 0>
 						,'#DEACC_REASON#'
 					</cfif>
-					<cfif len(#deacc_description#) gt 0>
-						,'#deacc_description#'
+                  <cfif len(#value#) gt 0>
+						,VALUE
 					</cfif>
+                    <cfif len(#method#) gt 0>
+						,METHOD
+                </cfif>
 					)
 			</cfquery>
 			<cfquery name="authBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -882,11 +889,15 @@ fieldset {border: none;}
             <td align="right">Reason for Deaccession:</td>
             <td><textarea name="deacc_reason" rows="3" cols="50"></textarea></td>
           </tr>
-          <tr>
-            <td align="right">Description: </td>
-            <td><textarea name="deacc_description" rows="3" cols="50"></textarea></td>
+            <tr>
+            <td align="right">Value: </td>
+            <td><textarea name="value" rows="3" cols="50"></textarea></td>
           </tr>
           <tr>
+            <tr>
+            <td align="right">Method of Transfer: </td>
+            <td><textarea name="method" rows="3" cols="50"></textarea></td>
+          </tr>
           <tr>
             <td align="right">Internal Remarks: </td>
             <td><textarea name="deacc_remarks" rows="3" cols="50"></textarea></td>
@@ -1295,7 +1306,6 @@ fieldset {border: none;}
         <cfset d=d &',"#dateformat(trans_date,"yyyy-mm-dd")#"'>
         <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(deacc_reason)#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(deacc_description)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(trans_remarks)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(ent_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>
