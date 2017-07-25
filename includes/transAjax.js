@@ -27,6 +27,21 @@ function loadShipmentFormPermits(shipment_id) {
        }
      )};
 
+function deleteMediaFromPermit(mediaId,permitId,relationType) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "removeMediaFromPermit",
+            media_id : mediaId,
+            permit_id : permitId,
+            media_relationship : relationType,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           loadPermitMedia(permitId);
+           loadPermitRelatedMedia(permitId);
+        }
+      )};
 function deletePermitFromShipment(shipmentId,permitId,transactionId) {
     jQuery.getJSON("/component/functions.cfc",
         {

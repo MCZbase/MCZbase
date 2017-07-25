@@ -1,5 +1,6 @@
 <cfset jquery11=true>
 <cfinclude template = "includes/_header.cfm">
+<script type='text/javascript' src='/includes/transAjax.js'></script>
 <!--- no security --->
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from ctpermit_type
