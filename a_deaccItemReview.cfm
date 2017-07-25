@@ -144,7 +144,7 @@
 		</cfquery>
 		<cfloop query="getCollObjId">
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE coll_object SET coll_obj_disposition = '#deacc_type#'
+			UPDATE coll_object SET coll_obj_disposition = '#coll_obj_disposition#'
 			where collection_object_id = #collection_object_id#
 			</cfquery>
 		</cfloop>
