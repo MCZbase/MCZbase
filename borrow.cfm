@@ -36,12 +36,18 @@
 <style>
 	.nextnum{
 		border:2px solid green;
-		position:absolute;
-		top:10em;
+		position:relative;
 		right:1em;
+		width: auto;
+		float: right;
+		display: inline-block;
+		margin:0;
+		padding: 3px;
+		
 	}
 </style>
 <cfset title="Borrow">
+<div style="width: 80em;margin: 0 auto;overflow: hidden;padding: 2em 0;">
 <cfif action is "nothing">
 	<cfoutput>
 	Find Borrows:
@@ -512,6 +518,13 @@
 						onclick="borrow.action.value='delete';confirmDelete('borrow');">
 				</td>
 			</tr>
+            		<tr>
+                    <td>
+   		<label for="redir">Print...Return Receipt</label>
+		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+   			<option value=""></option>
+			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Receipt Upon Return</option>
+        </select></td></tr>
 			
 		</form>
 </table>
@@ -1145,6 +1158,6 @@
 	</cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
-
+    </div>
 
 <cfinclude template = "/includes/_footer.cfm">
