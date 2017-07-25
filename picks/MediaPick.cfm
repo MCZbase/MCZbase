@@ -47,7 +47,7 @@
         <table>
     
           <tr>
-          <td colspan="2">
+          <td colspan="3">
              <label for="media_uri">Media URI</label>
              <input type="text" name="media_uri" id="media_uri" size="90" value="">
           </td>
@@ -70,8 +70,13 @@
                </cfloop>
              </select>
           </td>
+          <td></td>
           </tr>
             <tr>
+            <td>
+               <input type="checkbox" name="unchecked" id="unchecked" value="true">
+               <label for "unlinked">Media not yet linked to any record</label>
+            </td>
             <td>
                 <input type="submit" value="Search" class="schBtn">    
             </td>
@@ -87,8 +92,11 @@
     <cfif Action is "search">
     
     <cfquery name="matchMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select media_id, media_uri, preview_uri, mime_type, media_type
+        select media.media_id, media_uri, preview_uri, mime_type, media_type
         from media
+          <cfif isdefined("unlinked") and unlinked EQ "true">
+             left join media_relations on media.media_id = media_relations.media_id
+          </cfif>
         where 
           media_id is not null 
           <cfif isdefined("mediatype") and len(mediatype) gt 0>
@@ -99,6 +107,9 @@
           </cfif>
           <cfif isdefined("media_uri") and len(media_uri) gt 0>
             and media_uri like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_uri#%">
+          </cfif>
+          <cfif isdefined("unlinked") and unlinked EQ "true">
+            and media_relations.media_id is null
           </cfif>
     </cfquery>
 
