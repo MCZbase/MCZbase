@@ -1952,7 +1952,8 @@
        <cfset result= result & "</ul>">
    <cfelse>
       <cfset result = result & "<span class='likeLink' onclick='addMediaHere('#permit_id#','#permit_id#');'>Create Media">
-      <cfset result = result & "</span>&nbsp;~&nbsp;<a href='/MediaSearch.cfm' target='_blank'>Link Media</a>">
+      <cfset result = result & "</span>&nbsp;~&nbsp;">
+      <cfset result = result & "<span id='addPermit_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></span>">
    </cfif>
    <cfreturn result>
 </cffunction>
