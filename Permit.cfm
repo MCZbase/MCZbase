@@ -1,3 +1,4 @@
+<cfset jquery11=true>
 <cfinclude template = "includes/_header.cfm">
 <!--- no security --->
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -515,6 +516,25 @@ where
 	and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 	order by permit_id
 </cfquery>
+<script>
+function opendialog(page,id,title) {
+  var $dialog = $(id)
+  .html('<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
+  .dialog({
+    title: title,
+    autoOpen: false,
+    dialogClass: 'dialog_fixed,ui-widget-header',
+    modal: true,
+    height: 600,
+    width: 900,
+    minWidth: 400,
+    minHeight: 400,
+    draggable:true,
+    buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
+  });
+  $dialog.dialog('open');
+};
+</script>
 </cfoutput>
 <cfoutput query="permitInfo" group="permit_id">
 <cfform name="newPermit" action="Permit.cfm" method="post">
