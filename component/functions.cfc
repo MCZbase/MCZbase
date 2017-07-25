@@ -900,6 +900,30 @@
 		<cfreturn result>
 </cffunction>
 <!------------------------------------------->
+<cffunction name="remPartFromDeacc" access="remote">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cftry>
+		<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from deacc_item where
+			collection_object_id = #part_id# and
+			transaction_id=#transaction_id#
+		</cfquery>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "success", 1)>
+	<cfcatch>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
+	</cfcatch>
+
+	</cftry>
+		<cfreturn result>
+</cffunction>
+<!------------------------------------------->
 <cffunction name="del_remPartFromLoan" access="remote">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="transaction_id" type="numeric" required="yes">
@@ -907,6 +931,34 @@
 		<cftransaction>
 			<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				delete from loan_item where
+				collection_object_id = #part_id# and
+				transaction_id=#transaction_id#
+			</cfquery>
+			<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				delete from specimen_part where collection_object_id = #part_id#
+			</cfquery>
+		</cftransaction>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "success", 1)>
+	<cfcatch>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
+	</cfcatch>
+	</cftry>
+		<cfreturn result>
+</cffunction>
+<!------------------------------------------->
+<cffunction name="del_remPartFromDeacc" access="remote">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				delete from deacc_item where
 				collection_object_id = #part_id# and
 				transaction_id=#transaction_id#
 			</cfquery>
@@ -966,6 +1018,36 @@
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update loan_item set
 				loan_item_remarks = '#loan_item_remarks#'
+				where
+				TRANSACTION_ID=#transaction_id# and
+				COLLECTION_OBJECT_ID = #part_id#
+			</cfquery>
+		</cftransaction>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "success", 1)>
+	<cfcatch>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
+	</cfcatch>
+
+	</cftry>
+		<cfreturn result>
+</cffunction>
+            
+<!------------------------------------------->
+<cffunction name="updateDeaccItemRemarks" access="remote">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="loan_item_remarks" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update deacc_item set
+				loan_item_remarks = '#deacc_item_remarks#'
 				where
 				TRANSACTION_ID=#transaction_id# and
 				COLLECTION_OBJECT_ID = #part_id#
@@ -1626,6 +1708,47 @@
 	</cfoutput>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getDeaccPartResults" access="remote">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfoutput>
+	<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select
+			cataloged_item.COLLECTION_OBJECT_ID,
+			specimen_part.collection_object_id partID,
+			coll_object.COLL_OBJ_DISPOSITION,
+			coll_object.LOT_COUNT,
+			coll_object.CONDITION,
+			specimen_part.PART_NAME,
+			specimen_part.PRESERVE_METHOD,
+			specimen_part.SAMPLED_FROM_OBJ_ID,
+			concatEncumbrances(cataloged_item.collection_object_id) as encumbrance_action,
+			deacc_item.transaction_id,
+			nvl(p1.barcode,'NOBARCODE') barcode
+		from
+			#session.SpecSrchTab#,
+			cataloged_item,
+			coll_object,
+			specimen_part,
+			(select * from deacc_item where transaction_id = #transaction_id#) deacc_item,
+			coll_obj_cont_hist,
+			container p0,
+			container p1
+		where
+			#session.SpecSrchTab#.collection_object_id = cataloged_item.collection_object_id AND
+			cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+			specimen_part.collection_object_id = coll_object.collection_object_id and
+			specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id (+) and
+			coll_obj_cont_hist.container_id=p0.container_id (+) and
+			p0.parent_container_id=p1.container_id (+) and
+			specimen_part.SAMPLED_FROM_OBJ_ID is null and
+			specimen_part.collection_object_id = deacc_item.collection_object_id (+)
+		order by
+			cataloged_item.collection_object_id, specimen_part.part_name
+	</cfquery>
+	<cfreturn result>
+	</cfoutput>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="ssvar" access="remote">
 	<cfargument name="startrow" type="numeric" required="yes">
 	<cfargument name="maxrows" type="numeric" required="yes">
@@ -1760,6 +1883,134 @@
 	</cftransaction>
 	</cfoutput>
 </cffunction>
+            
+            <!-------------------------------------------------------------------------------------------->
+<cffunction name="addPartToDeacc" access="remote">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="partID" type="numeric" required="yes">
+	<cfargument name="remark" type="string" required="yes">
+	<cfargument name="instructions" type="string" required="yes">
+	<cfargument name="subsample" type="numeric" required="yes">
+	<cfoutput>
+	<cftransaction>
+		<cftry>
+			<cfquery name="n" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_collection_object_id.nextval n from dual
+			</cfquery>
+			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select cataloged_item.collection_object_id,
+				cat_num,collection,part_name, preserve_method
+				from
+				cataloged_item,
+				collection,
+				specimen_part
+				where
+				cataloged_item.collection_id=collection.collection_id and
+				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
+				specimen_part.collection_object_id=#partID#
+			</cfquery>
+			<cfif #subsample# is 1>
+			<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					coll_obj_disposition,
+					condition,
+					part_name,
+					preserve_method,
+					derived_from_cat_item
+				FROM
+					coll_object, specimen_part
+				WHERE
+					coll_object.collection_object_id = specimen_part.collection_object_id AND
+					coll_object.collection_object_id = #partID#
+			</cfquery>
+			<cfquery name="newCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO coll_object (
+					COLLECTION_OBJECT_ID,
+					COLL_OBJECT_TYPE,
+					ENTERED_PERSON_ID,
+					COLL_OBJECT_ENTERED_DATE,
+					LAST_EDITED_PERSON_ID,
+					LAST_EDIT_DATE,
+					COLL_OBJ_DISPOSITION,
+					LOT_COUNT,
+					CONDITION)
+				VALUES
+					(#n.n#,
+					'SS',
+					#session.myAgentId#,
+					sysdate,
+					#session.myAgentId#,
+					sysdate,
+					'#parentData.coll_obj_disposition#',
+					1,
+					'#parentData.condition#')
+			</cfquery>
+			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO specimen_part (
+					COLLECTION_OBJECT_ID
+					,PART_NAME
+					,PRESERVE_METHOD
+					,SAMPLED_FROM_OBJ_ID
+					,DERIVED_FROM_CAT_ITEM)
+				VALUES (
+					#n.n#
+					,'#parentData.part_name#'
+					,'#parentData.preserve_method#'
+					,#partID#
+					,#parentData.derived_from_cat_item#)
+			</cfquery>
+		</cfif>
+		<cfquery name="addDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO DEACC_ITEM (
+				TRANSACTION_ID,
+				COLLECTION_OBJECT_ID,
+				RECONCILED_BY_PERSON_ID,
+				RECONCILED_DATE
+				,ITEM_DESCR
+				<cfif len(#instructions#) gt 0>
+					,ITEM_INSTRUCTIONS
+				</cfif>
+				<cfif len(#remark#) gt 0>
+					,DEACC_ITEM_REMARKS
+				</cfif>
+				       )
+			VALUES (
+				#TRANSACTION_ID#,
+				<cfif #subsample# is 1>
+					#n.n#,
+				<cfelse>
+					#partID#,
+				</cfif>
+				#session.myagentid#,
+				sysdate
+				,'#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)'
+				<cfif len(#instructions#) gt 0>
+					,'#instructions#'
+				</cfif>
+				<cfif len(#remark#) gt 0>
+					,'#remark#'
+				</cfif>
+				)
+		</cfquery>
+		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE coll_object SET coll_obj_disposition = 'on loan'
+			where collection_object_id =
+		<cfif #subsample# is 1>
+				#n.n#
+			<cfelse>
+				#partID#
+			</cfif>
+		</cfquery>
+	<cfcatch>
+		<cfset result = "0|#cfcatch.message# #cfcatch.detail#">
+		<cfreturn result>
+	</cfcatch>
+	</cftry>
+	<cfreturn "1|#partID#">
+	</cftransaction>
+	</cfoutput>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getMedia" access="remote">
 	<cfargument name="idList" type="string" required="yes">

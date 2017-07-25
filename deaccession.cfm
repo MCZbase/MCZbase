@@ -7,13 +7,18 @@
 <cfif not isdefined("scope")>
     <cfset scope = 'Deaccession'>
 </cfif>
-
+<style>
+#dialog-shipment {width: 76em;margin: 0 auto;}
+#shipmentForm {padding: 2em;border: 1px solid gray;}
+fieldset {border: none;}
+.setup {width: 50%;float: left;margin: .5em 0;}
+.content_box {padding-bottom: 2em;}
+#shipmentTable {padding: 2em; border: 1px solid gray;overflow: hidden;}
+.ship_headers li{display: inline; width: 10em;float: left;list-style:none;}
+.accn_headers li {display: inline; width: 90%; float: left; list-style:none;}
+</style>
 <!--- Deaccession types relevant to the current scope --->
 <cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select deacc_type from ctdeacc_type
-</cfquery>
-<!--- All deaccession types--->
-<cfquery name="ctAllDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select deacc_type from ctdeacc_type
 </cfquery>
 <cfquery name="ctDeaccStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -22,7 +27,7 @@
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection_cde from ctcollection_cde order by collection_cde
 </cfquery>
-<!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
+<!--- Obtain list of transaction agent roles, excluding those not relevant to deaccession editing --->
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'associated with agency' and trans_agent_role != 'received from' order by trans_agent_role
 </cfquery>
@@ -38,7 +43,7 @@
                $("##initiating_date").datepicker({ dateFormat: 'yy-mm-dd'});
                $("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
 	});
-	// Set the loan number and collection for a deaccession.
+	// Set the deaccession number and collection for a deaccession.
 	function setDeaccNum(cid,deaccNum) {
            $("##deacc_number").val(deaccNum);
            $("##collection_id").val(cid);
@@ -47,7 +52,6 @@
 	function dCount() {
 		var countThingees=new Array();
 		countThingees.push('deacc_reason');
-		countThingees.push('deacc_description');
 		countThingees.push('trans_remarks');
 		for (i=0;i<countThingees.length;i++) {
 			var els = countThingees[i];
@@ -180,10 +184,16 @@
 					<textarea name="deacc_reason" id="deacc_reason" rows="3" cols="80" class="reqdClr"></textarea>
 					</td>
 				</tr>
-				<tr>
+                	<tr>
 					<td colspan="2">
-						<label for="deacc_description">Description</label>
-						<textarea name="deacc_description" id="deacc_description" rows="3" cols="80"></textarea>
+						<label for="value">Value of Specimen(s)</label>
+						<textarea name="value" id="value" rows="3" cols="80"></textarea>
+					</td>
+				</tr>
+                 <tr>
+					<td colspan="2">
+						<label for="method">Method of Transfer</label>
+						<textarea name="method" id="method" rows="3" cols="80"></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -266,13 +276,14 @@
 	<cfoutput>
 	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
-			trans.transaction_id,
+            trans.transaction_id,
 			trans.trans_date,
 			deaccession.deacc_number,
 			deaccession.deacc_type,
 			deaccession.deacc_status,
+            deaccession.value,
+            deaccession.method,
 			deaccession.deacc_reason,
-			deaccession.deacc_description,
 			trans.nature_of_material,
 			trans.trans_remarks,
 			to_char(closed_date, 'YYYY-MM-DD') closed_date,
@@ -347,7 +358,7 @@
 		</cfquery>
 		<table id="deaccAgents">
 			<tr style="height: 20px;">
-				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
+				<th>Agent Name <span class="linkButton" onclick="addTransAgentDeacc()">Add Row</span></th>
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
@@ -379,7 +390,7 @@
 					<td>
 						<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
-		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
+		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editdeacc',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
 		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#">
 					</td>
@@ -414,7 +425,7 @@
 		</table><!-- end agents table --->
 		<table width="100%">
 			<tr>
-				<td width="44%">
+				<td width="20%">
 					<label for="deacc_type">Deaccession Type</label>
 					<select name="deacc_type" id="deacc_type" class="reqdClr">
 						<cfloop query="deaccDetails">
@@ -442,12 +453,15 @@
 		<label for="nature_of_material">Nature of Material </label>
 		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="60"
 			class="reqdClr">#deaccDetails.nature_of_material#</textarea>
-        <label for="deacc_reason">Reason for Deaccession</label>
-		<textarea name="deacc_reason" id="deacc_reason" rows="7"
+         <label for="deacc_reason">Reason for Deaccession (description)</label>
+		<textarea name="deacc_reason" class="reqdClr" id="deacc_reason" rows="7"
 			cols="60">#deaccDetails.deacc_reason#</textarea>
-		<label for="deacc_description">Description</label>
-		<textarea name="deacc_description" id="deacc_description" rows="7"
-			cols="60">#deaccDetails.deacc_description#</textarea>
+	    <label for="value">Value of Specimen(s)</label>
+        <input name="value" id="value" value="#deaccDetails.value#" size="55">
+		
+        <label for="method">Method of Transfer</label>
+		<textarea name="method" id="method" value="#deaccDetails.method#" rows="7" cols="60">#deaccDetails.method#</textarea>
+    
 		<label for="trans_remarks">Internal Remarks</label>
 		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="60">#deaccDetails.trans_remarks#</textarea>
 		<br>
@@ -460,10 +474,10 @@
 		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
 			onClick="window.open('deaccByBarcode.cfm?transaction_id=#transaction_id#');">
 
-		<input type="button" value="Review Items" class="lnkBtn"
+			<input type="button" value="Review Items" class="lnkBtn"
 			onClick="window.open('a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
                             <input style="margin-left: 30px;" type="button" value="Delete Deaccession" class="delBtn"
-			onClick="editDeacc.action.value='deleLoan';confirmDelete('editDeacc');">
+			onClick="editDeacc.action.value='deleDeacc';confirmDelete('editDeacc');">
    		<br />
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
@@ -726,7 +740,7 @@
 					'for use by')
 			</cfquery>
 		</cfif>
-			<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 				    transaction_id,
 				    agent_id,
@@ -745,7 +759,7 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "search">
-  <cfset title="Search for Deaccessions/Gifts/Transfers">
+  <cfset title="Search for Deaccessions">
   <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
   <script>
 		jQuery(document).ready(function() {
@@ -767,7 +781,7 @@
 </script>
   <cfoutput>
    <div class="searchLoanWidth">
-     <h2 class="wikilink">Find Deaccessions/Gifts <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+     <h2 class="wikilink">Find Deaccessions <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
       </h2>
     <div id="loan">
       <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -921,7 +935,8 @@
 		deacc_number,
 		deaccession.deacc_type deacc_type,
 		deacc_status,
-		deacc_description,
+        value,
+		method,
 		concattransagent(trans.transaction_id,'authorized by') auth_agent,
 		concattransagent(trans.transaction_id,'entered by') ent_agent,
 		concattransagent(trans.transaction_id,'received by') rec_agent,
@@ -1039,9 +1054,6 @@
 	<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
 		<cfset sql = "#sql# AND upper(trans_remarks) LIKE '%#ucase(trans_remarks)#%'">
 	</cfif>
-	<cfif isdefined("deacc_description") AND len(#deacc_description#) gt 0>
-		<cfset sql = "#sql# AND upper(deacc_description) LIKE '%#ucase(deacc_description)#%'">
-	</cfif>
 	<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0>
 		<cfset frm="#frm#, deacc_item">
 		<cfset sql = "#sql# AND deaccession.transaction_id=deacc_item.transaction_id AND deacc_item.collection_object_id IN (#collection_object_id#)">
@@ -1087,7 +1099,8 @@
 		   	deacc_number,
 		    deaccession.deacc_type,
 		    deacc_status,
-		    deacc_description,
+		    value,
+			method,
 			concattransagent(trans.transaction_id,'authorized by'),
 		 	concattransagent(trans.transaction_id,'entered by'),
 		 	concattransagent(trans.transaction_id,'received by'),
@@ -1148,7 +1161,7 @@
       <cfset variables.encoding="UTF-8">
       <cfscript>
 			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-			d='deacc_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,deacc_description,trans_remarks,ent_agent,Project';
+			d='deacc_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,trans_remarks,ent_agent,Project';
 		 	variables.joFileWriter.writeLine(d);
 	</cfscript>
     </cfif>
@@ -1223,11 +1236,17 @@
                 <cfelse>
                 <dd class="mandcolrstatus large">N/A</dd>
                 </cfif>
-                <dt>Description:</dt>
-                <cfif len(deacc_description) GT 0>
-                   <dd class="large">#deacc_description#</dd>
+                <dt>Value:</dt>
+				<cfif len(value) GT 0>
+                    <dd class="large">#value#</dd>
                     <cfelse>
-                   <dd class="large emptystatus">N/A</dd>
+                    <dd class="large emptystatus">N/A</dd>
+                  </cfif>
+                     <dt>Method of Transfer:</dt>
+				<cfif len(method) GT 0>
+                    <dd class="large">#method#</dd>
+                    <cfelse>
+                    <dd class="large emptystatus">N/A</dd>
                   </cfif>
                 <dt>Internal Remarks:</dt>
 				<cfif len(trans_remarks) GT 0>

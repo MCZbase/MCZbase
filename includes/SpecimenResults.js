@@ -137,6 +137,8 @@ function addPartToLoan(partID) {
 }
 function addPartToDeacc(partID) {
 	var rs = "item_remark_" + partID;
+	var is = "item_instructions_" + partID;
+	var ss = "subsample_" + partID;
 	var remark=document.getElementById(rs).value;
 	var instructions=document.getElementById(is).value;
 	var subsample=document.getElementById(ss).checked;
@@ -152,6 +154,8 @@ function addPartToDeacc(partID) {
 			transaction_id : transaction_id,
 			partID : partID,
 			remark : remark,
+			instructions : instructions,
+			subsample : subsample,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -161,7 +165,7 @@ function addPartToDeacc(partID) {
 			if (status==1){
 				var b = "theButton_" + rar[1];
 				var theBtn = document.getElementById(b);
-				theBtn.value="Deaccessioned";
+				theBtn.value="In Deaccession";
 				theBtn.onclick="";	
 			}else{
 				var msg = rar[1];
@@ -232,6 +236,7 @@ function makePartThingy() {
 		success_makePartThingy
 	);	
 }
+
 function cordFormat(str) {
 	var rStr;
 	if (str==null) {
@@ -273,12 +278,14 @@ function success_makePartDeaccThingy(r){
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += 'Remark:&nbsp;<input type="text" name="item_remark" size="10" id="item_remark_' + result.PARTID[i] + '">';
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
+			theTable += 'Instr.:&nbsp;<input type="text" name="item_instructions" size="10" id="item_instructions_' + result.PARTID[i] + '">';
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
+			theTable += 'Subsample?:&nbsp;<input type="checkbox" name="subsample" id="subsample_' + result.PARTID[i] + '">';
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += '<input type="button" id="theButton_' + result.PARTID[i] + '"';
 			theTable += ' class="insBtn"';
 			if (result.TRANSACTION_ID[i] > 0) {
-				theTable += ' onclick="" value="In Loan">';
+				theTable += ' onclick="" value="In Deaccession">';
 			} else {
 				theTable += ' value="Add" onclick="addPartToDeacc(';
 				theTable += result.PARTID[i] + ');">';
@@ -371,6 +378,10 @@ function splitBySemicolon(str) {
 }
 function goPickParts (collection_object_id,transaction_id) {
 	var url='/picks/internalAddLoanItemTwo.cfm?collection_object_id=' + collection_object_id +"&transaction_id=" + transaction_id;
+	mywin=windowOpener(url,'myWin','height=300,width=800,resizable,location,menubar ,scrollbars ,status ,titlebar,toolbar');
+}
+function goPickPartsDeacc (collection_object_id,transaction_id) {
+	var url='/picks/internalAddDeaccItemTwo.cfm?collection_object_id=' + collection_object_id +"&transaction_id=" + transaction_id;
 	mywin=windowOpener(url,'myWin','height=300,width=800,resizable,location,menubar ,scrollbars ,status ,titlebar,toolbar');
 }
 function removeItems() {
@@ -488,6 +499,11 @@ function success_getSpecResultsData(result){
 		} else {
 			var loan_request_coll_id='';
 		}
+		if (document.getElementById('deacc_request_coll_id') && document.getElementById('deacc_request_coll_id').value.length>0){
+			var deacc_request_coll_id = document.getElementById('deacc_request_coll_id').value;
+		} else {
+			var deacc_request_coll_id='';
+		}
 		if (document.getElementById('mapURL') && document.getElementById('mapURL').value.length>0){
 			var mapURL = document.getElementById('mapURL').value;
 		} else {
@@ -503,6 +519,12 @@ function success_getSpecResultsData(result){
 			}
 			if (action == 'dispCollObj'){
 				theInnerHtml +='<th>Loan</th>';
+			}
+				if (deacc_request_coll_id.length > 0){
+				theInnerHtml +='<th>Request</th>';
+			}
+			if (action == 'dispCollObjDeacc'){
+				theInnerHtml +='<th>Deaccession</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('CUSTOMID')> -1) {
 				theInnerHtml += '<th>';
@@ -778,7 +800,7 @@ function success_getSpecResultsData(result){
 						theInnerHtml +='<td>N/A</td>';
 					}
 				}
-				if (action == 'dispCollObj'){
+				if (action == 'dispCollObj' || action == 'dispCollObjDeacc'){
 					theInnerHtml +='<td id="partCell_' + data.COLLECTION_OBJECT_ID[i] + '"></td>';
 				}				
 				if (data.COLUMNLIST[0].indexOf('CUSTOMID')> -1) {
@@ -1024,6 +1046,9 @@ function success_getSpecResultsData(result){
 		tgt.innerHTML = theInnerHtml;
 		if (action == 'dispCollObj'){
 			makePartThingy();
+		}
+		if (action == 'dispCollObjDeacc'){
+			makePartDeaccThingy();
 		}
 		insertMedia(orderedCollObjIdList);
 		// insertTypes(orderedCollObjIdList);

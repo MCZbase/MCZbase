@@ -1,10 +1,13 @@
-<cfset title="Review Loan Items">
+<cfset title="Review Deaccession Items">
  <cfinclude template="includes/_header.cfm">
-     <div style="width: 80em; margin: 0 auto; padding: 2em 0 3em 0;">
-	<script type='text/javascript' src='/includes/_loanReview.js'></script>
+     <div style="width: 78em; margin: 0 auto; padding: 2em 0 3em 0;">
+	<script type='text/javascript' src='/includes/_deaccReview.js'></script>
 	<script src="/includes/sorttable.js"></script>
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
+</cfquery>
+<cfquery name="ctdeacc_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select deacc_type from ctdeacc_type
 </cfquery>
 <cfif not isdefined("transaction_id")>
 	No transaction specified.<cfabort>
@@ -20,18 +23,17 @@
 		<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					You cannot remove this item from a loan while it's disposition is "on loan." 
 			<br />Use the form below if you'd like to change the disposition and remove the item 
-			from the loan, or to delete the item from the database completely.
+			from the deaccession, or to delete the item from the database completely.
 			
 			<form name="cC" method="post" action="a_deaccItemReview.cfm">
 				<input type="hidden" name="action" />
 				<input type="hidden" name="transaction_id" value="#transaction_id#" />
-				<input type="hidden" name="item_instructions" value="#item_instructions#" />
 				<input type="hidden" name="deacc_item_remarks" value="#deacc_item_remarks#" />
 				<input type="hidden" name="partID" value="#partID#" />
 				<input type="hidden" name="spRedirAction" value="delete" />
 				Change disposition to: <select name="coll_obj_disposition" size="1">
-					<cfloop query="ctDisp">
-						<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+					<cfloop query="ctdeacc_type">
+						<option value="#deacc_type#">#ctdeacc_type.deacc_type#</option>
 					</cfloop>				
 				</select>
 				<p />
@@ -58,14 +60,13 @@
 			<cfabort>
 			<cfabort>
 		<cfelse>
-			You cannot remove this item from a loan while it's disposition is "on loan." 
+			You cannot remove this item from a loan while it's disposition is "deaccessioned." 
 			<br />Use the form below if you'd like to change the disposition and remove the item 
 			from the loan.
 			
 			<form name="cC" method="post" action="a_deaccItemReview.cfm">
 				<input type="hidden" name="action" />
 				<input type="hidden" name="transaction_id" value="#transaction_id#" />
-				<input type="hidden" name="item_instructions" value="#item_instructions#" />
 				<input type="hidden" name="deacc_item_remarks" value="#deacc_item_remarks#" />
 				<input type="hidden" name="partID" id="partID" value="#partID#" />
 				<input type="hidden" name="spRedirAction" value="delete" />
@@ -143,7 +144,7 @@
 		</cfquery>
 		<cfloop query="getCollObjId">
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE coll_object SET coll_obj_disposition = '#coll_obj_disposition#'
+			UPDATE coll_object SET coll_obj_disposition = '#deacc_type#'
 			where collection_object_id = #collection_object_id#
 			</cfquery>
 		</cfloop>
@@ -178,11 +179,6 @@
 		<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE deacc_item SET
 				 transaction_id=#transaction_id#
-				<cfif len(#item_instructions#) gt 0>
-					,item_instructions = '#item_instructions#'
-				<cfelse>
-					,item_instructions = null
-				</cfif>
 				<cfif len(#deacc_item_remarks#) gt 0>
 					,deacc_item_remarks = '#deacc_item_remarks#'
 				<cfelse>
@@ -198,7 +194,7 @@
 	<cfelse>
 		<cfset action="nothing">
 	</cfif>
-	<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#&item_instructions=#item_instructions#&partID=#partID#&deacc_item_remarks=#deacc_item_remarks#&action=#action#">
+	<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#&partID=#partID#&deacc_item_remarks=#deacc_item_remarks#&action=#action#">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------->
@@ -213,17 +209,20 @@
 		part_name,
 		preserve_method,
 		condition,
-		 sampled_from_obj_id,
-		 item_descr,
-		 item_instructions,
-		 deacc_item_remarks,
-		 coll_obj_disposition,
-		 scientific_name,
-		 Encumbrance,
-		 agent_name,
-		 deacc_number,
-		 specimen_part.collection_object_id as partID,
-		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID		 			 
+		sampled_from_obj_id,
+		item_descr,
+		deacc_item_remarks,
+        deacc_type,
+        deacc_reason,
+		coll_obj_disposition,
+		scientific_name,
+		Encumbrance,
+		agent_name,
+		deacc_number,
+		specimen_part.collection_object_id as partID,
+		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+        accn_number,
+        accn_id
 	 from 
 		deacc_item, 
 		deaccession,
@@ -234,18 +233,20 @@
 		encumbrance,
 		agent_name,
 		identification,
-		collection
+		collection,
+        accn
 	WHERE
 		deacc_item.collection_object_id = specimen_part.collection_object_id AND
 		deaccession.transaction_id = deacc_item.transaction_id AND
 		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
 		specimen_part.collection_object_id = coll_object.collection_object_id AND
-		coll_object.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
+		cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
 		coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
 		encumbrance.encumbering_agent_id = agent_name.agent_id (+) AND
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_id=collection.collection_id AND
+		cataloged_item.accn_id = accn.transaction_id AND
 	  	deacc_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 	ORDER BY cat_num
 </cfquery>
@@ -325,117 +326,108 @@ Review items in deaccession<b>
    onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
 	</form>
         </cfif>
-<table border id="t" class="sortable">
+                        <br>
+<table class="partname" id="t" class="sortable">
 	<tr>
-		<td>
-			CN
-			
-		</td>
-		<td>
+		<th class="inside">
+			Collection
+
+		</th>
+		<th class="inside">
 			#session.CustomOtherIdentifier#
-		</td>
-		<td>
+		</th>
+		<th class="inside">
 			Scientific Name
-		</td>
-		<td>
+		</th>
+		<th class="inside">
 			Item
-		</td>
-		<td>
+		</th>
+		<th class="inside">
 			Condition
-		</td>
-		<td>
-			Subsample?
-		</td>
-		
-		<td>
-			Item Instructions
-		</td>
-		<td>
+		</th>
+
+		<th class="inside">
 			Item Remarks
-		</td>
-                <cfif aboutDeacc.collection EQ 'Cryogenic'>
-		<td>
-			Preserve Method
-		</td>
+		</th>
+        <cfif aboutdeacc.collection EQ 'Cryogenic'>
+          <th class="inside">
+              Preserve Method
+          </th>
 		</cfif>
-		<td>
-			Disposition
-		</td>
-		
-		<td>
+		<th class="inside">
+			Disposition Type
+		</th>
+		<th class="inside">
+        	Accession
+        </th>
+		<th class="inside">
 			Encumbrance
-		</td>
-		<td>&nbsp;
-			
-		</td>
+		</th>
+		<th>Delete
+
+		</th>
 	</tr>
 
 <cfset i=1>
 <cfloop query="getPartDeaccRequests">
 	<tr id="rowNum#partID#">
-		<td>
+		<td class="inside">
 			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
-			
+
 		</td>
-		<td>
+		<td class="inside">
 			#CustomID#&nbsp;
-		</td>	
-		<td>
+		</td>
+		<td class="inside">
 			<em>#scientific_name#</em>&nbsp;
 		</td>
-		<td>
+		<td class="inside">
 			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name#</a>
 		</td>
-		<td>
-			<textarea name="condition#partID#" 
+		<td class="inside">
+			<textarea name="condition#partID#"
 				rows="2" cols="20"
 				id="condition#partID#"
 				onchange="this.className='red';updateCondition('#partID#')">#condition#</textarea>
 				<span class="infoLink" onClick="chgCondition('#partID#')">History</span>
 		</td>
-		<td>
-			<cfif len(#sampled_from_obj_id#) gt 0>
-				yes
-			<cfelse>
-				no
-			</cfif>
-			<input type="hidden" name="isSubsample#partID#" id="isSubsample#partID#" value="#sampled_from_obj_id#" />
-		</td>	
-		<td valign="top">
-			<textarea name="item_instructions#partID#" id="item_instructions#partID#" rows="2" cols="20" onchange="this.className='red';updateInstructions('#partID#')">#Item_Instructions#</textarea>
-		</td>
-		<td valign="top">
-		
+
+		<td valign="top" class="inside">
+
 			<textarea name="deacc_Item_Remarks#partID#" id="deacc_Item_Remarks#partID#" rows="2" cols="20"
 			onchange="this.className='red';updateDeaccItemRemarks('#partID#')">#deacc_Item_Remarks#</textarea>
-		
+
 		</td>
                 <cfif aboutDeacc.collection EQ 'Cryogenic'>
-		<td>
+		<td class="inside">
 			#preserve_method#
 		</td>
                 </cfif>
-		<td>
+		<td class="inside">
 			<cfset thisDisp = #coll_obj_disposition#>
 			<select name="coll_obj_disposition#partID#"
 				id="coll_obj_disposition#partID#"
 				 size="1" onchange="this.className='red';updateDispn('#partID#')">
 					<cfloop query="ctDisp">
-						<option 
+						<option
 							<cfif #ctDisp.coll_obj_disposition# is "#thisDisp#"> selected </cfif>
 							value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-					</cfloop>				
+					</cfloop>
 			</select>
 		</td>
-		<td>
-			#Encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
+     	<td class="inside">
+			<a href="editAccn.cfm?Action=edit&transaction_id=#accn_id#">#accn_number#</a>
 		</td>
-		<td>
+		<td class="inside">
+			#encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
+		</td>
+		<td class="inside">
 			<img src="/images/del.gif" class="likeLink" onclick="remPartFromDeacc(#partID#);" />
 		</td>
 	</tr>
 <cfset i=#i#+1>
 </cfloop>
+
 </cfoutput>
 </table>
 <cfoutput>
