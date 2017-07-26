@@ -139,8 +139,8 @@ function loadShipment(shipmentId,form) {
         $("#shipment_remarks").val("");
         $("#shipped_to_addr_id").val("");
         $("#shipped_from_addr_id").val("");
-        $("#shipped_to_addr").val("");
-        $("#shipped_from_addr").val("");
+        $("#shipped_to_addr").text("");
+        $("#shipped_from_addr").text("");
         $("#shipped_carrier_method").val("");
         $("#foreign_shipment_fg option[value='1']").prop('selected',false);
         $("#foreign_shipment_fg option[value='0']").prop('selected',true); 
