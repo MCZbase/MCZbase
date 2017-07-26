@@ -572,7 +572,7 @@ function opendialog(page,id,title) {
 			<td>Contact Person</td>
 			<td colspan="3">
 			<input type="hidden" name="contact_agent_id" value="#contact_agent_id#">
-			<input type="text" name="ContactAgent" class="reqdClr" size="50" value="#ContactAgent#"
+			<input type="text" name="ContactAgent"  size="50" value="#ContactAgent#"
 		 onchange="getAgent('contact_agent_id','ContactAgent','newPermit',this.value); return false;"
 			  onKeyUp="return noenter();">
 		</td>
@@ -605,7 +605,7 @@ function opendialog(page,id,title) {
 		<tr>
 			<td>Permit Type</td>
 			<td>
-				<select name="permit_Type" size="1">
+				<select name="permit_Type" class="reqdClr" size="1">
 					<option value=""></option>
 					<cfloop query="ctPermitType">
 						<option <cfif #ctPermitType.permit_type# is "#permitInfo.permit_type#"> selected </cfif>value = "#ctPermitType.permit_type#">#ctPermitType.permit_type#</option>
@@ -745,7 +745,16 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
            <li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
         </cfloop>
      </ul></div>
-     <span><a href="Permit.cfm?permit_id=#permit_id#&action=PermitUseReport">Detailed report on use of this permit</a>.</span>
+
+     <span>
+     <form action="Permit.cfm" method="get" name="Copy">
+        <input type="hidden" name="permit_id" value="#permit_id#">
+        <input type="hidden" name="Action" value="PermitUseReport">
+                <input type="submit" value="Detailed report on use of this Permit" class="lnkBtn"
+                                onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
+     </form>
+     </span>
+
 </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->
@@ -787,7 +796,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         <cfloop query="permitInfo">
           #permit_Type# #permit_Num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
         </cfloop>
-	<form action="Permit.cfm" method="post" name="Copy">
+	<form action="Permit.cfm" method="get" name="Copy">
 	   <input type="hidden" name="permit_id" value="#permit_id#">
 	   <input type="hidden" name="Action" value="editPermit">
 	   <input type="submit" value="Edit this permit" class="lnkBtn"
