@@ -152,7 +152,16 @@ function loadShipment(shipmentId,form) {
 // function to save that shipment.
 // Assumes an element with id shipmentFormStatus exists to present feedback.
 function saveShipment(transactionId) { 
-       var valid = true;
+    var valid = false;
+    // Check required fields 
+    if ($("#shipped_carrier_method").val().length==0 ||
+           $("#packed_by_agent").val().length==0 ||
+           $("#shipped_to_addr").val().length==0 ||
+           $("#shipped_from_addr").val().length==0) 
+    { 
+              $("#shipmentFormStatus").empty().append("Error: Required field is missing a value");
+    } else { 
+       // save result
        $('#methodSaveShipmentInput').remove();
        $('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
           .attr('name', "method")
@@ -166,18 +175,20 @@ function saveShipment(transactionId) {
           success: function (result) {
              if (result.status==0) { 
                alert(result.message);
-               $("#shipmentFormStatus").innerHTML=result.message;
+               $("#shipmentFormStatus").empty().append(result.message);
              } else { 
                loadShipments(transactionId);
+               valid = true;
                $("#dialog-shipment").dialog( "close" );
              }
            },
            fail: function (jqXHR,textStatus) {
-               $("#shipmentFormStatus").innerHTML="Error Submitting Form: " +textStatus;
+               $("#shipmentFormStatus").empty().append("Error Submitting Form: " + textStatus);
            }
        });
-       return valid;
-    };
+    }
+    return valid;
+};
 
 // Confirm dialog for some action, takes the function to fire on pressing OK as a parameter.
 function confirmAction(dialogText, dialogTitle, okFunction) {

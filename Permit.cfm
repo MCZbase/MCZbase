@@ -7,7 +7,9 @@
 </cfquery>
 <cfif #action# is "nothing">
 <cfoutput>
-Search for permits. Any part of dates and names accepted, case isn't important.<br>
+Search for permits and similar documents (access benefit sharing agreements, 
+material transfer agreements, collecting permits, salvage permits, etc.)
+Any part of dates and names accepted, case isn't important.<br>
 Leave "until date" fields empty unless you use the field to its left.<br>
 <cfform name="findPermit" action="Permit.cfm" method="post">
 	<input type="hidden" name="Action" value="search">
@@ -390,7 +392,9 @@ where
 <!--------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------->
 <cfif #Action# is "newPermit">
-<font size="+1"><strong>New Permit</strong></font><br>
+    <font size="+1"><strong>New Permit</strong></font>
+    <p>Enter a new record for a permit or similar document (access benefit sharing agreements, 
+       material transfer agreements, collecting permits, salvage permits, etc.)</p>
 	<cfoutput>
 	<cfform name="newPermit" action="Permit.cfm" method="post">
 	<input type="hidden" name="Action" value="createPermit">
@@ -455,15 +459,15 @@ where
 		</tr>
 		<tr>
 			<td>Summary of Restrictions on use</td>
-			<td><input type="text" name="restriction_summary"></td>
-			<td></td><!--- TODO: Controled vocabulary for restrictions could go here --->
-			<td></td>
+			<td colspan="3"><textarea cols="80" rows="3" name="restriction_summary"></textarea></td>
 		</tr>
 		<tr>
 			<td>ABS: Summary of Agreed Benefits</td>
-			<td><input type="text" name="benefits_summary"></td>
+			<td colspan="3"><textarea cols="80" rows="3" name="benefits_summary"></textarea></td>
+		</tr>
+		<tr>
 			<td>ABS: Benefits Provided</td>
-			<td><input type="text" name="benefits_provided"></td>
+			<td colspan="3"><textarea cols="80" rows="3" name="benefits_provided"></textarea></td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
@@ -486,7 +490,7 @@ where
 <font size="+1"><strong>Edit Permit</strong></font><br>
 <cfoutput>
 <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
-	Something bad happened. You didn't pass this form a permit_id. Go back and try again.<cfabort>
+	Error: You didn't pass this form a permit_id. Go back and try again.<cfabort>
 </cfif>
 <cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select permit.permit_id,
@@ -587,15 +591,15 @@ function opendialog(page,id,title) {
 		</tr>
         <tr>
             <td>Summary of Restrictions on use</td>
-            <td><input type="text" name="restriction_summary" value="#restriction_summary#"></td>
-            <td></td><!--- TODO: Controled vocabulary for restrictions could go here --->
-            <td></td>
+            <td colspan="3"><textarea cols="80" rows="3" name="restriction_summary" >#restriction_summary#</textarea></td>
         </tr>
         <tr>
             <td>ABS: Summary of Agreed Benefits</td>
-            <td><input type="text" name="benefits_summary" value="#benefits_summary#"></td>
+            <td colspan="3"><textarea cols="80" rows="3" name="benefits_summary" >#benefits_summary#</textarea></td>
+        </tr>
+        <tr>
             <td>ABS: Benefits Provided</td>
-            <td><input type="text" name="benefits_provided" value="#benefits_provided#"></td>
+            <td colspan="3"><textarea cols="80" rows="3" name="benefits_provided" >#benefits_provided#</textarea></td>
         </tr>
 
 		<tr>
@@ -741,7 +745,92 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
            <li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
         </cfloop>
      </ul></div>
+     <span><a href="Permit.cfm?permit_id=#permit_id#&action=PermitUseReport">Detailed report on use of this permit</a>.</span>
 </cfoutput>
+</cfif>
+<!--------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------->
+<cfif #Action# is "permitUseReport">
+   <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
+      <cfoutput>Error: You didn't pass this form a permit_id. Go back and try again.</cfoutput>
+      <cfabort>
+   </cfif>
+     <cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select permit.permit_id,
+    issuedBy.agent_name as IssuedByAgent,
+    issuedTo.agent_name as IssuedToAgent,
+    contact_agent_id,
+    contact.agent_name as ContactAgent,
+    issued_Date,
+    renewed_Date,
+    exp_Date,
+    restriction_summary,
+    benefits_summary,
+    benefits_provided,
+    permit_Num,
+    permit_Type,
+    permit_remarks
+    from
+        permit,
+        preferred_agent_name issuedTo,
+        preferred_agent_name issuedBy ,
+        preferred_agent_name contact
+    where
+        permit.issued_by_agent_id = issuedBy.agent_id (+) and
+    permit.issued_to_agent_id = issuedTo.agent_id (+) AND
+    permit.contact_agent_id = contact.agent_id (+)
+    and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+    order by permit_id
+    </cfquery>
+     <cfoutput>
+        <cfloop query="permitInfo">
+          #permit_Type# #permit_Num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
+        </cfloop>
+     </cfoutput>
+     <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join accn on trans.transaction_id = accn.transaction_id
+  left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+  left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+  where trans.transaction_type = 'accn'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix, 
+    concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join trans on shipment.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join loan on trans.transaction_id = loan.transaction_id
+  left join loan_item on loan.loan_id = loan_item.loan_id
+  left join flat on loan_item.collection_object_id = flat.collection_object_id
+  where trans.transaction_type = 'loan'
+        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+
+     </cfquery>
+     <cfoutput>
+     <div id="permitsusedin"><h3>Permit used for</h3>
+     <table>
+        <cfloop query="permituse">
+           <tr>
+             <td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
+             <td>#ontype# #ttype#</td>
+             <td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
+             <td>#guid_prefix#</td>>
+             <td>#country#</td>>
+             <td>#state_prov#</td>>
+             <td>#scientific_name#</td>>
+             <td>#guid#</td>>
+           </tr>
+        </cfloop>
+     </table>
+     </div>
+     </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
