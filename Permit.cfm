@@ -787,6 +787,12 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         <cfloop query="permitInfo">
           #permit_Type# #permit_Num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
         </cfloop>
+	<form action="Permit.cfm" method="post" name="Copy">
+	   <input type="hidden" name="permit_id" value="#permit_id#">
+	   <input type="hidden" name="Action" value="editPermit">
+	   <input type="submit" value="Edit this permit" class="lnkBtn"
+   	        onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
+	</form>
      </cfoutput>
      <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 
