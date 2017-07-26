@@ -783,6 +783,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
     order by permit_id
     </cfquery>
      <cfoutput>
+        <h3>Permit</h3>
         <cfloop query="permitInfo">
           #permit_Type# #permit_Num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
         </cfloop>
@@ -807,25 +808,26 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join loan on trans.transaction_id = loan.transaction_id
-  left join loan_item on loan.loan_id = loan_item.loan_id
-  left join flat on loan_item.collection_object_id = flat.collection_object_id
+  left join loan_item on loan.transaction_id = loan_item.transaction_id
+  left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+  left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
   where trans.transaction_type = 'loan'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 
      </cfquery>
      <cfoutput>
-     <div id="permitsusedin"><h3>Permit used for</h3>
+     <div id="permitsusedin"><h3>Used for</h3>
      <table>
         <cfloop query="permituse">
            <tr>
              <td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
              <td>#ontype# #ttype#</td>
              <td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
-             <td>#guid_prefix#</td>>
-             <td>#country#</td>>
-             <td>#state_prov#</td>>
-             <td>#scientific_name#</td>>
-             <td>#guid#</td>>
+             <td>#guid_prefix#</td>
+             <td>#country#</td>
+             <td>#state_prov#</td>
+             <td>#scientific_name#</td>
+             <td>#guid#</td>
            </tr>
         </cfloop>
      </table>
