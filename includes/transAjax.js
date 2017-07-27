@@ -55,6 +55,38 @@ function deletePermitFromShipment(shipmentId,permitId,transactionId) {
            loadShipments(transactionId);
         }
       )};
+// Move a permit from one shipment to another.
+function movePermitFromShipment(oldShipmentId,newShipmentId,permitId,transactionId) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "setShipmentForPermit",
+            shipment_id : newShipmentId,
+            permit_id : permitId,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+             if (result.status==1) {
+                jQuery.getJSON("/component/functions.cfc",
+                  {
+                    method : "removePermitFromShipment",
+                    shipment_id : shipmentId,
+                    permit_id : permitId,
+                    returnformat : "json",
+                    queryformat : 'column'
+                  },
+                  function (result) {
+                     if (result.status==0) {
+                        alert(result.message);
+                     }
+                  }
+                );
+             } else {  
+               alert(result.message);
+             } 
+        }
+      )};
+      loadShipments(transactionId);
 function deleteShipment(shipmentId,transactionId) {
     jQuery.getJSON("/component/functions.cfc",
         {

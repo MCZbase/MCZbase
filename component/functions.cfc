@@ -2122,6 +2122,49 @@
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<!--- Given a permit_id, shipment_id and a transaction_id, provide html to allow a user to pick a different shipment --->
+<!--- for the given transaction to associate the permit with (move a permit from one shipment to another in the same loan) --->
+<!--- @param permit_id the permit to move --->
+<!--- @param current_shipment_id the shipment to move the permit from --->
+<!--- @param transaction_id the transaction within which to move the permit from one shipment to another --->
+<cffunction name="changeShipmentForPermit" returntype="string" access="remote" returnformat="plain">
+   <cfargument name="permit_id" type="string" required="yes">
+   <cfargument name="current_shipment_id" type="string" required="yes">
+   <cfargument name="transaction_id" type="string" required="yes">
+   <cfset result="">
+   <cfquery name="queryPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select distinct permit_num, permit_type, issued_date, permit.permit_id,
+             issuedBy.agent_name as IssuedByAgent
+        from permit left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+        where permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
+   </cfquery>
+   <cfloop query="query">
+       <cfset result = result & "<h3>Move permit #permit_type# #permit_num# Issued By: #IssuedByAgent#</h3>">
+   </cfloop>
+   <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		   select 1 as status, shipment_id, 
+                   packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, carriers_tracking_number,
+                   shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, package_weight, no_of_packages,
+                   hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
+                   shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address
+             from shipment
+                  left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+                  left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
+             where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
+                   shipment_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#current_shipment_id#">
+   </cfquery>
+   <cfif query.recordcount gt 0>
+       <cfset result="<ul>">
+       <cfloop query="query">
+          <cfset result = result & "<li><input type='button' style='margin-left: 30px;' value='Move To' class='lnkBtn' onClick="" movePermitFromShipment(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#);  ""> #shipped_carrier_method# #shipped_date# #carriers_tracking_number#</li>">
+       </cfloop>
+       <cfset result= result & "</ul>">
+   </cfelse>
+       <cfset result= result & "There are no other shipments in this transaction, you must create a new shipment to move this permit to.">
+   </cfif>
+   <cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="removePermitFromShipment" returntype="query" access="remote">
         <cfargument name="permit_id" type="string" required="yes">
         <cfargument name="shipment_id" type="string" required="yes">
@@ -2309,7 +2352,7 @@
                 <cfset resulthtml = resulthtml & "</tr>">
                 <cfset resulthtml = resulthtml & "<tr> <td></td> <td colspan='6'><span id='permits_ship_#shipment_id#'><ul>">
                 <cfloop query="shippermit">
-                   <cfset resulthtml = resulthtml & "<li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href='Permit.cfm?Action=editPermit&permit_id=#permit_id#' target='_blank'>Edit</a> <a onClick='  confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Delete Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); '>Remove</a>  </li>">
+                   <cfset resulthtml = resulthtml & "<li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent#  <a href='Permit.cfm?Action=editPermit&permit_id=#permit_id#' target='_blank'>Edit</a> <a onClick='  confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Delete Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); '>Remove</a>  <a onClick=' opendialog('component/functions.cfc?method=changeShipmentForPermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#shipment_id#','##movePermitDlg_#shipment_id#',"Move Permit to another Shipment""); '>Move</a></li>">
                 </cfloop>
                 <cfset resulthtml = resulthtml & "<li><div id='addPermit_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Add Permit' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></li>">
 		<cfif shippermit.recordcount eq 0>
@@ -2327,7 +2370,37 @@
 	</cftry>
     <cfreturn resulthtml>
 </cffunction>
-
+<!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a permit_id and a shipment_id, link the permit to the shipment --->
+<cffunction name=setShipmentForPermit" access="remote">
+    <cfargument name="shipment_id" type="numeric" required="yes">
+    <cfargument name="permit_id" type="numeric" required="yes">
+    <cftry>
+       <cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+            insert into permit_shipment (permit_id, shipment_id) 
+            values ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">)
+       </cfquery>
+       <cfif insertResult.recordcount eq 0>
+             <cfset theResult=queryNew("status, message")>
+             <cfset t = queryaddrow(theResult,1)>
+             <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+             <cfset t = QuerySetCell(theResult, "message", "Record not added. #permit_id# #shipment_id# #deleteResult.sql#", 1)>
+       </cfif>
+       <cfif insertResult.recordcount eq 1>
+             <cfset theResult=queryNew("status, message")>
+             <cfset t = queryaddrow(theResult,1)>
+             <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+             <cfset t = QuerySetCell(theResult, "message", "Permit added to shipment.", 1)>
+       </cfif>
+    <cfcatch>
+        <cfset theResult=queryNew("status, message")>
+        <cfset t = queryaddrow(theResult,1)>
+        <cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+        <cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+        </cfcatch>
+    </cftry>
+    <cfreturn theResult>
+</cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="saveSearch" access="remote">
 	<cfargument name="returnURL" type="string" required="yes">
