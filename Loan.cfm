@@ -923,8 +923,9 @@
 <script>
 
 function opendialog(page,id,title) {
-  var $dialog = $(id)
-  .html('<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
+  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+  var adialog = $(id)
+  .html(content)
   .dialog({
     title: title,
     autoOpen: false,
@@ -937,7 +938,7 @@ function opendialog(page,id,title) {
     draggable:true,
     buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("close"); } }
   });
-  $dialog.dialog('open');
+  adialog.dialog('open');
 };
 
 </script>
