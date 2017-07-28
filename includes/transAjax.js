@@ -55,8 +55,31 @@ function deletePermitFromShipment(shipmentId,permitId,transactionId) {
            loadShipments(transactionId);
         }
       )};
+function addPermitToShipment(shipmentId,permitId,transactionId) {
+    var retval = 0;
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "setShipmentForPermit",
+            shipment_id : shipmentId,
+            permit_id : permitId,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           if (result.STATUS==0) {
+               alert(result.DATA.MESSAGE);
+           } 
+           if (result.STATUS==1) { 
+               retval = 1;
+           }
+           loadShipments(transactionId);
+        }
+    );
+    return retval;
+};
 // Move a permit from one shipment to another.
 function movePermitFromShipment(oldShipmentId,newShipmentId,permitId,transactionId) {
+    var retval = 0;
     jQuery.getJSON("/component/functions.cfc",
         {
             method : "removePermitFromShipment",
@@ -76,9 +99,12 @@ function movePermitFromShipment(oldShipmentId,newShipmentId,permitId,transaction
                     queryformat : 'column'
                   },
                   function (result) {
+                     if (result.STATUS==1) { 
+                        retval = 1;
+                     }
                      if (result.STATUS==0) {
                         alert(result.DATA.MESSAGE);
-                     }
+                     } 
                   }
                 );
              } else {  
@@ -87,6 +113,7 @@ function movePermitFromShipment(oldShipmentId,newShipmentId,permitId,transaction
         }
       );
       loadShipments(transactionId);
+      return retval;
 }
 function deleteShipment(shipmentId,transactionId) {
     jQuery.getJSON("/component/functions.cfc",
@@ -206,9 +233,8 @@ function saveShipment(transactionId) {
           dataType : "json",
           data: $("#shipmentForm").serialize(),
           success: function (result) {
-             if (result.status==0) { 
-               alert(result.message);
-               $("#shipmentFormStatus").empty().append(result.message);
+             if (result.DATA.STATUS==0) { 
+               $("#shipmentFormStatus").empty().append(result.DATA.MESSAGE);
              } else { 
                loadShipments(transactionId);
                valid = true;

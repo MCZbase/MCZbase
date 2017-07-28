@@ -2298,7 +2298,6 @@
              permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
        </cfquery>
 
-
                 <cfset resulthtml = resulthtml & "<tr> <td> <input type='button' style='margin-left: 30px;' value='Edit' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm'); ""> </td> " >
 		<cfset resulthtml = resulthtml & " <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td> ">
 		<cfset resulthtml = resulthtml & " <td>#shipped_carrier_method#</td> ">
@@ -2312,7 +2311,7 @@
                    <cfset resulthtml = resulthtml & "<li>#permit_type# #permit_Num# Issued: #dateformat(issued_Date,'yyyy-mm-dd')# #IssuedByAgent# ">
                    <cfset resulthtml = resulthtml & "<a href='Permit.cfm?Action=editPermit&permit_id=#permit_id#' target='_blank'>Edit</a> ">
                    <cfset resulthtml = resulthtml & "<a onClick='  confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Delete Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); '>Remove</a> ">
-                   <cfset resulthtml = resulthtml & "<span id='movePermit_#theResult.shipment_id##permit_id#'><a onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermit_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment""); '>Move</a></span></li>">
+                   <cfset resulthtml = resulthtml & "<span id='movePermit_#theResult.shipment_id##permit_id#'></span><a onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermit_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment""); '>Move</a></li>">
                 </cfloop>
                 <cfset resulthtml = resulthtml & "<li><div id='addPermit_#shipment_id#'><input type='button' style='margin-left: 30px;' value='Add Permit' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></li>">
 		<cfif shippermit.recordcount eq 0>

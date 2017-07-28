@@ -5,6 +5,7 @@
 </cfquery>
 <cfif Action is "movePermit">
    <!---  Dialog to move a permit from one shipment to another shipment in the same transaction ---> 
+   <!---  Or to copy (add another link for) a permit from one shipment to another shipment in the same transaction ---> 
    <cfset ok = false>
    <cfif isDefined("permit_id") and len(permit_id) gt 0>
        <cfif isDefined("current_shipment_id") and len(current_shipment_id) gt 0>
@@ -16,6 +17,7 @@
    <cfif ok EQ false>
       <cfset result="Error: PermitPick.cfm:movePermit must be provided with permit_id, current_shipment_id and transaction_id">
    <cfelse>
+   <cfset feedbackId = "queryMovePermit#permit_id##current_shipment_id#">
    
    <cfset result="">
    <cfquery name="queryPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -25,7 +27,7 @@
         where permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
    </cfquery>
    <cfloop query="queryPermit">
-       <cfset result = result & "<h3>Move permit #permit_type# #permit_num# Issued By: #IssuedByAgent#</h3>">
+       <cfset result = result & "<span id='#feedbackId#'><h3>Move Permit #permit_type# #permit_num# Issued By: #IssuedByAgent#</h3></span>">
    </cfloop>
    <cfquery name="queryShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                    select 1 as status, shipment_id,
@@ -42,7 +44,9 @@
    <cfif queryShip.recordcount gt 0>
        <cfset result= result & "<ul>">
        <cfloop query="queryShip">
-          <cfset result = result & "<li><input type='button' style='margin-left: 30px;' value='Move To' class='lnkBtn' onClick="" movePermitFromShipment(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#); ""> #shipped_carrier_method# #shipped_date# #carriers_tracking_number#</li>">
+          <cfset result = result & "<li><input type='button' style='margin-left: 30px;' value='Move To' class='lnkBtn' onClick="" if ( movePermitFromShipment(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#) == 1 ) { $(###reedbackId#).text('Moved.  Click OK to close dialog.') }; ""> ">
+          <cfset result = result & "<input type='button' style='margin-left: 30px;' value='Copy To' class='lnkBtn' onClick="" if ( addPermitToShipment(#hipment_id#,#permit_id#,#transaction_id#) == 1 ) { $(###reedbackId#).text('Added.  Click OK to close dialog.') }; ""> ">
+          <cfset result = result & "#shipped_carrier_method# #shipped_date# #carriers_tracking_number#</li>">
        </cfloop>
        <cfset result= result & "</ul>">
    <cfelse>
