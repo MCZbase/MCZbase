@@ -142,6 +142,14 @@
       <label for="tag">Require TAG?</label>
       <input type="checkbox" id="tag" name="tag" value="1">
       </div>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+          <div style="float:left;width: 150px;">
+           <span>
+               <label for "unlinked">Limit to Media not yet linked to any record.</label>
+               <input type="checkbox" name="unlinked" id="unlinked" value="true">
+           </span>
+           </div>
+        </cfif>
       <div style="clear: both;padding-top: .5em;">
       <label for="relationships">Media Relationships</label>
       <div id="relationships" class="relationship_dd">
@@ -154,12 +162,6 @@
         <input type="hidden" name="related_id__1" id="related_id__1">
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
-        </div>
-       <div style="float:left;width: 150px;">
-           <span>
-               <input type="checkbox" name="unchecked" id="unchecked" value="true">
-               <label for "unlinked">Limit to Media not yet linked to any record.</label>
-           </span>
         </div>
       <label for="labels" style="margin-top: .5em">Media Labels</label>
       <div id="labels" class="relationship_dd">
@@ -274,9 +276,11 @@
 		<cfif isdefined("media_id") and len(media_id) gt 0>
 			<cfset whr="#whr# AND media.media_id in (#media_id#)">
 		</cfif>
-		<cfif isdefined("unlinked") and unlinked EQ "true">
-		    <cfset number_of_relations = 0 >
-        </cfif>
+	        <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+		   <cfif isdefined("unlinked") and unlinked EQ "true">
+		       <cfset number_of_relations = 0 >
+                   </cfif>
+                </cfif>
 		<cfif not isdefined("number_of_relations")>
 		    <cfif (isdefined("relationship") and len(relationship) gt 0) or (isdefined("related_to") and len(related_to) gt 0)>
 				<cfset number_of_relations=1>
