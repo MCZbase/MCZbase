@@ -931,10 +931,10 @@ function opendialog(page,id,title) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
-    height: 500,
+    height: 550,
     width: 800,
     minWidth: 400,
-    minHeight: 400,
+    minHeight: 450,
     draggable:true,
     buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("close"); } }
   });

@@ -27,7 +27,7 @@
         where permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
    </cfquery>
    <cfloop query="queryPermit">
-       <cfset result = result & "<span id='#feedbackId#'><h3>Move Permit #permit_type# #permit_num# Issued By: #IssuedByAgent#</h3></span>">
+       <cfset result = result & "<h3>Move/Copy Permit #permit_type# #permit_num# Issued By: #IssuedByAgent#</h3><p><strong><span id='#feedbackId#'></span></strong></p>">
    </cfloop>
    <cfquery name="queryShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                    select 1 as status, shipment_id,
@@ -44,8 +44,8 @@
    <cfif queryShip.recordcount gt 0>
        <cfset result= result & "<ul>">
        <cfloop query="queryShip">
-          <cfset result = result & "<li><input type='button' style='margin-left: 30px;' value='Move To' class='lnkBtn' onClick="" if ( movePermitFromShipment(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#) == 1 ) { $(###reedbackId#).text('Moved.  Click OK to close dialog.') }; ""> ">
-          <cfset result = result & "<input type='button' style='margin-left: 30px;' value='Copy To' class='lnkBtn' onClick="" if ( addPermitToShipment(#hipment_id#,#permit_id#,#transaction_id#) == 1 ) { $(###reedbackId#).text('Added.  Click OK to close dialog.') }; ""> ">
+          <cfset result = result & "<li><input type='button' style='margin-left: 30px;' value='Move To' class='lnkBtn' onClick="" movePermitFromShipmentCB(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#, function(status) { if (status == 1) { $('##" & "#feedbackId#').html('Moved.  Click OK to close dialog.'); } else { $('##" & "#feedbackId#').html('Error.'); }; }); ""> ">
+          <cfset result = result & "<input type='button' style='margin-left: 30px;' value='Copy To' class='lnkBtn' onClick=""  addPermitToShipmentCB(#shipment_id#,#permit_id#,#transaction_id#, function(status) { if (status == 1) { $('##" & "#feedbackId#').html('Added.  Click OK to close dialog.'); } else { $('##" & "#feedbackId#').html('Error.'); }; }); ""> ">
           <cfset result = result & "#shipped_carrier_method# #shipped_date# #carriers_tracking_number#</li>">
        </cfloop>
        <cfset result= result & "</ul>">
