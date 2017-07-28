@@ -1040,66 +1040,6 @@ $( document ).ready(loadShipments(#transaction_id#));
   <div id="shipmentFormStatus"></div>
 </div>
 
-<!---
-	<cfform name="shipment" method="post" action="Loan.cfm">
-		<input type="hidden" name="Action" value="saveShip">
-		<input type="hidden" name="transaction_id" value="#transaction_id#">
-		<label for="packed_by_agent">Packed By Agent</label>
-		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="#packed_by_agent#"
-			  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipment',this.value); return false;"
-			  onKeyPress="return noenter(event);">
-		<input type="hidden" name="packed_by_agent_id" value="#packed_by_agent_id#">
-		<label for="shipped_carrier_method">Shipped Method</label>
-		<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
-			<option value=""></option>
-			<cfloop query="ctShip">
-				<option
-					<cfif ctShip.shipped_carrier_method is thisCarrier> selected="selected" </cfif>
-						value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
-			</cfloop>
-		</select>
-		<label for="packed_by_agent">Shipped To Address (may format funky until save)</label>
-		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
-			readonly="yes" class="reqdClr">#shipped_to_addr#</textarea>
-		<input type="hidden" name="shipped_to_addr_id" value="#shipped_to_addr_id#">
-		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipment'); return false;">
-		<label for="packed_by_agent">Shipped From Address</label>
-		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
-			readonly="yes" class="reqdClr">#shipped_from_addr#</textarea>
-		<input type="hidden" name="shipped_from_addr_id" value="#shipped_from_addr_id#">
-		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipment'); return false;">
-		<label for="carriers_tracking_number">Tracking Number</label>
-		<input type="text" value="#carriers_tracking_number#" name="carriers_tracking_number" id="carriers_tracking_number">
-		<label for="shipped_date">Ship Date</label>
-		<input type="text" value="#dateformat(shipped_date,'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
-		<label for="package_weight">Package Weight (TEXT, include units)</label>
-		<input type="text" value="#package_weight#" name="package_weight" id="package_weight">
-		<label for="no_of_packages">Number of Packages</label>
-		<input type="text" value="#no_of_packages#" name="no_of_packages" id="no_of_packages">
-		<label for="hazmat_fg">Hazmat?</label>
-		<select name="hazmat_fg" id="hazmat_fg" size="1">
-			<option <cfif hazmat_fg is 0> selected="selected" </cfif>value="0">no</option>
-			<option <cfif hazmat_fg is 1> selected="selected" </cfif>value="1">yes</option>
-		</select>
-		<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
-		<cfinput type="text" validate="float" label="Numeric value required."
-			 value="#INSURED_FOR_INSURED_VALUE#" name="insured_for_insured_value" id="insured_for_insured_value">
-		<label for="shipment_remarks">Remarks</label>
-		<input type="text" value="#shipment_remarks#" name="shipment_remarks" id="shipment_remarks">
-		<label for="contents">Contents</label>
-		<input type="text" value="#contents#" name="contents" id="contents" size="60">
-		<label for="foreign_shipment_fg">Foreign shipment?</label>
-		<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
-			<option <cfif foreign_shipment_fg is 0> selected="selected" </cfif>value="0">no</option>
-			<option <cfif foreign_shipment_fg is 1> selected="selected" </cfif>value="1">yes</option>
-		</select>
-		<br><input type="submit" value="Save Shipment" class="savBtn">
-	</cfform>
---->
-<!---  TODO: Permits tied to shipments, not loans  --->
-
 	<h3>Accessions (and their permits) for material in this loan:</h3>
         <!--- List Accessions for collection objects included in the Loan --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1130,8 +1070,29 @@ $( document ).ready(loadShipments(#transaction_id#));
               </ul>
 	    </cfif>
 	</cfloop>
-        <!--- TODO: Print permits associated with these accessions --->
         </ul>
+
+    <!--- TODO: Print permits associated with these accessions --->
+	<h3>Permit Media</h3>
+<!---
+	<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct media.media_id from 
+		   loan l 
+		   left join loan_item li on l.transaction_id = li.transaction_id
+		   left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+		   left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+		   left join accn on ci.accn_id = accn.transaction_id
+           left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+           left join permit on permit_trans.permit_id = permit.permit_id
+           
+		   where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+    </cfquery>
+    <ul>
+  	<cfloop query="getPermitMedoa">
+    </cfloop>
+    </ul>
+---> 
+
     </div>
 </cfoutput>
 <script>
