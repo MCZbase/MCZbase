@@ -1073,26 +1073,40 @@ $( document ).ready(loadShipments(#transaction_id#));
         </ul>
 
     <!--- TODO: Print permits associated with these accessions --->
-	<h3>Permit Media</h3>
-<!---
+	<h3>Permit Media (PDF copies of Permits)</h3>
 	<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct media.media_id from 
-		   loan l 
-		   left join loan_item li on l.transaction_id = li.transaction_id
+		select distinct media.media_id, media.url, p.permit_type, p.permit_num
+           from loan_item li
 		   left join specimen_part sp on li.collection_object_id = sp.collection_object_id
 		   left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
 		   left join accn on ci.accn_id = accn.transaction_id
            left join permit_trans on accn.transaction_id = permit_trans.transaction_id
-           left join permit on permit_trans.permit_id = permit.permit_id
-           
-		   where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+           left join permit p on permit_trans.permit_id = p.permit_id
+           left join media_relation on permit.permit_id = media_relation.related_primary_key 
+           left join media on media_relation.media_id = media.media_id
+		where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+              and media_relation.media_relationship = 'shows permit'
+              and mime_type = 'application/pdf'
+        union
+		select distinct media.media_id, media.url, p.permit_type, p.permit_num
+           from shipment s
+           left join permit_shipment ps on s.shipment_id = ps.shipment_id
+           left join permit p on ps.permit_id = p.permit_id
+           left join media_relation on p.permit_id = media_relation.related_primary_key 
+           left join media on media_relation.media_id = media.media_id
+		where shipment.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+              and media_relation.media_relationship = 'shows permit'
+              and mime_type = 'application/pdf'
     </cfquery>
     <ul>
-  	<cfloop query="getPermitMedoa">
+  	<cfloop query="getPermitMedia">
+        <cfif media_id is ''> 
+           <li>#permit_type# #permit_num# (no pdf)</li>
+        <cfelse>
+           <li><a href="#uri#">#permit_type# #permit_num#</a></li>
+        </cfif>
     </cfloop>
     </ul>
----> 
-
     </div>
 </cfoutput>
 <script>
