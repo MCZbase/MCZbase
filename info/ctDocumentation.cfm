@@ -8,13 +8,11 @@
 <cfif not isdefined("field")>
 	<cfset field="">
 </cfif>
+<div style="margin: 1em;">
+<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
 
-	<table>
-		<tr>
-			<td>
-				<font size="+1">Documentation for code table <strong>#tableName#</strong>:</font>			</td>
-		</tr>
-	</table>
+<p>If you need to search for two values, put a pipe in between them and no spaces (e.g., skin|skull)</p>
+
 	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from #table#
 	</cfquery>
@@ -127,7 +125,7 @@
 				</cfif>
 		</table>
 	</cfif>
-	
+	</div>
 	
 	
 </cfoutput>
