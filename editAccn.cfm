@@ -445,7 +445,7 @@
 				permit.permit_id = permit_trans.permit_id AND
 				permit.issued_by_agent_id = issuedBy.agent_id AND
 				permit.issued_to_agent_id = issuedTo.agent_id AND
-				permit_trans.transaction_id = #accnData.transaction_id#
+				permit_trans.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#accnData.transaction_id#">
 		</cfquery>
 		<div style="float:left;width:95%;">
 			<br><strong>Permits:</strong>  
@@ -453,7 +453,7 @@
 				<p><strong>Permit ## #permit_Num# (#permit_Type#)</strong> issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_date,"yyyy-mm-dd")#. <cfif len(#renewed_date#) gt 0> (renewed #renewed_date#)</cfif> Expires #dateformat(exp_date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> 
 				<form name="killPerm#currentRow#" method="post" action="editAccn.cfm">
 					<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
-					<input type="hidden" name="action" value="delePermit">
+					<input type="hidden" name="action" value="unlinkPermit">
 					<input type="hidden" name="permit_id" value="#permit_id#">
 					 <input type="submit" value="Remove this Permit" class="delBtn">	
 				</form>
@@ -874,7 +874,7 @@
  </div>
 </cfif>
 <!------------------------------------------------------------------------------------------->
-<cfif #Action# is "delePermit">
+<cfif #Action# is "unlinkPermit">
 	<cfoutput>
 		<cfquery name="killPerm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and 
