@@ -40,15 +40,15 @@ CREATE OR REPLACE TRIGGER cf_temp_id_key
 /
 sho err
 ------>
-    
+
 <cfif #action# is "nothing">
     <h3 class="wikilink">Bulkload Identifications</h3>
-  
+
 <p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
     <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none;margin: 1em 0 0 0;">
 		<label for="t">Copy the following code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">collection_cde,institution_acronym,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2</textarea>
+		<textarea rows="2" cols="80" id="t">collection_cde,institution_acronym,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,stored_as_fg</textarea>
 	</div>
 
 <ul class="geol_hier" style="padding-bottom: 2em;padding-top:0;">
@@ -63,6 +63,7 @@ sho err
 	<li>identification_remarks</li>
 	<li style="color:red">agent_1</li>
 	<li>agent_2</li>
+	<li>stored_as_fg</li>
 </ul>
 
 <cfform name="oids" method="post" enctype="multipart/form-data" style="margin: 1em 0;">
@@ -342,7 +343,8 @@ sho err
 				ACCEPTED_ID_FG,
 				IDENTIFICATION_REMARKS,
 				TAXA_FORMULA,
-				SCIENTIFIC_NAME
+				SCIENTIFIC_NAME,
+				stored_as_fg
 			) values (
 				sq_identification_id.nextval,
 				#COLLECTION_OBJECT_ID#,
@@ -351,7 +353,8 @@ sho err
 				#ACCEPTED_FG#,
 				'#IDENTIFICATION_REMARKS#',
 				'#TAXA_FORMULA#',
-				'#SCIENTIFIC_NAME#'
+				'#SCIENTIFIC_NAME#',
+				#stored_as_fg#
 			)
 		</cfquery>
 		<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
