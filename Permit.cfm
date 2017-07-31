@@ -710,7 +710,7 @@ select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, tr
     concat('deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
-  left join deaccession on trans.transaction_id = deaccession.transaction_id
+  left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
   where trans.transaction_type = 'deacc'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
