@@ -712,11 +712,12 @@ You do not have permission to create Higher Geographies
 		</div>
 		<table>
 			<tr>
-				<td><label for="verbatim_date">
-			Verbatim Date
-		</label>
-<input type="text" name="VERBATIM_DATE" id="verbatim_date" value="#locDet.VERBATIM_DATE#" class="reqdClr">
-             </td></tr></table>
+				<td>
+					<label for="verbatim_date">Verbatim Date</label>
+					<input type="text" name="VERBATIM_DATE" id="verbatim_date" value="#stripquotes(locDet.VERBATIM_DATE)#" class="reqdClr">
+             	</td>
+			</tr>
+		</table>
 		<table>
 			<tr>
 				<td style="padding-right: 1.5em;">
@@ -758,7 +759,7 @@ You do not have permission to create Higher Geographies
 			</tr>
 		</table>
 		<label for="coll_event_remarks">Remarks</label>
-		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#locDet.COLL_EVENT_REMARKS#" size="115">
+		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#stripquotes(locDet.COLL_EVENT_REMARKS)#" size="115">
 		<table>
         <tr>
         <td style="padding-right: 2em;"><label for="collecting_source">
@@ -784,7 +785,7 @@ You do not have permission to create Higher Geographies
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
 			onClick="document.location='Locality.cfm?Action=deleteCollEvent&collecting_event_id=#locDet.collecting_event_id#';">
-		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#locDet.verbatim_locality#&began_date=#locDet.began_date#&ended_date=#locDet.began_date#&verbatim_date=#locDet.verbatim_date#&coll_event_remarks=#locDet.coll_event_remarks#&collecting_source=#locDet.collecting_source#&collecting_method=#locDet.collecting_method#&habitat_desc=#locDet.habitat_desc#">
+		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#locDet.verbatim_locality#&began_date=#locDet.began_date#&ended_date=#locDet.began_date#&verbatim_date=#locDet.verbatim_date#&coll_event_remarks=#stripquotes(locDet.coll_event_remarks)#&collecting_source=#locDet.collecting_source#&collecting_method=#locDet.collecting_method#&habitat_desc=#locDet.habitat_desc#">
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#dLoc#';">
 	</cfform>
 
@@ -813,90 +814,147 @@ You do not have permission to create Higher Geographies
 	    	<input type="hidden" name="Action" value="newColl">
 	     	<input type="hidden" name="locality_id" value="#locality_id#">
 	     	<label for="verbatim_locality">Verbatim Locality</label>
-	     	<input type="text" name="verbatim_locality" id="verbatim_locality" size="50"
+	     	<input type="text" name="verbatim_locality" id="verbatim_locality" size="115"
 			  	<cfif isdefined("verbatim_locality")>
 					value="#stripQuotes(verbatim_locality)#"
 				<cfelseif isdefined("getLoc.spec_locality")>
 					value="#stripQuotes(getLoc.spec_locality)#"
 				</cfif>>
 			<table>
+				<tr>
+					<td><label for="verbatimCoordinates">Verbatim Coordinates (Summary)<label>
+							<input type="text" name="verbatimCoordinates" <cfif isdefined("verbatimCoordinates")> value="#stripQuotes(verbatimCoordinates)#"</cfif> id="verbatimCoordinates"  size="115">
+					</td>
+				</tr>
+			</table>
+			<table>
+				<tr>
+					<td style="padding-right: 1.5em;"><label for="verbatimLatitude">Verbatim Latitude<label>
+							<input type="text" name="verbatimLatitude" <cfif isdefined("verbatimLatitude")> value="#stripQuotes(verbatimLatitude)#"</cfif> id="verbatimLatitude" size="30">
+					</td>
+					<td ><label for="verbatimLongitude">Verbatim Longitude<label>
+							<input type="text" name="verbatimLongitude" <cfif isdefined("verbatimLongitude")>value="#stripQuotes(verbatimLongitude)#"</cfif> id="verbatimLongitude" size="30">
+					</td>
+				</tr>
+			</table>
+			</table>
+				<tr>
+					<td style="padding-right: 1.5em;"><label for="verbatimCoordinateSystem">Verbatim Coordinate System (e.g., decimal degrees)<label>
+							<input type="text" name="verbatimCoordinateSystem" <cfif isdefined("verbatimCoordinateSystem")>value="#stripQuotes(verbatimCoordinateSystem)#"</cfif> id="verbatimCoordinateSystem" size="50">
+					</td>
+					<td ><label for="verbatimSRS">Verbatim SRS (includes ellipsoid model/Datum)<label>
+							<input type="text" name="verbatimSRS" <cfif isdefined("verbatimSRS")>value="#stripQuotes(verbatimSRS)#"</cfif> id="verbatimSRS" size="50">
+					</td>
+				</tr>
+			</table>
+		<table>
 			<tr>
-				<td colspan="2"><label for="verbatimCoordinates">Verbatim Coordinates<label>
-						<input type="text" name="verbatimCoordinates" <cfif isdefined("verbatimCoordinates")> value="#stripQuotes(verbatimCoordinates)#"</cfif> id="verbatimCoordinates">
-				</td>
-				<td ><label for="verbatimLatitude">Verbatim Latitude<label>
-						<input type="text" name="verbatimLatitude" <cfif isdefined("verbatimLatitude")> value="#stripQuotes(verbatimLatitude)#"</cfif> id="verbatimLatitude" size="4">
-				</td>
-				<td ><label for="verbatimLongitude">Verbatim Longitude<label>
-						<input type="text" name="verbatimLongitude" <cfif isdefined("verbatimLongitude")>value="#stripQuotes(verbatimLongitude)#"</cfif> id="verbatimLongitude" size="4">
-				</td>
-			</tr>
-			<tr>
-				<td ><label for="verbatimCoordinateSystem">Verbatim Coordinate System<label>
-						<input type="text" name="verbatimCoordinateSystem" <cfif isdefined("verbatimCoordinateSystem")>value="#stripQuotes(verbatimCoordinateSystem)#"</cfif> id="verbatimCoordinateSystem">
-				</td>
-				<td ><label for="verbatimSRS">Verbatim SRS<label>
-						<input type="text" name="verbatimSRS" <cfif isdefined("verbatimSRS")>value="#stripQuotes(verbatimSRS)#"</cfif> id="verbatimSRS">
+				<td>
+				<label for="verbatim_date">Verbatim Date</label>
+				<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr"
+				  	<cfif isdefined("verbatim_date")>
+						value="#verbatim_date#"
+					</cfif>
+				>
 				</td>
 			</tr>
 		</table>
-			<label for="verbatim_date">Verbatim Date</label>
-			<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr"
-			  	<cfif isdefined("verbatim_date")>
-					value="#verbatim_date#"
-				</cfif>
-			>
-			<span class="infoLink"onClick="newCollEvnt.began_date.value=newCollEvnt.verbatim_date.value;
-				newCollEvnt.ended_date.value=newCollEvnt.verbatim_date.value;">[ copy ]</span>
-			<label for="collecting_time">Collecting Time</label>
-			<input type="text" name="collecting_time" id="collecting_time"
-			  	<cfif isdefined("collecting_time")>
-					value="#collecting_time#"
-				</cfif>
-			>
-			<label for="began_date">Began Date</label>
-	      	<input type="text" name="began_date" id="began_date"
-			  	<cfif isdefined("began_date")>
-					value="#began_date#"
-				</cfif>
-			>
-	        <label for="ended_date">Ended Date</label>
-	        <input type="text" name="ended_date" id="ended_date"
-				<cfif isdefined("ended_date")>
-					value="#ended_date#"
-				</cfif>
-			>
+		<table>
+			<tr>
+				<td style="padding-right: 1.5em;">
+				<span class="infoLink"onClick="newCollEvnt.began_date.value=newCollEvnt.verbatim_date.value;
+					newCollEvnt.ended_date.value=newCollEvnt.verbatim_date.value;">[ copy ]</span>
+				<label for="collecting_time">Collecting Time</label>
+				<input type="text" name="collecting_time" id="collecting_time"
+				  	<cfif isdefined("collecting_time")>
+						value="#collecting_time#"
+					</cfif>
+				>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td style="padding-right: 1.5em;">
+					<label for="startDayOfYear">Start Day of Year</label>
+					<input type="text" name="startDayOfYear" id="startDayOfYear"
+					<cfif isdefined("startDayOfYear")>
+						value="#locDet.startDayOfYear#"
+					</cfif>
+					size="20">
+				</td>
+				<td>
+					<label for="endDayOfYear">End Day of Year</label>
+					<input type="text" name="endDayOfYear" id="endDayOfYear"
+					<cfif isdefined("endDayOfYear")>
+						value="#locDet.endDayOfYear#"
+					</cfif>
+					size="20">
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td style="padding-right: 1.5em;">
+					<tr>
+						<label for="began_date">Began Date</label>
+				      	<input type="text" name="began_date" id="began_date"
+						  	<cfif isdefined("began_date")>
+								value="#began_date#"
+							</cfif>
+						>
+					</tr>
+				<td>
+					<tr>
+				        <label for="ended_date">Ended Date</label>
+				        <input type="text" name="ended_date" id="ended_date"
+							<cfif isdefined("ended_date")>
+								value="#ended_date#"
+							</cfif>
+						>
+					</tr>
+				</td>
+			</tr>
+		</table>
 			<label for="coll_event_remarks">Remarks</label>
 			<input type="text" name="coll_event_remarks" id="coll_event_remarks"
 			  	<cfif isdefined("coll_event_remarks")>
-					value="#coll_event_remarks#"
+					value="#stripquotes(coll_event_remarks)#"
 				</cfif>
-			size="50">
-			<label for="collecting_source">Collecting Source</label>
-			<cfif isdefined("collecting_source")>
-				<cfset collsrc = collecting_source>
-			<cfelse>
-				<cfset collsrc = "">
-			</cfif>
-			<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
-				<cfloop query="ctCollecting_Source">
-					<option
-						<cfif ctCollecting_Source.Collecting_Source is collsrc> selected="selected" </cfif>
-						value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
-				</cfloop>
-			</select>
-			<label for="collecting_method">Collecting Method</label>
-			<input type="text" name="collecting_method" id="collecting_method"
-			  	<cfif isdefined("collecting_method")>
-					value="#collecting_method#"
-				</cfif>
-			>
-			<label for="habitat">Habitat</label>
+			size="115">
+		<table>
+			<tr>
+				<td style="padding-right: 2em;">
+					<label for="collecting_source">Collecting Source</label>
+					<cfif isdefined("collecting_source")>
+						<cfset collsrc = collecting_source>
+					<cfelse>
+						<cfset collsrc = "">
+					</cfif>
+					<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
+						<cfloop query="ctCollecting_Source">
+							<option
+								<cfif ctCollecting_Source.Collecting_Source is collsrc> selected="selected" </cfif>
+								value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
+						</cfloop>
+					</select>
+				</td>
+				<td>
+					<label for="collecting_method">Collecting Method</label>
+					<input type="text" name="collecting_method" id="collecting_method"
+					  	<cfif isdefined("collecting_method")>
+							value="#collecting_method#"
+						</cfif>
+					size="92">
+				</td>
+			</tr>
+		<table>
+			<label for="habitat_desc">Habitat</label>
 			<input type="text" name="habitat_desc" id="habitat_desc"
 				<cfif isdefined("HABITAT_DESC")>
 					value="#HABITAT_DESC#"
 				</cfif>
-			>
+			size="115">
 			<br>
 			<input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
