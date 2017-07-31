@@ -9,7 +9,7 @@
 <cfoutput>
 Search for permits and similar documents (access benefit sharing agreements, 
 material transfer agreements, collecting permits, salvage permits, etc.)
-Any part of dates and names accepted, case isn't important.<br>
+Any part of names accepted, case isn't important.  Use year or a date for dates.<br>
 Leave "until date" fields empty unless you use the field to its left.<br>
 <cfform name="findPermit" action="Permit.cfm" method="post">
 	<input type="hidden" name="Action" value="search">
@@ -130,6 +130,15 @@ where
 	<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#ucase(IssuedToAgent)#%'">
 </cfif>
 <cfif len(#issued_date#) gt 0>
+    <cfif len(#issued_date#) EQ 4> 
+       <cfset issued_date = "#issued_date#-01-01">
+	   <cfif len(#issued_until_date#) EQ 0>
+           <cfset issued_until_date = "#issued_date#-12-31">
+       </cfif>
+	   <cfif len(#issued_until_date#) EQ 4>
+           <cfset issued_until_date = "#issued_until_date#-12-31">
+       </cfif>
+    </cfif>
 	<cfif len(#issued_until_date#) gt 0>
 		<cfset sql = "#sql# AND upper(issued_date) between to_date('#issued_date#', 'yyyy-mm-dd')
 														and to_date('#issued_until_date#', 'yyyy-mm-dd')">
@@ -138,6 +147,15 @@ where
 	</cfif>
 </cfif>
 <cfif len(#renewed_date#) gt 0>
+    <cfif len(#renewed_date#) EQ 4> 
+       <cfset renewed_date = "#renewed_date#-01-01">
+	   <cfif len(#renewed_until_date#) EQ 0>
+           <cfset renewed_until_date = "#renewed_date#-12-31">
+       </cfif>
+	   <cfif len(#renewed_until_date#) EQ 4>
+           <cfset renewed_until_date = "#renewed_until_date#-12-31">
+       </cfif>
+    </cfif>
 	<cfif len(#renewed_until_date#) gt 0>
 		<cfset sql = "#sql# AND upper(renewed_date) between to_date('#renewed_date#', 'yyyy-mm-dd')
 														and to_date('#renewed_until_date#', 'yyyy-mm-dd')">
@@ -146,6 +164,15 @@ where
 	</cfif>
 </cfif>
 <cfif len(#exp_date#) gt 0>
+    <cfif len(#exp_date#) EQ 4> 
+       <cfset exp_date = "#exp_date#-01-01">
+	   <cfif len(#exp_until_date#) EQ 0>
+           <cfset exp_until_date = "#exp_date#-12-31">
+       </cfif>
+	   <cfif len(#exp_until_date#) EQ 4>
+           <cfset exp_until_date = "#exp_until_date#-12-31">
+       </cfif>
+    </cfif>
 	<cfif len(#exp_until_date#) gt 0>
 		<cfset sql = "#sql# AND upper(exp_date) between to_date('#exp_date#', 'yyyy-mm-dd')
 														and to_date('#exp_until_date#', 'yyyy-mm-dd')">
