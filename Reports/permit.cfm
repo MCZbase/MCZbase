@@ -830,12 +830,14 @@ and on day add a 0 to the front if it is one digit only--->
 	Permit_id must be numeric.<cfabort>
 </cfif>
 <!--- build query --->
-<cfset sql="select
+<cfset sql="          
+             select * from (
+                       select
 				cat_num,
 				cataloged_item.collection_object_id,
 				identification.scientific_name,
 				permit.permit_id,
-				permit_trans.transaction_id,
+				permit_trans.transaction_id as transaction_id,
 				cataloged_item.accn_id,
 				accepted_id_fg,
 				collection_cde,
@@ -851,13 +853,45 @@ and on day add a 0 to the front if it is one digit only--->
 				INNER JOIN geog_auth_rec ON (locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id)
 				LEFT OUTER JOIN identification ON (cataloged_item.collection_object_id = identification.collection_object_id)
 				LEFT OUTER JOIN accn on (cataloged_item.accn_id = accn.transaction_id)
+				LEFT OUTER JOIN trans on (accn.transaction_id = trans.transaction_id)
 				LEFT OUTER JOIN permit_trans on (permit_trans.transaction_id=accn.transaction_id)
 				LEFT OUTER JOIN permit on (permit.permit_id = permit_trans.permit_id)
-			where
+			where 
 				permit.permit_id=#permit_id# AND
 				accepted_id_fg=1
-			order by
-				#order#">
+                     union
+                        select
+                                cat_num,
+                                cataloged_item.collection_object_id,
+                                identification.scientific_name,
+                                permit.permit_id,
+                                trans.transaction_id as transaction_id,
+                                cataloged_item.accn_id,
+                                accepted_id_fg,
+                                collection_cde,
+                                state_prov,
+                                country,
+                                county,
+                                island,
+                                verbatim_date
+                        from
+                                cataloged_item
+                                INNER JOIN collecting_event ON (cataloged_item.collecting_event_id = collecting_event.collecting_event_id)
+                                INNER JOIN locality ON (collecting_event.locality_id = locality.locality_id)
+                                INNER JOIN geog_auth_rec ON (locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id)
+                                LEFT OUTER JOIN identification ON (cataloged_item.collection_object_id = identification.collection_object_id)
+                                left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+                                LEFT OUTER JOIN loan_item on (specimen_part.collection_object_id = loan_item.collection_object_id)
+                                LEFT OUTER JOIN trans on (loan_item.transaction_id = trans.transaction_id)
+                                left join shipment on trans.transaction_id = shipment.transaction_id
+                                left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+                                LEFT OUTER JOIN permit on (permit.permit_id = permit_shipment.permit_id)
+                        where 
+                                permit.permit_id=#permit_id# AND
+                                accepted_id_fg=1
+		) order by
+				#order#"
+>
 <cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	#preservesinglequotes(sql)#
 </cfquery>

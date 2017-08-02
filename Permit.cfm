@@ -406,8 +406,17 @@ where
 		<input type="submit" value="Accession List" class="lnkBtn"
 				onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>
+        <!--- TODO: revisit permit report --->
+        <!---
 	<form action="Reports/permit.cfm" method="post">
 	<input type="hidden" name="permit_id" value="#permit_id#">
+		<input type="submit" value="Permit Report" class="lnkBtn"
+				onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
+	</form>
+        --->
+	<form action="Permit.cfm" method="post">
+	<input type="hidden" name="permit_id" value="#permit_id#">
+	<input type="hidden" name="Action" value="PermitUseReport">
 		<input type="submit" value="Permit Report" class="lnkBtn"
 				onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>
@@ -827,10 +836,15 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         <cfloop query="permitInfo">
           #permit_Type# #permit_Num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
         </cfloop>
-	<form action="Permit.cfm" method="get" name="Copy">
+	<form action="Permit.cfm" method="get" name="EditPermit">
 	   <input type="hidden" name="permit_id" value="#permit_id#">
 	   <input type="hidden" name="Action" value="editPermit">
 	   <input type="submit" value="Edit this permit" class="lnkBtn"
+   	        onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
+	</form>
+	<form action="Reports/permit.cfm" method="get" name="Copy">
+	   <input type="hidden" name="permit_id" value="#permit_id#">
+	   <input type="submit" value="(Old) Permit Report" class="lnkBtn"
    	        onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>
      </cfoutput>
