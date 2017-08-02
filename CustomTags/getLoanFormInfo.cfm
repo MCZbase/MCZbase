@@ -3,6 +3,7 @@
 <!---  Custom Tags for named queries used in reports for transactions --->
 <!---  getLoanMCZ - information for loan/gift invoice headers.   --->
 <cfquery name="caller.getLoanMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      SELECT * from ( 
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
 			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
@@ -55,7 +56,8 @@
 				'Ent','Entomology Collection',
 				'[Unable to identify collection from loan number]' || substr(loan_number, instr(loan_number, '-',1, 2)+1) 
 				) as collection,
-				num_specimens, num_lots
+				num_specimens, num_lots,
+                shipment.shipment_id
         FROM
                 loan,
 				trans,
@@ -99,8 +101,10 @@
 				trans.transaction_id = 	project_trans.transaction_id (+) and
 				project_trans.project_id =	project_sponsor.project_id (+) and
 				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and				
-				loan.transaction_id=#transaction_id# and
-                                rownum < 2
+				loan.transaction_id=#transaction_id#
+        --- assume that the first entered shipment (by shipment_id, assuming that is sequential) is the outgoing shipment
+        order by shipment.shipment_id asc
+        ) where rownum < 2
 </cfquery>
 <!---  getLoanItemsMCZ - information for loan/gift item invoices.   --->
 <cfquery name="caller.getLoanItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
