@@ -266,6 +266,54 @@ function addTransAgentDeacc (id,name,role) {
 		}
 	);
 }
+
+function addLendersObject (transaction_id,catalog_number,sci_name,no_of_spec,spec_prep,type_status,country_of_origin,object_remarks) {
+
+	if (typeof catalog_number == "undefined") {
+		catalog_number = "";
+	 }
+	if (typeof sci_name == "undefined") {
+		sci_name = "";
+	 }
+    if (typeof no_of_spec == "undefined") {
+		no_of_spec = "";
+	 }
+     if (typeof spec_prep == "undefined") {
+		spec_prep = "";
+	 }
+     if (typeof type_status == "undefined") {
+		type_status = "";
+	 }
+    if (typeof country_of_origin == "undefined") {
+		country_of_origin = "";
+	 } 
+      if (typeof object_remarks == "undefined") {
+		object_remarks = "";
+	 } 
+
+	jQuery.getJSON("/component/functions.cfc",
+		{
+			method : "getLenders_Object",
+			returnformat : "json",
+			queryformat : 'column'
+		},
+                   	function (data) {
+			var i=parseInt(document.getElementById('numObject').value)+1;
+			var d='<input type="hidden" name="transaction_id_' + i + '" id="transaction_id_' + i + '" value="newLender_Object">';
+			d+='<label for "catalog_number_' + i + '"><input type="text" id="catalog_number_' + i + '" name="catalog_number_' + i + '" value="catalog_number_' + i + '"></label>';
+  			d+='<label for "sci_name_' + i + '"><input type="text" id="sci_name_' + i + '" name="sci_name_' + i + '" value="sci_name_' + i + '"></label>';
+  			d+='<label for "no_of_spec_' + i + '"><input type="text" id="no_of_spec_' + i + '" name="no_of_spec_' + i + '" value="no_of_spec_' + i + '"></label>';
+  			d+='<label for "spec_prep_' + i + '"><input type="text" id="spec_prep_' + i + '" name="spec_prep_' + i + '" value="spec_prep_' + i + '"></label>';
+  			d+='<label for "type_status_' + i + '"><input type="text" id="type_status_' + i + '" name="type_status_' + i + '" value="type_status_' + i + '"></label>';
+  			d+='<label for "country_of_origin_' + i + '"><input type="text" id="country_of_origin_' + i + '" name="country_of_origin_' + i + '" value="country_of_origin_' + i + '"></label>';
+            d+='<label for "object_remarks_' + i + '"><input type="text" id="object_remarks_' + i + '" name="object_remarks_' + i + '" value="object_remarks_' + i + '"></label>';
+  			document.getElementById('numObject').value=i;
+  			jQuery('#addLender_Object label:last').after(d);
+		}
+
+	);
+}
+
 jQuery("#uploadMedia").live('click', function(e){
 	addBGDiv('removeUpload()');
 	var theDiv = document.createElement('iFrame');
@@ -706,8 +754,6 @@ function setDefaultPub(t){
 	}
 	
 }
-
-
 function deleteAgent(r){
 	jQuery('#author_id_' + r).val("-1");	
 	jQuery('#authortr' + r + ' td:nth-child(1)').addClass('red').text(jQuery('#author_role_' + r).val());

@@ -399,6 +399,14 @@
 	<cfreturn k>
 </cffunction>
 <!------------------------------------------------------->
+    <!------------------------------------------------------->
+<cffunction name="getLenders_Object" access="remote">
+	<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select catalog_number,sci_name,no_of_spec,spec_prep,type_status,country_of_origin,object_remarks from lender_object where transaction_id = #transaction_id#
+	</cfquery>
+	<cfreturn k>
+</cffunction>
+<!------------------------------------------------------->
 <cffunction name="insertAgentName" access="remote">
 	<cfargument name="name" type="string" required="yes">
 	<cfargument name="id" type="numeric" required="yes">
