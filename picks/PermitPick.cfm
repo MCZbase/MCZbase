@@ -105,16 +105,16 @@
 			<td><input type="text" name="permit_remarks"></td>
 		</tr>
 		<tr>
-			<td colspan="4" align="center">
-			<input type="submit" 
-				value="Search" 
-				class="schBtn">	
-   
-   <img src="../images/nada.gif" width="30">
-   			<input type="reset" 
-				value="Clear" 
-				class="clrBtn">
-				</td>
+			<td></td>
+			<td>
+			    <input type="submit" value="Search" class="schBtn">	
+			</td>
+			<td>
+                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('Permit.cfm?headless=true&Action=newPermit','##createPermitDlg_#transaction_id#','Create', function() { $('##create_PermitDlg_#transaction_id#').dialog().close(); });" ></span><div id='createPermitDlg_#transaction_id#'></div>
+			</td>
+			<td>
+   			    <input type="reset" value="Clear" class="clrBtn">
+			</td>
 		</tr>
 	</table>
 	

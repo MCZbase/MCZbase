@@ -45,16 +45,16 @@ Search for permits. Any part of dates and names accepted, case isn't important.<
 			<td><input type="text" name="permit_remarks"></td>
 		</tr>
 		<tr>
-			<td colspan="4" align="center">
-			<input type="submit" 
-				value="Search" 
-				class="schBtn">	
-   
-   <img src="../images/nada.gif" width="30">
-   			<input type="reset" 
-				value="Clear" 
-				class="clrBtn">
-				</td>
+			<td></td>
+			<td>
+			   <input type="submit" value="Search" class="schBtn">	
+            </td>
+			<td>
+               <span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialog('Permit.cfm?headless=true&Action=newPermit','##createPermitSDlg_#shipment_id#','Create'); " ></span><div id='createPermitSDlg_#shipment_id#'></div>
+            </td>
+            <td>
+   			   <input type="reset" value="Clear" class="clrBtn">
+		    </td>
 		</tr>
 	</table>
 	
