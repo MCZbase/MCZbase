@@ -1,4 +1,6 @@
+<cfset jquery11=true>
 <cfinclude template="../includes/_pickHeader.cfm">
+<script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfset title = "Permit Pick">
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from ctpermit_type order by permit_type

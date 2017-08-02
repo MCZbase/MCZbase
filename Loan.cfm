@@ -931,12 +931,12 @@ function opendialog(page,id,title) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
-    height: 550,
-    width: 800,
+    height: 750,
+    width: 950,
     minWidth: 400,
     minHeight: 450,
     draggable:true,
-    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("close"); } }
+    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); } }
   });
   adialog.dialog('open');
 };

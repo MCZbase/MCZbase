@@ -330,7 +330,7 @@ function confirmAction(dialogText, dialogTitle, okFunction) {
 // @param title to display in the dialog's heading
 // @param okcallback callback function to execute when the OK button is clicked.
 function opendialogcallback(page,id,title,okcallback) {
-  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>';
   var adialog = $(id)
   .html(content)
   .dialog({
@@ -338,12 +338,14 @@ function opendialogcallback(page,id,title,okcallback) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
+    stack: true,
+    zindex: 2000,
     height: 550,
     width: 800,
     minWidth: 400,
     minHeight: 450,
     draggable:true,
-    buttons: { "Ok": okcallback }
+    buttons: { "Ok": function(){ if (okcallback) okcallback();} }
   });
   adialog.dialog('open');
 };

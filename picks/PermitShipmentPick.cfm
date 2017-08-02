@@ -1,9 +1,11 @@
+<cfset jquery11=true>
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Permit Pick">
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from ctpermit_type order by permit_type
 </cfquery>
 <cfoutput>
+<script type='text/javascript' src='/includes/transAjax.js'></script>
 
 Search for permits. Any part of dates and names accepted, case isn't important.<br>
 <cfform name="findPermit" action="PermitShipmentPick.cfm" method="post">
@@ -50,7 +52,7 @@ Search for permits. Any part of dates and names accepted, case isn't important.<
 			   <input type="submit" value="Search" class="schBtn">	
             </td>
 			<td>
-               <span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialog('Permit.cfm?headless=true&Action=newPermit','##createPermitSDlg_#shipment_id#','Create'); " ></span><div id='createPermitSDlg_#shipment_id#'></div>
+               <span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','##createPermitSDlg_#shipment_id#','Create New Permit', function() { $('##create_PermitSDlg_#shipment_id#').dialog('destroy'); } ); " ></span><div id='createPermitSDlg_#shipment_id#'></div>
             </td>
             <td>
    			   <input type="reset" value="Clear" class="clrBtn">
