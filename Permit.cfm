@@ -585,7 +585,9 @@ function opendialog(page,id,title) {
 <cfoutput query="permitInfo" group="permit_id">
 <cfform name="newPermit" action="Permit.cfm" method="post">
 	<input type="hidden" name="Action">
-	<input type="hidden" name="permit_id" value="#permit_id#">
+	<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+    <!--- make permit number available as a element with a distinct id to grab with jquery --->
+	<input type="hidden" name="permit_number_passon" id="permit_number_passon" value="#permit_Num#">
 	<table>
 		<tr>
 			<td>Issued By</td>
@@ -628,7 +630,7 @@ function opendialog(page,id,title) {
 			<td>Expiration Date</td>
 			<td><input type="text" name="exp_Date" value="#dateformat(exp_Date,"yyyy-mm-dd")#"></td>
 			<td>Permit Number</td>
-			<td><input type="text" name="permit_Num" value="#permit_Num#"></td>
+			<td><input type="text" name="permit_Num" id="permit_Num" value="#permit_Num#"></td>
 		</tr>
         <tr>
             <td>Summary of Restrictions on use</td>

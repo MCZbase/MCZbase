@@ -90,7 +90,7 @@
 			<td>Expiration Date</td>
 			<td><input type="text" name="exp_Date"></td>
 			<td>Permit Number</td>
-			<td><input type="text" name="permit_Num"></td>
+			<td><input type="text" name="permit_Num" id="permit_Num"></td>
 		</tr>
 		<tr>
 			<td>Permit Type</td>
@@ -112,7 +112,13 @@
 			    <input type="submit" value="Search" class="schBtn">	
 			</td>
 			<td>
-                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('Permit.cfm?headless=true&Action=newPermit','##createPermitDlg_#transaction_id#','Create', function() { $('##create_PermitDlg_#transaction_id#').dialog().close(); });" ></span><div id='createPermitDlg_#transaction_id#'></div>
+                <script>
+                   function createPermitDialogDone () { 
+                       $('##permit_Num').val($('##create_PermitDlg_#transaction_id# > ##permit_number_passon').val()); 
+                       $('##create_PermitDlg_#transaction_id#').dialog().close();
+                   };
+                </script>
+                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('Permit.cfm?headless=true&Action=newPermit','##createPermitDlg_#transaction_id#','Create', function() { $(""##permit_Num"").val($(""##create_PermitDlg_#transaction_id# > ##permit_number_passon"").val()); $('##create_PermitDlg_#transaction_id#').dialog().close(); });" ></span><div id='createPermitDlg_#transaction_id#'></div>
 			</td>
 			<td>
    			    <input type="reset" value="Clear" class="clrBtn">
