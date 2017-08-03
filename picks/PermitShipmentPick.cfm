@@ -30,7 +30,7 @@ Search for permits. Any part of dates and names accepted, case isn't important.<
 			<td>Expiration Date</td>
 			<td><input type="text" name="exp_Date"></td>
 			<td>Permit Number</td>
-			<td><input type="text" name="permit_Num"></td>
+			<td><input type="text" name="permit_Num" id="permit_Num" ></td>
 		</tr>
 		<tr>
 			<td>Permit Type</td>
@@ -52,7 +52,16 @@ Search for permits. Any part of dates and names accepted, case isn't important.<
 			   <input type="submit" value="Search" class="schBtn">	
             </td>
 			<td>
-               <span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','##createPermitSDlg_#shipment_id#','Create New Permit', function() { $('##create_PermitSDlg_#shipment_id#').dialog('destroy'); } ); " ></span><div id='createPermitSDlg_#shipment_id#'></div>
+                <script>
+                   function createPermitSDialogDone () { 
+                       alert($('##createPermitSDlg_#shipment_id#_iframe').contents().find('##permit_number_passon').val());
+<!--- working --->
+                       $('##permit_Num').val($('##createPermitSDlg_#shipment_id#_iframe').contents().find('##permit_number_passon').val()); 
+<!--- Not working yet --->
+                       $('##createPermitSDlg_#shipment_id#').dialog().destroy();
+                   };
+                </script>
+               <span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitSDlg_#shipment_id#','Create New Permit', createPermitSDialogDone ); " ></span><div id='createPermitSDlg_#shipment_id#'></div>
             </td>
             <td>
    			   <input type="reset" value="Clear" class="clrBtn">

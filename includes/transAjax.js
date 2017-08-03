@@ -326,12 +326,14 @@ function confirmAction(dialogText, dialogTitle, okFunction) {
 // function to the ok button.
 //
 // @param page uri for the page to load into the dialog
-// @param id an id for a div on the calling page which will have its content replaced with the dialog
+// @param id an id for a div on the calling page which will have its content replaced with the dialog, iframe 
+//    in the dialog is also given the id {id}_iframe
 // @param title to display in the dialog's heading
 // @param okcallback callback function to execute when the OK button is clicked.
 function opendialogcallback(page,id,title,okcallback) {
-  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>';
-  var adialog = $(id)
+  alert(okcallback);
+  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%" id="' + id +  '_iframe"></iframe>';
+  var adialog = $("#"+id)
   .html(content)
   .dialog({
     title: title,
