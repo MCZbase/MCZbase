@@ -58,7 +58,7 @@ Search for permits. Any part of dates and names accepted, case isn't important.<
 <!--- working --->
                        $('##permit_Num').val($('##createPermitSDlg_#shipment_id#_iframe').contents().find('##permit_number_passon').val()); 
 <!--- Not working yet --->
-                       $('##createPermitSDlg_#shipment_id#').dialog().destroy();
+                       $('##createPermitSDlg_#shipment_id#').dialog('destroy');
                    };
                 </script>
                <span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitSDlg_#shipment_id#','Create New Permit', createPermitSDialogDone ); " ></span><div id='createPermitSDlg_#shipment_id#'></div>

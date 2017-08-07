@@ -331,7 +331,6 @@ function confirmAction(dialogText, dialogTitle, okFunction) {
 // @param title to display in the dialog's heading
 // @param okcallback callback function to execute when the OK button is clicked.
 function opendialogcallback(page,id,title,okcallback) {
-  alert(okcallback);
   var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%" id="' + id +  '_iframe"></iframe>';
   var adialog = $("#"+id)
   .html(content)
@@ -342,12 +341,15 @@ function opendialogcallback(page,id,title,okcallback) {
     modal: true,
     stack: true,
     zindex: 2000,
-    height: 550,
+    height: 650,
     width: 800,
     minWidth: 400,
     minHeight: 450,
     draggable:true,
-    buttons: { "Ok": function(){ if (okcallback) okcallback();} }
+    buttons: {
+        "Ok": function(){ if (jQuery.type(okcallback)==='function') okcallback();} ,
+        "Cancel": $("#"+id).dialog('destroy')
+    }
   });
   adialog.dialog('open');
 };

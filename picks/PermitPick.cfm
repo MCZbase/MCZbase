@@ -114,13 +114,11 @@
 			<td>
                 <script>
                    function createPermitDialogDone () { 
-                       alert("callback");
-                       alert($('##create_PermitDlg_#transaction_id# > ##permit_number_passon').val());
-                       $('##permit_Num').val($('##create_PermitDlg_#transaction_id# > ##permit_number_passon').val()); 
-                       $('##create_PermitDlg_#transaction_id#').dialog().destroy();
+                       $('##permit_Num').val($('##createPermitDlg_#transaction_id#_iframe').contents().find('##permit_number_passon').val()); 
+                       $('##createPermitDlg_#transaction_id#').dialog('destroy');
                    };
                 </script>
-                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New PermitA' class='lnkBtn' onClick="opendialogcallback('Permit.cfm?headless=true&Action=newPermit','##createPermitDlg_#transaction_id#','Create', createPermitDialogDone);" ></span><div id='createPermitDlg_#transaction_id#'></div>
+                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New PermitA' class='lnkBtn' onClick="opendialogcallback('Permit.cfm?headless=true&Action=newPermit','createPermitDlg_#transaction_id#','Create', createPermitDialogDone);" ></span><div id='createPermitDlg_#transaction_id#'></div>
 			</td>
 			<td>
    			    <input type="reset" value="Clear" class="clrBtn">
