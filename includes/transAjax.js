@@ -348,7 +348,7 @@ function opendialogcallback(page,id,title,okcallback) {
     draggable:true,
     buttons: {
         "Ok": function(){ if (jQuery.type(okcallback)==='function') okcallback();} ,
-        "Cancel": $("#"+id).dialog('destroy')
+        "Cancel": function() {  $("#"+id).html('').dialog('destroy'); }
     }
   });
   adialog.dialog('open');

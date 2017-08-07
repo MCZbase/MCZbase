@@ -115,7 +115,7 @@
                 <script>
                    function createPermitDialogDone () { 
                        $('##permit_Num').val($('##createPermitDlg_#transaction_id#_iframe').contents().find('##permit_number_passon').val()); 
-                       $('##createPermitDlg_#transaction_id#').dialog('destroy');
+                       $('##createPermitDlg_#transaction_id#').html('').dialog('destroy');
                    };
                 </script>
                 <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New PermitA' class='lnkBtn' onClick="opendialogcallback('Permit.cfm?headless=true&Action=newPermit','createPermitDlg_#transaction_id#','Create', createPermitDialogDone);" ></span><div id='createPermitDlg_#transaction_id#'></div>
