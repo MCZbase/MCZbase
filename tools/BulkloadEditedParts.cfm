@@ -369,6 +369,7 @@ validate
 				<td>1</td>
 				<td>#append_to_remarks#</td>
 				<td>#changed_date#</td>
+				<td>#new_preserve_method#</td>
 			</tr>
 		</cfloop>
 	</table>

@@ -584,7 +584,9 @@ You do not have permission to create Higher Geographies
 		    VERBATIMLATITUDE,
 		    VERBATIMLONGITUDE,
 		    VERBATIMCOORDINATESYSTEM,
-		    VERBATIMSRS
+		    VERBATIMSRS,
+		    STARTDAYOFYEAR,
+		    ENDDAYOFYEAR
 		from
 			locality
 			inner join geog_auth_rec on (locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id)
@@ -724,6 +726,18 @@ You do not have permission to create Higher Geographies
 				<td>
 					<label for="ich_field_number">Ich. Field Number</label>
 					<input type="text" name="ich_field_number" id="ich_field_number" value="#locDet.fish_field_number#" size="20">
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td style="padding-right: 1.5em;">
+					<label for="startDayOfYear">Start Day of Year</label>
+					<input type="text" name="startDayOfYear" id="startDayOfYear" value="#locDet.startDayOfYear#" size="20">
+				</td>
+				<td>
+					<label for="endDayOfYear">End Day of Year</label>
+					<input type="text" name="endDayOfYear" id="endDayOfYear" value="#locDet.endDayOfYear#" size="20">
 				</td>
 			</tr>
 		</table>
@@ -1074,6 +1088,16 @@ You deleted a collecting event.
 	<cfelse>
 		<cfset sql = "#sql#,verbatimSRS = null">
 	</cfif>
+	<cfif len(#startDayOfYear#) gt 0>
+		<cfset sql = "#sql#,startDayOfYear = '#escapeQuotes(startDayOfYear)#'">
+	<cfelse>
+		<cfset sql = "#sql#,startDayOfYear = null">
+	</cfif>
+	<cfif len(#endDayOfYear#) gt 0>
+		<cfset sql = "#sql#,endDayOfYear = '#escapeQuotes(endDayOfYear)#'">
+	<cfelse>
+		<cfset sql = "#sql#,endDayOfYear = null">
+	</cfif>
 	<cfset sql = "#sql# where collecting_event_id = #collecting_event_id#">
 	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
@@ -1280,6 +1304,8 @@ INSERT INTO geog_auth_rec (
 		,VERBATIMLONGITUDE
 		,VERBATIMCOORDINATESYSTEM
 		,VERBATIMSRS
+		,STARTDAYOFYEAR
+		,ENDDAYOFYEAR
 		)
 	VALUES (
 		#nextColl.nextColl#,
@@ -1335,6 +1361,16 @@ INSERT INTO geog_auth_rec (
 		</cfif>
 		<cfif len(#VERBATIMSRS#) gt 0>
 			,'#escapequotes(VERBATIMSRS)#'
+		<cfelse>
+			,NULL
+		</cfif>
+		<cfif len(#STARTDAYOFYEAR#) gt 0>
+			,'#escapequotes(STARTDAYOFYEAR)#'
+		<cfelse>
+			,NULL
+		</cfif>
+		<cfif len(#ENDDAYOFYEAR#) gt 0>
+			,'#escapequotes(ENDDAYOFYEAR)#'
 		<cfelse>
 			,NULL
 		</cfif>

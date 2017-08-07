@@ -19,16 +19,9 @@
 				CO.LOT_COUNT,
 				COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS,
 				pc.barcode as CONTAINER_BARCODE,
-                                nvl(pc1.barcode,pc1.label) as P1_BARCODE,
-                                nvl(pc2.barcode,pc2.label) as P2_BARCODE,
-                                nvl(pc3.barcode,pc3.label) as P3_BARCODE,
-                                nvl(pc4.barcode,pc4.label) as P4_BARCODE,
-                                nvl(pc5.barcode,pc5.label) as P5_BARCODE,
-                                nvl(pc6.barcode,pc6.label) as P6_BARCODE,
-            
 				CO.CONDITION
 		from
-				flat f, specimen_part sp, coll_object_remark cor, CTSPECIMEN_PART_NAME pn, COLL_OBJ_CONT_HIST ch, container c, container pc, COLL_OBJECT co, #table_name# T, container PC1, container PC2, container PC3, container PC4, container PC5, container PC6
+				flat f, specimen_part sp, coll_object_remark cor, CTSPECIMEN_PART_NAME pn, COLL_OBJ_CONT_HIST ch, container c, container pc, COLL_OBJECT co, #table_name# T
 		where f.collection_object_id = SP.DERIVED_FROM_CAT_ITEM
 				and SP.COLLECTION_OBJECT_ID = COR.COLLECTION_OBJECT_ID(+)
 				and SP.PART_NAME = PN.PART_NAME
@@ -36,12 +29,6 @@
 				and SP.COLLECTION_OBJECT_ID = CH.COLLECTION_OBJECT_ID
 				and CH.CONTAINER_ID = C.CONTAINER_ID
 				and C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+)
- 				and PC.parent_container_id = PC1.container_id(+)
- 				and PC1.parent_container_id = PC2.container_id(+)
- 				and PC2.parent_container_id = PC3.container_id(+)
- 				and PC3.parent_container_id = PC4.container_id(+)
- 				and PC4.parent_container_id = PC5.container_id(+)
- 				and PC5.parent_container_id = PC6.container_id(+)
 				and SP.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID
 				AND F.COLLECTION_OBJECT_ID = T.COLLECTION_OBJECT_ID
 				<cfif isdefined("filterPartName") and len(#filterPartName#) GT 0>
@@ -52,9 +39,6 @@
 				</cfif>
 				<cfif isdefined("filterDisposition") and len(#filterDisposition#) GT 0>
 					and CO.COLL_OBJ_DISPOSITION='#filterDisposition#'
-				</cfif>
-            	<cfif isdefined("filterBarcode") and len(#filterBarcode#) GT 0>
-					and upper(PC.BARCODE) like '%#ucase(filterBARCODE)#%'
 				</cfif>
 				<cfif isdefined("searchRemarks") and len(#searchRemarks#) GT 0>
 					and upper(COR.COLL_OBJECT_REMARKS) like '%#ucase(searchRemarks)#%'
@@ -73,7 +57,9 @@
 		<cfquery name="dispositions" dbtype="query">
 			select distinct DISPOSITION from getParts
 		</cfquery>
-	
+
+
+
 		<cfif action is "nothing">
 		<cfoutput>
 
@@ -105,9 +91,6 @@
 						<option <cfif isdefined("filterDisposition") and #DISPOSITION# EQ #filterDisposition#>selected</cfif>>#DISPOSITION#</option>
 					</cfloop>
 				</td>
-        	    <td>Barcode:
-				<input type="text" style="width:200px" name="filterBarcode" <cfif isdefined("filterBarcode") and len(#filterBarcode#) GT 0>value="#filterBARCODE#"</cfif></input>
-				</td>
 				<td>Search Remarks (substring):
 					<input type="text" style="width:200px" name="searchremarks" <cfif isdefined("searchremarks") and len(#searchremarks#) GT 0>value="#searchremarks#"</cfif></input>
 				</td>
@@ -120,6 +103,7 @@
 			</tr>
 		</table>
 		</form>
+
 
 
 			<!---cfdump var="#getParts#"--->
@@ -135,13 +119,7 @@
 					<th>LOT_COUNT_MODIFIER</th>
 					<th>LOT_COUNT</th>
 					<th>CURRENT_REMARKS</th>
-					<th>PART CONTAINER</th>
-					<th>PARENT CONTAINER</th>
-					<th>P2 CONTAINER</th>
-					<th>P3 CONTAINER</th>
-					<th>P4 CONTAINER</th>
-					<th>P5_CONTAINER</th>
-					<th>P6 CONTAINER</th>
+					<th>CONTAINER_BARCODE</th>
 					<th>CONDITION</th>
 				</tr>
 
@@ -160,12 +138,6 @@
 					<td>#LOT_COUNT#</td>
 					<td>#CURRENT_REMARKS#</td>
 					<td>#CONTAINER_BARCODE#</td>
-					<td>#P1_BARCODE#</td>
-					<td>#P2_BARCODE#</td>
-					<td>#P3_BARCODE#</td>
-					<td>#P4_BARCODE#</td>
-					<td>#P5_BARCODE#</td>
-					<td>#P6_BARCODE#</td>
 					<td>#CONDITION#</td>
 				</tr>
 			</cfloop>
@@ -176,7 +148,7 @@
 		<cfinclude template="/includes/_footer.cfm">
 
 		<cfelseif action is "download">
-			<cfset strOutput = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONTAINER_BARCODE,P1_BARCODE,P2_BARCODE,P3_BARCODE,P4_BARCODE,P5_BARCODE,P6_BARCODE,CONDITION") />
+			<cfset strOutput = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONTAINER_BARCODE,CONDITION") />
 			<cfheader name="Content-disposition" value="attachment;filename=PARTS_download.csv">
 			<cfcontent type="text/csv"><cfoutput>#strOutput#</cfoutput>
 		</cfif>
