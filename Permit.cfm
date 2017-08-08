@@ -901,8 +901,9 @@ select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.trans
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join loan on trans.transaction_id = loan.transaction_id
-  left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-  left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+  left join loan_item on loan.transaction_id = loan_item.transaction_id
+  left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+  left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
   where trans.transaction_type = 'loan'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
@@ -925,7 +926,7 @@ select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, tr
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join deaccession on trans.transaction_id = deaccession.transaction_id
-  left join deacc_item on deaccession.transaction_id = deacc_item.accn_id
+  left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
   left join flat on deacc_item.collection_object_id = flat.collection_object_id
   where trans.transaction_type = 'deacc'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
@@ -937,35 +938,45 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join deaccession on trans.transaction_id = deaccession.transaction_id
-  left join deacc_item on deaccession.transaction_id = deacc_item.accn_id
+  left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
   left join flat on deacc_item.collection_object_id = flat.collection_object_id
   where trans.transaction_type = 'deacc'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-    borrow_item.country, '' as state_prov, borrow_item.scientific_name, borrow_item.lenders_catalog_number
+    borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join borrow on trans.transaction_id = borrow.transaction_id
-  left join borrow_item on loan.transaction_id = loan_item.transaction_id
+  left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
   where trans.transaction_type = 'borrow'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-    borrow_item.country, '' as state_prov, borrow_item.scientific_name, borrow_item.lenders_catalog_number
+    borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join borrow on trans.transaction_id = borrow.transaction_id
-  left join borrow_item on loan.transaction_id = loan_item.transaction_id
+  left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
   where trans.transaction_type = 'borrow'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
      </cfquery>
      <cfoutput>
      <div id="permitsusedin"><h3>Used for</h3>
      <table>
+           <tr>
+             <th>Transaction</th>
+             <th>Type</th>
+             <th>Date</th>
+             <th>Collection</th>
+             <th>Country&nbsp;of&nbsp;Origin</th>
+             <th>State/Province</th>
+             <th>Scientific&nbsp;Name</th>
+             <th>Catalog&nbsp;Number</th>
+           </tr>
         <cfloop query="permituse">
            <tr>
              <td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
