@@ -375,11 +375,21 @@ where
 		<input type="submit" value="Accession List" class="lnkBtn"
 				onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>
+        <!--- TODO: revisit permit report --->
+        <!---
 	<form action="Reports/permit.cfm" method="post">
 	<input type="hidden" name="permit_id" value="#permit_id#">
 		<input type="submit" value="Permit Report" class="lnkBtn"
 				onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>
+        --->
+       <form action="Permit.cfm" method="post">
+       <input type="hidden" name="permit_id" value="#permit_id#">
+       <input type="hidden" name="Action" value="PermitUseReport">
+               <input type="submit" value="Permit Report" class="lnkBtn"
+                               onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
+       </form>
+
 		</td>
 	</tr>
 
@@ -710,7 +720,7 @@ select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, tr
     concat('deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
-  left join deaccession on trans.transaction_id = deaccession.transaction_id
+  left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
   where trans.transaction_type = 'deacc'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union

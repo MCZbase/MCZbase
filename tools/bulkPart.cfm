@@ -163,7 +163,7 @@
 			<tr>
 				<td>Preserve Method</td>
 				<td>
-			   		<select name="exist_Preserve Method" id="exist_Preserve Method" size="1" class="reqdClr">
+			   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="reqdClr">
 						<option selected="selected" value=""></option>
 							<cfloop query="existPreserve">
 						    	<option value="#Preserve_method#">#Preserve_method#</option>
@@ -171,7 +171,7 @@
 					</select>
 				</td>
 				<td>
-					<select name="new_Preserve Method" id="new_Preserve Method" size="1"  class="reqdClr">
+					<select name="new_preserve_method" id="new_preserve_method" size="1"  class="reqdClr">
 						<option value="">no update</option>
 						<cfloop query="ctPreserveMethod">
 							<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
@@ -463,7 +463,12 @@
 	<cftransaction>
 		<cfloop list="#partID#" index="i">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update specimen_part set part_name='#new_part_name#' where collection_object_id=#i#
+				update specimen_part set
+					part_name='#new_part_name#'
+					<cfif len(new_preserve_method) gt 0>
+							,preserve_method='#new_preserve_method#'
+					</cfif>
+				where collection_object_id=#i#
 			</cfquery>
 			<cfif len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -512,6 +517,7 @@
 				cataloged_item.cat_num,
 				identification.scientific_name,
 				specimen_part.part_name,
+				specimen_part.preserve_method,
 				coll_object.condition,
 				coll_object.lot_count,
 				coll_object.coll_obj_disposition,
@@ -547,6 +553,8 @@
 			<input type="hidden" name="table_name" value="#table_name#">
 			<input type="hidden" name="exist_part_name" value="#exist_part_name#">
 			<input type="hidden" name="new_part_name" value="#new_part_name#">
+			<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
+			<input type="hidden" name="new_preserve_method" value="#new_preserve_method#">
 			<input type="hidden" name="existing_lot_count" value="#existing_lot_count#">
 			<input type="hidden" name="new_lot_count" value="#new_lot_count#">
 			<input type="hidden" name="existing_coll_obj_disposition" value="#existing_coll_obj_disposition#">
@@ -562,6 +570,8 @@
 				<th>ID</th>
 				<th>OldPart</th>
 				<th>NewPart</th>
+				<th>OldPresMethod</th>
+				<th>NewPresMethod</th>
 				<th>OldCondition</th>
 				<th>NewCondition</th>
 				<th>OldCnt</th>
@@ -577,6 +587,14 @@
 					<td>#scientific_name#</td>
 					<td>#part_name#</td>
 					<td>#new_part_name#</td>
+					<td>#preserve_method#</td>
+					<td>
+						<cfif len(new_preserve_method) gt 0>
+							#new_preserve_method#
+						<cfelse>
+							NOT UPDATED
+						</cfif>
+					</td>
 					<td>#condition#</td>
 					<td>
 						<cfif len(new_condition) gt 0>
