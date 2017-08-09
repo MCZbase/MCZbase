@@ -322,3 +322,31 @@ function confirmAction(dialogText, dialogTitle, okFunction) {
   });
 };
 
+function checkAgent(agent_id) {
+    jQuery.getJSON(
+        "/component/functions.cfc",
+        {
+            method : "checkAgentFlag",
+            agent_id : agent_id,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           var rank = result.DATA.AGENTRANK[0];
+           if (!!rank) { 
+                alert("No agent with agent_id = " + agent_id);
+           } else { 
+              if (rank=='A') { 
+                // no message needed 
+              } else {
+                 if (rank=='F') { 
+                    alert ('F problem agent message');
+                 } else { 
+                    alert ('B-D problem agent message');
+                 }
+              }
+           }
+        }
+      );
+};
+

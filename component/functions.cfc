@@ -530,6 +530,13 @@
 
 <!------------------------------------------------------------------>
 
+<cffunction name="checkAgentFlag" access="remote">
+	<cfargument name="agent_id" type="numeric" required="yes">
+	<cfquery name="checkAgentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select MCZBASE.get_worstagentrank(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">) as agentrank from dual 
+	</cfquery>
+	<cfreturn checkAgentQuery>
+</cffunction>
 
 
 <!------------------------------------------------------->
