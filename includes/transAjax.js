@@ -255,6 +255,8 @@ function loadShipment(shipmentId,form) {
         $("#foreign_shipment_fg option[value='0']").prop('selected',true); 
         $("#hazmat_fg option[value='1']").prop('selected',false);
         $("#hazmat_fg option[value='0']").prop('selected',true); 
+        $("#shipmentFormPermits").html(""); 
+        $("#shipmentFormStatus").html(""); 
     }
 
 // Given a form with id saveShipment (with form fields matching shipment fields), invoke a backing

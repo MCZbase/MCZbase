@@ -439,6 +439,9 @@ where
 	<cfoutput>
 	<cfform name="newPermit" action="Permit.cfm" method="post">
 	<input type="hidden" name="Action" value="createPermit">
+        <cfif isdefined("headless") and headless EQ 'true'>
+	    <input type="hidden" name="headless" value="true">
+        </cfif>
 	<table>
 		<tr>
 			<td>Issued By</td>
@@ -515,9 +518,11 @@ where
 				<input type="submit" value="Save this permit" class="insBtn"
    					onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
 
+                                   <cfif  not ( isdefined("headless") and headless EQ 'true' ) >
 					<input type="button" value="Quit" class="qutBtn"
    					onmouseover="this.className='qutBtn btnhov'" onmouseout="this.className='qutBtn'"
 					 onClick="document.location='Permit.cfm'">
+                                   </cfif>
 
 			</td>
 		</tr>
@@ -664,9 +669,13 @@ function opendialog(page,id,title) {
    					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'"
 					onCLick="newPermit.Action.value='saveChanges';">
 
-				<input type="button" value="Quit" class="qutBtn"
+                                <cfif isdefined("headless") and headless EQ 'true' >
+                                   <strong>Permit Added.  Click OK when done.</strong>
+                                <cfelse>
+				   <input type="button" value="Quit" class="qutBtn"
    					onmouseover="this.className='qutBtn btnhov'" onmouseout="this.className='qutBtn'"
 					 onClick="document.location='Permit.cfm'">
+                                </cfif>
 
 				<input type="button" value="Delete" class="delBtn"
    onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
@@ -1116,7 +1125,11 @@ VALUES (
 	 	,#contact_agent_id#
 	 </cfif>)
 </cfquery>
-	<cflocation url="Permit.cfm?Action=editPermit&permit_id=#nextPermit.nextPermit#">
+        <cfif isdefined("headless") and headless EQ 'true'>
+   	     <cflocation url="Permit.cfm?Action=editPermit&headless=true&permit_id=#nextPermit.nextPermit#">
+        <cfelse>
+   	     <cflocation url="Permit.cfm?Action=editPermit&permit_id=#nextPermit.nextPermit#">
+        </cfif>
   </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->
