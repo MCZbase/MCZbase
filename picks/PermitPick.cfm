@@ -1,4 +1,6 @@
+<cfset jquery11=true>
 <cfinclude template="../includes/_pickHeader.cfm">
+<script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfset title = "Permit Pick">
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from ctpermit_type order by permit_type
@@ -88,7 +90,7 @@
 			<td>Expiration Date</td>
 			<td><input type="text" name="exp_Date"></td>
 			<td>Permit Number</td>
-			<td><input type="text" name="permit_Num"></td>
+			<td><input type="text" name="permit_Num" id="permit_Num"></td>
 		</tr>
 		<tr>
 			<td>Permit Type</td>
@@ -105,16 +107,22 @@
 			<td><input type="text" name="permit_remarks"></td>
 		</tr>
 		<tr>
-			<td colspan="4" align="center">
-			<input type="submit" 
-				value="Search" 
-				class="schBtn">	
-   
-   <img src="../images/nada.gif" width="30">
-   			<input type="reset" 
-				value="Clear" 
-				class="clrBtn">
-				</td>
+			<td></td>
+			<td>
+			    <input type="submit" value="Search" class="schBtn">	
+			</td>
+			<td>
+                <script>
+                   function createPermitDialogDone () { 
+                       $('##permit_Num').val($('##createPermitDlg_#transaction_id#_iframe').contents().find('##permit_number_passon').val()); 
+                       $('##createPermitDlg_#transaction_id#').html('').dialog('destroy');
+                   };
+                </script>
+                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitDlg_#transaction_id#','Create Permit', createPermitDialogDone);" ></span><div id='createPermitDlg_#transaction_id#'></div>
+			</td>
+			<td>
+   			    <input type="reset" value="Clear" class="clrBtn">
+			</td>
 		</tr>
 	</table>
 	
@@ -190,13 +198,13 @@ where
 </cfoutput>
 <cfset i=1>
 <cfoutput query="matchPermit" group="permit_id">
-<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
-	<form action="PermitPick.cfm" method="post" name="save">
+<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow' style=' background-color: lightcyan; ' "))#	>
+	<form action="PermitPick.cfm" method="post" name="save" id="pp_#permit_id#_#transaction_id#" >
 	<input type="hidden" value="#transaction_id#" name="transaction_id">
 	<input type="hidden" name="permit_id" value="#permit_id#">
 	<input type="hidden" name="Action" value="addThisOne">
 	Permit Number #permit_Num# (#permit_Type#) issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,"yyyy-mm-dd")# <cfif len(#renewed_Date#) gt 0> (renewed #dateformat(renewed_Date,"yyyy-mm-dd")#)</cfif>. Expires #dateformat(exp_Date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> (ID## #permit_id#)
-<br><input type="submit" value="Add this permit">
+<br><input type="submit" value="Add this permit"  class='picBtn' onclick=" $('##pp_#permit_id#_#transaction_id#').submit(); ">
 	</form>
 </div>
 <cfset i=i+1>

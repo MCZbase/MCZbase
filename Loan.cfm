@@ -931,12 +931,14 @@ function opendialog(page,id,title) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
-    height: 550,
-    width: 800,
+    height: 800,
+    width: 950,
     minWidth: 400,
     minHeight: 450,
     draggable:true,
-    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("close"); } }
+    resizable:true,
+    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); } },
+    close: function() { loadShipments(#transaction_id#);  $(this).dialog( "destroy" ); }
   });
   adialog.dialog('open');
 };
@@ -963,7 +965,7 @@ $( document ).ready(loadShipments(#transaction_id#));
       $("##dialog-shipment").dialog({
         autoOpen: false,
         modal: true,
-        width: 640,
+        width: 650,
         buttons: {
           "Save": function() {  saveShipment(#transaction_id#); } ,
           Cancel: function() {
@@ -984,6 +986,9 @@ $( document ).ready(loadShipments(#transaction_id#));
 	<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
 	<input type="hidden" name="shipment_id" value="" id="shipment_id">
 	<input type="hidden" name="returnFormat" value="json" id="returnFormat">
+           <table>
+             <tr>
+              <td>
 		<label for="shipped_carrier_method">Shipping Method</label>
 		<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
 			<option value=""></option>
@@ -991,48 +996,71 @@ $( document ).ready(loadShipments(#transaction_id#));
 				<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
 			</cfloop>
 		</select>
-		<label for="packed_by_agent">Packed By Agent</label>
-		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
-			  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
-			  onKeyPress="return noenter(event);">
-		<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
+              </td>
+              <td colspan="2">
+		<label for="carriers_tracking_number">Tracking Number</label>
+		<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" >
+              </td>
+            </tr><tr>
+              <td>
 		<label for="no_of_packages">Number of Packages</label>
 		<input type="text" value="1" name="no_of_packages" id="no_of_packages">
-		<label for="carriers_tracking_number">Tracking Number</label>
-		<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number">
-		<label for="package_weight">Package Weight (TEXT, include units)</label>
-		<input type="text" value="" name="package_weight" id="package_weight">
-		<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
-		<input type="text" validate="float" label="Numeric value required."
-			 value="" name="insured_for_insured_value" id="insured_for_insured_value">
+              </td>
+              <td>
 		<label for="shipped_date">Ship Date</label>
 		<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
-		<label for="shipped_to_addr">Shipped To Address</label>
-		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
-			readonly="yes" class="reqdClr"></textarea>
-		<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
-		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
-		<label for="shipped_from_addr">Shipped From Address</label>
-		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
-			readonly="yes" class="reqdClr"></textarea>
-		<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
-		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
-		<label for="shipment_remarks">Remarks</label>
-		<input type="text" value="" name="shipment_remarks" id="shipment_remarks">
-		<label for="contents">Contents</label>
-		<input type="text" value="" name="contents" id="contents" size="60">
+              </td>
+              <td>
 		<label for="foreign_shipment_fg">Foreign shipment?</label>
 		<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
 			<option selected value="0">no</option>
 			<option value="1">yes</option>
 		</select>
+              </td>
+            </tr><tr>
+              <td>
+		<label for="package_weight">Package Weight (TEXT, include units)</label>
+		<input type="text" value="" name="package_weight" id="package_weight">
+              </td>
+              <td>
+		<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
+		<input type="text" validate="float" label="Numeric value required."
+			 value="" name="insured_for_insured_value" id="insured_for_insured_value">
+              </td>
+              <td>
 		<label for="hazmat_fg">HAZMAT?</label>
 		<select name="hazmat_fg" id="hazmat_fg" size="1">
 			<option selected value="0">no</option>
 			<option value="1">yes</option>
 		</select>
+              </td>
+            </tr>
+           </table>
+
+		<label for="packed_by_agent">Packed By Agent</label>
+		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
+			  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
+			  onKeyPress="return noenter(event);">
+		<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
+
+		<label for="shipped_to_addr">Shipped To Address</label>
+		<input type="button" value="Pick Address" class="picBtn"
+			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
+			readonly="yes" class="reqdClr"></textarea>
+		<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
+
+		<label for="shipped_from_addr">Shipped From Address</label>
+		<input type="button" value="Pick Address" class="picBtn"
+			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
+			readonly="yes" class="reqdClr"></textarea>
+		<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
+
+		<label for="shipment_remarks">Remarks</label>
+		<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60">
+		<label for="contents">Contents</label>
+		<input type="text" value="" name="contents" id="contents" size="60">
 
     </fieldset>
   </form>
@@ -1073,26 +1101,44 @@ $( document ).ready(loadShipments(#transaction_id#));
         </ul>
 
     <!--- TODO: Print permits associated with these accessions --->
-	<h3>Permit Media</h3>
-<!---
+	<h3>Permit Media (PDF copies of Permits)</h3>
 	<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct media.media_id from 
-		   loan l 
-		   left join loan_item li on l.transaction_id = li.transaction_id
+        select distinct media_id, uri, permit_type, permit_num from (
+		select media.media_id, media.media_uri as uri, p.permit_type, p.permit_num
+           from loan_item li
 		   left join specimen_part sp on li.collection_object_id = sp.collection_object_id
 		   left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
 		   left join accn on ci.accn_id = accn.transaction_id
            left join permit_trans on accn.transaction_id = permit_trans.transaction_id
-           left join permit on permit_trans.permit_id = permit.permit_id
-           
-		   where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+           left join permit p on permit_trans.permit_id = p.permit_id
+           left join media_relations on p.permit_id = media_relations.related_primary_key 
+           left join media on media_relations.media_id = media.media_id
+		where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+                and (media_relations.related_primary_key is null 
+                or (media_relations.media_relationship = 'shows permit'
+                    and mime_type = 'application/pdf'))
+        union
+		select media.media_id, media.media_uri as uri, p.permit_type, p.permit_num
+           from shipment s
+           left join permit_shipment ps on s.shipment_id = ps.shipment_id
+           left join permit p on ps.permit_id = p.permit_id
+           left join media_relations on p.permit_id = media_relations.related_primary_key 
+           left join media on media_relations.media_id = media.media_id
+		where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#"> 
+                and (media_relations.related_primary_key is null 
+                or (media_relations.media_relationship = 'shows permit'
+                    and mime_type = 'application/pdf'))
+        ) where permit_type is not null
     </cfquery>
     <ul>
-  	<cfloop query="getPermitMedoa">
+  	<cfloop query="getPermitMedia">
+        <cfif media_id is ''> 
+           <li>#permit_type# #permit_num# (no pdf)</li>
+        <cfelse>
+           <li><a href="#uri#">#permit_type# #permit_num#</a></li>
+        </cfif>
     </cfloop>
     </ul>
----> 
-
     </div>
 </cfoutput>
 <script>
