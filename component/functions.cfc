@@ -502,12 +502,25 @@
         <cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                 select transaction_id,borrow_item_id,catalog_number,sci_name,no_of_spec,spec_prep,type_status,country_of_origin,object_remarks from borrow_item where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
         </cfquery>
-            <cfset resulthtml = "<table>">
-            <cfset resulthtml = resulthtml & "<tr><th>Data</th></tr>">
+
+
+            <cfset resulthtml = "<table style='width:1100px;'>">
+            <cfset resulthtml = resulthtml & "<h3>Borrowed Items</h3>">
+            <cfset resulthtml = resulthtml & "<tr><td><label>Catalog Number</label></td><td><label>Scientific Name</label></td>">
+            <cfset resulthtml = resulthtml & "<td><label>No. of Specimens</label></td>">
+            <cfset resulthtml = resulthtml & "<td><label>Specimen Preparation</label></td>">
+            <cfset resulthtml = resulthtml & "<td><label>Type Status</label></td>">
+            <cfset resulthtml = resulthtml & "<td><label>Country of Origin</label></td>">
+            <cfset resulthtml = resulthtml & "<td><label>Remarks</label></td>">
+            <cfset resulthtml = resulthtml & "</td></tr>">
+                
             <cfloop query="k">
-                     <cfset resulthtml = resulthtml & "<tr><td>#catalog_number#,#sci_name#,#no_of_spec#,#spec_prep#,#type_status#,#country_of_origin#,#object_remarks#">
-                    <cfset resulthtml = resulthtml & "<input name='deleteBorrowItem' type='button' onclick='deleteBorrowItem(#borrow_item_id#)'>">
-                     <cfset resulthtml = resulthtml & "</td></tr>">
+                <cfset resulthtml = resulthtml & "<tr><td>#catalog_number#</td><td>#sci_name#</td><td>#no_of_spec#</td><td>#spec_prep#</td>">
+                <cfset resulthtml = resulthtml & "<td>#type_status#</td>">
+                <cfset resulthtml = resulthtml & "<td>#country_of_origin#</td>">
+                <cfset resulthtml = resulthtml & "<td>#object_remarks#</td>">
+                <cfset resulthtml = resulthtml & "<td><input name='deleteBorrowItem' type='button' value='Delete' onclick='deleteBorrowItem(#borrow_item_id#);'>">
+                <cfset resulthtml = resulthtml & "</td></tr>">
                          
                 
             </cfloop>
