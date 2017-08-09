@@ -74,7 +74,6 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
 			<td>
                 		<script>
 		                   function createPermitSDialogDone () { 
-                		       alert($('##createPermitSDlg_#shipment_id#_iframe').contents().find('##permit_number_passon').val());
                        			$('##permit_Num').val($('##createPermitSDlg_#shipment_id#_iframe').contents().find('##permit_number_passon').val()); 
 		                	$('##createPermitSDlg_#shipment_id#').html('').dialog('destroy');
                    		   };
