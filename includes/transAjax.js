@@ -333,17 +333,13 @@ function checkAgent(agent_id) {
         },
         function (result) {
            var rank = result.DATA.AGENTRANK[0];
-           if (!!rank) { 
-                alert("No agent with agent_id = " + agent_id);
-           } else { 
-              if (rank=='A') { 
-                // no message needed 
-              } else {
-                 if (rank=='F') { 
-                    alert ('F problem agent message');
-                 } else { 
-                    alert ('B-D problem agent message');
-                 }
+           if (rank=='A') { 
+              // no message needed 
+           } else {
+              if (rank=='F') { 
+                alert ('F problem agent message');
+              } else { 
+                alert ('B-D problem agent message');
               }
            }
         }

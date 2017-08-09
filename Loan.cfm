@@ -145,7 +145,7 @@
 						<input type="text" name="rec_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="rec_agent_id">
+						<input type="hidden" name="rec_agent_id" id="rec_agent_id" onChange=" checkAgent($('##rec_agent_id').val());">
 					</td>
 				</tr>
 				<tr>
@@ -170,7 +170,7 @@
 						<input type="text" name="recipient_institution_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="recipient_institution_agent_id">
+						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" onChange=" checkAgent($('##recipient_institution_agent_id').val());" >
 					</td>
 					<td>
 						<label for="foruseby_agent_name">For Use By:</label>
