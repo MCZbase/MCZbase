@@ -1,4 +1,6 @@
+<cfset jquery11=true>
 <cfinclude template = "/includes/_header.cfm">
+    <script type='text/javascript' src='/includes/internalAjax.js'></script>
     <style>
         .form-style-2{
     width: 50%;
@@ -37,7 +39,6 @@
     width: 48%;
     
 }
-
 .form-style-2 input.input-field, 
 .form-style-2 .tel-number-field, 
 .form-style-2 .textarea-field, 
@@ -220,6 +221,7 @@ span.sm {font-size: 11px;}
 		$("#borrow_number").val(v);
 		$("#collection_id").val(cid);
 	}
+
 </script>
 
 <cfset title="Borrow">
@@ -294,6 +296,10 @@ span.sm {font-size: 11px;}
 		<input type="text" name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW">
 		<label for="TRANS_REMARKS">Transaction Remarks</label>
 		<input type="text" name="TRANS_REMARKS" id="TRANS_REMARKS">
+        <label for="catalog_number">Catalog Number</label>
+		<input type="text" name="Catalog_number" id="Catalog_number">
+         <label for="sci_name">Scientific Name</label>
+		<input type="text" name="sci_name" id="sci_name">
 		<br>
 		<input type="submit" class="schBtn"	value="Find matches">
 		<input type="reset" class="clrBtn"	value="Clear Form">
@@ -375,12 +381,14 @@ span.sm {font-size: 11px;}
 		<cfif isdefined("NATURE_OF_MATERIAL") and len(NATURE_OF_MATERIAL) gt 0>
 			<cfset w=w & " and upper(NATURE_OF_MATERIAL) like '%#ucase(NATURE_OF_MATERIAL)#%'">
 		</cfif>
-            <cfif isdefined("DESCRIPTION_OF_BORROW") and len(NATURE_OF_MATERIAL) gt 0>
+            <cfif isdefined("DESCRIPTION_OF_BORROW") and len(DESCRIPTION_OF_BORROW) gt 0>
 			<cfset w=w & " and upper(DESCRIPTION_OF_BORROW) like '%#ucase(DESCRIPTION_OF_BORROW)#%'">
 		</cfif>
 		<cfif isdefined("TRANS_REMARKS") and len(TRANS_REMARKS) gt 0>
 			<cfset w=w & " and upper(TRANS_REMARKS) like '%#ucase(TRANS_REMARKS)#%'">
 		</cfif>
+            
+            
 		<cfquery name="getBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				borrow.TRANSACTION_ID,
@@ -393,6 +401,7 @@ span.sm {font-size: 11px;}
 				BORROW_STATUS,
 				LENDERS_INSTRUCTIONS,
                 DESCRIPTION_OF_BORROW,
+            NO_OF_SPECIMENS,
 				TRANS_DATE,
 				CORRESP_FG,
 				NATURE_OF_MATERIAL,
@@ -424,6 +433,7 @@ span.sm {font-size: 11px;}
 				CORRESP_FG,
 				NATURE_OF_MATERIAL,
             DESCRIPTION_OF_BORROW,
+            NO_OF_SPECIMENS,
 				TRANS_REMARKS,
 				lender_loan_type
 			from
@@ -439,6 +449,7 @@ span.sm {font-size: 11px;}
 				BORROW_STATUS,
 				LENDERS_INSTRUCTIONS,
             DESCRIPTION_OF_BORROW,
+            NO_OF_SPECIMENS,
 				TRANS_DATE,
 				CORRESP_FG,
 				NATURE_OF_MATERIAL,
@@ -522,7 +533,7 @@ span.sm {font-size: 11px;}
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
-  <div style="width: 75%;margin: 0 auto;overflow: hidden;padding: 2em 0;">  
+  <div style="width: 95%;margin: 0 auto;overflow: hidden;padding: 2em;">  
 <cfoutput>
 		<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
@@ -543,6 +554,7 @@ span.sm {font-size: 11px;}
 				CORRESP_FG,
 				NATURE_OF_MATERIAL,
                 DESCRIPTION_OF_BORROW,
+                NO_OF_SPECIMENS,
 				TRANS_REMARKS,
 				lender_loan_type,
 				collection.collection
@@ -551,7 +563,7 @@ span.sm {font-size: 11px;}
 				borrow,
 				collection
 			WHERE
-				trans.transaction_id = borrow.transaction_id and				
+				trans.transaction_id = borrow.transaction_id and
 				trans.collection_id = collection.collection_id and
 				borrow.transaction_id=#transaction_id#
 		</cfquery>
@@ -685,6 +697,11 @@ span.sm {font-size: 11px;}
 					<input type="text" name="lenders_loan_date" id="lenders_loan_date" value="#dateformat(getBorrow.LENDERS_LOAN_DATE,"yyyy-mm-dd")#">
 				</td>
 			</tr>
+            <tr><td>
+					<label for="no_of_specimens">Total No. of Specimens</label>
+					<input type="text" name="no_of_specimens" id="no_of_specimens" value="#getBorrow.no_of_specimens#">
+				</td>
+            </tr>
 			<tr>
 				<td colspan="3">
 					<label for="LENDERS_INSTRUCTIONS">Lender's Instructions</label>
@@ -703,6 +720,8 @@ span.sm {font-size: 11px;}
 					<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="90" class="reqdClr">#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
 				</td>
 			</tr>
+      
+            
 			<tr>
 				<td colspan="3">
 					<label for="TRANS_REMARKS">Transaction Remarks</label>
@@ -721,12 +740,97 @@ span.sm {font-size: 11px;}
    		<label for="redir">Print...Return Receipt</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
-			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Receipt Upon Return</option>
+			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</option>
+            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</option>
         </select></td></tr>
 			
 		</form>
+            
+            
 </table>
-</td>
+<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">   
+            <tr>
+                <td>
+                  <div id="borrowItems"></div>
+                    
+              </td>
+            </tr>
+            </table>
+            <table>
+            <tr><form id="addBorrowItemform">
+               <h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
+               <input type="hidden" name="method" value="addBorrowItem">
+                 <input type="hidden" name="returnformat" value="json">
+                 <input type="hidden" name="queryformat" value="column">
+                <input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+               <td><label for="catalog_number" style="width: 120px;margin-right: 5px;">Catalog Number <input type="text" class="input-field" name="catalog_number" id="catalog_number" style="width: 120px;margin-right: 5px;"></label></td> 
+                <td><label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name <input type="text" class="input-field" name="sci_name" id="sci_name" style="width: 190px;margin-right:5px;"></label></td>
+                <td><label for="no_of_spec" style="width: 113px;margin-right: 5px;">No.&nbsp;of&nbsp;Specimens <input type="text" class="input-field" name="no_of_spec" id="no_of_spec" style="width: 113px;margin-right: 5px;"></label></td>
+                <td><label for="spec_prep" style="width: 156px;">Specimen Preparation <input type="text" class="input-field" name="spec_prep" id="spec_prep" style="width: 156px;"></label></td>
+                <td><label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="type_status" id="type_status" style="width:93px;"></label></td>
+                <td><label for="country_of_origin" style="width: 116px;">County of Origin <input type="text" class="input-field" name="country_of_origin" id="country_of_origin" style="width: 116px;"></label></td>
+                <td><label for="object_remarks" style="width: 170px;">Remarks <input type="text" class="input-field" name="object_remarks" id="object_remarks" style="width: 170px;"></label></td>
+                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field" type="button" onclick=" addBorrowItem2(); " style="cursor:pointer;background-color: ##76afd0;background-color: cornflowerblue;border:1px solid cornflowerblue;width:75px;padding-left: 8px;" value="Add Row"></label></td>
+           </form></tr>
+            <script>
+    function addBorrowItem2() {
+	    jQuery.ajax(
+            {
+                url : "/component/functions.cfc",
+                type : "post",
+                dataType : "json",
+                data : $("##addBorrowItemform").serialize(),
+                success : function (data) { 
+                    loadBorrowItems(#transaction_id#);
+                    $("##catalog_number").val('');
+                    $("##no_of_spec").val('');
+                    $("##type_status").val('');
+                },
+                fail: function(jqXHR,textStatus){
+                    alert(textStatus);
+                }
+            }
+        );
+    };
+        function deleteBorrowItem(borrow_item_id) {
+	    jQuery.ajax(
+            {
+                url : "/component/functions.cfc",
+                type : "post",
+                dataType : "json",
+                data : {
+                   method : "deleteBorrowItem",
+                   returnformat : "json",
+                   queryformat : 'column',
+                   borrow_item_id : borrow_item_id
+                },
+                success : function (data) { 
+                    loadBorrowItems(#transaction_id#);
+                },
+                fail: function(jqXHR,textStatus){
+                    alert(textStatus);
+                }
+            }
+        );
+    };
+    function loadBorrowItems(transaction_id) {
+  
+        jQuery.ajax({
+          url: "component/functions.cfc",
+          data : {
+            method : "getBorrowItemsHTML",
+            transaction_id : transaction_id
+         },
+        success: function (result) {
+           $("##borrowItems").html(result);
+        },
+        dataType: "html"
+       }
+     )};
+    $(document).ready(loadBorrowItems(#transaction_id#));
+    
+</script>  </table>
+<table>      
 <td valign="top">
 	<cfquery name="getPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
@@ -952,10 +1056,13 @@ span.sm {font-size: 11px;}
 		UPDATE borrow SET
 		LENDERS_INVOICE_RETURNED_FG = #LENDERS_INVOICE_RETURNED_FG#,
 		LENDERS_TRANS_NUM_CDE = '#LENDERS_TRANS_NUM_CDE#',
+        LENDER_LOAN_TYPE = '#LENDER_LOAN_TYPE#',
 		RECEIVED_DATE = to_date('#RECEIVED_DATE#','yyyy-mm-dd'),
 		DUE_DATE = to_date('#DUE_DATE#','yyyy-mm-dd'),
 		LENDERS_LOAN_DATE = to_date('#LENDERS_LOAN_DATE#','yyyy-mm-dd'),
 		LENDERS_INSTRUCTIONS = '#LENDERS_INSTRUCTIONS#',
+        DESCRIPTION_OF_BORROW = '#DESCRIPTION_OF_BORROW#',
+        NO_OF_SPECIMENS = '#NO_OF_SPECIMENS#',
 		BORROW_STATUS = '#BORROW_STATUS#'
 	WHERE
 		TRANSACTION_ID=#TRANSACTION_ID#
@@ -1093,14 +1200,200 @@ span.sm {font-size: 11px;}
 <cfif action is "new">
 <cfoutput>
   <div style="margin: 0 auto; width: 90%;overflow: hidden;">
+      
+
 <h3 style="margin-left: 1em;margin-top: 2em;">New Borrow Transaction</h3>
+
+	<table border style="width: 45%;margin-right: 4em;float: left;">
+		<form name="borrow" method="post" action="borrow.cfm">
+			<input type="hidden" name="action" value="makeNew">
+			<tr>
+				<td>
+					<label for="collection_id">Collection</label>
+					<select name="collection_id" size="1" id="collection_id">
+						<option value=""></option>
+						<cfloop query="ctcollection">
+							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+						</cfloop>
+					</select>
+				<td>
+					<label for="borrow_num">Local Borrow Number</label>
+					<input type="text" id="borrow_number" name="borrow_number" class="reqdClr">
+				</td>
+				<td>
+					<label for="lenders_trans_num_cde">Lender's Transaction Number</label>
+					<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="LENDERS_INVOICE_RETURNED_FG">Lender acknowledged returned?</label>
+					<select name="LENDERS_INVOICE_RETURNED_FG" size="1">
+						<option value="0">no</option>
+						<option value="1">yes</option>
+					</select>
+				</td>
+				<td>
+					<label for="received_date">Received Date</label>
+					<input type="text" name="received_date" id="received_date">
+				</td>
+				<td>
+					<label for="due_date">Due Date</label>
+					<input type="text" name="due_date" id="due_date">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<label for="trans_date">Transaction Date</label>
+					<input type="text" name="trans_date" id="trans_date">
+				</td>
+				<td>
+					<label for="lenders_loan_date">Lender's Loan Date</label>
+					<input type="text" name="lenders_loan_date" id="lenders_loan_date">
+				</td>
+				<td>
+					<label for="borrow_status">Status</label>
+					<select name="borrow_status" size="1" class="reqdCld">
+						<cfloop query="ctStatus">
+							<option value="#ctStatus.borrow_status#">#ctStatus.borrow_status#</option>
+						</cfloop>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="AuthorizedBy">Authorized By</label>
+					<input type="text" 
+						name="AuthorizedBy" 
+						class="reqdClr"
+						onchange="getAgent('auth_agent_id','AuthorizedBy','borrow',this.value); return false;"
+		 				onKeyPress="return noenter(event);"
+						size="50">
+					<input type="hidden" name="auth_agent_id">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="ReceivedBy">Received By</label>
+					<input type="text" 
+						name="ReceivedBy" 
+						class="reqdClr"
+						onchange="getAgent('received_agent_id','ReceivedBy','borrow',this.value); return false;"
+		 				onKeyPress="return noenter(event);"
+						size="50">
+					<input type="hidden" name="received_agent_id">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="ReceivedFrom">Received From</label>
+					<input type="text" 
+						name="ReceivedFrom" 
+						class="reqdClr"
+						onchange="getAgent('received_from_agent_id','ReceivedFrom','borrow',this.value); return false;"
+		 				onKeyPress="return noenter(event);"
+						size="50">
+					<input type="hidden" name="received_from_agent_id">
+				</td>
+			</tr>
+            <tr>
+				<td colspan="3">
+					<label for="no_of_specimens">Total No. of Specimens</label>
+                    <input type="text" name="no_of_specimens">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="LENDERS_INSTRUCTIONS">Lender's Instructions</label>
+					<textarea name="LENDERS_INSTRUCTIONS" rows="3" cols="90"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="NATURE_OF_MATERIAL">Nature of Material</label>
+					<textarea name="NATURE_OF_MATERIAL" rows="3" cols="90" class="reqdClr"></textarea>
+				</td>
+			</tr>
+            		<tr>
+				<td colspan="3">
+					<label for="DESCRIPTION_OF_BORROW">Description</label>
+					<textarea name="DESCRIPTION_OF_BORROW" rows="3" cols="90" class="reqdClr"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="TRANS_REMARKS">Remarks</label>
+					<textarea name="TRANS_REMARKS" rows="3" cols="90"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<input type="submit" class="schBtn" value="Create Borrow">
+				</td>
+			</tr>
+		</form>
+</table>
+
+<div class="nextnum">
+			Next Available Borrow Number:
+			<br>
+			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select * from collection order by collection
+			</cfquery>
+			<cfloop query="all_coll">
+					<cfset stg="'#dateformat(now(),"yyyy")#.' || nvl(lpad(max(to_number(substr(borrow_number,6,3))) + 1,3,0),'001') || '.#collection_cde#'">
+					<cfset whr=" AND substr(borrow_number, 1,4) ='#dateformat(now(),"yyyy")#'">
+				<hr>
+				<cftry>
+					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select 
+							 #preservesinglequotes(stg)# nn 
+						from 
+							borrow,
+							trans,
+							collection
+						where 
+							borrow.transaction_id=trans.transaction_id and
+							trans.collection_id=collection.collection_id and
+							collection.collection_id=#collection_id#
+							#preservesinglequotes(whr)#
+					</cfquery>
+					<cfcatch>
+						<hr>
+						#cfcatch.detail#
+						<br>
+						#cfcatch.message#
+						<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select 
+								 'check data' nn 
+							from 
+								dual
+						</cfquery>
+					</cfcatch>
+				</cftry>
+				<cfif len(thisQ.nn) gt 0>
+					<span class="likeLink" onclick="setBorrowNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
+				<cfelse>
+					<span style="font-size:x-small">
+						No data available for #collection#.
+					</span>
+				</cfif>
+				<br>
+			</cfloop>
+                        </div>        
+                       
+	</cfoutput>
+</cfif>
+
+<!---
        <div class="form-style-2" style="margin-bottom:0;">    
 <div class="form-style-2-heading">Provide information</div>
 
 <form action="borrow.cfm" method="post" name="borrow">
  
     <input type="hidden" name="action" value="makeNew">
-<label for="collection_id"><span>Collection</span><select name="collection_id" id="collection_id" class="select-field">
+<label for="collection_id"><span>Collection</span><select name="collection_id" id="collection_id" class="select-field  reqdClr">
 						<option value=""></option>
 						<cfloop query="ctcollection">
 							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -1108,7 +1401,7 @@ span.sm {font-size: 11px;}
 					</select>
 </label>
     
-<label for="borrow_number"><span>MCZ Borrow ## <span class="required">*</span></span><input type="text" class="input-field" name="borrow_number" id="borrow_number" value="" /></label>
+<label for="borrow_number"><span>MCZ Borrow ## <span class="required">*</span></span><input type="text" class="input-field reqdClr" name="borrow_number" id="borrow_number" value="" /></label>
 <label for="received_date"><span>Received Date </span> <input type="text" name="received_date" id="received_date" class="input-field"></label>
 <label for="lenders_trans_num_cde"><span>Lender's Transaction ##</span><input type="text" class="input-field" name="lenders_trans_num_cde" value="" id="lenders_trans_num_cde"/></label>
 
@@ -1121,19 +1414,47 @@ span.sm {font-size: 11px;}
 						<option value="partially returned">partially returned</option>
                         <option value="returned">returned</option>
         </select></label>
-<label for="LENDERS_INSTRUCTIONS"><span>Lender's Instructions </span><textarea name="LENDERS_INSTRUCTIONS" class="textarea-field"></textarea></label> 
+
+					<label for="AuthorizedBy"><span>Authorized By</span>
+					<input type="text" 
+						name="AuthorizedBy" 
+						class="input-field reqdClr"
+						onchange="getAgent('auth_agent_id','AuthorizedBy','borrow',this.value); return false;"
+		 				onKeyPress="return noenter(event);"
+						size="50">
+					<input type="hidden" name="auth_agent_id"></label>
+			
+					<label for="ReceivedBy"><span>Received By</span>
+					<input type="text" 
+						name="ReceivedBy" 
+						class="input-field reqdClr"
+						onchange="getAgent('received_agent_id','ReceivedBy','borrow',this.value); return false;"
+		 				onKeyPress="return noenter(event);"
+						size="50">
+					<input type="hidden" name="received_agent_id"></label>
+				
+					<label for="ReceivedFrom"><span>Received From</span>
+					<input type="text" 
+						name="ReceivedFrom" 
+						class="input-field reqdClr"
+						onchange="getAgent('received_from_agent_id','ReceivedFrom','borrow',this.value); return false;"
+		 				onKeyPress="return noenter(event);"
+						size="50">
+					<input type="hidden" name="received_from_agent_id"></label>
+			
+    <label for="LENDERS_INSTRUCTIONS"><span>Lender's Instructions </span><textarea name="LENDERS_INSTRUCTIONS" class="textarea-field"></textarea></label> 
     <label for="LENDERS_INVOICE_RETURNED_FG"><span>Lender acknowledged returned?</span>
 					<select name="LENDERS_INVOICE_RETURNED_FG" class="select-field" size="1">
 						<option value="0">no</option>
 						<option value="1">yes</option>
 					</select>
     </label>
-<label for="NATURE_OF_MATERIAL"><span>Nature of Materials <span class="required">*</span></span><textarea name="NATURE_OF_MATERIAL" class="textarea-field" id="nature_of_material"></textarea></label> 
-    
-<label for="TRANS_REMARKS"><span>Remarks</span><textarea name="TRANS_REMARKS" id="TRANS_REMARKS" class="textarea-field"></textarea></label> 
+    <label for="NATURE_OF_MATERIAL"><span>Nature of Materials <span class="required">*</span></span><textarea name="NATURE_OF_MATERIAL" class="textarea-field  reqdClr" id="nature_of_material"></textarea></label> 
+    <label for="description_of_borrow"><span>Description <span class="required">*</span></span><textarea name="description_of_borrow" class="textarea-field" id="description_of_borrow"></textarea></label>
+     <label for="TRANS_REMARKS"><span>Remarks</span><textarea name="TRANS_REMARKS" id="TRANS_REMARKS" class="textarea-field"></textarea></label> 
     
     </div>
-    
+
 <div class="nextnum">
 			Next Available Borrow Number: <span class="sm">(click number to add to form)</span>
 			<br>
@@ -1181,31 +1502,27 @@ span.sm {font-size: 11px;}
 			
 			</cfloop>
 		</div>
-                        
- <div class="form-style-3" style=" width: 90%x;padding: 0em;margin-left:1em;">
-<input type="text" name="lender_object.transaction_id" id="transaction_id" hidden="hidden">
-        <label for="catalog_number">Catalog Number<input type="text" class="input-field" name="CATALOG_NUMBER" id="catalog_number"></label>
+        --->            
+    <!---    <div class="form-style-3" style=" width: 90%x;padding: 0em;margin-left:1em;">
+       <input type="hidden" name="action" value="newBorrow_Item">
+        <input type="text" name="transaction_id" id="transaction_id" hidden="hidden">
+        <input type="text" name="borrow_item_id" id="borrow_item_id" hidden="hidden">
+        <label for="catalog_number" style="width: 95px">Catalog Number<input type="text" class="input-field" name="CATALOG_NUMBER" id="catalog_number" style="width: 95px;"></label>
         <label for="sci_name">Scientific Name <input type="text" class="input-field" name="SCI_NAME" id="sci_name"></label>
-        <label for="no_of_spec" style="width: 120px;">No. of Specimens<input type="text" class="input-field" name="NO_OF_SPEC" id="no_of_spec" style="width: 120px;"></label> 
+        <label for="no_of_spec" style="width: 116px;">No. of Specimens<input type="text" class="input-field" name="NO_OF_SPEC" id="no_of_spec" style="width: 116px;"></label> 
         <label for="spec_prep">Specimen Preparation <input type="text" class="input-field" name="SPEC_PREP" id="spec_prep"></label>
-        <label for="type_status">Type Status <input type="text" class="input-field" name="TYPE_STATUS" id="type_status"></label>
+        <label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="TYPE_STATUS" id="type_status" style="width:93px;"></label>
         <label for="country_of_origin">County of Origin<input type="text" class="input-field" name="COUNTRY_OF_ORIGIN" id="country_of_origin"></label> 
-        <label for="object_remarks">Remarks<input type="text" class="input-field" name="object_remarks" id="object_remarks"></label> 
-        <label for="none" style="display:hidden;margin-top: 2.3em;"><input class="input-field" type="button" onclick="addLenders_Object()" style="cursor:pointer;background-color: ##76afd0;background-color: cornflowerblue;border:1px solid cornflowerblue;" value="Add Row"></label>
- </div>
+        <label for="object_remarks">Remarks<input type="text" class="input-field" name="object_remarks" id="object_remarks"></label>
+     <label style="width:75px;margin:35px 0 0 0;padding:0;"><input class="input-field" type="button" onclick="addLendersObject(); " style="cursor:pointer;background-color: ##76afd0;background-color: cornflowerblue;border:1px solid cornflowerblue;width:75px;padding-left: 8px;" value="Add Row"></label>
+   </div>
+
     <div class="form-style-2" style="padding-top: 0;margin-top: 1em;">
-<label><span style="width: 50%">&nbsp;</span><input type="submit" value="SUBMIT" /></label> 
-        </div>
-                     
-</form>
-    
-    
-             
-  
-  </div>          
-                       
-	</cfoutput>
-</cfif>
+        <label for="submit" style="width: 100px;"><span style="width: 50%">&nbsp;</span><input type="submit" value="SUBMIT" style="width: 100px;font-weight: bold;"/></label> 
+    </div>
+           
+</form> ---> 
+
 
 <!------------------------------------------------------------------------------------------------------->
 <cfif #action# is "delete">
@@ -1262,6 +1579,8 @@ span.sm {font-size: 11px;}
 			DUE_DATE,
 			LENDERS_LOAN_DATE,
 			LENDERS_INSTRUCTIONS,
+            DESCRIPTION_OF_BORROW,
+            no_of_specimens,
 			BORROW_STATUS
 		) VALUES (
 			#transaction_id#,
@@ -1271,12 +1590,14 @@ span.sm {font-size: 11px;}
 			to_date('#RECEIVED_DATE#','yyyy-mm-dd'),
 			to_date('#DUE_DATE#','yyyy-mm-dd'),
 			to_date('#LENDERS_LOAN_DATE#','yyyy-mm-dd'),
-			'#escapeQuotes(LENDERS_INSTRUCTIONS)#',
+            '#escapeQuotes(LENDERS_INSTRUCTIONS)#',
+            '#DESCRIPTION_OF_BORROW#',
+            '#no_of_specimens#',
 			'#BORROW_STATUS#'
 		)
 		</cfquery>
-        	<cfquery name="newLenderObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO LENDER_OBJECT (
+ <!---<cfquery name="newBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		INSERT INTO BORROW_ITEM (
 			TRANSACTION_ID,
 			CATALOG_NUMBER,
 			SCI_NAME,
@@ -1284,7 +1605,8 @@ span.sm {font-size: 11px;}
 			SPEC_PREP,
 			TYPE_STATUS,
 			COUNTRY_OF_ORIGIN,
-            OBJECT_REMARKS
+            OBJECT_REMARKS,
+            borrow_item_id
 		) VALUES (
 			#transaction_id#,
 			'#CATALOG_NUMBER#',
@@ -1293,9 +1615,11 @@ span.sm {font-size: 11px;}
 			'#SPEC_PREP#',
 			'#TYPE_STATUS#',
 			'#COUNTRY_OF_ORIGIN#',
-            '#OBJECT_REMARKS#'
+            '#OBJECT_REMARKS#',
+            '#borrow_item_id#'
 		)
 		</cfquery>
+--->
 		<cfquery name="authBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO trans_agent (
 			    transaction_id,
