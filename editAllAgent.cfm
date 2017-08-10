@@ -194,18 +194,22 @@
 		<cfif len(#person.agent_remarks#) gt 0>
 			#person.agent_remarks#
 		</cfif>
-		<cfif listcontainsnocase(session.roles,"manage_transactions")>
+        <div style="margin-bottom: 1em;">
+        <cfif listcontainsnocase(session.roles, "manage_transactions")>
+        <p><a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
+        </cfif>
+		<cfif listcontainsnocase(session.roles,"admin_transactions")>
 			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) || ' ' || agent_rank agent_rank from agent_rank where agent_id=#agent_id# group by agent_rank
 			</cfquery>
-            <br>
-			<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
+         &nbsp; &nbsp;
 			
+			<span  style="font-size: 13px;margin: 1em 0;">
 			<cfif rank.recordcount gt 0>
 				Previous Ranking: #valuelist(rank.agent_rank,"; ")#
-			</cfif>
-			<input type="button" class="lnkBtn" onclick="rankAgent('#agent_id#');" value="Rank">
-		</cfif>
+			</cfif></span>
+			<input type="button" class="lnkBtn" onclick="rankAgent('#agent_id#');" value="Rank">&nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Standards##AGENT_RANKING')" class="likeLink" style="margin-top: -15px;" alt="[ help ]">
+		</cfif></p>
             </div>
 	</cfoutput>
 	<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
