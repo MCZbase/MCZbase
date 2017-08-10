@@ -17,7 +17,7 @@
 	len(#agent_id#) gt 0 or
 	len(#Death_Date#) gt 0)
 >
-	<font color="#FF0000"><strong>You must enter search criteria.</strong></font>	
+	<font color="#FF0000"><strong>You must enter search criteria.</strong></font>
 	<cfabort>
 
 </cfif>
@@ -25,23 +25,23 @@
 
 <cfoutput>
 <div style="padding: 3px;">
-<cfset sql = "SELECT 
-					preferred_agent_name.agent_id,
+<cfset sql = "SELECT
+					distinct preferred_agent_name.agent_id,
 					preferred_agent_name.agent_name,
 					agent_type,
-					agent.edited
-				FROM 
+					agent.edited,
+                    max(agent_rank.agent_rank) agent_rank
+
+				FROM
 					agent_name
 					left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
 					LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
 					LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
-				WHERE 
+                    LEFT OUTER JOIN agent_rank ON (person.person_id = agent_rank.agent_id)
+				WHERE
 					agent.agent_id > -1
-					and rownum<500 -- some throttle control
-					">
-					<!---
-					agent_name_type='preferred'
-					--->
+					and rownum<500
+				">
 <cfif isdefined("First_Name") AND len(#First_Name#) gt 0>
 	<cfset sql = "#sql# AND first_name LIKE '#First_Name#'">
 </cfif>
@@ -74,6 +74,9 @@
 <cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 	<cfset sql = "#sql# AND agent_name.agent_id = #agent_id#">
 </cfif>
+<cfif isdefined("agent_rank") AND len(#agent_rank#) gt 0>
+	<cfset sql = "#sql# AND agent_rank.agent_rank = #agent_rank#">
+</cfif>
 <cfif isdefined("address") AND len(#address#) gt 0>
 	<cfset sql = "#sql# AND agent_id IN (
 			select agent_id from addr where upper(formatted_addr) like '%#ucase(address)#%')">
@@ -89,13 +92,13 @@
 <cfif getAgents.recordcount is 0>
     <span class="error">Nothing Matched.</span>
 </cfif>
+
 <cfloop query="getAgents">
-	 <span style="display: inline-block;padding:1px 5px;"><a href="editAllAgent.cfm?agent_id=#agent_id#" 
-                                             target="_person">#agent_name#</a> <span style="font-size: smaller;">(#agent_type#: #agent_id#) <cfif #edited# EQ 1>*</cfif></span></span>
+	 <span style="display: inline-block;padding:1px 5px;">
+         <a href="editAllAgent.cfm?agent_id=#agent_id#" target="_person">#agent_name#</a> <span style="font-size: smaller;">(#agent_type#: #agent_id#) <cfif #edited# EQ 1>*</cfif><cfif #agent_rank# EQ 'B'> <img src="images/flag-yellow.svg.png" width="16"></cfif><cfif #agent_rank# EQ 'F'> <img src="images/flag-red.svg.png" width="16"></cfif></span></span>
    <br>
 </cfloop>
+
     </div>
 </cfoutput>
-
-
 <cfinclude template="includes/_pickFooter.cfm">

@@ -149,7 +149,11 @@
         <span style="font-size: 15px;">#typeName#</span>
       </cfif>--->
     </li>
-    <li class="partstring">#partString# </li>
+    <cfif encumbrance_action does not contain "mask parts" OR
+                                       (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
+        <!--- omit part string for mask parts encumberance --->
+        <li class="partstring">#partString# </li>
+    </cfif>
     <li>
     <ul class="return_links">
               <li>
