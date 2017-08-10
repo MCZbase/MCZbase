@@ -214,7 +214,7 @@
 <cfif isdefined("coordinateDeterminer") and len(#coordinateDeterminer#) gt 0>
 	<cfset sql = "#sql# AND upper(agent_name) like '%#ucase(coordinateDeterminer)#%'">
 </cfif>
-<cfset sql = "#sql# AND rownum < 10000">
+<!---cfset sql = "#sql# AND rownum < 10000"--->
 <cfif right(sql,4) is " (+)">
 	<span class="error">You must enter search criteria.</span>
 	<cfabort>
