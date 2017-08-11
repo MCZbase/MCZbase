@@ -180,6 +180,8 @@ function deleteShipment(shipmentId,transactionId) {
 
 function loadShipment(shipmentId,form) {
     $("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
+    $("#shipmentFormPermits").html(""); 
+    $("#shipmentFormStatus").html(""); 
     jQuery.getJSON("/component/functions.cfc",
         {
             method : "getShipments",
@@ -203,8 +205,8 @@ function loadShipment(shipmentId,form) {
                    $("#shipment_remarks").val(result.DATA.SHIPMENT_REMARKS[i]);
                    $("#shipped_to_addr_id").val(result.DATA.SHIPPED_TO_ADDR_ID[i]);
                    $("#shipped_from_addr_id").val(result.DATA.SHIPPED_FROM_ADDR_ID[i]);
-                   $("#shipped_to_addr").text(result.DATA.SHIPPED_TO_ADDRESS[i]);
-                   $("#shipped_from_addr").text(result.DATA.SHIPPED_FROM_ADDRESS[i]);
+                   $("#shipped_to_addr").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
+                   $("#shipped_from_addr").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
                    $("#shipped_carrier_method").val(result.DATA.SHIPPED_CARRIER_METHOD[i]);
                    var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
 		           $(target).attr("selected",true);
@@ -248,8 +250,8 @@ function loadShipment(shipmentId,form) {
         $("#shipment_remarks").val("");
         $("#shipped_to_addr_id").val("");
         $("#shipped_from_addr_id").val("");
-        $("#shipped_to_addr").text("");
-        $("#shipped_from_addr").text("");
+        $("#shipped_to_addr").val("");
+        $("#shipped_from_addr").val("");
         $("#shipped_carrier_method").val("");
         $("#foreign_shipment_fg option[value='1']").prop('selected',false);
         $("#foreign_shipment_fg option[value='0']").prop('selected',true); 
