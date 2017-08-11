@@ -314,6 +314,7 @@ function setBorrowNum(cid,v){
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
 <cfif action is "findEm">
+<cfset title="Find Borrows">
      <div style="width: 90%;margin: 0 auto;overflow: hidden;padding: 2em 0;">
 	<cfoutput>
 		<cfset f="trans,
@@ -538,6 +539,7 @@ function setBorrowNum(cid,v){
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
+<cfset title="Edit Borrow">
   <div style="width: 95%;margin: 0 auto;overflow: hidden;padding: 2em;">  
 <cfoutput>
 		<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -590,6 +592,8 @@ function setBorrowNum(cid,v){
 				agent_name
 		</cfquery>
 	<table><tr><td valign="top">
+       <h2 class="wikilink" style="margin-left: 0;">Edit Borrow <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
+        <span class="loanNum">#getBorrow.collection# #getBorrow.borrow_number# </span>	</h2>
 	<table>
 		<form name="borrow" method="post" action="borrow.cfm">
 			<input type="hidden" name="action" value="update">
@@ -1280,6 +1284,8 @@ $(function() {
 	</cfoutput>
 </cfif>
 
+<!---
+
 <!------------------------------------------------------------------------------------------------------->
 <cfif action is "deleteShip">
 	<cfoutput>
@@ -1361,13 +1367,18 @@ $(function() {
 		<cflocation url="borrow.cfm?transaction_id=#transaction_id#&action=edit" addtoken="false">
 	</cfoutput>
 </cfif>
+
+--->
+
 <!------------------------------------------------------------------------------------------------------->
 <cfif action is "new">
+<cfset title="New Borrow">
 <cfoutput>
   <div style="margin: 0 auto; width: 90%;overflow: hidden;">
-      
 
-<h3 style="margin-left: 1em;margin-top: 2em;">New Borrow Transaction</h3>
+        <h2 class="wikilink" style="margin-left: 0;">New Borrow 
+            <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
+        </h2>
 
 	<table border style="width: 45%;margin-right: 4em;float: left;">
 		<form name="borrow" method="post" action="borrow.cfm">
@@ -1428,7 +1439,7 @@ $(function() {
 			</tr>
 			<tr>
 				<td colspan="3">
-					<label for="AuthorizedBy">Authorized By</label>
+					<label for="AuthorizedBy">Borrow Authorized By</label>
 					<input type="text" 
 						name="AuthorizedBy" 
 						class="reqdClr"
@@ -1460,6 +1471,17 @@ $(function() {
 		 				onKeyPress="return noenter(event);"
 						size="50">
 					<input type="hidden" name="received_from_agent_id">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="LendingInstitution">Lending Institution</label>
+					<input type="text" 
+						name="LendingInstitution" 
+						onchange="getAgent('lending_institution_agent_id','LendingInstitution','borrow',this.value); return false;"
+		 				onKeyPress="return noenter(event);"
+						size="50">
+					<input type="hidden" name="lending_institution_agent_id">
 				</td>
 			</tr>
             <tr>
@@ -1817,6 +1839,19 @@ $(function() {
 				'received from'
 			)
 		</cfquery>
+                <cfif isdefined("lending_institution_agent_id") and len(#lending_institution_agent_id#) GT 0 > 
+		<cfquery name="recfrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO trans_agent (
+			    transaction_id,
+			    agent_id,
+			    trans_agent_role
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lending_institution_agent_id#">,
+				'lending institution'
+			)
+		</cfquery>
+                </cfif>
 	</cftransaction>
 	<cflocation url="borrow.cfm?action=edit&transaction_id=#transaction_id#" addtoken="false">
 	</cfoutput>
