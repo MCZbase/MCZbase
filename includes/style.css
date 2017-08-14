@@ -5368,7 +5368,16 @@ div#ships ul.shipdata li {width: 150px;font-weight: normal; float:left;display:i
 div#ships ul.shipaddresseshead li {width: 575px;font-weight:bold; float:left;display:inline;list-style-type:none;color: black;margin-top:.5em;}
 div#ships ul.shipaddressesdata li {width: 575px;font-weight:normal; float:left;display:inline;list-style-type:none;color: black;margin-top:0em;padding-top:0;}
 div#ships input {margin-top: 1em;}
-div#shippermitstyle {float: left;width: 76em;margin-bottom: 1em; padding-bottom: 1em;border-bottom: 1px solid black;}
+div.ships2 {width: 76em;margin: 0 auto;margin-top: 1em; }
+div.ships2 ul.shipheaders {width:76em;float:left;display:inline;list-style-type:none;}
+div.ships2 ul.shipheaders li {width: 150px;font-weight: bold; float:left;display:inline;list-style-type:none;color: black;margin-top:.5em;}
+div.ships2 ul.shipdata {width:76em;float:left;display:inline;list-style-type:none;margin-top:0;}
+div.ships2 ul.shipdata li {width: 150px;font-weight: normal; float:left;display:inline;list-style-type:none;color: black;}
+div.ships2 ul.shipaddresseshead li {width: 575px;font-weight:bold; float:left;display:inline;list-style-type:none;color: black;margin-top:.5em;}
+div.ships2 ul.shipformhead li {width: 575px;font-weight:bold; float:left;display:inline;list-style-type:none;color: black;margin-top:.5em;}
+div.ships2 ul.shipaddressesdata li {width: 575px;font-weight:normal; float:left;display:inline;list-style-type:none;color: black;margin-top:0em;padding-top:0;}
+/*div.ships2 input {margin-top: 1em;}*/
+div#shippermitstyle {border-top: 1px dashed black;margin-top: 1em;padding-top:1em;float: left;width: 76em;margin-bottom: .25em; padding-bottom: 1em;border-bottom: 1px solid black;}
 div#shippermitstyle h4 {font-size: 16px;margin:0 auto;padding-bottom:.25em;}
 
 div#shippermitstyle ul.permitshipul {width: 800px;font-weight:normal; float:left;display:inline;list-style-type:none;color: black;padding: .25em 0;}
@@ -5379,13 +5388,15 @@ div#shippermitstyle ul.permitshipul2 li {width: auto;margin-right: 1em;font-weig
 div#shippermitstyle ul.permitshipul2 li input {margin-top:0;}
 div#changeship {width: 76em;float:left;}
 div.shipbuttons {width: 100px;margin-right: 1em;float:left;display:inline;}
-div#accsection {width: 76em;margin: 0 auto;margin-bottom: 2em;margin-bottom: .5em;padding: 3px 0;}
+div#accsection {width: 76em;margin: 0 auto;margin-bottom: .5em;padding: 3px 0;}
 div#accsection h3 {margin-bottom: .5em;margin-top: 1em;}
-div#accsection ul.accn li.accn2 {margin: .25em 0;list-style:none;margin-bottom: 1em;border-bottom: 1px dashed black;padding-bottom: .5em;}
-div#accsection ul.accn li.accn2:last-child {margin: .25em 0 .5em 0;list-style:none;margin-bottom: 1em;border-bottom:none;}
+div#accsection ul.accn li.accn2 {margin: .5em 0 .5em 0;list-style:none;border-bottom: 1px dashed black;padding: .5em 0;}
+div#accsection ul.accn li.accn2:last-child {margin: .5em 0 .5em 0;list-style:none;margin-bottom: 1em;border-bottom:none;}
 div#accsection ul.accn li span, div#accsection ul.accnpermit li span  {font-weight: 580;}
-div#accsection ul.accnpermit li {margin: .25em 0em;list-style:none;}
+div#accsection ul.accnpermit li {margin: .25em 0 .25em 0;list-style:none;}
 div#permitmedia {width: 76em;margin: 0 auto;padding-bottom: 2em;}
 div#permitmedia h3 {width: 76em;margin: 0 auto;margin-bottom: .5em;padding-top: 1em;}
 div#permitmedia ul li {margin: .25em 0;list-style:none;margin-bottom: .5em;}
-div.shipmentnote {font-size: 14px; font-weight: bold;float: left;display: inline;color: #333;margin-left: 50px;margin-top: -1.2em;}
+div.shipmentnote {font-size: 14px; font-weight: bold;float: left;margin-left: 265px;display: inline;color: #333;margin-top: -1.22em;}
+.deletestyle {}
+.addstyle {margin-left: 130px;float:left;width:auto;padding: 2px 6px;margin-top:-21px;display: inline;}
