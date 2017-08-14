@@ -956,7 +956,7 @@ function opendialog(page,id,title) {
 		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 	</cfquery>
     <div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
-    </div> <!--- Shipping block --->
+     <!--- Shipping block --->
 <script>
 
 $( document ).ready(loadShipments(#transaction_id#));
@@ -978,8 +978,8 @@ $( document ).ready(loadShipments(#transaction_id#));
       });
     });
 </script>
-    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
-
+<input type="button" style="margin-left: 130px;float:left;width:auto;padding: 2px 6px;margin-top:-20px;display: inline;" value="Add Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+</div>
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >
     <fieldset>
@@ -1067,7 +1067,7 @@ $( document ).ready(loadShipments(#transaction_id#));
   <div id="shipmentFormPermits"></div>
   <div id="shipmentFormStatus"></div>
 </div>
-
+<div id="accsection">
 	<h3>Accessions (and their permits) for material in this loan:</h3>
         <!--- List Accessions for collection objects included in the Loan --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1079,9 +1079,9 @@ $( document ).ready(loadShipments(#transaction_id#));
 		   left join accn on ci.accn_id = accn.transaction_id
 		   where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
         </cfquery>
-        <ul>
+        <ul class="accn">
 	<cfloop query="getAccessions">
-            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #dateformat(received_date,'yyyy-mm-dd')#</li>
+            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# 
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id,
                     issuedBy.agent_name as IssuedByAgent
@@ -1091,17 +1091,21 @@ $( document ).ready(loadShipments(#transaction_id#));
                 order by permit_type, issued_date
             </cfquery>
              <cfif getAccnPermits.recordcount gt 0>
-	      <ul>
+	      <ul class="accnpermit">
               <cfloop query="getAccnPermits">
-                 <li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+                 <li><span>Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+                 
               </cfloop>
               </ul>
+             
 	    </cfif>
+        </li>
 	</cfloop>
         </ul>
-
+</div>
     <!--- TODO: Print permits associated with these accessions --->
-	<h3>Permit Media (PDF copies of Permits)</h3>
+	  <div id="permitmedia">
+      <h3>Permit Media (PDF copies of Permits)</h3>
 	<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct media_id, uri, permit_type, permit_num from (
 		select media.media_id, media.media_uri as uri, p.permit_type, p.permit_num
@@ -1130,6 +1134,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                     and mime_type = 'application/pdf'))
         ) where permit_type is not null
     </cfquery>
+  
     <ul>
   	<cfloop query="getPermitMedia">
         <cfif media_id is ''> 
