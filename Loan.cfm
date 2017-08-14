@@ -978,7 +978,7 @@ $( document ).ready(loadShipments(#transaction_id#));
       });
     });
 </script>
-<input type="button" style="margin-left: 130px;float:left;width:auto;padding: 2px 6px;margin-top:-20px;display: inline;" value="Add Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+<input type="button" style="margin-left: 130px;float:left;width:auto;padding: 2px 6px;margin-top:-20px;display: inline;" value="Add Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 </div>
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >
@@ -1081,7 +1081,7 @@ $( document ).ready(loadShipments(#transaction_id#));
         </cfquery>
         <ul class="accn">
 	<cfloop query="getAccessions">
-            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# 
+            <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# 
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id,
                     issuedBy.agent_name as IssuedByAgent
@@ -1093,7 +1093,7 @@ $( document ).ready(loadShipments(#transaction_id#));
              <cfif getAccnPermits.recordcount gt 0>
 	      <ul class="accnpermit">
               <cfloop query="getAccnPermits">
-                 <li><span>Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+                 <li><span style="font-weight:bold;">Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
                  
               </cfloop>
               </ul>

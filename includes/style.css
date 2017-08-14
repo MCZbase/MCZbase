@@ -5379,12 +5379,13 @@ div#shippermitstyle ul.permitshipul2 li {width: auto;margin-right: 1em;font-weig
 div#shippermitstyle ul.permitshipul2 li input {margin-top:0;}
 div#changeship {width: 76em;float:left;}
 div.shipbuttons {width: 100px;margin-right: 1em;float:left;display:inline;}
-div#accsection {width: 76em;margin: 0 auto;margin-bottom: 2em;margin-bottom: .5em;padding: 3px 0; border-bottom: 1px solid #666;}
-div#accsection h3 {margin-bottom: .5em;}
-div#accsection ul.accn li {margin: .25em 0;list-style:none;margin-bottom: 1em;}
+div#accsection {width: 76em;margin: 0 auto;margin-bottom: 2em;margin-bottom: .5em;padding: 3px 0;}
+div#accsection h3 {margin-bottom: .5em;margin-top: 1em;}
+div#accsection ul.accn li.accn2 {margin: .25em 0;list-style:none;margin-bottom: 1em;border-bottom: 1px dashed black;padding-bottom: .5em;}
+div#accsection ul.accn li.accn2:last-child {margin: .25em 0 .5em 0;list-style:none;margin-bottom: 1em;border-bottom:none;}
 div#accsection ul.accn li span, div#accsection ul.accnpermit li span  {font-weight: 580;}
 div#accsection ul.accnpermit li {margin: .25em 0em;list-style:none;}
 div#permitmedia {width: 76em;margin: 0 auto;padding-bottom: 2em;}
 div#permitmedia h3 {width: 76em;margin: 0 auto;margin-bottom: .5em;padding-top: 1em;}
-div#permitmedia ul {}
 div#permitmedia ul li {margin: .25em 0;list-style:none;margin-bottom: .5em;}
+div.shipmentnote {font-size: 14px; font-weight: bold;float: left;display: inline;color: #333;margin-left: 50px;margin-top: -1.2em;}
