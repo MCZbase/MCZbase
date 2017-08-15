@@ -5400,6 +5400,6 @@ div#accsection ul.accnpermit li {margin: .25em 0 .25em 0;list-style:none;}
 div#permitmedia {width: 76em;margin: 0 auto;padding-bottom: 2em;}
 div#permitmedia h3 {width: 76em;margin: 0 auto;margin-bottom: .5em;padding-top: 1em;}
 div#permitmedia ul li {margin: .25em 0;list-style:none;margin-bottom: .5em;}
-div.shipmentnote {font-size: 14px; font-weight: bold;float: left;margin-left: 265px;display: inline;color: #333;margin-top: -1.22em;}
+div.shipmentnote {font-size: 14px; font-weight: bold; float: left; margin-left: 3em; display: inline; color: #333; margin-top: -1.22em;}
 div.deletestyle { margin: 0 auto; }
 .addstyle {margin-left: 130px;float:left;width:auto;padding: 2px 6px;margin-top:-21px;display: inline;}

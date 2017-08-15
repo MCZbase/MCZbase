@@ -918,7 +918,7 @@
     </table>
       </div>
 
-	<div class="shippingBlock">
+<div class="shippingBlock">
     <h3>Shipment Information:</h3>
 <script>
 
@@ -956,7 +956,7 @@ function opendialog(page,id,title) {
 		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 	</cfquery>
     <div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
-     <!--- Shipping block --->
+
 <script>
 
 $( document ).ready(loadShipments(#transaction_id#));
@@ -978,8 +978,13 @@ $( document ).ready(loadShipments(#transaction_id#));
       });
     });
 </script>
-<input type="button" class="addstyle lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
+
+</div> <!--- end shipping block ---> 
+<div>
+    <!--- inherited styles on inputs cause this block to layout poorly iff included in the shipping block div. --->
+    <input type="button" class="addstyle lnkBtn" style="margin-left: 3em;" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 </div>
+
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >
     <fieldset>
