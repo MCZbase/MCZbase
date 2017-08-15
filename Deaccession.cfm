@@ -68,14 +68,14 @@ fieldset {border: none;}
 </cfoutput>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
-	<cflocation url="deaccession.cfm?action=search" addtoken="false">
+	<cflocation url="Deaccession.cfm?action=search" addtoken="false">
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newDeacc">
 <cfset title="New Deaccession">
 	<cfoutput>
       <div class="newLoanWidth">
-  <form name="newDeacc" id="newDeacc" action="deaccession.cfm" method="post" onSubmit="return noenter();">
+  <form name="newDeacc" id="newDeacc" action="Deaccession.cfm" method="post" onSubmit="return noenter();">
   
     	<h2 class="wikilink" style="margin-left: 0;">Initiate a Deaccession
 	      <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
@@ -205,7 +205,7 @@ fieldset {border: none;}
 					<td colspan="2" align="center">
 						<input type="submit" value="Create Deaccession" class="insBtn">
 						&nbsp;
-						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'deaccession.cfm'">
+						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Deaccession.cfm'">
 			   		</td>
 				</tr>
 			</table>
@@ -321,7 +321,7 @@ fieldset {border: none;}
     <tr>
     <td valign="top" class="leftCell"><!--- left cell ---->
 
-  <form name="editDeacc" action="deaccession.cfm" method="post">
+  <form name="editDeacc" action="Deaccession.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#deaccDetails.transaction_id#">
 		<span style="font-size:14px;">Entered by #deaccDetails.enteredby#</span>
@@ -466,7 +466,7 @@ fieldset {border: none;}
 		<input type="button" value="Save Edits" class="savBtn"
 			onClick="editDeacc.action.value='saveEdits';submit();">
 
-   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'deaccession.cfm?action=search'">
+   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Deaccession.cfm?action=search'">
 		<input type="button" value="Add Items" class="lnkBtn"
 			onClick="window.open('SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
 		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
@@ -561,7 +561,7 @@ fieldset {border: none;}
 		DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and
 		permit_id=#permit_id#
 	</cfquery>
-	<cflocation url="deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">
+	<cflocation url="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "saveEdits">
@@ -631,7 +631,7 @@ fieldset {border: none;}
 				   </cfif>
 				</cfloop>
 			</cftransaction>
-			<cflocation url="deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">
+			<cflocation url="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
@@ -766,7 +766,7 @@ fieldset {border: none;}
 				select sq_transaction_id.currval nextTransactionId from dual
 			</cfquery>
 		</cftransaction>
-		<cflocation url="deaccession.cfm?action=editDeacc&transaction_id=#nextTransId.nextTransactionId#" addtoken="false">
+		<cflocation url="Deaccession.cfm?action=editDeacc&transaction_id=#nextTransId.nextTransactionId#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
@@ -807,7 +807,7 @@ fieldset {border: none;}
 		select coll_obj_disposition from ctcoll_obj_disp
 	</cfquery>
       <br>
-      <form name="SpecData" action="deaccession.cfm" method="post">
+      <form name="SpecData" action="Deaccession.cfm" method="post">
         <input type="hidden" name="action" value="listDeacc">
         <input type="hidden" name="project_id" <cfif project_id gt 0> value="#project_id#" </cfif>>
         <table>
@@ -1140,7 +1140,7 @@ fieldset {border: none;}
       Nothing matched your search criteria.
     </cfif>
 
-    <cfset rURL="deaccession.cfm?csv=true">
+    <cfset rURL="Deaccession.cfm?csv=true">
     <cfloop list="#StructKeyList(form)#" index="key">
     <cfset allDeacc.recordcount ++ />
       <cfif len(form[key]) gt 0>
@@ -1283,7 +1283,7 @@ fieldset {border: none;}
        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
        <li class="add"><a href="SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#">Add Items</a></li>
        <li class="barcode"><a href="deaccByBarcode.cfm?transaction_id=#transaction_id#">Add Items by Barcode</a></li>
-       <li class="edit"><a href="deaccession.cfm?transaction_id=#transaction_id#&action=editDeacc">Edit Deaccession</a></li>
+       <li class="edit"><a href="Deaccession.cfm?transaction_id=#transaction_id#&action=editDeacc">Edit Deaccession</a></li>
      </cfif>
   </ul>
 </dl>

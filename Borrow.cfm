@@ -235,7 +235,7 @@ function setBorrowNum(cid,v){
     <div style="width: 50em;margin: 0 auto;overflow: hidden;padding: 2em 0;">
 	<cfoutput>
 	Find Borrows:
-	<form name="borrow" method="post" action="borrow.cfm">
+	<form name="borrow" method="post" action="Borrow.cfm">
 		<input type="hidden" name="action" value="findEm">
 		<label for="trans_agent_role_1">Agent 1</label>		
 		<select name="trans_agent_role_1">
@@ -490,7 +490,7 @@ function setBorrowNum(cid,v){
 		<cfloop query="b">
 			<tr>
 				<td style="width:100px;padding: 10px;">
-					<a href="borrow.cfm?action=edit&transaction_id=#transaction_id#">
+					<a href="Borrow.cfm?action=edit&transaction_id=#transaction_id#">
 						#BORROW_NUMBER#
 					</a>
 				</td>
@@ -595,7 +595,7 @@ function setBorrowNum(cid,v){
        <h2 class="wikilink" style="margin-left: 0;">Edit Borrow <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#getBorrow.collection# #getBorrow.borrow_number# </span>	</h2>
 	<table>
-		<form name="borrow" method="post" action="borrow.cfm">
+		<form name="borrow" method="post" action="Borrow.cfm">
 			<input type="hidden" name="action" value="update">
 			<input type="hidden" name="transaction_id" value="#getBorrow.transaction_id#">
 			<tr>
@@ -1022,7 +1022,7 @@ $(function() {
 	</cfquery>
 	<br><strong>Permits:</strong>  
 	<cfloop query="getPermits">
-		<form name="killPerm#currentRow#" method="post" action="borrow.cfm">
+		<form name="killPerm#currentRow#" method="post" action="Borrow.cfm">
 			<p>
 				<strong>Permit ## #permit_Num# (#permit_Type#)</strong> issued to
 			 	#IssuedToAgent# by #IssuedByAgent# on 
@@ -1040,7 +1040,7 @@ $(function() {
 			</p>	
 		</form>
 	</cfloop>
-	<form name="addPermit" action="borrow.cfm" method="post">
+	<form name="addPermit" action="Borrow.cfm" method="post">
 		<input type="hidden" name="transaction_id" value="#transaction_id#">
 		<input type="hidden" name="permit_id">
 		<label for="">Click to add Permit. Reload to see added permits.</label>
@@ -1083,7 +1083,7 @@ $(function() {
 		</cfquery>
 		<h3>Create Shipment:</h3>
 		<div class="newRec">
-		<form name="newshipment" method="post" action="borrow.cfm">
+		<form name="newshipment" method="post" action="Borrow.cfm">
 			<input type="hidden" name="Action" value="newShip">
 			<input type="hidden" name="transaction_id" value="#transaction_id#">
 			<label for="packed_by_agent">Packed By Agent</label>
@@ -1141,7 +1141,7 @@ $(function() {
 		<cfloop query="shipment">
 		<hr>
 		<h3>Edit Shipment</h3>
-			<form name="shipment#i#" method="post" action="borrow.cfm">
+			<form name="shipment#i#" method="post" action="Borrow.cfm">
 				<input type="hidden" name="action" value="saveShip">
 				<input type="hidden" name="transaction_id" value="#transaction_id#">
 				<input type="hidden" name="shipment_id" value="#shipment_id#">
@@ -1215,7 +1215,7 @@ $(function() {
 		DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and 
 		permit_id=#permit_id#
 	</cfquery>
-	<cflocation url="borrow.cfm?Action=edit&transaction_id=#transaction_id#">
+	<cflocation url="Borrow.cfm?Action=edit&transaction_id=#transaction_id#">
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
 <cfif action is "update">
@@ -1280,7 +1280,7 @@ $(function() {
 		</cfquery>
 	</cfif>
 </cftransaction>
-<cflocation url="borrow.cfm?action=edit&transaction_id=#transaction_id#">
+<cflocation url="Borrow.cfm?action=edit&transaction_id=#transaction_id#">
 	</cfoutput>
 </cfif>
 
@@ -1293,7 +1293,7 @@ $(function() {
 			 delete from shipment WHERE
 				shipment_id = #shipment_id#
 		</cfquery>
-		<cflocation url="borrow.cfm?transaction_id=#transaction_id#&action=edit" addtoken="false">
+		<cflocation url="Borrow.cfm?transaction_id=#transaction_id#&action=edit" addtoken="false">
 	</cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
@@ -1321,7 +1321,7 @@ $(function() {
 			WHERE
 				shipment_id = #shipment_id#
 		</cfquery>
-		<cflocation url="borrow.cfm?transaction_id=#transaction_id#&action=edit" addtoken="false">
+		<cflocation url="Borrow.cfm?transaction_id=#transaction_id#&action=edit" addtoken="false">
 	</cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
@@ -1364,7 +1364,7 @@ $(function() {
 					,#SHIPPED_FROM_ADDR_ID#
 				)	
 		</cfquery>
-		<cflocation url="borrow.cfm?transaction_id=#transaction_id#&action=edit" addtoken="false">
+		<cflocation url="Borrow.cfm?transaction_id=#transaction_id#&action=edit" addtoken="false">
 	</cfoutput>
 </cfif>
 
@@ -1381,7 +1381,7 @@ $(function() {
         </h2>
 
 	<table border style="width: 45%;margin-right: 4em;float: left;">
-		<form name="borrow" method="post" action="borrow.cfm">
+		<form name="borrow" method="post" action="Borrow.cfm">
 			<input type="hidden" name="action" value="makeNew">
 			<tr>
 				<td>
@@ -1577,7 +1577,7 @@ $(function() {
        <div class="form-style-2" style="margin-bottom:0;">    
 <div class="form-style-2-heading">Provide information</div>
 
-<form action="borrow.cfm" method="post" name="borrow">
+<form action="Borrow.cfm" method="post" name="borrow">
  
     <input type="hidden" name="action" value="makeNew">
 <label for="collection_id"><span>Collection</span><select name="collection_id" id="collection_id" class="select-field  reqdClr">
@@ -1726,7 +1726,7 @@ $(function() {
 			delete from trans where transaction_id=#transaction_id#
 		</cfquery>
 		</cftransaction>
-		<cflocation url="borrow.cfm" addtoken="false">
+		<cflocation url="Borrow.cfm" addtoken="false">
 	</cfoutput>
 </cfif>
 
@@ -1853,7 +1853,7 @@ $(function() {
 		</cfquery>
                 </cfif>
 	</cftransaction>
-	<cflocation url="borrow.cfm?action=edit&transaction_id=#transaction_id#" addtoken="false">
+	<cflocation url="Borrow.cfm?action=edit&transaction_id=#transaction_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------------------->

@@ -364,7 +364,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 <cfif isdefined("transaction_id") and #action# is "dispCollObj">
 	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
     <cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
-    <a href="deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">Back to Deaccession</a>
+    <a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">Back to Deaccession</a>
 </cfif>
 <table border="0">
 	<tr>

@@ -183,10 +183,10 @@
                         <li><a target="_top" href="/Loan.cfm?Action=newLoan">Create Loan</a></li>
                        <!--- <li><a target="_top" href="/Loan.cfm?Action=newLoan&scope=Gift">Create Gift</a></li>--->
                         <li><a target="_top" href="/Loan.cfm?Action=search">Find Loans</a></li>
-                        <li><a target="_top" href="/deaccession.cfm?Action=newDeacc">Create Deaccession</a></li>
-                        <li><a target="_top" href="/deaccession.cfm?Action=search">Find Deaccession</a></li>
-                        <li><a target="_top" href="/borrow.cfm?action=new">Create Borrow</a></li>
-                        <li><a target="_top" href="/borrow.cfm">Find Borrow</a></li>
+                        <li><a target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a></li>
+                        <li><a target="_top" href="/Deaccession.cfm?Action=search">Find Deaccession</a></li>
+                        <li><a target="_top" href="/Borrow.cfm?action=new">Create Borrow</a></li>
+                        <li><a target="_top" href="/Borrow.cfm">Find Borrow</a></li>
                         <li><a target="_top" href="/Permit.cfm?action=newPermit">Create Permit</a></li>
                         <li><a target="_top" href="/Permit.cfm">Find Permit</a></li>
                      </ul>
