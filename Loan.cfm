@@ -979,12 +979,12 @@ $( document ).ready(loadShipments(#transaction_id#));
       });
     });
 </script>
-
+    <div class="addstyle">
+    <input type="button" class="lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div></div><!---moved this to inside of the shipping block--one div up--->
 </div> <!--- end shipping block ---> 
-<div>
-    <!--- inherited styles on inputs cause this block to layout poorly iff included in the shipping block div. --->
-    <input type="button" class="addstyle lnkBtn" style="margin-left: 3em;" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
-</div>
+
+
+
 
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >

@@ -879,7 +879,12 @@ function opendialog(page,id,title) {
 		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getBorrow.transaction_id#">
 	</cfquery>
     <div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
-</div> <!--- Shipping block --->
+
+    <div class="addstyle">
+        <input type="button" value="Add Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+        <div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
+    </div><!--- end addstyle --->
+</div> <!--- end Shipping block --->
 
 <script>
 
@@ -904,7 +909,6 @@ $(function() {
 
 </script>
 
-<input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >

@@ -8,16 +8,6 @@
 <cfif not isdefined("scope")>
     <cfset scope = 'Deaccession'>
 </cfif>
-<style>
-#dialog-shipment {width: 76em;margin: 0 auto;}
-#shipmentForm {padding: 2em;border: 1px solid gray;}
-fieldset {border: none;}
-.setup {width: 50%;float: left;margin: .5em 0;}
-.content_box {padding-bottom: 2em;}
-#shipmentTable {padding: 2em; border: 1px solid gray;overflow: hidden;}
-.ship_headers li{display: inline; width: 10em;float: left;list-style:none;}
-.accn_headers li {display: inline; width: 90%; float: left; list-style:none;}
-</style>
 <!--- Deaccession types relevant to the current scope --->
 <cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select deacc_type from ctdeacc_type
@@ -556,8 +546,6 @@ function opendialog(page,id,title) {
 	</cfquery>
     <div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
 
-</div>  <!--- end Shipping block --->
-
 <script>
 
 $( document ).ready(loadShipments(#transaction_id#));
@@ -580,10 +568,11 @@ $( document ).ready(loadShipments(#transaction_id#));
     });
 </script>
 
-<div>
-    <!--- inherited styles on inputs cause this block to layout poorly iff included in the shipping block div. --->
-    <input type="button" class="addstyle lnkBtn" style="margin-left: 3em;" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
-</div>
+    <div class="addstyle">
+    <input type="button" class="lnkBtn" style="margin-left: 3em;" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
+    </div><!--- end addstyle --->
+
+</div>  <!--- end Shipping block --->
 
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >
