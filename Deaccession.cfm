@@ -415,7 +415,7 @@ fieldset {border: none;}
 							</cfloop>
 						</select>
 					</td>
-					<td><span class="infoLink" onclick="rankAgent('#agent_id#');">Rank</span></td>
+					<td><span class="infoLink" onclick="opendialog('/includes/forms/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#i#','Rank Agent #agent_name#');">Rank</span><div id="agentRankDlg_#i#"></div></td>
 				</tr>
 				<cfset i=i+1>
 			</cfloop>
@@ -536,8 +536,8 @@ function opendialog(page,id,title) {
     minHeight: 450,
     draggable:true,
     resizable:true,
-    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); } },
-    close: function() { loadShipments(#transaction_id#);  $(this).dialog( "destroy" ); }
+    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
+    close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html('');  }
   });
   adialog.dialog('open');
 };

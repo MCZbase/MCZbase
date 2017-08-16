@@ -860,8 +860,8 @@ function opendialog(page,id,title) {
     minHeight: 450,
     draggable:true,
     resizable:true,
-    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); } },
-    close: function() { loadShipments(#transaction_id#);  $(this).dialog( "destroy" ); }
+    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
+    close: function() { loadShipments(#transaction_id#);  $(this).dialog( "destroy" ); $(id).html(); }
   });
   adialog.dialog('open');
 };

@@ -2343,7 +2343,7 @@
    <cfelse>
       <cfset result = result & "<span class='likeLink' onclick='addMediaHere('#permit_id#','#permit_id#');'>Create Media">
       <cfset result = result & "</span>&nbsp;~&nbsp;">
-      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" ></div><div id='addPermitDlg_#permit_id#'></span>">
+      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" ></div><div id='addPermitDlg_#permit_id#'></div></span>">
    </cfif>
    <cfreturn result>
 </cffunction>
@@ -2702,7 +2702,7 @@
                 <cfset resulthtml = resulthtml & "<li>#toinst# #tocountry#</li> ">
                 <cfset resulthtml = resulthtml & " <li>#frominst# #fromcountry#</li>">
             <cfset resulthtml = resulthtml & "</ul>">
-            <cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div></div> ">
+            <cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
 
             <cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
                  <cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
@@ -2711,8 +2711,9 @@
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
-                       <cfset resulthtml = resulthtml & "<li><span id='movePermit_#theResult.shipment_id##permit_id#'>">
-                       <cfset resulthtml = resulthtml & " <input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermit_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn' style='padding:1px 6px;' value='Move'></span></li>">
+                       <cfset resulthtml = resulthtml & "<li>">
+                       <cfset resulthtml = resulthtml & " <input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn' style='padding:1px 6px;' value='Move'>">
+                       <cfset resulthtml = resulthtml & "<li><div id='movePermitDlg_#theResult.shipment_id##permit_id#'></div></li>">
                     <cfset resulthtml = resulthtml & "</ul>">
                  </cfloop>
                  <cfif shippermit.recordcount eq 0>
