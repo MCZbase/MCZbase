@@ -38,11 +38,11 @@
 }
 .form-style-2 input.input-field{
     width: 48%;
-    
+
 }
-.form-style-2 input.input-field, 
-.form-style-2 .tel-number-field, 
-.form-style-2 .textarea-field, 
+.form-style-2 input.input-field,
+.form-style-2 .tel-number-field,
+.form-style-2 .textarea-field,
  .form-style-2 .select-field{
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -57,9 +57,9 @@
     padding: 7px;
     outline: none;
 }
-.form-style-2 .input-field:focus, 
-.form-style-2 .tel-number-field:focus, 
-.form-style-2 .textarea-field:focus,  
+.form-style-2 .input-field:focus,
+.form-style-2 .tel-number-field:focus,
+.form-style-2 .textarea-field:focus,
 .form-style-2 .select-field:focus{
     border: 1px solid #0C0;
 }
@@ -85,8 +85,8 @@
     background: #EA7B00;
     color: #fff;
 }
-        
-        
+
+
 .form-style-3{
     width:100%;
     padding: 20px 12px 10px 20px;
@@ -117,13 +117,13 @@
     color:red;
 }
 .form-style-3 input.input-field{
-    width: 160px; 
+    width: 160px;
     float: left;
 }
 
-.form-style-3 input.input-field, 
-.form-style-3 .tel-number-field, 
-.form-style-3 .textarea-field, 
+.form-style-3 input.input-field,
+.form-style-3 .tel-number-field,
+.form-style-3 .textarea-field,
  .form-style-3 .select-field{
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -138,9 +138,9 @@
     padding: 7px;
     outline: none;
 }
-.form-style-3 .input-field:focus, 
-.form-style-3 .tel-number-field:focus, 
-.form-style-3 .textarea-field:focus,  
+.form-style-3 .input-field:focus,
+.form-style-3 .tel-number-field:focus,
+.form-style-3 .textarea-field:focus,
 .form-style-3 .select-field:focus{
     border: 1px solid #0C0;
 }
@@ -179,12 +179,12 @@
     -moz-border-radius: 4px;
 	right:1em;
 	margin:0;
-    float:left; 
+    float:left;
     width: 30%;
     position: relative;
     display:inline;
     padding: 10px;
-		
+
 }
 span.sm {font-size: 11px;}
 span.likeLink {color: cornflowerblue;cursor: pointer;}
@@ -207,7 +207,7 @@ span.likeLink {color: cornflowerblue;cursor: pointer;}
 jQuery(document).ready(function() {
 	jQuery("##received_date").datepicker();
 	jQuery("##lenders_loan_date").datepicker();
-	jQuery("##due_date").datepicker();	
+	jQuery("##due_date").datepicker();
 	jQuery("##trans_date").datepicker();
 	jQuery("##received_date_after").datepicker();
 	jQuery("##received_date_before").datepicker();
@@ -237,7 +237,7 @@ function setBorrowNum(cid,v){
 	Find Borrows:
 	<form name="borrow" method="post" action="Borrow.cfm">
 		<input type="hidden" name="action" value="findEm">
-		<label for="trans_agent_role_1">Agent 1</label>		
+		<label for="trans_agent_role_1">Agent 1</label>
 		<select name="trans_agent_role_1">
 			<option value="">Please choose an agent role...</option>
 			<cfloop query="cttrans_agent_role">
@@ -246,7 +246,7 @@ function setBorrowNum(cid,v){
 		</select>
 		<label for="agent_1">Agent 1 Name</label>
 		<input type="text" name="agent_1"  size="50">
-		<label for="trans_agent_role_2">Agent 2</label>		
+		<label for="trans_agent_role_2">Agent 2</label>
 		<select name="trans_agent_role_2">
 			<option value="">Please choose an agent role...</option>
 			<cfloop query="cttrans_agent_role">
@@ -267,13 +267,13 @@ function setBorrowNum(cid,v){
 		<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
 		<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE">
 		<label for="lender_loan_type">Lender's Loan Type</label>
-		<input type="text" name="lender_loan_type" id="lender_loan_type">		
+		<input type="text" name="lender_loan_type" id="lender_loan_type">
 		<label for="LENDERS_INVOICE_RETURNED_FG">Lender acknowledged returned?</label>
 		<select name="LENDERS_INVOICE_RETURNED_FG" id="LENDERS_INVOICE_RETURNED_FG" size="1">
 			<option value=""></option>
 			<option value="1">yes</option>
 			<option value="0">no</option>
-		</select>			
+		</select>
 		<label for="borrow_status">Status</label>
 		<select name="borrow_status" id="borrow_status" size="1" class="reqdCld">
 			<option value=""></option>
@@ -282,15 +282,15 @@ function setBorrowNum(cid,v){
 			</cfloop>
 		</select>
 		<label for="received_date">Received Date</label>
-		<input type="text" name="received_date_after" id="received_date_after"> - 
+		<input type="text" name="received_date_after" id="received_date_after"> -
 		<input type="text" name="received_date_before" id="received_date_before">
 		<span class="infoLink" onclick="$('##received_date_before').val($('##received_date_after').val());">copy</span>
 		<label for="due_date_after">Due Date</label>
-		<input type="text" name="due_date_after" id="due_date_after"> - 
+		<input type="text" name="due_date_after" id="due_date_after"> -
 		<input type="text" name="due_date_before" id="due_date_before">
 		<span class="infoLink" onclick="$('##due_date_before').val($('##due_date_after').val());">copy</span>
 		<label for="lenders_loan_date">Lender's Loan Date</label>
-		<input type="text" name="lenders_loan_date_after" id="lenders_loan_date_after"> - 
+		<input type="text" name="lenders_loan_date_after" id="lenders_loan_date_after"> -
 		<input type="text" name="lenders_loan_date_before" id="lenders_loan_date_before">
 		<span class="infoLink" onclick="$('##lenders_loan_date_before').val($('##lenders_loan_date_after').val());">copy</span>
 		<label for="LENDERS_INSTRUCTIONS">Lender's Instructions</label>
@@ -324,7 +324,7 @@ function setBorrowNum(cid,v){
 		<cfset w="trans.transaction_id = borrow.transaction_id and
 				trans.transaction_id = trans_agent.transaction_id (+) and
 				trans_agent.agent_id=preferred_agent_name.agent_id (+)">
-		
+
 		<cfif (isdefined("trans_agent_role_1") and len(trans_agent_role_1) gt 0) or (isdefined("agent_1") and len(agent_1) gt 0)>
 			<cfset f=f & ", agent_name a1,trans_agent ta1">
 			<cfset w=w & " and trans.transaction_id=ta1.transaction_id and ta1.agent_id=a1.agent_id">
@@ -393,8 +393,8 @@ function setBorrowNum(cid,v){
 		<cfif isdefined("TRANS_REMARKS") and len(TRANS_REMARKS) gt 0>
 			<cfset w=w & " and upper(TRANS_REMARKS) like '%#ucase(TRANS_REMARKS)#%'">
 		</cfif>
-            
-            
+
+
 		<cfquery name="getBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				borrow.TRANSACTION_ID,
@@ -425,7 +425,7 @@ function setBorrowNum(cid,v){
 			<cfabort>
 		</cfif>
 		<cfquery name="b" dbtype="query">
-			select 
+			select
 				TRANSACTION_ID,
 				LENDERS_TRANS_NUM_CDE,
 				BORROW_NUMBER,
@@ -510,21 +510,21 @@ function setBorrowNum(cid,v){
 					#NATURE_OF_MATERIAL#
 				</td>
 				<cfquery name="a" dbtype="query">
-					select 
+					select
 						agent_name,
-						trans_agent_role 
-					from 
+						trans_agent_role
+					from
 						getBorrow
-					where 
+					where
 						transaction_id=#transaction_id#
 					group by
 						agent_name,
 						trans_agent_role
-					order by 
+					order by
 						trans_agent_role,
 						agent_name
 				</cfquery>
-				
+
 				<td style="width: 300px;padding: 10px;">
 					<cfloop query="a">
 						#trans_agent_role#: #agent_name#<br>
@@ -533,14 +533,14 @@ function setBorrowNum(cid,v){
 			</tr>
 		</cfloop>
 		</table>
-           
+
 	</cfoutput>
     </div>
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
 <cfset title="Edit Borrow">
-  <div style="width: 95%;margin: 0 auto;overflow: hidden;padding: 2em;">  
+  <div style="width: 95%;margin: 0 auto;overflow: hidden;padding: 2em;">
 <cfoutput>
 		<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
@@ -575,9 +575,9 @@ function setBorrowNum(cid,v){
 				borrow.transaction_id=#transaction_id#
 		</cfquery>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 
+			select
 				trans_agent_id,
-				trans_agent.agent_id, 
+				trans_agent.agent_id,
 				agent_name,
 				trans_agent_role
 			from
@@ -618,7 +618,7 @@ function setBorrowNum(cid,v){
 									<cfset thisRole = #trans_agent_role#>
 									<select name="trans_agent_role_#trans_agent_id#">
 										<cfloop query="cttrans_agent_role">
-											<option 
+											<option
 												<cfif #trans_agent_role# is #thisRole#> selected="selected"</cfif>
 												value="#trans_agent_role#">#trans_agent_role#</option>
 										</cfloop>
@@ -646,7 +646,7 @@ function setBorrowNum(cid,v){
 									</select>
 								</td>
 								<td>&nbsp;</td>
-							</tr>				
+							</tr>
 					</table>
 				</td>
 			</tr>
@@ -685,7 +685,7 @@ function setBorrowNum(cid,v){
 					<label for="borrow_status">Status</label>
 					<select name="borrow_status" id="borrow_status" size="1" class="reqdCld">
 						<cfloop query="ctStatus">
-							<option 
+							<option
 								<cfif #ctStatus.borrow_status# is "#getBorrow.BORROW_STATUS#"> selected </cfif>
 							value="#ctStatus.borrow_status#">#ctStatus.borrow_status#</option>
 						</cfloop>
@@ -729,8 +729,8 @@ function setBorrowNum(cid,v){
 					<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="90" class="reqdClr">#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
 				</td>
 			</tr>
-      
-            
+
+
 			<tr>
 				<td colspan="3">
 					<label for="TRANS_REMARKS">Transaction Remarks</label>
@@ -752,94 +752,122 @@ function setBorrowNum(cid,v){
 			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</option>
             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</option>
         </select></td></tr>
-			
+
 		</form>
-            
-            
+
+
 </table>
-<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">   
+<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">
             <tr>
                 <td>
                   <div id="borrowItems"></div>
-                    
+
               </td>
             </tr>
-            </table>
-            <table>
-            <tr><form id="addBorrowItemform">
-               <h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
-               <input type="hidden" name="method" value="addBorrowItem">
-                 <input type="hidden" name="returnformat" value="json">
-                 <input type="hidden" name="queryformat" value="column">
-                <input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-               <td><label for="catalog_number" style="width: 120px;margin-right: 5px;">Catalog Number <input type="text" class="input-field" name="catalog_number" id="catalog_number" style="width: 120px;margin-right: 5px;"></label></td> 
-                <td><label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name <input type="text" class="input-field" name="sci_name" id="sci_name" style="width: 190px;margin-right:5px;"></label></td>
-                <td><label for="no_of_spec" style="width: 113px;margin-right: 5px;">No.&nbsp;of&nbsp;Specimens <input type="text" class="input-field" name="no_of_spec" id="no_of_spec" style="width: 113px;margin-right: 5px;"></label></td>
-                <td><label for="spec_prep" style="width: 156px;">Specimen Preparation <input type="text" class="input-field" name="spec_prep" id="spec_prep" style="width: 156px;"></label></td>
-                <td><label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="type_status" id="type_status" style="width:93px;"></label></td>
-                <td><label for="country_of_origin" style="width: 116px;">County of Origin <input type="text" class="input-field" name="country_of_origin" id="country_of_origin" style="width: 116px;"></label></td>
-                <td><label for="object_remarks" style="width: 170px;">Remarks <input type="text" class="input-field" name="object_remarks" id="object_remarks" style="width: 170px;"></label></td>
-                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field" type="button" onclick=" addBorrowItem2(); " style="cursor:pointer;background-color: ##76afd0;background-color: cornflowerblue;border:1px solid cornflowerblue;width:75px;padding-left: 8px;" value="Add Row"></label></td>
-           </form></tr>
-            <script>
-    function addBorrowItem2() {
-	    jQuery.ajax(
-            {
-                url : "/component/functions.cfc",
-                type : "post",
-                dataType : "json",
-                data : $("##addBorrowItemform").serialize(),
-                success : function (data) { 
-                    loadBorrowItems(#transaction_id#);
-                    $("##catalog_number").val('');
-                    $("##no_of_spec").val('');
-                    $("##type_status").val('');
-                },
-                fail: function(jqXHR,textStatus){
-                    alert(textStatus);
-                }
-            }
-        );
-    };
-        function deleteBorrowItem(borrow_item_id) {
-	    jQuery.ajax(
-            {
-                url : "/component/functions.cfc",
-                type : "post",
-                dataType : "json",
-                data : {
-                   method : "deleteBorrowItem",
-                   returnformat : "json",
-                   queryformat : 'column',
-                   borrow_item_id : borrow_item_id
-                },
-                success : function (data) { 
-                    loadBorrowItems(#transaction_id#);
-                },
-                fail: function(jqXHR,textStatus){
-                    alert(textStatus);
-                }
-            }
-        );
-    };
-    function loadBorrowItems(transaction_id) {
-  
-        jQuery.ajax({
-          url: "component/functions.cfc",
-          data : {
-            method : "getBorrowItemsHTML",
-            transaction_id : transaction_id
-         },
-        success: function (result) {
-           $("##borrowItems").html(result);
-        },
-        dataType: "html"
-       }
-     )};
-    $(document).ready(loadBorrowItems(#transaction_id#));
-    
-</script>  </table>
+</table>
+<table>
+            <tr>
+				<form id="addBorrowItemform">
+	               <h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
+	               <input type="hidden" name="method" value="addBorrowItem">
+	                 <input type="hidden" name="returnformat" value="json">
+	                 <input type="hidden" name="queryformat" value="column">
+	                <input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+	               <td><label for="catalog_number" style="width: 120px;margin-right: 5px;">Catalog Number <input type="text" class="input-field" name="catalog_number" id="catalog_number" style="width: 120px;margin-right: 5px;"></label></td>
+	                <td><label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name <input type="text" class="input-field" name="sci_name" id="sci_name" style="width: 190px;margin-right:5px;"></label></td>
+	                <td><label for="no_of_spec" style="width: 113px;margin-right: 5px;">No.&nbsp;of&nbsp;Specimens <input type="text" class="input-field" name="no_of_spec" id="no_of_spec" style="width: 113px;margin-right: 5px;"></label></td>
+	                <td><label for="spec_prep" style="width: 156px;">Specimen Preparation <input type="text" class="input-field" name="spec_prep" id="spec_prep" style="width: 156px;"></label></td>
+	                <td><label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="type_status" id="type_status" style="width:93px;"></label></td>
+	                <td><label for="country_of_origin" style="width: 116px;">County of Origin <input type="text" class="input-field" name="country_of_origin" id="country_of_origin" style="width: 116px;"></label></td>
+	                <td><label for="object_remarks" style="width: 170px;">Remarks <input type="text" class="input-field" name="object_remarks" id="object_remarks" style="width: 170px;"></label></td>
+	                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field" type="button" onclick=" addBorrowItem2(); " style="cursor:pointer;background-color: ##76afd0;background-color: cornflowerblue;border:1px solid cornflowerblue;width:75px;padding-left: 8px;" value="Add Row"></label></td>
+	           	</form>
+	        </tr>
 
+			<script>
+			    function addBorrowItem2() {
+				    jQuery.ajax(
+			            {
+			                url : "/component/functions.cfc",
+			                type : "post",
+			                dataType : "json",
+			                data : $("##addBorrowItemform").serialize(),
+			                success : function (data) {
+			                    loadBorrowItems(#transaction_id#);
+			                    $("##catalog_number").val('');
+			                    $("##no_of_spec").val('');
+			                    $("##type_status").val('');
+			                },
+			                fail: function(jqXHR,textStatus){
+			                    alert(textStatus);
+			                }
+			            }
+			        );
+			    };
+			        function deleteBorrowItem(borrow_item_id) {
+				    jQuery.ajax(
+			            {
+			                url : "/component/functions.cfc",
+			                type : "post",
+			                dataType : "json",
+			                data : {
+			                   method : "deleteBorrowItem",
+			                   returnformat : "json",
+			                   queryformat : 'column',
+			                   borrow_item_id : borrow_item_id
+			                },
+			                success : function (data) {
+			                    loadBorrowItems(#transaction_id#);
+			                },
+			                fail: function(jqXHR,textStatus){
+			                    alert(textStatus);
+			                }
+			            }
+			        );
+			    };
+			    function loadBorrowItems(transaction_id) {
+
+			        jQuery.ajax({
+			          url: "component/functions.cfc",
+			          data : {
+			            method : "getBorrowItemsHTML",
+			            transaction_id : transaction_id
+			         },
+			        success: function (result) {
+			           $("##borrowItems").html(result);
+			        },
+			        dataType: "html"
+			       }
+			     )};
+			    $(document).ready(loadBorrowItems(#transaction_id#));
+
+			</script>
+</table>
+<table>
+			<tr></tr>
+			<tr>
+				<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
+				<cfform name="csv" method="post" action="/Borrow.cfm" enctype="multipart/form-data">
+	           		<input type="hidden" name="action" value="getFile">
+	           		<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+	           		<td>
+	           		<input type="file"
+		   				name="FiletoUpload"
+		   				size="45">
+			  		<input type="submit" value="Upload this file" >
+			  		</td>
+			  	</cfform>
+			</tr>
+			<tr>
+			  		<td>
+			  			<p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view csv file template</span></p>
+						<div id="template" style="display:none;">
+							<label for="t">Copy the following code and save as a .csv file</label>
+							<textarea rows="2" cols="80" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
+						</div>
+					</td>
+			</tr>
+</table>
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>
@@ -998,12 +1026,12 @@ $(function() {
   <div id="shipmentFormStatus"></div>
 </div>
 
-<!--- 
+<!---
 
-<table>      
+<table>
 <td valign="top">
 	<cfquery name="getPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT 
+		SELECT
 			permit.permit_id,
 			issuedBy.agent_name as IssuedByAgent,
 			issuedTo.agent_name as IssuedToAgent,
@@ -1012,11 +1040,11 @@ $(function() {
 			exp_Date,
 			permit_Num,
 			permit_Type,
-			permit_remarks	
+			permit_remarks
 		FROM
-			permit, 
-			permit_trans, 
-			preferred_agent_name issuedTo, 
+			permit,
+			permit_trans,
+			preferred_agent_name issuedTo,
 			preferred_agent_name issuedBy
 		WHERE
 			permit.permit_id = permit_trans.permit_id AND
@@ -1024,24 +1052,24 @@ $(function() {
 			permit.issued_to_agent_id = issuedTo.agent_id AND
 			permit_trans.transaction_id = #transaction_id#
 	</cfquery>
-	<br><strong>Permits:</strong>  
+	<br><strong>Permits:</strong>
 	<cfloop query="getPermits">
 		<form name="killPerm#currentRow#" method="post" action="Borrow.cfm">
 			<p>
 				<strong>Permit ## #permit_Num# (#permit_Type#)</strong> issued to
-			 	#IssuedToAgent# by #IssuedByAgent# on 
-				#dateformat(issued_Date,"yyyy-mm-dd")#. 
-				<cfif len(renewed_Date) gt 0> 
+			 	#IssuedToAgent# by #IssuedByAgent# on
+				#dateformat(issued_Date,"yyyy-mm-dd")#.
+				<cfif len(renewed_Date) gt 0>
 					(renewed #renewed_Date#)
 				</cfif>
-				Expires #dateformat(exp_Date,"yyyy-mm-dd")#  
-				<cfif len(permit_remarks) gt 0>Remarks: #permit_remarks#</cfif> 
+				Expires #dateformat(exp_Date,"yyyy-mm-dd")#
+				<cfif len(permit_remarks) gt 0>Remarks: #permit_remarks#</cfif>
 				<br>
 				<input type="hidden" name="transaction_id" value="#transaction_id#">
 				<input type="hidden" name="action" value="delePermit">
 				<input type="hidden" name="permit_id" value="#permit_id#">
 				<input type="submit" value="Remove this Permit" class="delBtn">
-			</p>	
+			</p>
 		</form>
 	</cfloop>
 	<form name="addPermit" action="Borrow.cfm" method="post">
@@ -1049,10 +1077,10 @@ $(function() {
 		<input type="hidden" name="permit_id">
 		<label for="">Click to add Permit. Reload to see added permits.</label>
 		<input type="button" value="Add a permit" class="picBtn"
-		 	onClick="window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick', 
-				'resizable,scrollbars=yes,width=600,height=600')">	
+		 	onClick="window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick',
+				'resizable,scrollbars=yes,width=600,height=600')">
 	</form>
-</td>	
+</td>
 	</tr></table>
 <hr>
 		<cfquery name="shipment" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1093,7 +1121,7 @@ $(function() {
 			<label for="packed_by_agent">Packed By Agent</label>
 			<input type="text" name="packed_by_agent" class="reqdClr" size="50"
 				  onchange="getAgent('packed_by_agent_id','packed_by_agent','newshipment',this.value); return false;"
-				  onKeyPress="return noenter(event);"> 
+				  onKeyPress="return noenter(event);">
 			<input type="hidden" name="packed_by_agent_id">
 			<label for="shipped_carrier_method">Shipped Method</label>
 			<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
@@ -1103,13 +1131,13 @@ $(function() {
 				</cfloop>
 			</select>
 			<label for="packed_by_agent">Shipped To Address (may format funky until save)</label>
-			<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5" 
+			<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 				readonly="yes" class="reqdClr"></textarea>
 			<input type="hidden" name="shipped_to_addr_id">
 			<input type="button" value="Pick Address" class="picBtn"
 				onClick="addrPick('shipped_to_addr_id','shipped_to_addr','newshipment'); return false;">
 			<label for="packed_by_agent">Shipped From Address</label>
-			<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5" 
+			<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 				readonly="yes" class="reqdClr"></textarea>
 			<input type="hidden" name="shipped_from_addr_id">
 			<input type="button" value="Pick Address" class="picBtn"
@@ -1138,7 +1166,7 @@ $(function() {
 				<option value="0">no</option>
 				<option value="1">yes</option>
 			</select>
-			<br><input type="submit" value="Create Shipment" class="insBtn">			
+			<br><input type="submit" value="Create Shipment" class="insBtn">
 		</form>
 		</div>
 		<cfset i=1>
@@ -1152,25 +1180,25 @@ $(function() {
 				<label for="packed_by_agent">Packed By Agent</label>
 				<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="#packed_by_agent#"
 					  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipment#i#',this.value); return false;"
-					  onKeyPress="return noenter(event);"> 
+					  onKeyPress="return noenter(event);">
 				<input type="hidden" name="packed_by_agent_id" value="#packed_by_agent_id#">
 				<label for="shipped_carrier_method">Shipped Method</label>
 				<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
 					<option value=""></option>
 					<cfloop query="ctShip">
-						<option 
+						<option
 							<cfif ctShip.shipped_carrier_method is shipment.shipped_carrier_method> selected="selected" </cfif>
 								value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
 					</cfloop>
 				</select>
 				<label for="packed_by_agent">Shipped To Address (may format funky until save)</label>
-				<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5" 
+				<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 					readonly="yes" class="reqdClr">#shipped_to_addr#</textarea>
 				<input type="hidden" name="shipped_to_addr_id" value="#shipped_to_addr_id#">
 				<input type="button" value="Pick Address" class="picBtn"
 					onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipment#i#'); return false;">
 				<label for="packed_by_agent">Shipped From Address</label>
-				<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5" 
+				<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 					readonly="yes" class="reqdClr">#shipped_from_addr#</textarea>
 				<input type="hidden" name="shipped_from_addr_id" value="#shipped_from_addr_id#">
 				<input type="button" value="Pick Address" class="picBtn"
@@ -1203,7 +1231,7 @@ $(function() {
 				<br><input type="button" value="Save Shipment Edits" class="savBtn"
 						onClick="shipment#i#.action.value='saveShip';shipment#i#.submit();">
 					<input type="button" value="Delete Shipment" class="delBtn"
-						onClick="shipment#i#.action.value='deleteShip';confirmDelete('shipment#i#');">		
+						onClick="shipment#i#.action.value='deleteShip';confirmDelete('shipment#i#');">
 			</form>
 			<cfset i=i+1>
 		</cfloop>
@@ -1213,10 +1241,43 @@ $(function() {
 	</cfoutput>
                 </div>
 </cfif>
+<!------------------------------------------------------->
+<cfif #action# is "getFile">
+<cfoutput>
+	<!--- upload items --->
+	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+	<cfset fileContent=replace(fileContent,"'","''","all")>
+	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+	<cfset colNames="">
+	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
+		<cfset colVals="">
+			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
+				<cfset thisBit=arrResult[o][i]>
+				<cfif #o# is 1>
+					<cfset colNames="#colNames#,#thisBit#">
+				<cfelse>
+					<cfset colVals="#colVals#,'#thisBit#'">
+				</cfif>
+			</cfloop>
+		<cfif #o# is 1>
+			<cfset colNames="TRANSACTION_ID#colNames#">
+		</cfif>
+		<cfif len(#colVals#) gt 1>
+			<cfset colVals="#transaction_id##colVals#">
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into BORROW_ITEM (#colNames#) values (#preservesinglequotes(colVals)#)
+			</cfquery>
+		</cfif>
+	</cfloop>
+	<cflocation url="Borrow.cfm?action=edit&transaction_id=#transaction_id#" addtoken="false">
+</cfoutput>
+</cfif>
+<!------------------------------------------------------->
+
 <!-------------------------------------------------------------------------------------------------->
 <cfif Action is "delePermit">
 	<cfquery name="killPerm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and 
+		DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and
 		permit_id=#permit_id#
 	</cfquery>
 	<cflocation url="Borrow.cfm?Action=edit&transaction_id=#transaction_id#">
@@ -1366,7 +1427,7 @@ $(function() {
 					,#FOREIGN_SHIPMENT_FG#
 					,#SHIPPED_TO_ADDR_ID#
 					,#SHIPPED_FROM_ADDR_ID#
-				)	
+				)
 		</cfquery>
 		<cflocation url="Borrow.cfm?transaction_id=#transaction_id#&action=edit" addtoken="false">
 	</cfoutput>
@@ -1380,7 +1441,7 @@ $(function() {
 <cfoutput>
   <div style="margin: 0 auto; width: 90%;overflow: hidden;">
 
-        <h2 class="wikilink" style="margin-left: 0;">New Borrow 
+        <h2 class="wikilink" style="margin-left: 0;">New Borrow
             <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
         </h2>
 
@@ -1422,7 +1483,7 @@ $(function() {
 					<input type="text" name="due_date" id="due_date">
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label for="trans_date">Transaction Date</label>
@@ -1444,8 +1505,8 @@ $(function() {
 			<tr>
 				<td colspan="3">
 					<label for="AuthorizedBy">Borrow Authorized By</label>
-					<input type="text" 
-						name="AuthorizedBy" 
+					<input type="text"
+						name="AuthorizedBy"
 						class="reqdClr"
 						onchange="getAgent('auth_agent_id','AuthorizedBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
@@ -1456,8 +1517,8 @@ $(function() {
 			<tr>
 				<td colspan="3">
 					<label for="ReceivedBy">Received By</label>
-					<input type="text" 
-						name="ReceivedBy" 
+					<input type="text"
+						name="ReceivedBy"
 						class="reqdClr"
 						onchange="getAgent('received_agent_id','ReceivedBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
@@ -1468,8 +1529,8 @@ $(function() {
 			<tr>
 				<td colspan="3">
 					<label for="ReceivedFrom">Received From</label>
-					<input type="text" 
-						name="ReceivedFrom" 
+					<input type="text"
+						name="ReceivedFrom"
 						class="reqdClr"
 						onchange="getAgent('received_from_agent_id','ReceivedFrom','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
@@ -1480,8 +1541,8 @@ $(function() {
 			<tr>
 				<td colspan="3">
 					<label for="LendingInstitution">Lending Institution</label>
-					<input type="text" 
-						name="LendingInstitution" 
+					<input type="text"
+						name="LendingInstitution"
 						onchange="getAgent('lending_institution_agent_id','LendingInstitution','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1538,13 +1599,13 @@ $(function() {
 				<hr>
 				<cftry>
 					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select 
-							 #preservesinglequotes(stg)# nn 
-						from 
+						select
+							 #preservesinglequotes(stg)# nn
+						from
 							borrow,
 							trans,
 							collection
-						where 
+						where
 							borrow.transaction_id=trans.transaction_id and
 							trans.collection_id=collection.collection_id and
 							collection.collection_id=#collection_id#
@@ -1556,9 +1617,9 @@ $(function() {
 						<br>
 						#cfcatch.message#
 						<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select 
-								 'check data' nn 
-							from 
+							select
+								 'check data' nn
+							from
 								dual
 						</cfquery>
 					</cfcatch>
@@ -1572,17 +1633,17 @@ $(function() {
 				</cfif>
 				<br>
 			</cfloop>
-                        </div>        
-                       
+                        </div>
+
 	</cfoutput>
 </cfif>
 
 <!---
-       <div class="form-style-2" style="margin-bottom:0;">    
+       <div class="form-style-2" style="margin-bottom:0;">
 <div class="form-style-2-heading">Provide information</div>
 
 <form action="Borrow.cfm" method="post" name="borrow">
- 
+
     <input type="hidden" name="action" value="makeNew">
 <label for="collection_id"><span>Collection</span><select name="collection_id" id="collection_id" class="select-field  reqdClr">
 						<option value=""></option>
@@ -1591,7 +1652,7 @@ $(function() {
 						</cfloop>
 					</select>
 </label>
-    
+
 <label for="borrow_number"><span>MCZ Borrow ## <span class="required">*</span></span><input type="text" class="input-field reqdClr" name="borrow_number" id="borrow_number" value="" /></label>
 <label for="received_date"><span>Received Date </span> <input type="text" name="received_date" id="received_date" class="input-field"></label>
 <label for="lenders_trans_num_cde"><span>Lender's Transaction ##</span><input type="text" class="input-field" name="lenders_trans_num_cde" value="" id="lenders_trans_num_cde"/></label>
@@ -1607,43 +1668,43 @@ $(function() {
         </select></label>
 
 					<label for="AuthorizedBy"><span>Authorized By</span>
-					<input type="text" 
-						name="AuthorizedBy" 
+					<input type="text"
+						name="AuthorizedBy"
 						class="input-field reqdClr"
 						onchange="getAgent('auth_agent_id','AuthorizedBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
 					<input type="hidden" name="auth_agent_id"></label>
-			
+
 					<label for="ReceivedBy"><span>Received By</span>
-					<input type="text" 
-						name="ReceivedBy" 
+					<input type="text"
+						name="ReceivedBy"
 						class="input-field reqdClr"
 						onchange="getAgent('received_agent_id','ReceivedBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
 					<input type="hidden" name="received_agent_id"></label>
-				
+
 					<label for="ReceivedFrom"><span>Received From</span>
-					<input type="text" 
-						name="ReceivedFrom" 
+					<input type="text"
+						name="ReceivedFrom"
 						class="input-field reqdClr"
 						onchange="getAgent('received_from_agent_id','ReceivedFrom','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
 					<input type="hidden" name="received_from_agent_id"></label>
-			
-    <label for="LENDERS_INSTRUCTIONS"><span>Lender's Instructions </span><textarea name="LENDERS_INSTRUCTIONS" class="textarea-field"></textarea></label> 
+
+    <label for="LENDERS_INSTRUCTIONS"><span>Lender's Instructions </span><textarea name="LENDERS_INSTRUCTIONS" class="textarea-field"></textarea></label>
     <label for="LENDERS_INVOICE_RETURNED_FG"><span>Lender acknowledged returned?</span>
 					<select name="LENDERS_INVOICE_RETURNED_FG" class="select-field" size="1">
 						<option value="0">no</option>
 						<option value="1">yes</option>
 					</select>
     </label>
-    <label for="NATURE_OF_MATERIAL"><span>Nature of Materials <span class="required">*</span></span><textarea name="NATURE_OF_MATERIAL" class="textarea-field  reqdClr" id="nature_of_material"></textarea></label> 
+    <label for="NATURE_OF_MATERIAL"><span>Nature of Materials <span class="required">*</span></span><textarea name="NATURE_OF_MATERIAL" class="textarea-field  reqdClr" id="nature_of_material"></textarea></label>
     <label for="description_of_borrow"><span>Description <span class="required">*</span></span><textarea name="description_of_borrow" class="textarea-field" id="description_of_borrow"></textarea></label>
-     <label for="TRANS_REMARKS"><span>Remarks</span><textarea name="TRANS_REMARKS" id="TRANS_REMARKS" class="textarea-field"></textarea></label> 
-    
+     <label for="TRANS_REMARKS"><span>Remarks</span><textarea name="TRANS_REMARKS" id="TRANS_REMARKS" class="textarea-field"></textarea></label>
+
     </div>
 
 <div class="nextnum">
@@ -1658,13 +1719,13 @@ $(function() {
 				<hr>
 				<cftry>
 					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select 
-							 #preservesinglequotes(stg)# nn 
-						from 
+						select
+							 #preservesinglequotes(stg)# nn
+						from
 							borrow,
 							trans,
 							collection
-						where 
+						where
 							borrow.transaction_id=trans.transaction_id and
 							trans.collection_id=collection.collection_id and
 							collection.collection_id=#collection_id#
@@ -1676,9 +1737,9 @@ $(function() {
 						<br>
 						#cfcatch.message#
 						<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select 
-								 'check data' nn 
-							from 
+							select
+								 'check data' nn
+							from
 								dual
 						</cfquery>
 					</cfcatch>
@@ -1690,35 +1751,35 @@ $(function() {
 						No data available for #collection#.
 					</span>
 				</cfif>
-			
+
 			</cfloop>
 		</div>
-        --->            
+        --->
     <!---    <div class="form-style-3" style=" width: 90%x;padding: 0em;margin-left:1em;">
        <input type="hidden" name="action" value="newBorrow_Item">
         <input type="text" name="transaction_id" id="transaction_id" hidden="hidden">
         <input type="text" name="borrow_item_id" id="borrow_item_id" hidden="hidden">
         <label for="catalog_number" style="width: 95px">Catalog Number<input type="text" class="input-field" name="CATALOG_NUMBER" id="catalog_number" style="width: 95px;"></label>
         <label for="sci_name">Scientific Name <input type="text" class="input-field" name="SCI_NAME" id="sci_name"></label>
-        <label for="no_of_spec" style="width: 116px;">No. of Specimens<input type="text" class="input-field" name="NO_OF_SPEC" id="no_of_spec" style="width: 116px;"></label> 
+        <label for="no_of_spec" style="width: 116px;">No. of Specimens<input type="text" class="input-field" name="NO_OF_SPEC" id="no_of_spec" style="width: 116px;"></label>
         <label for="spec_prep">Specimen Preparation <input type="text" class="input-field" name="SPEC_PREP" id="spec_prep"></label>
         <label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="TYPE_STATUS" id="type_status" style="width:93px;"></label>
-        <label for="country_of_origin">County of Origin<input type="text" class="input-field" name="COUNTRY_OF_ORIGIN" id="country_of_origin"></label> 
+        <label for="country_of_origin">County of Origin<input type="text" class="input-field" name="COUNTRY_OF_ORIGIN" id="country_of_origin"></label>
         <label for="object_remarks">Remarks<input type="text" class="input-field" name="object_remarks" id="object_remarks"></label>
      <label style="width:75px;margin:35px 0 0 0;padding:0;"><input class="input-field" type="button" onclick="addLendersObject(); " style="cursor:pointer;background-color: ##76afd0;background-color: cornflowerblue;border:1px solid cornflowerblue;width:75px;padding-left: 8px;" value="Add Row"></label>
    </div>
 
     <div class="form-style-2" style="padding-top: 0;margin-top: 1em;">
-        <label for="submit" style="width: 100px;"><span style="width: 50%">&nbsp;</span><input type="submit" value="SUBMIT" style="width: 100px;font-weight: bold;"/></label> 
+        <label for="submit" style="width: 100px;"><span style="width: 50%">&nbsp;</span><input type="submit" value="SUBMIT" style="width: 100px;font-weight: bold;"/></label>
     </div>
-           
-</form> ---> 
+
+</form> --->
 
 
 <!------------------------------------------------------------------------------------------------------->
 <cfif #action# is "delete">
 <cfoutput>
-	
+
 	<cftransaction>
 		<cfquery name="killAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from trans_agent where transaction_id=#transaction_id#
@@ -1740,7 +1801,7 @@ $(function() {
 	<cfquery name="nextTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select sq_transaction_id.nextval transaction_id from dual
 	</cfquery>
-	
+
 	<cfset transaction_id = nextTrans.transaction_id>
 	<cftransaction>
 	<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1843,7 +1904,7 @@ $(function() {
 				'received from'
 			)
 		</cfquery>
-                <cfif isdefined("lending_institution_agent_id") and len(#lending_institution_agent_id#) GT 0 > 
+                <cfif isdefined("lending_institution_agent_id") and len(#lending_institution_agent_id#) GT 0 >
 		<cfquery name="recfrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO trans_agent (
 			    transaction_id,
