@@ -463,7 +463,7 @@
 				<input type="hidden" name="permit_id">
 				  <input type="button" value="Add a permit" class="picBtn"
 			   		onClick="javascript: window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick', 
-						'resizable,scrollbars=yes,width=600,height=600')">
+						'resizable,scrollbars=yes,width=850,height=750')">
 			</form>
 		</td></tr></table>
 	</cfoutput>

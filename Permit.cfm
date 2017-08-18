@@ -1,5 +1,9 @@
 <cfset jquery11=true>
-<cfinclude template = "includes/_header.cfm">
+<cfif isdefined("headless") and headless EQ 'true'>
+   <cfinclude template = "includes/_pickHeader.cfm">
+<cfelse>
+   <cfinclude template = "includes/_header.cfm">
+</cfif>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <!--- no security --->
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -9,7 +13,7 @@
 <cfoutput>
 Search for permits and similar documents (access benefit sharing agreements, 
 material transfer agreements, collecting permits, salvage permits, etc.)
-Any part of dates and names accepted, case isn't important.<br>
+Any part of names accepted, case isn't important.  Use year or a date for dates.<br>
 Leave "until date" fields empty unless you use the field to its left.<br>
 <cfform name="findPermit" action="Permit.cfm" method="post">
 	<input type="hidden" name="Action" value="search">
@@ -130,6 +134,15 @@ where
 	<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#ucase(IssuedToAgent)#%'">
 </cfif>
 <cfif len(#issued_date#) gt 0>
+    <cfif len(#issued_date#) EQ 4> 
+       <cfset issued_date = "#issued_date#-01-01">
+	   <cfif len(#issued_until_date#) EQ 0>
+           <cfset issued_until_date = "#issued_date#-12-31">
+       </cfif>
+	   <cfif len(#issued_until_date#) EQ 4>
+           <cfset issued_until_date = "#issued_until_date#-12-31">
+       </cfif>
+    </cfif>
 	<cfif len(#issued_until_date#) gt 0>
 		<cfset sql = "#sql# AND upper(issued_date) between to_date('#issued_date#', 'yyyy-mm-dd')
 														and to_date('#issued_until_date#', 'yyyy-mm-dd')">
@@ -138,6 +151,15 @@ where
 	</cfif>
 </cfif>
 <cfif len(#renewed_date#) gt 0>
+    <cfif len(#renewed_date#) EQ 4> 
+       <cfset renewed_date = "#renewed_date#-01-01">
+	   <cfif len(#renewed_until_date#) EQ 0>
+           <cfset renewed_until_date = "#renewed_date#-12-31">
+       </cfif>
+	   <cfif len(#renewed_until_date#) EQ 4>
+           <cfset renewed_until_date = "#renewed_until_date#-12-31">
+       </cfif>
+    </cfif>
 	<cfif len(#renewed_until_date#) gt 0>
 		<cfset sql = "#sql# AND upper(renewed_date) between to_date('#renewed_date#', 'yyyy-mm-dd')
 														and to_date('#renewed_until_date#', 'yyyy-mm-dd')">
@@ -146,6 +168,15 @@ where
 	</cfif>
 </cfif>
 <cfif len(#exp_date#) gt 0>
+    <cfif len(#exp_date#) EQ 4> 
+       <cfset exp_date = "#exp_date#-01-01">
+	   <cfif len(#exp_until_date#) EQ 0>
+           <cfset exp_until_date = "#exp_date#-12-31">
+       </cfif>
+	   <cfif len(#exp_until_date#) EQ 4>
+           <cfset exp_until_date = "#exp_until_date#-12-31">
+       </cfif>
+    </cfif>
 	<cfif len(#exp_until_date#) gt 0>
 		<cfset sql = "#sql# AND upper(exp_date) between to_date('#exp_date#', 'yyyy-mm-dd')
 														and to_date('#exp_until_date#', 'yyyy-mm-dd')">
@@ -408,6 +439,9 @@ where
 	<cfoutput>
 	<cfform name="newPermit" action="Permit.cfm" method="post">
 	<input type="hidden" name="Action" value="createPermit">
+        <cfif isdefined("headless") and headless EQ 'true'>
+	    <input type="hidden" name="headless" value="true">
+        </cfif>
 	<table>
 		<tr>
 			<td>Issued By</td>
@@ -484,9 +518,11 @@ where
 				<input type="submit" value="Save this permit" class="insBtn"
    					onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
 
+                                   <cfif  not ( isdefined("headless") and headless EQ 'true' ) >
 					<input type="button" value="Quit" class="qutBtn"
    					onmouseover="this.className='qutBtn btnhov'" onmouseout="this.className='qutBtn'"
 					 onClick="document.location='Permit.cfm'">
+                                   </cfif>
 
 			</td>
 		</tr>
@@ -554,7 +590,9 @@ function opendialog(page,id,title) {
 <cfoutput query="permitInfo" group="permit_id">
 <cfform name="newPermit" action="Permit.cfm" method="post">
 	<input type="hidden" name="Action">
-	<input type="hidden" name="permit_id" value="#permit_id#">
+	<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+    <!--- make permit number available as a element with a distinct id to grab with jquery --->
+	<input type="hidden" name="permit_number_passon" id="permit_number_passon" value="#permit_Num#">
 	<table>
 		<tr>
 			<td>Issued By</td>
@@ -597,7 +635,7 @@ function opendialog(page,id,title) {
 			<td>Expiration Date</td>
 			<td><input type="text" name="exp_Date" value="#dateformat(exp_Date,"yyyy-mm-dd")#"></td>
 			<td>Permit Number</td>
-			<td><input type="text" name="permit_Num" value="#permit_Num#"></td>
+			<td><input type="text" name="permit_Num" id="permit_Num" value="#permit_Num#"></td>
 		</tr>
         <tr>
             <td>Summary of Restrictions on use</td>
@@ -631,9 +669,13 @@ function opendialog(page,id,title) {
    					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'"
 					onCLick="newPermit.Action.value='saveChanges';">
 
-				<input type="button" value="Quit" class="qutBtn"
+                                <cfif isdefined("headless") and headless EQ 'true' >
+                                   <strong>Permit Added.  Click OK when done.</strong>
+                                <cfelse>
+				   <input type="button" value="Quit" class="qutBtn"
    					onmouseover="this.className='qutBtn btnhov'" onmouseout="this.className='qutBtn'"
 					 onClick="document.location='Permit.cfm'">
+                                </cfif>
 
 				<input type="button" value="Delete" class="delBtn"
    onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
@@ -732,6 +774,15 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
   where trans.transaction_type = 'borrow'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
+select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join trans on shipment.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join borrow on trans.transaction_id = borrow.transaction_id
+  where trans.transaction_type = 'borrow'
+        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
 select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
@@ -749,6 +800,16 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join accn on trans.transaction_id = accn.transaction_id
   where trans.transaction_type = 'accn'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
+from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join trans on shipment.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join deaccession on trans.transaction_id = deaccession.transaction_id
+  where trans.transaction_type = 'borrow'
+        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+
      </cfquery>
      <div id="permitsusedin"><h3>Permit used for</h3><ul>
         <cfloop query="permituse">
@@ -806,10 +867,15 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         <cfloop query="permitInfo">
           #permit_Type# #permit_Num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
         </cfloop>
-	<form action="Permit.cfm" method="get" name="Copy">
+	<form action="Permit.cfm" method="get" name="EditPermit">
 	   <input type="hidden" name="permit_id" value="#permit_id#">
 	   <input type="hidden" name="Action" value="editPermit">
 	   <input type="submit" value="Edit this permit" class="lnkBtn"
+   	        onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
+	</form>
+	<form action="Reports/permit.cfm" method="get" name="Copy">
+	   <input type="hidden" name="permit_id" value="#permit_id#">
+	   <input type="submit" value="(Old) Permit Report" class="lnkBtn"
    	        onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>
      </cfoutput>
@@ -826,6 +892,30 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
   where trans.transaction_type = 'accn'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
+select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join trans on shipment.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join accn on trans.transaction_id = accn.transaction_id
+  left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+  left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+  where trans.transaction_type = 'accn'
+        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join loan on trans.transaction_id = loan.transaction_id
+  left join loan_item on loan.transaction_id = loan_item.transaction_id
+  left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+  left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+  where trans.transaction_type = 'loan'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
 select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix, 
     concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid
@@ -838,11 +928,64 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
   where trans.transaction_type = 'loan'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-
+union
+select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join deaccession on trans.transaction_id = deaccession.transaction_id
+  left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+  left join flat on deacc_item.collection_object_id = flat.collection_object_id
+  where trans.transaction_type = 'deacc'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join trans on shipment.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join deaccession on trans.transaction_id = deaccession.transaction_id
+  left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+  left join flat on deacc_item.collection_object_id = flat.collection_object_id
+  where trans.transaction_type = 'deacc'
+        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+    borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join borrow on trans.transaction_id = borrow.transaction_id
+  left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+  where trans.transaction_type = 'borrow'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+union
+select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+    concat('borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+    borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid
+from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join trans on shipment.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join borrow on trans.transaction_id = borrow.transaction_id
+  left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+  where trans.transaction_type = 'borrow'
+        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
      </cfquery>
      <cfoutput>
      <div id="permitsusedin"><h3>Used for</h3>
      <table>
+           <tr>
+             <th>Transaction</th>
+             <th>Type</th>
+             <th>Date</th>
+             <th>Collection</th>
+             <th>Country&nbsp;of&nbsp;Origin</th>
+             <th>State/Province</th>
+             <th>Scientific&nbsp;Name</th>
+             <th>Catalog&nbsp;Number</th>
+           </tr>
         <cfloop query="permituse">
            <tr>
              <td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
@@ -982,7 +1125,11 @@ VALUES (
 	 	,#contact_agent_id#
 	 </cfif>)
 </cfquery>
-	<cflocation url="Permit.cfm?Action=editPermit&permit_id=#nextPermit.nextPermit#">
+        <cfif isdefined("headless") and headless EQ 'true'>
+   	     <cflocation url="Permit.cfm?Action=editPermit&headless=true&permit_id=#nextPermit.nextPermit#">
+        <cfelse>
+   	     <cflocation url="Permit.cfm?Action=editPermit&permit_id=#nextPermit.nextPermit#">
+        </cfif>
   </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->
@@ -995,4 +1142,8 @@ DELETE FROM permit WHERE permit_id = #permit_id#
 	<cflocation url="Permit.cfm">
   </cfoutput>
 </cfif>
-<cfinclude template = "includes/_footer.cfm">
+<cfif isdefined("headless") and headless EQ 'true'>
+    <cfinclude template = "includes/_pickFooter.cfm">
+<cfelse>
+    <cfinclude template = "includes/_footer.cfm">
+</cfif>
