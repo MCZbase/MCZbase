@@ -162,7 +162,16 @@ function cloneTransAgent(i){
 	jQuery('#cloneTransAgent_' + i).val('');
 	addTransAgent (id,name,role);
 }
+
 function addTransAgent (id,name,role) {
+   addTransAgentToForm(id,name,role,'editloan');
+}
+/** Add an agent to a transaction edit form. 
+ *
+ * Assumes the presence of an input numAgents holding a count of the number of agents in the transaction.
+ * Assumes the presence of an html table with an id loanAgents, to which the new agent line is added as the last row.
+ */
+function addTransAgentToForm (id,name,role,formid) {
 	if (typeof id == "undefined") {
 		id = "";
 	 }
@@ -179,14 +188,15 @@ function addTransAgent (id,name,role) {
 			queryformat : 'column'
 		},
 		function (data) {
-			var i=parseInt(document.getElementById('numAgents').value)+1;
+			var i=parseInt($('#numAgents').val())+1;
 			var d='<tr><td>';
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" class="reqdClr" size="30" value="' + name + '"';
-  			d+=' onchange="getAgent(\'agent_id_' + i + '\',\'trans_agent_' + i + '\',\'editloan\',this.value);"';
+  			d+=' onchange="getAgent(\'agent_id_' + i + '\',\'trans_agent_' + i + '\',\'' + formid + '\',this.value);"';
   			d+=' return false;"	onKeyPress="return noenter(event);">';
-  			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '">';
-  			d+='</td><td>';
+  			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
+  			d+='</td><td><span id="agentViewLink_' + i + '"></span></td><td>';
   			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '">';
   			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option ';
@@ -204,8 +214,8 @@ function addTransAgent (id,name,role) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
 			d+='</select>';		
-  			d+='</td><td>-</td></tr>';
-  			document.getElementById('numAgents').value=i;
+  			d+='</td></tr>';
+  			$('#numAgents').val(i);
   			jQuery('#loanAgents tr:last').after(d);
 		}
 	);
@@ -523,8 +533,8 @@ function addLabel (n) {
 	var cc=document.getElementById('number_of_labels');
 	cc.value=parseInt(cc.value)+1;
 }
-function tog_AgentRankDetail(o){
-	if(o==1){
+function tog_AgentRankDetail(toState){
+	if(toState==1){
 		document.getElementById('agentRankDetails').style.display='block';
 		jQuery('#t_agentRankDetails').text('Hide Details').removeAttr('onclick').bind("click", function() {
 			tog_AgentRankDetail(0);
@@ -536,25 +546,49 @@ function tog_AgentRankDetail(o){
 		}); 
 	}
 }
+function loadAgentRankSummary(targetId,agentId) { 
+   jQuery.getJSON("/component/functions.cfc",
+      {
+         method : "getAgentRanks",
+         agent_id : agentId,
+         returnformat : 'json',
+         queryformat : 'column'
+      },
+      function (result) {
+         if (result.DATA.STATUS[0]==1) { 
+            var output = "Ranking: " ;
+  	    for (a=0; a<result.ROWCOUNT; ++a) {
+               output =  output + result.DATA.AGENT_RANK[a] + "&nbsp;" + result.DATA.CT[a] 
+               if (result.DATA.AGENT_RANK[a]=='F') { 
+                  output = output + "<img src='/images/flag-red.svg.png' width='16'>" ;
+               }
+               if (a<result.ROWCOUNT-1) { output = output + ";&nbsp;"; }
+            }
+            $("#" + targetId).html(output);
+         } else {
+            $("#" + targetId).html(result.DATA.MESSAGE[0]);
+         }
+      }
+   );       
+}
 function saveAgentRank(){
 	jQuery.getJSON("/component/functions.cfc",
 		{
 			method : "saveAgentRank",
-			agent_id : jQuery('#agent_id').val(),
-			agent_rank : jQuery('#agent_rank').val(),
-			remark : jQuery('#remark').val(),
-			transaction_type : jQuery('#transaction_type').val(),
-			returnformat : "json",
+			agent_id : $('#agent_id').val(),
+			agent_rank : $('#agent_rank').val(),
+			remark : $('#remark').val(),
+			transaction_type : $('#transaction_type').val(),
+			returnformat : 'json',
 			queryformat : 'column'
 		},
-		function (d) {
-			if(d.length>0 && d.substring(0,4)=='fail'){
-				alert(d);
+		function (data) {
+			if(data.length>0 && data.substring(0,4)=='fail'){
+				alert(data);
+				$('#saveAgentRankFeedback').append(d);
 			} else {
 				var ih = 'Thank you for adding an agent rank.';
-				ih+='<p><span class="likeLink" onclick="removePick();rankAgent(' + d + ')">Refresh</span></p>';
-				ih+='<p><span class="likeLink" onclick="removePick();">Done</span></p>';				
-				document.getElementById('pickDiv').innerHTML=ih;
+				$('#saveAgentRankFeedback').append(ih);
 			}
 		}
 	); 		

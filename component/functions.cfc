@@ -3197,4 +3197,25 @@
 	<cfreturn theResult>
 </cffunction>
 <!-------------------------------------------->
+<!--- Obtain the ranks for an agent --->
+<!--- @param agent_id the agent for whom to retrieve the ranks --->
+<!--- @return data structure containing ct, agent_rank, and status (1 on success) (count of that rank for the agent and the rank) --->
+<cffunction name="getAgentRanks" access="remote">
+        <cfargument name="agent_id" type="string" required="yes">
+        <cfif listcontainsnocase(session.roles,"admin_transactions")>
+		<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select count(*) ct, agent_rank agent_rank, 1 as status from agent_rank 
+                        where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+                        group by agent_rank
+		</cfquery>
+        <cfelse>
+	   	<cfset rankCount=queryNew("status, message")>
+		<cfset t = queryaddrow(rankCount,1)>
+		<cfset t = QuerySetCell(rankCount, "status", "-1", 1)>
+		<cfset t = QuerySetCell(rankCount, "message", "Not Authorized", 1)>
+        </cfif>
+        <cfreturn rankCount>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
 </cfcomponent>

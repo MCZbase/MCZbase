@@ -326,6 +326,8 @@ function confirmAction(dialogText, dialogTitle, okFunction) {
   });
 };
 
+/** Check an agent to see if the agent has a flag on the agent, if so alert a message
+  * @param agent_id the agent_id of the agent to check for rank flags.  **/
 function checkAgent(agent_id) {
     jQuery.getJSON(
         "/component/functions.cfc",
@@ -349,6 +351,32 @@ function checkAgent(agent_id) {
         }
       );
 };
+
+function updateAgentLink(agent_id,targetLinkDiv) {
+    jQuery.getJSON(
+        "/component/functions.cfc",
+        {
+            method : "checkAgentFlag",
+            agent_id : agent_id,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           var rank = result.DATA.AGENTRANK[0];
+           if (rank=='A') { 
+                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "'>View</a>");
+           } else {
+              if (rank=='F') { 
+                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "'>View</a><img src='/images/flag-red.svg.png' width='16'>");
+              } else { 
+                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "'>View</a><img src='/images/flag-yellow.svg.png' width='16'>");
+              }
+           }
+        }
+      );
+};
+
+
 
 // Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
 // function to the ok button.

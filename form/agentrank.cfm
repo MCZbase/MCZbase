@@ -1,9 +1,7 @@
 <cfset jquery11=true>
 <cfinclude template="/includes/_pickHeader.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
-<script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfoutput>
-	<span style="position:absolute;top:0px;right:0px; border:1px solid black;" class="likeLink" onclick="removePick()">X</span>
 	<cfquery name="agnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name from preferred_agent_name 
 		where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
@@ -94,7 +92,7 @@
 		<br><label  class="h" for="remark">Remark: (required for unsatisfactory rankings; encouraged for all)</label>
 		<br><textarea name="remark" id="remark" rows="4" cols="60"></textarea>
 		<br><input type="button" class="savBtn" value="Save" onclick="saveAgentRank()">
-		<input type="button" class="qutBtn" value="Quit" onclick="removePick()">
+		<input type="button" class="qutBtn" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
 	</form>
 	</div>
 	<div id="saveAgentRankFeedback"></div>

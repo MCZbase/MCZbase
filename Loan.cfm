@@ -161,7 +161,7 @@
 						<input type="text" name="additional_contact_agent_name" size="40"
 						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="additional_contact_agent_id">
+						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" onChange=" checkAgent($('##additional_contact_agent_id').val());">
 					</td>
 				</tr>
 				<tr>
@@ -177,7 +177,7 @@
 						<input type="text" name="foruseby_agent_name" size="40"
 						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="foruseby_agent_id">
+						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" onChange=" checkAgent($('##foruseby_agent_id').val());">
 					</td>
 				</tr>
 				<tr>
@@ -414,21 +414,22 @@
 		where
 			loan.transaction_id = trans.transaction_id AND
 			trans.collection_id=collection.collection_id and
-			trans.transaction_id = #transaction_id#
+			trans.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
 	<cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans_agent_id,
 			trans_agent.agent_id,
 			agent_name,
-			trans_agent_role
+			trans_agent_role,
+                        MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
 		from
 			trans_agent,
 			preferred_agent_name
 		where
 			trans_agent.agent_id = preferred_agent_name.agent_id and
 			trans_agent_role != 'entered by' and
-			trans_agent.transaction_id=#transaction_id#
+			trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		order by
 			trans_agent_role,
 			agent_name
@@ -559,11 +560,11 @@
 		</cfquery>
 		<table id="loanAgents">
 			<tr style="height: 20px;">
-				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
+				<th>Agent&nbsp;Name&nbsp;<span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
+				<th></th>
 				<th>Role</th>
 				<th>Delete?</th>
-				<th>CloneAs</th>
-				<th></th>
+				<th>Clone&nbps;As</th>
 				<td rowspan="99">
                      <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
                                         <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
@@ -593,7 +594,12 @@
 						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
 		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
-		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#">
+		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#" 
+                                                    onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
+					</td>
+					<td style=" min-width: 3.5em; ">
+					    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif loanAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif loanAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
+                                            </span>
 					</td>
 					<td>
 						<select name="trans_agent_role_#i#" id="trans_agent_role_#i#">
@@ -617,8 +623,6 @@
 							</cfloop>
 						</select>
 					</td>
-					<!--- <td><span class="infoLink" onclick="rankAgent('#agent_id#');">Rank</span></td> --->
-					<td><span class="infoLink" onclick="opendialog('/includes/forms/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#i#','Rank Agent #agent_name#');">Rank</span><div id="agentRankDlg_#i#"></div></td>
 				</tr>
 				<cfset i=i+1>
 			</cfloop>
@@ -792,7 +796,7 @@
 
 		<input type="button" value="Review Items" class="lnkBtn"
 			onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-                            <input style="margin-left: 30px;" type="button" value="Delete #scope#" class="delBtn"
+                            <input type="button" value="Delete #scope#" class="delBtn"
 			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
    		<br />
    		<label for="redir">Print...</label>
@@ -1394,6 +1398,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							delete from trans_agent where trans_agent_id=#trans_agent_id_#
 						</cfquery>
 					<cfelse>
+	                			<cfif len(agent_id_) GT 0><!--- don't try to add/update a blank row --->
 						<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
 							<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								insert into trans_agent (
@@ -1414,6 +1419,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 								where
 									trans_agent_id=#trans_agent_id_#
 							</cfquery>
+						</cfif>
 						</cfif>
 					</cfif>
 				   </cfif>
@@ -1596,9 +1602,10 @@ $( document ).ready(loadShipments(#transaction_id#));
 <cfif action is "search">
   <cfset title="Search for Loans/Gifts">
   <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
+  <cfoutput>
   <script>
 		jQuery(document).ready(function() {
-	  		jQuery("#part_name").autocomplete("/ajax/part_name.cfm", {
+	  		jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
 				width: 320,
 				max: 50,
 				autofill: false,
@@ -1614,7 +1621,6 @@ $( document ).ready(loadShipments(#transaction_id#));
 
 
 </script>
-  <cfoutput>
    <div class="searchLoanWidth">
      <h2 class="wikilink">Find Loans/Gifts <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
       </h2>

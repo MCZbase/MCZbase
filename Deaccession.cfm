@@ -5,10 +5,6 @@
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
-<cfif not isdefined("scope")>
-    <cfset scope = 'Deaccession'>
-</cfif>
-<!--- Deaccession types relevant to the current scope --->
 <cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select deacc_type from ctdeacc_type
 </cfquery>
@@ -142,7 +138,7 @@
 						
 						<select name="deacc_type" id="deacc_type" class="reqdClr">
 							<cfloop query="ctDeaccType">
-								<option value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
+								<option value="#ctDeaccType.deaccn_type#">#ctDeaccType.deaccn_type#</option>
 							</cfloop>
 						</select>
 
@@ -203,7 +199,7 @@
 		</form>
                
 		<div class="nextnum">
-			<p>Next Available #scope# Number:</p>
+			<p>Next Available Deaccession Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
 			</cfquery>
@@ -293,7 +289,8 @@
 			trans_agent_id,
 			trans_agent.agent_id,
 			agent_name,
-			trans_agent_role
+			trans_agent_role,
+                        MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
 		from
 			trans_agent,
 			preferred_agent_name
@@ -305,6 +302,14 @@
 			trans_agent_role,
 			agent_name
 	</cfquery>
+ 	<!--- on page load, remove tranfer as an allowed deaccession type, except for the MCZ Collection --->
+	<script>
+		$(function() {
+                        <cfif deaccDetails.deacc_type neq 'transfer' and deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+                          $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                        </cfif>
+                };
+        </script>
        <div class="editLoanbox">
        <h2 class="wikilink" style="margin-left: 0;">Edit Deaccession <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#deaccDetails.collection# #deaccDetails.deacc_number# </span>	</h2>
@@ -345,31 +350,21 @@
 		<cfquery name="recipientinstitution" dbtype="query">
 			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='recipient institution'
 		</cfquery>
-		<table id="deaccAgents">
+		<table id="loanAgents"> <!--- id of loanAgents is used by addTransAgent() to find table to add rows to --->
 			<tr style="height: 20px;">
-				<th>Agent Name <span class="linkButton" onclick="addTransAgentDeacc()" style="cursor:pointer;">Add Row</span></th>
+				<th>Agent Name <span class="linkButton" onclick="addTransAgentToForm('','','','editDeacc')" style="cursor:pointer;">Add Row</span></th>
+				<th></th>
 				<th>Role</th>
 				<th>Delete?</th>
 				<th>CloneAs</th>
-				<th></th>
 				<td rowspan="99">
-        
-					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+					<cfif inhouse.c is 1 and authorized.c GT 0 >
 						<span style="color:green;font-size:small">OK to print</span>
 					<cfelse>
 						<span style="color:red;font-size:small">
-							One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms.
+							One "authorized by" and one "in-house contact" are required to print Deaccessions. 
 						</span>
 					</cfif>
-                        
-					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-						<span style="color:green;font-size:small">OK to print</span>
-					<cfelse>
-						<span style="color:red;font-size:small">
-							One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well.
-						</span>
-					</cfif>
-                                    
 				</td>
 			</tr>
         
@@ -381,7 +376,12 @@
 						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
 		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editdeacc',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
-		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#">
+		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#" 
+							onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); " >
+					</td>
+					<td style=" min-width: 3.5em; ">
+						<span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif deaccAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif deaccAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
+                                            	</span>
 					</td>
 					<td>
 						<select name="trans_agent_role_#i#" id="trans_agent_role_#i#">
@@ -405,7 +405,6 @@
 							</cfloop>
 						</select>
 					</td>
-					<td><span class="infoLink" onclick="opendialog('/includes/forms/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#i#','Rank Agent #agent_name#');">Rank</span><div id="agentRankDlg_#i#"></div></td>
 				</tr>
 				<cfset i=i+1>
 			</cfloop>
@@ -417,6 +416,19 @@
 				<td width="20%">
 					<label for="deacc_type">Deaccession Type</label>
 					<select name="deacc_type" id="deacc_type" class="reqdClr">
+
+                                                <cfloop query="ctDeaccType">
+						      <!--- Only the MCZ Collection is allowed to make transfers ---> 
+                                                      <cfif ctDeaccType.deacc_type NEQ "transfer" OR deaccDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+                                                          <option <cfif ctDeaccType.deacc_type is deaccDetails.deacc_type> selected="selected" </cfif>
+                                                                  value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
+                                                      <cfelseif deaccDetails.deacc_type EQ "transfer" AND deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+                                                          <option <cfif ctDeaccType.deacc_type is deaccDetails.deacc_type> selected="selected" </cfif> value=""></option>
+                                                      </cfif>
+                                                </cfloop>
+
+
+
 						<cfloop query="deaccDetails">
 							  <option selected="selected" value="#deaccDetails.deacc_type#">#deaccDetails.deacc_type#</option>           
 						</cfloop>
@@ -472,34 +484,35 @@
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
 			
-			<cfif #cgi.HTTP_HOST# contains "harvard.edu">
-                          <!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
-                                 sort={a field name that is in the select portion of the query specified in the custom tag}, or
-                                 sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
-                          --->
+   <cfif #cgi.HTTP_HOST# contains "harvard.edu">
+          <!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
+                sort={a field name that is in the select portion of the query specified in the custom tag}, or
+                sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
+          --->
                 
-                  <cfif inhouse.c is 1 and authorized.c GT 0 and scope EQ 'Deaccession' >
-                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Deaccession Header</option>
-                  </cfif>
-                  <cfif inhouse.c is 1 and authorized.c GT 0 and scope EQ 'Deaccession' >
-                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items">MCZ Deaccession Items</option>
-                </cfif>
-		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0>
-		            <cfif scope eq 'Gift' >
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
-                            </cfif>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
-                          </cfif>
-                          <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
-            <cfelse>
-   			        <option value="">Host not recognized.</option>
+          <cfif inhouse.c is 1 and authorized.c GT 0 >
+              <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Deaccession Header</option>
+          </cfif>
+          <cfif inhouse.c is 1 and authorized.c GT 0 >
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items">MCZ Deaccession Items</option>
+          </cfif>
+          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and  deaccDetails.deacc_type eq 'gift' >
+                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
+          </cfif>
+          <cfif inhouse.c is 1 and authorized.c GT 0 >
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
             </cfif>
+            <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
+   <cfelse>
+       <option value="">Host not recognized.</option>
+   </cfif>
+
 		</select>
         </form>
 	</td><!---- end left cell --->

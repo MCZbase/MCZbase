@@ -205,19 +205,19 @@ span.likeLink {color: cornflowerblue;cursor: pointer;}
 <script>
 
 jQuery(document).ready(function() {
-	jQuery("##received_date").datepicker();
-	jQuery("##lenders_loan_date").datepicker();
-	jQuery("##due_date").datepicker();	
-	jQuery("##trans_date").datepicker();
-	jQuery("##received_date_after").datepicker();
-	jQuery("##received_date_before").datepicker();
-	jQuery("##due_date_after").datepicker();
-	jQuery("##due_date_before").datepicker();
-	jQuery("##lenders_loan_date_after").datepicker();
-	jQuery("##lenders_loan_date_before").datepicker();
+	jQuery("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
+	jQuery("##lenders_loan_date").datepicker({ dateFormat: 'yy-mm-dd'});
+	jQuery("##due_date").datepicker({ dateFormat: 'yy-mm-dd'});	
+	jQuery("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
+	jQuery("##received_date_after").datepicker({ dateFormat: 'yy-mm-dd'});
+	jQuery("##received_date_before").datepicker({ dateFormat: 'yy-mm-dd'});
+	jQuery("##due_date_after").datepicker({ dateFormat: 'yy-mm-dd'});
+	jQuery("##due_date_before").datepicker({ dateFormat: 'yy-mm-dd'});
+	jQuery("##lenders_loan_date_after").datepicker({ dateFormat: 'yy-mm-dd'});
+	jQuery("##lenders_loan_date_before").datepicker({ dateFormat: 'yy-mm-dd'});
 	//shipped_date
 	$.each($("input[id^='shipped_date']"), function() {
-		$("##" + this.id).datepicker();
+		$("##" + this.id).datepicker({ dateFormat: 'yy-mm-dd'});
    	});
 });
 
@@ -579,7 +579,8 @@ function setBorrowNum(cid,v){
 				trans_agent_id,
 				trans_agent.agent_id, 
 				agent_name,
-				trans_agent_role
+				trans_agent_role,
+                        	MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
 			from
 				trans_agent,
 				preferred_agent_name
@@ -594,170 +595,181 @@ function setBorrowNum(cid,v){
 	<table><tr><td valign="top">
        <h2 class="wikilink" style="margin-left: 0;">Edit Borrow <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#getBorrow.collection# #getBorrow.borrow_number# </span>	</h2>
-	<table>
-		<form name="borrow" method="post" action="Borrow.cfm">
-			<input type="hidden" name="action" value="update">
-			<input type="hidden" name="transaction_id" value="#getBorrow.transaction_id#">
-			<tr>
-				<td colspan="3">
-					<table border>
+	<form name="borrow" method="post" action="Borrow.cfm">
+	<input type="hidden" name="action" value="update">
+	<input type="hidden" name="transaction_id" value="#getBorrow.transaction_id#">
+	<table class="editLoanTable"> 
+		<tr>
+			<td colspan="3">
+				<span style="font-size:14px;">Entered by #getBorrow.enteredby#</span>
+ 				</td>
+		</tr><tr>
+			<td colspan="3">
+				<table id="loanAgents"> <!--- id of loanAgents is used by addTransAgent() to find table to add rows to --->
+					<tr>
+						<th>Agent Name  <span class="linkButton" onclick=" addTransAgentToForm('','','','borrow'); ">Add Row</span> </th>
+						<th></th>
+						<th>Role</th>
+						<th>Delete?</th>
+						<th>CloneAs</th>
+					</tr>
+					<cfset i=0>
+					<cfloop query="transAgents">
+						<cfset i++>
 						<tr>
-							<th>Agent Name</th>
-							<th>Role</th>
-							<th>Delete?</th>
+							<td>
+								<!--- original value ---> 
+								<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+								<!--- text value ---> 
+								<input type="text" name="trans_agent_#i#" id="trans_agent_#i#"
+									class="reqdClr" size="30" value="#agent_name#"
+				  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','borrow',this.value); return false;"
+				  					onKeyPress="return noenter(event);">
+								<!--- new value ---> 
+				  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#" 
+									onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#');" >
+							</td>
+							<td style=" min-width: 3.5em; ">
+							    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif transAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif transAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
+                        			                    </span>
+ 								</td>
+							<td>
+								<cfset thisRole = #trans_agent_role#>
+								<select name="trans_agent_role_#i#" id="trans_agent_role_#i#">
+									<cfloop query="cttrans_agent_role">
+										<option 
+											<cfif #trans_agent_role# is #thisRole#> selected="selected"</cfif>
+											value="#trans_agent_role#">#trans_agent_role#</option>
+									</cfloop>
+								</select>
+							</td>
+							<td>
+								<input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1">
+							</td>
+							<td>
+								<select id="cloneTransAgent_#i#" name="cloneTransAgent_#i#"
+									onchange="cloneTransAgent(#i#)" style="width:8em">
+								<option value=""></option>
+								<cfloop query="cttrans_agent_role">
+									<option value="#trans_agent_role#">#trans_agent_role#</option>
+								</cfloop>
+								</select>
+							</td>
 						</tr>
-						<cfloop query="transAgents">
-							<tr>
-								<td>
-									<input type="text" name="trans_agent_#trans_agent_id#" class="reqdClr" size="50" value="#agent_name#"
-					  					onchange="getAgent('trans_agent_id_#trans_agent_id#','trans_agent_#trans_agent_id#','borrow',this.value); return false;"
-					  					onKeyPress="return noenter(event);">
-					  				<input type="hidden" name="trans_agent_id_#trans_agent_id#" value="#agent_id#">
-								</td>
-								<td>
-									<cfset thisRole = #trans_agent_role#>
-									<select name="trans_agent_role_#trans_agent_id#">
-										<cfloop query="cttrans_agent_role">
-											<option 
-												<cfif #trans_agent_role# is #thisRole#> selected="selected"</cfif>
-												value="#trans_agent_role#">#trans_agent_role#</option>
-										</cfloop>
-									</select>
-								</td>
-								<td>
-									<input type="checkbox" name="del_agnt_#trans_agent_id#">
-								</td>
-							</tr>
-						</cfloop>
-							<tr class="newRec">
-								<td>
-									<label for="new_trans_agent">Add Agent:</label>
-									<input type="text" name="new_trans_agent" id="new_trans_agent" class="reqdClr" size="50"
-					  					onchange="getAgent('new_trans_agent_id','new_trans_agent','borrow',this.value); return false;"
-					  					onKeyPress="return noenter(event);">
-					  				<input type="hidden" name="new_trans_agent_id">
-								</td>
-								<td>
-									<label for="new_trans_agent_role">&nbsp;</label>
-									<select name="new_trans_agent_role" id="new_trans_agent_role">
-										<cfloop query="cttrans_agent_role">
-											<option value="#trans_agent_role#">#trans_agent_role#</option>
-										</cfloop>
-									</select>
-								</td>
-								<td>&nbsp;</td>
-							</tr>				
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="collection_id">Collection</label>
-					<span id="collection_id">#getBorrow.collection#</span>
-				</td>
-				<td>
-					<label for="borrow_number">Borrow Number</label>
-					<input type="text" name="borrow_number" id="borrow_number"
-						value="#getBorrow.borrow_number#">
-				</td>
-				<td>
-					<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
-					<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE"
-						value="#getBorrow.LENDERS_TRANS_NUM_CDE#">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="lender_loan_type">Lender's Loan Type</label>
-					<input type="text" name="lender_loan_type" id="lender_loan_type"
-						value="#getBorrow.lender_loan_type#">
-				</td>
-				<td>
-					<label for="LENDERS_INVOICE_RETURNED_FG">Lender acknowledged returned?</label>
-					<select name="LENDERS_INVOICE_RETURNED_FG" id="LENDERS_INVOICE_RETURNED_FG" size="1">
-						<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 1> selected </cfif>
-							value="1">yes</option>
-						<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 0> selected </cfif>
-							value="0">no</option>
-					</select>
-				</td>
-				<td>
-					<label for="borrow_status">Status</label>
-					<select name="borrow_status" id="borrow_status" size="1" class="reqdCld">
-						<cfloop query="ctStatus">
-							<option 
-								<cfif #ctStatus.borrow_status# is "#getBorrow.BORROW_STATUS#"> selected </cfif>
-							value="#ctStatus.borrow_status#">#ctStatus.borrow_status#</option>
-						</cfloop>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="received_date">Received Date</label>
-					<input type="text" name="received_date" id="received_date" value="#dateformat(getBorrow.RECEIVED_DATE,"yyyy-mm-dd")#">
-				</td>
-				<td>
-					<label for="due_date">Due Date</label>
-					<input type="text" name="due_date" id="due_date" value="#dateformat(getBorrow.DUE_DATE,"yyyy-mm-dd")#">
-				</td>
-				<td>
-					<label for="lenders_loan_date">Lender's Loan Date</label>
-					<input type="text" name="lenders_loan_date" id="lenders_loan_date" value="#dateformat(getBorrow.LENDERS_LOAN_DATE,"yyyy-mm-dd")#">
-				</td>
-			</tr>
-            <tr><td>
-					<label for="no_of_specimens">Total No. of Specimens</label>
-					<input type="text" name="no_of_specimens" id="no_of_specimens" value="#getBorrow.no_of_specimens#">
-				</td>
-            </tr>
-			<tr>
-				<td colspan="3">
-					<label for="LENDERS_INSTRUCTIONS">Lender's Instructions</label>
-					<textarea name="LENDERS_INSTRUCTIONS" id="LENDERS_INSTRUCTIONS" rows="3" cols="90">#getBorrow.LENDERS_INSTRUCTIONS#</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<label for="NATURE_OF_MATERIAL">Nature of Material</label>
-					<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL" rows="3" cols="90" class="reqdClr">#getBorrow.NATURE_OF_MATERIAL#</textarea>
-				</td>
-			</tr>
-            <tr>
-				<td colspan="3">
-					<label for="DESCRIPTION_OF_BORROW">Description</label>
-					<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="90" class="reqdClr">#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
-				</td>
-			</tr>
+						<cfset na = i>
+					</cfloop>
+					<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="collection_id">Collection</label>
+				<span id="collection_id">#getBorrow.collection#</span>
+			</td>
+			<td>
+				<label for="borrow_number">Borrow Number</label>
+				<input type="text" name="borrow_number" id="borrow_number"
+					value="#getBorrow.borrow_number#">
+			</td>
+			<td>
+				<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
+				<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE"
+					value="#getBorrow.LENDERS_TRANS_NUM_CDE#">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="lender_loan_type">Lender's Loan Type</label>
+				<input type="text" name="lender_loan_type" id="lender_loan_type"
+					value="#getBorrow.lender_loan_type#">
+			</td>
+			<td>
+				<label for="LENDERS_INVOICE_RETURNED_FG">Lender acknowledged returned?</label>
+				<select name="LENDERS_INVOICE_RETURNED_FG" id="LENDERS_INVOICE_RETURNED_FG" size="1">
+					<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 1> selected </cfif>
+						value="1">yes</option>
+					<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 0> selected </cfif>
+						value="0">no</option>
+				</select>
+			</td>
+			<td>
+				<label for="borrow_status">Status</label>
+				<select name="borrow_status" id="borrow_status" size="1" class="reqdCld">
+					<cfloop query="ctStatus">
+						<option 
+							<cfif #ctStatus.borrow_status# is "#getBorrow.BORROW_STATUS#"> selected </cfif>
+						value="#ctStatus.borrow_status#">#ctStatus.borrow_status#</option>
+					</cfloop>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="received_date">Received Date</label>
+				<input type="text" name="received_date" id="received_date" value="#dateformat(getBorrow.RECEIVED_DATE,"yyyy-mm-dd")#">
+			</td>
+			<td>
+				<label for="due_date">Due Date</label>
+				<input type="text" name="due_date" id="due_date" value="#dateformat(getBorrow.DUE_DATE,"yyyy-mm-dd")#">
+			</td>
+			<td>
+				<label for="lenders_loan_date">Lender's Loan Date</label>
+				<input type="text" name="lenders_loan_date" id="lenders_loan_date" value="#dateformat(getBorrow.LENDERS_LOAN_DATE,"yyyy-mm-dd")#">
+			</td>
+		</tr>
+            	<tr>
+			<td>
+				<label for="no_of_specimens">Total No. of Specimens</label>
+				<input type="text" name="no_of_specimens" id="no_of_specimens" value="#getBorrow.no_of_specimens#">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<label for="LENDERS_INSTRUCTIONS">Lender's Instructions</label>
+				<textarea name="LENDERS_INSTRUCTIONS" id="LENDERS_INSTRUCTIONS" rows="3" cols="90">#getBorrow.LENDERS_INSTRUCTIONS#</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<label for="NATURE_OF_MATERIAL">Nature of Material</label>
+				<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL" rows="3" cols="90" class="reqdClr">#getBorrow.NATURE_OF_MATERIAL#</textarea>
+			</td>
+		</tr>
+            	<tr>
+			<td colspan="3">
+				<label for="DESCRIPTION_OF_BORROW">Description</label>
+				<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="90" class="reqdClr">#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
+			</td>
+		</tr>
       
             
-			<tr>
-				<td colspan="3">
-					<label for="TRANS_REMARKS">Transaction Remarks</label>
-					<textarea name="TRANS_REMARKS" id="TRANS_REMARKS" rows="3" cols="90">#getBorrow.TRANS_REMARKS#</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<input type="submit" class="schBtn" value="Save Edits">
-					<input type="button" class="delBtn" value="Delete"
-						onclick="borrow.action.value='delete';confirmDelete('borrow');">
-				</td>
-			</tr>
-            		<tr>
+		<tr>
+			<td colspan="3">
+				<label for="TRANS_REMARKS">Transaction Remarks</label>
+				<textarea name="TRANS_REMARKS" id="TRANS_REMARKS" rows="3" cols="90">#getBorrow.TRANS_REMARKS#</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<input type="submit" class="schBtn" value="Save Edits">
+				<input type="button" class="delBtn" value="Delete Borrow"
+					onclick="borrow.action.value='delete';confirmDelete('borrow');">
+			</td>
+		</tr>
+            	<tr>
                     <td>
    		<label for="redir">Print...Return Receipt</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
 			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</option>
             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</option>
-        </select></td></tr>
+        </select></td>
+		</tr>
 			
-		</form>
-            
-            
-</table>
-<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">   
+	</table>
+	</form>
+	<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">   
             <tr>
                 <td>
                   <div id="borrowItems"></div>
@@ -1223,8 +1235,8 @@ $(function() {
 </cfif>
 <!------------------------------------------------------------------------------------------------------->
 <cfif action is "update">
-<cfoutput>
-<cftransaction>
+  <cfoutput>
+  <cftransaction>
 	<cfquery name="setBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE borrow SET
 		LENDERS_INVOICE_RETURNED_FG = #LENDERS_INVOICE_RETURNED_FG#,
@@ -1247,45 +1259,51 @@ $(function() {
 		WHERE
 			TRANSACTION_ID=#TRANSACTION_ID#
 	</cfquery>
-	<cfquery name="wutsThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from trans_agent where transaction_id=#transaction_id#
-		and trans_agent_role !='entered by'
-	</cfquery>
-	<cfloop query="wutsThere">
-		<!--- first, see if the deleted - if so, nothing else matters --->
-		<cfif isdefined("del_agnt_#trans_agent_id#")>
-			<cfquery name="wutsThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				delete from trans_agent where trans_agent_id=#trans_agent_id#
-			</cfquery>
-		<cfelse>
-			<!--- update, just in case --->
-			<cfset thisAgentId = evaluate("trans_agent_id_" & trans_agent_id)>
-			<cfset thisRole = evaluate("trans_agent_role_" & trans_agent_id)>
-			<cfquery name="wutsThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update trans_agent set
-					agent_id = #thisAgentId#,
-					trans_agent_role = '#thisRole#'
-				where
-					trans_agent_id=#trans_agent_id#
-			</cfquery>
-		</cfif>
+	<cfloop from="1" to="#numAgents#" index="n">
+	   <cfif IsDefined("trans_agent_id_" & n) >
+	        <cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
+	        <cfset agent_id_ = evaluate("agent_id_" & n)>
+	        <cfset trans_agent_role_ = evaluate("trans_agent_role_" & n)>
+	        <cftry>
+	                <cfset del_agnt_=evaluate("del_agnt_" & n)>
+	        <cfcatch>
+	                <cfset del_agnt_=0>
+	        </cfcatch>
+	        </cftry>
+	        <cfif  del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
+	                <cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	                        delete from trans_agent where trans_agent_id=#trans_agent_id_#
+	                </cfquery>
+	        <cfelse>
+	                <cfif len(agent_id_) GT 0><!--- don't try to add/update a blank row --->
+	                <cfif trans_agent_id_ is "new" and del_agnt_ is 0 and len(agent_id_) GT 0>
+	                        <cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	                                insert into trans_agent (
+	                                        transaction_id,
+	                                        agent_id,
+	                                        trans_agent_role
+	                                ) values (
+	                                        #transaction_id#,
+	                                        #agent_id_#,
+	                                        '#trans_agent_role_#'
+	                                )
+	                        </cfquery>
+	                <cfelseif del_agnt_ is 0>
+	                        <cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	                                update trans_agent set
+	                                        agent_id = #agent_id_#,
+	                                        trans_agent_role = '#trans_agent_role_#'
+	                                where
+	                                        trans_agent_id=#trans_agent_id_#
+	                        </cfquery>
+	                </cfif>
+	                </cfif>
+	        </cfif>
+	   </cfif>
 	</cfloop>
-	<cfif isdefined("new_trans_agent_id") and len(#new_trans_agent_id#) gt 0>
-		<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			insert into trans_agent (
-				transaction_id,
-				agent_id,
-				trans_agent_role
-			) values (
-				#transaction_id#,
-				#new_trans_agent_id#,
-				'#new_trans_agent_role#'
-			)
-		</cfquery>
-	</cfif>
-</cftransaction>
-<cflocation url="Borrow.cfm?action=edit&transaction_id=#transaction_id#">
-	</cfoutput>
+  </cftransaction>
+  <cflocation url="Borrow.cfm?action=edit&transaction_id=#transaction_id#">
+  </cfoutput>
 </cfif>
 
 <!---
