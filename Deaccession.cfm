@@ -480,6 +480,10 @@
                             <input style="margin-left: 30px;" type="button" value="Delete Deaccession" class="delBtn"
 			onClick="editDeacc.action.value='deleDeacc';confirmDelete('editDeacc');">
    		<br />
+                <div id="deaccItemCountDiv"></div>
+		<script>
+			$( document ).ready( updateDeaccItemCount(#transaction_id#,'deaccItemCountDiv'); );
+ 		</script>
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
