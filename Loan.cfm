@@ -138,14 +138,18 @@
 						<input type="text" name="auth_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="auth_agent_id">
+						<input type="hidden" name="auth_agent_id" id="auth_agent_id" 
+                            onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
+                        <div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="rec_agent_name">Received By:</label>
 						<input type="text" name="rec_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="rec_agent_id" id="rec_agent_id" onChange=" checkAgent($('##rec_agent_id').val());">
+						<input type="hidden" name="rec_agent_id" id="rec_agent_id" 
+                            onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
+                        <div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 				</tr>
 				<tr>
@@ -154,14 +158,18 @@
 						<input type="text" name="in_house_contact_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="in_house_contact_agent_id">
+						<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
+						    onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;" >
+                        <div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
 						<input type="text" name="additional_contact_agent_name" size="40"
 						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" onChange=" checkAgent($('##additional_contact_agent_id').val());">
+						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" 
+                            onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
+                        <div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 				</tr>
 				<tr>
@@ -170,14 +178,18 @@
 						<input type="text" name="recipient_institution_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" onChange=" checkAgent($('##recipient_institution_agent_id').val());" >
+						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" 
+                            onChange=" updateAgentLink($('##recipient_insititution_agent_id').val(),'recipient_insititution_agent_view');">
+                        <div id="recipient_insititution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="foruseby_agent_name">For Use By:</label>
 						<input type="text" name="foruseby_agent_name" size="40"
 						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" onChange=" checkAgent($('##foruseby_agent_id').val());">
+						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" 
+                            onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
+                        <div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 				</tr>
 				<tr>
