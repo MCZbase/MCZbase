@@ -1,6 +1,7 @@
 <cfset jquery11=true>
 <cfinclude template="/includes/_pickHeader.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
 <cfoutput>
 	<cfquery name="agnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name from preferred_agent_name 
@@ -23,9 +24,15 @@
 			agent_rank,
 			rank_date
 	</cfquery>
-	<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agent_rank from ctagent_rank order by agent_rank
-	</cfquery>
+	<cfif listcontainsnocase(session.roles,"admin_agent_ranking")>
+		<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select agent_rank from ctagent_rank order by agent_rank
+		</cfquery>
+	<cfelse>
+		<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select agent_rank from ctagent_rank where agent_rank <> 'F' order by agent_rank
+		</cfquery>
+	</cfif>
 	<cfquery name="cttransaction_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select transaction_type from cttransaction_type order by transaction_type
 	</cfquery>
@@ -100,4 +107,5 @@
         $( document ).ready( function() { $('##agentRankCreate').hide(); } );
     </script>
 </cfoutput>
+</cfif><!--- has role manage agent ranking --->
 <cfinclude template="/includes/_pickFooter.cfm">

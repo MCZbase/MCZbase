@@ -224,7 +224,7 @@ function opendialogrank(page,id,title,agentId) {
           <cfif listcontainsnocase(session.roles, "manage_transactions")>
              <p><a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
           </cfif>
-          <cfif listcontainsnocase(session.roles,"admin_transactions")>
+          <cfif listcontainsnocase(session.roles,"manage_transactions")>
 			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) || ' ' || agent_rank agent_rank from agent_rank where agent_id=#agent_id# group by agent_rank
 			</cfquery>
@@ -237,7 +237,9 @@ function opendialogrank(page,id,title,agentId) {
                                     <img src='/images/flag-red.svg.png' width='16'>
                                 </cfif>
 			</cfif></span>
-			<input type="button" class="lnkBtn" value="Rank" onclick="opendialogrank('/form/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#);">
+          		<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
+ 				<input type="button" class="lnkBtn" value="Rank" onclick="opendialogrank('/form/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#);">
+			</cfif>
 			&nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Standards##AGENT_RANKING')" class="likeLink" style="margin-top: -15px;" alt="[ help ]">
                          <div id="agentRankDlg_#agent_id#"></div>
 	   </cfif>
