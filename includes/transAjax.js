@@ -398,7 +398,7 @@ function updateAgentLink(agent_id,targetLinkDiv) {
                 messageDialog('Please speak to Collections Ops about this loan agent before proceeding.','Agent with an F Rank');
               } else { 
                 $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "'>View</a><img src='/images/flag-yellow.svg.png' width='16'>");
-                messageDialog('Please check this agent''s rankings before proceeding','Problematic Agent');
+                messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
               }
            }
         }
