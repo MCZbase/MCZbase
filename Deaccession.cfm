@@ -303,13 +303,13 @@
 			agent_name
 	</cfquery>
  	<!--- on page load, remove tranfer as an allowed deaccession type, except for the MCZ Collection --->
+        <cfif deaccDetails.deacc_type neq 'transfer' and deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
 	<script>
 		$(function() {
-                        <cfif deaccDetails.deacc_type neq 'transfer' and deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
                           $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
-                        </cfif>
                 };
         </script>
+        </cfif>
        <div class="editLoanbox">
        <h2 class="wikilink" style="margin-left: 0;">Edit Deaccession <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#deaccDetails.collection# #deaccDetails.deacc_number# </span>	</h2>
@@ -374,7 +374,7 @@
 					<td>
 						<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
-		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editdeacc',this.value); return false;"
+		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editDeacc',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
 		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#" 
 							onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); " >
