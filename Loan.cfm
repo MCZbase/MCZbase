@@ -811,6 +811,10 @@
                             <input type="button" value="Delete #scope#" class="delBtn"
 			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
    		<br />
+                <div id="loanItemCountDiv"></div>
+		<script>
+			$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
+ 		</script>
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
