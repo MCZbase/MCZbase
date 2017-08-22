@@ -792,14 +792,6 @@ $( document ).ready(loadShipments(#transaction_id#));
 	</cftry>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
-<cfif action is "delePermit">
-	<cfquery name="killPerm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and
-		permit_id=#permit_id#
-	</cfquery>
-	<cflocation url="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">
-</cfif>
-<!-------------------------------------------------------------------------------------------------->
 <cfif action is "saveEdits">
 	<cfoutput>
 		<cftransaction>
@@ -1009,9 +1001,10 @@ $( document ).ready(loadShipments(#transaction_id#));
 <cfif action is "search">
   <cfset title="Search for Deaccessions">
   <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
+  <cfoutput>
   <script>
 		jQuery(document).ready(function() {
-	  		jQuery("#part_name").autocomplete("/ajax/part_name.cfm", {
+	  		jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
 				width: 320,
 				max: 50,
 				autofill: false,
@@ -1023,11 +1016,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				selectFirst:false
 			});
 		});
-
-
-
-</script>
-  <cfoutput>
+  </script>
    <div class="searchLoanWidth">
      <h2 class="wikilink">Find Deaccessions <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
       </h2>
