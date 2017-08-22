@@ -138,7 +138,7 @@
 						
 						<select name="deacc_type" id="deacc_type" class="reqdClr">
 							<cfloop query="ctDeaccType">
-								<option value="#ctDeaccType.deaccn_type#">#ctDeaccType.deaccn_type#</option>
+								<option value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
 							</cfloop>
 						</select>
 
