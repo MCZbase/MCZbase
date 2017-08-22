@@ -309,7 +309,7 @@ Review items in deaccession<b>
 					<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 				</cfloop>				
 			</select>
-		<input type="submit" value="Update Disposition" class="savBtn"
+		<input type="submit" value="Update Dispositions" class="savBtn"
    onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
 	</form>
         <cfif aboutDeacc.collection EQ 'Cryogenic'>
@@ -329,43 +329,19 @@ Review items in deaccession<b>
                         <br>
 <table class="partname" id="t" class="sortable">
 	<tr>
-		<th class="inside">
-			Collection
-
-		</th>
-		<th class="inside">
-			#session.CustomOtherIdentifier#
-		</th>
-		<th class="inside">
-			Scientific Name
-		</th>
-		<th class="inside">
-			Item
-		</th>
-		<th class="inside">
-			Condition
-		</th>
-
-		<th class="inside">
-			Item Remarks
-		</th>
-        <cfif aboutdeacc.collection EQ 'Cryogenic'>
-          <th class="inside">
-              Preserve Method
-          </th>
+		<th class="inside">Collection</th>
+		<th class="inside"> #session.CustomOtherIdentifier# </th>
+		<th class="inside">Scientific Name</th>
+		<th class="inside">Item</th>
+		<th class="inside">Condition</th>
+		<th class="inside">Item Remarks</th>
+        	<cfif aboutdeacc.collection EQ 'Cryogenic'>
+          		<th class="inside">Preserve Method</th>
 		</cfif>
-		<th class="inside">
-			Disposition Type
-		</th>
-		<th class="inside">
-        	Accession
-        </th>
-		<th class="inside">
-			Encumbrance
-		</th>
-		<th>Delete
-
-		</th>
+		<th class="inside">Disposition Type</th>
+		<th class="inside">Accession</th>
+		<th class="inside">Encumbrance</th>
+		<th>Remove</th>
 	</tr>
 
 <cfset i=1>

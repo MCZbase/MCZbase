@@ -482,7 +482,7 @@
    		<br />
                 <div id="deaccItemCountDiv"></div>
 		<script>
-			$( document ).ready( updateDeaccItemCount(#transaction_id#,'deaccItemCountDiv'); );
+			$(document).ready( updateDeaccItemCount('#transaction_id#','deaccItemCountDiv') );
  		</script>
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
