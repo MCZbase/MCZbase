@@ -1049,6 +1049,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 <cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
+<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 			<div class="detailCell">
 				<div class="detailLabel">Part Details<!---Parts--->
 					<cfif oneOfUs is 1>
@@ -1146,7 +1147,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						</table>
 				</div>
 			</div>
-
+</cfif>
 <!------------------------------------ attributes ---------------------------------------------->
 			<cfif len(attribute.attribute_type) gt 0>
 				<div class="detailCell">
@@ -1299,7 +1300,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 					</cfif>
                 </div>
-
+<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif len(one.coll_object_remarks) gt 0>
 						<div class="detailBlock">
 							<span class="detailData">
@@ -1308,7 +1309,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							</span>
 						</div>
 					</cfif>
-
+</cfif>
 					<cfif len(one.habitat) gt 0>
 						<div class="detailBlock">
 							<span class="detailData">
