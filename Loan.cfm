@@ -159,8 +159,8 @@
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
-						    onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;" >
-                        <div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
+						<div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
