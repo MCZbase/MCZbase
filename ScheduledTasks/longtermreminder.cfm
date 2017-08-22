@@ -63,7 +63,7 @@
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" startrow=1 endrow=230>
+<cfloop query="agent" <!---startrow=1 endrow=240--->>
 	<cfquery name="chkLog" datasource="uam_god">
 		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2017-07-01', 'YYYY-MM-DD')
 	</cfquery>
@@ -377,7 +377,19 @@
 					<cfelse >
 						#REPLACE(ReReplace(ValueList(formattedinhouse.contact, ', '),',(?=[^,]+$)' , ', and ' ), "Special Collections Collection", "Special Collections")#.
 					</cfif>
-				 Your attention to this matter will be greatly appreciated. Thank you.
+				 Your attention to this matter will be greatly appreciated.
+				 <cfif findnocase("CRYOGENIC",ValueList(formattedinhouse.contact, ', ')) GT 0>
+				<br><br>
+				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.
+				To officially close this loan, please also provide publication information and NCBI sequence accession numbers to the MCZ-CRYO.<br><br>
+				NCBI accessions will automatically link to MCZbase records if information is submitted correctly:<br>
+				http://www.mcz.harvard.edu/collectionsoperations/downloads/Guidelines_for_submitting_to_GenBank.pdf<br>
+				http://www.mcz.harvard.edu/collectionsoperations/downloads/NCBI_BioProject_BioSample_Data1.pdf<br>
+				<br>
+				Thank you.<br>
+				<cfelse>
+				Thank you.<br>
+				</cfif>
 				<BR>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
