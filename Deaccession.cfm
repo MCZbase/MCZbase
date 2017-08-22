@@ -68,7 +68,7 @@
 	      <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
         </h2>
            <input type="hidden" name="action" value="makeDeacc">
-			<table border>
+			<table border id="newDeaccTable">
 				<tr>
 					<td>
 						<label for="collection_id">Collection
@@ -198,7 +198,7 @@
 			</table>
 		</form>
                
-		<div class="nextnum">
+		<div class="nextnum" id="nextNumDiv">
 			<p>Next Available Deaccession Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
@@ -252,6 +252,9 @@
 				<br>
 			</cfloop>
 		</div>
+                <script>
+                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right top", of: $('##newDeaccTable'), colision: "none" } ); } );
+                </script>
        </div>
 	</cfoutput>
 </cfif>
