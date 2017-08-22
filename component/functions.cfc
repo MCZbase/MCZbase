@@ -2133,7 +2133,7 @@
 				)
 		</cfquery>
 		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE coll_object SET coll_obj_disposition = 'on loan'
+			UPDATE coll_object SET coll_obj_disposition = 'deaccessioned'
 			where collection_object_id =
 		<cfif #subsample# is 1>
 				#n.n#
