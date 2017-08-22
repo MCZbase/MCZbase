@@ -367,7 +367,7 @@ function checkAgent(agent_id) {
               if (rank=='F') { 
                 messageDialog('Please speak to Collections Ops about this loan agent before proceeding.','Agent with an F Rank');
               } else { 
-                messageDialog('Please check this agent''s rankings before proceeding','Problematic Agent');
+                messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
               }
            }
         }
