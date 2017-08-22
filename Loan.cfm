@@ -179,8 +179,8 @@
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" 
-							onChange=" updateAgentLink($('##recipient_insititution_agent_id').val(),'recipient_insititution_agent_view');">
-						<div id="recipient_insititution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
+						<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="foruseby_agent_name">For Use By:</label>
