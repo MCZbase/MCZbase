@@ -5,6 +5,10 @@
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
+<cfquery name="queryNotApplicableAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct agent_id from agent_name where agent_name = 'not applicable' and rownum < 2
+</cfquery>
+<cfset NOTAPPLICABLEAGENTID = queryNotApplicableAgent.agent_id >
 <cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select deacc_type from ctdeacc_type
 </cfquery>
@@ -272,9 +276,11 @@
                 <script>
 			$('##deacc_type').val('discarded').prop('selected', true);
                         $("##rec_agent_name").val('not applicable');
-                        $("##rec_agent_id").val('15197');
+                        $("##rec_agent_id").val('#NOTAPPLICABLEAGENTID#');
+                        $("##rec_agent_id").trigger('change');
                         $("##recipient_institution_agent_name").val('not applicable');
-                        $("##recipient_institution_agent_id").val('15197');
+                        $("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
+                        $("##recipient_institution_agent_id").trigger('change');
 
                         $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
                         // on page load, bind a function to collection_id to change the list of deaccession
@@ -290,19 +296,19 @@
                         $("##deacc_type").change( function () {
                               if ( $("##deacc_type option:selected").text() == "discarded" ) {
                                      $("##rec_agent_name").val('not applicable');
-                                     $("##rec_agent_id").val('15197');
+                                     $("##rec_agent_id").val('#NOTAPPLICABLEAGENTID#');
                                      $("##rec_agent_id").trigger('change');
 
                                      $("##recipient_institution_agent_name").val('not applicable');
-                                     $("##recipient_institution_agent_id").val('15197');
+                                     $("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
                                      $("##recipient_institution_agent_id").trigger('change');
 			      } else { 
-                                     if ($("##rec_agent_id").val()=='15197') { 
+                                     if ($("##rec_agent_id").val()=='#NOTAPPLICABLEAGENTID#') { 
                                      	  $("##rec_agent_name").val('');
         	                          $("##rec_agent_id").val('');
  	                                  $("##rec_agent_id").trigger('change');
 				     }
-                                     if ($("##recipient_institution_agent_id").val()=='15197') { 
+                                     if ($("##recipient_institution_agent_id").val()=='#NOTAPPLICABLEAGENTID#') { 
                                      	  $("##recipient_institution_agent_name").val('');
         	                          $("##recipient_institution_agent_id").val('');
  	                                  $("##recipient_institution_agent_id").trigger('change');
