@@ -116,7 +116,7 @@
 	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
    </h2>
            <input type="hidden" name="action" value="makeLoan">
-			<table border>
+			<table border id="newLoanTable">
 				<tr>
 					<td>
 						<label for="collection_id">Collection
@@ -340,7 +340,7 @@
                               };
                            });
                 </script>
-		<div class="nextnum">
+		<div class="nextnum" id="nextNumDiv">
 			<p>Next Available #scope# Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
@@ -393,7 +393,10 @@
 				</cfif>
 				<br>
 			</cfloop>
-		</div>
+		</div>  
+                <script>
+                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right top", of: $('##newLoanTable'), colision: "none" } ); } );
+                </script>
         </div>
 	</cfoutput>
 </cfif>
