@@ -621,6 +621,7 @@ function removeBgDiv () {
 		jQuery('#bgDiv').remove();
 	}
 }
+/** This may be obsolete, replaced by getTransAgent? **/
 function get_AgentName(name,fld,idfld){
 	addBGDiv('removePick()');
 	var theDiv = document.createElement('div');

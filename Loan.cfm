@@ -108,14 +108,14 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newLoan">
-<cfset title="New #scope#">
+	<cfset title="New #scope#">
 	<cfoutput>
-  <form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
-    <div class="newLoanWidth">
-    	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
+	<div class="newLoanWidth">
+	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
 	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
-   </h2>
-           <input type="hidden" name="action" value="makeLoan">
+	</h2>
+  		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+           		<input type="hidden" name="action" value="makeLoan">
 			<table border id="newLoanTable">
 				<tr>
 					<td>
@@ -127,10 +127,10 @@
 							</cfloop>
 						</select>
 					</td>
-					<td>
+					<td id="upperRightCell"><!--- id for positioning nextnum div --->
 						<label for="loan_number">#scope# Number</label>
 						<input type="text" name="loan_number" class="reqdClr" id="loan_number">
-					</td>
+					</td">
 				</tr>
 				<tr>
 					<td>
@@ -395,7 +395,7 @@
 			</cfloop>
 		</div>  
                 <script>
-                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right top", of: $('##newLoanTable'), colision: "none" } ); } );
+                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+3 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
                 </script>
         </div>
 	</cfoutput>
@@ -898,7 +898,7 @@
 		<label for="project_id">Pick a Project to associate with this #scope#</label>
 		<input type="hidden" name="project_id">
 		<input type="text"
-			size="50"
+			size="40"
 			name="pick_project_name"
 			class="reqdClr"
 			onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"

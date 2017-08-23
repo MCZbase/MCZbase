@@ -166,28 +166,7 @@
     background: #EA7B00;
     color: #fff;
 }
-.nextnum{
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border:2px solid green;
-    box-shadow: 1px 1px 4px #EBEBEB;
-    -moz-box-shadow: 1px 1px 4px #EBEBEB;
-    -webkit-box-shadow: 1px 1px 4px #EBEBEB;
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-	right:1em;
-	margin:0;
-    float:left;
-    width: 30%;
-    position: relative;
-    display:inline;
-    padding: 10px;
-
-}
 span.sm {font-size: 11px;}
-span.likeLink {color: cornflowerblue;cursor: pointer;}
 </style>
 <cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select borrow_status from ctborrow_status
@@ -542,9 +521,6 @@ function setBorrowNum(cid,v){
 <cfset title="Edit Borrow">
   <div style="width: 95%;margin: 0 auto;overflow: hidden;padding: 2em;">
 <cfoutput>
-		<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
-		</cfquery>
 		<cfquery name="getBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				borrow.TRANSACTION_ID,
@@ -603,7 +579,19 @@ function setBorrowNum(cid,v){
 			<td colspan="3">
 				<span style="font-size:14px;">Entered by #getBorrow.enteredby#</span>
  				</td>
-		</tr><tr>
+		</tr>
+		<tr>
+			<td>
+				<label for="collection_id">Collection</label>
+				<span id="collection_id">#getBorrow.collection#</span>
+			</td>
+			<td colspan="3">
+				<label for="borrow_number">Borrow Number</label>
+				<input type="text" name="borrow_number" id="borrow_number"
+					value="#getBorrow.borrow_number#">
+			</td>
+		</tr>
+		<tr>
 			<td colspan="3">
 				<table id="loanAgents"> <!--- id of loanAgents is used by addTransAgent() to find table to add rows to --->
 					<tr>
@@ -661,37 +649,19 @@ function setBorrowNum(cid,v){
 					<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 				</table>
 			</td>
+			<td>
+			</td>
 		</tr>
 		<tr>
-			<td>
-				<label for="collection_id">Collection</label>
-				<span id="collection_id">#getBorrow.collection#</span>
-			</td>
-			<td>
-				<label for="borrow_number">Borrow Number</label>
-				<input type="text" name="borrow_number" id="borrow_number"
-					value="#getBorrow.borrow_number#">
-			</td>
 			<td>
 				<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
 				<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE"
 					value="#getBorrow.LENDERS_TRANS_NUM_CDE#">
 			</td>
-		</tr>
-		<tr>
 			<td>
 				<label for="lender_loan_type">Lender's Loan Type</label>
 				<input type="text" name="lender_loan_type" id="lender_loan_type"
 					value="#getBorrow.lender_loan_type#">
-			</td>
-			<td>
-				<label for="LENDERS_INVOICE_RETURNED_FG">Lender acknowledged returned?</label>
-				<select name="LENDERS_INVOICE_RETURNED_FG" id="LENDERS_INVOICE_RETURNED_FG" size="1">
-					<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 1> selected </cfif>
-						value="1">yes</option>
-					<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 0> selected </cfif>
-						value="0">no</option>
-				</select>
 			</td>
 			<td>
 				<label for="borrow_status">Status</label>
@@ -701,6 +671,15 @@ function setBorrowNum(cid,v){
 							<cfif #ctStatus.borrow_status# is "#getBorrow.BORROW_STATUS#"> selected </cfif>
 						value="#ctStatus.borrow_status#">#ctStatus.borrow_status#</option>
 					</cfloop>
+				</select>
+			</td>
+			<td>
+				<label for="LENDERS_INVOICE_RETURNED_FG">Lender acknowledged returned?</label>
+				<select name="LENDERS_INVOICE_RETURNED_FG" id="LENDERS_INVOICE_RETURNED_FG" size="1">
+					<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 1> selected </cfif>
+						value="1">yes</option>
+					<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 0> selected </cfif>
+						value="0">no</option>
 				</select>
 			</td>
 		</tr>
@@ -717,54 +696,53 @@ function setBorrowNum(cid,v){
 				<label for="lenders_loan_date">Lender's Loan Date</label>
 				<input type="text" name="lenders_loan_date" id="lenders_loan_date" value="#dateformat(getBorrow.LENDERS_LOAN_DATE,"yyyy-mm-dd")#">
 			</td>
-		</tr>
-            	<tr>
 			<td>
 				<label for="no_of_specimens">Total No. of Specimens</label>
 				<input type="text" name="no_of_specimens" id="no_of_specimens" value="#getBorrow.no_of_specimens#">
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3">
+			<td colspan="4">
 				<label for="LENDERS_INSTRUCTIONS">Lender's Instructions</label>
-				<textarea name="LENDERS_INSTRUCTIONS" id="LENDERS_INSTRUCTIONS" rows="3" cols="90">#getBorrow.LENDERS_INSTRUCTIONS#</textarea>
+				<textarea name="LENDERS_INSTRUCTIONS" id="LENDERS_INSTRUCTIONS" rows="3" cols="120">#getBorrow.LENDERS_INSTRUCTIONS#</textarea>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3">
+			<td colspan="4">
 				<label for="NATURE_OF_MATERIAL">Nature of Material</label>
-				<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL" rows="3" cols="90" class="reqdClr">#getBorrow.NATURE_OF_MATERIAL#</textarea>
+				<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL" rows="3" cols="120" class="reqdClr">#getBorrow.NATURE_OF_MATERIAL#</textarea>
 			</td>
 		</tr>
             	<tr>
-			<td colspan="3">
+			<td colspan="4">
 				<label for="DESCRIPTION_OF_BORROW">Description</label>
-				<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="90" class="reqdClr">#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
+				<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="120" class="reqdClr">#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
 			</td>
 		</tr>
       
             
 		<tr>
-			<td colspan="3">
+			<td colspan="4">
 				<label for="TRANS_REMARKS">Transaction Remarks</label>
-				<textarea name="TRANS_REMARKS" id="TRANS_REMARKS" rows="3" cols="90">#getBorrow.TRANS_REMARKS#</textarea>
+				<textarea name="TRANS_REMARKS" id="TRANS_REMARKS" rows="3" cols="120">#getBorrow.TRANS_REMARKS#</textarea>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3">
+			<td colspan="4">
 				<input type="submit" class="schBtn" value="Save Edits">
 				<input type="button" class="delBtn" value="Delete Borrow"
 					onclick="borrow.action.value='delete';confirmDelete('borrow');">
 			</td>
 		</tr>
             	<tr>
-                    <td>
-   		<label for="redir">Print...Return Receipt</label>
-		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
-   			<option value=""></option>
-			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</option>
-            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</option>
-        </select></td>
+			<td colspan="4">
+   			<label for="redir">Print...Return Receipt</label>
+			<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+   				<option value=""></option>
+				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</option>
+            			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</option>
+        		</select>
+			</td>
 		</tr>
 			
 	</table>
@@ -872,11 +850,21 @@ function setBorrowNum(cid,v){
 			</tr>
 			<tr>
 			  		<td>
-			  			<p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view csv file template</span></p>
+			  			<p style="margin: 1em 0;"><span class="likeLink" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
 						<div id="template" style="display:none;">
 							<label for="t">Copy the following code and save as a .csv file</label>
-							<textarea rows="2" cols="80" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
+							<textarea rows="2" cols="90" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
 						</div>
+						<script>
+							function toggleTemplate() { 
+								$('##template').toggle();
+								if ($('##template').is(':visible')) { 
+									$('##toggleLink').html('Hide csv file temlate');
+								} else { 
+									$('##toggleLink').html('View csv file temlate');
+								}
+							}
+						</script>
 					</td>
 			</tr>
 </table>
@@ -1152,14 +1140,14 @@ $(function() {
 <cfif action is "new">
 <cfset title="New Borrow">
 <cfoutput>
-  <div style="margin: 0 auto; width: 90%;overflow: hidden;">
+    <div class="newLoanWidth">
 
         <h2 class="wikilink" style="margin-left: 0;">New Borrow
             <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
         </h2>
 
-	<table border style="width: 45%;margin-right: 4em;float: left;">
-		<form name="borrow" method="post" action="Borrow.cfm">
+	<form name="borrow" method="post" action="Borrow.cfm">
+	<table border>
 			<input type="hidden" name="action" value="makeNew">
 			<tr>
 				<td>
@@ -1174,7 +1162,7 @@ $(function() {
 					<label for="borrow_num">Local Borrow Number</label>
 					<input type="text" id="borrow_number" name="borrow_number" class="reqdClr">
 				</td>
-				<td>
+				<td id="upperRightCell"><!--- id for positioning nextnumDiv --->
 					<label for="lenders_trans_num_cde">Lender's Transaction Number</label>
 					<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde">
 				</td>
@@ -1297,19 +1285,17 @@ $(function() {
 					<input type="submit" class="schBtn" value="Create Borrow">
 				</td>
 			</tr>
-		</form>
-</table>
+	</table>
+	</form>
 
-<div class="nextnum">
-			Next Available Borrow Number:
-			<br>
+		<div class="nextnum" id="nextNumDiv">
+			<p>Next Available Borrow Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
 			</cfquery>
 			<cfloop query="all_coll">
 					<cfset stg="'#dateformat(now(),"yyyy")#.' || nvl(lpad(max(to_number(substr(borrow_number,6,3))) + 1,3,0),'001') || '.#collection_cde#'">
 					<cfset whr=" AND substr(borrow_number, 1,4) ='#dateformat(now(),"yyyy")#'">
-				<hr>
 				<cftry>
 					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
@@ -1346,8 +1332,11 @@ $(function() {
 				</cfif>
 				<br>
 			</cfloop>
-                        </div>
-
+                </div>
+                <script>
+                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+4 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
+                </script>
+        </div>
 	</cfoutput>
 </cfif>
 
@@ -1355,7 +1344,6 @@ $(function() {
 <!------------------------------------------------------------------------------------------------------->
 <cfif #action# is "delete">
 <cfoutput>
-
 	<cftransaction>
 		<cfquery name="killAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from trans_agent where transaction_id=#transaction_id#

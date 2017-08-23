@@ -59,15 +59,15 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newDeacc">
-<cfset title="New Deaccession">
+	<cfset title="New Deaccession">
 	<cfoutput>
-      <div class="newLoanWidth">
-  <form name="newDeacc" id="newDeacc" action="Deaccession.cfm" method="post" onSubmit="return noenter();">
+	<div class="newLoanWidth">
   
     	<h2 class="wikilink" style="margin-left: 0;">Initiate a Deaccession
 	      <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
         </h2>
-           <input type="hidden" name="action" value="makeDeacc">
+  		<form name="newDeacc" id="newDeacc" action="Deaccession.cfm" method="post" onSubmit="return noenter();">
+           		<input type="hidden" name="action" value="makeDeacc">
 			<table border id="newDeaccTable">
 				<tr>
 					<td>
@@ -79,7 +79,7 @@
 							</cfloop>
 						</select>
 					</td>
-					<td>
+					<td id="upperRightCell"><!--- id for positioning nextnum div --->
 						<label for="deacc_number">Deaccession Number</label>
 						<input type="text" name="deacc_number" class="reqdClr" id="deacc_number">
 					</td>
@@ -265,7 +265,7 @@
 			</cfloop>
 		</div>
                 <script>
-                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right top", of: $('##newDeaccTable'), colision: "none" } ); } );
+                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+3 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
                 </script>
        </div>
 	</cfoutput>
