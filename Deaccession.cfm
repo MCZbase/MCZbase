@@ -39,7 +39,7 @@
 	function dCount() {
 		var countThingees=new Array();
 		countThingees.push('deacc_reason');
-		countThingees.push('trans_remarks');
+		countThingees.push('nature_of_material');
 		for (i=0;i<countThingees.length;i++) {
 			var els = countThingees[i];
 			var el=document.getElementById(els);
@@ -96,7 +96,8 @@
 					</td>
 					<td>
 						<label for="rec_agent_name">Received By:</label>
-						<input type="text" name="rec_agent_name" class="reqdClr" size="40"
+						<input type="text" name="rec_agent_name" id="rec_agent_name"
+						  class="reqdClr" size="40" 
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="rec_agent_id" id="rec_agent_id" 
@@ -127,7 +128,8 @@
 				<tr>
 					<td>
 						<label for="recipient_institution_agent_name">Recipient Institution:</label>
-						<input type="text" name="recipient_institution_agent_name" class="reqdClr" size="40"
+						<input type="text" name="recipient_institution_agent_name" id="recipient_institution_agent_name"
+						  class="reqdClr" size="40" 
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="recipient_institution_agent_id" id="recipient_institution_agent_id" 
@@ -267,6 +269,47 @@
                 <script>
                         $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+3 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
                 </script>
+                <script>
+			$('##deacc_type').val('discarded').prop('selected', true);
+                        $("##rec_agent_name").val('not applicable');
+                        $("##rec_agent_id").val('15197');
+                        $("##recipient_institution_agent_name").val('not applicable');
+                        $("##recipient_institution_agent_id").val('15197');
+
+                        $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                        // on page load, bind a function to collection_id to change the list of deaccession
+                        // based on the selected collection
+                        $("##collection_id").change( function () {
+                              if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
+                                     // only MCZ collections (the non-specimen collection) is allowed to make transfers.
+                                     $("##deacc_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
+                              } else {
+                                     $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                              }
+                        });
+                        $("##deacc_type").change( function () {
+                              if ( $("##deacc_type option:selected").text() == "discarded" ) {
+                                     $("##rec_agent_name").val('not applicable');
+                                     $("##rec_agent_id").val('15197');
+                                     $("##rec_agent_id").trigger('change');
+
+                                     $("##recipient_institution_agent_name").val('not applicable');
+                                     $("##recipient_institution_agent_id").val('15197');
+                                     $("##recipient_institution_agent_id").trigger('change');
+			      } else { 
+                                     if ($("##rec_agent_id").val()=='15197') { 
+                                     	  $("##rec_agent_name").val('');
+        	                          $("##rec_agent_id").val('');
+ 	                                  $("##rec_agent_id").trigger('change');
+				     }
+                                     if ($("##recipient_institution_agent_id").val()=='15197') { 
+                                     	  $("##recipient_institution_agent_name").val('');
+        	                          $("##recipient_institution_agent_id").val('');
+ 	                                  $("##recipient_institution_agent_id").trigger('change');
+				     }
+                              }
+                        });
+                </script>
        </div>
 	</cfoutput>
 </cfif>
@@ -321,8 +364,8 @@
         <cfif deaccDetails.deacc_type neq 'transfer' and deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
 	<script>
 		$(function() {
-                          $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
-                };
+                      $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                });
         </script>
         </cfif>
        <div class="editLoanbox">
@@ -347,6 +390,18 @@
 			</cfloop>
 		</select>
        </td>
+        <script>
+               // on page load, bind a function to collection_id to change the list of deaccession
+               // based on the selected collection
+               $("##collection_id").change( function () {
+                    if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
+                        // only MCZ collections (the non-specimen collection) is allowed to make transfers.
+                        $("##deacc_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
+                    } else {
+                        $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                    }
+               });
+        </script>
        <td>
           <label for="deacc_number">Deaccession Number</label>
 		<input type="text" name="deacc_number" id="deacc_number" value="#deaccDetails.deacc_number#" class="reqdClr">
@@ -466,20 +521,20 @@
 				</td>
 			</tr>
 		</table>
-		<label for="nature_of_material">Nature of Material </label>
-		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="60"
+		<label for="nature_of_material">Nature of Material&nbsp;(<span id="lbl_nature_of_material"></span>)</label>
+		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="120"
 			class="reqdClr">#deaccDetails.nature_of_material#</textarea>
-         <label for="deacc_reason">Reason for Deaccession (description)</label>
+         <label for="deacc_reason">Reason for Deaccession (description)&nbsp;(<span id="lbl_deacc_reason"></span>)</label>
 		<textarea name="deacc_reason" class="reqdClr" id="deacc_reason" rows="7"
-			cols="60">#deaccDetails.deacc_reason#</textarea>
+			cols="120">#deaccDetails.deacc_reason#</textarea>
 	    <label for="value">Value of Specimen(s)</label>
         <input name="value" id="value" value="#deaccDetails.value#" size="55">
 		
         <label for="method">Method of Transfer</label>
-		<textarea name="method" id="method" value="#deaccDetails.method#" rows="7" cols="60">#deaccDetails.method#</textarea>
+		<textarea name="method" id="method" value="#deaccDetails.method#" rows="3" cols="120">#deaccDetails.method#</textarea>
     
 		<label for="trans_remarks">Internal Remarks</label>
-		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="60">#deaccDetails.trans_remarks#</textarea>
+		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="120">#deaccDetails.trans_remarks#</textarea>
 		<br>
 		<input type="button" value="Save Edits" class="savBtn"
 			onClick="editDeacc.action.value='saveEdits';submit();">
