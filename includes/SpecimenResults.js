@@ -553,10 +553,10 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<th>Preparators</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('VERBATIMLATITUDE')> -1) {
-				theInnerHtml += '<th>Latitude</th>';
+				theInnerHtml += '<th>Verbatim Latitude</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('VERBATIMLONGITUDE')> -1) {
-				theInnerHtml += '<th>Longitude</th>';
+				theInnerHtml += '<th>Verbatim Longitude</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('COORDINATEUNCERTAINTYINMETERS')> -1) {
 				theInnerHtml += '<th>Max&nbsp;Error&nbsp;(m)</th>';
