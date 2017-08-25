@@ -1,7 +1,8 @@
 <cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
-<cfset MAGIC_MCZ_COLLECTION = 12>
-<cfset MAGIC_MCZ_CRYO = 11>
+<cfset MAGIC_MCZ_COLLECTION = 12><!--- the collection_id of the "MCZ Collection" (for non-specimen holdings) --->
+<cfset MAGIC_MCZ_CRYO = 11><!--- the collection_id of the cryogenic collection --->
+<cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
@@ -281,8 +282,12 @@
                         $("##recipient_institution_agent_name").val('not applicable');
                         $("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
                         $("##recipient_institution_agent_id").trigger('change');
-
+			// transfer is not allowed as a type for a new accesison by default (but see below).
                         $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+			<cfif ImAGod is not "yes">
+			  // other (MAGIC_TTYPE_OTHER) is not allowed as a type for a new deaccesison (must be set by sysadmin).
+                          $("##deacc_type option[value='#MAGIC_TTYPE_OTHER#']").each(function() { $(this).remove(); } );
+			</cfif>
                         // on page load, bind a function to collection_id to change the list of deaccession
                         // based on the selected collection
                         $("##collection_id").change( function () {
@@ -491,15 +496,24 @@
 			<tr>
 				<td width="20%">
 					<label for="deacc_type">Deaccession Type</label>
-					<select name="deacc_type" id="deacc_type" class="reqdClr">
-
+					<cfif deaccDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#">
+					   <!--- deacc_type other (MAGIC_TTYPE_OTHER) is read only --->
+					   <input type="hidden" name="deacc_type" id="deacc_type" value="#MAGIC_TTYPE_OTHER#">
+					   <select name="deacc_type" id="deacc_type" class="reqdClr" disabled="true">
+						<option selected="selected" value="#MAGIC_TTYPE_OTHER#">#MAGIC_TTYPE_OTHER#</option>
+					   </select>
+					<cfelse>
+					   <select name="deacc_type" id="deacc_type" class="reqdClr">
                                                 <cfloop query="ctDeaccType">
+						      <!--- Other is not an allowed option (unless it is already set) ---> 
+                                                      <cfif ctDeaccType.deacc_type NEQ MAGIC_TTYPE_OTHER >
 						      <!--- Only the MCZ Collection is allowed to make transfers ---> 
                                                       <cfif ctDeaccType.deacc_type NEQ "transfer" OR deaccDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
                                                           <option <cfif ctDeaccType.deacc_type is deaccDetails.deacc_type> selected="selected" </cfif>
                                                                   value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
                                                       <cfelseif deaccDetails.deacc_type EQ "transfer" AND deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
                                                           <option <cfif ctDeaccType.deacc_type is deaccDetails.deacc_type> selected="selected" </cfif> value=""></option>
+                                                      </cfif>
                                                       </cfif>
                                                 </cfloop>
 
@@ -508,7 +522,8 @@
 						<cfloop query="deaccDetails">
 							  <option selected="selected" value="#deaccDetails.deacc_type#">#deaccDetails.deacc_type#</option>           
 						</cfloop>
-					</select>
+					   </select>
+					</cfif>
 				</td>
 				<td>
 					<label for="deacc_status">Deaccession Status</label>
