@@ -3,6 +3,9 @@
 <cfset MAGIC_MCZ_COLLECTION = 12><!--- the collection_id of the "MCZ Collection" (for non-specimen holdings) --->
 <cfset MAGIC_MCZ_CRYO = 11><!--- the collection_id of the cryogenic collection --->
 <cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
+<cfif not isdefined("ImAGod") or len(#ImAGod#) is 0>
+	<cfset ImAGod = "no">
+</cfif>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
@@ -14,7 +17,7 @@
 	select deacc_type from ctdeacc_type
 </cfquery>
 <cfquery name="ctDeaccStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select deacc_status from ctdeacc_status
+	select deacc_status from ctdeacc_status order by deacc_status desc
 </cfquery>
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection_cde from ctcollection_cde order by collection_cde
@@ -165,8 +168,9 @@
 					<td>
 						<label for="deacc_status">Deaccession Status</label>
 						<select name="deacc_status" id="deacc_status" class="reqdClr">
-								<option value="in process">in process</option>
-                                <option value="completed">completed</option>
+							<cfloop query="ctDeaccStatus">
+								<option value="#ctDeaccStatus.deacc_status#">#ctDeaccStatus.deacc_status#</option>
+							</cfloop>
 						</select>
 					</td>
 				</tr>
@@ -528,8 +532,8 @@
 				<td>
 					<label for="deacc_status">Deaccession Status</label>
 					<select name="deacc_status" id="deacc_status" class="reqdClr">
-						<cfloop query="deaccDetails">                      
-						<option selected="selected" value="#deaccDetails.deacc_status#">#deaccDetails.deacc_status#</option>
+						<cfloop query="ctDeaccStatus">                      
+						<option <cfif ctDeaccStatus.deacc_status EQ deaccDetails.deacc_status>selected="selected"</cfif> value="#ctDeaccStatus.deacc_status#">#ctDeaccStatus.deacc_status#</option>
 						</cfloop>
 					</select>
 				</td>
@@ -885,30 +889,27 @@ $( document ).ready(loadShipments(#transaction_id#));
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "saveEdits">
 	<cfoutput>
+	<cftry>
 		<cftransaction>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE  trans  SET
-					collection_id=#collection_id#,
+					collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
 					TRANS_DATE = '#dateformat(initiating_date,"yyyy-mm-dd")#',
-					nature_of_material = '#nature_of_material#',
-					trans_remarks = '#trans_remarks#'
+					nature_of_material = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
+					trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
 				where
-					transaction_id = #transaction_id#
-			  </cfquery>
-              <cfif not isdefined("deacc_status") or deacc_status eq 'completed'>
-              <!--- If there is no value set for return_due_date, don't overwrite an existing value.  --->
-			  <cfquery name="upDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="upDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upDeacRes">
 				 UPDATE DEACCESSION SET
-					TRANSACTION_ID = #TRANSACTION_ID#,
-					DEACC_TYPE = '#deacc_type#',
-					DEACC_NUMBER = '#deacc_number#',
-					DEACC_STATUS = '#deacc_status#',
-                    DEACC_REASON = '#deacc_reason#',
-                    VALUE = '#value#',
-                    METHOD = '#method#'
-					where TRANSACTION_ID = #TRANSACTION_ID#
-			    </cfquery>
-                </cfif>
+					DEACC_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">,
+					DEACC_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_number#">,
+					DEACC_STATUS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_status#">,
+					DEACC_REASON = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_reason#">,
+					VALUE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#value#">,
+					METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#method#">
+					where TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
+			</cfquery>
 		        <cfloop from="1" to="#numAgents#" index="n">
 				   <cfif IsDefined("trans_agent_id_" & n) >
 					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
@@ -922,7 +923,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 					</cftry>
 					<cfif  del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
 						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							delete from trans_agent where trans_agent_id=#trans_agent_id_#
+							delete from trans_agent where trans_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 						</cfquery>
 					<cfelse>
 						<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
@@ -932,18 +933,18 @@ $( document ).ready(loadShipments(#transaction_id#));
 									agent_id,
 									trans_agent_role
 								) values (
-									#transaction_id#,
-									#agent_id_#,
-									'#trans_agent_role_#'
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
 								)
 							</cfquery>
 						<cfelseif del_agnt_ is 0>
 							<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								update trans_agent set
-									agent_id = #agent_id_#,
-									trans_agent_role = '#trans_agent_role_#'
+									agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+									trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
 								where
-									trans_agent_id=#trans_agent_id_#
+									trans_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 							</cfquery>
 						</cfif>
 					</cfif>
@@ -951,6 +952,11 @@ $( document ).ready(loadShipments(#transaction_id#));
 				</cfloop>
 			</cftransaction>
 			<cflocation url="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">
+	<cfcatch>
+		Update FAILED
+		<p><cfdump var=#cfcatch#></p>
+	</cfcatch>
+        </cftry>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
@@ -973,10 +979,10 @@ $( document ).ready(loadShipments(#transaction_id#));
 					'#initiating_date#',
 					0,
 					'deaccession',
-					'#nature_of_material#',
-					#collection_id#
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 					<cfif len(#trans_remarks#) gt 0>
-						,'#trans_remarks#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#'">
 					</cfif>
 					)
 			</cfquery>
@@ -1001,19 +1007,19 @@ $( document ).ready(loadShipments(#transaction_id#));
 					 )
 				values (
 					sq_transaction_id.currval,
-					'#deacc_type#',
-					'#deacc_number#'
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_number#">
 					<cfif len(#deacc_status#) gt 0>
-						,'#deacc_status#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_status#">
 					</cfif>
 					<cfif len(#DEACC_REASON#) gt 0>
-						,'#DEACC_REASON#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DEACC_REASON#">
 					</cfif>
                   <cfif len(#value#) gt 0>
-						,'#VALUE#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VALUE#">
 					</cfif>
                     <cfif len(#method#) gt 0>
-						,'#METHOD#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#METHOD#">
                 </cfif>
 					)
 			</cfquery>
@@ -1024,7 +1030,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				    trans_agent_role
 				) values (
 					sq_transaction_id.currval,
-					#auth_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
 					'authorized by')
 			</cfquery>
 			<cfquery name="in_house_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1034,7 +1040,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				    trans_agent_role
 				) values (
 					sq_transaction_id.currval,
-					#in_house_contact_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#in_house_contact_agent_id#">,
 					'in-house contact')
 			</cfquery>
 			<cfquery name="recipient_institution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1044,7 +1050,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				    trans_agent_role
 				) values (
 					sq_transaction_id.currval,
-					#recipient_institution_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recipient_institution_agent_id#">,
 					'recipient institution')
 			</cfquery>
 		<cfif isdefined("additional_contact_agent_id") and len(additional_contact_agent_id) gt 0>
@@ -1055,7 +1061,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				    trans_agent_role
 				) values (
 					sq_transaction_id.currval,
-					#additional_contact_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_contact_agent_id#">,
 					'additional outside contact')
 			</cfquery>
 		</cfif>
@@ -1067,7 +1073,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				    trans_agent_role
 				) values (
 					sq_transaction_id.currval,
-					#foruseby_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foruseby_agent_id#">,
 					'for use by')
 			</cfquery>
 		</cfif>
@@ -1078,7 +1084,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				    trans_agent_role
 				) values (
 					sq_transaction_id.currval,
-					#REC_AGENT_ID#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REC_AGENT_ID#">,
 					'received by')
 			</cfquery>
 			<cfquery name="nextTransId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1361,7 +1367,7 @@ $( document ).ready(loadShipments(#transaction_id#));
     	<cfif deacc_status eq "not closed">
         	<cfset sql = "#sql# AND deacc_status <> 'closed'">
     	<cfelse>
-			<cfset sql = "#sql# AND deacc_status = '#deacc_status#'">
+		<cfset sql = "#sql# AND deacc_status = '#deacc_status#'">
         </cfif>
 	</cfif>
 	<cfif isdefined("rec_agent") AND len(#rec_agent#) gt 0>
@@ -1555,7 +1561,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                 <dt title="included in email reminder">Type:</dt>
                 <dd class="mandcolr">#deacc_type#</dd>
                 <dt title="included in email reminder">Status:</dt>
-                <dd class="mandcolr">#deacc_status# <cfif deacc_status EQ 'completed' and len(closed_date) GT 0>(#closed_date#)</cfif></dd>
+                <dd class="mandcolr">#deacc_status# <cfif deacc_status EQ 'closed' and len(closed_date) GT 0>(#closed_date#)</cfif></dd>
                 <dt title="included in email reminder">Transaction Date:</dt>
                  <cfif len(trans_date) GT 0>
                 <dd  class="mandcolr">#dateformat(trans_date,"yyyy-mm-dd")#</dd>
