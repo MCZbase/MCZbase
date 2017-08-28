@@ -1169,20 +1169,26 @@ $(function() {
 			</tr>
 			<tr>
 				<td>
-					<label for="LENDERS_INVOICE_RETURNED_FG">Lender acknowledged returned?</label>
-					<select name="LENDERS_INVOICE_RETURNED_FG" size="1">
-						<option value="0">no</option>
-						<option value="1">yes</option>
-					</select>
+					<label for="lender_loan_type">Lender's Loan Type</label>
+					<input type="text" name="lender_loan_type" id="lender_loan_type"
+						value="#getBorrow.lender_loan_type#">
+				</td>
+				<td>
+					<label for="lenders_loan_date">Lender's Loan Date</label>
+					<input type="text" name="lenders_loan_date" id="lenders_loan_date">
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<label for="due_date">Due Date</label>
+					<input type="text" name="due_date" id="due_date">
 				</td>
 				<td>
 					<label for="received_date">Received Date</label>
 					<input type="text" name="received_date" id="received_date">
 				</td>
-				<td>
-					<label for="due_date">Due Date</label>
-					<input type="text" name="due_date" id="due_date">
-				</td>
+				<td></td>
 			</tr>
 
 			<tr>
@@ -1191,15 +1197,18 @@ $(function() {
 					<input type="text" name="trans_date" id="trans_date">
 				</td>
 				<td>
-					<label for="lenders_loan_date">Lender's Loan Date</label>
-					<input type="text" name="lenders_loan_date" id="lenders_loan_date">
-				</td>
-				<td>
 					<label for="borrow_status">Status</label>
 					<select name="borrow_status" size="1" class="reqdCld">
 						<cfloop query="ctStatus">
 							<option value="#ctStatus.borrow_status#">#ctStatus.borrow_status#</option>
 						</cfloop>
+					</select>
+				</td>
+				<td>
+					<label for="LENDERS_INVOICE_RETURNED_FG">Lender acknowledged returned?</label>
+					<select name="LENDERS_INVOICE_RETURNED_FG" size="1">
+						<option value="0">no</option>
+						<option value="1">yes</option>
 					</select>
 				</td>
 			</tr>
