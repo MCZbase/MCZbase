@@ -1386,7 +1386,7 @@ $(function() {
 			NATURE_OF_MATERIAL,
 			COLLECTION_ID)
 		VALUES (
-			#transaction_id#,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
 			'#dateformat(TRANS_DATE,"yyyy-mm-dd")#',
 			'#escapeQuotes(TRANS_REMARKS)#',
 			'borrow',
@@ -1403,22 +1403,24 @@ $(function() {
 			RECEIVED_DATE,
 			DUE_DATE,
 			LENDERS_LOAN_DATE,
+			LENDERS_LOAN_TYPE,
 			LENDERS_INSTRUCTIONS,
             DESCRIPTION_OF_BORROW,
             no_of_specimens,
 			BORROW_STATUS
 		) VALUES (
-			#transaction_id#,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
 			'#LENDERS_TRANS_NUM_CDE#',
 			'#Borrow_Number#',
 			#LENDERS_INVOICE_RETURNED_FG#,
 			'#dateformat(RECEIVED_DATE,"yyyy-mm-dd")#',
 			'#dateformat(DUE_DATE,"yyyy-mm-dd")#',
 			'#dateformat(LENDERS_LOAN_DATE,"yyyy-mm-dd")#',
-            '#escapeQuotes(LENDERS_INSTRUCTIONS)#',
-            '#DESCRIPTION_OF_BORROW#',
-            '#no_of_specimens#',
-			'#BORROW_STATUS#'
+            		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_loan_type#">,
+            		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_INSTRUCTIONS#">,
+            		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION_OF_BORROW#">,
+            		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#no_of_specimens#">,
+            		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BORROW_STATUS#">
 		)
 		</cfquery>
 		<cfquery name="authBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1448,8 +1450,8 @@ $(function() {
 			    agent_id,
 			    trans_agent_role
 			) values (
-				#transaction_id#,
-				#received_from_agent_id#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#received_from_agent_id#">,
 				'received from'
 			)
 		</cfquery>
