@@ -520,12 +520,6 @@
                                                       </cfif>
                                                       </cfif>
                                                 </cfloop>
-
-
-
-						<cfloop query="deaccDetails">
-							  <option selected="selected" value="#deaccDetails.deacc_type#">#deaccDetails.deacc_type#</option>           
-						</cfloop>
 					   </select>
 					</cfif>
 				</td>

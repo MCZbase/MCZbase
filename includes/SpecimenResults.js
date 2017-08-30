@@ -270,17 +270,21 @@ function success_makePartDeaccThingy(r){
 			}
 			theTable += '<td nowrap="nowrap" class="specResultPartCell">';
 			theTable += '<i>' + result.PART_NAME[i];
+			theTable += '(' + result.PRESERVE_METHOD[i] + ')';
 			if (result.SAMPLED_FROM_OBJ_ID[i] > 0) {
 				theTable += '&nbsp;sample';
 			}
-            theTable += '(' + result.PRESERVE_METHOD[i] + ')';
 			theTable += "&nbsp;(" + result.COLL_OBJ_DISPOSITION[i] + ")</i> [" + result.BARCODE[i] + "]";
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += 'Remark:&nbsp;<input type="text" name="item_remark" size="10" id="item_remark_' + result.PARTID[i] + '">';
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += 'Instr.:&nbsp;<input type="text" name="item_instructions" size="10" id="item_instructions_' + result.PARTID[i] + '">';
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += 'Subsample?:&nbsp;<input type="checkbox" name="subsample" id="subsample_' + result.PARTID[i] + '">';
+			if (result.SAMPLED_FROM_OBJ_ID[i] > 0) {
+			   theTable += 'Is a subsample<input type="hidden" name="subsample" id="subsample_' + result.PARTID[i] + '" value="0">';
+			} else {
+			   theTable += 'Subsample?:&nbsp;<input type="checkbox" name="subsample" id="subsample_' + result.PARTID[i] + '">';
+			}
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += '<input type="button" id="theButton_' + result.PARTID[i] + '"';
 			theTable += ' class="insBtn"';

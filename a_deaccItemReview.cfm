@@ -1,6 +1,8 @@
+<cfset jquery11=true>
 <cfset title="Review Deaccession Items">
- <cfinclude template="includes/_header.cfm">
-     <div style="width: 78em; margin: 0 auto; padding: 2em 0 3em 0;">
+<cfinclude template="includes/_header.cfm">
+<script type='text/javascript' src='/includes/transAjax.js'></script>
+<div style="width: 78em; margin: 0 auto; padding: 2em 0 3em 0;">
 	<script type='text/javascript' src='/includes/_deaccReview.js'></script>
 	<script src="/includes/sorttable.js"></script>
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -205,13 +207,16 @@
 		cat_num, 
 		cataloged_item.collection_object_id,
 		collection,
-		collection.collection_cde
+		collection.collection_cde,
 		part_name,
 		preserve_method,
 		condition,
+		lot_count,
+		lot_count_modifier,
 		sampled_from_obj_id,
 		item_descr,
 		deacc_item_remarks,
+		item_instructions,
         deacc_type,
         deacc_reason,
 		coll_obj_disposition,
@@ -250,14 +255,13 @@
 	  	deacc_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 	ORDER BY cat_num
 </cfquery>
-<!--- Obtain list of preserve_method values for the collection that this loan is from --->
+<!--- Obtain list of preserve_method values for the collection that this deaccession is from --->
 <cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select ct.preserve_method, c.collection_cde from ctspecimen_preserv_method ct 
            left join collection c on ct.collection_cde = c.collection_cde
            left join trans t on c.collection_id = t.collection_id 
          where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 </cfquery>
-<!--- handle legacy loans with cataloged items as the item --->
 <cfoutput>
 <cfquery name="aboutDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select d.deacc_number, c.collection_cde, c.collection
@@ -294,6 +298,10 @@
 <cfquery name="prtItemCnt" dbtype="query">
 	select count(distinct(partID)) c from getPartDeaccRequests
 </cfquery>
+<cfset otherIdOn = false>
+<cfif isdefined("showOtherId") and #showOtherID# is "true">
+   <cfset otherIdOn = true>
+</cfif>
 
 Review items in deaccession<b>
 	<a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a></b>.
@@ -326,21 +334,19 @@ Review items in deaccession<b>
    onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
 	</form>
         </cfif>
-                        <br>
+	<p>Edit part counts (particularly for subsamples) in the cataloged item.</p>
 <table class="partname" id="t" class="sortable">
 	<tr>
-		<th class="inside">Collection</th>
-		<th class="inside"> #session.CustomOtherIdentifier# </th>
+		<th class="inside">Cataloged Item</th>
+		<cfif otherIdOn><th class="inside"> #session.CustomOtherIdentifier# </th></cfif>
 		<th class="inside">Scientific Name</th>
-		<th class="inside">Item</th>
+		<th class="inside">Part Name & Count</th>
 		<th class="inside">Condition</th>
-		<th class="inside">Item Remarks</th>
-        	<cfif aboutdeacc.collection EQ 'Cryogenic'>
-          		<th class="inside">Preserve Method</th>
-		</cfif>
 		<th class="inside">Disposition Type</th>
+		<th class="inside">Deaccession Item Remarks</th>
+		<th class="inside">Deaccession Item Instructions</th>
 		<th class="inside">Accession</th>
-		<th class="inside">Encumbrance</th>
+		<th class="inside">Encumbered</th>
 		<th>Remove</th>
 	</tr>
 
@@ -351,34 +357,27 @@ Review items in deaccession<b>
 			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
 
 		</td>
-		<td class="inside">
+		<cfif otherIdOn>
+		   <td class="inside">
 			#CustomID#&nbsp;
-		</td>
+		   </td>
+		</cfif>
 		<td class="inside">
 			<em>#scientific_name#</em>&nbsp;
 		</td>
 		<td class="inside">
-			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name#</a>
+			#getPartDeaccRequests.part_name# (#preserve_method#) #lot_count# #lot_count_modifier#
+			<cfif len(#sampled_from_obj_id#) gt 0> <strong>Subsample</strong></cfif>
+			<input type="hidden" name="isSubsample#partID#" id="isSubsample#partID#" value="#sampled_from_obj_id#" />
 		</td>
 		<td class="inside">
-			<textarea name="condition#partID#"
-				rows="2" cols="20"
+			<input type="text" name="condition#partID#"
+				size="10" class="reqdClr"
 				id="condition#partID#"
-				onchange="this.className='red';updateCondition('#partID#')">#condition#</textarea>
+				onchange="this.className='red';updateCondition('#partID#')" 
+ 				value="#condition#">
 				<span class="infoLink" onClick="chgCondition('#partID#')">History</span>
 		</td>
-
-		<td valign="top" class="inside">
-
-			<textarea name="deacc_Item_Remarks#partID#" id="deacc_Item_Remarks#partID#" rows="2" cols="20"
-			onchange="this.className='red';updateDeaccItemRemarks('#partID#')">#deacc_Item_Remarks#</textarea>
-
-		</td>
-                <cfif aboutDeacc.collection EQ 'Cryogenic'>
-		<td class="inside">
-			#preserve_method#
-		</td>
-                </cfif>
 		<td class="inside">
 			<cfset thisDisp = #coll_obj_disposition#>
 			<select name="coll_obj_disposition#partID#"
@@ -391,14 +390,22 @@ Review items in deaccession<b>
 					</cfloop>
 			</select>
 		</td>
-     	<td class="inside">
+		<td valign="top" class="inside">
+			<textarea name="deacc_Item_Remarks#partID#" id="deacc_Item_Remarks#partID#" rows="2" cols="20"
+			onchange="this.className='red';updateDeaccItemRemarks('#partID#')">#deacc_item_remarks#</textarea>
+		</td>
+		<td valign="top" class="inside">
+			<textarea name="item_instructions#partID#" id="item_instructions#partID#" rows="2" cols="20"
+			onchange="this.className='red';updateDeaccItemInstructions('#partID#')">#item_instructions#</textarea>
+		</td>
+		<td class="inside">
 			<a href="editAccn.cfm?Action=edit&transaction_id=#accn_id#">#accn_number#</a>
 		</td>
 		<td class="inside">
 			#encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
 		</td>
 		<td class="inside">
-			<img src="/images/del.gif" class="likeLink" onclick="remPartFromDeacc(#partID#);" />
+			<img src="/images/del.gif" class="likeLink" onclick="remPartFromDeacc(#partID#,#collection_object_id#);" />
 		</td>
 	</tr>
 <cfset i=#i#+1>

@@ -1182,12 +1182,41 @@
 <cffunction name="updateDeaccItemRemarks" access="remote">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfargument name="loan_item_remarks" type="string" required="yes">
+	<cfargument name="deacc_item_remarks" type="string" required="yes">
 	<cftry>
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update deacc_item set
-				loan_item_remarks = '#deacc_item_remarks#'
+				deacc_item_remarks = '#deacc_item_remarks#'
+				where
+				TRANSACTION_ID=#transaction_id# and
+				COLLECTION_OBJECT_ID = #part_id#
+			</cfquery>
+		</cftransaction>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "success", 1)>
+	<cfcatch>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
+	</cfcatch>
+
+	</cftry>
+		<cfreturn result>
+</cffunction>
+<!------------------------------------------->
+<cffunction name="updateDeaccItemInstructions" access="remote">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="item_instructions" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update deacc_item set
+				item_instructions = '#item_instructions#'
 				where
 				TRANSACTION_ID=#transaction_id# and
 				COLLECTION_OBJECT_ID = #part_id#
@@ -1880,7 +1909,6 @@
 			specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id (+) and
 			coll_obj_cont_hist.container_id=p0.container_id (+) and
 			p0.parent_container_id=p1.container_id (+) and
-			specimen_part.SAMPLED_FROM_OBJ_ID is null and
 			specimen_part.collection_object_id = deacc_item.collection_object_id (+)
 		order by
 			cataloged_item.collection_object_id, specimen_part.part_name
@@ -2047,7 +2075,7 @@
 				where
 				cataloged_item.collection_id=collection.collection_id and
 				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-				specimen_part.collection_object_id=#partID#
+				specimen_part.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfquery>
 			<cfif #subsample# is 1>
 			<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2061,7 +2089,7 @@
 					coll_object, specimen_part
 				WHERE
 					coll_object.collection_object_id = specimen_part.collection_object_id AND
-					coll_object.collection_object_id = #partID#
+					coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfquery>
 			<cfquery name="newCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO coll_object (
@@ -2075,15 +2103,23 @@
 					LOT_COUNT,
 					CONDITION)
 				VALUES
-					(#n.n#,
+					(
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">, 
 					'SS',
-					#session.myAgentId#,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 					sysdate,
-					#session.myAgentId#,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 					sysdate,
-					'#parentData.coll_obj_disposition#',
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.coll_obj_disposition#">,
 					1,
-					'#parentData.condition#')
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
+			</cfquery>
+			<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE coll_object set LOT_COUNT = LOT_COUNT -1, 
+					LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+					LAST_EDIT_DATE = sysdate
+				where COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#"> 
+					and LOT_COUNT > 1
 			</cfquery>
 			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO specimen_part (
@@ -2093,11 +2129,19 @@
 					,SAMPLED_FROM_OBJ_ID
 					,DERIVED_FROM_CAT_ITEM)
 				VALUES (
-					#n.n#
-					,'#parentData.part_name#'
-					,'#parentData.preserve_method#'
-					,#partID#
-					,#parentData.derived_from_cat_item#)
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.part_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.preserve_method#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parentData.derived_from_cat_item#">)
+			</cfquery>
+			<cfquery name="newRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO coll_object_remark (
+					COLLECTION_OBJECT_ID,
+ 					COLL_OBJECT_REMARKS )
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">, 
+					'Deaccessioned Subsample')
 			</cfquery>
 		</cfif>
 		<cfquery name="addDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

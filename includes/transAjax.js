@@ -303,6 +303,8 @@ function saveShipment(transactionId) {
 };
 
 // Confirm dialog for some action, takes the function to fire on pressing OK as a parameter.
+// Wrap the function to be invoked as okFunction in an anonymous function function() { thingToDo() } 
+// or it will be evaluated prior to invocation instead of as a callback.
 function confirmAction(dialogText, dialogTitle, okFunction) {
   $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
     modal: true,
