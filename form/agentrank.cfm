@@ -1,8 +1,11 @@
-<cf_rolecheck>
+<cfset jquery11=true>
+<cfinclude template="/includes/_pickHeader.cfm">
+<script type='text/javascript' src='/includes/internalAjax.js'></script>
+<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
 <cfoutput>
-	<span style="position:absolute;top:0px;right:0px; border:1px solid black;" class="likeLink" onclick="removePick()">X</span>
 	<cfquery name="agnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agent_name from preferred_agent_name where agent_id=#agent_id#
+		select agent_name from preferred_agent_name 
+		where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
 	</cfquery>
 	<cfquery name="pr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select 
@@ -15,19 +18,25 @@
 			agent_rank,
 			preferred_agent_name 
 		where 
-			agent_rank.agent_id=#agent_id# and 
-			ranked_by_agent_id=preferred_agent_name.agent_id
+			agent_rank.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
+			and ranked_by_agent_id=preferred_agent_name.agent_id
 		order by 
 			agent_rank,
 			rank_date
 	</cfquery>
-	<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agent_rank from ctagent_rank order by agent_rank
-	</cfquery>
+	<cfif listcontainsnocase(session.roles,"admin_agent_ranking")>
+		<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select agent_rank from ctagent_rank order by agent_rank
+		</cfquery>
+	<cfelse>
+		<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select agent_rank from ctagent_rank where agent_rank <> 'F' order by agent_rank
+		</cfquery>
+	</cfif>
 	<cfquery name="cttransaction_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select transaction_type from cttransaction_type order by transaction_type
 	</cfquery>
-	<strong>#agnt.agent_name#</strong> has been ranked #pr.recordcount# times.&nbsp;&nbsp;&nbsp;
+	<strong><a href='/agents.cfm?agent_id=#agent_id#' target='_blank'>#agnt.agent_name#</a></strong> has been ranked #pr.recordcount# times.&nbsp;&nbsp;&nbsp;
 	<cfif pr.recordcount gt 0>
 		<cfquery name="s" dbtype="query">
 			select agent_rank, count(*) c from pr group by agent_rank
@@ -70,8 +79,8 @@
 			
 		</div>
 	</cfif>
-	<span class="infoLink" id="t_agentRankDetails" onclick="document.getElementById('agentRankCreate').style.display='block';">Add Rank</span>
-	<div id="agentRankCreate" style="display:none">
+	<span class="infoLink" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
+	<div id="agentRankCreate">
 	<form name="a" method="post" action="agentrank.cfm">
 		<input type="hidden" name="agent_id" id="agent_id" value="#agent_id#">
 		<input type="hidden" name="action" id="action" value="saveRank">
@@ -90,7 +99,13 @@
 		<br><label  class="h" for="remark">Remark: (required for unsatisfactory rankings; encouraged for all)</label>
 		<br><textarea name="remark" id="remark" rows="4" cols="60"></textarea>
 		<br><input type="button" class="savBtn" value="Save" onclick="saveAgentRank()">
-		<input type="button" class="qutBtn" value="Quit" onclick="removePick()">
+		<input type="button" class="qutBtn" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
 	</form>
 	</div>
+	<div id="saveAgentRankFeedback"></div>
+    <script>
+        $( document ).ready( function() { $('##agentRankCreate').hide(); } );
+    </script>
 </cfoutput>
+</cfif><!--- has role manage agent ranking --->
+<cfinclude template="/includes/_pickFooter.cfm">

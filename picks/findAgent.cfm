@@ -5,8 +5,8 @@
 		<form name="searchForAgent" action="findAgent.cfm" method="post">
 			<label for="agent_name">Agent Name</label>
 			<input type="text" name="agent_name" id="agent_name">
-			<input type="submit" 
-				value="Search" 
+			<input type="submit"
+				value="Search"
 				class="lnkBtn"
 				onmouseover="this.className='lnkBtn btnhov'"
 				onmouseout="this.className='lnkBtn'">
@@ -18,11 +18,11 @@
 		</form>
 		<cfabort>
 	</cfif>
-	
+
 		<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
+			SELECT
 				preferred_agent_name.agent_name, agent.agent_id, agent.edited
-			from 
+			from
 				preferred_agent_name,agent_name, agent, person
 			where
 				preferred_agent_name.agent_id = agent_name.agent_id AND
@@ -31,11 +31,11 @@
 				UPPER(agent_name.agent_name) LIKE '%#ucase(agent_name)#%'
 				<cfif not isdefined("allowCreation") OR  #allowCreation# is not "true">
 					AND agent_type != 'verbatim agent'
-				</cfif>				
+				</cfif>
 				group by preferred_agent_name.agent_name, agent.agent_id, agent.edited
 				order by preferred_agent_name.agent_name
 		</cfquery>
-		
+
 	<cfif #getAgentId.recordcount# is 1>
 	<cfoutput>
 		<cfset thisName = #replace(getAgentId.agent_name,"'","\'","all")#>
@@ -43,12 +43,13 @@
 			opener.document.#formName#.#agentIdFld#.value='#getAgentId.agent_id#';
 			opener.document.#formName#.#agentNameFld#.value='#thisName#';
 			opener.document.#formName#.#agentNameFld#.style.background='##8BFEB9';
+			window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
 			self.close();
 		</script>
 	 </cfoutput>
 	<cfelseif #getAgentId.recordcount# is 0>
 		<cfoutput>
-			Nothing matched <strong>#agent_name#</strong>. 
+			Nothing matched <strong>#agent_name#</strong>.
 			<br>
 			<a href="findAgent.cfm?formName=#formName#&agentIdFld=#agentIdFld#&agentNameFld=#agentNameFld#&agent_name=">Search again.</a>
 			<cfif isdefined("allowCreation") and #allowCreation# is "true">
@@ -67,22 +68,28 @@
 					<input type="hidden" name="formName" value="#formName#">
 					<input type="hidden" name="agentIdFld" value="#agentIdFld#">
 					<input type="hidden" name="agentNameFld" value="#agentNameFld#">
-					
+
 					<label for="newName">Verbatim Agent Name</label>
 					<input type="text" name="newName" id="newName" value="#agent_name#">
 					<input type="submit" value="Create Verbatim Agent" class="insBtn"
 					   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"/>
-					
+
 				</form>
 			</cfif>
 
 		</cfoutput>
-		
+
 	<cfelse>
 		<cfoutput query="getAgentId">
 		<br>
-		<cfset thisName = #replace(agent_name,"'","\'","all")#> 
-		<a href="##" onClick="javascript: opener.document.#formName#.#agentIdFld#.value='#agent_id#';opener.document.#formName#.#agentNameFld#.value='#thisName#';opener.document.#formName#.#agentNameFld#.style.background='##8BFEB9';self.close();">#agent_name# (#agent_id#)</a> <cfif #edited# EQ 1>*</cfif>
+		<cfset thisName = #replace(agent_name,"'","\'","all")#>
+		<a href="##" onClick="javascript: 
+                    opener.document.#formName#.#agentIdFld#.value='#agent_id#';
+                    opener.document.#formName#.#agentNameFld#.value='#thisName#';
+                    opener.document.#formName#.#agentNameFld#.style.background='##8BFEB9';
+		    window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
+                    self.close();
+               ">#agent_name# (#agent_id#)</a> <cfif #edited# EQ 1>*</cfif>
 	</cfoutput>
 	</cfif>
 </cfif>
@@ -113,7 +120,7 @@
 				sq_agent_name_id.nextval,
 				#aid.agent_id#,
 				'preferred',
-				'#replace(newName,"'","''","all")#')                                 
+				'#replace(newName,"'","''","all")#')
 		</cfquery>
 	</cftransaction>
 	<cfoutput>
@@ -121,6 +128,7 @@
 		opener.document.#formName#.#agentIdFld#.value='#aid.agent_id#';
 		opener.document.#formName#.#agentNameFld#.value='#replace(newName,"'","\'","all")#';
 		opener.document.#formName#.#agentNameFld#.style.background='##8BFEB9';
+		window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
 		self.close();
 	</script>
 	</cfoutput>

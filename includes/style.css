@@ -1341,10 +1341,11 @@ td.lbl {
 	background-color: white;
 	overflow: auto;
 }
+/** This may be obsolete, invoked only from js get_AgentName() **/
 .pickDiv {
 	border: 3px solid green;
 	z-index: 9999;
-	position: absolute;
+	position: relative;
 	top: 5%;
 	left: 5%;
 	width: 65%;
@@ -1514,6 +1515,14 @@ input.savBtn {
 .controlButton:hover, input.qutBtn:hover, input.delBtn:hover, input.picBtn:hover, input.clrBtn:hover, input.lnkBtn:hover, input.schBtn:hover, input.insBtn:hover, input.savBtn:hover {
 	border-color: #FF6633;
 	cursor: pointer;
+}
+/* Disabled button */
+input.disBtn {
+	color: #A0A0A0;
+	font-weight: bold;
+	background-color: #CCCCCC;
+	border: 1px solid #686868;
+	border-radius: 5px;
 }
 input.insBtn {
 	color: #666666;
@@ -4484,14 +4493,14 @@ table.navtabs {
 	margin: 0 auto;
 	padding-bottom: 1em;
 }
+/** Position nextnum blocks using jquery-ui.position(). */
 .nextnum {
 	width: 34%;
-	border: 1px solid green;
-	display: inline-block;
-	float: right;
-	position: relative;
-	margin-top: -580px;
+	border: 2px solid green;
 	margin-right: 0;
+    	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
 }
 .nextnum p {
 	margin: 20px 10px;
@@ -5359,3 +5368,43 @@ table.partname tr:nth-child(odd) {background-color: #f2f2f2; border: none;}
 table.partname th {height: 20px;background-color: #bbd6e7;font-size: 15px;}
 table.partname th.inside, table.partname td.inside {padding: 2px 8px;text-align: left;margin:0;vertical-align: middle;min-height: 20px;font-size: 15px;}
 table.partname td.partnameatts {padding-bottom: 3px;}
+.shippingBlock {border: 1px solid #ccc;overflow: hidden;padding:10px;width:74.5em;}
+.shippingBlock h3 {margin: 0 auto;}
+div#shipments {width: 74.5em;margin: 0 auto;}
+
+div#shipments input {margin-top: 1em;}
+div.shipment {width: 74.5em;margin: 0 auto;margin-top: 1em; border-bottom: 1px solid black;margin-bottom: 1em;padding-bottom: 1em;}
+div.shipment ul.shipheaders {width: 74.5em;float:left;display:inline;list-style-type:none; margin: 0 auto; margin-bottom: 0.5em; }
+div.shipment ul.shipheaders li {width: 150px;font-weight: bold; float:left;display:inline;list-style-type:none;color: black; margin: 0 auto;}
+div.shipment ul.shipdata {width: 74.5em;float:left;display:inline;list-style-type:none;margin-top:0; margin-bottom: 0.25em; }
+div.shipment ul.shipdata li {width: 150px;font-weight: normal; float:left;display:inline;list-style-type:none;color: black;}
+div.shipment ul.shipaddresseshead li {width: 575px;font-weight:bold; float:left;display:inline;list-style-type:none;color: black;margin-top:.5em;}
+div.shipment ul.shipformhead li {width: 575px;font-weight:bold; float:left;display:inline;list-style-type:none;color: black;margin-top:.5em;}
+div.shipment ul.shipaddressesdata li {width: 575px;font-weight:normal; float:left;display:inline;list-style-type:none;color: black;margin-top:0em;padding-top:0;}
+div.permitship { margin-left: 2em;border-top: 1px dashed green;padding-top: .5em;width: 70em;overflow: hidden;}
+div#shipments div.permitship input {margin-top: 0px;}
+div.shippermitstyle { margin-top: 1em;padding-top:1em;float: left;width: 76em;margin-bottom: .25em; padding-bottom: .5em; }
+div.shippermitstyle h4 {font-size: 16px;margin:0 auto;padding-bottom:.5em; margin-left: 2em;}
+
+div.shippermitstyle ul.permitshipul {width: 70%;font-weight:normal; float:left;display:inline;list-style-type:none;color: black;padding: .25em 0; margin: 0 auto; }
+div.shippermitstyle ul.permitshipul li {width: auto;margin-right: 1em;font-weight:normal; float:left;display:inline;list-style-type:none;color: black;}
+div.shippermitstyle ul.permitshipul li input {margin-top:0;}
+div.shippermitstyle ul.permitshipul2 {width: 30%; font-weight:normal; float:left;display:inline;list-style-type:none;color: black;padding: .25em 0; margin: 0 auto; }
+div.shippermitstyle ul.permitshipul2 li {width: auto;margin-left: 1em;font-weight:normal; float:left;display:inline;list-style-type:none;color: black;}
+div.shippermitstyle ul.permitshipul2 li input {margin-top:0;}
+div.changeship {width: 74.5em; float:left;  }
+div.shipbuttons {margin-right: .5em; float: left;display:inline;}
+div.addstyle {float:left;display: inline;width:75em; margin: 0 auto;}
+div.addstyle .shipmentnote {width: auto;font-size: 14px; font-weight: bold; float: left;  display: inline; color: #333;margin-top: 3px}
+div.addstyle .lnkBtn{width: auto;margin-right: 2em;font-size: 14px; font-weight: bold; float: left;  display: inline; color: #333;}
+div#accsection {width: 75em;margin: 0 auto;padding: 3px 0;clear:both;}
+div#accsection h3 {margin-bottom: .5em;margin-top: 1.5em;}
+div#accsection ul.accn li.accn2 {margin: .5em 0 .5em 0;list-style:none;border-bottom: 1px dashed black;padding: .5em 0;}
+div#accsection ul.accn li.accn2:last-child {margin: .5em 0 .5em 0;list-style:none;margin-bottom: 1em;border-bottom:none;}
+div#accsection ul.accn li span, div#accsection ul.accnpermit li span  {font-weight: 580;}
+div#accsection ul.accnpermit li {margin: .25em 0 .25em 0;list-style:none;}
+div#permitmedia {width: 75em;margin: 0 auto;padding:10px;padding-bottom: 2em;}
+div#permitmedia h3 {width: 75em;margin: 0 auto;margin-bottom: .5em;padding-top: .5em;}
+div#permitmedia ul li {margin: .25em 0;list-style:none;margin-bottom: .5em;}
+
+div.deletestyle { margin: 0 auto; }

@@ -1,3 +1,4 @@
+<cfset jquery11=true>
 <cfinclude template="/includes/_frameHeader.cfm">
     <style>
         .content_box {width:100%;}</style>
@@ -23,6 +24,7 @@
 	select AGENT_RELATIONSHIP from CTAGENT_RELATIONSHIP
 </cfquery>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<script type='text/javascript' src='/includes/transAjax.js'></script>
 <link rel="stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
 <script> var CKEDITOR_BASEPATH = '/includes/js/ckeditor/'; </script>
 <script src="/includes/js/ckeditor/ckeditor.js"></script>
@@ -32,8 +34,8 @@
 <script language="javascript" type="text/javascript">
 
 	jQuery(document).ready(function() {
-		jQuery("#birth_date").datepicker();
-		jQuery("#death_date").datepicker();
+		jQuery("#birth_date").datepicker( { dateFormat: 'yy-mm-dd'} );
+		jQuery("#death_date").datepicker( { dateFormat: 'yy-mm-dd'}  );
 	});
 	function suggestName(ntype){
 		try {
@@ -78,6 +80,30 @@
 		catch(e){
 		}
 	}
+
+function opendialogrank(page,id,title,agentId) {
+  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+  var adialog = $(id)
+  .html(content)
+  .dialog({
+    title: title,
+    autoOpen: false,
+    dialogClass: 'dialog_fixed,ui-widget-header',
+    modal: true,
+    position: { my: "top", at: "center", of: id },
+    height: 450,
+    width: 550,
+    minWidth: 300,
+    minHeight: 250,
+    draggable:true,
+    resizable:true,
+    buttons: { "Ok": function () { $(this).dialog("destroy"); $(id).html(''); loadAgentRankSummary('agentRankSummary',agentId);  } },
+    close: function() {  $(this).dialog("destroy"); $(id).html(''); loadAgentRankSummary('agentRankSummary',agentId); }
+  });
+  adialog.dialog('open');
+};
+
+
 </script>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif action is "newOtherAgent">
@@ -195,22 +221,32 @@
 			#person.agent_remarks#
 		</cfif>
         <div style="margin-bottom: 1em;">
-        <cfif listcontainsnocase(session.roles, "manage_transactions")>
-        <p><a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
-        </cfif>
-		<cfif listcontainsnocase(session.roles,"admin_transactions")>
+          <cfif listcontainsnocase(session.roles, "manage_transactions")>
+             <p><a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
+          </cfif>
+          <cfif listcontainsnocase(session.roles,"manage_transactions")>
 			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) || ' ' || agent_rank agent_rank from agent_rank where agent_id=#agent_id# group by agent_rank
 			</cfquery>
          &nbsp; &nbsp;
 			
-			<span  style="font-size: 13px;margin: 1em 0;">
+			<span id="agentRankSummary" style="font-size: 13px;margin: 1em 0;">
 			<cfif rank.recordcount gt 0>
 				Previous Ranking: #valuelist(rank.agent_rank,"; ")#
+                                <cfif  #valuelist(rank.agent_rank,"; ")# contains 'F'> 
+                                    <img src='/images/flag-red.svg.png' width='16'>
+                                </cfif>
 			</cfif></span>
-			<input type="button" class="lnkBtn" onclick="rankAgent('#agent_id#');" value="Rank">&nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Standards##AGENT_RANKING')" class="likeLink" style="margin-top: -15px;" alt="[ help ]">
-		</cfif></p>
-            </div>
+          		<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
+ 				<input type="button" class="lnkBtn" value="Rank" onclick="opendialogrank('/form/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#);">
+			</cfif>
+			&nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Standards##AGENT_RANKING')" class="likeLink" style="margin-top: -15px;" alt="[ help ]">
+                         <div id="agentRankDlg_#agent_id#"></div>
+	   </cfif>
+           <cfif listcontainsnocase(session.roles, "manage_transactions")>
+              </p>
+	   </cfif>
+        </div>
 	</cfoutput>
 	<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from addr
@@ -609,7 +645,7 @@
 							<input type="text" name="zip" id="zip" class="reqdClr">
 						</td>
 						<td>
-							<label for="country_cde">Country Code</label>
+							<label for="country_cde">Country</label>
 							<input type="text" name="country_cde" id="country_cde" class="reqdClr">
 						</td>
 					</tr>
@@ -855,7 +891,7 @@
 						<input type="text" name="zip" id="zip" class="reqdClr" value="#zip#">
 					</td>
 					<td>
-						<label for="country_cde">Country Code</label>
+						<label for="country_cde">Country</label>
 						<input type="text" name="country_cde" id="country_cde" class="reqdClr" value="#country_cde#">
 					</td>
 				</tr>

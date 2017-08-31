@@ -180,6 +180,8 @@ function deleteShipment(shipmentId,transactionId) {
 
 function loadShipment(shipmentId,form) {
     $("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
+    $("#shipmentFormPermits").html(""); 
+    $("#shipmentFormStatus").html(""); 
     jQuery.getJSON("/component/functions.cfc",
         {
             method : "getShipments",
@@ -203,8 +205,8 @@ function loadShipment(shipmentId,form) {
                    $("#shipment_remarks").val(result.DATA.SHIPMENT_REMARKS[i]);
                    $("#shipped_to_addr_id").val(result.DATA.SHIPPED_TO_ADDR_ID[i]);
                    $("#shipped_from_addr_id").val(result.DATA.SHIPPED_FROM_ADDR_ID[i]);
-                   $("#shipped_to_addr").text(result.DATA.SHIPPED_TO_ADDRESS[i]);
-                   $("#shipped_from_addr").text(result.DATA.SHIPPED_FROM_ADDRESS[i]);
+                   $("#shipped_to_addr").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
+                   $("#shipped_from_addr").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
                    $("#shipped_carrier_method").val(result.DATA.SHIPPED_CARRIER_METHOD[i]);
                    var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
 		           $(target).attr("selected",true);
@@ -248,8 +250,8 @@ function loadShipment(shipmentId,form) {
         $("#shipment_remarks").val("");
         $("#shipped_to_addr_id").val("");
         $("#shipped_from_addr_id").val("");
-        $("#shipped_to_addr").text("");
-        $("#shipped_from_addr").text("");
+        $("#shipped_to_addr").val("");
+        $("#shipped_from_addr").val("");
         $("#shipped_carrier_method").val("");
         $("#foreign_shipment_fg option[value='1']").prop('selected',false);
         $("#foreign_shipment_fg option[value='0']").prop('selected',true); 
@@ -301,6 +303,8 @@ function saveShipment(transactionId) {
 };
 
 // Confirm dialog for some action, takes the function to fire on pressing OK as a parameter.
+// Wrap the function to be invoked as okFunction in an anonymous function function() { thingToDo() } 
+// or it will be evaluated prior to invocation instead of as a callback.
 function confirmAction(dialogText, dialogTitle, okFunction) {
   $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
     modal: true,
@@ -323,6 +327,131 @@ function confirmAction(dialogText, dialogTitle, okFunction) {
     }
   });
 };
+
+// Simple message dialog with an OK button.
+function messageDialog(dialogText, dialogTitle) {
+  $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+    modal: true,
+    resizable: false,
+    draggable: true,
+    width: 'auto',
+    minHeight: 80,
+    title: dialogTitle,
+    buttons: {
+      OK: function () {
+         $(this).dialog('destroy');
+      }
+    },
+    close: function() {
+       $(this).dialog( "destroy" );
+    }
+  });
+};
+
+/* Update the content of a div containing a count of the items in a Deaccession.
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccItemCount(transactionId,targetDiv) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "getDeaccItemCounts",
+            transaction_id : transactionId,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           if (result.DATA.STATUS[0]==1) { 
+              var message  = "There are " + result.DATA.CATITEMCOUNT[0];
+                  message += " items from " + result.DATA.PARTCOUNT[0];
+                  message += " specimens in " + result.DATA.COLLECTIONCOUNT[0];
+                  message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this deaccession."
+              $('#' + targetDiv).html(message);
+           }
+        }
+      )};
+
+/* Update the content of a div containing a count of the items in a Loan.
+ * @param transactionId the transaction_id of the Loan to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateLoanItemCount(transactionId,targetDiv) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "getLoanItemCounts",
+            transaction_id : transactionId,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           if (result.DATA.STATUS[0]==1) {
+              var message  = "There are " + result.DATA.CATITEMCOUNT[0];
+                  message += " items from " + result.DATA.PARTCOUNT[0];
+                  message += " specimens in " + result.DATA.COLLECTIONCOUNT[0];
+                  message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this loan."
+              $('#' + targetDiv).html(message);
+           }
+        }
+      )};
+
+/** Check an agent to see if the agent has a flag on the agent, if so alert a message
+  * @param agent_id the agent_id of the agent to check for rank flags.  **/
+function checkAgent(agent_id) {
+    jQuery.getJSON(
+        "/component/functions.cfc",
+        {
+            method : "checkAgentFlag",
+            agent_id : agent_id,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           var rank = result.DATA.AGENTRANK[0];
+           if (rank=='A') { 
+              // no message needed 
+           } else {
+              if (rank=='F') { 
+                messageDialog('Please speak to Collections Ops about this loan agent before proceeding.','Agent with an F Rank');
+              } else { 
+                messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
+              }
+           }
+        }
+      );
+};
+
+/** Check to see if an agent is ranked, and update the provided targetLinkDiv accordingly with a View link
+  * or a View link with a flag.
+  * @param agent_id the agent_id to lookup.
+  * @param targetLinkDiv the id (without a leading # for the div the contents of which to replace with the View link.
+  */
+function updateAgentLink(agent_id,targetLinkDiv) {
+    jQuery.getJSON(
+        "/component/functions.cfc",
+        {
+            method : "checkAgentFlag",
+            agent_id : agent_id,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           var rank = result.DATA.AGENTRANK[0];
+           if (rank=='A') { 
+                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
+           } else {
+              if (rank=='F') { 
+                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/images/flag-red.svg.png' width='16'>");
+                messageDialog('Please speak to Collections Ops about this loan agent before proceeding.','Agent with an F Rank');
+              } else { 
+                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/images/flag-yellow.svg.png' width='16'>");
+                messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
+              }
+           }
+        }
+      );
+};
+
+
 
 // Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
 // function to the ok button.

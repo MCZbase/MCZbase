@@ -5,7 +5,7 @@
 		$("#ent_Date").datepicker();
 	});
 </script>
-<cfset title = "Create Accession">
+<cfset title = "New Accession">
 <cfif #action# is "nothing">
 <cfoutput>
 	<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -137,88 +137,13 @@
 					</table>
 				</td>
 				<td valign="top">
-					<table border="1">
-						<tr>
-							<!---#td>Collection</td--->
-							<td>Next Number</td>
-						</tr>
+					<div class="nextnum" id="nextNumDiv" style="width: auto;">
+						<p>Next Number</p>
 						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select max(to_number(accn_number)) + 1 as an from accn
 						</cfquery>
-						<tr>
-							<td><span class="likeLink" 
-											onclick="document.getElementById('accn_number').value='#gnn.an#';">
-											#gnn.an#
-										</span></td>
-						</tr>
-						
-						
-						<!---cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select * from collection order by collection
-						</cfquery>
-						<cfloop query="all_coll">
-							<cfif (institution_acronym is 'UAM' and collection_cde is 'Mamm') or
-									(institution_acronym is 'MSB' and collection_cde is 'Mamm') or
-									(institution_acronym is 'MSB' and collection_cde is 'Bird') or
-									(institution_acronym is 'UAM' and collection_cde is 'Fish')>
-								<cfset stg="'#dateformat(now(),"yyyy")#.' || lpad(max(to_number(substr(accn_number,6,3))) + 1,3,0) || '.#collection_cde#'">
-								<cfset whr=" AND accn_number like '%.#collection_cde#' AND
-									substr(accn_number,1,4) = '#dateformat(now(),"yyyy")#'">
-							<cfelseif (institution_acronym is 'UAM' and collection_cde is 'ES')>
-								<cfset stg="'#dateformat(now(),"yyyy")#.' || lpad(max(to_number(substr(accn_number,6,3))) + 1,3,0) || '.ESCI'">
-								<cfset whr=" AND accn_number like '%.ESCI'">
-							<cfelse>
-								<cfset stg="max(to_number(accn_number)) + 1">
-								<cfset whr=" AND is_number(accn_number)=1">
-							</cfif>
-							<cftry>
-								<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select 
-										 #preservesinglequotes(stg)# nn 
-									from 
-										accn,
-										trans,
-										collection
-									where 
-										accn.transaction_id=trans.transaction_id and
-										trans.collection_id=collection.collection_id 
-										<cfif institution_acronym is not "MVZ" and institution_acronym is not "MVZObs">
-										and
-										collection.collection_id=#collection_id#
-										</cfif>
-										#preservesinglequotes(whr)#
-								</cfquery>
-								<cfcatch>
-									<hr>
-									#cfcatch.detail#
-									<br>
-									#cfcatch.sql#
-									<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select 
-											 'check data' nn 
-										from 
-											dual
-									</cfquery>
-								</cfcatch>
-							</cftry>
-							<tr>
-								<td>#collection#</td>
-								<td>
-									<cfif len(thisq.nn) is 0>
-										check data
-									<cfelse>
-										<span class="likeLink" 
-											onclick="document.getElementById('collection_id').value='#collection_id#';
-											document.getElementById('accn_number').value='#thisq.nn#';">
-											#thisq.nn#
-										</span>
-									</cfif>
-									
-								</td>
-									
-							</tr>
-						</cfloop--->
-					</table>
+						<span class="likeLink" onclick="document.getElementById('accn_number').value='#gnn.an#';">#gnn.an#</span>
+					</div><!--- end nextNumDiv --->
 				</td>
 			</tr>
 		</table>
