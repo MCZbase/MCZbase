@@ -645,7 +645,7 @@ function opendialogrank(page,id,title,agentId) {
 							<input type="text" name="zip" id="zip" class="reqdClr">
 						</td>
 						<td>
-							<label for="country_cde">Country Code</label>
+							<label for="country_cde">Country</label>
 							<input type="text" name="country_cde" id="country_cde" class="reqdClr">
 						</td>
 					</tr>
@@ -891,7 +891,7 @@ function opendialogrank(page,id,title,agentId) {
 						<input type="text" name="zip" id="zip" class="reqdClr" value="#zip#">
 					</td>
 					<td>
-						<label for="country_cde">Country Code</label>
+						<label for="country_cde">Country</label>
 						<input type="text" name="country_cde" id="country_cde" class="reqdClr" value="#country_cde#">
 					</td>
 				</tr>
