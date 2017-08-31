@@ -2710,7 +2710,8 @@
          select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
                    shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
-                   toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
+                   toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr, 
+                   fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
                   left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
@@ -2743,8 +2744,8 @@
             <cfset resulthtml = resulthtml & "</ul>">
             <cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To:</li><li>Shipped From:</li></ul>">
             <cfset resulthtml = resulthtml & " <ul class='shipaddressesdata'>">
-                <cfset resulthtml = resulthtml & "<li>#toinst# #tocountry#</li> ">
-                <cfset resulthtml = resulthtml & " <li>#frominst# #fromcountry#</li>">
+                <cfset resulthtml = resulthtml & "<li>#tofaddr#</li> ">
+                <cfset resulthtml = resulthtml & " <li>#fromfaddr#</li>">
             <cfset resulthtml = resulthtml & "</ul>">
             <cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
 
