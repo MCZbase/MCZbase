@@ -151,6 +151,7 @@
     </li>
 	<cfif encumbrance_action does not contain "mask parts" OR
 					(isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
+        <!--- omit part string for mask parts encumberance --->
     	<li class="partstring">#partString# </li>
 	</cfif>
     <li>

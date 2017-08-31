@@ -26,6 +26,7 @@
                                 nvl(pc4.barcode,pc4.label) as P4_BARCODE,
                                 nvl(pc5.barcode,pc5.label) as P5_BARCODE,
                                 nvl(pc6.barcode,pc6.label) as P6_BARCODE,
+            
 				CO.CONDITION
 		from
 				flat f, specimen_part sp, coll_object_remark cor, CTSPECIMEN_PART_NAME pn, COLL_OBJ_CONT_HIST ch, container c, container pc, COLL_OBJECT co, #table_name# T, container PC1, container PC2, container PC3, container PC4, container PC5, container PC6
@@ -73,9 +74,7 @@
 		<cfquery name="dispositions" dbtype="query">
 			select distinct DISPOSITION from getParts
 		</cfquery>
-
-
-
+	
 		<cfif action is "nothing">
 		<cfoutput>
 
@@ -107,7 +106,7 @@
 						<option <cfif isdefined("filterDisposition") and #DISPOSITION# EQ #filterDisposition#>selected</cfif>>#DISPOSITION#</option>
 					</cfloop>
 				</td>
-		 
+
 				<td>Search Remarks (substring):
 					<input type="text" style="width:200px" name="searchremarks" <cfif isdefined("searchremarks") and len(#searchremarks#) GT 0>value="#searchremarks#"</cfif></input>
 				</td>

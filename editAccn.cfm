@@ -1,16 +1,17 @@
 <cfinclude template="includes/_header.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-		$("#ent_date").datepicker();
-		$("#rec_date").datepicker();
-		$("#rec_until_date").datepicker();	
-		$("#issued_date").datepicker();
-		$("#renewed_date").datepicker();
-		$("#exp_date").datepicker();		
+		$("##ent_date").datepicker();
+		$("##rec_date").datepicker();
+		$("##rec_until_date").datepicker();	
+		$("##issued_date").datepicker();
+		$("##renewed_date").datepicker();
+		$("##exp_date").datepicker();		
 	});
 	function addAccnContainer(transaction_id,barcode){
-		$('#newbarcode').addClass('red');
+		$('##newbarcode').addClass('red');
 		$.getJSON("/component/functions.cfc",
 		{
 			method : "addAccnContainer",
@@ -21,18 +22,18 @@
 		},
 		function(r) {
 			if (r.STATUS == 'success') {
-				$('#newbarcode').removeClass('red').val('').focus();
+				$('##newbarcode').removeClass('red').val('').focus();
 				var d='<div id="tc_' + r.BARCODE + '">' + r.BARCODE + '&nbsp;<span class="infoLink" onclick="removeAccnContainer(' + r.TRANSACTION_ID + ',\'' + r.BARCODE + '\')">Remove</span></div>';
-				$('#existingAccnContainers').append(d);					
+				$('##existingAccnContainers').append(d);					
 			} else {
 				alert('An error occured! \n ' + r.ERROR);
-				$('#newbarcode').focus();
+				$('##newbarcode').focus();
 			}	
 		}
 	);	
 	}
 	function removeAccnContainer(transaction_id,barcode){
-		$('#newbarcode').addClass('red');
+		$('##newbarcode').addClass('red');
 		$.getJSON("/component/functions.cfc",
 		{
 			method : "removeAccnContainer",
@@ -43,21 +44,21 @@
 		},
 		function(r) {
 			if (r.STATUS == 'success') {
-				$('#tc_' + r.BARCODE).remove();
-				$('#newbarcode').focus();
+				$('##tc_' + r.BARCODE).remove();
+				$('##newbarcode').focus();
 			} else {
 				alert('An error occured! \n ' + r.ERROR);
-				$('#newbarcode').focus();
+				$('##newbarcode').focus();
 			}	
 		}
 	);	
 	}
 	function removeMediaDiv() {
 		if(document.getElementById('bgDiv')){
-			jQuery('#bgDiv').remove();
+			jQuery('##bgDiv').remove();
 		}
 		if (document.getElementById('mediaDiv')) {
-			jQuery('#mediaDiv').remove();
+			jQuery('##mediaDiv').remove();
 		}
 	}
 	function addMediaHere (accnnum,transid){
@@ -72,16 +73,17 @@
 		ctl='<span class="likeLink" style="position:absolute;right:0px;top:0px;padding:5px;color:red;" onclick="removeMediaDiv();">Close Frame</span>';
 		theDiv.innerHTML=ctl;
 		document.body.appendChild(theDiv);
-		jQuery('#mediaDiv').append('<iframe id="mediaIframe" />');
-		jQuery('#mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
-	    jQuery('iframe#mediaIframe').load(function() {
-	        jQuery('#mediaIframe').contents().find('#relationship__1').val('documents accn');
-	        jQuery('#mediaIframe').contents().find('#related_value__1').val(accnnum);
-	        jQuery('#mediaIframe').contents().find('#related_id__1').val(transid);
-	        viewport.init("#mediaDiv");
+		jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
+		jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
+	    jQuery('iframe##mediaIframe').load(function() {
+	        jQuery('##mediaIframe').contents().find('##relationship__1').val('documents accn');
+	        jQuery('##mediaIframe').contents().find('##related_value__1').val(accnnum);
+	        jQuery('##mediaIframe').contents().find('##related_id__1').val(transid);
+	        viewport.init("##mediaDiv");
 	    });
 	}
 </script>		
+</cfoutput>
 <cfset title="Edit Accession">
 <cfif not isdefined("project_id")>
 	<cfset project_id = -1>
@@ -143,7 +145,8 @@
 				trans_agent_id,
 				trans_agent.agent_id, 
 				agent_name,
-				trans_agent_role
+				trans_agent_role,
+	                        MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
 			from
 				trans_agent,
 				preferred_agent_name
@@ -224,17 +227,24 @@
 							<table border>
 								<tr>
 									<th>Agent Name</th>
+									<th></th>
 									<th>Role</th>
 									<th>Delete?</th>
-									<th></th>
 								</tr>
+								<cfset i=0>
 								<cfloop query="transAgents">
+								        <cfset i++>
 									<tr>
 										<td>
 											<input type="text" name="trans_agent_#trans_agent_id#" class="reqdClr" size="50" value="#agent_name#"
 							  					onchange="getAgent('trans_agent_id_#trans_agent_id#','trans_agent_#trans_agent_id#','editAccn',this.value); return false;"
 							  					onKeyPress="return noenter(event);">
-							  				<input type="hidden" name="trans_agent_id_#trans_agent_id#" value="#agent_id#">
+							  				<input type="hidden" name="trans_agent_id_#trans_agent_id#" value="#agent_id#"
+												 onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#');" >
+										</td>
+										<td style=" min-width: 3.5em; ">
+										    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif transAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif transAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
+					                                            </span>
 										</td>
 										<td>
 											<cfset thisRole = #trans_agent_role#>
@@ -249,7 +259,6 @@
 										<td>
 											<input type="checkbox" name="del_agnt_#trans_agent_id#">
 										</td>
-										<td><span class="infoLink" onclick="rankAgent('#agent_id#');">Rank</span></td>
 									</tr>
 								</cfloop>
 								<tr class="newRec">
@@ -260,6 +269,7 @@
 						  					onKeyPress="return noenter(event);">
 						  				<input type="hidden" name="new_trans_agent_id">
 									</td>
+									<td>&nbsp;</td>
 									<td>
 										<label for="new_trans_agent_role">&nbsp;</label>
 										<select name="new_trans_agent_role" id="new_trans_agent_role">
@@ -268,7 +278,6 @@
 											</cfloop>
 										</select>
 									</td>
-									<td>&nbsp;</td>
 								</tr>				
 							</table>
 						</td>

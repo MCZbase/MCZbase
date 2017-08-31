@@ -108,15 +108,15 @@
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newLoan">
-<cfset title="New #scope#">
+	<cfset title="New #scope#">
 	<cfoutput>
-  <form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
-    <div class="newLoanWidth">
-    	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
+	<div class="newLoanWidth">
+	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
 	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
-   </h2>
-           <input type="hidden" name="action" value="makeLoan">
-			<table border>
+	</h2>
+  		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+           		<input type="hidden" name="action" value="makeLoan">
+			<table border id="newLoanTable">
 				<tr>
 					<td>
 						<label for="collection_id">Collection
@@ -127,10 +127,10 @@
 							</cfloop>
 						</select>
 					</td>
-					<td>
+					<td id="upperRightCell"><!--- id for positioning nextnum div --->
 						<label for="loan_number">#scope# Number</label>
 						<input type="text" name="loan_number" class="reqdClr" id="loan_number">
-					</td>
+					</td">
 				</tr>
 				<tr>
 					<td>
@@ -138,14 +138,18 @@
 						<input type="text" name="auth_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="auth_agent_id">
+						<input type="hidden" name="auth_agent_id" id="auth_agent_id" 
+                            				onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
+  				                <div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="rec_agent_name">Received By:</label>
 						<input type="text" name="rec_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="rec_agent_id">
+						<input type="hidden" name="rec_agent_id" id="rec_agent_id" 
+							onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
+						<div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 				</tr>
 				<tr>
@@ -154,14 +158,18 @@
 						<input type="text" name="in_house_contact_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="in_house_contact_agent_id">
+						<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
+							onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
+						<div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
 						<input type="text" name="additional_contact_agent_name" size="40"
 						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="additional_contact_agent_id">
+						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" 
+							onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
+						<div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 				</tr>
 				<tr>
@@ -170,14 +178,18 @@
 						<input type="text" name="recipient_institution_agent_name" class="reqdClr" size="40"
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="recipient_institution_agent_id">
+						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" 
+							onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
+						<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="foruseby_agent_name">For Use By:</label>
 						<input type="text" name="foruseby_agent_name" size="40"
 						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="foruseby_agent_id">
+						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" 
+							onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
+						<div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 				</tr>
 				<tr>
@@ -328,7 +340,7 @@
                               };
                            });
                 </script>
-		<div class="nextnum">
+		<div class="nextnum" id="nextNumDiv">
 			<p>Next Available #scope# Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
@@ -381,7 +393,10 @@
 				</cfif>
 				<br>
 			</cfloop>
-		</div>
+		</div>  
+                <script>
+                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+3 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
+                </script>
         </div>
 	</cfoutput>
 </cfif>
@@ -414,21 +429,22 @@
 		where
 			loan.transaction_id = trans.transaction_id AND
 			trans.collection_id=collection.collection_id and
-			trans.transaction_id = #transaction_id#
+			trans.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
 	<cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans_agent_id,
 			trans_agent.agent_id,
 			agent_name,
-			trans_agent_role
+			trans_agent_role,
+                        MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
 		from
 			trans_agent,
 			preferred_agent_name
 		where
 			trans_agent.agent_id = preferred_agent_name.agent_id and
 			trans_agent_role != 'entered by' and
-			trans_agent.transaction_id=#transaction_id#
+			trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		order by
 			trans_agent_role,
 			agent_name
@@ -559,11 +575,11 @@
 		</cfquery>
 		<table id="loanAgents">
 			<tr style="height: 20px;">
-				<th>Agent Name <span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
+				<th>Agent&nbsp;Name&nbsp;<span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
+				<th></th>
 				<th>Role</th>
 				<th>Delete?</th>
-				<th>CloneAs</th>
-				<th></th>
+				<th>Clone&nbps;As</th>
 				<td rowspan="99">
                      <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
                                         <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
@@ -593,7 +609,12 @@
 						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
 		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
-		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#">
+		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#" 
+                                                    onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
+					</td>
+					<td style=" min-width: 3.5em; ">
+					    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif loanAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif loanAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
+                                            </span>
 					</td>
 					<td>
 						<select name="trans_agent_role_#i#" id="trans_agent_role_#i#">
@@ -617,7 +638,6 @@
 							</cfloop>
 						</select>
 					</td>
-					<td><span class="infoLink" onclick="rankAgent('#agent_id#');">Rank</span></td>
 				</tr>
 				<cfset i=i+1>
 			</cfloop>
@@ -791,9 +811,13 @@
 
 		<input type="button" value="Review Items" class="lnkBtn"
 			onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-                            <input style="margin-left: 30px;" type="button" value="Delete #scope#" class="delBtn"
+                            <input type="button" value="Delete #scope#" class="delBtn"
 			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
    		<br />
+                <div id="loanItemCountDiv"></div>
+		<script>
+			$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
+ 		</script>
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
@@ -874,7 +898,7 @@
 		<label for="project_id">Pick a Project to associate with this #scope#</label>
 		<input type="hidden" name="project_id">
 		<input type="text"
-			size="50"
+			size="40"
 			name="pick_project_name"
 			class="reqdClr"
 			onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
@@ -918,7 +942,7 @@
     </table>
       </div>
 
-	<div class="shippingBlock">
+<div class="shippingBlock">
     <h3>Shipment Information:</h3>
 <script>
 
@@ -937,8 +961,8 @@ function opendialog(page,id,title) {
     minHeight: 450,
     draggable:true,
     resizable:true,
-    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); } },
-    close: function() { loadShipments(#transaction_id#);  $(this).dialog( "destroy" ); }
+    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
+    close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
   });
   adialog.dialog('open');
 };
@@ -956,7 +980,7 @@ function opendialog(page,id,title) {
 		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 	</cfquery>
     <div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
-    </div> <!--- Shipping block --->
+
 <script>
 
 $( document ).ready(loadShipments(#transaction_id#));
@@ -978,7 +1002,12 @@ $( document ).ready(loadShipments(#transaction_id#));
       });
     });
 </script>
-    <input type="button" style="margin-left: 30px;" value="Add A Shipment" class="lnkBtn" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+    <div class="addstyle">
+    <input type="button" class="lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div></div><!---moved this to inside of the shipping block--one div up--->
+</div> <!--- end shipping block ---> 
+
+
+
 
 <div id="dialog-shipment" title="Create new Shipment">
   <form name="shipmentForm" id="shipmentForm" >
@@ -1067,7 +1096,7 @@ $( document ).ready(loadShipments(#transaction_id#));
   <div id="shipmentFormPermits"></div>
   <div id="shipmentFormStatus"></div>
 </div>
-
+<div id="accsection">
 	<h3>Accessions (and their permits) for material in this loan:</h3>
         <!--- List Accessions for collection objects included in the Loan --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1079,9 +1108,9 @@ $( document ).ready(loadShipments(#transaction_id#));
 		   left join accn on ci.accn_id = accn.transaction_id
 		   where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
         </cfquery>
-        <ul>
+        <ul class="accn">
 	<cfloop query="getAccessions">
-            <li><a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#">#accn_number#</a> #accn_type# #dateformat(received_date,'yyyy-mm-dd')#</li>
+            <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# 
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id,
                     issuedBy.agent_name as IssuedByAgent
@@ -1091,17 +1120,21 @@ $( document ).ready(loadShipments(#transaction_id#));
                 order by permit_type, issued_date
             </cfquery>
              <cfif getAccnPermits.recordcount gt 0>
-	      <ul>
+	      <ul class="accnpermit">
               <cfloop query="getAccnPermits">
-                 <li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+                 <li><span style="font-weight:bold;">Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+                 
               </cfloop>
               </ul>
+             
 	    </cfif>
+        </li>
 	</cfloop>
         </ul>
-
+</div>
     <!--- TODO: Print permits associated with these accessions --->
-	<h3>Permit Media (PDF copies of Permits)</h3>
+	  <div id="permitmedia">
+      <h3>Permit Media (PDF copies of Permits)</h3>
 	<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct media_id, uri, permit_type, permit_num from (
 		select media.media_id, media.media_uri as uri, p.permit_type, p.permit_num
@@ -1130,6 +1163,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                     and mime_type = 'application/pdf'))
         ) where permit_type is not null
     </cfquery>
+  
     <ul>
   	<cfloop query="getPermitMedia">
         <cfif media_id is ''> 
@@ -1178,77 +1212,6 @@ $( document ).ready(loadShipments(#transaction_id#));
 		permit_id=#permit_id#
 	</cfquery>
 	<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
-</cfif>
-<!-------------------------------------------------------------------------------------------------->
-<cfif action is "saveShip">
-	<cfoutput>
-		<cfquery name="isShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from shipment where transaction_id = #transaction_id#
-		</cfquery>
-		<cfif isShip.recordcount is 0>
-			<cfquery name="newShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				INSERT INTO shipment (
-					TRANSACTION_ID
-					,PACKED_BY_AGENT_ID
-					,SHIPPED_CARRIER_METHOD
-					,CARRIERS_TRACKING_NUMBER
-					,SHIPPED_DATE
-					,PACKAGE_WEIGHT
-					,NO_OF_PACKAGES
-					,HAZMAT_FG
-					,INSURED_FOR_INSURED_VALUE
-					,SHIPMENT_REMARKS
-					,CONTENTS
-					,FOREIGN_SHIPMENT_FG
-					,SHIPPED_TO_ADDR_ID
-					,SHIPPED_FROM_ADDR_ID
-				) VALUES (
-					#TRANSACTION_ID#
-					,#PACKED_BY_AGENT_ID#
-					,'#SHIPPED_CARRIER_METHOD#'
-					,'#CARRIERS_TRACKING_NUMBER#'
-					,'#dateformat(SHIPPED_DATE,"yyyy-mm-dd")#'
-					,'#PACKAGE_WEIGHT#'
-					,'#no_of_packages#'
-					,#HAZMAT_FG#
-					<cfif len(INSURED_FOR_INSURED_VALUE) gt 0>
-						,#INSURED_FOR_INSURED_VALUE#
-					<cfelse>
-					 	,NULL
-					</cfif>
-					,'#SHIPMENT_REMARKS#'
-					,'#CONTENTS#'
-					,#FOREIGN_SHIPMENT_FG#
-					,#SHIPPED_TO_ADDR_ID#
-					,#SHIPPED_FROM_ADDR_ID#
-				)
-			</cfquery>
-		  <cfelse>
-			<cfquery name="upShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 UPDATE shipment SET
-					PACKED_BY_AGENT_ID = #PACKED_BY_AGENT_ID#
-					,SHIPPED_CARRIER_METHOD = '#SHIPPED_CARRIER_METHOD#'
-					,CARRIERS_TRACKING_NUMBER='#CARRIERS_TRACKING_NUMBER#'
-					,SHIPPED_DATE='#dateformat(SHIPPED_DATE,"yyyy-mm-dd")#'
-					,PACKAGE_WEIGHT='#PACKAGE_WEIGHT#'
-					,NO_OF_PACKAGES='#no_of_packages#'
-					,HAZMAT_FG=#HAZMAT_FG#
-					<cfif len(#INSURED_FOR_INSURED_VALUE#) gt 0>
-						,INSURED_FOR_INSURED_VALUE=#INSURED_FOR_INSURED_VALUE#
-					<cfelse>
-					 	,INSURED_FOR_INSURED_VALUE=null
-					</cfif>
-					,SHIPMENT_REMARKS='#SHIPMENT_REMARKS#'
-					,CONTENTS='#CONTENTS#'
-					,FOREIGN_SHIPMENT_FG=#FOREIGN_SHIPMENT_FG#
-					,SHIPPED_TO_ADDR_ID=#SHIPPED_TO_ADDR_ID#
-					,SHIPPED_FROM_ADDR_ID=#SHIPPED_FROM_ADDR_ID#
-				WHERE
-					transaction_id = #TRANSACTION_ID#
-			</cfquery>
-		</cfif>
-		<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#transaction_id#" addtoken="false">
-	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "saveEdits">
@@ -1383,6 +1346,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							delete from trans_agent where trans_agent_id=#trans_agent_id_#
 						</cfquery>
 					<cfelse>
+	                			<cfif len(agent_id_) GT 0><!--- don't try to add/update a blank row --->
 						<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
 							<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								insert into trans_agent (
@@ -1403,6 +1367,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 								where
 									trans_agent_id=#trans_agent_id_#
 							</cfquery>
+						</cfif>
 						</cfif>
 					</cfif>
 				   </cfif>
@@ -1585,9 +1550,10 @@ $( document ).ready(loadShipments(#transaction_id#));
 <cfif action is "search">
   <cfset title="Search for Loans/Gifts">
   <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
+  <cfoutput>
   <script>
 		jQuery(document).ready(function() {
-	  		jQuery("#part_name").autocomplete("/ajax/part_name.cfm", {
+	  		jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
 				width: 320,
 				max: 50,
 				autofill: false,
@@ -1603,7 +1569,6 @@ $( document ).ready(loadShipments(#transaction_id#));
 
 
 </script>
-  <cfoutput>
    <div class="searchLoanWidth">
      <h2 class="wikilink">Find Loans/Gifts <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
       </h2>
