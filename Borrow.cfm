@@ -1170,8 +1170,7 @@ $(function() {
 			<tr>
 				<td>
 					<label for="lender_loan_type">Lender's Loan Type</label>
-					<input type="text" name="lender_loan_type" id="lender_loan_type"
-						value="#getBorrow.lender_loan_type#">
+					<input type="text" name="lender_loan_type" id="lender_loan_type" >
 				</td>
 				<td>
 					<label for="lenders_loan_date">Lender's Loan Date</label>
@@ -1403,7 +1402,7 @@ $(function() {
 			RECEIVED_DATE,
 			DUE_DATE,
 			LENDERS_LOAN_DATE,
-			LENDERS_LOAN_TYPE,
+			lender_loan_type,
 			LENDERS_INSTRUCTIONS,
             DESCRIPTION_OF_BORROW,
             no_of_specimens,
@@ -1416,7 +1415,7 @@ $(function() {
 			'#dateformat(RECEIVED_DATE,"yyyy-mm-dd")#',
 			'#dateformat(DUE_DATE,"yyyy-mm-dd")#',
 			'#dateformat(LENDERS_LOAN_DATE,"yyyy-mm-dd")#',
-            		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_loan_type#">,
+            		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lender_loan_type#">,
             		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_INSTRUCTIONS#">,
             		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION_OF_BORROW#">,
             		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#no_of_specimens#">,
