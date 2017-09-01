@@ -933,10 +933,17 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			WHERE loan_item.collection_object_id=specimen_part.collection_object_id AND
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
-		<cfquery name="isDeaccessonedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT deacc_item.collection_object_id FROM
-			deacc_item,specimen_part
-			WHERE deacc_item.collection_object_id=specimen_part.collection_object_id AND
+			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+			where 
+			specimen_part.derived_from_cat_item=#one.collection_object_id#
+		</cfquery>
+		<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT distinct deacc_number, deacc_type, deaccession.transaction_id FROM
+			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+ 			left join deaccession on deac_item.transaction_id = deaccession.transaction_id
+			where 
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
 		</td>
@@ -1446,12 +1453,15 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							</span>
 						</div>
 					</cfif>
-					<cfif isDeaccesionedItem.collection_object_id gt 0 and oneOfUs is 1>
+					<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
 						<div class="detailBlock">
 							<span class="detailData">
 								<span class="innerDetailLabel">Deaccessions:</span>
 									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
-										target="_mainFrame">Deaccessions that include this cataloged item.</a>
+										target="_mainFrame">Deaccessions that include this cataloged item.</a> &nbsp;
+							<cfloop query="deaccessionList">
+								<a href="/Deaccesion.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp; 
+							</cfloop>
 							</span>
 						</div>
 					</cfif>
