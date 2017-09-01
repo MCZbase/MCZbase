@@ -938,6 +938,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
  			left join loan on loan_item.transaction_id = loan.transaction_id
 			where 
+			loan_number is not null and 
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
 		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -951,6 +952,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
  			left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 			where 
+			deacc_number is not null and 
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
 		</td>
