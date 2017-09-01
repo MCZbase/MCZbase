@@ -933,6 +933,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			WHERE loan_item.collection_object_id=specimen_part.collection_object_id AND
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
+		<cfquery name="isDeaccessonedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT deacc_item.collection_object_id FROM
+			deacc_item,specimen_part
+			WHERE deacc_item.collection_object_id=specimen_part.collection_object_id AND
+			specimen_part.derived_from_cat_item=#one.collection_object_id#
+		</cfquery>
 		</td>
 		<td valign="top" width="50%">
 	<!------------------------------------ identifiers ---------------------------------------------->
@@ -1409,7 +1415,10 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			</div>
 			</cfif>
 <!------------------------------------ usage ---------------------------------------------->
-		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0)>
+		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or 
+                           (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or
+                           (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)
+                >
 			<div class="detailCell">
 				<div class="detailLabel">Usage</div>
 					<cfloop query="isProj">
@@ -1433,7 +1442,16 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							<span class="detailData">
 								<span class="innerDetailLabel">Loan History:</span>
 									<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
-										target="_mainFrame">Click for loan list</a>
+										target="_mainFrame">Loans that include this cataloged item.</a>
+							</span>
+						</div>
+					</cfif>
+					<cfif isDeaccesionedItem.collection_object_id gt 0 and oneOfUs is 1>
+						<div class="detailBlock">
+							<span class="detailData">
+								<span class="innerDetailLabel">Deaccessions:</span>
+									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
+										target="_mainFrame">Deaccessions that include this cataloged item.</a>
 							</span>
 						</div>
 					</cfif>
