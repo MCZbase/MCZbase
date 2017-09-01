@@ -933,6 +933,13 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			WHERE loan_item.collection_object_id=specimen_part.collection_object_id AND
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
+		<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id FROM
+			specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
+ 			left join loan on loan_item.transaction_id = loan.transaction_id
+			where 
+			specimen_part.derived_from_cat_item=#one.collection_object_id#
+		</cfquery>
 		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT deacc_item.collection_object_id FROM
 			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
@@ -942,7 +949,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 		<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT distinct deacc_number, deacc_type, deaccession.transaction_id FROM
 			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
- 			left join deaccession on deac_item.transaction_id = deaccession.transaction_id
+ 			left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 			where 
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
@@ -1449,7 +1456,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							<span class="detailData">
 								<span class="innerDetailLabel">Loan History:</span>
 									<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
-										target="_mainFrame">Loans that include this cataloged item.</a>
+										target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+							<cfloop query="loanList">
+								#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)&nbsp; 
+							</cfloop>
+							</cfif>
 							</span>
 						</div>
 					</cfif>
@@ -1458,10 +1470,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							<span class="detailData">
 								<span class="innerDetailLabel">Deaccessions:</span>
 									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
-										target="_mainFrame">Deaccessions that include this cataloged item.</a> &nbsp;
+										target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 							<cfloop query="deaccessionList">
-								<a href="/Deaccesion.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp; 
+								<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp; 
 							</cfloop>
+							</cfif>
 							</span>
 						</div>
 					</cfif>
