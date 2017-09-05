@@ -589,9 +589,6 @@
           <cfif inhouse.c is 1 and authorized.c GT 0 >
                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items">MCZ Deaccession Items</option>
           </cfif>
-          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and  deaccDetails.deacc_type eq 'gift' >
-                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
-          </cfif>
           <cfif inhouse.c is 1 and authorized.c GT 0 >
                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
