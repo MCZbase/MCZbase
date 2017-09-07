@@ -1155,7 +1155,7 @@ Some Totally Random String Data .....
 										<td nowrap="nowrap">
 											<span class="f11a">Sex</span>
 											 <input type="hidden" name="attribute_1" value="sex">
-											 <select title="ATTRIBUTE_VALUE_1" name="attribute_value_1" size="1" onChange="changeSex(this.value)"
+											 <select title="ATTRIBUTE_VALUE_1" name="attribute_value_1" size="1"
 												id="attribute_value_1"
 												<cfif #collection_cde# NEQ "IP" and #collection_cde# NEQ "VP" And #collection_cde# NEQ "IZ" And #collection_cde# NEQ "Mala" And #collection_cde# NEQ "Orn" And #collection_cde# NEQ "Herp" And #collection_cde# NEQ "HerpOBS" And #collection_cde# NEQ "Ich" And #collection_cde# NEQ "SC" And #collection_cde# NEQ "Cryo" And #collection_cde# NEQ "Ent">
 													class="reqdClr d11a"

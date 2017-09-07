@@ -954,23 +954,7 @@ function clearAll () {
 		}
 	}	
 }
-function changeSex(sex) {
-	var thisCC = document.getElementById('collection_cde').value;
-	if (thisCC == 'Orn') {	
-		var thisAtt = document.getElementById('attribute_value_7');
-		var thisAttUnit = document.getElementById('attribute_units_7');
-		thisAttUnit.className='readClr';
-		thisAttUnit.readOnly=true;
-		var a7 = document.getElementById('attribute_7');
-		a7.value = 'reproductive data';
-		if (sex.indexOf('female') > -1) {
-			thisAtt.value = 'OV:  mm';
-		} else if (sex.indexOf('male') > -1) {
-			thisAtt.value = 'TE:  mm';
-		} else {
-		}
-	}
-}
+
 function switchActive(OrigUnits) {
 	var OrigUnits;
 	var a=document.getElementById('dms');
