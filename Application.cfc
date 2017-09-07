@@ -166,11 +166,20 @@
 		<cfscript>
 			serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
 		</cfscript>
+		<cfset Application.serverName=serverName /><!--- Store the server name returned away for debugging --->
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
-		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu">
+		<!--- In VM environment, how java resolves getLocalHost().getHostName() changes in ways outside our control.  --->
+  		<!--- So, make sure that we are handling the cases where only the unqualified local name is returned. ---> 
+		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu" or serverName is "mczbase-prd">
 			<cfset serverName="mczbase.mcz.harvard.edu" />
+		</cfif>
+		<cfif serverName is "mczbase-dev">
+			<cfset serverName="mczbase-dev.rc.fas.harvard.edu" />
+		</cfif>
+		<cfif serverName is "mczbase-test">
+			<cfset serverName="mczbase-test.rc.fas.harvard.edu" />
 		</cfif>
 		<!---cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) /--->
 		<cfset Application.session_timeout=90 />
@@ -182,10 +191,10 @@
 		<cfset Application.header_color = "##E7E7E7" />
 		<cfset Application.header_image = "/images/genericHeaderIcon.gif" />
 		<cfset Application.collection_url = "/" />
-		<cfset Application.collection_link_text = "Arctos" />
+		<cfset Application.collection_link_text = "Error" />
 		<cfset Application.institution_url = "/" />
 		<cfset Application.stylesheet = "" />
-		<cfset Application.institution_link_text = "Multi-Institution, Multi-Collection Museum Database" />
+		<cfset Application.institution_link_text = "Host configuration problem: #serverName# not recognized" />
 		<cfset Application.meta_description = "Arctos is a biological specimen database." />
 		<cfset Application.meta_keywords = "museum, collection, management, system" />
 		<cfset Application.gmap_api_key = "not set" />
@@ -199,6 +208,8 @@
 		</cfquery>
 		<cfset Application.blacklist=valuelist(d.ip) />
 		<cfif serverName is "arctos.database.museum">
+			<cfset Application.collection_link_text = "Arctos" />
+			<cfset Application.institution_link_text = "Multi-Institution, Multi-Collection Museum Database" />
 			<cfset application.gmap_api_key="ABQIAAAAO1U4FM_13uDJoVwN--7J3xRmuGmxQ-gdo7TWENOfdvPP48uvgxS1Mi5095Z-7DsupXP1SWQjdYKK_w" />
 			<cfset Application.svn = "/usr/local/bin/svn" />
 			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
