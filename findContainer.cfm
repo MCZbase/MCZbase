@@ -79,6 +79,15 @@ padding: 1em 1em 0 1em;
                   <input type="text" name="barcode" id="barcode" size="17" /></td>
               </tr>
               <tr>
+                <cfif not isdefined("parent_label")><cfset parent_label=""></cfif>
+                <td style="padding-right: 1em;"><label for="parent_label">Parent Label</label>
+                  <input type="text" name="parent_label" id="parent_label" value="#parent_label#" size="16" /></td>
+                <td>
+                  <label for="barcode">Parent Barcode</label>
+                  <input type="text" name="parent_barcode" id="_parent_barcode" size="17" />
+                </td>
+              </tr>
+              <tr>
                 <td><label for="container_type">Container Type</label>
                   <select name="container_type" id="container_type" size="1" style="width: 170px;">
                     <option value=""></option>
