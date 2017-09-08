@@ -5,9 +5,10 @@
 <link rel="STYLESHEET" type="text/css" href="/includes/dhtmlxtree.css">
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 
+<cfoutput>
 <script>
 	jQuery(document).ready(function() {
-		jQuery("#part_name").autocomplete("/ajax/part_name.cfm", {
+		jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
 			width: 320,
 			max: 20,
 			autofill: true,
@@ -59,7 +60,6 @@ padding: 1em 1em 0 1em;
 	group by OTHER_ID_TYPE
 	order by OTHER_ID_TYPE
 </cfquery>
-<cfoutput>
 <div id="ajaxMsg"></div>
 <table border width="100%">
 	<tr>
@@ -71,11 +71,12 @@ padding: 1em 1em 0 1em;
           <form onSubmit="loadTree();return false;">
             <table>
               <tr>
+                <cfif not isdefined("container_label")><cfset container_label=""></cfif>
                 <td style="padding-right: 1em;"><label for="container_label">Label (% for wildcard)</label>
-                  <input type="text" name="container_label" id="container_label"  /></td>
+                  <input type="text" name="container_label" id="container_label" value="#container_label#" size="12" /></td>
                 <td><input type="hidden" name="transaction_id" id="transaction_id">
                   <label for="barcode">Barcode (comma-list OK)</label>
-                  <input type="text" name="barcode" id="barcode"  /></td>
+                  <input type="text" name="barcode" id="barcode" size="12" /></td>
               </tr>
               <tr>
                 <td><label for="container_type">Container Type</label>
@@ -86,7 +87,7 @@ padding: 1em 1em 0 1em;
                     </cfloop>
                   </select></td>
                 <td><label for="description">Description (% for wildcard)</label>
-                  <input type="text" name="description" id="description"  /></td>
+                  <input type="text" name="description" id="description" size="12"  /></td>
               </tr>
               <tr>
                 <td><label for="in_container_type">Contained By Container Type</label>

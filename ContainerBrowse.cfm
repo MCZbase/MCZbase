@@ -20,7 +20,7 @@
 </script>
 
 <cfif action is "qc">
-   <h2>Containers which should be placed in another container, but aren't</h2>
+   <h2>Containers which should be placed in another container, but are not.</h2>
    <cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select count(*) ct, container_type from container where parent_container_id = 0 and container_type <> 'campus' group by container_type
    </cfquery>
@@ -29,13 +29,13 @@
       <li>#parentlessNodes.container_type# (#parentlessNodes.ct#)</li>
       <cfif parentlessNodes.ct LT 100>
           <cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-              select label from container 
+              select label, container_type from container 
               where parent_container_id = 0 and container_type <> 'campus' 
                  and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
           </cfquery>
           <ul>
             <cfloop query="plNode">
-               <li>#fixtures.label# (#fixtures.container_type#) in [nothing]</li>
+               <li><a href="findContainer.cfm?container_label=#plNode.label#">#plNode.label# (#plNode.container_type#)</a> in [nothing]</li>
             </cfloop>
          </ul>
       </cfif>
@@ -55,7 +55,7 @@
    </cfquery>
    <ul>
    <cfloop query="fixtures">
-      <li>#fixtures.label# (#fixtures.container_type#) in #fixtures.parentage#</li>
+      <li><a href="findContainer.cfm?container_label=#fixtures.label#">#fixtures.label# (#fixtures.container_type#)</a> in #fixtures.parentage#</li>
    </cfloop>
    </ul>
 <cfelse>
