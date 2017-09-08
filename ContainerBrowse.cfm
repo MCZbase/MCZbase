@@ -20,12 +20,25 @@
 </script>
 
 <cfif action is "qc">
+   <h2>Containers which should be placed in another container, but aren't</h2>
    <cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select count(*) ct, container_type from container where parent_container_id = 0 group by container_type
+        select count(*) ct, container_type from container where parent_container_id = 0 and container_type <> 'campus' group by container_type
    </cfquery>
    <ul>
-   <cfloop query="qc">
-      <li>#qc.container_type# (#qc.ct#)</li>
+   <cfloop query="parentlessNodes">
+      <li>#parentlessNodes.container_type# (#parentlessNodes.ct#)</li>
+      <cfif parentlessNodes.ct LT 100>
+          <cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+              select label from container 
+              where parent_container_id = 0 and container_type <> 'campus' 
+                 and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
+          </cfquery>
+          <ul>
+            <cfloop query="plNode">
+               <li>#fixtures.label# (#fixtures.container_type#) in [nothing]</li>
+            </cfloop>
+         </ul>
+      </cfif>
    </cfloop>
    </ul>
 <cfelseif action is "fixtures">
@@ -52,7 +65,7 @@
      <li>List fixtures starting with:</li>
      <ul>
      <cfloop query="fixturePrefixes">
-        <li><a href = "ContainerBrowse.cfm?action=fixtures&labelStart=#fixturePrefixes.label#">#fixturePrefixes.label# (#fixturePrefixes.ct#)</a></li>
+        <li><a href = "ContainerBrowse.cfm?action=fixtures&labelStart=#fixturePrefixes.prefix#">#fixturePrefixes.prefix# (#fixturePrefixes.ct#)</a></li>
      </cfloop>
      </ul>
    </ul>
