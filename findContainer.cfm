@@ -131,7 +131,7 @@ padding: 1em 1em 0 1em;
                 </tr>
                 <tr>
                   <td><label for="part_name">Part</label>
-                    <input type="text" id="part_name" name="part_name">
+                    <input type="text" id="part_name" name="part_name" size="16">
                     <input type="hidden" name="loan_trans_id" id="loan_trans_id" />
                     <input type="hidden" name="table_name" id="table_name" /></td>
                   <td style="vertical-align:bottom"><input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">

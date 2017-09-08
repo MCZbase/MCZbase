@@ -122,6 +122,7 @@
 	<cfset cat_num="">
 	<cfset barcode="">
 	<cfset container_label="">
+	<cfset parent_label="">
 	<cfset description="">
 	<cfset container_type="">
 	<cfset part_name="">
@@ -141,6 +142,7 @@
 	<cfif len(cat_num) is 0 AND
 		len(barcode) is 0 AND
 		len(container_label) is 0 AND
+		len(oarent_label) is 0 AND
 		len(description) is 0 AND
 		len(container_type) is 0 AND
 		len(part_name) is 0 AND
@@ -254,6 +256,10 @@
 	</cfif>
 	<cfif len(container_label) gt 0>
 		<cfset whr = "#whr# AND upper(label) like '#ucase(container_label)#'">
+	 </cfif>
+	<cfif len(parent_label) gt 0>
+		<cfset whr = "#whr# AND upper(p.label) like '#ucase(parent_label)#'">
+		<cfset frm = "#frm# left join container p on (container.container_id=p.container_id)">
 	 </cfif>
 	  <cfif len(description) gt 0>
 		<cfset whr = "#whr# AND upper(description) LIKE '%#ucase(description)#%'">
