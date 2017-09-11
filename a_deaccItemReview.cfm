@@ -222,7 +222,7 @@
 		coll_obj_disposition,
 		scientific_name,
 		Encumbrance,
-		MCZBASE.get_agentnameoftype(encumbering_agent_id) agent_name,
+		decode(encumbering_agent_id,NULL,'',MCZBASE.get_agentnameoftype(encumbering_agent_id)) agent_name,
 		deacc_number,
 		specimen_part.collection_object_id as partID,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
