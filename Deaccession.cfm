@@ -609,6 +609,48 @@
     </tr>
     </table>
     </div>
+ 
+<div>
+     <strong>Media (e.g. copies of correspondence) associated with this Deaccession:</strong>
+
+     <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select
+               media.media_id,
+               preview_uri,
+               media_uri,
+               media_type,
+               label_value
+           from
+               media,
+               media_relations,
+               (select * from media_labels where media_label='description') media_labels
+           where
+               media.media_id=media_labels.media_id (+) and
+               media.media_id=media_relations.media_id and
+               media_relationship like '% deaccession' and
+               related_primary_key=#transaction_id#
+     </cfquery>
+
+     <ul>
+         <cfif #media.recordcount# gt 0>
+             <cfloop query="media">
+                 <li>
+                     <a href="#media_uri#">
+                         <cfif len(preview_uri) gt 0><img src="#preview_uri#"> <cfelse><img src="/images/noThumb.jpg"></cfif>
+                     </a>
+                     <br><a class="infoLink" href="/MediaSearch.cfm?action=search&media_id=#media_id#">edit</a>
+                     <br>#label_value#
+                 </li>
+             </cfloop>
+         <cfelse>
+             <li>None</li>
+         </cfif>
+     </ul>
+                        
+     <br><span class="likeLink" onclick="addMediaHere('#deaccDetails.collection# #deaccDetails.deacc_number#','#transaction_id#');">Create Media</span>
+         &nbsp;~&nbsp;<a href="/MediaSearch.cfm" target="_blank">Link Media</a>
+         <div id="accnMediaDiv"></div>
+</div>
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>
