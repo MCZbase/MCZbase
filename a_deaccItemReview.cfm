@@ -293,9 +293,11 @@
 <cfquery name="catCnt" dbtype="query">
 	select count(distinct(collection_object_id)) c from getPartDeaccRequests
 </cfquery>
+<cfif catCnt.c eq ''><cfset catCount = 'no'><cfelse><cfset catCount = catCnt.c></cfif>
 <cfquery name="prtItemCnt" dbtype="query">
 	select count(distinct(partID)) c from getPartDeaccRequests
 </cfquery>
+<cfif prtItemCnt.c eq ''><cfset partCount = 'no'><cfelse><cfset partCount = prtItemCnt.c></cfif>
 <cfset otherIdOn = false>
 <cfif isdefined("showOtherId") and #showOtherID# is "true">
    <cfset otherIdOn = true>
@@ -303,7 +305,7 @@
 
 Review items in deaccession<b>
 	<a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a></b>.
-	<br>There are #prtItemCnt.c# items from #catCnt.c# specimens in this deaccession.
+	<br>There are #partCount# items from #catCount# specimens in this deaccession.
 	<br>
 	<a href="a_deaccItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
 	<form name="BulkUpdateDisp" method="post" action="a_deaccItemReview.cfm">
