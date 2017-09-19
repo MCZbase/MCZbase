@@ -1016,6 +1016,11 @@ function getAccn(StringFld,IdFld,formName){
 	var pickwin=url+"?AccnNumFld="+StringFld+"&AccnIdFld="+IdFld+"&formName="+formName;
 	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
 }
+function getDeaccession(StringFld,IdFld,formName){
+	var url="/picks/findDeaccession.cfm";
+	var pickwin=url+"?DeaccNumFld="+StringFld+"&DeaccIdFld="+IdFld+"&formName="+formName;
+	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
+}
 function getPermit(StringFld,IdFld,formName){
 	var url="/picks/findPermit.cfm";
 	var pickwin=url+"?PermitNumFld="+StringFld+"&PermitIdFld="+IdFld+"&formName="+formName;
