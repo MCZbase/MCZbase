@@ -691,7 +691,7 @@ function opendialog(page,id,title) {
     <div id="associateddocuments"></div>
 
     <script>
-    function addMediaHere (permit_id,permit_id){
+    function addMediaHere (permitLabel,permit_id){
                 var bgDiv = document.createElement('div');
                 bgDiv.id = 'bgDiv';
                 bgDiv.className = 'bgDiv';
@@ -706,14 +706,21 @@ function opendialog(page,id,title) {
                 jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
                 jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
             jQuery('iframe##mediaIframe').load(function() {
-                jQuery('##mediaIframe').contents().find('##relationship__1').val('documents permit');
-                jQuery('##mediaIframe').contents().find('##related_value__1').val(permit_id);
+                jQuery('##mediaIframe').contents().find('##relationship__1').val('document for permit');
+                jQuery('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
                 jQuery('##mediaIframe').contents().find('##related_id__1').val(permit_id);
                 viewport.init("##mediaDiv");
              });
      };
-     function removeMediaDiv() { };
 
+     function removeMediaDiv() {
+		if(document.getElementById('bgDiv')){
+			jQuery('##bgDiv').remove();
+		}
+		if (document.getElementById('mediaDiv')) {
+			jQuery('##mediaDiv').remove();
+		}
+     };
     function loadPermitMedia(permit_id) {
         jQuery.get("/component/functions.cfc",
         {
@@ -734,12 +741,14 @@ function opendialog(page,id,title) {
             correspondence : "yes"
         },
         function (result) {
-           $("##associateddocuments").html(result);
+          $("##associateddocuments").html(result);
         }
-     )};
+        );
+    };
 
      jQuery(document).ready(loadPermitMedia(#permit_id#));
      jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
+
      </script>
      <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,

@@ -75,11 +75,19 @@
                 jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
                 jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
             jQuery('iframe##mediaIframe').load(function() {
-                jQuery('##mediaIframe').contents().find('##relationship__1').val('documents permit');
+                jQuery('##mediaIframe').contents().find('##relationship__1').val('shows deaccession');
                 jQuery('##mediaIframe').contents().find('##related_value__1').val(deaccessionLabel);
                 jQuery('##mediaIframe').contents().find('##related_id__1').val(transaction_id);
                 viewport.init("##mediaDiv");
              });
+     };
+     function removeMediaDiv() {
+		if(document.getElementById('bgDiv')){
+			jQuery('##bgDiv').remove();
+		}
+		if (document.getElementById('mediaDiv')) {
+			jQuery('##mediaDiv').remove();
+		}
      };
 
 </script>
@@ -378,7 +386,7 @@
 		where
 			deaccession.transaction_id = trans.transaction_id AND
 			trans.collection_id=collection.collection_id and
-			trans.transaction_id = #transaction_id#
+			trans.transaction_id = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfquery name="deaccAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -393,7 +401,7 @@
 		where
 			trans_agent.agent_id = preferred_agent_name.agent_id and
 			trans_agent_role != 'entered by' and
-			trans_agent.transaction_id=#transaction_id#
+			trans_agent.transaction_id=<cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 		order by
 			trans_agent_role,
 			agent_name
@@ -649,6 +657,12 @@
            $("##deaccessionMedia").html(result);
         }
         );
+    };
+
+    // callback for ajax methods to reload from dialog
+    function reloadDeaccessionMedia() { 
+        loadDeaccessionMedia(#transaction_id#);
+        $('##addDeaccDlg_#transaction_id#').html('').dialog('destroy');
     };
 
     jQuery(document).ready(loadDeaccessionMedia(#transaction_id#));

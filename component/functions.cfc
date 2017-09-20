@@ -1240,6 +1240,31 @@
 <cffunction name="getDeaccMediaHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="transaction_id" type="string" required="yes">
    <cfset result="">
+   <cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                select
+            trans.transaction_id,
+                        trans.trans_date,
+                        deaccession.deacc_number,
+                        deaccession.deacc_type,
+                        deaccession.deacc_status,
+            deaccession.value,
+            deaccession.method,
+                        deaccession.deacc_reason,
+                        trans.nature_of_material,
+                        trans.trans_remarks,
+                        to_char(closed_date, 'YYYY-MM-DD') closed_date,
+                        trans.collection_id,
+                        collection.collection,
+                        concattransagent(trans.transaction_id,'entered by') enteredby
+                 from
+                        deaccession,
+                        trans,
+                        collection
+                where
+                        deaccession.transaction_id = trans.transaction_id AND
+                        trans.collection_id=collection.collection_id and
+                        trans.transaction_id = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+   </cfquery>
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
            select distinct
                media.media_id as media_id,
@@ -1247,20 +1272,21 @@
                media.media_uri,
                media.mime_type,
                media.media_type as media_type,
-               MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+               MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
                label_value
            from
-               from media_relations left join media on media_relations.media_id = media.media_id,
-               (select * from media_labels where media_label='description') media_labels
+               media_relations left join media on media_relations.media_id = media.media_id
+               left join media_labels on media.media_id = media_labels.media_id
            where
                media_relationship like '% deaccession' and
+               (media_label = 'description' or media_label is null )
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this deaccession?"", ""Confirm Unlink Media"", function() { deleteMediaFromDeacc(#media_id#,#transaction_id#,""#relation#""); } ); '>Remove</a> </li>" >
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this deaccession?"", ""Confirm Unlink Media"", function() { deleteMediaFromDeacc(#media_id#,#transaction_id#,""shows deaccession""); } ); '>Remove</a> </li>" >
        </cfloop>
        <cfset result= result & "</ul>">
    <cfelse>
@@ -1268,7 +1294,7 @@
    </cfif>
    <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#deaccDetails.collection# #deaccDetails.deacc_number#','#transaction_id#');"">Create Media</span> ">
    <cfset result = result & "</span>&nbsp;~&nbsp;">
-   <cfset result = result & "<span id='addDeacc_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#transaction__id#&target_relation=shows deaccession','##addDeaccDlg_#transaction_id#','Pick Media for Deaccession'); "" ></div><div id='addDeaccDlg_#transaction_id#'></div></span>">
+   <cfset result = result & "<span id='addDeacc_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=shows deaccession','addDeaccDlg_#transaction_id#','Pick Media for Deaccession', reloadDeaccessionMedia ); "" ></div><div id='addDeaccDlg_#transaction_id#'></div></span>">
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -1280,7 +1306,7 @@
         <cftry>
             <cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
              delete from media_relations
-             where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+             where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
                and media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
                and media_relationship=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#">
             </cfquery>
@@ -1288,7 +1314,7 @@
                   <cfset theResult=queryNew("status, message")>
                   <cfset t = queryaddrow(theResult,1)>
                   <cfset t = QuerySetCell(theResult, "status", "0", 1)>
-                  <cfset t = QuerySetCell(theResult, "message", "No records deleted. #media_id# #media_relationship# #permit_id# #deleteResult.sql#", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "No records deleted. #media_id# #media_relationship# #transaction_id# #deleteResult.sql#", 1)>
                 </cfif>
                 <cfif deleteResult.recordcount eq 1>
                   <cfset theResult=queryNew("status, message")>
@@ -2442,6 +2468,19 @@
        <cfset heading = "Permit">
    </cfif>
    <cfset result="">
+     <cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select permit.permit_id,
+    issuedBy.agent_name as IssuedByAgent,
+    issued_Date,
+    permit_Num,
+    permit_Type
+    from
+        permit,
+        preferred_agent_name issuedBy
+    where
+        permit.issued_by_agent_id = issuedBy.agent_id (+) 
+    and permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+    </cfquery>
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct media.media_id as media_id, preview_uri, media.media_uri, media.mime_type, media.media_type as media_type,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia
@@ -2458,7 +2497,7 @@
        </cfloop>
        <cfset result= result & "</ul>">
    <cfelse>
-      <cfset result = result & "<span class='likeLink' onclick='addMediaHere('#permit_id#','#permit_id#');'>Create Media">
+      <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#');"">Create Media">
       <cfset result = result & "</span>&nbsp;~&nbsp;">
       <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" ></div><div id='addPermitDlg_#permit_id#'></div></span>">
    </cfif>

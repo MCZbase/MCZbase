@@ -53,7 +53,7 @@ function deleteMediaFromDeacc(mediaId,transactionId,relationType) {
             queryformat : 'column'
         },
         function (result) {
-           loadDeaccessionMedia(permitId);
+           loadDeaccessionMedia(transactionId);
         }
       )};
 function deletePermitFromShipment(shipmentId,permitId,transactionId) {
