@@ -42,6 +42,20 @@ function deleteMediaFromPermit(mediaId,permitId,relationType) {
            loadPermitRelatedMedia(permitId);
         }
       )};
+function deleteMediaFromDeacc(mediaId,transactionId,relationType) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "removeMediaFromDeaccession",
+            media_id : mediaId,
+            transaction_id : transactionId,
+            media_relationship : relationType,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           loadDeaccessionMedia(permitId);
+        }
+      )};
 function deletePermitFromShipment(shipmentId,permitId,transactionId) {
     jQuery.getJSON("/component/functions.cfc",
         {
