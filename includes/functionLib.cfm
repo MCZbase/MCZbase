@@ -445,7 +445,7 @@
 					deaccession
 				where
 					collection.collection_id=trans.collection_id and
-					trans.transaction_id=accn.transaction_id and
+					trans.transaction_id=deaccession.transaction_id and
 					deaccession.transaction_id=#related_primary_key#
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>

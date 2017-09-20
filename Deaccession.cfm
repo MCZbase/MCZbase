@@ -59,6 +59,29 @@
 		}
 		var t=setTimeout("dCount()",500);
 	}
+
+    function addMediaHere (deaccessionLabel,transaction_id){
+                var bgDiv = document.createElement('div');
+                bgDiv.id = 'bgDiv';
+                bgDiv.className = 'bgDiv';
+                bgDiv.setAttribute('onclick','removeMediaDiv()');
+                document.body.appendChild(bgDiv);
+                var theDiv = document.createElement('div');
+                theDiv.id = 'mediaDiv';
+                theDiv.className = 'annotateBox';
+                ctl='<span class="likeLink" style="position:absolute;right:0px;top:0px;padding:5px;color:red;" onclick="removeMediaDiv();">Close Frame</span>';
+                theDiv.innerHTML=ctl;
+                document.body.appendChild(theDiv);
+                jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
+                jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
+            jQuery('iframe##mediaIframe').load(function() {
+                jQuery('##mediaIframe').contents().find('##relationship__1').val('documents permit');
+                jQuery('##mediaIframe').contents().find('##related_value__1').val(deaccessionLabel);
+                jQuery('##mediaIframe').contents().find('##related_id__1').val(transaction_id);
+                viewport.init("##mediaDiv");
+             });
+     };
+
 </script>
 </cfoutput>
 <!-------------------------------------------------------------------------------------------------->
