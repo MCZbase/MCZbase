@@ -6,13 +6,14 @@
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 
-<!---  Skin UI as Loan or Gift, either based on request, or for editing existing data the loan_type.  --->
+<!---  Skin UI as Loan or (formerly Gift), either based on request, or for editing existing data the loan_type.  --->
 <cfif not isdefined("scope")>
     <!--- Default scope is Loan --->
     <cfset scope = 'Loan'>
 <cfelse>
-   <!--- Only allowed scopes are Loan and Gift.  --->
-    <cfif scope neq 'Gift'><cfset scope = 'Loan'></cfif>
+   <!--- Only allowed scope is loan, was formerly also  Gift, scope could be reused to skin Exhibition Loans, retaining for now.  --->
+    <!--- cfif scope neq 'Gift'><cfset scope = 'Loan'></cfif --->>
+    <cfset scope = 'Loan'>
 </cfif>
 <cfif action is "editLoan">
      <!--- for existing records, look up the scope from the record.  --->
@@ -112,7 +113,7 @@
 	<cfoutput>
 	<div class="newLoanWidth">
 	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
-	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Create_a_New_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 	</h2>
   		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
            		<input type="hidden" name="action" value="makeLoan">
@@ -207,15 +208,9 @@
 						   // based on the selected collection
 						   $("##collection_id").change( function () {
 							 if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-                                                           <cfif scope eq 'Gift'>
-							  // only MCZ collections (the non-specimen collection) is allowed to make transfers.
-							  $("##loan_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
-                                                           <cfelse>
 							  // only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters.
 							  $("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
-                                                           </cfif>
 							 } else {
-							  $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
 							  $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
                                                           $("##insurance_section").hide();
 							 }
@@ -489,15 +484,9 @@
 			// based on the selected collection
 			$("##collection_id").change( function () {
 				if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-					<cfif scope eq 'Gift'>
-					// only MCZ collections (the non-specimen collection) is allowed to make transfers.
-					$("##loan_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
-					<cfelse>
 					// only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters.
 					$("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
-					</cfif>
 				} else {
-					$("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
 					$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
 					$("##insurance_section").hide();
 					$("##subloan_section").hide();
@@ -532,7 +521,7 @@
 		});
 	</script>
        <div class="editLoanbox">
-       <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Edit_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+       <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>	</h2>
 	<table class="editLoanTable">
     <tr>
@@ -854,10 +843,6 @@
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
                           </cfif>
 		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-		            <cfif scope eq 'Gift' >
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_gift">MCZ Gift Invoice Header</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
-                            </cfif>
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
@@ -878,7 +863,7 @@
 	<td valign="top" class="rightCell"><!---- right cell ---->
    <div id="project">
 
-			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
+			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
 			project_trans where
@@ -1548,7 +1533,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "search">
-  <cfset title="Search for Loans/Gifts">
+  <cfset title="Search for Loans">
   <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
   <cfoutput>
   <script>
@@ -1570,7 +1555,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 
 </script>
    <div class="searchLoanWidth">
-     <h2 class="wikilink">Find Loans/Gifts <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan/Gift_Transactions##Search_for_a_Loan_or_Gift')" class="likeLink" alt="[ help ]">
+     <h2 class="wikilink">Find Loans <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]">
       </h2>
     <div id="loan">
       <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1959,7 +1944,7 @@ $( document ).ready(loadShipments(#transaction_id#));
     </cfif>
  <header>
      <div id="page_title">
-      <h1  style="font-size: 1.5em;line-height: 1.6em;margin: 0;padding: 1em 0 0 0;">Search Results<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan/Gift_Transactions##Loan_Search_Results_List')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
+      <h1  style="font-size: 1.5em;line-height: 1.6em;margin: 0;padding: 1em 0 0 0;">Search Results<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Loan_Transactions##Loan_Search_Results_List')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
     </div>
    <p> #allLoans.recordcount# #loannum# <a href="#rURL#" class="download">Download these results as a CSV file</a></p>
    </header>
