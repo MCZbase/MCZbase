@@ -449,7 +449,20 @@
 					deaccession.transaction_id=#related_primary_key#
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/Deaccession.cfm?action=editDeacc&transaction_id=#related_primary_key#", i)>
+    		        <cfset temp = QuerySetCell(result, "link", "/Deaccession.cfm?action=editDeacc&transaction_id=#related_primary_key#", i)>
+		<cfelseif table_name is "permit">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					permit_Type || ' ' || agent_name || ' ' || permit_Num data
+				from
+					permit,
+					preferred_agent_name
+				where
+					permit.issued_by_agent_id = preferred_agent_name.agent_id (+) and
+        				permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
+			</cfquery>
+			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+            		<cfset temp = QuerySetCell(result, "link", "/Permit.cfm?Action=editPermit&permit_id=#related_primary_key#", i)>
 		<cfelseif table_name is "cataloged_item">
 		<!--- upping this to uam_god for now - see Issue 135
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -503,6 +516,7 @@
 </cffunction>
 <!----------------------------------------------------------------------------------------->
 <cffunction name="getMediaRelations2" access="public" output="false" returntype="Query">
+        <!--- ??? appears to be unused, not current with getMediaRelations for relationship types ??? --->>
 	<cfargument name="media_id" required="true" type="numeric">
 	<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from media_relations,

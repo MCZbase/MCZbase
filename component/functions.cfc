@@ -1294,7 +1294,7 @@
    </cfif>
    <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#deaccDetails.collection# #deaccDetails.deacc_number#','#transaction_id#');"">Create Media</span> ">
    <cfset result = result & "</span>&nbsp;~&nbsp;">
-   <cfset result = result & "<span id='addDeacc_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=shows deaccession','addDeaccDlg_#transaction_id#','Pick Media for Deaccession', reloadDeaccessionMedia ); "" ></div><div id='addDeaccDlg_#transaction_id#'></div></span>">
+   <cfset result = result & "<span id='addDeacc_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=shows deaccession','addDeaccDlg_#transaction_id#','Pick Media for Deaccession', reloadDeaccessionMedia ,650,900); "" ></div><div id='addDeaccDlg_#transaction_id#'></div></span>">
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -2483,9 +2483,12 @@
     </cfquery>
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct media.media_id as media_id, preview_uri, media.media_uri, media.mime_type, media.media_type as media_type,
-               MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+               MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+               label_value
          from media_relations left join media on media_relations.media_id = media.media_id
+               left join media_labels on media.media_id = media_labels.media_id
          where media_relations.media_relationship = <cfqueryparam value="#relation#" CFSQLType="CF_SQL_VARCHAR">
+               and (media_label = 'description' or media_label is null )
                and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
    <cfset result="<h3>#heading# Media</h3>">
@@ -2493,7 +2496,7 @@
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); '>Remove</a> </li>" >
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); '>Remove</a> </li>" >
        </cfloop>
        <cfset result= result & "</ul>">
    <cfelse>
