@@ -2758,7 +2758,8 @@
                    packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, carriers_tracking_number,
                    shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
-                   shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address
+                   shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address, 
+ 	           shipment.print_flag
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
                   left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
@@ -2787,7 +2788,8 @@
 	    <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
-                   shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr
+                   shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
+ 	           shipment.print_flag
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
                   left join addr toaddr on shipment.shipped_from_addr_id = toaddr.addr_id
@@ -2826,7 +2828,8 @@
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
                    shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
                    toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr, 
-                   fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr
+                   fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr,
+ 	           shipment.print_flag
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
                   left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
@@ -2835,6 +2838,11 @@
       <cfset resulthtml = "<div id='shipments'> ">
           
       <cfloop query="theResult">
+         <cfif print_flag eq "1">
+            <cfset printOnHeader = "<input id='shipCheck_#shipment_id#' type='checkbox' checked='checked' onClick=' $(##shipCheck_#shipment_id#).prop(""checked"",true);' >Printed on Invoice">
+         <cfelse>
+            <cfset printOnHeader = "">
+         </cfif>
          <cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                  select permit.permit_id,
                    issuedBy.agent_name as IssuedByAgent,
@@ -2857,7 +2865,7 @@
                 <cfset resulthtml = resulthtml & " <li>#no_of_packages#</li> " >
                 <cfset resulthtml = resulthtml & " <li>#carriers_tracking_number#</li>">
             <cfset resulthtml = resulthtml & "</ul>">
-            <cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To:</li><li>Shipped From:</li></ul>">
+            <cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To: (#printedOnInvoice#)</li><li>Shipped From:</li></ul>">
             <cfset resulthtml = resulthtml & " <ul class='shipaddressesdata'>">
                 <cfset resulthtml = resulthtml & "<li>#tofaddr#</li> ">
                 <cfset resulthtml = resulthtml & " <li>#fromfaddr#</li>">
