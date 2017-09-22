@@ -2839,9 +2839,9 @@
           
       <cfloop query="theResult">
          <cfif print_flag eq "1">
-            <cfset printOnHeader = "<input id='shipCheck_#shipment_id#' type='checkbox' checked='checked' onClick=' $(##shipCheck_#shipment_id#).prop(""checked"",true);' >Printed on Invoice">
+            <cfset printedOnInvoice = "&##9745; Printed on invoice">
          <cfelse>
-            <cfset printOnHeader = "">
+            <cfset printedOnInvoice = "&##9744; Not Printed">
          </cfif>
          <cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                  select permit.permit_id,
@@ -2865,9 +2865,9 @@
                 <cfset resulthtml = resulthtml & " <li>#no_of_packages#</li> " >
                 <cfset resulthtml = resulthtml & " <li>#carriers_tracking_number#</li>">
             <cfset resulthtml = resulthtml & "</ul>">
-            <cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To: (#printedOnInvoice#)</li><li>Shipped From:</li></ul>">
+            <cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To:</li><li>Shipped From:</li></ul>">
             <cfset resulthtml = resulthtml & " <ul class='shipaddressesdata'>">
-                <cfset resulthtml = resulthtml & "<li>#tofaddr#</li> ">
+                <cfset resulthtml = resulthtml & "<li>(#printedOnInvoice#) #tofaddr#</li> ">
                 <cfset resulthtml = resulthtml & " <li>#fromfaddr#</li>">
             <cfset resulthtml = resulthtml & "</ul>">
             <cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
