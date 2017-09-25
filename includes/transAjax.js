@@ -27,6 +27,28 @@ function loadShipmentFormPermits(shipment_id) {
        }
      )};
 
+// On click handler for use this shipment address in invoice header.
+// On result, reloads shipments.
+//
+// @param shipmentId the shipment to mark as print_flag=1
+// @param transactionId the transaction for which to set all other
+//    print_flags on shipments to 0.
+function setShipmentToPrint(shipmentId,transactionId) {
+    jQuery.getJSON("/component/functions.cfc",
+          {
+            method : "setShipmentToPrint",
+            shipment_id : shipmentId
+            returnformat : "json",
+            queryformat : 'column'
+          },
+          function (result) {
+              if (result.DATA.STATUS=="0") {
+                  messagDialog(result.DATA.MESSAGE,'Error setting Shipment to Print');
+              } 
+              loadShipments(transactionId);
+          }
+     )};
+
 function deleteMediaFromPermit(mediaId,permitId,relationType) {
     jQuery.getJSON("/component/functions.cfc",
         {

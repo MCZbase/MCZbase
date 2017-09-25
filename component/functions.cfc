@@ -2841,7 +2841,7 @@
          <cfif print_flag eq "1">
             <cfset printedOnInvoice = "&##9745; Printed on invoice">
          <cfelse>
-            <cfset printedOnInvoice = "&##9744; Not Printed">
+            <cfset printedOnInvoice = "<span class='infoLink' onClick=' setShipmentToPrint(#shipment_id#,#transaction_id#); ' >&##9744; Not Printed</span>">
          </cfif>
          <cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                  select permit.permit_id,
@@ -2905,6 +2905,51 @@
    </cftry>
     <cfreturn resulthtml>
 </cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a shipment_id, set only that shipment out of the set of shipments in that transaction to print. --->
+<cffunction name="setShipmentToPrint" access="remote">
+    <cfargument name="shipment_id" type="numeric" required="yes">
+    <cftry>
+       <!--- First set the print flag off for all shipments on this transaction. --->
+       <cfquery name="clearResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearResultRes">
+            update shipment set print_flag = 0 where transaction_id in (
+                  select transaction_id from shipment where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+            )
+       </cfquery>
+       <!--- Then set the print flag on for the provided shipments. --->
+       <cfif clearResultRes.recordcount GT 0 >
+          <cfquery name="updateResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateResultRes">
+              update shipment set print_flag = 1 where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+          </cfquery>
+       
+          <cfif updateResultRes.recordcount eq 0>
+             <cfset theResult=queryNew("status, message")>
+             <cfset t = queryaddrow(theResult,1)>
+             <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+             <cfset t = QuerySetCell(theResult, "message", "Shipment not updated. #shipment_id# #updateResultRes.sql#", 1)>
+          </cfif>
+          <cfif updateResultRes.recordcount eq 1>
+             <cfset theResult=queryNew("status, message")>
+             <cfset t = queryaddrow(theResult,1)>
+             <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+             <cfset t = QuerySetCell(theResult, "message", "Shipment updated to print.", 1)>
+          </cfif>
+       <cfelse> 
+             <cfset theResult=queryNew("status, message")>
+             <cfset t = queryaddrow(theResult,1)>
+             <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+             <cfset t = QuerySetCell(theResult, "message", "Shipment not found. #shipment_id# #clearResultRes.sql#", 1)>
+       </cfif>
+    <cfcatch>
+        <cfset theResult=queryNew("status, message")>
+        <cfset t = queryaddrow(theResult,1)>
+        <cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+        <cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+        </cfcatch>
+    </cftry>
+    <cfreturn theResult>
+</cffunction>
+
 <!----------------------------------------------------------------------------------------------------------------->
 <!---  Given a permit_id and a shipment_id, link the permit to the shipment --->
 <cffunction name="setShipmentForPermit" access="remote">
