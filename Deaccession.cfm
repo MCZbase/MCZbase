@@ -857,7 +857,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 	</cfloop>
         </ul>
 </div>
-    <!--- TODO: Print permits associated with these accessions --->
+    <!--- TODO: Print permits associated with this deaccession --->
 	  <div id="permitmedia">
       <h3>Permit Media (PDF copies of Permits)</h3>
 	<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitMediaRes">
@@ -1321,7 +1321,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 		deacc_number,
 		deaccession.deacc_type deacc_type,
 		deacc_status,
-        value,
+        	value,
 		method,
 		concattransagent(trans.transaction_id,'authorized by') auth_agent,
 		concattransagent(trans.transaction_id,'entered by') ent_agent,
@@ -1332,6 +1332,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 		concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent,
 		concattransagent(trans.transaction_id,'recipient institution') recip_inst,
 		deacc_reason,
+		nature_of_material,
 		trans_remarks,
 		trans_date,
 		to_char(closed_date, 'YYYY-MM-DD') closed_date,
