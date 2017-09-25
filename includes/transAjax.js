@@ -311,6 +311,11 @@ function saveShipment(transactionId) {
               $("#shipmentFormStatus").empty().append("Error: Required field is missing a value");
     } else { 
        // save result
+       $('#methodSaveShipmentQF').remove();
+       $('<input id="methodSaveShipmentQF" />').attr('type', 'hidden')
+          .attr('name', "queryformat")
+          .attr('value', "column")
+          .appendTo('#shipmentForm');
        $('#methodSaveShipmentInput').remove();
        $('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
           .attr('name', "method")
@@ -322,8 +327,8 @@ function saveShipment(transactionId) {
           dataType : "json",
           data: $("#shipmentForm").serialize(),
           success: function (result) {
-             if (result.DATA.STATUS==0) { 
-               $("#shipmentFormStatus").empty().append(result.DATA.MESSAGE);
+             if (result.DATA.STATUS[0]==0) { 
+               $("#shipmentFormStatus").empty().append(result.DATA.MESSAGE[0]);
              } else { 
                loadShipments(transactionId);
                valid = true;

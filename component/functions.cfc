@@ -2578,7 +2578,7 @@
       <cfif NOT IsDefined("shipment_id") OR shipment_id EQ "">
          <!---  Determine how many shipments there are in this transaction, if none, set the print_flag on the new shipment --->
          <cfquery name="countShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-             select count(*) tc from shipment 
+             select count(*) ct from shipment 
                 where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
          </cfquery>
          <cfif countShipments.ct EQ 0>
@@ -2872,9 +2872,9 @@
          <cfset resulthtml = resulthtml & "<div class='shipment'>" >
             <cfset resulthtml = resulthtml & "<ul class='shipheaders'><li>Ship Date:</li><li>Method:</li><li>Packages:</li><li>Tracking Number:</li></ul>">
             <cfset resulthtml = resulthtml & " <ul class='shipdata'>" >
-                <cfset resulthtml = resulthtml & "<li>#dateformat(shipped_date,'yyyy-mm-dd')#</li> " >
-                <cfset resulthtml = resulthtml & " <li>#shipped_carrier_method#</li> " >
-                <cfset resulthtml = resulthtml & " <li>#no_of_packages#</li> " >
+                <cfset resulthtml = resulthtml & "<li>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</li> " >
+                <cfset resulthtml = resulthtml & " <li>#shipped_carrier_method#&nbsp;</li> " >
+                <cfset resulthtml = resulthtml & " <li>#no_of_packages#&nbsp;</li> " >
                 <cfset resulthtml = resulthtml & " <li>#carriers_tracking_number#</li>">
             <cfset resulthtml = resulthtml & "</ul>">
             <cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To:</li><li>Shipped From:</li></ul>">
