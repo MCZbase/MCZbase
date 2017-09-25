@@ -1316,7 +1316,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 <cfif action is "listDeacc">
 <cfoutput>
 	<cfset title="Deaccession Item List">
-	<cfset sel = "select
+	<cfset sel = "select distinct
 		trans.transaction_id,
 		deacc_number,
 		deaccession.deacc_type deacc_type,
@@ -1481,27 +1481,6 @@ $( document ).ready(loadShipments(#transaction_id#));
 		</cfif>
 	</cfif>
 	<cfset sql ="#sel# #frm# #sql#
-		group by
-		 	trans.transaction_id,
-		   	deacc_number,
-		    deaccession.deacc_type,
-		    deacc_status,
-		    value,
-			method,
-			concattransagent(trans.transaction_id,'authorized by'),
-		 	concattransagent(trans.transaction_id,'entered by'),
-		 	concattransagent(trans.transaction_id,'received by'),
-			concattransagent(trans.transaction_id,'additional outside contact'),
-			concattransagent(trans.transaction_id,'additional in-house contact'),
-			concattransagent(trans.transaction_id,'in-house contact'),
-			concattransagent(trans.transaction_id,'recipient institution'),
-		 	deacc_reason,
-		 	trans_remarks,
-		  	trans_date,
-		  	closed_date,
-		   	project_name,
-		 	project.project_id,
-		 	collection.collection
 		ORDER BY to_number(regexp_substr (deacc_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (deacc_number, '[0-9]+', 1, 2)), deacc_number
     ">
 	 <cfquery name="allDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1623,25 +1602,30 @@ $( document ).ready(loadShipments(#transaction_id#));
                 <cfelse>
                 <dd class="mandcolrstatus large">N/A</dd>
                 </cfif>
-                <dt>Value:</dt>
-				<cfif len(value) GT 0>
-                    <dd class="large">#value#</dd>
+                <dt>Nature of Material:</dt>
+		   <cfif len(nature_of_material) GT 0>
+                      <dd class="large">#nature_of_material#</dd>
+                   <cfelse>
+                      <dd class="large emptystatus">N/A</dd>
+                   </cfif>
+                 <dt>Value:</dt>
+		    <cfif len(value) GT 0>
+                       <dd class="large">#value#</dd>
                     <cfelse>
-                    <dd class="large emptystatus">N/A</dd>
-                  </cfif>
-                     <dt>Method of Transfer:</dt>
-				<cfif len(method) GT 0>
-                    <dd class="large">#method#</dd>
+                      <dd class="large emptystatus">N/A</dd>
+                    </cfif>
+                 <dt>Method of Transfer:</dt>
+		    <cfif len(method) GT 0>
+                      <dd class="large">#method#</dd>
                     <cfelse>
-                    <dd class="large emptystatus">N/A</dd>
-                  </cfif>
+                      <dd class="large emptystatus">N/A</dd>
+                   </cfif>
                 <dt>Internal Remarks:</dt>
-				<cfif len(trans_remarks) GT 0>
-                    <dd class="large">#trans_remarks#</dd>
+		    <cfif len(trans_remarks) GT 0>
+                      <dd class="large">#trans_remarks#</dd>
                     <cfelse>
-                    <dd class="large emptystatus">N/A</dd>
-                  </cfif>
-
+                      <dd class="large emptystatus">N/A</dd>
+                    </cfif>
                 <dt>Entered By:</dt>
                  <cfif len(ent_agent) GT 0>
                  <dd>#ent_agent#</dd>
