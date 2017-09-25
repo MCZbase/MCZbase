@@ -2546,7 +2546,7 @@
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <!---
-   Function to create save a shipment from a ajax post
+   Function to create or save a shipment from a ajax post
    @param shipment_id the shipment_id of the shipment to save, if null, then create a new shipment.
    @param transaction_id the transaction with which this shipment is associated.
    @return json query structure with STATUS = 0|1 and MESSAGE, status = 0 on a failure.
@@ -2576,6 +2576,16 @@
           <cfset no_of_packages = "">
       </cfif>
       <cfif NOT IsDefined("shipment_id") OR shipment_id EQ "">
+         <!---  Determine how many shipments there are in this transaction, if none, set the print_flag on the new shipment --->
+         <cfquery name="countShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             select count(*) tc from shipment 
+                where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+         </cfquery>
+         <cfif countShipments.ct EQ 0>
+             <cfset printFlag = 1>
+         <cfelse>
+             <cfset printFlag = 0>
+         </cfif>
          <cfset debug = shipment_id & "Insert" >
          <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
              insert into shipment (
@@ -2587,7 +2597,8 @@
                   insured_for_insured_value,
                 </cfif>
                 hazmat_fg, shipment_remarks, contents, foreign_shipment_fg,
-                shipped_to_addr_id, shipped_from_addr_id
+                shipped_to_addr_id, shipped_from_addr_id,
+                print_flag
              )
              values (
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
@@ -2607,7 +2618,8 @@
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
-                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#printFlag#">
              )
          </cfquery>
       <cfelse>
@@ -2910,6 +2922,7 @@
 <cffunction name="setShipmentToPrint" access="remote">
     <cfargument name="shipment_id" type="numeric" required="yes">
     <cftry>
+       <cftransaction action="begin">
        <!--- First set the print flag off for all shipments on this transaction. --->
        <cfquery name="clearResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearResultRes">
             update shipment set print_flag = 0 where transaction_id in (
@@ -2923,23 +2936,27 @@
           </cfquery>
        
           <cfif updateResultRes.recordcount eq 0>
+             <cftransaction action="rollback"/>
              <cfset theResult=queryNew("status, message")>
              <cfset t = queryaddrow(theResult,1)>
              <cfset t = QuerySetCell(theResult, "status", "0", 1)>
              <cfset t = QuerySetCell(theResult, "message", "Shipment not updated. #shipment_id# #updateResultRes.sql#", 1)>
           </cfif>
           <cfif updateResultRes.recordcount eq 1>
+             <cftransaction action="commit"/>
              <cfset theResult=queryNew("status, message")>
              <cfset t = queryaddrow(theResult,1)>
              <cfset t = QuerySetCell(theResult, "status", "1", 1)>
              <cfset t = QuerySetCell(theResult, "message", "Shipment updated to print.", 1)>
           </cfif>
        <cfelse> 
+             <cftransaction action="rollback"/>
              <cfset theResult=queryNew("status, message")>
              <cfset t = queryaddrow(theResult,1)>
              <cfset t = QuerySetCell(theResult, "status", "0", 1)>
              <cfset t = QuerySetCell(theResult, "message", "Shipment not found. #shipment_id# #clearResultRes.sql#", 1)>
        </cfif>
+       </cftransaction>
     <cfcatch>
         <cfset theResult=queryNew("status, message")>
         <cfset t = queryaddrow(theResult,1)>
