@@ -37,7 +37,7 @@ function setShipmentToPrint(shipmentId,transactionId) {
     jQuery.getJSON("/component/functions.cfc",
           {
             method : "setShipmentToPrint",
-            shipment_id : shipmentId
+            shipment_id : shipmentId,
             returnformat : "json",
             queryformat : 'column'
           },
