@@ -3,6 +3,7 @@
 <cfset MAGIC_MCZ_COLLECTION = 12><!--- the collection_id of the "MCZ Collection" (for non-specimen holdings) --->
 <cfset MAGIC_MCZ_CRYO = 11><!--- the collection_id of the cryogenic collection --->
 <cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
+<cfset MAGIC_DTYPE_TRANSFER = 'transfer'><!--- Deaccession type of Transfer --->
 <cfif not isdefined("ImAGod") or len(#ImAGod#) is 0>
 	<cfset ImAGod = "no">
 </cfif>
@@ -621,13 +622,10 @@
                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items">MCZ Deaccession Items</option>
           </cfif>
           <cfif inhouse.c is 1 and authorized.c GT 0 >
-               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Header (short)</option>
-               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
-               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
-               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
-               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
-               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
-               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
+               <!--- only show Object header if deaccession is of type other or transfer --->
+	       <cfif deaccDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" >
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Deaccession Header</option>
+               </cfif>
             </cfif>
             <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
    <cfelse>
