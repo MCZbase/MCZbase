@@ -102,8 +102,8 @@
 				project_trans.project_id =	project_sponsor.project_id (+) and
 				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and				
 				loan.transaction_id=#transaction_id#
-        --- assume that the first entered shipment (by shipment_id, assuming that is sequential) is the outgoing shipment
-        order by shipment.shipment_id asc
+        --- use the shipment with the print flag set, failover to print first entered shipment.
+        order by shipment.print_flag desc, shipment.shipment_id asc
         ) where rownum < 2
 </cfquery>
 <!---  getLoanItemsMCZ - information for loan item invoices.   --->
@@ -301,8 +301,9 @@ select
 				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and				
 				trans.collection_id = collection.collection_id AND
 				deaccession.transaction_id=#transaction_id#
-        --- assume that the first entered shipment (by shipment_id, assuming that is sequential) is the outgoing shipment
-        order by shipment.shipment_id asc
+        ---  get the shipment with the print flag set, failover to the first entered shipment 
+        ---    (by shipment_id, assuming that is sequential) is the outgoing shipment
+        order by shipment.print_flag desc, shipment.shipment_id asc
         ) where rownum < 2
 </cfquery>
 <!---  getDeaccItemsMCZ - information for deaccession item invoices.   --->
