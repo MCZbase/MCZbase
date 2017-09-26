@@ -502,7 +502,9 @@ function updateAgentLink(agent_id,targetLinkDiv) {
 //    in the dialog is also given the id {id}_iframe
 // @param title to display in the dialog's heading
 // @param okcallback callback function to execute when the OK button is clicked.
-function opendialogcallback(page,id,title,okcallback,dialogHeight=650,dialogWidth=800) {
+// @param dialogHeight the height of the dialog, 650 may be a good default value
+// @param dialogWidth the width of the dialog, 800 may be a good default value
+function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
   var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%" id="' + id +  '_iframe"></iframe>';
   var adialog = $("#"+id)
   .html(content)

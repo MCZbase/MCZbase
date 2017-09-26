@@ -78,7 +78,7 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
 		                	$('##createPermitSDlg_#shipment_id#').html('').dialog('destroy');
                    		   };
 		        	</script>
-				<span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitSDlg_#shipment_id#','Create New Permit', createPermitSDialogDone ); " ></span><div id='createPermitSDlg_#shipment_id#'></div>
+				<span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitSDlg_#shipment_id#','Create New Permit', createPermitSDialogDone , 650,800 ); " ></span><div id='createPermitSDlg_#shipment_id#'></div>
             		</td>
 		</tr>
 	</table>

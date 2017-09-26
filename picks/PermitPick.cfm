@@ -118,7 +118,7 @@
                        $('##createPermitDlg_#transaction_id#').html('').dialog('destroy');
                    };
                 </script>
-                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitDlg_#transaction_id#','Create Permit', createPermitDialogDone);" ></span><div id='createPermitDlg_#transaction_id#'></div>
+                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitDlg_#transaction_id#','Create Permit', createPermitDialogDone, 650, 800);" ></span><div id='createPermitDlg_#transaction_id#'></div>
 			</td>
 			<td>
    			    <input type="reset" value="Clear" class="clrBtn">

@@ -736,7 +736,7 @@ function setBorrowNum(cid,v){
 		</tr>
             	<tr>
 			<td colspan="4">
-   			<label for="redir">Print...Return Receipt</label>
+   			<label for="redir">Print...Return Receipt <strong>The return shipment must be entered below and marked 'Printed on invoice'.<strong></label>
 			<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    				<option value=""></option>
 				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</option>
