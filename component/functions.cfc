@@ -2835,6 +2835,8 @@
    <cfargument name="transaction_id" type="string" required="yes">
    <cfset r=1>
    <cftry>
+       <cfset threadname = "getSBTHtmlThread">
+       <cfthread name="#threadname#" >
        <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
@@ -2911,6 +2913,8 @@
       <cfif theResult.recordcount eq 0>
           <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
       </cfif>      
+	  </cfthread>
+      <cfthread action="join" name="#threadname#" />
    <cfcatch>
        <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
    </cfcatch>
