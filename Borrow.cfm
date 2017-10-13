@@ -241,7 +241,7 @@ function setBorrowNum(cid,v){
 				<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 			</cfloop>
 		</select>
-		<label for="borrow_number">Borrow Number</label>
+		<label for="borrow_number">Borrow Number (Byyyy-000-Aaa)</label>
 		<input type="text" name="borrow_number" id="borrow_number">
 		<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
 		<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE">
@@ -1302,8 +1302,8 @@ $(function() {
 				select * from collection order by collection
 			</cfquery>
 			<cfloop query="all_coll">
-					<cfset stg="'#dateformat(now(),"yyyy")#.' || nvl(lpad(max(to_number(substr(borrow_number,6,3))) + 1,3,0),'001') || '.#collection_cde#'">
-					<cfset whr=" AND substr(borrow_number, 1,4) ='#dateformat(now(),"yyyy")#'">
+					<cfset stg="'B#dateformat(now(),"yyyy")#-' || nvl(lpad(max(to_number(substr(borrow_number,7,3))) + 1,3,0),'001') || '-#collection_cde#'">
+					<cfset whr=" AND substr(borrow_number, 2,4) ='#dateformat(now(),"yyyy")#'">
 				<cftry>
 					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
