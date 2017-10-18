@@ -175,7 +175,9 @@ span.sm {font-size: 11px;}
 		select distinct(institution_acronym)  from collection
 </cfquery>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role)  from cttrans_agent_role order by trans_agent_role
+	select distinct(trans_agent_role)  from cttrans_agent_role 
+           where trans_agent_role != 'recipient institution'
+           order by trans_agent_role 
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
@@ -241,7 +243,7 @@ function setBorrowNum(cid,v){
 				<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 			</cfloop>
 		</select>
-		<label for="borrow_number">Borrow Number (Byyyy-000-Aaa)</label>
+		<label for="borrow_number">Borrow Number (Byyyy-0-Aaa)</label>
 		<input type="text" name="borrow_number" id="borrow_number">
 		<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
 		<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE">
@@ -736,12 +738,13 @@ function setBorrowNum(cid,v){
 		</tr>
             	<tr>
 			<td colspan="4">
-   			<label for="redir">Print...Return Receipt <strong>The return shipment must be entered below and marked 'Printed on invoice'.<strong></label>
+   			<label for="redir">Print...Return Receipt</label>
 			<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    				<option value=""></option>
 				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</option>
             			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</option>
         		</select>
+   			<div><strong>The return shipment must be entered below and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).<strong></div>
 			</td>
 		</tr>
 			
@@ -1213,7 +1216,7 @@ $(function() {
 			</tr>
 			<tr>
 				<td colspan="3">
-					<label for="AuthorizedBy">Borrow Authorized By</label>
+					<label for="AuthorizedBy">Authorized By (external)</label>
 					<input type="text"
 						name="AuthorizedBy"
 						class="reqdClr"
@@ -1221,6 +1224,18 @@ $(function() {
 		 				onKeyPress="return noenter(event);"
 						size="50">
 					<input type="hidden" name="auth_agent_id">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="OverseenBy">Borrow Overseen/Authorized By (MCZ)</label>
+					<input type="text"
+						name="OverseenBy"
+						class="reqdClr"
+						onchange="getAgent('over_agent_id','OverseenBy','borrow',this.value); return false;"
+		 				onKeyPress="return noenter(event);"
+						size="50">
+					<input type="hidden" name="over_agent_id">
 				</td>
 			</tr>
 			<tr>
@@ -1302,7 +1317,7 @@ $(function() {
 				select * from collection order by collection
 			</cfquery>
 			<cfloop query="all_coll">
-					<cfset stg="'B#dateformat(now(),"yyyy")#-' || nvl(lpad(max(to_number(substr(borrow_number,7,3))) + 1,3,0),'001') || '-#collection_cde#'">
+					<cfset stg="'B#dateformat(now(),"yyyy")#-' || nvl(max(to_number(regexp_substr(borrow_number,'[^-]+', 1, 2))) + 1,'1') || '-#collection_cde#'">
 					<cfset whr=" AND substr(borrow_number, 2,4) ='#dateformat(now(),"yyyy")#'">
 				<cftry>
 					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1431,6 +1446,16 @@ $(function() {
 				#transaction_id#,
 				#AUTH_AGENT_ID#,
 				'authorized by')
+		</cfquery>
+		<cfquery name="overBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO trans_agent (
+			    transaction_id,
+			    agent_id,
+			    trans_agent_role
+			) values (
+				#transaction_id#,
+				#OVER_AGENT_ID#,
+				'borrow overseen by')
 		</cfquery>
 		<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO trans_agent (

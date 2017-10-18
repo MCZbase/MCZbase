@@ -89,7 +89,7 @@
 	<cfset project_id = -1>
 </cfif>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role)  from cttrans_agent_role order by trans_agent_role
+	select distinct(trans_agent_role)  from cttrans_agent_role order by trans_agent_role where trans_agent_role != 'borrow overseen by' and trans_agent_role != 'lending institution'
 </cfquery>
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection,collection_id from collection order by collection
