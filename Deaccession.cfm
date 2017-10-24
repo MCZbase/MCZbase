@@ -261,8 +261,8 @@
 			<cfloop query="all_coll">
 				<cfif (institution_acronym is 'MCZ')>
 					<!---- Dyyyy-n-CCDE format --->
-					<cfset stg="'D#dateformat(now(),"yyyy")#-' || nvl(max(to_number(substr(deacc_number,instr(deacc_number,'-')+1,instr(deacc_number,'-',1,2)-instr(deacc_number,'-')-1) + 1)),'1') || '-#collection_cde#'">
-					<cfset whr=" AND substr(deacc_number, 1,4) ='#dateformat(now(),"yyyy")#'">
+					<cfset stg="'D#dateformat(now(),"yyyy")#-' || nvl(max(to_number(regexp_substr(deacc_number,'[^-]+', 1, 2))) + 1,'1') || '-#collection_cde#'">
+					<cfset whr=" AND substr(deacc_number, 2,4) ='#dateformat(now(),"yyyy")#'">
 				<cfelse>
 					<!--- n format --->
 					<cfset stg="'#dateformat(now(),"yyyy")#.' || max(to_number(substr(deacc_number,instr(deacc_number,'.')+1,instr(deacc_number,'.',1,2)-instr(deacc_number,'.')-1) + 1)) || '.#collection_cde#'">
