@@ -1,7 +1,14 @@
 <cfinclude template = "/includes/functionLib.cfm">
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<cfset oneOfUs = 1>
+		<cfset isClicky = "likeLink">
+	<cfelse>
+		<cfset oneOfUs = 0>
+		<cfset isClicky = "">
+	</cfif>
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	    select distinct 
+	    select distinct
 	        media.media_id,
 	        media.media_uri,
 	        media.mime_type,
@@ -29,6 +36,9 @@
 						media_labels
 					where
 						media_id=#media_id#
+						<cfif oneOfUs EQ 0>
+							and media_labels.media_label <> 'internal remarks'
+						</cfif>
 				</cfquery>
 				<cfquery name="desc" dbtype="query">
 					select label_value from labels where media_label='description'
@@ -47,7 +57,7 @@
 	               		<br><a href="/media/#media_id#">Media Details</a>
 		            	<cfloop query="mrel">
 			            	<div class="smallPaddedIndent">
-			            		#media_relationship#: 
+			            		#media_relationship#:
 								<cfif len(link) gt 0>
 						    		<a href="#link#" target="_blank">#summary#</a>
 							    <cfelse>

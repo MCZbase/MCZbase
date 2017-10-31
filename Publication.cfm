@@ -21,8 +21,8 @@
 		select * from publication where publication_id=#publication_id#
 	</cfquery>
 	<cfquery name="auth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from publication_author_name,agent_name where 
-		publication_author_name.agent_name_id=agent_name.agent_name_id and 
+		select * from publication_author_name,agent_name where
+		publication_author_name.agent_name_id=agent_name.agent_name_id and
 		publication_id=#publication_id#
 		order by author_position
 	</cfquery>
@@ -35,14 +35,14 @@
 	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
-    
+
       <h2 class="wikilink">Edit Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 		</h2>
 	<form name="editPub" method="post" action="Publication.cfm">
- 
+
         <div class="cellDiv">
             <p style="margin:0; padding:0;">The Basics <span style="font-size: 14px;">(Publication ID #pub.publication_id#)</span>:</p>
-      
+
 		<input type="hidden" name="publication_id" value="#pub.publication_id#">
 		<input type="hidden" name="action" value="saveEdit">
 		<table class="pubtitle">
@@ -71,7 +71,7 @@
 		<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr">
 			<option <cfif pub.is_peer_reviewed_fg is 1> selected="selected" </cfif>value="1">yes</option>
 			<option <cfif pub.is_peer_reviewed_fg is 0> selected="selected" </cfif>value="0">no</option>
-		</select>			
+		</select>
 		<label for="published_year">Published Year</label>
 		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
 		<label for="publication_loc">Storage Location</label>
@@ -91,7 +91,7 @@
 				<cfloop query="auth">
 					<cfset i=i+1>
 					<input type="hidden" name="publication_author_name_id#i#" id="publication_author_name_id#i#" value="#publication_author_name_id#">
-					<input type="hidden" name="author_position#i#" id="author_position#i#" value="#author_position#">		
+					<input type="hidden" name="author_position#i#" id="author_position#i#" value="#author_position#">
 					<input type="hidden" name="author_id_#i#" id="author_id_#i#" value="#agent_name_id#">
 					<tr id="authortr#i#">
 						<td>
@@ -131,16 +131,16 @@
 				<cfset i=0>
 				<cfloop query="atts">
 					<cfset i=i+1>
-					<input type="hidden" name="publication_attribute_id#i#" 
-								class="reqdClr" id="publication_attribute_id#i#" value="#publication_attribute_id#">							
-                        
+					<input type="hidden" name="publication_attribute_id#i#"
+								class="reqdClr" id="publication_attribute_id#i#" value="#publication_attribute_id#">
+
 					<cfinvoke component="/component/functions" method="getPubAttributes" returnVariable="attvalist">
 						<cfinvokeargument name="attribute" value="#publication_attribute#">
 						<cfinvokeargument name="returnFormat" value="plain">
 					</cfinvoke>
 					<tr id="attRow#i#">
 						<td>
-							<input type="hidden" name="attribute_type#i#" 
+							<input type="hidden" name="attribute_type#i#"
 								class="reqdClr" id="attribute_type#i#" value="#publication_attribute#">
 							#publication_attribute#
 						</td>
@@ -150,25 +150,25 @@
 									<cfloop query="attvalist">
 										<option <cfif v is atts.pub_att_value> selected="selected" </cfif>value="#v#">#v#</option>
 									</cfloop>
-								</select> 								
+								</select>
 							<cfelseif not isobject(attvalist)>
 								<input type="text" name="attribute#i#" id="attribute#i#" class="reqdClr" value="#pub_att_value#" size="50">
 							<cfelse>
-								error: 	<cfdump var="#attvalist#">	
-							</cfif>							
+								error: 	<cfdump var="#attvalist#">
+							</cfif>
 						</td>
 						<td>
 							<span class="infoLink" onclick="deletePubAtt(#i#)">Delete</span>
 						</td>
 					</tr>
-				</cfloop>			
+				</cfloop>
 			</table>
 		</div>
-       
+
 		<input type="hidden" name="origNumberAttributes" id="origNumberAttributes" value="#i#">
 		<input type="hidden" name="numberAttributes" id="numberAttributes" value="#i#">
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		    select distinct 
+		    select distinct
 		        media.media_id,
 		        media.media_uri,
 		        media.mime_type,
@@ -250,7 +250,7 @@
 			<input type="button" value="Save" class="savBtn" onclick="editPub.action.value='saveEdit';editPub.submit();">&nbsp;&nbsp;
 			<input type="button" value="Delete Publication" class="delBtn" onclick="editPub.action.value='deletePub';confirmDelete('editPub');">
 	   </form>
- 
+
  </div>
 </cfoutput>
 </cfif>
@@ -287,7 +287,7 @@
 				publication_loc='#publication_loc#',
 				publication_title='#publication_title#',
 				publication_remarks='#publication_remarks#',
-				is_peer_reviewed_fg=#is_peer_reviewed_fg#				
+				is_peer_reviewed_fg=#is_peer_reviewed_fg#
 			where publication_id=#publication_id#
 		</cfquery>
 		<cfif len(media_uri) gt 0>
@@ -317,7 +317,7 @@
 					label_value)
 				values (#media_id#,'description','#media_desc#')
 			</cfquery>
-		</cfif>	
+		</cfif>
 		<cfloop from="1" to="#numberAuthors#" index="n">
 			<cfset thisAgentNameId = #evaluate("author_id_" & n)#>
 			<cfif isdefined("author_role_#n#")>
@@ -331,14 +331,14 @@
 				<cfset thisRowId ="">
 			</cfif>
 			<cfif isdefined("author_position#n#")>
-				<cfset thisAuthPosn = #evaluate("author_position" & n)#>			
+				<cfset thisAuthPosn = #evaluate("author_position" & n)#>
 			<cfelse>
 				<cfset thisAuthPosn=n>
-			</cfif>			
+			</cfif>
 			<cfif thisAgentNameId is -1 and thisRowId gt 0>
 				<!--- deleting --->
 				<cfquery name="delAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_author_name where 
+					delete from publication_author_name where
 					publication_id=#publication_id# and
 					publication_author_name_id=#thisRowId#
 				</cfquery>
@@ -350,9 +350,9 @@
 			<cfelseif thisAgentNameId gt 0 and thisRowId gt 0>
 				<!--- updating --->
 				<cfquery name="upAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update 
-						publication_author_name 
-					set 
+					update
+						publication_author_name
+					set
 						agent_name_id=#thisAgentNameId#,
 						author_role='#thisAuthorRole#'
 					where
@@ -395,7 +395,7 @@
 			<cfelseif thisAttId gt 0>
 				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update
-						publication_attributes 
+						publication_attributes
 					set
 						publication_attribute='#thisAttribute#',
 						pub_att_value='#thisAttVal#'
@@ -438,7 +438,7 @@
 			<cfelseif thisLink is not "deleted" and thisId gt 0>
 				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update
-						publication_url 
+						publication_url
 					set
 						link='#thisLink#',
 						description='#thisDesc#'
@@ -468,7 +468,7 @@
 		<cfinvokeargument name="publication_id" value="#publication_id#">
 		<cfinvokeargument name="returnFormat" value="plain">
 	</cfinvoke>
-				
+
 	<cfquery name="sfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update formatted_publication set formatted_publication='#shortCitation#' where
 		publication_id=#publication_id# and
@@ -512,7 +512,7 @@
                 if ($(thisel).val().length==0){
                 	msg += this.id + ' is required\n';
                 	$(thisel).addClass('missing');
-                }                
+                }
         	});
         	if (msg.length>0){
         		msg+='You may remove unwanted attributes';
@@ -542,13 +542,13 @@
 	</script>
 	<cfoutput>
 
-  
+
       <h2 class="wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		</h2>
-    
+
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
-			The Basics:	
+			The Basics:
 			<input type="hidden" name="action" value="createPub">
 			<table class="pubtitle">
 				<tr>
@@ -564,7 +564,7 @@
 					</td>
 				</tr>
 			</table>
-			
+
 			<div class="pubS"><label for="publication_type">Publication Type</label>
 			<select name="publication_type" id="publication_type" class="reqdClr" onchange="setDefaultPub(this.value)"  style="border: 1px solid ##ccc;">
 				<option value=""></option>
@@ -574,13 +574,13 @@
 			</select>
             </div>
             <p class="pubs_style"><b>Proceedings</b> are entered as if they are <b>Journals</b>. Choose "Journal Name" for publication type and the correct attributes will appear. You will find proceedings in the Journal Name dropdown alphabetically listed at "p". Similarly, a <b>Dissertation</b> or <b>Thesis</b> should be entered as if it were a <b>Book Section</b>.  Put "Ph.D. Dissertation" or "Thesis" in the <i>book</i> attribute and the location and school in the <i>publisher</i> attribute.  Select <b>serial monographs</b> when you wish to enter a work that is like a journal article, but includes a publisher in the citation.</p>
-			
+
             <div style="clear:both;">
             <label for="is_peer_reviewed_fg">Peer Reviewed?</label>
 			<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr" >
 				<option value="1">yes</option>
 				<option value="0">no</option>
-			</select>			
+			</select>
 			<label for="published_year">Published Year</label>
 			<input type="text" name="published_year" id="published_year" class="reqdClr">
 			<label for="publication_loc">Storage Location</label>
@@ -620,9 +620,9 @@
 					<th>Attribute</th>
 					<th>Value</th>
 					<th></th>
-				</tr>		
+				</tr>
                 <tr>
-             <!---  Add:---> 
+             <!---  Add:--->
 			<input type="hidden" name="numberAttributes" id="numberAttributes" value="0" size="30">
 			 <td style="width: 200px;border: 1px double ##ccc;background-color: ##f8f8f8;;font-size: 12px; font-weight: 800;">
             &nbsp;&nbsp; Add Attribute:</td><td>
@@ -633,15 +633,15 @@
 				</cfloop>
 			</select>
             </td>
-                <tr>	
+                <tr>
 			</table>
 			</div>
 			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
-            
+
 			<div class="cellDiv" id="media" style="display:none;">
 				Media:
 				<label for="media_uri">Media URI</label>
-			<input type="text" name="media_uri" id="media_uri" size="90"><span class="infoLink" id="uploadMedia">Upload</span>
+			<input type="text" name="media_uri" id="media_uri" size="90"><!---span class="infoLink" id="uploadMedia">Upload</span--->
 				<label for="preview_uri">Preview URI</label>
 				<input type="text" name="preview_uri" id="preview_uri" size="90">
 				<label for="mime_type">MIME Type</label>
@@ -663,7 +663,7 @@
 			</div>
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
-     
+
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------------->
@@ -752,7 +752,7 @@
 					label_value)
 				values (#media_id#,'description','#media_desc#')
 			</cfquery>
-		</cfif>					
+		</cfif>
 	</cftransaction>
 	<cfinvoke component="/component/publication" method="shortCitation" returnVariable="shortCitation">
 		<cfinvokeargument name="publication_id" value="#pid#">
@@ -761,7 +761,7 @@
 	<cfinvoke component="/component/publication" method="longCitation" returnVariable="longCitation">
 		<cfinvokeargument name="publication_id" value="#pid#">
 		<cfinvokeargument name="returnFormat" value="plain">
-	</cfinvoke>				
+	</cfinvoke>
 	<cfquery name="sfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		insert into formatted_publication (
 			publication_id,
