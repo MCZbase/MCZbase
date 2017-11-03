@@ -25,7 +25,7 @@
 </cfquery>
 <!--- Obtain list of transaction agent roles, excluding those not relevant to deaccession editing --->
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'associated with agency' and trans_agent_role != 'received from' order by trans_agent_role
+	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'associated with agency' and trans_agent_role != 'received from' and trans_agent_role != 'borrow overseen by' order by trans_agent_role
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
@@ -260,9 +260,9 @@
 			</cfquery>
 			<cfloop query="all_coll">
 				<cfif (institution_acronym is 'MCZ')>
-					<!---- yyyy-n-CCDE format --->
-					<cfset stg="'#dateformat(now(),"yyyy")#-' || max(to_number(substr(deacc_number,instr(deacc_number,'-')+1,instr(deacc_number,'-',1,2)-instr(deacc_number,'-')-1) + 1)) || '-#collection_cde#'">
-					<cfset whr=" AND substr(deacc_number, 1,4) ='#dateformat(now(),"yyyy")#'">
+					<!---- Dyyyy-n-CCDE format --->
+					<cfset stg="'D#dateformat(now(),"yyyy")#-' || nvl(max(to_number(regexp_substr(deacc_number,'[^-]+', 1, 2))) + 1,'1') || '-#collection_cde#'">
+					<cfset whr=" AND substr(deacc_number, 2,4) ='#dateformat(now(),"yyyy")#'">
 				<cfelse>
 					<!--- n format --->
 					<cfset stg="'#dateformat(now(),"yyyy")#.' || max(to_number(substr(deacc_number,instr(deacc_number,'.')+1,instr(deacc_number,'.',1,2)-instr(deacc_number,'.')-1) + 1)) || '.#collection_cde#'">
@@ -1189,7 +1189,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                   <option value="#collection_id#">#collection#</option>
                 </cfloop>
               </select>
-              <img src="images/nada.gif" width="2" height="1"> Number: <span class="lnum">
+              <img src="images/nada.gif" width="2" height="1"> Number: (Dyyyy-n-Col) <span class="lnum">
               <input type="text" name="deacc_number">
               </span></td>
           </tr>

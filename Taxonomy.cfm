@@ -14,6 +14,9 @@
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
+<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select taxon_habitat from cttaxon_habitat order by taxon_habitat
+</cfquery>
 <cfset title="Edit Taxonomy">
 <cfif !isdefined("subgenus_message")>
     <cfset subgenus_message ="">
@@ -417,6 +420,42 @@
 			</td>
 		</tr>
 	</table>
+	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select taxon_habitat from taxon_habitat where taxon_name_id = #taxon_name_id#
+	</cfquery>
+
+	<cfset usedHabitats = valueList(habitat.taxon_habitat)>
+
+	<h4>Habitat</h4>
+	<cfset i=1>
+	<cfloop query="habitat">
+		<form name="habitat#i#" method="post" action="Taxonomy.cfm">
+			<input type="hidden" name="Action">
+			<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
+			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+			<input type="text" name="taxon_habitat" value="#taxon_habitat#" size="30" readonly style="background-color: ##dddddd; border: 0">
+	   		<input type="button" value="Delete" class="delBtn" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
+		</form>
+		<cfset i=i+1>
+	</cfloop>
+	<table class="newRec">
+		<tr>
+			<td>
+				<form name="newhabitat" method="post" action="Taxonomy.cfm">
+					<input type="hidden" name="Action" value="newhabitat">
+					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+					<label for="taxon_habitat">New Habitat</label>
+					<select name="taxon_habitat" id="habitat_name"size="1">
+					<cfloop query="cttaxon_habitat">
+			        	<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
+			        	<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
+			        	</cfif>
+			        </cfloop>
+					<input type="submit" value="Add" class="insBtn">
+				</form>
+			</td>
+		</tr>
+	</table>
     </div>
 </cfoutput>
 </cfif>
@@ -441,6 +480,16 @@
 	<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO common_name (common_name, taxon_name_id)
 		VALUES ('#common_name#', #taxon_name_id#)
+	</cfquery>
+	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+</cfoutput>
+</cfif>
+<!---------------------------------------------------------------------------------------------------->
+<cfif action is "newHabitat">
+<cfoutput>
+	<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		INSERT INTO taxon_habitat (taxon_habitat, taxon_name_id)
+		VALUES ('#taxon_habitat#', #taxon_name_id#)
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -483,6 +532,19 @@
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
 </cfif>
+<!---------------------------------------------------------------------------------------------------->
+<cfif action is "deleteHabitat">
+<cfoutput>
+	<cfquery name="killhabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		DELETE FROM
+			taxon_habitat
+		WHERE
+			taxon_habitat='#orighabitatName#' AND taxon_name_id=#taxon_name_id#
+	</cfquery>
+	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+</cfoutput>
+</cfif>
+
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxa">
 <cfset title = "Add Taxonomy">
