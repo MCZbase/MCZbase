@@ -21,14 +21,14 @@
 </script>
 <style >
 	.cTreePane {
-		height:400px;	
+		height:400px;
 overflow-y:scroll;
 overflow-x:auto;
 padding: 1em 1em 0 1em;
 	}
-	.ajaxWorking{ 
-		top: 15%; 
-		color: green; 
+	.ajaxWorking{
+		top: 15%;
+		color: green;
 		text-align: center;
 		margin: auto;
 		position:absolute;
@@ -39,7 +39,7 @@ padding: 1em 1em 0 1em;
 		border:1px solid;
 		overflow:hidden;
 		z-index:1;
-		/*overflow-y:scroll;*/	
+		/*overflow-y:scroll;*/
 		}
 	.ajaxDone {display:none}
 	.ajaxMessage {color:green;}
@@ -64,7 +64,7 @@ padding: 1em 1em 0 1em;
 <table border width="100%">
 	<tr>
 		 <td valign="top" style="padding: 1em;"><!--------------------------- search pane ----------------------------->
-        
+
         <h4>Find Container:</h4>
         <div id="searchPane">
           <div style="border: 1px solid green; padding:.5em; width: 24em;">
@@ -72,18 +72,18 @@ padding: 1em 1em 0 1em;
             <table>
               <tr>
                 <cfif not isdefined("container_label")><cfset container_label=""></cfif>
-                <td style="padding-right: 1em;"><label for="container_label">Label (% for wildcard)</label>
+                <td style="padding-right: 1em;"><label for="container_label">Name (% for wildcard)</label>
                   <input type="text" name="container_label" id="container_label" value="#container_label#" size="16" /></td>
                 <td><input type="hidden" name="transaction_id" id="transaction_id">
-                  <label for="barcode">Barcode (comma-list OK)</label>
+                  <label for="barcode">Unique Identifier (comma-list OK)</label>
                   <input type="text" name="barcode" id="barcode" size="17" /></td>
               </tr>
               <tr>
                 <cfif not isdefined("parent_label")><cfset parent_label=""></cfif>
-                <td style="padding-right: 1em;"><label for="parent_label">Parent Label</label>
+                <td style="padding-right: 1em;"><label for="parent_label">Parent Name</label>
                   <input type="text" name="parent_label" id="parent_label" value="#parent_label#" size="16" /></td>
                 <td>
-                  <label for="barcode">Parent Barcode</label>
+                  <label for="barcode">Parent Unique Identifier</label>
                   <input type="text" name="parent_barcode" id="_parent_barcode" size="17" />
                 </td>
               </tr>
@@ -159,7 +159,7 @@ padding: 1em 1em 0 1em;
 		<td valign="top"><!------------------------------------- tree pane --------------------------------------------->
 			<div id="treePane" class="cTreePane"></div>
 		</td><!------------------------------------- end tree pane --------------------------------------------->
-		
+
 		<td valign="top">
 			<div id="detailPane"></div>
 		</td>
@@ -196,5 +196,5 @@ padding: 1em 1em 0 1em;
 		loadTree();
 	</script>
 	</cfif>
-</cfif> 
+</cfif>
 </cfoutput>

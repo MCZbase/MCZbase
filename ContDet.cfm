@@ -3,16 +3,16 @@
 	<cfabort><!--- need an ID to do anything --->
 </cfif>
 <cfquery name="Detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT 
+	SELECT
 		cataloged_item.collection_object_id,
 		container.container_id,
 		container_type,
 		label,
 		description,
 		container_remarks,
-		container.barcode, 
-		part_name, 
-		cat_num, 
+		container.barcode,
+		part_name,
+		cat_num,
 		scientific_name,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		parent_install_date,
@@ -20,15 +20,15 @@
 		HEIGHT,
 		length,
 		NUMBER_POSITIONS
-	FROM 
-		container, 
-		cataloged_item, 
-		specimen_part, 
-		coll_obj_cont_hist, 
+	FROM
+		container,
+		cataloged_item,
+		specimen_part,
+		coll_obj_cont_hist,
 		(select * from identification where accepted_id_fg=1) identification
-	WHERE container.container_id = coll_obj_cont_hist.container_id (+) AND 
-		coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id (+) AND 
-		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id   (+) AND 
+	WHERE container.container_id = coll_obj_cont_hist.container_id (+) AND
+		coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id (+) AND
+		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id   (+) AND
 		cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 		container.container_id=#container_id#
 </cfquery>
@@ -41,7 +41,7 @@
 			<td class="lblval">#container_type#</td>
 		</tr>
 		<tr>
-			<td class="lbl2">Label:</td>
+			<td class="lbl2">Name:</td>
 			<td class="lblval"> #label#</td>
 		</tr>
 		<cfif len(#description#) gt 0>
@@ -58,7 +58,7 @@
 		</cfif>
 		<cfif len(#barcode#) gt 0>
 		  <tr>
-			<td class="lbl2">Barcode:</td>
+			<td class="lbl2">Unique Identifier:</td>
 			<td class="lblval">#barcode#</td>
 		  </tr>
 		</cfif>
@@ -104,7 +104,7 @@
 		</cfif>
 		<cfif len(#collection_object_id#) gt 0>
 			<tr>
-				<td colspan="2" class="lblval"><a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#" 
+				<td colspan="2" class="lblval"><a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
                                    target="_blank">Specimen</a> <span style="font-size: small"> (new window)</span></td>
 			</tr>
 		<cfelse>
@@ -122,7 +122,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" class="lblval lblextra">
-				<a href="/containerPositions.cfm?container_id=#container_id#" 
+				<a href="/containerPositions.cfm?container_id=#container_id#"
 					target="_blank">Positions</a> <span style="font-size: small;"> (new window)</span>
 			</td>
 			</tr>

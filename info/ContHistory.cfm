@@ -9,7 +9,7 @@
 </cfquery>
 
 <cfquery name="getHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select 
+	select
 		install_date,
 		container_type,
 		label,
@@ -27,10 +27,10 @@
 	ORDER BY install_date DESC
 </cfquery>
 <cfif #getHist.recordcount# gt 0>
-#thisCont.label# (<cfif len(#thisCont.description#) gt 0>#thisCont.description#,&nbsp;</cfif>a&nbsp;#thisCont.container_type#) 
+#thisCont.label# (<cfif len(#thisCont.description#) gt 0>#thisCont.description#,&nbsp;</cfif>a&nbsp;#thisCont.container_type#)
 has been in the following container(s):
 <cfelse>
-#thisCont.label# (<cfif len(#thisCont.description#) gt 0>#thisCont.description#,&nbsp;</cfif>a&nbsp;#thisCont.container_type#) 
+#thisCont.label# (<cfif len(#thisCont.description#) gt 0>#thisCont.description#,&nbsp;</cfif>a&nbsp;#thisCont.container_type#)
 has no scan history.
 
 </cfif>
@@ -39,9 +39,9 @@ has no scan history.
 	<tr>
 		<td><b>Date</b></td>
 		<td><b>Type</b></td>
-		<td><b>Label</b></td>
+		<td><b>Name</b></td>
 		<td><b>Description</b></td>
-		<td><b>Barcode</b></td>
+		<td><b>Unique Identifier</b></td>
 	</tr>
 
 <cfloop query="getHist">
@@ -51,7 +51,7 @@ has no scan history.
 		<td>#container_type#</td>
 		<td>#label#</td>
 		<td>#description#</td>
-		<td>#barcode#</td>		
+		<td>#barcode#</td>
 		</tr>
 </cfloop>
 </table>

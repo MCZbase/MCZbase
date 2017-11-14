@@ -7,7 +7,7 @@
 	}
 	.yellow {background-color:#FFFF00;
 	}
-	
+
 </style>
 <script>
 	function moveThisOne() {
@@ -63,7 +63,7 @@
 			p.className ='yellow';
 			t.className='yellow';
 			var isChild = message.indexOf('Child');
-			var isParent = message.indexOf('Parent');	
+			var isParent = message.indexOf('Parent');
 			if (isChild > -1) {
 				var theChildBarcode = document.getElementById('child_barcode').value;
 				var newMess = '<a href="/EditContainer.cfm?action=newContainer&barcode=' + theChildBarcode + '">' + message + "</a>";
@@ -107,29 +107,29 @@ Containers Moved: &nbsp;<span id="counter" style="background-color: yellow">0</s
 	<form name="moveIt" onsubmit="moveThisOne(); return false;">
 		<input type="hidden" name="action" value="moveIt">
 		<td>
-			<label for="parent_barcode">Parent Barcode</label>
+			<label for="parent_barcode">Parent Unique Identifier</label>
 			<input type="text" name="parent_barcode" id="parent_barcode">
 		</td>
 		<td>
-			<label for="child_barcode">Child Barcode</label>
+			<label for="child_barcode">Child Unique Identifier</label>
 		  	<input type="text" name="child_barcode" id="child_barcode" onchange="autosubmit();">
-		</td>		
+		</td>
 		<td>
 			<label for="timestamp">Timestamp <img src="/images/clock.gif" class="likeLink" onclick="setNow();" /></label>
 			<input type="text" name="timestamp" id="timestamp">
 		</td>
 		<td>
 			<label for="">&nbsp;</label>
-			<input type="submit" 
-				value="Move Container" 
+			<input type="submit"
+				value="Move Container"
 				class="savBtn"
 				onmouseover="this.className='savBtn btnhov'"
 				onmouseout="this.className='savBtn'">
 		</td>
 		<td>
 			<label for="">&nbsp;</label>
-			<input type="reset" 
-				value="Clear Form" 
+			<input type="reset"
+				value="Clear Form"
 				class="clrBtn"
 				onmouseover="this.className='clrBtn btnhov'"
 				onmouseout="this.className='clrBtn'">
@@ -137,7 +137,7 @@ Containers Moved: &nbsp;<span id="counter" style="background-color: yellow">0</s
 		<td align="right">
 			<label for="autoSubmit">Submit on Child Change</label>
 			<input type="checkbox" name="autoSubmit" id="autoSubmit" />
-		</td>		
+		</td>
 	</form>
 </tr>
 </table>

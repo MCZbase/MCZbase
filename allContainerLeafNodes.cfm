@@ -27,9 +27,9 @@
 	 has #leaf.recordcount# leaf containers:</strong>
 	<table border id="t" class="sortable">
 		<tr>
-			<td><strong>Label</strong></td>
+			<td><strong>Container Name</strong></td>
 			<td><strong>Description</strong></td>
-			<td><strong>In Barcode</strong></td>
+			<td><strong>In Unique ID</strong></td>
 			<td><strong>Remarks</strong></td>
 			<td><strong>Part Name</strong></td>
 			<td><strong>Cat Num</strong></td>

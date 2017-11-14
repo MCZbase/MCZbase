@@ -7,23 +7,23 @@
 	<form name="pd" method="post" action="batchScan.cfm">
 		<input type="hidden" name="action" value="save">
 		<input type="hidden" name="numberFolders" value="#numberFolders#">
-		<label for="parent_barcode">Parent Barcode</label>
+		<label for="parent_barcode">Parent Unique Identifiers</label>
 		<input type="text" name="parent_barcode" id="parent_barcode" size="20" class="reqdClr">
-		<input type="submit" 
+		<input type="submit"
 					class="savBtn"
-					onmouseover="this.className='savBtn btnhov'" 
+					onmouseover="this.className='savBtn btnhov'"
 	   				onmouseout="this.className='savBtn'"
 					value="Save">
 					&nbsp;&nbsp;&nbsp;
-				<input type="reset" 
+				<input type="reset"
 					class="clrBtn"
-					onmouseover="this.className='clrBtn btnhov'" 
+					onmouseover="this.className='clrBtn btnhov'"
 	   				onmouseout="this.className='clrBtn'"
 					value="Clear Form">
 					<hr>
-					
-		<label for="sheets">Child Barcodes</label>		
-		<cfset numCols="3">		
+
+		<label for="sheets">Child Unique Identifiers</label>
+		<cfset numCols="3">
 			<div style="border:1px solid green; padding:10px;" id="sheets">
 				<table>
 					<cfset c=1>
@@ -32,19 +32,19 @@
 							<tr>
 						</cfif>
 							<td>
-								<input type="text" name="barcode_#i#" id="barcode_#i#" size="20" class="reqdClr">&nbsp;&nbsp;	
+								<input type="text" name="barcode_#i#" id="barcode_#i#" size="20" class="reqdClr">&nbsp;&nbsp;
 							</td>
 						<cfset c=c+1>
 						<cfif c is colCount+1>
 							</tr>
 							<cfset c=1>
 						</cfif>
-																				
-					</cfloop>					
+
+					</cfloop>
 				</table>
 			</div>
 		</td>
-		
+
 	</tr>
 </table>
 </form>
@@ -62,7 +62,7 @@
 			<cfset thisBarcode=evaluate("barcode_" & i)>
 			<cfif len(#thisBarcode#) gt 0>
 				<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 
+					select
 						checkContainerMovement('#parent_barcode#','#thisBarcode#') cmvt
 	 				from
 						dual
@@ -71,13 +71,13 @@
 				<cfif chk.cmvt is 'pass'>
 					<cfset pf=listappend(pf,"p")>
 					<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update container set 
+						update container set
 							parent_container_id=
 								(select container_id from container where barcode='#parent_barcode#'),
 							PARENT_INSTALL_DATE=sysdate
 						where
 							barcode='#thisBarcode#'
-					</cfquery>	
+					</cfquery>
 				<cfelse>
 					<cfset pf=listappend(pf,"f")>
 					<cftransaction action="rollback" />

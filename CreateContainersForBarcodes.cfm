@@ -41,9 +41,9 @@
     <input type="text" name="beginBarcode" id="beginBarcode">
     <label for="endBarcode">High number in series</label>
    	<input type="text" name="endBarcode" id="endBarcode">
-    <label for="prefix">Barcode Prefix (non-numeric leading bit-include spaces if you want them)</label>
+    <label for="prefix">Unique Identifier Prefix (non-numeric leading bit-include spaces if you want them)</label>
    	<input type="text" name="prefix" id="prefix">
-    <label for="suffix">Barcode Suffix (non-numeric trailing bit-include spaces if you want them) </label>
+    <label for="suffix">Unique Identifier Suffix (non-numeric trailing bit-include spaces if you want them) </label>
    	<input type="text" name="suffix" id="suffix">
 	<label for="label_prefix">Label Prefix (non-numeric leading bit-include spaces if you want them)</label>
     <input type="text" name="label_prefix" id="label_prefix">

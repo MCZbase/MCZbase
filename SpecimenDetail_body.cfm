@@ -937,22 +937,22 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id FROM
 			specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
  			left join loan on loan_item.transaction_id = loan.transaction_id
-			where 
-			loan_number is not null and 
+			where
+			loan_number is not null and
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
 		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT deacc_item.collection_object_id FROM
 			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
-			where 
+			where
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
 		<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT distinct deacc_number, deacc_type, deaccession.transaction_id FROM
 			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
  			left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-			where 
-			deacc_number is not null and 
+			where
+			deacc_number is not null and
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
 		</td>
@@ -1088,7 +1088,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								<th class="inside"><span class="innerDetailLabel">Disposition</span></th>
 								<th class="inside"><span class="innerDetailLabel">##</span></th>
 								<cfif oneOfus is "1">
-									<th class="inside"><span class="innerDetailLabel">Container Label</span></th>
+									<th class="inside"><span class="innerDetailLabel">Container Name</span></th>
 								</cfif>
 								<th class="inside"><span class="innerDetailLabel">Remarks</span></th>
 							</tr>
@@ -1431,7 +1431,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			</div>
 			</cfif>
 <!------------------------------------ usage ---------------------------------------------->
-		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or 
+		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or
                            (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or
                            (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)
                 >
@@ -1461,7 +1461,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 										target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 							<cfloop query="loanList">
-								#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)&nbsp; 
+								#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)&nbsp;
 							</cfloop>
 							</cfif>
 							</span>
@@ -1475,7 +1475,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 										target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 							<cfloop query="deaccessionList">
-								<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp; 
+								<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp;
 							</cfloop>
 							</cfif>
 							</span>

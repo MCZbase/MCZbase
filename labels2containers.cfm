@@ -1,7 +1,7 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="labels2containers">
     <div style="width: 56em;margin:0 auto; padding: 2em 0 5em 0;">
-        
+
 <cfif #action# IS "nothing">
      <h2 class="wikilink">Labels to Containers</h2>
 	This form will function with a few thousand labels. If you need to do more, break them into batches or get a DBA to help.
@@ -10,8 +10,8 @@ To use this form, all of the following must be true:
 
 <ul class="labels">
 	<li>You want to make labels into containers</li>
-	<li>All the containers have barcodes</li>
-	<li>The barcodes are
+	<li>All the containers have unique identifiers</li>
+	<li>The unique identifiers are
 		<ul>
 			<li>Integers</li>
 			<li>Integers with a prefix</li>
@@ -20,7 +20,7 @@ To use this form, all of the following must be true:
 </ul>
 
 <cfoutput>
-    
+
 	<cfquery name="ctContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct(container_type) container_type from ctcontainer_type
 		where container_type <> 'collection object'
@@ -39,15 +39,15 @@ To use this form, all of the following must be true:
 				<option value="#container_type#">#container_type#</option>
 			</cfloop>
 		</select>
-		<label for="barcode_prefix">Barcode Prefix (include spaces, leading zeros if necessary)</label>
+		<label for="barcode_prefix">Unique ID Prefix (include spaces, leading zeros if necessary)</label>
 		<input type="text" name="barcode_prefix" id="barcode_prefix" size="3">
 		<!---
 		<label for="barcode_suffix">Barcode Suffix</label>
 		<input type="text" name="barcode_suffix" id="barcode_suffix" size="3">
 		--->
-		<label for="begin_barcode">Low barcode (integer component)</label>
+		<label for="begin_barcode">Low Unique ID (integer component)</label>
 		<input type="text" name="begin_barcode" id="begin_barcode" class="reqdClr">
-		<label for="end_barcode">High barcode (integer component)</label>
+		<label for="end_barcode">High Unique ID (integer component)</label>
 		<input type="text" name="end_barcode" id="end_barcode" class="reqdClr">
 		<label for="description">New Description</label>
 		<input type="text" name="description" id="description">
@@ -99,7 +99,7 @@ To use this form, all of the following must be true:
 		<cfloop from="#begin_barcode#" to="#end_barcode#" index="i">
 			<cfset bc = barcode_prefix & i>
 			<cfquery name="upContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update container set 
+				update container set
 					container_type='#newContType#'
 					<cfif len(#DESCRIPTION#) gt 0>
 						,DESCRIPTION='#DESCRIPTION#'
@@ -125,7 +125,7 @@ To use this form, all of the following must be true:
 			</cfquery>
 		</cfloop>
 	</cftransaction>
-        
+
 </cfoutput>
 	Done. Check containers to make sure you did what you thought you were doing.
 </cfif>
