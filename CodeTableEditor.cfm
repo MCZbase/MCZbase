@@ -153,6 +153,72 @@
 			<cfset i=#i#+1>
 		</cfloop>
 	</table>
+	<cfelseif tbl is "ctcountry_code"><!---------------------------------------------------->
+                <p>ISO 2 letter country codes for country names.  A country name can appear more than once to represent alternative forms of the name for the country, all mapping to the same country code, but each country name string must be unique.   Do not include strings which map onto historical country names which may map onto more than one current country, even if on ISO list (e.g. 'Congo').</p>
+		<!---   Country/Country Code code table includes fields for country and country code, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select country, code from ctcountry_code order by code, country
+		</cfquery>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Country Code</th>
+					<th>Country</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="code" maxlength="3">
+					</td>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Country Code</th>
+				<th>Country</th>
+				<th></th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#country#">
+						<td>
+							<input type="text" name="code" value="#code#" maxlength="3">
+						</td>
+						<td>
+							<input type="text" name="country" value="#country#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+
 	<cfelseif tbl is "ctloan_type"><!---------------------------------------------------->
 		<!---   Loan type code table includes fields for scope (loan or gift) and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -824,6 +890,12 @@
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
+	<cfelseif tbl is "ctcountry_code">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctcountry_code
+			where
+				COUNTRY = <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctbiol_relations
@@ -883,6 +955,14 @@
 				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctcountry_code">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctcountry_code set 
+				COUNTRY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#country#" />,
+				CODE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#code#" />
+			where
+				COUNTRY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -971,6 +1051,16 @@
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
 				<cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctcountry_code">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctcountry_code (
+				country,
+				code
+			) values (
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
+				<cfqueryparam cfsqltype="cf_sql_number" value="#code#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
