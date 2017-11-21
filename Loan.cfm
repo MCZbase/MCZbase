@@ -2,6 +2,7 @@
 <cfinclude template="includes/_header.cfm">
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
+<cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
@@ -129,14 +130,14 @@
 						</select>
 					</td>
 					<td id="upperRightCell"><!--- id for positioning nextnum div --->
-						<label for="loan_number">#scope# Number</label>
-						<input type="text" name="loan_number" class="reqdClr" id="loan_number">
+						<label for="loan_number">#scope# Number (yyyy-n-Coll)</label>
+						<input type="text" name="loan_number" class="reqdClr" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 					</td">
 				</tr>
 				<tr>
 					<td>
 						<label for="auth_agent_name">Authorized By</label>
-						<input type="text" name="auth_agent_name" class="reqdClr" size="40"
+						<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr" required size="40" 
 						  onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="auth_agent_id" id="auth_agent_id" 
@@ -145,7 +146,7 @@
 					</td>
 					<td>
 						<label for="rec_agent_name">Received By:</label>
-						<input type="text" name="rec_agent_name" class="reqdClr" size="40"
+						<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr" required size="40"
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="rec_agent_id" id="rec_agent_id" 
@@ -156,7 +157,8 @@
 				<tr>
 					<td>
 						<label for="in_house_contact_agent_name">In-House Contact:</label>
-						<input type="text" name="in_house_contact_agent_name" class="reqdClr" size="40"
+						<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
+						  class="reqdClr" required size="40"
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
@@ -176,7 +178,8 @@
 				<tr>
 					<td>
 						<label for="recipient_institution_agent_name">Recipient Institution:</label>
-						<input type="text" name="recipient_institution_agent_name" class="reqdClr" size="40"
+						<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" 
+						  class="reqdClr" required size="40"
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" 
@@ -230,7 +233,7 @@
 						   });
 						 });
 						</script>
-						<select name="loan_type" id="loan_type" class="reqdClr">
+						<select name="loan_type" id="loan_type" class="reqdClr" required >
 							<cfloop query="ctLoanType">
 								<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
 							</cfloop>
@@ -239,7 +242,7 @@
 					</td>
 					<td>
 						<label for="loan_status">#scope# Status</label>
-						<select name="loan_status" id="loan_status" class="reqdClr">
+						<select name="loan_status" id="loan_status" class="reqdClr" required >
 							<cfloop query="ctLoanStatus">
                                   <cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 								<option value="#ctLoanStatus.loan_status#"
@@ -267,7 +270,7 @@
 				<tr>
 					<td colspan="2">
 						<label for="nature_of_material">Nature of Material</label>
-						<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr"></textarea>
+						<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr" required ></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -300,7 +303,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="submit" value="Create #scope#" class="insBtn">
+						<input type="button" value="Create #scope#" class="insBtn" 
+						       onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
 						&nbsp;
 						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm'">
 			   		</td>
@@ -343,7 +347,7 @@
 			<cfloop query="all_coll">
 				<cfif (institution_acronym is 'MCZ')>
 					<!---- yyyy-n-CCDE format --->
-					<cfset stg="'#dateformat(now(),"yyyy")#-' || max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) || '-#collection_cde#'">
+					<cfset stg="'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#'">
 					<cfset whr=" AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
 				<cfelse>
 					<!--- n format --->
@@ -527,7 +531,7 @@
     <tr>
     <td valign="top" class="leftCell"><!--- left cell ---->
 
-  <form name="editloan" action="Loan.cfm" method="post">
+  <form name="editloan" id="editLoan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 
@@ -545,8 +549,8 @@
 		</select>
        </td>
        <td>
-          <label for="loan_number">#scope# Number</label>
-		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr">
+          <label for="loan_number">#scope# Number (yyyy-n-Coll)</label>
+		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr" required  pattern="#LOANNUMBERPATTERN#"  >
         </td>
         </tr>
         </table>
@@ -637,7 +641,7 @@
 			<tr>
 				<td width="44%">
 					<label for="loan_type">#scope# Type</label>
-					<select name="loan_type" id="loan_type" class="reqdClr">
+					<select name="loan_type" id="loan_type" class="reqdClr" required >
 						<cfloop query="ctLoanType">
                                                       <cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
 							  <option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
@@ -651,7 +655,7 @@
 				</td>
 				<td>
 					<label for="loan_status">#scope# Status</label>
-					<select name="loan_status" id="loan_status" class="reqdClr">
+					<select name="loan_status" id="loan_status" class="reqdClr" required >
                                                 <!---  Normal transaction users are only allowed certain loan status state transitions, users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
 						<cfloop query="ctLoanStatus">
                                                      <cfif isAllowedLoanStateChange(loanDetails.loan_status,ctLoanStatus.loan_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
@@ -669,7 +673,7 @@
 				<td>
 					<label for="initiating_date">Transaction Date</label>
 					<input type="text" name="initiating_date" id="initiating_date"
-						value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr">
+						value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr" required >
 				</td>
 				<td>
                                       <cfif scope eq 'Loan'>
@@ -777,9 +781,9 @@
                      </select>
                      <button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
                 </div>
-		<label for="">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
+		<label for="nature_of_material">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
 		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="60"
-			class="reqdClr">#loanDetails.nature_of_material#</textarea>
+			class="reqdClr" required >#loanDetails.nature_of_material#</textarea>
 		<label for="loan_description">Description (<span id="lbl_loan_description"></span>)</label>
 		<textarea name="loan_description" id="loan_description" rows="7"
 			cols="60">#loanDetails.loan_description#</textarea>
@@ -790,7 +794,7 @@
 		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="60">#loanDetails.trans_remarks#</textarea>
 		<br>
 		<input type="button" value="Save Edits" class="savBtn"
-			onClick="editloan.action.value='saveEdits';submit();">
+                        onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 
    		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
 		<input type="button" value="Add Items" class="lnkBtn"
@@ -901,7 +905,7 @@
 		<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_agent_role from ctproject_agent_role order by project_agent_role
 		</cfquery>
-		<label for="">Project Agent Role</label>
+		<label for="project_agent_role">Project Agent Role</label>
 		<select name="project_agent_role" size="1" class="reqdClr">
 			<cfloop query="ctProjAgRole">
 				<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
@@ -911,7 +915,7 @@
 		<textarea name="project_name" cols="50" rows="2" class="reqdClr"></textarea>
 		<label for="start_date" >Project Start Date</label>
 		<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
-		<label for="">Project End Date</label>
+		<label for="end_date">Project End Date</label>
 		<input type="text" name="end_date">
 		<label for="project_description" >Project Description</label>
 		<textarea name="project_description"
@@ -1581,7 +1585,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                   <option value="#collection_id#">#collection#</option>
                 </cfloop>
               </select>
-              <img src="images/nada.gif" width="2" height="1"> Number: <span class="lnum">
+              <img src="images/nada.gif" width="2" height="1"> Number: (yyyy-n-Coll) <span class="lnum">
               <input type="text" name="loan_number">
               </span></td>
           </tr>
