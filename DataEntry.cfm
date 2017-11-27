@@ -123,7 +123,7 @@ Some Totally Random String Data .....
 		</ul>
             If you have data to enter in bulk, use the <a href="/Bulkloader/">bulkload</a> feature.
             </div>
-    	<p><a href="/Bulkloader/cloneWithBarcodes.cfm">Clone records by Barcode</a></p>
+    	<p><a href="/Bulkloader/cloneWithBarcodes.cfm">Clone records by Container Unique ID</a></p>
 		<cfquery name="theirLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				max(collection_object_id) theId,
@@ -1495,7 +1495,7 @@ Some Totally Random String Data .....
 						<th><span class="f11a">Disposition</span></th>
 						<th><span class="f11a">## Mod.</span></th>
 						<th><span class="f11a">##</span></th>
-						<th><span class="f11a">Barcode</span></th>
+						<th><span class="f11a">Container Unique ID</span></th>
 						<th><span class="f11a">Remark</span></th>
                         <th colspan="7"><span class="f11a">Part Attributes</th>
 					</tr>
@@ -1549,7 +1549,7 @@ Some Totally Random String Data .....
 							</td>
 							<td>
 								<input type="text" name="part_barcode_#i#" id="part_barcode_#i#" value="#evaluate("data.part_barcode_" & i)#"
-									 size="6" onchange="part_container_label_#i#.className='reqdClr';setPartLabel(this.id);">
+									 size="15" onchange="part_container_label_#i#.className='reqdClr';setPartLabel(this.id);">
 							</td>
 							<td>
                  <!---         <textarea id="part_remark_#i#" value="#evaluate("data.part_remark_" & i)#" name="part_remark_#i#" size="100"></textarea>--->

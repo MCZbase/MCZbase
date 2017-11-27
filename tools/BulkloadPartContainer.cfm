@@ -1,12 +1,12 @@
 <!------------------------------
-CREATE OR REPLACE TRIGGER cf_temp_barcode_parts_key                                         
- before insert  ON cf_temp_barcode_parts  
- for each row 
-    begin     
-    	if :NEW.key is null then                                                                                      
+CREATE OR REPLACE TRIGGER cf_temp_barcode_parts_key
+ before insert  ON cf_temp_barcode_parts
+ for each row
+    begin
+    	if :NEW.key is null then
     		select somerandomsequence.nextval into :new.key from dual;
-    	end if;                                
-    end;                                                                                            
+    	end if;
+    end;
 /
 sho err
 		create table cf_temp_barcode_parts (
@@ -22,7 +22,7 @@ sho err
 			 );
 		CREATE PUBLIC SYNONYM cf_temp_barcode_parts FOR cf_temp_barcode_parts;
 		GRANT select,insert,update,delete ON cf_temp_barcode_parts to manage_container;
-		
+
 		alter table cf_temp_barcode_parts add status varchar2(255);
 		alter table cf_temp_barcode_parts add parent_container_id number;
 		alter table cf_temp_barcode_parts add part_container_id number;
@@ -30,8 +30,8 @@ sho err
 <cfinclude template="/includes/_header.cfm">
     <div style="width: 56em; margin: 0 auto; padding: 1em 0 3em 0;">
 <cfif action is "makeTemplate">
-	<cfset header="OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_TYPE,BARCODE">
-	<cffile action = "write" 
+	<cfset header="OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID">
+	<cffile action = "write"
     file = "#Application.webDirectory#/download/BulkPartContainer.csv"
     output = "#header#"
     addNewLine = "no">
@@ -42,35 +42,35 @@ sho err
 	Use this form to put collection objects (that is, parts) in containers. Parts and containers must already exist.
     <p style="margin: .5em 0;"><a href="BulkloadPartContainer.cfm?action=makeTemplate">download a CSV template</a></p>
 	<ul class="geol_hier">
-		
+
         <li style="color: red;">other_id_type</li>
         <ul><li>"catalog number" is also a valid other_id_type</li>
 		<li>	<a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">other_id_type values list</a></li>
     </ul>
-	
+
 		</li>
 		<li style="color: red;">Collection_Cde</li>
     <li style="color: red;">Institution_Acronym  <span style="color:black;">(case-sensitive, e.g., "MCZ")</span></li>
-		
+
 		<li style="color: red;">
 			Part_Name
 			<!--<br><a href="/info/ctDocumentation.cfm?table=ctspecimen_part_name" target="_blank">part_name values</a>-->
 		</li>
 		<li style="color: red">
 			Preserve_Method
-          
+
 		</li>
-		<li style="color: red">barcode
-            <ul style="color: black;"><li>is the barcode of the container into which you want to place the part</li></ul>
-            
+		<li style="color: red">container_unique_id
+            <ul style="color: black;"><li>is the unique id of the container into which you want to place the part</li></ul>
+
         </li>
-		<li style="color: red">
+		<!---li style="color: red">
 			new_container_type
             <ul style="color:black;"><li>the container type into which you wish to place the part may be a label of some sort</li>
                 <li>container must already exist in MCZbase</li>
                 <li><a href="/info/ctDocumentation.cfm?table=ctcontainer_type" target="_blank">valid container type list</a></li></ul>
-			
-		</li>
+
+		</li--->
 	</ul>
 
 	<cfform name="getFile" method="post" action="BulkloadPartContainer.cfm" enctype="multipart/form-data">
@@ -103,7 +103,7 @@ sho err
 			</cfloop>
 		<cfif #o# is 1>
 			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
+		</cfif>
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
 			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -124,17 +124,16 @@ sho err
 			trim(OTHER_ID_NUMBER) oidNum,
 			trim(part_name) part_name,
 			trim(preserve_method) preserve_method,
-			trim(barcode) parent_barcode,
-			print_fg,
-			trim(new_container_type) new_container_type
-		from 
+			trim(container_unique_id) container_unique_id,
+			print_fg
+		from
 			cf_temp_barcode_parts
 	</cfquery>
-	<cfquery name="goodContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<!---cfquery name="goodContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_barcode_parts set status='bad_container_type'
 		where new_container_type NOT IN (
 			select container_type from ctcontainer_type)
-	</cfquery>
+	</cfquery--->
 	<cfoutput>
 		<cfloop query="data">
 			<cfset sts=''>
@@ -178,10 +177,10 @@ sho err
 			<!--- see if they gave a valid parent container ---->
 			<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from container where container_type <> 'collection object'
-				and barcode='#parent_barcode#'
+				and barcode='#parent_unique_id#'
 			</cfquery>
 			<cfif isGoodParent.recordcount is not 1>
-				<cfset sts='parent_barcode_not_found'>
+				<cfset sts='parent_unique_id_not_found'>
 			</cfif>
 			<cfif sts is ''>
 				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -220,25 +219,25 @@ sho err
 	<cfelse>
 		<cftransaction>
 			<cfloop query="d">
-				<cfquery name="flagIT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update 
-						container 
-					set 
+				<!---cfquery name="flagIT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update
+						container
+					set
 						container_type='#NEW_CONTAINER_TYPE#'
-					where 
-						container_id = #parent_container_id#						
-				</cfquery>
+					where
+						container_id = #parent_container_id#
+				</cfquery--->
 				<cfquery name="moveIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE 
-						container 
-					SET 
+					UPDATE
+						container
+					SET
 						parent_container_id = #parent_container_id#
 					 WHERE
 					container_id=#part_container_id#
 				</cfquery>
 			</cfloop>
 		</cftransaction>
-		woo hoo, it worked 	
+		woo hoo, it worked
 	</cfif>
 </cfif>
         </div>
