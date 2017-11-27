@@ -26,22 +26,23 @@
 <cfoutput>
 <div style="padding: 3px;">
 <cfset sql = "SELECT 
-					preferred_agent_name.agent_id,
+					distinct preferred_agent_name.agent_id,
 					preferred_agent_name.agent_name,
 					agent_type,
-					agent.edited
+					agent.edited,
+                
+                MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
+                    
 				FROM 
 					agent_name
 					left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
 					LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
 					LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
+                  
 				WHERE 
 					agent.agent_id > -1
-					and rownum<500 -- some throttle control
-					">
-					<!---
-					agent_name_type='preferred'
-					--->
+					and rownum<500
+				">
 <cfif isdefined("First_Name") AND len(#First_Name#) gt 0>
 	<cfset sql = "#sql# AND first_name LIKE '#First_Name#'">
 </cfif>
@@ -88,14 +89,14 @@
 		</cfquery>
 <cfif getAgents.recordcount is 0>
     <span class="error">Nothing Matched.</span>
-</cfif>
+</cfif>   
+
 <cfloop query="getAgents">
-	 <span style="display: inline-block;padding:1px 5px;"><a href="editAllAgent.cfm?agent_id=#agent_id#" 
-                                             target="_person">#agent_name#</a> <span style="font-size: smaller;">(#agent_type#: #agent_id#) <cfif #edited# EQ 1>*</cfif></span></span>
+	 <span style="display: inline-block;padding:1px 5px;">
+         <a href="editAllAgent.cfm?agent_id=#agent_id#" target="_person">#agent_name#</a> <span style="font-size: smaller;">(#agent_type#: #agent_id#) <cfif #edited# EQ 1>*</cfif><cfif #worstagentrank# EQ 'B'> <img src="images/flag-yellow.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'C'> <img src="images/flag-yellow.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'D'> <img src="images/flag-orange.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'F'> <img src="images/flag-red.svg.png" width="16"></cfif></span></span>
    <br>
 </cfloop>
+
     </div>
 </cfoutput>
-
-
 <cfinclude template="includes/_pickFooter.cfm">
