@@ -30,7 +30,7 @@ sho err
 <cfinclude template="/includes/_header.cfm">
     <div style="width: 56em; margin: 0 auto; padding: 1em 0 3em 0;">
 <cfif action is "makeTemplate">
-	<cfset header="OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,BARCODE">
+	<cfset header="OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID">
 	<cffile action = "write"
     file = "#Application.webDirectory#/download/BulkPartContainer.csv"
     output = "#header#"
@@ -60,8 +60,8 @@ sho err
 			Preserve_Method
 
 		</li>
-		<li style="color: red">barcode
-            <ul style="color: black;"><li>is the barcode of the container into which you want to place the part</li></ul>
+		<li style="color: red">container_unique_id
+            <ul style="color: black;"><li>is the unique id of the container into which you want to place the part</li></ul>
 
         </li>
 		<!---li style="color: red">
@@ -124,7 +124,7 @@ sho err
 			trim(OTHER_ID_NUMBER) oidNum,
 			trim(part_name) part_name,
 			trim(preserve_method) preserve_method,
-			trim(barcode) parent_barcode,
+			trim(container_unique_id) container_unique_id,
 			print_fg
 		from
 			cf_temp_barcode_parts
@@ -177,10 +177,10 @@ sho err
 			<!--- see if they gave a valid parent container ---->
 			<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from container where container_type <> 'collection object'
-				and barcode='#parent_barcode#'
+				and barcode='#parent_unique_id#'
 			</cfquery>
 			<cfif isGoodParent.recordcount is not 1>
-				<cfset sts='parent_barcode_not_found'>
+				<cfset sts='parent_unique_id_not_found'>
 			</cfif>
 			<cfif sts is ''>
 				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
