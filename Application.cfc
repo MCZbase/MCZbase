@@ -54,7 +54,7 @@
 						<a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
 					</p>
 					(
-					<a href="http://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
+					<a href="https://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
 					)
 					<cfif isdefined("session.username")>
 						<br>
@@ -181,9 +181,22 @@
 		<cfif serverName is "mczbase-test">
 			<cfset serverName="mczbase-test.rc.fas.harvard.edu" />
 		</cfif>
+
+ 		<cfset Application.protocol = 'http'>
+		<!--- *** Test to see if TLS is on and redirection to https is enabled --->
+		<cfhttp url='http://#serverName#/' redirect="no" />
+		<!--- don't actually follow the redirect to avoid having to test for both signed and self-signed certificates --->
+		<cfif left(#cfhttp.statusCode#, 1) EQ '3'>
+			<!--- Redirection is on. --->
+			<cfif left(cfhttp.responseHeader['Location'],6) EQ 'https:' >
+ 			    <cfset Application.protocol = 'https'>
+			    <!--- and the target location uses https, TLS support is enabled. --->
+			</cfif>
+		</cfif>
+
 		<!---cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) /--->
 		<cfset Application.session_timeout=90 />
-		<cfset Application.serverRootUrl = "http://#serverName#" />
+		<cfset Application.serverRootUrl = "#Application.protocol#://#serverName#" />
 		<cfset Application.user_login="user_login" />
 		<cfset Application.max_pw_age = 365 />
 		<cfset Application.fromEmail = "#serverName#" />
@@ -199,7 +212,7 @@
 		<cfset Application.meta_keywords = "museum, collection, management, system" />
 		<cfset Application.gmap_api_key = "not set" />
 		<cfset Application.Google_uacct = "not set" />
-		<cfset Application.domain = replace(Application.serverRootUrl,"http://",".") />
+		<cfset Application.domain = replace(Application.serverRootUrl,"#Application.protocol#://",".") />
 		<cfset Application.header_color = "##000066" />
 		<cfset Application.institutionlinkcolor = "##FF0000" />
 		<cfset Application.collectionlinkcolor = "##00FF00" />
