@@ -1,42 +1,43 @@
 function updateCondition (partID) {
-var s = "document.getElementById('condition" + partID + "').value";
-	var condition = eval(s);
-	var transaction_id = document.getElementById('transaction_id').value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "updateCondition",
-			part_id : partID,
-			condition : condition,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		success_updateCondition
-	);
+	var condition = $('#condition' + partID).val();
+        if (!condition || 0 === condition.length) {
+		messageDialog('You must supply a value for condition.','Error');
+        } else {
+		var transaction_id = $('transaction_id').val();
+		jQuery.getJSON("/component/functions.cfc",
+			{
+				method : "updateCondition",
+				part_id : partID,
+				condition : condition,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			success_updateCondition
+		);
+ 	}
 }
 function success_updateCondition (r) {
 	var result=r.DATA;
 	var partID = result.PART_ID;
 	var message = result.MESSAGE;
-	//alert(partID);
-	//alert(message);
 	if (message == 'success') {
 		var ins = "document.getElementById('condition" + partID + "')";
 		var condition = eval(ins);
-		condition.className = '';
+		condition.className = 'reqdClr';
 	} else {
-		alert('An error occured: \n' + message);
+		messageDialog('An error occured: \n' + message,'Error');
 	}
 }
 function updateDeaccItemRemarks ( partID ) {
 	var s = "document.getElementById('deacc_Item_Remarks" + partID + "').value";
-	var loan_Item_Remarks = eval(s);
+	var deacc_Item_Remarks = eval(s);
 	var transaction_id = document.getElementById('transaction_id').value;
 	jQuery.getJSON("/component/functions.cfc",
 		{
 			method : "updateDeaccItemRemarks",
 			part_id : partID,
 			transaction_id : transaction_id,
-			loan_item_remarks : deacc_Item_Remarks,
+			deacc_item_remarks : deacc_Item_Remarks,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -47,17 +48,43 @@ function success_updateDeaccItemRemarks (r) {
 	var result=r.DATA;
 	var partID = result.PART_ID;
 	var message = result.MESSAGE;
-	//alert(partID);
-	//alert(message);
 	if (message == 'success') {
 		var ins = "document.getElementById('deacc_Item_Remarks" + partID + "')";
 		var deacc_Item_Remarks = eval(ins);
 		deacc_Item_Remarks.className = '';
 	} else {
-		alert('An error occured: \n' + message);
+		messageDialog('An error occured: \n' + message,'Error');
 	}
 }
-function remPartFromDeacc( partID ) {
+function updateDeaccItemInstructions ( partID ) {
+	var s = "document.getElementById('item_instructions" + partID + "').value";
+	var deacc_Item_Instructions = eval(s);
+	var transaction_id = document.getElementById('transaction_id').value;
+	jQuery.getJSON("/component/functions.cfc",
+		{
+			method : "updateDeaccItemInstructions",
+			part_id : partID,
+			transaction_id : transaction_id,
+			item_instructions : deacc_Item_Instructions,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		success_updateDeaccItemInstructions
+	);
+}
+function success_updateDeaccItemInstructions (r) {
+	var result=r.DATA;
+	var partID = result.PART_ID;
+	var message = result.MESSAGE;
+	if (message == 'success') {
+		var ins = "document.getElementById('item_instructions" + partID + "')";
+		var deacc_Item_Instructions = eval(ins);
+		deacc_Item_Instructions.className = '';
+	} else {
+		messageDialog('An error occured: \n' + message,'Error');
+	}
+}
+function remPartFromDeacc( partID, collObjectID ) {
 	var s = "document.getElementById('coll_obj_disposition" + partID + "')";
 	var dispnFld = eval(s);
 	var thisDispn = dispnFld.value;
@@ -66,37 +93,10 @@ function remPartFromDeacc( partID ) {
 	varisSslVal = isSslFld.value;
 	var transaction_id = document.getElementById('transaction_id').value;
 	if (varisSslVal > 0) {
-		var m = "Would you like to DELETE this subsample? \n OK: permanently remove from database \n Cancel: remove from loan";
-		var answer = confirm (m);
-		if (answer) {
-			jQuery.getJSON("/component/functions.cfc",
-				{
-					method : "del_remPartFromDeacc",
-					part_id : partID,
-					transaction_id : transaction_id,
-					returnformat : "json",
-					queryformat : 'column'
-				},
-				success_remPartFromDeacc
-			);
-		} else {
-			if (thisDispn <> 'in collection') {
-				alert('The part cannot be removed because the disposition is "on loan".');
-			} else {
-				jQuery.getJSON("/component/functions.cfc",
-					{
-						method : "remPartFromDeacc",
-						part_id : partID,
-						transaction_id : transaction_id,
-						returnformat : "json",
-						queryformat : 'column'
-					},
-					success_remPartFromDeacc
-				);
-			}
-		}
-	} else if (thisDispn == 'on loan') {
-		alert('That part cannot be removed because the disposition is "Deaccessioned".');
+		var dialogText = "Would you like to remove this subsample from the Deaccession?  If you do, check the parts and part counts for the <a href='/SpecimenDetail.cfm?collection_object_id=" + collObjectID +  "' target='_blank'>cataloged item</a> when done, you may wish to manually merge the subsample part back into its parent lot.";
+                confirmAction(dialogText, "Remove subsample from Deaccession", function(){ remPartFromDeaccSubsample(thisDispn,partID,transaction_id) } );
+	} else if (thisDispn != 'in collection') {
+		messageDialog('That part cannot be removed because the disposition is not "in collection".','Unable to remove part.');
 	} else {
 		jQuery.getJSON("/component/functions.cfc",
 			{
@@ -110,7 +110,23 @@ function remPartFromDeacc( partID ) {
 		);
 	}
 }
-function success_remPartFromLoan (r) {
+function remPartFromDeaccSubsample(thisDispn,partID,transaction_id) { 
+	if (thisDispn != 'in collection') {
+		messageDialog('The part cannot be removed because the disposition is not "in collection".','Unable to remove part.');
+	} else {
+		jQuery.getJSON("/component/functions.cfc",
+		{
+		method : "remPartFromDeacc",
+		part_id : partID,
+		transaction_id : transaction_id,
+		returnformat : "json",
+		queryformat : 'column'
+		},
+		success_remPartFromDeacc
+		);
+	}
+}
+function success_remPartFromDeacc (r) {
 	var result=r.DATA;
 	var partID = result.PART_ID;
 	var message = result.MESSAGE;
@@ -119,7 +135,7 @@ function success_remPartFromLoan (r) {
 		var theRow = eval(tr);
 		theRow.style.display='none';
 	} else {
-		alert('An error occured: \n' + message);
+		messageDialog('An error occured: \n' + message,'Error');
 	}
 }
 function updateDispn( partID ) {
@@ -147,6 +163,6 @@ function success_updateDispn (r) {
 		var dispnFld = eval(s);
 		dispnFld.className='';
 	} else {
-		alert('An error occured:\n' + disposition);
+		messageDialog('An error occured: \n' + message,'Error');
 	}
 }

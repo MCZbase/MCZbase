@@ -46,12 +46,12 @@ grant all on bulkloader_clone to coldfusion_user;
 			<option value="'#accn#'">#accn#</option>
 		</cfloop>
 	</select>
-	<br /><input type="submit" 
+	<br /><input type="submit"
 				value="Add Barcodes"
 				class="lnkBtn"
 				onmouseover="this.className='lnkBtn btnhov'"
 				onmouseout="this.className='lnkBtn'">
- 
+
 </form>
 </cfoutput>
 </cfif>
@@ -78,7 +78,7 @@ grant all on bulkloader_clone to coldfusion_user;
 			<cfset f = left(v1,dash-1)>
 			<cfset t = mid(v1,dash+1,len(v1))>
 			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>		 
+		</cfif>
 	</cfif>
 	<cfif isdefined("c2") and len(#c2#) gt 0 and isdefined("op2") and len(#op2#) gt 0 and isdefined("v2") and len(#v2#) gt 0>
 		<cfset sql = "#sql# AND #c2# #op2# ">
@@ -93,7 +93,7 @@ grant all on bulkloader_clone to coldfusion_user;
 			<cfset f = left(v2,dash-1)>
 			<cfset t = mid(v2,dash+1,len(v2))>
 			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>		 
+		</cfif>
 	</cfif>
 	<cfif isdefined("c3") and len(#c3#) gt 0 and isdefined("op3") and len(#op3#) gt 0 and isdefined("v3") and len(#v3#) gt 0>
 		<cfset sql = "#sql# AND #c3# #op3# ">
@@ -108,10 +108,10 @@ grant all on bulkloader_clone to coldfusion_user;
 			<cfset f = left(v3,dash-1)>
 			<cfset t = mid(v3,dash+1,len(v3))>
 			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>	 
+		</cfif>
 	</cfif>
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		#preservesinglequotes(sql)#	
+		#preservesinglequotes(sql)#
 	</cfquery>
 	<cfset rUrl="cloneWithBarcodes.cfm?action=sqlTab&enteredby=#enteredby#">
 	<cfif isdefined("accn") and len(#accn#) gt 0>
@@ -119,16 +119,16 @@ grant all on bulkloader_clone to coldfusion_user;
 	</cfif>
 
 	<cfif isdefined("c1") and len(#c1#) gt 0 and isdefined("op1") and len(#op1#) gt 0 and isdefined("v1") and len(#v1#) gt 0>
-		<cfset rUrl="#rUrl#&c1=#c1#&op1=#op1#&v1=#v1#"> 
+		<cfset rUrl="#rUrl#&c1=#c1#&op1=#op1#&v1=#v1#">
 	</cfif>
 	<cfif isdefined("c2") and len(#c2#) gt 0 and isdefined("op2") and len(#op2#) gt 0 and isdefined("v2") and len(#v2#) gt 0>
-		<cfset rUrl="#rUrl#&c2=#c2#&op2=#op2#&v2=#v2#"> 
+		<cfset rUrl="#rUrl#&c2=#c2#&op2=#op2#&v2=#v2#">
 	</cfif>
 	<cfif isdefined("c3") and len(#c3#) gt 0 and isdefined("op3") and len(#op3#) gt 0 and isdefined("v3") and len(#v3#) gt 0>
-		<cfset rUrl="#rUrl#&c3=#c3#&op3=#op3#&v3=#v3#"> 
+		<cfset rUrl="#rUrl#&c3=#c3#&op3=#op3#&v3=#v3#">
 	</cfif>
 	<cflocation url="#rUrl#" addtoken="false">
-</cfoutput>	
+</cfoutput>
 </cfif>
 <!----------------------------------------------------------->
 <cfif #action# is "saveCodes">
@@ -140,14 +140,14 @@ grant all on bulkloader_clone to coldfusion_user;
             </cfquery>
             <cfloop list="#newCodes#" index="i">
 	            <cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	                insert into bulkloader_clone 
+	                insert into bulkloader_clone
                     (select * from bulkloader where collection_object_id=#collection_object_id#)
                 </cfquery>
                 <!--- should now have ONE record in clone with passed-in coid --->
                 <cfquery name="fix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	                update
                         bulkloader_clone
-                    set 
+                    set
                         collection_object_id=bulkloader_pkey.nextval,
                         PART_BARCODE_1='#trim(i)#',
                         PART_CONTAINER_LABEL_1='#trim(i)#'
@@ -162,11 +162,11 @@ grant all on bulkloader_clone to coldfusion_user;
             <!--- kill the original ---->
             <cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                 delete from bulkloader where collection_object_id=#collection_object_id#
-            </cfquery>            
+            </cfquery>
         </cftransaction>
         <!--- outa here..... ---->
         Created #listLen(newCodes)# clones.
-        
+
         <a href="cloneWithBarcodes.cfm">Click to continue.</a>
     </cfoutput>
 </cfif>
@@ -177,7 +177,7 @@ grant all on bulkloader_clone to coldfusion_user;
         Number barcodes: #listlen(newCodes)#<br>
         <table border>
 	        <tr>
-	             <th>Barcode</th>
+	             <th>Container Unique ID</th>
 	             <th>Status</th>
 	         </tr>
              <cfset status=0>
@@ -198,7 +198,7 @@ grant all on bulkloader_clone to coldfusion_user;
                             <span style="color:green">
                                 #data.container_type#
                             </span>
-                        </cfif>                        
+                        </cfif>
                     </td>
                 </tr>
             </cfloop>
@@ -232,7 +232,7 @@ grant all on bulkloader_clone to coldfusion_user;
 			<cfset f = left(v1,dash-1)>
 			<cfset t = mid(v1,dash+1,len(v1))>
 			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>		 
+		</cfif>
 	</cfif>
 	<cfif isdefined("c2") and len(#c2#) gt 0 and isdefined("op2") and len(#op2#) gt 0 and isdefined("v2") and len(#v2#) gt 0>
 		<cfset sql = "#sql# AND #c2# #op2# ">
@@ -247,7 +247,7 @@ grant all on bulkloader_clone to coldfusion_user;
 			<cfset f = left(v2,dash-1)>
 			<cfset t = mid(v2,dash+1,len(v2))>
 			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>		 
+		</cfif>
 	</cfif>
 	<cfif isdefined("c3") and len(#c3#) gt 0 and isdefined("op3") and len(#op3#) gt 0 and isdefined("v3") and len(#v3#) gt 0>
 		<cfset sql = "#sql# AND #c3# #op3# ">
@@ -262,10 +262,10 @@ grant all on bulkloader_clone to coldfusion_user;
 			<cfset f = left(v3,dash-1)>
 			<cfset t = mid(v3,dash+1,len(v3))>
 			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>		 
+		</cfif>
 	</cfif>
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		#preservesinglequotes(sql)#	
+		#preservesinglequotes(sql)#
 	</cfquery>
 	<cfquery name="cNames" datasource="uam_god">
 		select column_name from user_tab_cols where table_name='BULKLOADER'
@@ -274,11 +274,11 @@ grant all on bulkloader_clone to coldfusion_user;
 	<div style="background-color:##C0C0C0; font-size:smaller;">
 		Use the top form to filter the table
 		<br>
-        Add a comma-delimited list of barcodes to the record you wish to clone
+        Add a comma-delimited list of container unique ids to the record you wish to clone
         <br>Submit to:
         <ol>
-            <li>check barcodes</li>
-            <li>Create a clone of the row for each barcode you entered</li>
+            <li>check unique ids</li>
+            <li>Create a clone of the row for each container unique id you entered</li>
             <li>Delete the original</li>
         </ol>
 	</div>
@@ -302,7 +302,7 @@ grant all on bulkloader_clone to coldfusion_user;
 					<select name="c1" size="1">
 						<option value=""></option>
 						<cfloop query="cNames">
-							<option 
+							<option
 								<cfif isdefined("c1") and #c1# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
 						</cfloop>
 					</select>
@@ -324,7 +324,7 @@ grant all on bulkloader_clone to coldfusion_user;
 					<select name="c2" size="1">
 						<option value=""></option>
 						<cfloop query="cNames">
-							<option 
+							<option
 								<cfif isdefined("c2") and #c2# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
 						</cfloop>
 					</select>
@@ -346,7 +346,7 @@ grant all on bulkloader_clone to coldfusion_user;
 					<select name="c3" size="1">
 						<option value=""></option>
 						<cfloop query="cNames">
-							<option 
+							<option
 								<cfif isdefined("c3") and #c3# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
 						</cfloop>
 					</select>
@@ -381,17 +381,17 @@ grant all on bulkloader_clone to coldfusion_user;
 		<cfif isdefined("c1") and len(#c1#) gt 0 and isdefined("op1") and len(#op1#) gt 0 and isdefined("v1") and len(#v1#) gt 0>
 			<input type="hidden" name="c1" value="#c1#">
 			<input type="hidden" name="op1" value="#op1#">
-			<input type="hidden" name="v1" value="#v1#">			
+			<input type="hidden" name="v1" value="#v1#">
 		</cfif>
 		<cfif isdefined("c2") and len(#c2#) gt 0 and isdefined("op2") and len(#op2#) gt 0 and isdefined("v2") and len(#v2#) gt 0>
 			<input type="hidden" name="c2" value="#c2#">
 			<input type="hidden" name="op2" value="#op2#">
-			<input type="hidden" name="v2" value="#v2#">			
+			<input type="hidden" name="v2" value="#v2#">
 		</cfif>
 		<cfif isdefined("c3") and len(#c3#) gt 0 and isdefined("op3") and len(#op3#) gt 0 and isdefined("v3") and len(#v3#) gt 0>
 			<input type="hidden" name="c3" value="#c3#">
 			<input type="hidden" name="op3" value="#op3#">
-			<input type="hidden" name="v3" value="#v3#">			
+			<input type="hidden" name="v3" value="#v3#">
 		</cfif>
 		<table border>
 			<tr>
@@ -428,7 +428,7 @@ grant all on bulkloader_clone to coldfusion_user;
 	<div class="blTabDiv">
 		<table border id="t" class="sortable">
 			<tr>
-                <th>New Barcodes(comma-separated)</th>
+                <th>New Container Unique IDs(comma-separated)</th>
 			<cfloop query="cNames">
 				<th>#column_name#</th>
 			</cfloop>
@@ -478,7 +478,7 @@ grant all on bulkloader_clone to coldfusion_user;
 			<cfset sql = "#sql#, #ColName# = '#newValue#'">
 		</cfif>
 	</cfloop>
-	
+
 		<cfset sql ="#sql# WHERE collection_object_id = #thisCollObjId#">
 	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
@@ -492,7 +492,7 @@ grant all on bulkloader_clone to coldfusion_user;
 <cfoutput>
 	<cfif len(#loaded#) gt 0 and
 		len(#column_name#) gt 0 and
-		len(#tValue#) gt 0>	
+		len(#tValue#) gt 0>
 		<cfset sql="UPDATE bulkloader SET LOADED = ">
 		<cfif #loaded# is "NULL">
 			<cfset sql="#sql# NULL">
@@ -507,7 +507,7 @@ grant all on bulkloader_clone to coldfusion_user;
 		</cfif>
 			#preservesinglequotes(sql)#
 		<!---
-		
+
 		<cfabort>
 		--->
 		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -516,7 +516,7 @@ grant all on bulkloader_clone to coldfusion_user;
 	</cfif>
 
 <cflocation url="cloneWithBarcodes.cfm?action=viewTable&enteredby=#enteredby#&accn=#accn#">
-		
+
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------->
@@ -537,10 +537,10 @@ grant all on bulkloader_clone to coldfusion_user;
 	<cfset sql = "#sql# AND accn IN (#preservesinglequotes(thisAccnList)#)">
 	---->
 	<cfset sql = "#sql# AND accn IN (#accn#)">
-	
+
 </cfif>
 <cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	#preservesinglequotes(sql)#	
+	#preservesinglequotes(sql)#
 </cfquery>
 <cfquery name="cNames" datasource="uam_god">
 	select column_name from user_tab_cols where table_name='BULKLOADER'
@@ -554,7 +554,7 @@ Roll yer own:
 	<input type="hidden" name="action" value="upBulk" />
 	<input type="hidden" name="enteredby" value="#enteredby#" />
 	<input type="hidden" name="accn" value="#accn#" />
-	UPDATE bulkloader SET LOADED = 
+	UPDATE bulkloader SET LOADED =
 	<select name="loaded" size="1">
 		<option value="NULL">NULL</option>
 		<option value="FLAGGED BY BULKLOADER EDITOR">FLAGGED BY BULKLOADER EDITOR</option>
@@ -569,7 +569,7 @@ Roll yer own:
 	= TRIM(
 	<input type="text" name="tValue" size="50" />)
 	<br />
-	<input type="submit" 
+	<input type="submit"
 				value="Update All Matches"
 				class="savBtn"
 				onmouseover="this.className='savBtn btnhov'"

@@ -14,6 +14,9 @@
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
+<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select taxon_habitat from cttaxon_habitat order by taxon_habitat
+</cfquery>
 <cfset title="Edit Taxonomy">
 <cfif !isdefined("subgenus_message")>
     <cfset subgenus_message ="">
@@ -167,6 +170,16 @@
 		</tr>
 		<tr>
 			<td>
+				<label for="division">Division</label>
+				<input type="text" name="division" id="division" value="#gettaxa.division#" size="30">
+			</td>
+			<td>
+				<label for="subdivision">SubDivision</label>
+				<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" size="30">
+			</td>
+		</tr>
+		<tr>
+			<td>
 				<label for="superclass">Superclass</label>
 				<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" size="30">
 			</td>
@@ -181,48 +194,59 @@
 				<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" size="30">
 			</td>
 			<td>
-				<label for="superorder">Superorder</label>
-				<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" size="30">
+				<label for="infraclass">InfraClass</label>
+				<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" size="30">
 			</td>
 		</tr>
 		<tr>
+			<td>
+				<label for="superorder">Superorder</label>
+				<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" size="30">
+			</td>
 			<td>
 				<label for="phylorder">Order</label>
 				<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" size="30">
 			</td>
+		</tr>
+		<tr>
 			<td>
 				<label for="suborder">Suborder</label>
 				<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" size="30">
 			</td>
-		</tr>
-		<tr>
 			<td>
 				<label for="infraorder">Infraorder</label>
 				<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" size="30">
 			</td>
+		</tr>
+		<tr>
 			<td>
 				<label for="superfamily">Superfamily</label>
 				<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" size="30">
 			</td>
-		</tr>
-		<tr>
 			<td>
 				<label for="family">Family</label>
 				<input type="text" name="family" id="family" value="#gettaxa.family#" size="30">
 			</td>
+
+		</tr>
+		<tr>
 			<td>
 				<label for="subfamily">Subfamily</label>
 				<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" size="30">
 			</td>
-		</tr>
-		<tr>
 			<td>
 				<label for="tribe">Tribe</label>
 				<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" size="30">
 			</td>
+		</tr>
+		<tr>
 			<td>
 				<label for="subgenus">Subgenus</label>
 				(<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" size="29">)#subgenus_message#
+			</td>
+			<td>
+				<label for="subgenus">SubSection</label>
+				<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" size="29">
 			</td>
 		</tr>
         <tr>
@@ -396,6 +420,42 @@
 			</td>
 		</tr>
 	</table>
+	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select taxon_habitat from taxon_habitat where taxon_name_id = #taxon_name_id#
+	</cfquery>
+
+	<cfset usedHabitats = valueList(habitat.taxon_habitat)>
+
+	<h4>Habitat</h4>
+	<cfset i=1>
+	<cfloop query="habitat">
+		<form name="habitat#i#" method="post" action="Taxonomy.cfm">
+			<input type="hidden" name="Action">
+			<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
+			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+			<input type="text" name="taxon_habitat" value="#taxon_habitat#" size="30" readonly style="background-color: ##dddddd; border: 0">
+	   		<input type="button" value="Delete" class="delBtn" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
+		</form>
+		<cfset i=i+1>
+	</cfloop>
+	<table class="newRec">
+		<tr>
+			<td>
+				<form name="newhabitat" method="post" action="Taxonomy.cfm">
+					<input type="hidden" name="Action" value="newhabitat">
+					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+					<label for="taxon_habitat">New Habitat</label>
+					<select name="taxon_habitat" id="habitat_name"size="1">
+					<cfloop query="cttaxon_habitat">
+			        	<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
+			        	<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
+			        	</cfif>
+			        </cfloop>
+					<input type="submit" value="Add" class="insBtn">
+				</form>
+			</td>
+		</tr>
+	</table>
     </div>
 </cfoutput>
 </cfif>
@@ -420,6 +480,16 @@
 	<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO common_name (common_name, taxon_name_id)
 		VALUES ('#common_name#', #taxon_name_id#)
+	</cfquery>
+	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+</cfoutput>
+</cfif>
+<!---------------------------------------------------------------------------------------------------->
+<cfif action is "newHabitat">
+<cfoutput>
+	<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		INSERT INTO taxon_habitat (taxon_habitat, taxon_name_id)
+		VALUES ('#taxon_habitat#', #taxon_name_id#)
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -462,6 +532,19 @@
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
 </cfif>
+<!---------------------------------------------------------------------------------------------------->
+<cfif action is "deleteHabitat">
+<cfoutput>
+	<cfquery name="killhabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		DELETE FROM
+			taxon_habitat
+		WHERE
+			taxon_habitat='#orighabitatName#' AND taxon_name_id=#taxon_name_id#
+	</cfquery>
+	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+</cfoutput>
+</cfif>
+
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxa">
 <cfset title = "Add Taxonomy">
@@ -580,68 +663,86 @@
 				<input type="text" name="subphylum" id="subphylum" value="#subphylum#" size="30">
 			</td>
 		</tr>
-
-
+		<tr>
+			<td>
+				<label for="division">Division</label>
+				<input type="text" name="division" id="division" value="#division#" size="30">
+			</td>
+			<td>
+				<label for="subdivision">SubDivision</label>
+				<input type="text" name="subdivision" id="subdivision" value="#subdivision#" size="30">
+			</td>
+		</tr>
 		<tr>
 			<td>
 				<label for="superclass">Superclass</label>
 				<input type="text" name="superclass" id="superclass" value="#superclass#" size="30">
 			</td>
-				<td>
-					<label for="phylclass">Class</label>
-					<input type="text" name="phylclass" id="phylclass" value="#phylclass#" size="30">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="subclass">Subclass</label>
-					<input type="text" name="subclass" id="subclass" value="#subclass#" size="30">
-				</td>
+			<td>
+				<label for="phylclass">Class</label>
+				<input type="text" name="phylclass" id="phylclass" value="#phylclass#" size="30">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="subclass">SubClass</label>
+				<input type="text" name="subclass" id="subclass" value="#subclass#" size="30">
+			</td>
+			<td>
+				<label for="infraclass">InfraClass</label>
+				<input type="text" name="infraclass" id="infraclass" value="#infraclass#" size="30">
+			</td>
+		</tr>
+		<tr>
 			<td>
 				<label for="superorder">Superorder</label>
 				<input type="text" name="superorder" id="superorder" value="#superorder#" size="30">
 			</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="phylorder">Order</label>
-					<input type="text" name="phylorder" id="phylorder" value="#phylorder#" size="30">
-				</td>
-				<td>
-					<label for="suborder">Suborder</label>
-					<input type="text" name="suborder" id="suborder" value="#suborder#" size="30">
-				</td>
-			</tr>
-			<tr>
+			<td>
+				<label for="phylorder">Order</label>
+				<input type="text" name="phylorder" id="phylorder" value="#phylorder#" size="30">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="suborder">Suborder</label>
+				<input type="text" name="suborder" id="suborder" value="#suborder#" size="30">
+			</td>
 			<td>
 				<label for="infraorder">Infraorder</label>
 				<input type="text" name="infraorder" id="infraorder" value="#infraorder#" size="30">
 			</td>
-				<td>
-					<label for="superfamily">Superfamily</label>
-					<input type="text" name="superfamily" id="superfamily" value="#superfamily#" size="30">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="family">Family</label>
-					<input type="text" name="family" id="family" value="#family#" size="30">
-				</td>
-				<td>
-					<label for="subfamily">Subfamily</label>
-					<input type="text" name="subfamily" id="subfamily" value="#subfamily#" size="30">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="tribe">Tribe</label>
-					<input type="text" name="tribe" id="tribe" value="#tribe#" size="30">
-				</td>
-				<td>
+		</tr>
+		<tr>
+			<td>
+				<label for="superfamily">Superfamily</label>
+				<input type="text" name="superfamily" id="superfamily" value="#superfamily#" size="30">
+			</td>
+			<td>
+				<label for="family">Family</label>
+				<input type="text" name="family" id="family" value="#family#" size="30">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="subfamily">Subfamily</label>
+				<input type="text" name="subfamily" id="subfamily" value="#subfamily#" size="30">
+			</td>
+			<td>
+				<label for="tribe">Tribe</label>
+				<input type="text" name="tribe" id="tribe" value="#tribe#" size="30">
+			</td>
+		</tr>
+		<tr>
+			<td>
 				<label for="subgenus">Subgenus</label>
-					<input type="text" name="subgenus" id="subgenus" value="#subgenus#" size="30">
-				</td>
-			</tr>
+				(<input type="text" name="subgenus" id="subgenus" value="#subgenus#" size="29">)#subgenus_message#
+			</td>
+			<td>
+				<label for="subgenus">SubSection</label>
+				<input type="text" name="subsection" id="subsection" value="#subsection#" size="29">
+			</td>
+		</tr>
 	        <tr>
 				<td colspan="2">
 					<label for="taxon_remarks">Remarks</label>
@@ -738,6 +839,18 @@
 		<cfif len(#superfamily#) gt 0>
 			,superfamily
 		</cfif>
+		<cfif len(#division#) gt 0>
+			,division
+		</cfif>
+		<cfif len(#subdivision#) gt 0>
+			,subdivision
+		</cfif>
+		<cfif len(#subsection#) gt 0>
+			,subsection
+		</cfif>
+		<cfif len(#infraclass#) gt 0>
+			,infraclass
+		</cfif>
 		<cfif len(#taxon_status#) gt 0>
 			,taxon_status
 		</cfif>
@@ -813,6 +926,18 @@
 		</cfif>
 		<cfif len(#superfamily#) gt 0>
 			,trim('#superfamily#')
+		</cfif>
+		<cfif len(#division#) gt 0>
+			,trim('#division#')
+		</cfif>
+		<cfif len(#subdivision#) gt 0>
+			,trim('#subdivision#')
+		</cfif>
+		<cfif len(#subsection#) gt 0>
+			,trim('#subsection#')
+		</cfif>
+		<cfif len(#infraclass#) gt 0>
+			,trim('#infraclass#')
 		</cfif>
 		<cfif len(#taxon_status#) gt 0>
 			,trim('#taxon_status#')
@@ -1006,6 +1131,26 @@
 			,superfamily = trim('#superfamily#')
 		<cfelse>
 			,superfamily = null
+		</cfif>
+		<cfif len(#division#) gt 0>
+			,division = trim('#division#')
+		<cfelse>
+			,division = null
+		</cfif>
+		<cfif len(#subdivision#) gt 0>
+			,subdivision = trim('#subdivision#')
+		<cfelse>
+			,subdivision = null
+		</cfif>
+		<cfif len(#subsection#) gt 0>
+			,subsection = trim('#subsection#')
+		<cfelse>
+			,subsection = null
+		</cfif>
+		<cfif len(#infraclass#) gt 0>
+			,infraclass  = trim('#infraclass#')
+		<cfelse>
+			,infraclass = null
 		</cfif>
 		<cfif len(#taxon_status#) gt 0>
 			,taxon_status = trim('#taxon_status#')

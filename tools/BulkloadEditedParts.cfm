@@ -8,7 +8,7 @@
 <p style="margin:1em;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_barcode,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method</textarea>
+		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method</textarea>
 	</div>
     <p>Columns in <span style="color:red">red</span> are required and should match existing part row to update; others are optional:</p>
 <ul class="geol_hier" style="padding-bottom: .25em;">
@@ -30,9 +30,9 @@
         	<li>Set value = "1"</li>
         </ul>
         </li--->
-	<li>container_barcode
+	<li>container_unique_id
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>Container barcode in which to place this part</li>
+				<li>Container Unique ID in which to place this part</li>
 		</ul>
 	</li>
 	<li style="color:red">condition
@@ -129,11 +129,11 @@ validate
 <cfoutput>
 	<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_parts set parent_container_id =
-		(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_BARCODE)
+		(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
 	</cfquery>
 	<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Container Barcode not found'
-		where CONTAINER_BARCODE is not null and parent_container_id is null
+		update cf_temp_parts set validated_status = validated_status || ';Container Unique ID not found'
+		where CONTAINER_UNIQUE_ID is not null and parent_container_id is null
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_parts set validated_status = validated_status || ';Invalid part_name'
@@ -162,11 +162,11 @@ validate
 			use_existing is null
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Invalid container_barcode'
-		where container_barcode NOT IN (
+		update cf_temp_parts set validated_status = validated_status || ';Invalid CONTAINER_UNIQUE_ID'
+		where CONTAINER_UNIQUE_ID NOT IN (
 			select barcode from container where barcode is not null
 			)
-		AND container_barcode is not null
+		AND CONTAINER_UNIQUE_ID is not null
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_parts set validated_status = validated_status || ';Invalid DISPOSITION'
@@ -291,7 +291,7 @@ validate
 			update cf_temp_parts set (parent_container_id) = (
 			select container_id
 			from container where
-			barcode=container_barcode)
+			barcode=CONTAINER_UNIQUE_ID)
 			where substr(validated_status,1,5) IN ('VALID','NOTE:')
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -334,7 +334,7 @@ validate
 			<td>lot_count</td>
 			<td>current_remarks</td>
 			<td>condition</td>
-			<td>Container_Barcode</td>
+			<td>CONTAINER_UNIQUE_ID</td>
 			<td>use_existing</td>
 			<td>append_to_remarks</td>
 			<td>changed_date</td>
@@ -365,10 +365,11 @@ validate
 				<td>#lot_count#</td>
 				<td>#current_remarks#</td>
 				<td>#condition#</td>
-				<td>#Container_Barcode#</td>
+				<td>#CONTAINER_UNIQUE_ID#</td>
 				<td>1</td>
 				<td>#append_to_remarks#</td>
 				<td>#changed_date#</td>
+				<td>#new_preserve_method#</td>
 			</tr>
 		</cfloop>
 	</table>
@@ -404,7 +405,7 @@ validate
 	<cfset enteredbyid = getEntBy.agent_id>
 	<cftransaction>
 	<cfloop query="getTempData">
-	<cfif len(#use_part_id#) is 0 and use_existing is not 1> <!---AND len(#container_barcode#) gt 0--->>
+	<cfif len(#use_part_id#) is 0 and use_existing is not 1> <!---AND len(#CONTAINER_UNIQUE_ID#) gt 0--->>
 		<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select sq_collection_object_id.nextval NEXTID from dual
 		</cfquery>
@@ -456,7 +457,7 @@ validate
 				update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#NEXTID.NEXTID# and is_current_fg = 1
 			</cfquery>
 		</cfif>
-		<cfif len(#container_barcode#) gt 0>
+		<cfif len(#CONTAINER_UNIQUE_ID#) gt 0>
 			<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
 			</cfquery>
@@ -512,7 +513,7 @@ validate
 				</cfquery>
 			</cfif>
 		</cfif>
-		<cfif len(#container_barcode#) gt 0>
+		<cfif len(#CONTAINER_UNIQUE_ID#) gt 0>
 			<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
 			</cfquery>

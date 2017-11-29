@@ -121,7 +121,9 @@
 	<!--- accept a url-type argument, parse it out here --->
 	<cfset cat_num="">
 	<cfset barcode="">
+	<cfset parent_barcode="">
 	<cfset container_label="">
+	<cfset parent_label="">
 	<cfset description="">
 	<cfset container_type="">
 	<cfset part_name="">
@@ -140,7 +142,9 @@
 	</cfloop>
 	<cfif len(cat_num) is 0 AND
 		len(barcode) is 0 AND
+		len(parent_barcode) is 0 AND
 		len(container_label) is 0 AND
+		len(parent_label) is 0 AND
 		len(description) is 0 AND
 		len(container_type) is 0 AND
 		len(part_name) is 0 AND
@@ -250,16 +254,34 @@
 				<cfset bclist = "#bclist#,'#i#'">
 			</cfif>
 		</cfloop>
-		<cfset whr = "#whr# AND barcode IN (#bclist#)">
-	</cfif>
-	<cfif len(container_label) gt 0>
-		<cfset whr = "#whr# AND upper(label) like '#ucase(container_label)#'">
+		<cfset whr = "#whr# AND container.barcode IN (#bclist#)">
+	 </cfif>
+	 <cfif len(container_label) gt 0>
+		<cfset whr = "#whr# AND upper(container.label) like '#ucase(container_label)#'">
+	 </cfif>
+	 <cfif len(parent_barcode) gt 0>
+	 	<cfset bpclist = "">
+		<cfloop list="#parent_barcode#" index="i">
+			<cfif len(pbclist) is 0>
+				<cfset pbclist = "'#i#'">
+			<cfelse>
+				<cfset pbclist = "#pbclist#,'#i#'">
+			</cfif>
+		</cfloop>
+		<cfset whr = "#whr# AND p.barcode IN (#bclist#)">
+	 </cfif>
+	 <cfif len(parent_label) gt 0>
+		<cfset whr = "#whr# AND upper(p.label) like '#ucase(parent_label)#'">
+	 </cfif>
+ 	 <cfif len(parent_label) gt 0 or len(parent_barcode) gt 0 >
+		<!--- Add a join to the parent cotnainer --->
+		<cfset frm = "#frm# left join container p on (container.parent_container_id=p.container_id)">
 	 </cfif>
 	  <cfif len(description) gt 0>
-		<cfset whr = "#whr# AND upper(description) LIKE '%#ucase(description)#%'">
+		<cfset whr = "#whr# AND upper(container.description) LIKE '%#ucase(description)#%'">
 	 </cfif>
 	  <cfif len(container_type) gt 0>
-		<cfset whr = "#whr# AND container_type='#container_type#'">
+		<cfset whr = "#whr# AND container.container_type='#container_type#'">
 	 </cfif>
 
 	 <cfif len(part_name) gt 0>

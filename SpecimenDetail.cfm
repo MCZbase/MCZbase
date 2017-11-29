@@ -3,12 +3,12 @@
 	<cfset checkSql(collection_object_id)>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select GUID from #session.flatTableName# where collection_object_id=#collection_object_id# 
+			select GUID from #session.flatTableName# where collection_object_id=#collection_object_id#
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfheader name="Location" value="/guid/#c.guid#">
 		<cfabort>
-	</cfoutput>	
+	</cfoutput>
 </cfif>
 <cfif isdefined("guid")>
 	<cfif cgi.script_name contains "/SpecimenDetail.cfm">
@@ -19,7 +19,7 @@
 	<cfset checkSql(guid)>
 	<cfif guid contains ":">
 		<cfoutput>
-			<cfset sql="select collection_object_id from 
+			<cfset sql="select collection_object_id from
 					#session.flatTableName#
 				WHERE
 					upper(guid)='#ucase(guid)#'">
@@ -32,7 +32,7 @@
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
 		<cfset cn=right(guid,spos)>
-		<cfset sql="select collection_object_id from 
+		<cfset sql="select collection_object_id from
 				cataloged_item,
 				collection
 			WHERE
@@ -80,9 +80,9 @@
 <cfif len(#session.CustomOtherIdentifier#) gt 0>
 	<cfset detSelect = "#detSelect#
 	,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as	CustomID">
-</cfif>		
-<cfset detSelect = "#detSelect#	
-	FROM 
+</cfif>
+<cfset detSelect = "#detSelect#
+	FROM
 		#session.flatTableName#,
 		collection
 	where
@@ -90,7 +90,7 @@
 		#session.flatTableName#.collection_object_id = #collection_object_id#
 	ORDER BY
 		cat_num">
-<cfset checkSql(detSelect)>	
+<cfset checkSql(detSelect)>
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	#preservesinglequotes(detSelect)#
 </cfquery>
@@ -118,13 +118,13 @@
 <cfoutput query="detail" group="cat_num">
  <cfset typeName = typestatuswords>
  <cfif toptypestatuskind eq 'Primary' >
-   <!--- Highlight as a primary type ---> 
+   <!--- Highlight as a primary type --->
    <cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
    <div class="primaryCont" style="margin-top:-1em;">
        <div class="primaryType">
        <cfset typeName = '<span style="font-weight:bold;background-color: white;border: 1px solid ##333;padding: 5px;width:auto;display:inline-block;">#twotypes# </span>'>
  <cfelseif toptypestatuskind eq 'Secondary' >
-   <!--- Highlight as a secondary type ---> 
+   <!--- Highlight as a secondary type --->
    <cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
    <div class="secondaryCont" style="margin-top: -1em;">
       <div class="secondaryType">
@@ -149,7 +149,11 @@
         <span style="font-size: 15px;">#typeName#</span>
       </cfif>--->
     </li>
-    <li class="partstring">#partString# </li>
+	<cfif encumbrance_action does not contain "mask parts" OR
+					(isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
+        <!--- omit part string for mask parts encumberance --->
+    	<li class="partstring">#partString# </li>
+	</cfif>
     <li>
     <ul class="return_links">
               <li>
@@ -166,10 +170,10 @@
                 </li>
                   <cfelse>
                <!---   <a href="/login.cfm">Login or Create Account</a>--->
-                 
+
                  </li>
                 </cfif>
-                 
+
         <li>
       <cfif isdefined("session.mapURL") and len(session.mapURL) gt 0>
         <a href="/SpecimenResults.cfm?#session.mapURL#">Return to results</a>
@@ -229,25 +233,25 @@
       </cfif>
     </li>
   </ul>
-    
+
     </div><!---ends primaryType or secondaryType or defaultType--->
     </div><!---end primaryCont or secondaryCont or defaultCont--->
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<script language="javascript" type="text/javascript">
-			$(document).ready(function() { 
-			    document.body.onselectstart = function() {return false;} 
-			    $('##popDiv').animaDrag(); 
-			}); 
-			
+			$(document).ready(function() {
+			    document.body.onselectstart = function() {return false;}
+			    $('##popDiv').animaDrag();
+			});
+
 			function closeEditApp() {
 				$('##bgDiv').remove();
 				$('##bgDiv', window.parent.document).remove();
 				$('##popDiv').remove();
 				$('##popDiv', window.parent.document).remove();
-				
+
 				$('##cDiv').remove();
 				$('##cDiv', window.parent.document).remove();
-				
+
 				$('##theFrame').remove();
 				$('##theFrame', window.parent.document).remove();
 				$("span[id^='BTN_']").each(function(){
@@ -262,7 +266,7 @@
 				bgDiv.className = 'bgDiv';
 				bgDiv.setAttribute('onclick','closeEditApp()');
 				document.body.appendChild(bgDiv);
-				
+
 				var popDiv=document.createElement('div');
 				popDiv.id = 'popDiv';
 				popDiv.className = 'editAppBox';
@@ -282,7 +286,7 @@
 				links+='<li><span onclick="loadEditApp(\'Encumbrances\')" class="likeLink" id="BTN_Encumbrances">Encumbrance</span></li>';
 				links+='<li><span onclick="loadEditApp(\'catalog\')" class="likeLink" id="BTN_catalog">Catalog</span></li>';
 				links+="</ul>";
-				
+
 				$("##popDiv").append(links);
 				var cDiv=document.createElement('div');
 				cDiv.className = 'fancybox-close';
@@ -301,7 +305,7 @@
 					$("##" + this.id).removeClass('activeButton');
 					$('##' + this.id, window.parent.document).removeClass('activeButton');
 				});
-				
+
 				$("##BTN_" + q).addClass('activeButton');
 				$('##BTN_' + q, window.parent.document).addClass('activeButton');
 			}
@@ -333,7 +337,7 @@
 							</cfif>
 							<cfif currPos gt 1>
 								<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
-							</cfif>	
+							</cfif>
 							<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
 							<cfif lenOfIdList gt 1>
 								<cfif currPos gt 1>
@@ -354,7 +358,7 @@
 							<cfelse>
 								<img src="/images/no_first.gif" alt="[ inactive button ]">
 								<img src="/images/no_previous.gif" alt="[ inactive button ]">
-							</cfif>		
+							</cfif>
 							<li><span onclick="loadEditApp('editIdentification')" class="likeLink" id="BTN_editIdentification">Taxa</span></li>
 							<li>
 								<span onclick="loadEditApp('addAccn')"	class="likeLink" id="BTN_addAccn">Accn</span>
@@ -410,6 +414,6 @@
 	<cfif isdefined("showAnnotation") and showAnnotation is "true">
 		<script language="javascript" type="text/javascript">
 			openAnnotation('collection_object_id=#collection_object_id#');
-		</script>		
+		</script>
 	</cfif>
 </cfoutput>

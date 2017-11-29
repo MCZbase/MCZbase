@@ -290,13 +290,15 @@
 <cfquery name="catCnt" dbtype="query">
 	select count(distinct(collection_object_id)) c from getPartLoanRequests
 </cfquery>
+<cfif catCnt.c eq ''><cfset catCount = 'no'><cfelse><cfset catCount = catCnt.c></cfif>
 <cfquery name="prtItemCnt" dbtype="query">
 	select count(distinct(partID)) c from getPartLoanRequests
 </cfquery>
+<cfif prtItemCnt.c eq ''><cfset partCount = 'no'><cfelse><cfset partCount = prtItemCnt.c></cfif>
 
 Review items in loan<b>
 	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
-	<br>There are #prtItemCnt.c# items from #catCnt.c# specimens in this loan.
+	<br>There are #partCount# items from #catCount# specimens in this loan.
 	<br>
 	<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
 	<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">

@@ -54,7 +54,7 @@
 						<a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
 					</p>
 					(
-					<a href="http://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
+					<a href="https://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
 					)
 					<cfif isdefined("session.username")>
 						<br>
@@ -166,15 +166,37 @@
 		<cfscript>
 			serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
 		</cfscript>
+		<cfset Application.serverName=serverName /><!--- Store the server name returned away for debugging --->
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
-		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu">
+		<!--- In VM environment, how java resolves getLocalHost().getHostName() changes in ways outside our control.  --->
+  		<!--- So, make sure that we are handling the cases where only the unqualified local name is returned. ---> 
+		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu" or serverName is "mczbase-prd">
 			<cfset serverName="mczbase.mcz.harvard.edu" />
 		</cfif>
+		<cfif serverName is "mczbase-dev">
+			<cfset serverName="mczbase-dev.rc.fas.harvard.edu" />
+		</cfif>
+		<cfif serverName is "mczbase-test">
+			<cfset serverName="mczbase-test.rc.fas.harvard.edu" />
+		</cfif>
+
+ 		<cfset Application.protocol = 'http'>
+		<!--- *** Test to see if TLS is on and redirection to https is enabled --->
+		<cfhttp url='http://#serverName#/' redirect="no" />
+		<!--- don't actually follow the redirect to avoid having to test for both signed and self-signed certificates --->
+		<cfif left(#cfhttp.statusCode#, 1) EQ '3'>
+			<!--- Redirection is on. --->
+			<cfif left(cfhttp.responseHeader['Location'],6) EQ 'https:' >
+ 			    <cfset Application.protocol = 'https'>
+			    <!--- and the target location uses https, TLS support is enabled. --->
+			</cfif>
+		</cfif>
+
 		<!---cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) /--->
 		<cfset Application.session_timeout=90 />
-		<cfset Application.serverRootUrl = "http://#serverName#" />
+		<cfset Application.serverRootUrl = "#Application.protocol#://#serverName#" />
 		<cfset Application.user_login="user_login" />
 		<cfset Application.max_pw_age = 365 />
 		<cfset Application.fromEmail = "#serverName#" />
@@ -182,15 +204,15 @@
 		<cfset Application.header_color = "##E7E7E7" />
 		<cfset Application.header_image = "/images/genericHeaderIcon.gif" />
 		<cfset Application.collection_url = "/" />
-		<cfset Application.collection_link_text = "Arctos" />
+		<cfset Application.collection_link_text = "Error" />
 		<cfset Application.institution_url = "/" />
 		<cfset Application.stylesheet = "" />
-		<cfset Application.institution_link_text = "Multi-Institution, Multi-Collection Museum Database" />
+		<cfset Application.institution_link_text = "Host configuration problem: #serverName# not recognized" />
 		<cfset Application.meta_description = "Arctos is a biological specimen database." />
 		<cfset Application.meta_keywords = "museum, collection, management, system" />
 		<cfset Application.gmap_api_key = "not set" />
 		<cfset Application.Google_uacct = "not set" />
-		<cfset Application.domain = replace(Application.serverRootUrl,"http://",".") />
+		<cfset Application.domain = replace(Application.serverRootUrl,"#Application.protocol#://",".") />
 		<cfset Application.header_color = "##000066" />
 		<cfset Application.institutionlinkcolor = "##FF0000" />
 		<cfset Application.collectionlinkcolor = "##00FF00" />
@@ -199,6 +221,8 @@
 		</cfquery>
 		<cfset Application.blacklist=valuelist(d.ip) />
 		<cfif serverName is "arctos.database.museum">
+			<cfset Application.collection_link_text = "Arctos" />
+			<cfset Application.institution_link_text = "Multi-Institution, Multi-Collection Museum Database" />
 			<cfset application.gmap_api_key="ABQIAAAAO1U4FM_13uDJoVwN--7J3xRmuGmxQ-gdo7TWENOfdvPP48uvgxS1Mi5095Z-7DsupXP1SWQjdYKK_w" />
 			<cfset Application.svn = "/usr/local/bin/svn" />
 			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />

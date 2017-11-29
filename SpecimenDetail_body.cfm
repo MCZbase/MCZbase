@@ -51,6 +51,8 @@
 		else
 			collecting_event.verbatim_date
 		end verbatim_date,
+		collecting_event.startDayOfYear,
+		collecting_event.endDayOfYear,
 		collecting_event.habitat_desc,
 		case when
 			#oneOfUs# != 1 and
@@ -811,6 +813,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<td id="SDCellLeft" class="innerDetailLabel">Collecting Date:</td>
 						<td id="SDCellRight">#thisDate#</td>
 					</tr>
+					<cfif len(one.startDayOfYear) gt 0>
+					<tr class="detailData">
+						<td id="SDCellLeft" class="innerDetailLabel">Day of Year (start-end):</td>
+						<td id="SDCellRight">#startDayOfYear#<cfif len(one.endDayOfYear) gt 0>-#endDayOfYear#</cfif></td>
+					</tr>
+					</cfif>
 					<cfif len(one.collecting_time) gt 0>
 					<tr class="detailData">
 						<td id="SDCellLeft" class="innerDetailLabel">Collecting Time:</td>
@@ -923,6 +931,28 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			SELECT loan_item.collection_object_id FROM
 			loan_item,specimen_part
 			WHERE loan_item.collection_object_id=specimen_part.collection_object_id AND
+			specimen_part.derived_from_cat_item=#one.collection_object_id#
+		</cfquery>
+		<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id FROM
+			specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
+ 			left join loan on loan_item.transaction_id = loan.transaction_id
+			where 
+			loan_number is not null and 
+			specimen_part.derived_from_cat_item=#one.collection_object_id#
+		</cfquery>
+		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT deacc_item.collection_object_id FROM
+			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+			where 
+			specimen_part.derived_from_cat_item=#one.collection_object_id#
+		</cfquery>
+		<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT distinct deacc_number, deacc_type, deaccession.transaction_id FROM
+			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+ 			left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+			where 
+			deacc_number is not null and 
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
 		</td>
@@ -1041,6 +1071,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 <cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
+<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 			<div class="detailCell">
 				<div class="detailLabel">Part Details<!---Parts--->
 					<cfif oneOfUs is 1>
@@ -1122,23 +1153,23 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								</cfquery>
 								<cfloop query="sPart">
 									<tr>
-										<td>
-											#part_name#
+										<td class="inside">
+											#part_name# subsample
 										</td>
-										<td>#part_condition#</td>
-										<td>#part_disposition#</td>
-										<td>#lot_count#</td>
+										<td class="inside">#part_condition#</td>
+										<td class="inside">#part_disposition#</td>
+										<td class="inside">#lot_count#</td>
 										<cfif oneOfus is 1>
-											<td>#label#</td>
+											<td class="inside">#label#</td>
 										</cfif>
-										<td>#part_remarks#</td>
+										<td class="inside">#part_remarks#</td>
 									</tr>
 								</cfloop>
 							</cfloop>
 						</table>
 				</div>
 			</div>
-
+</cfif>
 <!------------------------------------ attributes ---------------------------------------------->
 			<cfif len(attribute.attribute_type) gt 0>
 				<div class="detailCell">
@@ -1291,7 +1322,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
 					</cfif>
                 </div>
-
+<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif len(one.coll_object_remarks) gt 0>
 						<div class="detailBlock">
 							<span class="detailData">
@@ -1300,7 +1331,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							</span>
 						</div>
 					</cfif>
-
+</cfif>
 					<cfif len(one.habitat) gt 0>
 						<div class="detailBlock">
 							<span class="detailData">
@@ -1400,7 +1431,10 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			</div>
 			</cfif>
 <!------------------------------------ usage ---------------------------------------------->
-		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0)>
+		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or 
+                           (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or
+                           (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)
+                >
 			<div class="detailCell">
 				<div class="detailLabel">Usage</div>
 					<cfloop query="isProj">
@@ -1424,7 +1458,26 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							<span class="detailData">
 								<span class="innerDetailLabel">Loan History:</span>
 									<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
-										target="_mainFrame">Click for loan list</a>
+										target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+							<cfloop query="loanList">
+								#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)&nbsp; 
+							</cfloop>
+							</cfif>
+							</span>
+						</div>
+					</cfif>
+					<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
+						<div class="detailBlock">
+							<span class="detailData">
+								<span class="innerDetailLabel">Deaccessions:</span>
+									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
+										target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+							<cfloop query="deaccessionList">
+								<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp; 
+							</cfloop>
+							</cfif>
 							</span>
 						</div>
 					</cfif>

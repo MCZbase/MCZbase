@@ -17,7 +17,7 @@
 	len(#agent_id#) gt 0 or
 	len(#Death_Date#) gt 0)
 >
-	<font color="#FF0000"><strong>You must enter search criteria.</strong></font>	
+	<font color="#FF0000"><strong>You must enter search criteria.</strong></font>
 	<cfabort>
 
 </cfif>
@@ -25,7 +25,9 @@
 
 <cfoutput>
 <div style="padding: 3px;">
+
 <cfset sql = "SELECT 
+
 					distinct preferred_agent_name.agent_id,
 					preferred_agent_name.agent_name,
 					agent_type,
@@ -33,12 +35,12 @@
                     MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
                     
 				FROM 
+
 					agent_name
 					left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
 					LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
 					LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
-                  
-				WHERE 
+				WHERE
 					agent.agent_id > -1
 					and rownum<500
 				">

@@ -376,8 +376,19 @@
 				<cfelse>
 				We request that you please return the above loan or request an extension by the Due Date. For more information on this loan,
 				</cfif>
-				contact the  #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated. Thank you.
-				<BR>
+				contact the  #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated.
+				<cfif findnocase("CRYO",#loan_number#) GT 0>
+				<br><br>
+				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.
+				To officially close this loan, please also provide publication information and NCBI sequence accession numbers to the MCZ-CRYO.<br><br>
+				NCBI accessions will automatically link to MCZbase records if information is submitted correctly:<br>
+				http://www.mcz.harvard.edu/collectionsoperations/downloads/Guidelines_for_submitting_to_GenBank.pdf<br>
+				http://www.mcz.harvard.edu/collectionsoperations/downloads/NCBI_BioProject_BioSample_Data1.pdf<br>
+				<br>
+				Thank you.<br>
+				<cfelse>
+				Thank you.<br>
+				</cfif>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
 			</cfmail>

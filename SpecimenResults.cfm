@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-<script type='text/javascript' language="javascript" src='/includes/SpecimenResults.min.js'></script>
+<script type='text/javascript' language="javascript" src='/includes/SpecimenResults.js'></script>
 <cfif len(session.displayrows) is 0>
 	<cfset session.displayrows=20>
 </cfif>
@@ -361,8 +361,10 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
 			<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	</p>
 <div class="topBlock" id="ssControl">
-<cfif isdefined("transaction_id")>
-	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">back to loan</a>
+<cfif isdefined("transaction_id") and #action# is "dispCollObj">
+	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
+    <cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
+    <a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">Back to Deaccession</a>
 </cfif>
 <table border="0">
 	<tr>

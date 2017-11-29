@@ -274,29 +274,6 @@ function clearAll () {
 		}	
 }
 
-function changeSex(sex) {
-	// only run for birds
-	var thisCC = document.getElementById('collection_cde').value;
-	if (thisCC == 'Bird') {	
-		var thisAtt = document.getElementById('attribute_value_7');
-		var thisAttUnit = document.getElementById('attribute_units_7');
-		thisAttUnit.className='readClr';
-		thisAttUnit.readOnly=true;
-		//alert(sex);
-		// change attribute 7 to repro
-		// default in some value
-		// and make the units unwritable
-		var a7 = document.getElementById('attribute_7');
-		a7.value = 'reproductive data';
-		if (sex.indexOf('female') > -1) {
-			//alert('girl');
-			thisAtt.value = 'OV:  mm';
-		} else if (sex.indexOf('male') > -1) {
-			thisAtt.value = 'TE:  mm';
-		} else {
-			//alert('other');
-		}
-	}
 }
 function getInstColl (inst_coll) {
 	// split a string like 'UAM Mamm' out into 'UAM' and 'Mamm' and

@@ -1,3 +1,4 @@
+<cfset jquery11=true>
 <cfif not isdefined("agent_id")>
 	<cfset agent_id=-1>
 </cfif>

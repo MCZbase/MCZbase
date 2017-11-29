@@ -5,9 +5,10 @@
 <link rel="STYLESHEET" type="text/css" href="/includes/dhtmlxtree.css">
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 
+<cfoutput>
 <script>
 	jQuery(document).ready(function() {
-		jQuery("#part_name").autocomplete("/ajax/part_name.cfm", {
+		jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
 			width: 320,
 			max: 20,
 			autofill: true,
@@ -59,7 +60,6 @@ padding: 1em 1em 0 1em;
 	group by OTHER_ID_TYPE
 	order by OTHER_ID_TYPE
 </cfquery>
-<cfoutput>
 <div id="ajaxMsg"></div>
 <table border width="100%">
 	<tr>
@@ -67,15 +67,25 @@ padding: 1em 1em 0 1em;
         
         <h4>Find Container:</h4>
         <div id="searchPane">
-          <div style="border: 1px solid green; padding:.5em; width: 375px;">
+          <div style="border: 1px solid green; padding:.5em; width: 24em;">
           <form onSubmit="loadTree();return false;">
             <table>
               <tr>
+                <cfif not isdefined("container_label")><cfset container_label=""></cfif>
                 <td style="padding-right: 1em;"><label for="container_label">Label (% for wildcard)</label>
-                  <input type="text" name="container_label" id="container_label"  /></td>
+                  <input type="text" name="container_label" id="container_label" value="#container_label#" size="16" /></td>
                 <td><input type="hidden" name="transaction_id" id="transaction_id">
                   <label for="barcode">Barcode (comma-list OK)</label>
-                  <input type="text" name="barcode" id="barcode"  /></td>
+                  <input type="text" name="barcode" id="barcode" size="17" /></td>
+              </tr>
+              <tr>
+                <cfif not isdefined("parent_label")><cfset parent_label=""></cfif>
+                <td style="padding-right: 1em;"><label for="parent_label">Parent Label</label>
+                  <input type="text" name="parent_label" id="parent_label" value="#parent_label#" size="16" /></td>
+                <td>
+                  <label for="barcode">Parent Barcode</label>
+                  <input type="text" name="parent_barcode" id="_parent_barcode" size="17" />
+                </td>
               </tr>
               <tr>
                 <td><label for="container_type">Container Type</label>
@@ -86,7 +96,7 @@ padding: 1em 1em 0 1em;
                     </cfloop>
                   </select></td>
                 <td><label for="description">Description (% for wildcard)</label>
-                  <input type="text" name="description" id="description"  /></td>
+                  <input type="text" name="description" id="description" size="17"  /></td>
               </tr>
               <tr>
                 <td><label for="in_container_type">Contained By Container Type</label>
@@ -103,7 +113,7 @@ padding: 1em 1em 0 1em;
             </table>
             </div>
             <h5 style="margin-top: 2.5em;">Find container by the collection object it contains:</h5>
-            <div style="border: 1px solid green; padding: .5em;width: 375px;">
+            <div style="border: 1px solid green; padding: .5em;width: 24em;">
               <table>
                 <tr>
                   <td style="padding-right: 1em;"><label for="collection_id">Collection</label>
@@ -114,7 +124,7 @@ padding: 1em 1em 0 1em;
                       </cfloop>
                     </select></td>
                   <td><label for="cat_num">Cat Num (comma-list OK)</label>
-                    <input type="text" name="cat_num" id="cat_num"  /></td>
+                    <input type="text" name="cat_num" id="cat_num"  size="17" /></td>
                 </tr>
                 <tr>
                   <td><label for="other_id_type">Other ID Type</label>
@@ -125,12 +135,12 @@ padding: 1em 1em 0 1em;
                       </cfloop>
                     </select></td>
                   <td><label for="other_id_value">Other ID Value (% for wildcard)</label>
-                    <input type="text" name="other_id_value" id="other_id_value" />
+                    <input type="text" name="other_id_value" id="other_id_value" size="17" />
                     <input type="hidden" name="collection_object_id" id="collection_object_id" /></td>
                 </tr>
                 <tr>
                   <td><label for="part_name">Part</label>
-                    <input type="text" id="part_name" name="part_name">
+                    <input type="text" id="part_name" name="part_name" size="16">
                     <input type="hidden" name="loan_trans_id" id="loan_trans_id" />
                     <input type="hidden" name="table_name" id="table_name" /></td>
                   <td style="vertical-align:bottom"><input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">

@@ -43,7 +43,7 @@ Disallow: /allContainerLeafNodes.cfm
 Disallow: /Application.cfc
 Disallow: /Application_down.cfc
 Disallow: /batchScan.cfm
-Disallow: /borrow.cfm
+Disallow: /Borrow.cfm
 Disallow: /bulkCollEvent.cfm
 Disallow: /catalog.cfm
 Disallow: /changeCollEvent.cfm
