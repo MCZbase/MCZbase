@@ -240,7 +240,7 @@ function opendialogrank(page,id,title,agentId) {
           		<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
  				<input type="button" class="lnkBtn" value="Rank" onclick="opendialogrank('/form/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#);">
 			</cfif>
-			&nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Standards##AGENT_RANKING')" class="likeLink" style="margin-top: -15px;" alt="[ help ]">
+			&nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Ranking')" class="likeLink" style="margin-top: -15px;" alt="[ help ]">
                          <div id="agentRankDlg_#agent_id#"></div>
 	   </cfif>
            <cfif listcontainsnocase(session.roles, "manage_transactions")>
