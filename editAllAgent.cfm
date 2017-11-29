@@ -214,7 +214,7 @@ function opendialogrank(page,id,title,agentId) {
 			<cfset nameStr=#getName.agent_name#>
 		</cfif>
         <div style="padding: 1em;">
-		<h3 class="wikilink" style="margin-bottom:.5em;"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Search')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
+		<h3 class="wikilink" style="margin-bottom:.5em;"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Standards')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
 		
 		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#}
 		<cfif len(#person.agent_remarks#) gt 0>
