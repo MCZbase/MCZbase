@@ -4365,8 +4365,13 @@ table.navtabs {
 	margin-top: .5em;
 	padding: 0 0em 1em 1em;
 }
-.databases p {
+.databases p.tagline {
 	margin-bottom: .25em;
+	float:right;
+	position: absolute;
+	margin-top: 4em;
+	text-align: right;
+	width: 427px;
 }
 .databases a {
 	width: auto;

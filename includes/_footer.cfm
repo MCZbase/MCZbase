@@ -32,7 +32,7 @@
 			 <a href="https://arctosdb.org/">
                <img src="/images/arctos-alogo_blackonwhite_65h.png" class="arctos_logo" ALT="[ Link to home page. ]">
              </a>
-              <p style="float: left;width:517px;font-size: 12px; margin-left:72px;letter-spacing: .07em;margin-top:-1.3em;">Delivering Data to the Natural Sciences Community &amp; Beyond</p>
+              <p class="tagline">Delivering Data to the Natural Sciences Community &amp; Beyond</p>
           </div>
     </cfif>
     </div><!---end footer2--->
