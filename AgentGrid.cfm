@@ -30,14 +30,13 @@
 					preferred_agent_name.agent_name,
 					agent_type,
 					agent.edited,
-                    max(agent_rank.agent_rank) agent_rank
+                    MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
 
 				FROM
 					agent_name
 					left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
 					LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
 					LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
-                    LEFT OUTER JOIN agent_rank ON (person.person_id = agent_rank.agent_id)
 				WHERE
 					agent.agent_id > -1
 					and rownum<500
@@ -74,9 +73,6 @@
 <cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 	<cfset sql = "#sql# AND agent_name.agent_id = #agent_id#">
 </cfif>
-<cfif isdefined("agent_rank") AND len(#agent_rank#) gt 0>
-	<cfset sql = "#sql# AND agent_rank.agent_rank = #agent_rank#">
-</cfif>
 <cfif isdefined("address") AND len(#address#) gt 0>
 	<cfset sql = "#sql# AND agent_id IN (
 			select agent_id from addr where upper(formatted_addr) like '%#ucase(address)#%')">
@@ -95,7 +91,7 @@
 
 <cfloop query="getAgents">
 	 <span style="display: inline-block;padding:1px 5px;">
-         <a href="editAllAgent.cfm?agent_id=#agent_id#" target="_person">#agent_name#</a> <span style="font-size: smaller;">(#agent_type#: #agent_id#) <cfif #edited# EQ 1>*</cfif><cfif #agent_rank# EQ 'B'> <img src="images/flag-yellow.svg.png" width="16"></cfif><cfif #agent_rank# EQ 'F'> <img src="images/flag-red.svg.png" width="16"></cfif></span></span>
+         <a href="editAllAgent.cfm?agent_id=#agent_id#" target="_person">#agent_name#</a> <span style="font-size: smaller;">(#agent_type#: #agent_id#) <cfif #edited# EQ 1>*</cfif><cfif #worstagentrank# EQ 'B'> <img src="images/flag-yellow.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'C'> <img src="images/flag-orange.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'D'> <img src="images/flag-orange.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'F'> <img src="images/flag-red.svg.png" width="16"></cfif></span></span>
    <br>
 </cfloop>
 
