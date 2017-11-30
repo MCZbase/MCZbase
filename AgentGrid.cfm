@@ -32,8 +32,7 @@
 					preferred_agent_name.agent_name,
 					agent_type,
 					agent.edited,
-                    MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
-                    
+                    MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank 
 				FROM 
 
 					agent_name
