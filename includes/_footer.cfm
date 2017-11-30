@@ -17,8 +17,7 @@
           </div>
         
          <div class="databases">
-        
-               <a href="http://www.gbif.org/">
+       		 <a href="http://www.gbif.org/">
                   <img src="/images/gbiflogo.png" alt="GBIF" class="gbif_logo">
               </a> 
      <a href="http://www.idigbio.org/">
@@ -30,7 +29,7 @@
                 <a href="http://vertnet.org">
                   <img src="/images/vertnet_logo_small.png" alt="Vertnet" class="vertnet_logo">
               </a> 
- <a href="https://arctosdb.org/">
+			 <a href="https://arctosdb.org/">
                <img src="/images/arctos-alogo_blackonwhite_65h.png" class="arctos_logo" ALT="[ Link to home page. ]">
              </a>
               <p style="float: left;width:517px;font-size: 12px; margin-left:72px;letter-spacing: .07em;margin-top:-1.3em;">Delivering Data to the Natural Sciences Community &amp; Beyond</p>
