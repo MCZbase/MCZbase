@@ -30,7 +30,7 @@
 					preferred_agent_name.agent_name,
 					agent_type,
 					agent.edited,
-                    MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
+                    MCZBASE.get_worstagentrank(agent.agent_id) worstagentrank
 
 				FROM
 					agent_name
@@ -80,7 +80,7 @@
 
 <cfset sql = "#sql# GROUP BY  preferred_agent_name.agent_id,
 					preferred_agent_name.agent_name,
-					agent_type,agent.edited">
+					agent_type,agent.edited, MCZBASE.get_worstagentrank(agent.agent_id)">
 <cfset sql = "#sql# ORDER BY preferred_agent_name.agent_name">
 		<cfquery name="getAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			#preservesinglequotes(sql)#
