@@ -93,8 +93,7 @@
 </cfif>   
 
 <cfloop query="getAgents">
-	 <span style="display: inline-block;padding:1px 5px;">
-         <a href="editAllAgent.cfm?agent_id=#agent_id#" target="_person">#agent_name#</a> <span style="font-size: smaller;">(#agent_type#: #agent_id#) <cfif #edited# EQ 1>*</cfif><cfif #worstagentrank# EQ 'B'> <img src="images/flag-yellow.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'C'> <img src="images/flag-yellow.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'D'> <img src="images/flag-orange.svg.png" width="16"></cfif><cfif #worstagentrank# EQ 'F'> <img src="images/flag-red.svg.png" width="16"></cfif></span></span>
+	 	<span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif deaccAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif deaccAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
    <br>
 </cfloop>
 
