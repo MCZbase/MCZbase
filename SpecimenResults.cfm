@@ -232,7 +232,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	#preserveSingleQuotes(SqlString)#
 </cfif>
 <cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
-    <cfif isdefined("any_geog") AND len(any_geog) gt 0>
+    <cfif isdefined("state_prov") AND len(state_prov) gt 0>
         <cftransaction>
         <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             ALTER SESSION SET NLS_COMP = LINGUISTIC
