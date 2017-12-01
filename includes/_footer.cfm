@@ -30,7 +30,7 @@
                   <img src="/images/vertnet_logo_small.png" alt="Vertnet" class="vertnet_logo">
               </a> 
 			 <a href="https://arctosdb.org/">
-               <img src="/images/arctos-alogo_blackonwhite_65h.png" class="arctos_logo" ALT="[ Link to home page. ]">
+               <img src="/images/arctos-logo.png" class="arctos_logo" ALT="[ Link to home page. ]">
              </a>
               <p class="tagline">Delivering Data to the Natural Sciences Community &amp; Beyond</p>
           </div>
