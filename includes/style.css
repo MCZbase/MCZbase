@@ -4363,7 +4363,7 @@ table.navtabs {
 	width: 646px;
 	float: right;
 	margin-top: .5em;
-	padding: 0 0em 1em 1em;
+	padding-bottom: 2em;
 }
 .databases p.tagline {
 	margin-bottom: .25em;
