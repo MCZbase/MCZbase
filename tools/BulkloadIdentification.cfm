@@ -230,11 +230,12 @@ sho err
 
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#'
-				AND valid_catalog_term_fg=1
 			</cfquery>
 			<cfif #isTaxa.recordcount# is not 1>
 				<cfif len(#problem#) is 0>
 					<cfset problem = "taxonomy not found">
+				<cfelseif #isTaxa.recordcount# GT 1>
+					<cfset problem = "#problem#; multiple taxonomy records found">
 				<cfelse>
 					<cfset problem = "#problem#; taxonomy not found">
 				</cfif>

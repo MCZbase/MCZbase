@@ -30,14 +30,14 @@ create or replace public synonym cf_temp_georef for cf_temp_georef;
 grant all on cf_temp_georef to manage_locality;
 grant select on cf_temp_georef to public;
 
-CREATE OR REPLACE TRIGGER cf_temp_georef_key                                         
- before insert  ON cf_temp_georef  
- for each row 
-    begin     
-    	if :NEW.key is null then                                                                                      
+CREATE OR REPLACE TRIGGER cf_temp_georef_key
+ before insert  ON cf_temp_georef
+ for each row
+    begin
+    	if :NEW.key is null then
     		select somerandomsequence.nextval into :new.key from dual;
-    	end if;                                
-    end;                                                                                            
+    	end if;
+    end;
 /
 sho err
 --->
@@ -46,12 +46,12 @@ sho err
 <cfif #action# is "nothing">
     <h3 class="wikilink">Bulkload Geography</h3>
 	<p>HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you're doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load.</p>
-	
+
     <p><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">HigherGeography,SpecLocality,Locality_ID,Dec_Lat,Dec_Long,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,EXTENT,GPSACCURACY,VERIFICATIONSTATUS,SPATIALFIT</textarea>
-	</div> 
+	</div>
 <p>
     Columns in <span style="color:red">red</span> are required; others are optional:</p>
 <ul class="geol_hier">
@@ -70,9 +70,9 @@ sho err
 	<li>MAX_ERROR_DISTANCE</li>
 	<li>MAX_ERROR_UNITS <span class="infoLink" onclick="getCtDoc('CTLAT_LONG_ERROR_UNITS','');"> -Define</span></li>
 	<li>LAT_LONG_REMARKS</li>
-	<li>EXTENT</li>	
-	<li>GPSACCURACY</li>	
-	<li>SPATIALFIT</li>			 
+	<li>EXTENT</li>
+	<li>GPSACCURACY</li>
+	<li>SPATIALFIT</li>
 </ul>
 
 <cfform name="atts" method="post" enctype="multipart/form-data">
@@ -82,7 +82,7 @@ sho err
 		   size="45">
 			 <input type="submit" value="Upload this file"
 		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'" 
+		onmouseover="this.className='savBtn btnhov'"
 		onmouseout="this.className='savBtn'">
   </cfform>
 
@@ -97,7 +97,7 @@ sho err
 	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		delete from cf_temp_georef
 	</cfquery>
-	
+
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
@@ -169,7 +169,7 @@ sho err
 	<cfif len(m.locality_id) is 0>
 		<cfset ts=listappend(ts,'no Locality_ID:SpecLocality:HigherGeography match',";")>
 		<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 
+			select
 				spec_locality,higher_geog
 			from locality,geog_auth_rec where
 				locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
@@ -228,8 +228,10 @@ sho err
 	<cfif not listfind(valuelist(CTVERIFICATIONSTATUS.VERIFICATIONSTATUS),VERIFICATIONSTATUS)>
 		<cfset ts=listappend(ts,'bad VERIFICATIONSTATUS',";")>
 	</cfif>
-	<cfif not listfind(valuelist(CTLAT_LONG_ERROR_UNITS.LAT_LONG_ERROR_UNITS),MAX_ERROR_UNITS)>
-		<cfset ts=listappend(ts,'bad MAX_ERROR_UNITS',";")>
+	<cfif len(MAX_ERROR_DISTANCE) GT 0 >
+		<cfif not listfind(valuelist(CTLAT_LONG_ERROR_UNITS.LAT_LONG_ERROR_UNITS),MAX_ERROR_UNITS)>
+			<cfset ts=listappend(ts,'bad MAX_ERROR_UNITS',";")>
+		</cfif>
 	</cfif>
 	<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from lat_long where
@@ -238,8 +240,8 @@ sho err
 	<cfif l.c neq 0>
 		<cfset ts=listappend(ts,'georeference exists.',";")>
 	</cfif>
-	
-	
+
+
 	<cfif len(ts) gt 0>
 		<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_georef set status='#ts#' where key=#key#
@@ -249,8 +251,8 @@ sho err
 			update cf_temp_georef set status='spiffy' where key=#key#
 		</cfquery>
 	</cfif>
-	
-	
+
+
 </cfloop>
 <cfquery name="dp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) c from cf_temp_georef where status != 'spiffy'
@@ -271,40 +273,40 @@ sho err
 <cfset variables.encoding="UTF-8">
 <cfscript>
 	variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-	kml='<?xml version="1.0" encoding="UTF-8"?>' & chr(10) & 
-	 	'<kml xmlns="http://earth.google.com/kml/2.2">' & chr(10) & 
-	 	chr(9) & '<Document>' & chr(10) & 
-	 	chr(9) & chr(9) & '<name>Localities</name>' & chr(10) & 
-	 	chr(9) & chr(9) & '<open>1</open>' & chr(10) & 
-	 	chr(9) & chr(9) & '<Style id="green-star">' & chr(10) & 
-	 	chr(9) & chr(9) & chr(9) & '<IconStyle>' & chr(10) & 
-	 	chr(9) & chr(9) & chr(9) & chr(9) & '<Icon>' & chr(10) & 
-	 	chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<href>http://maps.google.com/mapfiles/kml/paddle/grn-stars.png</href>' & chr(10) & 
-	 	chr(9) & chr(9) & chr(9) & chr(9) & '</Icon>' & chr(10) & 
-	 	chr(9) & chr(9) & chr(9) & '</IconStyle>' & chr(10) & 
+	kml='<?xml version="1.0" encoding="UTF-8"?>' & chr(10) &
+	 	'<kml xmlns="http://earth.google.com/kml/2.2">' & chr(10) &
+	 	chr(9) & '<Document>' & chr(10) &
+	 	chr(9) & chr(9) & '<name>Localities</name>' & chr(10) &
+	 	chr(9) & chr(9) & '<open>1</open>' & chr(10) &
+	 	chr(9) & chr(9) & '<Style id="green-star">' & chr(10) &
+	 	chr(9) & chr(9) & chr(9) & '<IconStyle>' & chr(10) &
+	 	chr(9) & chr(9) & chr(9) & chr(9) & '<Icon>' & chr(10) &
+	 	chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<href>http://maps.google.com/mapfiles/kml/paddle/grn-stars.png</href>' & chr(10) &
+	 	chr(9) & chr(9) & chr(9) & chr(9) & '</Icon>' & chr(10) &
+	 	chr(9) & chr(9) & chr(9) & '</IconStyle>' & chr(10) &
 	 	chr(9) & chr(9) & '</Style>';
 	variables.joFileWriter.writeLine(kml);
 </cfscript>
 <cfloop query="df">
 	<cfset cdata='<![CDATA[Datum: #datum#<br/>Error: #max_error_distance# #max_error_units#<br/><p><a href="#Application.ServerRootUrl#/editLocality.cfm?locality_id=#locality_id#">Edit Locality</a></p>]]>'>
 	<cfscript>
-		kml='<Placemark>'  & chr(10) & 
-			chr(9) & '<name>#HigherGeography#: #replace(SpecLocality,"&","&amp;","all")#</name>' & chr(10) & 
-			chr(9) & '<visibility>1</visibility>' & chr(10) & 
-			chr(9) & '<description>' & chr(10) & 
-			chr(9) & chr(9) & '#cdata#' & chr(10) & 
-			chr(9) & '</description>' & chr(10) & 
-			chr(9) & '<Point>' & chr(10) & 
-			chr(9) & chr(9) & '<coordinates>#dec_long#,#dec_lat#</coordinates>' & chr(10) & 
-			chr(9) & '</Point>' & chr(10) & 
-			chr(9) & '<styleUrl>##green-star</styleUrl>' & chr(10) & 
+		kml='<Placemark>'  & chr(10) &
+			chr(9) & '<name>#HigherGeography#: #replace(SpecLocality,"&","&amp;","all")#</name>' & chr(10) &
+			chr(9) & '<visibility>1</visibility>' & chr(10) &
+			chr(9) & '<description>' & chr(10) &
+			chr(9) & chr(9) & '#cdata#' & chr(10) &
+			chr(9) & '</description>' & chr(10) &
+			chr(9) & '<Point>' & chr(10) &
+			chr(9) & chr(9) & '<coordinates>#dec_long#,#dec_lat#</coordinates>' & chr(10) &
+			chr(9) & '</Point>' & chr(10) &
+			chr(9) & '<styleUrl>##green-star</styleUrl>' & chr(10) &
 			'</Placemark>';
 		variables.joFileWriter.writeLine(kml);
 	</cfscript>
-</cfloop>		
+</cfloop>
 	<cfscript>
 		kml='</Document></kml>';
-		variables.joFileWriter.writeLine(kml);	
+		variables.joFileWriter.writeLine(kml);
 		variables.joFileWriter.close();
 	</cfscript>
 		<p>
@@ -318,9 +320,9 @@ Data:
 <cfif #action# is "load">
 <cfoutput>
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			*
-		from 
+		from
 			cf_temp_georef
 	</cfquery>
 	<cftransaction>
