@@ -8,15 +8,15 @@
 <span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">barcode,parent_barcode,container_type,label,description,remarks,width,height,length,number_positions</textarea>
+		<textarea rows="2" cols="80" id="t">container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions</textarea>
 	</div>
 <p></p>
 Columns in <span style="color:red">red</span> are required; others are optional:
 <ul class="geol_hier">
-	<li style="color:red">barcode</li>
-	<li>parent_barcode</li>
+	<li style="color:red">container_unique_id</li>
+	<li>parent_unique_id</li>
 	<li style="color:red">container_type</li>
-	<li style="color:red">label</li>
+	<li style="color:red">container_name</li>
 	<li>description</li>
 	<li>remarks</li>
 	<li>width</li>
@@ -87,11 +87,11 @@ validate
 <cfoutput>
 	<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_cont_edit set container_id=
-		(select container_id from container where container.barcode = cf_temp_cont_edit.barcode)
+		(select container_id from container where container.barcode = cf_temp_cont_edit.container_unique_id)
 	</cfquery>
 	<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_cont_edit set parent_container_id=
-		(select container_id from container where container.barcode = cf_temp_cont_edit.parent_barcode)
+		(select container_id from container where container.barcode = cf_temp_cont_edit.parent_unique_id)
 	</cfquery>
 	<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_cont_edit set status = 'container_not_found'
@@ -99,7 +99,7 @@ validate
 	</cfquery>
 	<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_cont_edit set status = 'parent_container_not_found'
-		where parent_container_id is null and parent_barcode is not null
+		where parent_container_id is null and parent_unique_id is not null
 	</cfquery>
 	<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_cont_edit set status = 'bad_container_type'
@@ -107,7 +107,7 @@ validate
 	</cfquery>
 	<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_cont_edit set status = 'missing_label'
-		where label is null
+		where CONTAINER_NAME is null
 	</cfquery>
 
 	<!---cfquery name="lq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -174,7 +174,7 @@ validate
 		<cfloop query="getTempData">
 			<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update container set
-					label='#label#',
+					label='#CONTAINER_NAME#',
 					DESCRIPTION='#DESCRIPTION#',
 					PARENT_INSTALL_DATE=sysdate,
 					CONTAINER_REMARKS='#remarks#'
