@@ -232,9 +232,21 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	#preserveSingleQuotes(SqlString)#
 </cfif>
 <cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
+    <cfif isdefined("higher_geog") AND len(higher_geog) gt 0>
+        <cftransaction>
+        <cfquery>
+            ALTER SESSION SET NLS_COMP = LINGUISTIC
+        </cfquery>
+        <cfquery>
+            ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+        </cfquery> 
+    </cfif>
 	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
+    <cfif isdefined("higher_geog") AND len(higher_geog) gt 0>
+        </cftransaction>
+    </cfif>
 <form name="defaults">
 	<input type="hidden" name="killrow" id="killrow" value="#session.killrow#">
 	<input type="hidden" name="displayrows" id="displayrows" value="#session.displayrows#">
