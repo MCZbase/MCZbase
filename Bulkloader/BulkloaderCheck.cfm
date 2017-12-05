@@ -16,30 +16,30 @@
 	<cfset catcollid="">
 	<cfset attributeid="">
 	<cfset entereddate=#dateformat(now(),"dd-mmm-yyyy")#>
-	
+
 	<!---- set up variable to change the number of dynamic things we handle ---->
 	<cfset numberOfParts=12>
 	<cfset numberOfAttributes=10>
 	<cfset numberOfOtherIds=5>
 	<cfset numberOfCollectors=8>
-	
+
 	<cfparam name="useExistingLocality" default="false">
-	
-		
+
+
 <cfoutput query="oneRecord"><!--- leave this query open for the whole load process --->
 <cfset loadedMsg = "">
 
-	 		<!--- make sure everything in that record is good to load - 
-				check that required fields are present, code table values are matched, etc. 
-				Replace nulls with "" and such so we have stuff to feed to Arctos. 
-				find existing values that we can load against. 
+	 		<!--- make sure everything in that record is good to load -
+				check that required fields are present, code table values are matched, etc.
+				Replace nulls with "" and such so we have stuff to feed to Arctos.
+				find existing values that we can load against.
 				Required: taxonomy, higher geography, agents.
 			--->
 			<!--- check for collection cde early as we use it often when validating ---->
 			<cfif len(#collection_object_id#) is 0>
 				<cfset loadedMsg = "collection_Object_ID is required.">
 			</cfif>
-			
+
 			<cfif len(#collection_cde#) is 0>
 				<cfset loadedMsg = "#loadedMsg#; ::collection_cde:: is required">
 			</cfif>
@@ -59,15 +59,15 @@
 					collection_cde='#collection_cde#'
 				</cfquery>
 				<cfif getCollId.recordcount is not 1>
-					<cfset loadedMsg = "#loadedMsg#; ::institution_acronym:: (#institution_acronym#) and 
+					<cfset loadedMsg = "#loadedMsg#; ::institution_acronym:: (#institution_acronym#) and
 						::collection_cde:: (#collection_cde#) do not resolve to a valid collection ID.">
 				</cfif>
 					<cfset collection_id = #getCollId.collection_id#>
 			</cfif>
-			
-			
-			<!--- 
-				See if they've preassigned a cat_num. If they have, make sure it is valid. If not, 
+
+
+			<!---
+				See if they've preassigned a cat_num. If they have, make sure it is valid. If not,
 				go find the next available cat_num and use it
 			--->
 			<cfif len(#catalog_number#) gt 0>
@@ -81,7 +81,7 @@
 				<cfquery name="isValidCatNum" datasource="#mcat#">
 					select collection_object_id from cataloged_item
 					where catalog_number=#catalog_number#
-					AND collection_id = 
+					AND collection_id =
 					#collection_id#
 					<cfif len(#catalog_number_prefix#) gt 0>
 						and catalog_number_prefix = '#catalog_number_prefix#'
@@ -97,12 +97,12 @@
 				<cfelse>
 					<cfset loadedMsg = "#loadedMsg#; Duplicate ::catalog_number:: found in database!">
 				</cfif>
-				
+
 			<cfelse>
 				<!--- get a new cat_num --->
 				<cfquery name="newCatNum" datasource="#mcat#">
-					SELECT max(catalog_number) + 1 AS nextcatnum 
-					FROM cataloged_item WHERE collection_id = 
+					SELECT max(catalog_number) + 1 AS nextcatnum
+					FROM cataloged_item WHERE collection_id =
 					#collection_id#
 					<cfif len(#catalog_number_prefix#) gt 0>
 						and catalog_number_prefix = '#catalog_number_prefix#'
@@ -117,8 +117,8 @@
 					<cfset catnum = 1>
 				</cfif>
 			</cfif>
-				
-			
+
+
 			<cfif not len(#began_date#) is 0>
 				<cfif not isdate(#began_date#)>
 					<cfset loadedMsg = "#loadedMsg#; ::began_date:: must be a date.">
@@ -126,14 +126,14 @@
 			<cfelse>
 				<cfset loadedMsg = "#loadedMsg#; ::began_date:: is required.">
 			</cfif>
-			
+
 			<cfif not len(#ended_date#) is 0>
 				<cfif not isdate(#ended_date#)>
 					<cfset loadedMsg = "#loadedMsg#; ::ended_date:: must be a date.">
 				</cfif>
 			<cfelse>
 				<cfset loadedMsg = "#loadedMsg#; ::ended_date:: is required."></cfif>
-			
+
 			<cfif len(#verbatim_date#) is 0>
 				<cfset loadedMsg = "#loadedMsg#; ::verbatim_date:: is required.">
 			</cfif>
@@ -141,7 +141,7 @@
 				where we can eventually move them over to real tables --->
 			<cfif len(#relationship#) gt 0>
 				<cfif len(#related_to_num_type#) is 0 or len(#related_to_number#) is 0>
-					<cfset loadedMsg = "#loadedMsg#; 
+					<cfset loadedMsg = "#loadedMsg#;
 						::related_to_number:: and ::related_to_num_type:: are required when relationship is given.">
 				</cfif>
 				<cfquery name="isGoodReln" datasource="#mcat#">
@@ -160,7 +160,7 @@
 					<cfset loadedMsg = "#loadedMsg#; #related_to_num_type# is not a valid ID type and cannot be in a ::relationship::.">
 				</cfif>
 			</cfif>
-			<!--- 
+			<!---
 				There must be one and only one preexisting higher_geog match
 			--->
 			<cfquery name= "getGeog" datasource="#mcat#">
@@ -173,7 +173,7 @@
 			</cfif>
 					<cfset geogauthrecid = getGeog.geog_auth_rec_id>
 			<cfif len(#locality_id#) is 0>
-				
+
 				<!--- proceed with normal locality routine --->
 				<cfif len(#maximum_elevation#) gt 0>
 					<cfif not isnumeric(#maximum_elevation#)>
@@ -213,7 +213,7 @@
 				<cfif valOrigLatLong.recordcount is 0>
 					<cfset loadedMsg = "#loadedMsg#; ::orig_lat_long_units:: do not match code table values.">
 				</cfif>
-				
+
 				<!--- first get format-specific lat/long stuff ---->
 				<cfif #orig_lat_long_units# IS "decimal degrees">
 					<cfif (len(#dec_lat#) is 0) OR (not isnumeric(#dec_lat#))>
@@ -277,7 +277,7 @@
 					<cfif #longdir# is not "E" AND #longdir# is not "W">
 						<cfset loadedMsg = "#loadedMsg#;  ::longdir:: (#longdir#) is required and must be E or W when orig lat long units is deg. min. sec.">
 					</cfif>
-				
+
 				<cfelseif #orig_lat_long_units# IS "degrees dec. minutes">
 					<cfif len(#latdeg#) is 0 or not isnumeric(#latdeg#)>
 						<cfset loadedMsg = "#loadedMsg#;  ::latdeg:: is required and must be numeric when orig lat long units is degrees dec. minutes">
@@ -343,7 +343,7 @@
 					<cfelse>
 						<cfset llagentid = getLLAgnt.agent_id>
 					</cfif>
-							
+
 				</cfif>
 				<cfif len(#determined_date#) is 0>
 					<cfset loadedMsg = "#loadedMsg#; Lat Long ::determined_date:: is required.">
@@ -373,12 +373,12 @@
 					<cfif len(#verbatim_locality#) is 0>
 						<cfset loadedMsg = "#loadedMsg#;  ::verbatim_locality:: is required.">
 					</cfif>
-				
-				
-				
-				
-				
-				
+
+
+
+
+
+
 				<!---- end normal locality-checking routine ---->
 			<cfelse>
 				<!--- just make sure we got a valid locality_id --->
@@ -397,18 +397,18 @@
 			</cfquery>
 				<cfif #coll_obj_disposition.recordcount# is 0>
 					<cfset loadedMsg = "#loadedMsg#;  ::coll_obj_disposition:: was not found in the code table.">
-				</cfif>			
+				</cfif>
 			<cfif not len(#condition#) gt 0>
 				<cfset loadedMsg = "#loadedMsg#; ::condition:: is required">
 			</cfif>
-		
-			
-			<cfif len(#made_date#) gt 0>				
+
+
+			<cfif len(#made_date#) gt 0>
 				<cfif not isdate(#made_date#)>
 					<cfset loadedMsg = "#loadedMsg#; ID ::made_date:: must be a date.">
 				</cfif>
 			</cfif>
-			
+
 			<cfif not len(#nature_of_id#) gt 0>
 				<cfset loadedMsg = "#loadedMsg#;  ::nature_of_id:: is required">
 			</cfif>
@@ -418,7 +418,7 @@
 			<cfif valNatureOfId.recordcount is 0>
 				<cfset loadedMsg = "#loadedMsg#; ::nature_of_id:: must match code table values.">
 			</cfif>
-			
+
 			<cfif not len(#taxon_name#) gt 0>
 				<cfset loadedMsg = "#loadedMsg#; ::taxon_name:: is required.">
 			</cfif>
@@ -449,7 +449,7 @@
 					<cfset taxa_formula = "A X B">
 					<cfset taxon_name=left(taxon_name,len(taxon_name) -4)>
 					<cfset loadedMsg = "#loadedMsg#;#taxon_name#:hybrid:#nameone#;#nameTwo#:">
-					
+
 				<cfelse>
 					<cfset loadedMsg = "#loadedMsg#; NO X??">
 				</cfif>
@@ -464,7 +464,7 @@
 				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#'
 				AND valid_catalog_term_fg=1
 			</cfquery>
-			
+
 			<cfif getTaxa.recordcount is 0>
 				<cfset loadedMsg = "#loadedMsg#;  ::taxon_name:: (#taxon_name#) not found.">
 			<cfelseif getTaxa.recordcount gt 1>
@@ -472,14 +472,14 @@
 			</cfif>
 			<!---<cfset loadedMsg = "#loadedMsg#;#getTaxa.recordcount#">--->
 					<cfset taxonnameid = getTaxa.taxon_name_id>
-			
+
 			<!-------------------- depth ----------------------------->
 			<cfif len(#min_depth#) gt 0 OR len(#max_depth#) gt 0 OR len(#depth_units#) gt 0>
 				<!---- if we got one, we need them all ---->
 				<cfif len(#min_depth#) is 0 OR len(#max_depth#) is 0 OR len(#depth_units#) is 0>
 					<cfset loadedMsg = "#loadedMsg#; ::min_depth::, ::max_depth::, and ::depth_units:: are all required if one is given.">
 				</cfif>
-				
+
 				<cfif not isnumeric(#min_depth#) OR not isnumeric(#max_depth#)>
 					<cfset loadedMsg = "#loadedMsg#; ::min_depth:: and ::max_depth:: must be numeric.">
 				</cfif>
@@ -491,8 +491,8 @@
 				</cfif>
 			</cfif>
 			<!----------------------------- end depth ------------------------>
-			
-<!---------------------- attribute 1 ------------------------------------------------->			
+
+<!---------------------- attribute 1 ------------------------------------------------->
 <!----- 4 Oct 2004 change - loop over attributes, from 1-8 ---->
 
 <cfloop from="1" to="#numberOfAttributes#" index="i">
@@ -503,7 +503,7 @@
 	<cfset thisDate="attribute_date_" & #i#>
 	<cfset thisMethod="attribute_det_meth_" & #i#>
 	<cfset thisDeterminer="attribute_determiner_" & #i#>
-	
+
 	<cfset thisAttributeValue = evaluate(#thisAttribute#)>
 	<cfset thisValueValue = evaluate(#thisValue#)>
 	<cfset thisUnitsValue = evaluate(#thisUnits#)>
@@ -511,7 +511,7 @@
 	<cfset thisDateValue = evaluate(#thisDate#)>
 	<cfset thisMethodValue = evaluate(#thisMethod#)>
 	<cfset thisDeterminerValue = evaluate(#thisDeterminer#)>
-	
+
 	<cfset thisAttributeValue = trim(thisAttributeValue)>
 	<cfset thisValueValue = trim(thisValueValue)>
 	<cfset thisUnitsValue = trim(thisUnitsValue)>
@@ -519,14 +519,14 @@
 	<cfset thisDateValue = trim(thisDateValue)>
 	<cfset thisMethodValue = trim(thisMethodValue)>
 	<cfset thisDeterminerValue = trim(thisDeterminerValue)>
-	
-	
+
+
 	<cfif len(#thisAttributeValue#) gt 0 AND len(#thisValueValue#) gt 0><!--- ignore unless we get type AND value --->
 				<cfquery name="isAtt" datasource="#mcat#">
 					select attribute_type from ctattribute_type where attribute_type='#thisAttributeValue#'
 					AND collection_cde='#collection_cde#'
 				</cfquery>
-				<cfif isAtt.recordcount is not 1>					
+				<cfif isAtt.recordcount is not 1>
 					<cfset loadedMsg = "#loadedMsg#; ::attribute_#i#:: (#thisAttributeValue#) does not match code table values for collection #collection_cde#.">
 				</cfif>
 				<!--- we have a valid attribute type ---->
@@ -540,13 +540,13 @@
 									<!--- there's a code table --->
 							<cfquery name="valCT" datasource="#mcat#">
 								select * from #isValCt.value_code_table#
-							</cfquery>							
+							</cfquery>
 							<!---- get column names --->
 								<cfquery name="getCols" datasource="uam_god">
 									select column_name from sys.user_tab_columns where table_name='#ucase(isValCt.value_code_table)#'
 									and column_name <> 'DESCRIPTION'
 								</cfquery>
-							
+
 								<cfset collCode = "">
 								<cfset columnName = "">
 								<cfloop query="getCols">
@@ -563,13 +563,13 @@
 										WHERE #columnName# =  '#thisValueValue#'
 										AND collection_cde='#collection_cde#'
 									</cfquery>
-									
+
 								  <cfelse>
 								 	<cfquery name="valCodes" dbtype="query">
 										SELECT #columnName# as valCodes from valCT
 										WHERE #columnName# =  '#thisValueValue#'
 									</cfquery>
-									
+
 								</cfif>
 								<cfset validValueFlag="">
 								<cfloop query="valCodes">
@@ -577,7 +577,7 @@
 										<cfset validValueFlag = "#validValueFlag#true">
 									</cfif>
 								</cfloop>
-								<cfif len(#validValueFlag#) is 0>									
+								<cfif len(#validValueFlag#) is 0>
 									<cfset loadedMsg = "#loadedMsg#; ::attribute_value_#i#:: (#thisValueValue#) is code table controlled and does not match code table values.">
 								</cfif>
 				  </cfif>
@@ -611,13 +611,13 @@
 							</cfloop>
 							<!--- if we got a collection code, rerun the query to filter ---->
 							<cfif len(#collCode#) gt 0>
-						
+
 								<cfquery name="unitCodes" dbtype="query">
 									SELECT #columnName# as unitCodes from unitCT
 									WHERE collection_cde='#indiv.collection_cde#'
 								</cfquery>
 							  <cfelse>
-						
+
 								<cfquery name="unitCodes" dbtype="query">
 									SELECT #columnName# as unitCodes from unitCT
 								</cfquery>
@@ -625,20 +625,20 @@
 					<cfset thisAttUnit = #thisUnitsValue#>
 					<cfset validUnitsCodeTable="">
 					<cfloop query="unitCodes">
-						<cfif #unitCodes.unitCodes# is "#thisAttUnit#"> 
+						<cfif #unitCodes.unitCodes# is "#thisAttUnit#">
 							<cfset validUnitsCodeTable = "true">
 						</cfif>
 					</cfloop>
 					<cfif len(#validUnitsCodeTable#) is 0>
 						<cfset loadedMsg = "#loadedMsg#; ::attribute_units_#i#:: (#thisAttUnit#) do not match CT values.">
 					</cfif>
-		  			<!---- they have a valid units code table, so go back and make sure the value they 
+		  			<!---- they have a valid units code table, so go back and make sure the value they
 						gave is numeric --->
 					<cfif not isnumeric(#thisValueValue#)>
 						<cfset loadedMsg = "#loadedMsg#; ::attribute_value_#i#:: (#thisAttUnit#) must be numeric for #thisAttributeValue#">
 					</cfif>
 		  <cfelse>
-							<!---- not code table controlled, leave it null for now - all units are 
+							<!---- not code table controlled, leave it null for now - all units are
 							either CT controlled or NULL--->
 							<!--- see if they tried to put anything in here --->
 							<cfif len(#thisUnitsValue#) gt 0>
@@ -652,17 +652,17 @@
 							attribute_type = '#thisAttributeValue#'
 						</cfquery>
 						<cfif #isUnitCt.recordcount# gt 0 and len(#isUnitCt.units_code_table#) gt 0>
-							
+
 							<cfset loadedMsg = "#loadedMsg#; A value for ::attribute_units_#i#:: is required.">
 						</cfif>
 					</cfif>
-					
+
 					<cfif len(#thisDateValue#) gt 0>
 						<cfif not isdate(#thisDateValue#)>
 						 	<cfset loadedMsg = "#loadedMsg#; ::attribute_date_#i#:: (#thisDateValue#) is not a date">
 					  </cfif>
 					</cfif>
-					
+
 					<cfif len(#thisDeterminerValue#) gt 0>
 						<cfquery name="attDet1" datasource="#mcat#">
 							SELECT agent_id FROM agent_name WHERE agent_name = '#thisDeterminerValue#'
@@ -677,7 +677,7 @@
 					<cfelse>
 						<cfset loadedMsg = "#loadedMsg#; ::attribute_determiner_#i#:: may not be null.">
 					</cfif>
-						
+
 				<!----
 				thisAttributeValue - #thisAttributeValue# <br>
 				thisAttributeValue - #thisAttributeValue# <br>
@@ -690,7 +690,7 @@
 				--#loadedMsg#--
 				<hr>
 				---->
-				
+
 	</cfif>
 </cfloop>
 
@@ -699,11 +699,11 @@
 <cfloop from="1" to="#numberOfOtherIds#" index="i">
 	<cfset thisIDType="other_id_num_type_" & #i#>
 	<cfset thisIDNumber="other_id_num_" & #i#>
-	
+
 	<cfset thisIDTypeValue = evaluate(#thisIDType#)>
 	<cfset thisIDNumberValue = evaluate(#thisIDNumber#)>
-	
-	
+
+
 		<cfif len(#thisIDNumberValue#) gt 0>
 			<!---- we got an other ID for this loop---->
 			<cfif len(#thisIDTypeValue#) is 0>
@@ -719,12 +719,12 @@
 		</cfif>
 </cfloop>
 
-			
+
 			<cfif not len(#id_made_by_agent#) gt 0>
 				<cfset loadedMsg = "#loadedMsg#; ::id_made_by_agent:: is required.">
 			</cfif>
 			<cfquery name= "valIdBy" datasource="#mcat#">
-				SELECT agent_id FROM agent_name WHERE agent_name = '#id_made_by_agent#' 
+				SELECT agent_id FROM agent_name WHERE agent_name = '#id_made_by_agent#'
 				and agent_name_type <> 'Kew abbr.'
 			</cfquery>
 			<cfif valIdBy.recordcount is 0>
@@ -737,7 +737,7 @@
 <cfloop from="1" to="#numberOfCollectors#" index="i">
 	<cfset thisColl="collector_agent_" & #i#>
 	<cfset thisCollR="collector_role_" & #i#>
-	
+
 	<cfset thisCollector = evaluate(#thisColl#)>
 	<cfset thisCollectorRole = evaluate(#thisCollR#)>
 	<!---- special handling for first collector ---->
@@ -771,10 +771,10 @@
 	<cfset thisPM="preserv_method_" & #i#>
 	<cfset thisPC="part_condition_" & #i#>
 	<cfset thisPMod="part_modifier_" & #i#>
-	<cfset thisPBC="part_barcode_" & #i#>
-	<cfset thisPCL="part_container_label_" & #i#>
+	<cfset thisPBC="part_container_unique_id_" & #i#>
+	<cfset thisPCL="part_container_name_" & #i#>
 	<cfset thisPLC="part_lot_count_" & #i#>
-	
+
 	<cfset thisPartName = evaluate(#thisPN#)>
 	<cfset thisPresMeth = evaluate(#thisPM#)>
 	<cfset thisPartCondition = evaluate(#thisPC#)>
@@ -790,17 +790,17 @@
 	</cfif>
 	<cfif len(#thisPartName#) gt 0>
 		<cfquery name= "valPartName" datasource="#mcat#">
-				SELECT part_name FROM ctspecimen_part_name WHERE part_name = '#thisPartName#' 
+				SELECT part_name FROM ctspecimen_part_name WHERE part_name = '#thisPartName#'
 				and collection_cde='#collection_cde#'
 		</cfquery>
 		<cfif valPartName.recordcount is 0>
 			<cfset loadedMsg = "#loadedMsg#; ::part_name_#i#:: (#thisPartName#) must match code table values for #collection_cde#.">
 		</cfif>
-		
+
 		<cfif len(#thisPresMeth#) gt 0>
 			<cfquery name= "valPartPres" datasource="#mcat#">
-				SELECT preserve_method FROM ctspecimen_preserv_method 
-				WHERE preserve_method = '#thisPresMeth#' 
+				SELECT preserve_method FROM ctspecimen_preserv_method
+				WHERE preserve_method = '#thisPresMeth#'
 				and collection_cde='#collection_cde#'
 			</cfquery>
 			<cfif valPartPres.recordcount is 0>
@@ -810,7 +810,7 @@
 		<cfif len(#thisPartCondition#) is 0>
 			<cfset loadedMsg = "#loadedMsg#; ::part_condition_#i#:: may not be null.">
 		</cfif>
-		
+
 		<cfif len(#thisPartBarCode#) GT 0>
 			<cfquery name="getID" datasource="#mcat#">
 				select container_id from container where barcode = '#thisPartBarCode#'
@@ -830,11 +830,11 @@
 		<cfif len(#accn#) is 0>
 			<cfset loadedMsg = "#loadedMsg#;  ::accn:: may not be null.">
 		</cfif>
-		
+
 		<cfif #accn# contains "[" and #accn# contains "]">
 		<cfset p = find(']',accn)>
 		<cfset ia = mid(accn,2,p-2)>
-		
+
 		<cfset ac = mid(accn,p+1,len(accn))>
 		<!----
 		<cfset result = "-p:-#p#-ia-#ia#-ac-#ac#">
@@ -845,7 +845,7 @@
 		<cfset ia=#institution_acronym#>
 	</cfif>
 	<cfquery name="getTrans" datasource="#Application.web_user#">
-		select 
+		select
 			accn.transaction_id
 		FROM
 			accn,
@@ -855,14 +855,14 @@
 			accn.accn_number = '#ac#' and
 			trans.institution_acronym = '#ia#'
 	</cfquery>
-	
-	
+
+
 		<cfif #len(getTrans.transaction_id)# gt 0>
 			<cfset transactionid = getTrans.transaction_id>
 		<cfelse>
-			<cfset loadedMsg = "#loadedMsg#; You must specify a valid, pre-existing ::accn:: number.">		
+			<cfset loadedMsg = "#loadedMsg#; You must specify a valid, pre-existing ::accn:: number.">
 		</cfif>
-			
+
 			<cfif len(#enteredby#) is 0>
 				<cfset loadedMsg = "#loadedMsg#;  enteredby may not be null.">
 			</cfif>
@@ -876,16 +876,16 @@
 					<cfset loadedMsg = "#loadedMsg#; enteredby has multiple matches">
 				</cfif>
 						<cfset enteredbyid = getEntBy.agent_id>
-				
-			
-			<cfset ccSQL = "SELECT collection_id from collection 
+
+
+			<cfset ccSQL = "SELECT collection_id from collection
 			WHERE collection_cde = '#collection_cde#' AND institution_acronym = '#institution_acronym#'">
 			<cfquery name="getCollID" datasource="#mcat#">
 				#preservesinglequotes(ccSQL)#
 			</cfquery>
 			<cfset collectionid = #getCollID.collection_id#>
-			
-			
+
+
 			<cfif len(#flags#) gt 0>
 				<cfquery name="ctFlags" datasource="#mcat#">
 					select * from ctflags where flags = '#flags#'
@@ -893,7 +893,7 @@
 				<cfif ctFlags.recordcount is 0>
 					<cfset loadedMsg = "#loadedMsg#;  Flags does not match code table values.">
 				</cfif>
-			</cfif>	
+			</cfif>
 			<cfif len(#collecting_source#) gt 0>
 				<cfquery name="ctcollecting_source" datasource="#mcat#">
 					select collecting_source from ctcollecting_source where collecting_source = '#collecting_source#'
@@ -901,7 +901,7 @@
 				<cfif ctcollecting_source.recordcount is 0>
 					<cfset loadedMsg = "#loadedMsg#;  ::collecting_source:: does not match code table values.">
 				</cfif>
-			</cfif>	
+			</cfif>
 			<cfif len(#georefmethod#) gt 0>
 				<cfquery name="ctgeorefmethod" datasource="#mcat#">
 					select * from ctgeorefmethod where georefmethod = '#georefmethod#'
@@ -911,5 +911,5 @@
 				</cfif>
 			<cfelse>
 				<cfset loadedMsg = "#loadedMsg#;  ::georefmethod:: is required.">
-			</cfif>			
+			</cfif>
 	</cfoutput>

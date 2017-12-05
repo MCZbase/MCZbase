@@ -40,8 +40,8 @@
 	<cfloop from="1" to="#n#" index="i">
 		<cfset part=listappend(part,"PART_NAME_" & i)>
 		<cfset part=listappend(part,"PART_CONDITION_" & i)>
-		<cfset part=listappend(part,"PART_BARCODE_" & i)>
-		<cfset part=listappend(part,"PART_CONTAINER_LABEL_" & i)>
+		<cfset part=listappend(part,"PART_CONTAINER_UNIQUE_ID_" & i)>
+		<cfset part=listappend(part,"PART_CONTAINER_NAME_" & i)>
 		<cfset part=listappend(part,"PART_LOT_COUNT_" & i)>
 		<cfset part=listappend(part,"PART_DISPOSITION_" & i)>
 		<cfset part=listappend(part,"PART_REMARK_" & i)>
@@ -204,7 +204,7 @@
 			<option value="csv">CSV</option>
 		</select>
 		<input type="submit" value="Download Template">
-       
+
         <br><br>
 		<table border>
 			<tr>
@@ -245,9 +245,9 @@
 		<cfelse>
 			That file format doesn't seem to be supported yet!
 		</cfif>
-                
+
 </cfoutput>
 </cfif>
-              
+
  </div>
  <cfinclude template="/includes/_footer.cfm">
