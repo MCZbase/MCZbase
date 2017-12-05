@@ -417,11 +417,11 @@ function goEditMode () {
 }
 
 function setPartLabel (thisID) {
-	var thePartNum = thisID.replace('part_barcode_','');
+	var thePartNum = thisID.replace('part_container_unique_id_','');
 	var theOIDType = document.getElementById('other_id_num_type_5').value;
 	//alert(theOIDType);
 	if (theOIDType == 'AF') {
-		var theLabelStr = 'part_container_label_' + thePartNum;
+		var theLabelStr = 'part_container_name_' + thePartNum;
 		var theLabel = document.getElementById(theLabelStr);
 		var theLabelVal = theLabel.value;
 		var isLbl = theLabelVal.length;
@@ -584,30 +584,30 @@ function setNewRecDefaults () {
 	defBlank.push('other_id_num_3');
 	defBlank.push('other_id_num_4');
 	defBlank.push('other_id_num_5'); //AF
-	defBlank.push('part_barcode_1');
-	defBlank.push('part_barcode_2');
-	defBlank.push('part_barcode_3');
-	defBlank.push('part_barcode_4');
-	defBlank.push('part_barcode_5');
-	defBlank.push('part_barcode_6');
-	defBlank.push('part_barcode_7');
-	defBlank.push('part_barcode_8');
-	defBlank.push('part_barcode_9');
-	defBlank.push('part_barcode_10');
-	defBlank.push('part_barcode_11');
-	defBlank.push('part_barcode_12');
-	defBlank.push('part_container_label_1');
-	defBlank.push('part_container_label_2');
-	defBlank.push('part_container_label_3');
-	defBlank.push('part_container_label_4');
-	defBlank.push('part_container_label_5');
-	defBlank.push('part_container_label_6');
-	defBlank.push('part_container_label_7');
-	defBlank.push('part_container_label_8');
-	defBlank.push('part_container_label_9');
-	defBlank.push('part_container_label_10');
-	defBlank.push('part_container_label_11');
-	defBlank.push('part_container_label_12');
+	defBlank.push('part_container_unique_id_1');
+	defBlank.push('part_container_unique_id_2');
+	defBlank.push('part_container_unique_id_3');
+	defBlank.push('part_container_unique_id_4');
+	defBlank.push('part_container_unique_id_5');
+	defBlank.push('part_container_unique_id_6');
+	defBlank.push('part_container_unique_id_7');
+	defBlank.push('part_container_unique_id_8');
+	defBlank.push('part_container_unique_id_9');
+	defBlank.push('part_container_unique_id_10');
+	defBlank.push('part_container_unique_id_11');
+	defBlank.push('part_container_unique_id_12');
+	defBlank.push('part_container_name_1');
+	defBlank.push('part_container_name_2');
+	defBlank.push('part_container_name_3');
+	defBlank.push('part_container_name_4');
+	defBlank.push('part_container_name_5');
+	defBlank.push('part_container_name_6');
+	defBlank.push('part_container_name_7');
+	defBlank.push('part_container_name_8');
+	defBlank.push('part_container_name_9');
+	defBlank.push('part_container_name_10');
+	defBlank.push('part_container_name_11');
+	defBlank.push('part_container_name_12');
 	defBlank.push('relationship');
 	defBlank.push('related_to_num_type');
 	defBlank.push('related_to_number');

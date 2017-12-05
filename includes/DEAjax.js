@@ -990,10 +990,10 @@ function switchActive(OrigUnits) {
 
 
 function setPartLabel (thisID) {
-	var thePartNum = thisID.replace('part_barcode_','');
+	var thePartNum = thisID.replace('part_container_unique_id_','');
 	var theOIDType = document.getElementById('other_id_num_type_5').value;
 	if (theOIDType == 'AF') {
-		var theLabelStr = 'part_container_label_' + thePartNum;
+		var theLabelStr = 'part_container_name_' + thePartNum;
 		var theLabel = document.getElementById(theLabelStr);
 		var theLabelVal = theLabel.value;
 		var isLbl = theLabelVal.length;
