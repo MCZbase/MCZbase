@@ -664,7 +664,7 @@
 					</cfif>
           		</cfloop>
 			</select>
-			<label for="new_parent_barcode">Parent Barcode</label>
+			<label for="new_parent_barcode">Parent Unique Identifier</label>
 			<input type="text" name="new_parent_barcode" id="new_parent_barcode" value="" />
 			<label for="dTab">Dimensions</label>
 			<table border>
@@ -690,9 +690,9 @@
 	            	<option value="#institution_acronym#">#institution_acronym#</option>
 	         	</cfloop>
 			</select>
-			<label for="barcode">Barcode</label>
+			<label for="barcode">Unique Identifier</label>
 			<input name="barcode" type="text" value="#barcode#" class="reqdClr">
-			<label for="label">Label</label>
+			<label for="label">Container Name</label>
 			<input name="label" type="text" value="#label#" class="reqdClr">
 			<label for="parent_install_date">Install Date</label>
 			<input name="parent_install_date" type="text" value="#dateformat(now(),'yyyy-mm-dd')#" class="reqdClr">
