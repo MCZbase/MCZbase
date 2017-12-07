@@ -359,7 +359,7 @@
 
 <div class="shippingBlock"> 
 
-			<strong>Projects associated with this Accession:</strong>
+			<h3>Projects associated with this Accession:</h3>
 			<ul style="list-style:none;">
 				<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select project_name, project.project_id from project,
@@ -398,7 +398,7 @@
 </cfform>
 
 <div class="shippingBlock"> 
-			<strong>Media associated with this Accession:</strong>
+			<h3>Media associated with this Accession:</h3>
 
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -446,6 +446,7 @@
 </div>
 <div class="shippingBlock"> 
     <h3>Permits:</h3>
+    <p>List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
 		<cfquery name="getPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				permit.permit_id,
@@ -490,6 +491,7 @@
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>
+    <p>Include Permits such as USFWS Form 3-177 which are only involved in an incoming shipment of the accession, and are not inherited by future shipments of this material under the relevant shipment here.</p>
 <script>
 
 function opendialog(page,id,title) {
