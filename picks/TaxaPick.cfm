@@ -5,7 +5,6 @@
 			<input type="hidden" name="formName" value="#formName#">
 			<input type="hidden" name="taxonIdFld" value="#taxonIdFld#">
 			<input type="hidden" name="taxonNameFld" value="#taxonNameFld#">
-			<input type="hidden" name="AuthorTextFld" value="#authorTextFld#">
 			<label for="scientific_name">Scientific Name</label>
 			<input type="text" name="scientific_name" id="scientific_name" size="50">
 			<br><input type="submit" class="lnkBtn" value="Search">
