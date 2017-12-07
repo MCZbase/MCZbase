@@ -5,6 +5,7 @@
 			<input type="hidden" name="formName" value="#formName#">
 			<input type="hidden" name="taxonIdFld" value="#taxonIdFld#">
 			<input type="hidden" name="taxonNameFld" value="#taxonNameFld#">
+			<input type="hidden" name="AuthorTextFld" value="#authorTextFld#">
 			<label for="scientific_name">Scientific Name</label>
 			<input type="text" name="scientific_name" id="scientific_name" size="50">
 			<br><input type="submit" class="lnkBtn" value="Search">
@@ -14,6 +15,7 @@
 		<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				scientific_name, 
+				author_text,
 				taxon_name_id, 
 				valid_catalog_term_fg
 			from 
@@ -23,6 +25,7 @@
 			UNION
 			SELECT 
 				a.scientific_name, 
+				a.author_text,
 				a.taxon_name_id, 
 				a.valid_catalog_term_fg
 			from 
@@ -36,6 +39,7 @@
 			UNION
 			SELECT 
 				b.scientific_name, 
+				b.author_text,
 				b.taxon_name_id, 
 				b.valid_catalog_term_fg
 			from 
@@ -53,10 +57,10 @@
 	<cfoutput>
 		<cfif #getTaxa.valid_catalog_term_fg# is "1">
 		<script>
-			opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();
+			opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name# #getTaxa.author_text#';self.close();
 		</script>
 		<cfelse>
-			<a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();"><font color="##FF0000">#getTaxa.scientific_name# #author_text# (unaccepted)</font></a>
+			<a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();"><font color="##FF0000"><i>#getTaxa.scientific_name#</i> #author_text# (unaccepted)</font></a>
 		</cfif>
 	</cfoutput>
 	<cfelseif #getTaxa.recordcount# is 0>
