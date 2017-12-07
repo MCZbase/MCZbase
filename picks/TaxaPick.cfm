@@ -78,12 +78,12 @@
 	<cfelse>
 		<cfoutput query="getTaxa">
 		<cfif #getTaxa.valid_catalog_term_fg# is "1">
-<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();">#scientific_name# #author_text#</a>
+			<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><i>#scientific_name#</i> #author_text#</a>
 	<!---	
 		<br><a href="##" onClick="javascript: document.selectedAgent.agentID.value='#agent_id#';document.selectedAgent.agentName.value='#agent_name#';document.selectedAgent.submit();">#agent_name# - #agent_id#</a> - 
 	--->
 	<cfelse>
-	<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><font color="##FF0000">#scientific_name# #author_text#(unaccepted)</font></a>
+		<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><font color="##FF0000"><i>#scientific_name#</i> #author_text#(unaccepted)</font></a>
 	</cfif>
 	</cfoutput>
 	</CFIF>
