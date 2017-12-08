@@ -13,6 +13,20 @@ function loadShipments(transaction_id) {
        }
      )};
 
+function loadTransactionFormPermits(transaction_id) {
+    jQuery.ajax({
+          url: "/component/functions.cfc",
+          data : {
+            method : "getPermitsForTrans",
+            shipment_id : transaction_id
+         },
+        success: function (result) {
+           $("#transactionFormPermits").html(result);
+        },
+        dataType: "html"
+       }
+     )};
+
 function loadShipmentFormPermits(shipment_id) {
     jQuery.ajax({
           url: "/component/functions.cfc",
@@ -76,6 +90,19 @@ function deleteMediaFromDeacc(mediaId,transactionId,relationType) {
         },
         function (result) {
            loadDeaccessionMedia(transactionId);
+        }
+      )};
+function deletePermitFromTransaction(permitId,transactionId) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "removePermitFromTransaction",
+            transaction_id : transaction_id,
+            permit_id : permitId,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           loadShipments(transactionId);
         }
       )};
 function deletePermitFromShipment(shipmentId,permitId,transactionId) {

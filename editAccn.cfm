@@ -447,47 +447,15 @@
 <div class="shippingBlock"> 
     <h3>Permits:</h3>
     <p>List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
-		<cfquery name="getPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				permit.permit_id,
-				issuedBy.agent_name as IssuedByAgent,
-				issuedTo.agent_name as IssuedToAgent,
-				issued_date,
-				renewed_date,
-				exp_date,
-				permit_Num,
-				permit_Type,
-				permit_remarks
-			FROM
-				permit,
-				permit_trans,
-				preferred_agent_name issuedTo,
-				preferred_agent_name issuedBy
-			WHERE
-				permit.permit_id = permit_trans.permit_id AND
-				permit.issued_by_agent_id = issuedBy.agent_id AND
-				permit.issued_to_agent_id = issuedTo.agent_id AND
-				permit_trans.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#accnData.transaction_id#">
-		</cfquery>
-		<div style="float:left;width:95%;">
-			<cfloop query="getPermits">
-				<p><strong>Permit ## #permit_Num# (#permit_Type#)</strong> issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_date,"yyyy-mm-dd")#. <cfif len(#renewed_date#) gt 0> (renewed #renewed_date#)</cfif> Expires #dateformat(exp_date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif>
-				<form name="killPerm#currentRow#" method="post" action="editAccn.cfm">
-					<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
-					<input type="hidden" name="action" value="unlinkPermit">
-					<input type="hidden" name="permit_id" value="#permit_id#">
-					 <input type="submit" value="Remove this Permit" class="delBtn">
-				</form>
-			</cfloop>
-			<form name="addPermit" action="editAccn.cfm" method="post">
-				<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
-				<input type="hidden" name="permit_id">
-				  <input type="button" value="Add a permit" class="picBtn"
-			   		onClick="javascript: window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick',
-						'resizable,scrollbars=yes,width=850,height=750')">
-			</form>
-              </div>
+                <div style="float:left;width:95%;" id="transactionFormPermits">
+                </div>
+
+                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#','##addPermitDlg_#transaction_id#','Pick Permit for Accession', loadTransactionFormPermits(#transaction_id#), 650,800); " ></div><div id='addPermitDlg_#transaction_id#'></div>
 </div>
+
+<script>
+$( document ).ready(loadTransactionFormPermits(#transaction_id#));
+</script>
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>

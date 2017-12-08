@@ -2397,6 +2397,79 @@
    </cftry>
    <cfreturn theResult>
 </cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+
+<cffunction name="getPermitsForTrans" returntype="string" access="remote" returnformat="plain">
+   <cfargument name="transaction_id" type="string" required="yes">
+   <cfset resulthtml="">
+   <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select distinct permit_num, permit_type, issued_date, permit.permit_id,
+             issuedBy.agent_name as IssuedByAgent
+        from permit
+             left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+        where permit.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+        order by permit_type, issued_date
+   </cfquery>
+
+                 <cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
+                 <cfloop query="query">
+                    <cfset resulthtml = resulthtml & "<ul class='permittransul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
+
+
+                    <cfset resulthtml = resulthtml & "<ul class='permittransul2'>">
+                       <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+                       <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+                       <cfset resulthtml = resulthtml & "<li>">
+                    <cfset resulthtml = resulthtml & "</ul>">
+                 </cfloop>
+                 <cfif query.recordcount eq 0>
+                     <cfset resulthtml = resulthtml & "None">
+                 </cfif>
+            <cfset resulthtml = resulthtml & "</span></div>"> <!--- span#permit_tr_, div.permittrans --->
+
+       </cfloop>
+   </cfif>
+   <cfreturn resulthtml>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="removePermitFromTransaction" returntype="query" access="remote">
+        <cfargument name="permit_id" type="string" required="yes">
+        <cfargument name="transaction_id" type="string" required="yes">
+        <cfset r=1>
+        <cftry>
+            <cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+             delete from permit_trans
+             where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+               and transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+            </cfquery>
+                <cfif deleteResultRes.recordcount eq 0>
+                  <cfset theResult=queryNew("status, message")>
+                  <cfset t = queryaddrow(theResult,1)>
+                  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "No records deleted. #permit_id# #transaction_id# #deleteResult.sql#", 1)>
+                </cfif>
+                <cfif deleteResultRes.recordcount eq 1>
+                  <cfset theResult=queryNew("status, message")>
+                  <cfset t = queryaddrow(theResult,1)>
+                  <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+                </cfif>
+        <cfcatch>
+          <cfset theResult=queryNew("status, message")>
+                <cfset t = queryaddrow(theResult,1)>
+                <cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+                <cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+          </cfcatch>
+        </cftry>
+    <cfif isDefined("asTable") AND asTable eq "true">
+            <cfreturn resulthtml>
+    <cfelse>
+            <cfreturn theResult>
+    </cfif>
+</cffunction>
+
 <!----------------------------------------------------------------------------------------------------------------->
 <!---
    Save a permit record.  Creates a new permit if no permit_id is provided, otherwise updates permit record.
