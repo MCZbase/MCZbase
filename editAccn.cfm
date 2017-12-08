@@ -182,7 +182,7 @@
 							<input type="text" name="accn_number" value="#accnData.accn_number#"  id="accn_number" class="reqdClr">
 						</td>
 						<td>
-							<label for="accn_type">How Obtained?</label>
+							<label for="accn_type">Accn Type</label>
 							<select name="accn_type" size="1"  class="reqdClr" id="accn_type">
 								<cfloop query="cttype">
 									<option <cfif #cttype.accn_type# is "#accnData.accn_type#"> selected </cfif>

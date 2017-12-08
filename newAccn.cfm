@@ -82,7 +82,7 @@
 								<input type="hidden" name="trans_agency_id">
 							</td>
 							<td>
-								<label for="accn_type">How Obtained?</label>
+								<label for="accn_type">Accn Type</label>
 								<select name="accn_type" size="1"  class="reqdClr">
 									<cfloop query="cttype">
 										<option value="#cttype.accn_type#">#cttype.accn_type#</option>

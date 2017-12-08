@@ -14,6 +14,7 @@
 		<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				scientific_name, 
+				author_text,
 				taxon_name_id, 
 				valid_catalog_term_fg
 			from 
@@ -23,6 +24,7 @@
 			UNION
 			SELECT 
 				a.scientific_name, 
+				a.author_text,
 				a.taxon_name_id, 
 				a.valid_catalog_term_fg
 			from 
@@ -36,6 +38,7 @@
 			UNION
 			SELECT 
 				b.scientific_name, 
+				b.author_text,
 				b.taxon_name_id, 
 				b.valid_catalog_term_fg
 			from 
@@ -53,10 +56,10 @@
 	<cfoutput>
 		<cfif #getTaxa.valid_catalog_term_fg# is "1">
 		<script>
-			opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();
+			opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name# #getTaxa.author_text#';self.close();
 		</script>
 		<cfelse>
-			<a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();"><font color="##FF0000">#getTaxa.scientific_name# (unaccepted)</font></a>
+			<a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();"><font color="##FF0000"><i>#getTaxa.scientific_name#</i> #author_text# (unaccepted)</font></a>
 		</cfif>
 	</cfoutput>
 	<cfelseif #getTaxa.recordcount# is 0>
@@ -74,12 +77,12 @@
 	<cfelse>
 		<cfoutput query="getTaxa">
 		<cfif #getTaxa.valid_catalog_term_fg# is "1">
-<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();">#scientific_name#</a>
+			<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><i>#scientific_name#</i> #author_text#</a>
 	<!---	
 		<br><a href="##" onClick="javascript: document.selectedAgent.agentID.value='#agent_id#';document.selectedAgent.agentName.value='#agent_name#';document.selectedAgent.submit();">#agent_name# - #agent_id#</a> - 
 	--->
 	<cfelse>
-	<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><font color="##FF0000">#scientific_name# (unaccepted)</font></a>
+		<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><font color="##FF0000"><i>#scientific_name#</i> #author_text#(unaccepted)</font></a>
 	</cfif>
 	</cfoutput>
 	</CFIF>
