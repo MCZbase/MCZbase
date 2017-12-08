@@ -182,7 +182,7 @@
 							<input type="text" name="accn_number" value="#accnData.accn_number#"  id="accn_number" class="reqdClr">
 						</td>
 						<td>
-							<label for="accn_type">Accn Type</label>
+							<label for="accn_type">Accession Type</label>
 							<select name="accn_type" size="1"  class="reqdClr" id="accn_type">
 								<cfloop query="cttype">
 									<option <cfif #cttype.accn_type# is "#accnData.accn_type#"> selected </cfif>
@@ -710,7 +710,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				</tr>
 				<tr>
 					<td>
-						<label  for="accn_type">Accn Type</label>
+						<label  for="accn_type">Accession Type</label>
 						<select name="accn_type" id="accn_type" size="1">
 							<option value=""></option>
 							<cfloop query="cttype">
