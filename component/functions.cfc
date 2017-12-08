@@ -2400,36 +2400,33 @@
 
 <!----------------------------------------------------------------------------------------------------------------->
 
-<cffunction name="getPermitsForTrans" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getPermitsForTransHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="transaction_id" type="string" required="yes">
    <cfset resulthtml="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct permit_num, permit_type, issued_date, permit.permit_id,
              issuedBy.agent_name as IssuedByAgent
-        from permit
+        from permit left join permit_trans on permit.permit_id = permit_trans.permit_id
              left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-        where permit.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+        where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
         order by permit_type, issued_date
    </cfquery>
 
-                 <cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
-                 <cfloop query="query">
-                    <cfset resulthtml = resulthtml & "<ul class='permittransul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
+   <cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
+   <cfloop query="query">
+       <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
 
 
-                    <cfset resulthtml = resulthtml & "<ul class='permittransul2'>">
-                       <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
-                       <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
-                       <cfset resulthtml = resulthtml & "<li>">
-                    <cfset resulthtml = resulthtml & "</ul>">
-                 </cfloop>
-                 <cfif query.recordcount eq 0>
-                     <cfset resulthtml = resulthtml & "None">
-                 </cfif>
-            <cfset resulthtml = resulthtml & "</span></div>"> <!--- span#permit_tr_, div.permittrans --->
-
-       </cfloop>
+       <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
+       <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+       <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+       <cfset resulthtml = resulthtml & "</ul>">
+   </cfloop>
+   <cfif query.recordcount eq 0>
+       <cfset resulthtml = resulthtml & "None">
    </cfif>
+   <cfset resulthtml = resulthtml & "</span></div>"> <!--- span#permit_tr_, div.permittrans --->
+
    <cfreturn resulthtml>
 </cffunction>
 

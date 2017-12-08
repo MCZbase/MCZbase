@@ -445,21 +445,29 @@
 				<div id="accnMediaDiv"></div>
 </div>
 <div class="shippingBlock"> 
-    <h3>Permits:</h3>
-    <p>List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
-                <div style="float:left;width:95%;" id="transactionFormPermits">
-                </div>
+    <h3>Permits and permit-like documents:</h3>
+    <p style="margin:0px;">List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
 
-                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#','##addPermitDlg_#transaction_id#','Pick Permit for Accession', loadTransactionFormPermits(#transaction_id#), 650,800); " ></div><div id='addPermitDlg_#transaction_id#'></div>
+                <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
+
+                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#&inDialog=true','addPermitDlg_#transaction_id#','Pick Permit for Accession', reloadTransPermits, 650,800); " ></div><div id='addPermitDlg_#transaction_id#'></div>
 </div>
 
 <script>
+
+// callback for ajax methods to reload from dialog
+function reloadTransPermits() { 
+    loadTransactionFormPermits(#transaction_id#);
+    $('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
+};
+
 $( document ).ready(loadTransactionFormPermits(#transaction_id#));
+
 </script>
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>
-    <p>Include Permits such as USFWS Form 3-177 which are only involved in an incoming shipment of the accession, and are not inherited by future shipments of this material under the relevant shipment here.</p>
+    <p style="margin:0px;">Include Permits such as USFWS Form 3-177 which are only involved in an incoming shipment of the accession, and are not inherited by future shipments of this material under the relevant shipment here.</p>
 <script>
 
 function opendialog(page,id,title) {

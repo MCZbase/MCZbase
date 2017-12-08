@@ -20,6 +20,9 @@
       <cfset result="Error: PermitPick.cfm:movePermit must be provided with permit_id, current_shipment_id and transaction_id">
    <cfelse>
    <cfset feedbackId = "queryMovePermit#permit_id##current_shipment_id#">
+   <cfif not isDefined("inDialog")>
+       <cfset inDialog = false>
+   </cfif>
    
    <cfset result="">
    <cfquery name="queryPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -70,6 +73,7 @@
    Search for permits. Any part of dates and names accepted, case isn't important.<br>
    <cfform name="findPermit" action="PermitPick.cfm" method="post">
 	<input type="hidden" name="Action" value="search">
+	<input type="hidden" name="inDialog" value="#inDialog#">
 	<input type="hidden" name="transaction_id" value="#transaction_id#">
 	<table>
 		<tr>
@@ -203,6 +207,7 @@ where
 	<input type="hidden" value="#transaction_id#" name="transaction_id">
 	<input type="hidden" name="permit_id" value="#permit_id#">
 	<input type="hidden" name="Action" value="addThisOne">
+	<input type="hidden" name="inDialog" value="#inDialog#">
 	Permit Number #permit_Num# (#permit_Type#) issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,"yyyy-mm-dd")# <cfif len(#renewed_Date#) gt 0> (renewed #dateformat(renewed_Date,"yyyy-mm-dd")#)</cfif>. Expires #dateformat(exp_Date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> (ID## #permit_id#)
 <br><input type="submit" value="Add this permit"  class='picBtn' onclick=" $('##pp_#permit_id#_#transaction_id#').submit(); ">
 	</form>
@@ -225,7 +230,11 @@ where
 		
 		Added permit #permit_id# to transaction #transaction_id#. 
 		<br>Search to add another permit to this accession or click
-		<a href="##" onclick="javascript: self.close();">here</a> to close this window.
+                <cfif inDialog>
+			ok to close this window.
+                <cfelse>
+ 			<a href="##" onclick="javascript: self.close();">here</a> to close this window.
+                </cfif>
 	</cfoutput>	
 	
 	
