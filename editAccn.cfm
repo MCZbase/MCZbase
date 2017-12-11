@@ -621,7 +621,31 @@ $( document ).ready(loadShipments(#transaction_id#));
   <div id="shipmentFormStatus"></div>
 </div>
 
-
+<div class="shippingBlock"> 
+	<h3>Dispositions of cataloged items:</h3>
+	<input type="button" value="Specimen List" class="lnkBtn"
+		onclick = "window.open('SpecimenResults.cfm?accn_trans_id=#accnData.transaction_id#');">
+	<cfquery name="dispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select count(cataloged_item.collection_object_id) cicount,
+		     count(coll_object.collection_object_id) pcount,
+		     coll_obj_disposition, deacc_number, deaccession.transaction_id
+		from accn
+		   left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+		   left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+		   left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+		   left join deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+		   left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+		where accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnData.transaction_id#">
+		group by deacc_number, coll_obj_disposition, deaccession.transaction_id
+		order by deacc_number, coll_obj_disposition
+	</cfquery>
+        <table>
+	   <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
+	<cfloop query="dispositions">
+	   <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number#</a></td> </tr>
+        </cfloop>
+	</table>
+</div>
 	</cfoutput>
 </div>
 </cfif>
