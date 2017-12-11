@@ -7,7 +7,7 @@
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
 		});
-		
+
 		$("#mammgrid_determined_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
@@ -244,13 +244,13 @@
 							<input type="text" name="attribute_type_#attribute_id#" id="attribute_type_#attribute_id#" value="#attribute_type#" readonly="yes" class="readClr">
 						</td>
 						<td id="_attribute_value_#attribute_id#">
-							<input type="hidden" name="val_#attribute_id#" id="val_#attribute_id#" value="#attribute_value#">
+							<input type="hidden" name="val_#attribute_id#" id="val_#attribute_id#" value="#stripQuotes(attribute_value)#">
 						</td>
 						<td id="_attribute_units_#attribute_id#">
 							<input type="hidden" name="unit_#attribute_id#" id="unit_#attribute_id#" value="#attribute_units#">
 						</td>
 						<td id="_remarks_#attribute_id#">
-							<input type="text" name="attribute_remark_#attribute_id#" id="attribute_remark_#attribute_id#" value="#attribute_remark#">
+							<input type="text" name="attribute_remark_#attribute_id#" id="attribute_remark_#attribute_id#" value="#stripQuotes(attribute_remark)#">
 						</td>
 						<td id="_determined_date_#attribute_id#">
 							<input type="text" name="determined_date_#attribute_id#" id="determined_date_#attribute_id#"
@@ -417,9 +417,9 @@
 						UPDATE attributes SET
 							attribute_type='#thisAttributeType#',
 							DETERMINED_BY_AGENT_ID = #thisDeterminedByAgentId#,
-							ATTRIBUTE_VALUE='#thisAttributeValue#',
+							ATTRIBUTE_VALUE='#escapeQuotes(thisAttributeValue)#',
 							ATTRIBUTE_UNITS='#thisAttributeUnits#',
-							ATTRIBUTE_REMARK='#thisAttributeRemark#',
+							ATTRIBUTE_REMARK='#escapeQuotes(thisAttributeRemark)#',
 							DETERMINED_DATE='#dateformat(thisDeterminedDate,"yyyy-mm-dd")#',
 							DETERMINATION_METHOD='#thisDeterminationMethod#'
 						WHERE
@@ -556,9 +556,9 @@
 						,#collection_object_id#
 						,#determined_by_agent_id#
 						,'#attribute_type_new#'
-						,'#attribute_value_new#'
+						,'#escapeQuotes(attribute_value_new)#'
 						,'#attribute_units_new#'
-						,'#ATTRIBUTE_REMARK#'
+						,'#escapeQuotes(ATTRIBUTE_REMARK)#'
 						,'#dateformat(DETERMINED_DATE,"yyyy-mm-dd")#'
 						,'#DETERMINATION_METHOD#'
 					)
