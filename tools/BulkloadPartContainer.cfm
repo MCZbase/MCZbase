@@ -177,10 +177,10 @@ sho err
 			<!--- see if they gave a valid parent container ---->
 			<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from container where container_type <> 'collection object'
-				and barcode='#parent_unique_id#'
+				and barcode='#container_unique_id#'
 			</cfquery>
 			<cfif isGoodParent.recordcount is not 1>
-				<cfset sts='parent_unique_id_not_found'>
+				<cfset sts='container_unique_id_not_found'>
 			</cfif>
 			<cfif sts is ''>
 				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
