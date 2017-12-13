@@ -900,7 +900,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
-    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid, 
+    '' as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join accn on trans.transaction_id = accn.transaction_id
@@ -911,8 +912,11 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 union
 select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
-    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+  left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join accn on trans.transaction_id = accn.transaction_id
@@ -923,7 +927,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 union
 select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
-    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+    '' as shipped_date,'' as toinstitution, '' as frominstitution
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join loan on trans.transaction_id = loan.transaction_id
@@ -935,8 +940,11 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 union
 select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix, 
     concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
-    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+  left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join loan on trans.transaction_id = loan.transaction_id
@@ -948,7 +956,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 union
 select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
-    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+    '' as shipped_date,'' as toinstitution, 'Museum of Comparative Zoology' as frominstitution
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join deaccession on trans.transaction_id = deaccession.transaction_id
@@ -959,8 +968,11 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 union
 select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
-    flat.country, flat.state_prov, flat.scientific_name, flat.guid
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+  left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join deaccession on trans.transaction_id = deaccession.transaction_id
@@ -971,7 +983,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 union
 select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-    borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid
+    borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+    '' as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join borrow on trans.transaction_id = borrow.transaction_id
@@ -981,8 +994,11 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 union
 select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-    borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid
+    borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+  left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+  left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join borrow on trans.transaction_id = borrow.transaction_id
@@ -997,22 +1013,28 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
              <th>Transaction</th>
              <th>Type</th>
              <th>Date</th>
+             <th>Ship&nbsp;Date</th>
              <th>Collection</th>
              <th>Country&nbsp;of&nbsp;Origin</th>
              <th>State/Province</th>
              <th>Scientific&nbsp;Name</th>
              <th>Catalog&nbsp;Number</th>
+             <th>From&nbsp;Institution</th>
+             <th>To&nbsp;Institution</th>
            </tr>
         <cfloop query="permituse">
            <tr>
              <td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
              <td>#ontype# #ttype#</td>
              <td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
+             <td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
              <td>#guid_prefix#</td>
              <td>#country#</td>
              <td>#state_prov#</td>
              <td>#scientific_name#</td>
              <td>#guid#</td>
+             <td>#frominstitution#</td>
+             <td>#toinstitution#</td>
            </tr>
         </cfloop>
      </table>
