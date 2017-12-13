@@ -681,24 +681,20 @@ function opendialog(page,id,title) {
                                 </cfif>
 
 				<input type="button" value="Delete" class="delBtn"
-   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
-   onCLick="newPermit.Action.value='deletePermit';confirmDelete('newPermit');">
+				   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
+				   onCLick="newPermit.Action.value='deletePermit';confirmDelete('newPermit');">
 
+                                <input type="button" value="Permit Report" class="lnkBtn"
+                                    onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
+                                    onClick="document.location='Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'"
+                                    >
 			</td>
 		</tr>
 	</table>
 </cfform>
-    <div class="shippingBlock">
-       <form action="Permit.cfm" method="post">
-       <input type="hidden" name="permit_id" value="#permit_id#">
-       <input type="hidden" name="Action" value="PermitUseReport">
-               <input type="submit" value="Permit Report" class="lnkBtn"
-                               onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
-       </form>
-    </div>
-    <!---  TODO: Show/add media copy of permit  (shows permit) --->
+    <!---  Show/add media copy of permit  (shows permit) --->
     <div id="copyofpermit" class="shippingBlock" ></div>
-    <!---  TODO: list/add media copy of associated documents (document for permit) --->
+    <!---  list/add media copy of associated documents (document for permit) TODO: Create Media --->
     <div id="associateddocuments" class="shippingBlock"></div>
 
     <script>
@@ -831,7 +827,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 
      </cfquery>
-     <div id="permitsusedin"><h3>Permit used for</h3><ul>
+     <div id="permitsusedin" class="shippingBlock" ><h3>Permit used for</h3><ul>
         <cfloop query="permituse">
            <li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
         </cfloop>
