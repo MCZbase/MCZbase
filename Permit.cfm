@@ -901,19 +901,22 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid, 
-    TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution
+    TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts, 
+    decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join accn on trans.transaction_id = accn.transaction_id
   left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
   left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+  left join taxonomy on flat.scientific_name = taxonomy.scientific_name
   where trans.transaction_type = 'accn'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution
+    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+    decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
   left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
   left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
@@ -922,26 +925,30 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join accn on trans.transaction_id = accn.transaction_id
   left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
   left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+  left join taxonomy on flat.scientific_name = taxonomy.scientific_name
   where trans.transaction_type = 'accn'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-    TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution
+    TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
+    decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join loan on trans.transaction_id = loan.transaction_id
   left join loan_item on loan.transaction_id = loan_item.transaction_id
   left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
   left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+  left join taxonomy on flat.scientific_name = taxonomy.scientific_name
   where trans.transaction_type = 'loan'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix, 
     concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution
+    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+    decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
   left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
   left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
@@ -951,25 +958,29 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join loan_item on loan.transaction_id = loan_item.transaction_id
   left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
   left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+  left join taxonomy on flat.scientific_name = taxonomy.scientific_name
   where trans.transaction_type = 'loan'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-    TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution
+    TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
+    decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join deaccession on trans.transaction_id = deaccession.transaction_id
   left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
   left join flat on deacc_item.collection_object_id = flat.collection_object_id
+  left join taxonomy on flat.scientific_name = taxonomy.scientific_name
   where trans.transaction_type = 'deacc'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution
+    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+    decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
   left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
   left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
@@ -978,13 +989,15 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join deaccession on trans.transaction_id = deaccession.transaction_id
   left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
   left join flat on deacc_item.collection_object_id = flat.collection_object_id
+  left join taxonomy on flat.scientific_name = taxonomy.scientific_name
   where trans.transaction_type = 'deacc'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
     borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
-    TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution
+    TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts
+    ' ' as common_name
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join borrow on trans.transaction_id = borrow.transaction_id
@@ -995,7 +1008,8 @@ union
 select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
     borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
-    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution
+    shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,
+    ' ' as common_name
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
   left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
   left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
@@ -1018,6 +1032,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
              <th>Country&nbsp;of&nbsp;Origin</th>
              <th>State/Province</th>
              <th>Scientific&nbsp;Name</th>
+             <th>Common&nbsp;Name</th>
+             <th>Preparations</th>
              <th>Catalog&nbsp;Number</th>
              <th>From&nbsp;Institution</th>
              <th>To&nbsp;Institution</th>
@@ -1032,6 +1048,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
              <td>#country#</td>
              <td>#state_prov#</td>
              <td>#scientific_name#</td>
+             <td>#common_name#</td>
+             <td>#oarts#</td>
              <td>#guid#</td>
              <td>#frominstitution#</td>
              <td>#toinstitution#</td>
