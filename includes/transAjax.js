@@ -1,4 +1,20 @@
 
+function loadTransactionFormMedia(transaction_id,transaction_type) {
+    jQuery.ajax({
+          url: "/component/functions.cfc",
+          data : {
+            method : "getMediaForTransHtml",
+            transaction_id: transaction_id,
+            transaction_type: transaction_type
+         },
+        success: function (result) {
+           $("#transactionFormMedia").html(result);
+        },
+        dataType: "html"
+       }
+     )};
+
+
 function loadShipments(transaction_id) {
     jQuery.ajax({
           url: "/component/functions.cfc",

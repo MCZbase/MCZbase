@@ -441,8 +441,22 @@
 			<br><span class="likeLink"
 					onclick="addMediaHere('#accnData.collection# #accnData.accn_number#','#transaction_id#');">
 						Create Media
-				</span>&nbsp;~&nbsp;<a href="/MediaSearch.cfm" target="_blank">Link Media</a>
-				<div id="accnMediaDiv"></div>
+				</span>
+                                <cfset relation="shows accn">
+      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialog('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','##addMediaDlg_#transaction_id#','Pick Media for Accession'); " >
+				<div id='addMediaDlg_#transaction_id#'></div></span>
+				<div id="transactionFormMedia">Loading Media....</div>
+<script>
+
+// callback for ajax methods to reload from dialog
+function reloadTransMedia() { 
+    loadTransactionFormMedia(#transaction_id#,"accn");
+    $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+};
+
+$( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
+
+</script>
 </div>
 <div class="shippingBlock"> 
     <h3>Permits and permit-like documents:</h3>
