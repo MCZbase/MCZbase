@@ -688,10 +688,18 @@ function opendialog(page,id,title) {
 		</tr>
 	</table>
 </cfform>
+    <div class="shippingBlock">
+       <form action="Permit.cfm" method="post">
+       <input type="hidden" name="permit_id" value="#permit_id#">
+       <input type="hidden" name="Action" value="PermitUseReport">
+               <input type="submit" value="Permit Report" class="lnkBtn"
+                               onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
+       </form>
+    </div>
     <!---  TODO: Show/add media copy of permit  (shows permit) --->
-    <div id="copyofpermit"></div>
+    <div id="copyofpermit" class="shippingBlock" ></div>
     <!---  TODO: list/add media copy of associated documents (document for permit) --->
-    <div id="associateddocuments"></div>
+    <div id="associateddocuments" class="shippingBlock"></div>
 
     <script>
     function addMediaHere (permitLabel,permit_id){
