@@ -55,6 +55,8 @@
 		}
 	);
 	}
+</script>
+<!---
 	function removeMediaDiv() {
 		if(document.getElementById('bgDiv')){
 			jQuery('##bgDiv').remove();
@@ -84,7 +86,7 @@
 	        viewport.init("##mediaDiv");
 	    });
 	}
-</script>
+--->
 </cfoutput>
 <cfset title="Edit Accession">
 <cfif not isdefined("project_id")>
@@ -451,7 +453,9 @@
 // callback for ajax methods to reload from dialog
 function reloadTransMedia() { 
     loadTransactionFormMedia(#transaction_id#,"accn");
-    $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+    if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+        $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+    }
 };
 
 $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
@@ -472,7 +476,9 @@ $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 // callback for ajax methods to reload from dialog
 function reloadTransPermits() { 
     loadTransactionFormPermits(#transaction_id#);
-    $('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
+    if ($("##addPermitDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+        $('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
+    }
 };
 
 $( document ).ready(loadTransactionFormPermits(#transaction_id#));

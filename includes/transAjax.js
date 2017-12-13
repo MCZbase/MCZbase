@@ -108,6 +108,20 @@ function deleteMediaFromDeacc(mediaId,transactionId,relationType) {
            loadDeaccessionMedia(transactionId);
         }
       )};
+function deleteMediaFromTrans(mediaId,transactionId,relationType) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "removeMediaFromDeaccession",
+            media_id : mediaId,
+            transaction_id : transactionId,
+            media_relationship : relationType,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           reloadTransMedia();
+        }
+      )};
 function deletePermitFromTransaction(permitId,transactionId) {
     jQuery.getJSON("/component/functions.cfc",
         {
