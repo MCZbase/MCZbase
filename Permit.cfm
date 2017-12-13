@@ -10,6 +10,7 @@
 	select * from ctpermit_type
 </cfquery>
 <cfif #action# is "nothing">
+<cfset title = "Find Permits">
 <cfoutput>
 Search for permits and similar documents (access benefit sharing agreements, 
 material transfer agreements, collecting permits, salvage permits, etc.)
@@ -433,6 +434,7 @@ where
 <!--------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------->
 <cfif #Action# is "newPermit">
+<cfset title = "New Permit">
     <font size="+1"><strong>New Permit</strong></font>
     <p>Enter a new record for a permit or similar document (access benefit sharing agreements, 
        material transfer agreements, collecting permits, salvage permits, etc.)</p>
@@ -533,6 +535,7 @@ where
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "editPermit">
+<cfset title = "Edit Permit">
 <font size="+1"><strong>Edit Permit</strong></font><br>
 <cfoutput>
 <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
@@ -840,6 +843,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "permitUseReport">
+   <cfset title = "Permit Use Report">
    <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
       <cfoutput>Error: You didn't pass this form a permit_id. Go back and try again.</cfoutput>
       <cfabort>
