@@ -1,4 +1,20 @@
 
+function loadTransactionFormMedia(transaction_id,transaction_type) {
+    jQuery.ajax({
+          url: "/component/functions.cfc",
+          data : {
+            method : "getMediaForTransHtml",
+            transaction_id: transaction_id,
+            transaction_type: transaction_type
+         },
+        success: function (result) {
+           $("#transactionFormMedia").html(result);
+        },
+        dataType: "html"
+       }
+     )};
+
+
 function loadShipments(transaction_id) {
     jQuery.ajax({
           url: "/component/functions.cfc",
@@ -90,6 +106,20 @@ function deleteMediaFromDeacc(mediaId,transactionId,relationType) {
         },
         function (result) {
            loadDeaccessionMedia(transactionId);
+        }
+      )};
+function deleteMediaFromTrans(mediaId,transactionId,relationType) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "removeMediaFromDeaccession",
+            media_id : mediaId,
+            transaction_id : transactionId,
+            media_relationship : relationType,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           reloadTransMedia();
         }
       )};
 function deletePermitFromTransaction(permitId,transactionId) {

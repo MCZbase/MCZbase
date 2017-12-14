@@ -646,7 +646,7 @@
     </table>
     </div>
  
-<div>
+<div class="shippingBlock">
      <strong>Media (e.g. copies of correspondence) associated with this Deaccession:</strong>
       <div id="deaccessionMedia"></div>
 
