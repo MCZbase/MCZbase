@@ -67,8 +67,14 @@ padding: 1em 1em 0 1em;
         
         <h4>Find Container:</h4>
         <div id="searchPane">
-          <div style="border: 1px solid green; padding:.5em; width: 24em;">
+          <div style="border: 1px solid green; padding:.1em; ">
           <form onSubmit="loadTree();return false;">
+		  <input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">
+                  &nbsp;
+                  <input class="clrBtn" type="reset" value="Clear"/>
+          <div style="border: 1px solid green; padding:.5em; width: 24em;">
+
+            <h5 style="margin-top: 1em;">Find container by its properties:</h5>
             <table>
               <tr>
                 <cfif not isdefined("container_label")><cfset container_label=""></cfif>
@@ -106,9 +112,8 @@ padding: 1em 1em 0 1em;
                       <option value="#contType.container_type#">#contType.container_type#</option>
                     </cfloop>
                   </select></td>
-                <td style="vertical-align:bottom"><input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">
-                  &nbsp;
-                  <input class="clrBtn" type="reset" value="Clear"/></td>
+                <td style="vertical-align:bottom">
+		</td>
               </tr>
             </table>
             </div>
@@ -139,6 +144,13 @@ padding: 1em 1em 0 1em;
                     <input type="hidden" name="collection_object_id" id="collection_object_id" /></td>
                 </tr>
                 <tr>
+                  <td><label for="taxonomy">Any taxonomic element</label>
+                    <input type="text" name="taxonomy" id="taxonomy" size="17" />
+                  </td>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
                   <td><label for="part_name">Part</label>
                     <input type="text" id="part_name" name="part_name" size="16">
                     <input type="hidden" name="loan_trans_id" id="loan_trans_id" />
@@ -154,7 +166,9 @@ padding: 1em 1em 0 1em;
           <div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span> <br>
             <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
-        </div></td>
+        </div>
+	</div>
+</td>
       <!--------------------------------- end search pane ------------------------------------->
 		<td valign="top"><!------------------------------------- tree pane --------------------------------------------->
 			<div id="treePane" class="cTreePane"></div>
