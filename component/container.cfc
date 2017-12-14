@@ -258,7 +258,7 @@
 			<cfset frm = "#frm# inner join cataloged_item on (specimen_part.derived_from_cat_item=cataloged_item.collection_object_id)">
 		</cfif>
 		<cfif frm does not contain " flat ">
-			<cfset frm = "#frm# inner join flat_num on (cataloged_item.collection_object_id=flat.collection_object_id)">
+			<cfset frm = "#frm# inner join flat on (cataloged_item.collection_object_id=flat.collection_object_id)">
 		</cfif>
 		<cfset whr = "#whr# AND (flat.full_taxon_name like '% #taxonomy# %' or flat.scientific_name = '#taxonomy#') ">
 	 </cfif>
