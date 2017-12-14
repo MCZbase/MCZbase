@@ -1058,6 +1058,62 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
      </table>
      </div>
      </cfoutput>
+     <cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+select   
+    count(cataloged_item.collection_object_id) as cat_count,
+    sum(coll_object.lot_count) as spec_count,
+    collection.guid_prefix,
+    flat.country, flat.state_prov, flat.scientific_name, flat.county,
+    mczbase.get_part_prep(specimen_part.collection_object_id) as parts,
+    decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+  left join collection on trans.collection_id = collection.collection_id
+  left join accn on trans.transaction_id = accn.transaction_id
+  left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+  left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+  left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+  left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+  left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+  where trans.transaction_type = 'accn'
+        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+  group by collection.guid_prefix, country, state_prov, flat.scientific_name, flat.county,
+        mczbase.get_part_prep(specimen_part.collection_object_id),
+        decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id))
+      </cfquery>
+     <cfoutput>
+     <div id="permitaccessionsummary"><h3>Accession Summary (Salvage Permit Reporting)</h3>
+     <cfif permitsalvagereport.RecordCount eq 0>
+       <h4>No accessions</h4>
+     <cfelse>
+     <table>
+           <tr>
+             <th>Specimen&nbsp;Count</th>
+             <th>Collection</th>
+             <th>Country</th>
+             <th>State</th>
+             <th>County</th>
+             <th>Scientific&nbsp;Name</th>
+             <th>Common&nbsp;Name</th>
+             <th>Parts</th>
+           </tr>
+        <cfloop query="permitsalvagereport">
+           <tr>
+             <td>#spec_count#</td>
+             <td>#guid_prefix#</td>
+             <td>#country#</td>
+             <td>#state_prov#</td>
+             <td>#county#</td>
+             <td>#scientific_name#</td>
+             <td>#common_name#</td>
+             <td>#parts#</td>
+           </tr>
+        </cfloop>
+     </table>
+     </cfif>
+     </div>
+
+
+     </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
