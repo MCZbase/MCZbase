@@ -1163,6 +1163,33 @@ $( document ).ready(loadShipments(#transaction_id#));
     </cfloop>
     </ul>
     </div>
+
+<cfif loan_type EQ 'consumable'>
+<div class="shippingBlock">
+	<h3>Disposition of material in loan:</h3>
+	<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select count(loan_item.collection_object_id), coll_obj_disposition, deacc_number, deacc_type, deacc_status
+		from loan left join loan_item on loan.transaction_id = loan_item.transaction_id 
+		left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+		left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
+		left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+	where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+	group by coll_obj_disposition, deacc_number, deacc_type, deacc_status;
+	</cfquery>
+    
+        <table>
+	   <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
+  	<cfloop query="getDispostions">
+	   <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
+        </cfloop>
+	</table>
+    </cfloop>
+    </ul>
+
+</div>
+</cfif>
+
+
 </cfoutput>
 <script>
 	dCount();
