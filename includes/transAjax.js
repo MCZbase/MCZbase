@@ -1,4 +1,20 @@
 
+function loadTransactionFormMedia(transaction_id,transaction_type) {
+    jQuery.ajax({
+          url: "/component/functions.cfc",
+          data : {
+            method : "getMediaForTransHtml",
+            transaction_id: transaction_id,
+            transaction_type: transaction_type
+         },
+        success: function (result) {
+           $("#transactionFormMedia").html(result);
+        },
+        dataType: "html"
+       }
+     )};
+
+
 function loadShipments(transaction_id) {
     jQuery.ajax({
           url: "/component/functions.cfc",
@@ -8,6 +24,20 @@ function loadShipments(transaction_id) {
          },
         success: function (result) {
            $("#shipmentTable").html(result);
+        },
+        dataType: "html"
+       }
+     )};
+
+function loadTransactionFormPermits(transaction_id) {
+    jQuery.ajax({
+          url: "/component/functions.cfc",
+          data : {
+            method : "getPermitsForTransHtml",
+            transaction_id: transaction_id
+         },
+        success: function (result) {
+           $("#transactionFormPermits").html(result);
         },
         dataType: "html"
        }
@@ -76,6 +106,33 @@ function deleteMediaFromDeacc(mediaId,transactionId,relationType) {
         },
         function (result) {
            loadDeaccessionMedia(transactionId);
+        }
+      )};
+function deleteMediaFromTrans(mediaId,transactionId,relationType) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "removeMediaFromDeaccession",
+            media_id : mediaId,
+            transaction_id : transactionId,
+            media_relationship : relationType,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           reloadTransMedia();
+        }
+      )};
+function deletePermitFromTransaction(permitId,transactionId) {
+    jQuery.getJSON("/component/functions.cfc",
+        {
+            method : "removePermitFromTransaction",
+            transaction_id : transactionId,
+            permit_id : permitId,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           loadTransactionFormPermits(transactionId);
         }
       )};
 function deletePermitFromShipment(shipmentId,permitId,transactionId) {
@@ -341,6 +398,32 @@ function saveShipment(transactionId) {
        });
     }
     return valid;
+};
+
+// Check the validity of a form for submission return true if valid, false if not, and if 
+// not valid, popup a message dialog listing the problem form elements and their validation messages.
+// @param form DOM node of a form to validate
+// @return true if the provided node has checkValidity() of true or if the node lacks the checkValidity method.\
+//         false otherwise.
+// Example usage in onClick event of a button in a form: if (checkFormValidity($('#formId')[0])) { submit();  }  
+function checkFormValidity(form) { 
+     var result = false;
+     if (!form.checkValidity || form.checkValidity()) { 
+         result = true;
+     } else { 
+         var message = "Form Input validation problem.<br><dl>";
+         for(var i=0; i < form.elements.length; i++){
+             var element = form.elements[i];
+             if (element.checkValidity() == false) { 
+                 var label = $( "label[for=" + element.id + "] ").text();
+                 if (label==null || label=='') { label = element.id; }
+                 message = message + "<dt>" + label + ":</dt> <dd>" + element.validationMessage + "</dd>";
+             }
+         }
+         mmessage = message + "</dl>"
+         messageDialog(message,'Unable to Save');
+     }
+     return result;
 };
 
 // Confirm dialog for some action, takes the function to fire on pressing OK as a parameter.

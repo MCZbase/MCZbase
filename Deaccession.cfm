@@ -4,6 +4,7 @@
 <cfset MAGIC_MCZ_CRYO = 11><!--- the collection_id of the cryogenic collection --->
 <cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
 <cfset MAGIC_DTYPE_TRANSFER = 'transfer'><!--- Deaccession type of Transfer --->
+<cfset DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <cfif not isdefined("ImAGod") or len(#ImAGod#) is 0>
 	<cfset ImAGod = "no">
 </cfif>
@@ -121,13 +122,14 @@
 					</td>
 					<td id="upperRightCell"><!--- id for positioning nextnum div --->
 						<label for="deacc_number">Deaccession Number</label>
-						<input type="text" name="deacc_number" class="reqdClr" id="deacc_number">
+						<input type="text" name="deacc_number" class="reqdClr" id="deacc_number" required pattern="#DEACCNUMBERPATTERN#">
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label for="auth_agent_name">Authorized By</label>
-						<input type="text" name="auth_agent_name" class="reqdClr" size="40"
+						<input type="text" name="auth_agent_name" id="auth_agent_name"
+						  class="reqdClr" size="40" required
 						  onchange="getAgent('auth_agent_id','auth_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="auth_agent_id" id="auth_agent_id" 
@@ -137,7 +139,7 @@
 					<td>
 						<label for="rec_agent_name">Received By:</label>
 						<input type="text" name="rec_agent_name" id="rec_agent_name"
-						  class="reqdClr" size="40" 
+						  class="reqdClr" size="40" requiured
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="rec_agent_id" id="rec_agent_id" 
@@ -148,7 +150,8 @@
 				<tr>
 					<td>
 						<label for="in_house_contact_agent_name">In-House Contact:</label>
-						<input type="text" name="in_house_contact_agent_name" class="reqdClr" size="40"
+						<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
+						  class="reqdClr" size="40" required
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" 
@@ -169,7 +172,7 @@
 					<td>
 						<label for="recipient_institution_agent_name">Recipient Institution:</label>
 						<input type="text" name="recipient_institution_agent_name" id="recipient_institution_agent_name"
-						  class="reqdClr" size="40" 
+						  class="reqdClr" size="40"  required
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
 						<input type="hidden" name="recipient_institution_agent_id" id="recipient_institution_agent_id" 
@@ -190,7 +193,7 @@
 					<td>
 						<label for="deacc_type">Deaccession Type</label>
 						
-						<select name="deacc_type" id="deacc_type" class="reqdClr">
+						<select name="deacc_type" id="deacc_type" class="reqdClr" required >
 							<cfloop query="ctDeaccType">
 								<option value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
 							</cfloop>
@@ -199,7 +202,7 @@
 					</td>
 					<td>
 						<label for="deacc_status">Deaccession Status</label>
-						<select name="deacc_status" id="deacc_status" class="reqdClr">
+						<select name="deacc_status" id="deacc_status" class="reqdClr" required >
 							<cfloop query="ctDeaccStatus">
 								<option value="#ctDeaccStatus.deacc_status#">#ctDeaccStatus.deacc_status#</option>
 							</cfloop>
@@ -209,19 +212,21 @@
 				<tr>
 					<td>
 						<label for="initiating_date">Transaction Date</label>
-						<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#">
+						<input type="text" name="initiating_date" id="initiating_date"
+ 						       class="reqdClr" required 
+                                                       value="#dateformat(now(),"yyyy-mm-dd")#">
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
 						<label for="nature_of_material">Nature of Material</label>
-					<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr"></textarea>
+					<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr" required></textarea>
 					</td>
 				</tr>
                 <tr>
 					<td colspan="2">
 						<label for="deacc_reason">Reason for Deaccession</label>
-					<textarea name="deacc_reason" id="deacc_reason" rows="3" cols="80" class="reqdClr"></textarea>
+					<textarea name="deacc_reason" id="deacc_reason" rows="3" cols="80" class="reqdClr" required ></textarea>
 					</td>
 				</tr>
                 	<tr>
@@ -245,7 +250,9 @@
 				
 				<tr>
 					<td colspan="2" align="center">
-						<input type="submit" value="Create Deaccession" class="insBtn">
+						<input type="button" value="Create Deaccession" class="insBtn"
+							onClick="if (checkFormValidity($('##newDeacc')[0])) { submit(); } " >
+
 						&nbsp;
 						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Deaccession.cfm'">
 			   		</td>
@@ -422,7 +429,7 @@
     <tr>
     <td valign="top" class="leftCell"><!--- left cell ---->
 
-  <form name="editDeacc" action="Deaccession.cfm" method="post">
+  <form name="editDeacc" action="Deaccession.cfm" method="post" id="editDeacc">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#deaccDetails.transaction_id#">
 		<span style="font-size:14px;">Entered by #deaccDetails.enteredby#</span>
@@ -450,8 +457,8 @@
                });
         </script>
        <td>
-          <label for="deacc_number">Deaccession Number</label>
-		<input type="text" name="deacc_number" id="deacc_number" value="#deaccDetails.deacc_number#" class="reqdClr">
+          <label for="deacc_number">Deaccession Number (Dyyyy-n-Coll)</label>
+		<input type="text" name="deacc_number" id="deacc_number" value="#deaccDetails.deacc_number#" class="reqdClr" required pattern="#DEACCNUMBERPATTERN#">
         </td>
         </tr>
         </table>
@@ -539,7 +546,7 @@
 						<option selected="selected" value="#MAGIC_TTYPE_OTHER#">#MAGIC_TTYPE_OTHER#</option>
 					   </select>
 					<cfelse>
-					   <select name="deacc_type" id="deacc_type" class="reqdClr">
+					   <select name="deacc_type" id="deacc_type" class="reqdClr" required>
                                                 <cfloop query="ctDeaccType">
 						      <!--- Other is not an allowed option (unless it is already set) ---> 
                                                       <cfif ctDeaccType.deacc_type NEQ MAGIC_TTYPE_OTHER >
@@ -557,7 +564,7 @@
 				</td>
 				<td>
 					<label for="deacc_status">Deaccession Status</label>
-					<select name="deacc_status" id="deacc_status" class="reqdClr">
+					<select name="deacc_status" id="deacc_status" class="reqdClr" required>
 						<cfloop query="ctDeaccStatus">                      
 						<option <cfif ctDeaccStatus.deacc_status EQ deaccDetails.deacc_status>selected="selected"</cfif> value="#ctDeaccStatus.deacc_status#">#ctDeaccStatus.deacc_status#</option>
 						</cfloop>
@@ -567,30 +574,34 @@
 			<tr>
 				<td>
 					<label for="initiating_date">Transaction Date</label>
-					<input type="text" name="initiating_date" id="initiating_date"
+					<input type="text" name="initiating_date" id="initiating_date" required
 						value="#dateformat(deaccDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr">
 				</td>
 			</tr>
 		</table>
 		<label for="nature_of_material">Nature of Material&nbsp;(<span id="lbl_nature_of_material"></span>)</label>
 		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="120"
-			class="reqdClr">#deaccDetails.nature_of_material#</textarea>
-         <label for="deacc_reason">Reason for Deaccession (description)&nbsp;(<span id="lbl_deacc_reason"></span>)</label>
-		<textarea name="deacc_reason" class="reqdClr" id="deacc_reason" rows="7"
+			class="reqdClr"required >#deaccDetails.nature_of_material#</textarea>
+		<label for="deacc_reason">Reason for Deaccession (description)&nbsp;(<span id="lbl_deacc_reason"></span>)</label>
+		<textarea name="deacc_reason" class="reqdClr" id="deacc_reason" rows="7" required
 			cols="120">#deaccDetails.deacc_reason#</textarea>
-	    <label for="value">Value of Specimen(s)</label>
-        <input name="value" id="value" value="#deaccDetails.value#" size="55">
+		<label for="value">Value of Specimen(s)</label>
+		<input name="value" id="value" value="#deaccDetails.value#" size="55">
 		
-        <label for="method">Method of Transfer</label>
+		<label for="method">Method of Transfer</label>
 		<textarea name="method" id="method" value="#deaccDetails.method#" rows="3" cols="120">#deaccDetails.method#</textarea>
     
 		<label for="trans_remarks">Internal Remarks</label>
 		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="120">#deaccDetails.trans_remarks#</textarea>
 		<br>
-		<input type="button" value="Save Edits" class="savBtn"
-			onClick="editDeacc.action.value='saveEdits';submit();">
+		<input type="button" value="Save Edits" class="savBtn" 
+                        onClick="if (checkFormValidity($('##editDeacc')[0])) { editDeacc.action.value='saveEdits'; submit();  } " >
 
    		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Deaccession.cfm?action=search'">
+                <input style="margin-left: 30px;" type="button" value="Delete Deaccession" class="delBtn"
+			onClick="editDeacc.action.value='deleDeacc';confirmDelete('editDeacc');">
+   		<br />
+		<div class="shippingBlock">
 		<input type="button" value="Add Items" class="lnkBtn"
 			onClick="window.open('SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
 		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
@@ -598,13 +609,34 @@
 
 			<input type="button" value="Review Items" class="lnkBtn"
 			onClick="window.open('a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
-                            <input style="margin-left: 30px;" type="button" value="Delete Deaccession" class="delBtn"
-			onClick="editDeacc.action.value='deleDeacc';confirmDelete('editDeacc');">
-   		<br />
                 <div id="deaccItemCountDiv"></div>
 		<script>
 			$(document).ready( updateDeaccItemCount('#transaction_id#','deaccItemCountDiv') );
  		</script>
+
+		    <h3>Disposition of material in the deaccession:</h3>
+		    <cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		    select count(deacc_item.collection_object_id) as pcount, coll_obj_disposition
+		        from deacc_item 
+		        left join coll_object on deacc_item.collection_object_id = coll_object.collection_object_id
+		    where deacc_item.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#deaccDetails.transaction_id#">
+		        and coll_object.collection_object_id is not null
+		    group by coll_obj_disposition
+		    </cfquery>
+		
+		    <cfif getDispositions.RecordCount GT 0>
+		        <table>
+		           <tr> <th>Parts</th> <th>Disposition</th> </tr>
+		            <cfloop query="getDispositions">
+		                <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> </tr>
+		            </cfloop>
+		        </table>
+		    <cfelse>
+		        <h4>There is no material in this deaccession.</h4>
+		    </cfif>
+
+		</div>
+
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
@@ -639,7 +671,7 @@
     </table>
     </div>
  
-<div>
+<div class="shippingBlock">
      <strong>Media (e.g. copies of correspondence) associated with this Deaccession:</strong>
       <div id="deaccessionMedia"></div>
 

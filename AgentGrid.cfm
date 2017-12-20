@@ -25,14 +25,15 @@
 
 <cfoutput>
 <div style="padding: 3px;">
-<cfset sql = "SELECT
+
+<cfset sql = "SELECT 
+
 					distinct preferred_agent_name.agent_id,
 					preferred_agent_name.agent_name,
 					agent_type,
 					agent.edited,
                     MCZBASE.get_worstagentrank(agent.agent_id) worstagentrank
-
-				FROM
+				FROM 
 					agent_name
 					left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
 					LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
@@ -87,7 +88,7 @@
 		</cfquery>
 <cfif getAgents.recordcount is 0>
     <span class="error">Nothing Matched.</span>
-</cfif>
+</cfif>   
 
 <cfloop query="getAgents">
 	 <span style="display: inline-block;padding:1px 5px;">

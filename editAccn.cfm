@@ -1,5 +1,7 @@
+<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
@@ -53,6 +55,8 @@
 		}
 	);
 	}
+</script>
+<!---
 	function removeMediaDiv() {
 		if(document.getElementById('bgDiv')){
 			jQuery('##bgDiv').remove();
@@ -82,7 +86,7 @@
 	        viewport.init("##mediaDiv");
 	    });
 	}
-</script>
+--->
 </cfoutput>
 <cfset title="Edit Accession">
 <cfif not isdefined("project_id")>
@@ -159,8 +163,8 @@
 				agent_name
 		</cfquery>
 		<h2 class="wikilink"><strong>Edit Accession</strong></h2>
+		<cfform action="editAccn.cfm" method="post" name="editAccn">
 		<table><tr><td valign="top">
-			<cfform action="editAccn.cfm" method="post" name="editAccn">
 				<input type="hidden" name="Action" value="saveChanges">
 				<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
 				<cfset tIA=accnData.collection_id>
@@ -180,7 +184,7 @@
 							<input type="text" name="accn_number" value="#accnData.accn_number#"  id="accn_number" class="reqdClr">
 						</td>
 						<td>
-							<label for="accn_type">How Obtained?</label>
+							<label for="accn_type">Accession Type</label>
 							<select name="accn_type" size="1"  class="reqdClr" id="accn_type">
 								<cfloop query="cttype">
 									<option <cfif #cttype.accn_type# is "#accnData.accn_type#"> selected </cfif>
@@ -353,7 +357,11 @@
 
 			</table>
 		</td><td valign="middle">
-			<strong>Projects associated with this Accn:</strong>
+		</td></tr></table>
+
+<div class="shippingBlock"> 
+
+			<h3>Projects associated with this Accession:</h3>
 			<ul style="list-style:none;">
 				<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select project_name, project.project_id from project,
@@ -386,9 +394,13 @@
 					</td>
 				</tr>
 			</table>
-						</cfform>
 
-			<strong>Media associated with this Accn:</strong>
+</div>
+
+</cfform>
+
+<div class="shippingBlock"> 
+			<h3>Media associated with this Accession:</h3>
 
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -431,50 +443,229 @@
 			<br><span class="likeLink"
 					onclick="addMediaHere('#accnData.collection# #accnData.accn_number#','#transaction_id#');">
 						Create Media
-				</span>&nbsp;~&nbsp;<a href="/MediaSearch.cfm" target="_blank">Link Media</a>
-				<div id="accnMediaDiv"></div>
-		</div>
-		<cfquery name="getPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				permit.permit_id,
-				issuedBy.agent_name as IssuedByAgent,
-				issuedTo.agent_name as IssuedToAgent,
-				issued_date,
-				renewed_date,
-				exp_date,
-				permit_Num,
-				permit_Type,
-				permit_remarks
-			FROM
-				permit,
-				permit_trans,
-				preferred_agent_name issuedTo,
-				preferred_agent_name issuedBy
-			WHERE
-				permit.permit_id = permit_trans.permit_id AND
-				permit.issued_by_agent_id = issuedBy.agent_id AND
-				permit.issued_to_agent_id = issuedTo.agent_id AND
-				permit_trans.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#accnData.transaction_id#">
-		</cfquery>
-		<div style="float:left;width:95%;">
-			<br><strong>Permits:</strong>
-			<cfloop query="getPermits">
-				<p><strong>Permit ## #permit_Num# (#permit_Type#)</strong> issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_date,"yyyy-mm-dd")#. <cfif len(#renewed_date#) gt 0> (renewed #renewed_date#)</cfif> Expires #dateformat(exp_date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif>
-				<form name="killPerm#currentRow#" method="post" action="editAccn.cfm">
-					<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
-					<input type="hidden" name="action" value="unlinkPermit">
-					<input type="hidden" name="permit_id" value="#permit_id#">
-					 <input type="submit" value="Remove this Permit" class="delBtn">
-				</form>
+				</span>
+                                <cfset relation="shows accn">
+      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 650,800); " >
+				<div id='addMediaDlg_#transaction_id#'></div></span>
+				<div id="transactionFormMedia">Loading Media....</div>
+<script>
+
+// callback for ajax methods to reload from dialog
+function reloadTransMedia() { 
+    loadTransactionFormMedia(#transaction_id#,"accn");
+    if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+        $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+    }
+};
+
+$( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
+
+</script>
+</div>
+<div class="shippingBlock"> 
+    <h3>Permits and permit-like documents:</h3>
+    <p style="margin:0px;">List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
+
+                <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
+
+                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#&inDialog=true','addPermitDlg_#transaction_id#','Pick Permit for Accession', reloadTransPermits, 650,800); " ></div><div id='addPermitDlg_#transaction_id#'></div>
+</div>
+
+<script>
+
+// callback for ajax methods to reload from dialog
+function reloadTransPermits() { 
+    loadTransactionFormPermits(#transaction_id#);
+    if ($("##addPermitDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+        $('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
+    }
+};
+
+$( document ).ready(loadTransactionFormPermits(#transaction_id#));
+
+</script>
+
+<div class="shippingBlock">
+    <h3>Shipment Information:</h3>
+    <p style="margin:0px;">Include Permits such as USFWS Form 3-177 which are only involved in an incoming shipment of the accession, and are not inherited by future shipments of this material under the relevant shipment here.</p>
+<script>
+
+function opendialog(page,id,title) {
+  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+  var adialog = $(id)
+  .html(content)
+  .dialog({
+    title: title,
+    autoOpen: false,
+    dialogClass: 'dialog_fixed,ui-widget-header',
+    modal: true,
+    height: 800,
+    width: 950,
+    minWidth: 400,
+    minHeight: 450,
+    draggable:true,
+    resizable:true,
+    buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
+    close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
+  });
+  adialog.dialog('open');
+};
+
+</script>
+
+	<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
+	</cfquery>
+	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                 select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
+                 from shipment sh
+                    left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
+                    left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
+		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnData.transaction_id#">
+	</cfquery>
+    <div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
+
+<script>
+
+$( document ).ready(loadShipments(#transaction_id#));
+
+    $(function() {
+      $("##dialog-shipment").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 650,
+        buttons: {
+          "Save": function() {  saveShipment(#transaction_id#); } ,
+          Cancel: function() {
+            $(this).dialog( "close" );
+          }
+        },
+        close: function() {
+            $(this).dialog( "close" );
+        }
+      });
+    });
+</script>
+    <div class="addstyle">
+    <input type="button" class="lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div></div><!---moved this to inside of the shipping block--one div up--->
+</div> <!--- end shipping block ---> 
+
+
+
+
+<div id="dialog-shipment" title="Create new Shipment">
+  <form name="shipmentForm" id="shipmentForm" >
+    <fieldset>
+	<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
+	<input type="hidden" name="shipment_id" value="" id="shipment_id">
+	<input type="hidden" name="returnFormat" value="json" id="returnFormat">
+           <table>
+             <tr>
+              <td>
+		<label for="shipped_carrier_method">Shipping Method</label>
+		<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
+			<option value=""></option>
+			<cfloop query="ctShip">
+				<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
 			</cfloop>
-			<form name="addPermit" action="editAccn.cfm" method="post">
-				<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
-				<input type="hidden" name="permit_id">
-				  <input type="button" value="Add a permit" class="picBtn"
-			   		onClick="javascript: window.open('picks/PermitPick.cfm?transaction_id=#transaction_id#', 'PermitPick',
-						'resizable,scrollbars=yes,width=850,height=750')">
-			</form>
-		</td></tr></table>
+		</select>
+              </td>
+              <td colspan="2">
+		<label for="carriers_tracking_number">Tracking Number</label>
+		<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" >
+              </td>
+            </tr><tr>
+              <td>
+		<label for="no_of_packages">Number of Packages</label>
+		<input type="text" value="1" name="no_of_packages" id="no_of_packages">
+              </td>
+              <td>
+		<label for="shipped_date">Ship Date</label>
+		<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
+              </td>
+              <td>
+		<label for="foreign_shipment_fg">Foreign shipment?</label>
+		<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
+			<option selected value="0">no</option>
+			<option value="1">yes</option>
+		</select>
+              </td>
+            </tr><tr>
+              <td>
+		<label for="package_weight">Package Weight (TEXT, include units)</label>
+		<input type="text" value="" name="package_weight" id="package_weight">
+              </td>
+              <td>
+		<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
+		<input type="text" validate="float" label="Numeric value required."
+			 value="" name="insured_for_insured_value" id="insured_for_insured_value">
+              </td>
+              <td>
+		<label for="hazmat_fg">HAZMAT?</label>
+		<select name="hazmat_fg" id="hazmat_fg" size="1">
+			<option selected value="0">no</option>
+			<option value="1">yes</option>
+		</select>
+              </td>
+            </tr>
+           </table>
+
+		<label for="packed_by_agent">Packed By Agent</label>
+		<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
+			  onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
+			  onKeyPress="return noenter(event);">
+		<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
+
+		<label for="shipped_to_addr">Shipped To Address</label>
+		<input type="button" value="Pick Address" class="picBtn"
+			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
+			readonly="yes" class="reqdClr"></textarea>
+		<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
+
+		<label for="shipped_from_addr">Shipped From Address</label>
+		<input type="button" value="Pick Address" class="picBtn"
+			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
+			readonly="yes" class="reqdClr"></textarea>
+		<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
+
+		<label for="shipment_remarks">Remarks</label>
+		<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60">
+		<label for="contents">Contents</label>
+		<input type="text" value="" name="contents" id="contents" size="60">
+
+    </fieldset>
+  </form>
+  <div id="shipmentFormPermits"></div>
+  <div id="shipmentFormStatus"></div>
+</div>
+
+<div class="shippingBlock"> 
+	<h3>Dispositions of cataloged items:</h3>
+	<input type="button" value="Specimen List" class="lnkBtn"
+		onclick = "window.open('SpecimenResults.cfm?accn_trans_id=#accnData.transaction_id#');">
+	<cfquery name="dispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select count(cataloged_item.collection_object_id) cicount,
+		     count(coll_object.collection_object_id) pcount,
+		     coll_obj_disposition, deacc_number, deaccession.transaction_id
+		from accn
+		   left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+		   left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+		   left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+		   left join deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+		   left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+		where accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnData.transaction_id#">
+		group by deacc_number, coll_obj_disposition, deaccession.transaction_id
+		order by deacc_number, coll_obj_disposition
+	</cfquery>
+        <table>
+	   <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
+	<cfloop query="dispositions">
+	   <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number#</a></td> </tr>
+        </cfloop>
+	</table>
+</div>
 	</cfoutput>
 </div>
 </cfif>
@@ -563,7 +754,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label  for="accn_type">Accn Type</label>
+						<label  for="accn_type">Accession Type</label>
 						<select name="accn_type" id="accn_type" size="1">
 							<option value=""></option>
 							<cfloop query="cttype">

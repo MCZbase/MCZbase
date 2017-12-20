@@ -1237,6 +1237,40 @@
 		<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getMediaForTransHtml" returntype="string" access="remote" returnformat="plain">
+   <cfargument name="transaction_id" type="string" required="yes">
+   <cfargument name="transaction_type" type="string" required="yes">
+   <cfset result="">
+   <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select distinct
+               media.media_id as media_id,
+               preview_uri,
+               media.media_uri,
+               media.mime_type,
+               media.media_type as media_type,
+               MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+               label_value
+           from
+               media_relations left join media on media_relations.media_id = media.media_id
+               left join media_labels on media.media_id = media_labels.media_id
+           where
+               media_relationship like '% #transaction_type#' and
+               (media_label = 'description' or media_label is null )
+               and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+   </cfquery>
+   <cfif query.recordcount gt 0>
+       <cfset result=result & "<ul>">
+       <cfloop query="query">
+          <cfset puri=getMediaPreview(preview_uri,media_type) >
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""shows #transaction_type#""); } ); '>Remove</a> </li>" >
+       </cfloop>
+       <cfset result= result & "</ul>">
+   <cfelse>
+       <cfset result=result & "<ul><li>None</li></ul>">
+   </cfif>
+   <cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getDeaccMediaHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="transaction_id" type="string" required="yes">
    <cfset result="">
@@ -2408,6 +2442,76 @@
    </cftry>
    <cfreturn theResult>
 </cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+
+<cffunction name="getPermitsForTransHtml" returntype="string" access="remote" returnformat="plain">
+   <cfargument name="transaction_id" type="string" required="yes">
+   <cfset resulthtml="">
+   <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select distinct permit_num, permit_type, issued_date, permit.permit_id,
+             issuedBy.agent_name as IssuedByAgent
+        from permit left join permit_trans on permit.permit_id = permit_trans.permit_id
+             left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+        where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+        order by permit_type, issued_date
+   </cfquery>
+
+   <cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
+   <cfloop query="query">
+       <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
+
+
+       <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
+       <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+       <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+       <cfset resulthtml = resulthtml & "</ul>">
+   </cfloop>
+   <cfif query.recordcount eq 0>
+       <cfset resulthtml = resulthtml & "None">
+   </cfif>
+   <cfset resulthtml = resulthtml & "</span></div>"> <!--- span#permit_tr_, div.permittrans --->
+
+   <cfreturn resulthtml>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="removePermitFromTransaction" returntype="query" access="remote">
+        <cfargument name="permit_id" type="string" required="yes">
+        <cfargument name="transaction_id" type="string" required="yes">
+        <cfset r=1>
+        <cftry>
+            <cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+             delete from permit_trans
+             where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+               and transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+            </cfquery>
+                <cfif deleteResultRes.recordcount eq 0>
+                  <cfset theResult=queryNew("status, message")>
+                  <cfset t = queryaddrow(theResult,1)>
+                  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "No records deleted. #permit_id# #transaction_id# #deleteResult.sql#", 1)>
+                </cfif>
+                <cfif deleteResultRes.recordcount eq 1>
+                  <cfset theResult=queryNew("status, message")>
+                  <cfset t = queryaddrow(theResult,1)>
+                  <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+                </cfif>
+        <cfcatch>
+          <cfset theResult=queryNew("status, message")>
+                <cfset t = queryaddrow(theResult,1)>
+                <cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+                <cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+          </cfcatch>
+        </cftry>
+    <cfif isDefined("asTable") AND asTable eq "true">
+            <cfreturn resulthtml>
+    <cfelse>
+            <cfreturn theResult>
+    </cfif>
+</cffunction>
+
 <!----------------------------------------------------------------------------------------------------------------->
 <!---
    Save a permit record.  Creates a new permit if no permit_id is provided, otherwise updates permit record.
@@ -2845,6 +2949,7 @@
 <cffunction name="getShipmentsByTransHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="transaction_id" type="string" required="yes">
    <cfset r=1>
+   <cfthread name="getSBTHtmlThread">
    <cftry>
        <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
@@ -2926,7 +3031,10 @@
        <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
    </cfcatch>
    </cftry>
-    <cfreturn resulthtml>
+     <cfoutput>#resulthtml#</cfoutput>
+   </cfthread>
+    <cfthread action="join" name="getSBTHtmlThread" />
+    <cfreturn getSBTHtmlThread.output>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <!---  Given a shipment_id, set only that shipment out of the set of shipments in that transaction to print. --->

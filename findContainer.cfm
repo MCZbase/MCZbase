@@ -63,12 +63,16 @@ padding: 1em 1em 0 1em;
 <div id="ajaxMsg"></div>
 <table border width="100%">
 	<tr>
-		 <td valign="top" style="padding: 1em;"><!--------------------------- search pane ----------------------------->
-
+	<td valign="top" style="padding: 1em; width:26em;">
+        <!--------------------------- search pane ----------------------------->
+        
         <h4>Find Container:</h4>
         <div id="searchPane">
-          <div style="border: 1px solid green; padding:.5em; width: 24em;">
+          <div style="border: 1px solid grey; padding:.1em; width: 25.2em; ">
           <form onSubmit="loadTree();return false;">
+          <div style="border: 1px solid green; padding:.5em; width: 24em;">
+
+            <h5 style="margin-top: 0.5em;">Find container by its properties:</h5>
             <table>
               <tr>
                 <cfif not isdefined("container_label")><cfset container_label=""></cfif>
@@ -106,14 +110,13 @@ padding: 1em 1em 0 1em;
                       <option value="#contType.container_type#">#contType.container_type#</option>
                     </cfloop>
                   </select></td>
-                <td style="vertical-align:bottom"><input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">
-                  &nbsp;
-                  <input class="clrBtn" type="reset" value="Clear"/></td>
+                <td style="vertical-align:bottom">
+		</td>
               </tr>
             </table>
             </div>
-            <h5 style="margin-top: 2.5em;">Find container by the collection object it contains:</h5>
             <div style="border: 1px solid green; padding: .5em;width: 24em;">
+            <h5 style="margin-top: 0.5em;">Find container by the collection object it contains:</h5>
               <table>
                 <tr>
                   <td style="padding-right: 1em;"><label for="collection_id">Collection</label>
@@ -139,22 +142,32 @@ padding: 1em 1em 0 1em;
                     <input type="hidden" name="collection_object_id" id="collection_object_id" /></td>
                 </tr>
                 <tr>
-                  <td><label for="part_name">Part</label>
+                  <td>
+                    <label for="part_name">Part</label>
                     <input type="text" id="part_name" name="part_name" size="16">
                     <input type="hidden" name="loan_trans_id" id="loan_trans_id" />
-                    <input type="hidden" name="table_name" id="table_name" /></td>
-                  <td style="vertical-align:bottom"><input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">
-                    &nbsp;
-                    <input class="clrBtn" type="reset" value="Clear"/></td>
+                    <input type="hidden" name="table_name" id="table_name" />
+                  </td>
+                  <td>
+                    <label for="taxonomy">Any taxonomic element</label>
+                    <input type="text" name="taxonomy" id="taxonomy" size="17" />
+                  </td>
                 </tr>
               </table>
             </div>
-            <br>
+               <div style="margin-right: 0.5em; text-align: right; padding-top:.2em; ">
+		  <input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">
+                  &nbsp;
+                  <input class="clrBtn" type="reset" value="Clear"/>
+               </div>
           </form>
           <div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span> <br>
             <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
-        </div></td>
+        </div>
+	</div>
+        <br>
+</td>
       <!--------------------------------- end search pane ------------------------------------->
 		<td valign="top"><!------------------------------------- tree pane --------------------------------------------->
 			<div id="treePane" class="cTreePane"></div>

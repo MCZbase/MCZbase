@@ -1,6 +1,9 @@
 cache
 mediaUploads
 specimen_images
+_notes/
+/bower_components/
+/node_modules/
 bnhmMaps/tabfiles
 # Generated sitemap files
 sitemapindex.xml

@@ -130,6 +130,7 @@
 	<cfset collection_id="">
 	<cfset other_id_type="">
 	<cfset other_id_value="">
+	<cfset taxonomy="">
 	<cfset collection_object_id="">
 	<cfset loan_trans_id="">
 	<cfset table_name="">
@@ -151,6 +152,7 @@
 		len(collection_id) is 0 and
 		len(other_id_type) is 0 and
 		len(other_id_value) is 0 and
+		len(taxonomy) is 0 and
 		len(collection_object_id) is 0 and
 		len(loan_trans_id) is 0 and
 		len(table_name) is 0 and
@@ -244,6 +246,21 @@
 			<cfset frm = "#frm# inner join coll_obj_other_id_num on (cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id)">
 		</cfif>
 		<cfset whr = "#whr# AND upper(display_value) like '#ucase(other_id_value)#'">
+	 </cfif>
+	<cfif len(taxonomy) gt 0>
+		<cfif frm does not contain " coll_obj_cont_hist ">
+			<cfset frm = "#frm# inner join coll_obj_cont_hist on (container.container_id=coll_obj_cont_hist.container_id)">
+		</cfif>
+		<cfif frm does not contain " specimen_part ">
+			<cfset frm = "#frm# inner join specimen_part on (coll_obj_cont_hist.collection_object_id=specimen_part.collection_object_id)">
+		</cfif>
+		<cfif frm does not contain " cataloged_item ">
+			<cfset frm = "#frm# inner join cataloged_item on (specimen_part.derived_from_cat_item=cataloged_item.collection_object_id)">
+		</cfif>
+		<cfif frm does not contain " flat ">
+			<cfset frm = "#frm# inner join flat on (cataloged_item.collection_object_id=flat.collection_object_id)">
+		</cfif>
+		<cfset whr = "#whr# AND (flat.full_taxon_name like '% #taxonomy# %' or flat.scientific_name = '#taxonomy#') ">
 	 </cfif>
 	 <cfif len(barcode) gt 0>
 	 	<cfset bclist = "">

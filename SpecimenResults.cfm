@@ -232,9 +232,31 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	#preserveSingleQuotes(SqlString)#
 </cfif>
 <cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
+    <cfset linguisticFlag = false>
+    <cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1><cfset linguisticFlag=true></cfif>
+    <cfif linguisticFlag >
+        <cftransaction>
+        <!--- Set up the session to run an accent insensitive search --->
+        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            ALTER SESSION SET NLS_COMP = LINGUISTIC
+        </cfquery>
+        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+        </cfquery> 
+        <!--- Run the query --->
 	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
+        <!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. ---> 
+        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            ALTER SESSION SET NLS_COMP = BINARY
+        </cfquery>
+        </cftransaction>
+    <cfelse>
+	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		#preserveSingleQuotes(SqlString)#
+	</cfquery>
+    </cfif>
 <form name="defaults">
 	<input type="hidden" name="killrow" id="killrow" value="#session.killrow#">
 	<input type="hidden" name="displayrows" id="displayrows" value="#session.displayrows#">

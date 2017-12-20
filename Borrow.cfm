@@ -2,6 +2,7 @@
 <cfinclude template = "/includes/_header.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
+<cfset BORROWNUMBERPATTERN = '^B[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <style>
 .form-style-2{
     width: 50%;
@@ -244,7 +245,7 @@ function setBorrowNum(cid,v){
 			</cfloop>
 		</select>
 		<label for="borrow_number">Borrow Number (Byyyy-0-Aaa)</label>
-		<input type="text" name="borrow_number" id="borrow_number">
+		<input type="text" name="borrow_number" id="borrow_number"  >
 		<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
 		<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE">
 		<label for="lender_loan_type">Lender's Loan Type</label>
@@ -573,7 +574,7 @@ function setBorrowNum(cid,v){
 	<table><tr><td valign="top">
        <h2 class="wikilink" style="margin-left: 0;">Edit Borrow <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#getBorrow.collection# #getBorrow.borrow_number# </span>	</h2>
-	<form name="borrow" method="post" action="Borrow.cfm">
+	<form name="borrow" id="borrow" method="post" action="Borrow.cfm">
 	<input type="hidden" name="action" value="update">
 	<input type="hidden" name="transaction_id" value="#getBorrow.transaction_id#">
 	<table class="editLoanTable"> 
@@ -590,6 +591,7 @@ function setBorrowNum(cid,v){
 			<td colspan="3">
 				<label for="borrow_number">Borrow Number</label>
 				<input type="text" name="borrow_number" id="borrow_number"
+				       required pattern="#BORROWNUMBERPATTERN#"
 					value="#getBorrow.borrow_number#">
 			</td>
 		</tr>
@@ -712,13 +714,13 @@ function setBorrowNum(cid,v){
 		<tr>
 			<td colspan="4">
 				<label for="NATURE_OF_MATERIAL">Nature of Material</label>
-				<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL" rows="3" cols="120" class="reqdClr">#getBorrow.NATURE_OF_MATERIAL#</textarea>
+				<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL" rows="3" cols="120" class="reqdClr" required>#getBorrow.NATURE_OF_MATERIAL#</textarea>
 			</td>
 		</tr>
             	<tr>
 			<td colspan="4">
 				<label for="DESCRIPTION_OF_BORROW">Description</label>
-				<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="120" class="reqdClr">#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
+				<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="120" class="reqdClr" required >#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
 			</td>
 		</tr>
       
@@ -731,7 +733,8 @@ function setBorrowNum(cid,v){
 		</tr>
 		<tr>
 			<td colspan="4">
-				<input type="submit" class="schBtn" value="Save Edits">
+				<input type="button" class="schBtn" value="Save Edits" 
+				       onClick="if (checkFormValidity($('##borrow')[0])) { borrow.action.value='update'; submit();  } ">
 				<input type="button" class="delBtn" value="Delete Borrow"
 					onclick="borrow.action.value='delete';confirmDelete('borrow');">
 			</td>
@@ -1149,7 +1152,7 @@ $(function() {
             <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
         </h2>
 
-	<form name="borrow" method="post" action="Borrow.cfm">
+	<form name="borrow" id="borrow"  method="post" action="Borrow.cfm">
 	<table border>
 			<input type="hidden" name="action" value="makeNew">
 			<tr>
@@ -1162,8 +1165,9 @@ $(function() {
 						</cfloop>
 					</select>
 				<td>
-					<label for="borrow_num">Local Borrow Number</label>
-					<input type="text" id="borrow_number" name="borrow_number" class="reqdClr">
+					<label for="borrow_num">Local Borrow Number (Byyyy-n-Coll)</label>
+					<input type="text" id="borrow_number" name="borrow_number" class="reqdClr" 
+					       required pattern="#BORROWNUMBERPATTERN#" >
 				</td>
 				<td id="upperRightCell"><!--- id for positioning nextnumDiv --->
 					<label for="lenders_trans_num_cde">Lender's Transaction Number</label>
@@ -1218,8 +1222,8 @@ $(function() {
 				<td colspan="3">
 					<label for="AuthorizedBy">Authorized By (external)</label>
 					<input type="text"
-						name="AuthorizedBy"
-						class="reqdClr"
+						name="AuthorizedBy" id="AuthorizedBy"
+						class="reqdClr" required
 						onchange="getAgent('auth_agent_id','AuthorizedBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1230,8 +1234,8 @@ $(function() {
 				<td colspan="3">
 					<label for="OverseenBy">Borrow Overseen/Authorized By (MCZ)</label>
 					<input type="text"
-						name="OverseenBy"
-						class="reqdClr"
+						name="OverseenBy" id="OverseenBy"
+						class="reqdClr" required
 						onchange="getAgent('over_agent_id','OverseenBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1242,8 +1246,8 @@ $(function() {
 				<td colspan="3">
 					<label for="ReceivedBy">Received By</label>
 					<input type="text"
-						name="ReceivedBy"
-						class="reqdClr"
+						name="ReceivedBy" id="ReceivedBy"
+						class="reqdClr" required
 						onchange="getAgent('received_agent_id','ReceivedBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1254,8 +1258,8 @@ $(function() {
 				<td colspan="3">
 					<label for="ReceivedFrom">Received From</label>
 					<input type="text"
-						name="ReceivedFrom"
-						class="reqdClr"
+						name="ReceivedFrom" id="ReceivedFrom"
+						class="reqdClr" required
 						onchange="getAgent('received_from_agent_id','ReceivedFrom','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1288,13 +1292,15 @@ $(function() {
 			<tr>
 				<td colspan="3">
 					<label for="NATURE_OF_MATERIAL">Nature of Material</label>
-					<textarea name="NATURE_OF_MATERIAL" rows="3" cols="90" class="reqdClr"></textarea>
+					<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL" 
+					          rows="3" cols="90" class="reqdClr" required ></textarea>
 				</td>
 			</tr>
             		<tr>
 				<td colspan="3">
 					<label for="DESCRIPTION_OF_BORROW">Description</label>
-					<textarea name="DESCRIPTION_OF_BORROW" rows="3" cols="90" class="reqdClr"></textarea>
+					<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" 
+					          rows="3" cols="90" class="reqdClr" required ></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -1305,7 +1311,8 @@ $(function() {
 			</tr>
 			<tr>
 				<td colspan="3">
-					<input type="submit" class="schBtn" value="Create Borrow">
+					<input type="button" class="schBtn" value="Create Borrow"
+					       onClick="if (checkFormValidity($('##borrow')[0])) { submit();  } ">
 				</td>
 			</tr>
 	</table>
