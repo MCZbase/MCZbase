@@ -527,9 +527,8 @@
        <div class="editLoanbox">
        <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>	</h2>
-	<table class="editLoanTable">
-    <tr>
-    <td valign="top" class="leftCell"><!--- left cell ---->
+
+<div class="shippingBlock">
 
   <form name="editloan" id="editLoan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
@@ -797,6 +796,10 @@
                         onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 
    		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
+                            <input type="button" value="Delete #scope#" class="delBtn"
+			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
+   		<br />
+	<div class="shippingBlock">
 		<input type="button" value="Add Items" class="lnkBtn"
 			onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
@@ -804,13 +807,42 @@
 
 		<input type="button" value="Review Items" class="lnkBtn"
 			onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-                            <input type="button" value="Delete #scope#" class="delBtn"
-			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-   		<br />
                 <div id="loanItemCountDiv"></div>
 		<script>
 			$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
  		</script>
+
+		<cfif loanDetails.loan_type EQ 'consumable'>
+			<h3>Disposition of material in loan:</h3>
+			<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+				from loan left join loan_item on loan.transaction_id = loan_item.transaction_id 
+				left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+				left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
+				left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+			where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+		              and coll_obj_disposition is not null
+			group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
+			</cfquery>
+		    
+		    <cfif getDispositions.RecordCount EQ 0 >
+		        <h4>There are no attached collection objects.</h4>
+		    <cfelse>
+		        <table>
+			       <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
+		          	<cfloop query="getDispositions">
+		              <cfif len(trim(getDispositions.deacc_number)) GT 0>
+		    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
+		              <cfelse>
+		    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><strong>Not in a Deaccession</strong></td> </tr>
+		              </cfif>
+		            </cfloop>
+		    	</table>
+		    </cfif>
+		</cfif>
+
+	</div>
+
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
@@ -863,9 +895,9 @@
    			        <option value="">Host not recognized.</option>
             </cfif>
 		</select>
-	</td><!---- end left cell --->
-	<td valign="top" class="rightCell"><!---- right cell ---->
-   <div id="project">
+</div>
+
+<div id="project" class="shippingBlock">
 
 			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -926,10 +958,7 @@
 		<label for="saveNewProject">Check to create project with save</label>
 		<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
 	</form>
-	</td>
-    </tr>
-    </table>
-      </div>
+</div>
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>
@@ -1164,37 +1193,6 @@ $( document ).ready(loadShipments(#transaction_id#));
     </ul>
     </div>
 
-<cfif loanDetails.loan_type EQ 'consumable'>
-<div class="shippingBlock">
-	<h3>Disposition of material in loan:</h3>
-	<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-		from loan left join loan_item on loan.transaction_id = loan_item.transaction_id 
-		left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-		left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-		left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-	where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-              and coll_obj_disposition is not null
-	group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
-	</cfquery>
-    
-    <cfif getDispositions.RecordCount EQ 0 >
-        <h4>There are no attached collection objects.</h4>
-    <cfelse>
-        <table>
-	       <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
-          	<cfloop query="getDispositions">
-              <cfif len(trim(getDispositions.deacc_number)) GT 0>
-    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
-              <cfelse>
-    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><strong>Not in a Deaccession</strong></td> </tr>
-              </cfif>
-            </cfloop>
-    	</table>
-    </cfif>
-
-</div>
-</cfif>
 
 
 </cfoutput>
