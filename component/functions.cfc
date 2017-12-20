@@ -2276,7 +2276,7 @@
 				)
 		</cfquery>
 
-               <cfquery name="getDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid
+               <cfquery name="getDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                        select deacc_type from deaccession where transaction_id = #TRANSACTION_ID#
                </cfquery>
 
