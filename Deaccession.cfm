@@ -910,6 +910,28 @@ $( document ).ready(loadShipments(#transaction_id#));
     </ul>
     </div>
 
+<div class="shippingBlock">
+    <h3>Disposition of material in the deaccession:</h3>
+    <cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select count(deacc_item.collection_object_id) as pcount, coll_obj_disposition
+        from deacc_item 
+        left join coll_object on deacc_item.collection_object_id = coll_object.collection_object_id
+    where deacc_item.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+    group by coll_obj_disposition
+    </cfquery>
+
+    <cfif getDispositions.RecordCount GT 0>
+        <table>
+           <tr> <th>Parts</th> <th>Disposition</th> </tr>
+            <cfloop query="getDispositions">
+                <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> </tr>
+            </cfloop>
+        </table>
+    <cfelse>
+        <h4>There is no material in this deaccession.</h4>
+    <cfif>
+
+</div>
 
 </cfoutput>
 <script>

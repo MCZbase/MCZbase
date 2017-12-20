@@ -1177,12 +1177,20 @@ $( document ).ready(loadShipments(#transaction_id#));
 	group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
 	</cfquery>
     
+    <cfif getDispositions.RecordCount GT 0>
         <table>
-	   <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
-  	<cfloop query="getDispositions">
-	   <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
-        </cfloop>
-	</table>
+	       <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
+          	<cfloop query="getDispositions">
+              <cfif len(trim(getDispositions.deacc_number)) GT 0>
+    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
+              <cfelse>
+    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td></td> </tr>
+              </cfif>
+            </cfloop>
+    	</table>
+    <cfelse>
+        <h4>There are no attached collection objects.</h4>
+    <cfif>
 
 </div>
 </cfif>
