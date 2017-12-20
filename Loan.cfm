@@ -636,7 +636,7 @@
 			<cfset na=i-1>
 			<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 		</table><!-- end agents table --->
-		<table width="100%">
+		<table>
 			<tr>
 				<td width="44%">
 					<label for="loan_type">#scope# Type</label>
@@ -780,124 +780,18 @@
                      </select>
                      <button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
                 </div>
+		<table>
+		<tr><td>
 		<label for="nature_of_material">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
-		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="60"
+		<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="90"
 			class="reqdClr" required >#loanDetails.nature_of_material#</textarea>
 		<label for="loan_description">Description (<span id="lbl_loan_description"></span>)</label>
 		<textarea name="loan_description" id="loan_description" rows="7"
-			cols="60">#loanDetails.loan_description#</textarea>
-		<label for="loan_instructions">#scope# Instructions (<span id="lbl_loan_instructions"></span>)</label>
-		<textarea name="loan_instructions" id="loan_instructions" rows="7"
-			cols="60">#loanDetails.loan_instructions#</textarea>
-		<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
-		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="60">#loanDetails.trans_remarks#</textarea>
-		<br>
-		<input type="button" value="Save Edits" class="savBtn"
-                        onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
+			cols="90">#loanDetails.loan_description#</textarea>
+		</td>
+		<td>
 
-   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
-                            <input type="button" value="Delete #scope#" class="delBtn"
-			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-   		<br />
-	<div class="shippingBlock">
-		<input type="button" value="Add Items" class="lnkBtn"
-			onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
-			onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
-
-		<input type="button" value="Review Items" class="lnkBtn"
-			onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-                <div id="loanItemCountDiv"></div>
-		<script>
-			$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
- 		</script>
-
-		<cfif loanDetails.loan_type EQ 'consumable'>
-			<h3>Disposition of material in loan:</h3>
-			<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-				from loan left join loan_item on loan.transaction_id = loan_item.transaction_id 
-				left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-				left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-				left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-			where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-		              and coll_obj_disposition is not null
-			group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
-			</cfquery>
-		    
-		    <cfif getDispositions.RecordCount EQ 0 >
-		        <h4>There are no attached collection objects.</h4>
-		    <cfelse>
-		        <table>
-			       <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
-		          	<cfloop query="getDispositions">
-		              <cfif len(trim(getDispositions.deacc_number)) GT 0>
-		    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
-		              <cfelse>
-		    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><strong>Not in a Deaccession</strong></td> </tr>
-		              </cfif>
-		            </cfloop>
-		    	</table>
-		    </cfif>
-		</cfif>
-
-	</div>
-
-   		<label for="redir">Print...</label>
-		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
-   			<option value=""></option>
-			<cfif #cgi.HTTP_HOST# contains "arctos.database">
-				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=uam_mamm_loan_head">UAM Mammal Invoice Header</option>
-				<option value="/Reports/UAMMammLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemList">UAM Mammal Item Invoice</option>
-				<option value="/Reports/UAMMammLoanInvoice.cfm?transaction_id=#transaction_id#&Action=showCondition">UAM Mammal Item Conditions</option>
-				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=UAM_ES_Loan_Header_II">UAM ES Invoice Header</option>
-				<option value="/Reports/MSBMammLoanInvoice.cfm?transaction_id=#transaction_id#">MSB Mammal Invoice Header</option>
-				<option value="/Reports/MSBMammLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemList">MSB Mammal Item Invoice</option>
-				<option value="/Reports/MSBBirdLoanInvoice.cfm?transaction_id=#transaction_id#">MSB Bird Invoice Header</option>
-				<option value="/Reports/MSBBirdLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemList">MSB Bird Item Invoice</option>
-				<option value="/Reports/UAMLoanInvoice.cfm?transaction_id=#transaction_id#">UAM Generic Invoice Header</option>
-				<option value="/Reports/UAMLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemList">UAM Generic Item Invoice</option>
-				<option value="/Reports/UAMLoanInvoice.cfm?transaction_id=#transaction_id#&Action=showCondition">UAM Generic Item Conditions</option>
-				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=loan_instructions">Instructions Appendix</option>
-				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=shipping_label">Shipping Label</option>
-				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#">Any Report</option>
-			<cfelseif #cgi.HTTP_HOST# contains "harvard.edu">
-                          <!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
-                                 sort={a field name that is in the select portion of the query specified in the custom tag}, or
-                                 sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
-                          --->
-		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and scope EQ 'Loan' >
-                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
-                          </cfif>
-                               <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
-                          </cfif>
-                 <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus">MCZ Exhibition Loan Header Long</option>
-                          </cfif>
-		          <cfif inhouse.c is 1 and outside.c is 1 >
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
-                          </cfif>
-		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
-                          </cfif>
-		          <cfif inhouse.c is 1 and outside.c is 1 >
-                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
-                          </cfif>
-                          <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
-                          <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
-            <cfelse>
-   			        <option value="">Host not recognized.</option>
-            </cfif>
-		</select>
-</div>
-
-<div id="project" class="shippingBlock">
+<div id="project">
 
 			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -957,8 +851,123 @@
                 </div>
 		<label for="saveNewProject">Check to create project with save</label>
 		<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
-	</form>
 </div>
+		</td>
+		</tr>
+		</table>
+
+		<label for="loan_instructions">#scope# Instructions (<span id="lbl_loan_instructions"></span>)</label>
+		<textarea name="loan_instructions" id="loan_instructions" rows="7"
+			cols="120">#loanDetails.loan_instructions#</textarea>
+		<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
+		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="120">#loanDetails.trans_remarks#</textarea>
+		<br>
+		<input type="button" value="Save Edits" class="savBtn"
+                        onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
+
+   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
+                            <input type="button" value="Delete #scope#" class="delBtn"
+			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
+   		<br />
+	<div class="shippingBlock">
+		<input type="button" value="Add Items" class="lnkBtn"
+			onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
+			onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
+
+		<input type="button" value="Review Items" class="lnkBtn"
+			onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+                <div id="loanItemCountDiv"></div>
+		<script>
+			$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
+ 		</script>
+
+		<cfif loanDetails.loan_type EQ 'consumable'>
+			<h3>Disposition of material in loan:</h3>
+			<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+				from loan left join loan_item on loan.transaction_id = loan_item.transaction_id 
+				left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+				left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
+				left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+			where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+		              and coll_obj_disposition is not null
+			group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
+			</cfquery>
+		    
+		    <cfif getDispositions.RecordCount EQ 0 >
+		        <h4>There are no attached collection objects.</h4>
+		    <cfelse>
+		        <table>
+			       <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
+		          	<cfloop query="getDispositions">
+		              <cfif len(trim(getDispositions.deacc_number)) GT 0>
+		    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
+		              <cfelse>
+		    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><strong>Not in a Deaccession</strong></td> </tr>
+		              </cfif>
+		            </cfloop>
+		    	</table>
+		    </cfif>
+		</cfif>
+
+	</div>
+	</form>
+
+   		<label for="redir">Print...</label>
+		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+   			<option value=""></option>
+			<cfif #cgi.HTTP_HOST# contains "arctos.database">
+				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=uam_mamm_loan_head">UAM Mammal Invoice Header</option>
+				<option value="/Reports/UAMMammLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemList">UAM Mammal Item Invoice</option>
+				<option value="/Reports/UAMMammLoanInvoice.cfm?transaction_id=#transaction_id#&Action=showCondition">UAM Mammal Item Conditions</option>
+				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=UAM_ES_Loan_Header_II">UAM ES Invoice Header</option>
+				<option value="/Reports/MSBMammLoanInvoice.cfm?transaction_id=#transaction_id#">MSB Mammal Invoice Header</option>
+				<option value="/Reports/MSBMammLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemList">MSB Mammal Item Invoice</option>
+				<option value="/Reports/MSBBirdLoanInvoice.cfm?transaction_id=#transaction_id#">MSB Bird Invoice Header</option>
+				<option value="/Reports/MSBBirdLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemList">MSB Bird Item Invoice</option>
+				<option value="/Reports/UAMLoanInvoice.cfm?transaction_id=#transaction_id#">UAM Generic Invoice Header</option>
+				<option value="/Reports/UAMLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemList">UAM Generic Item Invoice</option>
+				<option value="/Reports/UAMLoanInvoice.cfm?transaction_id=#transaction_id#&Action=showCondition">UAM Generic Item Conditions</option>
+				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=loan_instructions">Instructions Appendix</option>
+				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=shipping_label">Shipping Label</option>
+				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#">Any Report</option>
+			<cfelseif #cgi.HTTP_HOST# contains "harvard.edu">
+                          <!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
+                                 sort={a field name that is in the select portion of the query specified in the custom tag}, or
+                                 sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
+                          --->
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and scope EQ 'Loan' >
+                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
+                          </cfif>
+                               <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
+                          </cfif>
+                 <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus">MCZ Exhibition Loan Header Long</option>
+                          </cfif>
+		          <cfif inhouse.c is 1 and outside.c is 1 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
+                          </cfif>
+		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
+                          </cfif>
+		          <cfif inhouse.c is 1 and outside.c is 1 >
+                            <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
+                          </cfif>
+                          <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
+                          <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
+            <cfelse>
+   			        <option value="">Host not recognized.</option>
+            </cfif>
+		</select>
+</div>
+
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>
