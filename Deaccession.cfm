@@ -916,7 +916,8 @@ $( document ).ready(loadShipments(#transaction_id#));
     select count(deacc_item.collection_object_id) as pcount, coll_obj_disposition
         from deacc_item 
         left join coll_object on deacc_item.collection_object_id = coll_object.collection_object_id
-    where deacc_item.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+    where deacc_item.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#deaccDetails.transaction_id#">
+        and coll_object.collection_object_id is not null
     group by coll_obj_disposition
     </cfquery>
 
@@ -929,7 +930,7 @@ $( document ).ready(loadShipments(#transaction_id#));
         </table>
     <cfelse>
         <h4>There is no material in this deaccession.</h4>
-    <cfif>
+    </cfif>
 
 </div>
 
