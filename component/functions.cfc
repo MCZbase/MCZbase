@@ -2275,8 +2275,19 @@
 				</cfif>
 				)
 		</cfquery>
+
+               <cfquery name="getDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid
+                       select deacc_type from deaccession where transaction_id = #TRANSACTION_ID#
+               </cfquery>
+
+               <cfset partDisp = getDeaccType.deacc_type>
+
+               <cfif partDisp eq "exchange">
+                       <cfset partDisp = "exchanged">
+               </cfif>
+
 		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE coll_object SET coll_obj_disposition = 'deaccessioned'
+                       UPDATE coll_object SET coll_obj_disposition = 'deaccessioned - ' || '#partDisp#'
 			where collection_object_id =
 		<cfif #subsample# is 1>
 				#n.n#
