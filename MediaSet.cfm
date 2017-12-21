@@ -43,7 +43,12 @@
            <cfoutput>You are the first to view one or more images on this page.  The application is checking the images so there may be a brief delay before they are displayed.</cfoutput>
         </cfif>
         <cftry>
-          <cfimage action="INFO" source="#mediatocheck.media_uri#" structname="img">
+	  <cfif left(mediatocheck.media_uri,14) EQ 'http://mczbase' AND Application.protocol EQ 'https'>
+               <cfset checkmediauri = Replace(mediatocheck.media_uri,'http:','https:',"one")>
+          <cfelse>
+               <cfset checkmediauri = mediatocheck.media_uri>
+          </cfif>
+          <cfimage action="INFO" source="#checkmediauri#" structname="img">
           <cfcatch>
  		<cfoutput>Error checking image #mediatocheck.media_uri#</cfoutput>
           </cfcatch>
