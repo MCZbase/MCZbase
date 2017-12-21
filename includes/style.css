@@ -5377,7 +5377,7 @@ table.partname td.partnameatts {padding-bottom: 3px;}
 div#shipments {width: 74.5em;margin: 0 auto;}
 
 div#shipments input {margin-top: 1em;}
-div.shipment {width: 74.5em;margin: 0 auto;margin-top: 1em; border-bottom: 1px solid black;margin-bottom: 1em;padding-bottom: 1em;}
+div.shipment {width: 74.5em;margin: 0 auto;margin-top: 1em; border-bottom: 1px solid black;margin-bottom: 1em;padding-bottom: 1em;float:left;}
 div.shipment ul.shipheaders {width: 74.5em;float:left;display:inline;list-style-type:none; margin: 0 auto; margin-bottom: 0.5em; }
 div.shipment ul.shipheaders li {width: 150px;font-weight: bold; float:left;display:inline;list-style-type:none;color: black; margin: 0 auto;}
 div.shipment ul.shipdata {width: 74.5em;float:left;display:inline;list-style-type:none;margin-top:0; margin-bottom: 0.25em; }
@@ -5411,4 +5411,4 @@ div#permitmedia {width: 75em;margin: 0 auto;padding:10px;padding-bottom: 2em;}
 div#permitmedia h3 {width: 75em;margin: 0 auto;margin-bottom: .5em;padding-top: .5em;}
 div#permitmedia ul li {margin: .25em 0;list-style:none;margin-bottom: .5em;}
 
-div.deletestyle { margin: 0 auto; }
+div.deletestyle { margin: 0 auto;float:left;height: 33px;}
