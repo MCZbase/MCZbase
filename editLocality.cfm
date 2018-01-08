@@ -37,7 +37,7 @@
 	    }
 	});
 	function geolocate() {
-                var guri='http://www.museum.tulane.edu/geolocate/web/webgeoreflight.aspx?georef=run';
+                var guri='#Application.protocol#://www.museum.tulane.edu/geolocate/web/webgeoreflight.aspx?georef=run';
                 guri+="&state=" + $("#state_prov").val();
                 guri+="&country="+$("#country").val();
                 guri+="&county="+$("#county").val().replace(" County", "");
@@ -70,7 +70,7 @@
         }
         function getGeolocate(evt) {
                 var message;
-                if (evt.origin !== "http://www.museum.tulane.edu") {
+                if (evt.origin !== "#Application.protocol#://www.museum.tulane.edu") {
                 alert( "iframe url does not have permision to interact with me" );
                 closeGeoLocate('intruder alert');
             }

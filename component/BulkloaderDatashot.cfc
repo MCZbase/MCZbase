@@ -14,7 +14,7 @@
                 where
                         higher_geog='#geog#'
         </cfquery>
-        <cfset guri="http://www.museum.tulane.edu/geolocate/web/webgeoreflight.aspx?georef=run&locality=#specloc#">
+        <cfset guri="#Application.protocol#://www.museum.tulane.edu/geolocate/web/webgeoreflight.aspx?georef=run&locality=#specloc#">
         <cfif len(g.country) gt 0>
                 <cfset guri=listappend(guri,"country=#g.country#","&")>
         </cfif>
@@ -41,7 +41,7 @@
                 where
                         higher_geog='#geog#'
         </cfquery>
-        <cfhttp method="post" url="http://www.museum.tulane.edu/webservices/geolocatesvcv2/geolocatesvc.asmx/Georef2" timeout="5">
+        <cfhttp method="post" url="#Application.protocol#://www.museum.tulane.edu/webservices/geolocatesvcv2/geolocatesvc.asmx/Georef2" timeout="5">
             <cfhttpparam name="Country" type="FormField" value="#g.country#">
             <cfhttpparam name="County" type="FormField" value="#g.county#">
             <cfhttpparam name="LocalityString" type="FormField" value="#specloc#">
