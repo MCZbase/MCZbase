@@ -1513,7 +1513,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 		</cfif>
 	</cfif>
 	<cfset sql ="#sel# #frm# #sql#
-		ORDER BY to_number(regexp_substr (deacc_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (deacc_number, '[0-9]+', 1, 2)), deacc_number
+		ORDER BY to_number(regexp_substr (deacc_number, '[0-9]+', 1, 1)), to_number(regexp_substr (deacc_number, '[0-9]+', 1, 2)), deacc_number
     ">
 	 <cfquery name="allDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
