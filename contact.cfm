@@ -19,7 +19,7 @@
 <cfoutput>
 	<cfset captcha = makeRandomString()>
 	<cfset captchaHash = hash(captcha)>
-	<h2>Contact the Arctos folks</h2>
+	<h2>Contact a system administrator</h2>
 	<p>Data problems? Use a "report bad data" link if there's one available.</p>
 	<cfform action="contact.cfm" method="post" name="contact">
 		<input type="hidden" name="action" value="sendMail">
