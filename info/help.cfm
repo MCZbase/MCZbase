@@ -761,7 +761,7 @@ this window</A>
 		<cfif len(#permit_num#) gt 0>
 			AND upper(permit_num) LIKE '%#ucase(permit_num)#%'
 		</cfif>
-		<cfif len(#issuer#) gt 0>
+		<cfif len(#issuee#) gt 0>
 			AND upper(ISSUED_BY.agent_name) LIKE '%#ucase(issuee)#%'
 		</cfif>
 		<cfif len(#issuer#) gt 0>
