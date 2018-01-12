@@ -577,7 +577,7 @@ Change to: <select name="format">
     <cfif format is "Malacology2">
     	<cfset labelWidth = 'width: 2.0in;'>
         <cfset labelBorder = 'border: 0px;'>
-    	<cfset textClass = "times10">
+    	<cfset textClass = "times5">
     	<cfset dateStyle = "dd mmm yyyy">
     	<cfset labelStyle = 'height: 1.0in; #labelWidth# #labelBorder#'>
     	<cfset dateWidth = "width: 60px;"><!--- unused --->
@@ -686,7 +686,7 @@ Change to: <select name="format">
     <cfif format is "Herp">
     	<cfset sciName = #replace(scientific_name," ","&nbsp;","all")#>
     </cfif>
-    <cfif format is "Malacology">
+    <cfif format is "Malacology" or format is "Malacology2">
     	<cfset sciName = #replace(scientific_name," ","&nbsp;","all")#>
     	<cfset higherTaxa = "#phylum#&nbsp;#family#">
         <cfif len(sciName) GT 26>
@@ -724,9 +724,6 @@ Change to: <select name="format">
     		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></span></td>
     			  </tr>
     			 <tr>
-    			  <tr>
-    		         <td colspan="2">#parentcontainer# #part_prep# #part_count_mod#</span></td>
-    			  </tr>
     		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>
     			 </tr>
     			 <tr>
@@ -741,27 +738,29 @@ Change to: <select name="format">
     		         <td colspan="2" align="center"><div class="#textClass#"><strong>Museum of Comparative Zoology</span></strong></td>
     		      </tr>
     	              </table>
-   		   <cfelse >
-    		<cfif format is "Malacology2">
-    		      <table>
-    		      <tr>
-    		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
+   		   <cfelseif format is "Malacology2">
+    		      <table style="font-size: smaller; line-height: 85%; padding: 0px;">
+    		      <tr style="padding: 0px; margin: 0px;">
+    		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde#&nbsp;#cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
     			  </tr>
-    			  <tr>
+    		      <tr style="padding: 0px; margin: 0px;">
     		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></span></td>
     			  </tr>
-    			 <tr>
+    		      <tr style="padding: 0px; margin: 0px;">
+    		         <td colspan="2">#parentcontainer# #part_prep# #lot_count_mod#</span></td>
+    			  </tr>
+    		      <tr style="padding: 0px; margin: 0px;">
     		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>
     			 </tr>
-    			 <tr>
+    		      <tr style="padding: 0px; margin: 0px;">
     		        <td>
     			      <span class="#textClass#"><strong>Loan Number:</strong> #getItems.loan_number#</span>
     		        </td>
     		        <td>
-    			       <div class="#textClass#">#dateformat(trans_date,dateStyle)#</div>
+    			       <div class="#textClass#" >#replace(dateformat(trans_date,dateStyle),' ','&nbsp;','all')#</div>
     		        </td>
     			</tr>
-    			  <tr>
+    		      <tr style="padding: 0px; margin: 0px;">
     		         <td colspan="2" align="center"><div class="#textClass#"><strong>Museum of Comparative Zoology</span></strong></td>
     		      </tr>
     	              </table>
