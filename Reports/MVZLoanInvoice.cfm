@@ -575,9 +575,9 @@ Change to: <select name="format">
         <cfset orientiation = 'portrait'>
     </cfif>
     <cfif format is "Malacology2">
-    	<cfset labelWidth = 'width: 2.0in;'>
+    	<cfset labelWidth = 'width: 2.1in;'>
         <cfset labelBorder = 'border: 0px;'>
-    	<cfset textClass = "times5">
+    	<cfset textClass = "times8">
     	<cfset dateStyle = "dd mmm yyyy">
     	<cfset labelStyle = 'height: 1.0in; #labelWidth# #labelBorder#'>
     	<cfset dateWidth = "width: 60px;"><!--- unused --->
@@ -721,7 +721,7 @@ Change to: <select name="format">
     		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
     			  </tr>
     			  <tr>
-    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></span></td>
+    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></div></td>
     			  </tr>
     			 <tr>
     		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>
@@ -744,10 +744,10 @@ Change to: <select name="format">
     		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde#&nbsp;#cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
     			  </tr>
     		      <tr style="padding: 0px; margin: 0px;">
-    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></span></td>
+    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></div></td>
     			  </tr>
     		      <tr style="padding: 0px; margin: 0px;">
-    		         <td colspan="2">#parentcontainer# #part_prep# #lot_count_mod#</span></td>
+    		         <td colspan="2"><span class="#textClass#">#parentcontainer# #part_prep# #lot_count_mod#</span></td>
     			  </tr>
     		      <tr style="padding: 0px; margin: 0px;">
     		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>
