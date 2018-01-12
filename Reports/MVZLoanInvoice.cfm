@@ -251,6 +251,7 @@ Change to: <select name="format">
 		<option value="Mammalogy">Mammalogy 3"x2" drawer tag</option>
 		<option value="Herp">Herp</option>
 		<option value="Malacology">MCZ 1"x2" drawer tag</option>
+		<option value="Malacology2">Malacology 1"x2" test</option>
 		<!---  <option value="Cryo">Cryogenic Locator List</option>  --->
 		<option value="Cryo-Sheet">Cryogenic Spreadsheet</option>
 	</select>
@@ -428,7 +429,7 @@ Change to: <select name="format">
     </cfquery>
     <cfelse>
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select
+    	select distinct
     	    cataloged_item.collection_cde,
     		cataloged_item.cat_num,
     		cataloged_item.collection_object_id,
@@ -437,6 +438,9 @@ Change to: <select name="format">
     		trans.trans_date,
     		preferred_agent_name.agent_name,
 	        specimen_part.part_name,
+                MCZBASE.GET_PART_PREP(specimen_part.collection_object_id) as part_prep,
+                MCZBASE.GET_PARENTCONTAINERLABEL(specimen_part.collection_object_id) as parentcontainer,
+                MCZBASE.GET_PART_COUNT_MOD_FOR_PART(specimen_part.collection_object_id) as lot_count_mod,
     		get_taxonomy(cataloged_item.collection_object_id,'family') as family,
     		get_taxonomy(cataloged_item.collection_object_id,'phylum') as phylum,
 			Decode(substr(loan_number, instr(loan_number, '-',1, 2)+1),
@@ -493,6 +497,9 @@ Change to: <select name="format">
     	<cfset maxRow = 30>
     </cfif>
     <cfif format is "Malacology">
+    	<cfset maxRow = 7>
+    </cfif>
+    <cfif format is "Malacology2">
     	<cfset maxRow = 7>
     </cfif>
     <cfif format is "Mammalogy">
@@ -567,6 +574,21 @@ Change to: <select name="format">
         '>
         <cfset orientiation = 'portrait'>
     </cfif>
+    <cfif format is "Malacology2">
+    	<cfset labelWidth = 'width: 2.0in;'>
+        <cfset labelBorder = 'border: 0px;'>
+    	<cfset textClass = "times10">
+    	<cfset dateStyle = "dd mmm yyyy">
+    	<cfset labelStyle = 'height: 1.0in; #labelWidth# #labelBorder#'>
+    	<cfset dateWidth = "width: 60px;"><!--- unused --->
+        <cfset pageHeader='
+         <table #outerTableParams#>
+         <tr>
+         <td valign="top">
+         <table #innerTableParams#>
+        '>
+        <cfset orientiation = 'portrait'>
+    </cfif>
     <cfif format is "Mammalogy">
     	<cfset labelWidth = 'width: 3.3in;'>
         <cfset labelBorder = 'border: 0px;'>
@@ -601,7 +623,7 @@ Change to: <select name="format">
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-    <cfif format is "Malacology" or format is "Mammalogy">
+    <cfif format is "Malacology" or format is "Mammalogy" or format is "Malacology2">
     	<!--- omit page count in header for malacology format --->
     <cfelse>
         <cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
@@ -694,10 +716,34 @@ Change to: <select name="format">
     	          </table>
                     <cfelse>
     		<cfif format is "Malacology">
-    			<table>
+    		      <table>
+    		      <tr>
+    		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
+    			  </tr>
+    			  <tr>
+    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></span></td>
+    			  </tr>
+    			 <tr>
+    			  <tr>
+    		         <td colspan="2">#parentcontainer# #part_prep# #part_count_mod#</span></td>
+    			  </tr>
+    		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>
+    			 </tr>
+    			 <tr>
+    		        <td>
+    			      <span class="#textClass#"><strong>Loan Number:</strong> #getItems.loan_number#</span>
+    		        </td>
+    		        <td>
+    			       <div class="#textClass#">#dateformat(trans_date,dateStyle)#</div>
+    		        </td>
+    			</tr>
     			  <tr>
     		         <td colspan="2" align="center"><div class="#textClass#"><strong>Museum of Comparative Zoology</span></strong></td>
     		      </tr>
+    	              </table>
+   		   <cfelse >
+    		<cfif format is "Malacology2">
+    		      <table>
     		      <tr>
     		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
     			  </tr>
@@ -715,7 +761,10 @@ Change to: <select name="format">
     			       <div class="#textClass#">#dateformat(trans_date,dateStyle)#</div>
     		        </td>
     			</tr>
-    	       </table>
+    			  <tr>
+    		         <td colspan="2" align="center"><div class="#textClass#"><strong>Museum of Comparative Zoology</span></strong></td>
+    		      </tr>
+    	              </table>
    		   <cfelse >
     		      <cfif format is "Mammalogy">
     			<table width="100%" style="border: 1px solid black; " class="labeltableclass">
@@ -787,7 +836,7 @@ Change to: <select name="format">
     		<cfset curPage = curPage + 1>
     		<!--- end the old table, pagebreak, and begin the new one--->
     		#pageFooter#<cfdocumentitem type="pagebreak"></cfdocumentitem>
-    		<cfif format is "Malacology">
+    		<cfif format is "Malacology" or format is "Malacology2">
     	       <!--- omit page header for malacology format --->
             <cfelse>
     		   <cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
