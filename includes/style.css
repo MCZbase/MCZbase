@@ -5412,3 +5412,434 @@ div#permitmedia h3 {width: 75em;margin: 0 auto;margin-bottom: .5em;padding-top: 
 div#permitmedia ul li {margin: .25em 0;list-style:none;margin-bottom: .5em;}
 
 div.deletestyle { margin: 0 auto;float:left;height: 33px;}
+
+/**************Used on Transaction Pages*****************/
+/**************Used on Transaction Pages*****************/
+/**************Used on Transaction Pages*****************/
+.pageContainer {
+	overflow: hidden;
+	padding: 10px 20px 1em 20px;
+	width: 75em;
+	margin: 1em auto;
+	background-color: #ffffff /*{a-body-background-color}*/;
+	border: 1px solid #8c8c8c; /*{a-body-border}*/
+	;
+	color: #000000 /*{a-body-color}*/;
+	text-shadow: 0 /*{a-body-shadow-x}*/ 1px /*{a-body-shadow-y}*/ 0 /*{a-body-shadow-radius}*/ #eeeeee /*{a-body-shadow-color}*/;/*Goes around each block on page (e.g., shipment, permit) to include gray border*/
+	-webkit-border-radius: .3125em /*{global-radii-buttons}*/;
+	border-radius: .3125em /*{global-radii-buttons}*/;
+}
+.pageContainer h2 {
+	font-size: 20px;
+	margin: .5em 0;/*Header for each block*/
+}
+.tableGrid {
+	float: left;
+	width: 100%;
+	border: 1px solid red;
+	margin-top: 1em;
+}
+.tableGrid h3 {
+	font-size: 18px;
+	margin-bottom: .5em;
+}
+.gridRow {
+	float: left;
+	width: 100%;
+}
+.gridColumn {
+	float: left;
+	width: 50%;
+}
+.gridColumn select {
+	background-color: #e6e6e6 /*{a-bhover-background-color}*/;
+	border: 1px solid #7e7e7e /*{a-bhover-border}*/;
+	color: #000000 /*{a-bhover-color}*/;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #eeeeee /*{a-bhover-shadow-color}*/;
+	-webkit-border-radius: .3125em /*{global-radii-buttons}*/;
+	border-radius: .3125em /*{global-radii-buttons}*/;
+	font-size: 16px;
+	margin: .5em 0;
+	padding: .7em 1em;
+	position: relative;
+	text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+	float: left;
+}
+.gridColumn h4 {
+	font-size: 16px;
+	float: left;
+	margin: 0;
+	width: 100%;
+}
+.gridColumn input {
+	background-color: #ffffff /*{a-bhover-background-color}*/;
+	border: 1px solid #7e7e7e /*{a-bhover-border}*/;
+	color: #000000 /*{a-bhover-color}*/;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #eeeeee /*{a-bhover-shadow-color}*/;
+	-webkit-border-radius: .3125em /*{global-radii-buttons}*/;
+	border-radius: .3125em /*{global-radii-buttons}*/;
+	font-size: 16px;
+	margin: .5em 0;
+	padding: .7em 0;
+	display: block;
+	float: left;
+	position: relative;
+	text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.gridColumn input.reqdclr {
+	background-color: rgb(250, 255, 189);
+}
+.gridColumn textarea {
+	background-color: #ffffff /*{a-bhover-background-color}*/;
+	border: 1px solid #7e7e7e /*{a-bhover-border}*/;
+	color: #000000 /*{a-bhover-color}*/;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #eeeeee /*{a-bhover-shadow-color}*/;
+	-webkit-border-radius: .3125em /*{global-radii-buttons}*/;
+	border-radius: .3125em /*{global-radii-buttons}*/;
+}
+/***************************
+****************************
+****************************/
+.trans_container {	/*Goes around each block on page (e.g., shipment, permit) to include gray border*/
+	overflow: hidden;
+	padding: 10px 17px 1em 17px;
+	/*width: 100%;*/
+	margin: 0 auto 1.5em auto;
+	background-color: #ffffff /*{a-body-background-color}*/;
+	border: 1px solid #8c8c8c; /*{a-body-border}*/
+	color: #1E1E1E /*{a-body-color}*/;
+	text-shadow: 0 /*{a-body-shadow-x}*/ 1px /*{a-body-shadow-y}*/ 0 /*{a-body-shadow-radius}*/ #eeeeee /*{a-body-shadow-color}*/;
+	-webkit-border-radius: .25em /*{global-radii-buttons}*/;
+	border-radius: .25em /*{global-radii-buttons}*/;
+	-moz-box-shadow: inset 0px 50px 0 0 #f7f7f7;
+	-webkit-box-shadow: inset 0px 50px 0 0 #f7f7f7;
+	box-shadow: inset 0px 50px 0 0 #f7f7f7;
+	width: 75%;
+	font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	font-size:14px;
+	font-weight: 600;
+}
+.trans_container table label,.trans_container table#loanAgents th  {padding-bottom: .35em;letter-spacing:.02em;font-weight:450;margin-top: 1em;font-size: 13px;}
+ 
+.trans_container a {
+	color: #3387ab;color:#468dc8;
+	text-decoration: underline;
+	font-weight: 600;
+}
+.trans_container div.warning {font-weight: 400;margin-top: 1em;float: left;}
+.trans_container ul {
+	list-style: none;
+	font-weight: 500;
+}
+.trans_container header {
+	box-shadow: inset 0px 50px 0 0 #f7f7f7;
+	-webkit-box-shadow: inset 0px 50px 0 0 #f7f7f7;
+	-webkit-border-radius: .3125em /*{global-radii-buttons}*/;
+	border-radius: .3125em /*{global-radii-buttons}*/;
+	padding: 0;
+	margin: 0 -15px 0 -15px;
+}
+.trans_container select {padding: 5px 10px;}
+.trans_container input {padding: 5px 10px;-webkit-border-radius: .25em /*{global-radii-buttons}*/;
+	border-radius: .25em /*{global-radii-buttons}*/;}
+.trans_container textarea {-webkit-border-radius: .25em /*{global-radii-buttons}*/;
+	border-radius: .25em /*{global-radii-buttons}*/;padding:5px 10px;}
+.trans_container input.reqdClr,.trans_container textarea.reqdClr,.trans_container select.reqdClr {background-color: #fff5d5;} 
+
+.trans_container header h2 {
+	padding-bottom: 1em;
+	font-size: 28px;
+	margin-top: .5em;
+	color: #1E1E1E;
+	font-weight: 400;
+	letter-spacing: .02em;
+	padding-left: 17px;
+	text-shadow: 0 1px 0 #eee;
+}
+.trans_container h3 {
+	font-size: 1.25em;
+	margin: .5em 0;/*Header for each block*/
+	color: #1E1E1E;
+	margin-top: .25em;
+	padding-bottom: 1em;
+	text-shadow: 0 1px 0 #eee;
+	padding-left: 3px;
+}
+.trans_container h4 {
+	font-size: 1.1em;
+	margin: .5em 0;/*Header for each block*/
+	color: #1E1E1E;
+	margin-top: .25em;
+	font-weight: bold;
+	padding-bottom: 1em;
+	text-shadow: 0 1px 0 #eee;
+	padding-left: 5px;
+}
+.trans_container table tr td:first-child {
+	text-align: left;
+	width: 150px;
+	padding: 0;/*Keeps the first column in a table at a good width especially useful for create permit page*/
+}
+.trans_container table tbody tr td {
+	text-align: internal-left;/*cancels an agent style sheet style "internal-center"*/
+}
+.inner_trans {
+	clear: both;
+	float: left;
+	border-left: 1px solid gray;
+	margin: 0.5em .25em .5em 2em;
+	padding: 0 0 0 12px;/*Puts an indent on this "inner" block with a left border.  Used on permits within a shipment.*/
+	font-weight: normal;
+}
+.inner_trans h4 {
+	overflow: hidden;
+	font-size: 1em;
+	font-weight: bold;
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	padding: 0;
+	margin: 0;/*Puts a title on the inner block (e.g., Permits) */
+}
+ul.trans_headers {
+	width: 100%;
+	float: left;
+	display: inline;
+	list-style-type: none;
+	margin: 0 auto;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+	padding: 0;/*These are the column headers on a inline list (looks like a table)(e.g., Shipment headers)*/
+}
+ul.trans_headers li {
+	width: 15%;
+	font-weight: bold;
+	float: left;
+	display: inline;
+	list-style-type: none;
+	color: black;
+	margin: 0 auto;
+	padding: 0;/* column headers on an inline list */
+}
+ul.trans_data {
+	width: 70%;
+	float: left;
+	flex-wrap: wrap;
+	list-style-type: none;
+	margin: .2em 1em .2em 0;
+	padding: 0;/*creates a container for the data*/
+}
+ul.trans_data li {
+	width: 100%;
+	font-weight: normal;
+	float: left;
+	list-style-type: none;
+	color: black;
+	margin: 0 0 0em 0;
+	padding: 0;/* determines the width and spacing for the data within the ul */
+}
+ul.trans_data li input {
+	margin-left: 10px;/* gives space to the buttons that appear directly after and inline with the data (e.g. Permits listed) */
+}
+ul.trans_headers_wide {
+	width: 100%;
+	float: left;
+	display: inline;
+	list-style-type: none;
+	margin: 0 auto;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+	padding: 0;/*shipment address headers*/
+}
+ul.trans_headers_wide li {
+	width: 45%;
+	font-weight: bold;
+	float: left;
+	display: inline;
+	list-style-type: none;
+	color: black;
+	margin: 0 auto;
+	padding-right: 1em;/* shipment address headers*/
+}
+ul.trans_data_narrow {
+	padding: 0;/*for first row of shipment "table" (inline list)*/
+}
+ul.trans_data_narrow li {
+	width: 15%;
+	font-weight: normal;
+	float: left;
+	display: inline;
+	list-style-type: none;
+	color: black;
+	margin: 0 0 1em 0;/*for first row of shipment "table" (inline list)*/
+}
+ul.trans_data_wide {
+	padding: 0;/*for addresses in shipment "table" (inline list)*/
+}
+ul.trans_data_wide li {
+	width: 45%;
+	font-weight: normal;
+	float: left;
+	display: inline;
+	list-style-type: none;
+	color: black;
+	margin: 0 0 1em 0;
+	padding-right: 1em;/*This is to accommodate the large address (width)*/
+}
+.trans_buttons {
+	width: 90%;
+	clear: both;
+	list-style: none;
+	margin: .5em 0 0 0;/*This is to create a container that encloses the row of buttons (e.g. Shipment edit, romove, and move). [same as trans_button_single except for the space]*/
+}
+.trans_buttons input {
+	float: left;
+	margin-right: 1em;
+	display: inline;
+	margin-bottom: 1em;/*This is for a row of buttons that need space under them (e.g. Shipment edit, remove, and move) [same as trans_button_single except for the space at bottom]*/
+}
+.trans_button_single {
+	width: 100%;
+	clear: both;
+	margin: .5em 0 .25em 0;/*This is to create a container that encloses the single button (e.g., add shipment) and the note */
+	list-style: none;
+}
+.trans_button_single input {
+	float: left;
+	margin-right: 1em;
+	display: inline;/*This is for single buttons that need to be inline with the note and against the left margin. */
+}
+.trans_buttons_group {
+	width: 100%;
+	clear: both;
+	margin: .5em 0 1.2em 20%;/*This is to create a container that encloses the single button (e.g., add shipment) and the note */
+	list-style: none;
+	padding-bottom: 1em;
+}
+.trans_buttons_group input {
+	float: left;
+	margin-right: 1em;
+	margin-left: .65em;
+	display: inline;/*This is for single buttons that need to be inline with the note and against the left margin. */
+}
+.content_box {
+	padding-bottom: 2em;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
+}
+.group_trans {
+	float: left;
+	border-bottom: 1px solid gray;
+	margin-bottom: 1.2em;
+	padding-bottom: 1em;
+	/*width: 74em;*/
+	/*This puts a line after the group of shipments so that the "add a shipment" button is separate*/
+}
+p.trans_para {
+	margin: 1em 0 0 0;
+	padding: 0;/*instructional notes on form*/
+}
+.transButton {
+	background-color: #e6e6e6 /*{a-bhover-background-color}*/;
+	border: 1px solid #7e7e7e /*{a-bhover-border}*/;
+	color: #000000 /*{a-bhover-color}*/;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #eeeeee /*{a-bhover-shadow-color}*/;
+	-webkit-border-radius: .3125em /*{global-radii-buttons}*/;
+	border-radius: .3125em /*{global-radii-buttons}*/;
+	font-size: 16px;
+	margin: .5em 0;
+	padding: .22em .7em .18em .7em;
+	text-align: center;
+	/* 
+	display: block;
+    position: relative;
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+	*/
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: inline;
+}
+.transButton:hover {
+	background-color: #FFFFFF /*{a-bhover-background-color}*/;
+	border-color: #8c8c8c /*{a-bhover-border}*/;
+	color: #000000 /*{a-bhover-color}*/;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #eeeeee /*{a-bhover-shadow-color}*/;
+}
+form#newDeacc {
+	float: left;
+	width: 700px;
+	margin-right: 2em;
+	position: relative;
+	overflow: hidden;
+}
+#nextNumDiv {
+	float: left;
+	width: 27%;
+	border: 2px solid green;
+	margin-right: 0;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	padding: 20px;
+	margin-left: 1em;
+	position: relative;
+	overflow:hidden;
+}
+#nextNumDiv h4 {font-size: 1.1em; font-weight: bold;}
+#newDeaccTable {
+	padding: 10px;
+}
+#nextNumDiv ul li {
+	padding: .25em;
+	list-style: none;
+	font-size: 1.1em;
+}
+.trans_container .linkButton {
+	-webkit-border-radius: .3125em /*{global-radii-buttons}*/;
+	border-radius: .3125em /*{global-radii-buttons}*/;
+	background-color: #e6e6e6 /*{a-bhover-background-color}*/;
+	border: 1px solid #7e7e7e /*{a-bhover-border}*/;
+	color: #000000 /*{a-bhover-color}*/;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #eeeeee /*{a-bhover-shadow-color}*/;
+	background-color: #e6e6e6 /*{a-bhover-background-color}*/;
+	border: 1px solid #7e7e7e /*{a-bhover-border}*/;
+	padding: 2px 10px;
+	margin-left: 10px;
+}
+.trans_container .loan_results {padding-bottom: 1em;}
+.trans_container table.borrow tr td{border-bottom: 1px solid #ccc;font-weight: normal;}
+#listloans {padding-bottom: 1.5em;}
+#listloans .trans_buttons {margin-left: 10%;}
+#listloans dd.mandcolr {
+    background-color: #FFF5D5;
+}
+#listloans dd.mandcolrstatus {
+    background-color: #FFF5D5;
+    color: #333;
+}
+#listloans dd.emptystatus {
+    color: #333;
+    background-color: #ccc;
+}
+form#newLoan {float: left;}
+.trans_container .likeLink {color: #468cc8;}
+.agent_group {
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+.ui-widget-header {    
+	border: 1px solid #A41034;
+    background: #c1272d url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+    color: #ffffff;background-color:#c1272d; }
