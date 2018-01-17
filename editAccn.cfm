@@ -109,7 +109,7 @@
 </cfquery>
 <!-------------------------------------------------------------------->
 <cfif action is "edit">
-    <div style="width: 75em; margin: 0 auto;padding: 2em 0 4em 0;">
+    <div class="trans_container">
 	<cfoutput>
 		<script>
 			jQuery(document).ready(function() {
@@ -162,7 +162,9 @@
 				trans_agent_role,
 				agent_name
 		</cfquery>
+		<header>
 		<h2 class="wikilink"><strong>Edit Accession</strong></h2>
+			</header>
 		<cfform action="editAccn.cfm" method="post" name="editAccn">
 		<table><tr><td valign="top">
 				<input type="hidden" name="Action" value="saveChanges">
@@ -315,12 +317,12 @@
 					</tr>
 					<tr>
 						<td colspan="6" align="center">
-						<input type="submit" value="Save Changes" class="savBtn">
-				 		<input type="button" value="Quit without saving" class="qutBtn"
+						<input type="submit" value="Save Changes" class="transButton">
+				 		<input type="button" value="Quit without saving" class="transButton"
 							onclick = "document.location = 'editAccn.cfm'">
-						<input type="button" value="Specimen List" class="lnkBtn"
+						<input type="button" value="Specimen List" class="transButton"
 						 	onclick = "window.open('SpecimenResults.cfm?accn_trans_id=#transaction_id#');">
-				       	<input type="button" value="BerkeleyMapper" class="lnkBtn"
+				       	<input type="button" value="BerkeleyMapper" class="transButton"
 							onclick = "window.open('/bnhmMaps/bnhmMapData.cfm?accn_number=#accnData.accn_number#','_blank');">
 						</td>
 					</tr>
@@ -673,7 +675,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 <cfif action is "nothing">
 	<cfset title = "Find Accession">
 		<cfoutput>
-            <div style="width: 48em;margin:0 auto;padding: 1em 0 3em 0;">
+            <div class="trans_container">
 		<h2 class="wikilink" style="margin-left:0;">Find Accession <img class="infoLink" src="/images/info_i_2.gif" alt="[help]" onClick="getMCZDocs('Find Accession')"/></h2>
 			<cfif #project_id# gt 0>to add to project ## #project_id#</cfif>
 
