@@ -5525,7 +5525,7 @@ div.deletestyle { margin: 0 auto;float:left;height: 33px;}
 	width: 75%;
 	font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	font-size:14px;
-	font-weight: 600;
+	font-weight: normal;
 }
 .trans_container table label,.trans_container table#loanAgents th  {padding-bottom: .35em;letter-spacing:.02em;font-weight:450;margin-top: 1em;font-size: 13px;}
  
@@ -5534,7 +5534,7 @@ div.deletestyle { margin: 0 auto;float:left;height: 33px;}
 	text-decoration: underline;
 	font-weight: 600;
 }
-.trans_container div.warning {font-weight: 400;margin-top: 1em;float: left;}
+.trans_container div.warning, .trans_container p.warning {font-weight: 400;margin-top: 1em;float: left;}
 .trans_container ul {
 	list-style: none;
 	font-weight: 500;
