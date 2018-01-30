@@ -45,6 +45,7 @@
 		CHANGED_DATE,
 		preserve_method,
 		part_name,
+		decode(lot_count_modifier, null, '', lot_count_modifier) || lot_count as lotCount,
 		coll_object_remarks,
 		is_current_fg
 	from SPECIMEN_PART_PRES_HIST,preferred_agent_name
@@ -57,6 +58,7 @@
 		 CHANGED_DATE,
 		 preserve_method,
 		 part_name,
+		 decode(lot_count_modifier, null, '', lot_count_modifier) || lot_count,
 		 coll_object_remarks,
 		 is_current_fg
 		order by CHANGED_DATE DESC
@@ -71,6 +73,7 @@
 		<td><strong>Date</strong></td>
 		<td><strong>Part Name</strong></td>
 		<td><strong>Preserve Method</strong></td>
+		<td><strong>Lot Count</strong></td>
 		<td><strong>Remarks</strong></td>
 	</tr>
 
@@ -88,6 +91,9 @@
 			</td>
 			<td>
 				#preserve_method#
+			</td>
+			<td>
+				#lotCount#
 			</td>
 			<td>
 				#coll_object_remarks#
