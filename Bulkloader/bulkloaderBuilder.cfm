@@ -47,82 +47,15 @@
 		<cfset part=listappend(part,"PART_LOT_COUNT_" & i)>
 		<cfset part=listappend(part,"PART_DISPOSITION_" & i)>
 		<cfset part=listappend(part,"PART_REMARK_" & i)>
-	</cfloop>	
-	<cfif part gt 0>
+	</cfloop>
+	<cfset inListItems=listappend(inListItems,coll)>	
 	<cfset n=8>
 	<cfloop from="1" to="#n#" index="i">
-		<cfset part=listappend(part,"PART_1_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_1_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_1_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_1_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_1_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_1_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_2_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_2_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_2_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_2_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_2_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_2_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_3_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_3_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_3_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_3_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_3_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_3_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_4_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_4_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_4_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_4_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_4_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_4_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_5_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_5_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_5_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_5_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_5_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_5_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_6_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_6_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_6_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_6_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_6_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_6_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_7_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_7_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_7_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_7_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_7_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_7_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_8_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_8_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_8_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_8_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_8_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_8_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_9_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_9_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_9_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_9_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_9_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_9_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_10_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_10_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_10_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_10_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_10_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_10_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_11_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_11_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_11_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_11_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_11_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_11_ATT_REM_" & i)>
-		<cfset part=listappend(part,"PART_12_ATT_NAME_" & i)>
-		<cfset part=listappend(part,"PART_12_ATT_VAL_" & i)>
-		<cfset part=listappend(part,"PART_12_ATT_UNITS_" & i)>
-		<cfset part=listappend(part,"PART_12_ATT_DETBY_" & i)>
-		<cfset part=listappend(part,"PART_12_ATT_MADEDATE_" & i)>
-		<cfset part=listappend(part,"PART_12_ATT_REM_" & i)>
+		<cfset partA=listappend(part,"PART_1_ATT_NAME_" & i)>
+		<cfset partA=listappend(part,"PART_1_ATT_VAL_" & i)>
+		<cfset partA=listappend(part,"PART_1_ATT_UNITS_" & i)>
+		<cfset partA=listappend(part,"PART_1_ATT_DETBY_" & i)>
+		<cfset partA=listappend(part,"PART_1_ATT_MADEDATE_" & i)>
 	</cfloop>
 	<cfset inListItems=listappend(inListItems,part)>
 	<cfset n=10>
@@ -202,8 +135,9 @@
 		<td><input type="checkbox" name="coll" onchange="checkList(this.name, this.checked)"></td>
 	</tr>
 	<tr>
-		<td>Parts</td>
-		<td><input type="checkbox" name="part" onchange="checkList(this.name, this.checked)"></td>
+		<td>Parts &amp; Part Attributes</td>
+		<td><input type="checkbox" name="part" onchange="checkList(this.name, this.checked)">
+		<input type="checkbox" name="partA" onchange="checkList(this.name, this.checked)"></td>
 	</tr>
 	<tr>
 		<td>Attributes</td>
