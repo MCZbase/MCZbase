@@ -40,11 +40,19 @@
 	<cfloop from="1" to="#n#" index="i">
 		<cfset part=listappend(part,"PART_NAME_" & i)>
 		<cfset part=listappend(part,"PART_CONDITION_" & i)>
+		<cfset part=listappend(part,"PRESERV_METHOD_" & i)>
 		<cfset part=listappend(part,"PART_CONTAINER_UNIQUE_ID_" & i)>
 		<cfset part=listappend(part,"PART_CONTAINER_NAME_" & i)>
+		<cfset part=listappend(part,"PART_LOT_CNT_MOD_" & i)>
 		<cfset part=listappend(part,"PART_LOT_COUNT_" & i)>
 		<cfset part=listappend(part,"PART_DISPOSITION_" & i)>
 		<cfset part=listappend(part,"PART_REMARK_" & i)>
+		<cfset part=listappend(part,"PART_1_ATT_NAME_" & i)>
+		<cfset part=listappend(part,"PART_1_ATT_VAL_" & i)>
+		<cfset part=listappend(part,"PART_1_ATT_UNITS_" & i)>
+		<cfset part=listappend(part,"PART_1_ATT_DETBY_" & i)>
+		<cfset part=listappend(part,"PART_1_ATT_MADEDATE_" & i)>
+		<cfset part=listappend(part,"PART_1_ATT_REM_" & i)>
 	</cfloop>
 	<cfset inListItems=listappend(inListItems,part)>
 	<cfset n=10>
