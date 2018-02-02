@@ -2961,20 +2961,20 @@ fieldset[disabled] a.btn {
 }
 
 .btn-outline-success:focus, .btn-outline-success.focus {
-  -webkit-box-shadow: 0 0 0 2px rgba(165, 28, 48, 0.5);
-          box-shadow: 0 0 0 2px rgba(165, 28, 48, 0.5);
+  -webkit-box-shadow: 0 0 0 2px rgba(92, 184, 92, 0.5);
+          box-shadow: 0 0 0 2px rgba(92, 184, 92, 0.5);
 }
 
 .btn-outline-success.disabled, .btn-outline-success:disabled {
-  color: #A51C30;
+  color: #5cb85c;
   background-color: transparent;
 }
 
 .btn-outline-success:active, .btn-outline-success.active,
 .show > .btn-outline-success.dropdown-toggle {
   color: #fff;
-  background-color: #A51C30;
-  border-color: #A51C30;
+  background-color: #5cb85c;
+  border-color: #5cb85c;
 }
 
 .btn-outline-warning {
@@ -3037,6 +3037,35 @@ fieldset[disabled] a.btn {
   border-color: #d9534f;
 }
 
+.btn-outline-harvard {
+  color: #b6b6b6;
+  background-image: none;
+  background-color: transparent;
+  border-color: #b6b6b6;
+}
+
+.btn-outline-harvard:hover {
+  color: #fff;
+  background-color: #A51C30;
+  border-color: #d9534f;
+}
+
+.btn-outline-harvard:focus, .btn-outline-harvard.focus {
+  -webkit-box-shadow: 0 0 0 2px rgba(217, 83, 79, 0.5);
+          box-shadow: 0 0 0 2px rgba(217, 83, 79, 0.5);
+}
+
+.btn-outline-harvard.disabled, .btn-outline-harvard:disabled {
+  color: #d9534f;
+  background-color: transparent;
+}
+
+.btn-outline-harvard:active, .btn-outline-harvard.active,
+.show > .btn-outline-harvard.dropdown-toggle {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d9534f;
+}
 .btn-link {
   font-weight: normal;
   color: #0275d8;
@@ -9348,7 +9377,7 @@ h1 {
 
 .sidebar {
   position: fixed;
-  top: 41px;
+  top: 40px;
   bottom: 0;
   left: 0;
   z-index: 1000;
@@ -9403,15 +9432,15 @@ a.navbar-inverse, a.navbar-brand {
 .navbar-brand img {
 	padding-right: 1em;
 }
-.mcz { height: 105px;
-     padding: .2em 1em 1em 1em;
-	font-size: 1.2em;
-	font-weight: bold;
-	background-color:#a51c30;
-	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
-	color: #f3f3f1;
-}
-.mcz span {font-size: smaller;}
 .mcz_logo {
 	width: 150px;
 }
+.sidebar.mcz { height: 105px;
+    padding: .2em 1em 1em 1em;
+	font-size: 1.5em;
+	font-weight: bold;
+	background-color:#a51c30;
+	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	color: #f3f3f1;
+}
+.sidebar.mcz span {font-size: .8em;}
