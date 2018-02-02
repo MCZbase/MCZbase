@@ -53,7 +53,7 @@
 
     <div class="container-fluid">
       <div class="row">
-		  <div class="MCZ">MCZbase: The Database of the Zoological Collections</div>
+		  <div class="mcz">MCZbase: The Database of the Zoological Collections</div>
         <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
           <ul class="nav nav-pills flex-column">
             <li class="nav-item">

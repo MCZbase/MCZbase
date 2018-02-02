@@ -165,6 +165,7 @@
 	var l_oid='#oid#';
 	var l_coll='#coll#';
 	var l_part='#part#';
+	var l_part='#partA#';
 	var l_attr='#attr#';
 	var l_geol='#geol#';
 	var l_leftovers='#leftovers#';
