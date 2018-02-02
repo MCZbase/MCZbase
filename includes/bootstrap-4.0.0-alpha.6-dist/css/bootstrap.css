@@ -4387,13 +4387,13 @@ tbody.collapse.show {
 
 .navbar-inverse .navbar-brand,
 .navbar-inverse .navbar-toggler {
-  color: white;
+  color: #838179;
 }
 
 .navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-toggler:focus,
 .navbar-inverse .navbar-toggler:hover {
-  color: white;
+  color: #838179;
 }
 
 .navbar-inverse .navbar-nav .nav-link {
@@ -9430,12 +9430,12 @@ a.navbar-inverse, a.navbar-brand {
 	font-size: 1.5em;
 }
 .navbar-brand img {
-	padding-right: 1em;
+	padding-right: .5em;
 }
 .mcz_logo {
 	width: 150px;
 }
-.sidebar.mcz { height: 105px;
+.nav .mcz { height: 105px;
     padding: .2em 1em 1em 1em;
 	font-size: 1.5em;
 	font-weight: bold;
@@ -9443,4 +9443,4 @@ a.navbar-inverse, a.navbar-brand {
 	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 	color: #f3f3f1;
 }
-.sidebar.mcz span {font-size: .8em;}
+.sidebar .mcz span {font-size: .8em;}
