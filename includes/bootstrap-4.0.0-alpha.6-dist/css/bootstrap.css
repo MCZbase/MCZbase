@@ -3933,6 +3933,7 @@ tbody.collapse.show {
   font-size: 1.25rem;
   line-height: inherit;
   white-space: nowrap;
+  color: #a51c30;	
 }
 
 .navbar-brand:focus, .navbar-brand:hover {
@@ -6121,7 +6122,7 @@ a.bg-danger:focus, a.bg-danger:hover {
 }
 
 .bg-inverse {
-  background-color: #292b2c !important;
+  background-color: #1e1e1e !important;
 }
 
 a.bg-inverse:focus, a.bg-inverse:hover {
@@ -9335,11 +9336,12 @@ body {
 /*
  * Typography
  */
-.mcz { height: 71px;
-    margin-top: 1em;
-    padding: 1em;
+.mcz { height: 105px;
+     padding: .2em 1em 1em 1em;
 	font-size: 20px;
 	font-weight: bold;
+	background-color:#a51c30;
+	font-family:Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
 }
 .mcz_logo {
 	width: 150px;
@@ -9356,7 +9358,7 @@ h1 {
 
 .sidebar {
   position: fixed;
-  top: 51px;
+  top: 41px;
   bottom: 0;
   left: 0;
   z-index: 1000;
