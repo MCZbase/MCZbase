@@ -36,6 +36,20 @@
 	</cfloop>
 	<cfset inListItems=listappend(inListItems,coll)>
 	<cfset n=12>
+	<cfset part="">
+	<cfloop from="1" to="#n#" index="i">
+		<cfset part=listappend(part,"PART_NAME_" & i)>
+		<cfset part=listappend(part,"PART_CONDITION_" & i)>
+		<cfset part=listappend(part,"PRESERV_METHOD_" & i)>
+		<cfset part=listappend(part,"PART_CONTAINER_UNIQUE_ID_" & i)>
+		<cfset part=listappend(part,"PART_CONTAINER_NAME_" & i)>
+		<cfset part=listappend(part,"PART_LOT_CNT_MOD_" & i)>
+		<cfset part=listappend(part,"PART_LOT_COUNT_" & i)>
+		<cfset part=listappend(part,"PART_DISPOSITION_" & i)>
+		<cfset part=listappend(part,"PART_REMARK_" & i)>
+	</cfloop>
+	<cfset inListItems=listappend(inListItems,part)>	
+	<cfset n=11>
 	<cfset partA="">
 	<cfloop from="1" to="#n#" index="i">
 		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_1")>
@@ -111,20 +125,6 @@
 		<cfset geol=listappend(geol,"GEO_ATT_REMARK_" & i)>
 	</cfloop>
 	<cfset inListItems=listappend(inListItems,geol)>
-	<cfset n=12>
-	<cfset part="">
-	<cfloop from="1" to="#n#" index="i">
-		<cfset part=listappend(part,"PART_NAME_" & i)>
-		<cfset part=listappend(part,"PART_CONDITION_" & i)>
-		<cfset part=listappend(part,"PRESERV_METHOD_" & i)>
-		<cfset part=listappend(part,"PART_CONTAINER_UNIQUE_ID_" & i)>
-		<cfset part=listappend(part,"PART_CONTAINER_NAME_" & i)>
-		<cfset part=listappend(part,"PART_LOT_CNT_MOD_" & i)>
-		<cfset part=listappend(part,"PART_LOT_COUNT_" & i)>
-		<cfset part=listappend(part,"PART_DISPOSITION_" & i)>
-		<cfset part=listappend(part,"PART_REMARK_" & i)>
-	</cfloop>
-	<cfset inListItems=listappend(inListItems,part)>	
 	<cfset leftovers=everything>
 	<cfloop list="#inListItems#" index="thisElement">
 		<cfset lPos=listfind(leftovers,thisElement)>
