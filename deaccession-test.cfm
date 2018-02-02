@@ -53,6 +53,7 @@
 
     <div class="container-fluid">
       <div class="row">
+		  <div class="MCZ">MCZbase: The Database of the Zoological Collections</div>
         <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
           <ul class="nav nav-pills flex-column">
             <li class="nav-item">
@@ -70,7 +71,9 @@
           </ul>
 
           <ul class="nav nav-pills flex-column">
-           <h4>Filter Results</h4>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Filter Results <span class="sr-only">(current)</span></a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Location</a>
             </li>
@@ -99,7 +102,7 @@
         </nav>
 
         <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-          <h1>Deaccession</h1>
+          <h1>Deaccession Search Results</h1>
 <!---
           <section class="row text-center placeholders">
             <div class="col-6 col-sm-3 placeholder">
@@ -124,7 +127,7 @@
             </div>
           </section>--->
 
-          <h2>Deaccession Search REsults</h2>
+         <!--- <h2></h2>--->
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
