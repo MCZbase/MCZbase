@@ -52,11 +52,11 @@
 	<cfset n=8>
 	<cfset partA="">
 	<cfloop from="1" to="#n#" index="i">
-		<cfset partA=listappend(part,"PART_1_ATT_NAME_" & i)>
-		<cfset partA=listappend(part,"PART_1_ATT_VAL_" & i)>
-		<cfset partA=listappend(part,"PART_1_ATT_UNITS_" & i)>
-		<cfset partA=listappend(part,"PART_1_ATT_DETBY_" & i)>
-		<cfset partA=listappend(part,"PART_1_ATT_MADEDATE_" & i)>
+		<cfset partA=listappend(partA,"PART_1_ATT_NAME_" & i)>
+		<cfset partA=listappend(partA,"PART_1_ATT_VAL_" & i)>
+		<cfset partA=listappend(partA,"PART_1_ATT_UNITS_" & i)>
+		<cfset partA=listappend(partA,"PART_1_ATT_DETBY_" & i)>
+		<cfset partA=listappend(partA,"PART_1_ATT_MADEDATE_" & i)>
 	</cfloop>
 	<cfset inListItems=listappend(inListItems,partA)>
 	<cfset n=10>
