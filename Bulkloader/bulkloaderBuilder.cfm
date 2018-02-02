@@ -48,8 +48,8 @@
 		<cfset part=listappend(part,"PART_DISPOSITION_" & i)>
 		<cfset part=listappend(part,"PART_REMARK_" & i)>
 	</cfloop>
-	<cfset inListItems=listappend(inListItems,part)>	
-	<cfset n=11>
+	<cfset inListItems=listappend(inListItems,part)>
+	<cfset n=12>
 	<cfset partA="">
 	<cfloop from="1" to="#n#" index="i">
 		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_1")>
