@@ -54,7 +54,7 @@
       <div class="row">
         <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
           <ul class="nav nav-pills flex-column">
-            <div class="mcz">MCZbase: The Database of the Zoological Collections</div>
+            <div class="mcz">MCZbase: <span>The Database of the Zoological Collections</span></div>
             <li class="nav-item">
               <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
             </li>

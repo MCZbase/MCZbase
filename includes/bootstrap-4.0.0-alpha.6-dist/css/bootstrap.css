@@ -3932,8 +3932,7 @@ tbody.collapse.show {
   margin-right: 1rem;
   font-size: 1.25rem;
   line-height: inherit;
-  white-space: nowrap;
-  color: #a51c30;	
+  white-space: nowrap;	
 }
 
 .navbar-brand:focus, .navbar-brand:hover {
@@ -9336,16 +9335,7 @@ body {
 /*
  * Typography
  */
-.mcz { height: 105px;
-     padding: .2em 1em 1em 1em;
-	font-size: 20px;
-	font-weight: bold;
-	background-color:#a51c30;
-	font-family:Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
-}
-.mcz_logo {
-	width: 150px;
-}
+
 h1 {
   margin-bottom: 20px;
   padding-bottom: 9px;
@@ -9402,4 +9392,21 @@ h1 {
 .placeholder img {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+a.navbar-brand {
+  color: #a51c30;
+  font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+}
+
+.mcz { height: 105px;
+     padding: .2em 1em 1em 1em;
+	font-size: 1.2em;
+	font-weight: bold;
+	background-color:#a51c30;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	color: #f3f3f1;
+}
+.mcz span {font-size: smaller;}
+.mcz_logo {
+	width: 150px;
 }
