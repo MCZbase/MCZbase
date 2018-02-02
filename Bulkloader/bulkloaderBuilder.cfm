@@ -179,9 +179,12 @@
 		<td><input type="checkbox" name="coll" onchange="checkList(this.name, this.checked)"></td>
 	</tr>
 	<tr>
-		<td>Parts &amp; Part Attributes</td>
+		<td>Parts</td>
 		<td><input type="checkbox" name="part" onchange="checkList(this.name, this.checked)">
-		<input type="checkbox" name="partA" onchange="checkList(this.name, this.checked)"></td>
+		</td>
+	</tr>
+	<tr><td>Part Attributes</td>
+		<td><input type="checkbox" name="partA" onchange="checkList(this.name, this.checked)"></td>
 	</tr>
 	<tr>
 		<td>Attributes</td>
@@ -208,7 +211,7 @@
 	var l_oid='#oid#';
 	var l_coll='#coll#';
 	var l_part='#part#';
-	var l_part='#partA#';
+	var l_partA='#partA#';
 	var l_attr='#attr#';
 	var l_geol='#geol#';
 	var l_leftovers='#leftovers#';
