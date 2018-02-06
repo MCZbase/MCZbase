@@ -244,9 +244,9 @@ function setBorrowNum(cid,v){
 				<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 			</cfloop>
 		</select>
-		<label for="borrow_number">Borrow Number (Byyyy-0-Aaa)</label>
+		<label for="borrow_number">MCZ Borrow Number (Byyyy-0-Aaa)</label>
 		<input type="text" name="borrow_number" id="borrow_number"  >
-		<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
+		<label for="LENDERS_TRANS_NUM_CDE">Lender's Loan Number</label>
 		<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE">
 		<label for="lender_loan_type">Lender's Loan Type</label>
 		<input type="text" name="lender_loan_type" id="lender_loan_type">
@@ -589,7 +589,7 @@ function setBorrowNum(cid,v){
 				<span id="collection_id">#getBorrow.collection#</span>
 			</td>
 			<td colspan="3">
-				<label for="borrow_number">Borrow Number</label>
+				<label for="borrow_number">MCZ Borrow Number</label>
 				<input type="text" name="borrow_number" id="borrow_number"
 				       required pattern="#BORROWNUMBERPATTERN#"
 					value="#getBorrow.borrow_number#">
@@ -658,7 +658,7 @@ function setBorrowNum(cid,v){
 		</tr>
 		<tr>
 			<td>
-				<label for="LENDERS_TRANS_NUM_CDE">Lender's Transaction Number</label>
+				<label for="LENDERS_TRANS_NUM_CDE">Lender's Loan Number</label>
 				<input type="text" name="LENDERS_TRANS_NUM_CDE" id="LENDERS_TRANS_NUM_CDE"
 					value="#getBorrow.LENDERS_TRANS_NUM_CDE#">
 			</td>
@@ -1165,12 +1165,12 @@ $(function() {
 						</cfloop>
 					</select>
 				<td>
-					<label for="borrow_num">Local Borrow Number (Byyyy-n-Coll)</label>
+					<label for="borrow_num">MCZ Borrow Number (Byyyy-n-Coll)</label>
 					<input type="text" id="borrow_number" name="borrow_number" class="reqdClr" 
 					       required pattern="#BORROWNUMBERPATTERN#" >
 				</td>
 				<td id="upperRightCell"><!--- id for positioning nextnumDiv --->
-					<label for="lenders_trans_num_cde">Lender's Transaction Number</label>
+					<label for="lenders_trans_num_cde">Lender's Loan Number</label>
 					<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde">
 				</td>
 			</tr>
@@ -1232,7 +1232,7 @@ $(function() {
 			</tr>
 			<tr>
 				<td colspan="3">
-					<label for="OverseenBy">Borrow Overseen/Authorized By (MCZ)</label>
+					<label for="OverseenBy">Borrow Overseen By (MCZ)</label>
 					<input type="text"
 						name="OverseenBy" id="OverseenBy"
 						class="reqdClr" required
@@ -1305,7 +1305,7 @@ $(function() {
 			</tr>
 			<tr>
 				<td colspan="3">
-					<label for="TRANS_REMARKS">Remarks</label>
+					<label for="TRANS_REMARKS">Transaction Remarks</label>
 					<textarea name="TRANS_REMARKS" rows="3" cols="90"></textarea>
 				</td>
 			</tr>
@@ -1319,7 +1319,7 @@ $(function() {
 	</form>
 
 		<div class="nextnum" id="nextNumDiv">
-			<p>Next Available Borrow Number:</p>
+			<p>Next Available MCZ Borrow Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from collection order by collection
 			</cfquery>
