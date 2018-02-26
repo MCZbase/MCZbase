@@ -5732,7 +5732,8 @@ ul.trans_data_wide li {
 	display: inline;/*This is for single buttons that need to be inline with the note and against the left margin. */
 }
 .content_box {
-	padding-bottom: 2em;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
+	padding-bottom: 2em;
+	overflow: hidden;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
 }
 .group_trans {
 	float: left;
