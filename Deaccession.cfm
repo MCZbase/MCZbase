@@ -4,6 +4,7 @@
 <cfset MAGIC_MCZ_CRYO = 11><!--- the collection_id of the cryogenic collection --->
 <cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
 <cfset MAGIC_DTYPE_TRANSFER = 'transfer'><!--- Deaccession type of Transfer --->
+<cfset MAGIC_DTYPE_INTERNALTRANSFER = 'transfer (internal)'><!--- Deaccession type of Transfer (internal) --->
 <cfset DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <cfif not isdefined("ImAGod") or len(#ImAGod#) is 0>
 	<cfset ImAGod = "no">
@@ -326,7 +327,11 @@
                         $("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
                         $("##recipient_institution_agent_id").trigger('change');
 			// transfer is not allowed as a type for a new accesison by default (but see below).
-                        $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                        $("##deacc_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
+			<cfif isdefined("session.roles") and not listfindnocase(session.roles,"admin_transactions")>
+			   // only admin_transaction role can create new accessions of type internal transfer.
+                           $("##deacc_type option[value='#MAGIC_DTYPE_INTERNALTRANSFER#']").each(function() { $(this).remove(); } );
+                	</cfif>
 			<cfif ImAGod is not "yes">
 			  // other (MAGIC_TTYPE_OTHER) is not allowed as a type for a new deaccesison (must be set by sysadmin).
                           $("##deacc_type option[value='#MAGIC_TTYPE_OTHER#']").each(function() { $(this).remove(); } );
@@ -336,9 +341,9 @@
                         $("##collection_id").change( function () {
                               if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
                                      // only MCZ collections (the non-specimen collection) is allowed to make transfers.
-                                     $("##deacc_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
+                                     $("##deacc_type").append($("<option></option>").attr("value",'#MAGIC_DTYPE_TRANSFER#').text('#MAGIC_DTYPE_TRANSFER#'));
                               } else {
-                                     $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                                     $("##deacc_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
                               }
                         });
                         $("##deacc_type").change( function () {
@@ -414,13 +419,23 @@
 			trans_agent_role,
 			agent_name
 	</cfquery>
- 	<!--- on page load, remove tranfer as an allowed deaccession type, except for the MCZ Collection --->
-        <cfif deaccDetails.deacc_type neq 'transfer' and deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+ 	<!--- on page load, remove tranfer as an allowed deaccession type, except for the MCZ Collection, and if not current deaccession type --->
+        <cfif deaccDetails.deacc_type neq MAGIC_DTYPE_TRANSFER and deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
 	<script>
 		$(function() {
-                      $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                      $("##deacc_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
                 });
         </script>
+        </cfif>
+ 	<!--- on page load, remove tranfer as an allowed deaccession type, except for users with admin_transactions role, if not current deaccession type --->
+	<cfif isdefined("session.roles") and not listfindnocase(session.roles,"admin_transactions")>
+           <cfif deaccDetails.deacc_type neq MAGIC_DTYPE_INTERNALTRANSFER >
+	   <script>
+		$(function() {
+                      $("##deacc_type option[value='#MAGIC_DTYPE_INTERNALTRANSFER#']").each(function() { $(this).remove(); } );
+                });
+           </script>
+           </cfif>
         </cfif>
        <div class="editLoanbox">
        <h2 class="wikilink" style="margin-left: 0;">Edit Deaccession <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
@@ -450,9 +465,9 @@
                $("##collection_id").change( function () {
                     if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
                         // only MCZ collections (the non-specimen collection) is allowed to make transfers.
-                        $("##deacc_type").append($("<option></option>").attr("value",'transfer').text('transfer'));
+                        $("##deacc_type").append($("<option></option>").attr("value",'#MAGIC_DTYPE_TRANSFER#').text('#MAGIC_DTYPE_TRANSFER#'));
                     } else {
-                        $("##deacc_type option[value='transfer']").each(function() { $(this).remove(); } );
+                        $("##deacc_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
                     }
                });
         </script>
@@ -551,10 +566,10 @@
 						      <!--- Other is not an allowed option (unless it is already set) ---> 
                                                       <cfif ctDeaccType.deacc_type NEQ MAGIC_TTYPE_OTHER >
 						      <!--- Only the MCZ Collection is allowed to make transfers ---> 
-                                                      <cfif ctDeaccType.deacc_type NEQ "transfer" OR deaccDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+                                                      <cfif ctDeaccType.deacc_type NEQ MAGIC_DTYPE_TRANSFER OR deaccDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
                                                           <option <cfif ctDeaccType.deacc_type is deaccDetails.deacc_type> selected="selected" </cfif>
                                                                   value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
-                                                      <cfelseif deaccDetails.deacc_type EQ "transfer" AND deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+                                                      <cfelseif deaccDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" AND deaccDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
                                                           <option <cfif ctDeaccType.deacc_type is deaccDetails.deacc_type> selected="selected" </cfif> value=""></option>
                                                       </cfif>
                                                       </cfif>
@@ -654,8 +669,8 @@
                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items">MCZ Deaccession Items</option>
           </cfif>
           <cfif inhouse.c is 1 and authorized.c GT 0 >
-               <!--- only show Object header if deaccession is of type other or transfer --->
-	       <cfif deaccDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" >
+               <!--- only show Object header if deaccession is of type other or transfer or internal transfer--->
+	       <cfif deaccDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_INTERNALTRANSFER#" >
                <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Deaccession Header</option>
                </cfif>
             </cfif>
