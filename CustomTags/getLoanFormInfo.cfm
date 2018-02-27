@@ -58,7 +58,8 @@
 				) as collection,
 				num_specimens, num_lots,
                 shipment.shipment_id,
-                shipment.print_flag
+                shipment.print_flag,
+                shipment.carriers_tracking_number
         FROM
                 loan,
 				trans,
@@ -258,7 +259,8 @@ select
 				acknowledgement,
 				collection.collection,
                 shipment.shipment_id,
-                shipment.print_flag
+                shipment.print_flag,
+                shipment.carriers_tracking_number
         FROM
                 deaccession,
 				trans,
