@@ -1738,7 +1738,7 @@ box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 }
 .sf-mainMenuWrapper { 
 	clear:left;
-	width:90%;
+	width:95%;
     margin:0 auto;
 	font-weight:400;
 	background-color:#D5D5DB;
@@ -3691,7 +3691,7 @@ ul.lisc li {
 	z-index:9998;
 }
 .content_box {
-	width: 90%;
+	width: 95%;
 	margin: 0 auto;
 	margin-bottom: 1em;
 	padding-top: 1em;
@@ -3702,10 +3702,8 @@ ul.lisc li {
 	-webkit-box-shadow: -1px 11px 40px -5px rgba(204,204,204,1);
 	-moz-box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);
 	box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);
-    ::-webkit-scrollbar 
     display: none; 
 }
-
 .projPubSearchResults p {
 	font-size: 14px;
 	margin-top: 1em;
@@ -3882,7 +3880,7 @@ ul.pubLinks {
 /*  start NEW  header content */
 /******************/
 #headerContent {
-	width: 90%;
+	width: 95%;
 	background-color: #000;
 	position: relative;
 	margin: 0 auto;
@@ -4314,7 +4312,7 @@ table.navtabs {
 	margin: -1em .5% 0 0;
 }
 .content_box_footer {
-	width: 90%;
+	width: 95%;
 	margin: 0 auto;
 }
 .footer2 {
@@ -4619,45 +4617,45 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 */
 @media only screen and (max-width: 1800px) {
 #headerContent {
-	width: 90%;
+	width: 95%;
 	background-color: #000;
 	position: relative;
 	margin: 0 auto;
 }
 .content_box_footer {
-	width: 90%;
+	width: 95%;
 	margin: 0 auto;
 }
 .sf-mainMenuWrapper {
 	margin: 0 auto;
-	width: 90%;
+	width: 95%;
 }
 .content_box {
-	width: 90%;
+	width: 95%;
 }
 .content_box_footer {
-	width: 90%;
+	width: 95%;
 	margin: 0 auto;
 }
 }
 
 @media only screen and (max-width: 1600px) {
 #headerContent {
-	width: 90%;
+	width: 95%;
 	background-color: #000;
 	position: relative;
 	margin: 0 auto;
 }
 .content_box_footer {
-	width: 90%;
+	width: 95%;
 	margin: 0 auto;
 }
 .sf-mainMenuWrapper {
 	margin: 0 auto;
-	width: 90%;
+	width: 95%;
 }
 .content_box {
-	width: 90%;
+	width: 95%;
 }
 }
 
@@ -5734,7 +5732,7 @@ ul.trans_data_wide li {
 .content_box {
 	padding-bottom: 2em;
 	overflow-x: scroll;
-	width: 90%;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
+	width: 95%;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
 }
 .group_trans {
 	float: left;
