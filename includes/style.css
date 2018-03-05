@@ -5733,7 +5733,8 @@ ul.trans_data_wide li {
 }
 .content_box {
 	padding-bottom: 2em;
-	overflow: hidden;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
+	overflow-x: scroll;
+	width: 90%;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
 }
 .group_trans {
 	float: left;
@@ -5793,8 +5794,8 @@ form#newDeacc {
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-	padding: 20px;
-	margin-left: 1em;
+	padding: 12px;
+	margin-left: 1.4em;
 	position: relative;
 	overflow:hidden;
 }
