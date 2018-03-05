@@ -131,16 +131,16 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
+                  <th>Collection &amp; ##</th>
+                  <th>Authorized By</th>
+                  <th>In-house Contact</th>
+                  <th>Add'l In-house Contact</th>
+                  <th>Recipient</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>1,001</td>
+                  <td>Ichthyology D1930-1-Ich</td>
                   <td>Lorem</td>
                   <td>ipsum</td>
                   <td>dolor</td>

@@ -3913,7 +3913,7 @@ tbody.collapse.show {
 .nav-pills .nav-item.show .nav-link {
   color: #fff;
   cursor: default;
-  background-color: #0275d8;
+  background-color: #368DB9;
 }
 
 .nav-fill .nav-item {
@@ -9427,13 +9427,13 @@ a.navbar-inverse, a.navbar-brand {
   font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
 }
 .navbar-brand {
-	font-size: 1.5em;
+	font-size: .90em;
 }
 .navbar-brand img {
 	padding-right: .5em;
 }
 .mcz_logo {
-	width: 150px;
+	width: 70px;
 }
 .nav .mcz { height: 105px;
     padding: .2em 1em 1em 1em;
