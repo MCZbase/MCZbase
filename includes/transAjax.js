@@ -509,9 +509,9 @@ function updateLoanItemCount(transactionId,targetDiv) {
         },
         function (result) {
            if (result.DATA.STATUS[0]==1) {
-              var message  = "There are " + result.DATA.CATITEMCOUNT[0];
-                  message += " items from " + result.DATA.PARTCOUNT[0];
-                  message += " specimens in " + result.DATA.COLLECTIONCOUNT[0];
+              var message  = "There are " + result.DATA.PARTCOUNT[0];
+                  message += " parts from " + result.DATA.CATITEMCOUNT[0];
+                  message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
                   message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this loan."
               $('#' + targetDiv).html(message);
            }

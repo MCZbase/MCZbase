@@ -63,7 +63,7 @@ sho err
 	<li>identification_remarks</li>
 	<li style="color:red">agent_1</li>
 	<li>agent_2</li>
-	<li>stored_as_fg</li>
+	<li>stored_as_fg (0 [no] or 1 [yes])</li>
 </ul>
 
 <cfform name="oids" method="post" enctype="multipart/form-data" style="margin: 1em 0;">
@@ -355,7 +355,11 @@ sho err
 				'#IDENTIFICATION_REMARKS#',
 				'#TAXA_FORMULA#',
 				'#SCIENTIFIC_NAME#',
-				#stored_as_fg#
+				<cfif len(stored_as_fg) GT 0>
+					#stored_as_fg#
+				<cfelse>
+					NULL
+				</cfif>
 			)
 		</cfquery>
 		<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

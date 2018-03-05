@@ -5843,4 +5843,5 @@ form#newLoan {float: left;}
 .ui-widget-header {    
 	border: 1px solid #A41034;
     background: #c1272d url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
-    color: #ffffff;background-color:#c1272d; }
+    color: #ffffff;background-color:#c1272d;
+}
