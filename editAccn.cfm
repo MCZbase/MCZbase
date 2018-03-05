@@ -5,12 +5,24 @@
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-		$("##ent_date").datepicker();
-		$("##rec_date").datepicker();
-		$("##rec_until_date").datepicker();
-		$("##issued_date").datepicker();
-		$("##renewed_date").datepicker();
-		$("##exp_date").datepicker();
+		$("##ent_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##rec_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##rec_until_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##issued_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##renewed_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##exp_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
 	});
 	function addAccnContainer(transaction_id,barcode){
 		$('##newbarcode').addClass('red');
