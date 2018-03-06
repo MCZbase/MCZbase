@@ -58,7 +58,8 @@
 				LOAN_STATUS like 'open%' and
 				loan_type in ('returnable', 'consumable') and
 				loan.transaction_id=shipment.transaction_id(+) and
-				shipment.shipped_to_addr_id = addr.addr_id(+)
+				shipment.shipped_to_addr_id = addr.addr_id(+) and
+				(shipment.print_flag is null or shipment.print_flag = 1)
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="loan" dbtype="query">
