@@ -5138,7 +5138,7 @@ div#modeDisplayDiv {
 div#loadedMsgDiv {
     color:red;
     font-size: 15px;
-    background-color: white
+    background-color: white;
     padding: 3px 2px;
    width:80%;  
 }
