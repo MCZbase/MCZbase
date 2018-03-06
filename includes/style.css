@@ -5733,8 +5733,7 @@ ul.trans_data_wide li {
 }
 .content_box {
 	padding-bottom: 2em;
-	overflow-x: scroll;
-	width: 90%;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
+	overflow-x: scroll;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
 }
 .group_trans {
 	float: left;
