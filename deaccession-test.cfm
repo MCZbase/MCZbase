@@ -16,44 +16,31 @@
 </head>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+ <div class="harvard_topbar"><img src="images/harvard_logo_sm_shadow.png"/><span>Harvard University</span></div>
   <div class="pos-f-t">
-  <div class="collapse" id="navbarToggle">
-    <div class="bg-dark p-4">
-      <h4 class="text-white">Harvard University</h4>
-      <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
-      <li class="nav-item"> <a class="nav-link" href="#">Specimens</a> </li>
-      <li class="nav-item"> <a class="nav-link" href="#">Enter Data</a> </li>
-        <div class="dropdown-menu" aria-labelledby="navbar">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      <li class="nav-item"> <a class="nav-link" href="#">Manage Data</a> </li>
-      <li class="nav-item"> <a class="nav-link" href="#">My Stuff</a> </li>
-      <li class="nav-item"> <a class="nav-link" href="#">Help</a> </li>
+    <div class="collapse" id="navbarToggle">
+      <div class="bg-dark p-4">
+        <h4 class="text-white">Harvard University</h4>
+        <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#">Specimens</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#">Enter Data</a> </li>
+        <div class="dropdown-menu" aria-labelledby="navbar"> <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a> </div>
+        <li class="nav-item"> <a class="nav-link" href="#">Manage Data</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#">My Stuff</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#">Help</a> </li>
+      </div>
     </div>
+    <nav class="navbar navbar-dark bg-dark">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+    </nav>
   </div>
-  <nav class="navbar navbar-dark bg-dark">
-    <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </nav>
-</div>
-	<a class="navbar-brand" style="color: white;"><img src="images/krono.gif" height="32" style="margin-left:-1em;"> Museum of Comparative Zoology</a>
-   <!-- <div class="logo_krono"><img src="images/krono.gif"></div>
-	  <div class="both_headers"><a class="museum" href="http://mcz.harvard.edu">Museum <span>of </span>Comparative Zoology</a> 
-	  <a href="/" class="subhead">MCZbase: Database of Zoological Collections</a>
-	  </div> --> 
+  <a class="navbar-brand" style="color: white;"><img src="includes/bootstrap-4.0.0-alpha.6-dist/images/mcz_logo_white.png" height="31"> Museum of Comparative Zoology</a>
   <div class="collapse navbar-collapse" id="navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
       <li class="nav-item"> <a class="nav-link" href="#">Specimens</a> </li>
       <li class="nav-item"> <a class="nav-link" href="#">Enter Data</a> </li>
-        <div class="dropdown-menu" aria-labelledby="navbar">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+      <div class="dropdown-menu" aria-labelledby="navbar"> <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a> </div>
       <li class="nav-item"> <a class="nav-link" href="#">Manage Data</a> </li>
       <li class="nav-item"> <a class="nav-link" href="#">My Stuff</a> </li>
       <li class="nav-item"> <a class="nav-link" href="#">Help</a> </li>
@@ -64,17 +51,14 @@
   <div class="row">
     <div id="wrapper">
       <div id="sidebar-wrapper">
-        <ul class="harvard_topbar">
-          <li> <a href="#"><i class="fa"><img src="images/harvard_logo_sm_shadow.png" class="harvard_logo" width="25px"></i></a><span>Harvard University</span>  </li>
-        </ul>
-        <ul class="sidebar-nav" style="margin-left:0;padding-right: 0;">
-          <li class="sidebar-brand">MCZbase <a href="#menu-toggle"  id="menu-toggle" style="float: right;" > <i class="fa fa-bars" style="padding-top:10px;font-size: 20px !Important;" aria-hidden="true" aria-hidden="true"></i> </a> </li>
-          <li style="line-height: 1em;padding-left: 20px;text-indent:0;padding-bottom: 1em;">Database of Zoological Collections</li>
+        
+         <ul class="sidebar-nav" style="margin-left:0;padding-right: 0;">
+          <li class="sidebar-brand"><a href="#menu-toggle"  id="menu-toggle" style="float: right;"> <i class="fa fa-bars" style="font-size:20px;margin-top:.75em;margin-right: -1px;" aria-hidden="true" aria-hidden="true"></i> </a> </li>
           <li> <a href="#"><i class="fa fa-file-text-o" style="font-size:20px;margin-top:.5em;margin-right: -1px;" aria-hidden="true"></i> <span style="margin-left:10px;"> Reports</span> </a> </li>
           <li> <a href="#"> <i class="fa fa-puzzle-piece " style="font-size:20px;margin-top:.5em;margin-right: -6px;" aria-hidden="true"> </i> <span style="margin-left:10px;"> Analytics</span> </a> </li>
           <li> <a href="#"> <i class="fa fa-download" style="font-size:20px;margin-top:.5em" aria-hidden="true"> </i> <span style="margin-left:10px;"> Export</span> </a> </li>
         </ul>
-        <button class="blue_button">Filter Results</button>
+        
         <ul  class="sidebar-nav2" style="margin-left:0;">
           <h3>Filters</h3>
           <li> <a href="#"> <i class="fa fa-sort-alpha-asc" style="font-size:20px;margin-top:1em;" aria-hidden="true"> </i> <span style="margin-left:10px;"> Alpha Sort</span> </a> </li>
@@ -292,30 +276,31 @@
                       <td>sit</td>
                     </tr>
                   </tbody>
-				  </table></div>
+                </table>
               </div>
             </div>
           </div>
         </div>
-     
-<footer class="footer" style="margin-left:0;">
-  <div class="fixed-bottom bg-inverse"> 
- <!--     <span class="text-muted"> -->
-       <cfif cgi.HTTP_HOST contains "harvard.edu" >
-        <div class="helplinks" ><a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a> <a href="/info/bugs.cfm">Feedback&#8202;/&#8202;Report Errors</a> <a href="/Collections/index.cfm">Data Providers</a>  </div>
-        <div class="copyright"> <img src="images/harvard_logo_sm.png">
-          <p>Database content:  &copy; Copyright 2017 <br/>
-            President and Fellows of Harvard College</p>
-          <a href="http://www.mcz.harvard.edu/privacy/index.html">Privacy Statement</a> <span>|</span> <a href="http://www.mcz.harvard.edu/privacy/user_agreement.html">User Agreement</a> </div>
-        <div class="logos"> <a href="http://www.gbif.org/"> <img src="/images/gbiflogo.png" alt="GBIF"> </a> <a href="http://www.idigbio.org/"> <img src="/images/idigbio.png" alt="herpnet"> </a> <a href="http://eol.org"> <img src="/images/eol.png" alt="eol" class="eol_logo"> </a> <a href="http://vertnet.org"> <img src="/images/vertnet_logo_small.png" alt="Vertnet"> </a> <a href="https://arctosdb.org/"> <img src="/images/arctos-logo.png" class="arctos_logo" ALT="[ Link to home page. ]"> </a>
-          <p class="tagline">Delivering Data to the Natural Sciences Community &amp; Beyond</p>
-        </div> 
-      </cfif>
-   <!-- </span> -->
-   </div>
-</footer></div>
+      </div>
+      <footer class="footer" style="margin-left:0;">
+        <div class="fixed-bottom bg-inverse"> 
+          <!--     <span class="text-muted"> -->
+          <cfif cgi.HTTP_HOST contains "harvard.edu" >
+            <div class="helplinks" ><a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a> <a href="/info/bugs.cfm">Feedback&#8202;/&#8202;Report Errors</a> <a href="/Collections/index.cfm">Data Providers</a> </div>
+            <div class="copyright"> <img src="images/harvard_logo_sm.png">
+              <p>Database content:  &copy; Copyright 2017 <br/>
+                President and Fellows of Harvard College</p>
+              <a href="http://www.mcz.harvard.edu/privacy/index.html">Privacy Statement</a> <span>|</span> <a href="http://www.mcz.harvard.edu/privacy/user_agreement.html">User Agreement</a> </div>
+            <div class="logos"> <a href="http://www.gbif.org/"> <img src="/images/gbiflogo.png" alt="GBIF"> </a> <a href="http://www.idigbio.org/"> <img src="/images/idigbio.png" alt="herpnet"> </a> <a href="http://eol.org"> <img src="/images/eol.png" alt="eol" class="eol_logo"> </a> <a href="http://vertnet.org"> <img src="/images/vertnet_logo_small.png" alt="Vertnet"> </a> <a href="https://arctosdb.org/"> <img src="/images/arctos-logo.png" class="arctos_logo" ALT="[ Link to home page. ]"> </a>
+              <p class="tagline">Delivering Data to the Natural Sciences Community &amp; Beyond</p>
+            </div>
+          </cfif>
+          <!-- </span> --> 
+        </div>
+      </footer>
     </div>
   </div>
+</div>
 </div>
 <script>
     $("#menu-toggle").click(function(e) {
@@ -329,8 +314,6 @@
 	
 	
     </script> 
-
- <script src="/includes/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.js"></script>
-     
+<script src="/includes/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.js"></script>
 </body>
 </html>
