@@ -1,4 +1,4 @@
-<!---cfinclude template="/includes/_header.cfm">
+<cfinclude template="/includes/_header.cfm">
 	<cfoutput>
 		<!--- start of long term loan code --->
 		<!---
@@ -61,12 +61,12 @@
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
-			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' and agent_id in (55806) order by agent_name;
+			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" startrow=1 endrow=1>
+<cfloop query="agent" <!---startrow=1 endrow=6--->>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2017-10-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2018-01-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -523,4 +523,4 @@
 <!--- end of loan code --->
 
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">--->
+<cfinclude template="/includes/_footer.cfm">
