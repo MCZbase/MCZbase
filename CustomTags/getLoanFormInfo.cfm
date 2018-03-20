@@ -3,7 +3,7 @@
 <!---  Custom Tags for named queries used in reports for transactions --->
 <!---  getLoanMCZ - information for loan invoice headers.   --->
 <cfquery name="caller.getLoanMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      SELECT * from ( 
+      SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
 			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
@@ -41,10 +41,10 @@
 				processed_by.agent_name processed_by_name,
 				sponsor_name.agent_name project_sponsor_name,
 				acknowledgement,
-				Decode(substr(loan_number, instr(loan_number, '-',1, 2)+1),  
+				Decode(substr(loan_number, instr(loan_number, '-',1, 2)+1),
 				'Herp', 'Herpetology Collection',
 				'Mamm', 'Mammalogy Collection',
-				'IZ', 'Invertebrate Zoology (incl. Marine Invertebrates) Collection',
+				'IZ', 'Invertebrate Zoology',
 				'Mala', 'Malacology Collection',
 				'VP','Vertebrate Paleontology Collection',
 				'SC','Special Collections',
@@ -54,7 +54,7 @@
 				'Orn','Ornithology Collection',
 				'Cryo','Cryogenic Collection',
 				'Ent','Entomology Collection',
-				'[Unable to identify collection from loan number]' || substr(loan_number, instr(loan_number, '-',1, 2)+1) 
+				'[Unable to identify collection from loan number]' || substr(loan_number, instr(loan_number, '-',1, 2)+1)
 				) as collection,
 				num_specimens, num_lots,
                 shipment.shipment_id,
@@ -67,7 +67,7 @@
 				trans_agent inside_trans_agent,
 				trans_agent outside_trans_agent,
 				preferred_agent_name outside_contact,
-				preferred_agent_name inside_contact,								
+				preferred_agent_name inside_contact,
 				(select * from electronic_address where address_type ='email') inside_email,
 				(select * from electronic_address where address_type ='email') outside_email,
 				(select * from electronic_address where address_type ='work phone number') inside_phone,
@@ -84,13 +84,13 @@
         WHERE
                 loan.transaction_id = trans.transaction_id and
 				loan.transaction_id = loan_counts.transaction_id (+) and
-				trans.transaction_id = inside_trans_agent.transaction_id and				
+				trans.transaction_id = inside_trans_agent.transaction_id and
 				inside_trans_agent.agent_id = inside_contact.agent_id and
 				inside_trans_agent.trans_agent_role='in-house contact' and
 				inside_trans_agent.agent_id = inside_email.agent_id (+) and
 				inside_trans_agent.agent_id = inside_addr.agent_id (+) and
 				inside_trans_agent.agent_id = inside_phone.agent_id (+) and
-				trans.transaction_id = outside_trans_agent.transaction_id and				
+				trans.transaction_id = outside_trans_agent.transaction_id and
 				outside_trans_agent.agent_id = outside_contact.agent_id (+) and
 				outside_trans_agent.trans_agent_role='received by' and
 				outside_trans_agent.agent_id = outside_email.agent_id (+) and
@@ -102,7 +102,7 @@
 				shipment.PACKED_BY_AGENT_ID = 	processed_by.agent_id (+) and
 				trans.transaction_id = 	project_trans.transaction_id (+) and
 				project_trans.project_id =	project_sponsor.project_id (+) and
-				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and				
+				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and
 				loan.transaction_id=#transaction_id#
         --- use the shipment with the print flag set, failover to print first entered shipment.
         order by shipment.print_flag desc, shipment.shipment_id asc
@@ -110,15 +110,15 @@
 </cfquery>
 <!---  getLoanItemsMCZ - information for loan item invoices.   --->
 <cfquery name="caller.getLoanItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select 
-		cat_num, 
+select
+		cat_num,
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 
 	        decode(
 	           MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
-	               MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)), 
+	               MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),
 	           MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
-	           '', 
+	           '',
 	           decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
 	                     MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
 	                ' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
@@ -130,12 +130,7 @@ select
 		/*   catalog_number,*/
                 cat_num_integer,
 		cataloged_item.collection_object_id,
-                decode(
-                   collection.collection,
-                   'Invertebrate Zoology',
-                   'Invertebrate Zoology (incl. Marine Inverts.)',
-                   collection.collection)
-                AS collection,
+        collection.collection,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		concatattributevalue(cataloged_item.collection_object_id,'sex') as sex,
 		decode (sampled_from_obj_id,
@@ -158,7 +153,7 @@ select
                  GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
                  GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
 		 orig_lat_long_units,
-		 lat_deg, 
+		 lat_deg,
 		 lat_min,
 		 lat_sec,
 		 long_deg,
@@ -183,10 +178,10 @@ select
 				'degrees dec. minutes', to_char(long_deg) || '&deg; ' || to_char(dec_long_min) || '&acute; ' || long_dir
 			)  VerbatimLongitude,
 		HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors
-	 from 
-		loan_item, 
+	 from
+		loan_item,
 		loan,
-		specimen_part, 
+		specimen_part,
 		coll_object,
 		cataloged_item,
 		coll_object_encumbrance,
@@ -220,7 +215,7 @@ select
 </cfoutput>
 <!---  getDeaccMCZ - information for deaccession invoice headers.   --->
 <cfquery name="caller.getDeaccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      SELECT * from ( 
+      SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
 			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
@@ -267,7 +262,7 @@ select
 				trans_agent inside_trans_agent,
 				trans_agent outside_trans_agent,
 				preferred_agent_name outside_contact,
-				preferred_agent_name inside_contact,								
+				preferred_agent_name inside_contact,
 				(select * from electronic_address where address_type ='email') inside_email,
 				(select * from electronic_address where address_type ='email') outside_email,
 				(select * from electronic_address where address_type ='work phone number') inside_phone,
@@ -284,13 +279,13 @@ select
 				collection
         WHERE
                 deaccession.transaction_id = trans.transaction_id and
-				trans.transaction_id = inside_trans_agent.transaction_id and				
+				trans.transaction_id = inside_trans_agent.transaction_id and
 				inside_trans_agent.agent_id = inside_contact.agent_id and
 				inside_trans_agent.trans_agent_role='in-house contact' and
 				inside_trans_agent.agent_id = inside_email.agent_id (+) and
 				inside_trans_agent.agent_id = inside_addr.agent_id (+) and
 				inside_trans_agent.agent_id = inside_phone.agent_id (+) and
-				trans.transaction_id = outside_trans_agent.transaction_id and				
+				trans.transaction_id = outside_trans_agent.transaction_id and
 				outside_trans_agent.agent_id = outside_contact.agent_id (+) and
 				outside_trans_agent.trans_agent_role='received by' and
 				outside_trans_agent.agent_id = outside_email.agent_id (+) and
@@ -302,25 +297,25 @@ select
 				shipment.PACKED_BY_AGENT_ID = 	processed_by.agent_id (+) and
 				trans.transaction_id = 	project_trans.transaction_id (+) and
 				project_trans.project_id =	project_sponsor.project_id (+) and
-				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and				
+				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and
 				trans.collection_id = collection.collection_id AND
 				deaccession.transaction_id=#transaction_id#
-        ---  get the shipment with the print flag set, failover to the first entered shipment 
+        ---  get the shipment with the print flag set, failover to the first entered shipment
         ---    (by shipment_id, assuming that is sequential) is the outgoing shipment
         order by shipment.print_flag desc, shipment.shipment_id asc
         ) where rownum < 2
 </cfquery>
 <!---  getDeaccItemsMCZ - information for deaccession item invoices.   --->
 <cfquery name="caller.getDeaccItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select 
-		cat_num, 
+select
+		cat_num,
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 
 	        decode(
 	           MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
-	               MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)), 
+	               MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),
 	           MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
-	           '', 
+	           '',
 	           decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
 	                     MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
 	                ' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
@@ -329,12 +324,7 @@ select
 	        ) as typestatusname,
 		concattransagent(deaccession.transaction_id, 'recipient institution')  recipientInstitutionName,
 		cataloged_item.collection_object_id,
-                decode(
-                   collection.collection,
-                   'Invertebrate Zoology',
-                   'Invertebrate Zoology (incl. Marine Inverts.)',
-                   collection.collection)
-                AS collection,
+ 		collection.collection,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		concatattributevalue(cataloged_item.collection_object_id,'sex') as sex,
 		decode (sampled_from_obj_id,
@@ -359,7 +349,7 @@ select
                  GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
                  GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
 		 orig_lat_long_units,
-		 lat_deg, 
+		 lat_deg,
 		 lat_min,
 		 lat_sec,
 		 long_deg,
@@ -384,10 +374,10 @@ select
 				'degrees dec. minutes', to_char(long_deg) || '&deg; ' || to_char(dec_long_min) || '&acute; ' || long_dir
 			)  VerbatimLongitude,
 		HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors
-	 from 
-		deacc_item, 
+	 from
+		deacc_item,
 		deaccession,
-		specimen_part, 
+		specimen_part,
 		coll_object,
 		cataloged_item,
 		coll_object_encumbrance,
