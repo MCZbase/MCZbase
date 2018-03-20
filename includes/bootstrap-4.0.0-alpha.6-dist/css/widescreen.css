@@ -15,14 +15,15 @@ background: -webkit-linear-gradient(top,  #a51c30 0%,#a51c30 38%,#1e1e1e 38%,#1e
 background: linear-gradient(to bottom,  #a51c30 0%,#a51c30 38%,#1e1e1e 38%,#1e1e1e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a51c30', endColorstr='#1e1e1e',GradientType=0 ); /* IE6-9 */
 	line-height: 40px;
-	padding-top: 0em;
+	padding-top: 1em;
 
 }
-
+a.navbar-inverse, a.navbar-brand {font-size: 22px;}
 .navbar a.navbar-brand {margin-top: 2.1em;line-height: 28px;}
 .navbar-inverse .navbar-toggler {
 	margin-top: .45em;
 }
+
 .navbar-inverse .navbar-nav li.nav-item a.nav-link {
 	color: #fff;
 }
@@ -40,6 +41,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a51c30', end
 	padding: 1em 2em;
 	overflow: hidden;border-top: 2px solid #ccc;
 }
+a.navbar-inverse, a.navbar-brand {color: white;font-family:-apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;}
 
 .helplinks {}
 .helplinks a {width: 33%;
