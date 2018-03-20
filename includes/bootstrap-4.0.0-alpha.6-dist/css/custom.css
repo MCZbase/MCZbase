@@ -1,0 +1,457 @@
+/*
+body {
+	padding-top: 50px;
+	margin-bottom: 0
+}
+h1 {
+	margin-bottom: 1em;
+	font-size: 1.5em;
+	padding-bottom: 9px;
+}
+html {
+	position: relative;
+	min-height: 100%;
+}
+footer {
+	font-size: .8em;
+}
+nav.bg-inverse  {
+
+	}
+
+.navbar-inverse .navbar-nav li.nav-item a.nav-link {
+	color: #666;
+}
+.navbar-inverse .navbar-nav li.nav-item a.nav-link:hover {
+	color: #CCC;
+}
+.navbar-inverse .navbar-nav li.nav-item .active {
+	color: #4e84c4;
+}
+.footer .bg-inverse {
+	position: relative;
+	bottom: 0;
+	height: 105px;
+	z-index: -1;
+}
+.footer img {
+	width: 15%;
+	text-align: right;
+	margin-right: 1em;
+}
+.footer .helplinks {
+	width: 100%;
+	font-size: 1em;
+	font-weight: bold;
+	padding: .25em 0;
+}
+.footer .helplinks a {
+	display: inline-block;
+	width: 32.5%;
+	text-align: center;
+}
+.footer .logos {
+	float: right;
+	width: 50%;
+	right: 3em;
+	text-align: right;
+	margin-top: -3px;
+}
+.footer img.eol_logo {
+	width: 10%;
+}
+.footer p.tagline {
+	margin-bottom: .3em;
+	line-height: 1em;
+	font-size: 0.9em;
+	margin-top: -10px;
+	letter-spacing: .02em;
+	margin-right: 170px;
+}
+.footer .copyright {
+	float: left;
+	width: 50%;
+	margin-left: 2em;
+}
+.footer .copyright img {
+	width: 40px;
+	float: left;
+	margin-top: 1px;
+}
+.footer .copyright p {
+	margin-top: 2px;
+	margin-bottom: 0em;
+	line-height: 1.15em;
+	font-size: .9em;
+	font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	letter-spacing: .02em;
+}
+.footer .copyright a {
+	line-height: 1em;
+	margin-top: 0;
+}
+.container-fluid {
+	top: 1em;
+}
+.bg-inverse {
+	height: 65px;
+	background-color: #fff !important;
+}
+.navbar {
+	padding-left: 0;
+}
+.navbar-brand {
+	display: block;
+	width: 55em;
+}
+.navbar-brand .both_headers {
+	width: 25em;
+	margin: .5em 0 0 2em;
+}
+.navbar-brand .logo_krono img {
+	background-color: black;
+	border-right: 1px solid #333;
+	overflow: hidden;
+	float: left;
+	width: 215px;
+	height: 65px;
+	margin: -1px 0 0 0;
+	padding: 0 0 0 0;
+}
+.navbar-brand a.museum {
+	display: block;
+	font-size: 1.1em;
+	line-height: 1.02em;
+	padding-left: 9.35em;
+	color: #a51c30;
+	text-transform: uppercase;
+	text-decoration: none;
+	text-shadow: 0 0 3px #FFffff, 0 0 5px #f3f3f1;
+
+}
+
+.navbar-brand a:hover .museum {
+	text-decoration: none;
+}
+.navbar-brand a.subhead {
+	display: block;
+	font-size: .9em;
+	line-height: .98em;
+	padding-left: 11.5em;
+	letter-spacing: .02em;
+	padding-top: 2px;
+	color: #8C8179;
+}
+.navbar-brand a.subhead:hover {
+	text-decoration: none;
+}
+.navbar-brand span {
+	font-size: smaller;
+}
+.navbar-brand img {
+	vertical-align: middle;
+	float: left;
+	width: 216px;
+	margin-left: -1em;
+}
+table th {
+	line-height: 1em;
+}
+table th {
+	font-size: 14px;
+	font-weight: bold;
+}
+table td {
+	font-size: 14px;
+}
+
+@media (max-width: 414px) {
+.navbar-brand img {
+	vertical-align: middle;
+	float: left;
+	width: 80px;
+	margin-left: -1em;
+}
+}
+
+
+@media (max-width: 575px) {
+.curved_back {
+	display: none;
+}
+.harvard_topbar {
+	background-color: #a51c30;
+	color: #BAC5c6;
+	padding: 10px 0;
+	display: block;
+	width: 100%;
+}
+.harvard_topbar a {
+}
+.harvard_topbar span {
+	text-shadow: 1px 1px #444;
+}
+.harvard_topbar img {
+	width: 20px;
+	margin: 0 5px 3px 1.2em;
+}
+button.blue_button {
+	text-align: center
+}
+.blue_button:enabled {
+	-webkit-align-self: flex-start;
+	-ms-flex-item-align: start;
+	align-self: flex-start;
+	padding: 0.5em 0.75em;
+	font-size: .8em;
+	line-height: 1;
+	background: #4e84c4;
+	border: 1px solid #f3f3f1;
+	border-radius: 8px;
+	color: #fff;
+	text-shadow: 1px 1px #293352;
+	text-align: center;
+	letter-spacing: .025em;
+	margin: 0 0 1em 10px;
+}
+.navbar-brand {
+	float: left;
+	width: 55em;
+	display: block;
+	line-height: 71px;
+	margin-top: .25rem;
+	border: 1px solid green;
+}
+.navbar-brand a.museum {
+	display: block;
+	font-size: .9em;
+	line-height: 1em;
+	padding-left: 4.35em;
+	color: #AC904A;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+.navbar-brand a:hover .museum {
+	text-decoration: none;
+}
+.navbar-brand a.subhead {
+	display: block;
+	font-size: .7em;
+	line-height: .8em;
+	padding-left: 4.75em;
+	letter-spacing: .02em;
+	padding-top: 2px;
+	color: #f3f3f1;
+}
+.navbar-inverse .navbar-toggler {
+	margin-top: .45em;
+}
+.navbar-brand a.subhead:hover {
+	text-decoration: none;
+}
+.navbar-brand span {
+	font-size: smaller;
+}
+.navbar-brand img {
+	vertical-align: middle;
+	float: left;
+	width: 100px;
+	margin-left: .15em;
+	height: 38px;
+}
+h1 {
+	border-bottom: none;
+}
+.footer .fixed-bottom {
+	position: relative;
+}
+.fixed-bottom {
+	bottom: 0;
+	position: relative;
+}
+.footer .bg-inverse {
+	height: 175px;
+}
+.footer {
+	height: 160px;
+}
+.footer .copyright {
+	width: 51%;
+	margin-top: 1em;
+}
+.footer .logos {
+	width: 49%;
+	margin-top: .5em;
+}
+.footer img {
+	width: 37%
+}
+.footer img.eol_logo {
+	width: 25% !important;
+}
+.footer p.tagline {
+	width: 130%;
+	margin-left: -20em;
+}
+}
+
+
+@media (min-width: 576px) {
+.harvard_topbar {
+	background-color: #a51c30;
+	padding: 10px 0 15px 0;
+	display: block;
+	color: #BAC5c6;
+	line-height: 1.5em;
+}
+.harvard_topbar a {
+	text-decoration: none;
+}
+.harvard_topbar span {
+	text-shadow: 1px 1px #444;
+	color: #f3f3f1;
+	font-size: 1.1em;
+}
+.harvard_topbar img {
+	width: 20px;
+	margin: 0 3px 3px 20px;
+}
+.navbar button {
+	display: none;
+}
+.blue_button {
+	display: none;
+}
+.curved-back {
+	background-color: #4e84c4;
+	padding-bottom: 40%;
+	border-radius: 10px 10px 0 40px;
+	border: 1px solid #d2d4c8;
+}
+.footer .bg-inverse {
+	height: 105px;
+}
+.footer .logos {
+	width: 46%;
+	margin-top: 1.5em;
+}
+.footer .copyright {
+	margin-top: 1.5em;
+}
+.footer p.tagline {
+	margin-right: 93px;
+	Margin-top: 0;
+}
+.footer .fixed-bottom {
+	position: relative;
+	bottom: 0;
+	height: 105px;
+}
+.navbar-brand {
+
+}
+.navbar-brand {
+
+	width: 55em;
+	float:left;
+}
+.navbar-brand a.museum {
+	display: block;
+	font-size: .9em;
+	line-height: 1.02em;
+	padding-left: 9.35em;
+	color: #A51c30;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+.navbar-brand a:hover .museum {
+	text-decoration: none;
+}
+.navbar-brand a.subhead {
+	display: block;
+	font-size: .9em;
+	line-height: .98em;
+	padding-left: 11.5em;
+	letter-spacing: .02em;
+	padding-top: 2px;
+	color: #f3f3f1;
+}
+.navbar-brand a.subhead:hover {
+	text-decoration: none;
+}
+.navbar-brand span {
+	font-size: smaller;
+}
+.navbar-brand img {
+	vertical-align: middle;
+	float: left;
+	width: 130px;
+	margin-left: -1em;
+}
+.navbar-inverse .navbar-nav li.nav-item.active a.nav-link {
+	color: #4e84c4;
+}
+.navbar-inverse .navbar-nav li.nav-item a.nav-link {
+	color: #666;
+}
+.navbar-inverse .navbar-nav li.nav-item a.nav-link:hover {
+	color: #ccc;
+}
+}
+
+@media (min-width: 767px) {
+.navbar-brand {
+	float: left;
+	width: 55em;
+	display: block;
+	line-height: 65px;
+	margin-top: .25rem;
+}
+	.bg-inverse {background-color: white;border-bottom: 2px solid black;}
+.navbar-brand a.museum {
+	display: block;
+	font-size: 1.1em;
+	line-height: 1.02em;
+	padding-left: 9.35em;
+	color: #A51C30;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+.navbar-brand a:hover .museum {
+	text-decoration: none;
+}
+.navbar-brand a.subhead {
+	display: block;
+	font-size: .9em;
+	line-height: .98em;
+	padding-left: 11.5em;
+	letter-spacing: .02em;
+	padding-top: 2px;
+	color: #8c8179;
+}
+.navbar-brand a.subhead:hover {
+	text-decoration: none;
+}
+.navbar-brand span {
+	font-size: smaller;
+}
+.navbar-brand img {
+	vertical-align: middle;
+	float: left;
+	width: 150px;
+	margin-left: -1em;
+	padding: 0; 
+}
+
+}
+@media (min-width: 991px) {
+.navbar-brand {
+	margin-top: .25rem;
+}
+.navbar-brand img {
+	vertical-align: middle;
+	float: left;
+	width: 216px;
+	margin-left: -1em;
+}
+}*/

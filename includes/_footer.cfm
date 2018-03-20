@@ -11,7 +11,7 @@
          <div class="footer2 clearfix">
               <div class="copyright">
           <img src="/images/harvard_logo_sm.png" alt="Harvard Shield (logo)" class="harvard_logo">
-              <p>Database content:  &copy; Copyright 2017 <br/>President and Fellows of Harvard College</p>
+              <p>Database content:  &copy; Copyright 2018 <br/>President and Fellows of Harvard College</p>
               <a href="http://www.mcz.harvard.edu/privacy/index.html">Privacy Statement</a> <span>|</span> 
               <a href="http://www.mcz.harvard.edu/privacy/user_agreement.html">User Agreement</a> 
           </div>

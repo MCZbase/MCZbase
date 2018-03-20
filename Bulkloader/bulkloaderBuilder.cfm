@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-    <div style="width: 50em; margin: 0 auto;padding: 2em 0 5em 0;">
+<div style="width: 50em; margin: 0 auto;padding: 2em 0 5em 0;">
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
 <cfquery name="blt" datasource="uam_god">
@@ -40,13 +40,68 @@
 	<cfloop from="1" to="#n#" index="i">
 		<cfset part=listappend(part,"PART_NAME_" & i)>
 		<cfset part=listappend(part,"PART_CONDITION_" & i)>
+		<cfset part=listappend(part,"PRESERV_METHOD_" & i)>
 		<cfset part=listappend(part,"PART_CONTAINER_UNIQUE_ID_" & i)>
 		<cfset part=listappend(part,"PART_CONTAINER_NAME_" & i)>
+		<cfset part=listappend(part,"PART_LOT_CNT_MOD_" & i)>
 		<cfset part=listappend(part,"PART_LOT_COUNT_" & i)>
 		<cfset part=listappend(part,"PART_DISPOSITION_" & i)>
 		<cfset part=listappend(part,"PART_REMARK_" & i)>
 	</cfloop>
 	<cfset inListItems=listappend(inListItems,part)>
+	<cfset n=12>
+	<cfset partA="">
+	<cfloop from="1" to="#n#" index="i">
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_1")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_VAL_1")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_UNITS_1")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_DETBY_1")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_MADEDATE_1")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_REM_1")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_2")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_VAL_2")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_UNITS_2")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_DETBY_2")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_MADEDATE_2")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_REM_2")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_3")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_VAL_3")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_UNITS_3")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_DETBY_3")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_MADEDATE_3")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_REM_3")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_4")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_VAL_4")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_UNITS_4")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_DETBY_4")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_MADEDATE_4")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_REM_4")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_5")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_VAL_5")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_UNITS_5")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_DETBY_5")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_MADEDATE_5")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_REM_5")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_6")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_VAL_6")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_UNITS_6")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_DETBY_6")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_MADEDATE_6")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_REM_6")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_7")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_VAL_7")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_UNITS_7")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_DETBY_7")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_MADEDATE_7")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_REM_7")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_NAME_8")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_VAL_8")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_UNITS_8")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_DETBY_8")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_MADEDATE_8")>
+		<cfset partA=listappend(partA,"PART_" & i & "_ATT_REM_8")>
+	</cfloop>
+	<cfset inListItems=listappend(inListItems,partA)>
 	<cfset n=10>
 	<cfset attr="">
 	<cfloop from="1" to="#n#" index="i">
@@ -125,7 +180,11 @@
 	</tr>
 	<tr>
 		<td>Parts</td>
-		<td><input type="checkbox" name="part" onchange="checkList(this.name, this.checked)"></td>
+		<td><input type="checkbox" name="part" onchange="checkList(this.name, this.checked)">
+		</td>
+	</tr>
+	<tr><td>Part Attributes</td>
+		<td><input type="checkbox" name="partA" onchange="checkList(this.name, this.checked)"></td>
 	</tr>
 	<tr>
 		<td>Attributes</td>
@@ -152,6 +211,7 @@
 	var l_oid='#oid#';
 	var l_coll='#coll#';
 	var l_part='#part#';
+	var l_partA='#partA#';
 	var l_attr='#attr#';
 	var l_geol='#geol#';
 	var l_leftovers='#leftovers#';

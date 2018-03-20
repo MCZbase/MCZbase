@@ -109,7 +109,7 @@
 </cfquery>
 <!-------------------------------------------------------------------->
 <cfif action is "edit">
-    <div style="width: 75em; margin: 0 auto;padding: 2em 0 4em 0;">
+    <div class="trans_container">
 	<cfoutput>
 		<script>
 			jQuery(document).ready(function() {
@@ -162,13 +162,15 @@
 				trans_agent_role,
 				agent_name
 		</cfquery>
+		<header>
 		<h2 class="wikilink"><strong>Edit Accession</strong></h2>
+			</header>
 		<cfform action="editAccn.cfm" method="post" name="editAccn">
 		<table><tr><td valign="top">
 				<input type="hidden" name="Action" value="saveChanges">
 				<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
 				<cfset tIA=accnData.collection_id>
-				<table border>
+				<table>
 					<tr>
 						<td>
 							<label for="collection_id">Collection</label>
@@ -315,12 +317,12 @@
 					</tr>
 					<tr>
 						<td colspan="6" align="center">
-						<input type="submit" value="Save Changes" class="savBtn">
-				 		<input type="button" value="Quit without saving" class="qutBtn"
+						<input type="submit" value="Save Changes" class="transButton">
+				 		<input type="button" value="Quit without saving" class="transButton"
 							onclick = "document.location = 'editAccn.cfm'">
-						<input type="button" value="Specimen List" class="lnkBtn"
+						<input type="button" value="Specimen List" class="transButton"
 						 	onclick = "window.open('SpecimenResults.cfm?accn_trans_id=#transaction_id#');">
-				       	<input type="button" value="BerkeleyMapper" class="lnkBtn"
+				       	<input type="button" value="BerkeleyMapper" class="transButton"
 							onclick = "window.open('/bnhmMaps/bnhmMapData.cfm?accn_number=#accnData.accn_number#','_blank');">
 						</td>
 					</tr>
@@ -359,7 +361,7 @@
 		</td><td valign="middle">
 		</td></tr></table>
 
-<div class="shippingBlock"> 
+<div class="trans_container"> 
 
 			<h3>Projects associated with this Accession:</h3>
 			<ul style="list-style:none;">
@@ -462,9 +464,9 @@ $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 
 </script>
 </div>
-<div class="shippingBlock"> 
+<div class="trans_container"> 
     <h3>Permits and permit-like documents:</h3>
-    <p style="margin:0px;">List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
+    <p class="warning">List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
 
                 <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
 
@@ -485,9 +487,9 @@ $( document ).ready(loadTransactionFormPermits(#transaction_id#));
 
 </script>
 
-<div class="shippingBlock">
+<div class="trans_container">
     <h3>Shipment Information:</h3>
-    <p style="margin:0px;">Include Permits such as USFWS Form 3-177 which are only involved in an incoming shipment of the accession, and are not inherited by future shipments of this material under the relevant shipment here.</p>
+    <p class="warning">Include Permits such as USFWS Form 3-177 which are only involved in an incoming shipment of the accession, and are not inherited by future shipments of this material under the relevant shipment here.</p>
 <script>
 
 function opendialog(page,id,title) {
@@ -547,7 +549,7 @@ $( document ).ready(loadShipments(#transaction_id#));
     });
 </script>
     <div class="addstyle">
-    <input type="button" class="lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div></div><!---moved this to inside of the shipping block--one div up--->
+    <input type="button" class="transButton" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div></div><!---moved this to inside of the shipping block--one div up--->
 </div> <!--- end shipping block ---> 
 
 
@@ -641,7 +643,7 @@ $( document ).ready(loadShipments(#transaction_id#));
   <div id="shipmentFormStatus"></div>
 </div>
 
-<div class="shippingBlock"> 
+<div class="trans_container"> 
 	<h3>Dispositions of cataloged items:</h3>
 	<input type="button" value="Specimen List" class="lnkBtn"
 		onclick = "window.open('SpecimenResults.cfm?accn_trans_id=#accnData.transaction_id#');">
@@ -673,7 +675,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 <cfif action is "nothing">
 	<cfset title = "Find Accession">
 		<cfoutput>
-            <div style="width: 48em;margin:0 auto;padding: 1em 0 3em 0;">
+            <div class="trans_container">
 		<h2 class="wikilink" style="margin-left:0;">Find Accession <img class="infoLink" src="/images/info_i_2.gif" alt="[help]" onClick="getMCZDocs('Find Accession')"/></h2>
 			<cfif #project_id# gt 0>to add to project ## #project_id#</cfif>
 
