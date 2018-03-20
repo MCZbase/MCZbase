@@ -39,8 +39,9 @@ sho err
 </cfif>
 <cfif action is  "nothing">
     <h3 class="wikilink">Bulkload Part Containers</h3>
-	Use this form to put collection objects (that is, parts) in containers. Parts and containers must already exist.
-    <p style="margin: .5em 0;"><a href="BulkloadPartContainer.cfm?action=makeTemplate">download a CSV template</a></p>
+	<p>Use this form to put collection objects (that is, parts) in containers. Parts and containers must already exist. This form can be used for specimen records with multiple parts as long as the full names (name plus preserve method) of the parts are unique.</p>
+    <p style="margin: .5em 0;"><a href="BulkloadPartContainer.cfm?action=makeTemplate">Download a CSV template</a></p>
+	<p>Columns in red are required:</p>
 	<ul class="geol_hier">
 
         <li style="color: red;">other_id_type</li>

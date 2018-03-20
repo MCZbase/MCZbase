@@ -3,15 +3,15 @@
          <h3>Bulkload Container Edit Parent</h3>
 <cfset title="Bulk Edit Container">
 <cfif #action# is "nothing">
+<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
 <p>Upload a comma-delimited text file (csv).
     Include column headings, spelled exactly as below. </p>
-<span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span>
+<span class="likeLink" onclick="document.getElementById('template').style.display='block';">View template</span>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions</textarea>
 	</div>
-<p></p>
-Columns in <span style="color:red">red</span> are required; others are optional:
+<p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
 <ul class="geol_hier">
 	<li style="color:red">container_unique_id</li>
 	<li>parent_unique_id</li>
