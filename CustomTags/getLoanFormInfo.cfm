@@ -111,7 +111,7 @@
 <!---  getLoanItemsMCZ - information for loan item invoices.   --->
 <cfquery name="caller.getLoanItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select
-		cat_num,
+		cat_num, cataloged_item.collection_cde, collection.institution_acronym,
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 
 	        decode(
@@ -308,7 +308,7 @@ select
 <!---  getDeaccItemsMCZ - information for deaccession item invoices.   --->
 <cfquery name="caller.getDeaccItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select
-		cat_num,
+		cat_num, cataloged_item.collection_cde, collection.institution_acronym,
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 
 	        decode(
