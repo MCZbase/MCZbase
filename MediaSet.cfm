@@ -191,7 +191,7 @@
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
 	   select collection_object_id as pk, guid,
-            typestatuswords, SCIENTIFIC_NAME name,
+            typestatus, SCIENTIFIC_NAME name,
 decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 			trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
             trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '',' &nbsp;&nbsp;&nbsp;&nbsp; '|| field_num) || decode(verbatim_date, null, '',' &nbsp;&nbsp;&nbsp;&nbsp; '|| verbatim_date))as coll, 
@@ -203,7 +203,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
 	   union
 	   select agent.agent_id as pk, '' as guid,
-	        '' as typestatuswords, agent_name as name,
+	        '' as typestatus, agent_name as name,
 	        agent_remarks as geography,
 	        '' as geology,
 	        '' as coll,
@@ -247,8 +247,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
          <h3><i>#ff.name#</i></h3>
    			<p>#ff.geography# #geology#</p>
         	<p>#ff.coll# </p>
-        	<cfif len(trim(#ff.typestatuswords#))>
-          <p class="tclass"><span class="type">#ff.typestatuswords#</span> of <i>#ff.name#</i></p>
+        	<cfif len(trim(#ff.typestatus#))>
+          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
         </cfif>
         </div>
       </cfoutput> 
