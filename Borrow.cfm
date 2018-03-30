@@ -551,7 +551,7 @@ function setBorrowNum(cid,v){
 			WHERE
 				trans.transaction_id = borrow.transaction_id and
 				trans.collection_id = collection.collection_id and
-				borrow.transaction_id=#transaction_id#
+				trans.transaction_id=#transaction_id#
 		</cfquery>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
