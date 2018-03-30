@@ -551,7 +551,7 @@ function setBorrowNum(cid,v){
 			WHERE
 				trans.transaction_id = borrow.transaction_id and
 				trans.collection_id = collection.collection_id and
-				trans.transaction_id=#transaction_id#
+			        trans.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
@@ -566,7 +566,7 @@ function setBorrowNum(cid,v){
 			where
 				trans_agent.agent_id = preferred_agent_name.agent_id and
 				trans_agent_role != 'entered by' and
-				trans_agent.transaction_id=#transaction_id#
+				trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			order by
 				trans_agent_role,
 				agent_name
@@ -1119,8 +1119,8 @@ $(function() {
 	                                        agent_id,
 	                                        trans_agent_role
 	                                ) values (
-	                                        #transaction_id#,
-	                                        #agent_id_#,
+	                                        <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+	                                        <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
 	                                        '#trans_agent_role_#'
 	                                )
 	                        </cfquery>
@@ -1376,13 +1376,13 @@ $(function() {
 <cfoutput>
 	<cftransaction>
 		<cfquery name="killAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from trans_agent where transaction_id=#transaction_id#
+			delete from trans_agent where transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfquery name="killBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from borrow where transaction_id=#transaction_id#
+			delete from borrow where transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from trans where transaction_id=#transaction_id#
+			delete from trans where transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		</cftransaction>
 		<cflocation url="Borrow.cfm" addtoken="false">
