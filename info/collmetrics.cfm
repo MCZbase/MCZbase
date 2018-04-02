@@ -33,7 +33,10 @@
 		where m.media_id = mr.media_id
 		and mr.media_relationship = 'shows cataloged_item'
   		and mr.related_primary_key in
-  			(select collection_object_id from flat)
+  			(select f.collection_object_id 
+				from flat f, coll_object co
+                		where F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID
+                		and CO.COLL_OBJECT_ENTERED_DATE < '#datefilter#')
 	</cfquery>
 
 <H2>MCZ All Collections</h2>
