@@ -582,14 +582,14 @@ function setBorrowNum(cid,v){
 				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_borrow_header">Header for MCZ Files</option>
             			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</option>
         		</select>
-   			<div><strong>The return shipment must be entered below and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).<strong></div>
+   			<div style="margin-top: 1em;border: 1px solid orange;padding: 10px;"><strong>The return shipment must be entered below and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).<strong></div>
 			</td>
 		</tr>
 
 	</table>
 	</form>
   </table>
-	<table style="width:100%;border: 1px solid ##ccc;margin: 20px 0;">
+	<table style="width:100%;border: 1px solid ##ccc; margin: 20px 0;">
             <tr>
                 <td>
                   <div id="borrowItems"></div>
@@ -612,7 +612,7 @@ function setBorrowNum(cid,v){
 	                <td><label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="type_status" id="type_status" style="width:93px;"></label></td>
 	                <td><label for="country_of_origin" style="width: 116px;">County of Origin <input type="text" class="input-field" name="country_of_origin" id="country_of_origin" style="width: 116px;"></label></td>
 	                <td><label for="object_remarks" style="width: 170px;">Remarks <input type="text" class="input-field" name="object_remarks" id="object_remarks" style="width: 170px;"></label></td>
-	                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field" type="button" onclick=" addBorrowItem2();" class="lnkBtn" value="Add Row"></label></td>
+	                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field lnkBtn" type="button" onclick=" addBorrowItem2();" value="Add Row"></label></td>
 	           	</form>
 	        </tr>
 
