@@ -745,6 +745,7 @@ function setBorrowNum(cid,v){
 			<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    				<option value=""></option>
 				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</option>
+				<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_borrow_header">Header for MCZ Files</option>
             			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</option>
         		</select>
    			<div><strong>The return shipment must be entered below and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).<strong></div>
