@@ -3,172 +3,6 @@
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfset BORROWNUMBERPATTERN = '^B[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
-<style>
-.form-style-2{
-    width: 50%;
-    padding: 20px 12px 10px 20px;
-    font: 15px Arial, Helvetica, sans-serif;
-        float:left;
-            margin: 10px 160px 30px 0px;
-}
-.form-style-2-heading{
-    font-weight: bold;
-    font-style: italic;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 20px;
-    font-size: 16px;
-    padding-bottom: 3px;
-}
-.form-style-2 label{
-    display: block;
-    margin: 0px 0px 15px 0px;
-}
-.form-style-2 label > span{
-    width: 150px;
-    font-weight: bold;
-    float: left;
-    padding-top: 8px;
-    padding-right: 5px;
-}
-.form-style-2 span.required{
-    color:red;
-}
-.form-style-2 .tel-number-field{
-    width: 40px;
-    text-align: center;
-}
-.form-style-2 input.input-field{
-    width: 48%;
-
-}
-.form-style-2 input.input-field,
-.form-style-2 .tel-number-field,
-.form-style-2 .textarea-field,
- .form-style-2 .select-field{
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border: 1px solid #C2C2C2;
-    box-shadow: 1px 1px 4px #EBEBEB;
-    -moz-box-shadow: 1px 1px 4px #EBEBEB;
-    -webkit-box-shadow: 1px 1px 4px #EBEBEB;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    padding: 7px;
-    outline: none;
-}
-.form-style-2 .input-field:focus,
-.form-style-2 .tel-number-field:focus,
-.form-style-2 .textarea-field:focus,
-.form-style-2 .select-field:focus{
-    border: 1px solid #0C0;
-}
-.form-style-2 .textarea-field{
-    height:50px;
-    width: 55%;
-}
-.form-style-2 input[type=submit],
-.form-style-2 input[type=button]{
-    border: none;
-    padding: 8px 15px 8px 15px;
-    background: #FF8500;
-    color: #fff;
-    box-shadow: 1px 1px 4px #DADADA;
-    -moz-box-shadow: 1px 1px 4px #DADADA;
-    -webkit-box-shadow: 1px 1px 4px #DADADA;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-}
-.form-style-2 input[type=submit]:hover,
-.form-style-2 input[type=button]:hover{
-    background: #EA7B00;
-    color: #fff;
-}
-
-
-.form-style-3{
-    width:100%;
-    padding: 20px 12px 10px 20px;
-    font: 15px Arial, Helvetica, sans-serif;
-    float: left;
-    position: relative;
-}
-.form-style-3-heading{
-    font-weight: bold;
-    font-style: italic;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 20px;
-    font-size: 16px;
-    padding-bottom: 3px;
-}
-.form-style-3 label{
-    margin: 15px 0px 30px 0px;
-    width: 160px;
-    float: left;
-}
-.form-style-3 label{
-    font-weight: bold;
-    float: left;
-    padding-top: 8px;
-    padding-right: 5px;
-}
-.form-style-3 span.required{
-    color:red;
-}
-.form-style-3 input.input-field{
-    width: 160px;
-    float: left;
-}
-
-.form-style-3 input.input-field,
-.form-style-3 .tel-number-field,
-.form-style-3 .textarea-field,
- .form-style-3 .select-field{
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border: 1px solid #C2C2C2;
-    box-shadow: 1px 1px 4px #EBEBEB;
-    -moz-box-shadow: 1px 1px 4px #EBEBEB;
-    -webkit-box-shadow: 1px 1px 4px #EBEBEB;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    padding: 7px;
-    outline: none;
-}
-.form-style-3 .input-field:focus,
-.form-style-3 .tel-number-field:focus,
-.form-style-3 .textarea-field:focus,
-.form-style-3 .select-field:focus{
-    border: 1px solid #0C0;
-}
-.form-style-3 .textarea-field{
-    height:100px;
-    width: 55%;
-}
-.form-style-3 input[type=submit],
-.form-style-3 input[type=button]{
-    border: none;
-    padding: 8px 15px 8px 15px;
-    background: #FF8500;
-    color: #fff;
-    box-shadow: 1px 1px 4px #DADADA;
-    -moz-box-shadow: 1px 1px 4px #DADADA;
-    -webkit-box-shadow: 1px 1px 4px #DADADA;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-}
-.form-style-3 input[type=submit]:hover,
-.form-style-3 input[type=button]:hover{
-    background: #EA7B00;
-    color: #fff;
-}
-span.sm {font-size: 11px;}
-</style>
 <cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select borrow_status from ctborrow_status
 </cfquery>
@@ -176,9 +10,9 @@ span.sm {font-size: 11px;}
 		select distinct(institution_acronym)  from collection
 </cfquery>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role)  from cttrans_agent_role 
+	select distinct(trans_agent_role)  from cttrans_agent_role
            where trans_agent_role != 'recipient institution'
-           order by trans_agent_role 
+           order by trans_agent_role
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
@@ -189,7 +23,7 @@ span.sm {font-size: 11px;}
 jQuery(document).ready(function() {
 	jQuery("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
 	jQuery("##lenders_loan_date").datepicker({ dateFormat: 'yy-mm-dd'});
-	jQuery("##due_date").datepicker({ dateFormat: 'yy-mm-dd'});	
+	jQuery("##due_date").datepicker({ dateFormat: 'yy-mm-dd'});
 	jQuery("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
 	jQuery("##received_date_after").datepicker({ dateFormat: 'yy-mm-dd'});
 	jQuery("##received_date_before").datepicker({ dateFormat: 'yy-mm-dd'});
@@ -577,7 +411,7 @@ function setBorrowNum(cid,v){
 	<form name="borrow" id="borrow" method="post" action="Borrow.cfm">
 	<input type="hidden" name="action" value="update">
 	<input type="hidden" name="transaction_id" value="#getBorrow.transaction_id#">
-	<table class="editLoanTable"> 
+	<table class="editLoanTable">
 		<tr>
 			<td colspan="3">
 				<span style="font-size:14px;">Entered by #getBorrow.enteredby#</span>
@@ -610,15 +444,15 @@ function setBorrowNum(cid,v){
 						<cfset i++>
 						<tr>
 							<td>
-								<!--- original value ---> 
+								<!--- original value --->
 								<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-								<!--- text value ---> 
+								<!--- text value --->
 								<input type="text" name="trans_agent_#i#" id="trans_agent_#i#"
 									class="reqdClr" size="30" value="#agent_name#"
 				  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','borrow',this.value); return false;"
 				  					onKeyPress="return noenter(event);">
-								<!--- new value ---> 
-				  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#" 
+								<!--- new value --->
+				  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 									onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#');" >
 							</td>
 							<td style=" min-width: 3.5em; ">
@@ -629,7 +463,7 @@ function setBorrowNum(cid,v){
 								<cfset thisRole = #trans_agent_role#>
 								<select name="trans_agent_role_#i#" id="trans_agent_role_#i#">
 									<cfloop query="cttrans_agent_role">
-										<option 
+										<option
 											<cfif #trans_agent_role# is #thisRole#> selected="selected"</cfif>
 											value="#trans_agent_role#">#trans_agent_role#</option>
 									</cfloop>
@@ -671,7 +505,7 @@ function setBorrowNum(cid,v){
 				<label for="borrow_status">Status</label>
 				<select name="borrow_status" id="borrow_status" size="1" class="reqdCld">
 					<cfloop query="ctStatus">
-						<option 
+						<option
 							<cfif #ctStatus.borrow_status# is "#getBorrow.BORROW_STATUS#"> selected </cfif>
 						value="#ctStatus.borrow_status#">#ctStatus.borrow_status#</option>
 					</cfloop>
@@ -723,8 +557,8 @@ function setBorrowNum(cid,v){
 				<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" rows="3" cols="120" class="reqdClr" required >#getBorrow.DESCRIPTION_OF_BORROW#</textarea>
 			</td>
 		</tr>
-      
-            
+
+
 		<tr>
 			<td colspan="4">
 				<label for="TRANS_REMARKS">Transaction Remarks</label>
@@ -733,7 +567,7 @@ function setBorrowNum(cid,v){
 		</tr>
 		<tr>
 			<td colspan="4">
-				<input type="button" class="schBtn" value="Save Edits" 
+				<input type="button" class="schBtn" value="Save Edits"
 				       onClick="if (checkFormValidity($('##borrow')[0])) { borrow.action.value='update'; submit();  } ">
 				<input type="button" class="delBtn" value="Delete Borrow"
 					onclick="borrow.action.value='delete';confirmDelete('borrow');">
@@ -751,10 +585,10 @@ function setBorrowNum(cid,v){
    			<div><strong>The return shipment must be entered below and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).<strong></div>
 			</td>
 		</tr>
-			
+
 	</table>
 	</form>
-	<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">   
+	<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">
             <tr>
                 <td>
                   <div id="borrowItems"></div>
@@ -863,11 +697,11 @@ function setBorrowNum(cid,v){
 							<textarea rows="2" cols="90" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
 						</div>
 						<script>
-							function toggleTemplate() { 
+							function toggleTemplate() {
 								$('##template').toggle();
-								if ($('##template').is(':visible')) { 
+								if ($('##template').is(':visible')) {
 									$('##toggleLink').html('Hide csv file temlate');
-								} else { 
+								} else {
 									$('##toggleLink').html('View csv file temlate');
 								}
 							}
@@ -1167,7 +1001,7 @@ $(function() {
 					</select>
 				<td>
 					<label for="borrow_num">MCZ Borrow Number (Byyyy-n-Coll)</label>
-					<input type="text" id="borrow_number" name="borrow_number" class="reqdClr" 
+					<input type="text" id="borrow_number" name="borrow_number" class="reqdClr"
 					       required pattern="#BORROWNUMBERPATTERN#" >
 				</td>
 				<td id="upperRightCell"><!--- id for positioning nextnumDiv --->
@@ -1293,14 +1127,14 @@ $(function() {
 			<tr>
 				<td colspan="3">
 					<label for="NATURE_OF_MATERIAL">Nature of Material</label>
-					<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL" 
+					<textarea name="NATURE_OF_MATERIAL" id="NATURE_OF_MATERIAL"
 					          rows="3" cols="90" class="reqdClr" required ></textarea>
 				</td>
 			</tr>
             		<tr>
 				<td colspan="3">
 					<label for="DESCRIPTION_OF_BORROW">Description</label>
-					<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW" 
+					<textarea name="DESCRIPTION_OF_BORROW" id="DESCRIPTION_OF_BORROW"
 					          rows="3" cols="90" class="reqdClr" required ></textarea>
 				</td>
 			</tr>
@@ -1364,9 +1198,9 @@ $(function() {
 				<br>
 			</cfloop>
                 </div>
-                <script>
+                <!-- script>
                         $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+4 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
-                </script>
+                </script -->
         </div>
 	</cfoutput>
 </cfif>
