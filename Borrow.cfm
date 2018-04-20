@@ -588,6 +588,7 @@ function setBorrowNum(cid,v){
 
 	</table>
 	</form>
+  </table>
 	<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">
             <tr>
                 <td>
