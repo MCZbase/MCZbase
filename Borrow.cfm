@@ -677,17 +677,19 @@ function setBorrowNum(cid,v){
 <table>
 			<tr></tr>
 			<tr>
-				<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
-				<cfform name="csv" method="post" action="/Borrow.cfm" enctype="multipart/form-data">
+
+				<td>	<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
+        	<cfform name="csv" method="post" action="/Borrow.cfm" enctype="multipart/form-data">
 	           		<input type="hidden" name="action" value="getFile">
 	           		<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-	           		<td>
+
 	           		<input type="file"
 		   				name="FiletoUpload"
 		   				size="45">
 			  		<input type="submit" value="Upload this file" >
-			  		</td>
+
 			  	</cfform>
+          </td>
 			</tr>
 			<tr>
 			  		<td>
