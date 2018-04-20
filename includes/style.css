@@ -5374,7 +5374,10 @@ table.partname th.inside, table.partname td.inside {padding: 2px 8px;text-align:
 table.partname td.partnameatts {padding-bottom: 3px;}
 .shippingBlock {border: 1px solid #ccc;overflow: hidden;padding:10px;width:74.5em;}
 .shippingBlock h3 {margin: 0 auto;}
-div#shipments {width: 74.5em;margin: 0 auto;}
+div#shipments {
+	/*width: 74.5em;*/
+	margin: 0 auto;
+}
 
 div#shipments input {margin-top: 1em;}
 div.shipment {width: 74.5em;margin: 0 auto;margin-top: 1em; border-bottom: 1px solid black;margin-bottom: 1em;padding-bottom: 1em;float:left;}
