@@ -589,7 +589,7 @@ function setBorrowNum(cid,v){
 	</table>
 	</form>
   </table>
-	<table style="width:100%;border: 1px solid ##666;margin: 20px 0;">
+	<table style="width:100%;border: 1px solid ##ccc;margin: 20px 0;">
             <tr>
                 <td>
                   <div id="borrowItems"></div>
@@ -713,7 +713,7 @@ function setBorrowNum(cid,v){
 			</tr>
 </table>
 
-<div class="shippingBlock">
+<div class="shippingBlock" style="width: 98.5%">
     <h3>Shipment Information:</h3>
 <script>
 
