@@ -612,7 +612,7 @@ function setBorrowNum(cid,v){
 	                <td><label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="type_status" id="type_status" style="width:93px;"></label></td>
 	                <td><label for="country_of_origin" style="width: 116px;">County of Origin <input type="text" class="input-field" name="country_of_origin" id="country_of_origin" style="width: 116px;"></label></td>
 	                <td><label for="object_remarks" style="width: 170px;">Remarks <input type="text" class="input-field" name="object_remarks" id="object_remarks" style="width: 170px;"></label></td>
-	                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field" type="button" onclick=" addBorrowItem2(); " style="cursor:pointer;background-color: ##76afd0;background-color: cornflowerblue;border:1px solid cornflowerblue;width:75px;padding-left: 8px;" value="Add Row"></label></td>
+	                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field" type="button" onclick=" addBorrowItem2();" class="lnkBtn" value="Add Row"></label></td>
 	           	</form>
 	        </tr>
 
