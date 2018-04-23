@@ -329,6 +329,7 @@
 							<option value="Primary">Primary</option>
 							<option value="Secondary">Secondary</option>
 							<option value="Voucher">Voucher (non-type)</option>
+							<option value="Not Voucher">Not Voucher (non-type)</option>
 						</select>
 					</td>
 					<td>
