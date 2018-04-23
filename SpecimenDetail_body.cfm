@@ -272,7 +272,7 @@ FROM
      left join ctbiol_relations ctrel
       on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 WHERE rel.collection_object_id=#collection_object_id#
-      and ctrel.rel_type <> 'curatorial'
+      and ctrel.rel_type <> 'functional'
 UNION
 SELECT
      ctrel.inverse_relation as biol_indiv_relationship,
@@ -289,7 +289,7 @@ FROM
      left join collection
       on collection.collection_id = rcat.collection_id
 WHERE irel.related_coll_object_id=#collection_object_id#
-      and ctrel.rel_type <> 'curatorial'
+      and ctrel.rel_type <> 'functional'
 )
 </cfquery>
 <cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

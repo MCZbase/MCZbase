@@ -8,7 +8,13 @@
 
 <cfif #Action# is "nothing">
 
+<cfoutput>
 <center>
+
+<cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</cfif>
+
  <div id="bug_form">
  		<div id="bug_text">
 		<h3>Provide Feedback</h3>
@@ -19,6 +25,7 @@
 		<p>NOTE: To report problems or errors with specimen data, use the "Report Bad Data" link included on the Search Results webpages.</p>
      	<p>Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be    released or publicly displayed on our site.</p>
         </div>
+        <form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
         <table>
 
         <tr>
@@ -27,7 +34,14 @@
             </td>
         </tr>
 
-            <form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
+        <cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+        <tr>
+            <td colspan="2" align="center">
+                <div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
+            </td>
+        </tr>
+        </cfif>
+
 
                 <input type="hidden" name="action" value="save">
 
@@ -89,11 +103,11 @@
 
                 </tr>
 
-            </form>
-
         </table>
+        </form>
  </div>
 </center>
+</cfoutput>
 </cfif>
 <!------------------------------------------------------------>
 <cfif #action# is "save">
@@ -114,6 +128,28 @@
 	<cfset concatSub = "#reported_name# #complaint# #user_email#">
 	<cfset concatSub = replace(concatSub,"#chr(60)#","---","all")>
 
+
+    <cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+       <cftry>
+       <cfobject action = "create" 
+                 type = "java" 
+                 class = "edu.harvard.mcz.recaptchavalidate.RecaptchaValidate" 
+                 name = "Validator"> 
+       <cfif structKeyExists(FORM,"g-recaptcha-response") >
+           <cfset response = FORM['g-recaptcha-response'] >
+           <cfset valid = Validator.validate("#response#","#CGI.REMOTE_ADDR#") >
+       <cfelse>
+           <cfset valid = FALSE >
+       </cfif>
+       <cfif not valid >
+		    Captcha not validated.
+			<cfabort>
+       </cfif>
+       <cfcatch>
+           #cfcatch.message#
+       </cfcatch>
+       </cftry>
+    </cfif>
 
     <cfif #complaint# eq #FEEDBACK_INSTRUCTIONS#>
 			Please provide a description of the problem.

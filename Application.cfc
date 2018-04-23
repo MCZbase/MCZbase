@@ -302,6 +302,7 @@
 			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
 
 			<cfset application.gmap_api_key="ABQIAAAAHisocVs5fMekC3rHMYIDKBTD_7kRmvD2VFEz2q7Rf-1F9aZhDRR0G1NEMbSCz8uzq65R3GoapoMRKg">
+			<cfset application.g_sitekey="6LeklE0UAAAAABBEvD8thZ9BJMw0eddVDfHqYZ_4">
 			<cfset Application.Google_uacct = "UA-11397952-1" />
 			<cfset Application.InstitutionBlurb = "Collections Database, Museum of Comparative Zoology, Harvard University" />
 			<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />

@@ -3,13 +3,13 @@
 <cfoutput>
 <script src="/includes/sorttable.js"></script>
 
-<cfset datefilter='2016-07-01'>
+<cfset datefilter='2017-06-30'>
 
 <cfquery name="colls" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 	select collection_cde, collection from collection where collection_cde not in ('MCZ', 'SC', 'HerpOBS') order by collection_cde
 </cfquery>
 
-<H1>Collections Stats as of 2016-06-30</H1>
+<H1>Collections Stats as of #datefilter#</H1>
 <cfquery name = "itemStatsMCZ" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 		select count(distinct f.collection_object_id) lots,
 		sum(decode(TOTAL_PARTS, null, 1, TOTAL_PARTS)) specs,
@@ -33,7 +33,10 @@
 		where m.media_id = mr.media_id
 		and mr.media_relationship = 'shows cataloged_item'
   		and mr.related_primary_key in
-  			(select collection_object_id from flat)
+  			(select f.collection_object_id 
+				from flat f, coll_object co
+                		where F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID
+                		and CO.COLL_OBJECT_ENTERED_DATE < '#datefilter#')
 	</cfquery>
 
 <H2>MCZ All Collections</h2>
@@ -56,7 +59,7 @@ ________________________________________________________________________________
 
 
 <cfloop query="colls">
-<cfif colls.collection_cde EQ 'IZ'>
+<!---cfif colls.collection_cde EQ 'IZ'>
 	<cfquery name = "itemStatsIZ" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 		select count(distinct f.collection_object_id) lots,
 		sum(decode(TOTAL_PARTS, null, 1, TOTAL_PARTS)) specs,
@@ -126,8 +129,8 @@ ________________________________________________________________________________
 			and (upper(full_taxon_name)  like '%ECHINODERMATA%'
 			or upper(full_taxon_name)  like '%BRYOZOA%'
 			or upper(full_taxon_name)  like '%CHORDATA%'))
-	</cfquery>
-<cfelseif colls.collection_cde EQ 'Ent'>
+	</cfquery--->
+<cfif colls.collection_cde EQ 'Ent'>
 	<cfquery name = "itemStatsEnt" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 		select count(distinct f.collection_object_id) lots,
 		sum(decode(TOTAL_PARTS, null, 1, TOTAL_PARTS)) specs,
@@ -221,7 +224,7 @@ ________________________________________________________________________________
 </cfif>
 
 
-<cfif colls.collection_cde EQ 'IZ'>
+<!---cfif colls.collection_cde EQ 'IZ'>
 	<H2>#collection# (non MI)</h2>
 	<cfloop query="itemStatsIZ">
 		## of cataloged items/lots: #lots#<br>
@@ -253,8 +256,8 @@ ________________________________________________________________________________
 	<cfloop query="imageStatsMI">
 		## of images of cataloged items: #imgs#
 	</cfloop>
-	<br>
-<cfelseif colls.collection_cde EQ 'Ent'>
+	<br--->
+<cfif colls.collection_cde EQ 'Ent'>
 	<H2>#collection# (non Ants)</h2>
 	<cfloop query="itemStatsEnt">
 		## of cataloged items/lots: #lots#<br>

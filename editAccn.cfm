@@ -5,12 +5,24 @@
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-		$("##ent_date").datepicker();
-		$("##rec_date").datepicker();
-		$("##rec_until_date").datepicker();
-		$("##issued_date").datepicker();
-		$("##renewed_date").datepicker();
-		$("##exp_date").datepicker();
+		$("##ent_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##rec_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##rec_until_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##issued_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##renewed_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
+		$("##exp_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+			buttonImage: "images/cal_icon.png",
+			buttonImageOnly: true });
 	});
 	function addAccnContainer(transaction_id,barcode){
 		$('##newbarcode').addClass('red');
@@ -142,7 +154,7 @@
 			WHERE
 				trans.transaction_id = accn.transaction_id AND
 				trans.collection_id=collection.collection_id and
-				trans.transaction_id = #transaction_id#
+				trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select

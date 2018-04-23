@@ -53,6 +53,7 @@
 				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
 				round(RETURN_DUE_DATE - (sysdate)) +1 < -365 and
 				LOAN_STATUS like 'open%' and
+				loan_status <> 'open historical' and
 				loan_type in ('returnable', 'consumable') and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id(+)
@@ -60,15 +61,13 @@
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
-			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name
+			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" startrow=1 endrow=15>
-	#agent.agent_id#<br>
+<cfloop query="agent" startrow=1 endrow=150>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2017-01-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2018-01-01', 'YYYY-MM-DD')
 	</cfquery>
-	#chkLog.recordcount#
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
 			<cfquery name="agent_loans" dbtype="query">
@@ -277,12 +276,12 @@
 			<cfif specialmail EQ "noemails">
 				<cfset mailsubject = "ALERT: NO EXTERNAL CONTACTS | MCZbase Notification for Overdue Loans">
 			</cfif>
-			SENDINGMAIL<BR>
 			<cfmail 	to="bhaley@oeb.harvard.edu"
 						cc="heliumcell@gmail.com"
+						bcc="bhaley@oeb.harvard.edu"
 						subject="#mailsubject#"
 						from="no_reply_loan_notification@#Application.fromEmail#"
-						replyto="#ValueList(inhouse.address,";")#"
+						replyto="bhaley@oeb.harvard.edu"
 						type="html">
 
 			<cfif specialmail EQ "noemails">
@@ -379,7 +378,19 @@
 					<cfelse >
 						#REPLACE(ReReplace(ValueList(formattedinhouse.contact, ', '),',(?=[^,]+$)' , ', and ' ), "Special Collections Collection", "Special Collections")#.
 					</cfif>
-				 Your attention to this matter will be greatly appreciated. Thank you.
+				 Your attention to this matter will be greatly appreciated.
+				 <cfif findnocase("CRYOGENIC",ValueList(formattedinhouse.contact, ', ')) GT 0>
+				<br><br>
+				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.
+				To officially close this loan, please also provide publication information and NCBI sequence accession numbers to the MCZ-CRYO.<br><br>
+				NCBI accessions will automatically link to MCZbase records if information is submitted correctly:<br>
+				http://www.mcz.harvard.edu/collectionsoperations/downloads/Guidelines_for_submitting_to_GenBank.pdf<br>
+				http://www.mcz.harvard.edu/collectionsoperations/downloads/NCBI_BioProject_BioSample_Data1.pdf<br>
+				<br>
+				Thank you.<br>
+				<cfelse>
+				Thank you.<br>
+				</cfif>
 				<BR>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
@@ -395,12 +406,13 @@
 			<cfquery name="collections" dbtype="query">
 				select distinct collection from loanunderreview
 			</cfquery>
-			SENDINGMAIL<BR>
-			<cfmail		to="bhaley@oeb.harvard.edu"
+
+			<cfmail 	to="bhaley@oeb.harvard.edu"
 						cc="heliumcell@gmail.com"
+						bcc="bhaley@oeb.harvard.edu"
 						subject="ALERT: OPEN UNDER-REVIEW | MCZbase Notification for Overdue Loans"
 						from="no_reply_loan_notification@#Application.fromEmail#"
-						replyto="#ValueList(inhouse.address,";")#"
+						replyto="bhaley@oeb.harvard.edu"
 						type="html">
 
 			<cfif specialmail EQ "noemails">
@@ -479,6 +491,12 @@
 				<br>
 				------
 				<br><br>
+
+				<!---cfquery name="upLogTable" datasource="uam_god">
+					insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
+					values(#agent.agent_id#, SYSDATE, #transaction_id#, 'L', 'under-review')
+				</cfquery--->
+
 				</cfloop>
 				Approved Borrower: #receivedby.agent_name#
 				<!---cfquery name="address" datasource="uam_god">
@@ -500,120 +518,9 @@
 				<hr><hr>
 			</cfmail>
 	</cfif>
-	<!---cfif loanexhibition.recordcount GT 0>
-		<cfquery name="collections" dbtype="query">
-				select distinct collection from loanexhibition
-		</cfquery>
-			<cfset toaddresses = "vwilke@oeb.harvard.edu">
-			<cfset ccaddresses = "">
-			<cfmail 	to="#toaddresses#"
-						cc="#ccaddresses#"
-						bcc="bhaley@oeb.harvard.edu"
-						subject="MCZbase Notification for Overdue Loans"
-						from="no_reply_loan_notification@#Application.fromEmail#"
-						replyto="#ValueList(inhouse.address,";")#"
-						type="html">
-
-			<cfif specialmail EQ "noemails">
-					<font color="red">
-					<<< MCZbase UNABLE TO SEND THE FOLLOWING OVERDUE LOAN NOTIFICATION >>><br>
-	             	<<< ENTER EXTERNAL CONTACTS FOR THIS LOAN  >>><br>
-					</font>
-			</cfif>
-					<font color="red">
-						<<< THIS OVERDUE LOAN REMINDER CONTAINS EXHIBITION LOANS, PLEASE REVIEW AND ADDRESS >>><br>
-					</font>
-				<p>---------------------------------------------------------------------<br>
-				MUSEUM OF COMPARATIVE ZOOLOGY<br>
-				HARVARD UNIVERSITY<br>
-				<br>
-				OVERDUE LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
-				<br><br>
-				Dear Colleague,
-				<br><br>
-				This is an MCZbase notification report regarding #loanexhibition.recordcount# MCZ Loan<cfif #loanexhibition.recordcount# GT 1>s</cfif> overdue for RETURN for more than one year to the
-					<cfif collections.recordcount EQ 1>
-						<cfif #collections.collection# EQ "Special Collections">
-							Special Collections.
-						<cfelse>
-							#collections.collection# Collection.
-						</cfif>
-					<cfelseif collections.recordcount EQ 2>
-						#ReReplace(ValueList(collections.collection, ' and '),'Collections$', '')# Collections.
-					<cfelse >
-						#ReReplace(ReReplace(ValueList(collections.collection, ', '),',(?=[^,]+$)' , ', and ' ),'Collections$', '')# Collections.
-					</cfif>
-
-				<br><br>
-				LOAN<cfif #loanexhibition.recordcount# GT 1>S</cfif> DUE TO BE RETURNED:
-
-				<br><br>
-				<cfloop query="loanexhibition">
-					<cfquery name="counts" datasource="uam_god">
-						select
-							sum(coll_object.lot_count) total, sum(decode(coll_object.coll_obj_disposition, 'on loan', coll_object.lot_count, 0)) outstanding
-						from
-							loan, loan_item, coll_object
-						where
-							loan.transaction_id=#transaction_id# and
-							loan.transaction_id = loan_item.transaction_id and
-							loan_item.collection_object_id = coll_object.collection_object_id
-						group by
-						loan.transaction_id
-					</cfquery>
-				Loan Number: #loan_number# // Due Date: #DateFormat(return_due_date, "DD-mmmm-YYYY")#
-				<br>
-				Original Total Number of Items:	#counts.total# // Partial Return of Loaned Items: <cfif loan_status EQ "open partially returned">Yes<cfelse>No</cfif>
-				<br>
-				Nature of Material: #nature_of_material#
-				<br>
-				<cfquery name="forUseBy" dbtype="query">
-					select
-						exploan.last_name,
-						exploan.first_name,
-						exploan.agent_name
-					from
-						agent_loans, exploan
-					where
-						agent_loans.transaction_id = expLoan.transaction_id and
-						agent_loans.transaction_id = #loanexhibition.transaction_id# and
-						expLoan.trans_agent_role = 'for use by'
-					group by
-						exploan.last_name,
-						exploan.first_name,
-						exploan.agent_name
-				</cfquery>
-				<cfif len(#ValueList(forUseBy.agent_name)#) GT 0 >
-				For Use By:	#ValueList(forUseBy.agent_name)#
-				<br>
-				</cfif>
-				<br>
-				------
-				<br><br>
-				</cfloop>
-				Approved Borrower: #receivedby.agent_name#
-				<!---cfquery name="address" datasource="uam_god">
-					select formatted_addr from addr where valid_addr_fg = 1 and addr_type = 'correspondence' and agent_id = #agent.agent_id#
-				</cfquery>
-				Shipped to:<br>
-				#address.formatted_addr#--->
-				<br><br>
-				We request that you please return the above loan<cfif #loanexhibition.recordcount# GT 1>s</cfif>
-					 as soon as possible. For more information on <cfif #loanexhibition.recordcount# EQ 1>this loan<cfelse>these loans</cfif>, contact the
-					<cfif collections.recordcount EQ 1>
-						#Replace(ValueList(formattedinhouse.contact, ', '), "Special Collections Collection", "Special Collections")#.
-					<cfelse >
-						#REPLACE(ReReplace(ValueList(formattedinhouse.contact, ', '),',(?=[^,]+$)' , ', and ' ), "Special Collections Collection", "Special Collections")#.
-					</cfif>
-				 Your attention to this matter will be greatly appreciated. Thank you.
-				<BR>
-				---------------------------------------------------------------------</P>
-				<hr><hr>
-			</cfmail>
-		</cfif--->
 	</cfif>
 </cfloop>
 <!--- end of loan code --->
-##
+
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">

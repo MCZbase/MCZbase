@@ -902,7 +902,7 @@ p {
 	cursor: hand;
 	cursor: pointer;
 }
-/* / GMaps selector */	
+/* / GMaps selector */
 
 div.bigThumbDiv {
 	float: left;
@@ -1600,11 +1600,11 @@ p.loginText {
 	margin:			0;
 	padding:		0;
 	list-style:		none;
-        
+
 }
 .sf-menu {
 	line-height:	1.0;
-    
+
 }
 .sf-menu ul {
 	position:		absolute;
@@ -1736,13 +1736,13 @@ box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 .sf-shadow ul.sf-shadow-off {
 	background: transparent;
 }
-.sf-mainMenuWrapper { 
+.sf-mainMenuWrapper {
 	clear:left;
 	width:90%;
     margin:0 auto;
 	font-weight:400;
 	background-color:#D5D5DB;
-    border-bottom: 1px solid #d5d5db; 
+    border-bottom: 1px solid #d5d5db;
     position:relative;
     font-size: 15px;
     height:31px;
@@ -1763,7 +1763,7 @@ div.submenu ul {
 	width: 100%;
 	float: left;
     margin-top:-2px;
-  
+
 }
 div.submenu a, div.submenu h2 {
 	font: bold 11px/16px arial, helvetica, sans-serif;
@@ -2451,7 +2451,7 @@ p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 .resultsGoHere {
     min-width: 1px;
 	/*font-size: 12px;*/
-    padding-bottom: 100px;    
+    padding-bottom: 100px;
 }
 .detailCellSmall {
 	font-size: .72em;
@@ -2517,7 +2517,7 @@ td#SDCellRight {
 }
 .mediaPager {
     font-size: 13px;
-    width: 400px; 
+    width: 400px;
     float:right;
     display:inline;
     text-align: right;
@@ -3702,8 +3702,8 @@ ul.lisc li {
 	-webkit-box-shadow: -1px 11px 40px -5px rgba(204,204,204,1);
 	-moz-box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);
 	box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);
-    ::-webkit-scrollbar 
-    display: none; 
+    ::-webkit-scrollbar
+    display: none;
 }
 
 .projPubSearchResults p {
@@ -3802,7 +3802,7 @@ h2.proj_title {font-size: 1.6em; margin:0;}
 
 	width: 100px;
 }
-.content_box_pub .schBtn {   
+.content_box_pub .schBtn {
     padding: 2px 40px;
 }
 ul.pubLinks {
@@ -3841,19 +3841,19 @@ ul.pubLinks {
 	width: 56em;
 	margin: 0 auto;
     padding: 2em 0 3em 0;
-   
+
 }
 .basic_wide_box {
     width: 65em;
     margin: 0 auto;
     padding: 1em 0 3em 0;
-  
+
 }
 .basic_narrow_box {
-    width: 48em; 
-    margin: 0 auto; 
-    padding: 1em 0 3em 0; 
-   
+    width: 48em;
+    margin: 0 auto;
+    padding: 1em 0 3em 0;
+
 }
 
 /*.basic_box::after, .basic_narrow_box::after, .basic_wide_box::after {
@@ -3927,7 +3927,7 @@ ul.pubLinks {
     display: inline;
     overflow: hidden;
     width: auto;
-  
+
 }
 #headerLinks form {
     width: auto;
@@ -4247,7 +4247,7 @@ form.userdataForm label {
 }
 
 .taxaDetailsbox {
-	width: 54em; 
+	width: 54em;
 	margin: 0 auto;
 	padding-bottom: 2em;
 }
@@ -4576,7 +4576,7 @@ table.navtabs {
 	padding-right: 3em;
 }
 .BulkSpec {
-    width: 45em; 
+    width: 45em;
     margin: 0 auto;
     padding: 3em 0 5em 0;
 }
@@ -4595,15 +4595,15 @@ line-height: 1.2em;}
 table.attributes {font-size: 10px;}
 table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right: 1px dotted #ccc;}
 #encumbranceBox1 {
-    width: 60em; 
-    margin: 0 auto; 
+    width: 60em;
+    margin: 0 auto;
     padding: 1em 0 3em 0;
 }
 
 .groupAgent {margin-left: 14px;margin-bottom:0;padding-bottom: 0;}
 /*
 .basic_box::after,.basic_narrow_box::after, .basic_wide_box::after {
-  content: '\00a0'; 
+  content: '\00a0';
  display: block;
   margin-top: 100px;
   height:170px;
@@ -4722,8 +4722,8 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	z-index: 1;
 
 }
-    
-    
+
+
 }
 @media only screen and (max-width: 940px) {
 .sf-menu li {
@@ -5072,14 +5072,14 @@ table.noborder {border: none;}
     right:15px;
     padding: 0 5px;
     text-transform: uppercase;
-    
+
 }
 #loadedMsgDiv{display:none;}
 .isGoodEdit {
 	background-color:#00CCCC;
 }
 .isBadEdit, isBadEdit tr:nth-child(even) {
-        background: #b58aa5; 
+        background: #b58aa5;
 }
 .geol_hier {width: 56em;margin: 0 auto;padding: 1em 0 3em 0;}
 
@@ -5098,17 +5098,17 @@ ul.agent_act ul {list-style: circle;margin-left: 1.5em;}
 	background-color:#00CCCC;
 }
 .isBadEdit, isBadEdit tr:nth-child(even) {
-        background: #b58aa5; 
+        background: #b58aa5;
 }
 .isBadEdit, isBadEdit tr:nth-child(odd) {;
         background: #b58aa5;
-        background: -moz-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); 
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(58%, #b58aa5), color-stop(100%, #d5b9ca)); 
+        background: -moz-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(58%, #b58aa5), color-stop(100%, #d5b9ca));
         background: -webkit-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%);
         background: -o-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%);
-        background: -ms-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%); 
-        background: linear-gradient(to bottom, #b58aa5 58%, #d5b9ca 100%); 
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', endColorstr='#d5b9ca', GradientType=0 ); 
+        background: -ms-linear-gradient(top, #b58aa5 58%, #d5b9ca 100%);
+        background: linear-gradient(to bottom, #b58aa5 58%, #d5b9ca 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', endColorstr='#d5b9ca', GradientType=0 );
 }
 .isEnter {
 	border:none;
@@ -5138,14 +5138,14 @@ div#modeDisplayDiv {
 div#loadedMsgDiv {
     color:red;
     font-size: 15px;
-    background-color: white
+    background-color: white;
     padding: 3px 2px;
-   width:80%;  
+   width:80%;
 }
 .DE_far_right {width: 18%;}
 .barcodes p {padding: .25em 0;}
 .barcodes label, .barcodes select {font-size: 12px;margin-top: .25em;}
-    
+
 ul.labels {width: 550px;list-style: disc;margin-bottom: 1em;margin-top: 1em;}
 ul.labels li {margin-left: 1.5em;padding: .25em 0;}
 ul.labels ul {list-style: circle;}
@@ -5268,7 +5268,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', end
 	font-size:11px;
 	padding:0px;
 	margin:0px;
-}  
+}
 .firstOfRow {
     float: left;
     width: 100px;
@@ -5374,7 +5374,10 @@ table.partname th.inside, table.partname td.inside {padding: 2px 8px;text-align:
 table.partname td.partnameatts {padding-bottom: 3px;}
 .shippingBlock {border: 1px solid #ccc;overflow: hidden;padding:10px;width:74.5em;}
 .shippingBlock h3 {margin: 0 auto;}
-div#shipments {width: 74.5em;margin: 0 auto;}
+div#shipments {
+	/*width: 74.5em;*/
+	margin: 0 auto;
+}
 
 div#shipments input {margin-top: 1em;}
 div.shipment {width: 74.5em;margin: 0 auto;margin-top: 1em; border-bottom: 1px solid black;margin-bottom: 1em;padding-bottom: 1em;float:left;}
@@ -5528,7 +5531,7 @@ div.deletestyle { margin: 0 auto;float:left;height: 33px;}
 	font-weight: normal;
 }
 .trans_container table label,.trans_container table#loanAgents th  {padding-bottom: .35em;letter-spacing:.02em;font-weight:450;margin-top: 1em;font-size: 13px;}
- 
+
 .trans_container a {
 	color: #3387ab;color:#468dc8;
 	text-decoration: underline;
@@ -5552,7 +5555,7 @@ div.deletestyle { margin: 0 auto;float:left;height: 33px;}
 	border-radius: .25em /*{global-radii-buttons}*/;}
 .trans_container textarea {-webkit-border-radius: .25em /*{global-radii-buttons}*/;
 	border-radius: .25em /*{global-radii-buttons}*/;padding:5px 10px;}
-.trans_container input.reqdClr,.trans_container textarea.reqdClr,.trans_container select.reqdClr {background-color: #fff5d5;} 
+.trans_container input.reqdClr,.trans_container textarea.reqdClr,.trans_container select.reqdClr {background-color: #fff5d5;}
 
 .trans_container header h2 {
 	padding-bottom: 1em;
@@ -5733,7 +5736,7 @@ ul.trans_data_wide li {
 }
 .content_box {
 	padding-bottom: 2em;
-	overflow: hidden;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
+	overflow-x: scroll;/*Adds a little space at the bottom of the form.  This should be moved further up after tested on other pages. */
 }
 .group_trans {
 	float: left;
@@ -5758,7 +5761,7 @@ p.trans_para {
 	margin: .5em 0;
 	padding: .22em .7em .18em .7em;
 	text-align: center;
-	/* 
+	/*
 	display: block;
     position: relative;
 	text-overflow: ellipsis;
@@ -5785,18 +5788,24 @@ form#newDeacc {
 	position: relative;
 	overflow: hidden;
 }
+form#borrow {
+	margin-left: 0;
+	float: left;
+	width: 64%;
+}
 #nextNumDiv {
 	float: left;
-	width: 27%;
 	border: 2px solid green;
 	margin-right: 0;
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-	padding: 20px;
-	margin-left: 1em;
+	padding: 12px;
+	margin-left: 1.4em;
 	position: relative;
 	overflow:hidden;
+	width: 30%;
+	display: inline;
 }
 #nextNumDiv h4 {font-size: 1.1em; font-weight: bold;}
 #newDeaccTable {
@@ -5840,7 +5849,7 @@ form#newLoan {float: left;}
 	border: 1px solid #ccc;
 	padding: 10px;
 }
-.ui-widget-header {    
+.ui-widget-header {
 	border: 1px solid #A41034;
     background: #c1272d url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
     color: #ffffff;background-color:#c1272d;

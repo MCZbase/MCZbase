@@ -624,7 +624,7 @@
 <div class="basic_box">
 <cfif action is "newContainer">
 	<cfset title="Create Container">
-	<cfparam name="container_type" default="">
+	<cfparam name="FORM.container_type" default="">
 	<cfparam name="width" default="">
 	<cfparam name="height" default="">
 	<cfparam name="length" default="">
@@ -635,7 +635,7 @@
 	<cfparam name="checked_date" default="">
 	<cfparam name="parent_install_date" default="">
 	<cfparam name="container_remarks" default="">
-	<cfparam name="Fluid_Type" default="">
+	<cfparam name="FORM.Fluid_Type" default="">
 	<cfparam name="concentration" default="">
 	<cfparam name="fluid_remarks" default="">
 	<cfoutput>
@@ -660,7 +660,7 @@
 				<option value=""></option>
 				<cfloop query="ContType">
 					 <cfif ContType.container_type is not "collection object">
-			            <option <cfif variables.container_type is ContType.container_type> selected="selected" </cfif>value="#ContType.container_type#">#ContType.container_type#</option>
+			            <option <cfif FORM.container_type is ContType.container_type> selected="selected" </cfif>value="#ContType.container_type#">#ContType.container_type#</option>
 					</cfif>
           		</cfloop>
 			</select>
@@ -706,7 +706,7 @@
 				<select name="Fluid_Type" size="1" class="reqdClr" id="fluid_type">
 					<option value=""></option>
 		          	<cfloop query="FluidType">
-        		    	<option <cfif variables.fluid_type is FluidType.Fluid_Type> <selected="selected"> </cfif>value="#FluidType.Fluid_Type#">#FluidType.Fluid_Type#</option>
+        		    	<option <cfif FORM.fluid_type is FluidType.Fluid_Type> <selected="selected"> </cfif>value="#FluidType.Fluid_Type#">#FluidType.Fluid_Type#</option>
 		          	</cfloop>
 				</select>
 				<label for="checked_date">Fluid Checked Date</label>

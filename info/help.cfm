@@ -14,7 +14,7 @@
 <cfif #content# is "accepted_sci_name">
 <cfset title="Accepted Scientific Name Help">
 Accepted Scientific Name is the name now applied to a cited specimen.
-It may or may not be the same as the name applied to the specimen in a 
+It may or may not be the same as the name applied to the specimen in a
 publication.
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
@@ -64,15 +64,15 @@ big boxes.
 <cfif #content# is "cat_num">
 	<cfset title="Catalog Number Help">
 	Catalog number is the permanent number assigned by one of the collections to an item. It is not the collector's
-	field catalog number. 
+	field catalog number.
 	<p>
 	Catalog Number is often prefixed with Collecton Code, Institution Acronym, or some combination or expansion of these
 	to avoid ambiguity. If you search MCZbase for catalog number alone, you are likely to return many specimens. Add "<strong>Institution</strong>" to your preferences to filter by an individual collection.
-	
+
 	Catalog Number is most often given with Collection Code and Institution
 	Acronym in the form of "MCZ Mamm 1" in MCZbase.
-		
-	
+
+
 	<P>The format for searching this field is:
 	<ul>
 					<li>An integer (9234)</li>
@@ -99,16 +99,16 @@ big boxes.
 <cfset title="Collecting Source Help">
 Collecting Source keeps track of the source of the specimens from a collecting event.
 A Collecting Source of "wild caught" indicates a valid distribution record for the taxon.
-For any other value of Collecting Source, the distribution is invalid or at least suspect. Accordingly, 
+For any other value of Collecting Source, the distribution is invalid or at least suspect. Accordingly,
 specimens with a Collecting Source other than "wild caught" will not map to BerkeleyMapper.
 </cfif>
 
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "containssearch">
 <cfset title="Free Text Search Help">
-<p>The free text search uses ORACLE's contains() function to search multiple fields similtaneously.  
-You can enter a single word into the free text search box, or a list of words and query operators.  
-Up to the first 1000 most relevant results are returned from the free text search.  Terms are not case 
+<p>The free text search uses ORACLE's contains() function to search multiple fields similtaneously.
+You can enter a single word into the free text search box, or a list of words and query operators.
+Up to the first 1000 most relevant results are returned from the free text search.  Terms are not case
 sensitive.  Operators include the following:</p>
 <ul>
 	<li><strong>&amp;</strong> and <em>Louis &amp; Agassiz</em></li>
@@ -121,36 +121,36 @@ sensitive.  Operators include the following:</p>
 	<li><strong>$</strong> same word stem <em>$traverse</em></li>
 </ul>
 <p>
-Terms can be combined <em>(!louis | alexander) &amp; agassiz ~brazil</em> using parenthesies to 
-set change the default order of evaluation of the terms.  
+Terms can be combined <em>(!louis | alexander) &amp; agassiz ~brazil</em> using parenthesies to
+set change the default order of evaluation of the terms.
 </p>
 <p>
-A good example of a free text search is a search for the term 'Operculum'.  The search 
-<em>operculum</em> finds the word operculum in any field (in some cases, incorrectly, 
+A good example of a free text search is a search for the term 'Operculum'.  The search
+<em>operculum</em> finds the word operculum in any field (in some cases, incorrectly,
 as part of the taxon name, in more places as a remark).  Broadening the search to <em>!operculum</em>
-or <em>fuzzy(operculum)</em> adds more matches, in this case often place names and taxon names that 
-sound sort of like operculum.  Broadening the search with <em>operculum, opercula</em> finds 
-matches on either the singular operculum or plural opercula, weighted to place records with both 
-words in them at the top.  To show just opercula that also mention fish, you can use 
-<em>(operculum,opercula) &amp; fish</em>, compare this with <em>operculum,opercula &amp; fish</em> which finds 
+or <em>fuzzy(operculum)</em> adds more matches, in this case often place names and taxon names that
+sound sort of like operculum.  Broadening the search with <em>operculum, opercula</em> finds
+matches on either the singular operculum or plural opercula, weighted to place records with both
+words in them at the top.  To show just opercula that also mention fish, you can use
+<em>(operculum,opercula) &amp; fish</em>, compare this with <em>operculum,opercula &amp; fish</em> which finds
 records that contain both opercula and fish or operculum with or without fish (the &amp; operator
-is evaluated before the or operators, so you need to use parenthesies to narrow the search 
-in the way you want).  To eliminate fish from the search result, you could use 
+is evaluated before the or operators, so you need to use parenthesies to narrow the search
+in the way you want).  To eliminate fish from the search result, you could use
 <em>(operculum,opercula) ~(chordata|ichthyology|fish)</em>.  The $ word stem operator uses
 a list of english lingustic roots, in this case the latin word $operculum won't be recognized
 as having the same stem as opercula, The $ operator is good at including plurals of english words
-e.g. &amp;turtle.  
+e.g. &amp;turtle.
 </p>
 <p>
-The fuzzy operator can take additional parameters, that is fuzzy(term,score,expansion).  
-The fuzzy operator on its own is equivalent to fuzzy(term,60,100).  Score takes values 
+The fuzzy operator can take additional parameters, that is fuzzy(term,score,expansion).
+The fuzzy operator on its own is equivalent to fuzzy(term,60,100).  Score takes values
 of 1 to 80, 1 is the broadest, 80 is the narrowest, e.g. fuzzy(agassiz,30) is broader
-than fuzzy(agassiz).  Expansion takes values from 1 to 5000, 1 is the narrowest, 5000 
+than fuzzy(agassiz).  Expansion takes values from 1 to 5000, 1 is the narrowest, 5000
 the broadest, e.g. fuzzy(agassiz,30,200) is broader than fuzzy(agassiz).
 </p>
 <p>
 Also see <a href='http://docs.oracle.com/cd/B13789_01/text.101/b10730/cqoper.htm'>
-Oracle's detailed documentation of the contains search query operators</a>. 
+Oracle's detailed documentation of the contains search query operators</a>.
 </p>
 </cfif>
 
@@ -163,7 +163,7 @@ County refers to a division of a state or province such as a county, parish, or 
 <cfif #content# is "cited_sci_name">
 <cfset title="Cited Scientific Name Help">
 Cited Scientific Name is the name applied to a specimen in a publication.
-It may or may not be the same as the currently accepted name for the 
+It may or may not be the same as the currently accepted name for the
 specimen or for the taxon.
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
@@ -185,8 +185,8 @@ specimen or for the taxon.
 					<li>A hyphen-separated range of integers (1-6)</li>
 					<ul>
 						<li>
-							If you get an error with this search, there is probably a non-numeric value somewhere in the 
-							data. Please file a <a href="/info/bugs.cmf" target="_blank">bug report</a> if that is unexpected. 
+							If you get an error with this search, there is probably a non-numeric value somewhere in the
+							data. Please file a <a href="/info/bugs.cmf" target="_blank">bug report</a> if that is unexpected.
 						</li>
 					</ul>
 	</ul>
@@ -207,7 +207,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 <cfif #content# is "CollStats">
 	<cfset title="Collection Stats">
 	<cfquery name="stat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT 
+		SELECT
 			collection,
 			descr,
 			count(collection_object_id) as cnt,
@@ -219,7 +219,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 		WHERE
 			 collection.collection_id = cataloged_item.collection_id (+)
 			 and collection.collection_id not in (6, 10, 12)
-		GROUP BY 
+		GROUP BY
 			collection,
 			descr,
 			web_link,
@@ -235,41 +235,24 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 	Summary of specimens represented in MCZbase:
 	<blockquote>
 	<table>
-	
+
 	<ul>
 		<cfloop query="stat">
 			<tr>
-				
+
 					<td><li></td>
-						<cfif #Collection# EQ "Invertebrate Zoology">
-							<td>Invertebrate Zoology (incl. Marine Invertebrates)</td>
-						<cfelse>
-							<td>#Collection#</td>
-						</cfif>
+						<td>#Collection#</td>
 					<td>#cnt#</td>
 				  	<td nowrap>
-					  	<cfif #Collection# EQ "Invertebrate Zoology">
-						  	<font size="-1">(
-							  <cfif len(#web_link#) gt 0>
-							  	<a href="#web_link#" target="_blank">#descr#</a>
-							  <cfelse>
-							  	#descr#
-							  </cfif>)<br>
-							  (
-							  <a href="http://www.mcz.harvard.edu/Departments/MarineInverts/" target="_blank">MCZ Marine Invertebrates Collection</a>
-							  )
-							</font>
-						<cfelse>
-							<font size="-1">(
-							  <cfif len(#web_link#) gt 0>
-							  	<a href="#web_link#" target="_blank">#descr#</a>
-							  <cfelse>
-							  	#descr#
-							  </cfif>)
-							</font>
-						</cfif>
+						<font size="-1">(
+						  <cfif len(#web_link#) gt 0>
+						  	<a href="#web_link#" target="_blank">#descr#</a>
+						  <cfelse>
+						  	#descr#
+						  </cfif>)
+						</font>
 					</td>
-				
+
 			</tr>
 		</cfloop>
 		<tr>
@@ -296,14 +279,14 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "collector">
 	<cfset title="Collector Help">
-	Collector is the name of the person, group, or agency credited with collecting a specimen. 
+	Collector is the name of the person, group, or agency credited with collecting a specimen.
 	Most specimens have one or more names of people as their collector.
 	<p>Some collector names are hidden and designated "anonymous," in contrast to those where the name is "unknown." Records in which the collector is screened (displayed as anonymous) cannot be located when a collector name is specified in a query.</p>
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "chronological_extent">
 	<cfset title="Chronological Extent Help">
-	<strong>Chronological Extent</strong> limits searches to those collecting events spanning 
+	<strong>Chronological Extent</strong> limits searches to those collecting events spanning
 	less than or equal to the specified number of days. Examples:
 	<table border>
 		<tr>
@@ -328,7 +311,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 <cfif #content# is "Citation">
 	<cfset title="Citation Statistics">
 	<cfquery name="cit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT 
+		SELECT
 			count(citation.collection_object_id) as cnt,
 			taxonomy.scientific_name as scientific_name,
 			citName.scientific_name as citName
@@ -344,7 +327,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 			citation.cited_taxon_name_id = citName.taxon_name_id
 		GROUP BY
 			taxonomy.scientific_name,citName.scientific_name
-		ORDER BY 
+		ORDER BY
 			scientific_name
 	</cfquery>
 	<table border>
@@ -353,7 +336,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 			<td>Cited As</td>
 			<td>Citations</td>
 		</tr>
-	
+
 	Citations by Taxonomy:
 	<cfloop query="cit">
 		<tr>
@@ -365,7 +348,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 	</table>
 	<br>Citations by Collection:
 	<cfquery name="citColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT 
+		SELECT
 			count(citation.collection_object_id) as cnt,
 			collection.collection_cde,
 			collection.institution_acronym
@@ -379,7 +362,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 		GROUP BY
 			collection.collection_cde,
 			collection.institution_acronym
-		ORDER BY 
+		ORDER BY
 			collection.collection_cde,
 			collection.institution_acronym
 	</cfquery>
@@ -412,7 +395,7 @@ Underscore (_) will match any single character (e.g., "Cl_ck" retrieves "Clack,"
 </p><p>
 Percent sign (%) will match a text string of any length (e.g., "Alb%" retrieves "Albany," "Albuquerque," "Albäcksskolan")
 </p><p>
-Include historic taxonomic names and synonyms in search results by changing the <strong>Scientific Name</strong> field modifier from <strong>"contains"</strong> to <strong>"is/was/cited/related."</strong> 
+Include historic taxonomic names and synonyms in search results by changing the <strong>Scientific Name</strong> field modifier from <strong>"contains"</strong> to <strong>"is/was/cited/related."</strong>
 </p><p>
 Isolate specimen records with images/videos, text or audio files by toggling the <strong>"Requires Media"</strong> checkbox at the top of the Specimen Search page and selecting the desired media type.
 </p><p>
@@ -442,9 +425,9 @@ Download a .csv file of queried specimen records by clicking the <strong>"Downlo
 </p><p>
 Note: Searches can only be downloaded and saved when logged in. Create an MCZbase account by supplying a username and password following the log in prompts.
 </p><p>
-For more in-depth MCZbase questions, 
+For more in-depth MCZbase questions,
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-see the <a href='https://code.mcz.harvard.edu/wiki/index.php/Main_Page'>Using MCZbase Wiki</a> (internal use only) or</cfif> contact <a href="mailto:bhaley@oeb.harvard.edu">System Administrator</a>. 
+see the <a href='https://code.mcz.harvard.edu/wiki/index.php/Main_Page'>Using MCZbase Wiki</a> (internal use only) or</cfif> contact <a href="mailto:bhaley@oeb.harvard.edu">System Administrator</a>.
 </p>
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
@@ -455,7 +438,7 @@ see the <a href='https://code.mcz.harvard.edu/wiki/index.php/Main_Page'>Using MC
 <p>Use generic search fields to retrieve the broadest results rather than specific fields that may require proper case and spelling.</p>
 <ul>
 <li>Search Specimen Screen: "Any Taxonomic Element"</li>
-<li>Search Specimen Screen: "Any Geographic Element"</li> 
+<li>Search Specimen Screen: "Any Geographic Element"</li>
 <li>Search Agent Screen: "Any part of any name"</li>
 <li>Search Taxonomy Screen: "Any Category"</li>
 </ul>
@@ -523,11 +506,11 @@ which the collecting event was recorded. For example: </li>
 </ul>
 <P ALIGN=LEFT>With this paradigm, there is no such thing as "date unknown" and data retrieval is limited mostly by the quality of the data recorded.
 Searches too can define a span, and will return
-collecting events under three matching conditions: 
+collecting events under three matching conditions:
 </P>
 <UL>
         <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm">Search span is within
-        the recorded span: 
+        the recorded span:
         </P>
         <UL>
                 <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><font color="##C0C0C0">-----</font>|--Searched--|<font color="##C0C0C0">--------</font></P>
@@ -536,7 +519,7 @@ collecting events under three matching conditions:
         </UL>
 
         <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm">Recorded span is within the
-        searched span: 
+        searched span:
         </P>
         <UL>
                 <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><font color="##C0C0C0">--</font>|------Searched------|<font color="##C0C0C0">--</font></li>
@@ -545,7 +528,7 @@ collecting events under three matching conditions:
         </UL>
 
         <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm">Search span overlaps
-        part of recorded span: 
+        part of recorded span:
         </P>
         <UL>
                 <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><font color="##C0C0C0">-----------</font>|--Searched--|<font color="##C0C0C0">--</font></li>
@@ -561,33 +544,33 @@ In other words, the event <i>could have</i> occurred within the searched span.</
 <UL>
         <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><b>Year Collected:</b> Specify
         a range of years. To specify a single year, enter only began year.
-        Format is a 4-digit number, e.g., 1996. 
+        Format is a 4-digit number, e.g., 1996.
         </P>
 
         <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><b>Month Collected:</b> Specify
-        a range of months, e.g., all specimens from January-March. 
+        a range of months, e.g., all specimens from January-March.
         </P>
         <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><b>Day Collected:</b> A range
-        of days of the month, e.g., 1-5. 
+        of days of the month, e.g., 1-5.
         </P>
         <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><b>Full Date:</b> Specify a
         day, month, and year range. 'dd mmm yyyy' and various other formats
-        are recognized. 
+        are recognized.
         </P>
         <LI><P ALIGN=LEFT><b>Month:</b> Select a (possibly discontinuous) range of
         months. For example, search for winter collecting events, irrespective of year, by
-        selecting January, February, November, and December. 
+        selecting January, February, November, and December.
         </P>
 
 </UL>
 
 <P ALIGN=LEFT>Because arguments are joined with Boolean "AND"s, ranges must be in
-chronological sequence. For example: 
+chronological sequence. For example:
 </P>
 <UL>
-        <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm">Start month: March 
+        <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm">Start month: March
         </li>
-        <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm">End month: January</li> 
+        <LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm">End month: January</li>
 </UL>
 <P ALIGN=LEFT>Not valid because March comes after January.</p>
 <ul>
@@ -602,7 +585,7 @@ chronological sequence. For example:
 <P ALIGN=LEFT>Not valid because the query will contain &quot;AND day BETWEEN 4 and 3.&quot; </p>
 
 <P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR><A HREF="javascript: void(0);" ONCLICK="javascript: self.close()">Close
-this window</A> 
+this window</A>
 </P>
 
 </cfif>
@@ -681,7 +664,7 @@ this window</A>
 <cfset title="Geographic Element Help">
 	Search on any substring contained in geographic categories other than specific locality.
 	<p>
-	
+
 	For example, the string "denali" would return records from:
 	<ul>
 				<li>Denali National Park</li>
@@ -700,7 +683,7 @@ this window</A>
 		<li>Island Group</li>
 		<li>Island</li>
 	</ul>
-		
+
 	</p>
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
@@ -743,11 +726,11 @@ this window</A>
 	</form>
 	</table>
 	<cfquery name="perm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			ISSUED_BY.agent_name issuer,
 			ISSUED_DATE,
 			ISSUED_TO.agent_name issuee,
-			RENEWED_DATE, 
+			RENEWED_DATE,
 			EXP_DATE,
 			PERMIT_NUM,
 			PERMIT_TYPE
@@ -803,7 +786,7 @@ Data are often incomplete.
 <!-------------------------------                i              --------------------------------------->
 <cfif #content# is "island">
 <cfset title="Island Help">
-Many Alaska specimens were collected on an island and there are some duplicate (and even triplicate) island names among the thousands of islands in Alaska. 
+Many Alaska specimens were collected on an island and there are some duplicate (and even triplicate) island names among the thousands of islands in Alaska.
 You may therefore need to specify some other paramater in order to get a particular &quot;Green Island.&quot;
 <p>You may find specimens for which island is not recorded by searching for "NULL" (without the quotes; this feature is<b></b> case sensitive) in Island.</p>
 </cfif>
@@ -854,7 +837,7 @@ Collection_Object_id = 99999.")
 <cfif #content# is "lat_long_ref_source">
 	<cfset title="Existing lat_long_ref_source">
 	<cfquery name="perm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			distinct(lat_long_ref_source) lat_long_ref_source
 		FROM
 			lat_long
@@ -875,20 +858,20 @@ Collection_Object_id = 99999.")
 <cfif #content# is "max_error_in_meters">
 	<cfset title="Maximum Error Help">
 	Maximum Error filters based on the maximum error recorded with the accepted coordinate
-	determination. 
+	determination.
 	<ul>
 		<li>
-			Maximum error describes the radius of a circle originating at the coordinates given. 
+			Maximum error describes the radius of a circle originating at the coordinates given.
 			This error is intended to be large enough to ensure that the specimen must have come
 			from within it.
 		</li>
 		<li>
-			Determinations with a maximum error of 0 are assumed to mean "maximum error not determined" 
+			Determinations with a maximum error of 0 are assumed to mean "maximum error not determined"
 			and not "perfectly precise" and will not match searches including a maximum error
 			of greater than zero.
 		</li>
 		<li>
-			Search for maximum error=0 to include those specimens with a recorded maximum error 
+			Search for maximum error=0 to include those specimens with a recorded maximum error
 			of 0.
 		</li>
 		<li>
@@ -955,7 +938,7 @@ You can use Other ID even if you do not specify the Other ID Type. For example, 
 		<li>other institution's catalog numbers</li>
 	</ul>
 	Data recorded at the time of collection are typically entered as original field number, regardless of the collector's terminology.
-	
+
 	<p>
 		You may search for all specimens having a particular identifier by entering only the identifier type and not the actual identifier. For example, to find all marmots with GenBank sequence accessions, search for:
 	<ul>
@@ -968,14 +951,14 @@ You can use Other ID even if you do not specify the Other ID Type. For example, 
 
 <cfif #content# is "onlyCited">
 	<cfset title="Publication Search Help">
-	Publications are associated with specimens in two ways: 
+	Publications are associated with specimens in two ways:
 	<ol>
 		<li>Citations explicitly link a particular specimen to a particular page.</li>
 		<li>Some publications are associated only with a project. The project either used or contributed specimens; the publication is based (to some extent) on specimens associated with the project.</li>
 	</ol>
-	
+
 	<p>Check <b>Cite specimens only?</b> to exclude publications that do not cite specimens from your search results.</p>
-		
+
 	</ul>
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
@@ -990,7 +973,7 @@ Search for multiple parts using the pipe ( | ) separator. Example:
 </ul>
 will return specimens having a part_name="heart" AND a part_name="kidney."
 <p>
-Search for specimens having the selected part. Most specimens have multiple parts (ie, skin; skull). Note that parts 
+Search for specimens having the selected part. Most specimens have multiple parts (ie, skin; skull). Note that parts
 includes frozen tissue samples.
 <p>Frozen tissues of any type can be found by specifying a Preservation Method of "frozen" without specifying Parts.</p>
 </cfif>
@@ -1045,13 +1028,13 @@ Sitka, etc.
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "scientific_name">
 <cfset title="Scientific Name Help">
-The scientific name is generally the taxon name of an organism. Most specimens are identified to genus, species, 
+The scientific name is generally the taxon name of an organism. Most specimens are identified to genus, species,
 	and occasionally subspecies. We have made exceptions, including:
 	<ul>
 		<li>Genus + "sp." (<i>Sorex sp.</i>)</li>
 			<ul>
 				<li>
-					Note that MCZbase does not consider "<i>Sorex sp.</i>" a species; 
+					Note that MCZbase does not consider "<i>Sorex sp.</i>" a species;
 					the identification is a concatenation of a valid genus and the string "sp."
 				</li>
 			</ul>
@@ -1060,12 +1043,12 @@ The scientific name is generally the taxon name of an organism. Most specimens a
 		<li>Species A x Species B (<em>Bos grunniens</em> x <em>Bos taurus</em>)</li>
 			<ul>
 				<li>
-					Hybrids in MCZbase are an identification combining parent taxa, not new taxa. Any combination may be recorded, 
+					Hybrids in MCZbase are an identification combining parent taxa, not new taxa. Any combination may be recorded,
 					although only "A x B" have been used as of this writing.
 				</li>
 			</ul>
 	</ul>
-Substrings will return records containing the specified substring in any of these three fields. 
+Substrings will return records containing the specified substring in any of these three fields.
 (Turn on "Advanced Scientific Name" in your preferences to match exact strings or exclude taxa.)<br>For example, searching on &quot;mus&quot; would return records for the following taxa (among others):
 <ul>
 	<li><b>Mus</b> <b>mus</b>culus</li>
@@ -1095,9 +1078,9 @@ Substrings will return records containing the specified substring in any of thes
 	</ul>
 </cfif>
 <cfif #content# is "taxonomy_scientific_name">
-	Scientific Name, as used in Taxonomy (as opposed to <a href="help.cfm?content=scientific_name">Identification</a> scientific name) 
+	Scientific Name, as used in Taxonomy (as opposed to <a href="help.cfm?content=scientific_name">Identification</a> scientific name)
 	is typically a concatenation of Genus, Species, and, if it exists, Subspecies. Taxonomy Scientific Name will never
-	includes hybrids, ".sp," or other strings or combinations of taxa. Where any level above Subspecies does not exist, 
+	includes hybrids, ".sp," or other strings or combinations of taxa. Where any level above Subspecies does not exist,
 	Taxonomy Scientific Name will simply be the lowest term given. Valid Taxonomy Scientific Names include:
 	<ul>
 		<li>Chiroptera (an Order)</li>
