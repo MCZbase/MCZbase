@@ -111,7 +111,8 @@
 					<option value="state_prov">State</option>
 					<option value="county">County</option>
 					<option value="quad">Map Name</option>
-					<option value="feature">Feature</option>
+					<option value="feature">Land Feature</option>
+					<option value="water_feature">Water Feature</option>
 					<option value="island">Island</option>
 					<option value="island_group">Island Group</option>
 					<option value="sea">Sea</option>
@@ -549,6 +550,9 @@
        <cfquery name="Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
        	select distinct(Feature) from geog_auth_rec order by Feature
        </cfquery>
+			 <cfquery name="Water_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 select distinct(Water_Feature) from geog_auth_rec order by Water_Feature
+			 </cfquery>
        <cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
        	select attribute from geology_attribute_hierarchy group by attribute order by attribute
        </cfquery>
@@ -675,7 +679,7 @@
        	</tr>
        	<tr>
        		<td class="lbl">
-       			<span id="_feature">Geographic Feature:</span>
+       			<span id="_feature">Land Feature:</span>
        		</td>
        		<td class="srch">
        			<select name="feature" id="feature" size="1">
@@ -687,6 +691,20 @@
        			</select>
        		</td>
        	</tr>
+				<tr>
+					<td class="lbl">
+						<span id="_water_feature">Water Feature:</span>
+					</td>
+					<td class="srch">
+						<select name="water_feature" id="water_feature" size="1">
+							<option value=""></option>
+							<option value="NULL">NULL</option>
+							<cfloop query="water_Feature">
+								<option value="#Water_Feature.Water_Feature#">#Water_Feature.Water_Feature#</option>
+							</cfloop>
+						</select>
+					</td>
+				</tr>
        	<tr>
        		<td class="lbl">
        			<span id="_spec_locality">Specific&nbsp;Locality:</span>
@@ -1348,7 +1366,7 @@
          			<span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span>
          		</td>
          	</tr>
-         
+
          	<tr>
          		<td class="lbl">
          			<span id="disposition">Part Disposition:</span>
@@ -1470,7 +1488,8 @@
 				<option value="state_prov">State</option>
 				<option value="county">County</option>
 				<option value="quad">Map Name</option>
-				<option value="feature">Feature</option>
+				<option value="feature">Land Feature</option>
+				<option value="water_feature">Water Feature</option>
 				<option value="island">Island</option>
 				<option value="island_group">Island Group</option>
 				<option value="sea">Sea</option>
