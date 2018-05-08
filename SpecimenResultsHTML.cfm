@@ -112,6 +112,7 @@
 			#session.flatTableName#.coll_obj_disposition,
 			#session.flatTableName#.county,
 			#session.flatTableName#.feature,
+      #session.flatTableName#.water_feature,
 			#session.flatTableName#.quad,
 			#session.flatTableName#.remarks,
 			#session.flatTableName#.ISLAND,
@@ -832,9 +833,11 @@ document.getElementById('saveme').submit();
 		<img src="/images/down.gif" border="0" name="qddn"></a>	</td>
 
 		<td nowrap>
-			<strong>Feature</strong>
+			<strong>Land Feature</strong>
 		</td>
-
+    <td nowrap>
+      <strong>Water Feature</strong>
+    </td>
 
 		<td nowrap><strong>County</strong>
 		<a href="javascript: void"
@@ -1095,7 +1098,9 @@ document.getElementById('saveme').submit();
 		<td nowrap>
 			#feature#&nbsp;
 		</td>
-
+    <td nowrap>
+			#water_feature#&nbsp;
+		</td>
 		  <td>#county#&nbsp;</td>
 		  <td>#island_group#&nbsp;</td>
 			<td>#island#&nbsp;</td>
@@ -1598,7 +1603,7 @@ document.getElementById('saveme').submit();
 	<cfset header = "#header##chr(9)#Sea">
 </cfif>
 <cfif #detail_level# gte 2>
-	<cfset header = "#header##chr(9)#Map_Name#chr(9)#Feature#chr(9)#County#chr(9)#Island_Group#chr(9)#Island#chr(9)#Associated_Species#chr(9)#Microhabitat#chr(9)#Elevation_In_Meters">
+	<cfset header = "#header##chr(9)#Map_Name#chr(9)#Feature#chr(9)#Water_Feature#chr(9)#County#chr(9)#Island_Group#chr(9)#Island#chr(9)#Associated_Species#chr(9)#Microhabitat#chr(9)#Elevation_In_Meters">
 </cfif>
 <cfif #detail_level# gte 1>
 	<cfset header = "#header##chr(9)#Specific_Locality#chr(9)#Verbatim_Date">
@@ -1657,7 +1662,7 @@ document.getElementById('saveme').submit();
 	<cfset oneLine = "#oneLine##chr(9)##sea#">
 </cfif>
 <cfif #detail_level# gte 2>
-	<cfset oneLine = "#oneLine##chr(9)##quad##chr(9)##feature##chr(9)##county##chr(9)##island_group##chr(9)##island##chr(9)##Associated_Species##chr(9)##habitat##chr(9)##MIN_ELEV_IN_M#-#MAX_ELEV_IN_M#">
+	<cfset oneLine = "#oneLine##chr(9)##quad##chr(9)##feature##chr(9)##water_feature##chr(9)##county##chr(9)##island_group##chr(9)##island##chr(9)##Associated_Species##chr(9)##habitat##chr(9)##MIN_ELEV_IN_M#-#MAX_ELEV_IN_M#">
 </cfif>
 <cfset oneLine = "#oneLine##chr(9)##spec_locality##chr(9)##verbatim_date#">
 <cfif #detail_level# gte 3>
@@ -1741,6 +1746,9 @@ document.getElementById('saveme').submit();
 			<cfif len(#feature#) gt 0>
 				<cfset geog = "#geog#, #feature#">
 			</cfif>
+      <cfif len(#water_feature#) gt 0>
+        <cfset geog = "#geog#, #water_feature#">
+      </cfif>
 			<cfif len(#spec_locality#) gt 0>
 				<cfset geog = "#geog#; #spec_locality#">
 			</cfif>
@@ -1763,6 +1771,9 @@ document.getElementById('saveme').submit();
 			<cfif len(#feature#) gt 0>
 				<cfset geog = "#geog#, #feature#">
 			</cfif>
+      <cfif len(#water_feature#) gt 0>
+        <cfset geog = "#geog#, #water_feature#">
+      </cfif>
 			<cfif len(#spec_locality#) gt 0>
 				<cfset geog = "#geog#; #spec_locality#">
 			</cfif>
