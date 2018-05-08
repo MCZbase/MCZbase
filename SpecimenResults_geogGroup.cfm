@@ -3,7 +3,7 @@
 		<cfset detail_level = #session.detailLevel#>
 	<cfelse>
 		<cfset detail_level = 1>
-	</cfif>	
+	</cfif>
 </cfif>
 
 <cfinclude template = "includes/_header.cfm">
@@ -48,7 +48,7 @@
 <cfif #newQuery# is 1>
  <cfset basSelect = "SELECT COUNT(cataloged_item.collection_object_id) CountOfCatalogedItem,identification.scientific_name">
  <cfset basFrom = " FROM cataloged_item,collecting_event,locality,geog_auth_rec,identification">
-  <cfset basWhere = " WHERE 
+  <cfset basWhere = " WHERE
 	 cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 	 collecting_event.locality_id = locality.locality_id AND
 	 locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
@@ -58,93 +58,97 @@
 
 <cfif #groupBy# contains "continent_ocean">
 	 <cfset basSelect = "#basSelect#,continent_ocean">
-	 <cfset basGroup = "#basGroup#,continent_ocean">		
+	 <cfset basGroup = "#basGroup#,continent_ocean">
 </cfif>
 <cfif #groupBy# contains "country">
 	 <cfset basSelect = "#basSelect#,country">
-	 <cfset basGroup = "#basGroup#,country">		
+	 <cfset basGroup = "#basGroup#,country">
 </cfif>
 <cfif #groupBy# contains "state_prov">
 	 <cfset basSelect = "#basSelect#,state_prov">
-	 <cfset basGroup = "#basGroup#,state_prov">		
+	 <cfset basGroup = "#basGroup#,state_prov">
 </cfif>
 <cfif #groupBy# contains "county">
 	 <cfset basSelect = "#basSelect#,county">
-	 <cfset basGroup = "#basGroup#,county">		
+	 <cfset basGroup = "#basGroup#,county">
 </cfif>
 <cfif #groupBy# contains "quad">
 	 <cfset basSelect = "#basSelect#,quad">
-	 <cfset basGroup = "#basGroup#,quad">		
+	 <cfset basGroup = "#basGroup#,quad">
 </cfif>
 <cfif #groupBy# contains "feature">
 	 <cfset basSelect = "#basSelect#,feature">
-	 <cfset basGroup = "#basGroup#,feature">		
+	 <cfset basGroup = "#basGroup#,feature">
+</cfif>
+<cfif #groupBy# contains "water_feature">
+	 <cfset basSelect = "#basSelect#,water_feature">
+	 <cfset basGroup = "#basGroup#,water_feature">
 </cfif>
 <cfif #groupBy# contains "island_group">
 	<cfset groupBy = #replace(groupBy,"island_group","isl_group","all")#>
 </cfif>
 <cfif #groupBy# contains "island">
 	 <cfset basSelect = "#basSelect#,island">
-	 <cfset basGroup = "#basGroup#,island">		
+	 <cfset basGroup = "#basGroup#,island">
 </cfif>
 <cfif #groupBy# contains "isl_group">
 	 <cfset basSelect = "#basSelect#,island_group">
-	 <cfset basGroup = "#basGroup#,island_group">		
+	 <cfset basGroup = "#basGroup#,island_group">
 </cfif>
 <cfif #groupBy# contains "sea">
 	 <cfset basSelect = "#basSelect#,sea">
-	 <cfset basGroup = "#basGroup#,sea">		
+	 <cfset basGroup = "#basGroup#,sea">
 </cfif>
 <cfif #groupBy# contains "spec_locality">
 	 <cfset basSelect = "#basSelect#,spec_locality">
-	 <cfset basGroup = "#basGroup#,spec_locality">		
+	 <cfset basGroup = "#basGroup#,spec_locality">
 </cfif>
-	
-	
+
+
 <!--------------------------------------------------------------->
 	<cfset basQual = "">
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
-	
+
 	<!--- wrap everything up in a string --->
 
-		<cfset SqlString = "#basSelect# #basFrom# #basWhere# #basQual# #basGroup#">	
+		<cfset SqlString = "#basSelect# #basFrom# #basWhere# #basQual# #basGroup#">
 
-	
+
 		<cfif len(#basQual#) is 0 AND basFrom does not contain "binary_object">
 			<CFSETTING ENABLECFOUTPUTONLY=0>
-			
-			<font color="#FF0000" size="+2">You must enter some search criteria!</font>	  
+
+			<font color="#FF0000" size="+2">You must enter some search criteria!</font>
 			<cfabort>
 		</cfif>
 		<!-----
 		<cfoutput>
 	#preserveSingleQuotes(SqlString)#
 	</cfoutput>
-	
+
 
 		----->
-		
+
 	<cfoutput>
 	#preserveSingleQuotes(SqlString)#
 	</cfoutput>
-	
-	<!--- 
-		get search parameters 
+
+	<!---
+		get search parameters
 		There is soem goofy stuff that applies to thei form ONLY -
 		be careful pasting this code!!
 		-- REMOVE SCIENTIFIC NAME
 		-- REMOVE sciNameOper
 	---->
-	
+
 	<cfset searchParams = "">
 	<cfoutput>
 		<cfloop list="#StructKeyList(form)#" index="key">
 			 <cfif len(#form[key]#) gt 0>
-				<cfif #key# is not "FIELDNAMES" 
-					AND #key# is not "SEARCHPARAMS" 
-					AND #key# is not "mapurl" 
-					AND #key# is not "cbifurl" 
+				<cfif #key# is not "FIELDNAMES"
+					AND #key# is not "SEARCHPARAMS"
+					AND #key# is not "mapurl"
+					AND #key# is not "cbifurl"
 					and #key# is not "newquery"
 					and #key# is not "ORDER_ORDER"
 					and #key# is not "ORDER_BY"
@@ -164,16 +168,16 @@
 		<!---- also grab anything from the URL --->
 		<cfloop list="#StructKeyList(url)#" index="key">
 		 <cfif len(#url[key]#) gt 0>
-				<cfif #key# is not "FIELDNAMES" 
-					AND #key# is not "SEARCHPARAMS" 
-					AND #key# is not "mapurl" 
-					AND #key# is not "cbifurl" 
+				<cfif #key# is not "FIELDNAMES"
+					AND #key# is not "SEARCHPARAMS"
+					AND #key# is not "mapurl"
+					AND #key# is not "cbifurl"
 					and #key# is not "newquery"
 					and #key# is not "ORDER_ORDER"
 					and #key# is not "ORDER_BY"
 					and #key# is not "newsearch"
 					and #key# is not "STARTROW"
-					and #key# is not "detail_level"					
+					and #key# is not "detail_level"
 					and #key# is not "sciNameOper"
 					and #key# is not "scientific_name">
 					<cfif len(#searchParams#) is 0>
@@ -184,20 +188,20 @@
 				</cfif>
 			 </cfif>
 		</cfloop>
-		
+
 		<cfset searchParams = #replace(searchParams,"'","","all")#>
-		
+
 	</cfoutput>
-	
-	
+
+
 	<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
-	
+
 	<cfif getData.recordcount is 0>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 			<cfoutput>
-		<font color="##FF0000" size="+2">Your search returned no results.</font>	  
+		<font color="##FF0000" size="+2">Your search returned no results.</font>
 		<p>Some possibilities include:</p>
 		<ul>
 			<li>
@@ -214,11 +218,11 @@
 			</li>
 		</ul>
 		</cfoutput>
-		
+
 		<cfabort>
 	</cfif>
-	
-	<cfset newQuery=0>	
+
+	<cfset newQuery=0>
 <cfset newSearch = 1>
 </cfif>
 <cfset order_by = "">
@@ -234,7 +238,7 @@
 	 	<cfset order_by = "country">
 	 <cfelse>
 	 	<cfset order_by = "#order_by#,country">
-	 </cfif>	
+	 </cfif>
 </cfif>
 <cfif #groupBy# contains "state_prov">
 	 <cfif len(#order_by#) is 0>
@@ -262,6 +266,13 @@
 	 	<cfset order_by = "feature">
 	 <cfelse>
 	 	<cfset order_by = "#order_by#,feature">
+	 </cfif>
+</cfif>
+<cfif #groupBy# contains "water_feature">
+	 <cfif len(#order_by#) is 0>
+	 	<cfset order_by = "water_feature">
+	 <cfelse>
+	 	<cfset order_by = "#order_by#,water_feature">
 	 </cfif>
 </cfif>
 <cfif #groupBy# contains "island_group">
@@ -327,14 +338,14 @@
 
 <table border="1">
 <tr>
- 
-	
-				
-		
+
+
+
+
 	<!---- always on --->
 
 	<td nowrap><strong>Count</strong>
-	
+
 	</td>
 
 	<td nowrap><strong>Scientific Name</strong></td>
@@ -354,7 +365,10 @@
 		<td nowrap><strong>Map Name</strong></td>
 	</cfif>
 	<cfif #groupBy# contains "feature">
-		<td nowrap><strong>Feature</strong></td>
+		<td nowrap><strong>Land Feature</strong></td>
+	</cfif>
+	<cfif #groupBy# contains "water_feature">
+		<td nowrap><strong>Water Feature</strong></td>
 	</cfif>
 	<cfif #groupBy# contains "isl_group">
 		<td nowrap><strong>Island Group</strong></td>
@@ -371,26 +385,26 @@
 	<cfset i=1>
 
 <cfoutput query="getBasic">
- 
+
     <tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
 	 <form name="theseSpecs#i#" method="post" action="/SpecimenResults.cfm">
 	 #searchparams#
 	  	<input type="hidden" name="Scientific_Name" value="#Scientific_Name#">
 		<input type="hidden" name="sciNameOper" value="=">
-		
+
 		<cfif #groupBy# contains "continent_ocean">
 			<cfif len(#continent_ocean#) gt 0>
 				<input type="hidden" name="continent_ocean" value="#continent_ocean#">
 			<cfelse>
 				<input type="hidden" name="continent_ocean" value="NULL">
-			</cfif>			
+			</cfif>
 		</cfif>
 		<cfif #groupBy# contains "country">
 			<cfif len(#country#) gt 0>
 				<input type="hidden" name="country" value="#country#">
 			<cfelse>
 				<input type="hidden" name="country" value="NULL">
-			</cfif>		
+			</cfif>
 		</cfif>
 		<cfif #groupBy# contains "state_prov">
 			<cfif len(#state_prov#) gt 0>
@@ -418,6 +432,13 @@
 				<input type="hidden" name="feature" value="#feature#">
 			<cfelse>
 				<input type="hidden" name="feature" value="NULL">
+			</cfif>
+		</cfif>
+		<cfif #groupBy# contains "water_feature">
+			<cfif len(#water_feature#) gt 0>
+				<input type="hidden" name="water_feature" value="#water_feature#">
+			<cfelse>
+				<input type="hidden" name="water_feature" value="NULL">
 			</cfif>
 		</cfif>
 		<cfif #groupBy# contains "isl_group">
@@ -448,7 +469,7 @@
 				<input type="hidden" name="spec_locality" value="NULL">
 			</cfif>
 		</cfif>
-				
+
 	  </form>
       <td nowrap>
 	   <a href="javascript:void(0);"
@@ -456,13 +477,13 @@
 		onMouseOver="self.status='Go to SpecimenRecords'"
 		onMouseOut="self.status=''">
 	 <div class="linkButton"
-			onmouseover="this.className='linkButton btnhov'" 
+			onmouseover="this.className='linkButton btnhov'"
 			onmouseout="this.className='linkButton'"
 			>#countOfCatalogedItem#</div></a>
-								
-								
+
+
 	 </td>
-	
+
 	<td nowrap><i>#Scientific_Name#</i></td>
 	<cfif #groupBy# contains "continent_ocean">
 		<td nowrap>#continent_ocean#&nbsp;</td>
@@ -481,6 +502,9 @@
 	</cfif>
 	<cfif #groupBy# contains "feature">
 		<td nowrap>#feature#&nbsp;</td>
+	</cfif>
+	<cfif #groupBy# contains "water_feature">
+		<td nowrap>#water_feature#&nbsp;</td>
 	</cfif>
 	<cfif #groupBy# contains "isl_group">
 		<td nowrap>#island_group#&nbsp;</td>
@@ -524,6 +548,9 @@
 	<cfif #groupBy# contains "feature">
 		<cfset header = "#header##chr(9)#feature">
 	</cfif>
+	<cfif #groupBy# contains "water_feature">
+		<cfset header = "#header##chr(9)#water_feature">
+	</cfif>
 	<cfif #groupBy# contains "isl_group">
 		<cfset header = "#header##chr(9)#island_group">
 	</cfif>
@@ -562,6 +589,9 @@
 	<cfif #groupBy# contains "feature">
 		<cfset oneLine = "#oneLine##chr(9)##feature#">
 	</cfif>
+	<cfif #groupBy# contains "water_feature">
+		<cfset oneLine = "#oneLine##chr(9)##water_feature#">
+	</cfif>
 	<cfif #groupBy# contains "isl_group">
 		<cfset oneLine = "#oneLine##chr(9)##island_group#">
 	</cfif>
@@ -582,22 +612,22 @@
 
 <cfset oneLine = trim(#oneLine#)>
 	<cffile action="append" file="#dlPath##dlFile#" addnewline="yes" output="#oneLine#">
-	
+
 	</cfoutput>
 	<cfoutput>
 		<cfset downloadFile = "/download/#dlFile#">
 		<form name="download" method="post" action="/download_agree.cfm">
 			<input type="hidden" name="cnt" value="#cnt.recordcount#">
 			<input type="hidden" name="downloadFile" value="#downloadFile#">
-			<input type="submit" value="Download" 
+			<input type="submit" value="Download"
 			class="lnkBtn"
-   			onmouseover="this.className='lnkBtn btnhov'" 
+   			onmouseover="this.className='lnkBtn btnhov'"
 			onmouseout="this.className='lnkBtn'">
 		</form>
 	</cfoutput>
-	
 
-	
+
+
 
 
 <cfinclude template = "includes/_footer.cfm">

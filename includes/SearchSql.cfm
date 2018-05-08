@@ -151,9 +151,9 @@
 		<cfset basQual = "#basQual# AND upper(geology_attributes.geo_att_value) like '%#ucase(geology_attribute_value)#%'">
 	</cfif>
 </cfif>
-            
-            
-            
+
+
+
 <cfif isdefined("entered_by") AND len(entered_by) gt 0>
 	<cfset mapurl = "#mapurl#&entered_by=#entered_by#">
 	<cfif basJoin does not contain "CatItemCollObject">
@@ -169,9 +169,9 @@
     <cfset basQual = "#basQual#  AND CatItemCollObject.entered_person_id = #entered_by_id#" >
     <cfset mapurl = "#mapurl#&entered_by_id=#entered_by_id#">
 </cfif>
-        
-        
-        
+
+
+
 <cfif isdefined("edited_by") AND len(edited_by) gt 0>
 	<cfset mapurl = "#mapurl#&edited_by=#edited_by#">
 	<cfif basJoin does not contain "CatItemCollObject">
@@ -187,9 +187,9 @@
     <cfset basQual = "#basQual#  AND CatItemCollObject.last_edited_person_id = #last_edited_person_id#" >
     <cfset mapurl = "#mapurl#&last_edited_person_id=#last_edited_person_id#">
 </cfif>
-        
 
-        
+
+
 <cfif isdefined("media_type") AND len(#media_type#) gt 0>
 	<cfset mapurl = "#mapurl#&media_type=#media_type#">
 	<cfif basJoin does not contain "media_relations">
@@ -1192,6 +1192,14 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basQual = " #basQual# AND feature LIKE '#escapeQuotes(feature)#'">
 	</cfif>
 	<cfset mapurl = "#mapurl#&feature=#feature#">
+</cfif>
+<cfif isdefined("water_feature") AND len(water_feature) gt 0>
+	<cfif compare(water_feature,"NULL") is 0>
+		<cfset basQual = " #basQual# AND water_feature is null">
+	<cfelse>
+		<cfset basQual = " #basQual# AND water_feature LIKE '#escapeQuotes(water_feature)#'">
+	</cfif>
+	<cfset mapurl = "#mapurl#&water_feature=#water_feature#">
 </cfif>
 <cfif isdefined("any_geog") AND len(any_geog) gt 0>
 	<cfset mapurl = "#mapurl#&any_geog=#any_geog#">

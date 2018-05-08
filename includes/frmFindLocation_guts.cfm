@@ -93,7 +93,9 @@
 <cfquery name="ctFeature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select distinct(feature) from ctfeature order by feature
 </cfquery>
-
+<cfquery name="ctWater_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+	select distinct(water_feature) from ctwater_feature order by water_feature
+</cfquery>
 <cfquery name="ctIslandGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select island_group from ctisland_group order by island_group
 </cfquery>
@@ -149,7 +151,7 @@
 					<input type="text" name="ocean_region" id="ocean_region" size="50">
 				</td>
                 <td style="padding-left: 1em;">
-					<label for="feature">Feature</label>
+					<label for="feature">Land Feature</label>
 					<select name="feature" id="feature">
 						<option value=""></option>
 						<cfloop query="ctFeature">
@@ -157,6 +159,15 @@
 						</cfloop>
 					</select>
 				</td>
+				<td style="padding-left: 1em;">
+	<label for="water_feature">Water Feature</label>
+	<select name="water_feature" id="water_feature">
+		<option value=""></option>
+		<cfloop query="ctWater_Feature">
+			<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
+		</cfloop>
+	</select>
+</td>
 			</tr>
 			<tr>
 				<td>
@@ -301,7 +312,7 @@
 					<input type="text" name="locality_id" id="locality_id">
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<table>
@@ -481,7 +492,7 @@
 					<input type="text" name="collecting_event_id" id="collecting_event_id" >
 				</td>
 			</tr>
-	
+
 		</table>
 		</div>
 		</div>

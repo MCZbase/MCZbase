@@ -33,8 +33,11 @@
  						d+='<br>USGS Quad: <strong>' + r.DATA.QUAD[0] + '</strong>';
  					}
  					if(r.DATA.FEATURE[0]){
- 						d+='<br>Feature: <strong>' + r.DATA.FEATURE[0] + '</strong>';
+ 						d+='<br>Land Feature: <strong>' + r.DATA.FEATURE[0] + '</strong>';
  					}
+					if(r.DATA.WATER_FEATURE[0]){
+						d+='<br>Water Feature: <strong>' + r.DATA.WATER_FEATURE[0] + '</strong>';
+					}
  					if(r.DATA.ISLAND_GROUP[0]){
  						d+='<br>Island Group: <strong>' + r.DATA.ISLAND_GROUP[0] + '</strong>';
  					}

@@ -76,6 +76,9 @@
 <cfquery name="ctFeature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select distinct(feature) from ctfeature order by feature
 </cfquery>
+<cfquery name="ctWater_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	select distinct(water_feature) from ctwater_feature order by water_feature
+</cfquery>
 	<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select georefMethod from ctgeorefmethod order by georefMethod
 </cfquery>
@@ -235,7 +238,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td align="right">Feature:</td>
+				<td align="right">Land Feature:</td>
 				<td>
 				<cfif isdefined("feature")>
 					<cfset thisFeature = feature>
@@ -248,6 +251,24 @@
 							<option
 								<cfif thisFeature is ctFeature.feature> selected="selected" </cfif>
 								value = "#ctFeature.feature#">#ctFeature.feature#</option>
+						</cfloop>
+				</select>
+			</td>
+			</tr>
+			<tr>
+				<td align="right">Water Feature:</td>
+				<td>
+				<cfif isdefined("water_feature")>
+					<cfset thisWater_Feature = water_feature>
+				<cfelse>
+					<cfset thisWater_Feature = "">
+				</cfif>
+				<select name="water_feature">
+					<option value=""></option>
+						<cfloop query="ctWater_Feature">
+							<option
+								<cfif thisWater_Feature is ctWater_Feature.water_feature> selected="selected" </cfif>
+								value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
 						</cfloop>
 				</select>
 			</td>
@@ -475,13 +496,30 @@ You do not have permission to create Higher Geographies
 							<cfset thisFeature = "">
 						</cfif>
 						<label for="feature" class="likeLink" onClick="getDocs('higher_geography','feature')">
-							Feature
+						Land Feature
 						</label>
 						<select name="feature" id="feature">
 							<option value=""></option>
 							<cfloop query="ctFeature">
 								<option	<cfif thisFeature is ctFeature.feature> selected="selected" </cfif>
 									value = "#ctFeature.feature#">#ctFeature.feature#</option>
+							</cfloop>
+						</select>
+					</td>
+					<td colspan="2">
+						<cfif isdefined("water_feature")>
+							<cfset thisWater_Feature = water_feature>
+						<cfelse>
+							<cfset thisWater_Feature = "">
+						</cfif>
+						<label for="water_feature" class="likeLink" onClick="getDocs('higher_geography','water_feature')">
+							Water Feature
+						</label>
+						<select name="water_feature" id="water_feature">
+							<option value=""></option>
+							<cfloop query="ctWater_Feature">
+								<option	<cfif thisWater_Feature is ctWater_Feature.water_feature> selected="selected" </cfif>
+									value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
 							</cfloop>
 						</select>
 					</td>
@@ -534,7 +572,7 @@ You do not have permission to create Higher Geographies
 						</cfif>
 						<input type="button" value="See Localities" class="lnkBtn"
 							onClick="document.location='Locality.cfm?Action=findLocality&geog_auth_rec_id=#geog_auth_rec_id#';">&nbsp;
-						<cfset dloc="Locality.cfm?action=newHG&continent_ocean=#continent_ocean#&ocean_region=#ocean_region#&ocean_subregion=#ocean_subregion#&country=#country#&state_prov=#state_prov#&county=#county#&quad=#quad#&feature=#feature#&island_group=#island_group#&island=#island#&sea=#sea#">
+						<cfset dloc="Locality.cfm?action=newHG&continent_ocean=#continent_ocean#&ocean_region=#ocean_region#&ocean_subregion=#ocean_subregion#&country=#country#&state_prov=#state_prov#&county=#county#&quad=#quad#&feature=#feature#&water_feature=#water_feature#&island_group=#island_group#&island=#island#&sea=#sea#">
 						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 						<input type="button" value="Create Clone" class="insBtn" onclick="document.location='#dloc#';">
 						</cfif>
@@ -1221,6 +1259,11 @@ You deleted a collecting event.
 	<cfelse>
 		<cfset sql = "#sql#,feature = null">
 	</cfif>
+	<cfif len(#water_feature#) gt 0>
+		<cfset sql = "#sql#,water_feature = '#water_feature#'">
+	<cfelse>
+		<cfset sql = "#sql#,water_feature = null">
+	</cfif>
 	<cfif len(#island_group#) gt 0>
 		<cfset sql = "#sql#,island_group = '#island_group#'">
 	<cfelse>
@@ -1278,6 +1321,9 @@ INSERT INTO geog_auth_rec (
 	<cfif len(#feature#) gt 0>
 		,feature
 	</cfif>
+	<cfif len(#water_feature#) gt 0>
+		,water_feature
+	</cfif>
 	<cfif len(#island_group#) gt 0>
 		,island_group
 	</cfif>
@@ -1315,6 +1361,9 @@ INSERT INTO geog_auth_rec (
 	</cfif>
 	<cfif len(#feature#) gt 0>
 		,'#feature#'
+	</cfif>
+	<cfif len(#water_feature#) gt 0>
+		,'#water_feature#'
 	</cfif>
 	<cfif len(#island_group#) gt 0>
 		,'#island_group#'

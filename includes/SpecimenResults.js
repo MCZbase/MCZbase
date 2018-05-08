@@ -127,7 +127,7 @@ function addPartToLoan(partID) {
 				var b = "theButton_" + rar[1];
 				var theBtn = document.getElementById(b);
 				theBtn.value="In Loan";
-				theBtn.onclick="";	
+				theBtn.onclick="";
 			}else{
 				var msg = rar[1];
 				alert('An error occured!\n' + msg);
@@ -166,7 +166,7 @@ function addPartToDeacc(partID) {
 				var b = "theButton_" + rar[1];
 				var theBtn = document.getElementById(b);
 				theBtn.value="In Deaccession";
-				theBtn.onclick="";	
+				theBtn.onclick="";
 			}else{
 				var msg = rar[1];
 				alert('An error occured!\n' + msg);
@@ -234,7 +234,7 @@ function makePartThingy() {
 			queryformat : 'column'
 		},
 		success_makePartThingy
-	);	
+	);
 }
 
 function cordFormat(str) {
@@ -318,7 +318,7 @@ function makePartDeaccThingy() {
 			queryformat : 'column'
 		},
 		success_makePartDeaccThingy
-	);	
+	);
 }
 function cordFormat(str) {
 	var rStr;
@@ -395,7 +395,7 @@ function removeItems() {
 }
 function toggleKillrow(id,status) {
 	//alert(id + ' ' + status);
-	
+
 	var theEl = document.getElementById('killRowList');
 	if (status==true) {
 		var theArray = [];
@@ -438,12 +438,12 @@ function getSpecResultsData (startrow,numrecs,orderBy,orderOrder) {
    	}
 	if (orderBy==null) {
 		if (document.getElementById('orderBy1') && document.getElementById('orderBy1')) {
-			var o1=document.getElementById('orderBy1').value; 
+			var o1=document.getElementById('orderBy1').value;
 			var o2=document.getElementById('orderBy2').value;
 			var orderBy = o1 + ',' + o2;
 		} else {
 			var orderBy = 'cat_num';
-		}		
+		}
 	}
 	if (orderOrder==null) {
 		var orderOrder = 'ASC';
@@ -618,7 +618,10 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<th>Map&nbsp;Name</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('FEATURE')> -1) {
-				theInnerHtml += '<th>Feature</th>';
+				theInnerHtml += '<th>Land Feature</th>';
+			}
+			if (data.COLUMNLIST[0].indexOf('WATER_FEATURE')> -1) {
+				theInnerHtml += '<th>Water Feature</th>';
 			}
 			if (data.COLUMNLIST[0].indexOf('COUNTY')> -1) {
 				theInnerHtml += '<th>County</th>';
@@ -670,11 +673,11 @@ function success_getSpecResultsData(result){
 			}
 			if (data.COLUMNLIST[0].indexOf('VERBATIMLOCALITY')> -1) {
 				theInnerHtml += '<th>Verbatim&nbsp;Locality</th>';
-			}			
+			}
 			if (data.COLUMNLIST[0].indexOf('GEOLOGY_ATTRIBUTES')> -1) {
 				theInnerHtml += '<th>Geology&nbsp;Attributes</th>';
 			}
-			
+
 			if (data.COLUMNLIST[0].indexOf('VERBATIM_DATE')> -1) {
 				theInnerHtml += '<th>Verbatim&nbsp;Date</th>';
 			}
@@ -732,9 +735,9 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<th>Gref&nbsp;Link</th>';
 			}
 		theInnerHtml += '</tr>';
-		// get an ordered list of collection_object_ids to pass on to 
+		// get an ordered list of collection_object_ids to pass on to
 		// SpecimenDetail for browsing
-		var orderedCollObjIdArray = new Array();		
+		var orderedCollObjIdArray = new Array();
 		for (i=0; i<result.ROWCOUNT; ++i) {
 			orderedCollObjIdArray.push(data.COLLECTION_OBJECT_ID[i]);
 		}
@@ -750,35 +753,35 @@ function success_getSpecResultsData(result){
                         var typestatus = "";
                         var rowClass = "";
 			if (data.COLUMNLIST[0].indexOf('TYPESTATUS') > -1) {
-			     if (data.TYPESTATUS[i]!=null && data.TYPESTATUS[i].length>0) { 
+			     if (data.TYPESTATUS[i]!=null && data.TYPESTATUS[i].length>0) {
 			        isType = true;
 			        typestatus = data.TYPESTATUS[i].replace("|","<BR>");
                              }
                         }
 			if (data.COLUMNLIST[0].indexOf('TOPTYPESTATUSKIND') > -1) {
-                             if (data.TOPTYPESTATUSKIND[i]!=null && data.TOPTYPESTATUSKIND[i].length>0) { 
+                             if (data.TOPTYPESTATUSKIND[i]!=null && data.TOPTYPESTATUSKIND[i].length>0) {
                                  typestatuskind = data.TOPTYPESTATUSKIND[i];
-                                 if (typestatuskind.indexOf("Primary")>-1) { 
+                                 if (typestatuskind.indexOf("Primary")>-1) {
                                      isPSType = true;
                                      rowClass = "typeRow";
                                  }
-                                 if (typestatuskind.indexOf("Secondary")>-1) { 
+                                 if (typestatuskind.indexOf("Secondary")>-1) {
                                      isPSType = true;
                                      rowClass = "secTypeRow";
                                  }
                              }
 			}
-                        if (isPSType) { 
+                        if (isPSType) {
 				theInnerHtml += '<tr class="' + rowClass +  '">';
-                        } else { 
+                        } else {
 			    if (i%2) {
 				theInnerHtml += '<tr class="oddRow">';
 			    } else {
 				theInnerHtml += '<tr class="evenRow">';
 			    }
                         }
-	
-			
+
+
 				if (killrow == 1){
 					theInnerHtml += '<td align="center"><input type="checkbox" onchange="toggleKillrow(' + "'";
 					theInnerHtml +=data.COLLECTION_OBJECT_ID[i] + "'" + ',this.checked);"></td>';
@@ -791,7 +794,7 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '&nbsp;';
 					theInnerHtml += data.CAT_NUM[i];
 					theInnerHtml += '</a>';
-                                        if (isType) { 
+                                        if (isType) {
 					    theInnerHtml += '<div class="showType">' + typestatus + '</div>';
                                         }
 				theInnerHtml += '</td>';
@@ -806,7 +809,7 @@ function success_getSpecResultsData(result){
 				}
 				if (action == 'dispCollObj' || action == 'dispCollObjDeacc'){
 					theInnerHtml +='<td id="partCell_' + data.COLLECTION_OBJECT_ID[i] + '"></td>';
-				}				
+				}
 				if (data.COLUMNLIST[0].indexOf('CUSTOMID')> -1) {
 					theInnerHtml += '<td>' + data.CUSTOMID[i] + '</td>';
 				}
@@ -828,14 +831,14 @@ function success_getSpecResultsData(result){
 							theInnerHtml += '<a href="' + thisMedia.DATA.media_uri[m] + '" target="_blank">';
 							theInnerHtml += '<img src="' + pURI + '" class="theThumb"></a>';
 							theInnerHtml += '<p>' + thisMedia.DATA.mimecat[m] + ' (' + thisMedia.DATA.mime_type[m] + ')';
-							theInnerHtml += '<br><a target="_blank" href="/media/' + thisMedia.DATA.media_id[m] + '">Media Detail</a></p></div>';							
+							theInnerHtml += '<br><a target="_blank" href="/media/' + thisMedia.DATA.media_id[m] + '">Media Detail</a></p></div>';
 						}
 					theInnerHtml += '<div class="thumb_spcr">&nbsp;</div></div>';
 					theInnerHtml += '</td>';
-				}		
+				}
 				theInnerHtml += '<td>';
 				theInnerHtml += '<span class="browseLink" type="scientific_name" dval="' + encodeURI(data.SCIENTIFIC_NAME[i]) + '">' + spaceStripper(data.SCIENTIFIC_NAME[i]);
-				theInnerHtml += '</span>'; 					
+				theInnerHtml += '</span>';
 				theInnerHtml += '</td>';
 				if (data.COLUMNLIST[0].indexOf('ID_SENSU')> -1) {
 					theInnerHtml += '<td>';
@@ -927,6 +930,9 @@ function success_getSpecResultsData(result){
 				}
 				if (data.COLUMNLIST[0].indexOf('FEATURE')> -1) {
 					theInnerHtml += '<td>' + spaceStripper(data.FEATURE[i]) + '</td>';
+				}
+				if (data.COLUMNLIST[0].indexOf('WATER_FEATURE')> -1) {
+					theInnerHtml += '<td>' + spaceStripper(data.WATER_FEATURE[i]) + '</td>';
 				}
 				if (data.COLUMNLIST[0].indexOf('COUNTY')> -1) {
 					theInnerHtml += '<td>' + data.COUNTY[i] + '</td>';
@@ -1041,12 +1047,12 @@ function success_getSpecResultsData(result){
 				}
 			theInnerHtml += '</tr>';
 		}
-		theInnerHtml += '</table>';		
-	    theInnerHtml = theInnerHtml.replace(/<td>null<\/td>/g,"<td>&nbsp;</td>"); 
+		theInnerHtml += '</table>';
+	    theInnerHtml = theInnerHtml.replace(/<td>null<\/td>/g,"<td>&nbsp;</td>");
 	    theInnerHtml = theInnerHtml.replace(/<div class="wrapLong">null<\/div>/g,"&nbsp;");
 	    theInnerHtml = theInnerHtml.replace(/<td style="font-size:small">null<\/td>/g,"<td>&nbsp;</td>");
-	    
-	    
+
+
 		tgt.innerHTML = theInnerHtml;
 		if (action == 'dispCollObj'){
 			makePartThingy();
@@ -1089,7 +1095,7 @@ function closeCustom() {
 }
 function closeCustomNoRefresh() {
 	var theDiv = document.getElementById('customDiv');
-	document.body.removeChild(theDiv);	
+	document.body.removeChild(theDiv);
 	var theDiv = document.getElementById('bgDiv');
 	document.body.removeChild(theDiv);
 }
