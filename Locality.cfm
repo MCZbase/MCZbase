@@ -196,7 +196,7 @@
 				<cfelse>
 					<cfset thisOceanRegion = "">
 				</cfif>
-				<select name="ocean_region">
+				<select name="ocean_region" >
 					<option value=""></option>
 						<cfloop query="ctOceanRegion">
 							<option
@@ -212,6 +212,30 @@
 				<td>
 					<input type="text" name="ocean_subregion" <cfif isdefined("ocean_subregion")> value = "#ocean_subregion#"</cfif>>
 				</td>
+			</tr>
+			<tr>
+				<td align="right">Sea:</td>
+				<td>
+					<input type="text" name="sea" <cfif isdefined("sea")> value = "#sea#"</cfif>>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">Water Feature:</td>
+				<td>
+				<cfif isdefined("water_feature")>
+					<cfset thisWater_Feature = water_feature>
+				<cfelse>
+					<cfset thisWater_Feature = "">
+				</cfif>
+				<select name="water_feature">
+					<option value=""></option>
+						<cfloop query="ctWater_Feature">
+							<option
+								<cfif thisWater_Feature is ctWater_Feature.water_feature> selected="selected" </cfif>
+								value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
+						</cfloop>
+				</select>
+			</td>
 			</tr>
 			<tr>
 				<td align="right">Country:</td>
@@ -256,24 +280,6 @@
 			</td>
 			</tr>
 			<tr>
-				<td align="right">Water Feature:</td>
-				<td>
-				<cfif isdefined("water_feature")>
-					<cfset thisWater_Feature = water_feature>
-				<cfelse>
-					<cfset thisWater_Feature = "">
-				</cfif>
-				<select name="water_feature">
-					<option value=""></option>
-						<cfloop query="ctWater_Feature">
-							<option
-								<cfif thisWater_Feature is ctWater_Feature.water_feature> selected="selected" </cfif>
-								value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
-						</cfloop>
-				</select>
-			</td>
-			</tr>
-			<tr>
 				<td align="right">Island Group:</td>
 				<td><select name="island_group" size="1">
 				<option value=""></option>
@@ -290,12 +296,6 @@
 				<td align="right">Island:</td>
 				<td>
 					<input type="text" name="island" <cfif isdefined("island")> value = "#escapeQuotes(island)#"</cfif> size="50">
-				</td>
-			</tr>
-			<tr>
-				<td align="right">Sea:</td>
-				<td>
-					<input type="text" name="sea" <cfif isdefined("sea")> value = "#sea#"</cfif>>
 				</td>
 			</tr>
 			<tr>
@@ -423,7 +423,7 @@ You do not have permission to create Higher Geographies
 						<label for="continent_ocean" class="likeLink" onClick="getDocs('higher_geography','continent_ocean')">
 							Continent or Ocean
 						</label>
-				<select name="continent_ocean" style="width: 140px;">
+				<select name="continent_ocean" style="width: 15em;" >
 				<cfif isdefined("continent_ocean")>
                                      <cfif continent_ocean is not ''>
 					<option value="#continent_ocean#" selected="selected">#continent_ocean#</option>
@@ -439,7 +439,7 @@ You do not have permission to create Higher Geographies
 						<label for="ocean_region" class="likeLink"  onClick="getMCZbaseDocs('Ocean_Regions_%26_Subregions','')" >
                                                        Ocean Region:
 						</label>
-				<select name="ocean_region" style="width: 140px;">
+				<select name="ocean_region" style="width: 15em;">
 				<cfif isdefined("ocean_region")>
                                      <cfif ocean_region is not ''>
 					<option value="#ocean_region#" selected="selected">#ocean_region#</option>
@@ -455,8 +455,34 @@ You do not have permission to create Higher Geographies
 						<label for="ocean_subregion">
 							Ocean Subregion
 						</label>
-						<input type="text" name="ocean_subregion" id="ocean_subregion" value="#ocean_subregion#"></td>
-	                <td>
+						<input type="text" name="ocean_subregion" id="ocean_subregion" value="#ocean_subregion#">
+					</td>
+					<td>
+						<label for="sea" class="likeLink" onClick="getDocs('higher_geography','sea')">
+							Sea
+						</label>
+						<input type="text" name="sea" id="sea" value="#sea#">
+					</td>
+					<td>
+						<cfif isdefined("water_feature")>
+							<cfset thisWater_Feature = water_feature>
+						<cfelse>
+							<cfset thisWater_Feature = "">
+						</cfif>
+						<label for="water_feature" class="likeLink" onClick="getDocs('higher_geography','water_feature')">
+							Water Feature
+						</label>
+						<select name="water_feature" id="water_feature" style="width: 15em;">
+							<option value=""></option>
+							<cfloop query="ctWater_Feature">
+								<option	<cfif thisWater_Feature is ctWater_Feature.water_feature> selected="selected" </cfif>
+									value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
+							</cfloop>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
 						<label for="country" class="likeLink" onClick="getDocs('higher_geography','country')">
 							Country
 						</label>
@@ -467,15 +493,6 @@ You do not have permission to create Higher Geographies
 							State/Province
 						</label>
 						<input type="text" name="state_prov" id="state_prov" value="#state_prov#">
-					</td>
-
-				</tr>
-				<tr>
-                    	<td>
-						<label for="sea" class="likeLink" onClick="getDocs('higher_geography','sea')">
-							Sea
-						</label>
-						<input type="text" name="sea" id="sea" value="#sea#">
 					</td>
 					<td>
 						<label for="county" class="likeLink" onClick="getDocs('higher_geography','county')">
@@ -489,7 +506,7 @@ You do not have permission to create Higher Geographies
 						</label>
 						<input type="text" name="quad" id="quad" value="#quad#">
 					</td>
-					<td colspan="2">
+					<td>
 						<cfif isdefined("feature")>
 							<cfset thisFeature = feature>
 						<cfelse>
@@ -506,30 +523,13 @@ You do not have permission to create Higher Geographies
 							</cfloop>
 						</select>
 					</td>
-					<td colspan="2">
-						<cfif isdefined("water_feature")>
-							<cfset thisWater_Feature = water_feature>
-						<cfelse>
-							<cfset thisWater_Feature = "">
-						</cfif>
-						<label for="water_feature" class="likeLink" onClick="getDocs('higher_geography','water_feature')">
-							Water Feature
-						</label>
-						<select name="water_feature" id="water_feature">
-							<option value=""></option>
-							<cfloop query="ctWater_Feature">
-								<option	<cfif thisWater_Feature is ctWater_Feature.water_feature> selected="selected" </cfif>
-									value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
-							</cfloop>
-						</select>
-					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
 						<label for="island_group" class="likeLink" onClick="getDocs('higher_geography','island_group')">
 							Island Group
 						</label>
-						<select name="island_group" id="island_group" size="1" style="width: 250px;">
+						<select name="island_group" id="island_group" size="1" style="width: 28em;">
 		                	<option value=""></option>
 		                    <cfloop query="ctIslandGroup">
 		                      <option
