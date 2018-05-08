@@ -79,9 +79,9 @@
 	<cfset showEvent=1>
     <div class="basic_search_box" style="width: 52em;">
 	<h2 class="wikilink">Search Places
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<!---cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")--->
     <img src="/images/info_i_2.gif" onClick="getMCZDocs('Find Locality')" class="likeLink" alt="[ help ]" style="vertical-align:top;">
-    </cfif>
+    <!---/cfif--->
     </h2>
     <form name="getCol" method="post" action="showLocality.cfm" style="margin-top: 0">
 		<input type="hidden" name="action" value="srch">
