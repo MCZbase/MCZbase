@@ -140,68 +140,64 @@
 					<label for="continent_ocean">Continent or Ocean</label>
 					<input type="text" name="continent_ocean" id="continent_ocean" size="50">
 				</td>
-                <td style="padding-left: 1em;">
-					<label for="quad">Quad</label>
-					<input type="text" name="quad" id="quad" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
+				<td style="padding-left: 1em;">
 					<label for="ocean_region">Ocean Region</label>
 					<input type="text" name="ocean_region" id="ocean_region" size="50">
 				</td>
-                <td style="padding-left: 1em;">
-					<label for="feature">Land Feature</label>
-					<select name="feature" id="feature">
-						<option value=""></option>
-						<cfloop query="ctFeature">
-							<option value = "#ctFeature.feature#">#ctFeature.feature#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td style="padding-left: 1em;">
-	<label for="water_feature">Water Feature</label>
-	<select name="water_feature" id="water_feature">
-		<option value=""></option>
-		<cfloop query="ctWater_Feature">
-			<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
-		</cfloop>
-	</select>
-</td>
 			</tr>
 			<tr>
-				<td>
-					<label for="ocean_subregion">Ocean SubRegion</label>
-					<input type="text" name="ocean_subregion" id="ocean_subregion" size="50">
-				</td>
-                <td style="padding-left: 1em;">
-					<label for="island_group">Island Group</label>
+			<td>
+				<label for="ocean_subregion">Ocean SubRegion</label>
+				<input type="text" name="ocean_subregion" id="ocean_subregion" size="50">
+			</td>
+			<td style="padding-left: 1em;">
+				<label for="sea">Sea</label>
+				<input type="text" name="sea" id="sea" size="50">
+			</td>
+			</tr>
+			<tr>
+			<td>
+				<label for="island">Island</label>
+						<input type="text" name="island" id="island" size="50">
+			</td>
+			<td style="padding-left: 1em;">
+				<label for="island_group">Island Group</label>
 					<select name="island_group" id="island_group">
 						<option value=""></option>
 						<cfloop query="ctIslandGroup">
 							<option value = "#ctIslandGroup.island_group#">#ctIslandGroup.island_group#</option>
 						</cfloop>
 					</select>
-				</td>
+			</td>
+			</tr>
+			<tr>
+			<td>
+				<label for="feature">Land Feature</label>
+				<select name="feature" id="feature">
+					<option value=""></option>
+					<cfloop query="ctFeature">
+						<option value = "#ctFeature.feature#">#ctFeature.feature#</option>
+					</cfloop>
+				</select>
+			</td>
+			<td style="padding-left: 1em;">
+					<label for="water_feature">Water Feature</label>
+						<select name="water_feature" id="water_feature">
+							<option value=""></option>
+								<cfloop query="ctWater_Feature">
+								<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
+								</cfloop>
+						</select>
+			</td>
 			</tr>
 			<tr>
 				<td>
 					<label for="country">Country</label>
 					<input type="text" name="country" id="country" size="50">
 				</td>
-                <td style="padding-left: 1em;">
-					<label for="island">Island</label>
-					<input type="text" name="island" id="island" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
+				<td style="padding-left: 1em;">
 					<label for="state_prov">State or Province</label>
 					<input type="text" name="state_prov" id="state_prov" size="50">
-				</td>
-                	<td style="padding-left: 1em;">
-					<label for="sea">Sea</label>
-					<input type="text" name="sea" id="sea" size="50">
 				</td>
 			</tr>
 			<tr>
@@ -209,7 +205,14 @@
 					<label for="county">County</label>
 					<input type="text" name="county" id="county" size="50">
 				</td>
-                	<td style="padding-left: 1em;">
+				<td style="padding-left: 1em;">
+					<label for="quad">Quad</label>
+					<input type="text" name="quad" id="quad" size="50">
+				</td>
+				</tr>
+				<tr>
+				<td>&nbsp;</td>
+        <td style="padding-left: 1em;">
 					<label for="geog_auth_rec_id">Geog Auth Rec ID</label>
 					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id">
 				</td>
