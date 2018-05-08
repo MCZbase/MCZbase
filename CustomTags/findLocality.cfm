@@ -171,6 +171,9 @@
 <cfif isdefined("feature") and len(#feature#) gt 0>
 	<cfset sql = "#sql# AND feature = '#feature#'">
 </cfif>
+<cfif isdefined("water_feature") and len(#water_feature#) gt 0>
+	<cfset sql = "#sql# AND water_feature = '#water_feature#'">
+</cfif>
 <cfif isdefined("island_group") and len(#island_group#) gt 0>
 	<cfset sql = "#sql# AND island_group = '#island_group#'">
 </cfif>
