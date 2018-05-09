@@ -1,4 +1,4 @@
-<!--- returns query object localityResults --->
+<!--- custom tag cf_findLocality  returns query object localityResults --->
 <cfinclude template="/includes/functionLib.cfm">
 <cfoutput>
 <cfset sql = "
@@ -171,6 +171,15 @@
 <cfif isdefined("feature") and len(#feature#) gt 0>
 	<cfset sql = "#sql# AND feature = '#feature#'">
 </cfif>
+<cfif isdefined("ocean_region") and len(#ocean_region#) gt 0>
+	<cfset sql = "#sql# AND upper(ocean_region) LIKE '%#ucase(ocean_region)#%'">
+</cfif>
+<cfif isdefined("ocean_subregion") and len(#ocean_subregion#) gt 0>
+	<cfset sql = "#sql# AND upper(ocean_subregion) LIKE '%#ucase(ocean_subregion)#%'">
+</cfif>
+<cfif isdefined("sea") and len(#sea#) gt 0>
+	<cfset sql = "#sql# AND upper(sea) LIKE '%#ucase(sea)#%'">
+</cfif>
 <cfif isdefined("water_feature") and len(#water_feature#) gt 0>
 	<cfset sql = "#sql# AND water_feature = '#water_feature#'">
 </cfif>
@@ -179,9 +188,6 @@
 </cfif>
 <cfif isdefined("island") and len(#island#) gt 0>
 	<cfset sql = "#sql# AND upper(island) LIKE '%#ucase(island)#%'">
-</cfif>
-<cfif isdefined("sea") and len(#sea#) gt 0>
-	<cfset sql = "#sql# AND upper(sea) LIKE '%#ucase(sea)#%'">
 </cfif>
 <cfif isdefined("higher_geog") and len(#higher_geog#) gt 0>
 	<cfif left(higher_geog,1) is "=">
