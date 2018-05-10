@@ -7,16 +7,16 @@
 <meta name="author" content="">
 <link rel="icon" href="images/favicon.ico">
 <title>Specimens</title>
-<script src="includes/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
+<script src="redesign/includes/js/bootstrap.min.js"></script>
 <script src="includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/bootstrap.css" rel="stylesheet">
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/custom.css" rel="stylesheet">
+<link href="redesign/includes/css/bootstrap.css" rel="stylesheet">
+<link href="redesign/includes/css/custom.css" rel="stylesheet">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/font-awesome.css" rel="stylesheet">
+<link href="redesign/includes/css/font-awesome.css" rel="stylesheet">
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/dataTables.jqueryui.min.css" rel="stylesheet">
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/dataTables.searchPane.css" rel="stylesheet">
+<link href="redesign/includes/css/dataTables.jqueryui.min.css" rel="stylesheet">
+<link href="redesign/includes/css/dataTables.searchPane.css" rel="stylesheet">
 </head>
 <body>
  <nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
@@ -30,7 +30,7 @@
 	 </div>
       <div class="navbar-brand">
       <a  href="#">
-      <img class="navbar-brandK" src="includes/bootstrap-4.0.0-alpha.6-dist/images/mcz_logo_white.png"/><span class="navbar-text">Museum of <br/>Comparative Zoology</span></a>
+      <img class="navbar-brandK" src="redesign/images/mcz_logo_white.png"/><span class="navbar-text">Museum of <br/>Comparative Zoology</span></a>
 	 </div>
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto" style="text-align: center;">
@@ -280,7 +280,7 @@
           <div class="row">
           <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-               <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-cryo.jpg" alt="cryo">
+               <img class="card-img-top" src="redesign/images/bootstrap-cryo.jpg" alt="cryo">
 				  <div class="card-body"><h4>Cryogenics</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -295,7 +295,7 @@
             </div>
               <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" class="img-fluid" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-ent.jpg" data-holder-rendered="true" alt="Bee in amber">
+                <img class="card-img-top" class="img-fluid" src="redesign/images/bootstrap-ent.jpg" data-holder-rendered="true" alt="Bee in amber">
 				  <div class="card-body"><h4>Entomology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -311,7 +311,7 @@
             </div>
        <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-herp.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Herpetology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -327,7 +327,7 @@
             </div>
                         <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-ich.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-ich.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Ichthyology</h4>
                   <p class="card-text">Links to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -343,7 +343,7 @@
             </div>
                        <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-IP.jpg"  alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-IP.jpg"  alt="Card image cap">
                 <div class="card-body"><h4 style="font-size: 1.4em;">Invertebrate Paleontology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -358,7 +358,7 @@
             </div>
           <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-IZ.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-IZ.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Invertebrate Zoology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -374,7 +374,7 @@
 
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-herp.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Malacology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -391,7 +391,7 @@
 
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-herp.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg" alt="Card image cap">
 				  <div class="card-body"><h4>Mammalogy</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -408,7 +408,7 @@
 
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-herp.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Ornithology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -424,7 +424,7 @@
             </div>
                        <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-herp.jpg"  alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg"  alt="Card image cap">
                 <div class="card-body"><h4>Vertebrate Paleontology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -440,7 +440,7 @@
 
                        <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-herp.jpg"  alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg"  alt="Card image cap">
                 <div class="card-body"><h4>Special Collections</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -455,7 +455,7 @@
             </div>
                          <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="includes/bootstrap-4.0.0-alpha.6-dist/images/bootstrap-herp.jpg"  alt="Card image cap">
+                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg"  alt="Card image cap">
                 <div class="card-body"><h4>Observations</h4>
                   <p class="card-text">Link to results of Herpetology Obs.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -505,10 +505,10 @@
     });
 
  </script>
-	<script src="/includes/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.js"></script>
-	<script src="/includes/bootstrap-4.0.0-alpha.6-dist/js/jquery.dataTables.min.js"></script>
-	<script src="/includes/bootstrap-4.0.0-alpha.6-dist/js/dataTables.jqueryui.min.js"></script>
-			<script type="text/javascript" language="javascript" src="/includes/bootstrap-4.0.0-alpha.6-dist/js/dataTables.searchPane.js"></script>
+	<script src="/redesign/includes/js/bootstrap.js"></script>
+	<script src="/redesign/includes/js/jquery.dataTables.min.js"></script>
+	<script src="/redesign/includes/js/dataTables.jqueryui.min.js"></script>
+			<script type="text/javascript" language="javascript" src="/redesign/includes/js/dataTables.searchPane.js"></script>
 		<script type="text/javascript" charset="utf-8">
 		if ( $.fn.dataTable.isDataTable( '#example' ) ) {
     table = $('#example').DataTable({

@@ -7,17 +7,17 @@
 <meta name="author" content="">
 <link rel="icon" href="images/favicon.ico">
 <title>Search Results</title>
-<script src="includes/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
+<script src="redesign/includes/js/bootstrap.min.js"></script>
 <script src="includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/bootstrap.css" rel="stylesheet">
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/custom.css" rel="stylesheet">
+<link href="redesign/includes/css/bootstrap.css" rel="stylesheet">
+<link href="redesign/includes/css/custom.css" rel="stylesheet">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/font-awesome.css" rel="stylesheet">
+<link href="redesign/includes/css/font-awesome.css" rel="stylesheet">
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/dataTables.jqueryui.min.css" rel="stylesheet">
-<link href="includes/bootstrap-4.0.0-alpha.6-dist/css/dataTables.searchPane.css" rel="stylesheet">
-<script src="includes/bootstrap-4.0.0-alpha.6-dist/js/jquery.mobile-1.4.5.js" type="application/javascript"></script>
+<link href="redesign/includes/css/dataTables.jqueryui.min.css" rel="stylesheet">
+<link href="redesign/includes/css/dataTables.searchPane.css" rel="stylesheet">
+<script src="redesign/includes/js/jquery.mobile-1.4.5.js" type="application/javascript"></script>
 
 </head>
 <body>
@@ -613,10 +613,10 @@
     });
 
  </script>
-	<script src="/includes/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.js"></script>
-	<script src="/includes/bootstrap-4.0.0-alpha.6-dist/js/jquery.dataTables.min.js"></script>
-	<script src="/includes/bootstrap-4.0.0-alpha.6-dist/js/dataTables.jqueryui.min.js"></script>
-			<script type="text/javascript" language="javascript" src="/includes/bootstrap-4.0.0-alpha.6-dist/js/dataTables.searchPane.js"></script>
+	<script src="/redesign/includes/js/bootstrap.js"></script>
+	<script src="/redesign/includes/js/jquery.dataTables.min.js"></script>
+	<script src="/redesign/includes/js/dataTables.jqueryui.min.js"></script>
+			<script type="text/javascript" language="javascript" src="/redesign/includes/js/dataTables.searchPane.js"></script>
 		<script type="text/javascript" charset="utf-8">
 		if ( $.fn.dataTable.isDataTable( '#example' ) ) {
     table = $('#example').DataTable({
