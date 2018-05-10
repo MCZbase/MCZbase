@@ -26,8 +26,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand" href="#">
-      <img class="navbar-brandH" src="images/harvard_logo_sm.png"/>
-      <img class="navbar-brandK" src="includes/bootstrap-4.0.0-alpha.6-dist/images/mcz_logo_white.png"/><span class="navbar-text">Museum of <br/>Comparative Zoology</span></a>
+      <img class="navbar-brandH" src="redesign/includes/images/harvard_logo_sm.png"/>
+      <img class="navbar-brandK" src="redesign/includes/images/mcz_logo_white.png"/><span class="navbar-text">Museum of <br/>Comparative Zoology</span></a>
 
            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
@@ -589,7 +589,7 @@
                     <cfif cgi.HTTP_HOST contains "harvard.edu" >
                         <div class="helplinks" ><a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a> <a href="/info/bugs.cfm">Feedback&#8202;/&#8202;Report Errors</a> <a href="/Collections/index.cfm">Data Providers</a> </div>
                            <div class="logos" style="padding-top: 0;">
-                           <div align="center" style="padding:.5em 0 0 0;background-color:#BAC5C6"><img src="images/harvard_logo_sm.png" height="45"/></div>
+                           <div align="center" style="padding:.5em 0 0 0;background-color:#BAC5C6"><img src="redesign/includes/images/harvard_logo_sm.png" height="45"/></div>
                             <div class="copyright">
                         <p class="copyright_c" style="margin-bottom:.25em;font-size: 14px;padding: 0 2em;color: #1e1e1e;">Database content: &copy; Copyright 2017
                             President and Fellows of Harvard College</p>

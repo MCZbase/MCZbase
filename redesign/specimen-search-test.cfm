@@ -25,7 +25,7 @@
       </button>
       <div class="shield-container">
        <div class="navbar-harvard-toggle">
-       <img src="images/shield.png" alt="harvard shield"/>
+       <img src="redesign/includes/images/shield.png" alt="harvard shield"/>
       </div>
 	 </div>
       <div class="navbar-brand">
@@ -280,7 +280,7 @@
           <div class="row">
           <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-               <img class="card-img-top" src="redesign/images/bootstrap-cryo.jpg" alt="cryo">
+               <img class="card-img-top" src="redesign/includes/images/bootstrap-cryo.jpg" alt="cryo">
 				  <div class="card-body"><h4>Cryogenics</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -295,7 +295,7 @@
             </div>
               <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" class="img-fluid" src="redesign/images/bootstrap-ent.jpg" data-holder-rendered="true" alt="Bee in amber">
+                <img class="card-img-top" class="img-fluid" src="redesign/includes/images/bootstrap-ent.jpg" data-holder-rendered="true" alt="Bee in amber">
 				  <div class="card-body"><h4>Entomology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -311,7 +311,7 @@
             </div>
        <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-herp.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Herpetology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -327,7 +327,7 @@
             </div>
                         <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-ich.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-ich.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Ichthyology</h4>
                   <p class="card-text">Links to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -343,7 +343,7 @@
             </div>
                        <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-IP.jpg"  alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-IP.jpg"  alt="Card image cap">
                 <div class="card-body"><h4 style="font-size: 1.4em;">Invertebrate Paleontology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -358,7 +358,7 @@
             </div>
           <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-IZ.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-IZ.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Invertebrate Zoology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -374,7 +374,7 @@
 
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-herp.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Malacology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -391,7 +391,7 @@
 
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-herp.jpg" alt="Card image cap">
 				  <div class="card-body"><h4>Mammalogy</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -408,7 +408,7 @@
 
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg" alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-herp.jpg" alt="Card image cap">
                 <div class="card-body"><h4>Ornithology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -424,7 +424,7 @@
             </div>
                        <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg"  alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-herp.jpg"  alt="Card image cap">
                 <div class="card-body"><h4>Vertebrate Paleontology</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -440,7 +440,7 @@
 
                        <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg"  alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-herp.jpg"  alt="Card image cap">
                 <div class="card-body"><h4>Special Collections</h4>
                   <p class="card-text">Link to results of featured specimens.</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -455,7 +455,7 @@
             </div>
                          <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="redesign/images/bootstrap-herp.jpg"  alt="Card image cap">
+                <img class="card-img-top" src="redesign/includes/images/bootstrap-herp.jpg"  alt="Card image cap">
                 <div class="card-body"><h4>Observations</h4>
                   <p class="card-text">Link to results of Herpetology Obs.</p>
                   <div class="d-flex justify-content-between align-items-center">
