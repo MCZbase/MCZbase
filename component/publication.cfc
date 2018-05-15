@@ -94,13 +94,15 @@
     <cfset as=left(as,len(as)-1)>
   </cfif>
   <cfif e.recordcount is 1>
-    <cfset as=e.agent_name>
+    <cfset es=e.agent_name>
     <cfelseif e.recordcount is 2>
-    <cfset as=e.agent_name[1] & ' and ' & e.agent_name[2]>
+    <cfset es=e.agent_name[1] & ' and ' & e.agent_name[2]>
      <cfelseif e.recordcount is 3>
     <cfset es=e.agent_name[1] & ', ' & e.agent_name[2] & ', and ' & e.agent_name[3]>
     <cfelseif e.recordcount is 4>
     <cfset es=e.agent_name[1] & ', ' & e.agent_name[2] & ', ' & e.agent_name[3] & ', and ' & e.agent_name[4]>
+    <cfelseif e.recordcount gt 4>
+    <cfset es=e.agent_name[1] & ', ' & e.agent_name[2] & ', ' & e.agent_name[3] & ', ' & e.agent_name[4] & ' <i>et al.</i>'>
     <cfelse>
     <cfset es=valuelist(e.agent_name,", ")>
   </cfif>
