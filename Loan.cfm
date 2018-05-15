@@ -962,6 +962,7 @@
                           </cfif>
                           <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
                           <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
+			  <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header">(Draft) Copy for MCZ Files</option>
             <cfelse>
    			        <option value="">Host not recognized.</option>
             </cfif>

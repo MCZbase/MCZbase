@@ -1307,13 +1307,11 @@
                media.mime_type,
                media.media_type as media_type,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-               label_value
+               nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
            from
                media_relations left join media on media_relations.media_id = media.media_id
-               left join media_labels on media.media_id = media_labels.media_id
            where
-               media_relationship like '% deaccession' and
-               (media_label = 'description' or media_label is null )
+               media_relationship like '% deaccession' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
    <cfif query.recordcount gt 0>
