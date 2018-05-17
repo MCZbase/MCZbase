@@ -160,6 +160,9 @@
   <cfquery name="edition" dbtype="query">
 		select pub_att_value from atts where publication_attribute='edition'
 	</cfquery>
+  <cfquery name="storage location" dbtype="query">
+    select pub_att_value from atts where publication_attribute='storage location'
+  </cfquery>
    <!---  <cfquery name="bookauthor" dbtype="query">
 		select pub_att_value from atts where publication_attribute='book author (book section)'
 	</cfquery>--->
@@ -204,6 +207,9 @@
       <cfset r=r & '(' & issue.pub_att_value & ')'>
       <cfelse>
        <cfset r=r &  issue.pub_att_value>
+    </cfif>
+    <cfif len(storage location.pub_att_value) gt 0>
+      <cfset r=r & ',  ' & storage location.pub_att_value & ','>
     </cfif>
 
     <cfif begin.pub_att_value is not end.pub_att_value>
@@ -262,7 +268,6 @@
       <cfset r=r & '.'>
     </cfif>
   <!--- End Journal Section--->
-
   <!--- Begin Special Publication Series (generalized as a serial monographic work) --->
         <cfelseif p.publication_type is "serial monograph">
        <cfif right(p.publication_title,1) is not '.' and right(p.publication_title,1) is not '?' and right(p.publication_title,1) is not ','>
@@ -322,6 +327,29 @@
       <cfset r=r & ' p. ' & 	begin.pub_att_value &  '. '>
     </cfif>
   <!--- End Special Publication Series--->
+  <!--- Begin Data Release --->
+        <cfelseif p.publication_type is "data release">
+       <cfif right(p.publication_title,1) is not '.' and right(p.publication_title,1) is not '?' and right(p.publication_title,1) is not ','>
+    <cfset publication_title=p.publication_title & '. '>
+    <cfelse>
+    <cfset publication_title=p.publication_title>
+  </cfif>
+  <cfset r=as & '. '>
+  <cfif len(p.published_year) gt 0>
+    <cfset r=r & p.published_year & '.  '>
+    </cfif>
+    <cfset r=r & publication_title>
+      <cfif len(publisher.pub_att_value) gt 0>
+      <cfset r=r &  ' ' & publisher.pub_att_value & '.'>
+    </cfif>
+    <cfif len(number.pub_att_value) gt 0>
+      <cfset r=r & ' Version ' & number.pub_att_value & '. '>
+     <cfelseif len(number.pub_att_value) gt 0>
+      <cfset r=r & '(' & number.pub_att_value & ')'>
+      <cfelse>
+       <cfset r=r & number.pub_att_value >
+    </cfif>
+  <!--- End Data Release--->
 
    <!--- Begin Annual Report--->
     <cfelseif p.publication_type is "annual report">

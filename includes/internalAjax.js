@@ -7,7 +7,7 @@ function italicize(e){
 	if (sel.length>0){
 		var replace = '<i>' + sel + '</i>';
 		textarea.value =  textarea.value.substring(0,start) + replace + textarea.value.substring(end,len);
-	} 
+	}
 }
 function bold(e){
 	var textarea = document.getElementById(e);
@@ -18,7 +18,7 @@ function bold(e){
 	if (sel.length>0){
 		var replace = '<b>' + sel + '</b>';
 		textarea.value =  textarea.value.substring(0,start) + replace + textarea.value.substring(end,len);
-	} 
+	}
 }
 function superscript(e){
 	var textarea = document.getElementById(e);
@@ -29,7 +29,7 @@ function superscript(e){
 	if (sel.length>0){
 		var replace = '<sup>' + sel + '</sup>';
 		textarea.value =  textarea.value.substring(0,start) + replace + textarea.value.substring(end,len);
-	} 
+	}
 }
 function subscript(e){
 	var textarea = document.getElementById(e);
@@ -40,7 +40,7 @@ function subscript(e){
 	if (sel.length>0){
 		var replace = '<sub>' + sel + '</sub>';
 		textarea.value =  textarea.value.substring(0,start) + replace + textarea.value.substring(end,len);
-	} 
+	}
 }
 function getMCZDocs(url,anc) {
 	var url;
@@ -135,25 +135,25 @@ function mgPartAttsDE(ctPartName, collection_CDE) {
 }
 function closePartAtts() {
 	/*
-	 * 
+	 *
 	 * var theDiv = document.getElementById('bgDiv');
 	document.body.removeChild(theDiv);
 	var theDiv = document.getElementById('partsAttDiv');
 	document.body.removeChild(theDiv);
-	
+
 		var theDiv = parent.document.getElementById('bgDiv');
 	parent.document.body.removeChild(theDiv);
 	var theDiv = parent.document.getElementById('partsAttDiv');
 	parent.document.body.removeChild(theDiv);
-	
-	
+
+
 	*/
 	$('#bgDiv').remove();
 	$('#partsAttDiv').remove();
 	$('#bgDiv', window.parent.document).remove();
 	$('#partsAttDiv', window.parent.document).remove();
 
-	
+
 }
 function cloneTransAgent(i){
 	var id=jQuery('#agent_id_' + i).val();
@@ -166,7 +166,7 @@ function cloneTransAgent(i){
 function addTransAgent (id,name,role) {
    addTransAgentToForm(id,name,role,'editloan');
 }
-/** Add an agent to a transaction edit form. 
+/** Add an agent to a transaction edit form.
  *
  * Assumes the presence of an input numAgents holding a count of the number of agents in the transaction.
  * Assumes the presence of an html table with an id loanAgents, to which the new agent line is added as the last row.
@@ -213,7 +213,7 @@ function addTransAgentToForm (id,name,role,formid) {
   			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-			d+='</select>';		
+			d+='</select>';
   			d+='</td></tr>';
   			$('#numAgents').val(i);
   			jQuery('#loanAgents tr:last').after(d);
@@ -269,7 +269,7 @@ function addTransAgentDeacc (id,name,role) {
   			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-			d+='</select>';		
+			d+='</select>';
   			d+='</td><td>-</td></tr>';
   			document.getElementById('numAgents').value=i;
   			jQuery('#deaccAgents tr:last').after(d);
@@ -296,10 +296,10 @@ function addLendersObject (transaction_id,catalog_number,sci_name,no_of_spec,spe
 	 }
     if (typeof country_of_origin == "undefined") {
 		country_of_origin = "";
-	 } 
+	 }
       if (typeof object_remarks == "undefined") {
 		object_remarks = "";
-	 } 
+	 }
 
 	jQuery.getJSON("/component/functions.cfc",
 		{
@@ -401,9 +401,9 @@ function pickedRelationship (id){
 		// do nothing, cleanup already happened
 	} else if (relatedTable=='agent'){
 		//addAgentRelation(elementNumber);
-		getAgent(idInputName,dispInputName,formName,'');		
+		getAgent(idInputName,dispInputName,formName,'');
 	} else if (relatedTable=='locality'){
-		LocalityPick(idInputName,dispInputName,formName); 
+		LocalityPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='collecting_event'){
 		findCollEvent(idInputName,formName,dispInputName);
 	} else if (relatedTable=='cataloged_item'){
@@ -456,7 +456,7 @@ function addLocalityRelation (elementNumber){
 	nSpan.innerHTML=theHtml;
 	nSpan.id=theSpanName;
 	theDiv.appendChild(nSpan);
-	LocalityPick(idInputName,dispInputName,'newMedia'); 
+	LocalityPick(idInputName,dispInputName,'newMedia');
 }
 */
 function addRelation (n) {
@@ -471,11 +471,11 @@ function addRelation (n) {
 	nSel.id="relationship__" + n;
 	nSel.value='';
 	nDiv.appendChild(nSel);
-	
+
 	c = document.createElement("textNode");
 	c.innerHTML=":&nbsp;";
 	nDiv.appendChild(c);
-	
+
 	var n1=n-1;
 	var inpName='related_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
@@ -483,20 +483,20 @@ function addRelation (n) {
 	nInp.id="related_value__" + n;
 	nInp.value='';
 	nDiv.appendChild(nInp);
-	
+
 	var hName='related_id__' + n1;
 	var nHid = document.getElementById(hName).cloneNode(true);
 	nHid.name="related_id__" + n;
 	nHid.id="related_id__" + n;
 	nDiv.appendChild(nHid);
-	
+
 	var mS = document.getElementById('addRelationship');
 	pDiv.removeChild(mS);
 	var np1=n+1;
 	var oc="addRelation(" + np1 + ")";
 	mS.setAttribute("onclick",oc);
 	pDiv.appendChild(mS);
-	
+
 	var cc=document.getElementById('number_of_relations');
 	cc.value=parseInt(cc.value)+1;
 }
@@ -513,11 +513,11 @@ function addLabel (n) {
 	nSel.id="label__" + n;
 	nSel.value='';
 	nDiv.appendChild(nSel);
-	
+
 	c = document.createElement("textNode");
 	c.innerHTML=":&nbsp;";
 	nDiv.appendChild(c);
-	
+
 	var inpName='label_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
 	nInp.name="label_value__" + n;
@@ -531,7 +531,7 @@ function addLabel (n) {
 	var oc="addLabel(" + np1 + ")";
 	mS.setAttribute("onclick",oc);
 	pDiv.appendChild(mS);
-	
+
 	var cc=document.getElementById('number_of_labels');
 	cc.value=parseInt(cc.value)+1;
 }
@@ -545,10 +545,10 @@ function tog_AgentRankDetail(toState){
 		document.getElementById('agentRankDetails').style.display='none';
 		jQuery('#t_agentRankDetails').text('Show Details').removeAttr('onclick').bind("click", function() {
 			tog_AgentRankDetail(1);
-		}); 
+		});
 	}
 }
-function loadAgentRankSummary(targetId,agentId) { 
+function loadAgentRankSummary(targetId,agentId) {
    jQuery.getJSON("/component/functions.cfc",
       {
          method : "getAgentRanks",
@@ -557,11 +557,11 @@ function loadAgentRankSummary(targetId,agentId) {
          queryformat : 'column'
       },
       function (result) {
-         if (result.DATA.STATUS[0]==1) { 
+         if (result.DATA.STATUS[0]==1) {
             var output = "Ranking: " ;
   	    for (a=0; a<result.ROWCOUNT; ++a) {
-               output =  output + result.DATA.AGENT_RANK[a] + "&nbsp;" + result.DATA.CT[a] 
-               if (result.DATA.AGENT_RANK[a]=='F') { 
+               output =  output + result.DATA.AGENT_RANK[a] + "&nbsp;" + result.DATA.CT[a]
+               if (result.DATA.AGENT_RANK[a]=='F') {
                   output = output + "<img src='/images/flag-red.svg.png' width='16'>" ;
                }
                if (a<result.ROWCOUNT-1) { output = output + ";&nbsp;"; }
@@ -571,7 +571,7 @@ function loadAgentRankSummary(targetId,agentId) {
             $("#" + targetId).html(result.DATA.MESSAGE[0]);
          }
       }
-   );       
+   );
 }
 function saveAgentRank(){
 	jQuery.getJSON("/component/functions.cfc",
@@ -593,7 +593,7 @@ function saveAgentRank(){
 				$('#saveAgentRankFeedback').append(ih);
 			}
 		}
-	); 		
+	);
 }
 function pickThis (fld,idfld,display,aid) {
 	document.getElementById(fld).value=display;
@@ -631,7 +631,7 @@ function get_AgentName(name,fld,idfld){
 	theDiv.className = 'pickDiv';
 	theDiv.innerHTML='<br>Loading...';
 	document.body.appendChild(theDiv);
-	var ptl="/picks/getAgentName.cfm";			
+	var ptl="/picks/getAgentName.cfm";
 	jQuery.get(ptl,{agentname: name, fld: fld, idfld: idfld},function(data){
 		document.getElementById('pickDiv').innerHTML=data;
 		viewport.init("#pickDiv");
@@ -643,7 +643,7 @@ function addLink (n) {
 	if (lastID.length==0){
 		lastID=0;
 	}
-	var thisID=parseInt(lastID) + 1;	
+	var thisID=parseInt(lastID) + 1;
 	var newRow='<tr id="linkRow' + thisID + '">';
 	newRow+='<td>';
 	newRow+='<input type="text"  size="60" name="link' + thisID + '" id="link' + thisID + '">';
@@ -651,7 +651,7 @@ function addLink (n) {
 	newRow+='<td>';
 	newRow+='<input type="text"  size="10" name="description' + thisID + '" id="description' + thisID + '">';
 	newRow+='</td>';
-	newRow+='</tr>';		
+	newRow+='</tr>';
 	jQuery('#linkTab tr:last').after(newRow);
 	document.getElementById('numberLinks').value=thisID;
 }
@@ -673,10 +673,10 @@ function addAgent (n) {
 	newRow+='<td>';
 	newRow+='<input type="hidden" name="author_id_' + thisID + '" id="author_id_' + thisID + '">';
 	newRow+='<input type="text" name="author_name_' + thisID + '" id="author_name_' + thisID + '" class="reqdClr"  size="50" ';
-	newRow+='onchange="findAgentName(\'author_id_' + thisID + '\',this.name,this.value);"';		
+	newRow+='onchange="findAgentName(\'author_id_' + thisID + '\',this.name,this.value);"';
 	newRow+='onKeyPress="return noenter(event);">';
 	newRow+='</td>';
-	newRow+='</tr>';		
+	newRow+='</tr>';
 	jQuery('#authTab tr:last').after(newRow);
 	document.getElementById('numberAuthors').value=thisID;
 }
@@ -736,7 +736,7 @@ function addAttribute(V){
 			jQuery('#attTab tr:last').after(newRow);
 			document.getElementById('numberAttributes').value=thisID;
 		}
-	); 		
+	);
 }
 function setDefaultPub(t){
 	if(t=='journal article'){
@@ -746,45 +746,56 @@ function setDefaultPub(t){
     	setTimeout( "addAttribute('end page');", 1500);
     	setTimeout( "addAttribute('volume');", 2000);
     	setTimeout( "addAttribute('issue');", 2500);
-				
+			setTimeout( "addAttribute('storage location')", 2200);
+
 	} else if (t=='book'){
 		addAttribute('publisher');
-    	setTimeout( "addAttribute('page total')", 1000);
+    setTimeout( "addAttribute('page total')", 1000);
 		setTimeout("addAttribute('volume')", 1200);
-		
+		setTimeout( "addAttribute('storage location')", 2200);
+
 	} else if (t=='book section'){
     	addAttribute('begin page');
 		setTimeout( "addAttribute('end page')", 1000);
-    	setTimeout( "addAttribute('book')", 1500);
-    	setTimeout( "addAttribute('publisher');", 2000);
-		setTimeout( "addAttribute('page total')", 2500);	
-    	
+    setTimeout( "addAttribute('book')", 1500);
+    setTimeout( "addAttribute('publisher');", 2000);
+		setTimeout( "addAttribute('page total')", 2500);
+		setTimeout( "addAttribute('storage location')", 2200);
+
 	} else if (t=='journal section'){
     	addAttribute('journal name');
 		setTimeout( "addAttribute('begin page');", 1000);
 		setTimeout( "addAttribute('end page')", 1500);
-    	setTimeout( "addAttribute('journal section')", 2200);
-		setTimeout( "addAttribute('volume');", 2500);	
-		setTimeout( "addAttribute('issue');", 2800);
-		
-	} else if (t=='serial monograph'){
-    	addAttribute('journal name');
-		setTimeout( "addAttribute('begin page');", 1000);	
-		setTimeout( "addAttribute('end page')", 1500);
-		setTimeout( "addAttribute('publisher');", 2000);
-		setTimeout( "addAttribute('number');", 2200);		
+    setTimeout( "addAttribute('journal section')", 2200);
 		setTimeout( "addAttribute('volume');", 2500);
 		setTimeout( "addAttribute('issue');", 2800);
-    
-    	
+		setTimeout( "addAttribute('storage location')", 2200);
+
+	} else if (t=='data release'){
+			addAttribute('data release');
+		setTimeout( "addAttribute('storage location')", 2200);
+		setTimeout( "addAttribute('publisher');", 2500);
+		setTimeout( "addAttribute('number');", 2800);
+
+	} else if (t=='serial monograph'){
+    	addAttribute('journal name');
+		setTimeout( "addAttribute('begin page');", 1000);
+		setTimeout( "addAttribute('end page')", 1500);
+		setTimeout( "addAttribute('publisher');", 2000);
+		setTimeout( "addAttribute('number');", 2200);
+		setTimeout( "addAttribute('volume');", 2500);
+		setTimeout( "addAttribute('issue');", 2800);
+		setTimeout( "addAttribute('storage location')", 2200);
+
+
 	}
-	
+
 }
 function deleteAgent(r){
-	jQuery('#author_id_' + r).val("-1");	
+	jQuery('#author_id_' + r).val("-1");
 	jQuery('#authortr' + r + ' td:nth-child(1)').addClass('red').text(jQuery('#author_role_' + r).val());
 	jQuery('#authortr' + r + ' td:nth-child(2)').addClass('red').text(jQuery('#author_name_' + r).val());
-	jQuery('#authortr' + r + ' td:nth-child(3)').addClass('red').text('deleted');						
+	jQuery('#authortr' + r + ' td:nth-child(3)').addClass('red').text('deleted');
 }
 function deletePubAtt(r){
 	var newElem='<input type="hidden" name="attribute' + r + '" id="attribute' + r + '" value="deleted">';
