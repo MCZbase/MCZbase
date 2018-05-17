@@ -302,7 +302,7 @@
 				publication_loc='#publication_loc#',
 				publication_title='#publication_title#',
 				publication_remarks='#publication_remarks#',
-				is_peer_reviewed_fg=#is_peer_reviewed_fg,
+				is_peer_reviewed_fg=#is_peer_reviewed_fg#,
         doi='#doi#',
 			where publication_id=#publication_id#
 		</cfquery>
