@@ -166,9 +166,9 @@
   <cfquery name="storage_location" dbtype="query">
     select pub_att_value from atts where publication_attribute='storage location'
   </cfquery>
-   <!---  <cfquery name="bookauthor" dbtype="query">
+  <cfquery name="bookauthor" dbtype="query">
 		select pub_att_value from atts where publication_attribute='book author (book section)'
-	</cfquery>--->
+	</cfquery>
 
 
 
@@ -462,6 +462,9 @@
         <cfset r=r & ' (ed.) '>
         <cfelse>
         <cfset r=r & ''>
+      </cfif>
+      <cfif len(bookauthor.pub_att_value) gt 0>
+        <cfset r=r &  ' ' & bookauthor.pub_att_value & '.'>
       </cfif>
       <cfset r=r &  ' <i>'& book_title.pub_att_value & '.</i> '>
       <cfif len(edition.pub_att_value) gt 0 and right(edition.pub_att_value,1) is not '.'>
