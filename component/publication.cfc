@@ -463,7 +463,7 @@
         <cfelse>
         <cfset r=r & ''>
       </cfif>
-      <cfelseif bookauthor.pub_att_value gt 0>
+      <cfif bookauthor.pub_att_value gt 0>
       <cfset r=r & bookauthor.pub_att_value >
       </cfif>
       <cfset r=r &  ' <i>'& book_title.pub_att_value & '.</i> '>
