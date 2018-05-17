@@ -349,13 +349,13 @@
     </cfif>
     <cfset r=r & publication_title>
     <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r & storage_location.pub_att_value & ','>
+      <cfset r=r & storage_location.pub_att_value & ''>
     </cfif>
       <cfif len(publisher.pub_att_value) gt 0>
       <cfset r=r &  ', ' & publisher.pub_att_value & ''>
     </cfif>
     <cfif len(number.pub_att_value) gt 0>
-      <cfset r=r & ' ' & number.pub_att_value & '. '>
+      <cfset r=r & ', ' & number.pub_att_value & '. '>
     </cfif>
   <!--- End Data Release--->
 
