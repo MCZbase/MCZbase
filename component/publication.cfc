@@ -208,10 +208,6 @@
       <cfelse>
        <cfset r=r &  issue.pub_att_value>
     </cfif>
-    <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r & ',  ' & storage_location.pub_att_value & ','>
-    </cfif>
-
     <cfif begin.pub_att_value is not end.pub_att_value>
       <cfset r=r & ':' & 	begin.pub_att_value & '&ndash;' & end.pub_att_value & '. '>
     </cfif>
@@ -220,6 +216,9 @@
     </cfif>
      <cfif len(supplement.pub_att_value) gt 0>
       <cfset r=r & ' Supplement ' & supplement.pub_att_value>
+    </cfif>
+    <cfif len(storage_location.pub_att_value) gt 0>
+      <cfset r=r & storage_location.pub_att_value & '.'>
     </cfif>
 
 <!--- End Journal Article--->
@@ -264,8 +263,10 @@
       <cfset r=r & ' Supplement ' & supplement.pub_att_value>
     </cfif>
       <cfset r=r & ':' & 	begin.pub_att_value & '-' & end.pub_att_value & ''>
-
       <cfset r=r & '.'>
+    </cfif>
+    <cfif len(storage_location.pub_att_value) gt 0>
+      <cfset r=r & storage_location.pub_att_value & '.'>
     </cfif>
   <!--- End Journal Section--->
   <!--- Begin Special Publication Series (generalized as a serial monographic work) --->
@@ -326,6 +327,9 @@
     <cfif begin.pub_att_value eq end.pub_att_value>
       <cfset r=r & ' p. ' & 	begin.pub_att_value &  '. '>
     </cfif>
+    <cfif len(storage_location.pub_att_value) gt 0>
+      <cfset r=r & storage_location.pub_att_value & '.'>
+    </cfif>
   <!--- End Special Publication Series--->
 
 
@@ -342,7 +346,7 @@
     </cfif>
     <cfset r=r & publication_title>
     <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r & ',  ' & storage_location.pub_att_value & ','>
+      <cfset r=r & storage_location.pub_att_value & ','>
     </cfif>
       <cfif len(publisher.pub_att_value) gt 0>
       <cfset r=r &  ' ' & publisher.pub_att_value & '.'>
@@ -383,8 +387,10 @@
       <cfelse>
        <cfset r=r &  issue.pub_att_value>
     </cfif>
-
      <cfset r=r & ': ' & begin.pub_att_value & '-' & end.pub_att_value & '.'>
+     <cfif len(storage_location.pub_att_value) gt 0>
+       <cfset r=r & storage_location.pub_att_value & '.'>
+     </cfif>
 
       <!--- End Newsletter--->
 
@@ -407,7 +413,6 @@
       <cfset r=r & es >
     </cfif>
     <cfset r=r & '<i>' & publication_title & '</i> '>
-
     <cfif len(volume.pub_att_value) gt 0 and len(part.pub_att_value) gt 0>
       <cfset r=r & ' Vol. ' & volume.pub_att_value & ', Part ' & part.pub_att_value & '. '>
       <cfelseif len(volume.pub_att_value) gt 0>
@@ -434,6 +439,9 @@
     </cfif>
    <cfif len(pagetotal.pub_att_value) gt 0>
      <cfset r=r &  ' ' & pagetotal.pub_att_value & ' pp.'>
+     </cfif>
+     <cfif len(storage_location.pub_att_value) gt 0>
+       <cfset r=r & storage_location.pub_att_value & '.'>
      </cfif>
       <!--- End Book--->
 
@@ -479,6 +487,9 @@
     </cfif>
    <cfif len(pagetotal.pub_att_value) gt 0>
      <cfset r=r &  ' ' & pagetotal.pub_att_value & ' pp.'>
+     </cfif>
+     <cfif len(storage_location.pub_att_value) gt 0>
+       <cfset r=r & storage_location.pub_att_value & '.'>
      </cfif>
   <!--- End Book Section--->
 
