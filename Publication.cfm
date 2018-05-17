@@ -536,8 +536,8 @@
         		return false;
         	} else {
         		if ($("#doi").val().length==0 && $("#pmid").val().length==0){
-					msg = 'Please enter a DOI or PMID if one is available for this article is available\n';
-					msg+='Click OK to enter a DOI or PMID before creating this article, or Cancel to proceed.\n';
+					msg = 'Please enter a DOI if one is available for this article is available\n';
+					msg+='Click OK to enter a DOI before creating this article, or Cancel to proceed.\n';
 					msg+='There are also tools on the next page to help find DOI.';
 					var r = confirm(msg);
 					if (r == true) {
@@ -610,6 +610,8 @@
 			</select>
 			<label for="published_year">Published Year</label>
 			<input type="text" name="published_year" id="published_year" class="reqdClr">
+      <label for="doi">doi</label>
+      <input type="text" name="doi" id="doi" size="50">
 			<label for="publication_loc">Storage Location</label>
 			<input type="text" name="publication_loc" id="publication_loc" size="100">
 			<label for="publication_remarks">Remark</label>
@@ -709,6 +711,7 @@
 				publication_loc,
 				publication_title,
 				publication_remarks,
+        doi,
 				is_peer_reviewed_fg
 			) values (
 				#pid#,
@@ -717,6 +720,7 @@
 				'#publication_loc#',
 				'#publication_title#',
 				'#publication_remarks#',
+        '#doi#',
 				#is_peer_reviewed_fg#
 			)
 		</cfquery>
