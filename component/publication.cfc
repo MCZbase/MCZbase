@@ -451,7 +451,7 @@
     <cfset r=as & '. ' & p.published_year & '. ' & publication_title & '. ' >
 
     <cfset r=r & ' Pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
-    <cfif len(book.pub_att_value) gt 0>
+    <cfif len(book_title.pub_att_value) gt 0>
       <cfset r=r & ' <i>In</i> ' & es>
       <cfif e.recordcount gt 1>
         <cfset r=r & ' (eds.) '>
