@@ -772,8 +772,7 @@ function setDefaultPub(t){
 		setTimeout( "addAttribute('storage location')", 2200);
 
 	} else if (t=='data release'){
-			addAttribute('data release');
-		setTimeout( "addAttribute('storage location')", 2200);
+			addAttribute('storage location');
 		setTimeout( "addAttribute('publisher');", 2500);
 		setTimeout( "addAttribute('number');", 2800);
 
