@@ -127,8 +127,8 @@
   <cfquery name="volume" dbtype="query">
 		select pub_att_value from atts where publication_attribute='volume'
 	</cfquery>
-  <cfquery name="book" dbtype="query">
-		select pub_att_value from atts where publication_attribute='book'
+  <cfquery name="book_title" dbtype="query">
+		select pub_att_value from atts where publication_attribute='book title'
 	</cfquery>
   <cfquery name="begin" dbtype="query">
 		select pub_att_value from atts where publication_attribute='begin page'
@@ -409,9 +409,8 @@
     <cfif e.recordcount gt 1>
       <cfset editor = ', Eds.' >
       <cfset r=r & es & editor >
-      <cfelseif e.recordcount gt 0>
-      <cfset editor = ', Ed.' >
-      <cfset r=r & es & editor >
+      <cfelseif bookauthor.pub_att_value eq 0>
+      <cfset r=r & bookauthor.pub_att_value >
       <cfelse>
       <cfset r=r & es >
     </cfif>
@@ -463,7 +462,7 @@
         <cfelse>
         <cfset r=r & ''>
       </cfif>
-      <cfset r=r &  ' <i>'& book.pub_att_value & '.</i> '>
+      <cfset r=r &  ' <i>'& book_title.pub_att_value & '.</i> '>
       <cfif len(edition.pub_att_value) gt 0 and right(edition.pub_att_value,1) is not '.'>
       <cfset r=r &  ' ' & edition.pub_att_value & ' edition.' >
       <cfelse>

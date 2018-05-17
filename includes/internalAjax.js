@@ -746,13 +746,12 @@ function setDefaultPub(t){
     	setTimeout( "addAttribute('end page');", 1500);
     	setTimeout( "addAttribute('volume');", 2000);
     	setTimeout( "addAttribute('issue');", 2500);
-			setTimeout( "addAttribute('storage location')", 2200);
 
 	} else if (t=='book'){
 		addAttribute('publisher');
     setTimeout( "addAttribute('page total')", 1000);
 		setTimeout("addAttribute('volume')", 1200);
-		setTimeout( "addAttribute('storage location')", 2200);
+
 
 	} else if (t=='book section'){
     	addAttribute('begin page');
@@ -760,7 +759,7 @@ function setDefaultPub(t){
     setTimeout( "addAttribute('book')", 1500);
     setTimeout( "addAttribute('publisher');", 2000);
 		setTimeout( "addAttribute('page total')", 2500);
-		setTimeout( "addAttribute('storage location')", 2200);
+
 
 	} else if (t=='journal section'){
     	addAttribute('journal name');
@@ -769,7 +768,7 @@ function setDefaultPub(t){
     setTimeout( "addAttribute('journal section')", 2200);
 		setTimeout( "addAttribute('volume');", 2500);
 		setTimeout( "addAttribute('issue');", 2800);
-		setTimeout( "addAttribute('storage location')", 2200);
+
 
 	} else if (t=='data release'){
 			addAttribute('storage location');
@@ -784,7 +783,7 @@ function setDefaultPub(t){
 		setTimeout( "addAttribute('number');", 2200);
 		setTimeout( "addAttribute('volume');", 2500);
 		setTimeout( "addAttribute('issue');", 2800);
-		setTimeout( "addAttribute('storage location')", 2200);
+	
 
 
 	}
