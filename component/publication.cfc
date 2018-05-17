@@ -409,8 +409,6 @@
     <cfif e.recordcount gt 1>
       <cfset editor = ', Eds.' >
       <cfset r=r & es & editor >
-      <cfelseif bookauthor.pub_att_value eq 0>
-      <cfset r=r & bookauthor.pub_att_value >
       <cfelse>
       <cfset r=r & es >
     </cfif>
@@ -459,6 +457,8 @@
         <cfset r=r & ' (eds.) '>
         <cfelseif e.recordcount eq 1>
         <cfset r=r & ' (ed.) '>
+        <cfelseif bookauthor.pub_att_value eq 0>
+        <cfset r=r & bookauthor.pub_att_value >
         <cfelse>
         <cfset r=r & ''>
       </cfif>

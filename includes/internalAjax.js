@@ -756,7 +756,7 @@ function setDefaultPub(t){
 	} else if (t=='book section'){
     	addAttribute('begin page');
 		setTimeout( "addAttribute('end page')", 1000);
-    setTimeout( "addAttribute('book')", 1500);
+    setTimeout( "addAttribute('book_title')", 1500);
     setTimeout( "addAttribute('publisher');", 2000);
 		setTimeout( "addAttribute('page total')", 2500);
 
@@ -783,7 +783,7 @@ function setDefaultPub(t){
 		setTimeout( "addAttribute('number');", 2200);
 		setTimeout( "addAttribute('volume');", 2500);
 		setTimeout( "addAttribute('issue');", 2800);
-	
+
 
 
 	}
