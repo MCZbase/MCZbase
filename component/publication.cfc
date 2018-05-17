@@ -215,10 +215,10 @@
       <cfset r=r & ': ' & 	begin.pub_att_value &  '. '>
     </cfif>
      <cfif len(supplement.pub_att_value) gt 0>
-      <cfset r=r & ' Supplement ' & supplement.pub_att_value>
+      <cfset r=r & ' Supplement ' & supplement.pub_att_value &  '.'>
     </cfif>
     <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r & storage_location.pub_att_value & '.'>
+      <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
     </cfif>
 
 <!--- End Journal Article--->
@@ -266,7 +266,7 @@
       <cfset r=r & '.'>
     </cfif>
     <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r & storage_location.pub_att_value & '.'>
+      <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
     </cfif>
   <!--- End Journal Section--->
   <!--- Begin Special Publication Series (generalized as a serial monographic work) --->
@@ -328,7 +328,7 @@
       <cfset r=r & ' p. ' & 	begin.pub_att_value &  '. '>
     </cfif>
     <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r & storage_location.pub_att_value & '.'>
+      <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
     </cfif>
   <!--- End Special Publication Series--->
 
@@ -366,6 +366,9 @@
       <cfset r=r & ' no. ' & number.pub_att_value & '.'>
       </cfif>
  		<cfset r=r &  ' ' & publisher.pub_att_value & '.'>
+    <cfif len(storage_location.pub_att_value) gt 0>
+      <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
+    </cfif>
    <!--- End Annual Report--->
          <!--- Begin Newsletter--->
        <cfelseif p.publication_type is "newsletter">
@@ -389,7 +392,7 @@
     </cfif>
      <cfset r=r & ': ' & begin.pub_att_value & '-' & end.pub_att_value & '.'>
      <cfif len(storage_location.pub_att_value) gt 0>
-       <cfset r=r & storage_location.pub_att_value & '.'>
+       <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
      </cfif>
 
       <!--- End Newsletter--->
@@ -441,7 +444,7 @@
      <cfset r=r &  ' ' & pagetotal.pub_att_value & ' pp.'>
      </cfif>
      <cfif len(storage_location.pub_att_value) gt 0>
-       <cfset r=r & storage_location.pub_att_value & '.'>
+       <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
      </cfif>
       <!--- End Book--->
 
@@ -489,7 +492,7 @@
      <cfset r=r &  ' ' & pagetotal.pub_att_value & ' pp.'>
      </cfif>
      <cfif len(storage_location.pub_att_value) gt 0>
-       <cfset r=r & storage_location.pub_att_value & '.'>
+       <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
      </cfif>
   <!--- End Book Section--->
 
