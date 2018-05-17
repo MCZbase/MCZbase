@@ -410,10 +410,10 @@
   <cfset publication_title=replace(publication_title,' In: ',' <i>In:</i> ')>
     <cfset r=as & '. ' & p.published_year & '. '>
     <cfif e.recordcount gt 1>
-      <cfset editor = '. Eds.' >
+      <cfset editor = ', Eds. ' >
       <cfset r=r & es & editor >
       <cfelseif e.recordcount eq 1>
-      <cfset editor = '. Ed.' >
+      <cfset editor = ', Ed. ' >
       <cfset r=r & es & editor >
       <cfelse>
       <cfset r=r & es >
@@ -460,10 +460,10 @@
     <cfif len(book_title.pub_att_value) gt 0>
       <cfset r=r & ' <i>In</i> ' & es>
       <cfif e.recordcount gt 1>
-        <cfset editor = ', (eds.)' >
+        <cfset editor = '. (eds.)' >
         <cfset r=r & es & editor >
-        <cfelseif e.recordcount gt 0>
-        <cfset editor = ', (ed.)' >
+        <cfelseif e.recordcount eq 1>
+        <cfset editor = '. (ed.)' >
         <cfset r=r & es & editor >
         <cfelse>
         <cfset r=r & es >
