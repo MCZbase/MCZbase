@@ -74,6 +74,13 @@
 		</select>
 		<label for="published_year">Published Year</label>
 		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
+    <label for="doi" class="helpLink" data-helplink="publication_doi">Digital Object Identifier (DOI)</label>
+    <input type="text" id="doi" name="doi" value="#pub.doi#" size="80">
+    <cfif len(pub.doi) gt 0>
+      <a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
+    <cfelse>
+      <a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.full_citation)#')">Bah! No DOI! Click this!</a>
+    </cfif>
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
 		<label for="publication_remarks">Remark</label>
@@ -280,6 +287,14 @@
 <cfif action is "saveEdit">
 <cfoutput>
 	<cftransaction>
+  <cfif len(doi) gt 0>
+			<cfinvoke component="/component/functions" method="checkDOI" returnVariable="isok">
+				<cfinvokeargument name="doi" value="#doi#">
+			</cfinvoke>
+			<cfif isok is not "true">
+				<cfthrow message = "DOI #doi# failed validation with StatusCode #isok#">
+			</cfif>
+		</cfif>
 		<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update publication set
 				published_year=<cfif len(published_year) gt 0>#published_year#<cfelse>NULL</cfif>,
@@ -287,7 +302,8 @@
 				publication_loc='#publication_loc#',
 				publication_title='#publication_title#',
 				publication_remarks='#publication_remarks#',
-				is_peer_reviewed_fg=#is_peer_reviewed_fg#
+				is_peer_reviewed_fg=#is_peer_reviewed_fg,
+        doi='#doi#',
 			where publication_id=#publication_id#
 		</cfquery>
 		<cfif len(media_uri) gt 0>
@@ -503,6 +519,7 @@
 			}
 	</style>
 	<script>
+  <script>
 		function confirmpub() {
 			var r=true;
 			var msg='';
@@ -515,11 +532,21 @@
                 }
         	});
         	if (msg.length>0){
-        		msg+='You may remove unwanted attributes';
         		alert(msg);
         		return false;
         	} else {
-        		return true;
+        		if ($("#doi").val().length==0 && $("#pmid").val().length==0){
+					msg = 'Please enter a DOI or PMID if one is available for this article is available\n';
+					msg+='Click OK to enter a DOI or PMID before creating this article, or Cancel to proceed.\n';
+					msg+='There are also tools on the next page to help find DOI.';
+					var r = confirm(msg);
+					if (r == true) {
+					    return false;
+					} else {
+					    return true;
+					}
+				}
+				return true;
         	}
 		}
 		function toggleMedia() {

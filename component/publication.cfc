@@ -46,7 +46,8 @@
 		select
 			publication_title,
 			published_year,
-			publication_type
+			publication_type,
+      doi
 		from publication where publication_id=#publication_id#
 	</cfquery>
   <cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -163,8 +164,8 @@
   <cfquery name="edition" dbtype="query">
 		select pub_att_value from atts where publication_attribute='edition'
 	</cfquery>
-  <cfquery name="storage_location" dbtype="query">
-    select pub_att_value from atts where publication_attribute='storage location'
+  <cfquery name="doi" dbtype="query">
+    select doi from publication where doi ='doi'
   </cfquery>
   <cfquery name="bookauthor" dbtype="query">
 		select pub_att_value from atts where publication_attribute='book author (book section)'
@@ -220,8 +221,8 @@
      <cfif len(supplement.pub_att_value) gt 0>
       <cfset r=r & ' Supplement ' & supplement.pub_att_value &  '.'>
     </cfif>
-    <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
+    <cfif len(p.doi) gt 0>
+      <cfset r=r &  ' ' & p.doi & '.'>
     </cfif>
 
 <!--- End Journal Article--->
@@ -268,8 +269,8 @@
       <cfset r=r & ':' & 	begin.pub_att_value & '-' & end.pub_att_value & ''>
       <cfset r=r & '.'>
     </cfif>
-    <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
+    <cfif len(p.doi) gt 0>
+      <cfset r=r &  ' ' & p.doi & '.'>
     </cfif>
   <!--- End Journal Section--->
   <!--- Begin Special Publication Series (generalized as a serial monographic work) --->
@@ -330,8 +331,8 @@
     <cfif begin.pub_att_value eq end.pub_att_value>
       <cfset r=r & ' p. ' & 	begin.pub_att_value &  '. '>
     </cfif>
-    <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
+    <cfif len(p.doi) gt 0>
+      <cfset r=r &  ' ' & p.doi & '.'>
     </cfif>
   <!--- End Special Publication Series--->
 
@@ -348,8 +349,8 @@
     <cfset r=r & p.published_year & '.  '>
     </cfif>
     <cfset r=r & publication_title>
-    <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r & storage_location.pub_att_value & ''>
+    <cfif len(p.doi) gt 0>
+      <cfset r=r & p.doi & ''>
     </cfif>
       <cfif len(publisher.pub_att_value) gt 0>
       <cfset r=r &  ', ' & publisher.pub_att_value & ''>
@@ -369,8 +370,8 @@
       <cfset r=r & ' no. ' & number.pub_att_value & '.'>
       </cfif>
  		<cfset r=r &  ' ' & publisher.pub_att_value & '.'>
-    <cfif len(storage_location.pub_att_value) gt 0>
-      <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
+    <cfif len(p.doi) gt 0>
+      <cfset r=r &  ' ' & p.doi & '.'>
     </cfif>
    <!--- End Annual Report--->
          <!--- Begin Newsletter--->
@@ -394,8 +395,8 @@
        <cfset r=r &  issue.pub_att_value>
     </cfif>
      <cfset r=r & ': ' & begin.pub_att_value & '-' & end.pub_att_value & '.'>
-     <cfif len(storage_location.pub_att_value) gt 0>
-       <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
+     <cfif len(p.doi) gt 0>
+       <cfset r=r &  ' ' & p.doi & '.'>
      </cfif>
 
       <!--- End Newsletter--->
@@ -446,8 +447,8 @@
    <cfif len(pagetotal.pub_att_value) gt 0>
      <cfset r=r &  ' ' & pagetotal.pub_att_value & ' pp.'>
      </cfif>
-     <cfif len(storage_location.pub_att_value) gt 0>
-       <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
+     <cfif len(p.doi) gt 0>
+       <cfset r=r &  ' ' & p.doi & '.'>
      </cfif>
       <!--- End Book--->
 
@@ -499,8 +500,8 @@
    <cfif len(pagetotal.pub_att_value) gt 0>
      <cfset r=r &  ' ' & pagetotal.pub_att_value & ' pp.'>
      </cfif>
-     <cfif len(storage_location.pub_att_value) gt 0>
-       <cfset r=r &  ' ' & storage_location.pub_att_value & '.'>
+     <cfif len(p.doi) gt 0>
+       <cfset r=r &  ' ' & p.doi & '.'>
      </cfif>
   <!--- End Book Section--->
 
