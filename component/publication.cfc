@@ -127,6 +127,9 @@
   <cfquery name="volume" dbtype="query">
 		select pub_att_value from atts where publication_attribute='volume'
 	</cfquery>
+  <cfquery name="book" dbtype="query">
+    select pub_att_value from atts where publication_attribute='book'
+  </cfquery>
   <cfquery name="book_title" dbtype="query">
 		select pub_att_value from atts where publication_attribute='book title'
 	</cfquery>
