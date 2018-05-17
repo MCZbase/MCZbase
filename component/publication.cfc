@@ -412,6 +412,9 @@
     <cfif e.recordcount gt 1>
       <cfset editor = ', Eds.' >
       <cfset r=r & es & editor >
+      <cfelseif e.recordcount gt 0>
+      <cfset editor = ', Ed.' >
+      <cfset r=r & es & editor >
       <cfelse>
       <cfset r=r & es >
     </cfif>
@@ -457,11 +460,13 @@
     <cfif len(book_title.pub_att_value) gt 0>
       <cfset r=r & ' <i>In</i> ' & es>
       <cfif e.recordcount gt 1>
-        <cfset r=r & ' (eds.) '>
-        <cfelseif e.recordcount eq 1>
-        <cfset r=r & ' (ed.) '>
+        <cfset editor = ', (eds.)' >
+        <cfset r=r & es & editor >
+        <cfelseif e.recordcount gt 0>
+        <cfset editor = ', (ed.)' >
+        <cfset r=r & es & editor >
         <cfelse>
-        <cfset r=r & ''>
+        <cfset r=r & es >
       </cfif>
       <cfif len(bookauthor.pub_att_value) gt 0>
         <cfset r=r &  ' ' & bookauthor.pub_att_value & ''>
