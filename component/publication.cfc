@@ -348,7 +348,7 @@
     </cfif>
     <cfset r=r & publication_title>
     <cfif len(p.doi) gt 0>
-      <cfset r=r & ' doi: ' p.doi & ''>
+      <cfset r=r & ' doi: ' & p.doi & ''>
     </cfif>
       <cfif len(publisher.pub_att_value) gt 0>
       <cfset r=r &  ', ' & publisher.pub_att_value & ''>
