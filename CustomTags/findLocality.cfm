@@ -154,10 +154,26 @@
 	<cfset sql = "#sql# AND upper(locality_remarks) like '%#ucase(locality_remarks)#%'">
 </cfif>
 <cfif isdefined("continent_ocean") and len(#continent_ocean#) gt 0>
-	<cfset sql = "#sql# AND upper(continent_ocean) LIKE '%#ucase(continent_ocean)#%'">
+	<cfif left(continent_ocean,1) is "=">
+		<CFSET sql = "#SQL# AND upper(continent_ocean) = '#ucase(right(continent_ocean,len(continent_ocean)-1))#'">
+	<cfelseif left(continent_ocean,1) is "!">
+		<CFSET sql = "#SQL# AND upper(continent_ocean) <> '#ucase(right(continent_ocean,len(continent_ocean)-1))#'">
+	<cfelseif continent_ocean eq 'NULL'>
+		<cfset sql = "#sql# AND continent_ocean is NULL ">
+	<cfelse>
+		<cfset sql = "#sql# AND upper(continent_ocean) like '%#ucase(continent_ocean)#%'">
+	</cfif>
 </cfif>
 <cfif isdefined("country") and len(#country#) gt 0>
-	<cfset sql = "#sql# AND upper(country) LIKE '%#ucase(country)#%'">
+        <cfif left(country,1) is "=">
+                <CFSET sql = "#SQL# AND upper(country) = '#ucase(right(country,len(country)-1))#'">
+        <cfelseif left(country,1) is "!">
+                <CFSET sql = "#SQL# AND upper(country) <> '#ucase(right(country,len(country)-1))#'">
+        <cfelseif country eq 'NULL'>
+                <cfset sql = "#sql# AND country is NULL ">
+        <cfelse>
+                <cfset sql = "#sql# AND upper(country) like '%#ucase(country)#%'">
+        </cfif>
 </cfif>
 <cfif isdefined("state_prov") and len(#state_prov#) gt 0>
 	<cfset sql = "#sql# AND upper(state_prov) LIKE '%#ucase(state_prov)#%'">
