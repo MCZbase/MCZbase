@@ -164,9 +164,7 @@
   <cfquery name="edition" dbtype="query">
 		select pub_att_value from atts where publication_attribute='edition'
 	</cfquery>
-  <cfquery name="doi" dbtype="query">
-    select doi from publication where doi ='doi'
-  </cfquery>
+
   <cfquery name="bookauthor" dbtype="query">
 		select pub_att_value from atts where publication_attribute='book author (book section)'
 	</cfquery>
