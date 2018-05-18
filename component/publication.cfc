@@ -155,6 +155,9 @@
   <cfquery name="number" dbtype="query">
 		select pub_att_value from atts where publication_attribute='number'
 	</cfquery>
+  <cfquery name="version" dbtype="query">
+		select pub_att_value from atts where publication_attribute='version'
+	</cfquery>
   <cfquery name="pagetotal" dbtype="query">
 		select pub_att_value from atts where publication_attribute='page total'
 	</cfquery>

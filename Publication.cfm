@@ -106,7 +106,7 @@
                <cfif len(pub.doi) gt 0>
                         <a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
          <cfelse>
-                  <span>add doi</span>
+                  <span>add DOI</span>
                 </cfif>
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
