@@ -54,7 +54,7 @@
 		</p>
 		<span class="likeLink" onclick="$('##help').toggle()">help</span>
 		<div id="help">
-			The box above is the publication full citation as pulled from Arctos.
+			The box above is the publication title as pulled from MCZbase.
 			If you aren't finding what you're looking for, try editing it (which will increase
 			the number of false positives returned, but perhaps also find the
 			correct article). For example, removing parenthetical taxa may be useful.
@@ -70,7 +70,7 @@
 				through CrossRef (largely by BHL).
 			</p>
 			<p>
-				Consider correcting data in Arctos. This form ONLY finds DOIs; close this window and
+				Consider correcting data in MCZbase. This form ONLY finds DOIs; close this window and
 				edit the publication.
 			</p>
 			<p>
