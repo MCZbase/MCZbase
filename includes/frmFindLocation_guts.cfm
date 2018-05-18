@@ -139,6 +139,9 @@
 				<td>
 					<label for="continent_ocean">Continent or Ocean</label>
 					<input type="text" name="continent_ocean" id="continent_ocean" size="50">
+				        <span class="infolink" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;">
+									Add = for exact match
+				        </span>
 				</td>
 				<td style="padding-left: 1em;">
 					<label for="ocean_region">Ocean Region</label>
@@ -194,6 +197,9 @@
 				<td>
 					<label for="country">Country</label>
 					<input type="text" name="country" id="country" size="50">
+				        <span class="infolink" onclick="var e=document.getElementById('country');e.value='='+e.value;">
+									Add = for exact match
+				        </span>
 				</td>
 				<td style="padding-left: 1em;">
 					<label for="state_prov">State or Province</label>
