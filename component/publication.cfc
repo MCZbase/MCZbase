@@ -268,7 +268,7 @@
       <cfset r=r & '.'>
     </cfif>
     <cfif len(p.doi) gt 0>
-      <cfset r=r &  ' ' & p.doi & '.'>
+      <cfset r=r &  ' doi: ' & p.doi & '.'>
     </cfif>
   <!--- End Journal Section--->
   <!--- Begin Special Publication Series (generalized as a serial monographic work) --->
@@ -330,7 +330,7 @@
       <cfset r=r & ' p. ' & 	begin.pub_att_value &  '. '>
     </cfif>
     <cfif len(p.doi) gt 0>
-      <cfset r=r &  ' ' & p.doi & '.'>
+      <cfset r=r &  ' doi: ' & p.doi & '.'>
     </cfif>
   <!--- End Special Publication Series--->
 
@@ -348,7 +348,7 @@
     </cfif>
     <cfset r=r & publication_title>
     <cfif len(p.doi) gt 0>
-      <cfset r=r & p.doi & ''>
+      <cfset r=r & ' doi: ' p.doi & ''>
     </cfif>
       <cfif len(publisher.pub_att_value) gt 0>
       <cfset r=r &  ', ' & publisher.pub_att_value & ''>
@@ -369,7 +369,7 @@
       </cfif>
  		<cfset r=r &  ' ' & publisher.pub_att_value & '.'>
     <cfif len(p.doi) gt 0>
-      <cfset r=r &  ' ' & p.doi & '.'>
+      <cfset r=r &  ' doi: ' & p.doi & '.'>
     </cfif>
    <!--- End Annual Report--->
          <!--- Begin Newsletter--->
@@ -394,7 +394,7 @@
     </cfif>
      <cfset r=r & ': ' & begin.pub_att_value & '-' & end.pub_att_value & '.'>
      <cfif len(p.doi) gt 0>
-       <cfset r=r &  ' ' & p.doi & '.'>
+       <cfset r=r &  ' doi: ' & p.doi & '.'>
      </cfif>
 
       <!--- End Newsletter--->
@@ -446,7 +446,7 @@
      <cfset r=r &  ' ' & pagetotal.pub_att_value & ' pp.'>
      </cfif>
      <cfif len(p.doi) gt 0>
-       <cfset r=r &  ' ' & p.doi & '.'>
+       <cfset r=r &  ' doi: ' & p.doi & '.'>
      </cfif>
       <!--- End Book--->
 
@@ -499,7 +499,7 @@
      <cfset r=r &  ' ' & pagetotal.pub_att_value & ' pp.'>
      </cfif>
      <cfif len(p.doi) gt 0>
-       <cfset r=r &  ' ' & p.doi & '.'>
+       <cfset r=r &  ' doi: ' & p.doi & '.'>
      </cfif>
   <!--- End Book Section--->
 
