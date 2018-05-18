@@ -77,7 +77,7 @@
     <label for="doi">Digital Object Identifier (DOI)</label>
     <input type="text" id="doi" name="doi" value="#pub.doi#" size="80">
     <cfif len(pub.doi) eq 0>
-					<a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(longcitation)#')">No DOI! Click this!</a>
+					<a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.doi)#')">No DOI! Click this!</a>
 		</cfif>
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
