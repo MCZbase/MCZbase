@@ -298,7 +298,7 @@
 				publication_title='#publication_title#',
 				publication_remarks='#publication_remarks#',
 				is_peer_reviewed_fg=#is_peer_reviewed_fg#,
-        doi='#doi#',
+        doi='#doi#'
 			where publication_id=#publication_id#
 		</cfquery>
 		<cfif len(media_uri) gt 0>
