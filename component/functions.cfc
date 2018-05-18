@@ -419,7 +419,7 @@
     <cfargument name="type_status" required="no">
     <cfargument name="country_of_origin" required="no">
     <cfargument name="object_remarks" required="no">
-    <cftry>                      
+    <cftry>
        <cfquery name="newBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrow_ItemRes">
 		INSERT INTO BORROW_ITEM (
 			TRANSACTION_ID,
@@ -430,7 +430,7 @@
 			TYPE_STATUS,
 			COUNTRY_OF_ORIGIN,
             OBJECT_REMARKS
-           
+
 		) VALUES (
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATALOG_NUMBER#">,
@@ -440,7 +440,7 @@
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TYPE_STATUS#">,
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COUNTRY_OF_ORIGIN#">,
             <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OBJECT_REMARKS#">
-            
+
 		)
         </cfquery>
         <cfif newBorrow_ItemRes.recordcount eq 0>
@@ -465,10 +465,10 @@
         <cfreturn theResult>
 </cffunction>
 <!------------------------------------------------------->
-                
+
 <cffunction name="deleteBorrowItem" access="remote">
     <cfargument name="borrow_item_id" type="numeric" required="yes">
-    <cftry>                      
+    <cftry>
        <cfquery name="newBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrow_ItemRes">
 		DELETE from BORROW_ITEM where
 			BORROW_ITEM_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow_item_id#">
@@ -494,9 +494,9 @@
      </cftry>
         <cfreturn theResult>
 </cffunction>
-                
+
 <!------------------------------------------------------------------>
-               
+
 <cffunction name="getBorrowItemsHTML" returntype="string" access="remote" returnformat="plain">
         <cfargument name="transaction_id" type="numeric" required="yes">
         <cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -513,7 +513,7 @@
             <cfset resulthtml = resulthtml & "<td><label>Country of Origin</label></td>">
             <cfset resulthtml = resulthtml & "<td><label>Remarks</label></td>">
             <cfset resulthtml = resulthtml & "</td></tr>">
-                
+
             <cfloop query="k">
                 <cfset resulthtml = resulthtml & "<tr><td>#catalog_number#</td><td>#sci_name#</td><td>#no_of_spec#</td><td>#spec_prep#</td>">
                 <cfset resulthtml = resulthtml & "<td>#type_status#</td>">
@@ -521,8 +521,8 @@
                 <cfset resulthtml = resulthtml & "<td>#object_remarks#</td>">
                 <cfset resulthtml = resulthtml & "<td><input name='deleteBorrowItem' type='button' value='Delete' onclick='deleteBorrowItem(#borrow_item_id#);'>">
                 <cfset resulthtml = resulthtml & "</td></tr>">
-                         
-                
+
+
             </cfloop>
             <cfset resulthtml = resulthtml & "</table>">
         <cfreturn resulthtml>
@@ -533,7 +533,7 @@
 <cffunction name="checkAgentFlag" access="remote">
 	<cfargument name="agent_id" type="numeric" required="yes">
 	<cfquery name="checkAgentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select MCZBASE.get_worstagentrank(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">) as agentrank from dual 
+		select MCZBASE.get_worstagentrank(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">) as agentrank from dual
 	</cfquery>
 	<cfreturn checkAgentQuery>
 </cffunction>
@@ -887,6 +887,17 @@
 	</cfcatch>
 	</cftry>
 </cffunction>
+<!------------------------------------------------------------------->
+<cffunction name="checkDOI" access="remote">
+	<cfargument name="doi" type="string" required="yes">
+	<cfhttp method="head" url="https://doi.org/#doi#"></cfhttp>
+	<cfif left(cfhttp.statuscode,3) is "404">
+		<cfreturn cfhttp.statuscode>
+	<cfelse>
+		<cfreturn "true">
+	</cfif>
+</cffunction>
+<!------------------------------------------------------------------->
 <!------------------------------------------------------->
 <cffunction name="getPubAttributes" access="remote">
 	<cfargument name="attribute" type="string" required="yes">
@@ -1177,7 +1188,7 @@
 	</cftry>
 		<cfreturn result>
 </cffunction>
-            
+
 <!------------------------------------------->
 <cffunction name="updateDeaccItemRemarks" access="remote">
 	<cfargument name="part_id" type="numeric" required="yes">
@@ -1311,7 +1322,7 @@
            from
                media_relations left join media on media_relations.media_id = media.media_id
            where
-               media_relationship like '% deaccession' 
+               media_relationship like '% deaccession'
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
    <cfif query.recordcount gt 0>
@@ -2182,7 +2193,7 @@
 	</cftransaction>
 	</cfoutput>
 </cffunction>
-            
+
             <!-------------------------------------------------------------------------------------------->
 <cffunction name="addPartToDeacc" access="remote">
 	<cfargument name="transaction_id" type="numeric" required="yes">
@@ -2235,7 +2246,7 @@
 					CONDITION)
 				VALUES
 					(
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">, 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 					'SS',
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 					sysdate,
@@ -2246,10 +2257,10 @@
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
 			</cfquery>
 			<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE coll_object set LOT_COUNT = LOT_COUNT -1, 
+				UPDATE coll_object set LOT_COUNT = LOT_COUNT -1,
 					LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 					LAST_EDIT_DATE = sysdate
-				where COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#"> 
+				where COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 					and LOT_COUNT > 1
 			</cfquery>
 			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2271,7 +2282,7 @@
 					COLLECTION_OBJECT_ID,
  					COLL_OBJECT_REMARKS )
 				VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">, 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 					'Deaccessioned Subsample')
 			</cfquery>
 		</cfif>
@@ -2591,7 +2602,7 @@
         permit,
         preferred_agent_name issuedBy
     where
-        permit.issued_by_agent_id = issuedBy.agent_id (+) 
+        permit.issued_by_agent_id = issuedBy.agent_id (+)
     and permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
     </cfquery>
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2692,7 +2703,7 @@
       <cfif NOT IsDefined("shipment_id") OR shipment_id EQ "">
          <!---  Determine how many shipments there are in this transaction, if none, set the print_flag on the new shipment --->
          <cfquery name="countShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-             select count(*) ct from shipment 
+             select count(*) ct from shipment
                 where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
          </cfquery>
          <cfif countShipments.ct EQ 0>
@@ -2884,7 +2895,7 @@
                    packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, carriers_tracking_number,
                    shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
-                   shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address, 
+                   shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address,
  	           shipment.print_flag
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
@@ -2954,7 +2965,7 @@
          select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
                    shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
-                   toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr, 
+                   toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr,
                    fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr,
  	           shipment.print_flag
              from shipment
@@ -2963,7 +2974,7 @@
              where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
       </cfquery>
       <cfset resulthtml = "<div id='shipments'> ">
-          
+
       <cfloop query="theResult">
          <cfif print_flag eq "1">
             <cfset printedOnInvoice = "&##9745; Printed on invoice">
@@ -3021,11 +3032,11 @@
                 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment'></div>">
             </cfif>
             <cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
-      </cfloop> <!--- theResult ---> 
+      </cfloop> <!--- theResult --->
       <cfset resulthtml = resulthtml & "</div>"><!--- shipments div --->
       <cfif theResult.recordcount eq 0>
           <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
-      </cfif>      
+      </cfif>
    <cfcatch>
        <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
    </cfcatch>
@@ -3052,7 +3063,7 @@
           <cfquery name="updateResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateResultRes">
               update shipment set print_flag = 1 where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
           </cfquery>
-       
+
           <cfif updateResultRes.recordcount eq 0>
              <cftransaction action="rollback"/>
              <cfset theResult=queryNew("status, message")>
@@ -3067,7 +3078,7 @@
              <cfset t = QuerySetCell(theResult, "status", "1", 1)>
              <cfset t = QuerySetCell(theResult, "message", "Shipment updated to print.", 1)>
           </cfif>
-       <cfelse> 
+       <cfelse>
              <cftransaction action="rollback"/>
              <cfset theResult=queryNew("status, message")>
              <cfset t = queryaddrow(theResult,1)>
@@ -3552,7 +3563,7 @@
         <cfargument name="agent_id" type="string" required="yes">
         <cfif listcontainsnocase(session.roles,"admin_transactions")>
 		<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) ct, agent_rank agent_rank, 1 as status from agent_rank 
+			select count(*) ct, agent_rank agent_rank, 1 as status from agent_rank
                         where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
                         group by agent_rank
 		</cfquery>

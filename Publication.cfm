@@ -74,11 +74,8 @@
 		</select>
 		<label for="published_year">Published Year</label>
 		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
-    <label for="doi" class="helpLink" data-helplink="publication_doi">Digital Object Identifier (DOI)</label>
+    <label for="doi">Digital Object Identifier (DOI)</label>
     <input type="text" id="doi" name="doi" value="#pub.doi#" size="80">
-    <cfif len(pub.doi) gt 0>
-      <a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
-      </cfif>
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
 		<label for="publication_remarks">Remark</label>
