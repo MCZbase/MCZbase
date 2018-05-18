@@ -1,3 +1,4 @@
+<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
     <div class="editPub" style="padding: 2em 0 5em 0;margin:0 auto;">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
@@ -74,11 +75,39 @@
 		</select>
 		<label for="published_year">Published Year</label>
 		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
+<script>
+   // TODO: Move back into ajax.js and rebuild ajax.min.js
+   function findDOI(publication_title){
+        // super-simple + specialized call to get a DOI from title @ edit publication
+        var guts = "/picks/findDOI.cfm?publication_title=" + publication_title;
+        $("<iframe src='" + guts + "' id='dialog' class='popupDialog' style='width:600px;height:600px;'></iframe>").dialog({
+                autoOpen: true,
+                closeOnEscape: true,
+                height: 'auto',
+                modal: true,
+                position: ['center', 'center'],
+                title: 'Find DOI',
+                        width:800,
+                        height:600,
+                close: function() {
+                        $( this ).remove();
+                }
+        }).width(800-10).height(600-10);
+        $(window).resize(function() {
+                $(".ui-dialog-content").dialog("option", "position", ['center', 'center']);
+        });
+        $(".ui-widget-overlay").click(function(){
+            $(".ui-dialog-titlebar-close").trigger('click');
+        });
+}
+</script>
     <label for="doi">Digital Object Identifier (DOI)</label>
     <input type="text" id="doi" name="doi" value="#pub.doi#" size="80">
-    <cfif len(pub.doi) eq 0>
-					<a id="addadoiplease" class="likeLink" style="background-color: indianred;" onclick="findDOI('#URLEncodedFormat(pub.doi)#')">No DOI! Click this!</a>
-		</cfif>
+               <cfif len(pub.doi) gt 0>
+                        <a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
+                <cfelse>
+                        <a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.publication_title)#')">Find DOI.</a>
+                </cfif>
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
 		<label for="publication_remarks">Remark</label>
@@ -607,8 +636,13 @@
 			</select>
 			<label for="published_year">Published Year</label>
 			<input type="text" name="published_year" id="published_year" class="reqdClr">
-      <label for="doi">Digital Object Identifier (<a href="https://dx.doi.org/">DOI</a>)</label>
-      <input type="text" name="doi" id="doi" size="50">
+
+
+			<label for="doi">Digital Object Identifier (<a href="https://dx.doi.org/">DOI</a>)</label>
+			<input type="text" name="doi" id="doi" size="50">
+<!---  TODO: This lookup requires a crossref user account, needs a script containing the getPubMeta function and to have getPublication added to component/functions.cfc 
+			<span class="likeLink" id="doilookup" onclick="getPubMeta('DOI');"> [ crossref ] </span>
+--->
 			<label for="publication_loc">Storage Location</label>
 			<input type="text" name="publication_loc" id="publication_loc" size="100">
 			<label for="publication_remarks">Remark</label>
