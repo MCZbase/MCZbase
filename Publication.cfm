@@ -517,7 +517,6 @@
 			}
 	</style>
 	<script>
-  <script>
 		function confirmpub() {
 			var r=true;
 			var msg='';
@@ -533,7 +532,7 @@
         		alert(msg);
         		return false;
         	} else {
-        		if ($("#doi").val().length==0{
+        		if ($("#doi").val().length==0 ) {
 					msg = 'Please enter a DOI if one is available for this article is available\n';
 					msg+='Click OK to enter a DOI before creating this article, or Cancel to proceed.\n';
 					msg+='There are also tools on the next page to help find DOI.';
