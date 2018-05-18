@@ -220,7 +220,7 @@
       <cfset r=r & ' Supplement ' & supplement.pub_att_value &  '.'>
     </cfif>
     <cfif len(p.doi) gt 0>
-      <cfset r=r &  ' ' & p.doi & '.'>
+      <cfset r=r &  ' doi: ' & p.doi & '.'>
     </cfif>
 
 <!--- End Journal Article--->
