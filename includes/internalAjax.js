@@ -772,7 +772,7 @@ function setDefaultPub(t){
 
 	} else if (t=='data release'){
 			addAttribute('publisher');
-		setTimeout( "addAttribute('number');", 2800);
+		setTimeout( "addAttribute('version');", 2800);
 
 	} else if (t=='serial monograph'){
     	addAttribute('journal name');

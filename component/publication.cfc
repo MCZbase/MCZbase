@@ -353,8 +353,8 @@
       <cfif len(publisher.pub_att_value) gt 0>
       <cfset r=r &  ', ' & publisher.pub_att_value & ''>
     </cfif>
-    <cfif len(number.pub_att_value) gt 0>
-      <cfset r=r & ', ' & number.pub_att_value & '. '>
+    <cfif len(version.pub_att_value) gt 0>
+      <cfset r=r & ', ' & version.pub_att_value & '. '>
     </cfif>
   <!--- End Data Release--->
 
