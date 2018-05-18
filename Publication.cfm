@@ -530,7 +530,7 @@
         		alert(msg);
         		return false;
         	} else {
-        		if ($("#doi").val().length==0 && $("#pmid").val().length==0){
+        		if ($("#doi").val().length==0{
 					msg = 'Please enter a DOI if one is available for this article is available\n';
 					msg+='Click OK to enter a DOI before creating this article, or Cancel to proceed.\n';
 					msg+='There are also tools on the next page to help find DOI.';
@@ -605,7 +605,7 @@
 			</select>
 			<label for="published_year">Published Year</label>
 			<input type="text" name="published_year" id="published_year" class="reqdClr">
-      <label for="doi">doi</label>
+      <label for="doi">Digital Object Identifier (<a href="https://dx.doi.org/">DOI</a>)</label>
       <input type="text" name="doi" id="doi" size="50">
 			<label for="publication_loc">Storage Location</label>
 			<input type="text" name="publication_loc" id="publication_loc" size="100">
