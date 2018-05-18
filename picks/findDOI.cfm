@@ -35,7 +35,7 @@
 		<!---- simplify failure.... ---->
 		<input id="failbox" type="hidden" value="Unable to locate suitable DOI - #session.username# #dateformat(now(),'yyyy-mm-dd')#">
 	</form>
-	<!---		<cfif len(publication_title) gt 0>
+<cfif len(publication_title) gt 0>
 	<cfset pt=urldecode(publication_title)>
 	<cfset startttl=refind('[0-9]{4}\.',pt) + 5>
 		<cfset noauths=mid(pt,startttl,len(pt))>
@@ -47,7 +47,7 @@
 			<p style="border:2px solid red;padding:1em;margin:1em;text-align:center;">
 				If this is a journal article, it's probably not formatted correctly.
 			</p>
-		</cfif>--->
+		</cfif>
 		<br>COLOR KEY: orange=probably wrong; green=possibly correct.
 		<p>
 			Not finding what you need? <span class="likeLink" onclick="nofindDOI();">Add a remark.</span>
@@ -80,17 +80,17 @@
 		</div>
 
 		<cftry>
-		<cfhttp url="http://search.crossref.org/dois?q=#publication_title#"></cfhttp>
+		<cfhttp url="https://search.crossref.org/dois?q=#publication_title#"></cfhttp>
 		<cfset x=DeserializeJSON(cfhttp.filecontent)>
 		<cfloop array="#x#" index="data_index">
 			<cfset baredoi=replace(data_index['doi'],'http://dx.doi.org/','','all')>
 			<cfset thisCitation=data_index['publication_title']>
-		<!---	<cfif len(stripttl) gt 10>
+	<cfif len(stripttl) gt 10>
 				<cfset thisStripped=ucase(trim(rereplacenocase(thisCitation, '[^a-z0-9]', '', 'all')))>
-
+<!----
 				<br>stripttl: #stripttl#
 				<br>thisStripped: #thisStripped#
-
+---->
 
 				<cfif thisStripped contains stripttl>
 					<cfset thisStyle="mightbe">
@@ -100,7 +100,7 @@
 			<cfelse>
 				<cfset thisStyle="probablynot">
 			</cfif>
-      --->
+
 			<div class="#thisStyle#">
 				#thisCitation#
 				<ul>
