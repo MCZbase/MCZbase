@@ -771,8 +771,7 @@ function setDefaultPub(t){
 
 
 	} else if (t=='data release'){
-			addAttribute('storage location');
-		setTimeout( "addAttribute('publisher');", 2500);
+			addAttribute('publisher');
 		setTimeout( "addAttribute('number');", 2800);
 
 	} else if (t=='serial monograph'){
