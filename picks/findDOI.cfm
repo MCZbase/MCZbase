@@ -36,13 +36,13 @@
 		<input id="failbox" type="hidden" value="Unable to locate suitable DOI - #session.username# #dateformat(now(),'yyyy-mm-dd')#">
 	</form>
 	<cfif len(publication_title) gt 0>
-		<cfset pt=urldecode(publication_title)>
+	<!---	<cfset pt=urldecode(publication_title)>
 		<cfset startttl=refind('[0-9]{4}\.',pt) + 5>
 		<cfset noauths=mid(pt,startttl,len(pt))>
 		<cfset stopttl=refind('\.',noauths)>
 		<cfset ttl=Mid(pt, startttl, stopttl)>
 		<cfset ttl=rereplace(ttl,'<[^>]*(?:>|$)','','all')>
-		<cfset stripttl=ucase(trim(rereplacenocase(ttl, '[^a-z0-9]', '', 'all')))>
+		<cfset stripttl=ucase(trim(rereplacenocase(ttl, '[^a-z0-9]', '', 'all')))> --->
 		<cfif len(stripttl) lt 10>
 			<p style="border:2px solid red;padding:1em;margin:1em;text-align:center;">
 				If this is a journal article, it's probably not formatted correctly.
