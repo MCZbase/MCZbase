@@ -85,7 +85,9 @@
                 closeOnEscape: true,
                 height: 'auto',
                 modal: true,
-                position: ['center', 'center'],
+                top: 50%,
+                position: absolute,
+                transform: translateY(-50%),
                 title: 'Find DOI',
                         width:800,
                         height:600,
@@ -640,7 +642,7 @@
 
 			<label for="doi">Digital Object Identifier (<a href="https://dx.doi.org/">DOI</a>)</label>
 			<input type="text" name="doi" id="doi" size="50">
-<!---  TODO: This lookup requires a crossref user account, needs a script containing the getPubMeta function and to have getPublication added to component/functions.cfc 
+<!---  TODO: This lookup requires a crossref user account, needs a script containing the getPubMeta function and to have getPublication added to component/functions.cfc
 			<span class="likeLink" id="doilookup" onclick="getPubMeta('DOI');"> [ crossref ] </span>
 --->
 			<label for="publication_loc">Storage Location</label>

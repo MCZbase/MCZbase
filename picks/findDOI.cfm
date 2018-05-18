@@ -84,7 +84,7 @@
 		<cfset x=DeserializeJSON(cfhttp.filecontent)>
 		<cfloop array="#x#" index="data_index">
 			<cfset baredoi=replace(data_index['doi'],'http://dx.doi.org/','','all')>
-			<cfset thisCitation=data_index['pub.doi']>
+			<cfset thisCitation=data_index['publication_title']>
 			<cfif len(stripttl) gt 10>
 				<cfset thisStripped=ucase(trim(rereplacenocase(thisCitation, '[^a-z0-9]', '', 'all')))>
 				<!----
