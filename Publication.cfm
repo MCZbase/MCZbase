@@ -19,7 +19,7 @@
 		select publication_attribute from ctpublication_attribute order by publication_attribute
 	</cfquery>
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from publication where publication_id=#publication_id#
+		select * from publication p where publication_id=#publication_id#
 	</cfquery>
 	<cfquery name="auth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from publication_author_name,agent_name where
@@ -105,8 +105,8 @@
     <input type="text" id="doi" name="doi" value="#pub.doi#" size="80">
                <cfif len(pub.doi) gt 0>
                         <a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
-         <cfelse>
-                  <span>add DOI</span>
+         		<!---cfelse>
+                  <a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.formatted_publication)#')">add DOI</a--->
                 </cfif>
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
@@ -560,7 +560,8 @@
         	if (msg.length>0){
         		alert(msg);
         		return false;
-        	} else {
+        	}
+        	/*else {
         		if ($("#doi").val().length==0 ) {
 					msg = 'Please enter a DOI if one is available for this article is available\n';
 					msg+='Click OK to enter a DOI before creating this article, or Cancel to proceed.\n';
@@ -572,7 +573,7 @@
 					    return true;
 					}
 				}
-				return true;
+				return true;*/
         	}
 		}
 		function toggleMedia() {
@@ -591,6 +592,60 @@
 				$('#media_type').val('').removeClass('reqdClr');
 				$('#media_desc').val('').removeClass('reqdClr');
 			}
+		}
+		function getPubMeta(idtype){
+			$("#doilookup").html('<image src="/images/indicator.gif">');
+			$("#pmidlookup").html('<image src="/images/indicator.gif">');
+			$('#doi').val($('#doi').val().trim());
+			$('#pmid').val($('#pmid').val().trim());
+			if (idtype=='DOI'){
+				var identifier=$('#doi').val();
+			} else {
+				var identifier=$('#pmid').val();
+			}
+			jQuery.getJSON("/component/functions.cfc",
+				{
+					method : "getPublication",
+					identifier : identifier,
+					idtype: idtype,
+					returnformat : "json",
+					queryformat : 'column'
+				},
+				function (d) {
+					if(d.DATA.STATUS=='success'){
+						$("#full_citation").val(d.DATA.LONGCITE);
+						$("#short_citation").val(d.DATA.SHORTCITE);
+						$("#publication_type").val(d.DATA.PUBLICATIONTYPE);
+						$("#is_peer_reviewed_fg").val(1);
+						$("#published_year").val(d.DATA.YEAR);
+						$("#short_citation").val(d.DATA.SHORTCITE);
+						for (i = 1; i<5; i++) {
+							$("#authSugg" + i).html('');
+							var thisAuthStr=eval("d.DATA.AUTHOR"+i);
+							thisAuthStr=String(thisAuthStr);
+							if (thisAuthStr.length>0){
+								thisAuthAry=thisAuthStr.split("|");
+								for (z = 0; z<thisAuthAry.length; z++) {
+									var thisAuthRec=thisAuthAry[z].split('@');
+									var thisAgentName=thisAuthRec[0];
+									var thisAgentID=thisAuthRec[1];
+									var thisSuggest='<span class="infoLink" onclick="useThisAuthor(';
+									thisSuggest += "'" + i + "','" + thisAgentName + "','" + thisAgentID + "'" + ');"> [ ' + thisAgentName + " ] </span>";
+									try {
+										$("#authSugg" + i).append(thisSuggest);
+									} catch(err){}
+								}
+							}
+						}
+						$("#doilookup").html(' [ crossref ] ');
+						$("#pmidlookup").html(' [ pubmed ] ');
+					} else {
+						$("#doilookup").text(' [ crossref ] ');
+						$("#pmidlookup").text(' [ pubmed ] ');
+						alert(d.DATA.STATUS);
+					}
+				}
+			);
 		}
 	</script>
 	<cfoutput>
@@ -638,7 +693,7 @@
 			<input type="text" name="published_year" id="published_year" class="reqdClr">
 
 
-			<label for="doi">Digital Object Identifier (<a href="https://dx.doi.org/">DOI</a>)</label>
+			<label for="doi">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
 			<input type="text" name="doi" id="doi" size="50">
 <!---  TODO: This lookup requires a crossref user account, needs a script containing the getPubMeta function and to have getPublication added to component/functions.cfc
 			<span class="likeLink" id="doilookup" onclick="getPubMeta('DOI');"> [ crossref ] </span>
