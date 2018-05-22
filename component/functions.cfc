@@ -419,7 +419,7 @@
     <cfargument name="type_status" required="no">
     <cfargument name="country_of_origin" required="no">
     <cfargument name="object_remarks" required="no">
-    <cftry>                      
+    <cftry>
        <cfquery name="newBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrow_ItemRes">
 		INSERT INTO BORROW_ITEM (
 			TRANSACTION_ID,
@@ -430,7 +430,7 @@
 			TYPE_STATUS,
 			COUNTRY_OF_ORIGIN,
             OBJECT_REMARKS
-           
+
 		) VALUES (
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATALOG_NUMBER#">,
@@ -440,7 +440,7 @@
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TYPE_STATUS#">,
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COUNTRY_OF_ORIGIN#">,
             <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OBJECT_REMARKS#">
-            
+
 		)
         </cfquery>
         <cfif newBorrow_ItemRes.recordcount eq 0>
@@ -465,10 +465,10 @@
         <cfreturn theResult>
 </cffunction>
 <!------------------------------------------------------->
-                
+
 <cffunction name="deleteBorrowItem" access="remote">
     <cfargument name="borrow_item_id" type="numeric" required="yes">
-    <cftry>                      
+    <cftry>
        <cfquery name="newBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrow_ItemRes">
 		DELETE from BORROW_ITEM where
 			BORROW_ITEM_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow_item_id#">
@@ -494,9 +494,9 @@
      </cftry>
         <cfreturn theResult>
 </cffunction>
-                
+
 <!------------------------------------------------------------------>
-               
+
 <cffunction name="getBorrowItemsHTML" returntype="string" access="remote" returnformat="plain">
         <cfargument name="transaction_id" type="numeric" required="yes">
         <cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -513,7 +513,7 @@
             <cfset resulthtml = resulthtml & "<td><label>Country of Origin</label></td>">
             <cfset resulthtml = resulthtml & "<td><label>Remarks</label></td>">
             <cfset resulthtml = resulthtml & "</td></tr>">
-                
+
             <cfloop query="k">
                 <cfset resulthtml = resulthtml & "<tr><td>#catalog_number#</td><td>#sci_name#</td><td>#no_of_spec#</td><td>#spec_prep#</td>">
                 <cfset resulthtml = resulthtml & "<td>#type_status#</td>">
@@ -521,8 +521,8 @@
                 <cfset resulthtml = resulthtml & "<td>#object_remarks#</td>">
                 <cfset resulthtml = resulthtml & "<td><input name='deleteBorrowItem' type='button' value='Delete' onclick='deleteBorrowItem(#borrow_item_id#);'>">
                 <cfset resulthtml = resulthtml & "</td></tr>">
-                         
-                
+
+
             </cfloop>
             <cfset resulthtml = resulthtml & "</table>">
         <cfreturn resulthtml>
@@ -533,7 +533,7 @@
 <cffunction name="checkAgentFlag" access="remote">
 	<cfargument name="agent_id" type="numeric" required="yes">
 	<cfquery name="checkAgentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select MCZBASE.get_worstagentrank(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">) as agentrank from dual 
+		select MCZBASE.get_worstagentrank(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">) as agentrank from dual
 	</cfquery>
 	<cfreturn checkAgentQuery>
 </cffunction>
@@ -887,6 +887,240 @@
 	</cfcatch>
 	</cftry>
 </cffunction>
+<!------------------------------------------------------------------->
+<cffunction name="checkDOI" access="remote">
+	<cfargument name="doi" type="string" required="yes">
+	<cfhttp method="head" url="https://doi.org/#doi#"></cfhttp>
+	<cfif left(cfhttp.statuscode,3) is "404">
+		<cfreturn cfhttp.statuscode>
+	<cfelse>
+		<cfreturn "true">
+	</cfif>
+</cffunction>
+<!------------------------------------------------------------------->
+<cffunction name="getPublication" access="remote">
+	<cfargument name="idtype" type="string" required="yes">
+	<cfargument name="identifier" type="string" required="yes">
+	<cfparam name="debug" default="false">
+	<cfset rauths="">
+	<cfset lPage=''>
+	<cfset pubYear=''>
+	<cfset jVol=''>
+	<cfset jIssue=''>
+	<cfset fPage=''>
+	<cfset fail="">
+	<cfset firstAuthLastName=''>
+	<cfset secondAuthLastName=''>
+	<cfoutput>
+		<cftry>
+		<cfif idtype is 'DOI'>
+			<cfhttp url="http://www.crossref.org/openurl/?id=#identifier#&noredirect=true&pid=bhaleyOEB@gmail.com&format=unixref"></cfhttp>
+			<cfset r=xmlParse(cfhttp.fileContent)>
+			<cfif debug>
+				<cfdump var=#r#>
+			</cfif>
+			<cfif left(cfhttp.statuscode,3) is not "200" or not structKeyExists(r.doi_records[1].doi_record[1].crossref[1],"journal")>
+				<cfset fail="not found or not journal">
+			</cfif>
+			<cfif len(fail) is 0>
+				<cfset numberOfAuthors=arraylen(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article[1].contributors.xmlchildren)>
+				<cfloop from="1" to="#numberOfAuthors#" index="i">
+					<cfset fName=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article[1].contributors[1].person_name[i].given_name.xmltext>
+					<cfset lName=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article[1].contributors[1].person_name[i].surname.xmltext>
+					<cfset thisName=fName & ' ' & lName>
+					<cfset rauths=listappend(rauths,thisName,"|")>
+				</cfloop>
+				<cfset firstAuthLastName=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article[1].contributors[1].person_name[1].surname.xmltext>
+				<cfif numberOfAuthors gt 1>
+					<cfset secondAuthLastName=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article[1].contributors[1].person_name[2].surname.xmltext>
+				</cfif>
+				<cfif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article.publication_date,"year")>
+					<cfset pubYear=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article.publication_date.year.xmltext>
+				<cfelseif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_issue.publication_date,"year")>>
+					<cfset pubYear=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_issue.publication_date.year.xmltext>
+				</cfif>
+				<cfset pubTitle=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article.titles.title.xmltext>
+				<cfset jName=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_metadata.full_title.xmltext>
+				<cfif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1],"journal_issue")>
+					<cfif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_issue,"journal_volume")>
+						<cfif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_issue.journal_volume,"volume")>
+							<cfset jVol=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_issue.journal_volume.volume.xmltext>
+						</cfif>
+					</cfif>
+					<cfif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_issue,"issue")>
+						<cfset jIssue=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_issue.issue.xmltext>
+					</cfif>
+				</cfif>
+				<cfif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article,"pages")>
+					<cfif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article.pages,"first_page")>
+						<cfset fPage=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article.pages.first_page.xmltext>
+					</cfif>
+					<cfif structKeyExists(r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article.pages,"last_page")>
+						<cfset lPage=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article.pages.last_page.xmltext>
+					</cfif>
+				</cfif>
+			</cfif><!--- end DOI --->
+		<cfelseif idtype is "PMID">
+			<cfhttp url="http://www.ncbi.nlm.nih.gov/pubmed/#identifier#?report=XML"></cfhttp>
+			<cfset theData=replace(cfhttp.fileContent,'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">','')>
+			<cfset theData=replace(theData,"&gt;",">","all")>
+			<cfset theData=replace(theData,"&lt;","<","all")>
+			<cfset r=xmlParse(theData)>
+			<cfif left(cfhttp.statuscode,3) is not "200" or not structKeyExists(r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1],"Journal")>
+				<cfset fail="not found or not journal">
+			</cfif>
+			<cfif len(fail) is 0>
+				<cfif debug>
+					<cfdump var=#r#>
+				</cfif>
+				<cfset numberOfAuthors=arraylen(r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].AuthorList[1].xmlchildren)>
+				<cfloop from="1" to="#numberOfAuthors#" index="i">
+					<cfset fName=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].AuthorList[1].Author[i].ForeName.xmltext>
+					<cfset lName=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].AuthorList[1].Author[i].LastName.xmltext>
+					<cfset thisName=fName & ' ' & lName>
+					<cfset rauths=listappend(rauths,thisName,"|")>
+				</cfloop>
+				<cfset firstAuthLastName=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].AuthorList[1].Author[1].LastName.xmltext>
+				<cfif numberOfAuthors gt 1>
+					<cfset secondAuthLastName=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].AuthorList[1].Author[2].LastName.xmltext>
+				</cfif>
+				<cfif structKeyExists(r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].Journal[1].JournalIssue[1].PubDate,"Year")>
+					<cfset pubYear=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].Journal[1].JournalIssue[1].PubDate.Year.xmltext>
+				</cfif>
+				<cfset pubTitle=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].ArticleTitle.xmltext>
+				<cfif right(pubTitle,1) is ".">
+					<cfset pubTitle=left(pubTitle,len(pubTitle)-1)>
+				</cfif>
+				<cfset jName=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].Journal.Title.xmltext>
+				<cfif structKeyExists(r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].Journal.JournalIssue,"Issue")>
+					<cfset jIssue=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].Journal.JournalIssue.Issue.xmltext>
+				</cfif>
+				<cfif structKeyExists(r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].Journal.JournalIssue,"Volume")>
+					<cfset jVol=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].Journal.JournalIssue.Volume.xmltext>
+				</cfif>
+				<cfset pages=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].Pagination.MedlinePgn.xmltext>
+				<cfif listlen(pages,"-") is 2>
+					<cfset fPage=listgetat(pages,1,"-")>
+					<cfset lPage=listgetat(pages,2,"-")>
+				</cfif>
+			</cfif><!--- PMID nofail --->
+		</cfif><!---- end PMID --->
+		<cfcatch>
+			<cfset fail='error_getting_data: #cfcatch.message# #cfcatch.detail#'>
+		</cfcatch>
+		</cftry>
+
+		<cfif len(fail) is 0>
+			<cftry>
+			<cfif listlen(rauths,"|") is 2>
+				<cfset auths=replace(rauths,"|"," and ")>
+			<cfelse>
+				<cfset auths=listchangedelims(rauths,", ","|")>
+			</cfif>
+			<cfset longCit="#auths#.">
+			<cfif len(pubYear) gt 0>
+				<cfset longCit=longCit & " #pubYear#.">
+			</cfif>
+			<cfset longCit=longCit & " #pubTitle#. #jName#">
+			<cfif len(jVol) gt 0>
+				<cfset longCit=longCit & " #jVol#">
+			</cfif>
+			<cfif len(jIssue) gt 0>
+				<cfset longCit=longCit & "(#jIssue#)">
+			</cfif>
+			<cfif len(fPage) gt 0>
+				<cfset longCit=longCit & ":#fPage#">
+			</cfif>
+			<cfif len(lPage) gt 0>
+				<cfset longCit=longCit & "-#lPage#">
+			</cfif>
+			<cfset longCit=longCit & ".">
+			<cfif numberOfAuthors is 1>
+				<cfset shortCit="#firstAuthLastName# #pubYear#">
+			<cfelseif numberOfAuthors is 2>
+				<cfset shortCit="#firstAuthLastName# and #secondAuthLastName# #pubYear#">
+			<cfelse>
+				<cfset shortCit="#firstAuthLastName# et al. #pubYear#">
+			</cfif>
+			<cfset d = querynew("STATUS,PUBLICATIONTYPE,LONGCITE,SHORTCITE,YEAR,AUTHOR1,AUTHOR2,AUTHOR3,AUTHOR4,AUTHOR5")>
+			<cfset temp = queryaddrow(d,1)>
+			<cfset temp = QuerySetCell(d, "STATUS", 'success', 1)>
+			<cfset temp = QuerySetCell(d, "PUBLICATIONTYPE", 'journal article', 1)>
+			<cfset temp = QuerySetCell(d, "LONGCITE", longCit, 1)>
+			<cfset temp = QuerySetCell(d, "SHORTCITE", shortCit, 1)>
+			<cfset temp = QuerySetCell(d, "YEAR", pubYear, 1)>
+			<cfset l=1>
+			<cfloop list="#rauths#" index="a" delimiters="|">
+				<cfif l lte 5>
+					<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+						select * from (
+							select
+								preferred_agent_name.agent_name,
+								preferred_agent_name.agent_id
+							from
+								preferred_agent_name,
+								agent_name
+							where
+								preferred_agent_name.agent_id=agent_name.agent_id and
+								upper(agent_name.agent_name) like '%#ucase(a)#%'
+							group by
+								preferred_agent_name.agent_name,
+								preferred_agent_name.agent_id
+						) where rownum<=5
+					</cfquery>
+					<cfif a.recordcount gt 0>
+						<cfset thisAuthSugg="">
+						<cfloop query="a">
+							<cfset thisAuthSuggElem="#agent_name#@#agent_id#">
+							<cfset thisAuthSugg=listappend(thisAuthSugg,thisAuthSuggElem,"|")>
+						</cfloop>
+					<cfelse>
+						<cfif idtype is "DOI">
+							<cfset thisLastName=r.doi_records[1].doi_record[1].crossref[1].journal[1].journal_article[1].contributors[1].person_name[l].surname.xmltext>
+						<cfelseif idtype is "PMID">
+							<cfset thisLastName=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].AuthorList[1].Author[l].LastName.xmltext>
+						</cfif>
+
+						<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+							select * from (
+								select
+									preferred_agent_name.agent_name,
+									preferred_agent_name.agent_id
+								from
+									preferred_agent_name,
+									agent_name
+								where
+									preferred_agent_name.agent_id=agent_name.agent_id and
+									upper(agent_name.agent_name) like '%#ucase(thisLastName)#%'
+							) where rownum<=5
+						</cfquery>
+						<cfif a.recordcount gt 0>
+							<cfset thisAuthSugg="">
+							<cfloop query="a">
+								<cfset thisAuthSuggElem="#agent_name#@#agent_id#">
+								<cfset thisAuthSugg=listappend(thisAuthSugg,thisAuthSuggElem,"|")>
+							</cfloop>
+						<cfelse>
+							<cfset thisAuthSugg="">
+						</cfif>
+					</cfif>
+					<cfset temp = QuerySetCell(d, "AUTHOR#l#", thisAuthSugg, 1)>
+				</cfif>
+				<cfset l=l+1>
+			</cfloop>
+		<cfcatch>
+			<cfset fail='error_getting_author: #cfcatch.message# #cfcatch.detail#'>
+		</cfcatch>
+		</cftry>
+	</cfif>
+	<cfif len(fail) gt 0>
+		<cfset d = querynew("STATUS,PUBLICATIONTYPE,LONGCITE,SHORTCITE,YEAR,AUTHORS")>
+		<cfset temp = queryaddrow(d,1)>
+		<cfset temp = QuerySetCell(d, "STATUS", 'fail:#cfhttp.statuscode#:#fail#', 1)>
+	</cfif>
+	<cfreturn d>
+</cfoutput>
+</cffunction>
 <!------------------------------------------------------->
 <cffunction name="getPubAttributes" access="remote">
 	<cfargument name="attribute" type="string" required="yes">
@@ -1177,7 +1411,7 @@
 	</cftry>
 		<cfreturn result>
 </cffunction>
-            
+
 <!------------------------------------------->
 <cffunction name="updateDeaccItemRemarks" access="remote">
 	<cfargument name="part_id" type="numeric" required="yes">
@@ -1311,7 +1545,7 @@
            from
                media_relations left join media on media_relations.media_id = media.media_id
            where
-               media_relationship like '% deaccession' 
+               media_relationship like '% deaccession'
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
    <cfif query.recordcount gt 0>
@@ -2182,7 +2416,7 @@
 	</cftransaction>
 	</cfoutput>
 </cffunction>
-            
+
             <!-------------------------------------------------------------------------------------------->
 <cffunction name="addPartToDeacc" access="remote">
 	<cfargument name="transaction_id" type="numeric" required="yes">
@@ -2235,7 +2469,7 @@
 					CONDITION)
 				VALUES
 					(
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">, 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 					'SS',
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 					sysdate,
@@ -2246,10 +2480,10 @@
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
 			</cfquery>
 			<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE coll_object set LOT_COUNT = LOT_COUNT -1, 
+				UPDATE coll_object set LOT_COUNT = LOT_COUNT -1,
 					LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 					LAST_EDIT_DATE = sysdate
-				where COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#"> 
+				where COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 					and LOT_COUNT > 1
 			</cfquery>
 			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2271,7 +2505,7 @@
 					COLLECTION_OBJECT_ID,
  					COLL_OBJECT_REMARKS )
 				VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">, 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 					'Deaccessioned Subsample')
 			</cfquery>
 		</cfif>
@@ -2591,7 +2825,7 @@
         permit,
         preferred_agent_name issuedBy
     where
-        permit.issued_by_agent_id = issuedBy.agent_id (+) 
+        permit.issued_by_agent_id = issuedBy.agent_id (+)
     and permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
     </cfquery>
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2692,7 +2926,7 @@
       <cfif NOT IsDefined("shipment_id") OR shipment_id EQ "">
          <!---  Determine how many shipments there are in this transaction, if none, set the print_flag on the new shipment --->
          <cfquery name="countShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-             select count(*) ct from shipment 
+             select count(*) ct from shipment
                 where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
          </cfquery>
          <cfif countShipments.ct EQ 0>
@@ -2884,7 +3118,7 @@
                    packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, carriers_tracking_number,
                    shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
-                   shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address, 
+                   shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address,
  	           shipment.print_flag
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
@@ -2954,7 +3188,7 @@
          select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
                    hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
                    shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
-                   toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr, 
+                   toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr,
                    fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr,
  	           shipment.print_flag
              from shipment
@@ -2963,7 +3197,7 @@
              where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
       </cfquery>
       <cfset resulthtml = "<div id='shipments'> ">
-          
+
       <cfloop query="theResult">
          <cfif print_flag eq "1">
             <cfset printedOnInvoice = "&##9745; Printed on invoice">
@@ -3021,11 +3255,11 @@
                 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment'></div>">
             </cfif>
             <cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
-      </cfloop> <!--- theResult ---> 
+      </cfloop> <!--- theResult --->
       <cfset resulthtml = resulthtml & "</div>"><!--- shipments div --->
       <cfif theResult.recordcount eq 0>
           <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
-      </cfif>      
+      </cfif>
    <cfcatch>
        <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
    </cfcatch>
@@ -3052,7 +3286,7 @@
           <cfquery name="updateResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateResultRes">
               update shipment set print_flag = 1 where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
           </cfquery>
-       
+
           <cfif updateResultRes.recordcount eq 0>
              <cftransaction action="rollback"/>
              <cfset theResult=queryNew("status, message")>
@@ -3067,7 +3301,7 @@
              <cfset t = QuerySetCell(theResult, "status", "1", 1)>
              <cfset t = QuerySetCell(theResult, "message", "Shipment updated to print.", 1)>
           </cfif>
-       <cfelse> 
+       <cfelse>
              <cftransaction action="rollback"/>
              <cfset theResult=queryNew("status, message")>
              <cfset t = queryaddrow(theResult,1)>
@@ -3552,7 +3786,7 @@
         <cfargument name="agent_id" type="string" required="yes">
         <cfif listcontainsnocase(session.roles,"admin_transactions")>
 		<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) ct, agent_rank agent_rank, 1 as status from agent_rank 
+			select count(*) ct, agent_rank agent_rank, 1 as status from agent_rank
                         where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
                         group by agent_rank
 		</cfquery>
