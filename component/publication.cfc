@@ -310,6 +310,9 @@
     	<cfset r=r & ' no. ' & number.pub_att_value & '. '>
      <cfelseif len(number.pub_att_value) gt 0>
       <cfset r=r & '(' & number.pub_att_value & ')'>
+      <cfelseif len(number.pub_att_value) gt 0 and len(volume.put_att_value) gt 0>
+      <cfset r=r & '(' & number.pub_att_value & ')'>
+      <cfset number.pub_att_value=left(number.pub_att_value,len(number.pub_att_value)-1)>
       <cfelse>
        <cfset r=r & number.pub_att_value >
     </cfif>
