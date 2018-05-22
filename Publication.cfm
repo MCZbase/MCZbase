@@ -1,3 +1,4 @@
+<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
     <div class="editPub" style="padding: 2em 0 5em 0;margin:0 auto;">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
@@ -18,7 +19,7 @@
 		select publication_attribute from ctpublication_attribute order by publication_attribute
 	</cfquery>
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from publication where publication_id=#publication_id#
+		select * from publication p where publication_id=#publication_id#
 	</cfquery>
 	<cfquery name="auth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from publication_author_name,agent_name where
@@ -74,6 +75,39 @@
 		</select>
 		<label for="published_year">Published Year</label>
 		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
+<script>
+   // TODO: Move back into ajax.js and rebuild ajax.min.js
+   function findDOI(publication_title){
+        // super-simple + specialized call to get a DOI from title @ edit publication
+        var guts = "/picks/findDOI.cfm?publication_title=" + publication_title;
+        $("<iframe src='" + guts + "' id='dialog' class='popupDialog' style='width:600px;height:600px;'></iframe>").dialog({
+                autoOpen: true,
+                closeOnEscape: true,
+                height: 'auto',
+                modal: true,
+                position: ['center', 'center'],
+                title: 'Find DOI',
+                        width:800,
+                        height:600,
+                close: function() {
+                        $( this ).remove();
+                }
+        }).width(800-10).height(600-10);
+        $(window).resize(function() {
+                $(".ui-dialog-content").dialog("option", "position", ['center', 'center']);
+        });
+        $(".ui-widget-overlay").click(function(){
+            $(".ui-dialog-titlebar-close").trigger('click');
+        });
+}
+</script>
+    <label for="doi">Digital Object Identifier (DOI)</label>
+    <input type="text" id="doi" name="doi" value="#pub.doi#" size="80">
+               <cfif len(pub.doi) gt 0>
+                        <a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
+         		<!---cfelse>
+                  <a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.formatted_publication)#')">add DOI</a--->
+                </cfif>
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
 		<label for="publication_remarks">Remark</label>
@@ -280,6 +314,14 @@
 <cfif action is "saveEdit">
 <cfoutput>
 	<cftransaction>
+  <cfif len(doi) gt 0>
+			<cfinvoke component="/component/functions" method="checkDOI" returnVariable="isok">
+				<cfinvokeargument name="doi" value="#doi#">
+			</cfinvoke>
+			<cfif isok is not "true">
+				<cfthrow message = "DOI #doi# failed validation with StatusCode #isok#">
+			</cfif>
+		</cfif>
 		<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update publication set
 				published_year=<cfif len(published_year) gt 0>#published_year#<cfelse>NULL</cfif>,
@@ -287,7 +329,8 @@
 				publication_loc='#publication_loc#',
 				publication_title='#publication_title#',
 				publication_remarks='#publication_remarks#',
-				is_peer_reviewed_fg=#is_peer_reviewed_fg#
+				is_peer_reviewed_fg=#is_peer_reviewed_fg#,
+        doi='#doi#'
 			where publication_id=#publication_id#
 		</cfquery>
 		<cfif len(media_uri) gt 0>
@@ -515,11 +558,22 @@
                 }
         	});
         	if (msg.length>0){
-        		msg+='You may remove unwanted attributes';
         		alert(msg);
         		return false;
-        	} else {
-        		return true;
+        	}
+        	/*else {
+        		if ($("#doi").val().length==0 ) {
+					msg = 'Please enter a DOI if one is available for this article is available\n';
+					msg+='Click OK to enter a DOI before creating this article, or Cancel to proceed.\n';
+					msg+='There are also tools on the next page to help find DOI.';
+					var r = confirm(msg);
+					if (r == true) {
+					    return false;
+					} else {
+					    return true;
+					}
+				}
+				return true;*/
         	}
 		}
 		function toggleMedia() {
@@ -538,6 +592,60 @@
 				$('#media_type').val('').removeClass('reqdClr');
 				$('#media_desc').val('').removeClass('reqdClr');
 			}
+		}
+		function getPubMeta(idtype){
+			$("#doilookup").html('<image src="/images/indicator.gif">');
+			$("#pmidlookup").html('<image src="/images/indicator.gif">');
+			$('#doi').val($('#doi').val().trim());
+			$('#pmid').val($('#pmid').val().trim());
+			if (idtype=='DOI'){
+				var identifier=$('#doi').val();
+			} else {
+				var identifier=$('#pmid').val();
+			}
+			jQuery.getJSON("/component/functions.cfc",
+				{
+					method : "getPublication",
+					identifier : identifier,
+					idtype: idtype,
+					returnformat : "json",
+					queryformat : 'column'
+				},
+				function (d) {
+					if(d.DATA.STATUS=='success'){
+						$("#full_citation").val(d.DATA.LONGCITE);
+						$("#short_citation").val(d.DATA.SHORTCITE);
+						$("#publication_type").val(d.DATA.PUBLICATIONTYPE);
+						$("#is_peer_reviewed_fg").val(1);
+						$("#published_year").val(d.DATA.YEAR);
+						$("#short_citation").val(d.DATA.SHORTCITE);
+						for (i = 1; i<5; i++) {
+							$("#authSugg" + i).html('');
+							var thisAuthStr=eval("d.DATA.AUTHOR"+i);
+							thisAuthStr=String(thisAuthStr);
+							if (thisAuthStr.length>0){
+								thisAuthAry=thisAuthStr.split("|");
+								for (z = 0; z<thisAuthAry.length; z++) {
+									var thisAuthRec=thisAuthAry[z].split('@');
+									var thisAgentName=thisAuthRec[0];
+									var thisAgentID=thisAuthRec[1];
+									var thisSuggest='<span class="infoLink" onclick="useThisAuthor(';
+									thisSuggest += "'" + i + "','" + thisAgentName + "','" + thisAgentID + "'" + ');"> [ ' + thisAgentName + " ] </span>";
+									try {
+										$("#authSugg" + i).append(thisSuggest);
+									} catch(err){}
+								}
+							}
+						}
+						$("#doilookup").html(' [ crossref ] ');
+						$("#pmidlookup").html(' [ pubmed ] ');
+					} else {
+						$("#doilookup").text(' [ crossref ] ');
+						$("#pmidlookup").text(' [ pubmed ] ');
+						alert(d.DATA.STATUS);
+					}
+				}
+			);
 		}
 	</script>
 	<cfoutput>
@@ -583,6 +691,13 @@
 			</select>
 			<label for="published_year">Published Year</label>
 			<input type="text" name="published_year" id="published_year" class="reqdClr">
+
+
+			<label for="doi">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
+			<input type="text" name="doi" id="doi" size="50">
+<!---  TODO: This lookup requires a crossref user account, needs a script containing the getPubMeta function and to have getPublication added to component/functions.cfc
+			<span class="likeLink" id="doilookup" onclick="getPubMeta('DOI');"> [ crossref ] </span>
+--->
 			<label for="publication_loc">Storage Location</label>
 			<input type="text" name="publication_loc" id="publication_loc" size="100">
 			<label for="publication_remarks">Remark</label>
@@ -682,6 +797,7 @@
 				publication_loc,
 				publication_title,
 				publication_remarks,
+        doi,
 				is_peer_reviewed_fg
 			) values (
 				#pid#,
@@ -690,6 +806,7 @@
 				'#publication_loc#',
 				'#publication_title#',
 				'#publication_remarks#',
+        '#doi#',
 				#is_peer_reviewed_fg#
 			)
 		</cfquery>
