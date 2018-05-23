@@ -1429,8 +1429,8 @@
 				NVL(verbatimLongitude,'NULL') = NVL('#escapeQuotes(verbatimLongitude)#','NULL') AND
 				NVL(verbatimCoordinateSystem,'NULL') = NVL('#escapeQuotes(verbatimCoordinateSystem)#','NULL') AND
 				NVL(verbatimSRS,'NULL') = NVL('#escapeQuotes(verbatimSRS)#','NULL') AND
-				NVL(startDayOfYear,'NULL') = NVL('#escapeQuotes(startDayOfYear)#','NULL') AND
-				NVL(endDayOfYear,'NULL') = NVL('#escapeQuotes(endDayOfYear)#','NULL')
+				NVL(startDayOfYear,-999) = NVL('#startDayOfYear#',-999) AND
+				NVL(endDayOfYear,-999) = NVL('#endDayOfYear#',-999)
 
 		</cfquery>
       gor event....
