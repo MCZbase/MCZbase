@@ -940,6 +940,7 @@
 		          <cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and scope EQ 'Loan' >
                              <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
                           </cfif>
+			  <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header">Header Copy for MCZ Files</option>
                                <cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
                             <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
                           </cfif>
@@ -962,7 +963,6 @@
                           </cfif>
                           <option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
                           <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
-			  <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header">(Draft) Copy for MCZ Files</option>
             <cfelse>
    			        <option value="">Host not recognized.</option>
             </cfif>
