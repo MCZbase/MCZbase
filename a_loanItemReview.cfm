@@ -209,7 +209,7 @@
 		cat_num, 
 		cataloged_item.collection_object_id,
 		collection,
-		collection.collection_cde
+		collection.collection_cde,
 		part_name,
 		preserve_method,
 		condition,
@@ -392,7 +392,7 @@ Review items in loan<b>
 			<em>#scientific_name#</em>&nbsp;
 		</td>
 		<td>
-			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name#</a>
+			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name# (#preserve_method#)</a>
 		</td>
 		<td>
 			<textarea name="condition#partID#" 
