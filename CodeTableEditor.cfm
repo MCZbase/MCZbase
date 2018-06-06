@@ -329,7 +329,10 @@
 							<option value="Primary">Primary</option>
 							<option value="Secondary">Secondary</option>
 							<option value="Voucher">Voucher (non-type)</option>
-							<option value="Not Voucher">Not Voucher (non-type)</option>
+							<option value="Voucher Not">Not Voucher (non-type)</option>
+                            <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+                            <!---  NOTE: Alphabetic sort of these values is used to order Primary/Secondary/other type status --->
+                            <!---  If new category values are added for non-types, they should sort after Secondary. --->
 						</select>
 					</td>
 					<td>
@@ -369,19 +372,29 @@
 								<cfset scopepriselected = "selected='selected'">
 								<cfset scopesecselected = "">
 								<cfset scopevouselected = "">
+								<cfset scopenvouselected = "">
 							<cfelseif category EQ "Secondary"> 
 								<cfset scopepriselected = "">
 								<cfset scopesecselected = "selected='selected'">
 								<cfset scopevouselected = "">
+								<cfset scopenvouselected = "">
+							<cfelseif category EQ "Voucher Not"> 
+								<cfset scopepriselected = "">
+								<cfset scopesecselected = "">
+								<cfset scopevouselected = "">
+								<cfset scopenvouselected = "selected='selected'">
 							<cfelse>
+                                <!-- caution, failover case will select Voucher as the value --->
 								<cfset scopepriselected = "">
 								<cfset scopesecselected = "">
 								<cfset scopevouselected = "selected='selected'">
+								<cfset scopenvouselected = "">
 							</cfif>
 							<select name="category">
 								<option value="Primary" #scopepriselected# >Primary</option>
 								<option value="Secondary" #scopesecselected# >Secondary</option>
 								<option value="Voucher" #scopevouselected# >Voucher (non-type)</option>
+							    <option value="Voucher Not" #scopenvouselected#>Not Voucher (non-type)</option>
 							</select>
 						</td>
 						<td>
