@@ -459,12 +459,12 @@
 
      <!--- Begin Book Section--->
 	<cfelseif p.publication_type is "book section">
-    <cfset r=as & '. ' & p.published_year & '. '>
-    <cfif right(p.publication_title,1) is not '.' and right(p.publication_title,1) is not '?' and right(p.publication_title,1) is not ','>
- <cfset publication_title=p.publication_title & '.'>
- <cfelse>
- <cfset publication_title=p.publication_title>
-</cfif>
+      <cfif right(p.publication_title,1) is not '.' and right(p.publication_title,1) is not '?' and right(p.publication_title,1) is not ','>
+         <cfset publication_title=p.publication_title & '.'>
+      <cfelse>
+         <cfset publication_title=p.publication_title>
+      </cfif>
+      <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ' '>
     <cfset r=r & ' Pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
     <cfif len(book_title.pub_att_value) gt 0>
       <cfset r=r & ' <i>In</i> '>
