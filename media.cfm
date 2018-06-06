@@ -239,7 +239,7 @@
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
       <br>
-      <label for="labels">Media Labels</label>
+      <label for="labels">Media Labels</label> <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot">
         <cfset i=1>
         <cfif labels.recordcount is 0>
