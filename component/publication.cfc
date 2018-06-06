@@ -1,4 +1,5 @@
 <cfcomponent>
+<!--- TODO:  Replace this code with stored procedures and assemble short/long citations directly in the backend database.  --->
 <cffunction name="shortCitation" access="remote">
   <cfargument name="publication_id" type="numeric" required="yes">
   <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -466,7 +467,13 @@
       </cfif>
       <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ' '>
     <cfset r=r & ' Pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
+    <!--- TODO: Book seems to have been added for book title, but not have been cleaned up yet.  --->
     <cfif len(book_title.pub_att_value) gt 0>
+       <cfset enclosingTitle = book_title.pub_att_value>
+    <cfelse>
+       <cfset enclosingTitle = book.pub_att_value>
+    </cfif>
+    <cfif len(enclosingTitle) gt 0>
       <cfset r=r & ' <i>In</i> '>
       <cfif e.recordcount gt 1>
         <cfset editor = '. (eds.)' >
@@ -480,7 +487,7 @@
       <cfif len(bookauthor.pub_att_value) gt 0>
         <cfset r=r &  ' ' & bookauthor.pub_att_value & ''>
       </cfif>
-      <cfset r=r &  ' <i>'& book_title.pub_att_value & '.</i> '>
+      <cfset r=r &  ' <i>'& enclosingTitle & '.</i> '>
       <cfif len(edition.pub_att_value) gt 0 and right(edition.pub_att_value,1) is not '.'>
       <cfset r=r &  ' ' & edition.pub_att_value & ' edition.' >
       <cfelse>
