@@ -296,6 +296,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 	SELECT
 		citation.type_status,
 		citation.occurs_page_number,
+		citation.citation_page_uri,
 		citation.CITATION_REMARKS,
 		cited_taxa.scientific_name as cited_name,
 		cited_taxa.taxon_name_id as cited_name_id,
@@ -472,7 +473,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									target="_mainFrame">
 										#formatted_publication#</a>,
 								<cfif len(occurs_page_number) gt 0>
-									Page #occurs_page_number#,
+									Page
+										<cfif len(citation_page_uri) gt 0>
+											<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+										<cfelse>
+											#occurs_page_number#,
+										</cfif>
 								</cfif>
 								#type_status# of
 								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
