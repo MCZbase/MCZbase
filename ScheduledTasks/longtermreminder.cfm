@@ -57,16 +57,15 @@
 				loan_type in ('returnable', 'consumable') and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id(+)
-				<!---and loan.transaction_id not in (select transaction_id from trans_agent where agent_id in (101150,16733) and trans_agent_role = 'in-house contact')--->
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" <!---startrow=1 endrow=6--->>
+<cfloop query="agent" startrow=1 endrow=300>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2018-01-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2018-03-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -384,8 +383,8 @@
 				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.
 				To officially close this loan, please also provide publication information and NCBI sequence accession numbers to the MCZ-CRYO.<br><br>
 				NCBI accessions will automatically link to MCZbase records if information is submitted correctly:<br>
-				http://www.mcz.harvard.edu/collectionsoperations/downloads/Guidelines_for_submitting_to_GenBank.pdf<br>
-				http://www.mcz.harvard.edu/collectionsoperations/downloads/NCBI_BioProject_BioSample_Data1.pdf<br>
+				https://code.mcz.harvard.edu/collectionsoperations/downloads/Guidelines_for_submitting_to_GenBank.pdf<br>
+				https:/code.mcz.harvard.edu/collectionsoperations/downloads/NCBI_BioProject_BioSample_Data1.pdf<br>
 				<br>
 				Thank you.<br>
 				<cfelse>
