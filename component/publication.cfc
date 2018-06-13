@@ -129,9 +129,6 @@
   <cfquery name="volume" dbtype="query">
 		select pub_att_value from atts where publication_attribute='volume'
 	</cfquery>
-  <cfquery name="book" dbtype="query">
-    select pub_att_value from atts where publication_attribute='book'
-  </cfquery>
   <cfquery name="book_title" dbtype="query">
 		select pub_att_value from atts where publication_attribute='book title'
 	</cfquery>
@@ -467,11 +464,8 @@
       </cfif>
       <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ' '>
     <cfset r=r & ' Pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
-    <!--- TODO: Book seems to have been added for book title, but not have been cleaned up yet.  --->
     <cfif len(book_title.pub_att_value) gt 0>
        <cfset enclosingTitle = book_title.pub_att_value>
-    <cfelse>
-       <cfset enclosingTitle = book.pub_att_value>
     </cfif>
     <cfif len(enclosingTitle) gt 0>
       <cfset r=r & ' <i>In</i> '>
