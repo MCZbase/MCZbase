@@ -48,6 +48,7 @@ show error------>
 	<li>PUBLICATION_ID</li>
 	<li style="color:red">CITED_SCIENTIFIC_NAME</li>
 	<li>OCCURS_PAGE_NUMBER</li>
+	<li>CITATION_PAGE_URI</li>
 	<li style="color:red">TYPE_STATUS</li>
 	<li style="color:red">CITATION_REMARKS</li>
 </ul>
@@ -269,6 +270,9 @@ show error------>
 				<cfif len(#OCCURS_PAGE_NUMBER#) gt 0>
 					,OCCURS_PAGE_NUMBER
 				</cfif>
+				<cfif len(#CITATION_PAGE_URI#) gt 0>
+					,CITATION_PAGE_URI
+				</cfif>
 				<cfif len(#TYPE_STATUS#) gt 0>
 					,TYPE_STATUS
 				</cfif>
@@ -282,6 +286,9 @@ show error------>
 				1
 				<cfif len(#OCCURS_PAGE_NUMBER#) gt 0>
 					,#OCCURS_PAGE_NUMBER#
+				</cfif>
+				<cfif len(#CITATION_PAGE_URI#) gt 0>
+					,#CITATION_PAGE_URI#
 				</cfif>
 				<cfif len(#TYPE_STATUS#) gt 0>
 					,'#TYPE_STATUS#'
