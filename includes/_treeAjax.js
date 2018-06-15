@@ -89,7 +89,7 @@ function loadTree_success(r) {
 		theTreeDiv.innerHTML = '<h4>Container Hierarchy</h4><p>Click on a check box for container details.  Double click on a container to list what is inside it.</p>';
 		newTree=new dhtmlXTreeObject("treePane","100%","100%;",0);
 		newTree.setImagePath("/images/dhtmlxTree/");
-		newTree.insertNewItem("0","container0","Museum of Comparative Zoology",0,0,0,0,"SELECT");
+		newTree.insertNewItem("0","container0","The Universe",0,0,0,0,"SELECT");
 		newTree.enableCheckBoxes(1);
 		newTree.enableDragAndDrop("temporary_disabled");
 		newTree.attachEvent("onDblClick","expandNode")

@@ -5,7 +5,7 @@
  	The current form is <a href="EditContainer.cfm?action=newContainer">here</a>
  </p>
 <cfabort>
- 
+
 
 <cfset title="Create Container">
 <cfif URL.action is "CreateNew">
@@ -19,7 +19,7 @@
 		OR #fluid_type# is not ""
 		OR #concentration# is not ""
 		OR #fluid_remarks# is not ""><!--- They are trying to make a fluid container, make sure they have all required values--->
-			<cfif #checked_date# is "" 
+			<cfif #checked_date# is ""
 				OR #fluid_type# is ""
 				OR #concentration# is ""><!--- They put in all the required fields--->
 				<cfset mkFluid = "invalid">
@@ -29,7 +29,7 @@
 	</cfif>
 
 <cfoutput>
-		
+
 	<cfif #mkCont# is "valid" and #mkFluid# is "noTry">
 			<cfquery name="nextContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT sq_container_id.nextval newid FROM dual
@@ -46,7 +46,7 @@
 			</cfif>
 			<cfif isdate("#parent_install_date#")>
 				<cfset parent_install_date = "'#Dateformat(parent_install_date, "yyyy-mm-dd")#'">
-				
+
 				<cfelse>
 				Need a date <cfabort>
 				<cfset parent_install_date = "null">
@@ -76,17 +76,17 @@
 				<cfelse><cfset number_positions = "#number_positions#">
 			</cfif>
       <cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					alter session set nls_date_format = 'yyyy-mm-ddTHH24:MI:SS'	
+					alter session set nls_date_format = 'yyyy-mm-ddTHH24:MI:SS'
 		</cfquery>
-	  <cfset newContainerSQL="INSERT INTO 
-					container 
-						(container_id, 
-						parent_container_id, 
-						container_type, 
-						label, 
-						description, 
-						parent_install_date, 
-						container_remarks, 
+	  <cfset newContainerSQL="INSERT INTO
+					container
+						(container_id,
+						parent_container_id,
+						container_type,
+						label,
+						description,
+						parent_install_date,
+						container_remarks,
 						barcode,
 						width,
 						height,
@@ -95,8 +95,8 @@
 						locked_position,
 						institution_acronym)
 					VALUES
-						(#container_id#, 
-						0, 
+						(#container_id#,
+						1,
 						'#container_type#',
 						#label#,
 						#description#,
@@ -123,7 +123,7 @@
       Install Date: #parent_install_date# <br>
       Remarks: #container_remarks#</font> <br>
 		</cfif>
-			
+
 		<cfif #mkCont# is "valid" and #mkFluid# is "valid">
 			<!--- Get the next container_id --->
 			<cfquery name="nextContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -151,7 +151,7 @@
 				<cfset barcode = "null">
 				<cfelse><cfset barcode = "'#barcode#'">
 			</cfif>
-			
+
 			<cfif #fluid_remarks# is "">
 				<cfset fluid_remarks = "null">
 				<cfelse><cfset fluid_remarks = "'#fluid_remarks#'">
@@ -172,23 +172,23 @@
 				<cfset number_positions = "null">
 				<cfelse><cfset number_positions = "'#number_positions#'">
 			</cfif>
-    <cfset newContainerSQL="INSERT INTO 
-					container 
-						(container_id, 
-						parent_container_id, 
-						container_type, 
-						label, 
-						description, 
-						parent_install_date, 
-						container_remarks, 
+    <cfset newContainerSQL="INSERT INTO
+					container
+						(container_id,
+						parent_container_id,
+						container_type,
+						label,
+						description,
+						parent_install_date,
+						container_remarks,
 						barcode,
 						width,
 						height,
 						length,
 						number_positions)
 					VALUES
-						(#container_id#, 
-						0, 
+						(#container_id#,
+						1,
 						'#container_type#',
 						#label#,
 						#description#,
@@ -199,8 +199,8 @@
 						#height#,
 						#length#,
 						#number_positions#)">
-				
-				<cfset newFlSql = "INSERT INTO 
+
+				<cfset newFlSql = "INSERT INTO
 					fluid_container_history
 						(container_id,
 						checked_date,
@@ -234,16 +234,16 @@
       Concentration: #concentration# <br>
       Fluid Remarks: #fluid_remarks#</font> <br>
 		</cfif>
-				
+
 		<cfif #mkCont# is "invalid">
       <font color="##FF0000"><br>
-      You have not entered enough data to create a container. Container Type is 
-      a required field.</font> 
+      You have not entered enough data to create a container. Container Type is
+      a required field.</font>
     </cfif>
 		<cfif #mkCont# is "valid" and #mkFluid# is "invalid">
       <font color="##FF0000"><br>
-      It appears that you are trying to create a fluid container, but you have 
-      not entered enough information to do so.</font> 
+      It appears that you are trying to create a fluid container, but you have
+      not entered enough information to do so.</font>
     </cfif>
 </cfoutput>
 </cfif><!---end of <cfif URL.action is "CreateNew">--->
@@ -272,11 +272,11 @@ select fluid_type from ctFluid_Type ORDER BY fluid_type
 		<td>
 			  <select name="Container_Type" size="1" class="reqdClr">
 				<option value=""></option>
-					<cfoutput query="ContType"> 
+					<cfoutput query="ContType">
 						 <cfif #ContType.ctContType# is not "collection object">
 			            <option value="#ContType.ctContType#">#ContType.ctContType#</option>
 						</cfif>
-          			</cfoutput> 
+          			</cfoutput>
 			</select>
 		</td>
 	</tr>
@@ -292,7 +292,7 @@ select fluid_type from ctFluid_Type ORDER BY fluid_type
 		<td align="right"><b>Number of Positions:</b></td>
 		<td>
 			<input name="number_positions" type="text" value="">
-			
+
 		</td>
 	</tr>
 	<tr>
@@ -323,10 +323,10 @@ select fluid_type from ctFluid_Type ORDER BY fluid_type
 	</tr>
 	<tr>
 		<td align="right"><b>Fluid Type:</b></td>
-		<td> 
+		<td>
 			<select name="Fluid_Type" size="1">
 				<option value=""></option>
-		          <cfoutput query="FluidType"> 
+		          <cfoutput query="FluidType">
         		    <option value="#FluidType.Fluid_Type#">#FluidType.Fluid_Type#</option>
 		          </cfoutput>
 				 </select>
@@ -343,17 +343,17 @@ select fluid_type from ctFluid_Type ORDER BY fluid_type
 		</td>
 	</tr>
 	<tr>
-		
-		<td colspan="2" align="center"> 
+
+		<td colspan="2" align="center">
 			<cfoutput>
 			  <input type="submit" value="Create Container" class="insBtn"
-				onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">	
+				onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
 			</cfoutput>
 	  </td>
 	</tr>
 </table>
 
-      
+
  </form>
 
 <cfinclude template = "includes/_footer.cfm">
