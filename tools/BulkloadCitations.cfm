@@ -325,6 +325,7 @@ show error------>
 					<cfelse>
 						Publication ID #publication_id#
 					</cfif>
+					</a>
 			</cfif>
 		</cfloop>
 	</cfoutput>
