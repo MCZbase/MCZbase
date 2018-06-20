@@ -119,7 +119,7 @@
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
 	</div>
-	<div style="width: 100%;clear:both;height: 600px;padding: 0 20px;">
+	<div class="fullPane">
 			<div valign="top" style="width: 50%;float: left;">
 					<div id="treePane" class="cTreePane"></div>
 			</div>
