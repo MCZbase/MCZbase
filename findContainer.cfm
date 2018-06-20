@@ -41,7 +41,7 @@
 
         <!--------------------------- search pane ----------------------------->
 <div id="searchContainer">
-        <h4>Find Container:</h4>
+        <h3>Find Container:</h3>
         <div id="searchPane">
           <form onSubmit="loadTree();return false;">
     <ul class="findContainer">
