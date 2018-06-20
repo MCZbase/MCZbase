@@ -58,7 +58,7 @@ background-position-x: center;
 background-position-y: center;
 }
 .cTreePane {
-	height:400px;
+	height:700px;
 overflow-y:scroll;
 overflow-x:auto;
 padding: 1em 1em 0 1em;
