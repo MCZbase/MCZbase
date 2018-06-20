@@ -44,7 +44,6 @@
         <h4>Find Container:</h4>
         <div id="searchPane">
           <form onSubmit="loadTree();return false;">
-            <h4>Find container by its properties:</h4>
     <ul class="findContainer">
 						<li>
 								<label for="collection_id">Collection</label>
@@ -109,8 +108,9 @@
 								<label>Unique Identifier</label>
                 <input type="text" name="barcode" id="barcode" size="20" /></li>
 		  		<li>
+					  <input type="submit" value="Search" class="schBtn" style="">
 								<input class="clrBtn" type="reset" value="Clear" style=""/>
-                <input type="submit" value="Search" class="schBtn" style="">
+
           </li>
                               <input type="hidden" name="transaction_id" id="transaction_id"></li>
 		</ul>
