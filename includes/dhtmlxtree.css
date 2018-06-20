@@ -111,10 +111,8 @@ ul.findContainer li {
 	list-style: none;
 	display: inline-block;
 	float: left;
-	height: 60px;
 	margin-right: .5%;
 }
-
 ul.findContainer {
   display: block;
   justify-content: space-around;
@@ -132,6 +130,6 @@ ul.findContainer li input {
 	border-radius: 5px;
 	margin-left: 2.5em;
 }
-ul.findContainer li input.schBtn {width: 96%;}
-ul.findContainer li input.clrBtn {width: 96%;}
+ul.findContainer li input.schBtn {width: 96%;margin: .5em 1em}
+ul.findContainer li input.clrBtn {width: 96%;margin: .5em 1em}
 }
