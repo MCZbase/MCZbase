@@ -21,6 +21,7 @@
 	   <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	   	   insert into blacklist (ip) values (<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#trim(ip)#">)
   	   </cfquery>
+       <cfset application.blacklist=listappend(application.blacklist,trim(ip))>
 	   <cflocation url="/Admin/blacklist.cfm">
 	<cfcatch>
 		<cfdump var=#cfcatch#>
@@ -31,6 +32,7 @@
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		delete from blacklist where ip = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#ip#">
 	</cfquery>
+    <cfset application.blacklist=ListDeleteAt(application.blacklist,ListFind(application.blacklist,trim(ip)))>
 	<cflocation url="/Admin/blacklist.cfm">
 </cfif>
 </cfoutput>
