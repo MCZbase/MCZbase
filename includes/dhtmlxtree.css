@@ -114,5 +114,8 @@ ul.findContainer li {
 	height: 60px;
 	margin-right: .5%;
 }
-
+ul.findContainer {
+  display: block;
+  justify-content: space-around;
+}
 }
