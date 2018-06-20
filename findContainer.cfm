@@ -138,7 +138,7 @@
 
 <cfif isdefined("url.collection_object_id") and len(url.collection_object_id) gt 0 and not isdefined("url.showControl")>
 <style>
-#searchContainer {display: none;}
+##searchContainer {display: none;}
 </style>
 	<script language="javascript" type="text/javascript">
 		try {
