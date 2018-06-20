@@ -127,10 +127,11 @@ ul.findContainer li select {
     border-radius: 5px;
 	}
 ul.findContainer li input {
-	float: left;width: 88%;
+	float: left;width: 77%;
 	padding: .75em;
 	border-radius: 5px;
 	margin-left: 2.5em;
 }
-
+ul.findContainer li input.schBtn {width: 96%;}
+ul.findContainer li input.clrBtn {width: 96%;}
 }
