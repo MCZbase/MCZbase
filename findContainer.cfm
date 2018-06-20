@@ -102,9 +102,11 @@
 									</select>
 						</li>
 					<li>
+					   <cfif not isdefined("container_label")><cfset container_label=""></cfif>
 								<label>Name (% for wildcard)</label>
                 <input type="text" name="container_label" id="container_label" size="20" /></li>
 			    <li>
+								<input type="hidden" name="transaction_id" id="transaction_id">
 								<label>Unique Identifier</label>
                 <input type="text" name="barcode" id="barcode" size="20" /></li>
 		  		<li>
@@ -135,6 +137,9 @@
 </div>
 
 <cfif isdefined("url.collection_object_id") and len(url.collection_object_id) gt 0 and not isdefined("url.showControl")>
+<style>
+#searchContainer {display: none;}
+</style>
 	<script language="javascript" type="text/javascript">
 		try {
 			parent.dyniframesize();
