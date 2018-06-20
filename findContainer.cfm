@@ -145,6 +145,15 @@
 		}
 		showSpecTreeOnly('#url.collection_object_id#');
 	</script>
+<cfelseif isdefined("url.collection_object_id") and len(url.collection_object_id) gt 0 and not isdefined("url.showControl")>
+		<script language="javascript" type="text/javascript">
+			try {
+				parent.dyniframesize();
+			} catch(err) {
+				// not where we think we are, maybe....
+			}
+			showSpecTreeOnly('#url.collection_object_id#');
+		</script>
 <cfelse>
 	<cfset autoSubmit=false>
 	<cfloop list="#StructKeyList(url)#" index="key">
