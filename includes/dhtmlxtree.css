@@ -101,9 +101,18 @@ ul.findContainer li label {text-align: center;}
 ul.findContainer li input.schBtn {float: left;width: 43%;margin-right: 1em;margin-left: .5em;margin-top: 1.6em;}
 ul.findContainer li input.clrBtn {float: left;width: 43%;margin-top: 1.6em;}
 .fullPane {width:98%;clear:both;height: auto;min-height: 700px;padding: 0 20px;}
-@media only screen and (max-width: 1000px) {
-	ul.findContainer li {float: left;width: 43%;margin-right: 1em;margin-left: .5em;margin-top: 1.6em;}
-	ul.findContainer li input.schBtn {float: left;width: 43%;margin-right: 1em;margin-left: .5em;margin-top: 1.6em;}
-	ul.findContainer li input.clrBtn {float: left;width: 43%;margin-top: 1.6em;}
+@media(max-width:1000px) {
+ul.findContainer li {
+	width: 100%;
+	display: block;
+	float: left;
+}
+ul.findContainer li {
+	list-style: none;
+	display: inline-block;
+	float: left;
+	height: 60px;
+	margin-right: .5%;
+}
 
 }
