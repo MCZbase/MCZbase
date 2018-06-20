@@ -97,6 +97,6 @@ ul.findContainer li {
 ul.findContainer li:after {content:'';width: 100%; display:inline-block;}
 ul.findContainer li select {float: right; width: 90%;padding: .75em;}
 ul.findContainer li input {float: right;width: 90%;padding: .75em;}
-ul.findContainer li label {float: right; text-align: center;}
-ul.findContainer li input .schBtn {width: 45%;margin-right: 1em;}
-ul.findContainer li input .clrBtn {width: 45%;}
+ul.findContainer li label {text-align: center;}
+ul.findContainer li input.schBtn {float: left;width: 45%;margin-right: 1em;}
+ul.findContainer li input.clrBtn {float: left;width: 45%;}
