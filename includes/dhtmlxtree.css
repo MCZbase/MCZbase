@@ -114,8 +114,23 @@ ul.findContainer li {
 	height: 60px;
 	margin-right: .5%;
 }
+
 ul.findContainer {
   display: block;
   justify-content: space-around;
 }
+ul.findContainer li select {
+	  float: left;
+    width: 85%;
+    margin-left: 2.5em;
+    padding: .75em;
+    border-radius: 5px;
+	}
+ul.findContainer li input {
+	float: left;width: 88%;
+	padding: .75em;
+	border-radius: 5px;
+	margin-left: 2.5em;
+}
+
 }
