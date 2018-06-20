@@ -81,3 +81,19 @@ padding: 1em 1em 0 1em;
 .ajaxDone {display:none}
 .ajaxMessage {color:green;}
 .ajaxError {color:red;}
+ul.findContainer {
+  display: flex;
+  justify-content: space-between;
+}
+ul.findContainer li:first-child {
+	float: left;
+	list-style:none;
+}
+ul.findContainer li {
+	width: 25%;
+	float: left;
+	list-style:none;
+}
+ul.findContainer li:after {content:'';width: 100%; display:inline-block;}
+ul.findContainer li select {float: right;}
+ul.findContainer li input {float: right;}
