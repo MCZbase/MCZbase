@@ -32,7 +32,7 @@ background-color: #FFFFCC;
 
 .intreeeditRow{
   width:100%; font-size:8pt; height:16px; border:1px solid silver; padding:0; margin:0;
-  -moz-user-select:  text;   
+  -moz-user-select:  text;
 }
 .dhx_tree_textSign{
    font-size:8pt;
@@ -57,5 +57,27 @@ background-position: center;
 background-position-x: center;
 background-position-y: center;
 }
-
-
+.cTreePane {
+	height:400px;
+overflow-y:scroll;
+overflow-x:auto;
+padding: 1em 1em 0 1em;
+}
+.ajaxWorking{
+	top: 15%;
+	color: green;
+	text-align: center;
+	margin: auto;
+	position:absolute;
+	max-width: 50%;
+	right:55%;
+	background-color:white;
+	padding:1em;
+	border:1px solid;
+	overflow:hidden;
+	z-index:1;
+	/*overflow-y:scroll;*/
+	}
+.ajaxDone {display:none}
+.ajaxMessage {color:green;}
+.ajaxError {color:red;}
