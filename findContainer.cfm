@@ -122,13 +122,13 @@
         </div>
 	</div>
 	<div class="fullPane">
-			<div valign="top" style="width: 50%;float: left;">
+
 					<div id="treePane" class="cTreePane"></div>
-			</div>
-			<div valign="top" style="width: 50%; float: right;">
+
+
 					<div id="detailPane"></div>
 
-			</div>
+
 	</div>
 </div>
 </div>
