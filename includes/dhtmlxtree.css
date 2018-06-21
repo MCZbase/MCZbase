@@ -131,6 +131,7 @@ ul.findContainer li input {
 }
 ul.findContainer li input.schBtn, ul.findContainer li input.clrBtn {
 	width: 100%;
+	padding:.75em 0;
 }
 
 }
