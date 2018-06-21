@@ -139,3 +139,37 @@ ul.findContainer li input.schBtn, ul.findContainer li input.clrBtn {
 #detailPane {float: left; width: 98%;}
 
 }
+@media(max-width:476px) {
+ul.findContainer {
+	padding: 0 1em;
+	display: block;
+  justify-content: space-around;
+}
+ul.findContainer li {
+	width: 100%;
+	display: block;
+	float: left;
+	list-style: none;
+	display: inline-block;
+	margin-right: .5%;
+}
+ul.findContainer li select {
+	  float: left;
+    width: 99%;
+    padding: .75em;
+    border-radius: 5px;
+	}
+ul.findContainer li input {
+	float: left;
+	width: 92%;
+	padding: .75em;
+	border-radius: 5px;
+}
+ul.findContainer li input.schBtn, ul.findContainer li input.clrBtn {
+	width: 100%;
+	padding:.75em 0;
+}
+#treePane {float: left;width:98%;}
+#detailPane {float: left; width: 98%;}
+
+}
