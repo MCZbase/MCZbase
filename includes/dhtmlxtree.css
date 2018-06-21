@@ -132,11 +132,11 @@ ul.findContainer li input {
 	border-radius: 5px;
 }
 ul.findContainer li input.schBtn, ul.findContainer li input.clrBtn {
-	width: 50%;
+	width: 45%;
 	padding:.75em 0;
 }
 #treePane {float: left;width:48%;}
-#detailPane {float: left; width: 48%;}
+#detailPane {float: left; width: 45%;}
 
 }
 @media(max-width:476px) {
