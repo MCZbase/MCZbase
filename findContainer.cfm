@@ -143,7 +143,7 @@
 <cfelseif isdefined("url.loan_trans_id") and len(url.loan_trans_id) gt 0 and not isdefined("url.showControl")>
 
 		<script language="javascript" type="text/javascript">
-		alert("hi");
+
 			try {
 				parent.dyniframesize();
 			} catch(err) {
