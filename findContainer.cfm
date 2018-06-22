@@ -140,7 +140,7 @@
 		}
 		showSpecTreeOnly('#url.collection_object_id#');
 	</script>
-<cfelseif isdefined("url.trans_loan_id") and len(url.trans_loan_id) gt 0 and not isdefined("url.showControl")>
+<cfelseif isdefined("url.transaction_id") and len(url.transaction_id) gt 0 and not isdefined("url.showControl")>
 
 		<script language="javascript" type="text/javascript">
 		alert("hi");
