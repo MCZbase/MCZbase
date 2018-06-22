@@ -149,7 +149,7 @@
 			} catch(err) {
 				// not where we think we are, maybe....
 			}
-			loadTree('#url.trans_loan_id#');
+			loadTree('#url.transaction_id#');
 		</script>
 
 <cfelse>
