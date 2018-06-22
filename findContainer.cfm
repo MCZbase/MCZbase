@@ -19,12 +19,7 @@
 		});
 	});
 </script>
-<style >
-
-</style>
-
 <script type='text/javascript' src='/includes/_treeAjax.js'></script>
-
 <cfquery name="contType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select container_type from ctContainer_Type order by container_type
 </cfquery>
