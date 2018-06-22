@@ -74,6 +74,24 @@ function showSpecTreeOnly (colobjid) {
 		loadTree_success
 	);
 }
+function showSpecTreeOnlyforLoan (loanTransID) {
+	post(1);
+	//var theTreeDiv = document.getElementById('treePane');
+	//theTreeDiv.className="";
+	//document.getElementById('thisfooter').style.display='none';
+	//document.getElementById('header_color').style.display='none';
+	//document.getElementById('searchPane').style.display='none';
+	var q="loan_trans_id=" + loanTransID;
+	jQuery.getJSON("/component/container.cfc",
+		{
+			method : "get_containerTree",
+			q : q,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		loadTree_success
+	);
+}
 function loadTree_success(r) {
 	//alert(result);
 	var result=r.DATA;

@@ -149,7 +149,7 @@
 			} catch(err) {
 				// not where we think we are, maybe....
 			}
-			loadTree('#url.loan_trans_id#');
+			showSpecTreeOnlyforLoan('#url.loan_trans_id#');
 		</script>
 
 <cfelse>
