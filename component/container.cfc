@@ -157,13 +157,12 @@
 		len(loan_trans_id) is 0 and
 		len(table_name) is 0 and
 		len(in_container_type) is 0 and
-			len(loan_trans_id) is 0 and
 		len(transaction_id) is 0
 		>
 		<cfset result = querynew("CONTAINER_ID,MSG")>
 		<cfset temp = queryaddrow(result,1)>
 		<cfset temp = QuerySetCell(result, "container_id", "-1", 1)>
-		<cfset temp = QuerySetCell(result, "msg", "You must enter search criteria. ---#loan_trans_id#---", 1)>
+		<cfset temp = QuerySetCell(result, "msg", "You must enter search criteria. ---#transaction_id#---", 1)>
 		<cfreturn result>
 	</cfif>
 
@@ -312,8 +311,8 @@
 		<cfset whr = "#whr# AND specimen_part.part_Name='#part_Name#'">
 	 </cfif>
 	  <cfif len(loan_trans_id) gt 0>
-		<cfif frm does not contain " loan_item ">
-			<cfset frm = "#frm# inner join coll_obj_cont_hist on (loan_item.container_id=coll_obj_cont_hist.container_id)">
+		<cfif frm does not contain " coll_obj_cont_hist ">
+			<cfset frm = "#frm# inner join coll_obj_cont_hist on (container.container_id=coll_obj_cont_hist.container_id)">
 		</cfif>
 		<cfif frm does not contain " specimen_part ">
 			<cfset frm = "#frm# inner join specimen_part on (coll_obj_cont_hist.collection_object_id=specimen_part.collection_object_id)">
