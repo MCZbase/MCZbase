@@ -157,6 +157,7 @@
 		len(loan_trans_id) is 0 and
 		len(table_name) is 0 and
 		len(in_container_type) is 0 and
+			len(loan_trans_id) is 0 and
 		len(transaction_id) is 0
 		>
 		<cfset result = querynew("CONTAINER_ID,MSG")>
