@@ -1158,19 +1158,17 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									select * from parts where sampled_from_obj_id=#part_id#
 								</cfquery>
 								<cfloop query="sPart">
-									<tr>
-										<td class="inside">
-											#part_name# subsample
-										</td>
-										<td class="inside">#part_condition#</td>
-										<td class="inside">#part_disposition#</td>
-										<td class="inside">#lot_count#</td>
-										<cfif oneOfus is 1>
-											<td class="inside">#label#</td>
-										</cfif>
-										<td class="inside">#part_remarks#</td>
-									</tr>
-								</cfloop>
+										<tr>
+											<td class="inside_sub"><span>#part_name# subsample</span></td>
+											<td class="inside_sub">#part_condition#</td>
+											<td class="inside_sub">#part_disposition#</td>
+											<td class="inside_sub">#lot_count#</td>
+											<cfif oneOfus is 1>
+												<td class="inside_sub">#label#</td>
+											</cfif>
+											<td class="inside_sub">#part_remarks#</td>
+										</tr>
+									</cfloop>
 							</cfloop>
 						</table>
 				</div>
