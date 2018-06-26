@@ -40,7 +40,7 @@
         <div id="searchPane">
           <form onSubmit="loadTree();return false;">
     <ul class="findContainer">
-						<li>
+	<!----					<li>
 								<label for="collection_id">Collection</label>
                     <select name="collection_id" id="collection_id" size="1">
                       <option value=""></option>
@@ -63,7 +63,7 @@
 			<li>
 						<label for="cat_num">Cat Num</label>
             <input type="text" name="cat_num" id="cat_num"  size="17" />
-			</li>
+			</li>--->
 					<li>
 							<label>Container Type</label>
 									<select name="container_type" id="container_type" size="1">
@@ -145,9 +145,10 @@
 	From container details (click check box and go to right side of page "See all collection objects..."), you can get a separate page of everything that is in that container, which is easier to print.
 
 	</ul>
-
-		<p>Even though the <b>cataloged item</b> containers are better searched through the <b>specimen search pages &rarr; manage results &rarr; part report (locations)</b>,
-		they are included here. Example: Collection + Cat Num (A catalog number has a container type of collection object)</p>
+	<p>Find containers of <b>cataloged items</b> by searching the <b>specimen search page
+	 &rarr; manage results &rarr; part report (locations)</b>. </p>
+<!---		<p>Even though the <b>cataloged item</b> containers are better searched through the <b>specimen search pages &rarr; manage results &rarr; part report (locations)</b>,
+		they are included here. Example: Collection + Cat Num (A catalog number has a container type of collection object)</p>--->
 </div>
 </div>
 <script>
