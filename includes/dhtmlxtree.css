@@ -57,10 +57,10 @@ background-position: center;
 background-position-x: center;
 background-position-y: center;
 }
-#treePane {float:left;width:43%;}
+#treePane {float: left;width:43%;}
 #detailPane {float: right; width: 43%;}
 .cTreePane {
-/*	height:700px;*/
+	height:700px;
 overflow-y:scroll;
 overflow-x:auto;
 padding: 1em 1em 0 1em;
