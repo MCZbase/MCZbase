@@ -116,7 +116,8 @@
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
 	</div>
-	<div class="tipPane">
+	<button onclick="seetips()">Search Tips and Examples</button>
+	<div class="tipPane" id="hiddentips">
 	<ul>
 		<h5>Search Tips</h5>
 		<li>Use % for unknown letters/characters (a.k.a. Wilcard)</li>
@@ -131,6 +132,14 @@
 
 			</ul>
 </div>
+function seetips() {
+    var x = document.getElementById("hiddentips");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
 	<div class="fullPane">
 
 					<div id="treePane" class="cTreePane"></div>
