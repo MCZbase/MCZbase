@@ -136,7 +136,7 @@
 		<li> Examples of these two:
 		<ul>
 			<li style="list-style:none;font-style:italic;">Examples: Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
-<ul>
+</ul>
 </li>
 		</ol>
 	</p>
