@@ -116,7 +116,7 @@
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
 	</div>
-	<button onclick="seetips()">Search Tips and Examples</button>
+	<a onclick="seetips()">Search Tips and Examples</a>
 	<div class="tipPane" id="hiddentips2">
 	<ul>
 		<h5>Search Tips</h5>
@@ -133,7 +133,7 @@
 			</ul>
 </div>
 <script>
-function seetips(x) {
+function seetips() {
     var x = document.getElementById("hiddentips2");
     if (x.style.display === "none") {
         x.style.display = "flex";
