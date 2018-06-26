@@ -5896,11 +5896,16 @@ div.lefttips {
 			width: 50%;
 			float: left;
 	}
+	div.lefttips p {
+				float: left;
+				width: 100%;
+				padding: 12px 0;
+	}
 div.rightexamples {
 			width: 50%;
 			float:right;
 	}
-div.rightexamples p {
+div.leftexamples p {
 			float: left;
 			width: 100%;
 			padding: 12px 0;

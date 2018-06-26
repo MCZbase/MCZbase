@@ -121,6 +121,12 @@
 	<div class="lefttips">
 	<ul>
 		<h5>Search Tips</h5>
+		<p>This page is important for two types of searches:</p>
+		<ol>
+		<li>A check to see if the container was entered&mdash;no specimens have been attached yet (to prevent duplicate entries)
+		</li>
+		<li>A search for a specific container without knowing about what is in it.</li>
+		</ol>
 		<li>Use % for unknown letters/characters (a.k.a. wilcard)</li>
 		<li>Double click on a container name in the search results to see the containers within it.</li>
 		<li>Unique Identifier value must match exactly (wildcards are not allowed)</li>
@@ -130,13 +136,6 @@
 	</div>
 	<div class="rightexamples">
 		<h5>Search examples:</h5>
-		<p>This page is important for two types of searches:
-		<ol>
-		<li>A check to see if the container was entered&mdash;no specimens have been attached yet (to prevent duplicate entries)
-		</li>
-		<li>A search for a specific container without knowing about what is in it.</li>
-		</ol>
-		<p> Examples of common searches:	</p>
 	<ul>
 	<li>Container Type + part of Name (e.g., fixture + Mamm-cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are)</li>
 	<li>Enter Unique Identifier to see if a barcode has been entered.</li>
