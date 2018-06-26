@@ -125,7 +125,7 @@
 		<li>Double click on a container name in the search results to see the containers within it.</li>
 		<li>Unique Identifier value must match exactly (wildcards are not allowed)</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
-		<li>Don't use collection and cat num fields with name or unique identifier (or container_type&mdash;a cataloged item is always a 'collection object'). </li>
+		<li>Don't use collection and cat num fields with name or unique identifier (or container_type&mdash;a cataloged item is always a "collection object"). </li>
 	</ul>
 	</div>
 	<div class="rightexamples">
@@ -142,7 +142,7 @@
 	</ul>
 
 		<p>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
-		we have include the fields here for this type of search if needed.</p>
+		they are included here.</p>
 				<ul><li>Collection + Cat Num (A catalog number has a container type of collection object)</li></ul>
 </div>
 </div>
