@@ -128,17 +128,16 @@
 	<ul>
 		<h5>Search examples:</h5>
 		<p>This page is important for two types of searches:
-		<ol><li>A check to see if the container was entered for which
+		<ul><li>A check to see if the container was entered for which
 		no specimens have been attached yet (so you don't enter it twice)
 		</li>
 
 		<li>A search for a specific container without knowing about what is in it.</li>
-		<li> Examples of these two:
+		</ul>
+		<p> Examples of these two:
 		<ul>
-			<li style="list-style:none;font-style:italic;">Examples: Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
-</ul>
-</li>
-		</ol>
+<li style="list-style:none;font-style:italic;">Examples: Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
+	</li>
 	</p>
 		<li>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
 		we have include the fields here for this type of search if needed.</li>
