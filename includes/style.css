@@ -5854,7 +5854,7 @@ form#newLoan {float: left;}
     background: #c1272d url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
     color: #ffffff;background-color:#c1272d; }
 .tipPane {width: 96%;padding: 10px 30px;font-size: 13px;}
-.tipPane h5 {font-size: 14px;padding: 5px;margin: 0;}
+.tipPane h5 {font-size: 14px;padding: 5px 0;margin: 0;}
 .tipPane ul {float: left;}
 .tipPane ol{float: left;}
 .tipPane li {margin-left: 2em;}
@@ -5862,3 +5862,4 @@ a.seeTipsLink {margin-left: 2em; color: #114bc7;font-size: 15px;
 	cursor: pointer;display:block;background-color: lightgray;border: 1px solid #888;padding: 3px 6px;width:210px;border-radius: 5px;}
 div.lefttips {width: 50%; float: left;}
 div.rightexamples {width: 50%; float:right;}
+div.rightexamples p {float: left;width: inherit;}
