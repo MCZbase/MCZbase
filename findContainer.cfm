@@ -117,7 +117,7 @@
         </div>
 	</div>
 	<a class="seeTipsLink" onclick="seetips()">See Search Tips and Examples</a>
-	<div class="tipPane" id="hiddentips2">
+	<div class="tipPane" id="hiddentips" style="display:none;">
 	<ul>
 		<h5>Search Tips</h5>
 		<li>Use % for unknown letters/characters (a.k.a. Wilcard)</li>
@@ -134,7 +134,8 @@
 </div>
 <script>
 function seetips() {
-    var x = document.getElementById("hiddentips2");
+    var x = document.getElementById("hiddentips");
+
     if (x.style.display === "none") {
         x.style.display = "block";
     } else {
