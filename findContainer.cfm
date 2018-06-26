@@ -134,14 +134,15 @@
 
 		<li>A search for a specific container without knowing about what is in it.</li>
 		</ul>
-		<p> Examples of these two:
-		<ul>
+		<p> Examples of these two:	</p>
+	<ul>
 <li style="list-style:none;font-style:italic;">Examples: Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
 	</li>
-	</p>
-		<li>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
-		we have include the fields here for this type of search if needed.</li>
-				<li>Collection + Cat Num (A catalog number has a container type of collection object)</li>
+	</ul>
+
+		<p>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
+		we have include the fields here for this type of search if needed.</p>
+				<ul><li>Collection + Cat Num (A catalog number has a container type of collection object)</li></ul>
 
 
 			</ul>
