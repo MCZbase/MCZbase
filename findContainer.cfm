@@ -132,6 +132,7 @@
 
 			</ul>
 </div>
+<script>
 function seetips() {
     var x = document.getElementById("hiddentips");
     if (x.style.display === "none") {
@@ -140,6 +141,7 @@ function seetips() {
         x.style.display = "none";
     }
 }
+</script>
 	<div class="fullPane">
 
 					<div id="treePane" class="cTreePane"></div>
