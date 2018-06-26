@@ -118,6 +118,7 @@
 	</div>
 	<a class="seeTipsLink" onclick="seetips()">See Search Tips and Examples</a>
 	<div class="tipPane" id="hiddentips" style="display:none;">
+	<div class="lefttips">
 	<ul>
 		<h5>Search Tips</h5>
 		<li>Use % for unknown letters/characters (a.k.a. Wilcard)</li>
@@ -125,6 +126,8 @@
 		<li>Unique Identifier value must match exactly (unlike the name field)</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.)</li>
 	</ul>
+	</div>
+	<div class="rightexamples">
 		<h5>Search examples:</h5>
 		<p>This page is important for two types of searches:
 		<ol>
@@ -140,9 +143,7 @@
 		<p>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
 		we have include the fields here for this type of search if needed.</p>
 				<ul><li>Collection + Cat Num (A catalog number has a container type of collection object)</li></ul>
-
-
-			</ul>
+</div>
 </div>
 <script>
 function seetips() {
