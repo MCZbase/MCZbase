@@ -156,6 +156,7 @@ function seetips() {
 
     if (x.style.display === "none") {
         x.style.display = "block";
+				x.style.color = "red";
     } else {
         x.style.display = "none";
     }
