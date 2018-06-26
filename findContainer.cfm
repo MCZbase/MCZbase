@@ -122,13 +122,28 @@
 		<h5>Search Tips</h5>
 		<li>Use % for unknown letters/characters (a.k.a. Wilcard)</li>
 		<li>Double Click on a container name in the search results to see the containers within it.</li>
-		<li>Unique Identifier value must match exactly (unlike name)</li>
+		<li>Unique Identifier value must match exactly (unlike the name field)</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.)</li>
 	</ul>
-	<ul style="list-style: circle">
+	<ul>
 		<h5>Search examples:</h5>
+		<p>This page is important for two types of searches:
+		<ol><li>A check to see if the container was entered for which
+		no specimens have been attached yet (so you don't enter it twice)
+		</li>
+
+		<li>A search for a specific container without knowing about what is in it.</li>
+		<li> Examples of these two:
+		<ul>
+			<li style="list-style:none;font-style:italic;">Examples: Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
+<ul>
+</li>
+		</ol>
+	</p>
+		<li>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
+		we have include the fields here for this type of search if needed.</li>
 				<li>Collection + Cat Num (A catalog number has a container type of collection object)</li>
-				<li>Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
+
 
 			</ul>
 </div>
