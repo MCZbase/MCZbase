@@ -133,7 +133,7 @@
 	</ul>
 	<p>This page is important for two types of searches:</p>
 	<ol>
-	<li>A check to see if the container was entered&mdash;no specimens have been attached yet (to prevent duplicate entries)
+	<li>A check to see if the container was entered, especially if no specimens have been attached yet (to prevent duplicate entries)
 	</li>
 	<li>A search for a specific container without knowing about what is in it.</li>
 	</ol>
