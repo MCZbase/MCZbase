@@ -117,7 +117,7 @@
         </div>
 	</div>
 	<button onclick="seetips()">Search Tips and Examples</button>
-	<div class="tipPane" id="hiddentips">
+	<div class="tipPane" id="hiddentips2">
 	<ul>
 		<h5>Search Tips</h5>
 		<li>Use % for unknown letters/characters (a.k.a. Wilcard)</li>
@@ -134,9 +134,9 @@
 </div>
 <script>
 function seetips() {
-    var x = document.getElementById("hiddentips");
+    var x = document.getElementById("hiddentips2");
     if (x.style.display === "none") {
-        x.style.display = "block";
+        x.style.display = "flex";
     } else {
         x.style.display = "none";
     }
