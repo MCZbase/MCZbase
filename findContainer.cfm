@@ -125,7 +125,7 @@
 		<li>Double Click on a container name in the search results to see the containers within it.</li>
 		<li>Unique Identifier value must match exactly (unlike the name field)</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.)</li>
-		<li>Don't use collection and cat num fields with name or unique identifier (or container_type--a cataloged item is always a 'collection object'). </li>
+		<li>Don't use collection and cat num fields with name or unique identifier (or container_type&mdash;a cataloged item is always a 'collection object'). </li>
 	</ul>
 	</div>
 	<div class="rightexamples">

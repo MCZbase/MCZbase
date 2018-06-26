@@ -5856,8 +5856,9 @@ form#newLoan {float: left;}
 .tipPane {width: 96%;padding: 10px 30px;font-size: 13px;}
 .tipPane h5 {font-size: 14px;padding: 5px 0;margin: 0;}
 .tipPane ul {float: left;padding-bottom: 12px;}
-.tipPane ol{float: left;}
-.tipPane ol li,.tipPane ul li {margin-left: 2em;}
+.tipPane ol{float: left;-webkit-padding-start:0px;}
+.tipPane ol li {margin-left: 1em;}
+.tipPane ul li {margin-left: 2em;}
 a.seeTipsLink {margin-left: 2em; color: #114bc7;font-size: 15px;
 	cursor: pointer;display:block;background-color: lightgray;
 	border: 1px solid #888;padding: 3px 6px;width:210px;border-radius: 5px;}
