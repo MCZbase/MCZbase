@@ -133,7 +133,7 @@
 			</ul>
 </div>
 <script>
-function seetips() {
+function seetips(x) {
     var x = document.getElementById("hiddentips2");
     if (x.style.display === "none") {
         x.style.display = "flex";
