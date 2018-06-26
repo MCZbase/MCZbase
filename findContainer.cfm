@@ -116,7 +116,7 @@
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
 	</div>
-	<a onclick="seetips()">Search Tips and Examples</a>
+	<a class="seeTipsLink" onclick="seetips()">Search Tips and Examples</a>
 	<div class="tipPane" id="hiddentips2">
 	<ul>
 		<h5>Search Tips</h5>
