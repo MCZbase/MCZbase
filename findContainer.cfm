@@ -121,18 +121,19 @@
 	<div class="lefttips">
 	<ul>
 		<h5>Search Tips</h5>
-		<p>This page is important for two types of searches:</p>
-		<ol>
-		<li>A check to see if the container was entered&mdash;no specimens have been attached yet (to prevent duplicate entries)
-		</li>
-		<li>A search for a specific container without knowing about what is in it.</li>
-		</ol>
+
 		<li>Use % for unknown letters/characters (a.k.a. wilcard)</li>
 		<li>Double click on a container name in the search results to see the containers within it.</li>
 		<li>Unique Identifier value must match exactly (wildcards are not allowed)</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
 		<li>Don't use collection and cat num fields with name or unique identifier (or container_type&mdash;a cataloged item is always a "collection object"). </li>
 	</ul>
+	<p>This page is important for two types of searches:</p>
+	<ol>
+	<li>A check to see if the container was entered&mdash;no specimens have been attached yet (to prevent duplicate entries)
+	</li>
+	<li>A search for a specific container without knowing about what is in it.</li>
+	</ol>
 	</div>
 	<div class="rightexamples">
 		<h5>Search examples:</h5>
