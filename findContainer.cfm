@@ -141,7 +141,7 @@
 	<div class="rightexamples">
 		<h5>Search examples:</h5>
 	<ul>
-	<li>Container Type + part of Name (e.g., fixture + Mamm-cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are)</li>
+	<li>Container Type + part of Name (e.g., fixture + Mamm_cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are)</li>
 	<li>Enter Unique Identifier to see if a barcode has been entered.</li>
 	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ-Fr-7").
 	Double-click on IZ-Fr-7 and see all the specimens inside it.
