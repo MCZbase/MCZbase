@@ -91,7 +91,7 @@ ul.findContainer li:first-child {
 	float: left;
 	list-style:none;
 	margin-left: 0;
-	-webkit-padding-start:0;
+	-webkit-padding-start: 40px;
 }
 ul.findContainer li {
 	width: 25%;
