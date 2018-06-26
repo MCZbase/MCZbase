@@ -5885,11 +5885,12 @@ form#newLoan {float: left;}
 	}
 .tipPane ol li {
 			margin-left: 2em;
-			line-height: 15px
+			line-height: 17px
 	}
 .tipPane ul li {
 			margin-left: 2em;
 			padding-right: 2em;
+			line-height: 17px;
 }
 div.lefttips {
 			width: 50%;
