@@ -116,7 +116,7 @@
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
 	</div>
-	<a class="seeTipsLink" onclick="seetips()">See Search Tips and Examples</a>
+	<a class="seeTipsLink" onclick="seetips()">Search Tips and Examples</a>
 	<div class="tipPane" id="hiddentips" style="display:none;">
 	<div class="lefttips">
 	<ul>
@@ -139,11 +139,15 @@
 		<p> Examples of common searches:	</p>
 	<ul>
 	<li>Container Type + part of Name (e.g., fixture + Mamm-cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are)</li>
+	<li>Enter Unique Identifier to see if a barcode has been entered.</li>
+	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ-Fr-7").
+	Double-click on IZ-Fr-7 and see all the specimens inside it.
+	From container details (click check box and go to right side of page "See all collection objects..."), you can get a separate page of everything that is in that container, which is easier to print.
+
 	</ul>
 
 		<p>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
-		they are included here.</p>
-				<ul><li>Collection + Cat Num (A catalog number has a container type of collection object)</li></ul>
+		they are included here. Example: Collection + Cat Num (A catalog number has a container type of collection object)</p>
 </div>
 </div>
 <script>
