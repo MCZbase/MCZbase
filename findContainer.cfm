@@ -146,7 +146,7 @@
 
 	</ul>
 
-		<p>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
+		<p>Even though the <b>cataloged item</b> containers are better searched through the <b>specimen search pages -> manage results -> part report (locations)</b>,
 		they are included here. Example: Collection + Cat Num (A catalog number has a container type of collection object)</p>
 </div>
 </div>
