@@ -135,7 +135,7 @@
 		</li>
 		<li>A search for a specific container without knowing about what is in it.</li>
 		</ol>
-		<p> Examples of these two:	</p>
+		<p> Examples of common searches:	</p>
 	<ul>
 	<li>Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
 	</ul>
