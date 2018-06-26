@@ -5857,4 +5857,5 @@ form#newLoan {float: left;}
 .tipPane h5 {font-size: 14px;padding: 5px;margin: 0;}
 .tipPane ul {list-style: none;width: 45%;float: left;}
 .tipPane li {margin-left: 2em;list-style: disc;}
-a.seeTipsLink {margin-left: 5em; color: #114bc7;font-size: 15px;display:none;}
+a.seeTipsLink {margin-left: 5em; color: #114bc7;font-size: 15px;}
+div#hiddentips2 {display:none;}
