@@ -116,6 +116,21 @@
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
 	</div>
+	<div class="tipPane">
+	<ul>
+		<h5>Search Tips</h5>
+		<li>Use % for unknown letters/characters (a.k.a. Wilcard)</li>
+		<li>Double Click on a container name in the search results to see the containers within it.</li>
+		<li>Unique Identifier value must match exactly (unlike name)</li>
+		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.)</li>
+	</ul>
+	<ul style="list-style: circle">
+		<h5>Search examples:</h5>
+				<li>Collection + Cat Num (A catalog number has a container type of collection object)</li>
+				<li>Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
+
+			</ul>
+</div>
 	<div class="fullPane">
 
 					<div id="treePane" class="cTreePane"></div>
