@@ -125,19 +125,17 @@
 		<li>Unique Identifier value must match exactly (unlike the name field)</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.)</li>
 	</ul>
-	<ul>
 		<h5>Search examples:</h5>
 		<p>This page is important for two types of searches:
-		<ul><li>A check to see if the container was entered for which
+		<ol>
+		<li>A check to see if the container was entered for which
 		no specimens have been attached yet (so you don't enter it twice)
 		</li>
-
 		<li>A search for a specific container without knowing about what is in it.</li>
-		</ul>
+		</ol>
 		<p> Examples of these two:	</p>
 	<ul>
-<li style="list-style:none;font-style:italic;">Examples: Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
-	</li>
+	<li>Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
 	</ul>
 
 		<p>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
