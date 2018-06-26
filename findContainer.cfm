@@ -138,7 +138,7 @@
 		</ol>
 		<p> Examples of common searches:	</p>
 	<ul>
-	<li>Container Type + Part of Name (e.g., room + MCZ-4%, which returns all rooms in MCZ that start with "4")</li>
+	<li>Container Type + part of Name (e.g., fixture + Mamm-cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are)</li>
 	</ul>
 
 		<p>Even though the cataloged item containers are better searched through the specimen search pages -> manage results -> part report (locations),
