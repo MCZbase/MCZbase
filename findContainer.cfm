@@ -128,8 +128,7 @@
 		<h5>Search examples:</h5>
 		<p>This page is important for two types of searches:
 		<ol>
-		<li>A check to see if the container was entered for which
-		no specimens have been attached yet (so you don't enter it twice)
+		<li>A check to see if the container was entered for which no specimens have been attached yet (so you don't enter it twice)
 		</li>
 		<li>A search for a specific container without knowing about what is in it.</li>
 		</ol>
