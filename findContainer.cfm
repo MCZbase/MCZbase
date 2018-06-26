@@ -116,7 +116,7 @@
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
 	</div>
-	<a class="seeTipsLink" onclick="seetips()">See Search Tips and Examples (double click)</a>
+	<a class="seeTipsLink" onclick="seetips()">See Search Tips and Examples</a>
 	<div class="tipPane" id="hiddentips2">
 	<ul>
 		<h5>Search Tips</h5>
@@ -136,7 +136,7 @@
 function seetips() {
     var x = document.getElementById("hiddentips2");
     if (x.style.display === "none") {
-        x.style.display = "flex";
+        x.style.display = "block";
     } else {
         x.style.display = "none";
     }
