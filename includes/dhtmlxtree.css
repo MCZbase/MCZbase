@@ -90,6 +90,7 @@ ul.findContainer {
 ul.findContainer li:first-child {
 	float: left;
 	list-style:none;
+	margin-left: 2em;
 }
 ul.findContainer li {
 	width: 25%;
