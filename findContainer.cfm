@@ -40,33 +40,6 @@
         <div id="searchPane">
           <form onSubmit="loadTree();return false;">
     <ul class="findContainer">
-	<!----					<li>
-								<label for="collection_id">Collection</label>
-                    <select name="collection_id" id="collection_id" size="1">
-                      <option value=""></option>
-                      <cfloop query="collections">
-                        <option value="1">Herpetology</option>
-                        <option value="2">Mammology</option>
-                        <option value="3">Malacology</option>
-                        <option value="4">Ichthyology</option>
-                        <option value="5">Ornithology</option>
-                        <option value="6">Vertebrate Paleontology</option>
-                        <option value="7">Invertebrate Paleontology</option>
-                        <option value="8">Invertebrate Zoology</option>
-                        <option value="9">Entomology</option>
-                        <option value="10">Special Collections</option>
-                        <option value="11">Cryogenic</option>
-                        <option value="12">Herpetology Observations</option>
-                      </cfloop>
-                    </select>
-								</li>
-			<li>
-						<label for="cat_num">Cat Num</label>
-            <input type="text" name="cat_num" id="cat_num"  size="17" />
-			</li>--->
-
-
-
 					<li>
 							<label>Container Type</label>
 									<select name="container_type" id="container_type" size="1">
@@ -112,7 +85,6 @@
 								<input class="clrBtn" type="reset" value="Clear" style=""/>
 
           </li>
-                              <input type="hidden" name="transaction_id" id="transaction_id"></li>
 		</ul>
 				<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span> <br>
             <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
@@ -125,15 +97,15 @@
 	<ul>
 		<h5>Search Tips</h5>
 		<li>Use % for unknown letters/characters (a.k.a. wildcard).</li>
-		<li>Double click on a container name in the search results to see the containers within it.</li>
-		<li>Unique Identifier value must match exactly (wildcards are not allowed)</li>
+		<li>Double click on a container name in the search results (under heading "Container Hierarchy") to see the containers within it.</li>
+		<li>Unique Identifier value must match exactly (wildcards are not allowed).</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
 	</ul>
 	<p>This page is important for two types of searches:</p>
 	<ol>
 	<li>A check to see if the container was entered, especially if no specimens have been attached yet (to prevent duplicate entries).
 	</li>
-	<li>A search for a specific container without knowing about what is in it.</li>
+	<li>A search for a specific container without knowing what is in that container.</li>
 	</ol>
 	</div>
 	<div class="rightexamples">
@@ -144,12 +116,9 @@
 	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ-Fr-7").
 	Double-click on IZ-Fr-7 and see all the specimens inside it.
 	From container details (click check box and go to right side of page "See all collection objects..."), you can get a separate page of everything that is in that container, which is easier to print.
-
 	</ul>
 	<p>Find containers of <b>cataloged items</b> by searching the <b>specimen search page
 	 &rarr; manage results &rarr; part report (locations)</b>. </p>
-<!---		<p>Even though the <b>cataloged item</b> containers are better searched through the <b>specimen search pages &rarr; manage results &rarr; part report (locations)</b>,
-		they are included here. Example: Collection + Cat Num (A catalog number has a container type of collection object)</p>--->
 </div>
 </div>
 <script>
@@ -164,13 +133,8 @@ function seetips() {
 }
 </script>
 	<div class="fullPane">
-
 					<div id="treePane" class="cTreePane"></div>
-
-
 					<div id="detailPane"></div>
-
-
 	</div>
 </div>
 </div>
