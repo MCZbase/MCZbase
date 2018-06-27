@@ -100,7 +100,7 @@
 		<li>Double click on a container name in the search results (under heading "Container Hierarchy") to see the containers within it.</li>
 		<li>Unique Identifier value must match exactly (wildcards are not allowed).</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
-		<li>Start with the container name you know (e.g., room container name: MCZ-G048) and double click into the hierarchy until you find the container you need.</li>
+		<li>Start with the container name known (e.g., room container name: MCZ-G048) and double click into the hierarchy until the container is found.</li>
 	</ul>
 	<p>This page is important for two types of searches:</p>
 	<ol>
