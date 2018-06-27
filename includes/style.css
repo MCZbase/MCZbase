@@ -5900,7 +5900,7 @@ div.lefttips {
 	div.lefttips p {
 				float: left;
 				width: 100%;
-				padding: 12px 0;
+				padding: 12px 0 6px 0;
 	}
 div.rightexamples {
 			width: 50%;

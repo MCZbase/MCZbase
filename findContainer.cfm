@@ -124,16 +124,14 @@
 	<div class="lefttips">
 	<ul>
 		<h5>Search Tips</h5>
-
-		<li>Use % for unknown letters/characters (a.k.a. wilcard)</li>
+		<li>Use % for unknown letters/characters (a.k.a. wildcard).</li>
 		<li>Double click on a container name in the search results to see the containers within it.</li>
 		<li>Unique Identifier value must match exactly (wildcards are not allowed)</li>
 		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
-		<li>Don't use collection and cat num fields with name or unique identifier (or container_type&mdash;a cataloged item is always a "collection object"). </li>
 	</ul>
 	<p>This page is important for two types of searches:</p>
 	<ol>
-	<li>A check to see if the container was entered, especially if no specimens have been attached yet (to prevent duplicate entries)
+	<li>A check to see if the container was entered, especially if no specimens have been attached yet (to prevent duplicate entries).
 	</li>
 	<li>A search for a specific container without knowing about what is in it.</li>
 	</ol>
@@ -141,8 +139,8 @@
 	<div class="rightexamples">
 		<h5>Search examples:</h5>
 	<ul>
-	<li>Container Type + part of Name (e.g., fixture + Mamm_cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are)</li>
-	<li>Enter Unique Identifier to see if a barcode has been entered.</li>
+	<li>Container Type + part of Name (e.g., fixture + Mamm_cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are).</li>
+	<li>Enter Unique Identifier to see if a barcode has been entere</li>
 	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ-Fr-7").
 	Double-click on IZ-Fr-7 and see all the specimens inside it.
 	From container details (click check box and go to right side of page "See all collection objects..."), you can get a separate page of everything that is in that container, which is easier to print.
