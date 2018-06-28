@@ -44,32 +44,25 @@
 							<label>Container Type</label>
 									<select name="container_type" id="container_type" size="1">
 											<option value=""></option>
-											<option value="-20 chest freezer">-20 chest freezer</option>
-											<option value="-20 freezer">-20 freezer</option>
-											<option value="-80 freezer">-80 freezer</option>
-											<option value="building">building</option>
-											<option value="cabinet">cabinet</option>
-											<option value="campus">campus</option>
-											<option value="case">case</option>
-											<option value="collection object">collection object</option>
-											<option value="compartment">compartment</option>
+											<option value="campus"><b>campus</b></option>
+											<option value="building"><b>building<b></option>
+											<option value="floor"><b>floor</b></option>
+											<option value="room"><b>room</b></option>
+											<option value="grouping"><b>grouping</b></option>
+											<option value="fixture"><b>fixture</b></option>
+											<option value="compartment"><b>compartment<b></option>
+											<option value="collection object"><b>collection object</b></option>
 											<option value="cryovat">cryovat</option>
 											<option value="cryovial">cryovial</option>
 											<option value="envelope">envelope</option>
-											<option value="fixture">fixture</option>
-											<option value="floor">floor</option>
+											<option value="freezer">freezer</option>
 											<option value="freezer box">freezer box</option>
 											<option value="freezer rack">freezer rack</option>
-											<option value="grouping">grouping</option>
 											<option value="pin">pin</option>
 											<option value="position">position</option>
 											<option value="rack slot">rack slot</option>
-											<option value="room">room</option>
 											<option value="set">set</option>
 											<option value="tank">tank</option>
-											<option value="tank rack">tank rack</option>
-											<option value="tier">tier</option>
-											<option value="tray">tray</option>
 									</select>
 						</li>
 					<li>
