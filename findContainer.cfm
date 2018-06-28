@@ -44,14 +44,15 @@
 							<label>Container Type</label>
 									<select name="container_type" id="container_type" size="1">
 											<option value=""></option>
-											<option value="campus"><b>campus</b></option>
-											<option value="building"><b>building<b></option>
-											<option value="floor"><b>floor</b></option>
-											<option value="room"><b>room</b></option>
-											<option value="grouping"><b>grouping</b></option>
-											<option value="fixture"><b>fixture</b></option>
-											<option value="compartment"><b>compartment<b></option>
-											<option value="collection object"><b>collection object</b></option>
+											<option value="campus">campus</option>
+											<option value="building">building</option>
+											<option value="floor">floor</option>
+											<option value="room">room</option>
+											<option value="grouping">grouping</option>
+											<option value="fixture">fixture</option>
+											<option value="compartment">compartment</option>
+											<option value="collection object">collection object</option>
+												<option value="cryovat">-----------</option>
 											<option value="cryovat">cryovat</option>
 											<option value="cryovial">cryovial</option>
 											<option value="envelope">envelope</option>
