@@ -78,7 +78,7 @@
                 <input type="text" name="container_label" id="container_label" size="20" /></li>
 			    <li>
 								<input type="hidden" name="transaction_id" id="transaction_id">
-								<label>Unique Identifier</label>
+								<label>Unique Identifier (exact match)</label>
                 <input type="text" name="barcode" id="barcode" size="20" /></li>
 		  		<li>
 					  <input type="submit" value="Search" class="schBtn" style="">
@@ -86,7 +86,7 @@
 
           </li>
 		</ul>
-				<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span> <br>
+				<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
             <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
