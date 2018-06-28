@@ -86,7 +86,7 @@
 
           </li>
 		</ul>
-				<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span> <br>
+				<div> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span> <br>
             <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
