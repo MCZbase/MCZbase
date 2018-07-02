@@ -741,7 +741,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								<tr class="detailCellSmall">
 									<td></td>
 									<td class="innerDetailLabel" style="padding-left: 1.75em;padding-top: 0;padding-bottom: .5em;">Coordinate Remarks:
-										#one.lat_long_remarks#
+										#encodeForHTML(one.lat_long_remarks)#
 									</td>
 								</tr>
 							</cfif>

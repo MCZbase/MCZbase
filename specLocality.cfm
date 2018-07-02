@@ -578,14 +578,14 @@
             <tr>
               <td colspan="2"><label for="LAT_LONG_REF_SOURCE"> Reference </label>
                 <input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
-					value="#preservesinglequotes(l.LAT_LONG_REF_SOURCE)#" /></td>
+					value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" /></td>
             </tr>
             <tr>
               <td colspan="3"><label for="LAT_LONG_REMARKS"> Remarks </label>
                 <input type="text"
 					name="LAT_LONG_REMARKS"
 					id="LAT_LONG_REMARKS"
-					value="#preservesinglequotes(l.LAT_LONG_REMARKS)#"
+					value="#encodeForHTML(l.LAT_LONG_REMARKS)#"
 					size="90"></td>
             </tr>
           </table>
@@ -1356,29 +1356,29 @@
 						<cfelse>
 							NULL,
 						</cfif>
-						'#DATUM#',
-						'#UTM_ZONE#',
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#DATUM#">,
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#UTM_ZONE#">,
 						<cfif len(UTM_EW) gt 0>
-							#UTM_EW#,
+						    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#UTM_EW#">,
 						<cfelse>
 							NULL,
 						</cfif>
 						<cfif len(UTM_NS) gt 0>
-							#UTM_NS#,
+						    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#UTM_NS#">,
 						<cfelse>
 							NULL,
 						</cfif>
-						'#ORIG_LAT_LONG_UNITS#',
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
 						<cfif len(DETERMINED_BY_AGENT_ID) gt 0>
-							#DETERMINED_BY_AGENT_ID#,
+						    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
 						<cfelse>
 							NULL,
 						</cfif>
 						to_date('#DETERMINED_DATE#'),
-						'#escapeQuotes(LAT_LONG_REF_SOURCE)#',
-						'#escapeQuotes(LAT_LONG_REMARKS)#',
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
 						<cfif len(MAX_ERROR_DISTANCE) gt 0>
-							#MAX_ERROR_DISTANCE#,
+						    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
 						<cfelse>
 							NULL,
 						</cfif>

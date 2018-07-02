@@ -1662,9 +1662,9 @@ INSERT INTO geog_auth_rec (
 						,'#ORIG_LAT_LONG_UNITS#'
 						,#DETERMINED_BY_AGENT_ID#
 						,'#dateformat(DETERMINED_DATE,"yyyy-mm-dd")#'
-						,'#LAT_LONG_REF_SOURCE#'
+						,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">
 						<cfif len(#LAT_LONG_REMARKS#) gt 0>
-							,'#LAT_LONG_REMARKS#'
+						    ,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">
 						<cfelse>
 							,NULL
 						</cfif>
