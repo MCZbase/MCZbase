@@ -19,35 +19,7 @@
 		});
 	});
 </script>
-<style >
-	.cTreePane {
-		height:400px;
-overflow-y:scroll;
-overflow-x:auto;
-padding: 1em 1em 0 1em;
-	}
-	.ajaxWorking{
-		top: 15%;
-		color: green;
-		text-align: center;
-		margin: auto;
-		position:absolute;
-		max-width: 50%;
-		right:55%;
-		background-color:white;
-		padding:1em;
-		border:1px solid;
-		overflow:hidden;
-		z-index:1;
-		/*overflow-y:scroll;*/
-		}
-	.ajaxDone {display:none}
-	.ajaxMessage {color:green;}
-	.ajaxError {color:red;}
-</style>
-
 <script type='text/javascript' src='/includes/_treeAjax.js'></script>
-
 <cfquery name="contType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select container_type from ctContainer_Type order by container_type
 </cfquery>
@@ -61,129 +33,111 @@ padding: 1em 1em 0 1em;
 	order by OTHER_ID_TYPE
 </cfquery>
 <div id="ajaxMsg"></div>
-<table border width="100%">
-	<tr>
-	<td valign="top" style="padding: 1em; width:26em;">
-        <!--------------------------- search pane ----------------------------->
-        
-        <h4>Find Container:</h4>
-        <div id="searchPane">
-          <div style="border: 1px solid grey; padding:.1em; width: 25.2em; ">
-          <form onSubmit="loadTree();return false;">
-          <div style="border: 1px solid green; padding:.5em; width: 24em;">
 
-            <h5 style="margin-top: 0.5em;">Find container by its properties:</h5>
-            <table>
-              <tr>
-                <cfif not isdefined("container_label")><cfset container_label=""></cfif>
-                <td style="padding-right: 1em;"><label for="container_label">Name (% for wildcard)</label>
-                  <input type="text" name="container_label" id="container_label" value="#container_label#" size="16" /></td>
-                <td><input type="hidden" name="transaction_id" id="transaction_id">
-                  <label for="barcode">Unique Identifier (comma-list OK)</label>
-                  <input type="text" name="barcode" id="barcode" size="17" /></td>
-              </tr>
-              <tr>
-                <cfif not isdefined("parent_label")><cfset parent_label=""></cfif>
-                <td style="padding-right: 1em;"><label for="parent_label">Parent Name</label>
-                  <input type="text" name="parent_label" id="parent_label" value="#parent_label#" size="16" /></td>
-                <td>
-                  <label for="barcode">Parent Unique Identifier</label>
-                  <input type="text" name="parent_barcode" id="_parent_barcode" size="17" />
-                </td>
-              </tr>
-              <tr>
-                <td><label for="container_type">Container Type</label>
-                  <select name="container_type" id="container_type" size="1" style="width: 170px;">
-                    <option value=""></option>
-                    <cfloop query="contType">
-                      <option value="#contType.container_type#">#contType.container_type#</option>
-                    </cfloop>
-                  </select></td>
-                <td><label for="description">Description (% for wildcard)</label>
-                  <input type="text" name="description" id="description" size="17"  /></td>
-              </tr>
-              <tr>
-                <td><label for="in_container_type">Contained By Container Type</label>
-                  <select name="in_container_type" id="in_container_type" size="1" style="width: 170px;">
-                    <option value=""></option>
-                    <cfloop query="contType">
-                      <option value="#contType.container_type#">#contType.container_type#</option>
-                    </cfloop>
-                  </select></td>
-                <td style="vertical-align:bottom">
-		</td>
-              </tr>
-            </table>
-            </div>
-            <div style="border: 1px solid green; padding: .5em;width: 24em;">
-            <h5 style="margin-top: 0.5em;">Find container by the collection object it contains:</h5>
-              <table>
-                <tr>
-                  <td style="padding-right: 1em;"><label for="collection_id">Collection</label>
-                    <select name="collection_id" id="collection_id" size="1" style="width: 170px;">
-                      <option value=""></option>
-                      <cfloop query="collections">
-                        <option value="#collection_id#">#coll#</option>
-                      </cfloop>
-                    </select></td>
-                  <td><label for="cat_num">Cat Num (comma-list OK)</label>
-                    <input type="text" name="cat_num" id="cat_num"  size="17" /></td>
-                </tr>
-                <tr>
-                  <td><label for="other_id_type">Other ID Type</label>
-                    <select name="other_id_type" id="other_id_type" size="1" style="width:170px;">
-                      <option value=""></option>
-                      <cfloop query="ctcoll_other_id_type">
-                        <option value="#ctcoll_other_id_type.other_id_type#">#ctcoll_other_id_type.other_id_type#</option>
-                      </cfloop>
-                    </select></td>
-                  <td><label for="other_id_value">Other ID Value (% for wildcard)</label>
-                    <input type="text" name="other_id_value" id="other_id_value" size="17" />
-                    <input type="hidden" name="collection_object_id" id="collection_object_id" /></td>
-                </tr>
-                <tr>
-                  <td>
-                    <label for="part_name">Part</label>
-                    <input type="text" id="part_name" name="part_name" size="16">
-                    <input type="hidden" name="loan_trans_id" id="loan_trans_id" />
-                    <input type="hidden" name="table_name" id="table_name" />
-                  </td>
-                  <td>
-                    <label for="taxonomy">Any taxonomic element</label>
-                    <input type="text" name="taxonomy" id="taxonomy" size="17" />
-                  </td>
-                </tr>
-              </table>
-            </div>
-               <div style="margin-right: 0.5em; text-align: right; padding-top:.2em; ">
-		  <input type="submit" value="Search" class="schBtn" style="width: 114px;padding-left: 33px;">
-                  &nbsp;
-                  <input class="clrBtn" type="reset" value="Clear"/>
-               </div>
-          </form>
-          <div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span> <br>
+        <!--------------------------- search pane ----------------------------->
+<div id="searchContainer">
+        <h3 style="margin: 1em 2em;">Find Container:</h3>
+        <div id="searchPane">
+          <form onSubmit="loadTree();return false;">
+    <ul class="findContainer">
+					<li>
+							<label>Container Type</label>
+									<select name="container_type" id="container_type" size="1">
+											<option value=""></option>
+											<option value="campus">campus</option>
+											<option value="building">building</option>
+											<option value="floor">floor</option>
+											<option value="room">room</option>
+											<option value="grouping">grouping</option>
+											<option value="fixture">fixture</option>
+											<option value="compartment">compartment</option>
+											<option value="collection object">collection object</option>
+												<option value="cryovat">-----------</option>
+											<option value="cryovat">cryovat</option>
+											<option value="cryovial">cryovial</option>
+											<option value="envelope">envelope</option>
+											<option value="freezer">freezer</option>
+											<option value="freezer box">freezer box</option>
+											<option value="freezer rack">freezer rack</option>
+											<option value="pin">pin</option>
+											<option value="position">position</option>
+											<option value="rack slot">rack slot</option>
+											<option value="set">set</option>
+											<option value="tank">tank</option>
+									</select>
+						</li>
+					<li>
+					   <cfif not isdefined("container_label")><cfset container_label=""></cfif>
+								<label>Name (% for wildcard)</label>
+                <input type="text" name="container_label" id="container_label" size="20" /></li>
+			    <li>
+								<input type="hidden" name="transaction_id" id="transaction_id">
+								<label>Unique Identifier (exact match)</label>
+                <input type="text" name="barcode" id="barcode" size="20" /></li>
+		  		<li>
+					  <input type="submit" value="Search" class="schBtn" style="">
+								<input class="clrBtn" type="reset" value="Clear" style=""/>
+
+          </li>
+		</ul>
+				<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
             <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
             <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
         </div>
 	</div>
-        <br>
-</td>
-      <!--------------------------------- end search pane ------------------------------------->
-		<td valign="top"><!------------------------------------- tree pane --------------------------------------------->
-			<div id="treePane" class="cTreePane"></div>
-		</td><!------------------------------------- end tree pane --------------------------------------------->
+	<a class="seeTipsLink" onclick="seetips()">Search Tips and Examples</a>
+	<div class="tipPane" id="hiddentips" style="display:none;">
+	<div class="lefttips">
+	<ul>
+		<h5>Search Tips</h5>
+		<li>Use % for unknown letters/characters (a.k.a. wildcard).</li>
+		<li>Double click on a container name in the search results (under heading "Container Hierarchy") to see the containers within it.</li>
+		<li>Unique Identifier value must match exactly (wildcards are not allowed).</li>
+		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
+		<li>Start with the container name known (e.g., room container name: MCZ-G048) and double click into the hierarchy until the container is found.</li>
+	</ul>
+	<p>This page is important for two types of searches:</p>
+	<ol>
+	<li>A check to see if the container was entered, especially if no specimens have been attached yet (to prevent duplicate entries).
+	</li>
+	<li>A search for a specific container without knowing what is in that container.</li>
+	</ol>
+	</div>
+	<div class="rightexamples">
+		<h5>Search examples:</h5>
+	<ul>
+	<li>Container Type + part of Name (e.g., fixture + Mamm_cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are).</li>
+	<li>Enter Unique Identifier to see if a barcode has been entered.</li>
+	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ-Fr-7").
+	Double-click on IZ-Fr-7 and see all the specimens inside it.
+	From container details (click check box and go to right side of page "See all collection objects..."), you can get a separate page of everything that is in that container, which is easier to print.
+	</ul>
+	<p>Find containers of <b>cataloged items</b> by searching the <b>specimen search page
+	 &rarr; manage results &rarr; part report (locations)</b>. </p>
+</div>
+</div>
+<script>
+function seetips() {
+    var x = document.getElementById("hiddentips");
 
-		<td valign="top">
-			<div id="detailPane"></div>
-		</td>
-	</tr>
-</table>
-
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+</script>
+	<div class="fullPane">
+					<div id="treePane" class="cTreePane"></div>
+					<div id="detailPane"></div>
+	</div>
+</div>
+</div>
 <div id="thisfooter">
 	<cfinclude template="/includes/_footer.cfm">
 </div>
 
-<cfif isdefined("url.collection_object_id") and len(url.collection_object_id) gt 0 and not isdefined("url.showControl")>
+<cfif isdefined("url.collection_object_id") and len(url.collection_object_id) gt 0 and isdefined("url.showControl")>
 	<script language="javascript" type="text/javascript">
 		try {
 			parent.dyniframesize();
@@ -192,6 +146,27 @@ padding: 1em 1em 0 1em;
 		}
 		showSpecTreeOnly('#url.collection_object_id#');
 	</script>
+<cfelseif isdefined("url.collection_object_id") and len(url.collection_object_id) gt 0 and not isdefined("url.showControl")>
+		<script language="javascript" type="text/javascript">
+			try {
+				parent.dyniframesize();
+			} catch(err) {
+				// not where we think we are, maybe....
+			}
+			showSpecTreeOnly('#url.collection_object_id#');
+		</script>
+<cfelseif isdefined("url.loan_trans_id") and len(url.loan_trans_id) gt 0 and not isdefined("url.showControl")>
+
+		<script language="javascript" type="text/javascript">
+
+			try {
+				parent.dyniframesize();
+			} catch(err) {
+				// not where we think we are, maybe....
+			}
+			showSpecTreeOnlyforLoan('#url.loan_trans_id#');
+		</script>
+
 <cfelse>
 	<cfset autoSubmit=false>
 	<cfloop list="#StructKeyList(url)#" index="key">
