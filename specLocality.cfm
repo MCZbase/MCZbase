@@ -109,6 +109,7 @@
 			collection_object_id,
 			collecting_event_id,
 			LOCALITY_ID,
+            sovereign_nation,
 			geog_auth_rec_id,
 			MAXIMUM_ELEVATION,
 			MINIMUM_ELEVATION,
@@ -285,13 +286,16 @@
      </cfquery>
       <cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
-     </cfquery>
+      </cfquery>
       <cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select COLLECTING_SOURCE from ctcollecting_source
-     </cfquery>
+      </cfquery>
       <cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select geology_attribute from ctgeology_attribute order by geology_attribute
-	</cfquery>
+	  </cfquery>
+      <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	    select sovereign_nation from ctsovereign_nation order by ctsovereign_nation
+      </cfquery>
       <cfform name="loc" method="post" action="specLocality.cfm">
         <input type="hidden" name="action" value="saveChange">
         <input type="hidden" name="nothing" id="nothing">
@@ -320,6 +324,15 @@
 					size="75"
 					required="true"
 					message="Specific Locality is required."></td>
+            </tr>
+            <tr>
+               <td>
+               <label for="sovereign_nation">Sovereign Nation</label>
+   		       <select name="sovereign_nation" id="sovereign_nation" size="1">
+                   <cfloop query="ctSovereignNation">
+               	    <option <cfif isdefined("sovereign_nation") AND ctsovereignnation.sovereign_nation is sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+                   </cfloop>
+               </td>
             </tr>
             <tr>
               <td><label for="verbatim_locality"> Verbatim Locality
@@ -1134,37 +1147,39 @@
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
-					NOGEOREFBECAUSE
+					NOGEOREFBECAUSE, 
+                    SOVEREIGN_NATION
 				) values (
-					#nlid.nlid#,
-					#nGeogId#,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#nlid.nlid#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#nGeogId#">,
 					<cfif len(MAXIMUM_ELEVATION) gt 0>
-						#MAXIMUM_ELEVATION#,
+                        <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MAXIMUM_ELEVATION#">,
 					<cfelse>
 						NULL,
 					</cfif>
 					<cfif len(MINIMUM_ELEVATION) gt 0>
-						#MINIMUM_ELEVATION#,
+                        <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MINIMUM_ELEVATION#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					'#ORIG_ELEV_UNITS#',
-					'#escapeQuotes(SPEC_LOCALITY)#',
-					'#escapeQuotes(LOCALITY_REMARKS)#',
-					'#DEPTH_UNITS#',
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#ORIG_ELEV_UNITS#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#SPEC_LOCALITY#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#DEPTH_UNITS#">,
 					<cfif len(MIN_DEPTH) gt 0>
-						#MIN_DEPTH#,
+                        <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MIN_DEPTH#">,
 					<cfelse>
 						NULL,
 					</cfif>
 					<cfif len(MAX_DEPTH) gt 0>
-						#MAX_DEPTH#,
+                        <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MAX_DEPTH#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					'#escapeQuotes(NOGEOREFBECAUSE)#'
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#NOGEOREFBECAUSE#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#sovereign_nation#">
 				)
-			</cfquery>
+	    </cfquery>
         made loc....
         <cfset etime=now()>
         <cfset tt=DateDiff("s", btime, etime)>

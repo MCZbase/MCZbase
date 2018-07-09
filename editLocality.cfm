@@ -260,6 +260,9 @@
 	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select geology_attribute from ctgeology_attribute order by geology_attribute
      </cfquery>
+    <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	    select sovereign_nation from ctsovereign_nation order by ctsovereign_nation
+    </cfquery>
     <div style="width: 60em;margin: 0 auto;padding: 1em 0 3em 0";>
   	<table>
   		<tr>
@@ -347,6 +350,16 @@
 						name="spec_locality"
 						value="#stripQuotes(spec_locality)#"
 						size="131">
+				</td>
+			</tr>
+            <tr>
+            	<td>
+                   <label for="sovereign_nation">Sovereign Nation</label>
+	    	       <select name="sovereign_nation" id="sovereign_nation" size="1">
+                       <cfloop query="ctSovereignNation">
+            	           <option <cfif isdefined("locDet.sovereign_nation") AND ctsovereignnation.sovereign_nation is locDet.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+                       </cfloop>
+	        	   </select>
 				</td>
 			</tr>
             <tr>
@@ -1481,6 +1494,11 @@
 		<cfset sql = "#sql#,depth_units = '#depth_units#'">
 	<cfelse>
 		<cfset sql = "#sql#,depth_units = null">
+	</cfif>
+	<cfif len(#sovereign_nation#) gt 0>
+		<cfset sql = "#sql#,SOVEREIGN_NATION = '#escapeQuotes(sovereign_nation)#'">
+	<cfelse>
+		<cfset sql = "#sql#,SOVEREIGN_NATION = '[unknown]'">
 	</cfif>
 	<cfif len(#LOCALITY_REMARKS#) gt 0>
 		<cfset sql = "#sql#,LOCALITY_REMARKS = '#escapeQuotes(LOCALITY_REMARKS)#'">

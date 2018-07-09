@@ -85,6 +85,9 @@
 <cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select VerificationStatus from ctVerificationStatus order by VerificationStatus
 </cfquery>
+<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	select sovereign_nation from ctsovereign_nation order by ctsovereign_nation
+</cfquery>
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
@@ -594,6 +597,7 @@ You do not have permission to create Higher Geographies
     	select
 			higher_geog,
 			spec_locality,
+			sovereign_nation,
 			collecting_event.collecting_event_id,
 			locality.locality_id,
 			verbatim_locality,
@@ -1029,6 +1033,12 @@ You do not have permission to create Higher Geographies
 				<input type="button" value="Details" class="lnkBtn"
 					onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
          	</cfif>
+           <label for="sovereign_nation">Sovereign Nation</label>
+		   <select name="sovereign_nation" id="sovereign_nation" size="1">
+                <cfloop query="ctSovereignNation">
+            	    <option <cfif isdefined("sovereign_nation") AND ctsovereignnation.sovereign_nation is sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+                </cfloop>
+		   </select>
            <label for="spec_locality">Specific Locality</label>
            <input type="text" name="spec_locality" id="spec_locality"
 				<cfif isdefined("spec_locality")>
@@ -1508,38 +1518,44 @@ INSERT INTO geog_auth_rec (
 		,ORIG_ELEV_UNITS
 		,SPEC_LOCALITY
 		,LOCALITY_REMARKS
+		,SOVEREIGN_NATION,
 		,LEGACY_SPEC_LOCALITY_FG )
 	VALUES (
-		#nextLoc.nextLoc#,
-		#GEOG_AUTH_REC_ID#
+		<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">,
+		<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GEOG_AUTH_REC_ID#">,
 		<cfif len(#MAXIMUM_ELEVATION#) gt 0>
-			,#MAXIMUM_ELEVATION#
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXIMUM_ELEVATION#">,
 		<cfelse>
-			,NULL
+			NULL,
 		</cfif>
 		<cfif len(#MINIMUM_ELEVATION#) gt 0>
-			,#MINIMUM_ELEVATION#
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MINIMUM_ELEVATION#">,
 		<cfelse>
-			,NULL
+			NULL,
 		</cfif>
 		<cfif len(#orig_elev_units#) gt 0>
-			,'#orig_elev_units#'
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orig_elev_units#">,
 		<cfelse>
-			,NULL
+			NULL,
 		</cfif>
 		<cfif len(#SPEC_LOCALITY#) gt 0>
-			,'#SPEC_LOCALITY#'
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SPEC_LOCALITY#">,
 		<cfelse>
-			,NULL
+			NULL,
+		</cfif>
+		<cfif len(#SOVEREIGN_NATION#) gt 0>
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SOVEREIGN_NATION#">,
+		<cfelse>
+			'[unknown]',
 		</cfif>
 		<cfif len(#LOCALITY_REMARKS#) gt 0>
-			,'#LOCALITY_REMARKS#'
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">,
 		<cfelse>
-			,NULL
+			NULL,
 		</cfif>
 		,0 )
-		</cfquery>
-		<cfif #cloneCoords# is "yes">
+    </cfquery>
+    <cfif #cloneCoords# is "yes">
 			<cfquery name="cloneCoordinates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from lat_long where locality_id = #locality_id#
 			</cfquery>
