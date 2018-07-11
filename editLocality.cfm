@@ -1566,7 +1566,8 @@
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
-					NOGEOREFBECAUSE
+					NOGEOREFBECAUSE,
+                    SOVEREIGN_NATION
 				) VALUES (
 					#lid#,
 					#oldLoc.GEOG_AUTH_REC_ID#
@@ -1614,6 +1615,11 @@
 						,'#oldLoc.NOGEOREFBECAUSE#'
 					<cfelse>
 						,NULL
+					</cfif>
+					<cfif len(#oldLoc.SOVEREIGN_NATION#) gt 0>
+						,'#oldLoc.SOVEREIGN_NATION#'
+					<cfelse>
+						,'[unknown]'
 					</cfif>
 				)
 			</cfquery>
