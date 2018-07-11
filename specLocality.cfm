@@ -109,7 +109,7 @@
 			collection_object_id,
 			collecting_event_id,
 			LOCALITY_ID,
-            sovereign_nation,
+            nvl(sovereign_nation,'[unknown]') as sovereign_nation,
 			geog_auth_rec_id,
 			MAXIMUM_ELEVATION,
 			MINIMUM_ELEVATION,

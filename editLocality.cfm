@@ -192,8 +192,26 @@
 		}
 	}
 </script>
+
+<cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select
+			sovereign_nation, mczbase.suggest_sovereign_nation(locality_id) suggest
+		from
+			locality
+		where
+			locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+</cfquery>
+<cfif len(getSov.sovereign_nation) eq 0>
+   <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      update locality 
+            set sovereign_nation =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSov.suggest#">
+      where sovereign_nation is null and
+			locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+   </cfquery>
+</cfif>
+
 <cfoutput>
-	<cfquery name="locDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="locDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
 			*
 		from
@@ -201,7 +219,7 @@
 			geog_auth_rec
 		where
 			locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id and
-			locality.locality_id=#locality_id#
+			locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfquery name="geolDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
@@ -211,7 +229,7 @@
 			preferred_agent_name
 		where
 			geology_attributes.geo_att_determiner_id = preferred_agent_name.agent_id (+) and
-			geology_attributes.locality_id=#locality_id#
+			geology_attributes.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
@@ -224,7 +242,7 @@
 		WHERE
 			cataloged_item.collecting_event_id = collecting_event.collecting_event_id and
 			cataloged_item.collection_id = collection.collection_id and
-			collecting_event.locality_id=#locality_id#
+			collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		GROUP BY
 			collection.collection
   	</cfquery>
@@ -233,7 +251,7 @@
 			lat_long,
 			preferred_agent_name
 		where determined_by_agent_id = agent_id
-        and locality_id=#locality_id#
+        and locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		order by ACCEPTED_LAT_LONG_FG DESC, lat_long_id
      </cfquery>
      <cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
