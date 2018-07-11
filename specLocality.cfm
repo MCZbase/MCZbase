@@ -101,6 +101,34 @@
 </script>
 
 <cfif action is "nothing">
+
+   <!--- Provide a probably sane value for sovereign_nation if none is currently provided. ---> 
+   <cfquery name="getLID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select distinct
+			locality_id
+		from
+			spec_with_loc
+		where
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+   </cfquery>
+   <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select
+            sovereign_nation, mczbase.suggest_sovereign_nation(locality_id) suggest
+        from
+            locality
+        where
+            locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLID.locality_id#">
+   </cfquery>
+   <cfif len(getSov.sovereign_nation) eq 0>
+      <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      update locality 
+            set sovereign_nation =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSov.suggest#">
+      where sovereign_nation is null and
+            locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLID.locality_id#">
+      </cfquery>
+   </cfif>
+
+
   <div class="basic_wide_box" style="width:75em;">
     <h3 class="wikilink">Locality</h3>
     <cfoutput>
@@ -171,7 +199,7 @@
 		from
 			spec_with_loc
 		where
-			collection_object_id = #collection_object_id#
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
       <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -186,7 +214,7 @@
 		from
 			spec_with_loc
 		where
-			collection_object_id = #collection_object_id# and
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
 			GEOLOGY_ATTRIBUTE is not null
 		group by
 			GEOLOGY_ATTRIBUTE_ID,

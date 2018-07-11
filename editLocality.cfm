@@ -193,6 +193,7 @@
 	}
 </script>
 
+<!--- Provide a probably sane value for sovereign_nation if none is currently provided. ---> 
 <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
 			sovereign_nation, mczbase.suggest_sovereign_nation(locality_id) suggest
