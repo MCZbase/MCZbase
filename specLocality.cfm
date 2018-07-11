@@ -105,7 +105,7 @@
     <h3 class="wikilink">Locality</h3>
     <cfoutput>
       <cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select
+    	select distinct
 			collection_object_id,
 			collecting_event_id,
 			LOCALITY_ID,
@@ -172,68 +172,6 @@
 			spec_with_loc
 		where
 			collection_object_id = #collection_object_id#
-		group by
-			collection_object_id,
-			collecting_event_id,
-			LOCALITY_ID,
-			geog_auth_rec_id,
-			MAXIMUM_ELEVATION,
-			MINIMUM_ELEVATION,
-			ORIG_ELEV_UNITS,
-			SPEC_LOCALITY,
-			LOCALITY_REMARKS,
-			DEPTH_UNITS,
-			MIN_DEPTH,
-			MAX_DEPTH,
-			NOGEOREFBECAUSE,
-			LAT_LONG_ID,
-			LAT_DEG,
-			DEC_LAT_MIN,
-			LAT_MIN,
-			LAT_SEC,
-			LAT_DIR,
-			LONG_DEG,
-			DEC_LONG_MIN,
-			LONG_MIN,
-			LONG_SEC,
-			LONG_DIR,
-			DEC_LAT,
-			DEC_LONG,
-			UTM_ZONE,
-			UTM_EW,
-			UTM_NS,
-			DATUM,
-			ORIG_LAT_LONG_UNITS,
-			DETERMINED_BY_AGENT_ID,
-			coordinate_determiner,
-			DETERMINED_DATE,
-			LAT_LONG_REMARKS,
-			MAX_ERROR_DISTANCE,
-			MAX_ERROR_UNITS,
-			ACCEPTED_LAT_LONG_FG,
-			EXTENT,
-			GPSACCURACY,
-			GEOREFMETHOD,
-			VERIFICATIONSTATUS,
-			LAT_LONG_REF_SOURCE,
-			HIGHER_GEOG,
-			BEGAN_DATE,
-			ENDED_DATE,
-			VERBATIM_DATE,
-			VERBATIM_LOCALITY,
-			COLL_EVENT_REMARKS,
-			COLLECTING_SOURCE,
-			COLLECTING_METHOD,
-			HABITAT_DESC,
-			COLLECTING_TIME,
-			FISH_FIELD_NUMBER,
-			VERBATIMCOORDINATES,
-		    VERBATIMLATITUDE,
-		    VERBATIMLONGITUDE,
-		    VERBATIMCOORDINATESYSTEM,
-		    VERBATIMSRS,
-		    STARTDAYOFYEAR,
-		    ENDDAYOFYEAR
 	</cfquery>
       <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
