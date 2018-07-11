@@ -234,6 +234,17 @@
       <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
       </cfquery>
+
+      <cfquery name="cecount" datasource="uam_god">
+         select count(collection_object_id) ct from cataloged_item 
+         where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#collecting_event_id#">
+      </cfquery>
+      <cfquery name="loccount" datasource="uam_god">
+         select count(ci.collection_object_id) ct from cataloged_item ci
+             left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
+         where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#locality_id#">
+      </cfquery>
+      <cfform name="loc" method="post" action="specLocality.cfm">
       <cfform name="loc" method="post" action="specLocality.cfm">
         <input type="hidden" name="action" value="saveChange">
         <input type="hidden" name="nothing" id="nothing">
@@ -253,8 +264,10 @@
 					onchange="getGeog('nothing','higher_geog','loc',this.value); return false;"></td>
             </tr>
             <tr>
-              <td><label for="spec_locality"> Specific Locality
-                  &nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a> </label>
+              <td><label for="spec_locality"> Specific Locality 
+                  &nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a> 
+                  <cfif loccount.ct eq 1>(unique to this specimen)<cfelse>(shared with #loccount.ct# specimens)
+                  </label>
                 <cfinput type="text"
 					name="spec_locality"
 					id="spec_locality"
@@ -274,7 +287,9 @@
             </tr>
             <tr>
               <td><label for="verbatim_locality"> Verbatim Locality
-                  &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a> </label>
+                  &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
+                  <cfif cecount.ct eq 1>(unique to this specimen)<cfelse>(shared with #cecount.ct# specimens)
+ </label>
                 <cfinput type="text"
 					name="verbatim_locality"
 					id="verbatim_locality"
