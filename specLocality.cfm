@@ -232,7 +232,7 @@
 		select geology_attribute from ctgeology_attribute order by geology_attribute
 	  </cfquery>
       <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	    select sovereign_nation from ctsovereign_nation order by ctsovereign_nation
+	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
       </cfquery>
       <cfform name="loc" method="post" action="specLocality.cfm">
         <input type="hidden" name="action" value="saveChange">
