@@ -245,7 +245,6 @@
          where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#locality_id#">
       </cfquery>
       <cfform name="loc" method="post" action="specLocality.cfm">
-      <cfform name="loc" method="post" action="specLocality.cfm">
         <input type="hidden" name="action" value="saveChange">
         <input type="hidden" name="nothing" id="nothing">
         <input type="hidden" name="collection_object_id" value="#collection_object_id#">
