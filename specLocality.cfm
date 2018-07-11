@@ -268,7 +268,7 @@
                <label for="sovereign_nation">Sovereign Nation</label>
    		       <select name="sovereign_nation" id="sovereign_nation" size="1">
                    <cfloop query="ctSovereignNation">
-               	    <option <cfif isdefined("sovereign_nation") AND ctsovereignnation.sovereign_nation is sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+               	    <option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
                    </cfloop>
                </td>
             </tr>
@@ -936,6 +936,7 @@
 					NVL(MIN_DEPTH,-1) = nvl('#min_depth#',-1) AND
 					NVL(MAX_DEPTH,-1) = nvl('#max_depth#',-1) AND
 					NVL(SPEC_LOCALITY,'NULL') = NVL('#escapeQuotes(spec_locality)#','NULL') AND
+					NVL(SOVEREIGN_NATION,'NULL') = NVL('#escapeQuotes(sovereign_nation)#','NULL') AND
 					NVL(LOCALITY_REMARKS,'NULL') = NVL('#escapeQuotes(locality_remarks)#','NULL') AND
 					NVL(DEPTH_UNITS,'NULL') = NVL('#depth_units#','NULL') AND
 					NVL(NOGEOREFBECAUSE,'NULL') = NVL('#escapeQuotes(nogeorefbecause)#','NULL')  AND
