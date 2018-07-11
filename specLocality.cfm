@@ -237,12 +237,12 @@
 
       <cfquery name="cecount" datasource="uam_god">
          select count(collection_object_id) ct from cataloged_item 
-         where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#collecting_event_id#">
+         where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
       </cfquery>
       <cfquery name="loccount" datasource="uam_god">
          select count(ci.collection_object_id) ct from cataloged_item ci
              left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
-         where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#locality_id#">
+         where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
       </cfquery>
       <cfform name="loc" method="post" action="specLocality.cfm">
         <input type="hidden" name="action" value="saveChange">
@@ -905,8 +905,18 @@
             </tr>
 
           <tr>
-            <td colspan="2" align="center"><input type="submit" value="Save Changes" class="savBtn"
-   				onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'"></td>
+            <td colspan="2" align="center">
+            <cfif loccount.ct eq 1 and cecount.ct eq 1>
+                <input type="submit" value="Save Changes" class="savBtn"
+   				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
+            <cfelse>
+                <span>
+                <input type="submit" value="Split and Save Changes" class="savBtn"
+   				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
+                A new locality and collecting event will be created with these values and changes will apply to this record only.
+                </span>
+            </cfif>
+            </td>
           </tr>
         </table>
       </cfform>
