@@ -9,6 +9,9 @@
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from ctpermit_type
 </cfquery>
+<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select * from ctspecific_permit_type
+</cfquery>
 <cfif #action# is "nothing">
 <cfset title = "Find Permits">
 <cfoutput>
@@ -43,7 +46,7 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 			<td><input type="text" name="exp_until_date"></td>
 		</tr>
 		<tr>
-			<td align="right">Permit Type</td>
+			<td align="right">Permit Category</td>
 			<td>
 				<select name="permit_type" size="1">
 					<option value=""></option>
@@ -52,14 +55,27 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 					</cfloop>
 				</select>
 			</td>
-			<td align="right">Remarks</td>
-			<td><input type="text" name="permit_remarks"></td>
+			<td align="right">Specific Permit Type</td>
+			<td>
+				<select name="specific_type" size="1">
+					<option value=""></option>
+					<cfloop query="ctSpecificPermitType">
+						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
+					</cfloop>
+				</select>
+			</td>
 		</tr>
 		<tr>
 			<td align="right">Permit Number</td>
 			<td><input type="text" name="permit_num"></td>
+			<td align="right">Permit Title</td>
+			<td><input type="text" name="permit_title"></td>
+		</tr>
+		<tr>
 			<td align="right">Contact Agent</td>
 			<td><input type="text" name="ContactAgent"></td>
+			<td align="right">Remarks</td>
+			<td><input type="text" name="permit_remarks"></td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
@@ -94,6 +110,8 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 <cfparam name="exp_Date" default="">
 <cfparam name="permit_Num" default="">
 <cfparam name="permit_Type" default="">
+<cfparam name="specific_type" default="">
+<cfparam name="permit_title" default="">
 <cfparam name="permit_remarks" default="">
 <cfparam name="permit_id" default="">
 <cfparam name="ContactAgent" default="">
@@ -196,6 +214,14 @@ where
 	<cfset permit_Type = #replace(permit_type,"'","''","All")#>
 	<cfset sql = "#sql# AND permit_type = '#permit_type#'">
 </cfif>
+<cfif len(#permit_title#) gt 0>
+	<cfset permit_title = #replace(permit_title,"'","''","All")#>
+	<cfset sql = "#sql# AND permit_title = '#permit_title#'">
+</cfif>
+<cfif len(#specific_type#) gt 0>
+	<cfset specific_type = #replace(specific_type,"'","''","All")#>
+	<cfset sql = "#sql# AND specific_type = '#specific_type#'">
+</cfif>
 <cfif len(#permit_remarks#) gt 0>
 	<cfset sql = "#sql# AND upper(permit_remarks) like '%#ucase(permit_remarks)#%'">
 </cfif>
@@ -240,6 +266,38 @@ where
 		<td>
 			<strong>Permit Type</strong>
 			<cfset thisTerm = "permit_Type">
+			<cfset thisName = #replace(thisTerm,",","_","all")#>
+			<br>
+			<a href="javascript: void"
+				onClick="reorder.order_by.value='#thisTerm#';reorder.order_order.value='asc';reorder.submit();"
+				onMouseOver="self.status='Sort Ascending.';#thisName#up.src='/images/up_mo.gif';return true;"
+				onmouseout="self.status='';#thisName#up.src='/images/up.gif';return true;">
+				<img src="/images/up.gif" border="0" name="#thisName#up"></a>
+			<a href="javascript: void"
+				onClick="reorder.order_by.value='#thisTerm#';reorder.order_order.value='desc';reorder.submit();"
+				onMouseOver="self.status='Sort Descending.';#thisName#dn.src='/images/down_mo.gif';return true;"
+				onmouseout="self.status='';#thisName#dn.src='/images/down.gif';return true;">
+				<img src="/images/down.gif" border="0" name="#thisName#dn"></a>
+		</td>
+		<td>
+			<strong>Specific Type</strong>
+			<cfset thisTerm = "specific_type">
+			<cfset thisName = #replace(thisTerm,",","_","all")#>
+			<br>
+			<a href="javascript: void"
+				onClick="reorder.order_by.value='#thisTerm#';reorder.order_order.value='asc';reorder.submit();"
+				onMouseOver="self.status='Sort Ascending.';#thisName#up.src='/images/up_mo.gif';return true;"
+				onmouseout="self.status='';#thisName#up.src='/images/up.gif';return true;">
+				<img src="/images/up.gif" border="0" name="#thisName#up"></a>
+			<a href="javascript: void"
+				onClick="reorder.order_by.value='#thisTerm#';reorder.order_order.value='desc';reorder.submit();"
+				onMouseOver="self.status='Sort Descending.';#thisName#dn.src='/images/down_mo.gif';return true;"
+				onmouseout="self.status='';#thisName#dn.src='/images/down.gif';return true;">
+				<img src="/images/down.gif" border="0" name="#thisName#dn"></a>
+		</td>
+		<td>
+			<strong>Permit Title</strong>
+			<cfset thisTerm = "permit_title">
 			<cfset thisName = #replace(thisTerm,",","_","all")#>
 			<br>
 			<a href="javascript: void"
@@ -378,6 +436,8 @@ where
 	<tr>
 		<td>#permit_Num#</td>
 		<td>#permit_Type#</td>
+		<td>#specific_type#</td>
+		<td>#permit_title#</td>
 		<td>#IssuedToAgent#</td>
 		<td>#IssuedByAgent#</td>
 		<td>#dateformat(issued_Date,"yyyy-mm-dd")#</td>
@@ -500,6 +560,19 @@ where
 					</cfloop>
 				</select>
 			</td>
+			<td>Specific Type</td>
+			<td>
+				<select name="specific_type" size="1" class="reqdClr">
+					<option value=""></option>
+					<cfloop query="ctSpecificPermitType">
+						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
+					</cfloop>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Permit Title</td>
+			<td><input type="text" name="permit_title"></td>
 			<td>Remarks</td>
 			<td><input type="text" name="permit_remarks"></td>
 		</tr>
@@ -557,6 +630,8 @@ where
     benefits_provided,
 	permit_Num,
 	permit_Type,
+	specific_type,
+	permit_title,
 	permit_remarks
 	from
 		permit,
@@ -663,6 +738,19 @@ function opendialog(page,id,title) {
 					</cfloop>
 				</select>
 			</td>
+			<td>Specific Type</td>
+			<td>
+				<select name="permit_Type" class="reqdClr" size="1">
+					<option value=""></option>
+					<cfloop query="ctSpecificPermitType">
+						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.speciric_type#">#ctSpecificPermitType.specific_type#</option>
+					</cfloop>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Permit Title</td>
+			<td><input type="text" name="permit_title" value="#permit_title#"></td>
 			<td>Remarks</td>
 			<td><input type="text" name="permit_remarks" value="#permit_remarks#"></td>
 		</tr>
@@ -866,6 +954,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
     benefits_provided,
     permit_Num,
     permit_Type,
+    specific_type,
+    permit_title,
     permit_remarks
     from
         permit,
@@ -1141,10 +1231,16 @@ UPDATE permit SET
 	 	,PERMIT_NUM = '#PERMIT_NUM#'
 	 </cfif>
 	 <cfif len(#PERMIT_TYPE#) gt 0>
-	 	,PERMIT_TYPE = '#PERMIT_TYPE#'
+	 	,PERMIT_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+	 </cfif>
+	 <cfif len(#PERMIT_TYPE#) gt 0>
+	 	,SPECIFIC_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+	 </cfif>
+	 <cfif len(#PERMIT_TITLE#) gt 0>
+	 	,PERMIT_TITLE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
 	 </cfif>
 	<cfif len(#PERMIT_REMARKS#) gt 0>
-	 	,PERMIT_REMARKS = '#PERMIT_REMARKS#'
+	 	,PERMIT_REMARKS = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
     </cfif>
 	<cfif len(#restriction_summary#) gt 0>
 	 	,restriction_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
@@ -1156,11 +1252,11 @@ UPDATE permit SET
 	 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="'#benefits_provided#">
     </cfif>
 	 <cfif len(#contact_agent_id#) gt 0>
-	 	,contact_agent_id = #contact_agent_id#
+	 	,contact_agent_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#contact_agent_id#">
 	<cfelse>
 		,contact_agent_id = null
 	 </cfif>
-	 where  permit_id = #permit_id#
+	 where  permit_id =  <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 </cfquery>
 <cflocation url="Permit.cfm?Action=editPermit&permit_id=#permit_id#">
 </cfoutput>
@@ -1190,6 +1286,12 @@ INSERT INTO permit (
 	 	,PERMIT_NUM
 	 </cfif>
 	 ,PERMIT_TYPE
+	 <cfif len(#SPECIFIC_TYPE#) gt 0>
+	 	,SPECIFIC_TYPE
+	 </cfif>
+	 <cfif len(#PERMIT_TITLE#) gt 0>
+	 	,PERMIT_TITLE
+	 </cfif>
 	 <cfif len(#PERMIT_REMARKS#) gt 0>
 	 	,PERMIT_REMARKS
 	 </cfif>
@@ -1219,9 +1321,15 @@ VALUES (
 	 	,'#dateformat(EXP_DATE,"yyyy-mm-dd")#'
 	 </cfif>
 	 <cfif len(#PERMIT_NUM#) gt 0>
-	 	,'#PERMIT_NUM#'
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
 	 </cfif>
-	 ,'#PERMIT_TYPE#'
+	 , <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+	<cfif len(#SPECIFIC_TYPE#) gt 0>
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+	 </cfif>
+	<cfif len(#PERMIT_TITLE#) gt 0>
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+	 </cfif>
 	<cfif len(#PERMIT_REMARKS#) gt 0>
 	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
 	 </cfif>
@@ -1235,7 +1343,7 @@ VALUES (
 	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="'#benefits_provided#">
      </cfif>
 	 <cfif len(#contact_agent_id#) gt 0>
-	 	,#contact_agent_id#
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="'#contact_agent_id#">
 	 </cfif>)
 </cfquery>
         <cfif isdefined("headless") and headless EQ 'true'>
