@@ -249,6 +249,15 @@
 	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 	ORDER BY cat_num
 </cfquery>
+<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select count(*) as ct, sovereign_nation from  
+        loan_item left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+                  left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+                  left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+                  left join locality on collecting_event.locality_id = locality.locality_id
+    where 
+	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+</cfquery>
 <!--- Obtain list of preserve_method values for the collection that this loan is from --->
 <cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select ct.preserve_method, c.collection_cde from ctspecimen_preserv_method ct 
@@ -298,7 +307,13 @@
 
 Review items in loan<b>
 	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
-	<br>There are #partCount# items from #catCount# specimens in this loan.
+	<p>There are #partCount# items from #catCount# specimens in this loan.</p>
+	<h3>Countries of Origin</h3>
+    <cfset sep="">
+    <cfloop query=ctSovereignNation>
+      <span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+      <cfset sep="; ">
+    </cfloop>
 	<br>
 	<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
 	<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
