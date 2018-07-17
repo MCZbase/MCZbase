@@ -167,7 +167,7 @@ div.rightexamples p {
 .cTreePane p {
 	width: 70%;
 }
-.newContBtn {
+a.newContBtn {
 	float: right;
 	width: auto;
 	background-color: lightblue;
@@ -178,11 +178,11 @@ div.rightexamples p {
 	font-size: 13px;
 	color: #666;
 }
-.newContBtn:hover{
+a.newContBtn:hover{
 	border-color: #FF6633;
 	cursor: pointer;
 }
-.newContBtn:visited{
+a.newContBtn:visited{
 	color:#666;
 }
 @media(max-width:1000px) {
