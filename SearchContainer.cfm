@@ -98,7 +98,7 @@
 		<li>Use % for unknown letters/characters (a.k.a. wildcard).</li>
 		<li>Double click on a container name in the search results (under heading "Container Hierarchy") to see the containers within it.</li>
 		<li>Unique Identifier value must match exactly (wildcards are not allowed).</li>
-		<li>If search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
+		<li>If the search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
 		<li>Start with the container name known (e.g., room container name: MCZ-G048) and double click into the hierarchy until the container is found.</li>
 	</ul>
 	</div>
