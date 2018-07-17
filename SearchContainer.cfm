@@ -107,7 +107,9 @@
 	<ul>
 	<li>Container Type + part of Name (e.g., fixture + Mamm_cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are).</li>
 	<li>Enter Unique Identifier to see if a barcode has been entered. The exact match can show problems with formatting. Here: Mamm_cabinet-1 and Mamm_cabinet_1 are different but in the name field they are the same.</li>
-	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ_freezer-1"). Double-click on the last result in the tree and see all the specimens inside it.	In container details (click check box and go to right side of page "See all collection objects..."), you can get a separate page of everything that is in that container, which is easier to print.
+	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ_freezer-1").
+	Double-click on the last result in the tree and see all the freezer boxes inside it.
+	In container details on the right side of page (click check box on left panel to reveal it), "See all collection objects...") where you can get a separate page of everything that is in that container (printer friendly).
 	</ul>
 	</div>
 </div>
