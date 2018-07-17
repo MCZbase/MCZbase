@@ -80,11 +80,12 @@
 
           </li>
 		</ul>
-				<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
-            <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
-            <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
-        </div>
-	</div>
+		<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
+				<span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
+				<span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
+		</div>
+</div>
+<div>
 	<input type="button" class="seeTipsLink" id="contBtn" onclick="seetips()" value="Show tips and examples">
 	<div class="tipPane" id="hiddentips" style="display:none;">
 	<div class="lefttips">
@@ -108,7 +109,9 @@
 	<li>Enter Unique Identifier to see if a barcode has been entered. The exact match can show problems with formatting. Here: Mamm_cabinet-1 and Mamm_cabinet_1 are different but in the name field they are the same.</li>
 	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ_freezer-1"). Double-click on the last result in the tree and see all the specimens inside it.	In container details (click check box and go to right side of page "See all collection objects..."), you can get a separate page of everything that is in that container, which is easier to print.
 	</ul>
-		</div>
+	</div>
+</div>
+</div>
 		<script>
 		function seetips() {
 		    var x = document.getElementById("hiddentips");
@@ -124,16 +127,12 @@
 		    }
 		}
 		</script>
-	<div class="fullPane">
-					<div id="treePane" class="cTreePane"></div>
-					<div id="detailPane"></div>
-	</div>
-</div>
-</div>
-<div id="thisfooter">
-	<cfinclude template="/includes/_footer.cfm">
-</div>
-
+			<div class="fullPane">
+							<div id="treePane" class="cTreePane"></div>
+							<div id="detailPane"></div>
+			</div>
+		</div>
+		</div>
 <cfif isdefined("url.collection_object_id") and len(url.collection_object_id) gt 0 and isdefined("url.showControl")>
 	<script language="javascript" type="text/javascript">
 		try {
