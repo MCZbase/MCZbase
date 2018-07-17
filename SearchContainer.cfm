@@ -109,7 +109,7 @@
 	<li>Enter Unique Identifier to see if a barcode has been entered. The exact match can show problems with formatting. Here: Mamm_cabinet-1 and Mamm_cabinet_1 are different but in the name field they are the same.</li>
 	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ_freezer-1").
 	Double-click on the last result in the tree and see all the freezer boxes inside it.
-	In container details on the right side of page (click check box on left panel to reveal it), "See all collection objects...") where you can get a separate page of everything that is in that container (printer friendly).
+	In container details on the right side of page (click check box on left panel to reveal it), click "See all collection objects..." where you can get a separate page of everything that is in that container (printer friendly).
 	</ul>
 	</div>
 </div>
