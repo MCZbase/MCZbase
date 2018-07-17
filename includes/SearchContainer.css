@@ -178,6 +178,13 @@ div.rightexamples p {
 	font-size: 13px;
 	color: #666;
 }
+.newContBtn:hover{
+	border-color: #FF6633;
+	cursor: pointer;
+}
+.newContBtn:visited{
+	color:#666;
+}
 @media(max-width:1000px) {
 ul.findContainer {
 	padding: 0 1em;
