@@ -164,6 +164,20 @@ div.rightexamples p {
 		width: 100%;
 		padding: 12px 0;
 }
+.cTreePane p {
+	width: 70%;
+}
+.newContBtn {
+	float: right;
+	width: auto;
+	background-color: lightblue;
+	border: 1px solid #336666;
+	font-weight: bold;
+	padding: .75em;
+	border-radius: 5px;
+	font-size: 13px;
+	color: #666;
+}
 @media(max-width:1000px) {
 ul.findContainer {
 	padding: 0 1em;

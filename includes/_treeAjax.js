@@ -104,7 +104,7 @@ function loadTree_success(r) {
 	} else{
 		theTreeDiv.className="cTreePane";
         theTreeDiv.innerHTML = '';
-		theTreeDiv.innerHTML = '<h4>Container Hierarchy</h4><p>Click on a check box for container details.  Double click on a container to list what is inside it.</p>';
+		theTreeDiv.innerHTML = '<h4>Container Hierarchy</h4> <a class=\"newContBtn\">Create Container</a><p>Click on a check box for container details.  Double click on a container name to list what is inside it. Create a container if it does not exist.</p>';
 		newTree=new dhtmlXTreeObject("treePane","100%","100%;",0);
 		newTree.setImagePath("/images/dhtmlxTree/");
 		newTree.insertNewItem("0","container0","The Universe",0,0,0,0,"SELECT");
