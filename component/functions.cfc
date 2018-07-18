@@ -1967,7 +1967,6 @@
 <!------------------------------------------------------------------>
 <cffunction name="changeexclusive_collection_id" access="remote">
 	<cfargument name="tgt" type="string" required="yes">
-	<cfinclude template="/includes/functionLib.cfm">
 	<cftry>
 		<cfquery name="up" datasource="cf_dbuser">
 			UPDATE cf_users SET
@@ -3555,7 +3554,6 @@
 	<cfargument name="idType" type="string" required="yes">
 	<cfargument name="idvalue" type="numeric" required="yes">
 	<cfargument name="annotation" type="string" required="yes">
-	<cfinclude template="/includes/functionLib.cfm">
 	<cftry>
 		<cfquery name="insAnn" datasource="uam_god">
 			insert into annotations (
