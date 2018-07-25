@@ -4617,6 +4617,8 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
   content: none;
 }
 */
+
+
 @media only screen and (max-width: 1800px) {
 #headerContent {
 	width: 90%;
@@ -5870,4 +5872,10 @@ form#newLoan {float: left;}
 		padding: 1px 100% 1px 8px;
 		line-height: 14px;
 		border-left: 1px solid white;
+	}
+
+
+	@media only screen and (max-width: 767px) {
+	ul.headercol4 {width: 96%;margin-top: 0;float:left;}
+	ul.headercol1 {width: 80%}
 	}
