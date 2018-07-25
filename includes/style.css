@@ -4149,7 +4149,7 @@ ul.headercol1 {
 	float: left;
 	list-style: none;
 	background: none;
-	width: 40%;
+	width: auto;
 	padding: .5em;
 	margin-left: 1em;
 }
@@ -4852,7 +4852,7 @@ ul.headercol1 {
 	float: left;
 	list-style: none;
 	background: none;
-	width: 40%;
+	width:auto;
 	padding: .5em;
 	margin-left: 1em;
 }
@@ -5877,5 +5877,5 @@ form#newLoan {float: left;}
 
 	@media only screen and (max-width: 767px) {
 	ul.headercol4 {width: 96%;margin-top: 0;float:left;}
-	ul.headercol1 {width: 80%}
+	ul.headercol1 {width: auto;}
 	}
