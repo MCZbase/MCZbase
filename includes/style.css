@@ -4149,7 +4149,7 @@ ul.headercol1 {
 	float: left;
 	list-style: none;
 	background: none;
-	width: auto;
+	width: 40%;
 	padding: .5em;
 	margin-left: 1em;
 }
@@ -4180,10 +4180,10 @@ ul.headercol4 {
 	float: right;
 	list-style: none;
 	background: none;
-	width: auto;
+	width: 40%;
 	text-align: right;
 	padding: .5em;
-	margin-top: 1em;
+	margin-top: 0;
 	font-size: 15px;
 }
 ul.headercol4 li {
@@ -4850,7 +4850,7 @@ ul.headercol1 {
 	float: left;
 	list-style: none;
 	background: none;
-	width: auto;
+	width: 40%;
 	padding: .5em;
 	margin-left: 1em;
 }
@@ -4881,10 +4881,10 @@ ul.headercol4 {
 	float: right;
 	list-style: none;
 	background: none;
-	width: auto;
+	width: 40%;
 	text-align: right;
 	padding: .5em;
-	margin-top: 1em;
+	margin-top: 0;
 	font-size: 15px;
 }
 ul.headercol4 li {

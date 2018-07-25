@@ -215,7 +215,7 @@ function opendialogrank(page,id,title,agentId) {
 		</cfif>
         <div style="padding: 1em;">
 		<h3 class="wikilink" style="margin-bottom:.5em;"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Standards')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
-		
+
 		<strong>#nameStr#</strong> (#agent_type#) {ID: #agent_id#}
 		<cfif len(#person.agent_remarks#) gt 0>
 			#person.agent_remarks#
@@ -229,20 +229,20 @@ function opendialogrank(page,id,title,agentId) {
 				select count(*) || ' ' || agent_rank agent_rank from agent_rank where agent_id=#agent_id# group by agent_rank
 			</cfquery>
          &nbsp; &nbsp;
-			
+
 			<span id="agentRankSummary" style="font-size: 13px;margin: 1em 0;">
 			<cfif rank.recordcount gt 0>
 				Previous Ranking: #valuelist(rank.agent_rank,"; ")#
-                                <cfif  #valuelist(rank.agent_rank,"; ")# contains 'F'> 
+                                <cfif  #valuelist(rank.agent_rank,"; ")# contains 'F'>
                                     <img src='/images/flag-red.svg.png' width='16'>
                                 </cfif>
 			</cfif></span>
           		<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
  				<input type="button" class="lnkBtn" value="Rank" onclick="opendialogrank('/form/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#);">
-			
+
 			&nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Ranking')" class="likeLink" style="margin-top: -15px;" alt="[ help ]"></cfif>
                          <div id="agentRankDlg_#agent_id#"></div>
-                         
+
 	   </cfif>
            <cfif listcontainsnocase(session.roles, "manage_transactions")>
               </p>
@@ -298,7 +298,7 @@ function opendialogrank(page,id,title,agentId) {
 				<cfset i=#i#+1>
 			</div>
 		</cfloop>
-	
+
 		<cfset i=1>
 		<cfloop query="elecagentAddrs">
 			<form name="elad#i#" method="post" action="editAllAgent.cfm">
@@ -394,7 +394,7 @@ function opendialogrank(page,id,title,agentId) {
 		<form name="editNonPerson" action="editAllAgent.cfm" method="post" target="_person">
 			<input type="hidden" name="agent_id" value="#agent_id#">
 			<input type="hidden" name="action" value="editNonPerson">
-			
+
 					<table>
 						<tr>
 							<td colspan="4">
@@ -412,7 +412,7 @@ function opendialogrank(page,id,title,agentId) {
 							</td>
 						</tr>
 					</table>
-                  
+
 		</form>
 		</cfoutput>
 	</cfif>
@@ -461,7 +461,7 @@ function opendialogrank(page,id,title,agentId) {
 				<input type="hidden" name="member_id">
 				<div class="newRec" style="margin-top: 1em;">
 					<label for="">Add Member to Group</label>
-					<input type="text" name="group_member" class="reqdClr"
+					<input type="text" name="group_member" class="reqdClr" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						onchange="getAgent('member_id','group_member','newGroupMember',this.value); return false;"
 				 		onKeyPress="return noenter(event);">
 					<input type="submit" class="insBtn" value="Add Group Member">
@@ -487,12 +487,12 @@ function opendialogrank(page,id,title,agentId) {
 				<input type="hidden" name="agent_id" value="#pname.agent_id#">
 				<input type="hidden" name="agent_name_type" value="#pname.agent_name_type#">
 				<label for="agent_name">Preferred Name</label>
-				<input type="text" value="#pname.agent_name#" name="agent_name" id="agent_name">
+				<input type="text" value="#pname.agent_name#" name="agent_name" id="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
 				<input type="button" value="Update" class="savBtn" onClick="a#i#.action.value='updateName';a#i#.submit();">
                 <input type="button" value="Copy" class="lnkBtn" onClick="newName.agent_name.value='#pname.agent_name#';">
                 <span class="hints" style="color: green;">(add a space between initials for all forms with two initials)</span>
 			</form>
-            
+
 			<cfset i=i+1>
 			<label>Other Names</label>
 			<cfloop query="npname">
@@ -506,14 +506,14 @@ function opendialogrank(page,id,title,agentId) {
 								value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
 						</cfloop>
 					</select>
-					<input type="text" value="#npname.agent_name#" name="agent_name">
+					<input type="text" value="#npname.agent_name#" name="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
 					<input type="button" value="Update" class="savBtn" onClick="a#i#.action.value='updateName';a#i#.submit();">
 					<input type="button" value="Delete" class="delBtn" onClick="a#i#.action.value='deleteName';confirmDelete('a#i#');">
 					<input type="button" class="lnkBtn" value="Copy" onClick="newName.agent_name.value='#pname.agent_name#';">
 				</form>
 				<cfset i = i + 1>
 			</cfloop>
-	
+
 		<div id="nagnndv" class="newRec" style="padding-top: 0em;">
 			<label for="nagnndv">Add agent name</label>
 			<form name="newName" action="editAllAgent.cfm" method="post" target="_person">
@@ -524,7 +524,7 @@ function opendialogrank(page,id,title,agentId) {
 						<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
 					</cfloop>
 				</select>
-				<input type="text" name="agent_name" id="agent_name">
+				<input type="text" name="agent_name" id="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
 				<input type="submit" class="insBtn" value="Create Name">
 			</form>
 		</div>
@@ -558,7 +558,7 @@ function opendialogrank(page,id,title,agentId) {
 								>#ctRelns.AGENT_RELATIONSHIP#</option>
 						</cfloop>
 					</select>
-					<input type="text" name="related_agent" class="reqdClr" value="#agent_name#"
+					<input type="text" name="related_agent" class="reqdClr" value="#agent_name#" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						onchange="getAgent('newRelatedAgentId','related_agent','agentRelations#i#',this.value); return false;"
 						onKeyPress="return noenter(event);">
 					<input type="button" class="savBtn" value="Save" onClick="agentRelations#i#.action.value='changeRelated';agentRelations#i#.submit();">
@@ -566,7 +566,7 @@ function opendialogrank(page,id,title,agentId) {
 				</form>
 				<cfset i=#i#+1>
 			</cfloop>
-		
+
 		<div class="newRec" style="margin-top: 1em;">
 			<label>Add Relationship</label>
 			<form name="newRelationship" method="post" action="editAllAgent.cfm">
@@ -578,7 +578,7 @@ function opendialogrank(page,id,title,agentId) {
 						<option value="#ctRelns.AGENT_RELATIONSHIP#">#ctRelns.AGENT_RELATIONSHIP#</option>
 					</cfloop>
 				</select>
-				<input type="text" name="related_agent" class="reqdClr"
+				<input type="text" name="related_agent" class="reqdClr" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 					onchange="getAgent('newRelatedAgentId','related_agent','newRelationship',this.value); return false;"
 					onKeyPress="return noenter(event);">
 				<input type="submit" class="insBtn" value="Create Relationship">
@@ -587,7 +587,7 @@ function opendialogrank(page,id,title,agentId) {
         	<h4 class="groupAgent">Address</h4>
             <div class="grayishbox">
 		<div class="newRec">
-		
+
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
 				<input type="hidden" name="Action" value="newAddress">
@@ -772,7 +772,7 @@ function opendialogrank(page,id,title,agentId) {
 						</div>
 					</cfloop>
 					<div class="thumb_spcr">&nbsp;</div>
-				
+
 	        </span>
 		</div>
 	</div>
@@ -1335,7 +1335,7 @@ function opendialogrank(page,id,title,agentId) {
                     <div style="padding: 1em;width: 75%;">
                         <h3>That agent may already exist!</h3>
                         <p>The name you entered is either a preferred name or other name for an existing agent.</p>
-                        <p>A duplicated preferred name will prevent MCZbase from functioning normally. 
+                        <p>A duplicated preferred name will prevent MCZbase from functioning normally.
                         </p>
                         <p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
 					<cfloop query="dupPref">
@@ -1352,13 +1352,13 @@ function opendialogrank(page,id,title,agentId) {
 						<input type="hidden" name="pref_name" value="#pref_name#">
 						<input type="hidden" name="ignoreDupChek" value="true">
 						<input type="submit" class="insBtn" value="Create Agent">
-					
+
 					</form>
                       <br><br>
                          <input type="cancel" value="Cancel" class="insBtn" style="background-color: ##ffcc00;border: 1px solid ##336666; width: 42px;" onclick="javascript:window.location='';return false;">
 					<cfabort>
-                        
-                        
+
+
                         </div>
 				</cfif>
 			</cfif>
