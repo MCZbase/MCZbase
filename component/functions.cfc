@@ -3571,12 +3571,12 @@
     		<cfquery name="insAnn" datasource="uam_god">
     			insert into annotations (
     				cf_username,
-    				<cfsqlparam cfsqltype='CF_SQL_VARCHAR' value='#idType#' >,
+    				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#idType#' >,
     				annotation
     			) values (
-    				<cfsqlparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-    				<cfsqlparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >,
-    				<cfsqlparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.guid# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >
+    				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
+    				<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >,
+    				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.guid# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >
     			)
     		</cfquery>
     		<cfquery name="whoTo" datasource="uam_god">
@@ -3593,7 +3593,7 @@
     				collection_contacts.contact_agent_id = electronic_address.agent_id AND
     				collection_contacts.CONTACT_ROLE = 'data quality' and
     				electronic_address.ADDRESS_TYPE='e-mail' and
-    				cataloged_item.collection_object_id= <cfsqlparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >
+    				cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >
     		</cfquery>
     		<cfset mailTo = valuelist(whoTo.address)>
     		<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
