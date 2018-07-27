@@ -112,7 +112,7 @@
 <cfif  action is "newLoan">
 	<cfset title="New #scope#">
 	<cfoutput>
-	<div class="newLoanWidth">
+	<div class="newLoanWidth" style="overflow:hidden;">
 	<h2 class="wikilink" style="margin-left: 0;">Initiate a #scope#
 	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 	</h2>
@@ -137,19 +137,19 @@
 				<tr>
 					<td>
 						<label for="auth_agent_name">Authorized By</label>
-						<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr" required size="40" 
+						<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr" required size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="auth_agent_id" id="auth_agent_id" 
+						<input type="hidden" name="auth_agent_id" id="auth_agent_id"
                             				onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
   				                <div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="rec_agent_name">Received By:</label>
-						<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr" required size="40"
+						<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr" required size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="rec_agent_id" id="rec_agent_id" 
+						<input type="hidden" name="rec_agent_id" id="rec_agent_id"
 							onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
 						<div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
@@ -157,7 +157,7 @@
 				<tr>
 					<td>
 						<label for="in_house_contact_agent_name">In-House Contact:</label>
-						<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
+						<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  class="reqdClr" required size="40"
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
@@ -167,10 +167,10 @@
 					</td>
 					<td>
 						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
-						<input type="text" name="additional_contact_agent_name" size="40"
+						<input type="text" name="additional_contact_agent_name" size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" 
+						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id"
 							onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
 						<div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
@@ -178,20 +178,20 @@
 				<tr>
 					<td>
 						<label for="recipient_institution_agent_name">Recipient Institution:</label>
-						<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" 
+						<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  class="reqdClr" required size="40"
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" 
+						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
 							onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
 						<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="foruseby_agent_name">For Use By:</label>
-						<input type="text" name="foruseby_agent_name" size="40"
+						<input type="text" name="foruseby_agent_name" size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" 
+						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id"
 							onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
 						<div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
@@ -210,12 +210,14 @@
 						   // on page load, bind a function to collection_id to change the list of loan types
 						   // based on the selected collection
 						   $("##collection_id").change( function () {
-							 if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-							  // only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters.
-							  $("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
+						 	  if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
+							     // only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters (but only add once).
+                                 if ($("##loan_type option[value='exhibition-master']").length < 1) { 
+							         $("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
+                                 }
 							 } else {
-							  $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
-                                                          $("##insurance_section").hide();
+                                 $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
+                                 $("##insurance_section").hide();
 							 }
 						   });
     						   // on page load, bind a function to loan_type to hide/show the insurance section.
@@ -303,7 +305,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="button" value="Create #scope#" class="insBtn" 
+						<input type="button" value="Create #scope#" class="insBtn"
 						       onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
 						&nbsp;
 						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm'">
@@ -392,7 +394,7 @@
 				</cfif>
 				<br>
 			</cfloop>
-		</div>  
+		</div>
                 <script>
                         $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+3 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
                 </script>
@@ -488,8 +490,10 @@
 			// based on the selected collection
 			$("##collection_id").change( function () {
 				if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-					// only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters.
-					$("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
+					// only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters (but only add once).
+                    if ($("##loan_type option[value='exhibition-master']").length < 1) { 
+					    $("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
+                    }
 				} else {
 					$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
 					$("##insurance_section").hide();
@@ -601,7 +605,7 @@
 						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
 		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
-		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#" 
+		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
                                                     onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 					</td>
 					<td style=" min-width: 3.5em; ">
@@ -886,7 +890,7 @@
 			<h3>Disposition of material in loan:</h3>
 			<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-				from loan left join loan_item on loan.transaction_id = loan_item.transaction_id 
+				from loan left join loan_item on loan.transaction_id = loan_item.transaction_id
 				left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
 				left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
 				left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
@@ -894,7 +898,7 @@
 		              and coll_obj_disposition is not null
 			group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
 			</cfquery>
-		    
+
 		    <cfif getDispositions.RecordCount EQ 0 >
 		        <h4>There are no attached collection objects.</h4>
 		    <cfelse>
@@ -1032,7 +1036,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 </script>
     <div class="addstyle">
     <input type="button" class="lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"><div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div></div><!---moved this to inside of the shipping block--one div up--->
-</div> <!--- end shipping block ---> 
+</div> <!--- end shipping block --->
 
 
 
@@ -1128,8 +1132,8 @@ $( document ).ready(loadShipments(#transaction_id#));
 	<h3>Accessions (and their permits) for material in this loan:</h3>
         <!--- List Accessions for collection objects included in the Loan --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from 
-		   loan l 
+		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from
+		   loan l
 		   left join loan_item li on l.transaction_id = li.transaction_id
 		   left join specimen_part sp on li.collection_object_id = sp.collection_object_id
 		   left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -1138,7 +1142,7 @@ $( document ).ready(loadShipments(#transaction_id#));
         </cfquery>
         <ul class="accn">
 	<cfloop query="getAccessions">
-            <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# 
+            <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id,
                     issuedBy.agent_name as IssuedByAgent
@@ -1151,10 +1155,10 @@ $( document ).ready(loadShipments(#transaction_id#));
 	      <ul class="accnpermit">
               <cfloop query="getAccnPermits">
                  <li><span style="font-weight:bold;">Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
-                 
+
               </cfloop>
               </ul>
-             
+
 	    </cfif>
         </li>
 	</cfloop>
@@ -1172,10 +1176,10 @@ $( document ).ready(loadShipments(#transaction_id#));
 		   left join accn on ci.accn_id = accn.transaction_id
            left join permit_trans on accn.transaction_id = permit_trans.transaction_id
            left join permit p on permit_trans.permit_id = p.permit_id
-           left join media_relations on p.permit_id = media_relations.related_primary_key 
+           left join media_relations on p.permit_id = media_relations.related_primary_key
            left join media on media_relations.media_id = media.media_id
 		where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-                and (media_relations.related_primary_key is null 
+                and (media_relations.related_primary_key is null
                 or (media_relations.media_relationship = 'shows permit'
                     and mime_type = 'application/pdf'))
         union
@@ -1183,18 +1187,18 @@ $( document ).ready(loadShipments(#transaction_id#));
            from shipment s
            left join permit_shipment ps on s.shipment_id = ps.shipment_id
            left join permit p on ps.permit_id = p.permit_id
-           left join media_relations on p.permit_id = media_relations.related_primary_key 
+           left join media_relations on p.permit_id = media_relations.related_primary_key
            left join media on media_relations.media_id = media.media_id
-		where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#"> 
-                and (media_relations.related_primary_key is null 
+		where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+                and (media_relations.related_primary_key is null
                 or (media_relations.media_relationship = 'shows permit'
                     and mime_type = 'application/pdf'))
         ) where permit_type is not null
     </cfquery>
-  
+
     <ul>
   	<cfloop query="getPermitMedia">
-        <cfif media_id is ''> 
+        <cfif media_id is ''>
            <li>#permit_type# #permit_num# (no pdf)</li>
         <cfelse>
            <li><a href="#uri#">#permit_type# #permit_num#</a></li>

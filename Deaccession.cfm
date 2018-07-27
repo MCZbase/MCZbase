@@ -103,8 +103,8 @@
 <cfif  action is "newDeacc">
 	<cfset title="New Deaccession">
 	<cfoutput>
-	<div class="newLoanWidth">
-  
+	<div class="newLoanWidth" style="overflow:hidden;">
+
     	<h2 class="wikilink" style="margin-left: 0;">Initiate a Deaccession
 	      <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
         </h2>
@@ -130,20 +130,20 @@
 					<td>
 						<label for="auth_agent_name">Authorized By</label>
 						<input type="text" name="auth_agent_name" id="auth_agent_name"
-						  class="reqdClr" size="40" required
+						  class="reqdClr" size="40" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('auth_agent_id','auth_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="auth_agent_id" id="auth_agent_id" 
+						<input type="hidden" name="auth_agent_id" id="auth_agent_id"
                             				onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
   				                <div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="rec_agent_name">Received By:</label>
 						<input type="text" name="rec_agent_name" id="rec_agent_name"
-						  class="reqdClr" size="40" requiured
+						  class="reqdClr" size="40" requiured readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('rec_agent_id','rec_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="rec_agent_id" id="rec_agent_id" 
+						<input type="hidden" name="rec_agent_id" id="rec_agent_id"
                             				onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
   				                <div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
@@ -152,19 +152,19 @@
 					<td>
 						<label for="in_house_contact_agent_name">In-House Contact:</label>
 						<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
-						  class="reqdClr" size="40" required
+						  class="reqdClr" size="40" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" 
+						<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
                             				onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
   				                <div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
-						<input type="text" name="additional_contact_agent_name" size="40"
+						<input type="text" name="additional_contact_agent_name" size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" 
+						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id"
                             				onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
   				                <div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
@@ -173,19 +173,19 @@
 					<td>
 						<label for="recipient_institution_agent_name">Recipient Institution:</label>
 						<input type="text" name="recipient_institution_agent_name" id="recipient_institution_agent_name"
-						  class="reqdClr" size="40"  required
+						  class="reqdClr" size="40"  required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="recipient_institution_agent_id" id="recipient_institution_agent_id" 
+						<input type="hidden" name="recipient_institution_agent_id" id="recipient_institution_agent_id"
                             				onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
   				                <div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
 					<td>
 						<label for="foruseby_agent_name">For Use By:</label>
-						<input type="text" name="foruseby_agent_name" size="40"
+						<input type="text" name="foruseby_agent_name" size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newDeacc',this.value); return false;"
 						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" 
+						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id"
                             				onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
   				                <div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 					</td>
@@ -193,7 +193,7 @@
 				<tr>
 					<td>
 						<label for="deacc_type">Deaccession Type</label>
-						
+
 						<select name="deacc_type" id="deacc_type" class="reqdClr" required >
 							<cfloop query="ctDeaccType">
 								<option value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
@@ -214,7 +214,7 @@
 					<td>
 						<label for="initiating_date">Transaction Date</label>
 						<input type="text" name="initiating_date" id="initiating_date"
- 						       class="reqdClr" required 
+ 						       class="reqdClr" required
                                                        value="#dateformat(now(),"yyyy-mm-dd")#">
 					</td>
 				</tr>
@@ -248,7 +248,7 @@
 						<textarea name="trans_remarks" id="trans_remarks" rows="3" cols="80"></textarea>
 					</td>
 				</tr>
-				
+
 				<tr>
 					<td colspan="2" align="center">
 						<input type="button" value="Create Deaccession" class="insBtn"
@@ -260,7 +260,7 @@
 				</tr>
 			</table>
 		</form>
-               
+
 		<div class="nextnum" id="nextNumDiv">
 			<p>Next Available Deaccession Number:</p>
 			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -355,13 +355,13 @@
                                      $("##recipient_institution_agent_name").val('not applicable');
                                      $("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
                                      $("##recipient_institution_agent_id").trigger('change');
-			      } else { 
-                                     if ($("##rec_agent_id").val()=='#NOTAPPLICABLEAGENTID#') { 
+			      } else {
+                                     if ($("##rec_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
                                      	  $("##rec_agent_name").val('');
         	                          $("##rec_agent_id").val('');
  	                                  $("##rec_agent_id").trigger('change');
 				     }
-                                     if ($("##recipient_institution_agent_id").val()=='#NOTAPPLICABLEAGENTID#') { 
+                                     if ($("##recipient_institution_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
                                      	  $("##recipient_institution_agent_name").val('');
         	                          $("##recipient_institution_agent_id").val('');
  	                                  $("##recipient_institution_agent_id").trigger('change');
@@ -391,7 +391,7 @@
 			to_char(closed_date, 'YYYY-MM-DD') closed_date,
 			trans.collection_id,
 			collection.collection,
-			concattransagent(trans.transaction_id,'entered by') enteredby 
+			concattransagent(trans.transaction_id,'entered by') enteredby
 		 from
 			deaccession,
 			trans,
@@ -501,12 +501,12 @@
 						<span style="color:green;font-size:small">OK to print</span>
 					<cfelse>
 						<span style="color:red;font-size:small">
-							One "authorized by" and one "in-house contact" are required to print Deaccessions. 
+							One "authorized by" and one "in-house contact" are required to print Deaccessions.
 						</span>
 					</cfif>
 				</td>
 			</tr>
-        
+
 			<cfset i=1>
 			<cfloop query="deaccAgents">
 				<tr>
@@ -515,7 +515,7 @@
 						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
 		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editDeacc',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
-		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#" 
+		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 							onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); " >
 					</td>
 					<td style=" min-width: 3.5em; ">
@@ -563,9 +563,9 @@
 					<cfelse>
 					   <select name="deacc_type" id="deacc_type" class="reqdClr" required>
                                                 <cfloop query="ctDeaccType">
-						      <!--- Other is not an allowed option (unless it is already set) ---> 
+						      <!--- Other is not an allowed option (unless it is already set) --->
                                                       <cfif ctDeaccType.deacc_type NEQ MAGIC_TTYPE_OTHER >
-						      <!--- Only the MCZ Collection is allowed to make transfers ---> 
+						      <!--- Only the MCZ Collection is allowed to make transfers --->
                                                       <cfif ctDeaccType.deacc_type NEQ MAGIC_DTYPE_TRANSFER OR deaccDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
                                                           <option <cfif ctDeaccType.deacc_type is deaccDetails.deacc_type> selected="selected" </cfif>
                                                                   value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
@@ -580,7 +580,7 @@
 				<td>
 					<label for="deacc_status">Deaccession Status</label>
 					<select name="deacc_status" id="deacc_status" class="reqdClr" required>
-						<cfloop query="ctDeaccStatus">                      
+						<cfloop query="ctDeaccStatus">
 						<option <cfif ctDeaccStatus.deacc_status EQ deaccDetails.deacc_status>selected="selected"</cfif> value="#ctDeaccStatus.deacc_status#">#ctDeaccStatus.deacc_status#</option>
 						</cfloop>
 					</select>
@@ -602,14 +602,14 @@
 			cols="120">#deaccDetails.deacc_reason#</textarea>
 		<label for="value">Value of Specimen(s)</label>
 		<input name="value" id="value" value="#deaccDetails.value#" size="55">
-		
+
 		<label for="method">Method of Transfer</label>
 		<textarea name="method" id="method" value="#deaccDetails.method#" rows="3" cols="120">#deaccDetails.method#</textarea>
-    
+
 		<label for="trans_remarks">Internal Remarks</label>
 		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="120">#deaccDetails.trans_remarks#</textarea>
 		<br>
-		<input type="button" value="Save Edits" class="savBtn" 
+		<input type="button" value="Save Edits" class="savBtn"
                         onClick="if (checkFormValidity($('##editDeacc')[0])) { editDeacc.action.value='saveEdits'; submit();  } " >
 
    		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Deaccession.cfm?action=search'">
@@ -632,13 +632,13 @@
 		    <h3>Disposition of material in the deaccession:</h3>
 		    <cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		    select count(deacc_item.collection_object_id) as pcount, coll_obj_disposition
-		        from deacc_item 
+		        from deacc_item
 		        left join coll_object on deacc_item.collection_object_id = coll_object.collection_object_id
 		    where deacc_item.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#deaccDetails.transaction_id#">
 		        and coll_object.collection_object_id is not null
 		    group by coll_obj_disposition
 		    </cfquery>
-		
+
 		    <cfif getDispositions.RecordCount GT 0>
 		        <table>
 		           <tr> <th>Parts</th> <th>Disposition</th> </tr>
@@ -655,13 +655,13 @@
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
-			
+
    <cfif #cgi.HTTP_HOST# contains "harvard.edu">
           <!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
                 sort={a field name that is in the select portion of the query specified in the custom tag}, or
                 sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
           --->
-                
+
           <cfif inhouse.c is 1 and authorized.c GT 0 >
               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Gift/Exchange Deaccession Header</option>
           </cfif>
@@ -688,7 +688,7 @@
     </tr>
     </table>
     </div>
- 
+
 <div class="shippingBlock">
      <strong>Media (e.g. copies of correspondence) associated with this Deaccession:</strong>
       <div id="deaccessionMedia"></div>
@@ -708,7 +708,7 @@
     };
 
     // callback for ajax methods to reload from dialog
-    function reloadDeaccessionMedia() { 
+    function reloadDeaccessionMedia() {
         loadDeaccessionMedia(#transaction_id#);
         $('##addDeaccDlg_#transaction_id#').html('').dialog('destroy');
     };
@@ -875,8 +875,8 @@ $( document ).ready(loadShipments(#transaction_id#));
 	<h3>Accessions (and their permits) for material in this deaccession:</h3>
         <!--- List Accessions for collection objects included in the Deaccession --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from 
-		   deaccession l 
+		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from
+		   deaccession l
 		   left join deacc_item li on l.transaction_id = li.transaction_id
 		   left join specimen_part sp on li.collection_object_id = sp.collection_object_id
 		   left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -885,7 +885,7 @@ $( document ).ready(loadShipments(#transaction_id#));
         </cfquery>
         <ul class="accn">
 	<cfloop query="getAccessions">
-            <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# 
+            <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id,
                     issuedBy.agent_name as IssuedByAgent
@@ -898,10 +898,10 @@ $( document ).ready(loadShipments(#transaction_id#));
 	      <ul class="accnpermit">
               <cfloop query="getAccnPermits">
                  <li><span style="font-weight:bold;">Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
-                 
+
               </cfloop>
               </ul>
-             
+
 	    </cfif>
         </li>
 	</cfloop>
@@ -919,10 +919,10 @@ $( document ).ready(loadShipments(#transaction_id#));
 		   left join accn on ci.accn_id = accn.transaction_id
            left join permit_trans on accn.transaction_id = permit_trans.transaction_id
            left join permit p on permit_trans.permit_id = p.permit_id
-           left join media_relations on p.permit_id = media_relations.related_primary_key 
+           left join media_relations on p.permit_id = media_relations.related_primary_key
            left join media on media_relations.media_id = media.media_id
 		where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#deaccDetails.transaction_id#">
-                and (media_relations.related_primary_key is null 
+                and (media_relations.related_primary_key is null
                 or (media_relations.media_relationship = 'shows permit'
                     and mime_type = 'application/pdf'))
         union
@@ -930,24 +930,24 @@ $( document ).ready(loadShipments(#transaction_id#));
            from shipment s
            left join permit_shipment ps on s.shipment_id = ps.shipment_id
            left join permit p on ps.permit_id = p.permit_id
-           left join media_relations on p.permit_id = media_relations.related_primary_key 
+           left join media_relations on p.permit_id = media_relations.related_primary_key
            left join media on media_relations.media_id = media.media_id
-		where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#deaccDetails.transaction_id#"> 
-                and (media_relations.related_primary_key is null 
+		where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#deaccDetails.transaction_id#">
+                and (media_relations.related_primary_key is null
                 or (media_relations.media_relationship = 'shows permit'
                     and mime_type = 'application/pdf'))
         ) where permit_type is not null
     </cfquery>
-  
+
     <ul>
   	<cfloop query="getPermitMedia">
-        <cfif media_id is ''> 
+        <cfif media_id is ''>
            <li>#permit_type# #permit_num# (no pdf)</li>
         <cfelse>
            <li><a href="#uri#">#permit_type# #permit_num#</a></li>
         </cfif>
     </cfloop>
-    <cfif getPermitMediaRes.recordcount EQ 0> 
+    <cfif getPermitMediaRes.recordcount EQ 0>
          <p>No Permits Found</p>
     </cfif>
     </ul>
@@ -1092,7 +1092,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 					<cfif len(#deacc_status#) gt 0>
 						,deacc_status
 					</cfif>
-					
+
 					<cfif len(#DEACC_reason#) gt 0>
 						,DEACC_REASON
 					</cfif>
@@ -1293,7 +1293,7 @@ $( document ).ready(loadShipments(#transaction_id#));
              &nbsp; To:
               <input type='text' name='to_trans_date' id="to_trans_date"></td>
           </tr>
-         
+
           <tr>
             <td align="right">Permit Number:</td>
             <td><input type="text" name="permit_num" size="50">
@@ -1555,9 +1555,9 @@ $( document ).ready(loadShipments(#transaction_id#));
     <cfif #allDeacc.recordcount# gt 1>
     <cfset deaccnum = 'items'>
     </cfif>
-    
+
  <header style="margin: 0 6em;">
- 
+
      <div id="page_title">
       <h1  style="font-size: 1.5em;line-height: 1.6em;margin: 0;padding: 1em 0 0 0;">Deaccession Search Results<img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></h1>
     </div>
@@ -1590,7 +1590,7 @@ $( document ).ready(loadShipments(#transaction_id#));
        <dl>
          <dt>Collection &amp; Number:</dt>
          <dd><strong>#collection# / #deacc_number#</strong>
-           
+
          </dd>
                 <dt>Authorized By:</dt>
                  <cfif len(auth_agent) GT 0>
@@ -1682,7 +1682,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                  <cfelse>
                  <dd>N/A</dd>
                  </cfif>
-         
+
    <ul class="loan_buttons">
       <li><a href="a_deaccItemReview.cfm?transaction_id=#transaction_id#">Review Items</a></li>
        <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>

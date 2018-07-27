@@ -984,7 +984,7 @@ $(function() {
 <cfif action is "new">
 <cfset title="New Borrow">
 <cfoutput>
-    <div class="newLoanWidth">
+    <div class="newLoanWidth" style="overflow: hidden;">
 
         <h2 class="wikilink" style="margin-left: 0;">New Borrow
             <img src="/images/info_i_2.gif" onClick="getMCZDocs('Borrow')" class="likeLink" alt="[ help ]">
@@ -1061,7 +1061,7 @@ $(function() {
 					<label for="AuthorizedBy">Authorized By (external)</label>
 					<input type="text"
 						name="AuthorizedBy" id="AuthorizedBy"
-						class="reqdClr" required
+						class="reqdClr" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						onchange="getAgent('auth_agent_id','AuthorizedBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1073,7 +1073,7 @@ $(function() {
 					<label for="OverseenBy">Borrow Overseen By (MCZ)</label>
 					<input type="text"
 						name="OverseenBy" id="OverseenBy"
-						class="reqdClr" required
+						class="reqdClr" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						onchange="getAgent('over_agent_id','OverseenBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1085,7 +1085,7 @@ $(function() {
 					<label for="ReceivedBy">Received By</label>
 					<input type="text"
 						name="ReceivedBy" id="ReceivedBy"
-						class="reqdClr" required
+						class="reqdClr" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						onchange="getAgent('received_agent_id','ReceivedBy','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1097,7 +1097,7 @@ $(function() {
 					<label for="ReceivedFrom">Received From</label>
 					<input type="text"
 						name="ReceivedFrom" id="ReceivedFrom"
-						class="reqdClr" required
+						class="reqdClr" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						onchange="getAgent('received_from_agent_id','ReceivedFrom','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
@@ -1108,7 +1108,7 @@ $(function() {
 				<td colspan="3">
 					<label for="LendingInstitution">Lending Institution</label>
 					<input type="text"
-						name="LendingInstitution"
+						name="LendingInstitution" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						onchange="getAgent('lending_institution_agent_id','LendingInstitution','borrow',this.value); return false;"
 		 				onKeyPress="return noenter(event);"
 						size="50">
