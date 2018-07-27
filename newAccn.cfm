@@ -28,7 +28,7 @@
 					<table class="newRec">
 						<tr>
 							<td colspan="6">
-								
+
 							</td>
 						</tr>
 						<tr>
@@ -49,7 +49,7 @@
 								<label for="accn_status">Status:</label>
 								<select name="accn_status" size="1" class="reqdClr">
 									<cfloop query="ctStatus">
-										<option 
+										<option
 											<cfif #ctStatus.accn_status# is "in process">selected </cfif>
 											value="#ctStatus.accn_status#">#ctStatus.accn_status#</option>
 									</cfloop>
@@ -57,26 +57,26 @@
 							</td>
 							<td>
 								<label for="rec_date">Rec. Date:</label>
-								<input type="text" name="rec_date" id="rec_date" class="reqdClr">		
+								<input type="text" name="rec_date" id="rec_date" class="reqdClr">
 							</td>
 						</tr>
 						<tr>
 							<td colspan="9">
 								<label for="nature_of_material">Nature of Material:</label>
 								<textarea name="nature_of_material" rows="5" cols="90" class="reqdClr"></textarea>
-							</td>		
+							</td>
 						</tr>
 						<tr>
 							<td>
 								<label for="rec_agent">Received From:</label>
-								<input type="text" name="rec_agent" class="reqdClr" 
+								<input type="text" name="rec_agent" class="reqdClr" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 									onchange="getAgent('received_agent_id','rec_agent','newAccn',this.value); return false;"
 								 	onKeyPress="return noenter(event);">
 								<input type="hidden" name="received_agent_id">
 							</td>
 							<td>
 								<label for="rec_agent">From Agency:</label>
-								<input type="text" name="trans_agency"
+								<input type="text" name="trans_agency" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 									onchange="getAgent('trans_agency_id','trans_agency','newAccn',this.value); return false;"
 								 	onKeyPress="return noenter(event);">
 								<input type="hidden" name="trans_agency_id">
@@ -124,14 +124,14 @@
 						</tr>
 						<tr>
 							<td colspan="6" align="center">
-							<input type="submit" 
-								value="Save this Accession" 
-								class="savBtn">							
-							<input type="button" 
-									value="Quit without saving" 
+							<input type="submit"
+								value="Save this Accession"
+								class="savBtn">
+							<input type="button"
+									value="Quit without saving"
 									class="qutBtn"
 									onClick="document.location = 'editAccn.cfm'">
-									
+
 							</td>
 						</tr>
 					</table>
@@ -194,7 +194,7 @@
 						,accn_number
 						,RECEIVED_DATE,
 						ACCN_STATUS,
-						estimated_count      
+						estimated_count
 						)
 					VALUES (
 						#n.n#,
@@ -233,9 +233,9 @@
 						)
 					</cfquery>
 				</cfif>
-				
+
 		</cftransaction>
-		<cflocation url="editAccn.cfm?Action=edit&transaction_id=#n.n#" addtoken="false">		
+		<cflocation url="editAccn.cfm?Action=edit&transaction_id=#n.n#" addtoken="false">
   </cfoutput>
 </cfif>
 <cfinclude template="includes/_footer.cfm">

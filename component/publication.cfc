@@ -1,4 +1,5 @@
 <cfcomponent>
+<!--- TODO:  Replace this code with stored procedures and assemble short/long citations directly in the backend database.  --->
 <cffunction name="shortCitation" access="remote">
   <cfargument name="publication_id" type="numeric" required="yes">
   <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -128,9 +129,6 @@
   <cfquery name="volume" dbtype="query">
 		select pub_att_value from atts where publication_attribute='volume'
 	</cfquery>
-  <cfquery name="book" dbtype="query">
-    select pub_att_value from atts where publication_attribute='book'
-  </cfquery>
   <cfquery name="book_title" dbtype="query">
 		select pub_att_value from atts where publication_attribute='book title'
 	</cfquery>
@@ -459,14 +457,17 @@
 
      <!--- Begin Book Section--->
 	<cfelseif p.publication_type is "book section">
-    <cfset r=as & '. ' & p.published_year & '. '>
-    <cfif right(p.publication_title,1) is not '.' and right(p.publication_title,1) is not '?' and right(p.publication_title,1) is not ','>
- <cfset publication_title=p.publication_title & '.'>
- <cfelse>
- <cfset publication_title=p.publication_title>
-</cfif>
+      <cfif right(p.publication_title,1) is not '.' and right(p.publication_title,1) is not '?' and right(p.publication_title,1) is not ','>
+         <cfset publication_title=p.publication_title & '.'>
+      <cfelse>
+         <cfset publication_title=p.publication_title>
+      </cfif>
+      <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ' '>
     <cfset r=r & ' Pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
     <cfif len(book_title.pub_att_value) gt 0>
+       <cfset enclosingTitle = book_title.pub_att_value>
+    </cfif>
+    <cfif len(enclosingTitle) gt 0>
       <cfset r=r & ' <i>In</i> '>
       <cfif e.recordcount gt 1>
         <cfset editor = '. (eds.)' >
@@ -480,7 +481,7 @@
       <cfif len(bookauthor.pub_att_value) gt 0>
         <cfset r=r &  ' ' & bookauthor.pub_att_value & ''>
       </cfif>
-      <cfset r=r &  ' <i>'& book_title.pub_att_value & '.</i> '>
+      <cfset r=r &  ' <i>'& enclosingTitle & '.</i> '>
       <cfif len(edition.pub_att_value) gt 0 and right(edition.pub_att_value,1) is not '.'>
       <cfset r=r &  ' ' & edition.pub_att_value & ' edition.' >
       <cfelse>

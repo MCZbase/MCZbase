@@ -296,6 +296,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 	SELECT
 		citation.type_status,
 		citation.occurs_page_number,
+		citation.citation_page_uri,
 		citation.CITATION_REMARKS,
 		cited_taxa.scientific_name as cited_name,
 		cited_taxa.taxon_name_id as cited_name_id,
@@ -472,7 +473,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									target="_mainFrame">
 										#formatted_publication#</a>,
 								<cfif len(occurs_page_number) gt 0>
-									Page #occurs_page_number#,
+									Page
+										<cfif len(citation_page_uri) gt 0>
+											<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+										<cfelse>
+											#occurs_page_number#,
+										</cfif>
 								</cfif>
 								#type_status# of
 								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
@@ -735,7 +741,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								<tr class="detailCellSmall">
 									<td></td>
 									<td class="innerDetailLabel" style="padding-left: 1.75em;padding-top: 0;padding-bottom: .5em;">Coordinate Remarks:
-										#one.lat_long_remarks#
+										#encodeForHTML(one.lat_long_remarks)#
 									</td>
 								</tr>
 							</cfif>
@@ -1153,16 +1159,14 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								</cfquery>
 								<cfloop query="sPart">
 									<tr>
-										<td class="inside">
-											#part_name# subsample
-										</td>
-										<td class="inside">#part_condition#</td>
-										<td class="inside">#part_disposition#</td>
-										<td class="inside">#lot_count#</td>
+										<td class="inside_sub"><span>#part_name# subsample</span></td>
+										<td class="inside_sub">#part_condition#</td>
+										<td class="inside_sub">#part_disposition#</td>
+										<td class="inside_sub">#lot_count#</td>
 										<cfif oneOfus is 1>
-											<td class="inside">#label#</td>
+											<td class="inside_sub">#label#</td>
 										</cfif>
-										<td class="inside">#part_remarks#</td>
+										<td class="inside_sub">#part_remarks#</td>
 									</tr>
 								</cfloop>
 							</cfloop>

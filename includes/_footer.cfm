@@ -12,23 +12,23 @@
               <div class="copyright">
           <img src="/images/harvard_logo_sm.png" alt="Harvard Shield (logo)" class="harvard_logo">
               <p>Database content:  &copy; Copyright 2018 <br/>President and Fellows of Harvard College</p>
-              <a href="http://www.mcz.harvard.edu/privacy/index.html">Privacy Statement</a> <span>|</span> 
-              <a href="http://www.mcz.harvard.edu/privacy/user_agreement.html">User Agreement</a> 
+              <a href="https://mcz.harvard.edu/privacy-policy">Privacy Statement</a> <span>|</span> 
+              <a href="https://mcz.harvard.edu/user-agreement">User Agreement</a>
           </div>
-        
+
          <div class="databases">
               <a href="http://www.gbif.org/">
                   <img src="/images/gbiflogo.png" alt="GBIF" class="gbif_logo">
-              </a> 
+              </a>
      <a href="http://www.idigbio.org/">
                   <img src="/images/idigbio.png" alt="herpnet" class="idigbio_logo">
-              </a> 
+              </a>
                 <a href="http://eol.org">
                   <img src="/images/eol.png" alt="eol" class="eol_logo">
-               </a> 
+               </a>
                 <a href="http://vertnet.org">
                   <img src="/images/vertnet_logo_small.png" alt="Vertnet" class="vertnet_logo">
-              </a> 
+              </a>
               <a href="https://arctosdb.org/">
                <img src="/images/arctos-logo.png" class="arctos_logo" ALT="[ Link to home page. ]">
              </a>
@@ -42,7 +42,7 @@
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script> 
+</script>
 <script type="text/javascript">
 try {
 var pageTracker = _gat._getTracker("<cfoutput>#Application.Google_uacct#</cfoutput>");
