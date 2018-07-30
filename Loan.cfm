@@ -1192,18 +1192,27 @@ $( document ).ready(loadShipments(#transaction_id#));
         ) where permit_type is not null
     </cfquery>
   
+    <cfset uriList = ''>
     <ul>
   	<cfloop query="getPermitMedia">
-        <cfif media_id is ''> 
-           <li>#permit_type# #permit_num# (no pdf)</li>
-        <cfelse>
-           <li><a href="#uri#">#permit_type# #permit_num#</a></li>
+           <cfif media_id is ''> 
+              <li>#permit_type# #permit_num# (no pdf)</li>
+           <cfelse>
+              <li><a href="#uri#">#permit_type# #permit_num#</a></li>
+              <cfset uriList = ListAppend(uriList,uri)>
+           </cfif>
+        </cfloop>
+        <div>
+          <cfloop list="#uriList#" item="uri">
+              <a href="#uri#">Permit</a>&nbsp;
+          </cfloop>
+        </div>
         </cfif>
-    </cfloop>
     </ul>
+    <cfif ListLen(uriList,',',false) gt 0 >
+        <a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permits</a>
+    </cfif>
     </div>
-
-
 
 </cfoutput>
 <script>
