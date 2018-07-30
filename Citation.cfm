@@ -1,5 +1,5 @@
 <cfinclude template="includes/_header.cfm">
- 
+
 <script type='text/javascript' src='/includes/checkForm.js'></script>
 	<script>
 		function getCatalogedItemCitation (id,type) {
@@ -75,6 +75,7 @@
 		identification.scientific_name,
 		citedTaxa.scientific_name as citSciName,
 		occurs_page_number,
+		citation_page_uri,
 		type_status,
 		citation_remarks,
 		publication_title,
@@ -98,7 +99,7 @@
 	ORDER BY
 		occurs_page_number,citSciName,cat_num
 </cfquery>
-  
+
     <h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
 <a href="Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
 <table class="pubtable" border="0" style="border: none;font-size: 15px;">
@@ -154,6 +155,7 @@
 				newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
 				newCitation.citation_remarks.value='#stripQuotes(getCited.citation_remarks)#';
 				newCitation.collection.value='#getCited.collection_id#';
+				newCitation.citation_page_uri.value='#getCited.citation_page_uri#';
 				">
 			</td></tr>
 		</table>
@@ -165,7 +167,13 @@
 	<td nowrap><i>#getCited.citSciName#</i>&nbsp;</td>
 	<td nowrap><i>#getCited.scientific_name#</i>&nbsp;</td>
 	<td nowrap>#getCited.type_status#&nbsp;</td>
-	<td>#getCited.occurs_page_number#&nbsp;</td>
+	<td>
+		<cfif len(#getCited.citation_page_uri#) gt 0>
+			<a href ="#getCited.citation_page_uri#" target="_blank">#getCited.occurs_page_number#</a>&nbsp;
+		<cfelse>
+			#getCited.occurs_page_number#&nbsp;
+		</cfif>
+	</td>
 	<td nowrap>#stripQuotes(getCited.citation_remarks)#&nbsp;</td>
 
 	</tr>
@@ -243,6 +251,12 @@
 </tr>
 <tr>
 	<td colspan="3">
+		<label for="citation_page_uri">Citation Page URI:</label>
+		<input type="text" name="citation_page_uri" id="citation_page_uri" size="90">
+	</td>
+</tr>
+<tr>
+	<td colspan="3">
 		<label for="citation_remarks">Remarks:</label>
 		<input type="text" name="citation_remarks" id="citation_remarks" size="90">
 	</td>
@@ -288,6 +302,9 @@
 			<cfif len(#citation_remarks#) gt 0>
 				,citation_remarks
 			</cfif>
+			<cfif len(#citation_page_uri#) gt 0>
+				,citation_page_uri
+			</cfif>
 			)
 			VALUES (
 			#publication_id#,
@@ -304,6 +321,9 @@
 			</cfif>
 			<cfif len(#citation_remarks#) gt 0>
 				,'#escapequotes(citation_remarks)#'
+			</cfif>
+			<cfif len(#citation_page_uri#) gt 0>
+				,'#escapequotes(citation_page_uri)#'
 			</cfif>
 			)
 			</cfquery>
@@ -338,6 +358,11 @@
 			  <cfelse>
 			  	,citation_remarks = null
 			</cfif>
+			<cfif len(#citation_page_uri#) gt 0>
+				,citation_page_uri = '#escapequotes(citation_page_uri)#'
+			  <cfelse>
+			  	,citation_page_uri = null
+			</cfif>
 
 		WHERE
 			publication_id = #publication_id# AND
@@ -361,6 +386,7 @@
 		identification.scientific_name,
 		citedTaxa.scientific_name as citSciName,
 		occurs_page_number,
+		citation_page_uri,
 		type_status,
 		citation_remarks,
 		publication_title,
@@ -436,6 +462,12 @@
 	<td>
 		<label for="citation_remarks">Remarks</label>
 		<input type="text" name="citation_remarks" id="citation_remarks" size="50" value="#stripQuotes(citation_remarks)#">
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<label for="citation_page_uri">Citation Page URI</label>
+		<input type="text" name="citation_page_uri" id="citation_page_uri" size="100%" value="#citation_page_uri#">
 	</td>
 </tr>
 <tr>

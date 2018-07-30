@@ -2,7 +2,7 @@
 <cfinclude template="/includes/functionLib.cfm">
 <cfoutput>
 <cfset sql = "
-	select
+	select distinct
 		geog_auth_rec.geog_auth_rec_id,
 		locality.locality_id,
 		collecting_event.collecting_event_id,

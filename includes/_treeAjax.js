@@ -27,7 +27,7 @@ function post(onOff,msg) {
 }
 function loadTree () {
 	post(1);
-	var theTreeDiv = document.getElementById('treePane');	
+	var theTreeDiv = document.getElementById('treePane');
 	var flds="cat_num,barcode,container_label,parent_label,description,container_type,part_name,collection_id,other_id_type,other_id_value,collection_object_id,loan_trans_id,table_name,in_container_type,transaction_id,taxonomy";
 	var arrFld = flds.split( "," );
 	var q="";
@@ -74,6 +74,24 @@ function showSpecTreeOnly (colobjid) {
 		loadTree_success
 	);
 }
+function showSpecTreeOnlyforLoan (loanTransID) {
+	post(1);
+	//var theTreeDiv = document.getElementById('treePane');
+	//theTreeDiv.className="";
+	//document.getElementById('thisfooter').style.display='none';
+	//document.getElementById('header_color').style.display='none';
+	//document.getElementById('searchPane').style.display='none';
+	var q="loan_trans_id=" + loanTransID;
+	jQuery.getJSON("/component/container.cfc",
+		{
+			method : "get_containerTree",
+			q : q,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		loadTree_success
+	);
+}
 function loadTree_success(r) {
 	//alert(result);
 	var result=r.DATA;
@@ -86,15 +104,15 @@ function loadTree_success(r) {
 	} else{
 		theTreeDiv.className="cTreePane";
         theTreeDiv.innerHTML = '';
-		theTreeDiv.innerHTML = '<h4>Container Hierarchy</h4><p>Click on a check box for container details.  Double click on a container to list what is inside it.</p>';
+		theTreeDiv.innerHTML = '<h4>Container Hierarchy</h4> <a href=\"EditContainer.cfm?action=newContainer\" class=\"newContBtn\">Create Container</a><p>Click on a check box for container details.  Double click on a container name to list what is inside it. Create a container if it does not exist.</p>';
 		newTree=new dhtmlXTreeObject("treePane","100%","100%;",0);
 		newTree.setImagePath("/images/dhtmlxTree/");
-		newTree.insertNewItem("0","container0","Museum of Comparative Zoology",0,0,0,0,"SELECT");
+		newTree.insertNewItem("0","container0","The Universe",0,0,0,0,"SELECT");
 		newTree.enableCheckBoxes(1);
 		newTree.enableDragAndDrop("temporary_disabled");
 		newTree.attachEvent("onDblClick","expandNode")
 		newTree.attachEvent("onCheck","checkHandler")
-		for (i = 0; i < r.ROWCOUNT; i++) { 
+		for (i = 0; i < r.ROWCOUNT; i++) {
 		 	var CONTAINER_ID = result.CONTAINER_ID[i];
 			var PARENT_CONTAINER_ID = result.PARENT_CONTAINER_ID[i];
 			var CONTAINER_TYPE = result.CONTAINER_TYPE[i];
@@ -125,7 +143,7 @@ function expandNode_success (r) {
 		post(1,error);
 	} else{
 		var didSomething = "";
-		for (i = 0; i < r.ROWCOUNT; i++) { 
+		for (i = 0; i < r.ROWCOUNT; i++) {
 		 	var CONTAINER_ID = result.CONTAINER_ID[i];
 			var n = "newTree.getLevel('" + CONTAINER_ID + "')";
 			var nE = eval(n);
@@ -139,7 +157,7 @@ function expandNode_success (r) {
 				var thisIns = 'newTree.insertNewChild("' + PARENT_CONTAINER_ID + '","' + CONTAINER_ID + '","' + LABEL + ' (' + CONTAINER_TYPE + ')",0,0,0,0,"",1)';
 				eval(thisIns);
 				didSomething = 'yep';
-			}						
+			}
 		 }
 		if (didSomething == '') {
 			post(1,'This container is already expanded.');
@@ -154,9 +172,9 @@ function checkHandler (id){
 		var fatAr = newTree.getAllFatItems().split(",")
 		var leafAr = newTree.getAllLeafs().split(",")
 		var rootsAr = fatAr.concat(leafAr);
-		for(var i=0;i<rootsAr.length;i++){ 
+		for(var i=0;i<rootsAr.length;i++){
 			newTree.setItemColor(rootsAr[i],'black','black');
-			newTree.setCheck(rootsAr[i],0) 
+			newTree.setCheck(rootsAr[i],0)
 		}
 		newTree.setItemColor(id,'red','red');
 		newTree.setCheck(id,1);
@@ -173,8 +191,8 @@ function downloadTree () {
 		var leafAr = newTree.getAllLeafs().split(",")
 		var rootsAr = fatAr.concat(leafAr);
 		var cidAr= new Array;
-		for(var i=0;i<rootsAr.length;i++){ 
-			cidAr.push(rootsAr[i]); 
+		for(var i=0;i<rootsAr.length;i++){
+			cidAr.push(rootsAr[i]);
 		}
 		var cutAr=cidAr.slice(1);
 		var cid=cutAr.join(",");
@@ -192,8 +210,8 @@ function printLabels () {
 		var leafAr = newTree.getAllLeafs().split(",")
 		var rootsAr = fatAr.concat(leafAr);
 		var cidAr= new Array;
-		for(var i=0;i<rootsAr.length;i++){ 
-			cidAr.push(rootsAr[i]); 
+		for(var i=0;i<rootsAr.length;i++){
+			cidAr.push(rootsAr[i]);
 		}
 		var cutAr=cidAr.slice(1);
 		var cid=cutAr.join(",");
@@ -210,7 +228,7 @@ function showTreeOnly(){
 		newTree.enableDragAndDrop("true");
 		document.getElementById('thisfooter').style.display='none';
 		document.getElementById('header_color').style.display='none';
-		document.getElementById('searchPane').style.display='none';	
+		document.getElementById('searchPane').style.display='none';
 		document.getElementById('detailPane').style.display='none';
 		alert('reload to get your stuff back. Drag things around if you want.');
 	} catch(err){
@@ -251,7 +269,7 @@ function getMousePos(e){
 IE=(document.all)?1:0;
 NS=(document.layers)?1:0;
 if (!IE && !NS) {
-   eval('event = ""'); 
+   eval('event = ""');
 }
 function closeDetails(){
 	var theDetDiv = document.getElementById('containerDetails');
@@ -264,7 +282,7 @@ function tonclick(id){
 };
 function tondblclick(id){
 	alert("Item "+tree.getItemText(id)+" was doubleclicked");
-};			
+};
 function tondrag(id,id2){
 	return confirm("Do you want to move node ( " + id + ") "+tree.getItemText(id)+" to item ( " + id2 + ")"+tree.getItemText(id2)+"?");
 };
@@ -273,7 +291,7 @@ function tonopen(id,mode){
 };
 function toncheck(id,state){
 	alert("Item "+tree.getItemText(id)+" was " +((state)?"checked":"unchecked"));
-};	
+};
 function onCheck(id){
 	alert("Check id "+id);
 }
@@ -283,11 +301,11 @@ function onClick(id){
 function onDrag(id,id2){
 	alert("Drag id "+id+","+id2);
 	return true;
-}		
+}
 function lxml () {
 	var tb = document.getElementById('treeBox');
 	tb.innerHTML = '';
-	tree=new dhtmlXTreeObject('treeBox',"400","800",0); 
+	tree=new dhtmlXTreeObject('treeBox',"400","800",0);
 	tree.loadXML("temp/leftContainer_3723816230877.xml");//load root level from xml
 }
 
@@ -299,16 +317,16 @@ function focusDefault() {
 			document.getElementById('n_barcode').focus();
 			//alert('barcode');
 		}
-		
+
 	}
-	
+
 	if (document.getElementById('n_cat_num')) {
 		var isThere = document.getElementById('n_cat_num_d').style.display;
 		if (isThere=='') {
 				document.getElementById('n_cat_num').focus();
 				//alert('catnum');
 		}
-		
+
 	}
 }
 function doPartSearch(side,srchType) {
@@ -334,11 +352,11 @@ function doPartSearch(side,srchType) {
 	var contSrchBtn = document.getElementById(thisVar);
 	thisVar = side + 'srch';
 	var srch = document.getElementById(thisVar);
-	
+
 	thisVar = side + 'other_id_d';
 	var other_id_d = document.getElementById(thisVar);
-	
-					
+
+
 	cat_num_d.style.display='none';
 	barcode_d.style.display='none';
 	container_label_d.style.display='none';
@@ -349,7 +367,7 @@ function doPartSearch(side,srchType) {
 	partSrchBtn.style.display='none';
 	contSrchBtn.style.display='none';
 	other_id_d.style.display='none';
-	// reset the form's values 
+	// reset the form's values
 	if (side == 'r_') {
 		//alert('reset r');
 		document.loadRightTreeForm.reset();
@@ -358,10 +376,10 @@ function doPartSearch(side,srchType) {
 	}  else if (side == 'n_') {
 		document.loadFindTreeForm.reset();
 	}
-	
+
 	if (srchType == 'part') {
 		cat_num_d.style.display='';
-		part_name_d.style.display='';	
+		part_name_d.style.display='';
 		collection_id_d.style.display='';
 		contSrchBtn.style.display='';
 		other_id_d.style.display='';
@@ -375,7 +393,7 @@ function doPartSearch(side,srchType) {
 		srch.value='container';
 	}
 	focusDefault();
-}	
+}
 function l_expandNode (id) {
 	// came from left, redirect
 	var treeID = "leftTreeBox";
@@ -403,7 +421,7 @@ function r_tondrag (id, pid) {
 	} else {
 		return false;
 	}
-}	
+}
 
 function moveContainer_success(result) {
 	alert(result);
@@ -421,18 +439,18 @@ function moveContainer_success(result) {
 }
 
 function l_toncheck(id,state){
-				
+
 				var treeID = "leftTreeBox";
 				getContDetails(id,state,treeID);
 			};
 function r_toncheck(id,state){
 				var treeID = "rightTreeBox";
 				getContDetails(id,state,treeID);
-			};			
+			};
 function n_toncheck(id,state){
 				// uncheck everything
-				
-				
+
+
 				var a = tree_findTreeBox.getAllChecked();
 				var arrElems = a.split( "," );
 				//alert(a);
@@ -449,8 +467,8 @@ function n_toncheck(id,state){
 				nmn.value='0';
 				var treeID = "findTreeBox";
 				getContDetails(id,state,treeID);
-			};			
-			
+			};
+
 function getContDetails(id,state,treeID){
 	jQuery.getJSON("/component/container.cfc",
 		{
@@ -474,14 +492,14 @@ function getContDetails_success (result) {
 	var parent_install_date = resArray[5];
 	var container_remarks = resArray[6];
 	var label = resArray[7];
-	
+
 	var ctypH = document.getElementById('dis_container_type');
 	var desH = document.getElementById('dis_description');
 	var idateH = document.getElementById('dis_parent_install_date');
 	var remH = document.getElementById('dis_container_remarks');
 	var lblH = document.getElementById('dis_label');
 	var admH = document.getElementById('dis_admin');
-	
+
 	ctypH.innerHTML = container_type;
 	desH.innerHTML = description;
 	idateH.innerHTML = parent_install_date;
@@ -491,13 +509,13 @@ function getContDetails_success (result) {
 	admH.innerHTML += '<br><a href="/info/ContHistory.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">History</a>';
 	admH.innerHTML += '<br><a href="/containerPositions.cfm?container_id=' + container_id + '" target="_blank" onclick="closeDetails()">Positions</a>';
 	admH.innerHTML += '<br><a href="/allContainerLeafNodes.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Leaf Nodes</a>';
-	
-	
-	
+
+
+
 	var td = document.getElementById('containerDetails');
 	td.style.display='';
-	
-}	
+
+}
 function yescheck() {
 	alert('yescheck');
 	var a = tree_findTreeBox.getAllChecked();
@@ -505,7 +523,7 @@ function yescheck() {
 }
 function nocheck() {
 	tree_findTreeBox.enableCheckBoxes( false);
-	alert('nocheck');	
+	alert('nocheck');
 	/*
 	alert('findNode');
 	//var n = tree_findTreeBox.findItem('notThere');
@@ -514,14 +532,14 @@ function nocheck() {
 	//alert(i);
 	//tree_findTreeBox.insertNewChild("' + PARENT_CONTAINER_ID + '","' + CONTAINER_ID + '","' + LABEL + ' (' + CONTAINER_TYPE + ')",0,0,0,0,"",1)';
 	//		eval(thisIns);
-	
+
 	var i = tree_findTreeBox.closeItem('476089');
 	var e = tree_findTreeBox.closeItem('afgaer');
 	var ea = tree_findTreeBox.closeItem('2252084');
 	alert(i);
 	alert(e);
 	alert(ea);
-	
+
 	var a = tree_findTreeBox.getLevel('2252084');
 	var b = tree_findTreeBox.getLevel('asdawre');
 	var c = tree_findTreeBox.getLevel('41205');

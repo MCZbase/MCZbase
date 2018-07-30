@@ -676,7 +676,7 @@
 					<input type="text"
 						name="LAT_LONG_REMARKS"
 						id="LAT_LONG_REMARKS#i#"
-						value="#stripQuotes(LAT_LONG_REMARKS)#"
+						value="#encodeForHTML(LAT_LONG_REMARKS)#"
 						size="60">
 				</td>
 			</tr>
@@ -686,7 +686,7 @@
 						Reference
 					</label>
 					<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE#i#" size="120" class="reqdClr"
-						value="#preservesinglequotes(getLL.LAT_LONG_REF_SOURCE)#" />
+						value="#encodeForHTML(getLL.LAT_LONG_REF_SOURCE)#" />
 				</td>
 			</tr>
 			<tr>
@@ -1702,33 +1702,33 @@
 							<cfelse>
 								,NULL
 							</cfif>
-							,'#DATUM#'
+						    ,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#DATUM#">
 							<cfif len(#UTM_ZONE#) gt 0>
-								,'#UTM_ZONE#'
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#UTM_ZONE#">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#UTM_EW#) gt 0>
-								,'#UTM_EW#'
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#UTM_EW#">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#UTM_NS#) gt 0>
-								,'#UTM_NS#'
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#UTM_NS#">
 							<cfelse>
 								,NULL
 							</cfif>
 							,'#ORIG_LAT_LONG_UNITS#'
-							,#DETERMINED_BY_AGENT_ID#
+						    ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#DETERMINED_BY_AGENT_ID#">
 							,'#dateformat(DETERMINED_DATE,"yyyy-mm-dd")#'
-							,'#LAT_LONG_REF_SOURCE#'
+						    ,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">
 							<cfif len(#LAT_LONG_REMARKS#) gt 0>
-								,'#LAT_LONG_REMARKS#'
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
-								,#MAX_ERROR_DISTANCE#
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#MAX_ERROR_DISTANCE#">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -1892,7 +1892,7 @@
 							,'#dateformat(DETERMINED_DATE,"yyyy-mm-dd")#'
 							,'#LAT_LONG_REF_SOURCE#'
 							<cfif len(#LAT_LONG_REMARKS#) gt 0>
-								,'#LAT_LONG_REMARKS#'
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -1978,7 +1978,7 @@
 			<cfset sql = "#sql#,MAX_ERROR_UNITS = NULL">
 		</cfif>
 		<cfif len(#LAT_LONG_REMARKS#) gt 0>
-			<cfset sql = "#sql#,LAT_LONG_REMARKS = '#stripQuotes(LAT_LONG_REMARKS)#'">
+			<cfset sql = "#sql#,LAT_LONG_REMARKS = '#escapeQuotes(LAT_LONG_REMARKS)#'">
 		  <cfelse>
 			<cfset sql = "#sql#,LAT_LONG_REMARKS = null">
 		</cfif>
@@ -2196,7 +2196,7 @@
 			<cfset sql = "#sql#,#gpsaccuracy#">
 		</cfif>
 		<cfif len(#LAT_LONG_REMARKS#) gt 0>
-			<cfset sql="#sql#,'#stripQuotes(LAT_LONG_REMARKS)#'">
+			<cfset sql="#sql#,'#escapeQuotes(LAT_LONG_REMARKS)#'">
 		</cfif>
 		<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 			<cfset sql="#sql#,#MAX_ERROR_DISTANCE#">

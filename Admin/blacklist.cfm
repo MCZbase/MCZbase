@@ -13,15 +13,16 @@
 	</form>
 	<cfloop query="d">
 		<br>#ip# <a href="blacklist.cfm?action=del&ip=#ip#">Remove</a>
-		<a href="http://whois.domaintools.com/#ip#" target="_blank">whois</a>
+		<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 	</cfloop>
 </cfif>
 <cfif action is "ins">
 	<cftry>
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		insert into blacklist (ip) values ('#trim(ip)#')
-	</cfquery>
-	<cflocation url="/Admin/blacklist.cfm">
+	   <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	   	   insert into blacklist (ip) values (<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#trim(ip)#">)
+  	   </cfquery>
+       <cfset application.blacklist=listappend(application.blacklist,trim(ip))>
+	   <cflocation url="/Admin/blacklist.cfm">
 	<cfcatch>
 		<cfdump var=#cfcatch#>
 	</cfcatch>
@@ -29,8 +30,9 @@
 </cfif>
 <cfif action is "del">
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from blacklist where ip = '#ip#'
+		delete from blacklist where ip = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#ip#">
 	</cfquery>
+    <cfset application.blacklist=ListDeleteAt(application.blacklist,ListFind(application.blacklist,trim(ip)))>
 	<cflocation url="/Admin/blacklist.cfm">
 </cfif>
 </cfoutput>

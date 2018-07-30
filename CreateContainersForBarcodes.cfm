@@ -75,7 +75,7 @@
 	<cfset mczbarcode=left(numberFormat(barcode,00000000),4) & "PLACE" & right(numberFormat(barcode,00000000),4)>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO container (container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
-			VALUES (sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>0</cfif>, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
+			VALUES (sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
 	</cfquery>
 			<cfset num = #num# + 1>
 			<cfset barcode = #barcode# + 1>
@@ -94,7 +94,7 @@
 	</cfif>
 	<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO container (container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
-			VALUES (sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>0</cfif>, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
+			VALUES (sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
 	</cfquery>
 			<cfset num = #num# + 1>
 			<cfset barcode = #barcode# + 1>

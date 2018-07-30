@@ -1078,7 +1078,7 @@ document.getElementById('saveme').submit();
 					#lat_long_ref_source#&nbsp;
 				</td>
 				<td>
-					#lat_long_remarks#&nbsp;
+					#encodeForHTML(lat_long_remarks)#&nbsp;
 				</td>
 
 </cfif>

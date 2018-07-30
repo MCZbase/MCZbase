@@ -238,10 +238,6 @@
     </div><!---end primaryCont or secondaryCont or defaultCont--->
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<script language="javascript" type="text/javascript">
-			$(document).ready(function() {
-			    document.body.onselectstart = function() {return false;}
-			    $('##popDiv').animaDrag();
-			});
 
 			function closeEditApp() {
 				$('##bgDiv').remove();

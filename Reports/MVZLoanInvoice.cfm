@@ -254,6 +254,7 @@ Change to: <select name="format">
 		<option value="Malacology2">Malacology 1"x2" test</option>
 		<!---  <option value="Cryo">Cryogenic Locator List</option>  --->
 		<option value="Cryo-Sheet">Cryogenic Spreadsheet</option>
+		<option value="Storage">Storage Locations</option>
 	</select>
 	<input type='submit' value='Change Format' />
 </form>
@@ -431,6 +432,7 @@ Change to: <select name="format">
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select distinct
     	    cataloged_item.collection_cde,
+                MCZBASE.get_storage_parentage(container.container_id) as container,
     		cataloged_item.cat_num,
     		cataloged_item.collection_object_id,
     		identification.scientific_name,
@@ -467,9 +469,13 @@ Change to: <select name="format">
     		collecting_event,
     		preferred_agent_name,
     		trans,
-    		trans_agent
+    		trans_agent,
+                coll_obj_cont_hist,
+                container
     	WHERE
     		loan_item.collection_object_id = specimen_part.collection_object_id AND
+                loan_item.collection_object_id = coll_obj_cont_hist.collection_object_id AND
+                coll_obj_cont_hist.container_id = container.container_id AND 
     		loan.transaction_id = loan_item.transaction_id AND
     		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
     		cataloged_item.collection_object_id = identification.collection_object_id AND
@@ -479,7 +485,8 @@ Change to: <select name="format">
     		trans.transaction_id = trans_agent.transaction_id and
     		trans_agent.trans_agent_role = 'received by' and
     		trans_agent.agent_id = preferred_agent_name.agent_id AND
-    	    loan_item.transaction_id = #transaction_id#
+                coll_obj_cont_hist.current_container_fg = 1 and
+    	        loan_item.transaction_id = #transaction_id#
     	ORDER BY cat_num
     </cfquery>
     </cfif>
@@ -505,7 +512,7 @@ Change to: <select name="format">
     <cfif format is "Mammalogy">
     	<cfset maxRow = 6>
     </cfif>
-    <cfif format is "Cryo">
+    <cfif format is "Cryo" or format is "Storage">
     	<cfset maxRow = 9>
             <cfset maxCol = 2>
             <cfset labelWidth = 'width: 368px;'>
@@ -538,7 +545,7 @@ Change to: <select name="format">
     </tr>
     </table>
     '>
-    <cfif format is "Cryo">
+    <cfif format is "Cryo" or format is "Storage">
     	<cfset textClass = "times10">
     	<cfset dateStyle = "dd mmm<br>yyyy">
     	<cfset labelStyle = 'height: 17px; #labelWidth# #labelBorder#'>
@@ -683,7 +690,7 @@ Change to: <select name="format">
     		</cfif>
     	</cfif>
     </cfif>
-    <cfif format is "Herp">
+    <cfif format is "Herp" or format is "Storage">
     	<cfset sciName = #replace(scientific_name," ","&nbsp;","all")#>
     </cfif>
     <cfif format is "Malacology" or format is "Malacology2">
@@ -702,7 +709,7 @@ Change to: <select name="format">
     	<!--- here is where I could insert a div tag so that I could limit the space
     	allotted per item, but make sure that the div tag size is a function or which format is chosen--->
     	<div style="#labelStyle#">
-    		<cfif format is "Cryo">
+    		<cfif format is "Cryo" >
     		   <table>
     		      <tr>
     		         <td><span class="#textClass#"><i>#sciName#</i> <strong>#collection_cde# #cat_num#</strong></span></td>
@@ -715,7 +722,22 @@ Change to: <select name="format">
     	 	     </tr>
     	          </table>
                     <cfelse>
-    		<cfif format is "Malacology">
+    		<cfif format is "Storage" >
+    		   <table>
+    		      <tr>
+    		         <td colspan="2" align="center"><span class="#textClass#">
+    			      <strong>Loan Number:</strong> #getItems.loan_number# &nbsp;
+                              <strong>On Loan To:</strong> #agent_name#
+                         </span></td>
+    		      </tr>
+    		      <tr>
+    		         <td><span class="#textClass#"><i>#sciName#</i> <strong>#collection_cde# #cat_num#</strong></span></td>
+    		      </tr>
+    		      <tr>
+    		         <td><span class="#textClass#">#container#</span></td>
+    	 	     </tr>
+    	          </table>
+    		<cfelseif format is "Malacology">
     		      <table>
     		      <tr>
     		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
@@ -724,7 +746,6 @@ Change to: <select name="format">
     		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></div></td>
     			  </tr>
     			 <tr>
-    		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>
     			 </tr>
     			 <tr>
     		        <td>

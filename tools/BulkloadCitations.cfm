@@ -36,7 +36,7 @@ show error------>
     <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none; margin: 1em 0;">
 		<label for="t">Copy the following code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_TITLE,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS</textarea>
+		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_TITLE,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,CITATION_PAGE_URI,TYPE_STATUS,CITATION_REMARKS</textarea>
 	</div>
 
 <ul class="geol_hier">
@@ -48,6 +48,7 @@ show error------>
 	<li>PUBLICATION_ID</li>
 	<li style="color:red">CITED_SCIENTIFIC_NAME</li>
 	<li>OCCURS_PAGE_NUMBER</li>
+	<li>CITATION_PAGE_URI</li>
 	<li style="color:red">TYPE_STATUS</li>
 	<li style="color:red">CITATION_REMARKS</li>
 </ul>
@@ -269,6 +270,9 @@ show error------>
 				<cfif len(#OCCURS_PAGE_NUMBER#) gt 0>
 					,OCCURS_PAGE_NUMBER
 				</cfif>
+				<cfif len(#CITATION_PAGE_URI#) gt 0>
+					,CITATION_PAGE_URI
+				</cfif>
 				<cfif len(#TYPE_STATUS#) gt 0>
 					,TYPE_STATUS
 				</cfif>
@@ -282,6 +286,9 @@ show error------>
 				1
 				<cfif len(#OCCURS_PAGE_NUMBER#) gt 0>
 					,#OCCURS_PAGE_NUMBER#
+				</cfif>
+				<cfif len(#CITATION_PAGE_URI#) gt 0>
+					,'#CITATION_PAGE_URI#'
 				</cfif>
 				<cfif len(#TYPE_STATUS#) gt 0>
 					,'#TYPE_STATUS#'
@@ -312,7 +319,13 @@ show error------>
 			<cfif #status# is not "loaded">
 				Something bad happened with #publication_title#. Contact your friendly local sysadmin.
 			<cfelse>
-				Everything seems to have worked! View citations for <a href="/Citation.cfm?publication_id=#publication_id#">#publication_title#</a>
+				Everything seems to have worked! View citations for <a href="/Citation.cfm?publication_id=#publication_id#">
+					<cfif len(#publication_title#) gt 0>
+						#publication_title#
+					<cfelse>
+						Publication ID #publication_id#
+					</cfif>
+					</a>
 			</cfif>
 		</cfloop>
 	</cfoutput>
