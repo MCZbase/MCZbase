@@ -67,9 +67,8 @@
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
 	</p>
 	<p>
-		You may talk to our <a href='http://digir.mcz.harvard.edu/digir/'>DiGIR provider</a> or 
-		our <a href='http://digir.mcz.harvard.edu/tapir/'>Tapir provider</a> or 
-                our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
+		You may download the complete public MCZ data set from 
+        our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
 	</p>
 	<p>
 		You may link to specific <a href="/api/collections">collection's portals</a>.
