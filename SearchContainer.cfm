@@ -37,7 +37,7 @@
 
         <!--------------------------- search pane ----------------------------->
 <div id="searchContainer">
-        <h3 style="margin: 1em 2em;">Find Container:</h3>
+        <h2>Find Container:</h2>
 				<div class="btnTips">
 		<input type="button" class="seeTipsLink" id="contBtn" onclick="seetips()" value="Show tips and examples">
 		</div>
@@ -88,12 +88,12 @@
 						</li>
 					<li>
 					   <cfif not isdefined("container_label")><cfset container_label=""></cfif>
-								<label>Name (% for wildcard)</label>
-                <input type="text" name="container_label" id="container_label" size="20" /></li>
+								<label>Name </label>
+                <input type="text" name="container_label" id="container_label" size="20" placeholder="(% for wildcard)"/></li>
 			    <li>
 								<input type="hidden" name="transaction_id" id="transaction_id">
-								<label>Unique Identifier (exact match)</label>
-                <input type="text" name="barcode" id="barcode" size="20" /></li>
+								<label>Unique Identifier </label>
+                <input type="text" name="barcode" id="barcode" size="20" placeholder=" (exact match)"/></li>
 		  		<li>
 					  <input type="submit" value="Search" class="schBtn" style="">
 								<input class="clrBtn" type="reset" value="Clear" style=""/>
