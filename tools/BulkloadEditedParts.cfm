@@ -38,6 +38,12 @@
 	<li style="color:red">condition
 
      </li>
+     <li>current_remarks
+         <ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+           <li>Notes in the remarks field on the specimen record now. Copy and paste into the spreadsheet if possible.
+           They must match the remarks on the record.</li>
+         </ul>
+       </li>
 	<li>append_to_remarks
 			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>Anything in this field will be appended to the current remarks. It will be automatically separated by a semicolon.</li>
