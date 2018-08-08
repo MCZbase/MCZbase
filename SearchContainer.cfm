@@ -2,6 +2,7 @@
 <cfset title='Find Containers'>
 <script type='text/javascript' src='/includes/dhtmlxtree.js'><!-- --></script>
 <script type="text/javascript" src="/includes/dhtmlxcommon.js"></script>
+<link rel="STYLESHEET" type="text/css" href="/includes/css/bootstrap.css">
 <link rel="STYLESHEET" type="text/css" href="/includes/SearchContainer.css">
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 
@@ -36,7 +37,26 @@
 
         <!--------------------------- search pane ----------------------------->
 <div id="searchContainer">
-        <h3 style="margin: 1em 2em;">Find Container:</h3>
+        <h2>Find Container:</h2>
+				<div class="btnTips">
+		<input type="button" class="seeTipsLink" id="contBtn" onclick="seetips()" value="Show tips and examples">
+		</div>
+		<div class="tipPane" id="hiddentips" style="display:none;">
+		<div class="tips">
+		<ul class="cont-tips1">
+		    <li>Search to see if a container was entered, especially if no specimens have been attached yet or search for a container without knowing what is in
+		    that container.</li>
+		    <li>Find containers of <b>cataloged items</b> by searching the <b>specimen search page &rarr; manage results &rarr; part report (locations)</b>.</li>
+		    <li>Use % for unknown letters/characters (a.k.a. wildcard).</li>
+		    <li>If the search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
+			</ul>
+		   <ul class="cont-tips2">
+		     <li>The Unique Identifier value must match exactly (wildcards are not allowed). For the exact match: Mamm_cabinet-1 and Mamm_cabinet_1 are different; however, in the Name field these are the same.</li>
+		    <li>Entry examples: a freezer name in the Name field = "IZ_freezer-1", barcode in Unique Identifier field = "1000PLACE2216", and container &amp; fixture together: Container Type = "fixture" + name = "Mamm_cabinet%". </li>
+
+		</ul>
+			</div>
+		</div>
         <div id="searchPane">
           <form onSubmit="loadTree();return false;">
     <ul class="findContainer">
@@ -68,73 +88,48 @@
 						</li>
 					<li>
 					   <cfif not isdefined("container_label")><cfset container_label=""></cfif>
-								<label>Name (% for wildcard)</label>
-                <input type="text" name="container_label" id="container_label" size="20" /></li>
+								<label>Name </label>
+                <input type="text" name="container_label" id="container_label" size="20" placeholder="(% for wildcard)"/></li>
 			    <li>
 								<input type="hidden" name="transaction_id" id="transaction_id">
-								<label>Unique Identifier (exact match)</label>
-                <input type="text" name="barcode" id="barcode" size="20" /></li>
+								<label>Unique Identifier </label>
+                <input type="text" name="barcode" id="barcode" size="20" placeholder=" (exact match)"/></li>
 		  		<li>
 					  <input type="submit" value="Search" class="schBtn" style="">
 								<input class="clrBtn" type="reset" value="Clear" style=""/>
 
           </li>
 		</ul>
-		<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
-				<span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
-				<span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
-		</div>
-</div>
-<div>
-	<input type="button" class="seeTipsLink" id="contBtn" onclick="seetips()" value="Show tips and examples">
-	<div class="tipPane" id="hiddentips" style="display:none;">
-	<div class="lefttips">
-	<ul>
-	<h5>Page Use</h5>
-	<ul style="margin-bottom: 1em;"><li>Search to see if a container was entered, especially if no specimens have been attached yet (to prevent duplicate entries) or find a container without knowing what is in that container. Find containers of known <b>cataloged items</b> by searching the <b>specimen search page &rarr; manage results &rarr; part report (locations)</b>.</li></ul>
-
-		<h5>Search Tips</h5>
-		<ul>
-		<li>Use % for unknown letters/characters (a.k.a. wildcard).</li>
-		<li>Double click on a container name in the search results (under heading "Container Hierarchy") to see the containers within it.</li>
-		<li>Unique Identifier value must match exactly (wildcards are not allowed).</li>
-		<li>If the search is not narrow enough (i.e., returns more than 1000 links), it will timeout.</li>
-		<li>Start with the container name known (e.g., room container name: MCZ-G048) and double click into the hierarchy until the container is found.</li>
-	</ul>
+				<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
+            <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
+            <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
+        </div>
 	</div>
-	<div class="rightexamples">
-		<h5>Search examples:</h5>
-	<ul>
-	<li>Container Type + part of Name (e.g., fixture + Mamm_cabinet% returns all the fixtures that start with "Mamm_cabinet" in the name and shows where they are).</li>
-	<li>Enter a unique identifier to see if a barcode has been entered. The exact match can show problems with formatting. In the unique identifier field Mamm_cabinet-1 and Mamm_cabinet_1 are different but in the name field they are the same.</li>
-	<li>Enter a freezer name to see where it is and what temperature is listed (e.g., Name = "IZ_freezer-1").
-	Double-click on the last result in the tree and see all the freezer boxes inside it.
-	In container details on the right side of page (click check box on left panel to reveal it), click "See all collection objects..." where you can get a separate page of everything that is in that container (printer friendly).
-	</ul>
+
+	<script>
+	function seetips() {
+	    var x = document.getElementById("hiddentips");
+		var btn = document.getElementById("contBtn");
+
+	    if (x.style.display === "none") {
+	        x.style.display = "block";
+			btn.value = 'Hide tips and examples';
+	    } else {
+	        x.style.display = "none";
+			btn.value = 'Show tips and examples';
+	    }
+	}
+	</script>
+		<div class="fullPane">
+						<div id="treePane" class="cTreePane"></div>
+						<div id="detailPane"></div>
+		</div>
 	</div>
+	</div>
+<div id="thisfooter">
+	<cfinclude template="/includes/_footer.cfm">
 </div>
-</div>
-		<script>
-		function seetips() {
-		    var x = document.getElementById("hiddentips");
-			var btn = document.getElementById("contBtn");
 
-
-		    if (x.style.display === "none") {
-		        x.style.display = "block";
-				btn.value = 'Hide tips and examples';
-		    } else {
-		        x.style.display = "none";
-				btn.value = 'Show tips and examples';
-		    }
-		}
-		</script>
-			<div class="fullPane">
-							<div id="treePane" class="cTreePane"></div>
-							<div id="detailPane"></div>
-			</div>
-		</div>
-		</div>
 <cfif isdefined("url.collection_object_id") and len(url.collection_object_id) gt 0 and isdefined("url.showControl")>
 	<script language="javascript" type="text/javascript">
 		try {
