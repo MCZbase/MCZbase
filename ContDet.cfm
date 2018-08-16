@@ -110,7 +110,7 @@
 		<cfelse>
 			<tr>
 				<td colspan="2" class="lblval lblextra">
-                    <a href="EditContainer.cfm?container_id=#container_id#" target="_blank">Edit this container</a> <span style="font-size: small"> (new window)</span>
+                    <a href="editContainer.cfm?container_id=#container_id#" target="_blank">Edit this container</a> <span style="font-size: small"> (new window)</span>
 			</td>
 			</tr>
 		</cfif>

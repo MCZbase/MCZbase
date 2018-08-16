@@ -153,7 +153,7 @@
                   </cfif>
                     </ul>
               </li>
-                  <cfif listfind(formList,"/EditContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>
+                  <cfif listfind(formList,"/editContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>
                 <li><a target="_top" href="##">Object Tracking</a>
                       <ul>
                     <cfif listfind(formList,"/tools/dgr_locator.cfm")>
@@ -166,9 +166,9 @@
                           <li><a target="_top" href="/labels2containers.cfm">Label>Container</a></li>
                           <li><a target="_top" href="/part2container.cfm">Object+BC>>Container</a></li>
                         </cfif>
-                    <cfif listfind(formList,"/EditContainer.cfm")>
+                    <cfif listfind(formList,"/editContainer.cfm")>
                           <li><a target="_top" href="/LoadBarcodes.cfm">Upload Scan File</a></li>
-                          <li><a target="_top" href="/EditContainer.cfm?action=newContainer">Create Container</a></li>
+                          <li><a target="_top" href="/editContainer.cfm?action=newContainer">Create Container</a></li>
                           <li><a target="_top" href="/CreateContainersForBarcodes.cfm">Create Container Series</a></li>
                           <li><a target="_top" href="/SpecimenContainerLabels.cfm">Clear Part Flags</a></li>
                         </cfif>

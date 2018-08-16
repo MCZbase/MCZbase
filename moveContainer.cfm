@@ -66,10 +66,10 @@
 			var isParent = message.indexOf('Parent');
 			if (isChild > -1) {
 				var theChildBarcode = document.getElementById('child_barcode').value;
-				var newMess = '<a href="/EditContainer.cfm?action=newContainer&barcode=' + theChildBarcode + '">' + message + "</a>";
+				var newMess = '<a href="/editContainer.cfm?action=newContainer&barcode=' + theChildBarcode + '">' + message + "</a>";
 			} else if (isParent > -1) {
 				var theParentBarcode = document.getElementById('parent_barcode').value;
-				var newMess = '<a href="/EditContainer.cfm?action=newContainer&barcode=' + theParentBarcode + '">' + message + "</a>";
+				var newMess = '<a href="/editContainer.cfm?action=newContainer&barcode=' + theParentBarcode + '">' + message + "</a>";
 			} else {
 				var newMess = message;
 			}

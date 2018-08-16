@@ -104,7 +104,7 @@ function loadTree_success(r) {
 	} else{
 		theTreeDiv.className="cTreePane";
         theTreeDiv.innerHTML = '';
-		theTreeDiv.innerHTML = '<h4>Container Hierarchy</h4> <a href=\"EditContainer.cfm?action=newContainer\" class=\"newContBtn\">Create Container</a><p>Click on a check box for container details.  Double click on a container name to list what is inside it. Create a container if it does not exist.</p>';
+		theTreeDiv.innerHTML = '<h4>Container Hierarchy</h4> <a href=\"editContainer.cfm?action=newContainer\" class=\"newContBtn\">Create Container</a><p>Click on a check box for container details.  Double click on a container name to list what is inside it. Create a container if it does not exist.</p>';
 		newTree=new dhtmlXTreeObject("treePane","100%","100%;",0);
 		newTree.setImagePath("/images/dhtmlxTree/");
 		newTree.insertNewItem("0","container0","The Universe",0,0,0,0,"SELECT");
@@ -505,10 +505,11 @@ function getContDetails_success (result) {
 	idateH.innerHTML = parent_install_date;
 	remH.innerHTML = container_remarks;
 	lblH.innerHTML = label;
-	admH.innerHTML = '<a href="/EditContainer.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Edit</a>';
+	admH.innerHTML = '<a href="/editContainer.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Edit</a>';
 	admH.innerHTML += '<br><a href="/info/ContHistory.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">History</a>';
 	admH.innerHTML += '<br><a href="/containerPositions.cfm?container_id=' + container_id + '" target="_blank" onclick="closeDetails()">Positions</a>';
 	admH.innerHTML += '<br><a href="/allContainerLeafNodes.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Leaf Nodes</a>';
+	admH.innerHTML += '<a href="/editContainer.cfm?action=newContainer&parent_container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Create Child Container</a>';
 
 
 

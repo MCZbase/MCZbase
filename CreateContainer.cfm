@@ -2,7 +2,7 @@
 <!---- this is an internal use page and needs a security wrapper --->
  This form is obsolete. Please file a bug report detailing how you got here.
  <p>
- 	The current form is <a href="EditContainer.cfm?action=newContainer">here</a>
+ 	The current form is <a href="editContainer.cfm?action=newContainer">here</a>
  </p>
 <cfabort>
 

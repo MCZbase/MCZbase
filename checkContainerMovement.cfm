@@ -181,7 +181,7 @@
 		The following child containers are labels:
 		<cfloop query="isChildLabel">
 			<br />
-				<a href="EditContainer.cfm?container_id=#container_id#">#label# (#container_type#)</a>
+				<a href="editContainer.cfm?container_id=#container_id#">#label# (#container_type#)</a>
 		</cfloop>
 		<p>
 		Read the data above. Really! Check a couple of them. If there are only a few and you know what they should be, 
@@ -222,7 +222,7 @@
 		<br />The following parent containers are labels:
 		<cfloop query="isParentLabel">
 			<br />
-				<a href="EditContainer.cfm?container_id=#container_id#">#isParentLabel.label# (#isParentLabel.container_type#)</a>
+				<a href="editContainer.cfm?container_id=#container_id#">#isParentLabel.label# (#isParentLabel.container_type#)</a>
 		</cfloop>
 		<p>
 		Read the data above. Really! Check a couple of them. If there are only a few and you know what they should be, 
@@ -273,8 +273,8 @@
 	</tr>
 	<cfloop query="dupDetail">
 		<tr>
-			<td><a href="EditContainer.cfm?container_id=#parent_container_id#">#parent_barcode#</a></td>
-			<td><a href="EditContainer.cfm?container_id=#CONTAINER_ID#">#child_barcode#</a></td>
+			<td><a href="editContainer.cfm?container_id=#parent_container_id#">#parent_barcode#</a></td>
+			<td><a href="editContainer.cfm?container_id=#CONTAINER_ID#">#child_barcode#</a></td>
 			<td>#dateformat(timestamp,"yyyy-mm-dd")# #timeformat(timestamp,"hh:mm:ss")#</td>
 		</tr>
 	</cfloop>
@@ -416,14 +416,14 @@
 			<cfset globalError = "#globalError#; #error#">
 			<cfset error = replace(error,"; ","","first")>
 			<cfif len(#child.barcode#) gt 0>
-				<cfset childLink = "<a href=""EditContainer.cfm?container_id=#child.container_id#"" target=""_blank"">#child.barcode#</a>">
+				<cfset childLink = "<a href=""editContainer.cfm?container_id=#child.container_id#"" target=""_blank"">#child.barcode#</a>">
 			<cfelse>
-				<cfset childLink = "<a href=""EditContainer.cfm?container_id=#child.container_id#"" target=""_blank"">#child.container_id#</a>">
+				<cfset childLink = "<a href=""editContainer.cfm?container_id=#child.container_id#"" target=""_blank"">#child.container_id#</a>">
 			</cfif>
 			<cfif len(#parent.barcode#) gt 0>
-				<cfset parentLink = "<a href=""EditContainer.cfm?container_id=#parent.container_id#"" target=""_blank"">#parent.barcode#</a>">
+				<cfset parentLink = "<a href=""editContainer.cfm?container_id=#parent.container_id#"" target=""_blank"">#parent.barcode#</a>">
 			<cfelse>
-				<cfset parentLink = "<a href=""EditContainer.cfm?container_id=#parent.container_id#"" target=""_blank"">#child.container_id#</a>">
+				<cfset parentLink = "<a href=""editContainer.cfm?container_id=#parent.container_id#"" target=""_blank"">#child.container_id#</a>">
 			</cfif>
 			<tr>
 				
