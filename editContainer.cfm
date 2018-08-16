@@ -639,11 +639,11 @@
 	<cfparam name="FORM.Fluid_Type" default="">
 	<cfparam name="concentration" default="">
 	<cfparam name="fluid_remarks" default="">
-        <cfset parent_barcode = getParent.barcode >
+        <cfset parent_barcode = "" >
         <cfif len(parent_container_id) gt 0>
                 <cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                         select barcode from  container where
-                        containerid = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value='#parent_container_id#'
+                        containerid = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value='#parent_container_id#'>
                 </cfquery>
                 <cfif getParent.recordcount is 1>
                         <cfset parent_barcode = getParent.barcode >

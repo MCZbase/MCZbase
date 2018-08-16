@@ -56,7 +56,7 @@ Disallow: /Container.cfm
 Disallow: /containerContainer.cfm
 Disallow: /ContainerGrid.cfm
 Disallow: /containerPositions.cfm
-Disallow: /ContDet.cfm
+Disallow: /ContainerDetails.cfm
 Disallow: /CreateContainer.cfm
 Disallow: /CreateContainersForBarcodes.cfm
 Disallow: /DataEntry.cfm
@@ -68,7 +68,7 @@ Disallow: /editAllAgent.cfm
 Disallow: /editBiolIndiv.cfm
 Disallow: /editBook.cfm
 Disallow: /editColls.cfm
-Disallow: /EditContainer.cfm
+Disallow: /editContainer.cfm
 Disallow: /editIdentification.cfm
 Disallow: /editIdentifiers.cfm
 Disallow: /editLocality.cfm

@@ -90,7 +90,7 @@
 	<frameset cols="50%,50%">
 <frame src="#treeURL#" name="_tree">
 <cfif #treeURL# contains "location_tree.cfm?">
-	<frame name="_detail" src="/ContDet.cfm">
+	<frame name="_detail" src="/ContainerDetails.cfm">
 	<cfelseif #treeURL# contains "ContainerGrid.cfm?">
 	<frame name="_detail" src="/location_tree.cfm">
 </cfif>
@@ -104,7 +104,7 @@
 <frameset cols="70%,30%">
 <frame src="#treeURL#" name="_tree">
 <cfif #treeURL# contains "location_tree.cfm?">
-	<frame name="_detail" src="/ContDet.cfm">
+	<frame name="_detail" src="/ContainerDetails.cfm">
 	<cfelseif #treeURL# contains "ContainerGrid.cfm?">
 	<frame name="_detail" src="/location_tree.cfm">
 </cfif>

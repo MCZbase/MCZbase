@@ -178,7 +178,7 @@ parent_container_id,
 				<cfset expand = " <a href=""location_tree.cfm?container_id=#container_id#&action=contentsSearch""><img src=""/images/plus.gif""></a>">
 			</cfif>
 			<cfset a = "#a#
-				d.add(#container_id#,#parent_container_id#,'#label# (#container_type#) #expand#','ContDet.cfm?container_id=#container_id#&objType=CollObj','','_detail');">
+				d.add(#container_id#,#parent_container_id#,'#label# (#container_type#) #expand#','ContainerDetails.cfm?container_id=#container_id#&objType=CollObj','','_detail');">
 			<cfset placedContainers = listappend(placedContainers,#container_id#)>
 		</cfif>
 
@@ -205,7 +205,7 @@ parent_container_id,
 				<cfset expand = " <a href=""location_tree.cfm?container_id=#container_id#&action=contentsSearch""><img src=""/images/plus.gif""></a>">
 			</cfif>
 			<cfset a = "#a#
-			d.add(#container_id#,#parent_container_id#,'#label# (#container_type#) [#barcode#] #expand#','ContDet.cfm?container_id=#container_id#&objType=CollObj','','_detail');">
+			d.add(#container_id#,#parent_container_id#,'#label# (#container_type#) [#barcode#] #expand#','ContainerDetails.cfm?container_id=#container_id#&objType=CollObj','','_detail');">
 		</cfif>
 		<cfset placedContainers = listappend(placedContainers,#container_id#)>
 	</cfloop>

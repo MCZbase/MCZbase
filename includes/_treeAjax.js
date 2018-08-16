@@ -168,7 +168,7 @@ function expandNode_success (r) {
 function checkHandler (id){
 	post(1);
 	try {
-		jQuery('#detailPane').load("/ContDet.cfm",{container_id: id});
+		jQuery('#detailPane').load("/ContainerDetails.cfm",{container_id: id});
 		var fatAr = newTree.getAllFatItems().split(",")
 		var leafAr = newTree.getAllLeafs().split(",")
 		var rootsAr = fatAr.concat(leafAr);
