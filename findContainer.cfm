@@ -100,9 +100,12 @@
 
           </li>
 		</ul>
-				<div style="display: none;"> <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
-            <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
-            <span class="likeLink" onclick="printLabels()">Print Labels</span> </div>
+		    <div style="display: none;">
+                <span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
+                <span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
+                <span class="likeLink" onclick="printLabels()">Print Labels</span> 
+            </div>
+            <div><span><a href="ContainerBrowse.cfm">Browse Containers</a></span></div>
         </div>
 	</div>
 
