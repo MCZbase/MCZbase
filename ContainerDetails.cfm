@@ -120,6 +120,13 @@
 						See all collection objects in this container</a>
 			</td>
 		</tr>
+                <cfif contaner_type ne 'collection object'>
+		<tr>
+			<td colspan="2" class="lblval lblextra">
+                                <a href="editContainer.cfm?action=newContainer?parent_container_id=#container_id#" class="newContBtn" target="blank">Create a Child of this Container</a>
+			</td>
+		</tr>
+                </cfif>
 		<tr>
 			<td colspan="2" class="lblval lblextra">
 				<a href="/containerPositions.cfm?container_id=#container_id#"
