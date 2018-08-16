@@ -52,9 +52,6 @@ Disallow: /Citation.cfm
 Disallow: /CodeTableButtons.cfm
 Disallow: /CodeTableEditor.cfm
 Disallow: /compDGR.cfm
-Disallow: /Container.cfm
-Disallow: /containerContainer.cfm
-Disallow: /ContainerGrid.cfm
 Disallow: /containerPositions.cfm
 Disallow: /ContainerDetails.cfm
 Disallow: /CreateContainer.cfm
@@ -83,7 +80,6 @@ Disallow: /Loan.cfm
 Disallow: /loanByBarcode.cfm
 Disallow: /loanFreezerLocn.cfm
 Disallow: /Locality.cfm
-Disallow: /location_tree.cfm
 Disallow: /locDownload.cfm
 Disallow: /media.cfm
 Disallow: /moveContainer.cfm
