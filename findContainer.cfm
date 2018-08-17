@@ -7,6 +7,7 @@
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 
 <cfoutput>
+<!--- TODO: Redmine 334 add a ajax autocomlete backing function for container.name and container.barcode.  Add jquery11=true to this page. --->
 <script>
 	jQuery(document).ready(function() {
 		jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
@@ -17,7 +18,7 @@
 			multiple: false,
 			scroll: true,
 			scrollHeight: 300
-		});
+o
 	});
 </script>
 <script type='text/javascript' src='/includes/_treeAjax.js'></script>
@@ -37,6 +38,18 @@
 
         <!--------------------------- search pane ----------------------------->
 <div id="searchContainer">
+	 <cfset autoSubmit=false>
+	 <cfif isdefined("container_id")>
+            <cfquery name="labelbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            	select label from container where container_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#container_id#">
+            </cfquery>
+            <cfloop query="labelbyid">
+	        <cfset autoSubmit=true>
+                <cfset container_label="#labelbyid.label#">
+            </cfloop>
+        <cfelse>
+            <cfset container_id = "">
+        </cfif>
         <h2>Find Container:</h2>
 				<div class="btnTips">
 		<input type="button" class="seeTipsLink" id="contBtn" onclick="seetips()" value="Show tips and examples">
@@ -89,7 +102,7 @@
 					<li>
 					   <cfif not isdefined("container_label")><cfset container_label=""></cfif>
 								<label>Name </label>
-                <input type="text" name="container_label" id="container_label" size="20" placeholder="(% for wildcard)"/></li>
+                <input type="text" name="container_label" id="container_label" size="20" placeholder="(% for wildcard)" value="#container_label#"/></li>
 			    <li>
 								<input type="hidden" name="transaction_id" id="transaction_id">
 								<label>Unique Identifier </label>
@@ -166,7 +179,6 @@
 		</script>
 
 <cfelse>
-	<cfset autoSubmit=false>
 	<cfloop list="#StructKeyList(url)#" index="key">
 		<cfif len(#url[key]#) gt 0>
 			<cfset autoSubmit=true>
