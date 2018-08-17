@@ -38,13 +38,17 @@ o
 
         <!--------------------------- search pane ----------------------------->
 <div id="searchContainer">
-	    <cfif isdefined("container_id")>
+	 <cfset autoSubmit=false>
+	 <cfif isdefined("container_id")>
             <cfquery name="labelbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            	select label from container where container_id = <cfqueryparam type="CF_SQL_NUMBER" value="#container_id#">
+            	select label from container where container_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#container_id#">
             </cfquery>
             <cfloop query="labelbyid">
+	        <cfset autoSubmit=true>
                 <cfset container_label="#labelbyid.label#">
             </cfloop>
+        <cfelse>
+            <cfset container_id = "">
         </cfif>
         <h2>Find Container:</h2>
 				<div class="btnTips">
@@ -98,7 +102,7 @@ o
 					<li>
 					   <cfif not isdefined("container_label")><cfset container_label=""></cfif>
 								<label>Name </label>
-                <input type="text" name="container_label" id="container_label" size="20" placeholder="(% for wildcard)"/></li>
+                <input type="text" name="container_label" id="container_label" size="20" placeholder="(% for wildcard)" value="#container_label#"/></li>
 			    <li>
 								<input type="hidden" name="transaction_id" id="transaction_id">
 								<label>Unique Identifier </label>
@@ -175,7 +179,6 @@ o
 		</script>
 
 <cfelse>
-	<cfset autoSubmit=false>
 	<cfloop list="#StructKeyList(url)#" index="key">
 		<cfif len(#url[key]#) gt 0>
 			<cfset autoSubmit=true>
