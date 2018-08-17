@@ -21,17 +21,17 @@
 
 <cfif action is "qc">
    <h2>Containers which should be placed in another container, but are not.</h2>
+   <!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned.
+          parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus) --->
    <cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select count(*) ct, container_type from container 
-        where parent_container_id = 0 and container_type <> 'campus' 
+        where parent_container_id < 2 and container_type <> 'campus' 
         group by container_type
    </cfquery>
    <ul>
    <cfloop query="parentlessNodes">
       <li>#parentlessNodes.container_type# (#parentlessNodes.ct#)</li>
       <cfif parentlessNodes.ct LT 100>
-          <!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned.
-                 parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus) --->
           <cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
               select label, container_type from container 
               where parent_container_id < 2 and container_type <> 'campus' 
