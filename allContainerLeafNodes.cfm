@@ -23,7 +23,7 @@
 			container.parent_container_id = prior container.container_id
 	</cfquery>
 	<strong>
-	<a href="ContDet.cfm?container_id=#container_id#" target="_detail">Container #container_id#</a>
+	<a href="ContainerDetails.cfm?container_id=#container_id#" target="_detail">Container #container_id#</a>
 	 has #leaf.recordcount# leaf containers:</strong>
 	<table border id="t" class="sortable">
 		<tr>
@@ -62,7 +62,7 @@
 		</cfquery>
 		<tr>
 			<td>
-				<a href="ContDet.cfm?container_id=#container_id#" target="_detail">#label#</a>
+				<a href="ContainerDetails.cfm?container_id=#container_id#" target="_detail">#label#</a>
 			&nbsp;</td>
 			<td>#description#&nbsp;</td>
 			<td>#barcode#&nbsp;</td>
@@ -271,15 +271,15 @@ SELECT
 
 
 						<cftreeitem
-							value="#thisRecord.container_id#--ContDet.cfm?container_id=#thisRecord.container_id#&objType=CollObj"
+							value="#thisRecord.container_id#--ContainerDetails.cfm?container_id=#thisRecord.container_id#&objType=CollObj"
 							display="#thisRecord.label#"
 							parent="#thisRecord.parent_container_id#"
 							expand="yes"
-							href="ContDet.cfm?container_id=#thisRecord.container_id#"
+							href="ContainerDetails.cfm?container_id=#thisRecord.container_id#"
 							target="_detail">
 
 					<cfelse>
-					<cftreeitem value="#thisRecord.container_id#" display="#thisRecord.label#" parent="#thisRecord.parent_container_id#" href="ContDet.cfm?container_id=#thisRecord.container_id#" target="_detail" expand="yes">
+					<cftreeitem value="#thisRecord.container_id#" display="#thisRecord.label#" parent="#thisRecord.parent_container_id#" href="ContainerDetails.cfm?container_id=#thisRecord.container_id#" target="_detail" expand="yes">
 					</cfif>
 
 				<cfset placedContainers = listappend(placedContainers,#thisRecord.container_id#)>

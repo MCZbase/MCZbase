@@ -42,7 +42,6 @@
 			locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
 			cataloged_item.collection_object_id IN (#collection_object_id#)
 	</cfquery>
-	
 </cfif>
 <cfoutput>
 	<form name="bug" method="post" action="reportBadData.cfm">
@@ -91,22 +90,10 @@
 					<tr>
 						<td>
 							<input type="checkbox" name="newCollObjId" value="#id#" checked>
-							<!----
-							<cfset newCollObjId = replace(collection_object_id,id,"")>
-							<cfset newCollObjId = replace(newCollObjId,",,",",","all")>
-							<cfif left(newCollObjId,1) is ",">
-								<cfset newCollObjId = right(newCollObjId,len(newCollObjId)-1)>
-							</cfif>
-							<cfif right(newCollObjId,1) is ",">
-								<cfset newCollObjId = left(newCollObjId,len(newCollObjId)-1)>
-							</cfif>
-							<br>#newCollObjId#
-							---->
 						</td>
 						<td>
-							<a href="#Application.ServerRootUrl#/SpecimenDetail.cfm?collection_object_id=#id#">
-							#collection# #cat_num#</a>
-							</td>
+							<a href="#Application.ServerRootUrl#/SpecimenDetail.cfm?collection_object_id=#id#">#collection# #cat_num#</a>
+					    </td>
 						<td>#scientific_name#</td>
 						<td>#higher_geog#</td>
 						<td>#spec_locality#</td>
@@ -121,6 +108,22 @@
 </cfif>
 <!------------------------------------------------------------>
 <cfif action is "save">
+
+    <cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select 
+            guid
+        FROM
+            flat
+        WHERE
+            collection_object_id IN (#collection_object_id#)
+    </cfquery>
+    <cfset guids = "">
+    <cfset recordCount = 0>
+    <cfloop query="data">
+        <cfset recordCount = recordCount + 1>
+        <cfset guids = guids + " " + data.guid>
+    </cfloop>
+
 <cfoutput>
 <cfset user_id=0>
 <cfif isdefined("session.username") and len(session.username) gt 0>
@@ -169,6 +172,8 @@
 	</cfquery>
 	
 	<!--- get the proper emails to report this to --->
+    <!--- As of July 2018, MCZbase does not have any entries in collection_contacts for 'data quality'.  --->
+    <!--- Issue reports are expected to be filtered through collections operations to relevant collections staff --->
 	<cfquery name="whatEmails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select address from
 			electronic_address,
@@ -189,7 +194,7 @@
 	</cfloop>
 	
 	<cfmail to="#thisAddress#" subject="Arctos Bad Data Report" from="BadData@#Application.fromEmail#" type="html">
-		<p>Reported Name: #reported_name# (AKA #session.username#) submitted a data report.</p>
+		<p>Reported Name: #reported_name# (Username: #session.username#) submitted a data report.</p>
 		
 		<p><a href="#Application.ServerRootUrl#/SpecimenResults.cfm?collection_object_id=#newCollObjId#">Specimens</a></p>
 		
@@ -199,13 +204,40 @@
 		
 		<P>Email: #user_email#</P>
 	</cfmail>
+
+     <!--- create a bugzilla bug from the bad data report --->
+    <cfset summary=left(#complaint#,60)><!--- obtain the begining of the complaint as a bug summary --->
+        <cfset bugzilla_mail="#Application.bugzillaToEmail#"><!--- address to access email_in.pl script --->
+        <!--cfset bugzilla_user="#Application.bugzillaToEmail#"--><!--- bugs submitted by email can only come from a registered bugzilla user --->
+        <!--cfset bugzilla_user="test@example.com"--><!-- bugzilla user for testing integration as bugreport@software can have alias resolution problems -->
+        <cfset bugzilla_user="#Application.bugzillaFromEmail#"><!--- bugs submitted by email can only come from a registered bugzilla user --->
+        <cfset bugzilla_component="Data">
+        <cfset bugzilla_priority="@priority = P3">
+        <cfset bugzilla_severity="@bug_severity = normal">
+        <cfset newline= Chr(13) & Chr(10)>
+        <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
+@op_sys = Linux
+@product = MCZbase
+@component = Data
+@version = 2.5.1merge
+#bugzilla_priority##newline#
+#bugzilla_severity#
+
+Bug report by: #reported_name# (Username: #session.username#)
+Email: #user_email#
+Complaint: #complaint#
+SpecimenRecords: #guids#
+#newline##newline#
+        </cfmail>
+
+
 	<div align="center">Your report has been successfully submitted.</div>
-	<P align="center">Thank you for helping to improve this site!</p>
+	<P align="center">Thank you for helping to improve the quality of our data.</p>
 	<p align="center">
 		Click <a href="/SpecimenResults.cfm?collection_object_id=#newCollObjId#">here</a> to return to your search results.
 	</p>
 	<p align="center">
-		Click <a href="/home.cfm">here</a> to return to Arctos home.
+		Click <a href="/SpecimenSearch.cfm">here</a> to return to a new Specimen search.
 	</p>
 </cfoutput>
 </cfif>

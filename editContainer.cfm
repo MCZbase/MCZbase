@@ -152,7 +152,7 @@
 				</cfif>
 		    </cfif>--->
 		</cftransaction>
-	<cflocation url="EditContainer.cfm?container_id=#container_id#" addtoken="false">
+	<cflocation url="editContainer.cfm?container_id=#container_id#" addtoken="false">
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------->
@@ -199,7 +199,7 @@
 		select concentration from ctfluid_concentration order by concentration
 	</cfquery>
 	<cfoutput>
-	<form name="form1" method="post" action="EditContainer.cfm">
+	<form name="form1" method="post" action="editContainer.cfm">
 		<input type="hidden" name="container_id" value="#getCont.container_id#">
 		<span style="font-size:large; font-weight:bolder;">Edit Container</span>
 		<table>
@@ -403,7 +403,7 @@
 									<input type="button"
 										value="Edit Parent"
 										class="lnkBtn"
-										onclick="document.location='EditContainer.cfm?container_id=#getCont.parent_container_id#';">
+										onclick="document.location='editContainer.cfm?container_id=#getCont.parent_container_id#';">
 								</cfif>
 							</td>
 
@@ -414,7 +414,7 @@
 			</tr>
 	</table>
 </form>
-<form name="checked" method="post" action="EditContainer.cfm">
+<form name="checked" method="post" action="editContainer.cfm">
 	<input type="hidden" name="action" value="saveChecked">
 	<input type="hidden" name="container_id" value="#getCont.container_id#">
 <table border="1">
@@ -488,7 +488,7 @@
 				'#check_remark#'
 			)
 		</cfquery>
-		<cflocation url="EditContainer.cfm?container_id=#container_id#" addtoken="false">
+		<cflocation url="editContainer.cfm?container_id=#container_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 
@@ -617,7 +617,7 @@
 				</cfquery>
 			</cfif>
 		</cftransaction>
-		<cflocation url="EditContainer.cfm?action=nothing&container_id=#nextContainer.newid#">
+		<cflocation url="editContainer.cfm?action=nothing&container_id=#nextContainer.newid#">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------->
@@ -631,6 +631,7 @@
 	<cfparam name="number_positions" default="">
 	<cfparam name="description" default="">
 	<cfparam name="barcode" default="">
+	<cfparam name="parent_container_id" default="">
 	<cfparam name="label" default="">
 	<cfparam name="checked_date" default="">
 	<cfparam name="parent_install_date" default="">
@@ -638,6 +639,17 @@
 	<cfparam name="FORM.Fluid_Type" default="">
 	<cfparam name="concentration" default="">
 	<cfparam name="fluid_remarks" default="">
+        <cfset parent_barcode = "" >
+        <cfif len(parent_container_id) gt 0>
+                <cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                        select barcode from  container where
+                        container_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value='#parent_container_id#'>
+                </cfquery>
+                <cfif getParent.recordcount is 1>
+                        <cfset parent_barcode = getParent.barcode >
+                </cfif>
+        </cfif>
+
 	<cfoutput>
 		<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct(institution_acronym) institution_acronym from collection order by institution_acronym
@@ -653,7 +665,7 @@
 			select concentration from ctfluid_concentration order by concentration
 		</cfquery>
 		<h2>Create Container</h2>
-		<form name="form1" method="post" action="EditContainer.cfm">
+		<form name="form1" method="post" action="editContainer.cfm">
 			<input type="hidden" name="action" value="CreateNew" />
 			<label for="container_type">Container Type</label>
 			<select name="Container_Type" size="1" id="container_type" class="reqdClr" onchange="isThisAPosition();">
@@ -665,7 +677,7 @@
           		</cfloop>
 			</select>
 			<label for="new_parent_barcode">Parent Unique Identifier</label>
-			<input type="text" name="new_parent_barcode" id="new_parent_barcode" value="" />
+			<input type="text" name="new_parent_barcode" id="new_parent_barcode" value="#parent_barcode#" />
 			<label for="dTab">Dimensions</label>
 			<table border>
 				<tr>

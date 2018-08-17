@@ -52,11 +52,8 @@ Disallow: /Citation.cfm
 Disallow: /CodeTableButtons.cfm
 Disallow: /CodeTableEditor.cfm
 Disallow: /compDGR.cfm
-Disallow: /Container.cfm
-Disallow: /containerContainer.cfm
-Disallow: /ContainerGrid.cfm
 Disallow: /containerPositions.cfm
-Disallow: /ContDet.cfm
+Disallow: /ContainerDetails.cfm
 Disallow: /CreateContainer.cfm
 Disallow: /CreateContainersForBarcodes.cfm
 Disallow: /DataEntry.cfm
@@ -68,7 +65,7 @@ Disallow: /editAllAgent.cfm
 Disallow: /editBiolIndiv.cfm
 Disallow: /editBook.cfm
 Disallow: /editColls.cfm
-Disallow: /EditContainer.cfm
+Disallow: /editContainer.cfm
 Disallow: /editIdentification.cfm
 Disallow: /editIdentifiers.cfm
 Disallow: /editLocality.cfm
@@ -83,7 +80,6 @@ Disallow: /Loan.cfm
 Disallow: /loanByBarcode.cfm
 Disallow: /loanFreezerLocn.cfm
 Disallow: /Locality.cfm
-Disallow: /location_tree.cfm
 Disallow: /locDownload.cfm
 Disallow: /media.cfm
 Disallow: /moveContainer.cfm

@@ -1539,7 +1539,7 @@ document.getElementById('saveme').submit();
 			<option value="editIdentification.cfm?collection_object_id=#collObjIdList#&Action=multi">
 				Identification
 			</option>
-			<option value="location_tree.cfm?collection_object_id=#collObjIdList#&srch=part">
+			<option value="findContainer.cfm?collection_object_id=#collObjIdList#&srch=part">
 				Part Locations
 			</option>
 			<option value="bulkCollEvent.cfm?collection_object_id=#collObjIdList#">
