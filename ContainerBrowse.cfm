@@ -21,8 +21,12 @@
 
 <cfif action is "qc">
    <h2>Containers which should be placed in another container, but are not.</h2>
+   <!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned.
+          parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus) --->
    <cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select count(*) ct, container_type from container where parent_container_id = 0 and container_type <> 'campus' group by container_type
+        select count(*) ct, container_type from container 
+        where parent_container_id < 2 and container_type <> 'campus' 
+        group by container_type
    </cfquery>
    <ul>
    <cfloop query="parentlessNodes">
@@ -30,7 +34,7 @@
       <cfif parentlessNodes.ct LT 100>
           <cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
               select label, container_type from container 
-              where parent_container_id = 0 and container_type <> 'campus' 
+              where parent_container_id < 2 and container_type <> 'campus' 
                  and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
           </cfquery>
           <ul>
@@ -49,7 +53,7 @@
       from container
       where (container_type = 'fixture'  or container_type like '%freezer' or container_type = 'cryovat') 
       and label like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelStart#%">
-      start with label = 'MCZ-campus'
+      start with container_type = 'campus'
       connect by prior container_id = parent_container_id
       order by label
    </cfquery>

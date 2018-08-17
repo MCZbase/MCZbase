@@ -3554,7 +3554,7 @@
 	<cfargument name="idType" type="string" required="yes">
 	<cfargument name="idvalue" type="numeric" required="yes">
 	<cfargument name="annotation" type="string" required="yes">
-	<cfif idType is "collection_object_id">
+	<cfif idType NEQ "collection_object_id">
         <cfset result="Only annotation of collection objects is supported at this time">
     <cfelse>
     	<cftry>
@@ -3568,10 +3568,15 @@
                      from cataloged_item
                      where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#idvalue#">
            </cfquery>
+                <cfif idType EQ 'collection_object_id'>
+                   <cfset targetType = 'collection_object_id'>
+                <cfelse>
+                   <cfset targetType = 'not_supported_field_query_fails'>
+                </cfif>
     		<cfquery name="insAnn" datasource="uam_god">
     			insert into annotations (
     				cf_username,
-    				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#idType#' >,
+    				#targetType#,
     				annotation
     			) values (
     				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
