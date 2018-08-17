@@ -22,7 +22,9 @@
 <cfif action is "qc">
    <h2>Containers which should be placed in another container, but are not.</h2>
    <cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select count(*) ct, container_type from container where parent_container_id = 0 and container_type <> 'campus' group by container_type
+        select count(*) ct, container_type from container 
+        where parent_container_id = 0 and container_type <> 'campus' 
+        group by container_type
    </cfquery>
    <ul>
    <cfloop query="parentlessNodes">
