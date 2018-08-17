@@ -51,7 +51,7 @@
       from container
       where (container_type = 'fixture'  or container_type like '%freezer' or container_type = 'cryovat') 
       and label like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelStart#%">
-      start with label = 'MCZ-campus'
+      start with container_type = 'campus'
       connect by prior container_id = parent_container_id
       order by label
    </cfquery>
