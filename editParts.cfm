@@ -50,7 +50,7 @@
     <div style="width: 100%;padding-top: 1em;">
         <b>Edit Specimen Parts</b>
 	<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#">Part Locations</a>
-	<br><a href="/EditContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#">New Container</a>
+	<br><a href="/editContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#">New Container</a>
 	<br><a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#">Print Labels</a>
 	<cfset i = 1>
 	<cfset listedParts = "">
