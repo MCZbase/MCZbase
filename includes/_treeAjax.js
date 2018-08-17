@@ -25,6 +25,7 @@ function post(onOff,msg) {
 		var msg="";
 	}
 }
+// TODO: Cleanup.  Redmine 398 
 function loadTree () {
 	post(1);
 	var theTreeDiv = document.getElementById('treePane');
