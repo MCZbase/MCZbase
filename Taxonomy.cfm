@@ -447,6 +447,7 @@
 					<label for="taxon_habitat">New Habitat</label>
 					<select name="taxon_habitat" id="habitat_name"size="1">
 					<cfloop query="cttaxon_habitat">
+					<option value="">select</option>
 			        	<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
 			        	<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
 			        	</cfif>
