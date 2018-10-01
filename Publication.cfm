@@ -575,7 +575,7 @@
 				}*/
 				return true;
         	}
-		}
+
 		function toggleMedia() {
 			if($('#media').css('display')=='none') {
 				$('#mediaToggle').html('[ Hide Media ]');
