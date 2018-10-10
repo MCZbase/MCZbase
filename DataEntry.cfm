@@ -1554,7 +1554,7 @@ Some Totally Random String Data .....
 							<td>
                  <!---         <textarea id="part_remark_#i#" value="#evaluate("data.part_remark_" & i)#" name="part_remark_#i#" size="100"></textarea>--->
                   <input type="text" name="part_remark_#i#" id="part_remark_#i#"
-									value="#evaluate("data.part_remark_" & i)#" size="80">
+									value="#stripQuotes(evaluate("data.part_remark_" & i))#" size="80">
 
 							</td>
 		                    <!---START Part Attribute Stuff --->
