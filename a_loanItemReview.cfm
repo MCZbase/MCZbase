@@ -257,6 +257,7 @@
                   left join locality on collecting_event.locality_id = locality.locality_id
     where 
 	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+    group by sovereign_nation
 </cfquery>
 <!--- Obtain list of preserve_method values for the collection that this loan is from --->
 <cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -308,12 +309,15 @@
 Review items in loan<b>
 	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
 	<p>There are #partCount# items from #catCount# specimens in this loan.</p>
+<div class="shippingBlock">
 	<h3>Countries of Origin</h3>
     <cfset sep="">
     <cfloop query=ctSovereignNation>
+      <cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
       <span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
       <cfset sep="; ">
     </cfloop>
+</div>
 	<br>
 	<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
 	<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
