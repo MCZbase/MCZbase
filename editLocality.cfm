@@ -192,8 +192,27 @@
 		}
 	}
 </script>
+
+<!--- Provide a probably sane value for sovereign_nation if none is currently provided. ---> 
+<cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select
+			sovereign_nation, mczbase.suggest_sovereign_nation(locality_id) suggest
+		from
+			locality
+		where
+			locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+</cfquery>
+<cfif len(getSov.sovereign_nation) eq 0>
+   <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      update locality 
+            set sovereign_nation =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSov.suggest#">
+      where sovereign_nation is null and
+			locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+   </cfquery>
+</cfif>
+
 <cfoutput>
-	<cfquery name="locDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="locDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
 			*
 		from
@@ -201,7 +220,7 @@
 			geog_auth_rec
 		where
 			locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id and
-			locality.locality_id=#locality_id#
+			locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfquery name="geolDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
@@ -211,7 +230,7 @@
 			preferred_agent_name
 		where
 			geology_attributes.geo_att_determiner_id = preferred_agent_name.agent_id (+) and
-			geology_attributes.locality_id=#locality_id#
+			geology_attributes.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
@@ -224,7 +243,7 @@
 		WHERE
 			cataloged_item.collecting_event_id = collecting_event.collecting_event_id and
 			cataloged_item.collection_id = collection.collection_id and
-			collecting_event.locality_id=#locality_id#
+			collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		GROUP BY
 			collection.collection
   	</cfquery>
@@ -233,7 +252,7 @@
 			lat_long,
 			preferred_agent_name
 		where determined_by_agent_id = agent_id
-        and locality_id=#locality_id#
+        and locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		order by ACCEPTED_LAT_LONG_FG DESC, lat_long_id
      </cfquery>
      <cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -260,6 +279,9 @@
 	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select geology_attribute from ctgeology_attribute order by geology_attribute
      </cfquery>
+    <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
+    </cfquery>
     <div style="width: 60em;margin: 0 auto;padding: 1em 0 3em 0";>
   	<table>
   		<tr>
@@ -347,6 +369,16 @@
 						name="spec_locality"
 						value="#stripQuotes(spec_locality)#"
 						size="131">
+				</td>
+			</tr>
+            <tr>
+            	<td>
+                   <label for="sovereign_nation">Sovereign Nation</label>
+	    	       <select name="sovereign_nation" id="sovereign_nation" size="1">
+                       <cfloop query="ctSovereignNation">
+            	           <option <cfif isdefined("locDet.sovereign_nation") AND ctsovereignnation.sovereign_nation is locDet.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+                       </cfloop>
+	        	   </select>
 				</td>
 			</tr>
             <tr>
@@ -1482,6 +1514,11 @@
 	<cfelse>
 		<cfset sql = "#sql#,depth_units = null">
 	</cfif>
+	<cfif len(#sovereign_nation#) gt 0>
+		<cfset sql = "#sql#,SOVEREIGN_NATION = '#escapeQuotes(sovereign_nation)#'">
+	<cfelse>
+		<cfset sql = "#sql#,SOVEREIGN_NATION = '[unknown]'">
+	</cfif>
 	<cfif len(#LOCALITY_REMARKS#) gt 0>
 		<cfset sql = "#sql#,LOCALITY_REMARKS = '#escapeQuotes(LOCALITY_REMARKS)#'">
 	<cfelse>
@@ -1548,7 +1585,8 @@
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
-					NOGEOREFBECAUSE
+					NOGEOREFBECAUSE,
+                    SOVEREIGN_NATION
 				) VALUES (
 					#lid#,
 					#oldLoc.GEOG_AUTH_REC_ID#
@@ -1596,6 +1634,11 @@
 						,'#oldLoc.NOGEOREFBECAUSE#'
 					<cfelse>
 						,NULL
+					</cfif>
+					<cfif len(#oldLoc.SOVEREIGN_NATION#) gt 0>
+						,'#oldLoc.SOVEREIGN_NATION#'
+					<cfelse>
+						,'[unknown]'
 					</cfif>
 				)
 			</cfquery>

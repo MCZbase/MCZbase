@@ -14,7 +14,7 @@
 </cfquery><cfquery name="loanSpecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
      select
 		 scientific_name,
-		 nvl(mczbase.get_countrycode(country), country) as country,
+		 mczbase.get_sovereignnationcode(locality.locality_id) as country,
 		 sum(lot_count)
 	 from 
 		loan_item, 

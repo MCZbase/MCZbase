@@ -973,6 +973,25 @@
 		</select>
 </div>
 
+<div class="shippingBlock">
+    <h3>Countries of Origin of items in this loan</h3>
+    <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select count(*) as ct, sovereign_nation from
+        loan_item left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+                  left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+                  left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+                  left join locality on collecting_event.locality_id = locality.locality_id
+    where
+                loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+    group by sovereign_nation
+    </cfquery>
+    <cfset sep="">
+    <cfloop query=ctSovereignNation>
+      <cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
+      <span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+      <cfset sep="; ">
+    </cfloop>
+</div>
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>

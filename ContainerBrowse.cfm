@@ -20,7 +20,7 @@
 </script>
 
 <cfif action is "qc">
-   <h2>Containers which should be placed in another container, but are not.</h2>
+   <h2 style="padding-left: 2em;">Containers which should be placed in another container, but are not.</h2>
    <!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned.
           parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus) --->
    <cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -28,6 +28,7 @@
         where parent_container_id < 2 and container_type <> 'campus' 
         group by container_type
    </cfquery>
+   <div class="container_qc_cascade">
    <ul>
    <cfloop query="parentlessNodes">
       <li>#parentlessNodes.container_type# (#parentlessNodes.ct#)</li>
@@ -45,6 +46,7 @@
       </cfif>
    </cfloop>
    </ul>
+   </div>
 <cfelseif action is "fixtures">
    <cfif not isdefined("labelStart")><cfset labelStart="IZ"></cfif>
    <cfquery name="fixtures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -64,10 +66,10 @@
    </ul>
 <cfelse>
    <!--- Default action --->
-   <ul>
+   <ul style="padding: 2em 4em; list-style: none; line-height: 2em;">
      <li><a href = "ContainerBrowse.cfm?action=qc">Quality Control Containers</a></li>
      <li>List fixtures starting with:</li>
-     <ul>
+     <ul style="padding-left: 2em; line-height: 1.5em;">
      <cfloop query="fixturePrefixes">
         <li><a href = "ContainerBrowse.cfm?action=fixtures&labelStart=#fixturePrefixes.prefix#">#fixturePrefixes.prefix# (#fixturePrefixes.ct#)</a></li>
      </cfloop>
