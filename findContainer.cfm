@@ -9,19 +9,6 @@
 
 <cfoutput>
 <!--- TODO: Redmine 334 add a ajax autocomlete backing function for container.name and container.barcode.  Add jquery11=true to this page. --->
-<script>
-	jQuery(document).ready(function() {
-		jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
-			width: 320,
-			max: 20,
-			autofill: true,
-			highlight: false,
-			multiple: false,
-			scroll: true,
-			scrollHeight: 300
-o
-	});
-</script>
 <script type='text/javascript' src='/includes/_treeAjax.js'></script>
 <cfquery name="contType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select container_type from ctContainer_Type order by container_type
