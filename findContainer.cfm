@@ -2,6 +2,7 @@
 <cfset title='Find Containers'>
 <script type='text/javascript' src='/includes/dhtmlxtree.js'><!-- --></script>
 <script type="text/javascript" src="/includes/dhtmlxcommon.js"></script>
+<script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 <link rel="STYLESHEET" type="text/css" href="/includes/css/bootstrap.css">
 <link rel="STYLESHEET" type="text/css" href="/includes/findContainer.css">
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
@@ -100,6 +101,22 @@ o
 									</select>
 						</li>
 					<li>
+                        <script type="text/javascript" language="javascript">
+                           jQuery(document).ready(function() {
+                               jQuery("##container_label").autocomplete("/ajax/container_label.cfm", {
+                                   width: 320,
+                                   max: 50,
+                                   autofill: false,
+                                   multiple: false,
+                                   scroll: true,
+                                   scrollHeight: 300,
+                                   matchContains: true,
+                                   minChars: 4,
+                                   selectFirst:false
+                               });
+                           });
+               
+                        </script>
 					   <cfif not isdefined("container_label")><cfset container_label=""></cfif>
 								<label>Name </label>
                 <input type="text" name="container_label" id="container_label" size="20" placeholder="(% for wildcard)" value="#container_label#"/></li>
