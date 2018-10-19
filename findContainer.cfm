@@ -1,3 +1,4 @@
+<cfset jquery11=true>
 <cfinclude template="/includes/_header.cfm">
 <cfset title='Find Containers'>
 <script type='text/javascript' src='/includes/dhtmlxtree.js'><!-- --></script>
@@ -5,10 +6,8 @@
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 <link rel="STYLESHEET" type="text/css" href="/includes/css/bootstrap.css">
 <link rel="STYLESHEET" type="text/css" href="/includes/findContainer.css">
-<script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 
 <cfoutput>
-<!--- TODO: Redmine 334 add a ajax autocomlete backing function for container.name and container.barcode.  Add jquery11=true to this page. --->
 <script type='text/javascript' src='/includes/_treeAjax.js'></script>
 <cfquery name="contType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select container_type from ctContainer_Type order by container_type
