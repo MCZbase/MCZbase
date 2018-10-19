@@ -3614,6 +3614,27 @@
     			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#idType#&id=#idvalue#
     			</a>
     		</cfmail>
+                <cfset newline= Chr(13) & Chr(10)>
+                <cfset reported_name = "#annotator.first_name# #annotator.last_name# #annotator.affiliation#">
+                <cfset summary=left("#annotated.guid# #annotation#",60)><!--- obtain the begining of the complaint as a bug summary --->
+                <cfset bugzilla_mail="#Application.bugzillaToEmail#"><!--- address to access email_in.pl script --->
+                <cfset bugzilla_user="#Application.bugzillaFromEmail#"><!--- bugs submitted by email can only come from a registered bugzilla user --->
+                <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
+@op_sys = Linux
+@product = MCZbase
+@component = Data
+@version = 2.5.1merge
+@priority = P3
+@bug_severity = enhancement
+
+Bug report by: #reported_name# (Username: #session.username#)
+Email: #annotator.email#
+Complaint: #annotation#
+#newline##newline#
+Annotation to report problematic data concerning #annotated.guid#
+                </cfmail>
+
+
     	    <cfset result = "success">
     	<cfcatch>
     		<cfset result = "A database error occured: #cfcatch.message# #cfcatch.detail#">
