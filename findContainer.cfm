@@ -94,15 +94,14 @@
                                    width: 320,
                                    max: 50,
                                    extraParams: {
-                                      container_type: function(){
-                                           return $("##container_type").val();
-                                      },
+                                      container_type: function(){ return $("##container_type").val(); }
+                                   },
                                    autofill: false,
                                    multiple: false,
                                    scroll: true,
                                    scrollHeight: 300,
                                    matchContains: true,
-                                   minChars: 4,
+                                   minChars: 2,
                                    selectFirst:false
                                });
                            });
