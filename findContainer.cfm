@@ -72,19 +72,19 @@
 											<option value="grouping">grouping</option>
 											<option value="fixture">fixture</option>
 											<option value="compartment">compartment</option>
+											<option value="tank">tank</option>
+											<option value="envelope">envelope</option>
+											<option value="pin">pin</option>
 											<option value="collection object">collection object</option>
 												<option value="cryovat">-----------</option>
 											<option value="cryovat">cryovat</option>
 											<option value="cryovial">cryovial</option>
-											<option value="envelope">envelope</option>
 											<option value="freezer">freezer</option>
 											<option value="freezer box">freezer box</option>
 											<option value="freezer rack">freezer rack</option>
-											<option value="pin">pin</option>
 											<option value="position">position</option>
 											<option value="rack slot">rack slot</option>
 											<option value="set">set</option>
-											<option value="tank">tank</option>
 									</select>
 						</li>
 					<li>
@@ -93,6 +93,10 @@
                                jQuery("##container_label").autocomplete("/ajax/container_label.cfm", {
                                    width: 320,
                                    max: 50,
+                                   extraParams: {
+                                      container_type: function(){
+                                           return $("##container_type").val();
+                                      },
                                    autofill: false,
                                    multiple: false,
                                    scroll: true,
