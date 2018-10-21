@@ -73,12 +73,13 @@
 		#flatTableName#.collection_object_id IN (#mediaFlatTableName#.collecting_object_id) AND
 		#flatTableName#.dec_lat is not null AND
 		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source = 'wild caught' ">
+		#flatTableName#.collecting_source in ('wild caught', 'unknown') ">
 
 	<cfset srch = "">
 
 	<cfinclude template="/development/MediaSearchSql.cfm">
 	<cfset SqlString = "#basSelect# #basFrom# #basWhere# #srch#">
+	<cfset checkSQL(SqlString)>
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
@@ -113,13 +114,14 @@
 	<cfset basWhere = " WHERE
 		#flatTableName#.dec_lat is not null AND
 		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source = 'wild caught' ">
+		#flatTableName#.collecting_source in ('wild caught', 'unknown') ">
 	<cfset basQual = "">
 	<cfif not isdefined("basJoin")>
 		<cfset basJoin = "">
 	</cfif>
 	<cfinclude template="/includes/SearchSql.cfm">
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
+	<cfset checkSQL(SqlString)>
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
