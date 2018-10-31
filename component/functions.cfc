@@ -3192,6 +3192,7 @@
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
                   left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
              where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+             order by shipped_date
       </cfquery>
       <cfset resulthtml = "<div id='shipments'> ">
 
