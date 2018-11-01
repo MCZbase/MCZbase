@@ -37,6 +37,6 @@
 		collecting_event.locality_id = locality.locality_id AND
 		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
 	  	loan_item.transaction_id = #transaction_id#
-	group by scientific_name, country
-	ORDER BY scientific_name, country
+	group by scientific_name, mczbase.get_sovereignnationcode(locality.locality_id)
+	ORDER BY scientific_name, mczbase.get_sovereignnationcode(locality.locality_id)
 </cfquery><cfset res = builder.init(#loanAgents#,#loanSpecies#)><cfset returnVal = builder.getEDecFile()><cfoutput>#returnVal#</cfoutput></cfif>
