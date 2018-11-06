@@ -306,9 +306,10 @@
           <li><a target="_top" href="##">Help</a>
                     <ul>
                        <cfscript>
-							serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
-						</cfscript>
-                     <cfif serverName contains "harvard.edu">
+			    serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
+                       </cfscript>
+                     <!--- server name may be the correct fully qualified name or may be just the hostname, e.g. mczbase-prd  ---> 
+                     <cfif serverName contains "harvard.edu" or serverName contains "mczbase" >
                        <li><a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
                      </cfif>
                       <li><a target="_blank" href="http://arctosdb.wordpress.com">About Arctos</a></li>
