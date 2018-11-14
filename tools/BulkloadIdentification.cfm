@@ -211,9 +211,9 @@ sho err
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
 				<cfset tf = "A (Group)">
 				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 8)>
-			<cfelseif right(scientific_name,5) is " near">
+			<cfelseif right(scientific_name,4) is " nr.">
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-				<cfset tf = "A near">
+				<cfset tf = "A nr.">
 				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
 			<cfelseif right(scientific_name,4) is " cf.">
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
