@@ -193,7 +193,7 @@
 	}
 </script>
 
-<!--- Provide a probably sane value for sovereign_nation if none is currently provided. ---> 
+<!--- Provide a probably sane value for sovereign_nation if none is currently provided. --->
 <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select
 			sovereign_nation, mczbase.suggest_sovereign_nation(locality_id) suggest
@@ -204,7 +204,7 @@
 </cfquery>
 <cfif len(getSov.sovereign_nation) eq 0>
    <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      update locality 
+      update locality
             set sovereign_nation =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSov.suggest#">
       where sovereign_nation is null and
 			locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
@@ -254,6 +254,11 @@
 		where determined_by_agent_id = agent_id
         and locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		order by ACCEPTED_LAT_LONG_FG DESC, lat_long_id
+     </cfquery>
+	<cfquery name="getAccLL" dbtype="query">
+        select * from
+			getLL
+		where accepted_lat_long_fg=1
      </cfquery>
      <cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select datum from ctdatum order by datum
@@ -305,6 +310,12 @@
 					</ul>
   				</cfif>
                     </h3>
+				      <cfif len(getAccLL.dec_lat) gt 0 and len(getAccLL.dec_long) gt 0 and (getAccLL.dec_lat is not 0 and getAccLL.dec_long is not 0)>
+				        <cfset iu="http://maps.google.com/maps/api/staticmap?key=#application.gmap_api_key#&center=#getAccLL.dec_lat#,#getAccLL.dec_long#">
+				        <cfset iu=iu & "&markers=color:red|size:tiny|#getAccLL.dec_lat#,#getAccLL.dec_long#&sensor=false&size=100x100&zoom=2">
+				        <cfset iu=iu & "&maptype=roadmap">
+				        <a href="http://maps.google.com/maps?q=#getAccLL.dec_lat#,#getAccLL.dec_long#" target="_blank"> <img src="#iu#" alt="Google Map"> </a>
+				      </cfif>
 			</td>
 		</tr>
 	</cfoutput>
@@ -585,7 +596,7 @@
             <table border>
                <tr>
      <cfset thisScore = #getLL.geolocate_score#>
-     	<cfif #thisScore# is "#getLL.geolocate_score#" and #thisScore# gt 0> 
+     	<cfif #thisScore# is "#getLL.geolocate_score#" and #thisScore# gt 0>
 			<td>GeoLocate Score:<span style="color: green;text-align:right;"> #getLL.geolocate_score#</span></td>
 		 </cfif></tr>
               <tr>
