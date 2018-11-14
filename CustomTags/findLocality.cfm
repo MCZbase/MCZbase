@@ -239,6 +239,14 @@
 <cfif isdefined("coordinateDeterminer") and len(#coordinateDeterminer#) gt 0>
 	<cfset sql = "#sql# AND upper(agent_name) like '%#ucase(coordinateDeterminer)#%'">
 </cfif>
+
+<cfif isdefined("geolocate_score") and len(#geolocate_score#) gt 0>
+	<cfif #gs_comparator# EQ "between">
+		<cfset sql = "#sql# AND accepted_lat_long.geolocate_score #gs_comparator# #geolocate_score# AND #geolocate_score2#">
+	<cfelse>
+		<cfset sql = "#sql# AND accepted_lat_long.geolocate_score #gs_comparator# #geolocate_score#">
+	</cfif>
+</cfif>
 <!---cfset sql = "#sql# AND rownum < 10000"--->
 <cfif right(sql,4) is " (+)">
 	<span class="error">You must enter search criteria.</span>

@@ -583,6 +583,11 @@
             <input type="hidden" name="Action" value="editAccLatLong">
             <input type="hidden" name="lat_long_id" value="#lat_long_id#">
             <table border>
+               <tr>
+     <cfset thisScore = #getLL.geolocate_score#>
+     	<cfif #thisScore# is "#getLL.geolocate_score#" and #thisScore# gt 0> 
+			<td>GeoLocate Score:<span style="color: green;text-align:right;"> #getLL.geolocate_score#</span></td>
+		 </cfif></tr>
               <tr>
                 <td>
 					<cfset thisUnits = #getLL.ORIG_LAT_LONG_UNITS#>
