@@ -674,7 +674,8 @@
           <cfif inhouse.c is 1 and authorized.c GT 0 >
                <!--- only show Object header if deaccession is of type other or transfer or internal transfer--->
 	       <cfif deaccDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_INTERNALTRANSFER#" >
-               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_object_header_short">MCZ Object Deaccession Header</option>
+               <!--- report is actually the same as the gift/exchange header, it is a general purpose deaccession report (except for discards).  --->
+               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Object Deaccession Header</option>
                </cfif>
             </cfif>
             <option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
