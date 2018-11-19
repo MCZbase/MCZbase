@@ -76,6 +76,18 @@
 			nada
 		);
 	}
+	
+	 function show(aval) {
+    if (aval == "between") {
+    hiddenDiv.style.display='inline-block';
+	hiddenDivlabel.style.display='inline-block';
+    Form.fileURL.focus();
+    } 
+    else{
+    hiddenDiv.style.display='none';
+			hiddenDivlabel.style.display='none';
+    }
+  }
 </script>
 <cfoutput>
 <cfif not isdefined("showLocality")>
@@ -399,7 +411,7 @@
 			<tr>
 				<td>
 					<label for="GeorefMethod">GeorefMethod</label>
-					<select name="GeorefMethod" id="GeorefMethod" size="1">
+					<select name="GeorefMethod" id="GeorefMethod" size="1" style="width: 400px;">
 						<option value=""></option>
 						<cfloop query="ctGeorefMethod">
 							<option value="#GeorefMethod#">#GeorefMethod#</option>
@@ -412,7 +424,34 @@
 					<label for="coordinateDeterminer">Coordinate Determiner</label>
 					<input type="text" name="coordinateDeterminer" size="50" id="coordinateDeterminer">
 				</td>
+				
+				<td>
+
+
+							<div style="margin-left: 2em;" class="geolocateScoreDiv">
+							<label>Geolocate Score</label>
+							<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)">
+								<option value="=" SELECTED>=</option>
+								<option value="<" ><</option>
+								<option value=">" >></option>
+								<option value="between" >between</option>
+							</select> 
+
+							   <label id="hiddenDivlabel" style="display:none;">Min</label>
+								<input type="text" name="geolocate_score" size="3" id="geolocate_score">
+
+							<div id="hiddenDiv" style="display:none"><span style="font-size: 12px;">&amp;</span> 
+								<label style="display: inline;">Max</label>
+							   <input type="text" name="geolocate_score2" size="3" id="geolocate_score2">
+							</div>
+							</div>
+				</td>
+				
+				
 			</tr>
+			
+			
+			
 		</table>
 	</div>
 	</div>

@@ -1,26 +1,13 @@
+<cfset jquery11=true>
 <cfinclude template="/includes/_header.cfm">
 <cfset title='Find Containers'>
 <script type='text/javascript' src='/includes/dhtmlxtree.js'><!-- --></script>
 <script type="text/javascript" src="/includes/dhtmlxcommon.js"></script>
+<script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 <link rel="STYLESHEET" type="text/css" href="/includes/css/bootstrap.css">
 <link rel="STYLESHEET" type="text/css" href="/includes/findContainer.css">
-<script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 
 <cfoutput>
-<!--- TODO: Redmine 334 add a ajax autocomlete backing function for container.name and container.barcode.  Add jquery11=true to this page. --->
-<script>
-	jQuery(document).ready(function() {
-		jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
-			width: 320,
-			max: 20,
-			autofill: true,
-			highlight: false,
-			multiple: false,
-			scroll: true,
-			scrollHeight: 300
-o
-	});
-</script>
 <script type='text/javascript' src='/includes/_treeAjax.js'></script>
 <cfquery name="contType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select container_type from ctContainer_Type order by container_type
@@ -84,22 +71,41 @@ o
 											<option value="grouping">grouping</option>
 											<option value="fixture">fixture</option>
 											<option value="compartment">compartment</option>
+											<option value="tank">tank</option>
+											<option value="envelope">envelope</option>
+											<option value="pin">pin</option>
 											<option value="collection object">collection object</option>
 												<option value="cryovat">-----------</option>
 											<option value="cryovat">cryovat</option>
 											<option value="cryovial">cryovial</option>
-											<option value="envelope">envelope</option>
 											<option value="freezer">freezer</option>
 											<option value="freezer box">freezer box</option>
 											<option value="freezer rack">freezer rack</option>
-											<option value="pin">pin</option>
 											<option value="position">position</option>
 											<option value="rack slot">rack slot</option>
 											<option value="set">set</option>
-											<option value="tank">tank</option>
 									</select>
 						</li>
 					<li>
+                        <script type="text/javascript" language="javascript">
+                           jQuery(document).ready(function() {
+                               jQuery("##container_label").autocomplete("/ajax/container_label.cfm", {
+                                   width: 320,
+                                   max: 50,
+                                   extraParams: {
+                                      container_type: function(){ return $("##container_type").val(); }
+                                   },
+                                   autofill: false,
+                                   multiple: false,
+                                   scroll: true,
+                                   scrollHeight: 300,
+                                   matchContains: true,
+                                   minChars: 2,
+                                   selectFirst:false
+                               });
+                           });
+               
+                        </script>
 					   <cfif not isdefined("container_label")><cfset container_label=""></cfif>
 								<label>Name </label>
                 <input type="text" name="container_label" id="container_label" size="20" placeholder="(% for wildcard)" value="#container_label#"/></li>

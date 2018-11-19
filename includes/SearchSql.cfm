@@ -220,7 +220,7 @@
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 			(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
-	<cfset basQual = "#basQual#  AND CatItemCollObject.COLL_OBJECT_ENTERED_DATE BETWEEN '#beEntDate#' and '#edEntDate#'" >
+	<cfset basQual = "#basQual#  AND CatItemCollObject.COLL_OBJECT_ENTERED_DATE BETWEEN to_date('#beEntDate#','yyyy-mm-dd') and to_date('#edEntDate#','yyyy-mm-dd')" >
 	<cfset mapurl = "#mapurl#&beg_entered_date=#beg_entered_date#">
 	<cfset mapurl = "#mapurl#&end_entered_date=#end_entered_date#">
 </cfif>

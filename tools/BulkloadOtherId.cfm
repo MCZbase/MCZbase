@@ -250,31 +250,40 @@ Include column headings, spelled exactly as below.
 	</cfquery>
 	
 	<cftransaction>
+        <cfset rowcounter = 0>
+        <cfset failed = false>
 	<cfloop query="getTempData">
+            <cfset rowcounter = rowcounter + 1>
 		<!---<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		 	{EXEC parse_other_id(#collection_object_id#, '#new_other_id_number#', '#new_other_id_type#')}
 		</cfquery>
 		--->
+	    <cftry>        
+
 		<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    
-    
-    <cfprocparam
-      cfsqltype="cf_sql_numeric"
-      value="#collection_object_id#">
-      
-    <cfprocparam
-      cfsqltype="cf_sql_varchar"
-      value="#new_other_id_number#">
-	<cfprocparam
-      cfsqltype="cf_sql_varchar"
-      value="#new_other_id_type#">
-      
-  </cfstoredproc>
-  
+	    		<cfprocparam cfsqltype="cf_sql_numeric" value="#collection_object_id#">
+			<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
+			<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
+		</cfstoredproc>
+            <cfcatch>
+                <!--- Rollback the transaction, report the problem row, and break out of the loop. --->
+                <cftransaction action="rollback" />
+                <div>Error Processing row #rowcounter#: #new_other_id_type# #new_other_id_number#</div>
+                <div>#CFCATCH.TYPE#:#cfcatch.message#</div>
+                <div>#CFCATCH.queryerror#</div>
+                <cfif Find("ORA-06512",CFCATCH.queryerror)><div>Duplicate other id number.</div></cfif>
+                <cfset failed = true>
+                <cfbreak>
+            </cfcatch>
+            </cftry>
+
 	</cfloop>
 	</cftransaction>
-
-	Spiffy, all done.
+        <cfif failed eq false>  
+  	   <div>Successful bulkload of other ids.  Processed #rowcounter# rows.</div>
+        <cfelse>
+           <div>Fix the Error in your spreadsheet and try again.</div>
+        </cfif>
 </cfoutput>
 </cfif>
           </div>
