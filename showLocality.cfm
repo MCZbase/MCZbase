@@ -112,7 +112,8 @@
 				ended_date,
 				verbatim_date,
 				collecting_source,
-				collecting_method
+				collecting_method,
+                                collcountlocality
 			from localityResults
 			group by
 				collecting_event_id,
@@ -129,7 +130,8 @@
 				ended_date,
 				verbatim_date,
 				collecting_source,
-				collecting_method
+				collecting_method,
+                                collcountlocality
 		</cfquery>
 		<a href="showLocality.cfm">Search Again</a>
 		<table border id="t" class="sortable">
@@ -153,14 +155,14 @@
 				</cfif>
 		        <tr>
 					<td>
-						<span class="infoLink" onclick="expand('geog_auth_rec_id', #geog_auth_rec_id#)">[&nbsp;details&nbsp;]</span>
-						<a class="infoLink" href="/SpecimenResults.cfm?geog_auth_rec_id=#geog_auth_rec_id#">[&nbsp;specimens&nbsp;]</a>
+						[<span class="infoLink" onclick="expand('geog_auth_rec_id', #geog_auth_rec_id#)">&nbsp;details&nbsp;</span>]
+						[<a class="infoLink" href="/SpecimenResults.cfm?geog_auth_rec_id=#geog_auth_rec_id#">&nbsp;specimens&nbsp;</a>]
 						<a href="showLocality.cfm?action=srch&geog_auth_rec_id=#geog_auth_rec_id#">#higher_geog#</a>
 					</td>
 					<td>
 						<cfif len(locality_id) gt 0>
-							<span class="infoLink" onclick="expand('locality_id', #locality_id#)">[&nbsp;details&nbsp;]</span>
-							<a class="infoLink" href="/SpecimenResults.cfm?locality_id=#locality_id#">[&nbsp;specimens&nbsp;]</a>
+							[<span class="infoLink" onclick="expand('locality_id', #locality_id#)">&nbsp;details&nbsp;</span>]
+							[<a class="infoLink" href="/SpecimenResults.cfm?locality_id=#locality_id#">&nbsp;specimens&nbsp;</a>#collcountlocality#]
 							<cfif len(spec_locality) gt 0>
 								<a href="showLocality.cfm?action=srch&locality_id=#locality_id#">#spec_locality#</a>
 							<cfelse>
