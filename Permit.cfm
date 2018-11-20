@@ -743,7 +743,7 @@ function opendialog(page,id,title) {
 				<select name="permit_Type" class="reqdClr" size="1">
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
-						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.speciric_type#">#ctSpecificPermitType.specific_type#</option>
+						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
 					</cfloop>
 				</select>
 			</td>
