@@ -1225,7 +1225,7 @@ $( document ).ready(loadShipments(#transaction_id#));
            </cfif>
         </cfloop>
         <div>
-          <cfloop list="#uriList#" item="uri">
+          <cfloop list="#uriList#" index="uri">
               <a href="#uri#">Permit</a>&nbsp;
           </cfloop>
         </div>
