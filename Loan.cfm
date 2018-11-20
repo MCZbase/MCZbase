@@ -1229,7 +1229,6 @@ $( document ).ready(loadShipments(#transaction_id#));
               <a href="#uri#">Permit</a>&nbsp;
           </cfloop>
         </div>
-        </cfif>
     </ul>
     <cfif ListLen(uriList,',',false) gt 0 >
         <a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permits</a>
