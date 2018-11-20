@@ -36,7 +36,8 @@
 		concatGeologyAttributeDetail(locality.locality_id) geolAtts,
 		max_depth,
 		min_depth,
-		depth_units
+		depth_units,
+                MCZBASE.get_collcodes_for_locality(locality.locality_id) as collcountlocality
 	from
 		geog_auth_rec,
 		locality,
@@ -239,6 +240,10 @@
 <cfif isdefined("coordinateDeterminer") and len(#coordinateDeterminer#) gt 0>
 	<cfset sql = "#sql# AND upper(agent_name) like '%#ucase(coordinateDeterminer)#%'">
 </cfif>
+
+<cfif isdefined("geolocate_precision") and len(#geolocate_precision#) gt 0>
+	<cfset sql = "#sql# AND lower(accepted_lat_long.geolocate_precision) =  '#geolocate_precision#'">
+</CFIF>
 
 <cfif isdefined("geolocate_score") and len(#geolocate_score#) gt 0>
 	<cfif #gs_comparator# EQ "between">

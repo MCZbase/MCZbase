@@ -290,7 +290,10 @@
     <div style="width: 60em;margin: 0 auto;padding: 1em 0 3em 0";>
   	<table>
   		<tr>
-			<td><h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
+			<td>
+ 					<ul class="headercol1" style="padding-left:0;margin-left:0;">
+ 					<li>
+ 				<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
   				<cfif #whatSpecs.recordcount# is 0>
   					<font color="##FF0000">This Locality (#locDet.locality_id#)
 					contains no specimens. Please delete it if you don't have plans for it!</font>
@@ -310,12 +313,18 @@
 					</ul>
   				</cfif>
                     </h3>
+					</li>
+						</ul>
+					<ul class="headercol3">
+				    <li>
 				      <cfif len(getAccLL.dec_lat) gt 0 and len(getAccLL.dec_long) gt 0 and (getAccLL.dec_lat is not 0 and getAccLL.dec_long is not 0)>
 				        <cfset iu="http://maps.google.com/maps/api/staticmap?key=#application.gmap_api_key#&center=#getAccLL.dec_lat#,#getAccLL.dec_long#">
 				        <cfset iu=iu & "&markers=color:red|size:tiny|#getAccLL.dec_lat#,#getAccLL.dec_long#&sensor=false&size=100x100&zoom=2">
 				        <cfset iu=iu & "&maptype=roadmap">
 				        <a href="http://maps.google.com/maps?q=#getAccLL.dec_lat#,#getAccLL.dec_long#" target="_blank"> <img src="#iu#" alt="Google Map"> </a>
 				      </cfif>
+				    </li>
+				</ul>
 			</td>
 		</tr>
 	</cfoutput>
@@ -598,6 +607,8 @@
      <cfset thisScore = #getLL.geolocate_score#>
      	<cfif #thisScore# is "#getLL.geolocate_score#" and #thisScore# gt 0>
 			<td>GeoLocate Score:<span style="color: green;text-align:right;"> #getLL.geolocate_score#</span></td>
+			<td>GeoLocate Precision:<span style="color: green;text-align:right;"> #getLL.geolocate_precision#</span></td>
+			<td>GeoLocate Number of Results:<span style="color: green;text-align:right;"> #getLL.geolocate_numresults#</span></td>
 		 </cfif></tr>
               <tr>
                 <td>

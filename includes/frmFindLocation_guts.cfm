@@ -76,13 +76,13 @@
 			nada
 		);
 	}
-	
+
 	 function show(aval) {
     if (aval == "between") {
     hiddenDiv.style.display='inline-block';
 	hiddenDivlabel.style.display='inline-block';
     Form.fileURL.focus();
-    } 
+    }
     else{
     hiddenDiv.style.display='none';
 			hiddenDivlabel.style.display='none';
@@ -418,13 +418,27 @@
 						</cfloop>
 					</select>
 				</td>
+				<td>
+
+
+						<div style="margin-left: 2em;" class="geolocateScoreDiv">
+							<label>Geolocate Precision</label>
+							<select name="geolocate_precision" id="geolocate_precision" size="1">
+								<option value="" SELECTED></option>
+								<option value="high" >high</option>
+								<option value="medium" >medium</option>
+								<option value="low" >low</option>
+							</select>
+
+						</div>
+				</td>
 			</tr>
             <tr>
 				<td>
 					<label for="coordinateDeterminer">Coordinate Determiner</label>
 					<input type="text" name="coordinateDeterminer" size="50" id="coordinateDeterminer">
 				</td>
-				
+
 				<td>
 
 
@@ -435,23 +449,23 @@
 								<option value="<" ><</option>
 								<option value=">" >></option>
 								<option value="between" >between</option>
-							</select> 
+							</select>
 
 							   <label id="hiddenDivlabel" style="display:none;">Min</label>
 								<input type="text" name="geolocate_score" size="3" id="geolocate_score">
 
-							<div id="hiddenDiv" style="display:none"><span style="font-size: 12px;">&amp;</span> 
+							<div id="hiddenDiv" style="display:none"><span style="font-size: 12px;">&amp;</span>
 								<label style="display: inline;">Max</label>
 							   <input type="text" name="geolocate_score2" size="3" id="geolocate_score2">
 							</div>
 							</div>
 				</td>
-				
-				
+
+
 			</tr>
-			
-			
-			
+
+
+
 		</table>
 	</div>
 	</div>

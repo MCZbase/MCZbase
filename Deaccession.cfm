@@ -665,6 +665,7 @@
           <cfif inhouse.c is 1 and authorized.c GT 0 >
               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Gift/Exchange Deaccession Header</option>
           </cfif>
+	  <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_deaccession_header">Header Copy for MCZ Files</option>
            <cfif inhouse.c is 1 and authorized.c GT 0 >
               <option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_discarded_header">MCZ Discarded Deaccession Header</option>
           </cfif>
