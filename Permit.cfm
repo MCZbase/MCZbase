@@ -740,7 +740,7 @@ function opendialog(page,id,title) {
 			</td>
 			<td>Specific Type</td>
 			<td>
-				<select name="permit_Type" class="reqdClr" size="1">
+				<select name="specific_type" class="reqdClr" size="1">
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
 						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
@@ -1233,7 +1233,7 @@ UPDATE permit SET
 	 <cfif len(#PERMIT_TYPE#) gt 0>
 	 	,PERMIT_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
 	 </cfif>
-	 <cfif len(#PERMIT_TYPE#) gt 0>
+	 <cfif len(#SPECIFIC_TYPE#) gt 0>
 	 	,SPECIFIC_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 	 </cfif>
 	 <cfif len(#PERMIT_TITLE#) gt 0>
