@@ -62,7 +62,7 @@
 
 				<br><br>
 
-				If you wish to extend the encumbrance, please change the expiration date appropriately. If the encumbrance is expired, please remove the items and delete the encumbrance.
+				If you wish to extend the encumbrance, please change the expiration date appropriately. If the encumbrance is expired, please remove the items and delete the encumbrance. Note: the encumberance does not expire automatically. It must be removed or extended manually.
 				<br><br>
 				Encumbrance: #ENCUMBRANCE#<br>
 				Encumbrance Action: #ENCUMBRANCE_ACTION#<br>
