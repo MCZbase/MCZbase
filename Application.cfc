@@ -193,6 +193,26 @@
 			    <!--- and the target location uses https, TLS support is enabled. --->
 			</cfif>
 		</cfif>
+        <!-- load persisted settings from database -->
+		<cfset Application.gmap_api_key = "not set" />
+		<cfset Application.Google_uacct = "not set" />
+		<cfset Application.g_sitekey = "" />
+		<cfset Application.bugzillaToEmail = "" />
+		<cfset Application.bugzillaFromEmail = "" />
+		<cfset Application.genBankPwd= "" />
+        <cfquery name="cf_global_settings" datasource="uam_god">
+            select gmap_api_key, google_site_key, google_uacct, bugzilla_to_email, bugzilla_from_email, genbank_password 
+            from cf_global_settings
+            where rownum < 2;
+        </cfquery>
+        <cfloop query = cf_global_settings>
+            <cfset application.gmap_api_key="#cf_global_settings.gmap_api_key#" />
+	        <cfset application.g_sitekey="#cf_global_settings.google_site_key#">
+	        <cfset Application.Google_uacct = "#cf_global_settings.google_uacct#" />
+		    <cfset Application.bugzillaToEmail = "#cf_global_settings.bugzilla_to_email#" />
+			<cfset Application.bugzillaFromEmail = "#cf_global_settings.bugzilla_from_email#" />
+			<cfset Application.genBankPwd=encrypt("#cf_global_settings.genbank_password#","genbank") />
+        </cfloop>
 
 		<!---cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) /--->
 		<cfset Application.session_timeout=90 />
@@ -210,8 +230,6 @@
 		<cfset Application.institution_link_text = "Host configuration problem: #serverName# not recognized" />
 		<cfset Application.meta_description = "Arctos is a biological specimen database." />
 		<cfset Application.meta_keywords = "museum, collection, management, system" />
-		<cfset Application.gmap_api_key = "not set" />
-		<cfset Application.Google_uacct = "not set" />
 		<cfset Application.domain = replace(Application.serverRootUrl,"#Application.protocol#://",".") />
 		<cfset Application.header_color = "##000066" />
 		<cfset Application.institutionlinkcolor = "##FF0000" />
@@ -223,7 +241,6 @@
 		<cfif serverName is "arctos.database.museum">
 			<cfset Application.collection_link_text = "Arctos" />
 			<cfset Application.institution_link_text = "Multi-Institution, Multi-Collection Museum Database" />
-			<cfset application.gmap_api_key="ABQIAAAAO1U4FM_13uDJoVwN--7J3xRmuGmxQ-gdo7TWENOfdvPP48uvgxS1Mi5095Z-7DsupXP1SWQjdYKK_w" />
 			<cfset Application.svn = "/usr/local/bin/svn" />
 			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
 			<cfset Application.DownloadPath = Application.webDirectory & "/download/" />
@@ -234,14 +251,11 @@
 			<cfset Application.genBankPrid = "3849" />
 			<cfset Application.genBankUsername="uam" />
 			<cfset Application.convertPath = "/usr/local/bin/convert" />
-			<cfset Application.genBankPwd=encrypt("bU7$f%Nu","genbank") />
 			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
-			<cfset Application.Google_uacct = "UA-315170-1" />
 			<cfset Application.InstitutionBlurb = "" />
 			<cfset Application.DataProblemReportEmail = "arctos.database@gmail.com" />
 			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
 		<cfelseif serverName is "arctos-test.arctos.database.museum">
-			<cfset application.gmap_api_key="ABQIAAAAO1U4FM_13uDJoVwN--7J3xRt-ckefprmtgR9Zt3ibJoGF3oycxTHoy83TEZbPAjL1PURjC9X2BvFYg" />
 			<cfset Application.svn = "/usr/local/bin/svn" />
 			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
 			<cfset Application.DownloadPath = "#Application.webDirectory#/download/" />
@@ -252,9 +266,7 @@
 			<cfset Application.genBankPrid = "3849" />
 			<cfset Application.genBankUsername="uam" />
 			<cfset Application.convertPath = "/usr/local/bin/convert" />
-			<cfset Application.genBankPwd=encrypt("bU7$f%Nu","genbank") />
 			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
-			<cfset Application.Google_uacct = "UA-315170-1" />
 			<cfset Application.InstitutionBlurb = "" />
 			<cfset Application.DataProblemReportEmail = "arctos.database@gmail.com" />
 			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
@@ -289,8 +301,6 @@
 			<cfset Application.webDirectory = "/var/www/html/arctos" />
 			<cfset Application.SpecimenDownloadPath = "/var/www/html/arctos/download/" />
 			<cfset Application.DownloadPath = "/var/www/html/arctos/download/" />
-			<cfset Application.bugzillaToEmail = "bugzilla@software.rc.fas.harvard.edu" />
-			<cfset Application.bugzillaFromEmail = "bugreport@software.rc.fas.harvard.edu" />
 			<cfset Application.bugReportEmail = "bhaley@oeb.harvard.edu" />
 			<cfset Application.technicalEmail = "bhaley@oeb.harvard.edu" />
 			<cfset Application.mapHeaderUrl = "#Application.serverRootUrl#/images/nada.gif" />
@@ -298,13 +308,8 @@
 			<cfset Application.genBankPrid = "" />
 			<cfset Application.genBankUsername="" />
 			<cfset Application.convertPath = "/usr/bin/convert" />
-			<cfset Application.genBankPwd=encrypt("Uln1OAzy","genbank") />
 			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
 
-			<!---cfset application.gmap_api_key="ABQIAAAAHisocVs5fMekC3rHMYIDKBTD_7kRmvD2VFEz2q7Rf-1F9aZhDRR0G1NEMbSCz8uzq65R3GoapoMRKg"--->
-			<cfset application.gmap_api_key="AIzaSyC9WEpUv8c2Hu59LE_nwfGg-YhZUkEu4IY">
-			<cfset application.g_sitekey="6LeklE0UAAAAABBEvD8thZ9BJMw0eddVDfHqYZ_4">
-			<cfset Application.Google_uacct = "UA-11397952-1" />
 			<cfset Application.InstitutionBlurb = "Collections Database, Museum of Comparative Zoology, Harvard University" />
 			<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />
 			<cfset Application.PageProblemEmail = "bhaley@oeb.harvard.edu" />
