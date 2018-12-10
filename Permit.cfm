@@ -12,6 +12,16 @@
 <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from ctspecific_permit_type
 </cfquery>
+<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
+        group by ct.permit_type 
+        order by ct.permit_type
+</cfquery>
+<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type
+        order by ct.specific_type
+</cfquery>
 <cfif #action# is "nothing">
 <cfset title = "Find Permits">
 <cfoutput>
@@ -51,7 +61,7 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 				<select name="permit_type" size="1">
 					<option value=""></option>
 					<cfloop query="ctPermitType">
-						<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type#</option>
+						<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
 					</cfloop>
 				</select>
 			</td>
@@ -60,7 +70,7 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 				<select name="specific_type" size="1">
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
-						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
+						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
 					</cfloop>
 				</select>
 			</td>
