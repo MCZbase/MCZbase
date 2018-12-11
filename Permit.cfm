@@ -578,6 +578,39 @@ where
 						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
 					</cfloop>
 				</select>
+                                <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); ">+</button>
+                                <script type='text/javascript' >
+function storeNewType() { 
+   jQuery.getJSON("component/function.cfc",
+         { 
+            method: "addNewctSpecificType",
+            new_specific_type: $('##new_specific_type').val()
+         },
+         function(data) { 
+            $('##addTDFeedback').html(data.message);
+         }
+         );
+}
+function openAddSpecificTypeDialog(id) {
+  var $dialog = $(id)
+  .html('<div id="addTypeDialogFrm"><input type="text" name="new_specific_type" id="new_specific_type"><input type="button" value="Add" onclick="storeNewType();"></div><div id="addTDFeedback"></div>')
+  .dialog({
+    title: 'Add A Specific Type',
+    autoOpen: false,
+    dialogClass: 'dialog_fixed,ui-widget-header',
+    modal: true,
+    height: 300,
+    width: 500,
+    minWidth: 300,
+    minHeight: 400,
+    draggable:true,
+    buttons: { "Ok": function () { $('##specific_type'). $(this).dialog("close"); },
+               "Close": function () { $(this).dialog("close"); }
+             }
+  });
+  $dialog.dialog('open');
+};
+                                </script>
 			</td>
 		</tr>
 		<tr>

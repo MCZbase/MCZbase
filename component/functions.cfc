@@ -3349,6 +3349,16 @@
     <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="addNewctSpecificType" access="remote">
+        <cfargument name="new_specific_type" type="string" required="yes">
+        <cfquery name="addSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           insert into ctspecific_type (specific_type)
+               values ( <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_VARCHAR"> )
+        </cfquery>
+        <cfset message="Added #new_specific_type#"
+        <cfreturn message>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="saveSearch" access="remote">
 	<cfargument name="returnURL" type="string" required="yes">
 	<cfargument name="srchName" type="string" required="yes">
