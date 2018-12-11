@@ -3349,14 +3349,25 @@
     <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="addNewctSpecificType" access="remote">
+<cffunction name="addNewctSpecificType" access="remote" returnformat="json">
         <cfargument name="new_specific_type" type="string" required="yes">
+        <cfset result = structNew()>
+        <cftry>
+        <cfset new_specific_type = trim(new_specific_type) >
         <cfquery name="addSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           insert into ctspecific_type (specific_type)
-               values ( <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_VARCHAR"> )
+           insert into ctspecific_permit_type (specific_type)
+               values ( <cfqueryparam value = "#new_specific_type#" CFSQLType="CF_SQL_VARCHAR"> )
         </cfquery>
-        <cfset message="Added #new_specific_type#"
-        <cfreturn message>
+        <cfset result["message"] = "Added #new_specific_type#.">
+        <cfcatch>
+            <cfif cfcatch.queryError contains 'ORA-00001'>
+               <cfset result["message"] = "Error: That value is already a specific type of permit.">
+            <cfelse>
+               <cfset result["message"] = "Error #cfcatch.message# #cfcatch.queryError#">
+            </cfif>
+        </cfcatch>
+        </cftry>
+        <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="saveSearch" access="remote">

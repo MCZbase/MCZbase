@@ -572,16 +572,17 @@ where
 			</td>
 			<td>Specific Type</td>
 			<td>
-				<select name="specific_type" size="1" class="reqdClr">
+				<select name="specific_type" id="specific_type" size="1" class="reqdClr">
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
 						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
 					</cfloop>
 				</select>
-                                <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); ">+</button>
+                                <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+                                <div id="newPermitASTDialog"></div>
                                 <script type='text/javascript' >
 function storeNewType() { 
-   jQuery.getJSON("component/function.cfc",
+   jQuery.getJSON("component/functions.cfc",
          { 
             method: "addNewctSpecificType",
             new_specific_type: $('##new_specific_type').val()
@@ -591,9 +592,12 @@ function storeNewType() {
          }
          );
 }
-function openAddSpecificTypeDialog(id) {
-  var $dialog = $(id)
-  .html('<div id="addTypeDialogFrm"><input type="text" name="new_specific_type" id="new_specific_type"><input type="button" value="Add" onclick="storeNewType();"></div><div id="addTDFeedback"></div>')
+function openAddSpecificTypeDialog() {
+  console.log('called openAddSpecificTypeDialog');
+  var dialog = $('##newPermitASTDialog')
+  .html(
+     '<div id="addTypeDialogFrm"><input type="text" name="new_specific_type" id="new_specific_type"><input type="button" value="Add" onclick="storeNewType();"></div><div id="addTDFeedback"></div>'
+  )
   .dialog({
     title: 'Add A Specific Type',
     autoOpen: false,
@@ -604,11 +608,18 @@ function openAddSpecificTypeDialog(id) {
     minWidth: 300,
     minHeight: 400,
     draggable:true,
-    buttons: { "Ok": function () { $('##specific_type'). $(this).dialog("close"); },
+    buttons: { "Ok": function () { 
+                     var newval = $('##new_specific_type').val(); 
+                     console.log(newval);
+                     $('##specific_type').append($("<option></option>").attr("value",newval).text(newval)); 
+                     $('##specific_type').val(newval);
+                     console.log($('##specific_type').val());
+                     $(this).dialog("close"); },
                "Close": function () { $(this).dialog("close"); }
              }
   });
-  $dialog.dialog('open');
+  dialog.dialog('open');
+  console.log('dialog open');
 };
                                 </script>
 			</td>
