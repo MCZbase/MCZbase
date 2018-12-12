@@ -584,9 +584,9 @@ where
 		</tr>
 		<tr>
 			<td>Permit Title</td>
-			<td><input type="text" name="permit_title"></td>
+			<td><input type="text" name="permit_title" style="width: 26em;" ></td>
 			<td>Remarks</td>
-			<td><input type="text" name="permit_remarks"></td>
+			<td><input type="text" name="permit_remarks" style="width: 26em;" ></td>
 		</tr>
 		<tr>
 			<td>Summary of Restrictions on use</td>
@@ -764,9 +764,9 @@ function opendialog(page,id,title) {
 		</tr>
 		<tr>
 			<td>Permit Title</td>
-			<td><input type="text" name="permit_title" value="#permit_title#"></td>
+			<td><input type="text" name="permit_title" value="#permit_title#" style="width: 26em;"></td>
 			<td>Remarks</td>
-			<td><input type="text" name="permit_remarks" value="#permit_remarks#"></td>
+			<td><input type="text" name="permit_remarks" value="#permit_remarks#" style="width: 26em;"></td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">

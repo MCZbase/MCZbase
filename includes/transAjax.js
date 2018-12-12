@@ -129,10 +129,10 @@ function storeNewPermitSpecificType() {
    jQuery.getJSON("component/functions.cfc",
          { 
             method: "addNewctSpecificType",
-            new_specific_type: $('##new_specific_type').val()
+            new_specific_type: $('#new_specific_type').val()
          },
          function(data) { 
-            $('##addTDFeedback').html(data.message);
+            $('#addTDFeedback').html(data.message);
          }
          );
 }
@@ -140,7 +140,7 @@ function storeNewPermitSpecificType() {
  */
 function openAddSpecificTypeDialog() {
   console.log('called openAddSpecificTypeDialog');
-  var dialog = $('##newPermitASTDialog')
+  var dialog = $('#newPermitASTDialog')
   .html(
      '<div id="addTypeDialogFrm"><input type="text" name="new_specific_type" id="new_specific_type"><input type="button" value="Add" onclick="storeNewPermitSpecificType();"></div><div id="addTDFeedback"></div>'
   )
@@ -155,11 +155,11 @@ function openAddSpecificTypeDialog() {
     minHeight: 400,
     draggable:true,
     buttons: { "Ok": function () { 
-                     var newval = $('##new_specific_type').val(); 
+                     var newval = $('#new_specific_type').val(); 
                      console.log(newval);
-                     $('##specific_type').append($("<option></option>").attr("value",newval).text(newval)); 
-                     $('##specific_type').val(newval);
-                     console.log($('##specific_type').val());
+                     $('#specific_type').append($("<option></option>").attr("value",newval).text(newval)); 
+                     $('#specific_type').val(newval);
+                     console.log($('#specific_type').val());
                      $(this).dialog("close"); },
                "Close": function () { $(this).dialog("close"); }
              }
