@@ -138,6 +138,8 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 	exp_Date,
 	permit_Num,
 	permit_Type,
+        specific_type,
+        permit_title,
 	permit_remarks
 from
 	permit,  preferred_agent_name issuedTo, preferred_agent_name issuedBy, preferred_agent_name Contact
@@ -226,7 +228,7 @@ where
 </cfif>
 <cfif len(#permit_title#) gt 0>
 	<cfset permit_title = #replace(permit_title,"'","''","All")#>
-	<cfset sql = "#sql# AND permit_title = '#permit_title#'">
+	<cfset sql = "#sql# AND upper(permit_title) like '%#ucase(permit_title)#%'">
 </cfif>
 <cfif len(#specific_type#) gt 0>
 	<cfset specific_type = #replace(specific_type,"'","''","All")#>
