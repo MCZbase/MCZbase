@@ -122,6 +122,51 @@ function deleteMediaFromTrans(mediaId,transactionId,relationType) {
            reloadTransMedia();
         }
       )};
+/* Supporting function for Add ctspecific_permit_type dialog on New/Edit Permit pages, 
+ * save a new ctspecific_permit_type.specific_type value and report feedback.
+ */
+function storeNewPermitSpecificType() { 
+   jQuery.getJSON("component/functions.cfc",
+         { 
+            method: "addNewctSpecificType",
+            new_specific_type: $('##new_specific_type').val()
+         },
+         function(data) { 
+            $('##addTDFeedback').html(data.message);
+         }
+         );
+}
+/* Supporting function to create an add ctspecific_permit_type dialog on New/Edit Permit pages.
+ */
+function openAddSpecificTypeDialog() {
+  console.log('called openAddSpecificTypeDialog');
+  var dialog = $('##newPermitASTDialog')
+  .html(
+     '<div id="addTypeDialogFrm"><input type="text" name="new_specific_type" id="new_specific_type"><input type="button" value="Add" onclick="storeNewPermitSpecificType();"></div><div id="addTDFeedback"></div>'
+  )
+  .dialog({
+    title: 'Add A Specific Type',
+    autoOpen: false,
+    dialogClass: 'dialog_fixed,ui-widget-header',
+    modal: true,
+    height: 300,
+    width: 500,
+    minWidth: 300,
+    minHeight: 400,
+    draggable:true,
+    buttons: { "Ok": function () { 
+                     var newval = $('##new_specific_type').val(); 
+                     console.log(newval);
+                     $('##specific_type').append($("<option></option>").attr("value",newval).text(newval)); 
+                     $('##specific_type').val(newval);
+                     console.log($('##specific_type').val());
+                     $(this).dialog("close"); },
+               "Close": function () { $(this).dialog("close"); }
+             }
+  });
+  dialog.dialog('open');
+  console.log('dialog open');
+};
 function deletePermitFromTransaction(permitId,transactionId) {
     jQuery.getJSON("/component/functions.cfc",
         {

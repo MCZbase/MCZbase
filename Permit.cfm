@@ -580,48 +580,6 @@ where
 				</select>
                                 <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
                                 <div id="newPermitASTDialog"></div>
-                                <script type='text/javascript' >
-function storeNewType() { 
-   jQuery.getJSON("component/functions.cfc",
-         { 
-            method: "addNewctSpecificType",
-            new_specific_type: $('##new_specific_type').val()
-         },
-         function(data) { 
-            $('##addTDFeedback').html(data.message);
-         }
-         );
-}
-function openAddSpecificTypeDialog() {
-  console.log('called openAddSpecificTypeDialog');
-  var dialog = $('##newPermitASTDialog')
-  .html(
-     '<div id="addTypeDialogFrm"><input type="text" name="new_specific_type" id="new_specific_type"><input type="button" value="Add" onclick="storeNewType();"></div><div id="addTDFeedback"></div>'
-  )
-  .dialog({
-    title: 'Add A Specific Type',
-    autoOpen: false,
-    dialogClass: 'dialog_fixed,ui-widget-header',
-    modal: true,
-    height: 300,
-    width: 500,
-    minWidth: 300,
-    minHeight: 400,
-    draggable:true,
-    buttons: { "Ok": function () { 
-                     var newval = $('##new_specific_type').val(); 
-                     console.log(newval);
-                     $('##specific_type').append($("<option></option>").attr("value",newval).text(newval)); 
-                     $('##specific_type').val(newval);
-                     console.log($('##specific_type').val());
-                     $(this).dialog("close"); },
-               "Close": function () { $(this).dialog("close"); }
-             }
-  });
-  dialog.dialog('open');
-  console.log('dialog open');
-};
-                                </script>
 			</td>
 		</tr>
 		<tr>
@@ -800,6 +758,8 @@ function opendialog(page,id,title) {
 						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
 					</cfloop>
 				</select>
+                                <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+                                <div id="newPermitASTDialog"></div>
 			</td>
 		</tr>
 		<tr>
