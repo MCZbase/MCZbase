@@ -17,6 +17,8 @@
 <cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
 <cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
 <cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
+<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
+<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
 <cfif not isdefined("issued_Date")><cfset issued_Date=""></cfif>
 <cfif not isdefined("renewed_Date")><cfset renewed_Date=""></cfif>
 <cfif not isdefined("exp_Date")><cfset exp_Date=""></cfif>
@@ -58,7 +60,7 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
 					<option value=""></option>
 					<cfloop query="ctPermitType">
                                                 <cfif permit_type_val EQ ctPermitType.permit_type><cfset selected='selected'><cfelse><cfset selected=''></cfif>
-						<option value = "#ctPermitType.permit_type#" #selected#>#ctPermitType.permit_type#</option>
+						<option value = "#ctPermitType.permit_type#" #selected#>#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
 					</cfloop>
 				
 				</select>
@@ -73,13 +75,13 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
                                                 <cfif specific_type_val EQ ctSpecificPermitType.specific_type><cfset selected='selected'><cfelse><cfset selected=''></cfif>
-						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+						<option value = "#ctSpecificPermitType.specific_type#" #selected#>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
 					</cfloop>
 				
 				</select>
 			</td>
 			<td>Permit Title</td>
-			<td><input type="text" name="permit_title" val="#permit_title_val#"></td>
+			<td><input type="text" name="permit_title" value="#permit_title_val#"></td>
 		</tr>
 		<tr>
 			<td></td>
