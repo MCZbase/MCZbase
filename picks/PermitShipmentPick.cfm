@@ -23,6 +23,8 @@
 <cfif not isdefined("permit_Num")><cfset permit_Num=""></cfif>
 <cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
 <cfif isdefined("permit_type")><cfset permit_type_val="#permit_type#"></cfif>
+<cfif isdefined("permit_title")><cfset permit_title_val="#permit_title#"></cfif>
+<cfif isdefined("specific_type")><cfset specific_type_val="#specific_type#"></cfif>
 
 Search for permits. Any part of names accepted, year or full date for dates, case isn't important.<br>
 <cfform name="findPermit" action="PermitShipmentPick.cfm" method="post" id="findPermitForm">
@@ -70,13 +72,14 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
 				<select name="specific_type" size="1" style="width: 15em;">
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
+                                                <cfif specific_type_val EQ ctSpecificPermitType.specific_type><cfset selected='selected'><cfelse><cfset selected=''></cfif>
 						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
 					</cfloop>
 				
 				</select>
 			</td>
 			<td>Permit Title</td>
-			<td><input type="text" name="permit_title"></td>
+			<td><input type="text" name="permit_title" val="#permit_title_val#"></td>
 		</tr>
 		<tr>
 			<td></td>
