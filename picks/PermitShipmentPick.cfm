@@ -2,7 +2,14 @@
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Permit Pick">
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select * from ctpermit_type order by permit_type
+	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
+        group by ct.permit_type 
+        order by ct.permit_type
+</cfquery>
+<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type
+        order by ct.specific_type
 </cfquery>
 <cfoutput>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
@@ -45,7 +52,7 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
 		<tr>
 			<td>Permit Type</td>
 			<td>
-				<select name="permit_Type" size="1" id="permit_type">
+				<select name="permit_Type" size="1" id="permit_type" style="width: 15em;">
 					<option value=""></option>
 					<cfloop query="ctPermitType">
                                                 <cfif permit_type_val EQ ctPermitType.permit_type><cfset selected='selected'><cfelse><cfset selected=''></cfif>
@@ -56,6 +63,20 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
 			</td>
 			<td>Remarks</td>
 			<td><input type="text" name="permit_remarks" value="#permit_remarks#"></td>
+		</tr>
+		<tr>
+			<td>Specific Type</td>
+			<td>
+				<select name="specific_type" size="1" style="width: 15em;">
+					<option value=""></option>
+					<cfloop query="ctSpecificPermitType">
+						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+					</cfloop>
+				
+				</select>
+			</td>
+			<td>Permit Title</td>
+			<td><input type="text" name="permit_title"></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -130,14 +151,20 @@ where
 <cfif len(#permit_Num#) gt 0>
 	<cfset sql = "#sql# AND permit_Num = '#permit_Num#'">
 </cfif>
+<cfif len(#specific_type#) gt 0>
+	<cfset specific_type = #replace(specific_type,"'","''","All")#>
+	<cfset sql = "#sql# AND specific_type = '#specific_type#'">
+</cfif>
+<cfif len(#permit_title#) gt 0>
+	<cfset permit_title = #replace(permit_title,"'","''","All")#>
+	<cfset sql = "#sql# AND upper(permit_title) like '%#ucase(permit_title)#%'">
+</cfif>
 <cfif len(#permit_Type#) gt 0>
-	
-		<cfset permit_Type = #replace(permit_type,"'","''","All")#>
-	
-	
+	<cfset permit_Type = #replace(permit_type,"'","''","All")#>
 	<cfset sql = "#sql# AND permit_Type = '#permit_Type#'">
 </cfif>
 <cfif len(#permit_remarks#) gt 0>
+	<cfset permit_remarks = #replace(permit_remarks,"'","''","All")#>
 	<cfset sql = "#sql# AND upper(permit_remarks) like '%#ucase(permit_remarks)#%'">
 </cfif>
 <cfset sql = "#sql# ORDER BY permit_id">

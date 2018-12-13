@@ -106,7 +106,7 @@
 		<tr>
 			<td>Permit Type</td>
 			<td>
-				<select name="permit_Type" size="1">
+				<select name="permit_Type" size="1" style="width: 15em;">
 					<option value=""></option>
 					<cfloop query="ctPermitType">
 						<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
@@ -120,7 +120,7 @@
 		<tr>
 			<td>Specific Type</td>
 			<td>
-				<select name="specific_type" size="1">
+				<select name="specific_type" size="1" style="width: 15em;">
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
 						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
@@ -203,16 +203,15 @@ where
 	<cfset sql = "#sql# AND permit_Num = '#permit_Num#'">
 </cfif>
 <cfif len(#specific_type#) gt 0>
+	<cfset specific_type = #replace(specific_type,"'","''","All")#>
 	<cfset sql = "#sql# AND specific_type = '#specific_type#'">
 </cfif>
 <cfif len(#permit_Type#) gt 0>
-	
-		<cfset permit_Type = #replace(permit_type,"'","''","All")#>
-	
-	
+	<cfset permit_Type = #replace(permit_type,"'","''","All")#>
 	<cfset sql = "#sql# AND permit_Type = '#permit_Type#'">
 </cfif>
 <cfif len(#permit_title#) gt 0>
+	<cfset permit_title = #replace(permit_title,"'","''","All")#>
 	<cfset sql = "#sql# AND upper(permit_title) like '%#ucase(permit_title)#%'">
 </cfif>
 <cfif len(#permit_remarks#) gt 0>
