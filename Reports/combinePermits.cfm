@@ -33,7 +33,6 @@
              and media_id is not null
 </cfquery>
 
-<!---  
 <cfset mergeUtility = CreateObject("java","org.apache.pdfbox.multipdf.PDFMergerUtility") >
 <cfset fileProxy = CreateObject("java","java.io.File") >
 <cfset urlProxy = CreateObject("java","java.net.URI") >
@@ -50,7 +49,6 @@
     mergeUtility.addDestinationFileName(downloadTarget);
     mergeUtility.mergeDocuments();
 </cfscript>
---->
 
 <cfheader name="Content-Disposition" value="attachmeht; filename=/downloads/#downloadFile#" >
 <cfcontent file="downloads/#downloadFile#" type="application/pdf" deleteFile="yes" >
