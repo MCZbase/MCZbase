@@ -120,6 +120,8 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
 	exp_Date,
 	permit_Num,
 	permit_Type,
+        specific_type,
+        permit_title,
 	permit_remarks 
 from 
 	permit,
@@ -185,7 +187,7 @@ where
 	<input type="hidden" value="#shipment_id#" name="shipment_id">
 	<input type="hidden" name="permit_id" value="#permit_id#">
 	<input type="hidden" name="Action" value="addThisOne">
-	Permit Number #permit_Num# (#permit_Type#) issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,"yyyy-mm-dd")# <cfif len(#renewed_Date#) gt 0> (renewed #dateformat(renewed_Date,"yyyy-mm-dd")#)</cfif>. Expires #dateformat(exp_Date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> (ID## #permit_id#)
+	Permit Number #permit_Num# (#permit_Type#:#specific_type#) issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,"yyyy-mm-dd")# <cfif len(#renewed_Date#) gt 0> (renewed #dateformat(renewed_Date,"yyyy-mm-dd")#)</cfif>. Expires #dateformat(exp_Date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> (ID## #permit_id#) #permit_title#
 <br><input type="button" value="Add this permit" class='picBtn' onclick=" $('##psp_#permit_id#').submit(); " >
 	</form>
 </div>
