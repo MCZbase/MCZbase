@@ -28,13 +28,14 @@
                     speed:       0,
                 });
                 if (top.location!=document.location) {
-                                $("#footerContentBox").hide();
-                                $("#headerContent").hide();
-                                $(".sf-mainMenuWrapper").hide();
-
+                    // the page is being included in a frame or a dialog within a page which already contains the header, main menu, and footer
+                    // so hide these elements.
+                    $("#footerContentBox").hide();
+                    $("#headerContent").hide();
+                    $(".sf-mainMenuWrapper").hide();
                 }
             });
-	</script>
+    </script>
     <cfoutput>
     <meta name="keywords" content="#session.meta_keywords#">
     <LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
