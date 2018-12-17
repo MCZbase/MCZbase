@@ -74,14 +74,17 @@
           </tr>
             <tr>
             <td>
-               <input type="checkbox" name="unchecked" id="unchecked" value="true">
-               <label for "unlinked">Media not yet linked to any record</label>
+               <span><input type="checkbox" name="unlinked" id="unlinked" value="true">
+               <label for "unlinked">Media not yet linked to any record</label></span>
             </td>
             <td>
                 <input type="submit" value="Search" class="schBtn">    
             </td>
             <td>
-                <input type="reset" value="Clear" class="clrBtn">
+                <span ><input type="reset" value="Clear" class="clrBtn">
+                <input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick=""opendialog('media.cfm?action=newMedia','##newPermitDlg_#permit_id#','Add media to #permit_id#');"">
+                </span>
+                <div id='newPermitDlg_#permit_id#' ></div></span>
             </td>
             </tr>
         </table>

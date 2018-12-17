@@ -2845,8 +2845,11 @@
        <cfset result= result & "</ul>">
    </cfif>
    <cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-      <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#');"">Create Media">
-      <cfset result = result & "</span>&nbsp;~&nbsp;">
+<!---      <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#');"">Create Media">
+      <cfset result = result & "</span>&nbsp;~&nbsp;"> --->
+<!---
+      <cfset result = result & "<span><span id='newPermit_#permit_id#'><input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick=""opendialog('media.cfm?action=newMedia','#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','##newPermitDlg_#permit_id#','Add media to #permit_id#');""><div id='newPermitDlg_#permit_id#' ></div></span>">
+--->
       <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" ></div><div id='addPermitDlg_#permit_id#'></div></span>">
    </cfif>
    <cfreturn result>
