@@ -28,7 +28,7 @@
                     speed:       0,
                 });
                 if (top.location!=document.location) {
-                               // $("#footerContentBox").hide();
+                                $("#footerContentBox").hide();
                                 $("#headerContent").hide();
                                 $(".sf-mainMenuWrapper").hide();
 
