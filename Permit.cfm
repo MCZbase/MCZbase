@@ -13,8 +13,8 @@
 	select * from ctspecific_permit_type
 </cfquery>
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
-        group by ct.permit_type 
+	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
+        group by ct.permit_type
         order by ct.permit_type
 </cfquery>
 <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -25,7 +25,7 @@
 <cfif #action# is "nothing">
 <cfset title = "Find Permits">
 <cfoutput>
-Search for permits and similar documents (access benefit sharing agreements, 
+Search for permits and similar documents (access benefit sharing agreements,
 material transfer agreements, collecting permits, salvage permits, etc.)
 Any part of names accepted, case isn't important.  Use year or a date for dates.<br>
 Leave "until date" fields empty unless you use the field to its left.<br>
@@ -165,7 +165,7 @@ where
 	<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#ucase(IssuedToAgent)#%'">
 </cfif>
 <cfif len(#issued_date#) gt 0>
-    <cfif len(#issued_date#) EQ 4> 
+    <cfif len(#issued_date#) EQ 4>
        <cfset issued_date = "#issued_date#-01-01">
 	   <cfif len(#issued_until_date#) EQ 0>
            <cfset issued_until_date = "#issued_date#-12-31">
@@ -182,7 +182,7 @@ where
 	</cfif>
 </cfif>
 <cfif len(#renewed_date#) gt 0>
-    <cfif len(#renewed_date#) EQ 4> 
+    <cfif len(#renewed_date#) EQ 4>
        <cfset renewed_date = "#renewed_date#-01-01">
 	   <cfif len(#renewed_until_date#) EQ 0>
            <cfset renewed_until_date = "#renewed_date#-12-31">
@@ -199,7 +199,7 @@ where
 	</cfif>
 </cfif>
 <cfif len(#exp_date#) gt 0>
-    <cfif len(#exp_date#) EQ 4> 
+    <cfif len(#exp_date#) EQ 4>
        <cfset exp_date = "#exp_date#-01-01">
 	   <cfif len(#exp_until_date#) EQ 0>
            <cfset exp_until_date = "#exp_date#-12-31">
@@ -508,7 +508,7 @@ where
 <cfif #Action# is "newPermit">
 <cfset title = "New Permit">
     <font size="+1"><strong>New Permit</strong></font>
-    <p>Enter a new record for a permit or similar document (access benefit sharing agreements, 
+    <p>Enter a new record for a permit or similar document (access benefit sharing agreements,
        material transfer agreements, collecting permits, salvage permits, etc.)</p>
 	<cfoutput>
 	<cfform name="newPermit" action="Permit.cfm" method="post">
@@ -1006,8 +1006,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
-    flat.country, flat.state_prov, flat.scientific_name, flat.guid, 
-    TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts, 
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+    TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
     decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
@@ -1050,7 +1050,7 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
   where trans.transaction_type = 'loan'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
-select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix, 
+select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
     shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -1165,7 +1165,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
      </div>
      </cfoutput>
      <cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select   
+select
     count(cataloged_item.collection_object_id) as cat_count,
     sum(coll_object.lot_count) as spec_count,
     collection.guid_prefix,
@@ -1265,7 +1265,7 @@ UPDATE permit SET
 	 	,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
     </cfif>
 	<cfif len(#benefits_provided#) gt 0>
-	 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="'#benefits_provided#">
+	 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
     </cfif>
 	 <cfif len(#contact_agent_id#) gt 0>
 	 	,contact_agent_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#contact_agent_id#">
@@ -1356,10 +1356,10 @@ VALUES (
 	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
      </cfif>
 	 <cfif len(#benefits_provided#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="'#benefits_provided#">
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
      </cfif>
 	 <cfif len(#contact_agent_id#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="'#contact_agent_id#">
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#contact_agent_id#">
 	 </cfif>)
 </cfquery>
         <cfif isdefined("headless") and headless EQ 'true'>
@@ -1375,7 +1375,7 @@ VALUES (
 <cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 DELETE FROM permit WHERE permit_id = #permit_id#
 </cfquery>
-	
+
 	<cflocation url="Permit.cfm">
   </cfoutput>
 </cfif>
