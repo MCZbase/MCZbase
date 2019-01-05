@@ -3,7 +3,7 @@
 <cfoutput>
 <script src="/includes/sorttable.js"></script>
 
-<cfset datefilter='2017-06-30'>
+<cfset datefilter='2018-06-30'>
 
 <cfquery name="colls" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 	select collection_cde, collection from collection where collection_cde not in ('MCZ', 'SC', 'HerpOBS') order by collection_cde
