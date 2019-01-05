@@ -3,7 +3,14 @@
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfset title = "Permit Pick">
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select * from ctpermit_type order by permit_type
+	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
+        group by ct.permit_type 
+        order by ct.permit_type
+</cfquery>
+<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type
+        order by ct.specific_type
 </cfquery>
 <cfif Action is "movePermit">
    <!---  Dialog to move a permit from one shipment to another shipment in the same transaction ---> 
@@ -99,16 +106,30 @@
 		<tr>
 			<td>Permit Type</td>
 			<td>
-				<select name="permit_Type" size="1">
+				<select name="permit_Type" size="1" style="width: 15em;">
 					<option value=""></option>
 					<cfloop query="ctPermitType">
-						<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type#</option>
+						<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
 					</cfloop>
 				
 				</select>
 			</td>
 			<td>Remarks</td>
 			<td><input type="text" name="permit_remarks"></td>
+		</tr>
+		<tr>
+			<td>Specific Type</td>
+			<td>
+				<select name="specific_type" size="1" style="width: 15em;">
+					<option value=""></option>
+					<cfloop query="ctSpecificPermitType">
+						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+					</cfloop>
+				
+				</select>
+			</td>
+			<td>Permit Title</td>
+			<td><input type="text" name="permit_title"></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -148,6 +169,8 @@
 	exp_Date,
 	permit_Num,
 	permit_Type,
+	permit_title,
+	specific_type,
 	permit_remarks 
 from 
 	permit,
@@ -179,12 +202,17 @@ where
 <cfif len(#permit_Num#) gt 0>
 	<cfset sql = "#sql# AND permit_Num = '#permit_Num#'">
 </cfif>
+<cfif len(#specific_type#) gt 0>
+	<cfset specific_type = #replace(specific_type,"'","''","All")#>
+	<cfset sql = "#sql# AND specific_type = '#specific_type#'">
+</cfif>
 <cfif len(#permit_Type#) gt 0>
-	
-		<cfset permit_Type = #replace(permit_type,"'","''","All")#>
-	
-	
+	<cfset permit_Type = #replace(permit_type,"'","''","All")#>
 	<cfset sql = "#sql# AND permit_Type = '#permit_Type#'">
+</cfif>
+<cfif len(#permit_title#) gt 0>
+	<cfset permit_title = #replace(permit_title,"'","''","All")#>
+	<cfset sql = "#sql# AND upper(permit_title) like '%#ucase(permit_title)#%'">
 </cfif>
 <cfif len(#permit_remarks#) gt 0>
 	<cfset sql = "#sql# AND upper(permit_remarks) like '%#ucase(permit_remarks)#%'">
@@ -208,7 +236,7 @@ where
 	<input type="hidden" name="permit_id" value="#permit_id#">
 	<input type="hidden" name="Action" value="addThisOne">
 	<input type="hidden" name="inDialog" value="#inDialog#">
-	Permit Number #permit_Num# (#permit_Type#) issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,"yyyy-mm-dd")# <cfif len(#renewed_Date#) gt 0> (renewed #dateformat(renewed_Date,"yyyy-mm-dd")#)</cfif>. Expires #dateformat(exp_Date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> (ID## #permit_id#)
+	Permit Number #permit_Num# (#permit_Type#:#specific_type#) issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,"yyyy-mm-dd")# <cfif len(#renewed_Date#) gt 0> (renewed #dateformat(renewed_Date,"yyyy-mm-dd")#)</cfif>. Expires #dateformat(exp_Date,"yyyy-mm-dd")#.  <cfif len(#permit_remarks#) gt 0>Remarks: #permit_remarks# </cfif> (ID## #permit_id#) #permit_title#
 <br><input type="submit" value="Add this permit"  class='picBtn' onclick=" $('##pp_#permit_id#_#transaction_id#').submit(); ">
 	</form>
 </div>
