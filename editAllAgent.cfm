@@ -377,7 +377,7 @@ function opendialogrank(page,id,title,agentId) {
  						</tr>
  						<tr>
 							<td colspan="5">
- 								<label for="agent_remarks">Agent Remark</label>
+ 								<label for="agent_remarks">Agent Remarks &nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Remarks')" class="likeLink" style="margin-top: -15px;" alt="[ help ]"></label>
                        						<textarea name="agent_remarks" id="agent_remarks" style="height: 20em;">#agent_remarks#</textarea>
                        						<script>CKEDITOR.replace( 'agent_remarks' );</script>
 
@@ -398,7 +398,7 @@ function opendialogrank(page,id,title,agentId) {
 					<table>
 						<tr>
 							<td colspan="4">
-								<label for="agent_remarks">Agent Remark</label>
+								<label for="agent_remarks">Agent Remarks</label>
                        						<textarea name="agent_remarks" id="agent_remarks" style="height: 20em;">#agent_remarks#</textarea>
                        						<script>CKEDITOR.replace( 'agent_remarks' );</script>
 								<br>
