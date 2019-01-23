@@ -589,11 +589,11 @@ where
 			<td colspan="3"><textarea cols="80" rows="3" name="restriction_summary"></textarea></td>
 		</tr>
 		<tr>
-			<td>ABS: Summary of Agreed Benefits</td>
+			<td>Summary of Agreed Benefits</td>
 			<td colspan="3"><textarea cols="80" rows="3" name="benefits_summary"></textarea></td>
 		</tr>
 		<tr>
-			<td>ABS: Benefits Provided</td>
+			<td>Benefits Provided</td>
 			<td colspan="3"><textarea cols="80" rows="3" name="benefits_provided"></textarea></td>
 		</tr>
 		<tr>
@@ -728,11 +728,11 @@ function opendialog(page,id,title) {
             <td colspan="3"><textarea cols="80" rows="3" name="restriction_summary" >#restriction_summary#</textarea></td>
         </tr>
         <tr>
-            <td>ABS: Summary of Agreed Benefits</td>
+            <td>Summary of Agreed Benefits</td>
             <td colspan="3"><textarea cols="80" rows="3" name="benefits_summary" >#benefits_summary#</textarea></td>
         </tr>
         <tr>
-            <td>ABS: Benefits Provided</td>
+            <td>Benefits Provided</td>
             <td colspan="3"><textarea cols="80" rows="3" name="benefits_provided" >#benefits_provided#</textarea></td>
         </tr>
 
