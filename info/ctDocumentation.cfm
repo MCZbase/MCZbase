@@ -10,9 +10,9 @@
 </cfif>
 <div style="margin: 1em;">
 <h3>Documentation for code table <strong>#tableName#</strong>:</h3>
-
+<cfif table is 'ctspecimen_part_name'>
 <p>If you need to search for two values, put a pipe in between them and no spaces (e.g., skin|skull)</p>
-
+	</cfif>
 	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from #table#
 	</cfquery>
@@ -77,7 +77,7 @@
 						</tr>
 					</cfloop>
 				<cfelse>
-						<tr style="background-color:##339999 ">
+						<tr style="">
 							<td nowrap>#field#</td>
 							<td>All</td>
 							<td>

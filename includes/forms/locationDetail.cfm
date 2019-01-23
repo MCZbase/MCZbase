@@ -49,6 +49,8 @@ content: ": ";
 <cfoutput>
 	<cfquery name="r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
+			geog_auth_rec.geog_auth_rec_id as GEOG_AUTH_REC_ID,
+                        locality.locality_id as LOCALITY_ID,
 			CONTINENT_OCEAN,
 			COUNTRY,
 			STATE_PROV,
@@ -136,6 +138,7 @@ content: ": ";
 	</cfquery>
 	<cfquery name="geog" dbtype="query">
 		select
+                        GEOG_AUTH_REC_ID,
 			CONTINENT_OCEAN,
 			COUNTRY,
 			STATE_PROV,
@@ -149,6 +152,7 @@ content: ": ";
 			HIGHER_GEOG
 		from r
 		group by
+                        GEOG_AUTH_REC_ID,
 			CONTINENT_OCEAN,
 			COUNTRY,
 			STATE_PROV,
@@ -165,7 +169,10 @@ content: ": ";
 		<div class="grouped">
 			<cfloop query="geog">
 				<div class="title">
-					Geography
+					Geography&nbsp;
+                                        <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+                                            <a href='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#' target='_blank' rel='noopener noreferrer' >[Edit]</a>
+					</cfif>
 				</div>
 				<cfif len(CONTINENT_OCEAN) gt 0>
 					<div class="pair">
@@ -232,6 +239,7 @@ content: ": ";
 		<cfif isdefined("locality_id") or isdefined("collecting_event_id")>
 			<cfquery name="locality" dbtype="query">
 				select
+                                        LOCALITY_ID,
 					MAXIMUM_ELEVATION,
 					MINIMUM_ELEVATION,
 					ORIG_ELEV_UNITS,
@@ -242,6 +250,7 @@ content: ": ";
 					MAX_DEPTH,
 					NOGEOREFBECAUSE
 				from r group by
+                                        LOCALITY_ID,
 					MAXIMUM_ELEVATION,
 					MINIMUM_ELEVATION,
 					ORIG_ELEV_UNITS,
@@ -255,7 +264,10 @@ content: ": ";
 			<div class="grouped">
 				<cfloop query="locality">
 					<div class="title">
-						Locality
+						Locality 
+                                                <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+                                                   <a href='editLocality.cfm?locality_id=#LOCALITY_ID#' target='_blank' rel='noopener noreferrer' >[Edit]</a>
+                                                </cfif>
 					</div>
 					<cfif len(SPEC_LOCALITY) gt 0>
 						<div class="pair">
