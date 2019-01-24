@@ -17,10 +17,11 @@
         order by ct.specific_type
 </cfquery>
 <cfif #action# is "nothing">
-<cfset title = "Find Permits">
+<cfset title = "Find Permissions/Rights Documents">
 <cfoutput>
-Search for permits and similar documents (access benefit sharing agreements,
-material transfer agreements, collecting permits, salvage permits, etc.)
+<font size="+1"><strong>Find Permissions &amp; Rights Documents</strong></font>
+<p>Search for permits and similar documents related to permissions and rights (access benefit sharing agreements,
+material transfer agreements, collecting permits, salvage permits, etc.)<p>
 Any part of names accepted, case isn't important.  Use year or a date for dates.<br>
 Leave "until date" fields empty unless you use the field to its left.<br>
 <cfform name="findPermit" action="Permit.cfm" method="post">
@@ -94,7 +95,7 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 				 <input type="reset" value="Clear" class="qutBtn"
    onmouseover="this.className='qutBtn btnhov'" onmouseout="this.className='qutBtn'">
 
-				<input type="button" value="Create New Permit" class="insBtn"
+				<input type="button" value="Create New" class="insBtn"
    onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"
    onClick="findPermit.Action.value='newPermit';submit();">
 
@@ -500,9 +501,9 @@ where
 <!--------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------->
 <cfif #Action# is "newPermit">
-<cfset title = "New Permit">
-    <font size="+1"><strong>New Permit</strong></font>
-    <p>Enter a new record for a permit or similar document (access benefit sharing agreements,
+<cfset title = "New Permissions/Rights Document">
+    <font size="+1"><strong>New Permissions &amp; Rights Document</strong></font>
+    <p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
        material transfer agreements, collecting permits, salvage permits, etc.)</p>
 	<cfoutput>
 	<cfform name="newPermit" action="Permit.cfm" method="post">
@@ -598,7 +599,7 @@ where
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
-				<input type="submit" value="Save this permit" class="insBtn"
+				<input type="submit" value="Save" class="insBtn"
    					onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
 
                                    <cfif  not ( isdefined("headless") and headless EQ 'true' ) >
@@ -616,8 +617,8 @@ where
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "editPermit">
-<cfset title = "Edit Permit">
-<font size="+1"><strong>Edit Permit</strong></font><br>
+<cfset title = "Edit Permissions/Rights document">
+<font size="+1"><strong>Edit Permissions &amp; Rights Document</strong></font><br>
 <cfoutput>
 <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
 	Error: You didn't pass this form a permit_id. Go back and try again.<cfabort>
@@ -945,7 +946,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "permitUseReport">
-   <cfset title = "Permit Use Report">
+   <cfset title = "Permissions/Rights Use Report">
    <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
       <cfoutput>Error: You didn't pass this form a permit_id. Go back and try again.</cfoutput>
       <cfabort>
