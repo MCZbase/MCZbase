@@ -12,8 +12,8 @@
         order by ct.permit_type
 </cfquery>
 <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
-        group by ct.specific_type
+        select ct.specific_type, ct.permit_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type, ct.permit_type
         order by ct.specific_type
 </cfquery>
 <cfif #action# is "nothing">
@@ -558,25 +558,18 @@ where
 			<td><input type="text" name="permit_Num"></td>
 		</tr>
 		<tr>
-			<td>Permit Type</td>
-			<td>
-				<select name="permit_Type" size="1" class="reqdClr">
-					<option value=""></option>
-					<cfloop query="ctPermitType">
-						<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type#</option>
-					</cfloop>
-				</select>
-			</td>
-			<td>Specific Type</td>
-			<td>
+			<td>Document Type</td>
+			<td colspan=3>
 				<select name="specific_type" id="specific_type" size="1" class="reqdClr">
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
-						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
+						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
 					</cfloop>
 				</select>
-                                <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
-                                <div id="newPermitASTDialog"></div>
+                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+                                   <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+                                   <div id="newPermitASTDialog"></div>
+                                </cfif>
 			</td>
 		</tr>
 		<tr>
@@ -738,25 +731,18 @@ function opendialog(page,id,title) {
         </tr>
 
 		<tr>
-			<td>Permit Type</td>
-			<td>
-				<select name="permit_Type" class="reqdClr" size="1">
-					<option value=""></option>
-					<cfloop query="ctPermitType">
-						<option <cfif #ctPermitType.permit_type# is "#permitInfo.permit_type#"> selected </cfif>value = "#ctPermitType.permit_type#">#ctPermitType.permit_type#</option>
-					</cfloop>
-				</select>
-			</td>
-			<td>Specific Type</td>
-			<td>
+			<td>Document Type</td>
+			<td colspan=3>
 				<select name="specific_type" id="specific_type" class="reqdClr" size="1">
 					<option value=""></option>
 					<cfloop query="ctSpecificPermitType">
-						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type#</option>
+						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
 					</cfloop>
 				</select>
-                                <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
-                                <div id="newPermitASTDialog"></div>
+                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+                                   <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+                                   <div id="newPermitASTDialog"></div>
+                                </cfif>
 			</td>
 		</tr>
 		<tr>
@@ -1219,6 +1205,10 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveChanges">
+<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+</cfquery>
+<cfset permit_type = #ptype.permit_type#>
 <cfoutput>
 <cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 UPDATE permit SET
@@ -1276,6 +1266,10 @@ UPDATE permit SET
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "createPermit">
 <cfoutput>
+<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+</cfquery>
+<cfset permit_type = #ptype.permit_type#>
 <cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select sq_permit_id.nextval nextPermit from dual
 </cfquery>

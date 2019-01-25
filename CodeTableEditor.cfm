@@ -303,6 +303,84 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "ctspecific_permit_type">
+        <!---------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select * from ctspecific_permit_type order by specific_type
+		</cfquery>
+		<cfquery name="ptypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select permit_type from ctpermit_type order by permit_type
+		</cfquery>
+        <h2>Specific Types of Permissions and Rights documents (permits)</h2>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="ctspecific_permit_type">
+			<table class="newRec">
+				<tr>
+					<th>Specific Type</th>
+					<th>General Type</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" size=80 >
+					</td>
+					<td>
+						<select name="permit_type">
+							<option value=""></option>
+							<cfloop query="ptypes">
+								<option value="#permit_type#">#permit_type#</option>
+							</cfloop>
+						</select>
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<cfset i = 1>
+		<table>
+			<tr>
+				<th>Specific Type</th>
+				<th>General Type</th>
+			</tr>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+			            <input type="hidden" name="tbl" value="ctspecific_permit_type">
+						<input type="hidden" name="origData" value="#q.specific_type#">
+				                <input type="hidden" name="fld" value="specific_type">
+						<td>
+							<input type="text" name="specific_type" value="#q.specific_type#" size="80">
+						</td>
+						<td>
+							<select name="permit_type">
+								<option value=""></option>
+								<cfloop query="ptypes">
+									<option <cfif q.permit_type is ptypes.permit_type> selected="selected" </cfif>value="#ptypes.permit_type#">#ptypes.permit_type#</option>
+								</cfloop>
+							</select>
+						</td>				
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">	
+			
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -978,6 +1056,14 @@
 			where
 				COUNTRY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
+	<cfelseif tbl is "ctspecific_permit_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctspecific_permit_type set 
+				SPECIFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#specific_type#" />,
+				PERMIT_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#permit_type#" />
+			where
+				SPECIFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctbiol_relations set 
@@ -1075,6 +1161,16 @@
 			) values (
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
 				<cfqueryparam cfsqltype="cf_sql_number" value="#code#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctspecific_permit_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctspecific_permit_type (
+				specific_type,
+				permit_type
+			) values (
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
+				<cfqueryparam cfsqltype="cf_sql_number" value="#permit_type#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
