@@ -566,8 +566,10 @@ where
 						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
 					</cfloop>
 				</select>
-                                <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
-                                <div id="newPermitASTDialog"></div>
+                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+                                   <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+                                   <div id="newPermitASTDialog"></div>
+                                </cfif>
 			</td>
 		</tr>
 		<tr>
@@ -737,8 +739,10 @@ function opendialog(page,id,title) {
 						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
 					</cfloop>
 				</select>
-                                <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
-                                <div id="newPermitASTDialog"></div>
+                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+                                   <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+                                   <div id="newPermitASTDialog"></div>
+                                </cfif>
 			</td>
 		</tr>
 		<tr>
