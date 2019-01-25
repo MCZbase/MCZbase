@@ -17,10 +17,11 @@
         order by ct.specific_type
 </cfquery>
 <cfif #action# is "nothing">
-<cfset title = "Find Permits">
+<cfset title = "Find Permissions/Rights Documents">
 <cfoutput>
-Search for permits and similar documents (access benefit sharing agreements, 
-material transfer agreements, collecting permits, salvage permits, etc.)
+<font size="+1"><strong>Find Permissions &amp; Rights Documents</strong></font>
+<p>Search for permits and similar documents related to permissions and rights (access benefit sharing agreements,
+material transfer agreements, collecting permits, salvage permits, etc.)<p>
 Any part of names accepted, case isn't important.  Use year or a date for dates.<br>
 Leave "until date" fields empty unless you use the field to its left.<br>
 <cfform name="findPermit" action="Permit.cfm" method="post">
@@ -94,7 +95,7 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 				 <input type="reset" value="Clear" class="qutBtn"
    onmouseover="this.className='qutBtn btnhov'" onmouseout="this.className='qutBtn'">
 
-				<input type="button" value="Create New Permit" class="insBtn"
+				<input type="button" value="Create New" class="insBtn"
    onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"
    onClick="findPermit.Action.value='newPermit';submit();">
 
@@ -159,7 +160,7 @@ where
 	<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#ucase(IssuedToAgent)#%'">
 </cfif>
 <cfif len(#issued_date#) gt 0>
-    <cfif len(#issued_date#) EQ 4> 
+    <cfif len(#issued_date#) EQ 4>
        <cfset issued_date = "#issued_date#-01-01">
 	   <cfif len(#issued_until_date#) EQ 0>
            <cfset issued_until_date = "#issued_date#-12-31">
@@ -176,7 +177,7 @@ where
 	</cfif>
 </cfif>
 <cfif len(#renewed_date#) gt 0>
-    <cfif len(#renewed_date#) EQ 4> 
+    <cfif len(#renewed_date#) EQ 4>
        <cfset renewed_date = "#renewed_date#-01-01">
 	   <cfif len(#renewed_until_date#) EQ 0>
            <cfset renewed_until_date = "#renewed_date#-12-31">
@@ -193,7 +194,7 @@ where
 	</cfif>
 </cfif>
 <cfif len(#exp_date#) gt 0>
-    <cfif len(#exp_date#) EQ 4> 
+    <cfif len(#exp_date#) EQ 4>
        <cfset exp_date = "#exp_date#-01-01">
 	   <cfif len(#exp_until_date#) EQ 0>
            <cfset exp_until_date = "#exp_date#-12-31">
@@ -500,9 +501,9 @@ where
 <!--------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------->
 <cfif #Action# is "newPermit">
-<cfset title = "New Permit">
-    <font size="+1"><strong>New Permit</strong></font>
-    <p>Enter a new record for a permit or similar document (access benefit sharing agreements, 
+<cfset title = "New Permissions/Rights Document">
+    <font size="+1"><strong>New Permissions &amp; Rights Document</strong></font>
+    <p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
        material transfer agreements, collecting permits, salvage permits, etc.)</p>
 	<cfoutput>
 	<cfform name="newPermit" action="Permit.cfm" method="post">
@@ -589,16 +590,16 @@ where
 			<td colspan="3"><textarea cols="80" rows="3" name="restriction_summary"></textarea></td>
 		</tr>
 		<tr>
-			<td>ABS: Summary of Agreed Benefits</td>
+			<td>Summary of Agreed Benefits</td>
 			<td colspan="3"><textarea cols="80" rows="3" name="benefits_summary"></textarea></td>
 		</tr>
 		<tr>
-			<td>ABS: Benefits Provided</td>
+			<td>Benefits Provided</td>
 			<td colspan="3"><textarea cols="80" rows="3" name="benefits_provided"></textarea></td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
-				<input type="submit" value="Save this permit" class="insBtn"
+				<input type="submit" value="Save" class="insBtn"
    					onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
 
                                    <cfif  not ( isdefined("headless") and headless EQ 'true' ) >
@@ -616,8 +617,8 @@ where
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "editPermit">
-<cfset title = "Edit Permit">
-<font size="+1"><strong>Edit Permit</strong></font><br>
+<cfset title = "Edit Permissions/Rights document">
+<font size="+1"><strong>Edit Permissions &amp; Rights Document</strong></font><br>
 <cfoutput>
 <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
 	Error: You didn't pass this form a permit_id. Go back and try again.<cfabort>
@@ -728,11 +729,11 @@ function opendialog(page,id,title) {
             <td colspan="3"><textarea cols="80" rows="3" name="restriction_summary" >#restriction_summary#</textarea></td>
         </tr>
         <tr>
-            <td>ABS: Summary of Agreed Benefits</td>
+            <td>Summary of Agreed Benefits</td>
             <td colspan="3"><textarea cols="80" rows="3" name="benefits_summary" >#benefits_summary#</textarea></td>
         </tr>
         <tr>
-            <td>ABS: Benefits Provided</td>
+            <td>Benefits Provided</td>
             <td colspan="3"><textarea cols="80" rows="3" name="benefits_provided" >#benefits_provided#</textarea></td>
         </tr>
 
@@ -945,7 +946,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "permitUseReport">
-   <cfset title = "Permit Use Report">
+   <cfset title = "Permissions/Rights Use Report">
    <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
       <cfoutput>Error: You didn't pass this form a permit_id. Go back and try again.</cfoutput>
       <cfabort>
@@ -1000,8 +1001,8 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
-    flat.country, flat.state_prov, flat.scientific_name, flat.guid, 
-    TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts, 
+    flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+    TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
     decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
@@ -1044,7 +1045,7 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
   where trans.transaction_type = 'loan'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
-select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix, 
+select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
     shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -1159,7 +1160,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
      </div>
      </cfoutput>
      <cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select   
+select
     count(cataloged_item.collection_object_id) as cat_count,
     sum(coll_object.lot_count) as spec_count,
     collection.guid_prefix,
@@ -1259,7 +1260,7 @@ UPDATE permit SET
 	 	,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
     </cfif>
 	<cfif len(#benefits_provided#) gt 0>
-	 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="'#benefits_provided#">
+	 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
     </cfif>
 	 <cfif len(#contact_agent_id#) gt 0>
 	 	,contact_agent_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#contact_agent_id#">
@@ -1350,10 +1351,10 @@ VALUES (
 	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
      </cfif>
 	 <cfif len(#benefits_provided#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="'#benefits_provided#">
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
      </cfif>
 	 <cfif len(#contact_agent_id#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="'#contact_agent_id#">
+	 	, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#contact_agent_id#">
 	 </cfif>)
 </cfquery>
         <cfif isdefined("headless") and headless EQ 'true'>
@@ -1369,7 +1370,7 @@ VALUES (
 <cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 DELETE FROM permit WHERE permit_id = #permit_id#
 </cfquery>
-	
+
 	<cflocation url="Permit.cfm">
   </cfoutput>
 </cfif>

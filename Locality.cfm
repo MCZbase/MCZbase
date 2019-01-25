@@ -717,7 +717,7 @@ You do not have permission to create Higher Geographies
         <label for="verbatim_locality">
 			Verbatim Locality
 		</label>
-		<input type="text" name="verbatim_locality" id="verbatim_locality" value='#stripQuotes(locDet.verbatim_locality)#' size="115">
+		<input type="text" name="verbatim_locality" id="verbatim_locality" value="#stripQuotes(locDet.verbatim_locality)#" size="115">
 		<table>
 			<tr>
 				<td><label for="verbatimCoordinates">Verbatim Coordinates (summary)<label>
@@ -1517,8 +1517,8 @@ INSERT INTO geog_auth_rec (
 		,MINIMUM_ELEVATION
 		,ORIG_ELEV_UNITS
 		,SPEC_LOCALITY
+		,SOVEREIGN_NATION
 		,LOCALITY_REMARKS
-		,SOVEREIGN_NATION,
 		,LEGACY_SPEC_LOCALITY_FG )
 	VALUES (
 		<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">,
@@ -1553,7 +1553,7 @@ INSERT INTO geog_auth_rec (
 		<cfelse>
 			NULL,
 		</cfif>
-		,0 )
+		0 )
     </cfquery>
     <cfif #cloneCoords# is "yes">
 			<cfquery name="cloneCoordinates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
