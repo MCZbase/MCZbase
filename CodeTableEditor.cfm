@@ -329,7 +329,7 @@
 						<select name="permit_type">
 							<option value=""></option>
 							<cfloop query="ptypes">
-								<option value="#tablename#">#tablename#</option>
+								<option value="#permit_type#">#permit_type#</option>
 							</cfloop>
 						</select>
 					</td>
@@ -353,6 +353,7 @@
 						<input type="hidden" name="action" value="">
 			            <input type="hidden" name="tbl" value="ctspecific_permit_type">
 						<input type="hidden" name="origData" value="#q.specific_type#">
+				                <input type="hidden" name="fld" value="specific_type">
 						<td>
 							<input type="text" name="specific_type" value="#q.specific_type#" size="80">
 						</td>
@@ -1058,7 +1059,7 @@
 	<cfelseif tbl is "ctspecific_permit_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctspecific_permit_type set 
-				SPECFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#specific_type#" />,
+				SPECIFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#specific_type#" />,
 				PERMIT_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#permit_type#" />
 			where
 				SPECIFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />

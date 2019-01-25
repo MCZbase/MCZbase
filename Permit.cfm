@@ -1206,7 +1206,7 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveChanges">
 <cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select permit_type from ctspecifc_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 </cfquery>
 <cfset permit_type = #ptype.permit_type#>
 <cfoutput>
@@ -1267,7 +1267,7 @@ UPDATE permit SET
 <cfif #Action# is "createPermit">
 <cfoutput>
 <cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select permit_type from ctspecifc_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 </cfquery>
 <cfset permit_type = #ptype.permit_type#>
 <cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
