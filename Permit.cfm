@@ -51,7 +51,7 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 			<td><input type="text" name="exp_until_date"></td>
 		</tr>
 		<tr>
-			<td align="right">Permit Category</td>
+			<td align="right">Document Category</td>
 			<td>
 				<select name="permit_type" size="1">
 					<option value=""></option>
@@ -60,7 +60,7 @@ Leave "until date" fields empty unless you use the field to its left.<br>
 					</cfloop>
 				</select>
 			</td>
-			<td align="right">Specific Permit Type</td>
+			<td align="right">Specific Document Type</td>
 			<td>
 				<select name="specific_type" size="1">
 					<option value=""></option>
@@ -271,7 +271,7 @@ where
 				<img src="/images/down.gif" border="0" name="#thisName#dn"></a>
 		</td>
 		<td>
-			<strong>Permit Type</strong>
+			<strong>Document Category</strong>
 			<cfset thisTerm = "permit_Type">
 			<cfset thisName = #replace(thisTerm,",","_","all")#>
 			<br>
@@ -558,7 +558,7 @@ where
 			<td><input type="text" name="permit_Num"></td>
 		</tr>
 		<tr>
-			<td>Document Type</td>
+			<td>Specific Document Type</td>
 			<td colspan=3>
 				<select name="specific_type" id="specific_type" size="1" class="reqdClr">
 					<option value=""></option>
@@ -573,7 +573,7 @@ where
 			</td>
 		</tr>
 		<tr>
-			<td>Permit Title</td>
+			<td>Document Title</td>
 			<td><input type="text" name="permit_title" style="width: 26em;" ></td>
 			<td>Remarks</td>
 			<td><input type="text" name="permit_remarks" style="width: 26em;" ></td>
