@@ -36,19 +36,24 @@
 <cfset mergeUtility = CreateObject("java","org.apache.pdfbox.multipdf.PDFMergerUtility") >
 <cfset fileProxy = CreateObject("java","java.io.File") >
 <cfset urlProxy = CreateObject("java","java.net.URI") >
+<cfset fileUtilsProxy = CreateObject("java","org.apache.commons.io.FileUtils") >
 <cfset downloadFile = "permits_#session.DownloadFileID#.pdf">
 <cfset downloadTarget = "#Application.DownloadPath#/#downloadFile#">
+<cfset n=0>
 <cfloop query="getPermitMedia">
-    <cfset targetFile = fileProxy.init(#uri#) >
-    <!--- TODO: Allow download from URIs, then assembly from local file --->
-    <!--- cfset targetUrl = urlProxy.init(#uri#) --->
-    <!--- cfset targetFile = fileProxy.init(targetUrl) --->
-    <cfscript>mergeUtility.addSource(targetFile);</cfscript>
+    <cfset n=+1 >
+    <cfset tempTarget = "#Application.DownloadPath#/temp#n#_#downloadFile#" >
+    <cfscript>
+       tempFile = fileProxy.init(tempTarget);
+       fileUtilsProxy.copyURLToFile(#uri#,#tempFile#);
+       mergeUtility.addSource(targetFile);
+    </cfscript>
 </cfloop>
 <cfscript>
     mergeUtility.addDestinationFileName(downloadTarget);
     mergeUtility.mergeDocuments();
 </cfscript>
+<!--- TODO: cleanup temporary files --->
 
 <cfheader name="Content-Disposition" value="attachmeht; filename=/downloads/#downloadFile#" >
 <cfcontent file="downloads/#downloadFile#" type="application/pdf" deleteFile="yes" >
