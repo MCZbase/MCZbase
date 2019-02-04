@@ -783,7 +783,7 @@ function opendialog(page,id,title) {
     <div id="associateddocuments" class="shippingBlock"></div>
 
     <script>
-    function addMediaHere (permitLabel,permit_id){
+    function addMediaHere (permitLabel,permit_id,relationship){
                 var bgDiv = document.createElement('div');
                 bgDiv.id = 'bgDiv';
                 bgDiv.className = 'bgDiv';
@@ -798,7 +798,7 @@ function opendialog(page,id,title) {
                 jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
                 jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
             jQuery('iframe##mediaIframe').load(function() {
-                jQuery('##mediaIframe').contents().find('##relationship__1').val('document for permit');
+                jQuery('##mediaIframe').contents().find('##relationship__1').val(relationship);
                 jQuery('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
                 jQuery('##mediaIframe').contents().find('##related_id__1').val(permit_id);
                 viewport.init("##mediaDiv");
