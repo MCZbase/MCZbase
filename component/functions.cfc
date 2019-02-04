@@ -1556,7 +1556,7 @@
    <cfelse>
        <cfset result=result & "<ul><li>None</li></ul>">
    </cfif>
-   <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#deaccDetails.collection# #deaccDetails.deacc_number#','#transaction_id#');"">Create Media</span> ">
+   <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#deaccDetails.collection# #deaccDetails.deacc_number#','#transaction_id#','shows deaccession');"">Create Media</span> ">
    <cfset result = result & "</span>&nbsp;~&nbsp;">
    <cfset result = result & "<span id='addDeacc_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=shows deaccession','addDeaccDlg_#transaction_id#','Pick Media for Deaccession', reloadDeaccessionMedia ,650,900); "" ></div><div id='addDeaccDlg_#transaction_id#'></div></span>">
    <cfreturn result>
@@ -2840,18 +2840,22 @@
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); '>Remove</a> </li>" >
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <input class='delBtn' onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); event.prefentDefault(); ' value='Remove' style='width: 5em; text-align: center;' onmouseover=""this.className='delBtn btnhov'"" onmouseout=""this.className='delBtn'"" > </li>" >
+
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
+   <cfset result=result & "<span>">
    <cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-      <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#','#relation#');"">Create Media">
-      <cfset result = result & "</span>&nbsp;~&nbsp;"> 
+      <cfset result = result & "<input type='button' onClick=""addMediaHereDialog('addMediaDlg_#permit_id#','title','#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#','#relation#');"" value='Create Media' class='lnkBtn'>&nbsp;" >
 <!---
       <cfset result = result & "<span><span id='newPermit_#permit_id#'><input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick=""opendialog('media.cfm?action=newMedia','#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','##newPermitDlg_#permit_id#','Add media to #permit_id#');""><div id='newPermitDlg_#permit_id#' ></div></span>">
 --->
-      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" ></div><div id='addPermitDlg_#permit_id#'></div></span>">
+      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" >">
    </cfif>
+   <cfset result=result & "</span>">
+   <cfset result=result & "<div id='addMediaDlg_#permit_id#'></div>" >
+   <cfset result=result & "<div id='addPermitDlg_#permit_id#'></div>">
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->

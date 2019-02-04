@@ -63,7 +63,7 @@
 		var t=setTimeout("dCount()",500);
 	}
 
-    function addMediaHere (deaccessionLabel,transaction_id){
+    function addMediaHere (deaccessionLabel,transaction_id,relationship){
                 var bgDiv = document.createElement('div');
                 bgDiv.id = 'bgDiv';
                 bgDiv.className = 'bgDiv';
@@ -78,7 +78,7 @@
                 jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
                 jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
             jQuery('iframe##mediaIframe').load(function() {
-                jQuery('##mediaIframe').contents().find('##relationship__1').val('shows deaccession');
+                jQuery('##mediaIframe').contents().find('##relationship__1').val(relationship);
                 jQuery('##mediaIframe').contents().find('##related_value__1').val(deaccessionLabel);
                 jQuery('##mediaIframe').contents().find('##related_id__1').val(transaction_id);
                 viewport.init("##mediaDiv");

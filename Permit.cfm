@@ -778,11 +778,39 @@ function opendialog(page,id,title) {
 	</table>
 </cfform>
     <!---  Show/add media copy of permit  (shows permit) --->
-    <div id="copyofpermit" class="shippingBlock" ></div>
+    <div id="copyofpermit" class="shippingBlock" ><img src='images/indicator.gif'></div>
     <!---  list/add media copy of associated documents (document for permit) TODO: Create Media --->
-    <div id="associateddocuments" class="shippingBlock"></div>
+    <div id="associateddocuments" class="shippingBlock"><img src='images/indicator.gif'></div>
 
     <script>
+    function addMediaHereDialog (targetid,title,permitLabel,permit_id,relationship){
+           console.log(targetid);
+           var amddialog = $('##'+targetid)
+           .html('<iframe style="border: 0px; " src="/media.cfm?action=newMedia" width="100%" height="100%" id="mediaIframe"></iframe>')
+           .dialog({
+                 title: title,
+                 autoOpen: false,
+                 dialogClass: 'dialog_fixed,ui-widget-header',
+                 modal: true,
+                 height: 900,
+                 width: 1100,
+                 minWidth: 400,
+                 minHeight: 400,
+                 draggable:true,
+                 buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
+           });
+           console.log(amddialog);
+           $('iframe##mediaIframe').load(function() {
+               $('##mediaIframe').contents().find('##relationship__1').val(relationship);
+               $('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
+               $('##mediaIframe').contents().find('##related_id__1').val(permit_id);
+               viewport.init("##mediaDiv");
+           });
+           amddialog.dialog('open');          
+           console.log('dialog open called');
+           console.log(permit_id);
+           console.log(relationship);
+     };
     function addMediaHere (permitLabel,permit_id,relationship){
                 var bgDiv = document.createElement('div');
                 bgDiv.id = 'bgDiv';
@@ -916,6 +944,9 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         <cfloop query="permituse">
            <li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
         </cfloop>
+        <cfif permituse.recordCount eq 0>
+           <li>No linked transactions or shipments.</li>
+        </cfif>
      </ul></div>
 
      <span>
