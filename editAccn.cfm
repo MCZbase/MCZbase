@@ -127,6 +127,35 @@
 			jQuery(document).ready(function() {
 				getMedia('accn','#transaction_id#','accnMediaDiv','6','1');
 			});
+    // TODO: Buttons for accession, not permit
+    function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
+           console.log(targetid);
+           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+permit_id ;
+           var amddialog = $('##'+targetid)
+           .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
+           .dialog({
+                 title: title,
+                 autoOpen: false,
+                 dialogClass: 'dialog_fixed,ui-widget-header',
+                 modal: true,
+                 height: 900,
+                 width: 1100,
+                 minWidth: 400,
+                 minHeight: 400,
+                 draggable:true,
+                 buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
+           });
+//           $('iframe##mediaIframe').load(function() {
+//               $('##mediaIframe').contents().find('##relationship__1').val(relationship);
+//               $('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
+//               $('##mediaIframe').contents().find('##related_id__1').val(permit_id);
+//               viewport.init("##mediaDiv");
+//            });
+           amddialog.dialog('open');          
+           console.log('dialog open called');
+           console.log(permit_id);
+           console.log(relationship);
+     };
 		</script>
 
 		<cfset title="Edit Accession">
@@ -453,14 +482,15 @@
 				</cfif>
 			</ul>
 			--->
-			<br><span class="likeLink"
-					onclick="addMediaHere('#accnData.collection# #accnData.accn_number#','#transaction_id#');">
-						Create Media
-				</span>
-                                <cfset relation="shows accn">
+			<br><span>
+                <cfset relation="shows accn">
+                    <input type='button' onClick=""addMediaHere('newMediaDlg_#transaction_id#','title','#accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#');"" value='Create Media' class='lnkBtn'>&nbsp;" >
       				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 650,900); " >
-				<div id='addMediaDlg_#transaction_id#'></div></span>
-				<div id="transactionFormMedia">Loading Media....</div>
+                    </span>
+				</span>
+				<div id='addMediaDlg_#transaction_id#'></div>
+				<div id='newMediaDlg_#transaction_id#'></div>
+				<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
 <script>
 
 // callback for ajax methods to reload from dialog

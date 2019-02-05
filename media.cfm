@@ -338,6 +338,7 @@
    
       <label for="relationships" style="margin-top:.5em;">Media Relationships</label>
       <div id="relationships" class="graydot">
+        <div id="relationshiperror"></div>
         <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
           <option value="">None/Unpick</option>
           <cfloop query="ctmedia_relationship">
@@ -374,16 +375,32 @@
 				onmouseout="this.className='insBtn'">
     </form>
     <cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
-      <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select guid from flat where collection_object_id=#collection_object_id#
-			</cfquery>
-      <script language="javascript" type="text/javascript">
-				$("##relationship__1").val('shows cataloged_item');
-				$("##related_value__1").val('#s.guid#');
-				$("##related_id__1").val('#collection_object_id#');
-			</script>
+       <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+          select guid from flat where collection_object_id=#collection_object_id#
+       </cfquery>
+       <script language="javascript" type="text/javascript">
+          $("##relationship__1").val('shows cataloged_item');
+          $("##related_value__1").val('#s.guid#');
+          $("##related_id__1").val('#collection_object_id#');
+       </script>
     </cfif>
-      </div>
+    <cfif isdefined("relationship") and len(relationship) gt 0>
+      <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select media_relationship from ctmedia_relationship where media_relationship=#relationship#
+      </cfquery>
+      <cfif s.recordCount eq 1 >
+         <script language="javascript" type="text/javascript">
+            $("##relationship__1").val(#relationship#);
+            $("##related_value__1").val('#related_value#');
+            $("##related_id__1").val('#related_id#');
+         </script>
+      <cfelse>
+          <script language="javascript" type="text/javascript">
+				$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
+         </script>
+      </cfif>
+    </cfif>
+    </div>
   </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------>

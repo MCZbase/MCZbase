@@ -779,14 +779,15 @@ function opendialog(page,id,title) {
 </cfform>
     <!---  Show/add media copy of permit  (shows permit) --->
     <div id="copyofpermit" class="shippingBlock" ><img src='images/indicator.gif'></div>
-    <!---  list/add media copy of associated documents (document for permit) TODO: Create Media --->
+    <!---  list/add media copy of associated documents (document for permit) --->
     <div id="associateddocuments" class="shippingBlock"><img src='images/indicator.gif'></div>
 
     <script>
-    function addMediaHereDialog (targetid,title,permitLabel,permit_id,relationship){
+    function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
            console.log(targetid);
+           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+permit_id ;
            var amddialog = $('##'+targetid)
-           .html('<iframe style="border: 0px; " src="/media.cfm?action=newMedia" width="100%" height="100%" id="mediaIframe"></iframe>')
+           .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
            .dialog({
                  title: title,
                  autoOpen: false,
@@ -799,38 +800,16 @@ function opendialog(page,id,title) {
                  draggable:true,
                  buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
            });
-           console.log(amddialog);
-           $('iframe##mediaIframe').load(function() {
-               $('##mediaIframe').contents().find('##relationship__1').val(relationship);
-               $('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
-               $('##mediaIframe').contents().find('##related_id__1').val(permit_id);
-               viewport.init("##mediaDiv");
-           });
+//           $('iframe##mediaIframe').load(function() {
+//               $('##mediaIframe').contents().find('##relationship__1').val(relationship);
+//               $('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
+//               $('##mediaIframe').contents().find('##related_id__1').val(permit_id);
+//               viewport.init("##mediaDiv");
+//            });
            amddialog.dialog('open');          
            console.log('dialog open called');
            console.log(permit_id);
            console.log(relationship);
-     };
-    function addMediaHere (permitLabel,permit_id,relationship){
-                var bgDiv = document.createElement('div');
-                bgDiv.id = 'bgDiv';
-                bgDiv.className = 'bgDiv';
-                bgDiv.setAttribute('onclick','removeMediaDiv()');
-                document.body.appendChild(bgDiv);
-                var theDiv = document.createElement('div');
-                theDiv.id = 'mediaDiv';
-                theDiv.className = 'annotateBox';
-                ctl='<span class="likeLink" style="position:absolute;right:0px;top:0px;padding:5px;color:red;" onclick="removeMediaDiv();">Close Frame</span>';
-                theDiv.innerHTML=ctl;
-                document.body.appendChild(theDiv);
-                jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
-                jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
-            jQuery('iframe##mediaIframe').load(function() {
-                jQuery('##mediaIframe').contents().find('##relationship__1').val(relationship);
-                jQuery('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
-                jQuery('##mediaIframe').contents().find('##related_id__1').val(permit_id);
-                viewport.init("##mediaDiv");
-             });
      };
 
      function removeMediaDiv() {
