@@ -784,7 +784,6 @@ function opendialog(page,id,title) {
 
     <script>
     function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
-           console.log(targetid);
            var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+permit_id ;
            var amddialog = $('##'+targetid)
            .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
@@ -800,16 +799,8 @@ function opendialog(page,id,title) {
                  draggable:true,
                  buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
            });
-//           $('iframe##mediaIframe').load(function() {
-//               $('##mediaIframe').contents().find('##relationship__1').val(relationship);
-//               $('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
-//               $('##mediaIframe').contents().find('##related_id__1').val(permit_id);
-//               viewport.init("##mediaDiv");
-//            });
            amddialog.dialog('open');          
-           console.log('dialog open called');
-           console.log(permit_id);
-           console.log(relationship);
+           amddialog.dialog('moveToTop');
      };
 
      function removeMediaDiv() {

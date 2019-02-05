@@ -75,8 +75,10 @@
           </tr>
             <tr>
             <td>
-               <span><input type="checkbox" name="unlinked" id="unlinked" value="true">
-               <label for "unlinked">Media not yet linked to any record</label></span>
+               <span>
+                 <input type="checkbox" name="unlinked" id="unlinked" value="true">
+                 <label style="display:contents;" for="unlinked">Media not yet linked to any record</label>
+               </span>
             </td>
             <td>
                 <input type="submit" value="Search" class="schBtn">    

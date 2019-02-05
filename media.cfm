@@ -376,7 +376,7 @@
     </form>
     <cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
        <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-          select guid from flat where collection_object_id=#collection_object_id#
+          select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
        </cfquery>
        <script language="javascript" type="text/javascript">
           $("##relationship__1").val('shows cataloged_item');
@@ -386,11 +386,11 @@
     </cfif>
     <cfif isdefined("relationship") and len(relationship) gt 0>
       <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select media_relationship from ctmedia_relationship where media_relationship=#relationship#
+	  select media_relationship from ctmedia_relationship where media_relationship= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
       </cfquery>
       <cfif s.recordCount eq 1 >
          <script language="javascript" type="text/javascript">
-            $("##relationship__1").val(#relationship#);
+            $("##relationship__1").val('#relationship#');
             $("##related_value__1").val('#related_value#');
             $("##related_id__1").val('#related_id#');
          </script>
