@@ -85,7 +85,7 @@
             </td>
             <td>
                 <span ><input type="reset" value="Clear" class="clrBtn">
-                <input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick="openadddialog('/media.cfm?action=newMedia','##newPermitDlg_#target_id#','Add media to #target_id#');">
+                <input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick="openadddialog('/media.cfm?action=newMedia&relationship=#target_relation#&related_id=#target_id#&related_value=#target_relation##target_id#','##newPermitDlg_#target_id#','Add media to #target_id#');">
                 </span>
                 <div id='newPermitDlg_#target_id#' ></div></span>
             </td>
@@ -104,8 +104,8 @@
         dialogClass: 'dialog_fixed,ui-widget-header',
         modal: true,
         stack: true,
-        height: 600,
-        width: 1000,
+        height: 840,
+        width: 1050,
         minWidth: 400,
         minHeight: 400,
         draggable:true,
