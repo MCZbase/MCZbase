@@ -47,7 +47,7 @@
 		where collection_cde = '#getParts.collection_cde#'
 		order by preserve_method
 	</cfquery>
-    <div style="width: 100%;padding-top: 1em;">
+    <div style="width: 98%;padding-top: 1em;">
         <b>Edit Specimen Parts</b>
 	<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#">Part Locations</a>
 	<br><a href="/editContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#">New Container</a>
