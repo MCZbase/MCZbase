@@ -574,6 +574,64 @@
 				<a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 			</li>		
 		</cfloop>
+		<cfquery name="trans_agent_d" datasource="uam_god">
+                        select
+                                deaccession.transaction_id,
+                                TRANS_AGENT_ROLE,
+                                deacc_number,
+                                collection
+                        from
+                                trans_agent,
+                                deaccession,
+                                trans,
+                                collection
+                        where
+                                trans_agent.transaction_id=deaccession.transaction_id and
+                                deaccession.transaction_id=trans.transaction_id and
+                                trans.collection_id=collection.collection_id and
+                                AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+                        group by
+                                deaccession.transaction_id,
+                                TRANS_AGENT_ROLE,
+                                deacc_number,
+                                collection
+                        order by
+                                collection,
+                                deacc_number,
+                                TRANS_AGENT_ROLE
+		</cfquery>
+		<cfloop query="trans_agent_d">
+			<li>#TRANS_AGENT_ROLE# for Deaccession <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">#collection# #deacc_number#</a></li>
+		</cfloop>
+		<cfquery name="trans_agent_b" datasource="uam_god">
+                        select
+                                borrow.transaction_id,
+                                TRANS_AGENT_ROLE,
+                                borrow_number,
+                                collection
+                        from
+                                trans_agent,
+                                borrow,
+                                trans,
+                                collection
+                        where
+                                trans_agent.transaction_id=borrow.transaction_id and
+                                borrow.transaction_id=trans.transaction_id and
+                                trans.collection_id=collection.collection_id and
+                                AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+                        group by
+                                borrow.transaction_id,
+                                TRANS_AGENT_ROLE,
+                                borrow_number,
+                                collection
+                        order by
+                                collection,
+                                borrow_number,
+                                TRANS_AGENT_ROLE
+		</cfquery>
+		<cfloop query="trans_agent_b">
+			<li>#TRANS_AGENT_ROLE# for Borrow <a href="/Borrow.cfm?action=edit&transaction_id=#transaction_id#">#collection# #borrow_number#</a></li>
+		</cfloop>
 	</ul>
 </cfoutput>
     </div>
