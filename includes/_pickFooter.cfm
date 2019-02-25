@@ -10,7 +10,12 @@
 <cfif not isdefined("title")>
 	<cfset title = "Arctos Database Access">
 </cfif>
+<cftry>
 <cfhtmlhead text="<title>#variables.title#</title>">
+<cfcatch>
+  <!--- exception thrown if headers no longer writable e.g. cfflush has been issued by page --->
+</cfcatch>
+</cftry>
 
 </center></tr></td></table>
 </body>

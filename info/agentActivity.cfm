@@ -307,7 +307,11 @@
 	</cfquery>
 	<ul class="agent_act">
 		<li>
-			Subject of #media.recordcount# <a href="/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#"> Media entries.</a>
+                      <cfif media.recordcount eq 0>
+			Subject of #media.recordcount# Media entries.
+                      <cfelse>
+			Subject of #media.recordcount# <a href="/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent"> Media entries.</a>
+                     </cfif>
 		</li>
 		<li>
 			Assigned #media_assd_relations.recordcount# Media Relationships.
