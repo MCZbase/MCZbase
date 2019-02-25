@@ -1267,6 +1267,19 @@ UPDATE permit SET
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "createPermit">
 <cfoutput>
+<cfset hasError = 0 >
+<cfif not isdefined("specific_type") OR len(#specific_type#) is 0>
+	Error: You didn't select a document type. Go back and try again.
+        <cfset hasError = 1 >
+</cfif>
+<cfif not isdefined("issuedByAgentId") OR len(#issuedByAgentId#) is 0>
+	Error: You didn't select an issued by agent. Do you have popups enabled?  Go back and try again.
+        <cfset hasError = 1 >
+</cfif>
+<cfif not isdefined("issuedToAgentId") OR len(#issuedToAgentId#) is 0>
+	Error: You didn't select an issued to agent. Do you have popups enabled?  Go back and try again.
+        <cfset hasError = 1 >
+</cfif>
 <cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
    select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 </cfquery>
@@ -1274,7 +1287,14 @@ UPDATE permit SET
 <cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select sq_permit_id.nextval nextPermit from dual
 </cfquery>
-<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
+	Error: There was an error selecting the permit type for the specific document type.  Please file a bug report.
+        <cfset hasError = 1 >
+</cfif>
+<cfif hasError eq 1> 
+    <cfabort>
+</cfif>
+<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
 INSERT INTO permit (
 	 PERMIT_ID,
 	 ISSUED_BY_AGENT_ID
@@ -1292,9 +1312,7 @@ INSERT INTO permit (
 	 	,PERMIT_NUM
 	 </cfif>
 	 ,PERMIT_TYPE
-	 <cfif len(#SPECIFIC_TYPE#) gt 0>
-	 	,SPECIFIC_TYPE
-	 </cfif>
+	 ,SPECIFIC_TYPE
 	 <cfif len(#PERMIT_TITLE#) gt 0>
 	 	,PERMIT_TITLE
 	 </cfif>
@@ -1314,12 +1332,12 @@ INSERT INTO permit (
 	 	,contact_agent_id
 	 </cfif>)
 VALUES (
-	#nextPermit.nextPermit#,
-	 #IssuedByAgentId#
+	 #nextPermit.nextPermit#
+	 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
 	 <cfif len(#ISSUED_DATE#) gt 0>
 	 	,'#dateformat(ISSUED_DATE,"yyyy-mm-dd")#'
 	 </cfif>
-	 ,#IssuedToAgentId#
+	 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
 	  <cfif len(#RENEWED_DATE#) gt 0>
 	 	,'#dateformat(RENEWED_DATE,"yyyy-mm-dd")#'
 	 </cfif>
@@ -1330,9 +1348,7 @@ VALUES (
 	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
 	 </cfif>
 	 , <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
-	<cfif len(#SPECIFIC_TYPE#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
-	 </cfif>
+	 , <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 	<cfif len(#PERMIT_TITLE#) gt 0>
 	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
 	 </cfif>

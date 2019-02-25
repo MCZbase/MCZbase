@@ -172,9 +172,11 @@ function removeHelpDiv() {
 <!--- things that start with _ need special handling
 they also need special handling at TAG:SORTRESULT (do find in this document)--->
 <!--- this special handling is how to add it to the select statement --->
+<!--- 
 <cfif ListContainsNoCase(session.resultColumnList,"_elev_in_m")>
 	<cfset basSelect = "#basSelect#,min_elev_in_m,max_elev_in_m">
 </cfif>
+--->
 <cfif ListContainsNoCase(session.resultColumnList,"_day_of_ymd")>
 	<cfset basSelect = "#basSelect#,getYearCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) YearColl,
 		getMonthCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) MonColl,
@@ -347,8 +349,11 @@ If your item needs to be sorted in a special way, then do that here. --->
 <cfif ListContainsNoCase(resultList,"_elev_in_m")>
 <cfflush>
 	<cftry>
+        <!-- 
+        // This looks like a remaining element of a previous? generalized add/remove elevation in meters control
 	<cfset resultList = listappend(resultList,"min_elev_in_m")>
 	<cfset resultList = listappend(resultList,"max_elev_in_m")>
+        -->
 	<cfset resultList = ListDeleteAt(resultList, ListFindNoCase(resultList,"_elev_in_m"))>
 	<cfcatch></cfcatch>
 	</cftry>

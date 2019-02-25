@@ -165,6 +165,7 @@
 			container.parent_container_id as parent_container_id,
 			container_type,
 			label,
+			MCZBASE.GET_PARENTCONTAINERLABEL(container.container_id) as parent_label,
 			description,
 			container_remarks,
 			barcode,
@@ -203,6 +204,11 @@
 		<input type="hidden" name="container_id" value="#getCont.container_id#">
 		<span style="font-size:large; font-weight:bolder;">Edit Container</span>
 		<table>
+	 		<tr>
+				<td colspan=2>
+					<strong>Parent Container:</strong> #getCont.parent_label#
+				</td>
+	 		</tr>
 	 		<tr>
 				<td>
 					<label for="label">Container Name</label>

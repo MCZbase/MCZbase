@@ -1549,7 +1549,7 @@ Some Totally Random String Data .....
 							</td>
 							<td>
 								<input type="text" name="part_container_unique_id_#i#" id="part_container_unique_id_#i#" value="#evaluate("data.part_container_unique_id_" & i)#"
-									 size="15" onchange="part_container_name_#i#.className='reqdClr';setPartLabel(this.id);">
+									 size="20" onchange="part_container_name_#i#.className='reqdClr';setPartLabel(this.id);">
 							</td>
 							<td>
                  <!---         <textarea id="part_remark_#i#" value="#evaluate("data.part_remark_" & i)#" name="part_remark_#i#" size="100"></textarea>--->
