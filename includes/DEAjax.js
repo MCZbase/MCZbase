@@ -65,7 +65,7 @@ function DEuseGL(glat,glon,gerr){
         $("#max_error_units").val('m'); 
         $("#extent").val('');   
         $("#gpsaccuracy").val('');      
-        $("#datum").val('World Geodetic System 1984');  
+        $("#datum").val('WGS84');  
         $("#determined_by_agent").val($("#enteredby").val());
         var now = new Date();
         var dt=toISOString(now);
