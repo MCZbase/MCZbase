@@ -1,6 +1,6 @@
 <cfcomponent>
 
-	<cfset This.name = "Arctos" />
+	<cfset This.name = "MCZbase" />
 	<cfset This.SessionManagement="True" />
 	<cfset This.ClientManagement="true" />
 	<cfset This.ClientStorage="Cookie" />
@@ -90,19 +90,7 @@
 				<cfdump var="#CGI#" label="CGI" />
 			</cfsavecontent>
 
-			<cfif  Application.serverRootUrl contains "arctos.database.museum">
-				<cfif isdefined("session.username") and
-				(
-				#session.username# is "fselm10" or
-				#session.username# is "brandy" or
-				#session.username# is "dlm" or
-				#session.username# is "sumy" or
-				#session.username# is "Rhiannon" or
-				#session.username# is "dusty"
-				)>
-				<cfoutput>#errortext#</cfoutput>
-				</cfif>
-			<cfelseif  Application.serverRootUrl contains "harvard.edu">
+			<cfif Application.serverRootUrl contains "harvard.edu">
 				<cfif isdefined("session.username") and
 				(
 				#session.username# is "mkennedy" or
@@ -112,7 +100,6 @@
 				<cfoutput>#errortext#</cfoutput>
 				</cfif>
 			</cfif>
-			<!---cfoutput>#errortext#</cfoutput--->
 			<cfif isdefined("exception.errorCode") and exception.errorCode is "403">
 				<cfset subject="locked form" />
 			<cfelse>
@@ -126,9 +113,6 @@
 					<cfset subject="Unknown Error" />
 				</cfif>
 			</cfif>
-			<!---cfmail subject="Error" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="html">
-				#subject# #errortext#
-			</cfmail--->
 			<table cellpadding="10">
 				<tr>
 					<td valign="top"><img src="/images/blowup.gif"></td>
@@ -167,9 +151,6 @@
 			serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
 		</cfscript>
 		<cfset Application.serverName=serverName /><!--- Store the server name returned away for debugging --->
-		<cfif serverName is "web.arctos.database.museum">
-			<cfset serverName="arctos.database.museum" />
-		</cfif>
 		<!--- In VM environment, how java resolves getLocalHost().getHostName() changes in ways outside our control.  --->
   		<!--- So, make sure that we are handling the cases where only the unqualified local name is returned. ---> 
 		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu" or serverName is "mczbase-prd">
@@ -238,37 +219,7 @@
 			select ip from blacklist where sysdate-LISTDATE<180
 		</cfquery>
 		<cfset Application.blacklist=valuelist(d.ip) />
-		<cfif serverName is "arctos.database.museum">
-			<cfset Application.collection_link_text = "Arctos" />
-			<cfset Application.institution_link_text = "Multi-Institution, Multi-Collection Museum Database" />
-			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
-			<cfset Application.DownloadPath = Application.webDirectory & "/download/" />
-			<cfset Application.bugReportEmail = "arctos.database@gmail.com,gordon.jarrell@gmail.com" />
-			<cfset Application.technicalEmail = "arctos.database@gmail.com,gordon.jarrell@gmail.com" />
-			<cfset Application.mapHeaderUrl = "#Application.serverRootUrl#/images/nada.gif" />
-			<cfset Application.mapFooterUrl = "#Application.serverRootUrl#/bnhmMaps/BerkMapFooter.html" />
-			<cfset Application.genBankPrid = "3849" />
-			<cfset Application.genBankUsername="uam" />
-			<cfset Application.convertPath = "/usr/local/bin/convert" />
-			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
-			<cfset Application.InstitutionBlurb = "" />
-			<cfset Application.DataProblemReportEmail = "arctos.database@gmail.com" />
-			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
-		<cfelseif serverName is "arctos-test.arctos.database.museum">
-			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
-			<cfset Application.DownloadPath = "#Application.webDirectory#/download/" />
-			<cfset Application.bugReportEmail = "arctos.database@gmail.com" />
-			<cfset Application.technicalEmail = "arctos.database@gmail.com" />
-			<cfset Application.mapHeaderUrl = "#Application.serverRootUrl#/images/nada.gif" />
-			<cfset Application.mapFooterUrl = "#Application.serverRootUrl#/bnhmMaps/BerkMapFooter.html" />
-			<cfset Application.genBankPrid = "3849" />
-			<cfset Application.genBankUsername="uam" />
-			<cfset Application.convertPath = "/usr/local/bin/convert" />
-			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
-			<cfset Application.InstitutionBlurb = "" />
-			<cfset Application.DataProblemReportEmail = "arctos.database@gmail.com" />
-			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
-		<cfelseif serverName contains "harvard.edu">
+		<cfif serverName contains "harvard.edu">
 		    <cfif serverName contains "-test">
 			    <cfset Application.header_color = "##ADE1EA" />
 			    <cfset Application.login_color = "##000066" />
@@ -368,7 +319,6 @@
 		<cfif (CGI.Remote_Addr is not "10.242.110.167") and
 			(not isdefined("session.roles") or session.roles is "public" or len(session.roles) is 0) and
 			(currentPath contains "/Admin/" or
-			currentPath contains "/ALA_Imaging/" or
 			currentPath contains "/Bulkloader/" or
 			currentPath contains "/fix/" or
 			currentPath contains "/picks/" or
@@ -377,30 +327,6 @@
 			<cfset r=replace(#currentPath#,#application.webDirectory#,"") />
 			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
 			<cfabort />
-		</cfif>
-		<cfif cgi.HTTP_HOST is "arctos-test.arctos.database.museum" and
-			#GetTemplatePath()# does not contain "/errors/dev_login.cfm" and
-			#GetTemplatePath()# does not contain "/login.cfm" and
-			#GetTemplatePath()# does not contain "/ChangePassword.cfm" and
-			#GetTemplatePath()# does not contain "/contact.cfm" and
-			len(session.username) is 0>
-			<cflocation url="/errors/dev_login.cfm">
-		<cfelseif cgi.HTTP_HOST is "mvzarctos.berkeley.edu">
-			<cfset rurl="http://arctos.database.museum" />
-			<cfif isdefined("cgi.redirect_url") and len(cgi.redirect_url) gt 0>
-				<cfset rurl=rurl & cgi.redirect_url />
-			<cfelseif isdefined("cgi.script_name") and len(cgi.script_name) gt 0>
-				<cfif cgi.script_name is "/SpecimenSearch.cfm">
-					<cfset rurl=rurl & "/mvz_all" />
-				<cfelse>
-					<cfset rurl=rurl & cgi.script_name />
-				</cfif>
-			</cfif>
-			<cfif len(cgi.query_string) gt 0>
-				<cfset rurl=rurl & "?" & cgi.query_string />
-			</cfif>
-			<cfheader statuscode="301" statustext="Moved permanently">
-			<cfoutput><cfheader name="Location" value="#rurl#"></cfoutput>
 		</cfif>
 		<cfreturn true />
 	</cffunction>
