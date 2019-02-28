@@ -241,7 +241,6 @@
 		<cfif serverName is "arctos.database.museum">
 			<cfset Application.collection_link_text = "Arctos" />
 			<cfset Application.institution_link_text = "Multi-Institution, Multi-Collection Museum Database" />
-			<cfset Application.svn = "/usr/local/bin/svn" />
 			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
 			<cfset Application.DownloadPath = Application.webDirectory & "/download/" />
 			<cfset Application.bugReportEmail = "arctos.database@gmail.com,gordon.jarrell@gmail.com" />
@@ -256,7 +255,6 @@
 			<cfset Application.DataProblemReportEmail = "arctos.database@gmail.com" />
 			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
 		<cfelseif serverName is "arctos-test.arctos.database.museum">
-			<cfset Application.svn = "/usr/local/bin/svn" />
 			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
 			<cfset Application.DownloadPath = "#Application.webDirectory#/download/" />
 			<cfset Application.bugReportEmail = "arctos.database@gmail.com" />
@@ -297,7 +295,6 @@
 			<cfset Application.collection_url = "http://www.mcz.harvard.edu" />
 			<cfset Application.institution_url = "http://www.mcz.harvard.edu" />
 			<cfset Application.institution_link_text = "Museum of Comparative Zoology - Harvard University" />
-			<cfset Application.svn = "/usr/bin/svn" />
 			<cfset Application.webDirectory = "/var/www/html/arctos" />
 			<cfset Application.SpecimenDownloadPath = "/var/www/html/arctos/download/" />
 			<cfset Application.DownloadPath = "/var/www/html/arctos/download/" />
