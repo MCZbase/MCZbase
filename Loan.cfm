@@ -1187,11 +1187,11 @@ $( document ).ready(loadShipments(#transaction_id#));
 	  <div id="permitmedia">
       <h3>Permit Media (PDF copies of Permits)</h3>
         <cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select distinct media_id, uri, permit_type, permit_num from (
+        select distinct media_id, uri, permit_type, permit_num, permit_title from (
                 select 
                        mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
                        mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-                       p.permit_type, p.permit_num
+                       p.permit_type, p.permit_num, p.permit_title
            from loan_item li
                    left join specimen_part sp on li.collection_object_id = sp.collection_object_id
                    left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -1203,7 +1203,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                 select 
                    mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
                    mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-                   p.permit_type, p.permit_num
+                   p.permit_type, p.permit_num, p.permit_title
            from shipment s
            left join permit_shipment ps on s.shipment_id = ps.shipment_id
            left join permit p on ps.permit_id = p.permit_id
@@ -1214,9 +1214,9 @@ $( document ).ready(loadShipments(#transaction_id#));
     <ul>
   	<cfloop query="getPermitMedia">
            <cfif media_id is ''> 
-              <li>#permit_type# #permit_num# (no pdf)</li>
+              <li>#permit_type# #permit_num# #permit_title# (no pdf)</li>
            <cfelse>
-              <li><a href="#uri#">#permit_type# #permit_num#</a></li>
+              <li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
               <cfset uriList = ListAppend(uriList,uri)>
            </cfif>
         </cfloop>
