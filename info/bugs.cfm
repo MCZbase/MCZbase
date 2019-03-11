@@ -193,7 +193,8 @@
 			'#user_email#',
 			'#thisDate#')
 	</cfquery>
-
+        <cfset sentok="true">
+        <cftry>
 	<cfmail to="#Application.bugReportEmail#" subject="ColdFusion bug report submitted" from="BugReport@#Application.fromEmail#" type="html">
 		<p>Reported Name: #reported_name# (AKA #session.username#) submitted a bug report on #thisDate#.</p>
 
@@ -204,6 +205,11 @@
 		<P>Email: #user_email#</P>
 
 	</cfmail>
+        <cfcatch>
+           <div>Error: Unable to send bugmail to admin. #cfcatch.Message#</div>
+           <cfset sentok="false">
+        </cfcatch>
+        </cftry>
 
  <!--- create a bugzilla bug from the bugreport --->
     <cfset summary=left(#complaint#,60)><!--- obtain the begining of the complaint as a bug summary --->
@@ -240,6 +246,7 @@
             <cfset human_importance="Submitter Importance = High Priority [#user_priority#]">
         </cfif>
         <cfset newline= Chr(13) & Chr(10)>
+        <cftry>
         <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
 @op_sys = Linux
 @product = MCZbase
@@ -254,9 +261,16 @@ Complaint: #complaint#
 #newline##newline#
 #human_importance#
         </cfmail>
+        <cfcatch>
+           <div>Error: Unable to send bugreport to bugzilla. #cfcatch.Message#</div>
+           <cfset sentok="false">
+        </cfcatch>
+        </cftry>
 <div class="basic_box">
-    <p align="center">Your report has been successfully submitted.</p>
-    <p align="center">Thank you for helping to improve this site!</p>
+    <cfif sentok eq "true">
+       <p align="center">Your report has been successfully submitted.</p>
+       <p align="center">Thank you for helping to improve this site!</p>
+    </cfif>
     <p align="center">Click <a href="/SpecimenSearch.cfm">here</a> to search MCZbase.</p>
 </div>
 </cfoutput>

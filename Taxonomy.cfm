@@ -49,7 +49,10 @@
 <cfif action is "edit">
 	<cfset title="Edit Taxonomy">
 	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from taxonomy where taxon_name_id=#taxon_name_id#
+		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+	</cfquery>
+	<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
 <div class="content_box_narrow">
@@ -62,11 +65,14 @@
 		<tr>
 			<td>
 				<label for="source_authority">
-					<span>Source</span>
+					<span>Source <cfif isSourceAuthorityCurrent.ct eq 0> (#gettaxa.source_authority#) </cfif></span>
 				</label>
 				<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
+                                   <cfif isSourceAuthorityCurrent.ct eq 0>
+                                      <option value="" selected="selected"></option>
+                                   </cfif>
 		             <cfloop query="ctSourceAuth">
-		               <option <cfif gettaxa.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
+		               <option <cfif isSourceAuthorityCurrent.ct eq 1 and gettaxa.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
 							value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
 		             </cfloop>
 		        </select>
@@ -1013,7 +1019,13 @@
             <cfset subgenus_message = "<strong>Do Not include parethesies</strong>">
             <cfset subgenus = replace(replace(#subgenus#,")",""),"(","") >
         </cfif>
-<cftransaction>
+        <cfset hasError = 0 >
+        <cfif not isdefined("source_authority") OR len(#source_authority#) is 0>
+	    Error: You didn't select a Source. Go back and try again.  
+            <cfset hasError = 1 >
+        </cfif>
+        <cfif hasError eq 0>
+        <cftransaction>
 	<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cfid)#">
 	UPDATE taxonomy SET
 		valid_catalog_term_fg=#valid_catalog_term_fg#,
@@ -1162,6 +1174,7 @@
 	</cfquery>
 	</cftransaction>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
+        </cfif>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->

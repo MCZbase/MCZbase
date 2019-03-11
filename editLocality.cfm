@@ -70,22 +70,25 @@
                 $("##popDiv").append(theFrame);
         }
         function getGeolocate(evt) {
-                var message;
-                if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
-                alert( "iframe url does not have permision to interact with me" );
-                closeGeoLocate('intruder alert');
-            }
-            else {
-                var breakdown = evt.data.split("|");
-                        if (breakdown.length == 4) {
-                            var glat=breakdown[0];
-                            var glon=breakdown[1];
-                            var gerr=breakdown[2];
-                            useGL(glat,glon,gerr)
-                        } else {
-                                alert( "Whoa - that's not supposed to happen. " +  breakdown.length);
-                                closeGeoLocate('ERROR - breakdown length');
-                        }
+            if (evt.origin.includes("://mczbase") && evt.data == "") { 
+               console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
+            } else {
+               if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
+                   console.log(evt);
+                   alert( "MCZbase error: iframe url does not have permision to interact with me" );
+                   closeGeoLocate('intruder alert');
+               } else {
+                   var breakdown = evt.data.split("|");
+                   if (breakdown.length == 4) {
+                        var glat=breakdown[0];
+                        var glon=breakdown[1];
+                        var gerr=breakdown[2];
+                        useGL(glat,glon,gerr)
+                   } else {
+                        alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
+                        closeGeoLocate('ERROR - breakdown length');
+                   }
+               }
             }
         }
 </script>
@@ -252,7 +255,7 @@
 			lat_long,
 			preferred_agent_name
 		where determined_by_agent_id = agent_id
-        and locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+        and locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		order by ACCEPTED_LAT_LONG_FG DESC, lat_long_id
      </cfquery>
 	<cfquery name="getAccLL" dbtype="query">
@@ -603,13 +606,18 @@
             <input type="hidden" name="Action" value="editAccLatLong">
             <input type="hidden" name="lat_long_id" value="#lat_long_id#">
             <table border>
-               <tr>
+
      <cfset thisScore = #getLL.geolocate_score#>
      	<cfif #thisScore# is "#getLL.geolocate_score#" and #thisScore# gt 0>
-			<td>GeoLocate Score:<span style="color: green;text-align:right;"> #getLL.geolocate_score#</span></td>
-			<td>GeoLocate Precision:<span style="color: green;text-align:right;"> #getLL.geolocate_precision#</span></td>
-			<td>GeoLocate Number of Results:<span style="color: green;text-align:right;"> #getLL.geolocate_numresults#</span></td>
-		 </cfif></tr>
+			<tr>
+				<td>GeoLocate Score:<span style="color: green;text-align:right;"> #getLL.geolocate_score#</span></td>
+				<td>GeoLocate Precision:<span style="color: green;text-align:right;"> #getLL.geolocate_precision#</span></td>
+				<td colspan="2">GeoLocate Number of Results:<span style="color: green;text-align:right;"> #getLL.geolocate_numresults#</span></td>
+			</tr>
+			<tr>
+				<td colspan="4">Geolocate Parse Pattern: <span style="color: green;text-align:right;">#getLL.geolocate_parsepattern#</span></td>
+			</tr>
+		 </cfif>
               <tr>
                 <td>
 					<cfset thisUnits = #getLL.ORIG_LAT_LONG_UNITS#>

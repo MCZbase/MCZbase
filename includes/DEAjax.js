@@ -65,7 +65,7 @@ function DEuseGL(glat,glon,gerr){
         $("#max_error_units").val('m'); 
         $("#extent").val('');   
         $("#gpsaccuracy").val('');      
-        $("#datum").val('World Geodetic System 1984');  
+        $("#datum").val('WGS84');  
         $("#determined_by_agent").val($("#enteredby").val());
         var now = new Date();
         var dt=toISOString(now);
@@ -133,24 +133,27 @@ function geolocate () {
         );      
 }
 function getGeolocate(evt) {
-        var message;
+    if (evt.origin.includes("://mczbase") && evt.data == "") { 
+        console.log(evt); // Chrome appears to trigger an extra invocation of getGeolocate from mczbase with empty data.
+    } else {  
         if (evt.origin !== "https://www.geo-locate.org") {
-        alert( "iframe url does not have permision to interact with me" );
-		alert(evt.origin);
-        closeGeoLocate('intruder alert');
-		
-    }
-    else {
-        var breakdown = evt.data.split("|");
-                if (breakdown.length == 4) {
+           console.log("getGeolocate()");
+           console.log(evt);
+           console.log("evt.origin: " + evt.origin);
+           alert( "MCZbase error: iframe url does not have permision to interact with me" );
+           closeGeoLocate('intruder alert');
+        } else {
+           var breakdown = evt.data.split("|");
+           if (breakdown.length == 4) {
                     var glat=breakdown[0];
                     var glon=breakdown[1];
                     var gerr=breakdown[2];
                     DEuseGL(glat,glon,gerr)
-                } else {
-                        alert( "Whoa - that's not supposed to happen. " +  breakdown.length);
-                        closeGeoLocate('ERROR - breakdown length');
-                }
+           } else {
+              alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
+              closeGeoLocate('ERROR - breakdown length');
+           }
+       }
     }
 }
 function closeGeoLocate(msg) {

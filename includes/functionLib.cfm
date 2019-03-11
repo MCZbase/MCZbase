@@ -228,6 +228,7 @@
 	<cfset StructClear(Session)>
 	<cflogout>
 	<cfset session.DownloadFileName = "MCZbaseData_#cfid##cftoken#.txt">
+	<cfset session.DownloadFileID = "#cfid##cftoken#">
 	<cfset session.roles="public">
 	<cfset session.showObservations="">
 	<cfset session.result_sort="">

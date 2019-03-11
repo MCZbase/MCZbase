@@ -239,6 +239,8 @@ Parameters:
 <cfparam default="Bird/Mammal" name="format">
 <cfif format is "Malacology">
    <cfset displayFormat = "MCZ 1x2 drawer tag">
+<cfelseif format is "Malacology2">
+   <cfset displayFormat = "Malacology 1x2 with container">
 <cfelse>
    <cfset displayFormat = "#format#">
 </cfif>
@@ -251,7 +253,7 @@ Change to: <select name="format">
 		<option value="Mammalogy">Mammalogy 3"x2" drawer tag</option>
 		<option value="Herp">Herp</option>
 		<option value="Malacology">MCZ 1"x2" drawer tag</option>
-		<option value="Malacology2">Malacology 1"x2" test</option>
+		<option value="Malacology2">Malacology 1"x2" with container</option>
 		<!---  <option value="Cryo">Cryogenic Locator List</option>  --->
 		<option value="Cryo-Sheet">Cryogenic Spreadsheet</option>
 		<option value="Storage">Storage Locations</option>
@@ -435,6 +437,7 @@ Change to: <select name="format">
                 MCZBASE.get_storage_parentage(container.container_id) as container,
     		cataloged_item.cat_num,
     		cataloged_item.collection_object_id,
+                MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) as typestatus,
     		identification.scientific_name,
     		loan.loan_number,
     		trans.trans_date,
@@ -743,7 +746,7 @@ Change to: <select name="format">
     		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
     			  </tr>
     			  <tr>
-    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></div></td>
+    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i> <span style="float: right;"><strong>#typestatus#</strong></span></div></td>
     			  </tr>
     			 <tr>
     			 </tr>
@@ -765,10 +768,15 @@ Change to: <select name="format">
     		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde#&nbsp;#cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
     			  </tr>
     		      <tr style="padding: 0px; margin: 0px;">
-    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></div></td>
+    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i> <span style="float: right;"><strong>#typestatus#</strong></span></div></td>
     			  </tr>
     		      <tr style="padding: 0px; margin: 0px;">
-    		         <td colspan="2"><span class="#textClass#">#parentcontainer# #part_prep# #lot_count_mod#</span></td>
+                         <cfif parentcontainer eq "The Museum of Comparative Zoology">
+                            <cfset parentcontainer_c = ''>
+                         <cfelse>
+                            <cfset parentcontainer_c = parentcontainer>
+                         </cfif>
+    		         <td colspan="2"><span class="#textClass#">#parentcontainer_c# #part_prep# #lot_count_mod#</span></td>
     			  </tr>
     		      <tr style="padding: 0px; margin: 0px;">
     		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>

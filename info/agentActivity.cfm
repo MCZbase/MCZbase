@@ -5,13 +5,13 @@
 <a href="/agents.cfm?agent_id=#agent_id#" target="_top">Edit Agent</a>
 <div class="red" style="color: white;padding: 2px 10px; width: 460px;margin-top: 1em;">Please note: your login may prevent you from seeing some data</div>
 <cfquery name="agent" datasource="uam_god">
-	select * FROM agent where agent_id=#agent_id#
+	select * FROM agent where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 </cfquery>
 <cfquery name="person" datasource="uam_god">
-	select * FROM person where person_id=#agent_id#
+	select * FROM person where person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 </cfquery>
 <cfquery name="name" datasource="uam_god">
-	select agent_name_id, agent_name, agent_name_type FROM agent_name where agent_id=#agent_id#
+	select agent_name_id, agent_name, agent_name_type FROM agent_name where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 </cfquery>
     <h3 class="wikilink" style="margin-bottom: .6em;">Agent:</h3>
 <table border>
@@ -64,7 +64,7 @@
 						project
 					where
 						 project.project_id=project_agent.project_id and
-						 project_agent.agent_name_id=#agent_name_id#
+						 project_agent.agent_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
 					group by
 						project_name,
 						project.project_id
@@ -86,7 +86,7 @@
 						publication_author_name
 					where
 						publication.publication_id=publication_author_name.publication_id and
-						publication_author_name.agent_name_id=#agent_name_id#
+						publication_author_name.agent_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
 					group by
 						publication.PUBLICATION_ID,
 						PUBLICATION_TITLE
@@ -98,7 +98,7 @@
 							<li>
 								<a href="/Publication.cfm?PUBLICATION_ID=#PUBLICATION_ID#">#PUBLICATION_TITLE#</a>
 								<cfquery name="citn" datasource="uam_god">
-									select count(*) c from citation where publication_id=#publication_id#
+									select count(*) c from citation where publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 								</cfquery>
 								<ul><li>#citn.c# citations</li></ul>
 							</li>
@@ -114,7 +114,7 @@
 						project
 					where
 						 project.project_id=project_sponsor.project_id and
-						 project_sponsor.agent_name_id=#agent_name_id#
+						 project_sponsor.agent_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
 					group by
 						project_name,
 						project.project_id
@@ -137,7 +137,7 @@
 		from agent_relations,preferred_agent_name
 		where 	
 		agent_relations.RELATED_AGENT_ID=preferred_agent_name.agent_id and
-		agent_relations.agent_id=#agent_id#
+		agent_relations.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<ul class="agent_act">
 		<cfloop query="agent_relations">
@@ -149,7 +149,7 @@
 		from agent_relations,preferred_agent_name
 		where 
 		agent_relations.agent_id=preferred_agent_name.agent_id and
-		RELATED_AGENT_ID=#agent_id#
+		RELATED_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<ul class="agent_act">
 		<cfloop query="agent_relations">
@@ -165,7 +165,7 @@
 			group_member, preferred_agent_name
 		where
 			group_member.GROUP_AGENT_ID=preferred_agent_name.agent_id and
-			MEMBER_AGENT_ID=#agent_id#
+			MEMBER_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		order by agent_name
 	</cfquery>
 	<ul class="agent_act">
@@ -175,7 +175,7 @@
 	</ul>							 
     <h3 class="wikilink">Electronic Address:</h3>
 	<cfquery name="electronic_address" datasource="uam_god">
-		select * from electronic_address where agent_id=#agent_id#
+		select * from electronic_address where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<ul class="agent_act">
 		<cfloop query="electronic_address">
@@ -184,7 +184,7 @@
 	</ul>
     <h3 class="wikilink">Address:</h3>	
 	<cfquery name="addr" datasource="uam_god">
-		select replace(formatted_addr,chr(10),'<br>') formatted_addr from addr where agent_id=#agent_id#
+		select replace(formatted_addr,chr(10),'<br>') formatted_addr from addr where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<ul class="agent_act">
 		<cfloop query="addr">
@@ -204,7 +204,7 @@
 		where 
 			collector.collection_object_id = cataloged_item.collection_object_id AND
 			cataloged_item.collection_id = collection.collection_id AND
-			agent_id=#agent_id#
+			agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		group by
 			collection.collection,
 	        collection.collection_id
@@ -229,7 +229,7 @@
 		where 
 			coll_object.collection_object_id = cataloged_item.collection_object_id and
 			cataloged_item.collection_id=collection.collection_id and
-			ENTERED_PERSON_ID =#agent_id#
+			ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		group by
 			collection,
 			collection.collection_id
@@ -254,7 +254,7 @@
 		where 
 			coll_object.collection_object_id = cataloged_item.collection_object_id and
 			cataloged_item.collection_id=collection.collection_id and
-			LAST_EDITED_PERSON_ID=#agent_id#
+			LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		group by
 			collection,
 			collection.collection_id
@@ -280,7 +280,7 @@
 		where
 			cataloged_item.collection_object_id=attributes.collection_object_id and
 			cataloged_item.collection_id=collection.collection_id and
-			determined_by_agent_id=#agent_id#
+			determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		group by
 			collection.collection_id,
 			collection 
@@ -297,17 +297,21 @@
     <h3 class="wikilink">Media:</h3>
 	<cfquery name="media" datasource="uam_god">
 		select media_id from media_relations where media_relationship like '% agent' and
-		related_primary_key=#agent_id#
+		related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<cfquery name="media_assd_relations" datasource="uam_god">
-		select media_id from media_relations where CREATED_BY_AGENT_ID=#agent_id#
+		select media_id from media_relations where CREATED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<cfquery name="media_labels" datasource="uam_god">
-		select media_id from media_labels where ASSIGNED_BY_AGENT_ID=#agent_id#
+		select media_id from media_labels where ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<ul class="agent_act">
 		<li>
-			Subject of #media.recordcount# <a href="/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#"> Media entries.</a>
+                      <cfif media.recordcount eq 0>
+			Subject of #media.recordcount# Media entries.
+                      <cfelse>
+			Subject of #media.recordcount# <a href="/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent"> Media entries.</a>
+                     </cfif>
 		</li>
 		<li>
 			Assigned #media_assd_relations.recordcount# Media Relationships.
@@ -335,7 +339,7 @@
 			 	encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id and
 			 	coll_object_encumbrance.collection_object_id=cataloged_item.collection_object_id and
 			 	cataloged_item.collection_id=collection.collection_id and
-			 	encumbering_agent_id=#agent_id#
+			 	encumbering_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			 group by
 			 	collection,
 				collection.collection_id
@@ -362,7 +366,7 @@
         	cataloged_item.collection_id=collection.collection_id and
 			cataloged_item.collection_object_id=identification.collection_object_id and
 			identification.identification_id=identification_agent.identification_id and
-        	identification_agent.agent_id=#agent_id#
+        	identification_agent.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		group by
 			collection.collection_id,
 			collection.collection
@@ -379,7 +383,7 @@
 	<cfquery name="lat_long" datasource="uam_god">
 		select 
 			count(*) cnt,
-			count(distinct(locality_id)) locs from lat_long where determined_by_agent_id=#agent_id#
+			count(distinct(locality_id)) locs from lat_long where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<ul class="agent_act">
 		<li>Determined #lat_long.cnt# coordinates for #lat_long.locs# localities</li>
@@ -392,7 +396,7 @@
 		from 
 			permit 
 		where 
-			ISSUED_TO_AGENT_ID=#agent_id#
+			ISSUED_TO_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<ul class="agent_act">
 		<cfloop query="permit_to">
@@ -406,7 +410,7 @@
 				PERMIT_TYPE 
 			from 
 				permit 
-			where ISSUED_by_AGENT_ID=#agent_id#
+			where ISSUED_by_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfloop query="permit_by">
 			<li>
@@ -419,7 +423,7 @@
 				PERMIT_TYPE 
 			from 
 				permit 
-			where CONTACT_AGENT_ID=#agent_id#
+			where CONTACT_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfloop query="permit_by">
 			<li>
@@ -443,7 +447,7 @@
 				shipment.transaction_id=loan.transaction_id and
 				loan.transaction_id =trans.transaction_id and
 				trans.collection_id=collection.collection_id and
-				PACKED_BY_AGENT_ID=#agent_id#		
+				PACKED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfloop query="shipment">
 			<li>Packed Shipment for <a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a></li>
@@ -464,7 +468,7 @@
 				loan.transaction_id =trans.transaction_id and
 				trans.collection_id=collection.collection_id and
 				shipment.SHIPPED_TO_ADDR_ID=addr.addr_id and
-				addr.agent_id=#agent_id#
+				addr.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfloop query="ship_to">
 			<li><a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a> shipped to addr</li>
@@ -485,7 +489,7 @@
 				loan.transaction_id =trans.transaction_id and
 				trans.collection_id=collection.collection_id and
 				shipment.SHIPPED_FROM_ADDR_ID=addr.addr_id and
-				addr.agent_id=#agent_id#
+				addr.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfloop query="ship_from">
 			<li><a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a> shipped from</li>
@@ -505,7 +509,7 @@
 				trans_agent.transaction_id=loan.transaction_id and
 				loan.transaction_id=trans.transaction_id and
 				trans.collection_id=collection.collection_id and
-				AGENT_ID=#agent_id#
+				AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			group by
 				loan.transaction_id,
 				TRANS_AGENT_ROLE,
@@ -534,7 +538,7 @@
 				trans_agent.transaction_id=accn.transaction_id and
 				accn.transaction_id=trans.transaction_id and
 				trans.collection_id=collection.collection_id and
-				AGENT_ID=#agent_id#
+				AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			group by
 				accn.transaction_id,
 				TRANS_AGENT_ROLE,
@@ -563,7 +567,7 @@
 				trans.transaction_id=loan.transaction_id and
 				loan.transaction_id=loan_item.transaction_id and
 				trans.collection_id=collection.collection_id and
-				RECONCILED_BY_PERSON_ID =#agent_id#
+				RECONCILED_BY_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			group by
 				trans.transaction_id,
 				loan_number,
@@ -573,6 +577,64 @@
 			<li>Reconciled #cnt# items for Loan 
 				<a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 			</li>		
+		</cfloop>
+		<cfquery name="trans_agent_d" datasource="uam_god">
+                        select
+                                deaccession.transaction_id,
+                                TRANS_AGENT_ROLE,
+                                deacc_number,
+                                collection
+                        from
+                                trans_agent,
+                                deaccession,
+                                trans,
+                                collection
+                        where
+                                trans_agent.transaction_id=deaccession.transaction_id and
+                                deaccession.transaction_id=trans.transaction_id and
+                                trans.collection_id=collection.collection_id and
+                                AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+                        group by
+                                deaccession.transaction_id,
+                                TRANS_AGENT_ROLE,
+                                deacc_number,
+                                collection
+                        order by
+                                collection,
+                                deacc_number,
+                                TRANS_AGENT_ROLE
+		</cfquery>
+		<cfloop query="trans_agent_d">
+			<li>#TRANS_AGENT_ROLE# for Deaccession <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">#collection# #deacc_number#</a></li>
+		</cfloop>
+		<cfquery name="trans_agent_b" datasource="uam_god">
+                        select
+                                borrow.transaction_id,
+                                TRANS_AGENT_ROLE,
+                                borrow_number,
+                                collection
+                        from
+                                trans_agent,
+                                borrow,
+                                trans,
+                                collection
+                        where
+                                trans_agent.transaction_id=borrow.transaction_id and
+                                borrow.transaction_id=trans.transaction_id and
+                                trans.collection_id=collection.collection_id and
+                                AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+                        group by
+                                borrow.transaction_id,
+                                TRANS_AGENT_ROLE,
+                                borrow_number,
+                                collection
+                        order by
+                                collection,
+                                borrow_number,
+                                TRANS_AGENT_ROLE
+		</cfquery>
+		<cfloop query="trans_agent_b">
+			<li>#TRANS_AGENT_ROLE# for Borrow <a href="/Borrow.cfm?action=edit&transaction_id=#transaction_id#">#collection# #borrow_number#</a></li>
 		</cfloop>
 	</ul>
 </cfoutput>

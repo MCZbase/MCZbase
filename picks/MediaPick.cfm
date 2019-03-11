@@ -1,3 +1,4 @@
+<cfset jquery11=true>
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Media Pick">
 
@@ -74,19 +75,44 @@
           </tr>
             <tr>
             <td>
-               <input type="checkbox" name="unchecked" id="unchecked" value="true">
-               <label for "unlinked">Media not yet linked to any record</label>
+               <span><input type="checkbox" name="unlinked" id="unlinked" value="true">
+               <label for "unlinked">Media not yet linked to any record</label></span>
             </td>
             <td>
                 <input type="submit" value="Search" class="schBtn">    
             </td>
             <td>
-                <input type="reset" value="Clear" class="clrBtn">
+                <span ><input type="reset" value="Clear" class="clrBtn">
+                <input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick="openadddialog('/media.cfm?action=newMedia','##newPermitDlg_#target_id#','Add media to #target_id#');">
+                </span>
+                <div id='newPermitDlg_#target_id#' ></div></span>
             </td>
             </tr>
         </table>
     </cfform>
     </div>
+    <script>
+    function openadddialog(page,id,title) {
+      var $dialog = $(id)
+      .html('<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
+      .dialog({
+        title: title,
+        autoOpen: false,
+        appendto: "body",
+        dialogClass: 'dialog_fixed,ui-widget-header',
+        modal: true,
+        stack: true,
+        height: 600,
+        width: 1000,
+        minWidth: 400,
+        minHeight: 400,
+        draggable:true,
+        buttons: { "Ok": function () { $(this).dialog("close"); } }
+      });
+      $dialog.dialog('open');
+    };
+    </script>
+
     </cfoutput>
 
     <cfif Action is "search">
@@ -98,7 +124,7 @@
              left join media_relations on media.media_id = media_relations.media_id
           </cfif>
         where 
-          media_id is not null 
+          media.media_id is not null 
           <cfif isdefined("mediatype") and len(mediatype) gt 0>
             and media_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mediatype#">
           </cfif>

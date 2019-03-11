@@ -28,13 +28,14 @@
                     speed:       0,
                 });
                 if (top.location!=document.location) {
-                               // $("#footerContentBox").hide();
-                                $("#headerContent").hide();
-                                $(".sf-mainMenuWrapper").hide();
-
+                    // the page is being included in a frame or a dialog within a page which already contains the header, main menu, and footer
+                    // so hide these elements.
+                    $("#footerContentBox").hide();
+                    $("#headerContent").hide();
+                    $(".sf-mainMenuWrapper").hide();
                 }
             });
-	</script>
+    </script>
     <cfoutput>
     <meta name="keywords" content="#session.meta_keywords#">
     <LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
@@ -49,11 +50,11 @@
 <div id="headerContent" style="background-color: #Application.header_color#;">
      <div id="image_headerWrap">
            <div class="headerText">
-              <a href="http://www.mcz.harvard.edu" target="_blank">
+              <a href="http://mcz.harvard.edu/" target="_blank">
               <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
               </a>
-              <h1 style="color:#Application.collectionlinkcolor#;">  <a href="http://www.mcz.harvard.edu" target="_blank">#Application.collection_link_text#</a></h1>
-              <h2 style="color:#Application.institutionlinkcolor#;">#session.institution_link_text#</h2>
+              <h1 style="color:#Application.collectionlinkcolor#;"><span>#Application.collection_link_text#</h1>  <!--- close span is in collection_collection_link_text --->
+              <h2 style="color:#Application.institutionlinkcolor#;"><a href="https://mcz.harvard.edu/" target="_blank"><span style="color:#Application.institutionlinkcolor#" class="headerInstitutionText">#session.institution_link_text#</span></a></h2>
          </div><!---end headerText--->
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
@@ -223,11 +224,10 @@
                 </ul>
           <li><a target="_top" href="##">Manage Arctos</a>
             <ul>
-              <cfif listfind(formList,"/info/svn.cfm")>
+              <cfif listfind(formList,"/ScheduledTasks/index.cfm")>
                 <li> <a target="_top" href="##">Developer Widgets</a>
                   <ul>
                     <li><a target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a></li>
-                   <!--- <li><a target="_top" href="/info/svn.cfm">SVN</a></li>--->
                     <li><a target="_top" href="/Admin/dumpAll.cfm">Dump</a></li>
                     <li><a target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a></li>
                     <li><a target="_top" href="/tools/imageList.cfm">Image List</a></li>

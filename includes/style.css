@@ -64,12 +64,14 @@ td#SDCellLeft {
 .detailElements {
 	font-size: 1em;
 }
-.headerInstitutionText {
-	color: #000066;
-	font-weight: bold;
-}
 .headerCollectionText {
+        font-family: Arial, Helvetica, sans-serif;
 	font-size: 24px;
+        color: #a51c30;
+}
+.headerCollectionTextSmall {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 19px;
 }
 .specResultPartCell {
 	font-size: small;

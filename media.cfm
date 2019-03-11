@@ -351,6 +351,7 @@
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
  
       <label for="labels" style="margin-top:.5em;">Media Labels</label>
+      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot">
         <div id="labelsDiv__1">
           <select name="label__1" id="label__1" size="1" style="width: 200px;">

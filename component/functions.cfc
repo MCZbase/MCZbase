@@ -2845,8 +2845,11 @@
        <cfset result= result & "</ul>">
    </cfif>
    <cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-      <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#');"">Create Media">
-      <cfset result = result & "</span>&nbsp;~&nbsp;">
+      <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#','#relation#');"">Create Media">
+      <cfset result = result & "</span>&nbsp;~&nbsp;"> 
+<!---
+      <cfset result = result & "<span><span id='newPermit_#permit_id#'><input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick=""opendialog('media.cfm?action=newMedia','#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','##newPermitDlg_#permit_id#','Add media to #permit_id#');""><div id='newPermitDlg_#permit_id#' ></div></span>">
+--->
       <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" ></div><div id='addPermitDlg_#permit_id#'></div></span>">
    </cfif>
    <cfreturn result>
@@ -3347,6 +3350,27 @@
         </cfcatch>
     </cftry>
     <cfreturn theResult>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="addNewctSpecificType" access="remote" returnformat="json">
+        <cfargument name="new_specific_type" type="string" required="yes">
+        <cfset result = structNew()>
+        <cftry>
+        <cfset new_specific_type = trim(new_specific_type) >
+        <cfquery name="addSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           insert into ctspecific_permit_type (specific_type)
+               values ( <cfqueryparam value = "#new_specific_type#" CFSQLType="CF_SQL_VARCHAR"> )
+        </cfquery>
+        <cfset result["message"] = "Added #new_specific_type#.">
+        <cfcatch>
+            <cfif cfcatch.queryError contains 'ORA-00001'>
+               <cfset result["message"] = "Error: That value is already a specific type of permit.">
+            <cfelse>
+               <cfset result["message"] = "Error #cfcatch.message# #cfcatch.queryError#">
+            </cfif>
+        </cfcatch>
+        </cftry>
+        <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="saveSearch" access="remote">

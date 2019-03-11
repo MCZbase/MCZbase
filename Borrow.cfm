@@ -377,7 +377,8 @@ function setBorrowNum(cid,v){
                 NO_OF_SPECIMENS,
 				TRANS_REMARKS,
 				lender_loan_type,
-				collection.collection
+				collection.collection,
+				to_char(return_acknowledged_date, 'YYYY-MM-DD') return_acknowledged_date
 			FROM
 				trans,
 				borrow,
@@ -519,6 +520,7 @@ function setBorrowNum(cid,v){
 					<option <cfif #getBorrow.LENDERS_INVOICE_RETURNED_FG# IS 0> selected </cfif>
 						value="0">no</option>
 				</select>
+				<cfif len(getBorrow.return_acknowledged_date) GT 0>#getBorrow.return_acknowledged_date#</cfif>
 			</td>
 		</tr>
 		<tr>
