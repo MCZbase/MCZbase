@@ -65,7 +65,7 @@
 		<!--- loop once for each agent --->
 <cfloop query="agent" <!---startrow=1 endrow=450--->>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2018-07-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2019-01-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -271,9 +271,9 @@
 			<cfquery name="collections" dbtype="query">
 				select distinct collection from loan
 			</cfquery>
-			<cfset mailsubject = "MCZbase Notification for Overdue Loans">
+			<cfset mailsubject = "MCZbase Notification for Overdue Loans to " & #receivedby.agent_name#>
 			<cfif specialmail EQ "noemails">
-				<cfset mailsubject = "ALERT: NO EXTERNAL CONTACTS | MCZbase Notification for Overdue Loans">
+				<cfset mailsubject = "ALERT: NO EXTERNAL CONTACTS | MCZbase Notification for Overdue Loans to " & #receivedby.agent_name#>
 			</cfif>
 			<cfmail 	to="#toaddresses#"
 						cc="#ccaddresses#"
