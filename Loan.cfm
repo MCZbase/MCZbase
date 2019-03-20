@@ -1915,7 +1915,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 		<cfset sql = "#sql# AND return_due_date between to_date('#dateformat(return_due_date, "yyyy-mm-dd")#')
 			and to_date('#dateformat(to_return_due_date, "yyyy-mm-dd")#')">
 	</cfif>
-	<cfif isdefined("closed_date") and len(return_due_date) gt 0>
+	<cfif isdefined("closed_date") and len(closed_date) gt 0>
 		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
 			<cfset to_closed_date=closed_date>
 		</cfif>
