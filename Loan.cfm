@@ -73,6 +73,8 @@
                $("##to_trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
                $("##return_due_date").datepicker({ dateFormat: 'yy-mm-dd'});
                $("##to_return_due_date").datepicker({ dateFormat: 'yy-mm-dd'});
+               $("##closed_date").datepicker({ dateFormat: 'yy-mm-dd'});
+               $("##to_closed_date").datepicker({ dateFormat: 'yy-mm-dd'});
                $("##initiating_date").datepicker({ dateFormat: 'yy-mm-dd'});
                $("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
 	});
@@ -1710,6 +1712,14 @@ $( document ).ready(loadShipments(#transaction_id#));
                 <input type='text' name='to_return_due_date' id="to_return_due_date"></td>
             </tr>
           </cfif>
+          <cfif scope eq 'Loan' >
+            <tr>
+              <td align="right"> Closed Date: </td>
+              <td><input type="text" name="closed_date" id="closed_date">
+               &nbsp; To:
+                <input type='text' name='to_closed_date' id="to_closed_date"></td>
+            </tr>
+          </cfif>
           <tr>
             <td align="right">Permit Number:</td>
             <td><input type="text" name="permit_num" size="50">
@@ -1904,6 +1914,13 @@ $( document ).ready(loadShipments(#transaction_id#));
 		</cfif>
 		<cfset sql = "#sql# AND return_due_date between to_date('#dateformat(return_due_date, "yyyy-mm-dd")#')
 			and to_date('#dateformat(to_return_due_date, "yyyy-mm-dd")#')">
+	</cfif>
+	<cfif isdefined("closed_date") and len(return_due_date) gt 0>
+		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
+			<cfset to_closed_date=closed_date>
+		</cfif>
+		<cfset sql = "#sql# AND closed_date between to_date('#dateformat(closed_date, "yyyy-mm-dd")#')
+			and to_date('#dateformat(to_closed_date, "yyyy-mm-dd")#')">
 	</cfif>
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
 		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
