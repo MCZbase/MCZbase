@@ -498,7 +498,9 @@
 			<tr>
                 <td>
 					<label for="locality_remarks">
-						Not Georeferenced Because
+						Not Georeferenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">
+										(Suggested Entries)
+									</a>
 					</label>
 					<input type="text" name="NoGeorefBecause"
 						id="NoGeorefBecause" value="#NoGeorefBecause#"  style="width:71em;">
