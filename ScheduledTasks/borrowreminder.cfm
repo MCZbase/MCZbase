@@ -54,7 +54,7 @@
 				trans_agent.agent_id = person.person_id(+) AND
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
 				/*trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and*/
-				/*round(DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,30) and*/
+				round(DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,30) and
 				BORROW_STATUS <> 'returned' and
 				/*loan_type in ('returnable', 'consumable') and*/
 				borrow.transaction_id=shipment.transaction_id(+) and
@@ -65,11 +65,11 @@
 		<cfquery name="loan" dbtype="query">
 			select
 				transaction_id,
-				LOAN_NUMBER,
-				loan_type,
-				loan_status,
+				BORROW_NUMBER,
+				lender_loan_type,
+				borrow_status,
 				trans_date,
-				return_due_date,
+				due_date,
 				expires_in_days,
 				collection,
 				nature_of_material,
@@ -80,12 +80,11 @@
 				expLoan
 			group by
 				transaction_id,
-				RETURN_DUE_DATE,
-				LOAN_NUMBER,
-				loan_type,
-				loan_status,
+				BORROW_NUMBER,
+				lender_loan_type,
+				borrow_status,
 				trans_date,
-				return_due_date,
+				due_date,
 				expires_in_days,
 				collection,
 				nature_of_material,
@@ -104,7 +103,7 @@
 					expLoan
 				where
 					transaction_id=#transaction_id# and
-					trans_agent_role in ('in-house contact', 'additional in-house contact') and
+					trans_agent_role in ('received by') and
 					address is not null
 				group by
 					address,
@@ -132,7 +131,7 @@
 					expLoan
 				where
 					transaction_id=#transaction_id# and
-					trans_agent_role in ('additional outside contact', 'for use by', 'received by') and
+					trans_agent_role in ('in-house contact', 'for use by', 'additional in-house contact') and
 					address is not null
 				group by
 					address,
@@ -183,121 +182,9 @@
 					first_name,
 					agent_name
 			</cfquery>
-			<cfquery name="counts" datasource="uam_god">
-				select
-					sum(coll_object.lot_count) total, sum(decode(coll_object.coll_obj_disposition, 'on loan', coll_object.lot_count, 0)) outstanding
-				from
-					loan, loan_item, coll_object
-				where
-					loan.transaction_id=#transaction_id# and
-					loan.transaction_id = loan_item.transaction_id and
-					loan_item.collection_object_id = coll_object.collection_object_id
-				group by
-					loan.transaction_id
-			</cfquery>
-			<!--- the "contact if" section of the form we'll send to notification agents --->
-			<!---cfsavecontent variable="contacts">
-				<p>
-					<cfif inhouseAgents.recordcount is 1>
-						<!--- there is one in-house contact --->
-						Contact #inhouseAgents.agent_name# at #inhouseAgents.address# with any questions or concerns.
-					<cfelseif inhouseAgents.recordcount gt 1>
-						<!--- there are multiple in-house contacts --->
-						Contact the following with any questions or concern:
-						<ul>
-						<cfloop query="inhouseAgents">
-							<li>#agent_name#: #address#</li>
-						</cfloop>
-						</ul>
-					<cfelseif collectionAgents.recordcount is 1>
-						<!--- there are no in-house contacts, but there is one "loan request" agent for the collection --->
-						Contact #collectionAgents.agent_name# at #collectionAgents.address# with any questions or concerns.
-					<cfelseif collectionAgents.recordcount gt 1>
-						<!--- there are no in-house contacts, but there are multipls "loan request" agents for the collection --->
-						Contact the following with any questions or concern:
-						<ul>
-						<cfloop query="collectionAgents">
-							<li>#agent_name#: #address#</li>
-						</cfloop>
-						</ul>
-					<cfelse>
-						<!--- there are no curatorial contacts given - send them to the MCZbase contact form --->
-						Please contact the MCZbase folks with any questions or concerns by visiting
-						<a href="#application.serverRootUrl#/contact.cfm">#application.serverRootUrl#/contact.cfm</a>
-					</cfif>
-				</p>
-			</cfsavecontent>
-			<!--- the data we'll send to everyone --->
-			<cfsavecontent variable="common">
-				<p>The nature of the loaned material is:
-					<blockquote>#loan.nature_of_material#</blockquote>
-				</p>
-				<p>Specimen data for this loan, unless restricted, may be accessed at
-					<a href="#application.serverRootUrl#/SpecimenResults.cfm?collection_id=#loan.collection_id#&loan_number=#loan.loan_number#">
-						#application.serverRootUrl#/SpecimenResults.cfm?collection_id=#loan.collection_id#&loan_number=#loan.loan_number#
-					</a>
-				</p>
-			</cfsavecontent--->
-			<!---cfif notificationAgents.recordcount gt 0 and expires_in_days gte 0>
 
-				<!---
-					there's at least one noticifation agent, and the loan expires on or after today
-					Loop through the list of notification agents and email each of them. Blind copy
-					Dusty for a while, since it's pretty much impossible to actually test a form that
-					sends email and something somewhere is probably misspelled or something
-				 --->
-				<cfloop query="notificationAgents">
-					<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
-						subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">
-						Dear #agent_name#,
-						<p>
-							You are receiving this message because you are listed as a contact for loan
-							#loan.collection# #loan.loan_number#, due date #loan.return_due_date#.
-						</p>
-						#contacts#<!--- from cfsavecontent above ---->
-						#common#<!--- from cfsavecontent above ---->
-					</cfmail>
-				</cfloop>
-			</cfif>
-			<!--- and an email for each in-house contact --->
-			<cfloop query="inhouseAgents">
-				<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
-					subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">
-					Dear #agent_name#,
-					<p>
-						You are receiving this message because you are listed as in-house contact for loan
-						#loan.collection# #loan.loan_number#, due date #loan.return_due_date#.
-					</p>
-					<p>
-						You may edit the loan, after signing in to MCZbase, at
-						<a href="#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
-							#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
-						</a>
-					</p>
-					#common#
-				</cfmail>
-			</cfloop>
-			<cfif expires_in_days lte 0>
-				<!--- the loan expires on or BEFORE today; also email the collection's loan request agent, if there is one --->
-				<cfloop query="collectionAgents">
-					<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
-						subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">Dear #agent_name#,
-						<p>
-							You are receiving this message because you are listed as a #loan.collection# loan request collection contact.
-							Loan #loan.collection# #loan.loan_number# due date #loan.return_due_date# is not listed as "closed."
-						</p>
-						<p>
-							You may edit the loan, after signing in to MCZbase, at
-							<a href="#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
-								#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
-							</a>
-						</p>
-						#common#
-					</cfmail>
-				</cfloop>
-			</cfif--->
 			<cfset specialmail="">
-			<cfif loan.loan_status EQ "open under-review">
+			<cfif loan.borrow_status EQ "open under-review">
 				<cfset toaddresses = ValueList(cc_agents.address,";")>
 				<cfset ccaddresses = "">
 				<cfset specialmail="underreview">
@@ -314,19 +201,19 @@
 						to="#toaddresses#"
 						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
-						subject="MCZbase Notification for Loan Number: #loan.loan_number#"
-						from="no_reply_loan_notification@#Application.fromEmail#"
+						subject="MCZbase Notification for Borrow Number: #loan.borrow_number#"
+						from="no_reply_borrow_notification@#Application.fromEmail#"
 						replyto="#ValueList(inhouse.address,";")#"
 						type="html">
 				<cfif specialmail EQ "noemails">
 					<font color="red">
-					<<< MCZbase UNABLE TO SEND THE FOLLOWING LOAN NOTIFICATION >>><br>
-	             	<<< ENTER EXTERNAL CONTACTS FOR THIS LOAN  >>><br>
+					<<< MCZbase UNABLE TO SEND THE FOLLOWING BORROW NOTIFICATION >>><br>
+	             	<<< ENTER IN-HOUSE CONTACTS FOR THIS BORROW  >>><br>
 					</font>
 				<cfelseif specialmail EQ "underreview">
 					<font color="red">
-					<<< MCZbase UNABLE TO SEND THE FOLLOWING LOAN NOTIFICATION &mdash; LOAN "OPEN UNDER-REVIEW" >>><br>
-             		<<< ENTER EXTERNAL CONTACTS FOR THIS LOAN. ORIGINAL BORROWER IS NOT VALID >>><br>
+					<<< MCZbase UNABLE TO SEND THE FOLLOWING BORROW NOTIFICATION &mdash; BORROW "OPEN UNDER-REVIEW" >>><br>
+             		<<< ENTER IN-HOUSE CONTACTS CONTACTS FOR THIS BORROW. ORIGINAL BORROWER IS NOT VALID >>><br>
 					</font>
 				</cfif>
 
@@ -334,25 +221,25 @@
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
 				<br>
-				LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
+				BORROW NOTIFICATION REPORT FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
 				<br><br>
 				Dear Colleague,
 				<br><br>
 				<cfif numdays EQ 30>
-				This is	a friendly reminder that your MCZ specimen loan is due for RETURN to the #collection# Collection in about a month.
+				This is	a friendly reminder that your Borrow is due for RETURN in about a month.
 				<cfelse>
-				This is an MCZbase notification report regarding an MCZ Loan due for RETURN to the #collection# Collection.
+				This is an MCZbase notification report regarding an MCZ Borrow due for RETURN.
 				</cfif>
 				<br><br>
-				LOAN DUE TO BE RETURNED:
+				BORROW DUE TO BE RETURNED:
 				<br><br>
-				Loan Number: #loan_number#
+				Borrow Number: #borrow_number#
 				<br>
-				Loan Type: #loan_type#
+				Borrow Type: #lender_loan_type#
 				<br>
-				Loan Date: #DateFormat(trans_date, "DD-mmmm-YYYY")#
+				Borrow Date: #DateFormat(trans_date, "DD-mmmm-YYYY")#
 				<br>
-				Due Date: #DateFormat(return_due_date, "DD-mmmm-YYYY")#
+				Due Date: #DateFormat(due_date, "DD-mmmm-YYYY")#
 				<br><br>
 
 				Approved Borrower: #receivedby.agent_name#
@@ -368,37 +255,18 @@
 				<br>
 				Nature of Material: #nature_of_material#
 				<br>
-				Original Total Number of Items:	#counts.total#
-				<br>
-				Partial Return of Loaned Items: <cfif loan_status EQ "open partially returned">Yes<cfelse>No</cfif>
+				Partial Return of Borrowed Items: <cfif borrow_status EQ "open partially returned">Yes<cfelse>No</cfif>
 				<br><br>
 				<cfif numdays EQ 30>
-				Please return the above loan by the Due Date. If for any reason this is not possible, or for more information on this loan, please
+				Please return the above Borrow by the Due Date. If for any reason this is not possible, or for more information on this borrow, please
 				<cfelse>
-				We request that you please return the above loan or request an extension by the Due Date. For more information on this loan,
+				We request that you please return the above Borrow or request an extension by the Due Date. For more information on this Borrow,
 				</cfif>
-				contact the  #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated.
-				<cfif findnocase("CRYO",#loan_number#) GT 0>
-				<br><br>
-				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.
-				To officially close this loan, please also provide publication information and NCBI sequence accession numbers to the MCZ-CRYO.<br><br>
-				NCBI accessions will automatically link to MCZbase records if information is submitted correctly:<br>
-				https://mcz.harvard.edu/files/mcz/files/guidelines_for_submitting_to_genbank.pdf<br>
-				https://mcz.harvard.edu/files/mcz/files/ncbi_bioproject_biosample_data.pdf<br>
-				<br>
+				contact the institution from which the Borrow was received.  Your attention to this matter will be greatly appreciated.
 				Thank you.<br>
-				<cfelse>
-				Thank you.<br>
-				</cfif>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
 			</cfmail>
-			<cfif specialmail EQ "">
-					<cfquery name="upLogTable" datasource="uam_god">
-						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-						values(#receivedBy.agent_id#, SYSDATE, #loan.transaction_id#, 'R', '#toaddresses#')
-					</cfquery>
-			</cfif>
 		</cfloop>
 		<!--- end of loan code --->
 		<!----------- permit ------------
