@@ -753,7 +753,7 @@ function populateGeology(id) {
 			queryformat : 'column'
 		},
 		function (r) {
-			var s='';
+			var s='<option value=""></option>';
 			for (i=0; i<r.ROWCOUNT; ++i) {
 				s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
 				if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue) {
