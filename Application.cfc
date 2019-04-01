@@ -172,7 +172,7 @@
 		</cfif>
 		<!--- In VM environment, how java resolves getLocalHost().getHostName() changes in ways outside our control.  --->
   		<!--- So, make sure that we are handling the cases where only the unqualified local name is returned. ---> 
-		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu" or serverName is "mczbase-prd">
+		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu" or serverName is "mczbase-prd" or serverName is "mczbase-prd1" or serverName is "mczbase-prd1.rc.fas.harvard.edu">
 			<cfset serverName="mczbase.mcz.harvard.edu" />
 		</cfif>
 		<cfif serverName is "mczbase-dev">

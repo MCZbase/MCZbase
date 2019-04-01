@@ -19,6 +19,14 @@
 	order by search_name
 </cfquery>
 
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+	<cfset isClicky = "likeLink">
+<cfelse>
+	<cfset oneOfUs = 0>
+	<cfset isClicky = "">
+</cfif>
+
 <div class="basic_box" style="margin-top: -1.5em;">
 <table>
 	<tr>
@@ -216,11 +224,13 @@
 						<option value="">All</option>
 					</cfif>
 					<cfloop query="ctInst">
+						<cfif not (#oneOfUs# EQ 0 and #ctInst.collection_id# EQ 10)>
 						<option <cfif #thisCollId# is #ctInst.collection_id#>
 					 		selected </cfif>
 							value="#ctInst.collection_id#">
 							<cfif #ctInst.collection_id# EQ 8>Invertebrate Zoology (incl. Marine Invertebrates)
 							<CFELSE>#ctInst.collection#</cfif></option>
+						</cfif>
 					</cfloop>
 				</select>
 				<span id="cat_num">Number:</span>

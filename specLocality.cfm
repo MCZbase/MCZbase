@@ -48,7 +48,7 @@
 
 					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
 					}
-				if (exists==false){s='<option value="' + dataValue + '" selected="selected">' + dataValue + '</option>';}
+				if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red;">' + dataValue + '</option>';}
 					}
 				for (i=0; i<r.ROWCOUNT; ++i) {
 					s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
@@ -484,7 +484,7 @@
                 <input type="text" name="locality_remarks" id="locality_remarks" value="#stripQuotes(l.LOCALITY_REMARKS)#"  size="75"></td>
             </tr>
             <tr>
-              <td><label for="NoGeorefBecause"> Not Georefererenced Because </label>
+              <td><label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
                 <input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#"  size="75">
                 <cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
                   <div class="redMessage"> NoGeorefBecause should be NULL for localities with georeferences.
