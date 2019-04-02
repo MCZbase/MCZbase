@@ -1,6 +1,7 @@
 <cfinclude template="/includes/_pickHeader.cfm">
 <!------------------------------------------------------------------->
 <cfset filename="containerlabels_#cfid#_#cftoken#.pdf" >
+<cfoutput>
 <p>
 	<a href="/temp/#filename#" target="_blank">Get the PDF</a>
 </p>
@@ -44,7 +45,6 @@ Change to: <select name="format">
        'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray',''), 
         cat.collection_cde || ':' || cat.cat_num
     </cfquery>
-    </cfif>
 
     <!--- Layout parameters --->
     <cfset maxCol = 2>
@@ -136,6 +136,5 @@ Change to: <select name="format">
     </cfoutput>
     </cfdocument>
 </cfif>  <!-- End SCSlideTray  -->
-</cfif>  <!-- End Action -->
        
 <cfinclude template="/includes/_pickFooter.cfm">
