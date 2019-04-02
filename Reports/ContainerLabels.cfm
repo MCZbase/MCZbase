@@ -1,9 +1,9 @@
 <cfinclude template="/includes/_pickHeader.cfm">
 <!------------------------------------------------------------------->
-<cfset filename="containerlabels_#cfid#_#cftoken#.pdf" >
+<cfset targetfile="containerlabels_#cfid#_#cftoken#.pdf" >
 <cfoutput>
 <p>
-	<a href="/temp/#filename#" target="_blank">Get the PDF</a>
+	<a href="/temp/#targetfile#" target="_blank">Get the PDF</a>
 </p>
 <cfparam default="SCSlideTray" name="format">
 <cfif format is "SlideTray">
@@ -26,7 +26,7 @@ Change to: <select name="format">
 </form>
 </cfoutput>
 
-<cfif format is "CFSlideTray">
+<cfif format is "SCSlideTray">
 
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct 
@@ -99,7 +99,7 @@ Change to: <select name="format">
     	marginright=".25"
     	orientation="#orientiation#"
     	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cftoken#.pdf"
+    	filename="#Application.webDirectory#/temp/#targetfile#"
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
