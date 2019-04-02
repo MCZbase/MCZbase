@@ -17,11 +17,12 @@
 </cfif>
 Current format: #displayFormat#<br/>
 <form action='ContainerLabels.cfm' method="POST">
-Change to: <select name="format">
+<span><label for='header_text'>Header Text:</label> <input name='header_text' type='text' value='Museum of Comparative Zoology'/></span>
+<span><label for='format'>Change to:</label> <select name="format">
 		<option value="SCSlideTray">SC Slide Tray Content (all)</option>
 		<option value="SlideTray">Slide Tray Content</option>
 		<option value="SlideTrayFront">SlideTrayFront</option>
-	</select>
+	</select></span>
 	<input type='submit' value='Change Format' />
 </form>
 </cfoutput>
@@ -105,31 +106,66 @@ Change to: <select name="format">
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
     #pageHeader#
     <!--- Main loop --->
+    <cfset lastTray = ''>
+    <cfset curItem = 0 >
+    <cfset curTray = 0 >
     <cfloop query="getItems">
+       <cfset curItem = curItem + 1>
+       <cfset newTray = false>
+        <cfset currentTray=tray>
+        <cfif currentTray EQ lastTray> 
+            <!--- Begin a new tray --->
+            <cfset newTray = true>
+            <cfset curTray = curTray + 1 >
+            <cfset idents = ''>
+            <cfset catnums = ''>
+            <cfset lastIdent = ''>
+        </cfif>
+       
+        <!---  Iterate Through Trays, one label per tray ---> 
+        <!---  Within Tray, accumulate list of distinct taxa and list of catalog numbers --->
+        <cfif lastIdent NEQ ident >
+           <cfset idents = '#idents# #ident#'>
+        </cfif>
+        <cfset catnums = '#catnums# #cat_num#'>
 
-    	<tr><td>
+        <!--- if Last Item or new tray, then Produce label for tray --->
+        <cfif newTray EQ true OR curItem EQ getItems.recordCount>
     	<div style="#labelStyle#">
     		   <table>
     		      <tr>
-    		         <td><span class="#textClass#"><i>#ident#</i> <strong>#tray# #cat_num#</strong></span></td>
+    		         <td><span class="#textClass#">#header_text#<strong>#tray#</strong></span></td>
     		      </tr>
-    	<!--- End Column? Do it after every #maxRow# labels --->
-    	<cfif curRecord mod maxRow is 0>
+    		      <tr>
+    		         <td><span class="#textClass#"><i>#idents#</i></span></td>
+    		      </tr>
+    		      <tr>
+    		         <td><span class="#textClass#">#catnums#</span></td>
+    		      </tr>
+               </table>
+        </div>
+        </cfif> 
+
+        <cfset lastIdent = ident>
+        <cfset lastTray=tray>
+
+        <!--- If at end of column, add next column --->
+    	<cfif curTray mod maxRow is 0>
     		</table></td>
     		<!--- But only add a new column if that wasn't the last record AND we aren't at a page break --->
-    		<cfif curRecord lt getItems.recordCount and curRecord mod numRecordsPerPage is not 0>
+    		<cfif curItem lt getItems.recordCount and curTray mod numRecordsPerPage is not 0>
     			<td valign='top'><table #innerTableParams#>
     		</cfif>
     	</cfif>
-    	<!--- Page break --->
-    	<cfif curRecord mod numRecordsPerPage is 0 AND curRecord lt getItems.recordcount>
+
+        <!--- If at end of page, add new page set to first column --->
+    	<cfif curTray mod numRecordsPerPage is 0 OR  curItem lt getItems.recordcount >
     		<cfset curPage = curPage + 1>
+    	    #pageFooter#<cfdocumentitem type="pagebreak"></cfdocumentitem>
     		<!--- end the old table, pagebreak, and begin the new one--->
-    		#pageFooter#<cfdocumentitem type="pagebreak"></cfdocumentitem>
     		#pageHeader#
     	</cfif>
-    	<!--- and finish our current record --->
-    	<cfset curRecord=#curRecord#+1>
+
     </cfloop>
     #pageFooter#
     </cfoutput>
