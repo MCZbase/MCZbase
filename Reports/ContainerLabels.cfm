@@ -17,7 +17,6 @@
 </cfif>
 Current format: #displayFormat#<br/>
 <form action='ContainerLabels.cfm' method="POST">
-	<input type='hidden' name='table_name' value='#table_name#'>
 Change to: <select name="format">
 		<option value="SCSlideTray">SC Slide Tray Content (all)</option>
 		<option value="SlideTray">Slide Tray Content</option>
