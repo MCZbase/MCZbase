@@ -121,12 +121,14 @@ and rownum < 10
             <cfset idents = ''>
             <cfset catnums = ''>
             <cfset lastIdent = ''>
+            <cfset iseparator = ''>
         </cfif>
        
         <!---  Iterate Through Trays, one label per tray ---> 
         <!---  Within Tray, accumulate list of distinct taxa and list of catalog numbers --->
         <cfif lastIdent NEQ ident >
-           <cfset idents = '#idents# #ident#'>
+           <cfset idents = '#idents##iseparator##ident#'>
+           <cfset iseparator = '; '>
         </cfif>
         <cfset catnums = '#catnums# #cat_num#'>
 
@@ -135,7 +137,7 @@ and rownum < 10
     	<div style="#labelStyle#">
     		   <table>
     		      <tr>
-    		         <td><span class="#textClass#">#header_text#<strong>#tray#</strong></span></td>
+    		         <td><span class="#textClass#">#header_text#<strong> #tray#</strong></span></td>
     		      </tr>
     		      <tr>
     		         <td><span class="#textClass#"><i>#idents#</i></span></td>
@@ -168,7 +170,6 @@ and rownum < 10
     	</cfif>
 
     </cfloop>
-    #pageFooter#
     </cfoutput>
     </cfdocument>
 </cfif>  <!-- End SCSlideTray  -->
