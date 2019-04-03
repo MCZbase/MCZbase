@@ -1,5 +1,8 @@
 <cfinclude template="/includes/_pickHeader.cfm">
 <!------------------------------------------------------------------->
+<cfif not isdefined("header_text")>
+   <cfset header_text = 'Museum of Comparative Zoology'>
+</cfif>
 <cfset targetfile="containerlabels_#cfid#_#cftoken#.pdf" >
 <cfoutput>
 <p>
@@ -17,7 +20,7 @@
 </cfif>
 Current format: #displayFormat#<br/>
 <form action='ContainerLabels.cfm' method="POST">
-<span><label for='header_text'>Header Text:</label> <input name='header_text' type='text' value='Museum of Comparative Zoology'/></span>
+<span><label for='header_text'>Header Text:</label> <input name='header_text' type='text' value='#header_text#'/></span>
 <span><label for='format'>Change to:</label> <select name="format">
 		<option value="SCSlideTray">SC Slide Tray Content (all)</option>
 		<option value="SlideTray">Slide Tray Content</option>
@@ -41,6 +44,7 @@ Current format: #displayFormat#<br/>
     where cp.barcode like 'Shared_slide-cab-%'
         and ch.current_container_fg = 1
         and cat.collection_cde = 'SC'
+and rownum < 10
     order by
        'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray',''), 
         cat.collection_cde || ':' || cat.cat_num
@@ -53,7 +57,6 @@ Current format: #displayFormat#<br/>
     <cfset maxRow = 6>
    
     <cfset numRecordsPerPage = maxCol * maxRow>
-    <cfset maxPage = (getItems.recordcount-1) \ numRecordsPerPage + 1>
     <cfset curPage = 1>
     <cfset curRecord = 1>
 
@@ -62,11 +65,6 @@ Current format: #displayFormat#<br/>
     <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0"'>
     <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0"'>
     <cfset pageHeader='
-    <div style="position:static; top:0; left:0; width:100%;">
-    	<span style="position:relative; left:0px; top:0px;  width:35%; font-size:10px; font-weight:600;">
-    	Page #curPage# of #maxPage#
-    	</span>
-    </div>
     <table #outerTableParams#>
     <tr>
     <td valign="top">
@@ -109,6 +107,9 @@ Current format: #displayFormat#<br/>
     <cfset lastTray = ''>
     <cfset curItem = 0 >
     <cfset curTray = 0 >
+    <cfset lastIdent = ''>
+    <cfset idents = ''>
+    <cfset catnums = ''>
     <cfloop query="getItems">
        <cfset curItem = curItem + 1>
        <cfset newTray = false>
@@ -159,7 +160,7 @@ Current format: #displayFormat#<br/>
     	</cfif>
 
         <!--- If at end of page, add new page set to first column --->
-    	<cfif curTray mod numRecordsPerPage is 0 OR  curItem lt getItems.recordcount >
+    	<cfif curTray mod numRecordsPerPage is 0 OR  curItem EQ getItems.recordcount >
     		<cfset curPage = curPage + 1>
     	    #pageFooter#<cfdocumentitem type="pagebreak"></cfdocumentitem>
     		<!--- end the old table, pagebreak, and begin the new one--->
