@@ -139,16 +139,16 @@ select
 		 part_modifier,
 		 preserve_method,
 		 lot_count,
-		condition,
+		 condition,
 		 item_instructions,
-		 loan_item_remarks,
+		 HTF.escape_sc(loan_item_remarks) loan_item_remarks,
 		 coll_obj_disposition,
 		 scientific_name,
 		 Encumbrance,
 		 agent_name,
 		 loan_number,
-                 concattransagent(loan.transaction_id, 'received by')  recAgentName,
-		 spec_locality,
+         concattransagent(loan.transaction_id, 'received by')  recAgentName,
+		 HTF.escape_sc(spec_locality) spec_locality,
 		 higher_geog,
                  GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
                  GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
@@ -307,7 +307,7 @@ select
 </cfquery>
 <!---  getDeaccItemsMCZ - information for deaccession item invoices.   --->
 <cfquery name="caller.getDeaccItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select
+       SELECT
 		cat_num, cataloged_item.collection_cde, collection.institution_acronym,
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 
@@ -336,7 +336,7 @@ select
 		 lot_count,
 		condition,
 		 item_instructions,
-		 deacc_item_remarks,
+		 HTF.escape_sc(deacc_item_remarks) deacc_item_remarks,
 		 coll_obj_disposition,
 		 scientific_name,
 		 Encumbrance,
@@ -344,7 +344,7 @@ select
 		 deacc_number,
 		 deacc_type,
                  concattransagent(deaccession.transaction_id, 'received by')  recAgentName,
-		 spec_locality,
+		 HTF.escape_sc(spec_locality) spec_locality,
 		 higher_geog,
                  GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
                  GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
