@@ -204,7 +204,7 @@ Current format: #displayFormat#<br/>
     <!--- Layout parameters --->
     <cfset maxCol = 3>
     <cfset orientiation = 'portrait'>
-    <cfset maxRow = 10>
+    <cfset maxRow = 20>
     <cfset labelWidth = 'width: 2.0in;'>
     <cfset labelHeight = 'height: 0.25in;'>
    
