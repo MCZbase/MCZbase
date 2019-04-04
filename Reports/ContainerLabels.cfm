@@ -85,7 +85,7 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times10">
+    <cfset textClass = "times12">
     <cfset dateStyle = "yyyy-mmm-dd">
     <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
@@ -97,7 +97,7 @@ Current format: #displayFormat#<br/>
     	marginleft=".25"
     	marginright=".25"
     	orientation="#orientiation#"
-    	fontembed="yes"
+    	fontEmbed="yes"
     	filename="#Application.webDirectory#/temp/#targetfile#"
     	overwrite="yes">
     <cfoutput>
@@ -122,7 +122,7 @@ Current format: #displayFormat#<br/>
             <!--- output previous tray ---> 
             <cfif curItem gt 1> 
                <cfset rowCount = rowCount + 1>
-    	       <div style="#labelStyle#">
+    	       <div style="#labelStyle# font-size: 12pt;">
     		  <table>
     		      <tr>
     		         <td><span class="#textClass#">#header_text#<strong> #lastTray#</strong></span></td>
@@ -173,7 +173,7 @@ Current format: #displayFormat#<br/>
        <cfif NOT ArrayContains(identArray,ident) >
            <cfset idents = '#idents##iseparator##ident#'>
            <cfset iseparator = '; '>
-           <cfscript>ArrayAppend(identArray,ident)</cfscript>
+           <cfscript>ArrayAppend(identArray,ident);</cfscript>
        </cfif>
 
        <cfset catnums = '#catnums# #cat_num#'>
@@ -204,7 +204,7 @@ Current format: #displayFormat#<br/>
     <!--- Layout parameters --->
     <cfset maxCol = 3>
     <cfset orientiation = 'portrait'>
-    <cfset maxRow = 8>
+    <cfset maxRow = 10>
     <cfset labelWidth = 'width: 2.0in;'>
     <cfset labelHeight = 'height: 0.25in;'>
    
@@ -234,7 +234,7 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times10">
+    <cfset textClass = "times8">
     <cfset dateStyle = "yyyy-mmm-dd">
     <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
@@ -246,7 +246,7 @@ Current format: #displayFormat#<br/>
     	marginleft=".25"
     	marginright=".25"
     	orientation="#orientiation#"
-    	fontembed="yes"
+    	fontEmbed="yes"
     	filename="#Application.webDirectory#/temp/#targetfile#"
     	overwrite="yes">
     <cfoutput>
@@ -269,7 +269,7 @@ Current format: #displayFormat#<br/>
             <!--- output previous tray ---> 
             <cfif curItem gt 1> 
                <cfset rowCount = rowCount + 1>
-    	       <div style="#labelStyle# padding: 0.2in;">
+    	       <div style="#labelStyle# margin: 0.1in; font-size: 8pt;">
     		  <table>
     		      <tr>
     		         <td><span class="#textClass#">#header_text#<strong> #lastTray#</strong></span></td>
