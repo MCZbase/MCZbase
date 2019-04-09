@@ -1,7 +1,6 @@
 <cfset deliver = 'application/rdf+xml'>
-<cfif isdefined("guid") AND len(guid) gt 0>
-<cfelse>
-   <cfset guid="MCZ:IP:1000000"
+<cfif NOT isdefined("guid")>
+   <cfset guid="MCZ:IP:100000">
 </cfif>
 <cftry>
    <cfset accept = GetHttpRequestData().Headers['accept'] >
@@ -15,9 +14,9 @@
    <cfset deliver = "application/rdf+xml">
 <cfelseif left(accept,19) IS 'application/ld+json'>
    <cfset deliver = "application/ld+json">
-<cfif findNoCase("text/turtle", accept) >
+<cfelseif findNoCase("text/turtle", accept) >
    <cfset deliver = "text/turtle">
-<cfif findNoCase("application/ld+json", accept) >
+<cfelseif findNoCase("application/ld+json", accept) >
    <cfset deliver = "application/ld+json">
 <cfelse>
    <cfset deliver = 'application/rdf+xml'>
@@ -84,7 +83,7 @@
    dwc:recordedBy "#collectors#".
 </cfoutput>
 </cfif><!--- Turtle --->
-<cfif deliver IS 'application/ld_json'>
+<cfif deliver IS 'application/ld+json'>
 <cfoutput>
 {
   "@context": { 
