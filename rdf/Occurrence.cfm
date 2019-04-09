@@ -25,8 +25,8 @@
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput>
 <rdf:RDF
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema##"
   xmlns:dwc="http://rs.tdwg.org/dwc/terms/"
   xmlns:dwciri="http://rs.tdwg.org/dwc/iri/"
   xmlns:dcterms="http://purl.org/dc/terms/"
