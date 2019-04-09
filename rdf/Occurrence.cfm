@@ -1,21 +1,29 @@
 <cfset deliver = 'application/rdf+xml'>
+<cfif isdefined("guid") AND len(guid) gt 0>
+<cfelse>
+   <cfset guid="MCZ:IP:1000000"
+</cfif>
 <cftry>
    <cfset accept = GetHttpRequestData().Headers['accept'] >
 <cfcatch>
    <cfset accept = "application/rdf+xml">
 </cfcatch>
 </cftry>
-<cfif accept IS 'text/turtle'>
-   <cfset deliver = accept>
-<cfelseif accept IS 'application/rdf+xml'>
-   <cfset deliver = accept>
-<cfelseif accept IS 'application/ld+json'>
-   <cfset deliver = accept>
+<cfif left(accept,11) IS 'text/turtle'>
+   <cfset deliver = "text/turtle">
+<cfelseif left(accept,19) IS 'application/rdf+xml'>
+   <cfset deliver = "application/rdf+xml">
+<cfelseif left(accept,19) IS 'application/ld+json'>
+   <cfset deliver = "application/ld+json">
+<cfif findNoCase("text/turtle", accept) >
+   <cfset deliver = "text/turtle">
+<cfif findNoCase("application/ld+json", accept) >
+   <cfset deliver = "application/ld+json">
 <cfelse>
    <cfset deliver = 'application/rdf+xml'>
 </cfif>
 
-<cfheader name="Content-type" value=deliver >
+<cfheader name="Content-type" value=#deliver# >
 
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
    select distinct 
