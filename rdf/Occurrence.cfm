@@ -1,5 +1,10 @@
 <cfset deliver = 'application/rdf+xml'>
-<cfset accept = GetHttpRequestData().Headers['HTTP_ACCEPT'] >
+<cftry>
+   <cfset accept = GetHttpRequestData().Headers['accept'] >
+<cfcatch>
+   <cfset accept = "application/rdf+xml">
+</cfcatch>
+</cftry>
 <cfif accept IS 'text/turtle'>
    <cfset deliver = accept>
 <cfelseif accept IS 'application/rdf+xml'>
@@ -13,15 +18,18 @@
 <cfheader name="Content-type" value=deliver >
 
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select cat_num, collection_cde, guid, 
+   select distinct 
+          cat_num, collection_cde, guid, 
           country, state_prov, county, spec_locality,
           scientific_name, author_text,
           collectors,
           last_edit_date
     from #session.flatTableName#
     where guid = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#guid#">
+          and rownum < 2
 </cfquery>
 
+<cfloop query=occur>
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput>
 <rdf:RDF
@@ -90,3 +98,4 @@
 }
 </cfoutput>
 </cfif><!--- JSON-LD --->
+</cfloop>
