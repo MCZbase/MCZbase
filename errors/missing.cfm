@@ -5,19 +5,56 @@
 	</cfif>
 	<cfset gPos=listfindnocase(rdurl,"guid","/")>
 	<cfif gPos >
-		<cftry>
-			<cfset guid = listgetat(rdurl,gPos+1,"/")>
-			<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
-				<cfset guid=replacenocase(guid, "fish", "Ich")>
-				<cfset guid=replacenocase(guid, "bird", "Orn")>
-				<cfheader statuscode="301" statustext="Moved permanently">
-				<cfheader name="Location" value="/guid/#guid#">
-			</cfif>
-			<cfinclude template="/SpecimenDetail.cfm">
-			<cfcatch>
-				<cfinclude template="/errors/404.cfm">
-			</cfcatch>
-		</cftry>
+        <cftry>
+            <cfset accept = GetHttpRequestData().Headers['accept'] >
+            <cfcatch>
+                <cfset accept = "">
+            </cfcatch>
+        </cftry>
+        <cfif left(accept,11) IS 'text/turtle'>
+             <cfset deliver = "text/turtle">
+        <cfelseif left(accept,19) IS 'application/rdf+xml'>
+             <cfset deliver = "application/rdf+xml">
+        <cfelseif left(accept,19) IS 'application/ld+json'>
+             <cfset deliver = "application/ld+json">
+        <cfelse>
+            <cfset deliver = "text/html">
+        </cfif>
+
+        <cfif deliver NEQ "text/html">
+            <cftry>
+			    <cfset guid = listgetat(rdurl,gPos+1,"/")>
+			    <cfinclude template="/rdf/Occurrence.cfm">
+                <cfcatch>
+				    <cfinclude template="/errors/404.cfm">
+                </cfcatch>
+            </cftry>
+        <cfelse> 
+		    <cfset redesignPos=listfindnocase(rdurl,"redesign","/")>
+	        <cfif redesignPos>
+	            <cftry>
+				    <cfset guid = listgetat(rdurl,gPos+1,"/")>
+				    <cfinclude template="/redesign/SpecimenDetail.cfm">
+	                <cfcatch>
+					    <cfinclude template="/errors/404.cfm">
+	                </cfcatch>
+	            </cftry>
+	        <cfelse>
+				<cftry>
+					<cfset guid = listgetat(rdurl,gPos+1,"/")>
+					<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
+						<cfset guid=replacenocase(guid, "fish", "Ich")>
+						<cfset guid=replacenocase(guid, "bird", "Orn")>
+						<cfheader statuscode="301" statustext="Moved permanently">
+						<cfheader name="Location" value="/guid/#guid#">
+					</cfif>
+					<cfinclude template="/SpecimenDetail.cfm">
+					<cfcatch>
+						<cfinclude template="/errors/404.cfm">
+					</cfcatch>
+				</cftry>
+	        </cfif>
+        </cfif>
 	<cfelseif listfindnocase(rdurl,'specimen',"/")>
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"specimen","/")>
