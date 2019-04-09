@@ -58,8 +58,8 @@
    dwc:institutionCode "MCZ";
    dwc:collectionCode "#collection_cde#";
    dwc:collectionCode "#collection_cde#";
-   dcterms:modified "last_edit_date"^^xsd:date ;
    dwc:catalogNumber "#cat_num#";
+   dcterms:modified "#last_edit_date#"^^xsd:date ;
    dwc:scientificName "#scientific_name#";
    dwc:scientificNameAuthorship "#author_text#";
    dwc:country "#country#";
@@ -69,4 +69,24 @@
 </cfoutput>
 </cfif><!--- Turtle --->
 <cfif deliver IS 'application/ld_json'>
+<cfoutput>
+{
+  "@context": { 
+     "dwc": "http://rs.tdwg.org/dwc/terms/",
+     "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@id": "https://mczbase.mcz.harvard.edu/guid/#guid#",
+  "@type":"dwc:Occurrence",
+  "dwc:institutionCode":"MCZ",
+  "dwc:collectionCode":"#collection_cde#",
+  "dcterms:modified":"#last_edit_date#",
+  "dwc:catalogNumber":"#cat_num#",
+  "dwc:scientificName":"#scientific_name#",
+  "dwc:scientificNameAuthorship":"#author_text#",
+  "dwc:country":"#country#",
+  "dwc:stateProvince":"#state_prov#",
+  "dwc:locality":"#spec_locality#",
+  "dwc:recordedBy":"#collectors#"
+}
+</cfoutput>
 </cfif><!--- JSON-LD --->
