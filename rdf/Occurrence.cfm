@@ -19,7 +19,7 @@
           collectors,
           last_edit_date
     from #session.flatTableName#
-    where guid = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#guid#"
+    where guid = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#guid#">
 </cfquery>
 
 <cfif deliver IS 'application/rdf+xml'>
