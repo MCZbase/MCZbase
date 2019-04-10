@@ -8,6 +8,15 @@
    <cfset accept = "application/rdf+xml">
 </cfcatch>
 </cftry>
+<cfset done = false>
+<cfloop list='#accept#' delimiters=',' index='a'>
+   <cfif NOT done>
+       <cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
+          <cfset deliver = a>
+          <cfset done = true>
+       </cfif>
+   </cfif>
+</cfloop>
 <cfif left(accept,11) IS 'text/turtle'>
    <cfset deliver = "text/turtle">
 <cfelseif left(accept,19) IS 'application/rdf+xml'>
