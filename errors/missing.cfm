@@ -41,7 +41,8 @@
 	        <cfif redesignPos>
 	            <cftry>
 				    <cfset guid = listgetat(rdurl,gPos+1,"/")>
-				    <cfinclude template="/redesign/SpecimenDetail.cfm">
+                    <!--- Warning: Redesign pages need to be brought into the expected filenaming convention --->
+				    <cfinclude template="/redesign/specimen-detail.cfm">
 	                <cfcatch>
 					    <cfinclude template="/errors/404.cfm">
 	                </cfcatch>
