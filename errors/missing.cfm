@@ -15,6 +15,7 @@
         <!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
         <!--- default to human readable web page --->
         <cfset deliver = "text/html">
+        <cfset done = false>
         <cfloop list='#accept#' delimiters=',' index='a'>
            <cfif NOT done>
               <cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
