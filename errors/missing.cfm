@@ -39,7 +39,7 @@
             </cftry>
         <cfelse> 
 		    <cfset redesignPos=listfindnocase(rdurl,"redesign","/")>
-	        <cfif redesignPos>
+	        <cfif redesignPos AND NOT Application.serverName IS 'mczbase.mcz.harvard.edu'>
 	            <cftry>
 				    <cfset guid = listgetat(rdurl,gPos+1,"/")>
                     <!--- Warning: Redesign pages need to be brought into the expected filenaming convention --->
