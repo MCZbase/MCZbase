@@ -25,7 +25,7 @@
                     })
                 })
             </script>
-    
+
  <cfinclude template="/includes/_frameHeader.cfm">
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
@@ -602,6 +602,8 @@
 	<cfset scientific_name = "#taxona# sp.">
 <cfelseif taxa_formula is "A ssp.">
 	<cfset scientific_name = "#taxona# ssp.">
+<cfelseif taxa_formula is "A spp.">
+	<cfset scientific_name = "#taxona# spp.">
 <cfelseif taxa_formula is "A sp. nov.">
 	<cfset scientific_name = "#taxona# sp. nov.">
 <cfelseif taxa_formula is "A ssp. nov.">
