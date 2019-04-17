@@ -164,12 +164,53 @@
 					for (var i = 0; i < inputs.length; ++i) {
 		        		inputs[i].checked = inputs[i].value == v;
 		        		//console.log('checkAll: ' + inputs[i].name + ' ' + v);
-		        		checkList(inputs[i].name,v);
+		        		checkList2(inputs[i].name,v);
 		  			}
 				}
 		}
 	}
 	function checkList(list, v) {
+		//console.log('i am checklist');
+		var theList=eval('l_' + list);
+		var a = theList.split(',');
+		for (i=0; i<a.length; ++i) {
+			//console.log('i: ' + i);
+			//alert(eid);
+			if (document.getElementById(a[i])) {
+				//alert(eid);
+				if (v=='1'){
+					document.getElementById(a[i]).checked=true;
+				} else {
+					document.getElementById(a[i]).checked=false;
+				}
+			}
+		}
+		var cStr=eval('document.controls.' + list);
+
+		if (v=='1'){
+			cStr.checked=true;
+		} else {
+			cStr.checked=false;
+		}
+
+		if (list=='ddm' || list=='dms' || list=='dd' || list=='utm'){
+			if (v=='1'){
+				checkList('basicCoords',v);
+				}
+			else {
+				if(document.controls.ddm.checked==false && document.controls.dms.checked==false && document.controls.dd.checked==false && document.controls.utm.checked==false )
+					{checkList('basicCoords',v);}
+				}
+
+			}
+		if (list=='basicCoords'){
+			if(document.controls.ddm.checked==true || document.controls.dms.checked==true || document.controls.dd.checked==true || document.controls.utm.checked==true )
+					{checkList('basicCoords',1);}
+			}
+
+	}
+
+	function checkList2(list, v) {
 		//console.log('i am checklist');
 		var theList=eval('l_' + list);
 		var a = theList.split(',');
