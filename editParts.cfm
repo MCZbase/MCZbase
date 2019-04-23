@@ -1,4 +1,4 @@
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/includes/alwaysInclude.cfm">
 <script type='text/javascript' language="javascript" src='/includes/internalAjax.js'></script>
 <cf_customizeIFrame>
 <cfif action is "nothing">
@@ -47,14 +47,14 @@
 		where collection_cde = '#getParts.collection_cde#'
 		order by preserve_method
 	</cfquery>
-    <div style="width: 98%;padding-top: 1em;">
+    <div class="ipad_scrolling" >
         <b>Edit Specimen Parts</b>
-	<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#">Part Locations</a>
-	<br><a href="/editContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#">New Container</a>
-	<br><a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#">Print Labels</a>
+	<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#" style="font-size: smaller;">Part Locations</a>
+	<br><a href="/editContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#" style="font-size: smaller;">New Container</a>
+	<br><a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" style="font-size: smaller;">Print Labels</a>
 	<cfset i = 1>
 	<cfset listedParts = "">
-	<form name="parts" method="post" action="editParts.cfm">
+	<form name="parts" method="post" action="editParts.cfm" class="edit_part">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		<input type="hidden" name="institution_acronym" value="#getParts.institution_acronym#">
@@ -130,11 +130,12 @@
 						<label for="lot_count#i#">##</label>
 						<input type="text" id="lot_count#i#" name="lot_count#i#" value="#getparts.lot_count#"  class="reqdClr" size="2">
 					</td>
-					<td style="width: 190px;">
+					<td style="width: 130px;">
 						<label for="coll_object_remarks#i#">Remark</label>
-						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#getparts.coll_object_remarks#" size="36">
+						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#getparts.coll_object_remarks#" size="26">
 					</td>
 					<td>
+					<div class="ipad">
 						<label for="label#i#">In&nbsp;Container</label>
 						<span style="font-size:small">
 							<cfif len(getparts.barcode) gt 0>
@@ -148,6 +149,7 @@
 						<input type="hidden" name="label#i#" value="#getparts.label#">
 						<input type="hidden" name="parentContainerId#i#" value="#getparts.parentContainerId#">
 						<input type="hidden" name="partContainerId#i#" value="#getparts.partContainerId#">
+								</div>
 					</td>
 					<td style="width: 50px;">
 						<label for="print_fg#i#">Container Label<br>Type</label>
@@ -170,7 +172,7 @@
 						<input type="button" value="Delete Part" class="delBtn"
 							onclick="parts.action.value='deletePart';parts.partID.value='#partID#';confirmDelete('parts','#part_name#');">
 						<br>
-						<span class="infoLink"
+						
 						<input type="button"
 							value="Copy"
 							class="insBtn"

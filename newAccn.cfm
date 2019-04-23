@@ -140,7 +140,7 @@
 					<div class="nextnum" id="nextNumDiv" style="width: auto;">
 						<p>Next Number</p>
 						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select max(to_number(accn_number)) + 1 as an from accn
+							select max(to_number(accn_number)) + 1 as an from accn where to_number(accn_number) < 10000000
 						</cfquery>
 						<span class="likeLink" onclick="document.getElementById('accn_number').value='#gnn.an#';">#gnn.an#</span>
 					</div><!--- end nextNumDiv --->
