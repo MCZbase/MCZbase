@@ -819,7 +819,11 @@ Some Totally Random String Data .....
 										<td colspan="3" nowrap="nowrap">
 											<input type="text" title="LAT_LONG_REF_SOURCE" name="lat_long_ref_source" id="lat_long_ref_source"  class="reqdClr"
 												size="60" value="#lat_long_ref_source#">
-											<span class="infoLink" onclick="getHelp('lat_long_ref_source');">Pick</span>
+										        <script>
+										            $(function() {
+      											         $("##lat_long_ref_source").autocomplete({source:"component//functions.cfc?method=getLatLonRefSourceFilter",minLength:2 });
+											    });
+										        </script>
 										</td>
 									</tr>
 									<tr>
