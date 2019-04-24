@@ -128,9 +128,9 @@
 				getMedia('accn','#transaction_id#','accnMediaDiv','6','1');
 			});
     // TODO: Buttons for accession, not permit
-    function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
+    function addMediaHere(targetid,title,permitLabel,transaction_id,relationship){
            console.log(targetid);
-           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+permit_id ;
+           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+transaction_id ;
            var amddialog = $('##'+targetid)
            .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
            .dialog({
@@ -143,17 +143,17 @@
                  minWidth: 400,
                  minHeight: 400,
                  draggable:true,
-                 buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
+                 buttons: { "Ok": function () { loadPermitMedia(#transaction_id#); loadPermitRelatedMedia(#transaction_id#); $(this).dialog("close"); } }
            });
 //           $('iframe##mediaIframe').load(function() {
 //               $('##mediaIframe').contents().find('##relationship__1').val(relationship);
 //               $('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
-//               $('##mediaIframe').contents().find('##related_id__1').val(permit_id);
+//               $('##mediaIframe').contents().find('##related_id__1').val(transaction_id);
 //               viewport.init("##mediaDiv");
 //            });
            amddialog.dialog('open');          
            console.log('dialog open called');
-           console.log(permit_id);
+           console.log(transaction_id);
            console.log(relationship);
      };
 		</script>
@@ -484,7 +484,7 @@
 			--->
 			<br><span>
                 <cfset relation="shows accn">
-                    <input type='button' onClick=""addMediaHere('newMediaDlg_#transaction_id#','title','#accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#');"" value='Create Media' class='lnkBtn'>&nbsp;" >
+                    <input type='button' onClick=""addMediaHere('newMediaDlg_#transaction_id#','title','#accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#');"" value='Create Media' class='lnkBtn' >&nbsp;
       				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 650,900); " >
                     </span>
 				</span>
@@ -660,25 +660,23 @@ $( document ).ready(loadShipments(#transaction_id#));
 		<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
 
 		<label for="shipped_to_addr">Shipped To Address</label>
-		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
-        <span>
-            <input type="button" value="Pick Address" class="picBtn"
-                onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm');  $('##tempShipToAddrButton').removeAttr('disabled'); return false;">
-            <input type="button" value="Temporary Address" class="picBtn"  disabled="true" id="tempShipToAddrButton"
-                onClick="addTemporaryAddress('shipped_to_addr_id','shipped_to_addr'); return false;">
-        </span>
+        	<span>
+            		<input type="button" value="Pick Address" class="picBtn"
+                	onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm');  $('##tempShipToAddrButton').removeAttr('disabled').removeClass('ui-state-disabled');; return false;">
+            		<input type="button" value="Temporary Address" class="picBtn ui-state-disabled"  disabled="true" id="tempShipToAddrButton"
+                		onClick="addTemporaryAddress('shipped_to_addr_id','shipped_to_addr'); return false;">
+        	</span>
 		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 
 		<label for="shipped_from_addr">Shipped From Address</label>
-        <span>
-            <input type="button" value="Pick Address" class="picBtn"
-                onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm');  $('##tempShipFromAddrButton').removeAttr('disabled'); return false;">
-            <input type="button" value="Temporary Address" class="picBtn"  disabled="true" id="tempShipFromAddrButton"
-                onClick="addTemporaryAddress('shipped_from_addr_id','shipped_from_addr'); return false;">
-        </span>
+        	<span>
+           		<input type="button" value="Pick Address" class="picBtn"
+                		onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm');  $('##tempShipFromAddrButton').removeAttr('disabled').removeClass('ui-state-disabled');; return false;">
+            		<input type="button" value="Temporary Address" class="picBtn ui-state-disabled"  disabled="true" id="tempShipFromAddrButton"
+                		onClick="addTemporaryAddress('shipped_from_addr_id','shipped_from_addr'); return false;">
+        	</span>
 		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">

@@ -329,8 +329,8 @@ function addTemporaryAddress(targetAddressIdControl,targetAddressControl) {
         },
         dataType: "html"
        }
-   )};
-}
+   )
+};
 
 function loadShipment(shipmentId,form) {
     $("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
