@@ -316,6 +316,22 @@ function deleteShipment(shipmentId,transactionId) {
         }
       )};
 
+function addTemporaryAddress(targetAddressIdControl,targetAddressControl) { 
+   var address_id = $("#"+targetAddressIdControl).value;
+   jQuery.ajax({
+          url: "/component/functions.cfc",
+          data : {
+            method : "getShipmentsByTransHtml",
+            transaction_id : transaction_id
+         },
+        success: function (result) {
+           $("#tempAddressDialog").html(result);
+        },
+        dataType: "html"
+       }
+   )};
+}
+
 function loadShipment(shipmentId,form) {
     $("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
     $("#shipmentFormPermits").html(""); 

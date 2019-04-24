@@ -662,13 +662,23 @@ $( document ).ready(loadShipments(#transaction_id#));
 		<label for="shipped_to_addr">Shipped To Address</label>
 		<input type="button" value="Pick Address" class="picBtn"
 			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+        <span>
+            <input type="button" value="Pick Address" class="picBtn"
+                onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm');  $('##tempShipToAddrButton').removeAttr('disabled'); return false;">
+            <input type="button" value="Temporary Address" class="picBtn"  disabled="true" id="tempShipToAddrButton"
+                onClick="addTemporaryAddress('shipped_to_addr_id','shipped_to_addr'); return false;">
+        </span>
 		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 
 		<label for="shipped_from_addr">Shipped From Address</label>
-		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+        <span>
+            <input type="button" value="Pick Address" class="picBtn"
+                onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm');  $('##tempShipFromAddrButton').removeAttr('disabled'); return false;">
+            <input type="button" value="Temporary Address" class="picBtn"  disabled="true" id="tempShipFromAddrButton"
+                onClick="addTemporaryAddress('shipped_from_addr_id','shipped_from_addr'); return false;">
+        </span>
 		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
@@ -682,6 +692,7 @@ $( document ).ready(loadShipments(#transaction_id#));
   </form>
   <div id="shipmentFormPermits"></div>
   <div id="shipmentFormStatus"></div>
+  <div id="tempAddressDialog"></div>
 </div>
 
 <div class="shippingBlock"> 

@@ -1471,6 +1471,157 @@
 		<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="addAddressHtml" returntype="string" access="remote" returnformat="plain">
+   <cfargument name="agent_id" type="string" required="yes">
+   <cfargument name="address_type" type="string" required="no">
+   <cfif not isdefined("address_type") or len(#address_type#) gt 0>
+      <cfset address_type = "temporary">
+   </cfif>
+   <cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select addr_type from ctaddr_type where addr_type = <cfqueryparam value="#address_type#" CFSQLTYPE="CF_SQL_VARCHAR">
+   </cfquery>
+   <cfset result="">
+   <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select agent_name 
+           from agent a left_join agent_name on a.preferred_agent_name_id = agent_name.agent_name_id
+           where
+               a.agent_id = <cfqueryparam value="#agent_id#" CFSQLType="CF_SQL_DECIMAL">
+   </cfquery>
+   <cfif query.recordcount gt 0>
+       <cfset result=result & "<ul>">
+       <cfloop query="query">
+          <cfset puri=getMediaPreview(preview_uri,media_type) >
+          <cfset result = result & "
+<form name='newAddress' method='post' action='component.cfc'>
+    <input type='hidden' name='Action' value='addNewAddress'>
+    <input type='hidden' name='agent_id' value='#agent_id#'>
+    <input type='hidden' name='addr_type' value='#address_type#'>
+    <input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
+    <table>
+     <tr>
+      <td colspan='2'>
+       <strong>Address Type:</strong> #ctAddrType.addr_type#
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='institution'>Institution</label>
+       <input type='text' name='institution' id='institution'size='50' >
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='department'>Department</label>
+       <input type='text' name='department' id='department' size='50' >
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='street_addr1'>Street Address 1</label>
+       <input type='text' name='street_addr1' id='street_addr1' size='50' class='reqdClr'>
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='street_addr2'>Street Address 2</label>
+       <input type='text' name='street_addr2' id='street_addr2' size='50'>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       <label for='city'>City</label>
+       <input type='text' name='city' id='city' class='reqdClr'>
+      </td>
+      <td>
+       <label for='state'>State</label>
+       <input type='text' name='state' id='state' class='reqdClr'>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       <label for='zip'>Zip</label>
+       <input type='text' name='zip' id='zip' class='reqdClr'>
+      </td>
+      <td>
+       <label for='country_cde'>Country</label>
+       <input type='text' name='country_cde' id='country_cde' class='reqdClr'>
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='mail_stop'>Mail Stop</label>
+       <input type='text' name='mail_stop' id='mail_stop'>
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='addr_remarks'>Address Remark</label>
+       <input type='text' name='addr_remarks' id='addr_remarks' size='50'>
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <input type='submit' class='insBtn' value='Create Address'>
+      </td>
+     </tr>
+    </table>
+</form>
+" >
+       </cfloop>
+       <cfset result= result & "</ul>">
+   <cfelse>
+       <cfset result=result & "<ul><li>No Agent Found for temporary address.</li></ul>">
+   </cfif>
+   <cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="addNewAddress" returntype="string" access="remote" returnformat="plain">
+
+        <cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            select agent_name from preferred_agent_name where agent_id=#agent_id#
+        </cfquery>
+        <cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            INSERT INTO addr (
+                                ADDR_ID
+                                ,STREET_ADDR1
+                                ,STREET_ADDR2
+                                ,institution
+                                ,department
+                                ,CITY
+                                ,state
+                                ,ZIP
+                                ,COUNTRY_CDE
+                                ,MAIL_STOP
+                                ,agent_id
+                                ,addr_type
+                                ,job_title
+                                ,valid_addr_fg
+                                ,addr_remarks
+                        ) VALUES (
+                                 sq_addr_id.nextval
+                                ,'#STREET_ADDR1#'
+                                ,'#STREET_ADDR2#'
+                                ,'#institution#'
+                                ,'#department#'
+                                ,'#CITY#'
+                                ,'#state#'
+                                ,'#ZIP#'
+                                ,'#COUNTRY_CDE#'
+                                ,'#MAIL_STOP#'
+                                ,#agent_id#
+                                ,'#addr_type#'
+                                ,'#job_title#'
+                                ,#valid_addr_fg#
+                                ,'#addr_remarks#'
+                        )
+        </cfquery>
+
+			<cfset q=queryNew("STATUS,ADDRESS_ID,MESSAGE")>
+			<cfset t = queryaddrow(q,1)>
+			<cfset t = QuerySetCell(q, "STATUS", "success", 1)>
+
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getMediaForTransHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="transaction_id" type="string" required="yes">
    <cfargument name="transaction_type" type="string" required="yes">
