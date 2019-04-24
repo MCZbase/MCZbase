@@ -3525,6 +3525,34 @@
         <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getLatLonRefSourceFilter" access="remote" returnformat="json">
+        <cfargument name="term" type="string" required="no">
+	<cfif isdefined("term")>
+             <cfset term = "%#term#%">
+        <cfelse>
+             <cfset term = "%">
+        </cfif>
+        <cfset results = arrayNew(1)>
+        <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                select
+                        distinct(lat_long_ref_source) lat_long_ref_source
+                FROM
+                        lat_long
+                WHERE
+                        lat_long_ref_source like <cfqueryparam value="#term#" cfsqltype="CF_SQL_VARCHAR">
+                ORDER BY
+                        lat_long_ref_source
+        </cfquery>
+        <cfloop query="query">
+            <cfset result = structNew()>
+            <cfset result['id'] = query.lat_long_ref_source >
+            <cfset result['label'] = query.lat_long_ref_source >
+            <cfset result['value'] = query.lat_long_ref_source >
+            <cfset ArrayAppend(results,result)>
+        </cfloop>
+        <cfreturn results >
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="saveSearch" access="remote">
 	<cfargument name="returnURL" type="string" required="yes">
 	<cfargument name="srchName" type="string" required="yes">

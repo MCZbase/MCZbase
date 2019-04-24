@@ -1,3 +1,4 @@
+:<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <cfoutput>
         <script>
@@ -26,10 +27,10 @@
 			populateGeology(this.id);
 		});
 		$.each($("input[id^='determined_date']"), function() {
-			$("##" + this.id).datepicker();
+			$("##" + this.id).datepicker({dateFormat: "yy-mm-dd"});
 	    });
-	    $.each($("input[id^='geo_att_determined_date_']"), function() {
-			$("##" + this.id).datepicker();
+	    $.each($("input[id^='geo_att_determined_date']"), function() {
+			$("##" + this.id).datepicker({dateFormat: "yy-mm-dd",showOn:"both",buttonImage:"images/cal_icon.png",buttonImageOnly: true});
 	    });
 	    if (window.addEventListener) {
 		window.addEventListener("message", getGeolocate, false);
@@ -756,6 +757,11 @@
 					</label>
 					<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE#i#" size="120" class="reqdClr"
 						value="#encodeForHTML(getLL.LAT_LONG_REF_SOURCE)#" />
+					<script>
+						$(function() {
+      							$("##LAT_LONG_REF_SOURCE#i#").autocomplete({source:"component//functions.cfc?method=getLatLonRefSourceFilter",minLength:2 });
+						});
+					</script>
 				</td>
 			</tr>
 			<tr>
@@ -1081,6 +1087,11 @@
 					</label>
 					<input type="text" name="LAT_LONG_REF_SOURCE"
 						id="LAT_LONG_REF_SOURCE" size="120" class="reqdClr" />
+					<script>
+						$(function() {
+      							$("##LAT_LONG_REF_SOURCE").autocomplete({source:"component//functions.cfc?method=getLatLonRefSourceFilter",minLength:2 });
+						});
+					</script>
 				</td>
 			</tr>
 			<tr>

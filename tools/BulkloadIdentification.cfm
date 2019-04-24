@@ -195,6 +195,10 @@ sho err
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 				<cfset tf = "A ssp.">
 				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+			<cfelseif right(scientific_name,5) is " spp.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+				<cfset tf = "A spp.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
 			<cfelseif right(scientific_name,5) is " var.">
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 				<cfset tf = "A var.">

@@ -394,6 +394,56 @@ sho err
 						<cfset rec_stat=listappend(rec_stat,'#lv# is not a BOO DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*',";")>
 					</cfcatch>
 					</cftry>
+				<cfelseif table_name is "accn">
+					<cfset coll = listgetat(lv,1," ")>
+					<cfset accnnum = listgetat(lv,2," ")>
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select a.transaction_id
+						from accn a, trans t, collection c
+						where a.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and a.accn_number = #accnnum#
+						and c.collection = '#coll#'
+					</cfquery>
+					<cfif c.recordcount is 1 and len(c.transaction_id) gt 0>
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into cf_temp_media_relations (
+ 								key,
+								MEDIA_RELATIONSHIP,
+								CREATED_BY_AGENT_ID,
+								RELATED_PRIMARY_KEY
+							) values (
+								#key#,
+								'#ln#',
+								#session.myAgentId#,
+								#c.transaction_id#
+							)
+						</cfquery>
+					<cfelse>
+						<cfset rec_stat=listappend(rec_stat,'accn number #lv# matched #c.recordcount# records.',";")>
+					</cfif>
+				<cfelseif table_name is "permit">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select permit_id from permit where permit_num = '#lv#'
+					</cfquery>
+					<cfif c.recordcount is 1 and len(c.permit_id) gt 0>
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into cf_temp_media_relations (
+ 								key,
+								MEDIA_RELATIONSHIP,
+								CREATED_BY_AGENT_ID,
+								RELATED_PRIMARY_KEY
+							) values (
+								#key#,
+								'#ln#',
+								#session.myAgentId#,
+								#c.permit_id#
+							)
+						</cfquery>
+					<cfelse>
+						<cfset rec_stat=listappend(rec_stat,'permit number #lv# matched #c.recordcount# records.',";")>
+					</cfif>
+
 				<cfelse>
 					<cfset rec_stat=listappend(rec_stat,'Media relationship #ln# is not handled',";")>
 				</cfif>
