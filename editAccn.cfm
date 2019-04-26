@@ -664,7 +664,7 @@ $( document ).ready(loadShipments(#transaction_id#));
             		<input type="button" value="Pick Address" class="picBtn"
                 	onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm');  $('##tempShipToAddrButton').removeAttr('disabled').removeClass('ui-state-disabled');; return false;">
             		<input type="button" value="Temporary Address" class="picBtn ui-state-disabled"  disabled="true" id="tempShipToAddrButton"
-                		onClick="addTemporaryAddress('shipped_to_addr_id','shipped_to_addr'); return false;">
+                		onClick="addTemporaryAddress('shipped_to_addr_id','shipped_to_addr',#transaction_id#,$('##shipped_to_addr_id').value()); return false;">
         	</span>
 		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
@@ -675,7 +675,7 @@ $( document ).ready(loadShipments(#transaction_id#));
            		<input type="button" value="Pick Address" class="picBtn"
                 		onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm');  $('##tempShipFromAddrButton').removeAttr('disabled').removeClass('ui-state-disabled');; return false;">
             		<input type="button" value="Temporary Address" class="picBtn ui-state-disabled"  disabled="true" id="tempShipFromAddrButton"
-                		onClick="addTemporaryAddress('shipped_from_addr_id','shipped_from_addr'); return false;">
+                		onClick="addTemporaryAddress('shipped_from_addr_id','shipped_from_addr',#transaction_id#,$('##shipped_to_addr_id').value()); return false;">
         	</span>
 		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>

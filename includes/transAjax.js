@@ -316,12 +316,13 @@ function deleteShipment(shipmentId,transactionId) {
         }
       )};
 
-function addTemporaryAddress(targetAddressIdControl,targetAddressControl) { 
+function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transaction_id,address_id) { 
    var address_id = $("#"+targetAddressIdControl).value;
    jQuery.ajax({
           url: "/component/functions.cfc",
           data : {
-            method : "getShipmentsByTransHtml",
+            method : "addAddressHtml",
+            create_from_address_id : address_id,
             transaction_id : transaction_id
          },
         success: function (result) {

@@ -1472,11 +1472,15 @@
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="addAddressHtml" returntype="string" access="remote" returnformat="plain">
-   <cfargument name="agent_id" type="string" required="yes">
+   <cfargument name="create_from_address_id" type="string" required="yes">
    <cfargument name="address_type" type="string" required="no">
    <cfif not isdefined("address_type") or len(#address_type#) gt 0>
       <cfset address_type = "temporary">
    </cfif>
+   <cfquery name="qAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select agent_id from addr where addr_id = <cfqueryparam value="#create_from_address_id#" CFSQLTYPE="CF_SQL_VARCHAR">
+   </cfquery>
+   <cfset agent_id = qAgent.agent_id >
    <cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select addr_type from ctaddr_type where addr_type = <cfqueryparam value="#address_type#" CFSQLTYPE="CF_SQL_VARCHAR">
    </cfquery>
