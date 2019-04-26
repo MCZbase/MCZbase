@@ -316,8 +316,8 @@ function deleteShipment(shipmentId,transactionId) {
         }
       )};
 
-function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transaction_id,address_id) { 
-   var address_id = $("#"+targetAddressIdControl).value;
+function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transaction_id) { 
+   var address_id = $("#"+targetAddressIdControl).val();
    jQuery.ajax({
           url: "/component/functions.cfc",
           data : {
@@ -327,6 +327,8 @@ function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transac
          },
         success: function (result) {
            $("#tempAddressDialog").html(result);
+           $("#tempAddressDialog").dialog( {autoOpen: false, modal: true, stack: true, title 'Add Temporary Address' close: function() { $(this).dialog(''destroy');}   });
+           
         },
         dataType: "html"
        }

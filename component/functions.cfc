@@ -1487,14 +1487,14 @@
    <cfset result="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
            select agent_name 
-           from agent a left_join agent_name on a.preferred_agent_name_id = agent_name.agent_name_id
+           from agent a left join agent_name on a.preferred_agent_name_id = agent_name.agent_name_id
            where
                a.agent_id = <cfqueryparam value="#agent_id#" CFSQLType="CF_SQL_DECIMAL">
+               and rownum < 2
    </cfquery>
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
-          <cfset puri=getMediaPreview(preview_uri,media_type) >
           <cfset result = result & "
 <form name='newAddress' method='post' action='component.cfc'>
     <input type='hidden' name='Action' value='addNewAddress'>
@@ -1503,8 +1503,11 @@
     <input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
     <table>
      <tr>
-      <td colspan='2'>
+      <td>
        <strong>Address Type:</strong> #ctAddrType.addr_type#
+      </td>
+      <td>
+       <strong>Address For:</strong> #query.agent_name#
       </td>
      </tr>
      <tr>
