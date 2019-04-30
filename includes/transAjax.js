@@ -331,7 +331,7 @@ function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transac
         success: function (result) {
            $("#tempAddressDialog").html(result);
            $("#tempAddressDialog").dialog(
-              { autoOpen: false, modal: true, stack: true, title 'Add Temporary Address',
+              { autoOpen: false, modal: true, stack: true, title: 'Add Temporary Address',
                   close: function() { 
                      $(address_id).val($('#new_address_id').val());
                      $(address).val($('#new_address').val());
