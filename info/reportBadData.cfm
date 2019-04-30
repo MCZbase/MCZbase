@@ -40,12 +40,13 @@
 			cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 			collecting_event.locality_id = locality.locality_id AND
 			locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-			cataloged_item.collection_object_id IN (#collection_object_id#)
+			cataloged_item.collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">)
 	</cfquery>
 </cfif>
 <cfoutput>
 	<form name="bug" method="post" action="reportBadData.cfm">
 		<input type="hidden" name="action" value="save">
+		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		<tr>
 			<td valign="top">
 				<strong>Name:</strong>&nbsp;<input type="text" name="reported_name" size="20">
@@ -86,10 +87,12 @@
 						<td nowrap align="center"><strong>Higher Geog</strong></td>
 						<td nowrap align="center"><strong>Locality</strong></td>
 					</tr>
+                                <cfset counter=0>
 				<cfloop query="data">
+                                     <cfset counter=counter+1>
 					<tr>
 						<td>
-							<input type="checkbox" name="newCollObjId" value="#id#" checked>
+							<input type="checkbox" name="newCollObjId#counter#" value="#id#" checked>
 						</td>
 						<td>
 							<a href="#Application.ServerRootUrl#/SpecimenDetail.cfm?collection_object_id=#id#">#collection# #cat_num#</a>
@@ -99,6 +102,7 @@
 						<td>#spec_locality#</td>
 					</tr>
 				</cfloop>
+				<input type="hidden" name="counter" value="#counter#">
 				</table>
 			</td>
 		</tr>
@@ -108,27 +112,50 @@
 </cfif>
 <!------------------------------------------------------------>
 <cfif action is "save">
-
+    <cfif isdefined("counter") and counter gt 0>
+         <cfset collection_object_id = "">
+         <cfset separator = "">
+         <cfloop from="1" to="#counter#" index="i">
+             <cfif isdefined("newCollObjId#i#")>
+                <cfset col_obj_id = Form["newCollObjId" & i] >
+                <cfset collection_object_id = "#collection_object_id##separator##col_obj_id#" >
+                <cfset separator = ",">
+             </cfif>
+         </cfloop>
+         <cfif separator EQ "">
+            <cfoutput>
+            <h2>No Records selected to annotate.</h2>
+            </cfoutput>
+            <cfabort>
+         </cfif>
+    <cfelse>
+       <cfoutput>
+       <h2>No Records selected to annotate.</h2>
+       </cfoutput>
+       <cfabort>
+    </cfif>
+    
     <cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select 
             guid
         FROM
-            flat
+            #session.flatTableName#
         WHERE
-            collection_object_id IN (#collection_object_id#)
+            collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">)
     </cfquery>
     <cfset guids = "">
     <cfset recordCount = 0>
     <cfloop query="data">
         <cfset recordCount = recordCount + 1>
-        <cfset guids = guids + " " + data.guid>
+        <cfset guids = guids & " " & data.guid>
     </cfloop>
 
 <cfoutput>
+[#guids#]
 <cfset user_id=0>
 <cfif isdefined("session.username") and len(session.username) gt 0>
 	<cfquery name="isUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT user_id FROM cf_users WHERE username = '#session.username#'
+		SELECT user_id FROM cf_users WHERE username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR" >
 	</cfquery>
 	<cfset user_id = isUser.user_id>
 </cfif>
@@ -150,6 +177,7 @@
 			<cfabort>
 		</cfif>
 	</cfloop>
+	<cfset specIRI = '#Application.ServerRootUrl#/SpecimenResults.cfm?collection_object_id=#collection_object_id#'>
 	<cfquery name="newBug" datasource="cf_dbuser">
 		INSERT INTO cf_bugs (
 			bug_id,
@@ -161,13 +189,13 @@
 			user_email,
 			submission_date)
 		VALUES (
-			#bugID.id#,
-			#user_id#,
-			'#reported_name#',
-			'<a href="#Application.ServerRootUrl#/SpecimenResults.cfm?collection_object_id=#newCollObjId#">Specimens</a>',
-			'#suggested_solution#',
-			'#user_remarks#',
-			'#user_email#',
+			<cfqueryparam value="#bugID.id#" cfsqltype="CF_SQL_NUMBER">,
+			<cfqueryparam value="#user_id#" cfsqltype="CF_SQL_NUMBER">,
+			<cfqueryparam value="#reported_name#" cfsqltype="CF_SQL_VARCHAR">,
+			<cfqueryparam value="#specIRI#" cfsqltype="CF_SQL_VARCHAR">,
+			<cfqueryparam value="#suggested_solution#" cfsqltype="CF_SQL_VARCHAR">,
+			<cfqueryparam value="#user_remarks#" cfsqltype="CF_SQL_VARCHAR">,
+			<cfqueryparam value="#user_email#" cfsqltype="CF_SQL_VARCHAR">,
 			sysdate)				
 	</cfquery>
 	
@@ -184,7 +212,7 @@
 			collection_contacts.collection_id = cataloged_item.collection_id AND
 			address_type='e-mail' AND
 			contact_role='data quality' AND
-			cataloged_item.collection_object_id IN (#newCollObjId#)
+			cataloged_item.collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">)
 		GROUP BY address
 	</cfquery>
 	<cfset thisAddress = #Application.DataProblemReportEmail#><!--- always send data problems to SOMEONE, even if we don't 
@@ -196,7 +224,8 @@
 	<cfmail to="#thisAddress#" subject="Arctos Bad Data Report" from="BadData@#Application.fromEmail#" type="html">
 		<p>Reported Name: #reported_name# (Username: #session.username#) submitted a data report.</p>
 		
-		<p><a href="#Application.ServerRootUrl#/SpecimenResults.cfm?collection_object_id=#newCollObjId#">Specimens</a></p>
+		<p><a href="#specIRI#">Specimens</a></p>
+		<p>#guids#</p>
 		
 		<P>Solution: #suggested_solution#</P>
 		
@@ -206,6 +235,9 @@
 	</cfmail>
 
      <!--- create a bugzilla bug from the bad data report --->
+    <cfif NOT isdefined('complaint')>
+       <cfset complaint="#suggested_solution# #user_remarks#">
+    </cfif>
     <cfset summary=left(#complaint#,60)><!--- obtain the begining of the complaint as a bug summary --->
         <cfset bugzilla_mail="#Application.bugzillaToEmail#"><!--- address to access email_in.pl script --->
         <!--cfset bugzilla_user="#Application.bugzillaToEmail#"--><!--- bugs submitted by email can only come from a registered bugzilla user --->
@@ -234,10 +266,10 @@ SpecimenRecords: #guids#
 	<div align="center">Your report has been successfully submitted.</div>
 	<P align="center">Thank you for helping to improve the quality of our data.</p>
 	<p align="center">
-		Click <a href="/SpecimenResults.cfm?collection_object_id=#newCollObjId#">here</a> to return to your search results.
+		<a href="/SpecimenResults.cfm?collection_object_id=#collection_object_id#">Return</a>to these records.
 	</p>
 	<p align="center">
-		Click <a href="/SpecimenSearch.cfm">here</a> to return to a new Specimen search.
+		<a href="/SpecimenSearch.cfm">New Specimen search</a>.
 	</p>
 </cfoutput>
 </cfif>
