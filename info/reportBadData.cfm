@@ -177,7 +177,7 @@
 			<cfabort>
 		</cfif>
 	</cfloop>
-	<cfset specIRI = '<a href="#Application.ServerRootUrl#/SpecimenResults.cfm?collection_object_id=#collection_object_id#">Specimens</a>'>
+	<cfset specIRI = '#Application.ServerRootUrl#/SpecimenResults.cfm?collection_object_id=#collection_object_id#'>
 	<cfquery name="newBug" datasource="cf_dbuser">
 		INSERT INTO cf_bugs (
 			bug_id,
@@ -235,6 +235,9 @@
 	</cfmail>
 
      <!--- create a bugzilla bug from the bad data report --->
+    <cfif NOT isdefined('complaint')>
+       <cfset complaint="#suggested_solution# #user_remarks#">
+    </cfif>
     <cfset summary=left(#complaint#,60)><!--- obtain the begining of the complaint as a bug summary --->
         <cfset bugzilla_mail="#Application.bugzillaToEmail#"><!--- address to access email_in.pl script --->
         <!--cfset bugzilla_user="#Application.bugzillaToEmail#"--><!--- bugs submitted by email can only come from a registered bugzilla user --->
@@ -263,7 +266,7 @@ SpecimenRecords: #guids#
 	<div align="center">Your report has been successfully submitted.</div>
 	<P align="center">Thank you for helping to improve the quality of our data.</p>
 	<p align="center">
-		<a href="/SpecimenResults.cfm?collection_object_id=#newCollObjId#">Return</a>to your search results.
+		<a href="/SpecimenResults.cfm?collection_object_id=#collection_object_id#">Return</a>to these records.
 	</p>
 	<p align="center">
 		<a href="/SpecimenSearch.cfm">New Specimen search</a>.
