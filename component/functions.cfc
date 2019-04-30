@@ -1495,8 +1495,10 @@
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
+<!-- TODO: Make ajax response to save and hold resulting addressid for pickup.-->
           <cfset result = result & "
-<form name='newAddress' method='post' action='component.cfc'>
+<div id='newAddressStatus'></div>
+<form name='newAddress' id='newAddressForm'>
     <input type='hidden' name='Action' value='addNewAddress'>
     <input type='hidden' name='agent_id' value='#agent_id#'>
     <input type='hidden' name='addr_type' value='#address_type#'>
@@ -1568,10 +1570,36 @@
      </tr>
      <tr>
       <td colspan='2'>
-       <input type='submit' class='insBtn' value='Create Address'>
+       <input type='submit' class='insBtn' value='Create Address' onclick=""
+          function(e) {
+             $.ajax({
+                url: '/component/functions.cfc',
+                data : $('##newAddressForm').serialize(),
+                success: function (result) {
+                     if (result.DATA.STATUS=='success') { 
+                        $('##newAddressStatus').html('New Address Added');
+                        $('##new_address_id').val(result.DATA.ADDRESS_ID);
+                        $(new_address).val(result.DATA.FORMATTED_ADDRESS);
+                     } else { 
+                        $('##newAddressStatus').html(result.DATA.MESSAGE);
+                     }
+                  }
+              });
+        },
+        dataType: "json"
+       }
+                 
+
+
+             });
+          e.preventDefault();
+          }
+       "">
       </td>
      </tr>
     </table>
+    <input type='hidden' name='new_address_id' id='new_address_id' value=''>
+    <input type='hidden' name='new_address' id='new_address' value=''>
 </form>
 " >
        </cfloop>
@@ -1582,8 +1610,8 @@
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="addNewAddress" returntype="string" access="remote" returnformat="plain">
-
+<cffunction name="addNewAddress" returntype="string" access="remote" returnformat="json">
+    <cftry>
         <cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select agent_name from preferred_agent_name where agent_id=#agent_id#
         </cfquery>
@@ -1622,11 +1650,23 @@
                                 ,'#addr_remarks#'
                         )
         </cfquery>
-
-			<cfset q=queryNew("STATUS,ADDRESS_ID,MESSAGE")>
-			<cfset t = queryaddrow(q,1)>
-			<cfset t = QuerySetCell(q, "STATUS", "success", 1)>
-
+        <!--  TODO: Get inserted addr_id and formatted address, return -->
+		<cfset q=queryNew("STATUS,ADDRESS_ID,ADDRESS,MESSAGE")>
+		<cfset t = queryaddrow(q,1)>
+		<cfset t = QuerySetCell(q, "STATUS", "success", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS_ID", "", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS", "", 1)>
+		<cfset t = QuerySetCell(q, "MESSAGE", "", 1)>
+     <cfcatch>
+		<cfset q=queryNew("STATUS,ADDRESS_ID,MESSAGE")>
+		<cfset t = queryaddrow(q,1)>
+		<cfset t = QuerySetCell(q, "STATUS", "error", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS_ID", "", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS", "", 1)>
+		<cfset t = QuerySetCell(q, "MESSAGE", "Error: #cfcatch.message# #cfcatch.detail#", 1)>
+     </cfcatch>
+     </cftry>
+     <cfreturn q>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getMediaForTransHtml" returntype="string" access="remote" returnformat="plain">

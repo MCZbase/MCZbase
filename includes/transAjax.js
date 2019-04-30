@@ -318,8 +318,11 @@ function deleteShipment(shipmentId,transactionId) {
 
 function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transaction_id) { 
    var address_id = $("#"+targetAddressIdControl).val();
+   var address = $("#"+targetAddressControl).val();
    jQuery.ajax({
           url: "/component/functions.cfc",
+          type : "post",
+          dataType : "json",
           data : {
             method : "addAddressHtml",
             create_from_address_id : address_id,
@@ -327,7 +330,14 @@ function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transac
          },
         success: function (result) {
            $("#tempAddressDialog").html(result);
-           $("#tempAddressDialog").dialog( {autoOpen: false, modal: true, stack: true, title 'Add Temporary Address' close: function() { $(this).dialog(''destroy');}   });
+           $("#tempAddressDialog").dialog(
+              { autoOpen: false, modal: true, stack: true, title 'Add Temporary Address',
+                  close: function() { 
+                     $(address_id).val($('#new_address_id').val());
+                     $(address).val($('#new_address').val());
+                     $(this).dialog('destroy'); 
+                  }  
+              });
            
         },
         dataType: "html"
