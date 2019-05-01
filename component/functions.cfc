@@ -1571,7 +1571,7 @@
      <tr>
       <td colspan='2'>
        <input type='submit' class='insBtn' value='Create Address' onclick=""
-          function(e) {
+          function caddClickHandler (e) {
              $.ajax({
                 url: '/component/functions.cfc',
                 data : $('##newAddressForm').serialize(),
@@ -1583,16 +1583,10 @@
                      } else { 
                         $('##newAddressStatus').html(result.DATA.MESSAGE);
                      }
-                  }
+                },
+        	dataType: 'json'
               });
-        },
-        dataType: "json"
-       }
-                 
-
-
-             });
-          e.preventDefault();
+              e.preventDefault();
           }
        "">
       </td>

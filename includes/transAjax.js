@@ -332,13 +332,14 @@ function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transac
            $("#tempAddressDialog").html(result);
            $("#tempAddressDialog").dialog(
               { autoOpen: false, modal: true, stack: true, title: 'Add Temporary Address',
+                  width: 593, 
                   close: function() { 
                      $(address_id).val($('#new_address_id').val());
                      $(address).val($('#new_address').val());
                      $(this).dialog('destroy'); 
                   }  
               });
-           
+           $("#tempAddressDialog").dialog('open');
         },
         dataType: "html"
        }
