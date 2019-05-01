@@ -1611,11 +1611,16 @@
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="addNewAddress" returntype="string" access="remote" returnformat="json">
+	<cftransaction>
     <cftry>
         <cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select agent_name from preferred_agent_name where agent_id=#agent_id#
         </cfquery>
-        <cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            select sq_addr_id.nextval as id from dual
+        </cfquery>
+        <cfset pk = addrNextId.id>
+        <cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
             INSERT INTO addr (
                                 ADDR_ID
                                 ,STREET_ADDR1
@@ -1633,7 +1638,7 @@
                                 ,valid_addr_fg
                                 ,addr_remarks
                         ) VALUES (
-                                 sq_addr_id.nextval
+                                 #pk#
                                 ,'#STREET_ADDR1#'
                                 ,'#STREET_ADDR2#'
                                 ,'#institution#'
@@ -1650,14 +1655,19 @@
                                 ,'#addr_remarks#'
                         )
         </cfquery>
+        <cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
+            select formatted_addr from addr 
+            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_NUMBER">
+        </cfquery>
         <!--  TODO: Get inserted addr_id and formatted address, return -->
 		<cfset q=queryNew("STATUS,ADDRESS_ID,ADDRESS,MESSAGE")>
 		<cfset t = queryaddrow(q,1)>
 		<cfset t = QuerySetCell(q, "STATUS", "success", 1)>
-		<cfset t = QuerySetCell(q, "ADDRESS_ID", "", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS_ID", "pk", 1)>
 		<cfset t = QuerySetCell(q, "ADDRESS", "", 1)>
 		<cfset t = QuerySetCell(q, "MESSAGE", "", 1)>
      <cfcatch>
+        <cftransaction action="rollback"/>
 		<cfset q=queryNew("STATUS,ADDRESS_ID,MESSAGE")>
 		<cfset t = queryaddrow(q,1)>
 		<cfset t = QuerySetCell(q, "STATUS", "error", 1)>
@@ -1666,6 +1676,7 @@
 		<cfset t = QuerySetCell(q, "MESSAGE", "Error: #cfcatch.message# #cfcatch.detail#", 1)>
      </cfcatch>
      </cftry>
+	</cftransaction>
      <cfreturn q>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
