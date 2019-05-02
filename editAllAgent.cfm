@@ -10,7 +10,7 @@
 </cfquery>
 <cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select addr_type from ctaddr_type 
-    where addr_type <> 'temporary'
+	where addr_type <> 'temporary'
 </cfquery>
 <cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select address_type from ctelectronic_addr_type
@@ -254,7 +254,7 @@ function opendialogrank(page,id,title,agentId) {
 		select * from addr
 		where
 		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_NUMBER">
-        and addr.address_type <> 'temporary'
+			and addr.addr_type <> 'temporary'
 		order by valid_addr_fg DESC
 	</cfquery>
 	<cfquery name="elecagentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
