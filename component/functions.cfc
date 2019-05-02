@@ -1484,6 +1484,9 @@
    <cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select addr_type from ctaddr_type where addr_type = <cfqueryparam value="#address_type#" CFSQLTYPE="CF_SQL_VARCHAR">
    </cfquery>
+   <cfif ctAddrType.addr_type IS ''>
+       <cfset result=result & "<ul><li>Provided address type is unknown.</li></ul>">
+   <cfelse>
    <cfset result="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
            select agent_name 
@@ -1604,6 +1607,7 @@
    <cfelse>
        <cfset result=result & "<ul><li>No Agent Found for temporary address.</li></ul>">
    </cfif>
+   </cfif>  <!--- known address type provided --->
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->

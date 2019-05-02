@@ -316,6 +316,15 @@ function deleteShipment(shipmentId,transactionId) {
         }
       )};
 
+function addrPickWithTemp(addrIdFld,addrFld,formName){
+	var url="/picks/AddrPick.cfm";
+	var addrIdFld;
+	var addrFld;
+	var formName;
+	var popurl=url+"?includeTemporary=true&addrIdFld="+addrIdFld+"&addrFld="+addrFld+"&formName="+formName;
+	addrpick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
+}
+
 function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transaction_id) { 
    var address_id = $("#"+targetAddressIdControl).val();
    var address = $("#"+targetAddressControl).val();

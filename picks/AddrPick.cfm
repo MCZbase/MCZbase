@@ -1,6 +1,11 @@
 <!--- no security --->
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Agent Pick">
+<cfif isdefined("includeTemporary") and #includeTemporary# IS "true">
+  <cfset showTemp = TRUE>
+<cfelse>
+  <cfset showTemp = FALSE>
+</cfif>
  
  
 <!--- build an agent id search --->
@@ -20,13 +25,17 @@
 		You must enter search criteria.
 		<cfabort>
 	</cfif>
+    <cfset searchAgentString = "%#ucase(agentname)#%" >
 	<cfoutput>
 		<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG from 
-			preferred_agent_name, addr
-			 where 
-			 preferred_agent_name.agent_id = addr.agent_id (+) AND
-			 UPPER(agent_name) LIKE '%#ucase(agentname)#%'				
+			SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG 
+            FROM preferred_agent_name left join addr on preferred_agent_name.agent_id = addr.agent_id
+			WHERE
+			    UPPER(agent_name) LIKE <cfqueryparam value="#searchAgentString#" cfsqltype="CF_SQL_VARCHAR">
+                <cfif NOT showTemp >
+                   AND address_type <> 'temporary'
+                </cfif >
+            ORDER BY valid_addr_fg desc, agent_name asc
 		</cfquery>
 	</cfoutput>
 	<cfoutput query="getAgentId">
