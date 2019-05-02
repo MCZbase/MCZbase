@@ -328,6 +328,7 @@ function addrPickWithTemp(addrIdFld,addrFld,formName){
 function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transaction_id) { 
    var address_id = $("#"+targetAddressIdControl).val();
    var address = $("#"+targetAddressControl).val();
+   $('#dialog-shipment').parent().hide();
    jQuery.ajax({
           url: "/component/functions.cfc",
           type : "post",
@@ -341,12 +342,23 @@ function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transac
            $("#tempAddressDialog").html(result);
            $("#tempAddressDialog").dialog(
               { autoOpen: false, modal: true, stack: true, title: 'Add Temporary Address',
-                  width: 593, 
-                  close: function() { 
-                     $("#"+targetAddressIdControl).val($('#new_address_id').val());
+                  width: 593, 	
+                  buttons: {
+                     "Close": function() {
+                         $("#tempAddressDialog").dialog( "close" );
+                     }
+                  },
+                  beforeClose: function(event,ui) { 
                      var addr = $('#new_address').val();
-                     $("#"+targetAddressControl).val(addr);
-                     $(this).dialog('destroy'); 
+                     if ($.trim(addr) != '') { 
+                        $("#"+targetAddressIdControl).val($('#new_address_id').val());
+                        $("#"+targetAddressControl).val(addr);
+                     }
+                  },
+                  close: function(event,ui) { 
+                     $('#dialog-shipment').parent().show();
+                     $("#tempAddressDialog").dialog('destroy'); 
+                     $("#tempAddressDialog").html(""); 
                   }  
               });
            $("#tempAddressDialog").dialog('open');

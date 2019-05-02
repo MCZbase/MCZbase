@@ -506,8 +506,8 @@ $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 </script>
 </div>
 <div class="shippingBlock"> 
-    <h3>Permits and permit-like documents:</h3>
-    <p style="margin:0px;">List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong>  Only include the deed of gift or correspondence here if you expect to need to print copies of with each loan shipment.</p>
+    <h3>Permissions and Rights documents (e.g. Permits):</h3>
+    <p style="margin:0px;">List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
 
                 <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
 
@@ -664,7 +664,7 @@ $( document ).ready(loadShipments(#transaction_id#));
             		<input type="button" value="Pick Address" class="picBtn"
                 	onClick="addrPickWithTemp('shipped_to_addr_id','shipped_to_addr','shipmentForm');  $('##tempShipToAddrButton').removeAttr('disabled').removeClass('ui-state-disabled'); return false;">
             		<input type="button" value="Temporary Address" class="picBtn ui-state-disabled"  disabled="true" id="tempShipToAddrButton"
-                		onClick="addTemporaryAddress('shipped_to_addr_id','shipped_to_addr',#transaction_id#); return false;">
+                		onClick="addTemporaryAddress('shipped_to_addr_id','shipped_to_addr',#transaction_id#); $('##tempShipToAddrButton').attr('disabled','true').addClass('ui-state-disabled'); return false;">
         	</span>
 		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
@@ -673,9 +673,9 @@ $( document ).ready(loadShipments(#transaction_id#));
 		<label for="shipped_from_addr">Shipped From Address</label>
         	<span>
            		<input type="button" value="Pick Address" class="picBtn"
-                		onClick="addrPickWithTemp('shipped_from_addr_id','shipped_from_addr','shipmentForm');  $('##tempShipFromAddrButton').removeAttr('disabled').removeClass('ui-state-disabled');; return false;">
+                		onClick="addrPickWithTemp('shipped_from_addr_id','shipped_from_addr','shipmentForm');  $('##tempShipFromAddrButton').removeAttr('disabled').removeClass('ui-state-disabled'); return false;">
             		<input type="button" value="Temporary Address" class="picBtn ui-state-disabled"  disabled="true" id="tempShipFromAddrButton"
-                		onClick="addTemporaryAddress('shipped_from_addr_id','shipped_from_addr',#transaction_id#); return false;">
+                		onClick="addTemporaryAddress('shipped_from_addr_id','shipped_from_addr',#transaction_id#); $('##tempShipFromAddrButton').attr('disabled','true').addClass('ui-state-disabled'); return false;">
         	</span>
 		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
@@ -690,8 +690,8 @@ $( document ).ready(loadShipments(#transaction_id#));
   </form>
   <div id="shipmentFormPermits"></div>
   <div id="shipmentFormStatus"></div>
-  <div id="tempAddressDialog"></div>
 </div>
+<div id="tempAddressDialog"></div>
 
 <div class="shippingBlock"> 
 	<h3>Dispositions of cataloged items:</h3>

@@ -1586,6 +1586,7 @@
                         $('##newAddressStatus').html('New Address Added');
                         $('##new_address_id').val(result.DATA.ADDRESS_ID[0]);
                         $('##new_address').val(result.DATA.ADDRESS[0]);
+                        $('##tempAddressDialog').dialog('close');
                      } else { 
                         $('##newAddressStatus').html(result.DATA.MESSAGE[0]);
                      }
