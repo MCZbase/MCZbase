@@ -319,6 +319,7 @@
 				<tr>
 					<th>Specific Type</th>
 					<th>General Type</th>
+					<th>Carry Accession Document to Loans</th>
 					<th></th>
 				</tr>
 				<tr>
@@ -334,6 +335,12 @@
 						</select>
 					</td>
 					<td>
+						<select name="accn_show_on_shipment">
+							<option value="1" selected="selected" >Yes</option>
+							<option value="0">No</option>
+						</select>
+					</td>
+					<td>
 						<input type="submit" 
 							value="Insert" 
 							class="insBtn">
@@ -346,6 +353,7 @@
 			<tr>
 				<th>Specific Type</th>
 				<th>General Type</th>
+					<th>Carry Accession Document to Loans</th>
 			</tr>
 			<cfloop query="q">
 				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -360,9 +368,15 @@
 						<td>
 							<select name="permit_type">
 								<option value=""></option>
-								<cfloop query="ptypes">
+								<cfloop >
 									<option <cfif q.permit_type is ptypes.permit_type> selected="selected" </cfif>value="#ptypes.permit_type#">#ptypes.permit_type#</option>
 								</cfloop>
+							</select>
+						</td>				
+						<td>
+							<select name="accn_show_on_shipment">
+								<option <cfif q.permit_type is 1> selected="selected" </cfif>value="1">Yes</option>
+								<option <cfif q.permit_type is 0> selected="selected" </cfif>value="0">No</option>
 							</select>
 						</td>				
 						<td>
@@ -1061,6 +1075,7 @@
 			update ctspecific_permit_type set 
 				SPECIFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#specific_type#" />,
 				PERMIT_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#permit_type#" />
+				ACCN_SHOW_ON_SHIPMENT= <cfqueryparam cfsqltype="cf_sql_varchar" value="#accn_show_on_shipment#" />
 			where
 				SPECIFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
 		</cfquery>
@@ -1167,10 +1182,12 @@
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into ctspecific_permit_type (
 				specific_type,
-				permit_type
+				permit_type,
+				accn_show_on_shipment
 			) values (
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
-				<cfqueryparam cfsqltype="cf_sql_number" value="#permit_type#" />
+				<cfqueryparam cfsqltype="cf_sql_number" value="#permit_type#" />,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#accn_show_on_shipment#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
