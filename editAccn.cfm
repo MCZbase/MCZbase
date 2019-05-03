@@ -127,10 +127,9 @@
 			jQuery(document).ready(function() {
 				getMedia('accn','#transaction_id#','accnMediaDiv','6','1');
 			});
-    // TODO: Buttons for accession, not permit
-    function addMediaHere(targetid,title,permitLabel,transaction_id,relationship){
+    function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
            console.log(targetid);
-           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+transaction_id ;
+           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;
            var amddialog = $('##'+targetid)
            .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
            .dialog({
@@ -143,19 +142,19 @@
                  minWidth: 400,
                  minHeight: 400,
                  draggable:true,
-                 buttons: { "Ok": function () { loadPermitMedia(#transaction_id#); loadPermitRelatedMedia(#transaction_id#); $(this).dialog("close"); } }
+                 buttons: {
+                     "Ok": function () { 
+                        loadTransactionFormMedia(#transaction_id#,'accn'); 
+                        $(this).dialog("close"); 
+                     } 
+                 }
            });
-//           $('iframe##mediaIframe').load(function() {
-//               $('##mediaIframe').contents().find('##relationship__1').val(relationship);
-//               $('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
-//               $('##mediaIframe').contents().find('##related_id__1').val(transaction_id);
-//               viewport.init("##mediaDiv");
-//            });
            amddialog.dialog('open');          
            console.log('dialog open called');
            console.log(transaction_id);
            console.log(relationship);
      };
+
 		</script>
 
 		<cfset title="Edit Accession">
