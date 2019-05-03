@@ -1200,9 +1200,9 @@ $( document ).ready(loadShipments(#transaction_id#));
                    left join accn on ci.accn_id = accn.transaction_id
                    left join permit_trans on accn.transaction_id = permit_trans.transaction_id
                    left join permit p on permit_trans.permit_id = p.permit_id
-                   left joint ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_permit_type
+                   left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
                 where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-                      and ct.specific_permit_type.accn_show_on_shipment = 1
+                      and ctspecific_permit_type.accn_show_on_shipment = 1
         union
                 select 
                    mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
