@@ -8,7 +8,7 @@
                 left join accn on ci.accn_id = accn.transaction_id
                 left join permit_trans on accn.transaction_id = permit_trans.transaction_id
                 left join permit p on permit_trans.permit_id = p.permit_id
-                left joint ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_permit_type
+                left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
                 left join media_relations on p.permit_id = media_relations.related_primary_key
                 left join media on media_relations.media_id = media.media_id
            where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
@@ -17,7 +17,7 @@
                     or (media_relations.media_relationship = 'shows permit' and mime_type = 'application/pdf')
                 )
                 and media.media_id is not null
-                and ct.specific_permit_type.accn_show_on_shipment = 1
+                and ctspecific_permit_type.accn_show_on_shipment = 1
          union
            select media.media_id, media.media_uri as uri, p.permit_type, p.permit_num
            from shipment s
