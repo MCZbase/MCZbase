@@ -441,7 +441,7 @@
 
 <div class="shippingBlock"> 
 			<h3>Media associated with this Accession:</h3>
-            <p style="margin:0px;">Include copies of the deed of gift, correspondence, and other documents which are not permits or compliance documents here.</p>
+            <p style="margin:0px;">Include copies of correspondence and other documents which are not permissions or rights documents such as the deed of gift, permits, or compliance documents here.</p>
 
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -506,7 +506,7 @@ $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 </div>
 <div class="shippingBlock"> 
     <h3>Permissions and Rights documents (e.g. Permits):</h3>
-    <p style="margin:0px;">List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
+    <p style="margin:0px;">List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types( listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
 
                 <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
 
