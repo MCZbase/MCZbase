@@ -188,16 +188,17 @@
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set validated_status = validated_status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
  			where PART_ATT_NAME_#i# = 'scientific name'
-			AND PART_ATT_VAL_#i# in
+			AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
 			(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
 			AND PART_ATT_VAL_#i# is not null
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set validated_status = validated_status || ';scientific name (' || PART_ATT_VAL_#i# || ') does not exist'
  			where PART_ATT_NAME_#i# = 'scientific name'
-			AND PART_ATT_VAL_#i# not in
+			AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
 			(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
 			AND PART_ATT_VAL_#i# is not null
+			and (validated_status not like '%;scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records%' or validated_status is null)
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set validated_status = validated_status || ';scientific name cannot be null'
@@ -215,7 +216,7 @@
  			where PART_ATT_DETBY_#i# not in
 			(select agent_name from agent_name group by agent_name having count(*) = 1)
 			AND PART_ATT_DETBY_#i# is not null
-			and validated_status not like '%PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names%'
+			and (validated_status not like '%PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names%' or validated_status is null)
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
