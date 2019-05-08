@@ -64,7 +64,7 @@ sho err
 <p></p><span class="likeLink" onclick="document.getElementById('template').style.display='block';"> view template</span></p>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MEDIA_RELATIONSHIPS,MEDIA_LABELS</textarea>
+		<textarea rows="2" cols="80" id="t">MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MEDIA_RELATIONSHIPS,MEDIA_LABELS,MEDIA_LICENSE_ID</textarea>
 	</div>
 
     <p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
@@ -75,6 +75,7 @@ sho err
 	<li>PREVIEW_URI</li>
 	<li>MEDIA_RELATIONSHIPS</li>
 	<li>MEDIA_LABELS</li>
+	<li>MEDIA_LICENSE_ID</li>
 </ul>
 
 <p>The format for MEDIA_RELATIONSHIPS is {media_relationship}={value}[;{media_relationship}={value}]</p>
@@ -121,6 +122,25 @@ sho err
 		<li><b>Note:</b>  If you receive the same error messages after fixing them, you may have to clear your browser's cache to have the fixed .csv sheet load cleanly.
 		</li>
 	</ul>
+	<p style="font-weight:bold;">MEDIA LICENSE:</p>
+	<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions & Copyright&quot;</p>
+<div class="geol_hier" style="padding-bottom:2em;padding-top:.25em;">
+    <style>
+	    dl {font-size: smaller;}
+	    dt {font-weight: 550;margin-top: 8px; margin-bottom: 3px;}
+	    dt span {display: inline-block; width: 20px;}
+	</style>
+		<dl>
+			<dt><b>Codes</b></dt><dd></dd>
+			<dt><span>1 </span> MCZ Permissions &amp; Copyright    copyrighted material</dt> <dd> All MCZ images and publications should have this designation</dd>
+			<dt><span>4 </span> Rights defined by 3rd party host</dt> <dd>This material is hosted by an external party. Please refer to the licensing statement provided by the linked host.</dd>
+			<dt><span>5 </span> Creative Commons Zero (CC0)</dt><dd>CC0 enables scientists, educators, artists and other creators and owners of copyright- or database-protected content to waive those interests in their works and thereby place them as completely as possible in the public domain.</dd>
+			<dt><span>6 </span>Creative Commons Attribution (CC BY)</dt><dd>This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation.</dd>
+			<dt><span>7</span>Creative Commons Attribution-ShareAlike (CC BY-SA)</dt> <dd>This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms.</dd>
+			<dt><span>8 </span>Creative Commons Attribution-NonCommercial (CC BY-NC)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don&apos;t have to license their derivative works on the same terms.</dd>
+			<dt><span>9 </span>Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
+		</dl>
+</div>
 
 <cfform name="atts" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
@@ -462,6 +482,14 @@ sho err
 	<cfif len(c.MEDIA_TYPE) is 0>
 		<cfset rec_stat=listappend(rec_stat,'MEDIA_TYPE #MEDIA_TYPE# is invalid',";")>
 	</cfif>
+	<cfif len(MEDIA_LICENSE_ID) gt 0>
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select media_license_id from CTMEDIA_LICENSE where media_license_id='#MEDIA_LICENSE_ID#'
+		</cfquery>
+		<cfif len(c.media_license_id) is 0>
+			<cfset rec_stat=listappend(rec_stat,'MEDIA_LICENSE_ID #MEDIA_LICENSE_ID# is invalid',";")>
+		</cfif>
+	</cfif>
 	<cfhttp url="#media_uri#" charset="utf-8" timeout=5 method="get" />
 	<cfif left(cfhttp.statuscode,3) is not "200">
 		<cfset rec_stat=listappend(rec_stat,'#media_uri# is invalid',";")>
@@ -540,6 +568,7 @@ sho err
 			MIME_TYPE,
 			MEDIA_TYPE,
 			PREVIEW_URI,
+			MEDIA_LICENSE_ID,
 			MEDIA_RELATIONSHIP,
 			RELATED_PRIMARY_KEY,
 			MEDIA_LABEL,
@@ -558,6 +587,7 @@ sho err
 			MIME_TYPE,
 			MEDIA_TYPE,
 			PREVIEW_URI,
+			MEDIA_LICENSE_ID,
 			MEDIA_RELATIONSHIP,
 			RELATED_PRIMARY_KEY,
 			MEDIA_LABEL,
@@ -582,9 +612,14 @@ sho err
 				select sq_media_id.nextval nv from dual
 			</cfquery>
 			<cfset media_id=mid.nv>
+			<cfif len(media_license_id) is 0>
+				<cfset medialicenseid = 1>
+			<cfelse>
+				<cfset medialicenseid = media_license_id>
+			</cfif>
 			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				insert into media (media_id,media_uri,mime_type,media_type,preview_uri, MEDIA_LICENSE_ID)
-	            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#', 1)
+	            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#', #medialicenseid#)
 			</cfquery>
 			<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
