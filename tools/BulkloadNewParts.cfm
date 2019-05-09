@@ -7,7 +7,7 @@
 <p style="margin:1em;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition</textarea>
+		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2</textarea>
 	</div>
     <p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
 <ul class="geol_hier" style="padding-bottom: .25em;">
@@ -31,6 +31,18 @@
 			</ul>
 	</li>
 	<li style="color:red">condition</li>
+	<li>part_att_name_1</li>
+	<li>part_att_val_1</li>
+	<li>part_att_units_1</li>
+	<li>part_att_detby_1</li>
+	<li>part_att_madedate_1</li>
+	<li>part_att_rem_1</li>
+	<li>part_att_name_2</li>
+	<li>part_att_val_2</li>
+	<li>part_att_units_2</li>
+	<li>part_att_detby_2</li>
+	<li>part_att_madedate_2</li>
+	<li>part_att_rem_2</li>
 </ul>
     <br>
 <cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadNewParts.cfm">
@@ -93,8 +105,18 @@
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 <cfif #action# is "validate">
-validate
+<!---validate--->
 <cfoutput>
+	<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select attribute_type, decode(value_code_table, null, units_code_table,value_code_table) code_table  from ctattribute_code_tables
+	</cfquery>
+	<cfset ctstruct=StructNew()>
+	<cfloop query="getCodeTables">
+		<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
+	</cfloop>
+	<!---cfscript>
+		writedump(ctstruct.find("sex"));
+	</cfscript--->
 	<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_parts set parent_container_id =
 		(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
@@ -149,6 +171,67 @@ validate
 			is_number(lot_count) = 0
 			)
 	</cfquery>
+
+
+	<cfloop index="i" from="1" to="2">
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';invalid PART_ATT_NAME_#i#'
+			where PART_ATT_NAME_#i# not in
+			(select attribute_type from CTSPECPART_ATTRIBUTE_TYPE)
+		</cfquery>
+
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';invalid PART_ATT_MADEDATE_#i#'
+			where is_iso8601(PART_ATT_MADEDATE_#i#) <> 'valid'
+			and PART_ATT_MADEDATE_#i# is not null
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
+ 			where PART_ATT_NAME_#i# = 'scientific name'
+			AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
+			(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
+			AND PART_ATT_VAL_#i# is not null
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';scientific name (' || PART_ATT_VAL_#i# || ') does not exist'
+ 			where PART_ATT_NAME_#i# = 'scientific name'
+			AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
+			(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
+			AND PART_ATT_VAL_#i# is not null
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';scientific name cannot be null'
+ 			where PART_ATT_NAME_#i# = 'scientific name'
+			AND PART_ATT_VAL_#i# is null
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names'
+			where PART_ATT_DETBY_#i# in
+			(select agent_name from agent_name group by agent_name having count(*) > 1)
+			AND PART_ATT_DETBY_#i# is not null
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not exist'
+ 			where PART_ATT_DETBY_#i# not in
+			(select agent_name from agent_name group by agent_name having count(*) = 1)
+			AND PART_ATT_DETBY_#i# is not null
+			and validated_status not like '%PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names%'
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+			where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
+			and PART_ATT_NAME_#i# in
+			(select attribute_type from ctattribute_code_tables where value_code_table is not null)
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+			where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
+			and PART_ATT_NAME_#i# in
+			(select attribute_type from ctattribute_code_tables where units_code_table is not null)
+		</cfquery>
+	</cfloop>
+
+
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_parts where validated_status is null
 	</cfquery>
@@ -277,11 +360,18 @@ validate
 			<td>current_remarks</td>
 			<td>condition</td>
 			<td>container_unique_id</td>
-			<td>use_existing</td>
-			<td>change_container_type</td>
-			<td>append_to_remarks</td>
-			<td>changed_date</td>
-			<td>new_preserve_method</td>
+			<td>part_att_name_1</td>
+			<td>part_att_val_1</td>
+			<td>part_att_units_1</td>
+			<td>part_att_detby_1</td>
+			<td>part_att_madedate_1</td>
+			<td>part_att_rem_1</td>
+			<td>part_att_name_2</td>
+			<td>part_att_val_2</td>
+			<td>part_att_units_2</td>
+			<td>part_att_detby_2</td>
+			<td>part_att_madedate_2</td>
+			<td>part_att_rem_2</td>
 		</tr>
 		<cfloop query="inT">
 			<tr>
@@ -309,10 +399,18 @@ validate
 				<td>#current_remarks#</td>
 				<td>#condition#</td>
 				<td>#container_unique_id#</td>
-				<td>0</td>
-				<td>#change_container_type#</td>
-				<td>#append_to_remarks#</td>
-				<td>#changed_date#</td>
+				<td>#part_att_name_1#</td>
+				<td>#part_att_val_1#</td>
+				<td>#part_att_units_1#</td>
+				<td>#part_att_detby_1#</td>
+				<td>#part_att_madedate_1#</td>
+				<td>#part_att_rem_1#</td>
+				<td>#part_att_name_2#</td>
+				<td>#part_att_val_2#</td>
+				<td>#part_att_units_2#</td>
+				<td>#part_att_detby_2#</td>
+				<td>#part_att_madedate_2#</td>
+				<td>#part_att_rem_2#</td>
 			</tr>
 		</cfloop>
 	</table>
@@ -416,6 +514,36 @@ validate
 				</cfquery>
 			</cfif>
 		</cfif>
+
+		<cfif len(#part_att_name_1#) GT 0>
+			<cfif len(#part_att_detby_1#) GT 0>
+				<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_id from agent_name where agent_name = trim('#part_att_detby_1#')
+				</cfquery>
+				<cfset numAgentID = a.agent_id>
+			<cfelse>
+				<cfset  numAgentID = "">
+			</cfif>
+			<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
+				values(sq_collection_object_id.currval, '#part_att_name_1#', '#part_att_val_1#', '#part_att_units_1#', '#part_att_madedate_1#', #numAgentId#, '#part_att_rem_1#')
+			</cfquery>
+		</cfif>
+		<cfif len(#part_att_name_2#) GT 0>
+			<cfif len(#part_att_detby_2#) GT 0>
+				<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_id from agent_name where agent_name = trim('#part_att_detby_2#')
+				</cfquery>
+				<cfset numAgentID = a.agent_id>
+			<cfelse>
+				<cfset  numAgentID = "">
+			</cfif>
+			<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
+				values(sq_collection_object_id.currval, '#part_att_name_2#', '#part_att_val_2#', '#part_att_units_2#', '#part_att_madedate_2#', #numAgentId#, '#part_att_rem_2#')
+			</cfquery>
+		</cfif>
+
 	<cfelse>
 	<!--- there is an existing matching container that is not in a parent_container;
 		all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
