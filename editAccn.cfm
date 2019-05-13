@@ -463,7 +463,7 @@
 			<br><span>
                 <cfset relation="shows accn">
                     <input type='button' onClick="addMediaHere('newMediaDlg_#transaction_id#','title','#accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#');" value='Create Media' class='lnkBtn' >&nbsp;
-      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 650,900); " >
+      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 800,950); " >
                     </span>
 				</span>
 				<div id='addMediaDlg_#transaction_id#'></div>
@@ -485,11 +485,11 @@ $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 </div>
 <div class="shippingBlock"> 
     <h3>Permissions and Rights documents (e.g. Permits):</h3>
-    <p style="margin:0px;">List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types( listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
+    <p style="margin:0px;">List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
 
                 <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
 
-                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#&inDialog=true','addPermitDlg_#transaction_id#','Pick Permit for Accession', reloadTransPermits, 650,800); " ></div><div id='addPermitDlg_#transaction_id#'></div>
+                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#&inDialog=true','addPermitDlg_#transaction_id#','Pick Permit for Accession', reloadTransPermits, 800,950); " ></div><div id='addPermitDlg_#transaction_id#'></div>
 </div>
 
 <script>
