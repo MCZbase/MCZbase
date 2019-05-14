@@ -462,8 +462,8 @@
 			--->
 			<br><span>
                 <cfset relation="shows accn">
-                    <input type='button' onClick="addMediaHere('newMediaDlg_#transaction_id#','title','#accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#');" value='Create Media' class='lnkBtn' >&nbsp;
-      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 800,950); " >
+                    <input type='button' onClick="addMediaHere('newMediaDlg_#transaction_id#','Create media for accession #accndata.accn_number#','#accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#');" value='Create Media' class='lnkBtn' >&nbsp;
+      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 900,1100); " >
                     </span>
 				</span>
 				<div id='addMediaDlg_#transaction_id#'></div>
@@ -489,7 +489,7 @@ $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 
                 <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
 
-                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#&inDialog=true','addPermitDlg_#transaction_id#','Pick Permit for Accession', reloadTransPermits, 800,950); " ></div><div id='addPermitDlg_#transaction_id#'></div>
+                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#&inDialog=true','addPermitDlg_#transaction_id#','Pick Permit for Accession', reloadTransPermits, 900,1100); " ></div><div id='addPermitDlg_#transaction_id#'></div>
 </div>
 
 <script>
@@ -520,8 +520,8 @@ function opendialog(page,id,title) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
-    height: 800,
-    width: 950,
+    height: 900,
+    width: 1100,
     minWidth: 400,
     minHeight: 450,
     draggable:true,

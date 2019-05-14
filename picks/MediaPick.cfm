@@ -100,11 +100,10 @@
       .dialog({
         title: title,
         autoOpen: false,
-        appendto: "body",
         dialogClass: 'dialog_fixed,ui-widget-header',
         modal: true,
         stack: true,
-        height: 840,
+        height: 700,
         width: 1050,
         minWidth: 400,
         minHeight: 400,
