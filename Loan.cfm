@@ -1009,7 +1009,7 @@ function opendialog(page,id,title) {
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
     height: 900,
-    width: 110,
+    width: 1100,
     minWidth: 400,
     minHeight: 450,
     draggable:true,
