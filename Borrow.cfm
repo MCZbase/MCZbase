@@ -641,7 +641,8 @@ function setBorrowNum(cid,v){
 			        function deleteBorrowItem(borrow_item_id) {
 				    jQuery.ajax(
 			            {
-			                url : "/component/functions.cfc",
+			                
+url : "/component/functions.cfc",
 			                type : "post",
 			                dataType : "json",
 			                data : {
@@ -714,6 +715,51 @@ function setBorrowNum(cid,v){
 					</td>
 			</tr>
 </table>
+
+<div class="shippingBlock"> 
+			<h3>Media documenting this Borrow:</h3>
+            <p style="margin:0px;">Include copies of signed loan invoices and correspondence here.</p>
+
+			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					media.media_id,
+					preview_uri,
+					media_uri,
+					media_type,
+					label_value
+				from
+					media,
+					media_relations,
+					(select * from media_labels where media_label='description') media_labels
+				where
+					media.media_id=media_labels.media_id (+) and
+					media.media_id=media_relations.media_id and
+					media_relationship like '% borrow' and
+					related_primary_key=#transaction_id#
+			</cfquery>
+			<br><span>
+                <cfset relation="shows borrow">
+                    <input type='button' onClick="addMediaHere('newMediaDlg_#transaction_id#','title','#getBorrow.borrow_number#','#transaction_id#','#relation#');" value='Create Media' class='lnkBtn' >&nbsp;
+      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Borrow #getBorrow.borrow_number#', reloadTransMedia, 800,950); " >
+                    </span>
+				</span>
+				<div id='addMediaDlg_#transaction_id#'></div>
+				<div id='newMediaDlg_#transaction_id#'></div>
+				<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
+<script>
+
+// callback for ajax methods to reload from dialog
+function reloadTransMedia() { 
+    loadTransactionFormMedia(#transaction_id#,"accn");
+    if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+        $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+    }
+};
+
+$( document ).ready(loadTransactionFormMedia(#transaction_id#,"borrow"));
+
+</script>
+</div>
 
 <div class="shippingBlock" style="width: 98.5%">
     <h3>Shipment Information:</h3>
