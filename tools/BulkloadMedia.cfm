@@ -64,7 +64,7 @@ sho err
 <p></p><span class="likeLink" onclick="document.getElementById('template').style.display='block';"> view template</span></p>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MEDIA_RELATIONSHIPS,MEDIA_LABELS,MEDIA_LICENSE_ID</textarea>
+		<textarea rows="2" cols="80" id="t">MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MEDIA_RELATIONSHIPS,MEDIA_LABELS,MEDIA_LICENSE_ID, MASK_MEDIA</textarea>
 	</div>
 
     <p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
@@ -76,6 +76,7 @@ sho err
 	<li>MEDIA_RELATIONSHIPS</li>
 	<li>MEDIA_LABELS</li>
 	<li>MEDIA_LICENSE_ID</li>
+	<li>MASK_MEDIA</li>
 </ul>
 
 <p>The format for MEDIA_RELATIONSHIPS is {media_relationship}={value}[;{media_relationship}={value}]</p>
@@ -141,6 +142,11 @@ sho err
 			<dt><span>9 </span>Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
 		</dl>
 </div>
+
+	<p style="font-weight:bold;">MASK MEDIA:</p>
+	<p>To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Leave blank for Public media</p>
+<br>
+<br>
 
 <cfform name="atts" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="Action" value="getFile">
@@ -235,6 +241,11 @@ sho err
 	</cfquery>
 	<cfif c.RecordCount gt 0>
 		<cfset rec_stat=listappend(rec_stat,'MEDIA_URI already exists in MEDIA table',";")>
+	</cfif>
+	<cfif len(mask_media) gt 0>
+		<cfif not(mask_media EQ 1 or mask_media EQ 0)>
+			<cfset rec_stat=listappend(rec_stat,'MASK_MEDIA should be blank, 1 or 0',";")>
+		</cfif>
 	</cfif>
 	<cfif len(MEDIA_LABELS) gt 0>
 		<cfloop list="#media_labels#" index="l" delimiters=";">
@@ -490,12 +501,12 @@ sho err
 			<cfset rec_stat=listappend(rec_stat,'MEDIA_LICENSE_ID #MEDIA_LICENSE_ID# is invalid',";")>
 		</cfif>
 	</cfif>
-	<cfhttp url="#media_uri#" charset="utf-8" timeout=5 method="get" />
+	<cfhttp url="#media_uri#" charset="utf-8" timeout=5 method="head" />
 	<cfif left(cfhttp.statuscode,3) is not "200">
 		<cfset rec_stat=listappend(rec_stat,'#media_uri# is invalid',";")>
 	</cfif>
 	<cfif len(preview_uri) gt 0>
-		<cfhttp url="#preview_uri#" charset="utf-8" timeout=5 method="get" />
+		<cfhttp url="#preview_uri#" charset="utf-8" timeout=5 method="head" />
 		<cfif left(cfhttp.statuscode,3) is not "200">
 			<cfset rec_stat=listappend(rec_stat,'#preview_uri# is invalid',";")>
 		</cfif>
@@ -617,9 +628,14 @@ sho err
 			<cfelse>
 				<cfset medialicenseid = media_license_id>
 			</cfif>
+			<cfif len(mask_media) is 0>
+				<cfset maskmedia = 0>
+			<cfelse>
+				<cfset maskmedia = mask_media>
+			</cfif>
 			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into media (media_id,media_uri,mime_type,media_type,preview_uri, MEDIA_LICENSE_ID)
-	            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#', #medialicenseid#)
+				insert into media (media_id,media_uri,mime_type,media_type,preview_uri, MEDIA_LICENSE_ID, MASK_MEDIA_FG)
+	            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#', #medialicenseid#, #MASKMEDIA#)
 			</cfquery>
 			<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
