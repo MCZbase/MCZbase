@@ -523,7 +523,7 @@
 				</cfquery>
 				<cfset numAgentID = a.agent_id>
 			<cfelse>
-				<cfset  numAgentID = "">
+				<cfset  numAgentID = "NULL">
 			</cfif>
 			<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
