@@ -86,7 +86,7 @@
 	</form>
 	<hr>
 	<p>
-		<strong>Option 2: Modify Existing Parts</strong>
+		<strong>Option 2: Modify Existing Parts (You will be able to review changes on the next screen)</strong>
 	</p>
 	<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -190,7 +190,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" name="new_lot_count" id="new_lot_count" class="reqdClr">
+					<input type="text" name="new_lot_count" id="new_lot_count">
 				</td>
 			</tr>
 			<tr>
@@ -218,7 +218,7 @@
 					Existing CONDITION will be ignored
 				</td>
 				<td>
-					<input type="text" name="new_condition" id="new_condition" class="reqdClr">
+					<input type="text" name="new_condition" id="new_condition">
 				</td>
 			</tr>
 			<tr>
