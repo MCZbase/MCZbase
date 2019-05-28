@@ -195,10 +195,10 @@ where
 </cfif>
 <cfif len(#exp_date#) gt 0>
     <cfif len(#exp_date#) EQ 4>
-       <cfset exp_date = "#exp_date#-01-01">
-	   <cfif len(#exp_until_date#) EQ 0>
+		<cfif len(#exp_until_date#) EQ 0>
            <cfset exp_until_date = "#exp_date#-12-31">
        </cfif>
+       <cfset exp_date = "#exp_date#-01-01">
 	   <cfif len(#exp_until_date#) EQ 4>
            <cfset exp_until_date = "#exp_until_date#-12-31">
        </cfif>
