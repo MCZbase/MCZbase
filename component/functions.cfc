@@ -4019,6 +4019,154 @@ Annotation to report problematic data concerning #annotated.guid#
         </cfquery>
         <cfreturn childLoans>
 </cffunction>
+<!------------------------------------->
+<cffunction name="createMediaHtml" access="remote">
+   <cfargument name="relationship" type="string" required="yes">
+   <cfargument name="related_value" type="string" required="yes">
+   <cfargument name="related_id" type="string" required="yes">
+   <cfargument name="collection_object_id" type="string" required="no">
+   <cfset result = "">
+   <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_relationship from ctmedia_relationship order by media_relationship
+   </cfquery>
+   <cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_label from ctmedia_label order by media_label
+   </cfquery>
+   <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_type from ctmedia_type order by media_type
+   </cfquery>
+   <cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select mime_type from ctmime_type order by mime_type
+   </cfquery>
+   <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_license_id,display media_license from ctmedia_license order by media_license_id
+   </cfquery>
+   <!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
+   <cfset result = result & '
+      <div class="basic_box">
+          <h2 class="wikilink">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs('Media')" class="likeLink" alt="[ help ]"></h2>
+          <div style="border: 1px dotted gray; background-color: ##f8f8f8;padding: 1em;margin: .5em 0 1em 0;">
+    <form name="newMedia" method="post" action="media.cfm">
+      <input type="hidden" name="action" value="saveNew">
+      <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
+      <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
+      <label for="media_uri">Media URI</label>
+      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr">
+      <!--- <span class="infoLink" id="uploadMedia">Upload</span> --->
+      <label for="preview_uri">Preview URI</label>
+      <input type="text" name="preview_uri" id="preview_uri" size="105">
+      <label for="mime_type">MIME Type</label>
+      <select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;">
+        <option value=""></option>'>
+        <cfloop query="ctmime_type">
+          <cfset result = result & "<option value='#mime_type#'>#mime_type#</option>">
+        </cfloop>
+      <cfset result = result & '
+      </select>
+      <label for="media_type">Media Type</label>
+      <select name="media_type" id="media_type" class="reqdClr" style="width: 160px;">
+        <option value=""></option>'>
+        <cfloop query="ctmedia_type">
+          <cfset result = result & '<option value="#media_type#">#media_type#</option>' >
+        </cfloop> 
+      <cfset result = result & '
+      </select>
+      <div class="license_box" style="padding-bottom: 1em;padding-left: 1.15em;">
+        <label for="media_license_id">License</label>
+        <select name="media_license_id" id="media_license_id" style="width:300px;">
+          <option value="">Research copyright &amp; then choose...</option>'>
+          <cfloop query="ctmedia_license">
+             <cfset result = result & '<option value="#media_license_id#">#media_license#</option>'>
+          </cfloop>
+        <cfset result = result & '
+        </select>
+        <a class="infoLink" onClick="popupDefine()">Define Licenses</a><br/>
+        <ul class="lisc">
+            <p>Notes:</p>
+          <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
+          <li>remove media immediately if owner requests it</li>
+          <li>contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+        </ul>
+      </div>
+      <label for="mask_media_fg">Media Record Visibility</label>
+      <select name="mask_media_fg" value="mask_media_fg">
+           <option value="0" selected="selected">Public</option>
+           <option value="1">Hidden</option>
+      </select>
+   
+      <label for="relationships" style="margin-top:.5em;">Media Relationships</label>
+      <div id="relationships" class="graydot">
+        <div id="relationshiperror"></div>
+        <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
+          <option value="">None/Unpick</option>'>
+          <cfloop query="ctmedia_relationship">
+            <cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
+          </cfloop>
+        <cfset result = result & '
+        </select>
+        :&nbsp;
+        <input type="text" name="related_value__1" id="related_value__1" size="70" readonly>
+        <input type="hidden" name="related_id__1" id="related_id__1">
+       <br>
+        <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+ 
+      <label for="labels" style="margin-top:.5em;">Media Labels</label>
+      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
+      <div id="labels" class="graydot">
+        <div id="labelsDiv__1">
+          <select name="label__1" id="label__1" size="1" style="width: 200px;">
+            <option value=""></option>'>
+            <cfloop query="ctmedia_label">
+              <cfset result = result & '<option value="#media_label#">#media_label#</option>'>
+            </cfloop>
+          <cfset result = result & '
+          </select>
+          :&nbsp;
+          <input type="text" name="label_value__1" id="label_value__1" size="70">&nbsp;
+            <br><span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
+      </div>
+        
+       </div>
+        </div>
+      <input type="submit" 
+				value="Create Media" 
+				class="insBtn"
+				onmouseover="this.className=''insBtn btnhov''" 
+				onmouseout="this.className=''insBtn''">
+    </form>'>
+    <cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
+       <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+          select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+       </cfquery>
+       <cfset result = result & '
+       <script language="javascript" type="text/javascript">
+          $("##relationship__1").val("shows cataloged_item");
+          $("##related_value__1").val("#s.guid#");
+          $("##related_id__1").val("#collection_object_id#");
+       </script>'>
+    </cfif>
+    <cfif isdefined("relationship") and len(relationship) gt 0>
+      <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	  select media_relationship from ctmedia_relationship where media_relationship= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+      </cfquery>
+      <cfif s.recordCount eq 1 >
+       <cfset result = result & '
+         <script language="javascript" type="text/javascript">
+            $("##relationship__1").val("#relationship#");
+            $("##related_value__1").val("#related_value#");
+            $("##related_id__1").val("#related_id#");
+         </script>'>
+      <cfelse>
+       <cfset result = result & '
+          <script language="javascript" type="text/javascript">
+				$("##relationshiperror").html("<h2>Error: Unknown media relationship type #relationship#</h2>");
+         </script>'>
+      </cfif>
+    </cfif>
+    <cfset result = result & '</div>'>
+
+   <cfreturn result>
+</cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getMediaOfPermit" access="remote">
 	<cfargument name="permitid" type="string" required="yes">
