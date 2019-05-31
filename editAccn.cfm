@@ -122,7 +122,7 @@
                  minHeight: 400,
                  draggable:true,
                  buttons: {
-                     "Ok": function () { 
+                     "Close": function () { 
                         loadTransactionFormMedia(#transaction_id#,'accn'); 
                         $(this).dialog("close"); 
                      } 
