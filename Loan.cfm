@@ -1037,7 +1037,7 @@
 
 // callback for ajax methods to reload from dialog
 function reloadTransMedia() { 
-    loadTransactionFormMedia(#transaction_id#,"accn");
+    loadTransactionFormMedia(#transaction_id#,"loan");
     if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
         $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
     }
