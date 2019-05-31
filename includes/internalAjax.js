@@ -420,6 +420,8 @@ function pickedRelationship (id){
 		getDeaccession(dispInputName,idInputName,formName);
 	} else if (relatedTable=='permit'){
 		getPermit(dispInputName,idInputName,formName);
+	} else if (relatedTable=='loan'){
+		getLoan(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 	} else if (relatedTable=='delete'){
