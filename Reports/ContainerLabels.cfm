@@ -87,7 +87,7 @@ Current format: #displayFormat#<br/>
 
     <cfset textClass = "times12">
     <cfset dateStyle = "yyyy-mmm-dd">
-    <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
+    <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# font: times,serif'>
 
     <cfdocument
     	format="pdf"
@@ -114,6 +114,7 @@ Current format: #displayFormat#<br/>
     <!--- count of current column and row location to know when to start a new column and a new page --->
     <cfset rowCount = 0>
     <cfset colCount = 0>
+    <cfset curItemInTray=0>
     <cfloop query="getItems">
        <!--- loop through all of the cataloged items (sorted by tray and scientific name --->
        <cfset curItem = curItem + 1>
@@ -122,6 +123,18 @@ Current format: #displayFormat#<br/>
             <!--- output previous tray ---> 
             <cfif curItem gt 1> 
                <cfset rowCount = rowCount + 1>
+               <!--- Finish off row --->
+               <cfif curItemInTray mod 7 NEQ 0>
+                   <!--- fill in blank cells in row of table --->
+                   <cfloop condition= "curItemInTray mod 7 NEQ 0">
+                       <cfset catnums = '#catnums#<td></td>'>
+                       <cfset curItemInTray = curItemInTray +1>
+                   </cfloop>
+               </cfif>
+               <!--- finish the table row ---> 
+               <cfset catnums = '#catnums#</tr>'>
+               <!--- reset the cell counter ---> 
+               <cfset curItemInTray=0>
     	       <div style="#labelStyle# font-size: 12pt;">
     		  <table>
     		      <tr>
@@ -131,7 +144,7 @@ Current format: #displayFormat#<br/>
     		         <td><span class="#textClass#"><i>#idents#</i></span></td>
     		      </tr>
     		      <tr>
-    		         <td><span class="#textClass#">#catnums#</span></td>
+    		         <td><span class="#textClass#"><table>#catnums#</table></span></td>
     		      </tr>
                   </table>
                </div>
@@ -176,7 +189,11 @@ Current format: #displayFormat#<br/>
            <cfscript>ArrayAppend(identArray,ident);</cfscript>
        </cfif>
 
-       <cfset catnums = '#catnums# #cat_num#'>
+       <cfset curItemInTray=curItemInTray+1>
+       <cfset catnums = '#catnums#<td>#cat_num#</td>'>
+       <cfif curItemInTray mod 7 EQ 0>
+           <cfset catnums = '#catnums#</tr><tr>'>
+       </cfif>
 
     </cfloop>
     </cfoutput>
