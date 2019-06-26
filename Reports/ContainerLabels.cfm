@@ -56,7 +56,7 @@ Current format: #displayFormat#<br/>
     <cfset maxCol = 2>
     <cfset orientiation = 'portrait'>
     <cfset maxRow = 4>
-    <cfset labelWidth = 'width: 3.8in;'>
+    <cfset labelWidth = 'width: 4.0in; display: block; '>
     <cfset labelHeight = 'height: 2.4in;'>
    
     <cfset numRecordsPerPage = maxCol * maxRow>
@@ -67,7 +67,7 @@ Current format: #displayFormat#<br/>
     <cfset labelBorder = 'border: 1px solid black;'>
 
     <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0" '>
-    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0" '>
+    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0" style="border: none;"   '>
 
     <cfset pageHeader='
     <table #outerTableParams#>
@@ -87,7 +87,7 @@ Current format: #displayFormat#<br/>
 
     <cfset textClass = "times12">
     <cfset dateStyle = "yyyy-mmm-dd">
-    <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# font: times,serif'>
+    <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# font: times,serif;'>
 
     <cfdocument
     	format="pdf"
@@ -101,7 +101,9 @@ Current format: #displayFormat#<br/>
     	filename="#Application.webDirectory#/temp/#targetfile#"
     	overwrite="yes">
     <cfoutput>
+<!---
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
+--->
     #pageHeader#
     <!--- Main loop --->
     <cfset curItem = 0 >  <!--- counter to track if we are at the end of the record set yet --->
@@ -127,7 +129,7 @@ Current format: #displayFormat#<br/>
                <cfif curItemInTray mod 7 NEQ 0>
                    <!--- fill in blank cells in row of table --->
                    <cfloop condition= "curItemInTray mod 7 NEQ 0">
-                       <cfset catnums = '#catnums#<td></td>'>
+                       <cfset catnums = '#catnums#<td style="width: 3em;">&nbsp; </td>'>
                        <cfset curItemInTray = curItemInTray +1>
                    </cfloop>
                </cfif>
@@ -135,19 +137,19 @@ Current format: #displayFormat#<br/>
                <cfset catnums = '#catnums#</tr>'>
                <!--- reset the cell counter ---> 
                <cfset curItemInTray=0>
-    	       <div style="#labelStyle# font-size: 12pt;">
-    		  <table>
-    		      <tr>
-    		         <td><span class="#textClass#">#header_text#<strong> #lastTray#</strong></span></td>
+<!---    	       <div style="#labelStyle# font-size: 12pt; ">  ---->
+    		  <table style="width:100%; height: 2.6in; border: 1px solid black;">
+    		      <tr style="height: 0.1in; ">
+    		         <td style="width: 4.0in; border: none; vertical-align: top; "><span style="float: left;">#header_text#</span><span style="float: right;"><strong> #lastTray#</strong></span></td>
     		      </tr>
-    		      <tr>
-    		         <td><span class="#textClass#"><i>#idents#</i></span></td>
+    		      <tr style="height: 0.1in;">
+    		         <td style="vertical-align: top; border: none;"><span style="line-height: 0px;" ><i>#trim(idents)#</i></span></td>
     		      </tr>
-    		      <tr>
-    		         <td><span class="#textClass#"><table>#catnums#</table></span></td>
+    		      <tr style="width: 4in; height: 4.4in; max-height: 4.4in; overflow: hidden;">
+    		         <td style="vertical-align: top; border: none; max-height: 2.4in; overflow: hidden; "><div style="height: 2.4in;%; vertical-align: top;"><table style="width: 4in; border: none; ">#catnums#</table></div></td>
     		      </tr>
                   </table>
-               </div>
+<!---               </div> --->
             </cfif>
             <!--- Begin a new tray --->
             <cfset idents = ''>
@@ -192,7 +194,11 @@ Current format: #displayFormat#<br/>
        <cfset curItemInTray=curItemInTray+1>
        <cfset catnums = '#catnums#<td>#cat_num#</td>'>
        <cfif curItemInTray mod 7 EQ 0>
-           <cfset catnums = '#catnums#</tr><tr>'>
+           <cfif curItemInTray mod 14 NEQ 0>
+              <cfset catnums = '#catnums#</tr><tr style="background-color: ##f0f0f0;}">' >
+           <cfelse>
+              <cfset catnums = '#catnums#</tr><tr style="background-color: ##ffffff;}">' >
+           </cfif>
        </cfif>
 
     </cfloop>
@@ -222,7 +228,7 @@ Current format: #displayFormat#<br/>
     <cfset maxCol = 3>
     <cfset orientiation = 'portrait'>
     <cfset maxRow = 20>
-    <cfset labelWidth = 'width: 2.0in;'>
+    <cfset labelWidth = 'width: 4.0in;'>
     <cfset labelHeight = 'height: 0.25in;'>
    
     <cfset numRecordsPerPage = maxCol * maxRow>
@@ -231,17 +237,14 @@ Current format: #displayFormat#<br/>
 
     <!--- Formatting parameters --->
     <cfset labelBorder = 'border: 1px solid black;'>
-
     <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0" '>
     <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0.2in" border="0" '>
-
     <cfset pageHeader='
     <table #outerTableParams#>
        <tr><td>
     <table #innerTableParams#>
        <tr><td>
     '>
-
     <cfset pageFooter = '
        </td>
        </tr>
@@ -287,7 +290,7 @@ Current format: #displayFormat#<br/>
             <cfif curItem gt 1> 
                <cfset rowCount = rowCount + 1>
     	       <div style="#labelStyle# margin: 0.1in; font-size: 8pt;">
-    		  <table>
+    		  <table >
     		      <tr>
     		         <td><span class="#textClass#">#header_text#<strong> #lastTray#</strong></span></td>
     		      </tr>
