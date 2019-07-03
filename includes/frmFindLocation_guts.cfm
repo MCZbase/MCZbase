@@ -407,6 +407,12 @@
 						</cfloop>
 					</select>
 				</td>
+				<td>
+					<div style="margin-left: 2em;" class="geolocateScoreDiv">
+						<label>Shared Localities Only</label>
+						<input type="checkbox" name="onlyShared" id="onlyShared">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td>

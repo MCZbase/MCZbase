@@ -252,6 +252,9 @@
 		<cfset sql = "#sql# AND accepted_lat_long.geolocate_score #gs_comparator# #geolocate_score#">
 	</cfif>
 </cfif>
+<cfif isdefined("onlyShared") and len(#onlyShared#) gt 0>
+	<cfset sql = "#sql# AND locality.locality_id in (select locality_id from VPD_COLLECTION_LOCALITY group by locality_id having count(*) > 1)" >
+</cfif>
 <!---cfset sql = "#sql# AND rownum < 10000"--->
 <cfif right(sql,4) is " (+)">
 	<span class="error">You must enter search criteria.</span>
