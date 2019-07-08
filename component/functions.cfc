@@ -4049,7 +4049,7 @@ Annotation to report problematic data concerning #annotated.guid#
    <!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
    <cfset result = result & '
       <div class="basic_box">
-          <h2 class="wikilink">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs('Media')" class="likeLink" alt="[ help ]"></h2>
+          <h2 class="wikilink">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs(''Media'')" class="likeLink" alt="[ help ]"></h2>
           <div style="border: 1px dotted gray; background-color: ##f8f8f8;padding: 1em;margin: .5em 0 1em 0;">
     <form name="newMedia" method="post" action="media.cfm">
       <input type="hidden" name="action" value="saveNew">
@@ -4116,7 +4116,7 @@ Annotation to report problematic data concerning #annotated.guid#
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
  
       <label for="labels" style="margin-top:.5em;">Media Labels</label>
-      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
+      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a "description" media label.</p>
       <div id="labels" class="graydot">
         <div id="labelsDiv__1">
           <select name="label__1" id="label__1" size="1" style="width: 200px;">
