@@ -1,29 +1,35 @@
-<cfset title="Manage Media">
-<cfinclude template="/includes/_header.cfm">
-<script type='text/javascript' src='/includes/internalAjax.js'></script>
-<script>
-	function manyCatItemToMedia(mid){
-		var bgDiv = document.createElement('div');
-		bgDiv.id = 'bgDiv';
-		bgDiv.className = 'bgDiv';
-		bgDiv.setAttribute('onclick','closeManyMedia()');
-		document.body.appendChild(bgDiv);
-		var guts = "/includes/forms/manyCatItemToMedia.cfm?media_id=" + mid;
-		var theDiv = document.createElement('div');
-		theDiv.id = 'annotateDiv';
-		theDiv.className = 'annotateBox';
-		theDiv.innerHTML='';
-		theDiv.src = '';
-		document.body.appendChild(theDiv);
-		$('#annotateDiv').append('<iframe id="commentiframe" width="90%" height="100%">');
-		$('#commentiframe').attr('src', guts);
-	}
+<cfif isdefined("headless") and headless EQ 'true'>	
+	<!--- Exclude display of page headers and includes --->
+        <cfinclude template="/includes/functionLib.cfm">
+	<cf_rolecheck>
+<cfelse>
+	<cfset title="Manage Media">
+	<cfinclude template="/includes/_header.cfm">
+	<script type='text/javascript' src='/includes/internalAjax.js'></script>
+	<script>
+		function manyCatItemToMedia(mid){
+			var bgDiv = document.createElement('div');
+			bgDiv.id = 'bgDiv';
+			bgDiv.className = 'bgDiv';
+			bgDiv.setAttribute('onclick','closeManyMedia()');
+			document.body.appendChild(bgDiv);
+			var guts = "/includes/forms/manyCatItemToMedia.cfm?media_id=" + mid;
+			var theDiv = document.createElement('div');
+			theDiv.id = 'annotateDiv';
+			theDiv.className = 'annotateBox';
+			theDiv.innerHTML='';
+			theDiv.src = '';
+			document.body.appendChild(theDiv);
+			$('#annotateDiv').append('<iframe id="commentiframe" width="90%" height="100%">');
+			$('#commentiframe').attr('src', guts);
+		}
+		
+		function popupDefine() {
+	    	window.open("/info/mediaDocumentation.cfm", "_blank", "toolbar=no,scrollbars=yes,resizable=no,menubar=no,top=70,left=580,width=860,height=650");
+		}
 	
-	function popupDefine() {
-    	window.open("/info/mediaDocumentation.cfm", "_blank", "toolbar=no,scrollbars=yes,resizable=no,menubar=no,top=70,left=580,width=860,height=650");
-	}
-
-</script>
+	</script>
+</cfif>
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_relationship from ctmedia_relationship order by media_relationship
 </cfquery>
@@ -125,7 +131,11 @@
         </cfif>
       </cfif>
     </cfloop>
-    <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+    <cfif isdefined("headless") and headless EQ 'true'>
+        <h2>Changes to Media Record Saved</h2>
+    <cfelse>
+        <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+    </cfif>
   </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
@@ -405,8 +415,10 @@
 </cfif>
 <!------------------------------------------------------------------------------------------>
 <cfif #action# is "saveNew">
+  <cfset error=false>
   <cfoutput>
     <cftransaction>
+      <cftry>
       <cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select sq_media_id.nextval nv from dual
 		</cfquery>
@@ -439,8 +451,30 @@
 				</cfquery>
         </cfif>
       </cfloop>
+      <cfcatch>
+        <cftransaction action="rollback">
+        <h2>Error saving new media record</h2>
+        <p>#cfcatch.message#</p>
+        <p>#cfcatch.detail#</p> 
+        <cfif cfcatch.detail contains "ORA-00001: unique constraint (MCZBASE.U_MEDIA_URI)" >
+           <h3>A media record for that resource already exists in MCZbase.</h3>
+        </cfif>
+        <cfset error=true>
+      </cfcatch>
+      </cftry>
     </cftransaction>
-    <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+    <cfif not error>
+	    <cfif isdefined("headless") and headless EQ 'true'>	
+		<h2>New Media Record Saved</h2>
+	    <cfelse>
+		<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+	    </cfif>
+    </cfif>
   </cfoutput>
 </cfif>
-<cfinclude template="/includes/_footer.cfm">
+
+<cfif isdefined("headless") and headless EQ 'true'>	
+	<!--- Leave off footer  --->
+<cfelse>
+	<cfinclude template="/includes/_footer.cfm">
+</cfif>

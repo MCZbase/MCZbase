@@ -461,14 +461,14 @@
 			</ul>
 			--->
 			<br><span>
-                <cfset relation="shows accn">
-                    <input type='button' onClick="addMediaHere('newMediaDlg_#transaction_id#','Create media for accession #accndata.accn_number#','#accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#');" value='Create Media' class='lnkBtn' >&nbsp;
+		                <cfset relation="shows accn">
+				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
       				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 900,1100); " >
-                    </span>
 				</span>
-				<div id='addMediaDlg_#transaction_id#'></div>
-				<div id='newMediaDlg_#transaction_id#'></div>
-				<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
+			</span>
+			<div id='addMediaDlg_#transaction_id#'></div>
+			<div id='newMediaDlg_#transaction_id#'></div>
+			<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
 <script>
 
 // callback for ajax methods to reload from dialog

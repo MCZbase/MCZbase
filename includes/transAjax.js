@@ -708,3 +708,72 @@ function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
   adialog.dialog('open');
 };
 
+// Create and open a dialog to create a new media record adding a provided relationship to the media record 
+function opencreatemediadialog(dialogid, related_value, related_id, relationship, okcallback) { 
+  var title = "Add new Media record to " + related_value;
+  var content = '<div id="'+dialogid+'_div">Loading....</div>';
+  var h = $(window).height();
+  var w = $(window).width();
+  w = Math.floor(w *.9);
+  var thedialog = $("#"+dialogid).html(content)
+  .dialog({
+     title: title,
+     autoOpen: false,
+     dialogClass: 'dialog_fixed,ui-widget-header',
+     modal: true,
+     stack: true,
+     zindex: 2000,
+     height: h,
+     width: w,
+     minWidth: 400,
+     minHeight: 450,
+     draggable:true,
+     buttons: {
+        "Save Media Record": function(){ 
+           if (jQuery.type(okcallback)==='function') {
+	   if ($('#newMedia')[0].checkValidity()) {
+               $.ajax({
+                  url: 'media.cfm',
+                  type: 'post',
+		  returnformat: 'plain',
+                  data: $('#newMedia').serialize(),
+                  success: function(data) { 
+                      okcallback();
+                      $("#"+dialogid+"_div").html(data);
+                  },
+     		  fail: function (jqXHR, textStatus) { 
+	 	        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     		  }	
+		});
+           } else { 
+                messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
+           };
+           };
+        },
+        "Close Dialog": function() { 
+           	if (jQuery.type(okcallback)==='function') {
+                	okcallback();
+    		}
+		$("#"+dialogid).dialog('close'); 
+        }
+     }
+  });
+  thedialog.dialog('open');
+  jQuery.ajax({
+     url: "/component/functions.cfc",
+     type: "post",
+     returnformat: "plain",
+     data: {
+        method: "createMediaHtml",
+        relationship: relationship,
+        related_value: related_value,
+        related_id: related_id
+     }, 
+     success: function (data) { 
+        $("#"+dialogid+"_div").html(data);
+     }, 
+     fail: function (jqXHR, textStatus) { 
+        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     }
+  });
+}

@@ -4048,20 +4048,21 @@ Annotation to report problematic data concerning #annotated.guid#
    </cfquery>
    <!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
    <cfset result = result & '
-      <div class="basic_box">
+      <div>
           <h2 class="wikilink">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs(''Media'')" class="likeLink" alt="[ help ]"></h2>
           <div style="border: 1px dotted gray; background-color: ##f8f8f8;padding: 1em;margin: .5em 0 1em 0;">
-    <form name="newMedia" method="post" action="media.cfm">
+    <form name="newMedia" id="newMedia">
       <input type="hidden" name="action" value="saveNew">
+      <input type="hidden" name="headless" value="true">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
       <label for="media_uri">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr">
+      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr" required>
       <!--- <span class="infoLink" id="uploadMedia">Upload</span> --->
       <label for="preview_uri">Preview URI</label>
       <input type="text" name="preview_uri" id="preview_uri" size="105">
       <label for="mime_type">MIME Type</label>
-      <select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;">
+      <select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;" required>
         <option value=""></option>'>
         <cfloop query="ctmime_type">
           <cfset result = result & "<option value='#mime_type#'>#mime_type#</option>">
@@ -4069,7 +4070,7 @@ Annotation to report problematic data concerning #annotated.guid#
       <cfset result = result & '
       </select>
       <label for="media_type">Media Type</label>
-      <select name="media_type" id="media_type" class="reqdClr" style="width: 160px;">
+      <select name="media_type" id="media_type" class="reqdClr" style="width: 160px;" required>
         <option value=""></option>'>
         <cfloop query="ctmedia_type">
           <cfset result = result & '<option value="#media_type#">#media_type#</option>' >
@@ -4133,11 +4134,6 @@ Annotation to report problematic data concerning #annotated.guid#
         
        </div>
         </div>
-      <input type="submit" 
-				value="Create Media" 
-				class="insBtn"
-				onmouseover="this.className=''insBtn btnhov''" 
-				onmouseout="this.className=''insBtn''">
     </form>'>
     <cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
        <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
