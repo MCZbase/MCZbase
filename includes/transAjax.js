@@ -762,9 +762,9 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
   jQuery.ajax({
      url: "/component/functions.cfc",
      type: "post",
-     returnformat: "plain",
      data: {
         method: "createMediaHtml",
+     	returnformat: "plain",
         relationship: relationship,
         related_value: related_value,
         related_id: related_id
