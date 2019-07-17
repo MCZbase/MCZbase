@@ -4025,6 +4025,85 @@ Annotation to report problematic data concerning #annotated.guid#
         <cfreturn childLoans>
 </cffunction>
 <!------------------------------------->
+<cffunction name="linkMediaHtml" access="remote">
+   <cfargument name="relationship" type="string" required="yes">
+   <cfargument name="related_value" type="string" required="yes">
+   <cfargument name="related_id" type="string" required="yes">
+   <cfset target_id = related_id>
+   <cfset target_relation = relationship>
+   <cfset result = "">
+   <cftry> 
+   <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_type from ctmedia_type order by media_type
+   </cfquery>
+   <cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select mime_type from ctmime_type order by mime_type
+   </cfquery>
+    <cfset result = result & "
+    <div id='mediaSearchForm'>
+    Search for media. Any part of media uri accepted.<br>
+    <cfform name='findMedia' action='MediaPick.cfm' method='post'>
+
+        <input type='hidden' name='Action' value='search'>
+        <input type='hidden' name='target_id' value='#target_id#'>
+        <input type='hidden' name='target_relation' value='#target_relation#'>
+        <table>
+    
+          <tr>
+          <td colspan='3'>
+             <label for='media_uri'>Media URI</label>
+             <input type='text' name='media_uri' id='media_uri' size='90' value=''>
+          </td>
+          </tr>
+    
+          <tr>
+          <td>
+             <label for='mimetype'>MIME Type</label>
+             <select name='mimetype' id='mimetype'>
+               <cfloop query='ctmime_type'>
+                 <option <cfif #mimetype# is #ctmime_type.mime_type#> selected='selected'</cfif> value='#ctmime_type.mime_type#'>#ctmime_type.mime_type#</option>
+               </cfloop>
+             </select>
+          </td>
+          <td>
+             <label for='mediatype'>Media Type</label>
+             <select name='mediatype' id='mediatype'>
+               <cfloop query='ctmedia_type'>
+                 <option <cfif #mediatype# is #ctmedia_type.media_type#> selected='selected'</cfif> value='#ctmedia_type.media_type#'>#ctmedia_type.media_type#</option>
+               </cfloop>
+             </select>
+          </td>
+          <td></td>
+          </tr>
+            <tr>
+            <td>
+               <span>
+                 <input type='checkbox' name='unlinked' id='unlinked' value='true'>
+                 <label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
+               </span>
+            </td>
+            <td>
+                <input type='submit' value='Search' class='schBtn'>    
+            </td>
+            <td>
+                <span ><input type='reset' value='Clear' class='clrBtn'>
+                <input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick='openadddialog(""/media.cfm?action=newMedia&relationship=#target_relation#&related_id=#target_id#&related_value=#related_value#"",""##newPermitDlg_#target_id#"",""Add media to #target_id#"");'>
+                </span>
+                <div id='newPermitDlg_#target_id#' ></div></span>
+            </td>
+            </tr>
+        </table>
+    </cfform>
+    </div>
+    " >
+    <cfcatch> 
+      <cfset result = "Error: " & cfcatch.type & " " &  cfcatch.detail >
+    </cfcatch>
+    </cftry>
+
+   <cfreturn result>
+</cffunction>
+<!------------------------------------->
 <cffunction name="createMediaHtml" access="remote">
    <cfargument name="relationship" type="string" required="yes">
    <cfargument name="related_value" type="string" required="yes">
