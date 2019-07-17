@@ -4031,6 +4031,7 @@ Annotation to report problematic data concerning #annotated.guid#
    <cfargument name="related_id" type="string" required="yes">
    <cfset target_id = related_id>
    <cfset target_relation = relationship>
+   <cfset target_label = related_value>
    <cfset result = "">
    <cftry> 
    <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -4042,7 +4043,7 @@ Annotation to report problematic data concerning #annotated.guid#
     <cfset result = result & "
     <div id='mediaSearchForm'>
     Search for media. Any part of media uri accepted.<br>
-    <cfform name='findMedia' action='MediaPick.cfm' method='post'>
+    <form name='findMedia' action='MediaPick.cfm' method='post' id='findMediaForm'>
 
         <input type='hidden' name='Action' value='search'>
         <input type='hidden' name='target_id' value='#target_id#'>
@@ -4060,17 +4061,24 @@ Annotation to report problematic data concerning #annotated.guid#
           <td>
              <label for='mimetype'>MIME Type</label>
              <select name='mimetype' id='mimetype'>
+               <option value=''></option>
+    ">
                <cfloop query='ctmime_type'>
-                 <option <cfif #mimetype# is #ctmime_type.mime_type#> selected='selected'</cfif> value='#ctmime_type.mime_type#'>#ctmime_type.mime_type#</option>
+    
+                 <cfset result = result & "<option value='#ctmime_type.mime_type#'>#ctmime_type.mime_type#</option>">
                </cfloop>
+    <cfset result = result & "
              </select>
           </td>
           <td>
              <label for='mediatype'>Media Type</label>
              <select name='mediatype' id='mediatype'>
+               <option value=''></option>
+    ">
                <cfloop query='ctmedia_type'>
-                 <option <cfif #mediatype# is #ctmedia_type.media_type#> selected='selected'</cfif> value='#ctmedia_type.media_type#'>#ctmedia_type.media_type#</option>
+                 <cfset result = result & "<option value='#ctmedia_type.media_type#'>#ctmedia_type.media_type#</option>">
                </cfloop>
+    <cfset result = result & "
              </select>
           </td>
           <td></td>
@@ -4087,17 +4095,17 @@ Annotation to report problematic data concerning #annotated.guid#
             </td>
             <td>
                 <span ><input type='reset' value='Clear' class='clrBtn'>
-                <input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick='openadddialog(""/media.cfm?action=newMedia&relationship=#target_relation#&related_id=#target_id#&related_value=#related_value#"",""##newPermitDlg_#target_id#"",""Add media to #target_id#"");'>
+		<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" value='Create Media' class='lnkBtn' >&nbsp;
                 </span>
-                <div id='newPermitDlg_#target_id#' ></div></span>
             </td>
             </tr>
         </table>
-    </cfform>
+    </form>
     </div>
+    <div id='newMediaDlg1_#target_id#'></div>
     " >
     <cfcatch> 
-      <cfset result = "Error: " & cfcatch.type & " " &  cfcatch.detail >
+      <cfset result = "Error: " & cfcatch.type & " " & cfcatch.message & " " &  cfcatch.detail >
     </cfcatch>
     </cftry>
 
