@@ -4028,7 +4028,7 @@ Annotation to report problematic data concerning #annotated.guid#
 <!--- 
       @see findMediaSearchResults 
       @see linkMediaRecord
---->>
+--->
 <cffunction name="linkMediaHtml" access="remote">
    <cfargument name="relationship" type="string" required="yes">
    <cfargument name="related_value" type="string" required="yes">
@@ -4047,7 +4047,7 @@ Annotation to report problematic data concerning #annotated.guid#
     <cfset result = result & "
     <div id='mediaSearchForm'>
     Search for media. Any part of media uri accepted.<br>
-    <form id='findMediaForm' onsubmit(return searchformedia(); )>
+    <form id='findMediaForm' onsubmit='return searchformedia(event);' >
         <input type='hidden' name='method' value='findMediaSearchResults'>
         <input type='hidden' name='returnformat' value='plain'>
         <input type='hidden' name='target_id' value='#target_id#'>
@@ -4105,7 +4105,8 @@ Annotation to report problematic data concerning #annotated.guid#
             </tr>
         </table>
     </form>
-    </div>        <script language='javascript' type='text/javascript'>
+    </div>
+    <script language='javascript' type='text/javascript'>
         function searchformedia(event) { 
            event.preventDefault();
            jQuery.ajax({
@@ -4154,7 +4155,8 @@ Annotation to report problematic data concerning #annotated.guid#
    <cfset result = "">
    <cftry>
     <cfquery name="matchMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select distinct media.media_id, media_uri, preview_uri, mime_type, media_type
+        select distinct media.media_id, media_uri uri, preview_uri, mime_type, media_type, 
+               MCZBASE.get_medialabel(media.media_id,'description') description
         from media
           <cfif isdefined("unlinked") and unlinked EQ "true">
              left join media_relations on media.media_id = media_relations.media_id
@@ -4181,7 +4183,7 @@ Annotation to report problematic data concerning #annotated.guid#
     <cfelse>
     <cfloop query="matchMedia">
         <cfset result = result & "<div">
-          <cfif (i MOD 2> 
+          <cfif (i MOD 2) EQ 0> 
              <cfset result = result & "class='evenRow'"> 
           <cfelse> 
              <cfset result = result & "class='oddRow'"> 
@@ -4192,22 +4194,23 @@ Annotation to report problematic data concerning #annotated.guid#
             <input type='hidden' name='target_id' value='#target_id#'>
             <input type='hidden' name='media_id' value='#media_id#'>
             <input type='hidden' name='Action' value='addThisOne'>
-            <a href='#media_uri#'>#media_uri#</a> #mime_type# #media_type# <a href='/media/#media_id#' target='_blank'>Media Details</a>
-            <br>
+            <div><a href='#uri#'>#uri#</a></div><div>#description# #mime_type# #media_type#</div><div><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
         <div id='pickResponse#target_id#_#i#'>
-            <input type='button' onclick='linkmedia(#media_id#,#target_id#,#target_relation#,""pickResponse#target_id#_#i#"")' value='Add this media'>
+            <input type='button' 
+            onclick='linkmedia(#media_id#,#target_id#,""#target_relation#"",""pickResponse#target_id#_#i#"");' value='Add this media'>
         </div>
         <hr>
         </form>
         <script language='javascript' type='text/javascript'>
-        function linkmedia(media_id, target_id, target_relationship, div_id) { 
-        jQuery.ajax({
+        $('##pickForm#target_id#_#i#').removeClass('ui-widget-content');
+        function linkmedia(media_id, target_id, target_relation, div_id) { 
+          jQuery.ajax({
              url: '/component/functions.cfc',
              type: 'post',
              data: {
                 method: 'linkMediaRecord',
                 returnformat: 'plain',
-                target_relationship: target_relationship,
+                target_relation: target_relation,
                 target_id: target_id,
                 media_id: media_id
             },
@@ -4217,7 +4220,8 @@ Annotation to report problematic data concerning #annotated.guid#
             fail: function (jqXHR, textStatus) {
                 $('##'+div_id).html('Error:' + textStatus);
             }
-        });
+          });
+        };
         </script>
         </div>">
         <cfset i=i+1>
@@ -4235,7 +4239,7 @@ Annotation to report problematic data concerning #annotated.guid#
       @return text indicating action performed or an error message.
   --->
 <cffunction name="linkMediaRecord" access="remote">
-   <cfargument name="target_relationship" type="string" required="yes">
+   <cfargument name="target_relation" type="string" required="yes">
    <cfargument name="target_id" type="string" required="yes">
    <cfargument name="media_id" type="string" required="yes">
    <cfset result = "">
@@ -4248,7 +4252,6 @@ Annotation to report problematic data concerning #annotated.guid#
                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">)
             </cfquery>
             <cfset result = "Added media #media_id# in relationship #target_relation# to #target_id#.">
-        </cfoutput>
     <cfcatch>
         <cfset result = "Error: " & cfcatch.type & " " & cfcatch.message & " " &  cfcatch.detail >
     </cfcatch>
