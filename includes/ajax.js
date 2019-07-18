@@ -948,7 +948,7 @@ function gotAgentId (id) {
 	var id;
 	var len = id.length;
 	if (len == 0) {
-	   	alert('Oops! A select box malfunctioned! Try changing the value and leaving with TAB. The background should change to green when you\'ve successfullly run the check routine.');
+	   	alert('Error: Agent selection failed. Try changing the value and leaving the field with TAB. The background should change to green when you have successfullly run the check routine.');
 		return false;
 	}
 }
