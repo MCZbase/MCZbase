@@ -466,6 +466,10 @@
     <cfif not error>
 	    <cfif isdefined("headless") and headless EQ 'true'>	
 		<h2>New Media Record Saved</h2>
+                <div><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
+                <cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
+                    <div>Created with relationship: #thisRelationship#</div>
+                </cfif>
 	    <cfelse>
 		<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
 	    </cfif>
