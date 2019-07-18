@@ -439,27 +439,6 @@
 					media_relationship like '% accn' and
 					related_primary_key=#transaction_id#
 			</cfquery>
-			<!---
-            <ul>
-				<cfif #media.recordcount# gt 0>
-					<cfloop query="media">
-						<li>
-							<a href="#media_uri#">
-								<cfif len(preview_uri) gt 0>
-									<img src="#preview_uri#">
-								<cfelse>
-									<img src="/images/noThumb.jpg">
-								</cfif>
-							</a>
-							<br><a class="infoLink" href="/MediaSearch.cfm?action=search&media_id=#media_id#">edit</a>
-							<br>#label_value#
-						</li>
-					</cfloop>
-				<cfelse>
-					<li>None</li>
-				</cfif>
-			</ul>
-			--->
 			<br><span>
 		                <cfset relation="shows accn">
 				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;

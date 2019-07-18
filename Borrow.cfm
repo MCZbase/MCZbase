@@ -738,10 +738,11 @@ url : "/component/functions.cfc",
 					related_primary_key=#transaction_id#
 			</cfquery>
 			<br><span>
-                <cfset relation="shows borrow">
-                    <input type='button' onClick="addMediaHere('newMediaDlg_#transaction_id#','title','#getBorrow.borrow_number#','#transaction_id#','#relation#');" value='Create Media' class='lnkBtn' >&nbsp;
-      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Borrow #getBorrow.borrow_number#', reloadTransMedia, 800,950); " >
-                    </span>
+		                <cfset relation="shows borrow">
+				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+      				<span id='addMedia_#transaction_id#'>
+				<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
+				</span>
 				</span>
 				<div id='addMediaDlg_#transaction_id#'></div>
 				<div id='newMediaDlg_#transaction_id#'></div>

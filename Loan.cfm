@@ -1025,14 +1025,15 @@
 					related_primary_key=#transaction_id#
 			</cfquery>
 			<br><span>
-                <cfset relation="documents loan">
-                    <input type='button' onClick="addMediaHere('newMediaDlg_#transaction_id#','title','#loanDetails.loan_number#','#transaction_id#','#relation#');" value='Create Media' class='lnkBtn' >&nbsp;
-      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Loan #loanDetails.loan_number#', reloadTransMedia, 800,950); " >
-                    </span>
+				<cfset relation="documents loan">
+				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+      				<span id='addMedia_#transaction_id#'>
+				<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
 				</span>
-				<div id='addMediaDlg_#transaction_id#'></div>
-				<div id='newMediaDlg_#transaction_id#'></div>
-				<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
+			</span>
+			<div id='addMediaDlg_#transaction_id#'></div>
+			<div id='newMediaDlg_#transaction_id#'></div>
+			<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
 <script>
 
 // callback for ajax methods to reload from dialog
