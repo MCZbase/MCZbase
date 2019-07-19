@@ -691,33 +691,32 @@
     </table>
     </div>
 
-<div class="shippingBlock">
-     <strong>Media (e.g. copies of correspondence) associated with this Deaccession:</strong>
-      <div id="deaccessionMedia"></div>
+<div class="shippingBlock"> 
+    <h3>Media associated with this Deaccession:</h3>
+    <p style="margin:0px;">Include copies of correspondence and other documents (e.g. data files, scans of maps, inventory lists) which are not permissions or rights documents documents here.</p>
+    <br><span>
+        <cfset relation="shows deaccession">
+        <input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccDetails.deacc_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+        <span id='addMedia_#transaction_id#'>
+            <input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccDetails.deacc_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
+        </span>
+    </span>
+    <div id='addMediaDlg_#transaction_id#'></div>
+    <div id='newMediaDlg_#transaction_id#'></div>
+    <div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
 
-</div>
-<script>
-    function loadDeaccessionMedia(transaction_id) {
-        jQuery.get("/component/functions.cfc",
-        {
-            method : "getDeaccMediaHtml",
-            transaction_id : transaction_id
-        },
-        function (result) {
-           $("##deaccessionMedia").html(result);
-        }
-        );
-    };
-
+    <script type="text/javascript" language="javascript">
     // callback for ajax methods to reload from dialog
-    function reloadDeaccessionMedia() {
-        loadDeaccessionMedia(#transaction_id#);
-        $('##addDeaccDlg_#transaction_id#').html('').dialog('destroy');
+    function reloadTransMedia() { 
+        loadTransactionFormMedia(#transaction_id#,"deaccession");
+        if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+            $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+        }
     };
 
-    jQuery(document).ready(loadDeaccessionMedia(#transaction_id#));
-
-</script>
+    $( document ).ready(loadTransactionFormMedia(#transaction_id#,"deacccession"));
+    </script>
+</div><!---  End of Media block ---> 
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>
@@ -872,7 +871,8 @@ $( document ).ready(loadShipments(#transaction_id#));
   </form>
   <div id="shipmentFormPermits"></div>
   <div id="shipmentFormStatus"></div>
-</div>
+</div> <!---  End of shipment block ---> 
+
 <div id="accsection">
 	<h3>Accessions (and their permits) for material in this deaccession:</h3>
         <!--- List Accessions for collection objects included in the Deaccession --->
@@ -908,9 +908,10 @@ $( document ).ready(loadShipments(#transaction_id#));
         </li>
 	</cfloop>
         </ul>
-</div>
-    <!--- TODO: Print permits associated with this deaccession --->
-	  <div id="permitmedia">
+</div>  <!--- End of list accessions block ---> 
+
+<!--- TODO: Print permits associated with this deaccession --->
+<div id="permitmedia">
       <h3>Permit Media (PDF copies of Permits)</h3>
 	<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitMediaRes">
         select distinct media_id, uri, permit_type, permit_num from (
@@ -953,7 +954,7 @@ $( document ).ready(loadShipments(#transaction_id#));
          <p>No Permits Found</p>
     </cfif>
     </ul>
-    </div>
+</div> <!---  End of permit block --->
 
 
 </cfoutput>
