@@ -421,24 +421,6 @@
 <div class="shippingBlock"> 
 			<h3>Media associated with this Accession:</h3>
             <p style="margin:0px;">Include copies of correspondence and other documents (e.g. data files, scans of maps, inventory lists) which are not permissions or rights documents documents here.</p>
-
-			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					media.media_id,
-					preview_uri,
-					media_uri,
-					media_type,
-					label_value
-				from
-					media,
-					media_relations,
-					(select * from media_labels where media_label='description') media_labels
-				where
-					media.media_id=media_labels.media_id (+) and
-					media.media_id=media_relations.media_id and
-					media_relationship like '% accn' and
-					related_primary_key=#transaction_id#
-			</cfquery>
 			<br><span>
 		                <cfset relation="shows accn">
 				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
