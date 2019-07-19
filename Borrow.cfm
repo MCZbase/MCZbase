@@ -720,23 +720,6 @@ url : "/component/functions.cfc",
 			<h3>Media documenting this Borrow:</h3>
             <p style="margin:0px;">Include copies of signed loan invoices and correspondence here.</p>
 
-			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					media.media_id,
-					preview_uri,
-					media_uri,
-					media_type,
-					label_value
-				from
-					media,
-					media_relations,
-					(select * from media_labels where media_label='description') media_labels
-				where
-					media.media_id=media_labels.media_id (+) and
-					media.media_id=media_relations.media_id and
-					media_relationship like '% borrow' and
-					related_primary_key=#transaction_id#
-			</cfquery>
 			<br><span>
 		                <cfset relation="shows borrow">
 				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
