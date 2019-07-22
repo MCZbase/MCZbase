@@ -451,7 +451,12 @@ $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 
                 <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
 
-                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#&inDialog=true','addPermitDlg_#transaction_id#','Pick Permit for Accession', reloadTransPermits, 900,1100); " ></div><div id='addPermitDlg_#transaction_id#'></div>
+                <div class='shipbuttons' id='addPermit_#transaction_id#'>
+				   <input type='button' 
+                          style='margin-left: 30px;' 
+                          onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#',reloadTransPermits);" 
+                          value='Add Permit to this Accession' class='lnkBtn'>
+                </div><div id='addPermitDlg_#transaction_id#'></div>
 </div>
 
 <script>

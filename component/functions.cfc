@@ -2569,7 +2569,7 @@
 	</cfoutput>
 </cffunction>
 
-            <!-------------------------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------------->
 <cffunction name="addPartToDeacc" access="remote">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="partID" type="numeric" required="yes">
@@ -2760,6 +2760,11 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a list of collection object ids, return a result object consisting of collection object id values with
+       corresponding type status values (along with counts) for that collection object in a typeList variable.  In 
+       the event of an error return a result object with one row where the collection object id has the value -1 and 
+       the typeList contains an error message.
+---> 
 <cffunction name="getTypes" access="remote">
 	<cfargument name="idList" type="string" required="yes">
 	<cfset theResult=queryNew("collection_object_id,typeList")>
@@ -2793,6 +2798,295 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a transaction_id, return a block of html code for a permit picking dialog to pick permits for the given
+       transaction.
+       @param transaction_id the transaction to which selected permits are to be related.
+       @return html content for a permit picker dialog for transaction permits or an error message if an exception was raised.
+
+       @see linkPermitToTrans 
+       @see findPermitSearchResults
+--->
+<cffunction name="transPermitPickerHtml" returntype="query" access="remote">
+    <cfargument name="transaction_id" type="string" required="yes">
+   
+    <cfset result = "">
+    <cftry>
+        <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select ct.permit_type, count(p.permit_id) uses 
+        from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
+        group by ct.permit_type
+        order by ct.permit_type
+        </cfquery>
+        <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, count(p.permit_id) uses 
+        from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type
+        order by ct.specific_type
+        </cfquery>
+        <cfset result = result & "
+   <h2>Search for permits. Any part of dates and names accepted, case isn't important.</h2>
+   <form name='findPermitForm' onsubmit='searchforpermits;'>
+    <input type='hidden' name='method' value='findPermitSearchResults'>
+    <input type='hidden' name='returnformat' value='plain'>
+	<input type='hidden' name='transaction_id' value='#transaction_id#'>
+	<table>
+		<tr>
+			<td>Issued By</td>
+			<td><input type='text' name='IssuedByAgent'></td>
+			<td>Issued To</td>
+			<td><input type='text' name='IssuedToAgent'></td>
+			
+			
+		</tr>
+		<tr>
+			<td>Issued Date</td>
+			<td><input type='text' name='issued_Date'></td>
+			<td>Renewed Date</td>
+			<td><input type='text' name='renewed_Date'></td>
+		</tr>
+		<tr>
+			<td>Expiration Date</td>
+			<td><input type='text' name='exp_Date'></td>
+			<td>Permit Number</td>
+			<td><input type='text' name='permit_Num' id='permit_Num'></td>
+		</tr>
+		<tr>
+			<td>Permit Type</td>
+			<td>
+				<select name='permit_Type' size='1' style='width: 15em;'>
+					<option value=''></option>
+					<cfloop query='ctPermitType'>
+						<option value = '#ctPermitType.permit_type#'>#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+					</cfloop>
+				
+				</select>
+			</td>
+			<td>Remarks</td>
+			<td><input type='text' name='permit_remarks'></td>
+		</tr>
+		<tr>
+			<td>Specific Type</td>
+			<td>
+				<select name='specific_type' size='1' style='width: 15em;'>
+					<option value=''></option>
+					<cfloop query='ctSpecificPermitType'>
+						<option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+					</cfloop>
+				
+				</select>
+			</td>
+			<td>Permit Title</td>
+			<td><input type='text' name='permit_title'></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+			    <input type='submit' value='Search' class='schBtn'>	
+			</td>
+			<td>
+                <script>
+                   function createPermitDialogDone () { 
+                       $('##permit_Num').val($('##createPermitDlg_#transaction_id#_iframe').contents().find('##permit_number_passon').val()); 
+                       $('##createPermitDlg_#transaction_id#').html('').dialog('destroy');
+                   };
+                </script>
+                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitDlg_#transaction_id#','Create Permit', createPermitDialogDone, 750, 950);' ></span><div id='createPermitDlg_#transaction_id#'></div>
+			</td>
+			<td>
+   			    <input type='reset' value='Clear' class='clrBtn'>
+			</td>
+		</tr>
+	</table>
+	</form>
+    <script language='javascript' type='text/javascript'>
+        function searchforpermits(event) { 
+           event.preventDefault();
+           jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: $('##findPermitForm').serialize(),
+             success: function (data) {
+                 $('##permitSearchResults').html(data);
+             },
+             fail: function (jqXHR, textStatus) {
+                 $('##permitSearchResults').html('Error:' + textStatus);
+             }
+           });
+           return false; 
+        };
+        </script>
+    <div id='permitSearchResults'></div>
+    ">
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Given a transaction_id and a list of permit search criteria return an html list of permits matching the
+      search criteria, along with controls allowing selected permits to be linked to the specified transaction.
+
+      @see transPermitPickerHtml
+      @see linkPermitToTrans 
+--->
+<cffunction name="findPermitSearchResults" access="remote">
+    <cfargument name="transaction_id" type="string" required="yes">
+    <cfargument name="transaction_label" type="string" required="yes">
+	<cfargument name="IssuedByAgent" type="string" required="no">
+	<cfargument name="IssuedToAgent" type="string" required="no">
+	<cfargument name="issued_Date" type="string" required="no">
+	<cfargument name="renewed_Date" type="string" required="no">
+	<cfargument name="exp_Date" type="string" required="no">
+	<cfargument name="permit_Num" type="string" required="no">
+	<cfargument name="specific_type" type="string" required="no">
+	<cfargument name="permit_Type" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+    <cfset result = "">
+    <cftry>
+        <cfif len(IssuedByAgent) EQ 0 AND len(IssuedToAgent) EQ 0 AND len(issued_Date) EQ 0 AND 
+              len(renewed_Date) EQ 0 AND len(exp_Date) EQ 0 AND len(permit_Num) EQ 0 AND 
+              len(specific_type) EQ 0 AND len(permit_Type) EQ 0 AND len(permit_title) EQ 0 AND 
+              len(permit_remarks) EQ 0 >
+            <cfthrow type="noQueryParameters" message="No search criteria provided." >
+        </cfif>
+
+    <cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select permit.permit_id,
+	    issuedByPref.agent_name IssuedByAgent,
+    	issuedToPref.agent_name IssuedToAgent,
+	    issued_Date,
+	    renewed_Date,
+    	exp_Date,
+	    permit_Num,
+    	permit_Type,
+	    permit_title,
+    	specific_type,
+	    permit_remarks 
+    from 
+	    permit 
+    	left join preferred_agent_name issuedToPref on permit.issued_to_agent_id = issuedToPref.agent_id 
+	    left join preferred_agent_name issuedByPref on permit.issued_by_agent_id = issuedByPref.agent_id 
+    	left join agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+ 	    left join agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id 
+    where 
+        permit.permit_id is not null
+		<cfif len(#IssuedByAgent#) gt 0>
+			 AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedByAgent)#%'>
+		</cfif>
+		<cfif len(#IssuedToAgent#) gt 0>
+			 AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedToAgent)#%'>
+		</cfif>
+		<cfif len(#issued_Date#) gt 0>
+			 AND upper(issued_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(issued_Date)#%'>
+		</cfif>
+		<cfif len(#renewed_Date#) gt 0>
+			 AND upper(renewed_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(renewed_Date)#%'>
+		</cfif>
+		<cfif len(#exp_Date#) gt 0>
+			 AND upper(exp_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(exp_Date)#%'>
+		</cfif>
+		<cfif len(#permit_Num#) gt 0>
+			 AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Num#'>
+		</cfif>
+		<cfif len(#specific_type#) gt 0>
+			 AND specific_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#specific_type#'>
+		</cfif>
+		<cfif len(#permit_Type#) gt 0>
+			 AND permit_Type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Type#'>
+		</cfif>
+		<cfif len(#permit_title#) gt 0>
+			 AND upper(permit_title) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_title)#%'>
+		</cfif>
+		<cfif len(#permit_remarks#) gt 0>
+			 AND upper(permit_remarks) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_remarks)#%'>
+		</cfif>
+    ORDER BY permit_id
+    </cfquery>
+    <cfset i=1>
+    <cfset result = result & "<h2>Find permits to link to #transaction_label#</h2>">
+    <cfloop query="matchPermit" >
+        <cfset result = result & "<div">
+        <cfif (i MOD 2) EQ 0> 
+             <cfset result = result & "class='evenRow'"> 
+        <cfelse> 
+             <cfset result = result & "class='oddRow'"> 
+        </cfif>
+        <cfset result = result & " >">
+        <cfset result = result & "
+    	<form id='pp_#permit_id#_#transaction_id#' >
+	        Permit Number #permit_Num# (#permit_Type#:#specific_type#) 
+            issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,'yyyy-mm-dd')# ">
+            <cfif len(#renewed_Date#) gt 0><cfset result = result & " (renewed #dateformat(renewed_Date,'yyyy-mm-dd')#)"></cfif>
+            <cfset result = result & ". Expires #dateformat(exp_Date,'yyyy-mm-dd')#.  ">
+            <cfif len(#permit_remarks#) gt 0><cfset result = result & "Remarks: #permit_remarks# "></cfif> 
+            <cfset result = result & " (ID## #permit_id#) #permit_title#
+            <br><input type='submit' value='Add this permit'  class='picBtn' onclick=' $('##pp_#permit_id#_#transaction_id#').submit(); '>
+            <div id='pickResponse#transaction_id#_#i#'>
+                <input type='button' 
+                onclick='linkpermit(#permit_id#,#transaction_id#,""pickResponse#transaction_id#_#i#"");' value='Add this permit'>
+            </div>
+    	</form>
+        <script language='javascript' type='text/javascript'>
+        $('##pp_#permit_id#_#transaction_id#').removeClass('ui-widget-content');
+        function linkpermit(permit_id, transaction_id, div_id) { 
+          jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: {
+                method: 'linkMediaRecord',
+                returnformat: 'plain',
+                permit_id: permit_id,
+                transaction_id: transaction_id
+            },
+            success: function (data) {
+                $('##'+div_id).html(data);
+            },
+            fail: function (jqXHR, textStatus) {
+                $('##'+div_id).html('Error:' + textStatus);
+            }
+          });
+        };
+        </script>
+        </div>">
+        <cfset i=i+1>
+    </cfloop>
+
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a transaction_id and a permit_id, create a permit_trans record to link the permit to the transaction.
+       @param transaction_id the transaction to link
+       @param permit_id the permit to link
+       @return html message indicating success, or an error message on failure.
+
+       @see transPermitPickerHtml
+       @see findPermitSearchResults
+--->
+<cffunction name="linkPermitToTrans" access="remote">
+    <cfargument name="transaction_id" type="string" required="yes">
+    <cfargument name="permit_id" type="string" required="yes">
+
+    <cfset result = "">
+    <cftry>
+		<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO permit_trans (permit_id, transaction_id) VALUES (#permit_id#, #transaction_id#)
+		</cfquery>
+		
+		<cfset result = "Added permit #permit_id# to transaction #transaction_id#. ">
+
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
 <!--- get permits as query json objects by a list of permit ids
