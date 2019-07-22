@@ -2806,8 +2806,9 @@
        @see linkPermitToTrans 
        @see findPermitSearchResults
 --->
-<cffunction name="transPermitPickerHtml" returntype="query" access="remote">
+<cffunction name="transPermitPickerHtml" returntype="string" access="remote">
     <cfargument name="transaction_id" type="string" required="yes">
+    <cfargument name="transaction_label" type="string" required="yes">
    
     <cfset result = "">
     <cftry>
@@ -2825,10 +2826,11 @@
         </cfquery>
         <cfset result = result & "
    <h2>Search for permits. Any part of dates and names accepted, case isn't important.</h2>
-   <form name='findPermitForm' onsubmit='searchforpermits;'>
-    <input type='hidden' name='method' value='findPermitSearchResults'>
-    <input type='hidden' name='returnformat' value='plain'>
+   <form id='findPermitForm' onsubmit='searchforpermits(event);'>
+   	<input type='hidden' name='method' value='findPermitSearchResults'>
+    	<input type='hidden' name='returnformat' value='plain'>
 	<input type='hidden' name='transaction_id' value='#transaction_id#'>
+	<input type='hidden' name='transaction_label' value='#transaction_label#'>
 	<table>
 		<tr>
 			<td>Issued By</td>
@@ -2901,6 +2903,8 @@
     <script language='javascript' type='text/javascript'>
         function searchforpermits(event) { 
            event.preventDefault();
+           // to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
+           // alert($('##findPermitForm').serialize());
            jQuery.ajax({
              url: '/component/functions.cfc',
              type: 'post',
@@ -2921,7 +2925,7 @@
 		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
     </cfcatch>
     </cftry>
-    <cfreturn result>
+    <cfreturn result >
 </cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
@@ -2931,7 +2935,7 @@
       @see transPermitPickerHtml
       @see linkPermitToTrans 
 --->
-<cffunction name="findPermitSearchResults" access="remote">
+<cffunction name="findPermitSearchResults" access="remote" returntype="string">
     <cfargument name="transaction_id" type="string" required="yes">
     <cfargument name="transaction_label" type="string" required="yes">
 	<cfargument name="IssuedByAgent" type="string" required="no">
@@ -2946,6 +2950,16 @@
 	<cfargument name="permit_remarks" type="string" required="no">
     <cfset result = "">
     <cftry>
+        <cfif NOT isdefined('IssuedByAgent')><cfset IssuedByAgent=''></cfif>
+        <cfif NOT isdefined('IssuedToAgent')><cfset IssuedToAgent=''></cfif>
+        <cfif NOT isdefined('issued_Date')><cfset issued_Date=''></cfif>
+        <cfif NOT isdefined('renewed_Date')><cfset renewed_Date=''></cfif>
+        <cfif NOT isdefined('exp_Date')><cfset exp_Date=''></cfif>
+        <cfif NOT isdefined('permit_Num')><cfset permit_Num=''></cfif>
+        <cfif NOT isdefined('specific_type')><cfset specific_type=''></cfif>
+        <cfif NOT isdefined('permit_Type')><cfset permit_Type=''></cfif>
+        <cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+        <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
         <cfif len(IssuedByAgent) EQ 0 AND len(IssuedToAgent) EQ 0 AND len(issued_Date) EQ 0 AND 
               len(renewed_Date) EQ 0 AND len(exp_Date) EQ 0 AND len(permit_Num) EQ 0 AND 
               len(specific_type) EQ 0 AND len(permit_Type) EQ 0 AND len(permit_title) EQ 0 AND 
@@ -2954,7 +2968,7 @@
         </cfif>
 
     <cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    select permit.permit_id,
+    select distinct permit.permit_id,
 	    issuedByPref.agent_name IssuedByAgent,
     	issuedToPref.agent_name IssuedToAgent,
 	    issued_Date,
@@ -3008,7 +3022,7 @@
     <cfset i=1>
     <cfset result = result & "<h2>Find permits to link to #transaction_label#</h2>">
     <cfloop query="matchPermit" >
-        <cfset result = result & "<div">
+        <cfset result = result & "<hr><div">
         <cfif (i MOD 2) EQ 0> 
              <cfset result = result & "class='evenRow'"> 
         <cfelse> 
@@ -3016,30 +3030,30 @@
         </cfif>
         <cfset result = result & " >">
         <cfset result = result & "
-    	<form id='pp_#permit_id#_#transaction_id#' >
-	        Permit Number #permit_Num# (#permit_Type#:#specific_type#) 
-            issued to #IssuedToAgent# by #IssuedByAgent# on #dateformat(issued_Date,'yyyy-mm-dd')# ">
-            <cfif len(#renewed_Date#) gt 0><cfset result = result & " (renewed #dateformat(renewed_Date,'yyyy-mm-dd')#)"></cfif>
-            <cfset result = result & ". Expires #dateformat(exp_Date,'yyyy-mm-dd')#.  ">
-            <cfif len(#permit_remarks#) gt 0><cfset result = result & "Remarks: #permit_remarks# "></cfif> 
-            <cfset result = result & " (ID## #permit_id#) #permit_title#
-            <br><input type='submit' value='Add this permit'  class='picBtn' onclick=' $('##pp_#permit_id#_#transaction_id#').submit(); '>
+    	<form id='pp_#permit_id#_#transaction_id#_#i#' >
+	        Permit Number #matchPermit.permit_Num# (#matchPermit.permit_Type#:#matchPermit.specific_type#) 
+            issued to #matchPermit.IssuedToAgent# by #matchPermit.IssuedByAgent# on #dateformat(matchPermit.issued_Date,'yyyy-mm-dd')# ">
+            <cfif len(#matchPermit.renewed_Date#) gt 0><cfset result = result & " (renewed #dateformat(matchPermit.renewed_Date,'yyyy-mm-dd')#)"></cfif>
+            <cfset result = result & ". Expires #dateformat(matchPermit.exp_Date,'yyyy-mm-dd')#.  ">
+            <cfif len(#matchPermit.permit_remarks#) gt 0><cfset result = result & "Remarks: #matchPermit.permit_remarks# "></cfif> 
+            <cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
             <div id='pickResponse#transaction_id#_#i#'>
-                <input type='button' 
-                onclick='linkpermit(#permit_id#,#transaction_id#,""pickResponse#transaction_id#_#i#"");' value='Add this permit'>
+                <input type='button' class='picBtn'
+                onclick='linkpermit(#matchPermit.permit_id#,#transaction_id#,""#transaction_label#"",""pickResponse#transaction_id#_#i#"");' value='Add this permit'>
             </div>
     	</form>
         <script language='javascript' type='text/javascript'>
-        $('##pp_#permit_id#_#transaction_id#').removeClass('ui-widget-content');
-        function linkpermit(permit_id, transaction_id, div_id) { 
+        $('##pp_#permit_id#_#transaction_id#_#i#').removeClass('ui-widget-content');
+        function linkpermit(permit_id, transaction_id, transaction_label, div_id) { 
           jQuery.ajax({
              url: '/component/functions.cfc',
              type: 'post',
              data: {
-                method: 'linkMediaRecord',
+                method: 'linkPermitToTrans',
                 returnformat: 'plain',
                 permit_id: permit_id,
-                transaction_id: transaction_id
+                transaction_id: transaction_id,
+                transaction_label: transaction_label
             },
             success: function (data) {
                 $('##'+div_id).html(data);
@@ -3069,8 +3083,9 @@
        @see transPermitPickerHtml
        @see findPermitSearchResults
 --->
-<cffunction name="linkPermitToTrans" access="remote">
+<cffunction name="linkPermitToTrans" access="remote" returntype="string">
     <cfargument name="transaction_id" type="string" required="yes">
+    <cfargument name="transaction_label" type="string" required="yes">
     <cfargument name="permit_id" type="string" required="yes">
 
     <cfset result = "">
@@ -3079,10 +3094,14 @@
 			INSERT INTO permit_trans (permit_id, transaction_id) VALUES (#permit_id#, #transaction_id#)
 		</cfquery>
 		
-		<cfset result = "Added permit #permit_id# to transaction #transaction_id#. ">
+		<cfset result = "Added this permit (#permit_id#) to transaction #transaction_label#. ">
 
     <cfcatch>
-		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+		<cfif cfcatch.detail CONTAINS "ORA-00001: unique constraint (MCZBASE.PKEY_PERMIT_TRANS">
+			<cfset result = "Error: This permit is already linked to #transaction_label#">
+                <cfelse>  
+			<cfset result = "Error: #cfcatch.message# #cfcatch.detail#">
+ 		</cfif>
     </cfcatch>
     </cftry>
     <cfreturn result>
