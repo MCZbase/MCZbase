@@ -2978,13 +2978,18 @@
     	permit_Type,
 	    permit_title,
     	specific_type,
-	    permit_remarks 
+	    permit_remarks,
+            (select count(*) from permit_trans 
+		where permit_trans.permit_id = permit.permit_id
+		and permit_trans.transaction_id = <cfqueryparam cfsqltype='CF_SQL_NUMBER' value='#transaction_id#'>
+	    ) as linkcount
     from 
 	    permit 
     	left join preferred_agent_name issuedToPref on permit.issued_to_agent_id = issuedToPref.agent_id 
 	    left join preferred_agent_name issuedByPref on permit.issued_by_agent_id = issuedByPref.agent_id 
     	left join agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
  	    left join agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id 
+            left join permit_trans on permit.permit_id = permit_trans.permit_id 
     where 
         permit.permit_id is not null
 		<cfif len(#IssuedByAgent#) gt 0>
@@ -3037,9 +3042,16 @@
             <cfset result = result & ". Expires #dateformat(matchPermit.exp_Date,'yyyy-mm-dd')#.  ">
             <cfif len(#matchPermit.permit_remarks#) gt 0><cfset result = result & "Remarks: #matchPermit.permit_remarks# "></cfif> 
             <cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
-            <div id='pickResponse#transaction_id#_#i#'>
+            <div id='pickResponse#transaction_id#_#i#'>">
+                <cfif matchPermit.linkcount GT 0>
+            		<cfset result = result & " This Permit is already linked to #transaction_label# ">
+                <cfelse>
+			<cfset result = result & "
                 <input type='button' class='picBtn'
                 onclick='linkpermit(#matchPermit.permit_id#,#transaction_id#,""#transaction_label#"",""pickResponse#transaction_id#_#i#"");' value='Add this permit'>
+			">
+		</cfif>
+		<cfset result = result & "
             </div>
     	</form>
         <script language='javascript' type='text/javascript'>
