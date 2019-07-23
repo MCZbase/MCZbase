@@ -2798,6 +2798,131 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<!--- Create an html form for entering a new permit and linking it to a transaction or shipment.   
+      @param related_id the transaction or shipment ID to link the new permit to.
+      @param related_label a human readable description of the transaction or shipment to link the new permit to.
+      @param relation_type 'transaction' to relate the new permit to a transaction, 'shipment' to relate to a shipment.
+      @return an html form suitable for placement as the content of a jquery-ui dialog to create the new permit.
+---> 
+<cffunction name="getNewPermitForTransHtml" access="remote" returntype="string">
+    <cfargument name="related_id" type="string" required="yes">
+    <cfargument name="related_label" type="string" required="yes">
+    <cfargument name="relation_type" type="string" required="yes">
+
+    <cfset result = "">
+
+   <cftry>
+     <cfif relation_type EQ "transaction">
+         <cfset transaction_id = related_id>
+     <cfelse>
+         <cfset shipment_id = related_id>
+     </cfif>
+    
+    <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, ct.permit_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type, ct.permit_type
+        order by ct.specific_type
+    </cfquery>
+    <cfset result = result & "<h2>Create New Permissions &amp; Rights Document</h2>
+    <p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
+       material transfer agreements, collecting permits, salvage permits, etc.)  This record will be linked to #related_label#</p>
+	<cfoutput>
+	<form id='newPermitForm' method='post'>
+	<input type='hidden' name='Action' value='createPermit'>
+	<table>
+		<tr>
+			<td>Issued By</td>
+			<td colspan='3'>
+			<input type='hidden' name='IssuedByAgentId'>
+			<input type='text' name='IssuedByAgent' class='reqdClr' size='50'
+		 onchange=""getAgent('IssuedByAgentId','IssuedByAgent','newPermit',this.value); return false;""
+			  onKeyUp='return noenter();'>
+
+
+		    </td>
+		</tr>
+			<tr>
+			<td>Issued To</td>
+			<td colspan='3'>
+			<input type='hidden' name='IssuedToAgentId'>
+			<input type='text' name='IssuedToAgent' class='reqdClr' size='50'
+		 onchange=""getAgent('IssuedToAgentId','IssuedToAgent','newPermit',this.value); return false;""
+			  onKeyUp='return noenter();'>
+		    </td>
+		</tr>
+		<tr>
+			<td>Contact Person</td>
+			<td colspan='3'>
+			<input type='hidden' name='contact_agent_id'>
+			<input type='text' name='ContactAgent' size='50'
+		 		onchange=""getAgent('contact_agent_id','ContactAgent','newPermit',this.value); return false;""
+			  	onKeyUp='return noenter();'>
+
+
+		    </td>
+		</tr>
+		<tr>
+			<td>Issued Date</td>
+			<td><input type='text' name='issued_Date'></td>
+			<td>Renewed Date</td>
+			<td><input type='text' name='renewed_Date'></td>
+		</tr>
+		<tr>
+			<td>Expiration Date</td>
+			<td><input type='text' name='exp_Date'></td>
+			<td>Permit Number</td>
+			<td><input type='text' name='permit_Num'></td>
+		</tr>
+		<tr>
+			<td>Specific Document Type</td>
+			<td colspan=3>
+				<select name='specific_type' id='specific_type' size='1' class='reqdClr'>
+					<option value=''></option>">
+					<cfloop query="ctSpecificPermitType">
+                        <cfset result = result & " <option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>">
+					</cfloop>
+                    <cfset result = result & "
+				</select>">
+                   <cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+                        <cfset result = result & "
+                       <button id='addSpecificTypeButton' onclick='openAddSpecificTypeDialog(); event.preventDefault();'>+</button>
+                       <div id='newPermitASTDialog'></div> ">
+                   </cfif>
+            <cfset result = result & "
+			</td>
+		</tr>
+		<tr>
+			<td>Document Title</td>
+			<td><input type='text' name='permit_title' style='width: 26em;' ></td>
+			<td>Remarks</td>
+			<td><input type='text' name='permit_remarks' style='width: 26em;' ></td>
+		</tr>
+		<tr>
+			<td>Summary of Restrictions on use</td>
+			<td colspan='3'><textarea cols='80' rows='3' name='restriction_summary'></textarea></td>
+		</tr>
+		<tr>
+			<td>Summary of Agreed Benefits</td>
+			<td colspan='3'><textarea cols='80' rows='3' name='benefits_summary'></textarea></td>
+		</tr>
+		<tr>
+			<td>Benefits Provided</td>
+			<td colspan='3'><textarea cols='80' rows='3' name='benefits_provided'></textarea></td>
+		</tr>
+		<tr>
+			<td colspan='4' align='center'>
+				<input type='submit' value='Save' class='insBtn' >
+			</td>
+		</tr>
+	</table>
+</form> ">
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result >
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
 <!---  Given a transaction_id, return a block of html code for a permit picking dialog to pick permits for the given
        transaction.
        @param transaction_id the transaction to which selected permits are to be related.
@@ -2892,7 +3017,7 @@
                        $('##createPermitDlg_#transaction_id#').html('').dialog('destroy');
                    };
                 </script>
-                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitDlg_#transaction_id#','Create Permit', createPermitDialogDone, 750, 950);' ></span><div id='createPermitDlg_#transaction_id#'></div>
+                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opendialogcallback(""/Permit.cfm?headless=true&Action=newPermit"",""createPermitDlg_#transaction_id#"",""Create Permit"", createPermitDialogDone, 900, 1300);' ></span><div id='createPermitDlg_#transaction_id#'></div>
 			</td>
 			<td>
    			    <input type='reset' value='Clear' class='clrBtn'>

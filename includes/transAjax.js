@@ -872,3 +872,72 @@ function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcal
      }
   });
 }
+// Create and open a dialog to create a new permit record adding a provided relationship to the permit record
+function opencreatepermitdialog(dialogid, related_label, related_id, relationtype, okcallback) { 
+  var title = "Add new Permit record to " + related_value;
+  var content = '<div id="'+dialogid+'_div">Loading....</div>';
+  var h = $(window).height();
+  var w = $(window).width();
+  w = Math.floor(w *.9);
+  var thedialog = $("#"+dialogid).html(content)
+  .dialog({
+     title: title,
+     autoOpen: false,
+     dialogClass: 'dialog_fixed,ui-widget-header',
+     modal: true,
+     stack: true,
+     zindex: 2000,
+     height: h,
+     width: w,
+     minWidth: 400,
+     minHeight: 450,
+     draggable:true,
+     buttons: {
+        "Save Permit Record": function(){ 
+           if (jQuery.type(okcallback)==='function') {
+	   if ($('#newMedia')[0].checkValidity()) {
+               $.ajax({
+                  url: 'Permit.cfm',
+                  type: 'post',
+        		  returnformat: 'plain',
+                  data: $('#newPermitForm').serialize(),
+                  success: function(data) { 
+                      okcallback();
+                      $("#"+dialogid+"_div").html(data);
+                  },
+     		  fail: function (jqXHR, textStatus) { 
+	 	        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     		  }	
+		});
+           } else { 
+                messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
+           };
+           };
+        },
+        "Close Dialog": function() { 
+           	if (jQuery.type(okcallback)==='function') {
+                	okcallback();
+    		}
+		$("#"+dialogid).dialog('close'); 
+        }
+     }
+  });
+  thedialog.dialog('open');
+  jQuery.ajax({
+     url: "/component/functions.cfc",
+     type: "post",
+     data: {
+        method: "getNewPermitForTransHtml",
+     	returnformat: "plain",
+        relation_type: relation_type,
+        related_value: related_label,
+        related_id: related_id
+     }, 
+     success: function (data) { 
+        $("#"+dialogid+"_div").html(data);
+     }, 
+     fail: function (jqXHR, textStatus) { 
+        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     }
+  });
+}
