@@ -44,12 +44,13 @@ sho err
 	<p>Columns in red are required:</p>
 	<ul class="geol_hier">
 
-        <li style="color: red;">other_id_type</li>
-        <ul><li>"catalog number" is also a valid other_id_type</li>
-		<li>	<a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">other_id_type values list</a></li>
-    </ul>
-
+        <li style="color: red;">other_id_type
+          <ul>
+             <li style="color: black;">"catalog number" is also a valid other_id_type</li>
+		     <li style="color: black;"><a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">other_id_type values list</a></li>
+          </ul>
 		</li>
+		<li style="color: red;">other_id_number</li>
 		<li style="color: red;">Collection_Cde</li>
     <li style="color: red;">Institution_Acronym  <span style="color:black;">(case-sensitive, e.g., "MCZ")</span></li>
 

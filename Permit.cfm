@@ -7,8 +7,8 @@
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <!--- no security --->
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
-        group by ct.permit_type 
+	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
+        group by ct.permit_type
         order by ct.permit_type
 </cfquery>
 <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -161,10 +161,10 @@ where
 </cfif>
 <cfif len(#issued_date#) gt 0>
     <cfif len(#issued_date#) EQ 4>
-       <cfset issued_date = "#issued_date#-01-01">
-	   <cfif len(#issued_until_date#) EQ 0>
+ 		<cfif len(#issued_until_date#) EQ 0>
            <cfset issued_until_date = "#issued_date#-12-31">
        </cfif>
+       <cfset issued_date = "#issued_date#-01-01">
 	   <cfif len(#issued_until_date#) EQ 4>
            <cfset issued_until_date = "#issued_until_date#-12-31">
        </cfif>
@@ -178,10 +178,10 @@ where
 </cfif>
 <cfif len(#renewed_date#) gt 0>
     <cfif len(#renewed_date#) EQ 4>
-       <cfset renewed_date = "#renewed_date#-01-01">
-	   <cfif len(#renewed_until_date#) EQ 0>
+		<cfif len(#renewed_until_date#) EQ 0>
            <cfset renewed_until_date = "#renewed_date#-12-31">
        </cfif>
+       <cfset renewed_date = "#renewed_date#-01-01">
 	   <cfif len(#renewed_until_date#) EQ 4>
            <cfset renewed_until_date = "#renewed_until_date#-12-31">
        </cfif>
@@ -195,10 +195,10 @@ where
 </cfif>
 <cfif len(#exp_date#) gt 0>
     <cfif len(#exp_date#) EQ 4>
-       <cfset exp_date = "#exp_date#-01-01">
-	   <cfif len(#exp_until_date#) EQ 0>
+		<cfif len(#exp_until_date#) EQ 0>
            <cfset exp_until_date = "#exp_date#-12-31">
        </cfif>
+       <cfset exp_date = "#exp_date#-01-01">
 	   <cfif len(#exp_until_date#) EQ 4>
            <cfset exp_until_date = "#exp_until_date#-12-31">
        </cfif>
@@ -862,7 +862,7 @@ select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, tr
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
-  where trans.transaction_type = 'deacc'
+  where trans.transaction_type = 'deaccession'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
@@ -906,7 +906,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join deaccession on trans.transaction_id = deaccession.transaction_id
-  where trans.transaction_type = 'borrow'
+  where trans.transaction_type = 'deaccession'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 
      </cfquery>
@@ -1061,7 +1061,7 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
   left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
   left join flat on deacc_item.collection_object_id = flat.collection_object_id
   left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-  where trans.transaction_type = 'deacc'
+  where trans.transaction_type = 'deaccession'
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
@@ -1078,7 +1078,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
   left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
   left join flat on deacc_item.collection_object_id = flat.collection_object_id
   left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-  where trans.transaction_type = 'deacc'
+  where trans.transaction_type = 'deaccession'
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
@@ -1291,7 +1291,7 @@ UPDATE permit SET
 	Error: There was an error selecting the permit type for the specific document type.  Please file a bug report.
         <cfset hasError = 1 >
 </cfif>
-<cfif hasError eq 1> 
+<cfif hasError eq 1>
     <cfabort>
 </cfif>
 <cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
