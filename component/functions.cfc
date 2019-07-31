@@ -3047,14 +3047,14 @@
 			 #nextPermit.nextPermit#
 			 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
 			 <cfif len(#ISSUED_DATE#) gt 0>
-			 	,'#dateformat(ISSUED_DATE,"yyyy-mm-dd")#'
+			 	,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">
 			 </cfif>
 			 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
 			  <cfif len(#RENEWED_DATE#) gt 0>
-			 	,'#dateformat(RENEWED_DATE,"yyyy-mm-dd")#'
+			 	,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RENEWED_DATE,"yyyy-mm-dd")#">
 			 </cfif>
 			 <cfif len(#EXP_DATE#) gt 0>
-			 	,'#dateformat(EXP_DATE,"yyyy-mm-dd")#'
+			 	,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(EXP_DATE,"yyyy-mm-dd")#">
 			 </cfif>
 			 <cfif len(#PERMIT_NUM#) gt 0>
 			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
@@ -3105,6 +3105,109 @@
     </cftry>
     </cftransaction>
     <cfreturn result >
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="savePermitChanges" returntype="string" access="remote">
+    <cfargument name="permit_id" type="string" required="yes">
+    <cfargument name="specific_type" type="string" required="yes">
+    <cfargument name="issuedByAgentId" type="string" required="yes">
+    <cfargument name="issuedToAgentId" type="string" required="yes">
+    <cfargument name="issued_date" type="string" required="no">
+    <cfargument name="renewed_date" type="string" required="no">
+    <cfargument name="exp_date" type="string" required="no">
+    <cfargument name="permit_num" type="string" required="no">
+    <cfargument name="permit_title" type="string" required="no">
+    <cfargument name="permit_remarks" type="string" required="no">
+    <cfargument name="restriction_summary" type="string" required="no">
+    <cfargument name="benefits_summary" type="string" required="no">
+    <cfargument name="benefits_provided" type="string" required="no">
+    <cfargument name="contact_agent_id" type="string" required="no">
+
+    <cftransaction action="begin">
+    <cftry> 
+        <cfif NOT isdefined('issued_date')><cfset issued_date=''></cfif>
+        <cfif NOT isdefined('renewed_date')><cfset renewed_date=''></cfif>
+        <cfif NOT isdefined('exp_date')><cfset exp_date=''></cfif>
+        <cfif NOT isdefined('permit_num')><cfset permit_num=''></cfif>
+        <cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+        <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+        <cfif NOT isdefined('restriction_summary')><cfset restriction_summary=''></cfif>
+        <cfif NOT isdefined('benefits_summary')><cfset benefits_summary=''></cfif>
+        <cfif NOT isdefined('benefits_provided')><cfset benefits_provided=''></cfif>
+        <cfif NOT isdefined('contact_agent_id')><cfset contact_agent_id=''></cfif>
+		<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+		</cfquery>
+		<cfset permit_type = #ptype.permit_type#>
+		<cfoutput>
+		<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		UPDATE permit SET
+			permit_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#permit_id#">
+			<cfif len(#issuedByAgentId#) gt 0>
+			 	,ISSUED_BY_AGENT_ID = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#issuedByAgentId#">
+		    </cfif>
+			 <cfif len(#ISSUED_DATE#) gt 0>
+			 	,ISSUED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">
+			 </cfif>
+			 <cfif len(#IssuedToAgentId#) gt 0>
+			 	,ISSUED_TO_AGENT_ID = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
+			 </cfif>
+			 <cfif len(#RENEWED_DATE#) gt 0>
+			 	,RENEWED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#RENEWED_DATE#">
+			 </cfif>
+			 <cfif len(#EXP_DATE#) gt 0>
+			 	,EXP_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#EXP_DATE#">
+			 </cfif>
+			 <cfif len(#PERMIT_NUM#) gt 0>
+			 	,PERMIT_NUM = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#PERMIT_NUM#">
+			 </cfif>
+			 <cfif len(#PERMIT_TYPE#) gt 0>
+			 	,PERMIT_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+			 </cfif>
+			 <cfif len(#SPECIFIC_TYPE#) gt 0>
+			 	,SPECIFIC_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+			 </cfif>
+			 <cfif len(#PERMIT_TITLE#) gt 0>
+			 	,PERMIT_TITLE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+			 </cfif>
+			<cfif len(#PERMIT_REMARKS#) gt 0>
+			 	,PERMIT_REMARKS = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
+		    </cfif>
+			<cfif len(#restriction_summary#) gt 0>
+			 	,restriction_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
+		    </cfif>
+			<cfif len(#benefits_summary#) gt 0>
+			 	,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+		    </cfif>
+			<cfif len(#benefits_provided#) gt 0>
+			 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
+		    </cfif>
+			 <cfif len(#contact_agent_id#) gt 0>
+			 	,contact_agent_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#contact_agent_id#">
+			<cfelse>
+				,contact_agent_id = null
+			 </cfif>
+			 where  permit_id =  <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+		</cfquery>
+          <cfif updatePermit.recordcount eq 1>
+             <cfset result=queryNew("status, message")>
+             <cfset t = queryaddrow(result,1)>
+             <cfset t = QuerySetCell(result, "status", "1", 1)>
+             <cfset t = QuerySetCell(result, "message", "Changes saved.", 1)>
+            <cftransaction action="commit">
+          <cfelse>
+            <cfthrow message="No records modified.">
+            <cftransaction action="rollback">
+          </cfif>
+       <cfcatch>
+          <cfset result=queryNew("status, message")>
+          <cfset t = queryaddrow(result,1)>
+          <cfset t = QuerySetCell(result, "status", "-1", 1)>
+          <cfset t = QuerySetCell(result, "message", "Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+       </cfcatch>
+    </cftry>
+    </cftransaction>
+    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <!---  Given a transaction_id, return a block of html code for a permit picking dialog to pick permits for the given
