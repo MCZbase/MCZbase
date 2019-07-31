@@ -2829,7 +2829,7 @@
     <p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
        material transfer agreements, collecting permits, salvage permits, etc.)  This record will be linked to #related_label#</p>
 	<cfoutput>
-	<form id='newPermitForm' method='post'>
+	<form id='newPermitForm' onsubmit='addnewpermit'>
    	    <input type='hidden' name='method' value='createNewPermitForTrans'>
     	<input type='hidden' name='returnformat' value='plain'>
 	<table>
@@ -2838,7 +2838,7 @@
 			<td colspan='3'>
 			<input type='hidden' name='IssuedByAgentId'>
 			<input type='text' name='IssuedByAgent' class='reqdClr' size='50'
-		 onchange=""getAgent('IssuedByAgentId','IssuedByAgent','newPermit',this.value); return false;""
+		 	  onchange=""getAgent('IssuedByAgentId','IssuedByAgent','newPermitForm',this.value); return false;""
 			  onKeyUp='return noenter();'>
 
 
@@ -2849,7 +2849,7 @@
 			<td colspan='3'>
 			<input type='hidden' name='IssuedToAgentId'>
 			<input type='text' name='IssuedToAgent' class='reqdClr' size='50'
-		 onchange=""getAgent('IssuedToAgentId','IssuedToAgent','newPermit',this.value); return false;""
+			  onchange=""getAgent('IssuedToAgentId','IssuedToAgent','newPermitForm',this.value); return false;""
 			  onKeyUp='return noenter();'>
 		    </td>
 		</tr>
@@ -2858,7 +2858,7 @@
 			<td colspan='3'>
 			<input type='hidden' name='contact_agent_id'>
 			<input type='text' name='ContactAgent' size='50'
-		 		onchange=""getAgent('contact_agent_id','ContactAgent','newPermit',this.value); return false;""
+		 		onchange=""getAgent('contact_agent_id','ContactAgent','newPermitForm',this.value); return false;""
 			  	onKeyUp='return noenter();'>
 
 
@@ -2912,28 +2912,10 @@
 			<td>Benefits Provided</td>
 			<td colspan='3'><textarea cols='80' rows='3' name='benefits_provided'></textarea></td>
 		</tr>
-		<tr>
-			<td colspan='4' align='center'>
-				<input type='submit' value='Save' class='insBtn' >
-			</td>
-		</tr>
 	</table>
     <script language='javascript' type='text/javascript'>
         function addnewpermit(event) { 
            event.preventDefault();
-           // to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
-           alert($('##newPermitForm').serialize());
-           jQuery.ajax({
-             url: '/component/functions.cfc',
-             type: 'post',
-             data: $('##addPermitForm').serialize(),
-             success: function (data) {
-                 $('##permitAddResults').html(data);
-             },
-             fail: function (jqXHR, textStatus) {
-                 $('##permitAddResults').html('Error:' + textStatus);
-             }
-           });
            return false; 
         };
         </script>
@@ -3303,7 +3285,7 @@
                        $('##createPermitDlg_#transaction_id#').html('').dialog('destroy');
                    };
                 </script>
-                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog(,""createPermitDlg_#transaction_id#"",""Create Permit #transaction_label#"", #transaction_id#, ""transaction"" createPermitDialogDone);' ></span><div id='createPermitDlg_#transaction_id#'></div>
+                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog(""createPermitDlg_#transaction_id#"",""#transaction_label#"", #transaction_id#, ""transaction"", createPermitDialogDone);' ></span><div id='createPermitDlg_#transaction_id#'></div>
 
 			</td>
 			<td>

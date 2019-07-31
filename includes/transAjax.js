@@ -873,8 +873,8 @@ function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcal
   });
 }
 // Create and open a dialog to create a new permit record adding a provided relationship to the permit record
-function opencreatepermitdialog(dialogid, related_label, related_id, relationtype, okcallback) { 
-  var title = "Add new Permit record to " + related_value;
+function opencreatepermitdialog(dialogid, related_label, related_id, relation_type, okcallback) { 
+  var title = "Add new Permit record to " + related_label;
   var content = '<div id="'+dialogid+'_div">Loading....</div>';
   var h = $(window).height();
   var w = $(window).width();
@@ -895,12 +895,14 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relationtyp
      buttons: {
         "Save Permit Record": function(){ 
            if (jQuery.type(okcallback)==='function') {
-	   if ($('#newMedia')[0].checkValidity()) {
+           var datasub = $('#newPermitForm').serialize();
+	   alert(datasub);
+	   if ($('#newPermitForm')[0].checkValidity()) {
                $.ajax({
-                  url: 'Permit.cfm',
+     		  url: "/component/functions.cfc",
                   type: 'post',
         		  returnformat: 'plain',
-                  data: $('#newPermitForm').serialize(),
+                  data: datasub,
                   success: function(data) { 
                       okcallback();
                       $("#"+dialogid+"_div").html(data);
@@ -923,16 +925,17 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relationtyp
      }
   });
   thedialog.dialog('open');
-  jQuery.ajax({
-     url: "/component/functions.cfc",
-     type: "post",
-     data: {
+  datastr = {
         method: "getNewPermitForTransHtml",
      	returnformat: "plain",
         relation_type: relation_type,
-        related_value: related_label,
+        related_label: related_label,
         related_id: related_id
-     }, 
+  };
+  jQuery.ajax({
+     url: "/component/functions.cfc",
+     type: "post",
+     data: datastr,
      success: function (data) { 
         $("#"+dialogid+"_div").html(data);
      }, 
