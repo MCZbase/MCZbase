@@ -3065,6 +3065,7 @@
         <cfif newPermitResult.recordcount eq 1>
             <cfset result = result & "<span>Created new Permissons/Rights record. ">
             <cfset result = result & "<a href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+            <cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
         </cfif>
 		<cfquery name="newPermitLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitLinkResult">
             <cfif relation_type EQ "transaction">
@@ -3281,8 +3282,7 @@
 			<td>
                 <script>
                    function createPermitDialogDone () { 
-                       $('##permit_Num').val($('##createPermitDlg_#transaction_id#_iframe').contents().find('##permit_number_passon').val()); 
-                       $('##createPermitDlg_#transaction_id#').html('').dialog('destroy');
+                       $('##permit_Num').val($('##permit_number_passon').val()); 
                    };
                 </script>
                 <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog(""createPermitDlg_#transaction_id#"",""#transaction_label#"", #transaction_id#, ""transaction"", createPermitDialogDone);' ></span><div id='createPermitDlg_#transaction_id#'></div>

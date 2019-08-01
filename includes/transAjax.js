@@ -894,33 +894,33 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
      draggable:true,
      buttons: {
         "Save Permit Record": function(){ 
-           if (jQuery.type(okcallback)==='function') {
            var datasub = $('#newPermitForm').serialize();
-	   alert(datasub);
-	   if ($('#newPermitForm')[0].checkValidity()) {
+	       alert(datasub);
+	       if ($('#newPermitForm')[0].checkValidity()) {
                $.ajax({
-     		  url: "/component/functions.cfc",
+     		      url: "/component/functions.cfc",
                   type: 'post',
         		  returnformat: 'plain',
                   data: datasub,
                   success: function(data) { 
-                      okcallback();
+                      if (jQuery.type(okcallback)==='function') {
+                          okcallback();
+                      };
                       $("#"+dialogid+"_div").html(data);
                   },
-     		  fail: function (jqXHR, textStatus) { 
-	 	        $("#"+dialogid+"_div").html("Error:" + textStatus);
-     		  }	
-		});
+     		      fail: function (jqXHR, textStatus) { 
+	 	            $("#"+dialogid+"_div").html("Error:" + textStatus);
+     		      }	
+		      });
            } else { 
                 messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
-           };
            };
         },
         "Close Dialog": function() { 
            	if (jQuery.type(okcallback)==='function') {
                 	okcallback();
     		}
-		$("#"+dialogid).dialog('close'); 
+		    $("#"+dialogid).dialog('close'); 
         }
      }
   });
