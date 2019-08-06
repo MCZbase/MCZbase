@@ -1,0 +1,138 @@
+Variable Naming
+
+For variables declared in ColdFusion or JavaScript that are not references to fields in the database, use camel case:  localVariableName
+
+For variables, html form element names and ids that map one to one onto a database field, use the name of the database field in all lower case:  higher_geography,    (Principle: A reference to a field name is consistent across the application stack, it doesn?t have one name at one level of the stack and a different name at another level of the stack).
+
+For IDs of DOM elements such as <div> tags in html that are to be referred to in JavaScript, use camel case: id=?theIdOfThisDiv?
+
+In general, use long descriptive names for variables.  Exception: Loop counters can use single lower-case letters, in particular i or j.   Avoid using q for the name of a query, except in very small function calls where the query will be operated on and referenced only within a few lines of the query.  
+
+File Naming
+
+File names that represent objects should be nouns starting with an upper-case letter:  Loan.cfm
+
+File names that represent actions should be a lower-case verb composed with noun starting with an upper case letter:  editLoan.cfm
+
+	
+Directory Organization
+
+	.cfc component files should be in /component/
+	.cfc custom tag files should be in /customtags/
+	widely reused cold fusion, JavaScript, and css files that we have written should be in /includes/
+		/includes/
+		/includes/js/
+		/includes/css/
+	Included libraries (jquery, etc), should be inside /lib/
+
+Accompany top level pages about objects (nouns, in upper case), with a lower-case directory name to support specific components used in the rendering and editing of that object.
+
+	Specimen.cfm
+	specimen/
+
+External Dependencies
+
+Avoid external dependencies whenever possible.  Include libraries from copies stored in /lib/ rather than from external IRIs.
+
+Operators
+
+Scopes
+
+Functions
+
+Embeded SQL
+
+Always use <cfqueryparam> for parameters in all queries, no exceptions.
+
+Always create queries inside a <cfquery> block, not as a text string passed to cfquery.
+
+If needed, embed cfif statements and logic inside the <cfquery> block
+
+Use upper case for SQL reserved words.
+
+In general, begin each SQL clause on a new line, and indent for readability.
+
+<cfquery>
+	SELECT fields FROM table
+	WHERE
+ 		field = ?1?
+                       	<cfif case EQ ?x?>
+			otherfield = <cfsqlparam   value=?#providedValue#? cfsqltype=?CF_SQL_VARCHAR?>
+		</cfif>
+	ORDER BY otherfield
+</cfquery>
+
+Indentation
+
+Indent each level of control nesting with one tab character.  
+
+<cfif action EQ ?foo?>
+	<cfif case EQ 1>
+		<cfset>
+	<cfelse>
+		<cfset>
+	</cfif>
+</cfif>
+		
+
+When nesting html or JavaScript or SQL within ColdFusion, start at the current level of indentation.
+
+Line Endings
+	
+Use Dos (CR+LF) line endings, and tabs for indentation.
+
+Ajax Feedback
+
+Provide a marker to indicate that content is expected to be loaded by ajax when a page loads.
+
+	<div id=?getsReplacedOnPageLoad?>Loading stuff...</div>
+
+Provide consistent spinner that ajax is happening.
+
+
+Javascript Organization.
+
+Include short javascript function invocations in onClick elements of button and other html tags rather than binding them to clickEvents.  (This practice makes generalization harder, but makes following the sequence of events from an event easier to trace out).
+
+
+Javascript References to DOM
+
+Whenever possible, pass the ID values of elements in the DOM that are reference in javascript or coldfusion functions as parameters to the ajax function calls and then on to downstream handlers rather than embedding them as magic names downstream.  
+
+Given:
+<div id=?placeToCreateDialog?></div>
+
+Use (passing reference to id of div in function call):
+<script>
+	function somethingHandler(dialogID) {
+		$(?#?+dialogID).dialog....
+ 	}
+</script>
+
+Not (hard coding div name):
+
+<script>
+	function somethingHandler(dialogID) {
+		$(?#placeToCreateDialog?).dialog....
+ 	}
+</script>
+
+
+CSS
+
+Avoid using inline styling whenever possible, except in early development and testing.  
+Place styles in external stylesheet documents instead of including them in .cfm files.
+Styles that can be reused across all pages should be in the external library css files /lib/extLibraryFolder/fileName.css.
+Styles that are only used for a particular narrow solution related to one concept or styles used to overwrite an external library style should be in /includes/css/custom_styles.css.
+
+Most of the style classes are Bootstrap 4 and found at https://getbootstrap.com/docs/4.3/getting-started/introduction/. Use the Search? box on the left sidebar to find a style and see how to use it.
+There is also a PSD in our directory with example styles and embedded css.
+
+Layout blocks in the stylesheet files with the selector on one line then an indented block of the style declarations, one per line.  Place multiple values for the same property on the same line.
+
+.indent {
+    text-indent: -2em;
+    padding-left: 2em;
+}
+DRAFT  MCZbase_style_guide.odt 2019-06-07 10:04
+
