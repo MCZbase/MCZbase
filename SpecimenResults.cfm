@@ -279,47 +279,63 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<script>
 		hidePageLoad();
 	</script>
-	<div id="loading" style="position:relative; margin: 0 auto;width: 80%;z-index:999;background-color:green;color:white;font-size:large;font-weight:bold;padding:10%;padding-bottom: 6em;">
-		Your query returned no results.
-		<ul>
-			<li>Check your form input, or use the Clear Form button to start over.</li>
+	<div class="loading" style="position:relative; margin: 1.5em auto;width: 80%;z-index:999;background-color:white;color:##222;padding: 2% 10%;padding-bottom: 6em;">
+		<div class="noResults">
+		<h1>Your query returned no results.</h1>
+		<h2>Tips:</h2>
+			<p>Check your form input or use the "Clear Form" button to start over.</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			 <p>
+				  MCZbase form fields may not be what you expect them to be.  See: <a href='https://code.mcz.harvard.edu/wiki/index.php/Glossary_of_MCZbase_Field_Names'>The glossary of MCZbase Field Names</a>.
+			   </p>
+			<cfelse>
+		
+		
+			</cfif>
+			<p>
+				Use dropdowns or partial word matches instead of text strings, which may be entered in unexpected ways. Since the system relies on exact matches, "Doe" is a good choice for a collector if "John P. Doe" didn't match anything, for example. 
+			</p>
+			<p>See: <a href="/info/help.cfm?content=search_help">Additional Search Tips</a></p>
+			<p>
+				<a href="/contact.cfm">Contact us</a> if you still can't find what you need, and you think it is related to how you are using the form. We'll help if we can.
+			</p>
+			<h3>Taxonomy Searches</h3>
+			<ul>
 			<li>
-				If you searched by taxonomy, consult <a href="/TaxonomySearch.cfm" class="novisit">The Taxonomy List</a>.
-				Taxa are often synonymized and revised, and may not be consistent across collections. Previous Identifications,
+				If you searched by taxonomy, consult <a href="/TaxonomySearch.cfm">The Taxonomy List</a>.
+				Taxa are often synonymized and revised and may not be consistent across collections. Previous Identifications,
 				which are separate from the taxonomy used in Identifications, may be located using the scientific name
 				"is/was/cited/related" option.
 			</li>
+			</ul>
+			<h3>Geography Searches</h3>
+			<ul>
 			<li>
-				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, or use a substring match.
+				Try broadening your search criteria. Try the next-higher geographic element, remove search parameters, or use a substring match.
 				Don't assume we've accurately or predictably recorded data.
 			</li>
 			<li>
 				 Not all specimens have coordinates - the spatial query tool will not locate all specimens.
 			</li>
-			<li>
-				Use dropdowns or partial word matches instead of text strings, which may be entered in unexpected ways.
-				"Doe" is a good choice for a collector if "John P. Doe" didn't match anything, for example.
-			</li>
-			<cfif #cgi.HTTP_HOST# DOES NOT CONTAIN "harvard.edu">
-			   <li>
-				  Read the documentation for individual search fields (click the title of the field to see documentation).
-				  Arctos fields may not be what you expect them to be.  See: <a href='https://code.mcz.harvard.edu/wiki/index.php/Glossary_of_MCZbase_Field_Names'>The glossary of MCZbase Field Names</a>
-			   </li>
-			<cfelse>
-				<li>
-				  Read the documentation for individual search fields.
-				  See: <a href='https://code.mcz.harvard.edu/wiki/index.php/Glossary_of_MCZbase_Field_Names'>The glossary of MCZbase Field Names</a>
-			    </li>
-			</cfif>
-			<li>
-				<a href="/googlesearch.cfm">Try our Google search</a>. Not everything in Arctos
-				is indexed in Google, but it may provide a starting point to locate specific items.
-			</li>
-			<li>
-				<a href="/contact.cfm">Contact us</a> if you still can't find what you need. We'll help if we can.
-			</li>
+			
 		</ul>
+		<h3>Unexpected results</h3>
+		<p>Please note that not 100% of the MCZ collections have been fully databased. If you believe there may be material in the collections that satisfies your search criteria or are simply not getting the expected results, please feel free to contact the relevant department or departments. Emails are linked below:</p>
+						<table>
+							<tr><td><a href="mailto:mcz_cryogenics@fas.harvard.edu">Cryogenics</a></td>
+								<td><a href="mailto:mcz_entomology@fas.harvard.edu">Entomology</a></td>
+								<td><a href="mailto:mcz_herpetology@fas.harvard.edu">Herpetology</a></td>
+								<td><a href="mailto:mcz_ichthyology@fas.harvard.edu">Ichthyology</a></td>
+								<td><a href="mailto:mcz_invertebratepaleo@fas.harvard.edu">Invertebrate Paleontology</a></td>
+							</tr>
+							<tr><td><a href="mailto:mcz_invertebratezoology@fas.harvard.edu">Invertebrate Zoology</a></td><td><a href="mailto:mcz_malacology@fas.harvard.edu">Malacology</a></td><td><a href="mailto:mcz_mammalogy@fas.harvard.edu">Mammalogy</a></td><td><a href="mailto:mcz_ornithology@fas.harvard.edu">Ornithology</a></td><td><a href="mailto:mcz_vertebratepaleo@fas.harvard.edu>">Vertebrate Paleontology</a></td>
+							</tr>
+							
+						</table>
+						
+						
 	</div>
+		</div>
 	<cfabort>
 </cfif>
 <cfset collObjIdList = valuelist(summary.collection_object_id)>

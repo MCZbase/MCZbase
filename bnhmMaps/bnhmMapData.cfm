@@ -73,7 +73,7 @@
 		#flatTableName#.collection_object_id IN (#mediaFlatTableName#.collecting_object_id) AND
 		#flatTableName#.dec_lat is not null AND
 		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source in ('wild caught', 'unknown') ">
+		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
 
 	<cfset srch = "">
 
@@ -114,7 +114,7 @@
 	<cfset basWhere = " WHERE
 		#flatTableName#.dec_lat is not null AND
 		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source in ('wild caught', 'unknown') ">
+		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
 	<cfset basQual = "">
 	<cfif not isdefined("basJoin")>
 		<cfset basJoin = "">
@@ -128,7 +128,7 @@
 </cfif><!--- end point map option --->
 <cfif getMapData.recordcount is 0>
 	<div class="error">
-		Oops! We didn't find anything mappable. Only wild caught specimens with coordinates will map.
+		Oops! We didn't find anything mappable. Only wild caught and rock/outcrop specimens with coordinates will map.
 		File a <a href='/info/bugs.cfm'>bug report</a> if you think this message is in error.
 	</div>
 	<cfabort>
