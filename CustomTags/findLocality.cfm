@@ -59,12 +59,12 @@
 		<cfset collnOper="usedOnlyBy">
 	</cfif>
 	<cfif collnOper is "usedOnlyBy">
-		<cfset sql = "#sql# AND cataloged_item.collection_id in ( #collection_id# ) and
-			cataloged_item.collection_id not in ( select collection_id from collection minus select #collection_id# from dual)">
+		<cfset sql = "#sql# AND locality.locality_id in (select locality_id from vpd_collection_locality where collection_id = #collection_id#) and
+						locality.locality_id not in (select locality_id from vpd_collection_locality where collection_id <> #collection_id#)">
 	<cfelseif collnOper is "usedBy">
-		<cfset sql = "#sql# AND cataloged_item.collection_id in ( #collection_id# )">
+		<cfset sql = "#sql# AND locality.locality_id in (select locality_id from vpd_collection_locality where collection_id = #collection_id#)">
 	<cfelseif collnOper is "notUsedBy">
-		<cfset sql = "#sql# AND cataloged_item.collection_id not in ( #collection_id# )">
+		<cfset sql = "#sql# AND locality.locality_id  not in (select locality_id from vpd_collection_locality where collection_id = #collection_id#)">
 	</cfif>
 </cfif>
 <cfif isdefined("locality_id") and len(#locality_id#) gt 0>
@@ -208,9 +208,9 @@
 </cfif>
 <cfif isdefined("higher_geog") and len(#higher_geog#) gt 0>
 	<cfif left(higher_geog,1) is "=">
-		<CFSET sql = "#SQL# AND upper(higher_geog) = '#ucase(right(higher_geog,len(higher_geog)-1))#'">
+		<CFSET sql = "#SQL# AND upper(higher_geog) = '#escapequotes(ucase(right(higher_geog,len(higher_geog)-1)))#'">
 	<cfelse>
-		<cfset sql = "#sql# AND upper(higher_geog) like '%#ucase(higher_geog)#%'">
+		<cfset sql = "#sql# AND upper(higher_geog) like '%#escapequotes(ucase(higher_geog))#%'">
 	</cfif>
 </cfif>
 <cfif isdefined("NoGeorefBecause") AND len(#NoGeorefBecause#) gt 0>
@@ -264,7 +264,7 @@
 	higher_geog,
 	spec_locality,
 	verbatim_locality"--->
-
+<cfset checkSql(sql)>
 <cfset linguisticFlag = false>
 <cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1><cfset linguisticFlag=true></cfif>
 <cfif linguisticFlag >
