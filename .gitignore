@@ -1,6 +1,7 @@
 cache
 mediaUploads
 specimen_images
+download/
 _notes/
 /bower_components/
 /node_modules/

@@ -136,7 +136,7 @@ limitations under the License.
 			</cfif>
 			<table cellpadding="10">
 				<tr>
-					<td valign="top"><img src="/images/blowup.gif"></td>
+					<td valign="top"><img src="includes/images/Process-stop.png"></td>
 					<td>
 						<font color="##FF0000" size="+1">
 							<strong>An error occurred while processing this page!</strong>
