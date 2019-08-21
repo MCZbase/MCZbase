@@ -40,7 +40,7 @@ limitations under the License.
 		<cfargument name="EventName" type="String" required="true" />
 		<cfset showErr=1 />
 		<cfif isdefined("exception.type") and exception.type eq "coldfusion.runtime.AbortException">
-                         <cfif  Application.serverRootUrl contains "-test">
+                         <cfif  Application.productionServer EQ false >
                                 <cfset showErr=1 />
                         <cfelse>
                                 <cfset showErr=0 />
@@ -50,7 +50,7 @@ limitations under the License.
 		</cfif>
 		<cfif StructKeyExists(form,"C0-METHODNAME")>
 			<!--- cfajax calling cfabort --->
-                         <cfif  Application.serverRootUrl contains "-test">
+                         <cfif  Application.productionServer EQ false >
                                 <cfset showErr=1 />
                         <cfelse>
                                 <cfset showErr=0 />
@@ -116,7 +116,9 @@ limitations under the License.
 				#session.username# is "mole" or
 				#session.username# is "heliumcell"
 				)>
-				<cfoutput>#errortext#</cfoutput>
+				    <cfoutput>#errortext#</cfoutput>
+                <cfelseif  Application.productionServer EQ false >
+				    <cfoutput>#errortext#</cfoutput>
 				</cfif>
 			</cfif>
 			<cfif isdefined("exception.errorCode") and exception.errorCode is "403">
@@ -174,12 +176,15 @@ limitations under the License.
   		<!--- So, make sure that we are handling the cases where only the unqualified local name is returned. ---> 
 		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu" or serverName is "mczbase-prd">
 			<cfset serverName="mczbase.mcz.harvard.edu" />
+            <cfset Application.productionServer = true>
 		</cfif>
 		<cfif serverName is "mczbase-dev">
 			<cfset serverName="mczbase-dev.rc.fas.harvard.edu" />
+            <cfset Application.productionServer = false>
 		</cfif>
 		<cfif serverName is "mczbase-test">
 			<cfset serverName="mczbase-test.rc.fas.harvard.edu" />
+            <cfset Application.productionServer = false>
 		</cfif>
 
  		<cfset Application.protocol = 'http'>
