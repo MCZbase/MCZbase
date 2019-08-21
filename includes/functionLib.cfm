@@ -29,11 +29,12 @@ limitations under the License.
 	@return true on successful login, otherwise false
 ---> 
 <cffunction name="initSession" returntype = boolean output="true">
-        <cfargument name="pwd" type="string" required="false">
-        <cfargument name="username" type="string" required="false">
-        <!--- Clear any current session and log any current session user out --->
-        <cfset StructClear(Session)>
-        <cflogout>
+	<cfargument name="pwd" type="string" required="false">
+	<cfargument name="username" type="string" required="false">
+	<!--- Clear any current session and log any current session user out --->
+	<cfset StructClear(Session)>
+	<cflogout>
+	<cfset session.roles="public">
 
 	<cfreturn false>
 </cffunction>

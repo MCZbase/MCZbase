@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="../../images/favicon.ico">
+<link rel="SHORTCUT ICON" href="/includes/images/favicon.ico">
 <cfoutput>
 <title>#pageTitle#</title>
 </cfoutput>
@@ -78,7 +78,8 @@
 <body class="default cbp-spmenu-push cbp-spmenu-pushtoleft">
 
 <header id="header">
-<div class="branding-container clearfix">
+<cfoutput>
+<div class="branding-container clearfix" style="background-color: #Application.header_color#">
 	<div class="branding-left justify-content-start"> 
 		<a href="http://www.harvard.edu/" > 
 			<img src="https://mcz.harvard.edu/profiles/openscholar/themes/hwpi_basetheme/images/harvard-logo.png" width="235" height="32" alt="University Logo" />
@@ -91,14 +92,15 @@
 <nav class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner">
 	<ul class="navbar col-lg-9 col-md-8 col-sm-9 pt-0 pb-0 mb-1">
 		<li class="nav-item mcz2"><a href="https://www.mcz.harvard.edu/" target="_blank">Museum of Comparative Zoology</a></li>
-		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">MCZbase: Database of Zoological Collections</a></li>
+		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">#Application.collection_link_text#</a></li>
 	</ul>
 	<ul class="navbar col-lg-3 col-md-8 col-sm-3 pt-0 pb-0 mb-1 d-flex justify-content-end">
 		<div class="mcz_logo">
-			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu"><img class="mcz_logo_krono" src="/includes/images/mcz_logo_white_left.png" width="160"></a> </li>
+			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu"><img class="mcz_logo_krono" src="#Application.header_image#" width="160"></a> </li>
 		</div>
 	</ul>
 </nav>
+</cfoutput>
 <nav class="navbar navbar-expand-md navbar-light bg-light py-1 border-bottom">
 	<div class="container p-5px">
 		<button class="navbar-toggler" style="z-index:4000;" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
