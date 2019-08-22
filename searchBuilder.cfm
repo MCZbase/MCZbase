@@ -1,6 +1,6 @@
 <cfset pageTitle = "search form builder">
 <!-- 
-Affiliates.cfm
+searchBuilder.cfm
 
 Copyright 2019 President and Fellows of Harvard College
 
