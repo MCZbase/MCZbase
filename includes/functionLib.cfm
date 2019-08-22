@@ -36,5 +36,54 @@ limitations under the License.
 	<cflogout>
 	<cfset session.roles="public">
 
+	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
+		<cfquery name="getPrefs" datasource="cf_dbuser">
+			select * from cf_users where username = '#username#' and password='#hash(pwd)#'
+		</cfquery>
+		<cfif getPrefs.recordcount is 0>
+			<cfset session.username = "">
+			<cfset session.epw = "">
+			<cflocation url="login.cfm?badPW=true&username=#username#">
+		</cfif>
+		<cfset session.username=username>
+		<cfquery name="dbrole" datasource="uam_god">
+			select upper(granted_role) role_name
+			from dba_role_privs, cf_ctuser_roles
+			where
+			upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) and
+			upper(grantee) = '#ucase(getPrefs.username)#'
+		</cfquery>
+		<cfset session.roles = valuelist(dbrole.role_name)>
+		<cfset session.roles=listappend(session.roles,"public")>
+		<cfset session.last_login = "#getPrefs.last_login#">
+		<cfif listcontainsnocase(session.roles,"coldfusion_user")>
+			<cfset session.dbuser = "#getPrefs.username#">
+			<cfset session.epw = encrypt(pwd,cfid)>
+			<cftry>
+				<cfquery name="ckUserName" datasource="uam_god">
+					select agent_id from agent_name 
+					where agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+							and agent_name_type='login'
+				</cfquery>
+			<cfcatch>
+				<div class="error">Your Oracle login has issues. Contact a Database Administrator.</div>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+			<cfif len(ckUserName.agent_id) is 0>
+				<div class="error">You must have an agent_name of type login that matches your MCZbase username.</div>
+				<cfabort>
+			</cfif>
+			<cfset session.myAgentId=ckUserName.agent_id>
+			<cfset pwtime =  round(now() - getPrefs.pw_change_date)>
+			<cfset pwage = Application.max_pw_age - pwtime>
+			<cfif pwage lte 0>
+				<cfset session.force_password_change = "yes">
+				<cflocation url="ChangePassword.cfm">
+			</cfif>
+		</cfif>
+	</cfif>
+
+
 	<cfreturn false>
 </cffunction>
