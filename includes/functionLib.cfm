@@ -23,6 +23,32 @@ limitations under the License.
 
 <!----------------------------------------------------------->
 
+<cffunction name="setDbUser" output="true" returntype="boolean">
+    <cfargument name="portal_id" type="string" required="false">
+    <cfif not isdefined("portal_id") or len(portal_id) is 0 or not isnumeric(portal_id)>
+        <cfset portal_id=0>
+    </cfif>
+    <cfif session.roles does not contain "coldfusion_user">
+			<!--- User does not have access privileges to the data in flat, use filtered_flat.  --->
+        <cfquery name="portalInfo" datasource="cf_dbuser">
+            select * from cf_collection where cf_collection_id = #portal_id#
+        </cfquery>
+        <cfset session.dbuser=portalInfo.dbusername>
+        <cfset session.epw = encrypt(portalInfo.dbpwd,cfid)>
+        <cfset session.flatTableName = "filtered_flat">
+    <cfelse>
+			<!--- User has access privileges to the data in flat.  --->
+        <cfset session.flatTableName = "flat">
+    </cfif>
+    <cfset session.portal_id=portal_id>
+    <cfset session.collection_link_text =  Application.collection_link_text>
+    <cfset session.stylesheet =  Application.stylesheet>
+    <cfreturn true>
+</cffunction>
+
+<!----------------------------------------------------------->
+
+
 <!---  function initSession to initialize a new login session.
 	@param pwd a login password for username
 	@param username the user to attempt to login wiht pwd
@@ -57,6 +83,7 @@ limitations under the License.
 		<cfset session.roles=listappend(session.roles,"public")>
 		<cfset session.last_login = "#getPrefs.last_login#">
 		<cfif listcontainsnocase(session.roles,"coldfusion_user")>
+<!--- TODO: refactor setDbUser() so that  session.dbuser is set in one place, not two.  ---> 
 			<cfset session.dbuser = "#getPrefs.username#">
 			<cfset session.epw = encrypt(pwd,cfid)>
 			<cftry>
@@ -84,6 +111,13 @@ limitations under the License.
 		</cfif>
 	</cfif>
 
+	<cfif isdefined("getPrefs.exclusive_collection_id") and len(getPrefs.exclusive_collection_id) gt 0>
+		<cfset ecid=getPrefs.exclusive_collection_id>
+		<cfset session.exclusive_collection_id=getPrefs.exclusive_collection_id>
+	<cfelse>
+		<cfset ecid="">
+	</cfif>
+	<cfset setDbUser(ecid)>
 
 	<cfreturn false>
 </cffunction>

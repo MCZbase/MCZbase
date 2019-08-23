@@ -229,15 +229,12 @@ limitations under the License.
 		<cfset Application.header_color = "##E7E7E7" />
 		<cfset Application.header_image = "/images/genericHeaderIcon.gif" />
 		<cfset Application.collection_url = "/" />
-		<cfset Application.collection_link_text = "Error" />
-		<cfset Application.institution_url = "/" />
-		<cfset Application.stylesheet = "" />
-		<cfset Application.institution_link_text = "Host configuration problem: #serverName# not recognized" />
-		<cfset Application.meta_description = "Arctos is a biological specimen database." />
-		<cfset Application.meta_keywords = "museum, collection, management, system" />
+		<cfset Application.collection_link_text = "Error: Host configuration problem: #serverName# not recognized" />
+		<cfset Application.stylesheet = "/includes/css/custom_styles.css" />
+		<cfset Application.meta_description = "MCZbase is a natural science collections database." />
+		<cfset Application.meta_keywords = "museum, collection, management, system, biodiversity" />
 		<cfset Application.domain = replace(Application.serverRootUrl,"#Application.protocol#://",".") />
 		<cfset Application.header_color = "##000066" />
-		<cfset Application.institutionlinkcolor = "##FF0000" />
 		<cfset Application.collectionlinkcolor = "##00FF00" />
 		<cfquery name="d" datasource="uam_god">
 			select ip from blacklist where sysdate-LISTDATE<180
@@ -247,29 +244,25 @@ limitations under the License.
 		    <cfif serverName contains "-test">
 			    <cfset Application.header_color = "##ADE1EA" />
 			    <cfset Application.login_color = "##000066" />
-			    <cfset Application.institutionlinkcolor = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 		    <cfelseif serverName contains "-dev">
 			    <cfset Application.header_color = "##CAEAAD" />
 			    <cfset Application.login_color = "##000066" />
-			    <cfset Application.institutionlinkcolor = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
+				<cfset Application.meta_description = "MCZbase is the natural science collections database of the Museum of Comparative Zoology at Harvard University." />
 			 <cfelse>
                 <!--- Production MCZbase values --->
 			    <cfset Application.header_color = "##000000" />
 			    <cfset Application.login_color = "##000000" />
-			    <cfset Application.institutionlinkcolor = "##ffffff" />
 			    <cfset Application.collectionlinkcolor = "##A51C30" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"" >BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 			</cfif>
 			<cfset Application.collection_url = "http://www.mcz.harvard.edu" />
-			<cfset Application.institution_url = "http://www.mcz.harvard.edu" />
-			<cfset Application.institution_link_text = "Museum of Comparative Zoology - Harvard University" />
 			<cfset Application.webDirectory = "/var/www/html/arctos" />
 			<cfset Application.SpecimenDownloadPath = "/var/www/html/arctos/download/" />
 			<cfset Application.DownloadPath = "/var/www/html/arctos/download/" />
@@ -285,7 +278,7 @@ limitations under the License.
 			<cfset Application.InstitutionBlurb = "Collections Database, Museum of Comparative Zoology, Harvard University" />
 			<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />
 			<cfset Application.PageProblemEmail = "bhaley@oeb.harvard.edu" />
-			<cfset Application.stylesheet = "style.css" />
+			<cfset Application.stylesheet = "/includes/css/custom_styles.css" />
 		</cfif>
 		<cfreturn true />
 	</cffunction>

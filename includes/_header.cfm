@@ -21,10 +21,11 @@ limitations under the License.
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="SHORTCUT ICON" href="/includes/images/favicon.ico">
 <cfoutput>
+<meta name="description" content="#Application.meta_description#">
+<meta name="keywords" content="#Application.meta_keywords#">
+<meta name="author" content="Museum of Comparative Zoology, Harvard University">
+<link rel="SHORTCUT ICON" href="/includes/images/favicon.ico">
 <title>#pageTitle#</title>
 </cfoutput>
 
@@ -110,7 +111,7 @@ limitations under the License.
 <nav class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner">
 	<ul class="navbar col-lg-9 col-md-8 col-sm-9 pt-0 pb-0 mb-1">
 		<li class="nav-item mcz2"><a href="https://www.mcz.harvard.edu/" target="_blank">Museum of Comparative Zoology</a></li>
-		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">#Application.collection_link_text#</a></li>
+		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">#session.collection_link_text#</a></li>
 	</ul>
 	<ul class="navbar col-lg-3 col-md-8 col-sm-3 pt-0 pb-0 mb-1 d-flex justify-content-end">
 		<div class="mcz_logo">
