@@ -1,5 +1,5 @@
 <cfset pageTitle = "search specimens">
-<!-- 
+<!--
 Specimens.cfm
 
 Copyright 2019 President and Fellows of Harvard College
@@ -70,7 +70,7 @@ limitations under the License.
 	<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right zindex-sticky" id="cbp-spmenu-s2">
 	<section> <a id="showRightPush" class="btn black-filter-btn hiddenclass" role="button">Refine Results</a> </section>
 	<h3 class="filters">Refine Results</h3>
-	
+
 	<div class="col-md-3 py-2 px-4 mb-3 pl-3 bg-transparent">
 		<h4 class="mt-0 float-left w-257">By Columns Then Values</h4>
 		<div class="float-left">
@@ -218,13 +218,13 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												multiple: !0,
 												position: {}
 											});
-											</script>			
+											</script>
 											<input id="searchText" type="text" class="has-clear form-control w-50 form-control-borderless rounded" name="searchText" placeholder="Search term">
 											<span class="input-group-btn">
 												<button class="btn button px-3 border-0" id="keySearch" type="submit">
 													Search <i class="fa fa-search text-body"></i>
 												</button>
-											</span> 
+											</span>
 										</div>
 									</div>
 								</form>
@@ -254,11 +254,11 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 																<option>Any Taxonomic Element</option>
 																<option>Scientific Name</option>
 																<option>Genus</option>
-																<option>Subgenus</option>		
-																<option>Species</option>		
+																<option>Subgenus</option>
+																<option>Species</option>
 																<option>Subspecies</option>
 																<option>Author Text</option>
-																<option>Infraspecific Author Text</option>		
+																<option>Infraspecific Author Text</option>
 																<option>Class</option>
 																<option>Superclass</option>
 																<option>Subclass</option>
@@ -295,7 +295,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 																<option>USGS Quad Map</option>
 																<option>Geology Attribute</option>
 																<option>Geology Hierarchy</option>
-																<option>Geog Auth Rec ID</option>	
+																<option>Geog Auth Rec ID</option>
 																<option>Locality Remarks</option>
 																<option>Select on Google Map</option>
 																<option>Locality ID</option>
@@ -431,25 +431,25 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													</td>
 													<td class="mr-1 pr-1 border-0">
 														<input type="text" class="form-control d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
-													</td>											
+													</td>
 													<td class="border-0 mx-1 pr-1 pt-1">
 														<a class="addCF d-flex px-2" href="javascript:void(0);">Add</a>
 													</td>
 													<td class="border-0">&nbsp;  </td>
 												</tr>
-											</table>		
+											</table>
 											<div class="w-100 mt-2">
 												<span class="float-right ml-auto">
-													<button class="btn button px-3 m-1" type="submit"> 
-														Search <i class="fa fa-search text-body"></i> 
+													<button class="btn button px-3 m-1" type="submit">
+														Search <i class="fa fa-search text-body"></i>
 													</button>
-													<button class="btn button px-3 m-1" type="submit"> 
-														Save <i class="fa fa-save text-body"></i> 
+													<button class="btn button px-3 m-1" type="submit">
+														Save <i class="fa fa-save text-body"></i>
 													</button>
 												</span>
 											</div>
 
-										</div>		
+										</div>
 									</div>
 								</form>
 							</div>
@@ -467,7 +467,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												<cfloop query="collSearch">
 													<option value="#collSearch.guid_prefix#"> &nbsp;#collSearch.collection# (#collSearch.guid_prefix#)</option>
 												</cfloop>
-												</select>			
+												</select>
 												<script>
 												//// script for multiselect dropdown for collections
 												//// on custom fixed search
@@ -488,7 +488,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													multiple: !0,
 													position: {}
 												});
-												</script>	
+												</script>
 
 												<textarea id="textarea" type="text" rows="1" name="textarea" class="w-100 col-md-6 col-sm-12 pl-0 p-2 border mb-3 fs-14 rounded mx-1 float-left" placeholder="Catalog ##(s)"></textarea>
 												<label for="textarea" class="col-12 mb-1 pl-1">Select Other ID Type</label>
@@ -643,7 +643,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 <script>
 ///   JQXGRID -- for Keyword Search /////
 $(document).ready(function() {
-	
+
 	$('##searchForm').bind('submit', function(evt){
 	var searchParam = $('##searchText').val();
 	var element = document.getElementById("showRightPush");
@@ -652,23 +652,23 @@ $(document).ready(function() {
 	element.classList.remove("hiddenclass");
 	$('##searchText').jqxGrid('showloadelement');
 	$("##jqxgrid").jqxGrid('clearfilters');
-	
-		var datafieldlist = [ ];//add synchronous call to cf component	
-		
+
+		var datafieldlist = [ ];//add synchronous call to cf component
+
 	var search =
 		{
 			datatype: "json",
 			datafields: datafieldlist,
 			updaterow: function (rowid, rowdata, commit) {
 			// synchronize with the server - send update command
-			// call commit with parameter true if the synchronization with the server is successful 
+			// call commit with parameter true if the synchronization with the server is successful
 			// and with parameter false if the synchronization failder.
 			commit(true);
 			},
 			root: 'specimenRecord',
 			id: 'collection_object_id',
-			url: '/redesign/specimens/component/records_search.cfc?method=getDataTable&searchText=' + searchParam,
-			async: false	
+			url: '/specimens/component/records_search.cfc?method=getDataTable&searchText=' + searchParam,
+			async: false
 			};
 
 		var imagerenderer = function (row, datafield, value) {
@@ -679,11 +679,11 @@ $(document).ready(function() {
 
 		evt.preventDefault();
 
-		
+
 		$(document).ready(function () {
 			$(".jqxdatetimeinput").jqxDateTimeInput({ width: '250px', height: '25px', theme: 'summer' });
 		});
-		
+
 		var editrow = -1;
 
 		$("##jqxgrid").jqxGrid({
@@ -716,7 +716,7 @@ $(document).ready(function() {
 				container.append('<input id="csvExport" class="btn btn-sm ml-3 fs-13 py-1 px-2" type="button" value="Download Full Record(s)"/>');
 				container.append('<input id="csvExportDisplayed" class="btn btn-sm ml-3 fs-13 py-1 px-2" type="button" value="Download Displayed Columns"/>');
 				container.append('<input id="clearfilter1" class="btn btn-sm ml-3 fs-13 py-1 px-2" type="button" value="Clear Filters"/>');
-						
+
 			//$("##csvExport").jqxButton();
 			$("##csvExportDisplayed").jqxButton();
 			//delete row.
@@ -727,7 +727,7 @@ $(document).ready(function() {
 				var rowIds = new Array();
 				for (var i = 0; i < rowIndexes.length; i++) {
 					var currentId = $('##jqxgrid').jqxGrid('getrowid', rowIndexes[i]);
-					rowIds.push(currentId);	
+					rowIds.push(currentId);
 				};
 				$('##jqxgrid').jqxGrid('deleterow', rowIds);
 				$('##jqxgrid').jqxGrid('clearselection');
@@ -736,15 +736,15 @@ $(document).ready(function() {
 			// This part needs to be dynamic.
 			columns: [
 			{ text: 'Edit',
-				datafield: 'Edit', 
-				columntype: 'button', 
+				datafield: 'Edit',
+				columntype: 'button',
 				cellsrenderer: function () {
 				return "Edit";
-				}, 
+				},
 
 				buttonclick: function (row) {
 					editrow = row;
-				
+
 					var offset = $("##jqxgrid").offset();
 					$("##popupWindow").jqxWindow({ position: { x: ($(window).width() - $("##popupWindow").jqxWindow('width')) / 2 + $(window).scrollLeft(), y: ($(window).height() - $("##popupWindow").jqxWindow('height')) / 2 + $(window).scrollTop() } });
 					//var rowID = $('##jqxgrid').jqxGrid('getrowid', editrow);
@@ -762,17 +762,17 @@ $(document).ready(function() {
 							 $("##collectors").val(dataRecord.collectors);
 							 $("##verbatim_date").val(dataRecord.verbatim_date);
 							 $("##coll_obj_disposition").val(dataRecord.coll_obj_disposition);
-							 $("##othercatalognumbers").val(dataRecord.othercatalognumbers);  
+							 $("##othercatalognumbers").val(dataRecord.othercatalognumbers);
 							// show the popup window.
 							 $("##popupWindow").jqxWindow('show');
 						 }
 					},
 					{text: 'Image URLs', datafield: 'imageurl', width: 50, cellsrenderer: imagerenderer},
-					
+
 					{text: 'Link', datafield: 'collection_object_id', width: 100,
 						createwidget: function  (row, column, value, htmlElement) {
 							var datarecord = value;
-							var linkurl = '/redesign/specimens/SpecimenDetail.cfm?collection_object_id=' + value;
+							var linkurl = '/specimens/SpecimenDetail.cfm?collection_object_id=' + value;
 							var link = '<div class="justify-content-center p-1 pl-2 mt-1"><a href="' + linkurl + '">';
 							var button = $(link + "<span>View Record</span></a></div>");
 						$(htmlElement).append(button);
@@ -795,7 +795,7 @@ $(document).ready(function() {
 		});
 			// initialize the popup window and buttons.
 			$("##popupWindow").jqxWindow({
-				width: 850, resizable: false, isModal: true, autoOpen: false, cancelButton: $("##Cancel"), modalOpacity: 0.5           
+				width: 850, resizable: false, isModal: true, autoOpen: false, cancelButton: $("##Cancel"), modalOpacity: 0.5
 			});
 
 			$("##popupWindow").on('open', function () {
@@ -808,7 +808,7 @@ $(document).ready(function() {
 			// update the edited row when the user clicks the 'Save' button.
 			$("##Save").click(function () {
 				if (editrow >= 0) {
-					var row = { 
+					var row = {
 						imageurl: $("##imageurl").val(),
 						collection: $("##collection").val(),
 						began_date: $("##began_date").val(),
@@ -838,9 +838,9 @@ $(document).ready(function() {
 		$("##csvExport").jqxButton();
 			$("##csvExport").click(function () {
 			$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
-		});	
-		//This code starts the filters on the refine results tray (right of page) 
-	
+		});
+		//This code starts the filters on the refine results tray (right of page)
+
 				$("##clearfilter1").jqxButton({theme: 'Classic'});
 
 				$("##clearfilter1").click(function (datafield) {
@@ -849,7 +849,7 @@ $(document).ready(function() {
 				$("##filterbox").jqxListBox('uncheckAll');
 				//we added this line to the code
 				});
-		
+
 		$("##applyfilter").jqxButton({theme: 'Classic'});
 	$("##clearfilter").jqxButton({theme: 'Classic'});
 	$("##csvExport").jqxButton();
@@ -915,11 +915,11 @@ $(document).ready(function() {
 	});
 			// builds and applies the filter.
 			var applyFilter = function (datafield) {
-			//	console.log(datafield);	
+			//	console.log(datafield);
 			$("##jqxgrid").jqxGrid('clearfilters');
 			var filtertype = 'stringfilter';
 			if (datafield == 'collection_object_id' || datafield == 'locality_id') filtertype = 'numericfilter';
-				
+
 			var filtergroup = new $.jqx.filter();
 			var checkedItems = $("##filterbox").jqxListBox('getCheckedItems');
 			if (checkedItems.length == 0) {
@@ -1025,12 +1025,12 @@ $(document).ready(function() {
 			$("##unselectrowindex").text(event.args.rowindex);
 		});
 	});
-	
+
 
 
 });
-</script> 
-	
+</script>
+
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
@@ -1045,19 +1045,19 @@ $(document).ready(function(){
 <script>
 //// script for DatePicker
 $(function() {
-	$("##began_date").datepicker({ 
-		dateFormat: "yy-mm-dd", 
+	$("##began_date").datepicker({
+		dateFormat: "yy-mm-dd",
 		changeMonth: true,
-		changeYear: true 
+		changeYear: true
 	}).val()
-	$("##ended_date").datepicker({ 
-		dateFormat: "yy-mm-dd", 
+	$("##ended_date").datepicker({
+		dateFormat: "yy-mm-dd",
 		changeMonth: true,
-		changeYear: true 
+		changeYear: true
 	}).val()
 });
-	
-   
+
+
 
 </script>
 
