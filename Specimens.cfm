@@ -685,6 +685,7 @@ $(document).ready(function() {
 		});
 
 		var editrow = -1;
+		// grid rendering starts below
 
 		$("##jqxgrid").jqxGrid({
 			width: '100%',
