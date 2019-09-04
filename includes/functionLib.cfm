@@ -82,6 +82,13 @@ limitations under the License.
 		<cfset session.roles = valuelist(dbrole.role_name)>
 		<cfset session.roles=listappend(session.roles,"public")>
 		<cfset session.last_login = "#getPrefs.last_login#">
+
+		<cfif len(getPrefs.CustomOtherIdentifier) gt 0>
+			<cfset session.customOtherIdentifier = getPrefs.CustomOtherIdentifier>
+		<cfelse>
+			<cfset session.customOtherIdentifier = "">
+		</cfif>
+
 		<cfif listcontainsnocase(session.roles,"coldfusion_user")>
 <!--- TODO: refactor setDbUser() so that  session.dbuser is set in one place, not two.  ---> 
 			<cfset session.dbuser = "#getPrefs.username#">

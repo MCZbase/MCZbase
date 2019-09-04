@@ -304,9 +304,8 @@ limitations under the License.
 			<cfset application.blacklist="" />
 		</cfif>
 		<cfif listfindnocase(application.blacklist,cgi.REMOTE_ADDR)>
-			<!---cfif cgi.script_name is not "/errors/gtfo.cfm"--->
-			<cfif replace(cgi.script_name,"//","/") is not "/errors/gtfo.cfm" and replace(cgi.script_name,"//","/") is not "/bkh.cfm">
-				<cfscript>getPageContext().forward("/errors/gtfo.cfm");</cfscript>
+			<cfif replace(cgi.script_name,"//","/") is not "/errors/blacklisted.cfm">
+				<cfscript>getPageContext().forward("/errors/blacklisted.cfm");</cfscript>
 				<cfabort />
 			</cfif>
 		</cfif>

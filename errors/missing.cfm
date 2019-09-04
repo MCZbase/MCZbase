@@ -1,3 +1,22 @@
+<!---
+errors/missing.cfm
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2019 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
 	<cfset rdurl=cgi.REDIRECT_URL>
 	<cfif rdurl contains chr(195) & chr(151)>
@@ -38,17 +57,6 @@
                 </cfcatch>
             </cftry>
         <cfelse> 
-		    <cfset redesignPos=listfindnocase(rdurl,"redesign","/")>
-	        <cfif redesignPos AND NOT Application.serverName IS 'mczbase.mcz.harvard.edu'>
-	            <cftry>
-				    <cfset guid = listgetat(rdurl,gPos+1,"/")>
-                    <!--- Warning: Redesign pages need to be brought into the expected filenaming convention --->
-				    <cfinclude template="/redesign/specimens/SpecimenDetail.cfm">
-	                <cfcatch>
-					    <cfinclude template="/errors/404.cfm">
-	                </cfcatch>
-	            </cftry>
-	        <cfelse>
 				<cftry>
 					<cfset guid = listgetat(rdurl,gPos+1,"/")>
 					<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
@@ -58,11 +66,11 @@
 						<cfheader name="Location" value="/guid/#guid#">
 					</cfif>
 					<cfinclude template="/specimens/SpecimenDetail.cfm">
-					<cfcatch>
-						<cfinclude template="/errors/404.cfm">
-					</cfcatch>
+				<cfcatch>
+					<cfoutput>[#cfcatch.message#]</cfoutput>
+					<cfinclude template="/errors/404.cfm">
+				</cfcatch>
 				</cftry>
-	        </cfif>
         </cfif>
 	<cfelseif listfindnocase(rdurl,'specimen',"/")>
 		<cftry>
@@ -92,16 +100,6 @@
 			<cfinclude template="/document.cfm">
 			<cfcatch>
 				<cfdump var=#cfcatch#>
-				<!---
-
-
-			<cfif listgetat(rdurl,gPos+2,"/")>
-				<cfset p=listgetat(rdurl,gPos+2,"/")>
-			<cfelse>
-				<cfset p=1>
-			</cfif>
-				<cfinclude template="/errors/404.cfm">
-				--->
 			</cfcatch>
 		</cftry>
 		</cfoutput>
