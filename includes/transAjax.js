@@ -852,7 +852,12 @@ function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcal
     		}
 		$("#"+dialogid).dialog('close'); 
         }
-     }
+     },
+     close: function(event,ui) { 
+        if (jQuery.type(okcallback)==='function') {
+             okcallback();
+    	}
+     } 
   });
   thedialog.dialog('open');
   jQuery.ajax({
@@ -895,7 +900,6 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
      buttons: {
         "Save Permit Record": function(){ 
            var datasub = $('#newPermitForm').serialize();
-	       alert(datasub);
 	       if ($('#newPermitForm')[0].checkValidity()) {
                $.ajax({
      		      url: "/component/functions.cfc",
@@ -920,9 +924,16 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
            	if (jQuery.type(okcallback)==='function') {
                 	okcallback();
     		}
-		    $("#"+dialogid).dialog('close'); 
+	 	$("#"+dialogid+"_div").html("");
+		$("#"+dialogid).dialog('close'); 
+		$("#"+dialogid).dialog('destroy'); 
         }
-     }
+     },
+     close: function(event,ui) { 
+        if (jQuery.type(okcallback)==='function') {
+             okcallback();
+    	}
+     } 
   });
   thedialog.dialog('open');
   datastr = {

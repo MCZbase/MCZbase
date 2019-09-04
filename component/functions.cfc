@@ -2832,12 +2832,15 @@
 	<form id='newPermitForm' onsubmit='addnewpermit'>
    	    <input type='hidden' name='method' value='createNewPermitForTrans'>
     	<input type='hidden' name='returnformat' value='plain'>
+    	<input type='hidden' name='related_id' value='#related_id#'>
+    	<input type='hidden' name='related_label' value='#related_label#'>
+    	<input type='hidden' name='relation_type' value='#relation_type#'>
 	<table>
 		<tr>
 			<td>Issued By</td>
 			<td colspan='3'>
 			<input type='hidden' name='IssuedByAgentId'>
-			<input type='text' name='IssuedByAgent' class='reqdClr' size='50'
+			<input type='text' name='IssuedByAgent' class='reqdClr' size='50' required='yes'
 		 	  onchange=""getAgent('IssuedByAgentId','IssuedByAgent','newPermitForm',this.value); return false;""
 			  onKeyUp='return noenter();'>
 
@@ -2848,7 +2851,7 @@
 			<td>Issued To</td>
 			<td colspan='3'>
 			<input type='hidden' name='IssuedToAgentId'>
-			<input type='text' name='IssuedToAgent' class='reqdClr' size='50'
+			<input type='text' name='IssuedToAgent' class='reqdClr' size='50' required='yes'
 			  onchange=""getAgent('IssuedToAgentId','IssuedToAgent','newPermitForm',this.value); return false;""
 			  onKeyUp='return noenter();'>
 		    </td>
@@ -2879,7 +2882,7 @@
 		<tr>
 			<td>Specific Document Type</td>
 			<td colspan=3>
-				<select name='specific_type' id='specific_type' size='1' class='reqdClr'>
+				<select name='specific_type' id='specific_type' size='1' class='reqdClr' required='yes' >
 					<option value=''></option>">
 					<cfloop query="ctSpecificPermitType">
                         <cfset result = result & " <option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>">
@@ -3064,8 +3067,9 @@
 		</cfquery>
         <cfif newPermitResult.recordcount eq 1>
             <cfset result = result & "<span>Created new Permissons/Rights record. ">
-            <cfset result = result & "<a href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+            <cfset result = result & "<a id='permitEditLink' href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
             <cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
+            <cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
         </cfif>
 		<cfquery name="newPermitLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitLinkResult">
             <cfif relation_type EQ "transaction">
@@ -3285,7 +3289,7 @@
                        $('##permit_Num').val($('##permit_number_passon').val()); 
                    };
                 </script>
-                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog(""createPermitDlg_#transaction_id#"",""#transaction_label#"", #transaction_id#, ""transaction"", createPermitDialogDone);' ></span><div id='createPermitDlg_#transaction_id#'></div>
+                <span id='createPermit_#transaction_id#_span'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog(""createPermitDlg_#transaction_id#"",""#transaction_label#"", #transaction_id#, ""transaction"", createPermitDialogDone);' ></span><div id='createPermitDlg_#transaction_id#'></div>
 
 			</td>
 			<td>
