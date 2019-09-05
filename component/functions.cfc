@@ -4021,8 +4021,8 @@
    </cfif>
    <cfset result=result & "<span>">
    <cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-      <cfset result = result & "<input type='button' onClick=""addMediaHere('addMediaDlg_#permit_id#','Add new media to permissions/rights document #permitInfo.permit_Type#','#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#','#relation#');"" value='Create Media' class='lnkBtn'>&nbsp;" >
-      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" >">
+      <cfset result = result & "<input type='button' onClick=""opencreatemediadialog('addMediaDlg_#permit_id#','Add new media to permissions/rights document #permitInfo.permit_Type#','#permit_id#','#relation#');"" value='Create Media' class='lnkBtn'>&nbsp;" >
+      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""openlinkmediadialog('##addPermitDlg_#permit_id#','Pick Media for Permit #permitInfo.permit_Type#','#permit_id#','#relation#'); "" >">
    </cfif>
    <cfset result=result & "</span>">
    <cfset result=result & "<div id='addMediaDlg_#permit_id#'></div>" >
