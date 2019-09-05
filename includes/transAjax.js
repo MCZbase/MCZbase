@@ -899,9 +899,6 @@ function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcal
      draggable:true,
      buttons: {
         "Close Dialog": function() { 
-           	if (jQuery.type(okcallback)==='function') {
-                	okcallback();
-    		}
 		$("#"+dialogid).dialog('close'); 
         }
      },
@@ -909,6 +906,8 @@ function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcal
         if (jQuery.type(okcallback)==='function') {
              okcallback();
     	}
+	$("#"+dialogid+"_div").html("");
+	$("#"+dialogid).dialog('destroy'); 
      } 
   });
   thedialog.dialog('open');
