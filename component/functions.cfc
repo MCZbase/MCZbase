@@ -4395,7 +4395,7 @@ TODO: Refactor findPermitSearchResults to allow invocation of setShipmentForPerm
                  where
                    permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
          </cfquery>
-         <cfset resulthtml = resulthtml & "<script>function reloadShimpents() { loadShipments(#transaction_id#); } </script>" >
+         <cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
          <cfset resulthtml = resulthtml & "<div class='shipment'>" >
             <cfset resulthtml = resulthtml & "<ul class='shipheaders'><li>Ship Date:</li><li>Method:</li><li>Packages:</li><li>Tracking Number:</li></ul>">
             <cfset resulthtml = resulthtml & " <ul class='shipdata'>" >
@@ -4409,7 +4409,7 @@ TODO: Refactor findPermitSearchResults to allow invocation of setShipmentForPerm
                 <cfset resulthtml = resulthtml & "<li>(#printedOnInvoice#) #tofaddr#</li> ">
                 <cfset resulthtml = resulthtml & " <li>#fromfaddr#</li>">
             <cfset resulthtml = resulthtml & "</ul>">
-            <cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick="" openlinkpermitshipmentdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
+            <cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
             <cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
                  <cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
                  <cfloop query="shippermit">
