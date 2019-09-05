@@ -18,7 +18,7 @@ limitations under the License.
 
 --->
 <!--- TODO: Cleanup for MCZbase --->
-<cfif not isdefined("toProperCase")>
+<cfif not isdefined("HEADER_DELIVERED")>
 	<cfinclude template="/includes/_header.cfm">
 </cfif>
 <cfoutput>

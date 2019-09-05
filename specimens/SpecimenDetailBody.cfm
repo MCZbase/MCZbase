@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfif not isdefined("toProperCase")>
+<cfif not isdefined("HEADER_DELIVERED")>
+  <!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
 </cfif>
 
 <cfoutput>
@@ -32,10 +33,12 @@ limitations under the License.
 	<cfset isClicky = "">
 </cfif>
 <cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/redesign/specimen-details-body-datatables.cfm">
+   <!--- TODO: Fix this redirect, this is probably the header delivered block above.  ---->
 	<!---<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/redesign/specimen_detail.cfm?collection_object_id=#collection_object_id#">--->
 </cfif>
 </cfoutput>
+<TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
 <cfset detSelect = "SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -211,14 +214,17 @@ limitations under the License.
 		accn.transaction_id = trans.transaction_id(+) AND
 	cataloged_item.collection_object_id = #collection_object_id#
 	">
+<!--- TODO: WARNING: Commented out checkSql statments indicate introduced vulnerabilities.  Replace all cases of sql stored as variables with sql inside cfquery --->
 <!---<cfset checkSql(detSelect)>--->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	#preservesinglequotes(detSelect)#
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked.
+	<!---- TODO: This should return the correct HTTP response, not a 400 ---->
 	<cfabort>
 </cfif>
+<TODO: WARNING: per style guide, all queries must use cfsqlparam and MUST NOT pass variables from user space into queries without using cfsqlparam ---->
 <cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		collector.coll_order,

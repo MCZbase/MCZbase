@@ -61,6 +61,7 @@ limitations under the License.
 	<cfset StructClear(Session)>
 	<cflogout>
 	<cfset session.roles="public">
+	<cfset session.customOtherIdentifier="">
 
 	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
 		<cfquery name="getPrefs" datasource="cf_dbuser">

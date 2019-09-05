@@ -235,3 +235,4 @@ limitations under the License.
 	</div>
 </div>
 </header>
+<cfset HEADER_DELIVERED=true>
