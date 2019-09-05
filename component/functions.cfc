@@ -3202,8 +3202,6 @@
        @param shipment_id the transaction to which selected permits are to be related.
        @return html content for a permit picker dialog for transaction permits or an error message if an exception was raised.
 
-TODO: Refactor findPermitSearchResults to allow invocation of setShipmentForPermits
-
        @see setShipmentForPermit 
        @see findPermitShipSearchResults  
 --->
@@ -3462,13 +3460,14 @@ TODO: Refactor findPermitSearchResults to allow invocation of setShipmentForPerm
              type: 'post',
              data: {
                 method: 'setShipmentForPermit',
-                returnformat: 'plain',
                 permit_id: permit_id,
                 shipment_id: shipment_id,
-                shipment_label: shipment_label
+		returnformat: 'json',
+		queryformat: 'column'
             },
             success: function (data) {
-                $('##'+div_id).html(data);
+		var dataobj = JSON.parse(data)
+                $('##'+div_id).html(dataobj.DATA.MESSAGE);
             },
             fail: function (jqXHR, textStatus) {
                 $('##'+div_id).html('Error:' + textStatus);

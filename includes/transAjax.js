@@ -847,9 +847,6 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
      draggable:true,
      buttons: {
         "Close Dialog": function() { 
-           	if (jQuery.type(okcallback)==='function') {
-                	okcallback();
-    		}
 		$("#"+dialogid).dialog('close'); 
         }
      },
@@ -857,6 +854,8 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
         if (jQuery.type(okcallback)==='function') {
              okcallback();
     	}
+	$("#"+dialogid+"_div").html("");
+	$("#"+dialogid).dialog('destroy'); 
      } 
   });
   thedialog.dialog('open');
