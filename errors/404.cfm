@@ -61,7 +61,7 @@ limitations under the License.
 		</cfif>
 	</cfloop>
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
-<div class="basic_box">
+<div class="px-3">
 	<cfheader statuscode="404" statustext="Not found">
 	<cfset title="404: not found">
 	<h2>
