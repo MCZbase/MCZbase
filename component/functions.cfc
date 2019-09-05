@@ -3205,7 +3205,7 @@
 TODO: Refactor findPermitSearchResults to allow invocation of setShipmentForPermits
 
        @see setShipmentForPermit 
-       @see findPermitSearchResults  
+       @see findPermitShipSearchResults  
 --->
 <cffunction name="shipmentPermitPickerHtml" returntype="string" access="remote">
     <cfargument name="shipment_id" type="string" required="yes">
@@ -3228,7 +3228,7 @@ TODO: Refactor findPermitSearchResults to allow invocation of setShipmentForPerm
         <cfset result = result & "
    <h3>Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h3>
    <form id='findPermitForm' onsubmit='searchforpermits(event);'>
-   	<input type='hidden' name='method' value='findPermitSearchResults'>
+   	<input type='hidden' name='method' value='findPermitShipSearchResults'>
     	<input type='hidden' name='returnformat' value='plain'>
 	<input type='hidden' name='shipment_id' value='#shipment_id#'>
 	<input type='hidden' name='shipment_label' value='#shipment_label#'>
@@ -3328,6 +3328,165 @@ TODO: Refactor findPermitSearchResults to allow invocation of setShipmentForPerm
     </cftry>
     <cfreturn result >
 </cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Given a shipment_id and a list of permit search criteria return an html list of permits matching the
+      search criteria, along with controls allowing selected permits to be linked to the specified shipment.
+
+      @see shipmentPermitPickerHtml
+      @see setShipmentForPermit 
+--->
+<cffunction name="findPermitShipSearchResults" access="remote" returntype="string">
+    <cfargument name="shipment_id" type="string" required="yes">
+    <cfargument name="shipment_label" type="string" required="yes">
+	<cfargument name="IssuedByAgent" type="string" required="no">
+	<cfargument name="IssuedToAgent" type="string" required="no">
+	<cfargument name="issued_Date" type="string" required="no">
+	<cfargument name="renewed_Date" type="string" required="no">
+	<cfargument name="exp_Date" type="string" required="no">
+	<cfargument name="permit_Num" type="string" required="no">
+	<cfargument name="specific_type" type="string" required="no">
+	<cfargument name="permit_Type" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+    <cfset result = "">
+    <cftry>
+        <cfif NOT isdefined('IssuedByAgent')><cfset IssuedByAgent=''></cfif>
+        <cfif NOT isdefined('IssuedToAgent')><cfset IssuedToAgent=''></cfif>
+        <cfif NOT isdefined('issued_Date')><cfset issued_Date=''></cfif>
+        <cfif NOT isdefined('renewed_Date')><cfset renewed_Date=''></cfif>
+        <cfif NOT isdefined('exp_Date')><cfset exp_Date=''></cfif>
+        <cfif NOT isdefined('permit_Num')><cfset permit_Num=''></cfif>
+        <cfif NOT isdefined('specific_type')><cfset specific_type=''></cfif>
+        <cfif NOT isdefined('permit_Type')><cfset permit_Type=''></cfif>
+        <cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+        <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+        <cfif len(IssuedByAgent) EQ 0 AND len(IssuedToAgent) EQ 0 AND len(issued_Date) EQ 0 AND 
+              len(renewed_Date) EQ 0 AND len(exp_Date) EQ 0 AND len(permit_Num) EQ 0 AND 
+              len(specific_type) EQ 0 AND len(permit_Type) EQ 0 AND len(permit_title) EQ 0 AND 
+              len(permit_remarks) EQ 0 >
+            <cfthrow type="noQueryParameters" message="No search criteria provided." >
+        </cfif>
+
+    <cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select distinct permit.permit_id,
+	    issuedByPref.agent_name IssuedByAgent,
+    	issuedToPref.agent_name IssuedToAgent,
+	    issued_Date,
+	    renewed_Date,
+    	exp_Date,
+	    permit_Num,
+    	permit_Type,
+	    permit_title,
+    	specific_type,
+	    permit_remarks,
+            (select count(*) from permit_shipment
+		where permit_shipment.permit_id = permit.permit_id
+		and permit_shipment.shipment_id = <cfqueryparam cfsqltype='CF_SQL_NUMBER' value='#shipment_id#'>
+	    ) as linkcount
+    from 
+	    permit 
+    	left join preferred_agent_name issuedToPref on permit.issued_to_agent_id = issuedToPref.agent_id 
+	    left join preferred_agent_name issuedByPref on permit.issued_by_agent_id = issuedByPref.agent_id 
+    	left join agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+ 	    left join agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id 
+            left join permit_trans on permit.permit_id = permit_trans.permit_id 
+    where 
+        permit.permit_id is not null
+		<cfif len(#IssuedByAgent#) gt 0>
+			 AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedByAgent)#%'>
+		</cfif>
+		<cfif len(#IssuedToAgent#) gt 0>
+			 AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedToAgent)#%'>
+		</cfif>
+		<cfif len(#issued_Date#) gt 0>
+			 AND upper(issued_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(issued_Date)#%'>
+		</cfif>
+		<cfif len(#renewed_Date#) gt 0>
+			 AND upper(renewed_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(renewed_Date)#%'>
+		</cfif>
+		<cfif len(#exp_Date#) gt 0>
+			 AND upper(exp_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(exp_Date)#%'>
+		</cfif>
+		<cfif len(#permit_Num#) gt 0>
+			 AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Num#'>
+		</cfif>
+		<cfif len(#specific_type#) gt 0>
+			 AND specific_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#specific_type#'>
+		</cfif>
+		<cfif len(#permit_Type#) gt 0>
+			 AND permit_Type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Type#'>
+		</cfif>
+		<cfif len(#permit_title#) gt 0>
+			 AND upper(permit_title) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_title)#%'>
+		</cfif>
+		<cfif len(#permit_remarks#) gt 0>
+			 AND upper(permit_remarks) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_remarks)#%'>
+		</cfif>
+    ORDER BY permit_id
+    </cfquery>
+    <cfset i=1>
+    <cfset result = result & "<h2>Find permits to link to #shipment_label#</h2>">
+    <cfloop query="matchPermit" >
+        <cfset result = result & "<hr><div">
+        <cfif (i MOD 2) EQ 0> 
+             <cfset result = result & "class='evenRow'"> 
+        <cfelse> 
+             <cfset result = result & "class='oddRow'"> 
+        </cfif>
+        <cfset result = result & " >">
+        <cfset result = result & "
+    	<form id='pp_#permit_id#_#shipment_id#_#i#' >
+	        Permit Number #matchPermit.permit_Num# (#matchPermit.permit_Type#:#matchPermit.specific_type#) 
+            issued to #matchPermit.IssuedToAgent# by #matchPermit.IssuedByAgent# on #dateformat(matchPermit.issued_Date,'yyyy-mm-dd')# ">
+            <cfif len(#matchPermit.renewed_Date#) gt 0><cfset result = result & " (renewed #dateformat(matchPermit.renewed_Date,'yyyy-mm-dd')#)"></cfif>
+            <cfset result = result & ". Expires #dateformat(matchPermit.exp_Date,'yyyy-mm-dd')#.  ">
+            <cfif len(#matchPermit.permit_remarks#) gt 0><cfset result = result & "Remarks: #matchPermit.permit_remarks# "></cfif> 
+            <cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
+            <div id='pickResponse#shipment_id#_#i#'>">
+                <cfif matchPermit.linkcount GT 0>
+            		<cfset result = result & " This Permit is already linked to #shipment_label# ">
+                <cfelse>
+			<cfset result = result & "
+                <input type='button' class='picBtn'
+                onclick='linkpermittoship(#matchPermit.permit_id#,#shipment_id#,""#shipment_label#"",""pickResponse#shipment_id#_#i#"");' value='Add this permit'>
+			">
+		</cfif>
+		<cfset result = result & "
+            </div>
+    	</form>
+        <script language='javascript' type='text/javascript'>
+        $('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
+        function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
+          jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: {
+                method: 'setShipmentForPermit',
+                returnformat: 'plain',
+                permit_id: permit_id,
+                shipment_id: shipment_id,
+                shipment_label: shipment_label
+            },
+            success: function (data) {
+                $('##'+div_id).html(data);
+            },
+            fail: function (jqXHR, textStatus) {
+                $('##'+div_id).html('Error:' + textStatus);
+            }
+          });
+        };
+        </script>
+        </div>">
+        <cfset i=i+1>
+    </cfloop>
+
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
+
 
 <!----------------------------------------------------------------------------------------------------------------->
 <!---  Given a transaction_id, return a block of html code for a permit picking dialog to pick permits for the given
