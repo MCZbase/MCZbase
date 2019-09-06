@@ -835,6 +835,14 @@ function opendialog(page,id,title) {
         }
         );
     };
+	
+	function reloadTransMedia() { 
+		reloadPermitMedia();
+	}
+	function reloadPermitMedia() { 
+		loadPermitMedia(#permit_id#);
+		loadPermitRelatedMedia(#permit_id#);
+	}
 
      jQuery(document).ready(loadPermitMedia(#permit_id#));
      jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));

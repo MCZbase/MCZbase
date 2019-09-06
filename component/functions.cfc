@@ -3985,6 +3985,7 @@
        <cfset relation = "shows permit">
        <cfset heading = "The Document (copy of the actual permit)">
    </cfif>
+   <cfset rel = left(relation,3)>
    <cfset result="">
      <cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select permit.permit_id,
@@ -4021,12 +4022,13 @@
    </cfif>
    <cfset result=result & "<span>">
    <cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-      <cfset result = result & "<input type='button' onClick=""opencreatemediadialog('addMediaDlg_#permit_id#','Add new media to permissions/rights document #permitInfo.permit_Type#','#permit_id#','#relation#');"" value='Create Media' class='lnkBtn'>&nbsp;" >
-      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""openlinkmediadialog('##addPermitDlg_#permit_id#','Pick Media for Permit #permitInfo.permit_Type#','#permit_id#','#relation#'); "" >">
+      <cfset result = result & "<input type='button' 
+onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type#','#permit_id#','#relation#',reloadPermitMedia);"" value='Create Media' class='lnkBtn'>&nbsp;" >
+      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type#','#permit_id#','#relation#',reloadPermitMedia); "" ></span>">
    </cfif>
    <cfset result=result & "</span>">
-   <cfset result=result & "<div id='addMediaDlg_#permit_id#'></div>" >
-   <cfset result=result & "<div id='addPermitDlg_#permit_id#'></div>">
+   <cfset result=result & "<div id='addMediaDlg_#permit_id#_#rel#'></div>" >
+   <cfset result=result & "<div id='addPermitDlg_#permit_id#_#rel#'></div>">
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->

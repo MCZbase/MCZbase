@@ -747,16 +747,26 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 		});
            } else { 
                 messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
-           };
-           };
+           }
+           }
         },
         "Close Dialog": function() { 
-           	if (jQuery.type(okcallback)==='function') {
-                	okcallback();
-    		}
-		$("#"+dialogid).dialog('close'); 
+		$(this).dialog('close'); 
         }
-     }
+    },
+    close: function(event,ui) {
+        	if (jQuery.type(okcallback)==='function') {
+             		okcallback();
+        	}
+		if (dialogid.startsWith("addMediaDlg")) { 
+        		$("#"+dialogid+"_div").remove();
+	        	$("#"+dialogid).empty();
+	        	$("#"+dialogid).remove();
+                } else { 
+        		$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy');
+		}
+    }
   });
   thedialog.dialog('open');
   jQuery.ajax({
@@ -799,11 +809,15 @@ function openlinkmediadialog(dialogid, related_value, related_id, relationship, 
      draggable:true,
      buttons: {
         "Close Dialog": function() { 
-           	if (jQuery.type(okcallback)==='function') {
-                	okcallback();
-    		}
-		$("#"+dialogid).dialog('close'); 
+		$(this).dialog('close'); 
         }
+     },
+     close: function(event,ui) {
+        if (jQuery.type(okcallback)==='function') {
+           okcallback();
+        }
+        $("#"+dialogid+"_div").html("");
+	$("#"+dialogid).dialog('destroy');
      }
   });
   thedialog.dialog('open');
