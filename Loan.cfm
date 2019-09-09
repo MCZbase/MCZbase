@@ -1269,7 +1269,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                 select 
                        mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
                        mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-                       p.permit_type, p.permit_num, p.permit_title
+                       p.permit_type, p.permit_num, p.permit_title, p.specific_type
            from loan_item li
                    left join specimen_part sp on li.collection_object_id = sp.collection_object_id
                    left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -1283,7 +1283,7 @@ $( document ).ready(loadShipments(#transaction_id#));
                 select 
                    mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
                    mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-                   p.permit_type, p.permit_num, p.permit_title
+                   p.permit_type, p.permit_num, p.permit_title, p.specific_type
            from shipment s
            left join permit_shipment ps on s.shipment_id = ps.shipment_id
            left join permit p on ps.permit_id = p.permit_id
