@@ -1239,12 +1239,14 @@ $( document ).ready(loadShipments(#transaction_id#));
 	<cfloop query="getAccessions">
             <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct permit_num, permit_type, issued_date, permit.permit_id,
+		select distinct permit_num, permit.permit_type, issued_date, permit.permit_id,
                     issuedBy.agent_name as IssuedByAgent
 		from permit_trans left join permit on permit_trans.permit_id = permit.permit_id
+		     left join ctspecific_permit_type on permit.permit_type = ctspecific_permit_type.permit_type
                      left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
 		where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-                order by permit_type, issued_date
+		     and ctspecific_permit_type.accn_show_on_shipment = 1
+                order by permit.permit_type, issued_date
             </cfquery>
              <cfif getAccnPermits.recordcount gt 0>
 	      <ul class="accnpermit">
