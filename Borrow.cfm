@@ -721,7 +721,7 @@ url : "/component/functions.cfc",
             <p style="margin:0px;">Include copies of signed loan invoices and correspondence here.</p>
 
 			<br><span>
-		                <cfset relation="shows borrow">
+		                <cfset relation="documents borrow">
 				<input type='button' onClick="opencreatemediadialog('addMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
       				<span id='addMedia_#transaction_id#'>
 				<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;

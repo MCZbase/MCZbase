@@ -695,7 +695,7 @@
     <h3>Media associated with this Deaccession:</h3>
     <p style="margin:0px;">Include copies of correspondence and other documents (e.g. data files, scans of maps, inventory lists) which are not permissions or rights documents documents here.</p>
     <br><span>
-        <cfset relation="shows deaccession">
+        <cfset relation="documents deaccession">
         <input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccDetails.deacc_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
         <span id='addMedia_#transaction_id#'>
             <input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccDetails.deacc_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
