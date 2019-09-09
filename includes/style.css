@@ -5925,3 +5925,6 @@ div.rightexamples p {
 			width: 100%;
 			padding: 12px 0;
 }
+/* To ensure that jquery-ui dialogs are placed above the menu */
+.ui-front { z-index: 3000 !important; } 
+.ui-dialog { z-index: 3001 !important; }

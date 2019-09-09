@@ -1,13 +1,20 @@
 <!--- no security --->
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Agent Pick">
- 
+<cfif isdefined("includeTemporary") and #includeTemporary# IS "true">
+  <cfset showTemp = TRUE>
+<cfelse>
+  <cfset showTemp = FALSE>
+</cfif>
  
 <!--- build an agent id search --->
 <form name="searchForAgent" action="AddrPick.cfm" method="post">
 	<br>Agent Name: <input type="text" name="agentname">
 	<br><input type="submit" value="Find Matches">
 	<input type="hidden" name="search" value="true" class="lnkBtn">
+	<cfif showTemp EQ TRUE >
+		<input type="hidden" name="includeTemporary" value="true" class="lnkBtn">
+	</cfif>
 	<cfoutput>
 		<input type="hidden" name="addrIdFld" value="#addrIdFld#">
 		<input type="hidden" name="addrFld" value="#addrFld#">
@@ -20,19 +27,25 @@
 		You must enter search criteria.
 		<cfabort>
 	</cfif>
-	<cfoutput>
-		<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG from 
-			preferred_agent_name, addr
-			 where 
-			 preferred_agent_name.agent_id = addr.agent_id (+) AND
-			 UPPER(agent_name) LIKE '%#ucase(agentname)#%'				
-		</cfquery>
-	</cfoutput>
+	<cfset searchAgentString = "%#ucase(agentname)#%" >
+	<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG, addr_type
+		FROM preferred_agent_name left join addr on preferred_agent_name.agent_id = addr.agent_id
+		WHERE
+		    UPPER(agent_name) LIKE <cfqueryparam value="#searchAgentString#" cfsqltype="CF_SQL_VARCHAR">
+		<cfif showTemp EQ FALSE >
+		    AND addr_type <> 'temporary'
+		</cfif >
+		ORDER BY valid_addr_fg desc, agent_name asc
+	</cfquery>
 	<cfoutput query="getAgentId">
 		
 <br>
-#agent_name#<br>
+<cfset temp = "">
+<cfif addr_type EQ 'temporary'>
+  <cfset temp = "&nbsp;[Temporary]">
+</cfif>
+<span>#agent_name##temp#</span><br>
 <cfif len(#formatted_addr#) gt 0>
 <cfset addr = #replace(formatted_addr,"'","`","ALL")#>
 <cfset addr = #replace(addr,"#chr(9)#","-","ALL")#>

@@ -407,6 +407,34 @@
 <cfif action is "editLoan">
 	<cfset title="Edit #scope#">
 	<cfoutput>
+	<script>
+    function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
+           console.log(targetid);
+           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;
+           var amddialog = $('##'+targetid)
+           .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
+           .dialog({
+                 title: title,
+                 autoOpen: false,
+                 dialogClass: 'dialog_fixed,ui-widget-header',
+                 modal: true,
+                 height: 900,
+                 width: 1100,
+                 minWidth: 400,
+                 minHeight: 400,
+                 draggable:true,
+                 buttons: {
+                     "Ok": function () { 
+                        loadTransactionFormMedia(#transaction_id#,'loan'); 
+                        $(this).dialog("close"); 
+                     } 
+                 }
+           });
+           amddialog.dialog('open');          
+           console.log(transaction_id);
+           console.log(relationship);
+     };
+	</script>
 	<cfquery name="loanDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans.transaction_id,
@@ -975,6 +1003,52 @@
 		</select>
 </div>
 
+<div class="shippingBlock"> 
+			<h3>Media documenting this Loan:</h3>
+            <p style="margin:0px;">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
+
+			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					media.media_id,
+					preview_uri,
+					media_uri,
+					media_type,
+					label_value
+				from
+					media,
+					media_relations,
+					(select * from media_labels where media_label='description') media_labels
+				where
+					media.media_id=media_labels.media_id (+) and
+					media.media_id=media_relations.media_id and
+					media_relationship like '% loan' and
+					related_primary_key=#transaction_id#
+			</cfquery>
+			<br><span>
+				<cfset relation="documents loan">
+				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+      				<span id='addMedia_#transaction_id#'>
+				<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
+				</span>
+			</span>
+			<div id='addMediaDlg_#transaction_id#'></div>
+			<div id='newMediaDlg_#transaction_id#'></div>
+			<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
+<script>
+
+// callback for ajax methods to reload from dialog
+function reloadTransMedia() { 
+    loadTransactionFormMedia(#transaction_id#,"loan");
+    if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+        $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+    }
+};
+
+$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
+
+</script>
+</div>
+
 <div class="shippingBlock">
     <h3>Countries of Origin of items in this loan</h3>
     <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1008,8 +1082,8 @@ function opendialog(page,id,title) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
-    height: 800,
-    width: 950,
+    height: 900,
+    width: 1100,
     minWidth: 400,
     minHeight: 450,
     draggable:true,
@@ -1198,9 +1272,11 @@ $( document ).ready(loadShipments(#transaction_id#));
                    left join specimen_part sp on li.collection_object_id = sp.collection_object_id
                    left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
                    left join accn on ci.accn_id = accn.transaction_id
-           left join permit_trans on accn.transaction_id = permit_trans.transaction_id
-           left join permit p on permit_trans.permit_id = p.permit_id
+                   left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+                   left join permit p on permit_trans.permit_id = p.permit_id
+                   left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
                 where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+                      and ctspecific_permit_type.accn_show_on_shipment = 1
         union
                 select 
                    mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 

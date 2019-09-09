@@ -75,15 +75,17 @@
           </tr>
             <tr>
             <td>
-               <span><input type="checkbox" name="unlinked" id="unlinked" value="true">
-               <label for "unlinked">Media not yet linked to any record</label></span>
+               <span>
+                 <input type="checkbox" name="unlinked" id="unlinked" value="true">
+                 <label style="display:contents;" for="unlinked">Media not yet linked to any record</label>
+               </span>
             </td>
             <td>
                 <input type="submit" value="Search" class="schBtn">    
             </td>
             <td>
                 <span ><input type="reset" value="Clear" class="clrBtn">
-                <input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick="openadddialog('/media.cfm?action=newMedia','##newPermitDlg_#target_id#','Add media to #target_id#');">
+                <input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick="openadddialog('/media.cfm?action=newMedia&relationship=#target_relation#&related_id=#target_id#&related_value=#target_relation##target_id#','##newPermitDlg_#target_id#','Add media to #target_id#');">
                 </span>
                 <div id='newPermitDlg_#target_id#' ></div></span>
             </td>
@@ -98,12 +100,11 @@
       .dialog({
         title: title,
         autoOpen: false,
-        appendto: "body",
         dialogClass: 'dialog_fixed,ui-widget-header',
         modal: true,
         stack: true,
-        height: 600,
-        width: 1000,
+        height: 700,
+        width: 1050,
         minWidth: 400,
         minHeight: 400,
         draggable:true,
