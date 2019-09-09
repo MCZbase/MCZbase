@@ -722,7 +722,7 @@ url : "/component/functions.cfc",
 
 			<br><span>
 		                <cfset relation="shows borrow">
-				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+				<input type='button' onClick="opencreatemediadialog('addMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
       				<span id='addMedia_#transaction_id#'>
 				<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
 				</span>
@@ -734,7 +734,7 @@ url : "/component/functions.cfc",
 
 // callback for ajax methods to reload from dialog
 function reloadTransMedia() { 
-    loadTransactionFormMedia(#transaction_id#,"accn");
+    loadTransactionFormMedia(#transaction_id#,"borrow");
     if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
         $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
     }
