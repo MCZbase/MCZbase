@@ -1239,7 +1239,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 	<cfloop query="getAccessions">
             <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct permit_num, permit.permit_type, issued_date, permit.permit_id,
+		select distinct permit_num, permit.permit_type, permit.specific_type, issued_date, permit.permit_id,
                     issuedBy.agent_name as IssuedByAgent
 		from permit_trans left join permit on permit_trans.permit_id = permit.permit_id
 		     left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
@@ -1251,7 +1251,7 @@ $( document ).ready(loadShipments(#transaction_id#));
              <cfif getAccnPermits.recordcount gt 0>
 	      <ul class="accnpermit">
               <cfloop query="getAccnPermits">
-                 <li><span style="font-weight:bold;">Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+                 <li><span style="font-weight:bold;">#permit_type#:</span> #specific_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
 
               </cfloop>
               </ul>
@@ -1265,7 +1265,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 	  <div id="permitmedia">
       <h3>Permit Media (PDF copies of Permits)</h3>
         <cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select distinct media_id, uri, permit_type, permit_num, permit_title from (
+        select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title from (
                 select 
                        mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
                        mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
@@ -1294,7 +1294,7 @@ $( document ).ready(loadShipments(#transaction_id#));
     <ul>
   	<cfloop query="getPermitMedia">
            <cfif media_id is ''> 
-              <li>#permit_type# #permit_num# #permit_title# (no pdf)</li>
+              <li>#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
            <cfelse>
               <li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
               <cfset uriList = ListAppend(uriList,uri)>
