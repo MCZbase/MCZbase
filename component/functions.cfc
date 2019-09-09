@@ -1683,11 +1683,7 @@
 <cffunction name="getMediaForTransHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="transaction_id" type="string" required="yes">
    <cfargument name="transaction_type" type="string" required="yes">
-	<cfif #transaction_type# EQ "loan">
-		<cfset relword="documents">
-	<cfelse>
-		<cfset relword="shows">
-	</cfif>
+   <cfset relword="documents">
    <cfset result="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
            select distinct
