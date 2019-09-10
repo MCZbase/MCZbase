@@ -37,7 +37,10 @@ Current format: #displayFormat#<br/>
 
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct 
-       get_scientific_name(cat.collection_object_id) as ident, 
+       get_scientific_name(cat.collection_object_id) as ident,
+       cp.label,
+       cat.collection_cde,
+       to_number(regexp_replace(cat.cat_num,'[^0-9]','')) as cat_num_numeric,
        'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','') as tray, 
        cat.collection_cde || ':' || cat.cat_num as cat_num
     from container cc left join container cp on cc.parent_container_id = cp.container_id
@@ -48,8 +51,7 @@ Current format: #displayFormat#<br/>
         and ch.current_container_fg = 1
         and cat.collection_cde = 'SC'
     order by
-       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray',''), 
-        cat.collection_cde || ':' || cat.cat_num
+       cp.label, cat.collection_cde, to_number(regexp_replace(cat.cat_num,'[^0-9]',''))
     </cfquery>
 
     <!--- Layout parameters --->
@@ -140,7 +142,7 @@ Current format: #displayFormat#<br/>
 <!---    	       <div style="#labelStyle# font-size: 12pt; ">  ---->
     		  <table style="width:100%; height: 2.6in; border: 1px solid black;">
     		      <tr style="height: 0.1in; ">
-    		         <td style="width: 4.0in; border: none; vertical-align: top; "><span style="float: left;">#header_text#</span><span style="float: right;"><strong> #lastTray#</strong></span></td>
+    		         <td style="width: 4.0in; border: none; vertical-align: top; "><span style="float: left; font-size: 12pt; padding-right: 0; margin-right: 0;">#header_text#</span><span style="float: right; padding-left: 0; margin-left: 0; font-size: 12pt;"><strong> #lastTray#</strong></span></td>
     		      </tr>
     		      <tr style="height: 0.1in;">
     		         <td style="vertical-align: top; border: none;"><span style="line-height: 0px;" ><i>#trim(idents)#</i></span></td>
