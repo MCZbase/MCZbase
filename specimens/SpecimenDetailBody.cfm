@@ -32,12 +32,49 @@ limitations under the License.
 	<cfset oneOfUs = 0>
 	<cfset isClicky = "">
 </cfif>
-<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/redesign/specimen-details-body-datatables.cfm">
+<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
    <!--- TODO: Fix this redirect, this is probably the header delivered block above.  ---->
 	<!---<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/redesign/specimen_detail.cfm?collection_object_id=#collection_object_id#">--->
 </cfif>
 </cfoutput>
+<script>
+	$(function() {
+     $(".dialog").dialog({
+		open: function(event,ui){},
+        Title: {style:"font-size: 1.3em;"},
+		bgiframe: true,
+        autoOpen: false,
+    	width: 'auto',
+    	minWidth: 400,
+    	minHeight: 450,
+		buttons: [
+			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
+        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
+        
+    	],
+        close: function() {
+            $(this).dialog( "close" );
+        },
+        modal: true
+       }
+      );
+     $('body')
+      .bind(
+       'click',
+       function(e){
+        if(
+         $('.dialog-ID').dialog('isOpen')
+         && !$(e.target).is('.ui-dialog, button')
+         && !$(e.target).closest('.ui-dialog').length
+        ){
+         $('.dialog').dialog('close');
+        }
+       }
+      );
+    }
+   );
+</script>
 <TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
 <cfset detSelect = "SELECT
 		cataloged_item.collection_object_id as collection_object_id,
@@ -340,7 +377,7 @@ limitations under the License.
 </cfquery>
 <cfoutput query="one">
 <cfif oneOfUs is 1>
-	<form name="editStuffLinks" method="post" action="/redesign/specimen-details2.cfm">
+	<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
 	<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
 	<input type="hidden" name="suppressHeader" value="true">
 	<input type="hidden" name="action" value="nothing">
@@ -348,17 +385,15 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
 	<div class="card-columns"> 
-
 		<!----------------------------- identifications ---------------------------------->
-	<div class="card">
-		<div class="card-header">
-			<h3 class="h4"> Identifications</h3>
-			<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-		</div>
-		<div class="card-body">
+		<script type='text/javascript' src='/specimems/includes/js/internalAjax.js'></script>
+		<script type='text/javascript' src='/specimens/js/transAjax.js'></script>
+		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
+			<!---insert identification query--->
 			<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					identification.scientific_name,
+					identification.collection_object_id,
 					concatidagent(identification.identification_id) agent_name,
 					made_date,
 					nature_of_id,
@@ -377,7 +412,20 @@ limitations under the License.
 					identification.collection_object_id = #collection_object_id#
 				ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-			<cfloop query="identification">
+	<div class="card">
+		<div class="card-header">
+			<h3 class="h4"> Identifications</h3> 
+  <div class="dialog" title="Edit Identification (id: #identification_id#)">
+   <div id="identificationNewForm">Stuff here...</div>
+  </div>
+  <script type="text/javascript">
+$( document ).ready(loadIdentifications(#identification_id#)); 
+
+  </script>
+			 <button type="button" class="detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
+		</div>
+		<div class="card-body">
+				<cfloop query="identification">
 				<cfquery name="getTaxa_r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						taxonomy.taxon_name_id,
@@ -411,7 +459,9 @@ limitations under the License.
 						author_text,
 						full_taxon_name
 				</cfquery>
+					
 				<cfif accepted_id_fg is 1>
+				
 					<ul class="list-group border-green rounded p-3 h4 font-weight-normal">
 						<span class="d-inline-block mb-1 h5 text-success"> Current Identification</span>
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
@@ -473,9 +523,9 @@ limitations under the License.
 						<li class="pid">
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 							<p>
-							<span class="font-weight-light font-italic fs-17 font-weight-bolder"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
+							<span class="font-weight-light font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
 							<cfif len(getTaxa.author_text) gt 0>
-								#getTaxa.author_text#
+								<span class="color-black">Determination: #getTaxa.author_text#</span>
 								</p>
 							</cfif>
 						<cfelse>
@@ -509,19 +559,20 @@ limitations under the License.
 					<cfif len(formatted_publication) gt 0>
 						sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
 					</cfif>
-					<p style="font-size: .9em;"> #agent_name#
+					<p style="font-size: .9em;">Determination: #agent_name#
 						<cfif len(made_date) gt 0>
 							on #dateformat(made_date,"yyyy-mm-dd")#
-						</cfif>
-						<span >, #nature_of_id#</span> </p>
+						</cfif><span>- #nature_of_id#</span> </p>
 					<cfif len(identification_remarks) gt 0>
 						<p style="font-size: .9em;">Remarks: #identification_remarks#</p>
 					</cfif>
 				</cfif>
 						</li>
 					</ul>
+											
 			</cfloop>
-		</div>
+										
+	</div>											
 	</div>
 <!------------------------------------ locality -------------------------------------------> 
 	<div class="card">
@@ -1394,4 +1445,4 @@ limitations under the License.
 </cfif>
 </div>
 </cfoutput>
-<cf_customizeIFrame>
+<!---<cf_customizeIFrame>--->
