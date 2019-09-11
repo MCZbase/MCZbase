@@ -1,3 +1,5 @@
+<cfset pageTitle = "Specimen Result Details column">
+
 <!---
 SpecimenDetail.cfm
 
@@ -18,71 +20,63 @@ limitations under the License.
 --->
 
 <!---  Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found  --->
-<cfset pageTitle = "MCZbase Specimen not found: #guid#">
 
+<cfinclude template="/includes/_header.cfm">
 <cfif isdefined("collection_object_id")>
-	<!---  Redirect from ?collection_object_id=  to /guid/ --->
+
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select GUID from #session.flatTableName# 
-			where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">
+			select GUID from #session.flatTableName# where collection_object_id=#collection_object_id#
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
-		<cfheader name="Location" value="/specimens/SpecimenDetailBody.cfm?collection_object_id=#collection_object_id#">
-		<cfset guid = c.GUID>
+		<cfheader name="Location" value="/guid/#c.guid#">
 		<cfabort>
 	</cfoutput>
 </cfif>
-
 <cfif isdefined("guid")>
-	<!---  Lookup the GUID, handling several possible variations --->
-
-	<!---  Redirect from explicit SpecimenDetail page to  to /guid/ --->
-	<cfif cgi.script_name contains "/specimens/SpecimenDetail.cfm">
+	<cfif cgi.script_name contains "/SpecimenDetail.cfm">
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
 	</cfif>
-
-	<!---  GUID is expected to be in the form MCZ:collectioncode:catalognumber --->
+	
 	<cfif guid contains ":">
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cresult">
-			select collection_object_id from #session.flatTableName#
-         	WHERE upper(guid)= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(guid)#">
-		</cfquery>
+		<cfoutput>
+			<cfset sql="select collection_object_id from
+					#session.flatTableName#
+				WHERE
+					upper(guid)='#ucase(guid)#'">
+			
+			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				#preservesinglequotes(sql)#
+			</cfquery>
+		</cfoutput>
 	<cfelseif guid contains " ">
-		<!--- TODO: Do we want to continue supporting guid={collection catalognumber}? --->
-		<!--- TODO: NOTE: Existing MCZbase code is broken without trim on cn. --->
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
-		<cfset cn=trim(right(guid,spos))>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cresult">
-			select collection_object_id, collection.collection
-				FROM
-					cataloged_item LEFT JOIN collection on cataloged_item.collection_id = collection.collection_id
-				WHERE
-					cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cn#"> 
-					AND
-					lower(collection.collection)= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(cc)#">
+		<cfset cn=right(guid,spos)>
+		<cfset sql="select collection_object_id from
+				cataloged_item,
+				collection
+			WHERE
+				cataloged_item.collection_id = collection.collection_id AND
+				cat_num = #cn# AND
+				lower(collection.collection)='#lcase(cc)#'">
+		<cfset checkSql(sql)>
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			#preservesinglequotes(sql)#
 		</cfquery>
 	</cfif>
-	<cfif cresult.recordcount EQ 0>
-		<!--- Record for this GUID was not found ---> 
-    	<cfinclude template="/errors/404.cfm">
-	    <cfabort>
-   <cfelse>
-		<!--- Record for this GUID was not found, make the collection_object_id available to obtain specimen record details. ---> 
-		<cfoutput query="c">
-			<cfset collection_object_id=c.collection_object_id>
-		</cfoutput>
+	<cfif isdefined("c.collection_object_id") and len(c.collection_object_id) gt 0>
+		<cfset collection_object_id=c.collection_object_id>
+	<cfelse>
+		<cfinclude template="/errors/404.cfm">
+		<cfabort>
 	</cfif>
 <cfelse>
-    <cfinclude template="/errors/404.cfm">
-    <cfabort>
+	<cfinclude template="/errors/404.cfm">
+	<cfabort>
 </cfif>
-
-<cfset pageTitle = "MCZbase Specimen Details #guid#">
-<cfinclude template = "/includes/_header.cfm">
 
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT DISTINCT
@@ -220,72 +214,72 @@ limitations under the License.
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 <script language="javascript" type="text/javascript">
-			function closeEditApp() {
-				$('##bgDiv').remove();
-				$('##bgDiv', window.parent.document).remove();
-				$('##popDiv').remove();
-				$('##popDiv', window.parent.document).remove();
-
-				$('##cDiv').remove();
-				$('##cDiv', window.parent.document).remove();
-
-				$('##theFrame').remove();
-				$('##theFrame', window.parent.document).remove();
-				$("span[id^='BTN_']").each(function(){
-					$("##" + this.id).removeClass('activeButton');
-					$('##' + this.id, window.parent.document).removeClass('activeButton');
-				});
-			}
-			function loadEditApp(q) {
-				closeEditApp();
-				var bgDiv = document.createElement('div');
-				bgDiv.id = 'bgDiv';
-				bgDiv.className = 'bgDiv';
-				bgDiv.setAttribute('onclick','closeEditApp()');
-				document.body.appendChild(bgDiv);
-
-				var popDiv=document.createElement('div');
-				popDiv.id = 'popDiv';
-				popDiv.className = 'editAppBox';
-				document.body.appendChild(popDiv);
-				var links='<ul id="navbar">';
-				links+='<li><span onclick="loadEditApp(\'editIdentification\')" class="likeLink" id="BTN_editIdentification">Taxa</span></li>';
-				links+='<li><span onclick="loadEditApp(\'addAccn\')" class="likeLink" id="BTN_addAccn">Accn</span></li>';
-				links+='<li><span onclick="loadEditApp(\'changeCollEvent\')" class="likeLink" id="BTN_changeCollEvent">PickEvent</span></li>';
-				links+='<li><span onclick="loadEditApp(\'specLocality\')" class="likeLink" id="BTN_specLocality">Locality</span></li>';
-				links+='<li><span onclick="loadEditApp(\'editColls\')" class="likeLink" id="BTN_editColls">Agents</span></li>';
-				links+='<li><span onclick="loadEditApp(\'editRelationship\')" class="likeLink" id="BTN_editRelationship">Relations</span></li>';
-				links+='<li><span onclick="loadEditApp(\'editParts\')" class="likeLink" id="BTN_editParts">Parts</span></li>';
-				links+='<li><span onclick="loadEditApp(\'findContainer\')" class="likeLink" id="BTN_findContainer">PartLocn</span></li>';
-				links+='<li><span onclick="loadEditApp(\'editBiolIndiv\')" class="likeLink" id="BTN_editBiolIndiv">Attributes</span></li>';
-				links+='<li><span onclick="loadEditApp(\'editIdentifiers\')" class="likeLink" id="BTN_editIdentifiers">OtherID</span></li>';
-				links+='<li><span onclick="loadEditApp(\'MediaSearch\')" class="likeLink" id="BTN_MediaSearch">Media</span></li>';
-				links+='<li><span onclick="loadEditApp(\'Encumbrances\')" class="likeLink" id="BTN_Encumbrances">Encumbrance</span></li>';
-				links+='<li><span onclick="loadEditApp(\'catalog\')" class="likeLink" id="BTN_catalog">Catalog</span></li>';
-				links+="</ul>";
-
-				$("##popDiv").append(links);
-				var cDiv=document.createElement('div');
-				cDiv.className = 'fancybox-close';
-				cDiv.id='cDiv';
-				cDiv.setAttribute('onclick','closeEditApp()');
-				$("##popDiv").append(cDiv);
-				$("##popDiv").append('<img src="/images/loadingAnimation.gif" class="centeredImage">');
-				var theFrame = document.createElement('iFrame');
-				theFrame.id='theFrame';
-				theFrame.className = 'editFrame';
-				var ptl="/" + q + ".cfm?collection_object_id=" + '#collection_object_id#';
-				theFrame.src=ptl;
-				//document.body.appendChild(theFrame);
-				$("##popDiv").append(theFrame);
-				$("span[id^='BTN_']").each(function(){
-					$("##" + this.id).removeClass('activeButton');
-					$('##' + this.id, window.parent.document).removeClass('activeButton');
-				});
-
-				$("##BTN_" + q).addClass('activeButton');
-				$('##BTN_' + q, window.parent.document).addClass('activeButton');
-			}
+		//	function closeEditApp() {
+//				$('##bgDiv').remove();
+//				$('##bgDiv', window.parent.document).remove();
+//				$('##popDiv').remove();
+//				$('##popDiv', window.parent.document).remove();
+//
+//				$('##cDiv').remove();
+//				$('##cDiv', window.parent.document).remove();
+//
+//				$('##theFrame').remove();
+//				$('##theFrame', window.parent.document).remove();
+//				$("span[id^='BTN_']").each(function(){
+//					$("##" + this.id).removeClass('activeButton');
+//					$('##' + this.id, window.parent.document).removeClass('activeButton');
+//				});
+//			}
+//			function loadEditApp(q) {
+//				closeEditApp();
+//				var bgDiv = document.createElement('div');
+//				bgDiv.id = 'bgDiv';
+//				bgDiv.className = 'bgDiv';
+//				bgDiv.setAttribute('onclick','closeEditApp()');
+//				document.body.appendChild(bgDiv);
+//
+//				var popDiv=document.createElement('div');
+//				popDiv.id = 'popDiv';
+//				popDiv.className = 'editAppBox';
+//				document.body.appendChild(popDiv);
+//				var links='<ul id="navbar">';
+//				links+='<li><span onclick="loadEditApp(\'editIdentification\')" class="likeLink" id="BTN_editIdentification">Taxa</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'addAccn\')" class="likeLink" id="BTN_addAccn">Accn</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'changeCollEvent\')" class="likeLink" id="BTN_changeCollEvent">PickEvent</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'specLocality\')" class="likeLink" id="BTN_specLocality">Locality</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'editColls\')" class="likeLink" id="BTN_editColls">Agents</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'editRelationship\')" class="likeLink" id="BTN_editRelationship">Relations</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'editParts\')" class="likeLink" id="BTN_editParts">Parts</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'findContainer\')" class="likeLink" id="BTN_findContainer">PartLocn</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'editBiolIndiv\')" class="likeLink" id="BTN_editBiolIndiv">Attributes</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'editIdentifiers\')" class="likeLink" id="BTN_editIdentifiers">OtherID</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'MediaSearch\')" class="likeLink" id="BTN_MediaSearch">Media</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'Encumbrances\')" class="likeLink" id="BTN_Encumbrances">Encumbrance</span></li>';
+//				links+='<li><span onclick="loadEditApp(\'catalog\')" class="likeLink" id="BTN_catalog">Catalog</span></li>';
+//				links+="</ul>";
+//
+//				$("##popDiv").append(links);
+//				var cDiv=document.createElement('div');
+//				cDiv.className = 'fancybox-close';
+//				cDiv.id='cDiv';
+//				cDiv.setAttribute('onclick','closeEditApp()');
+//				$("##popDiv").append(cDiv);
+//				$("##popDiv").append('<img src="/images/loadingAnimation.gif" class="centeredImage">');
+//				var theFrame = document.createElement('iFrame');
+//				theFrame.id='theFrame';
+//				theFrame.className = 'editFrame';
+//				var ptl="/" + q + ".cfm?collection_object_id=" + '#collection_object_id#';
+//				theFrame.src=ptl;
+//				//document.body.appendChild(theFrame);
+//				$("##popDiv").append(theFrame);
+//				$("span[id^='BTN_']").each(function(){
+//					$("##" + this.id).removeClass('activeButton');
+//					$('##' + this.id, window.parent.document).removeClass('activeButton');
+//				});
+//
+//				$("##BTN_" + q).addClass('activeButton');
+//				$('##BTN_' + q, window.parent.document).addClass('activeButton');
+//			}
 		</script>
         <form name="incPg" method="post" action="/specimens/SpecimenDetail.cfm">
             <input type="hidden" name="collection_object_id" value="#collection_object_id#">
