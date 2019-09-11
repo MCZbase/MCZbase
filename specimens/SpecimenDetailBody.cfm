@@ -16,9 +16,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfif not isdefined("HEADER_DELIVERED")>
-  <!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
-</cfif>
+
+<!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
+<!---<cfif not isdefined("HEADER_DELIVERED")>
+</cfif>--->
 
 <cfoutput>
 <cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
@@ -386,7 +387,7 @@ limitations under the License.
 </cfif>
 	<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
-		<script type='text/javascript' src='/specimems/includes/js/internalAjax.js'></script>
+		<!---<script type='text/javascript' src='/specimens/includes/js/internalAjax.js'></script>--->
 		<script type='text/javascript' src='/specimens/js/transAjax.js'></script>
 		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
 			<!---insert identification query--->
@@ -419,8 +420,7 @@ limitations under the License.
    <div id="identificationNewForm">Stuff here...</div>
   </div>
   <script type="text/javascript">
-$( document ).ready(loadIdentifications(#identification_id#)); 
-
+	  $( document ).ready(loadIdentifications(#identification_id#));
   </script>
 			 <button type="button" class="detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
