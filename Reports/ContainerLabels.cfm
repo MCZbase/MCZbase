@@ -287,7 +287,8 @@ Current format: #displayFormat#<br/>
         <!---  For each tray, get the list of scientific names, in order by other id --->
         <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct
-           get_scientific_name(cat.collection_object_id) as ident
+           get_scientific_name(cat.collection_object_id) as ident,
+           MCZBASE.get_single_other_id_concat(cat.collection_object_id, 'other number') as othernumber
         from container cc left join container cp on cc.parent_container_id = cp.container_id
            left join coll_obj_cont_hist ch on cc.container_id = ch.container_id
            left join specimen_part sp on ch.COLLECTION_OBJECT_ID = sp.COLLECTION_OBJECT_ID
@@ -295,7 +296,7 @@ Current format: #displayFormat#<br/>
         where cp.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getItems.barcode#">
             and ch.current_container_fg = 1
         order by
-           get_single_other_id(cat.collection_object_id, 'other number'),
+           MCZBASE.get_single_other_id_concat(cat.collection_object_id, 'other number'),
            get_scientific_name(cat.collection_object_id)
         </cfquery>
 
