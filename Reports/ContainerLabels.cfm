@@ -213,7 +213,8 @@ Current format: #displayFormat#<br/>
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct 
        get_scientific_name(cat.collection_object_id) as ident, 
-       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','') as tray
+       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','') as tray,
+        cp.barcode
     from container cc left join container cp on cc.parent_container_id = cp.container_id
        left join coll_obj_cont_hist ch on cc.container_id = ch.container_id
        left join specimen_part sp on ch.COLLECTION_OBJECT_ID = sp.COLLECTION_OBJECT_ID
@@ -276,38 +277,52 @@ Current format: #displayFormat#<br/>
     #pageHeader#
     <!--- Main loop --->
     <cfset curItem = 0 >  <!--- counter to track if we are at the end of the record set yet --->
-    <!--- accumulators for values to display in the label ---> 
-    <cfset lastTray = ''>
-    <cfset idents = ''>
-    <cfset iseparator = ''>
     <!--- count of current column and row location to know when to start a new column and a new page --->
     <cfset rowCount = 0>
     <cfset colCount = 0>
     <cfloop query="getItems">
        <!--- loop through all of the cataloged items (sorted by tray and scientific name --->
        <cfset curItem = curItem + 1>
-       <cfset currentTray=tray>
-       <cfif currentTray NEQ lastTray OR curItem EQ getItems.recordCount> 
-            <!--- output previous tray ---> 
-            <cfif curItem gt 1> 
-               <cfset rowCount = rowCount + 1>
-    	       <div style="#labelStyle# margin-bottom: 2mm; margin-right: 1.0in; font-size: 12pt;">
+
+        <!---  For each tray, get the list of scientific names, in order by other id --->
+        <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select distinct
+           get_scientific_name(cat.collection_object_id) as ident
+        from container cc left join container cp on cc.parent_container_id = cp.container_id
+           left join coll_obj_cont_hist ch on cc.container_id = ch.container_id
+           left join specimen_part sp on ch.COLLECTION_OBJECT_ID = sp.COLLECTION_OBJECT_ID
+           left join cataloged_item cat on sp.DERIVED_FROM_CAT_ITEM = cat.COLLECTION_OBJECT_ID
+        where cp.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getItems.barcode#">
+            and ch.current_container_fg = 1
+        order by
+           get_single_other_id(cat.collection_object_id, 'other number'),
+           get_scientific_name(cat.collection_object_id)
+        </cfquery>
+
+        <cfset idents = ''>
+        <cfset iseparator = ''>
+        <cfloop query="getTaxa">
+            <!--- Accumulate list of distinct taxon names --->
+            <cfset ident = getTaxa.ident>
+            <cfif Find(ident,idents) GT 0>
+                <cfset idents = '#idents##iseparator##ident#'>
+                <cfset iseparator = '; '>
+            </cfif>
+        </cfloop>
+
+        <cfset rowCount = rowCount + 1>
+    	<div style="#labelStyle# margin-bottom: 2mm; margin-right: 1.0in; font-size: 12pt;">
     		  <table >
     		      <tr>
-    		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px" >#header_text#<strong> #lastTray#</strong></span></td>
+    		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px" >#header_text#<strong> #getItems.tray#</strong></span></td>
     		      </tr>
     		      <tr>
     		         <td><span class="#textClass#"><i>#idents#</i></span></td>
     		      </tr>
                   </table>
-               </div>
-            </cfif>
-            <!--- Begin a new tray --->
-            <cfset idents = ''>
-            <cfset iseparator = ''>
-            <cfset lastTray=tray>
-              <!--- If at end of column, add next column --->
-          	<cfif rowCount EQ maxRow >
+        </div>
+        <!--- If at end of column, add next column --->
+        <cfif rowCount EQ maxRow >
                     <cfset colCount = colCount + 1>
                     <cfset rowCount = 0>
           	    </td></tr></table></td>
@@ -315,10 +330,10 @@ Current format: #displayFormat#<br/>
           	    <cfif curItem LT getItems.recordCount AND colCount LT maxCol>
           		<td valign='top'><table #innerTableParams#><tr><td>
           	    </cfif>
-          	</cfif>
+        </cfif>
       
-              <!--- If at end of page, add new page set to first column --->
-          	<cfif colCount EQ maxCol OR curItem EQ getItems.recordcount >
+        <!--- If at end of page, add new page set to first column --->
+        <cfif colCount EQ maxCol OR curItem EQ getItems.recordcount >
                  <cfset curPage = curPage + 1> <!--- currently not used, could be used for page x of y --->
                  <cfset rowCount = 0> <!--- restart row and column counters for new page --->
                  <cfset colCount = 0>
@@ -329,13 +344,10 @@ Current format: #displayFormat#<br/>
                       <cfdocumentitem type="pagebreak"></cfdocumentitem>
           		#pageHeader#
                  </cfif>
-          	</cfif>
-       </cfif>
+        </cfif>
        
        <!---  Iterate Through Trays, one label per tray, accumulating identifications in tray---> 
        <!---  taxa are distinct in query, just append them to list.  --->
-       <cfset idents = '#idents##iseparator##ident#'>
-       <cfset iseparator = '; '>
 
     </cfloop>
     </cfoutput>
