@@ -227,11 +227,11 @@ Current format: #displayFormat#<br/>
     </cfquery>
 
     <!--- Layout parameters --->
-    <cfset maxCol = 3>
+    <cfset maxCol = 2>
     <cfset orientiation = 'portrait'>
     <cfset maxRow = 20>
-    <cfset labelWidth = 'width: 4.0in;'>
-    <cfset labelHeight = 'height: 0.25in;'>
+    <cfset labelWidth = 'width: 77mm;'>
+    <cfset labelHeight = 'height: 10mm;'>
    
     <cfset numRecordsPerPage = maxCol * maxRow>
     <cfset curPage = 1>
@@ -240,7 +240,7 @@ Current format: #displayFormat#<br/>
     <!--- Formatting parameters --->
     <cfset labelBorder = 'border: 1px solid black;'>
     <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0" '>
-    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0.2in" border="0" '>
+    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="2mm" border="0" '>
     <cfset pageHeader='
     <table #outerTableParams#>
        <tr><td>
@@ -256,7 +256,7 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times8">
+    <cfset textClass = "times10">
     <cfset dateStyle = "yyyy-mmm-dd">
     <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
@@ -291,10 +291,10 @@ Current format: #displayFormat#<br/>
             <!--- output previous tray ---> 
             <cfif curItem gt 1> 
                <cfset rowCount = rowCount + 1>
-    	       <div style="#labelStyle# margin: 0.1in; font-size: 8pt;">
+    	       <div style="#labelStyle# margin-bottom: 2mm; margin-right: 1.0in; font-size: 12pt;">
     		  <table >
     		      <tr>
-    		         <td><span class="#textClass#">#header_text#<strong> #lastTray#</strong></span></td>
+    		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px" >#header_text#<strong> #lastTray#</strong></span></td>
     		      </tr>
     		      <tr>
     		         <td><span class="#textClass#"><i>#idents#</i></span></td>
