@@ -302,10 +302,12 @@ Current format: #displayFormat#<br/>
 
         <cfset idents = ''>
         <cfset iseparator = ''>
+	<cfset taxonCount = 0>
         <cfloop query="getTaxa">
+	    <cfset taxonCount = taxonCount + 1>
             <!--- Accumulate list of distinct taxon names --->
             <cfset ident = getTaxa.ident>
-            <cfif Find(ident,idents) GT 0>
+            <cfif taxonCount EQ 1 OR Find(ident,idents) EQ 0>
                 <cfset idents = '#idents##iseparator##ident#'>
                 <cfset iseparator = '; '>
             </cfif>
