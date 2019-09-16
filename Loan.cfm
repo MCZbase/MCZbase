@@ -407,6 +407,7 @@
 <cfif action is "editLoan">
 	<cfset title="Edit #scope#">
 	<cfoutput>
+	<cftry>
 	<script>
     function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
            console.log(targetid);
@@ -438,6 +439,7 @@
 	<cfquery name="loanDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans.transaction_id,
+			trans.transaction_type,
 			trans_date,
 			loan_number,
 			loan_type,
@@ -462,6 +464,12 @@
 			trans.collection_id=collection.collection_id and
 			trans.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
+	<cfif loanDetails.RecordCount EQ 0 > 
+		<cfthrow message = "No such Loan.">
+	</cfif>
+	<cfif loanDetails.RecordCount GT 0 AND loanDetails.transaction_type NEQ 'loan'> 
+		<cfthrow message = "Request to edit a loan, but the provided transaction_id was for a different transaction type.">
+	</cfif>
 	<cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans_agent_id,
@@ -1306,6 +1314,11 @@ $( document ).ready(loadShipments(#transaction_id#));
     </cfif>
     </div>
 
+<cfcatch>
+	<h2>Error: #cfcatch.message#</h2>
+	<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+</cfcatch>
+</cftry>
 </cfoutput>
 <script>
 	dCount();

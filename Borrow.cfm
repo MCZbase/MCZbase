@@ -358,9 +358,11 @@ function setBorrowNum(cid,v){
 <cfset title="Edit Borrow">
   <div style="width: 95%;margin: 0 auto;overflow: hidden;padding: 2em;">
 <cfoutput>
+	<cftry>
 		<cfquery name="getBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				borrow.TRANSACTION_ID,
+				trans.transaction_type,
 				LENDERS_TRANS_NUM_CDE,
 				BORROW_NUMBER,
 				LENDERS_INVOICE_RETURNED_FG,
@@ -388,6 +390,12 @@ function setBorrowNum(cid,v){
 				trans.collection_id = collection.collection_id and
 			        trans.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
+	<cfif getBorrow.RecordCount EQ 0 > 
+		<cfthrow message = "No such Borrow.">
+	</cfif>
+	<cfif getBorrow.RecordCount GT 0 AND getBorrow.transaction_type NEQ 'borrow'> 
+		<cfthrow message = "Request to edit a Borrow, but the provided transaction_id was for a different transaction type.">
+	</cfif>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				trans_agent_id,
@@ -902,7 +910,11 @@ $(function() {
   <div id="shipmentFormStatus"></div>
 </div>
 
-
+	<cfcatch>
+		<h2>Error: #cfcatch.message#</h2>
+		<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+	</cfcatch>
+	</cftry>
 	</cfoutput>
                 </div>
 </cfif>

@@ -102,6 +102,7 @@
 <cfif action is "edit">
     <div style="width: 75em; margin: 0 auto;padding: 2em 0 4em 0;">
 	<cfoutput>
+	<cftry>
 		<script>
 			jQuery(document).ready(function() {
 				getMedia('accn','#transaction_id#','accnMediaDiv','6','1');
@@ -140,6 +141,7 @@
 		<cfquery name="accnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				trans.transaction_id,
+				trans.transaction_type,
 				accn_number,
 			 	accn_status,
 				accn_type,
@@ -163,6 +165,12 @@
 				trans.collection_id=collection.collection_id and
 				trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
+		<cfif accnData.RecordCount EQ 0 > 
+			<cfthrow message = "No such Accession.">
+		</cfif>
+		<cfif accnData.RecordCount GT 0 AND accnData.transaction_type NEQ 'accn'> 
+			<cfthrow message = "Request to edit an Accession, but the provided transaction_id was for a different transaction type.">
+		</cfif>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				trans_agent_id,
@@ -663,6 +671,11 @@ $( document ).ready(loadShipments(#transaction_id#));
         </cfloop>
 	</table>
 </div>
+	<cfcatch>
+		<h2>Error: #cfcatch.message#</h2>
+		<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+	</cfcatch>
+	</cftry>
 	</cfoutput>
 </div>
 </cfif>

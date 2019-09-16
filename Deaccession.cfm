@@ -376,6 +376,7 @@
 <cfif action is "editDeacc">
 	<cfset title="Edit Deaccession">
 	<cfoutput>
+	<cftry>
 	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deaccDetailsResult" >
 		select
             trans.transaction_id,
@@ -402,6 +403,12 @@
 			trans.collection_id=collection.collection_id and
 			trans.transaction_id = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 	</cfquery>
+	<cfif deaccDetails.RecordCount EQ 0 > 
+		<cfthrow message = "No such Deaccession.">
+	</cfif>
+	<cfif deaccDetails.RecordCount GT 0 AND deaccDetails.transaction_type NEQ 'deaccession'> 
+		<cfthrow message = "Request to edit a deaccession, but the provided transaction_id was for a different transaction type.">
+	</cfif>
 	<cfquery name="deaccAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans_agent_id,
@@ -438,9 +445,6 @@
            </script>
            </cfif>
         </cfif>
-	<cfif deaccDetails.RecordCount GT 0 AND deaccDetails.transaction_type NEQ 'deaccession'> 
-		<cfthrow message = "ERROR: Request to edit a deaccession, but the provided transaction_id was for a different transaction type.">
-	</cfif>
        <div class="editLoanbox">
        <h2 class="wikilink" style="margin-left: 0;">Edit Deaccession <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#deaccDetails.collection# #deaccDetails.deacc_number# </span>	</h2>
@@ -961,6 +965,11 @@ $( document ).ready(loadShipments(#transaction_id#));
 </div> <!---  End of permit block --->
 
 
+<cfcatch>
+	<h2>Error: #cfcatch.message#</h2>
+	<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+</cfcatch>
+</cftry>
 </cfoutput>
 <script>
 	dCount();
