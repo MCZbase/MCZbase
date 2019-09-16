@@ -376,9 +376,10 @@
 <cfif action is "editDeacc">
 	<cfset title="Edit Deaccession">
 	<cfoutput>
-	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deaccDetailsResult" >
 		select
             trans.transaction_id,
+			trans.transaction_type,
 			trans.trans_date,
 			deaccession.deacc_number,
 			deaccession.deacc_type,
@@ -437,6 +438,9 @@
            </script>
            </cfif>
         </cfif>
+	<cfif deaccDetails.RecordCount GT 0 AND deaccDetails.transaction_type NEQ 'deaccession'> 
+		<cfthrow message = "ERROR: Request to edit a deaccession, but the provided transaction_id was for a different transaction type.">
+	</cfif>
        <div class="editLoanbox">
        <h2 class="wikilink" style="margin-left: 0;">Edit Deaccession <img src="/images/info_i_2.gif" onClick="getMCZDocs('Deaccession/Gift')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#deaccDetails.collection# #deaccDetails.deacc_number# </span>	</h2>
