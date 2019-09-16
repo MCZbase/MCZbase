@@ -66,8 +66,21 @@
 	</cfquery>
     <!--- relations --->
     <cfloop from="1" to="#number_of_relations#" index="n">
-      <cfset thisRelationship = #evaluate("relationship__" & n)#>
-      <cfset thisRelatedId = #evaluate("related_id__" & n)#>
+      <cfset failure=0>
+      <cftry>
+      	<cfset thisRelationship = #evaluate("relationship__" & n)#>
+      <cfcatch>
+        <cfset failure=1>
+      </cfcatch>
+      </cftry>
+      <cftry>
+      	<cfset thisRelatedId = #evaluate("related_id__" & n)#>
+      <cfcatch>
+        <cfset failure=1>
+      </cfcatch>
+      </cftry>
+      <cfif thisRelatedId EQ ''><cfset failure=1></cfif>
+      <cfif failure EQ 0>
       <cfif isdefined("media_relations_id__#n#")>
         <cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
         <cfelse>
@@ -96,8 +109,9 @@
 						related_primary_key=#thisRelatedId#
 					where media_relations_id=#thisRelationID#
 				</cfquery>
-        </cfif>
-      </cfif>
+        </cfif><!--- delete or update relation --->
+      </cfif><!--- relation exists ---> 
+      </cfif><!--- Failure check --->
     </cfloop>
     <cfloop from="1" to="#number_of_labels#" index="n">
       <cfset thisLabel = #evaluate("label__" & n)#>
