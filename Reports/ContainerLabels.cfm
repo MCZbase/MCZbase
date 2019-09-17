@@ -212,7 +212,6 @@ Current format: #displayFormat#<br/>
 
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct 
-       get_scientific_name(cat.collection_object_id) as ident, 
        'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','') as tray,
         cp.barcode
     from container cc left join container cp on cc.parent_container_id = cp.container_id
@@ -224,7 +223,6 @@ Current format: #displayFormat#<br/>
         and cat.collection_cde = 'SC'
     order by
        'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray',''),
-       get_scientific_name(cat.collection_object_id) 
     </cfquery>
 
     <!--- Layout parameters --->
@@ -232,7 +230,7 @@ Current format: #displayFormat#<br/>
     <cfset orientiation = 'portrait'>
     <cfset maxRow = 20>
     <cfset labelWidth = 'width: 77mm;'>
-    <cfset labelHeight = 'height: 10mm;'>
+    <cfset labelHeight = 'height: 11mm;'>
    
     <cfset numRecordsPerPage = maxCol * maxRow>
     <cfset curPage = 1>
@@ -257,7 +255,7 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times10">
+    <cfset textClass = "times11">
     <cfset dateStyle = "yyyy-mmm-dd">
     <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
@@ -302,7 +300,8 @@ Current format: #displayFormat#<br/>
 
         <cfset idents = ''>
         <cfset iseparator = ''>
-	<cfset taxonCount = 0>
+    	<cfset taxonCount = 0>
+        <cfset 
         <cfloop query="getTaxa">
 	    <cfset taxonCount = taxonCount + 1>
             <!--- Accumulate list of distinct taxon names --->
@@ -314,13 +313,13 @@ Current format: #displayFormat#<br/>
         </cfloop>
 
         <cfset rowCount = rowCount + 1>
-    	<div style="#labelStyle# margin-bottom: 2mm; margin-right: 1.0in; font-size: 12pt;">
+    	<div style="#labelStyle# margin-bottom: 2mm; margin-right: 1.0in; font-size: 12.5pt;">
     		  <table >
-    		      <tr>
-    		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px" >#header_text#<strong> #getItems.tray#</strong></span></td>
+    		      <tr style="padding-bottom: 0px; margin-bottom:0px;">
+    		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px;" >#header_text#<strong> #getItems.tray#</strong></span></td>
     		      </tr>
-    		      <tr>
-    		         <td><span class="#textClass#"><i>#idents#</i></span></td>
+    		      <tr style="padding-bottom: 0px; margin-bottom:0px; padding-bottom: 3mm;">
+    		         <td><span class="#textClass#" style="padding-top: 0px; margin-top: 0px;"><i>#idents#</i></span></td>
     		      </tr>
                   </table>
         </div>
