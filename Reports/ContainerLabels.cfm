@@ -222,15 +222,15 @@ Current format: #displayFormat#<br/>
         and ch.current_container_fg = 1
         and cat.collection_cde = 'SC'
     order by
-       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray',''),
+       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','')
     </cfquery>
 
     <!--- Layout parameters --->
     <cfset maxCol = 2>
     <cfset orientiation = 'portrait'>
-    <cfset maxRow = 20>
+    <cfset maxRow = 22>
     <cfset labelWidth = 'width: 77mm;'>
-    <cfset labelHeight = 'height: 11mm;'>
+    <cfset labelHeight = 'height: 12mm;'>
    
     <cfset numRecordsPerPage = maxCol * maxRow>
     <cfset curPage = 1>
@@ -239,7 +239,7 @@ Current format: #displayFormat#<br/>
     <!--- Formatting parameters --->
     <cfset labelBorder = 'border: 1px solid black;'>
     <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0" '>
-    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="2mm" border="0" '>
+    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0" '>
     <cfset pageHeader='
     <table #outerTableParams#>
        <tr><td>
@@ -255,7 +255,7 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times11">
+    <cfset textClass = "times12">
     <cfset dateStyle = "yyyy-mmm-dd">
     <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
@@ -301,7 +301,6 @@ Current format: #displayFormat#<br/>
         <cfset idents = ''>
         <cfset iseparator = ''>
     	<cfset taxonCount = 0>
-        <cfset 
         <cfloop query="getTaxa">
 	    <cfset taxonCount = taxonCount + 1>
             <!--- Accumulate list of distinct taxon names --->
@@ -313,7 +312,7 @@ Current format: #displayFormat#<br/>
         </cfloop>
 
         <cfset rowCount = rowCount + 1>
-    	<div style="#labelStyle# margin-bottom: 2mm; margin-right: 1.0in; font-size: 12.5pt;">
+    	<div style="#labelStyle# margin-bottom: 0mm; margin-right: 1.0in;">
     		  <table >
     		      <tr style="padding-bottom: 0px; margin-bottom:0px;">
     		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px;" >#header_text#<strong> #getItems.tray#</strong></span></td>
