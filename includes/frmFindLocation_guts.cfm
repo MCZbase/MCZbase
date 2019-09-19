@@ -124,7 +124,9 @@
 	select geology_attribute from ctgeology_attribute order by geology_attribute
 </cfquery>
 <cfquery name="ctsovereign_nation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-	select sovereign_nation from ctsovereign_nation order by sovereign_nation
+	select sovereign_nation, count(locality_id) as ct from ctsovereign_nation
+ 		left join locality on ctsovereign_nation.sovereign_nation=locality.sovereign_nation
+        order by sovereign_nation
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collection,collection_id from collection order by collection
@@ -366,11 +368,11 @@
 					</table>
 				</td>
 				<td>
-					<label for="sovereign_nation">Elevation Units</label>
+					<label for="sovereign_nation">Sovereign Nation</label>
 					<select name="sovereign_nation" id="sovereign_nation" size="1">
 		            			<option value=""></option>
 			                	<cfloop query="ctsovereign_nation">
-			                		<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#</option>
+			                		<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ct.sovereign_nation.ct#)</option>
 				                </cfloop>
 			                	<cfloop query="ctsovereign_nation" startRow="1">
 			                		<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
