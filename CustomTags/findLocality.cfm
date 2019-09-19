@@ -142,6 +142,13 @@
 	<cfset sloc = #ucase(replace(spec_locality,"'","''","all"))#>
 	<cfset sql = "#sql# AND upper(spec_locality) like '%#escapeQuotes(ucase(spec_locality))#%'">
 </cfif>
+<cfif isdefined("sovereign_nation") and len(#sovereign_nation#) gt 0>
+        <cfif left(sovereign_nation,1) is "!">
+                <CFSET sql = "#SQL# AND upper(sovereign_nation) <> '#ucase(right(sovereign_nation,len(sovereign_nation)-1))#'">
+        <cfelse>
+                <CFSET sql = "#SQL# AND upper(sovereign_nation) = '#ucase(sovereign_nation)#'">
+        </cfif>
+</cfif>
 <cfif isdefined("maximum_elevation") and len(#maximum_elevation#) gt 0>
 	<cfset sql = "#sql# AND maximum_elevation #maxElevOper# #maximum_elevation#">
 </cfif>
