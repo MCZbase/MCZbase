@@ -37,7 +37,7 @@
 		max_depth,
 		min_depth,
 		depth_units,
-                MCZBASE.get_collcodes_for_locality(locality.locality_id) as collcountlocality
+                /*MCZBASE.get_collcodes_for_locality(locality.locality_id)*/ null as collcountlocality
 	from
 		geog_auth_rec,
 		locality,
