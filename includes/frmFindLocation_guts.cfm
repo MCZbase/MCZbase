@@ -126,6 +126,7 @@
 <cfquery name="ctsovereign_nation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select ctsovereign_nation.sovereign_nation, count(locality_id) as ct from ctsovereign_nation
  		left join locality on ctsovereign_nation.sovereign_nation=locality.sovereign_nation
+	group by ctsovereign_nation.sovereign_nation
         order by sovereign_nation
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
