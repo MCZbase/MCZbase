@@ -373,7 +373,7 @@
 					<select name="sovereign_nation" id="sovereign_nation" size="1">
 		            			<option value=""></option>
 			                	<cfloop query="ctsovereign_nation">
-			                		<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ct.sovereign_nation.ct#)</option>
+			                		<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
 				                </cfloop>
 			                	<cfloop query="ctsovereign_nation" startRow="1">
 			                		<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
