@@ -450,7 +450,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									</cfif>
 									Identified by #agent_name#
 									<cfif len(made_date) gt 0>
-										on #made_date#
+										<cfif len(made_date) gt 8> on <cfelse> in </cfif>#made_date#
 									</cfif>
 									<br>Nature of ID: #nature_of_id#
 									<cfif len(identification_remarks) gt 0>
