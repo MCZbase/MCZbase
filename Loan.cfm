@@ -1232,7 +1232,7 @@ $( document ).ready(loadShipments(#transaction_id#));
   <div id="shipmentFormStatus"></div>
 </div>
 <div id="accsection">
-	<h3>Accessions (and their permits) for material in this loan:</h3>
+	<h3>Accessions of material in this loan:</h3>
         <!--- List Accessions for collection objects included in the Loan --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from
@@ -1269,15 +1269,16 @@ $( document ).ready(loadShipments(#transaction_id#));
 	</cfloop>
         </ul>
 </div>
-    <!--- TODO: Print permits associated with these accessions --->
+    <!--- Print permits associated with these accessions --->
 	  <div id="permitmedia">
-      <h3>Permit Media (PDF copies of Permits)</h3>
+      <h3>Permissions and Rights Documents (PDF copies of Permits) from Accessions and the Shipments of this Loan.</h3>
         <cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title from (
+        select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment from (
                 select 
                        mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
                        mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-                       p.permit_type, p.permit_num, p.permit_title, p.specific_type
+                       p.permit_type, p.permit_num, p.permit_title, p.specific_type,
+                       ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
            from loan_item li
                    left join specimen_part sp on li.collection_object_id = sp.collection_object_id
                    left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -1286,12 +1287,11 @@ $( document ).ready(loadShipments(#transaction_id#));
                    left join permit p on permit_trans.permit_id = p.permit_id
                    left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
                 where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-                      and ctspecific_permit_type.accn_show_on_shipment = 1
         union
                 select 
                    mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
                    mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-                   p.permit_type, p.permit_num, p.permit_title, p.specific_type
+                   p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
            from shipment s
            left join permit_shipment ps on s.shipment_id = ps.shipment_id
            left join permit p on ps.permit_id = p.permit_id
@@ -1304,13 +1304,17 @@ $( document ).ready(loadShipments(#transaction_id#));
            <cfif media_id is ''> 
               <li>#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
            <cfelse>
-              <li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
-              <cfset uriList = ListAppend(uriList,uri)>
+	      <cfif show_on_shipment EQ 1> 
+                 <li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
+                 <cfset uriList = ListAppend(uriList,uri)>
+              <cfelse>
+                 <li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
+	      </cfif>
            </cfif>
         </cfloop>
     </ul>
     <cfif ListLen(uriList,',',false) gt 0 >
-        <a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permits</a>
+        <a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
     </cfif>
     </div>
 
