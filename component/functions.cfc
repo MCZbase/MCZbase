@@ -3860,11 +3860,11 @@
 		where media_relations.media_relationship = 'shows permit' 
 			and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
 	</cfquery>
-	<cfset mediaLink = "">
+	<cfset mediaLink = "&##8855;">
 	<cfloop query="mediaQuery">
-		<cfset mediaLink = "<a href='#media_uri#'><img src='#getMediaPreview(preview_uri,media_type)#'></a>" >
-	<cfloop>
-       <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent# #mediaLink#</li></ul>">
+		<cfset mediaLink = "<a href='#media_uri#'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
+	</cfloop>
+       <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
 
        <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
