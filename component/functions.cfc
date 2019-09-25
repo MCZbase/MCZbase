@@ -4207,7 +4207,17 @@ onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rig
    <cfif query.recordcount gt 0>
        <cfset result="<ul>">
        <cfloop query="query">
-          <cfset result = result & "<li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</li>">
+   	    <cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		    select media.media_id, media_uri, preview_uri, media_type 
+    		from media_relations left join media on media_relations.media_id = media.media_id
+	    	where media_relations.media_relationship = 'shows permit' 
+		    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#query.permit_id#>
+    	</cfquery>
+	    <cfset mediaLink = "&##8855;">
+    	<cfloop query="mediaQuery">
+	    	<cfset mediaLink = "<a href='#media_uri#'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
+    	</cfloop>
+          <cfset result = result & "<li><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
