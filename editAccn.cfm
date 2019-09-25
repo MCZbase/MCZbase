@@ -387,10 +387,10 @@
 		</td></tr></table>
 
 <div class="shippingBlock"> 
-   		<label for="redir">Print...</label>
+   		<label for="redir">Print... (DRAFT, not ready for use)</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
    			<option value=""></option>
-			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_accn_header">Header Copy for MCZ Files</option>
+			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_accn_header">DRAFT Header Copy for MCZ Files</option>
         </select>
 </div>
 

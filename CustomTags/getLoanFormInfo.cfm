@@ -431,13 +431,14 @@ select
 				outside_phone.address outside_phone_number,
 				MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
                 replace(nature_of_material,'&','&amp;') nature_of_material,
-                replace(replace(deacc_reason,'&','&amp;'), chr(32)||chr(28) ,'"') deacc_reason,
-                replace(deacc_description,'&','&amp;') deacc_description,
-                deacc_type,
-            	decode(deacc_type,'gift','specimens','transfer','objects','material') object_specimen,
-                deacc_number,
-                deacc_status,
-				value,
+                '' as  deacc_reason,
+                '' as  deacc_description,
+                replace(trans_remarks,'&','&amp;') trans_remarks,
+                accn_type,
+            	'specimens' as  object_specimen,
+                accn_number,
+                accn_status,
+				'' as value,
 				replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
 				shipped_carrier_method,
 				shipment.no_of_packages as no_of_packages,
@@ -485,7 +486,7 @@ select
 				outside_trans_agent.agent_id = outside_email.agent_id (+) and
 				outside_trans_agent.agent_id = outside_phone.agent_id (+) and
 				outside_trans_agent.agent_id = outside_addr.agent_id (+) and
-				deaccession.transaction_id = shipment.transaction_id (+) and
+				accn.transaction_id = shipment.transaction_id (+) and
 				shipment.SHIPPED_TO_ADDR_ID	= ship_to_addr.addr_id (+) and
 				shipment.SHIPPED_FROM_ADDR_ID	= ship_from_addr.addr_id (+) and
 				shipment.PACKED_BY_AGENT_ID = 	processed_by.agent_id (+) and
