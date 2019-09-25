@@ -502,6 +502,15 @@
     </cfquery>
     <cfreturn d>
 </cffunction>
+<!-------------------------------------------------------------->
+<cffunction name="get_acc_mcz" access="public" returntype="Query">
+    <cf_getLoanFormInfo>
+    <cfquery name="d" dbtype="query">
+        select * from getAccMCZ
+    </cfquery>
+    <cfreturn d>
+</cffunction>
+
 
 <!-------------------------------------------------------------->
 <cffunction name="format_msb" access="public" returntype="Query">

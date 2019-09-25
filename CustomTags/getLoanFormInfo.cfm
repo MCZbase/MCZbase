@@ -407,3 +407,96 @@ select
 	  deacc_item.transaction_id = #transaction_id#
 	  ORDER BY cat_num
 </cfquery>
+<!---  getAccMCZ - information for accession invoice headers.   --->
+<cfquery name="caller.getAccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      SELECT * from (
+      SELECT distinct
+		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
+			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
+			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
+			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
+			    concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
+			    concattransagent(trans.transaction_id, 'additional outside contact')   additionalContactNames,
+			    concattransagent(trans.transaction_id, 'additional in-house contact')   addInHouseContactNames,
+			    concattransagent(trans.transaction_id, 'recipient institution')  recipientInstitutionName,
+			    outside_contact.agent_name outside_contact_name,
+			    inside_contact.agent_name inside_contact_name,
+				outside_addr.job_title  outside_contact_title,
+				inside_addr.job_title  inside_contact_title,
+				get_address(inside_trans_agent.agent_id) inside_address,
+				get_address(outside_trans_agent.agent_id) outside_address,
+				inside_email.address inside_email_address,
+				outside_email.address outside_email_address,
+				inside_phone.address inside_phone_number,
+				outside_phone.address outside_phone_number,
+				MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
+                replace(nature_of_material,'&','&amp;') nature_of_material,
+                replace(replace(deacc_reason,'&','&amp;'), chr(32)||chr(28) ,'"') deacc_reason,
+                replace(deacc_description,'&','&amp;') deacc_description,
+                deacc_type,
+            	decode(deacc_type,'gift','specimens','transfer','objects','material') object_specimen,
+                deacc_number,
+                deacc_status,
+				value,
+				replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
+				shipped_carrier_method,
+				shipment.no_of_packages as no_of_packages,
+				ship_to_addr.formatted_addr  shipped_to_address   ,
+				ship_from_addr.formatted_addr  shipped_from_address  ,
+				processed_by.agent_name processed_by_name,
+				sponsor_name.agent_name project_sponsor_name,
+				acknowledgement,
+				collection.collection,
+                shipment.shipment_id,
+                shipment.print_flag,
+                shipment.carriers_tracking_number
+        FROM
+                accn,
+				trans,
+				trans_agent inside_trans_agent,
+				trans_agent outside_trans_agent,
+				preferred_agent_name outside_contact,
+				preferred_agent_name inside_contact,
+				(select * from electronic_address where address_type ='email') inside_email,
+				(select * from electronic_address where address_type ='email') outside_email,
+				(select * from electronic_address where address_type ='work phone number') inside_phone,
+				(select * from electronic_address where address_type ='work phone number') outside_phone,
+				(select * from addr where addr_type='Correspondence') outside_addr,
+				(select * from addr where addr_type='Correspondence') inside_addr,
+				shipment,
+				addr ship_to_addr,
+				addr ship_from_addr,
+				preferred_agent_name processed_by,
+				project_trans,
+				project_sponsor,
+				agent_name sponsor_name,
+				collection
+        WHERE
+                accn.transaction_id = trans.transaction_id and
+				trans.transaction_id = inside_trans_agent.transaction_id and
+				inside_trans_agent.agent_id = inside_contact.agent_id and
+				inside_trans_agent.trans_agent_role='in-house contact' and
+				inside_trans_agent.agent_id = inside_email.agent_id (+) and
+				inside_trans_agent.agent_id = inside_addr.agent_id (+) and
+				inside_trans_agent.agent_id = inside_phone.agent_id (+) and
+				trans.transaction_id = outside_trans_agent.transaction_id and
+				outside_trans_agent.agent_id = outside_contact.agent_id (+) and
+				outside_trans_agent.trans_agent_role='received by' and
+				outside_trans_agent.agent_id = outside_email.agent_id (+) and
+				outside_trans_agent.agent_id = outside_phone.agent_id (+) and
+				outside_trans_agent.agent_id = outside_addr.agent_id (+) and
+				deaccession.transaction_id = shipment.transaction_id (+) and
+				shipment.SHIPPED_TO_ADDR_ID	= ship_to_addr.addr_id (+) and
+				shipment.SHIPPED_FROM_ADDR_ID	= ship_from_addr.addr_id (+) and
+				shipment.PACKED_BY_AGENT_ID = 	processed_by.agent_id (+) and
+				trans.transaction_id = 	project_trans.transaction_id (+) and
+				project_trans.project_id =	project_sponsor.project_id (+) and
+				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and
+				trans.collection_id = collection.collection_id AND
+				accn.transaction_id=#transaction_id#
+        ---  get the shipment with the print flag set, failover to the first entered shipment
+        ---    (by shipment_id, assuming that is sequential) is the incoming shipment
+        ---    generally expected that there is only one shipment for an accession
+        order by shipment.print_flag desc, shipment.shipment_id asc
+        ) where rownum < 2
+</cfquery>
