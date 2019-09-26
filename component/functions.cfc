@@ -1704,7 +1704,7 @@
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-		<cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+		<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
        </cfloop>
        <cfset result= result & "</ul>">
    <cfelse>
@@ -3862,7 +3862,7 @@
 	</cfquery>
 	<cfset mediaLink = "&##8855;">
 	<cfloop query="mediaQuery">
-		<cfset mediaLink = "<a href='#media_uri#'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
+		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
 	</cfloop>
        <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
@@ -4215,7 +4215,7 @@ onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rig
     	</cfquery>
 	    <cfset mediaLink = "&##8855;">
     	<cfloop query="mediaQuery">
-	    	<cfset mediaLink = "<a href='#media_uri#'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
+	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
     	</cfloop>
           <cfset result = result & "<li><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
        </cfloop>
@@ -4430,7 +4430,17 @@ onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rig
             <cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
                  <cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
                  <cfloop query="shippermit">
-                    <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
+   	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			    select media.media_id, media_uri, preview_uri, media_type 
+    				from media_relations left join media on media_relations.media_id = media.media_id
+			    	where media_relations.media_relationship = 'shows permit' 
+			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
+		    	</cfquery>
+	    		<cfset mediaLink = "&##8855;">
+		    	<cfloop query="mediaQuery">
+	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
+		    	</cfloop>
+                    <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
