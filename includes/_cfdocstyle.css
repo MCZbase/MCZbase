@@ -148,10 +148,30 @@ table#goodborder tfoot{}
 	font-size:10px;
 	font-weight:100;
 	}
-.arial10 {
+.arial10b {
 	font:Arial, Helvetica, sans-serif;
 	font-size:10px;
+	font-weight:600;
+	}
+.arial11 {
+	font:Arial, Helvetica, sans-serif;
+	font-size:11px;
 	font-weight:100;
+	}
+.arial11b {
+	font:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:600;
+	}
+.arial12 {
+	font:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:100;
+	}
+.arial12b {
+	font:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:600;
 	}
 .courier3 {
 	font:"Courier New", Courier, mono;

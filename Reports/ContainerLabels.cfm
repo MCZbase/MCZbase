@@ -87,9 +87,9 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times12">
+    <cfset textClass = "arial12">
     <cfset dateStyle = "yyyy-mmm-dd">
-    <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# font: times,serif;'>
+    <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# font: Arial,Helvetica,sans-serif;;'>
 
     <cfdocument
     	format="pdf"
@@ -103,9 +103,7 @@ Current format: #displayFormat#<br/>
     	filename="#Application.webDirectory#/temp/#targetfile#"
     	overwrite="yes">
     <cfoutput>
-<!---
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
---->
     #pageHeader#
     <!--- Main loop --->
     <cfset curItem = 0 >  <!--- counter to track if we are at the end of the record set yet --->
@@ -140,9 +138,9 @@ Current format: #displayFormat#<br/>
                <!--- reset the cell counter ---> 
                <cfset curItemInTray=0>
 <!---    	       <div style="#labelStyle# font-size: 12pt; ">  ---->
-    		  <table style="width:100%; height: 2.6in; border: 1px solid black;">
+    		  <table style="width:100%; height: 2.6in; border: 1px solid black;" class="#textClass#">
     		      <tr style="height: 0.1in; ">
-    		         <td style="width: 4.0in; border: none; vertical-align: top; "><span style="float: left; font-size: 12pt; padding-right: 0; margin-right: 0;">#header_text#</span><span style="float: right; padding-left: 0; margin-left: 0; font-size: 12pt;"><strong> #lastTray#</strong></span></td>
+    		         <td style="width: 4.0in; border: none; vertical-align: top; "><span style="float: left; font: sans-serif; font-size: 12pt; padding-right: 0; margin-right: 0;">#header_text#</span><span style="float: right; padding-left: 0; margin-left: 0; font-size: 12pt;"><strong> #lastTray#</strong></span></td>
     		      </tr>
     		      <tr style="height: 0.1in;">
     		         <td style="vertical-align: top; border: none;"><span style="line-height: 0px;" ><i>#trim(idents)#</i></span></td>
@@ -255,7 +253,7 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times12">
+    <cfset textClass = "arial12">
     <cfset dateStyle = "yyyy-mmm-dd">
     <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
