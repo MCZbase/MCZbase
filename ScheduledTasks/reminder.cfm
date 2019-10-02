@@ -377,7 +377,7 @@
 				<cfelse>
 				We request that you please return the above loan or request an extension by the Due Date. For more information on this loan,
 				</cfif>
-				contact the  #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated.
+				contact #ValueList(inhouse.agent_name)# in the #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated.
 				<cfif findnocase("CRYO",#loan_number#) GT 0>
 				<br><br>
 				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.
