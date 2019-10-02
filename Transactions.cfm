@@ -35,12 +35,12 @@ limitations under the License.
 	</div>
 </div>
 
-</cfoutput>
-<cfscript>
+<script type="text/javascript">
 $(document).ready(function() {
 	$('##searchForm').bind('submit', function(evt){
 
 	});
 });
-</cfscript>
+</script>
+</cfoutput>
 <cfinclude template="/includes/_footer.cfm">
