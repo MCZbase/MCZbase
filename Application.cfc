@@ -286,7 +286,15 @@ limitations under the License.
 	<!-------------------------------------------------------------->
 
 	<cffunction name="onSessionStart" output="false"><cfinclude template="/includes/functionLib.cfm">
-		<cfset initSession() /></cffunction>
+		<cfset initSession() />
+		<cfif (isdefined("session.roles") and
+			session.roles contains "coldfusion_user") and
+			(isdefined("session.force_password_change") and
+			session.force_password_change is "yes" and
+			cgi.script_name is not "/ChangePassword.cfm")>
+			<cflocation url="/ChangePassword.cfm">
+		</cfif>
+	</cffunction>
 	<!-------------------------------------------------------------->
 
 	<cffunction name="onRequestStart" returnType="boolean" output="true">
