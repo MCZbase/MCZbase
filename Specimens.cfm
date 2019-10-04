@@ -1,4 +1,4 @@
-<cfset pageTitle = "search specimens">
+<cfset pageTitle = "Search Specimens">
 <!--
 Specimens.cfm
 
@@ -66,6 +66,14 @@ limitations under the License.
 	ko.applyBindings(new viewModel(2019, 1700, 2019));
 });
 </script>
+
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+	<cfset isClicky = "likeLink">
+<cfelse>
+	<cfset oneOfUs = 0>
+	<cfset isClicky = "">
+</cfif>
 <cfoutput>
 	<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right zindex-sticky" id="cbp-spmenu-s2">
 	<section> <a id="showRightPush" class="btn black-filter-btn hiddenclass" role="button">Refine Results</a> </section>
@@ -546,7 +554,9 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 				<main role="main">
 					<div id="jqxWidget">
 						<div class="pl-2 mb-5" style="padding-right: 1px;">
+		
 							<div class="row mt-4">
+	
 								<div id="jqxgrid" class="jqxGrid"></div>
 								<div class="mt-005" id="enableselection"></div>
 								<div style="margin-top: 30px;">
@@ -840,6 +850,7 @@ $(document).ready(function() {
 			$("##csvExport").click(function () {
 			$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
 		});
+	
 		//This code starts the filters on the refine results tray (right of page)
 
 				$("##clearfilter1").jqxButton({theme: 'Classic'});
@@ -853,7 +864,6 @@ $(document).ready(function() {
 
 		$("##applyfilter").jqxButton({theme: 'Classic'});
 	$("##clearfilter").jqxButton({theme: 'Classic'});
-	$("##csvExport").jqxButton();
 	$("##filterbox").jqxListBox({ checkboxes: true, width: 257, height: 240 });
 	$("##columnchooser").jqxDropDownList({ autoDropDownHeight: true, selectedIndex: 0, width: 257, height: 25,
 		source: [
@@ -1058,7 +1068,27 @@ $(function() {
 	}).val()
 });
 
-
+function saveSearch(returnURL){
+	var sName=prompt("Name this search", "my search");
+	if (sName!==null){
+		var sn=encodeURIComponent(sName);
+		var ru=encodeURI(returnURL);
+		jQuery.getJSON("/component/functions.cfc",
+			{
+				method : "saveSearch",
+				returnURL : ru,
+				srchName : sn,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function (r) {
+				if(r!='success'){
+					alert(r);
+				}
+			}
+		);
+	}
+}
 
 </script>
 

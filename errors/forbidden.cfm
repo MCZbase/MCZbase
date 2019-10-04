@@ -19,8 +19,12 @@ limitations under the License.
 --->
 <!--- 403 error handler invoked from Application.cfc  --->
 <cfinclude template="/includes/_header.cfm">
-<div class="error">
- Access denied.
+<div class="container">
+	<div class="row">
+ 		<div class="alert alert-danger" role="alert">
+  			Access denied.
+		</div>
+	</div>
 </div>
 <cfif not isdefined("url.ref")><cfset url.ref=""></cfif>
 <cfsavecontent variable="errortext">

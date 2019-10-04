@@ -248,10 +248,10 @@ limitations under the License.
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 		    <cfelseif serverName contains "-dev">
-			    <cfset Application.header_color = "##CAEAAD" />
+			    <cfset Application.header_color = "##666666" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
-			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			    <cfset Application.collection_link_text = "MCZBASE:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 				<cfset Application.meta_description = "MCZbase is the natural science collections database of the Museum of Comparative Zoology at Harvard University." />
 			 <cfelse>
@@ -263,6 +263,8 @@ limitations under the License.
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 			</cfif>
 			<cfset Application.collection_url = "http://www.mcz.harvard.edu" />
+			<cfset Application.institution_url = "http://www.mcz.harvard.edu" />
+			<cfset Application.institution_link_text = "Museum of Comparative Zoology - Harvard University" />
 			<cfset Application.webDirectory = "/var/www/html/arctos" />
 			<cfset Application.SpecimenDownloadPath = "/var/www/html/arctos/download/" />
 			<cfset Application.DownloadPath = "/var/www/html/arctos/download/" />

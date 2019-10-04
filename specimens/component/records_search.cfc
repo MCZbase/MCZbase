@@ -24,15 +24,17 @@ limitations under the License.
 	    <!---<cfquery name="qryLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">--->
 		<!---TODO:Permission for flat text search--->
 		<cfquery name="qryLoc" datasource="uam_god">
-	    select  ff.collection_object_id, ff.collection, ff.cat_num, ff.scientific_name, ff.spec_locality, 
-	            ff.higher_geog, ff.collectors, ff.verbatim_date, ff.coll_obj_disposition, ff.othercatalognumbers
-	    from #session.flatTableName# ff 
+	    SELECT 
+			substr(imageurl, 1, instr(imageurl, '|')-1) imageurl,ff.collection_object_id, ff.collection, ff.cat_num, ff.began_date, ff.ended_date, ff.scientific_name, ff.spec_locality, ff.locality_id, ff.higher_geog, ff.collectors, ff.verbatim_date, ff.coll_obj_disposition, ff.othercatalognumbers
+	    FROM 
+			#session.flatTableName# ff 
 	         left join FLAT_TEXT ft on ff.collection_object_id = ft.collection_object_id
+		<!--- FROM filtered_flat ff --->
 	    WHERE 
-             CONTAINS(ft.collectors, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 4) > 0 
+             ff.collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">
 			<!---OR
 			 CONTAINS(ft.lithostratigraphicterms, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 1) > 0 OR
-             CONTAINS(ft.verbatimlocality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 2) > 0 OR
+             CONTAINS(ft.verbatUimlocality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 2) > 0 OR
              CONTAINS(ft.cat_num, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 3) > 0 OR
              CONTAINS(ft.preparators, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 5) > 0 OR
              CONTAINS(ft.othercatalognumbers, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 6) > 0 OR
@@ -45,11 +47,13 @@ limitations under the License.
              CONTAINS(ft.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 13) > 0 --->
 	    </cfquery>
 	<cfelse>
-	    <cfquery name="qryLoc" datasource="uam_god">
-	    select  ff.collection_object_id, ff.collection, ff.cat_num, ff.scientific_name, ff.spec_locality, 
-	            ff.higher_geog, ff.collectors, ff.verbatim_date, ff.coll_obj_disposition, ff.othercatalognumbers
-	    from FILTERED_FLAT ff
-	            where rownum <= 50 and spec_locality like '%Massachusetts%'
+	    <cfquery name="qryLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	    SELECT  
+			substr(imageurl, 1, instr(imageurl, '|')-1) imageurl,ff.collection_object_id, ff.collection, ff.cat_num, ff.began_date, ff.ended_date, ff.scientific_name, ff.spec_locality, ff.locality_id, ff.higher_geog, ff.collectors, ff.verbatim_date, ff.coll_obj_disposition, ff.othercatalognumbers
+	    FROM
+			FILTERED_FLAT ff
+	    WHERE
+			rownum <= 50 and spec_locality like '%Massachusetts%'
 	    </cfquery>
 	</cfif>
 	<cfoutput>
@@ -57,11 +61,15 @@ limitations under the License.
 		<cfset data = ArrayNew(1)>
 		<cfloop query="qryLoc">
 			<cfset row = StructNew()>
+				<cfset row["imageurl"] = "#qryLoc.imageurl#">
 		    <cfset row["collection_object_id"] = "#qryLoc.collection_object_id#">
 			<cfset row["collection"] = "#qryLoc.collection#">
 			<cfset row["cat_num"] = "#qryLoc.cat_num#">
+			<cfset row["began_date"] = "#qryLoc.began_date#">
+			<cfset row["ended_date"] = "#qryLoc.ended_date#">
 			<cfset row["scientific_name"] = "#qryLoc.scientific_name#">
 			<cfset row["spec_locality"] = "#qryLoc.spec_locality#">
+			<cfset row["locality_id"] = "#qryLoc.locality_id#">
 			<cfset row["higher_geog"] = "#qryLoc.higher_geog#">
 			<cfset row["collectors"] = "#qryLoc.collectors#">
 			<cfset row["verbatim_date"] = "#qryLoc.verbatim_date#">

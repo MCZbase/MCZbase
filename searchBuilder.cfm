@@ -1,4 +1,4 @@
-<cfset pageTitle = "search form builder">
+<cfset pageTitle = "Search Form Builder">
 <!-- 
 searchBuilder.cfm
 

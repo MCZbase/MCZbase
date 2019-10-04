@@ -658,9 +658,9 @@ limitations under the License.
 		</div>
 		<div class="card-body">
 			<ul class="list-unstyled row px-3 py-1 mb-0">
-				<cfif len(one.sea) gt 0>
+				<cfif len(colls.collectors) gt 0>
 					<li class="list-group-item col-6"><em>Collectors:</em></li>
-					<li class="list-group-item col-6">John Smith</li>
+					<li class="list-group-item col-6">#colls.collectors#</li>
 				</cfif>
 				<cfif len(one.verbatim_locality) gt 0>
 					<li class="list-group-item col-6"><em>Verbatim Locality:</em></li>

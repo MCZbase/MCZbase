@@ -1018,14 +1018,14 @@ table.inputTable tr {
 #formLogin {
 	padding: 15px;
 	min-width: 300px;
-	right: 42px;
-	top: 125px;
+	right: 10px;
+	top: 137px;
 }
-#profileSettings {
+#accountSettings {
 	padding: 15px;
 	min-width: 300px;
-	right: 68px;
-	top: 125px;
+	right: 50px;
+	top: 135px;
 }
 .bbr-0 {
 	background: none;
@@ -1540,7 +1540,7 @@ img.harvard-shield {
 	width: 24px;
 	margin-left: 4px;
 }
-
+	
 .container {
 	margin-left: 0;
 }/*for menu toogle*/
@@ -1714,9 +1714,10 @@ table#POITable input.w-field, table#POITable input.minw-field {
 
 @media(max-width:320px) {
 header {
-	width: 108%;
+	width: 100%;
 }
-	table#POITable {
+
+table#POITable {
 	padding: .5em .25em;
 	border: 1px solid #BAC5c6;
 }
