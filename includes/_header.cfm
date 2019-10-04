@@ -227,7 +227,7 @@ limitations under the License.
 		<li class="nav-item dropdown"> 
 			<a href="##formLogin" data-toggle="dropdown" role="button"> 
 				<cfif session.roles contains "coldfusion_user">
-				<i class="fas fa-user-check" style="color: #39A845;"></i> 
+				<i class="fas fa-user-check" style="color: ##39A845;"></i> 
 					
 				<cfelse>
 				
