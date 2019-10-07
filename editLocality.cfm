@@ -71,7 +71,7 @@
                 $("##popDiv").append(theFrame);
         }
         function getGeolocate(evt) {
-            if (evt.origin.includes("://mczbase") && evt.data == "") { 
+            if (evt.origin.includes("://mczbase") && evt.data == "") {
                console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
             } else {
                if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
@@ -252,10 +252,13 @@
 			collection.collection
   	</cfquery>
 	<cfquery name="getLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select * from
+        select LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,LAT_SEC,LAT_DIR,LONG_DEG,DEC_LONG_MIN,LONG_MIN,LONG_SEC,LONG_DIR,DEC_LAT,DEC_LONG,DATUM,UTM_ZONE,UTM_EW,UTM_NS,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT,GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,VERIFIED_BY_AGENT_ID,db.agent_name as "determiner",vb.agent_name as "verifiedby"
+		 from
 			lat_long,
-			preferred_agent_name
-		where determined_by_agent_id = agent_id
+			preferred_agent_name db,
+			preferred_agent_name vb
+		where determined_by_agent_id = db.agent_id
+		and verified_by_agent_id = vb.agent_id(+)
         and locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		order by ACCEPTED_LAT_LONG_FG DESC, lat_long_id
      </cfquery>
@@ -648,7 +651,7 @@
 					<label for="determined_by#i#">
 						<a href="javascript:void(0);" onClick="getDocs('lat_long','determiner')">Determiner</a>
 					</label>
-					<input type="text" name="determined_by" id="determined_by#i#" class="reqdClr" value="#agent_name#" size="40"
+					<input type="text" name="determined_by" id="determined_by#i#" class="reqdClr" value="#determiner#" size="40"
 						onchange="getAgent('determined_by_agent_id','determined_by','latLong#i#',this.value); return false;"
 		 				onKeyPress="return noenter(event);">
 		 			<input type="hidden" name="determined_by_agent_id" value="#determined_by_agent_id#">
@@ -730,7 +733,16 @@
 					<label for="VerificationStatus#i#">
 						Verification Status
 					</label>
-					<select name="VerificationStatus" id="VerificationStatus#i#" size="1" class="reqdClr">
+					<select name="VerificationStatus" id="VerificationStatus#i#" size="1" class="reqdClr"
+						onchange="if (this.value=='verified by MCZ collection')
+									{document.getElementById('verified_by#i#').style.display = 'block';
+									document.getElementById('verified_byLBL#i#').style.display = 'block';
+									document.getElementById('verified_by#i#').className = 'reqdClr';}
+									else
+									{document.getElementById('verified_by#i#').value = '';
+									document.getElementById('verified_by#i#').style.display = 'none';
+									document.getElementById('verified_byLBL#i#').style.display = 'none';
+									document.getElementById('verified_by#i#').className = '';}">
 					   	<cfset thisVerificationStatus = #VerificationStatus#>
 					   		<cfloop query="ctVerificationStatus">
 								<option
@@ -739,7 +751,18 @@
 							</cfloop>
 					   </select>
 				</td>
-				<td colspan="3">
+				<td colspan=2>
+					<label for="verified_by#i#" id="verified_byLBL#i#" <cfif #VerificationStatus# EQ "verified by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
+						Verified by
+					</label>
+					<input type="text" name="verified_by" id="verified_by#i#" value="#verifiedby#" size="40" <cfif #VerificationStatus# EQ "verified by MCZ collection">class="reqdClr" style="display:block"<cfelse>style="display:none"</cfif>
+						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','latLong#i#',this.value); return false;}"
+		 				onKeyPress="return noenter(event);">
+		 			<input type="hidden" name="verified_by_agent_id" value="#verified_by_agent_id#">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
 					<label for="LAT_LONG_REMARKS#i#">
 						Remarks
 					</label>
@@ -747,7 +770,7 @@
 						name="LAT_LONG_REMARKS"
 						id="LAT_LONG_REMARKS#i#"
 						value="#encodeForHTML(LAT_LONG_REMARKS)#"
-						size="60">
+						size="120">
 				</td>
 			</tr>
 			<tr>
@@ -1064,13 +1087,33 @@
 					<label for="VerificationStatus">
 						Verification Status
 					</label>
-					<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr">
+					<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
+							onchange="if (this.value=='verified by MCZ collection')
+									{document.getElementById('verified_by').style.display = 'block';
+									document.getElementById('verified_byLBL').style.display = 'block';
+									document.getElementById('verified_by').className = 'reqdClr';}
+									else
+									{document.getElementById('verified_by').value = '';
+									document.getElementById('verified_by').style.display = 'none';
+									document.getElementById('verified_byLBL').style.display = 'none';
+									document.getElementById('verified_by').className = '';}">
 					   		<cfloop query="ctVerificationStatus">
 								<option value="#VerificationStatus#">#VerificationStatus#</option>
 							</cfloop>
 					   </select>
 				</td>
-				<td colspan="3">
+				<td colspan=2>
+					<label for="verified_by" id="verified_byLBL" style="display:none">
+						Verified by
+					</label>
+					<input type="text" name="verified_by" id="verified_by" size="40" style="display:none"
+						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','newlatLong',this.value); return false;}"
+		 				onKeyPress="return noenter(event);">
+		 			<input type="hidden" name="verified_by_agent_id">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
 					<label for="LAT_LONG_REMARKS">
 						Remarks
 					</label>
@@ -1729,7 +1772,8 @@
 							,EXTENT
 							,GPSACCURACY
 							,GEOREFMETHOD
-							,VERIFICATIONSTATUS)
+							,VERIFICATIONSTATUS
+							,VERIFIED_BY_AGENT_ID)
 						VALUES (
 							sq_lat_long_id.nextval,
 							#lid#
@@ -1855,7 +1899,12 @@
 								,NULL
 							</cfif>
 							,'#GEOREFMETHOD#'
-							,'#VERIFICATIONSTATUS#')
+							,'#VERIFICATIONSTATUS#'
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
+							<cfelse>
+								,NULL
+							</cfif>)
 					</cfquery>
 				</cfloop>
 			</cfif>
@@ -1898,7 +1947,8 @@
 							,EXTENT
 							,GPSACCURACY
 							,GEOREFMETHOD
-							,VERIFICATIONSTATUS)
+							,VERIFICATIONSTATUS,
+							,VERIFIED_BY_AGENT_ID)
 						VALUES (
 							sq_lat_long_id.nextval,
 							#lid#
@@ -2024,7 +2074,12 @@
 								,NULL
 							</cfif>
 							,'#GEOREFMETHOD#'
-							,'#VERIFICATIONSTATUS#')
+							,'#VERIFICATIONSTATUS#'
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
+							<cfelse>
+								,NULL
+							</cfif>)
 					</cfquery>
 				</cfloop>
 			</cfif>
@@ -2058,6 +2113,11 @@
 		,determined_by_agent_id = #determined_by_agent_id#
 		,georefMethod='#georefMethod#'
 		,VerificationStatus='#VerificationStatus#'">
+		<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+			<cfset sql = "#sql#,VERIFIED_BY_AGENT_ID = #VERIFIED_BY_AGENT_ID#">
+		  <cfelse>
+			<cfset sql = "#sql#,VERIFIED_BY_AGENT_ID = NULL">
+		</cfif>
 		<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 			<cfset sql = "#sql#,MAX_ERROR_DISTANCE = #MAX_ERROR_DISTANCE#">
 		  <cfelse>
@@ -2216,6 +2276,12 @@
 		,verificationstatus
 		,DATUM
 		">
+		<cfif len(#verified_by_agent_id#) gt 0>
+			<cfset sql = "#sql#,verified_by_agent_id">
+		</cfif>
+		<cfif len(#gpsaccuracy#) gt 0>
+			<cfset sql = "#sql#,gpsaccuracy">
+		</cfif>
 		<cfif len(#extent#) gt 0>
 			<cfset sql = "#sql#,extent">
 		</cfif>
@@ -2280,6 +2346,9 @@
 		,'#georefmethod#'
 		,'#verificationstatus#'
 		,'#DATUM#'">
+		<cfif len(#verified_by_agent_id#) gt 0 and len(#verified_by# GT 0)>
+			<cfset sql = "#sql#,#verified_by_agent_id#">
+		</cfif>
 		<cfif len(#extent#) gt 0>
 			<cfset sql="#sql#,'#extent#'">
 		</cfif>
