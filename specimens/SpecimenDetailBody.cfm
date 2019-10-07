@@ -76,8 +76,9 @@ limitations under the License.
     }
    );
 </script>
-<TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
-<cfset detSelect = "SELECT
+<!--- TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
+<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
 		collection.collection_cde,
@@ -90,19 +91,25 @@ limitations under the License.
 		identification.nature_of_id,
 		collecting_event.collecting_event_id,
 		case when
-			#oneOfUs# != 1 and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' then
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+		then
 				replace(began_date,substr(began_date,1,4),'8888')
 		else
 			collecting_event.began_date
 		end began_date,
 		case when
-			#oneOfUs# != 1 and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' then
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+		then
 				replace(ended_date,substr(ended_date,1,4),'8888')
 		else
 			collecting_event.ended_date
 		end ended_date,
 		case when
-			#oneOfUs# != 1 and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' then
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+		then
 				'Masked'
 		else
 			collecting_event.verbatim_date
@@ -111,30 +118,33 @@ limitations under the License.
 		collecting_event.endDayOfYear,
 		collecting_event.habitat_desc,
 		case when
-			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
-					collecting_event.coll_event_remarks is not null
-				then 'Masked'
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+			and collecting_event.coll_event_remarks is not null
+		then 
+			'Masked'
 		else
-				collecting_event.coll_event_remarks
+			collecting_event.coll_event_remarks
 		end COLL_EVENT_REMARKS,
 		locality.locality_id,
 		locality.minimum_elevation,
 		locality.maximum_elevation,
 		locality.orig_elev_units,
 		case when
-			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
-					locality.spec_locality is not null
-				then 'Masked'
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+			and locality.spec_locality is not null
+		then 
+			'Masked'
 		else
-		locality.spec_locality
+			locality.spec_locality
 		end spec_locality,
 		case when
-			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
-					accepted_lat_long.orig_lat_long_units is not null
-				then 'Masked'
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
+			and accepted_lat_long.orig_lat_long_units is not null
+		then 
+			'Masked'
 		else
 			decode(accepted_lat_long.orig_lat_long_units,
 				'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
@@ -146,10 +156,11 @@ limitations under the License.
 			)
 		end VerbatimLatitude,
 		case when
-			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
-					accepted_lat_long.orig_lat_long_units is not null
-				then 'Masked'
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+			and accepted_lat_long.orig_lat_long_units is not null
+		then 
+			'Masked'
 		else
 			decode(accepted_lat_long.orig_lat_long_units,
 				'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
@@ -160,6 +171,7 @@ limitations under the License.
 					to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
 			)
 		end VerbatimLongitude,
+		locality.sovereign_nation,
 		collecting_event.verbatimcoordinates,
 		collecting_event.verbatimlatitude verblat,
 		collecting_event.verbatimlongitude verblong,
@@ -197,18 +209,20 @@ limitations under the License.
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 		case when
-			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
-					locality.locality_remarks is not null
-				then 'Masked'
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
+			and locality.locality_remarks is not null
+		then 
+			'Masked'
 		else
 				locality.locality_remarks
 		end locality_remarks,
 		case when
-			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
-					verbatim_locality is not null
-				then 'Masked'
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1
+			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+			and verbatim_locality is not null
+		then 
+			'Masked'
 		else
 			verbatim_locality
 		end verbatim_locality,
@@ -250,24 +264,19 @@ limitations under the License.
 		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 		cataloged_item.accn_id =  accn.transaction_id  AND
 		accn.transaction_id = trans.transaction_id(+) AND
-	cataloged_item.collection_object_id = #collection_object_id#
-	">
-<!--- TODO: WARNING: Commented out checkSql statments indicate introduced vulnerabilities.  Replace all cases of sql stored as variables with sql inside cfquery --->
-<!---<cfset checkSql(detSelect)>--->
-<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	#preservesinglequotes(detSelect)#
+		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked.
 	<!---- TODO: This should return the correct HTTP response, not a 400 ---->
 	<cfabort>
 </cfif>
-<TODO: WARNING: per style guide, all queries must use cfsqlparam and MUST NOT pass variables from user space into queries without using cfsqlparam ---->
+<!--- TODO: WARNING: per style guide, all queries must use cfsqlparam and MUST NOT pass variables from user space into queries without using cfsqlparam ---->
 <cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		collector.coll_order,
 		case when
-			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
 		else
 			preferred_agent_name.agent_name
 		end collectors
@@ -277,7 +286,7 @@ limitations under the License.
 	WHERE
 		collector.collector_role='c' and
 		collector.agent_id=preferred_agent_name.agent_id and
-		collector.collection_object_id = #collection_object_id#
+		collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	ORDER BY
 		coll_order
 </cfquery>
@@ -285,7 +294,7 @@ limitations under the License.
 	SELECT
 		collector.coll_order,
 		case when
-			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
+			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
 		else
 			preferred_agent_name.agent_name
 		end preparators
@@ -295,7 +304,7 @@ limitations under the License.
 	WHERE
 		collector.collector_role='p' and
 		collector.agent_id=preferred_agent_name.agent_id and
-		collector.collection_object_id = #collection_object_id#
+		collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	ORDER BY
 		coll_order
 </cfquery>
@@ -313,7 +322,7 @@ limitations under the License.
 		preferred_agent_name attribute_determiner
 	WHERE
 		attributes.determined_by_agent_id = attribute_determiner.agent_id and
-		attributes.collection_object_id = #collection_object_id#
+		attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
 <cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
@@ -332,7 +341,7 @@ limitations under the License.
 			 on collection.collection_id = rcat.collection_id
 		 left join ctbiol_relations ctrel
 		  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-	WHERE rel.collection_object_id=#collection_object_id#
+	WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 		  and ctrel.rel_type <> 'functional'
 	UNION
 	SELECT
@@ -349,7 +358,7 @@ limitations under the License.
 		  on irel.collection_object_id = rcat.collection_object_id
 		 left join collection
 		 on collection.collection_id = rcat.collection_id
-	WHERE irel.related_coll_object_id=#collection_object_id#
+	WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		 and ctrel.rel_type <> 'functional'
 	)
 </cfquery>
@@ -372,7 +381,7 @@ limitations under the License.
 		citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
 		citation.publication_id = formatted_publication.publication_id AND
 		format_style='short' and
-		citation.collection_object_id = #collection_object_id#
+		citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	order by
 		substr(formatted_publication, - 4)
 </cfquery>
@@ -410,7 +419,7 @@ limitations under the License.
 					(select * from formatted_publication where format_style='short') formatted_publication
 				WHERE
 					identification.publication_id=formatted_publication.publication_id (+) and
-					identification.collection_object_id = #collection_object_id#
+					identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
 	<div class="card">
@@ -426,38 +435,20 @@ limitations under the License.
 		</div>
 		<div class="card-body">
 				<cfloop query="identification">
-				<cfquery name="getTaxa_r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct
 						taxonomy.taxon_name_id,
 						display_name,
 						scientific_name,
 						author_text,
-						common_name,
 						full_taxon_name 
 					FROM 
 						identification_taxonomy,
-						taxonomy,
-						common_name 
+						taxonomy
 					WHERE 
 						identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id and 
 						taxonomy.taxon_name_id=common_name.taxon_name_id (+) and 
-						identification_id=#identification_id#
-				</cfquery>
-				<cfquery name="getTaxa" dbtype="query">
-					SELECT
-						taxon_name_id,
-						display_name,
-						scientific_name,
-						author_text,
-						full_taxon_name 
-					FROM 
-						getTaxa_r 
-					GROUP BY 
-						taxon_name_id,
-						display_name,
-						scientific_name,
-						author_text,
-						full_taxon_name
+						identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 					
 				<cfif accepted_id_fg is 1>
@@ -496,10 +487,10 @@ limitations under the License.
 								SELECT 
 									common_name 
 								FROM 
-									getTaxa_r 
+									common_name
 								WHERE 
-									taxon_name_id=#taxon_name_id# and 
-									common_name is not null
+									taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
+									and common_name is not null
 								GROUP BY 
 									common_name order by common_name
 							</cfquery>
@@ -546,12 +537,19 @@ limitations under the License.
 						<cfset metaDesc="">
 					</cfif>
 					<cfloop query="getTaxa">
+<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
 						<p style="font-size:.8em;color:gray;"> #full_taxon_name# </p>
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 						<cfquery name="cName" dbtype="query">
-							select common_name from getTaxa_r where taxon_name_id=#taxon_name_id#
-							and common_name is not null
-							group by common_name order by common_name
+								SELECT 
+									common_name 
+								FROM 
+									common_name
+								WHERE 
+									taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
+									and common_name is not null
+								GROUP BY 
+									common_name order by common_name
 						</cfquery>
 						<div style="font-size:.8em;color:gray;padding-left:1em;">#valuelist(cName.common_name,"; ")# </div>
 						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
@@ -582,11 +580,11 @@ limitations under the License.
 		</div>
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
-			where locality_id=#locality_id#
+			where locality_id=<cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">"
 		</cfquery>
 		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select higher_geog from geog_auth_rec where
-			geog_auth_rec_id=#getLoc.geog_auth_rec_id#
+			geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 
 		
@@ -596,7 +594,7 @@ limitations under the License.
 					FROM 
 						media_relations 
 					WHERE 
-						RELATED_PRIMARY_KEY=#one.locality_id# and
+						RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
 						MEDIA_RELATIONSHIP like '% locality'
 		</cfquery>
 		<cfif len(one.spec_locality) gt 0>
@@ -670,6 +668,7 @@ limitations under the License.
 					<li class="list-group-item col-6"><em>Collecting Source:</em></li>
 					<li class="list-group-item col-6">#one.collecting_source#</li>
 				</cfif>
+				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
 				<cfif len(one.began_date) gt 0>
 					<li class="list-group-item col-6"><em>Began Date:</em></li>
 					<li class="list-group-item col-6">#one.began_date#</li>
