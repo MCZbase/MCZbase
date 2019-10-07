@@ -1474,6 +1474,7 @@
 <cffunction name="addAddressHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="create_from_address_id" type="string" required="yes">
    <cfargument name="address_type" type="string" required="no">
+   <cfset result="">
    <cfif not isdefined("address_type") or len(#address_type#) gt 0>
       <cfset address_type = "temporary">
    </cfif>
@@ -4028,9 +4029,9 @@
    </cfif>
    <cfset result=result & "<span>">
    <cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-      <cfset result = result & "<input type='button' 
-onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #permitInfo.IssuedByAgent# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);"" value='Create Media' class='lnkBtn'>&nbsp;" >
-      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #permitInfo.IssuedByAgent# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); "" ></span>">
+	<cfset result = result & "<input type='button' 
+		onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);"" value='Create Media' class='lnkBtn'>&nbsp;" >
+	<cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); "" ></span>">
    </cfif>
    <cfset result=result & "</span>">
    <cfset result=result & "<div id='addMediaDlg_#permit_id#_#rel#'></div>" >
