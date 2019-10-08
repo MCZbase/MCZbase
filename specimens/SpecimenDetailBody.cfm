@@ -481,7 +481,7 @@ limitations under the License.
 						<cfloop query="getTaxa">
 							<p class="h5 text-muted"> #full_taxon_name# </p>
 							<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-							<cfquery name="cName" dbtype="query">
+							<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT 
 									common_name 
 								FROM 
@@ -578,7 +578,7 @@ limitations under the License.
 		</div>
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
-			where locality_id=<cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">"
+			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select higher_geog from geog_auth_rec where
@@ -1158,7 +1158,7 @@ limitations under the License.
 					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
 					coll_obj_cont_hist.container_id=oc.container_id and
 					oc.parent_container_id=pc.container_id (+) and
-					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#one.collection_object_id#">
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
 			<cfquery name="parts" dbtype="query">
 				select
