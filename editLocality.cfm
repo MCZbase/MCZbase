@@ -734,7 +734,7 @@
 						Verification Status
 					</label>
 					<select name="VerificationStatus" id="VerificationStatus#i#" size="1" class="reqdClr"
-						onchange="if (this.value=='verified by MCZ collection')
+						onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
 									{document.getElementById('verified_by#i#').style.display = 'block';
 									document.getElementById('verified_byLBL#i#').style.display = 'block';
 									document.getElementById('verified_by#i#').className = 'reqdClr';}
@@ -752,10 +752,10 @@
 					   </select>
 				</td>
 				<td colspan=2>
-					<label for="verified_by#i#" id="verified_byLBL#i#" <cfif #VerificationStatus# EQ "verified by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
+					<label for="verified_by#i#" id="verified_byLBL#i#" <cfif #VerificationStatus# EQ "verified by MCZ collection" or #VerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
 						Verified by
 					</label>
-					<input type="text" name="verified_by" id="verified_by#i#" value="#verifiedby#" size="40" <cfif #VerificationStatus# EQ "verified by MCZ collection">class="reqdClr" style="display:block"<cfelse>style="display:none"</cfif>
+					<input type="text" name="verified_by" id="verified_by#i#" value="#verifiedby#" size="40" <cfif #VerificationStatus# EQ "verified by MCZ collection" or #VerificationStatus# EQ "rejected by MCZ collection">class="reqdClr" style="display:block"<cfelse>style="display:none"</cfif>
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','latLong#i#',this.value); return false;}"
 		 				onKeyPress="return noenter(event);">
 		 			<input type="hidden" name="verified_by_agent_id" value="#verified_by_agent_id#">
@@ -1088,7 +1088,7 @@
 						Verification Status
 					</label>
 					<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
-							onchange="if (this.value=='verified by MCZ collection')
+							onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
 									{document.getElementById('verified_by').style.display = 'block';
 									document.getElementById('verified_byLBL').style.display = 'block';
 									document.getElementById('verified_by').className = 'reqdClr';}

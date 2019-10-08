@@ -565,7 +565,7 @@
               <td><label for="VerificationStatus"> Verification Status </label>
                 <cfset thisVerificationStatus = #l.VerificationStatus#>
                 <select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
-				onchange="if (this.value=='verified by MCZ collection')
+				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
 									{document.getElementById('verified_by').style.display = 'block';
 									document.getElementById('verified_byLBL').style.display = 'block';
 									document.getElementById('verified_by').className = 'reqdClr';}
@@ -583,11 +583,11 @@
 				<td>
 					<cfset thisVerifiedBy = #l.verifiedby#>
 					<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
-					<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
+					<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
 						Verified by
 					</label>
 					<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" size="25"
-						<cfif #thisVerificationStatus# EQ "verified by MCZ collection">class="reqdClr" style="display:block"
+						<cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">class="reqdClr" style="display:block"
 						<cfelse>style="display:none"
 						</cfif>
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
