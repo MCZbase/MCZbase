@@ -337,6 +337,9 @@ nav .mczbase a:hover {
 	float: right;
 	margin-top: 0;
 }
+.accn-icons a{
+	padding: 1px .5em;
+}
 /************************
 ABOVE: HEADER STYLES
 *************************
@@ -738,14 +741,14 @@ override Bootstrap styles
 	width: 100%;
 	align-content: center;
 	border-top: 1px solid #333;
-	margin: 1.5em 0 0 0;
+	margin: .5em 0 0 0;
 }
 .footer .bg-inverse {
 	z-index: 1;
 	position: relative;
 	width: 100%;
 	background-color: #fff !important;
-	padding: .9em 0 0 0;
+	padding: 0 0 0 0;
 	overflow: hidden;
 }
 .copyright-bottom {
@@ -1002,30 +1005,29 @@ table.inputTable tr {
 	position: absolute;
 	left: 1.5em !important;
 }
-.search-form-div {
+.form-div {
 	border: 1px solid #ccc;
 	color: #555;
 	background-color: #e9ecef;
-	z-index: -1
+	z-index: -1;
+	margin-bottom:0; 
+	padding-bottom: 2em;
+	padding-top: 1em;
 }
-#profiles a {
-	color: #666;
-	width: 3em;
-	margin-left: 1em;
-	font-size: 16px;
-	vertical-align: middle;
+.input-group-text {
+	background-color: #dddddd;
 }
 #formLogin {
-	padding: 15px;
-	min-width: 300px;
-	right: 10px;
-	top: 137px;
+	right: 0;
+	width: auto;
+
 }
 #accountSettings {
-	padding: 15px;
-	min-width: 300px;
-	right: 50px;
-	top: 135px;
+	right: 0;
+	width: auto;
+}
+#accountSettings a {	
+	padding-left: 17px;
 }
 .bbr-0 {
 	background: none;
@@ -1488,240 +1490,17 @@ img.mcz_logo_krono {
 }
 }
 
-@media(max-width:1400px) {
-.mczbase {
-	/*font-size: 1.5em;*/
-	margin-bottom: .2em;
-}
-.mczbase a:hover {
-	text-decoration: none;
-}
-.mcz2 a:hover {
-	text-decoration: none;
-}
-}
 
-@media(max-width:1024px) {
-.navbar-brand span {
-	color: #1e1e1e;
-	font-weight: 600;
-	display: none;
-}
-.mcz_logo {
-	width: 90%;
-}
-.mcz2 {
-	font-size: .9em;
-	letter-spacing: .02em;
-}
-.mczbase {
-	/*font-size: 1.4em;*/
-	text-align: left;
-	justify-content: flex-start;
-}
-.mczbase a {
-	text-decoration: none;
-	color: white;
-}
-.mczbase a:hover {
-	text-decoration: none;
-	color: white;
-}
-}
 
-@media(max-width:767px) {
-.navbar-harvard span {
-	display: none;
-}
-img.mcz_logo_krono {
-	display: none;
-}
-img.harvard-shield {
-	width: 24px;
-	margin-left: 4px;
-}
+@media(max-width:1024px){
 	
-.container {
-	margin-left: 0;
-}/*for menu toogle*/
-img {
-	z-index: 2000;
-}
-button.candy, ul.candy {
-	border-color: #BAC5C6;
-	background: #BAC5C6;
-}
-.mcz-header {
-	font-size: 24px;
-	color: white;
-	font-variant: small-caps;
-}
-nav.navbar-harvard li {
-	color: white;
-	padding-right: 0em;
-}
-/*.container {
-	margin-left: 0 !important;
-}*/
-.footer .logos a img {
-	height: 28px;
-}
-.agreements {
-	margin-right: 2.9em;
-}
-.jumbotron {
-	margin-bottom: 0.5em;
-	padding: 1.75rem 0rem 0rem 0rem;
-	margin-top: 0;
-	font-variant: small-caps;
-	font-size: smaller;
-}
-.footer-col-4-md {
-	width: 400px;
-	align-content: center;
-	margin: 0 auto;
-}
-.footer-col-4-md img {
-	width: 350px;
-}
-.card-columns {
-	column-count: 1;
-	column-gap: 1.25rem;
-	orphans: 1;
-	widows: 1;
-	margin-bottom: 2em;
-	column-span: all;
-}
-.rec_count {
-	display: block;
-}
-.navbar {
-	align-items: flex-start;
-	padding-left: .5em;
-	display: block;
-}
-.mcz {
-	font-size: 1.4em;
-	/*width: 158px;*/
-	line-height: 1.3em;
-	font-weight: bold;
-	opacity: 0.9;
-}
-.mcz2 {
-	font-size: .9em;
-	letter-spacing: .02em;
-	padding-bottom: 0;
-}
-.mcz2 a {
-	text-decoration: none;
-}
-.mczbase {
-	font-size: 1em;
-	padding: 0;
-	margin: 0;
-	width: 330px;
-	letter-spacing: .02em;
-	font-weight: 400;
-}
-.mczbase a:hover {
-	text-decoration: none;
-}
-.mcz-center {
-	justify-content: flex-start;
-}
-.accn-icons {
-	float: right;
-	align-content: flex-end;
-	margin-top: -2.5em;
-}
-.card_search {
-	padding-right: 1.25em;
-	padding-left: 1.25em;
-}
-table#POITable {
-
-		padding: .5em .25em;
-	border: 1px solid #BAC5c6;
+	.mcz_logo {
+		display: none;
+	}	
+	.mczbase a {
+		color: white;
 	}
-table#POITable input.w-field, table#POITable input.minw-field {
-		width: 320px;
+	.navbar {
+		display:block;
 	}
-}
-
-@media(max-width:414px) {
-.footer-col-4-md {
-	width: 400px;
-	align-content: center;
-	margin: 0 auto;
-}
-.footer-col-4-md img {
-	width: 300px;
-}
-.footer .fixed_bottom {
-	position: absolute;
-	bottom: 0;
-	clear: both;
-}
-.card-columns {
-	column-count: 1;
-	column-gap: 1.25rem;
-	orphans: 1;
-	widows: 1;
-	margin-bottom: 2em;
-	column-span: all;
-}
-.card-header {
-	background-color: #DEEBEC;
-}
-.card {
-	border: 1px solid #DEEBEC;
-}
-.no-card {
-	background-color: transparent;
-	border: 1px solid transparent;
-}
-nav.navbar-harvard li {
-	padding: 0;
-}
-.rec_count {
-	display: block;
-}
-.menu-tabs ul {
-	width: 100%;
-	margin-top: 5px;
-	background-color: #E1E1E1;
-	padding: 4px 0;
-}
-.menu-tabs ul li {
-	display: inline-flex;
-	justify-content: space-between;
-	list-style: none;
-	padding: 3px 10px;
-	margin: 3px 2px;
-	background-color: #edf0e3;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-}
-table#POITable {
-	padding: .5em .25em;
-	border: 1px solid #BAC5c6;
-}
-table#POITable input.w-field, table#POITable input.minw-field {
-	width: 248px;
-}
-
-}
-
-@media(max-width:320px) {
-header {
-	width: 100%;
-}
-
-table#POITable {
-	padding: .5em .25em;
-	border: 1px solid #BAC5c6;
-}
-table#POITable input.w-field, table#POITable input.minw-field {
-	width: 248px;
-}
 }

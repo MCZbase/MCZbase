@@ -20,7 +20,7 @@ limitations under the License.
     <div class="fixed-bottom bg-inverse">
     <cfif cgi.HTTP_HOST contains "harvard.edu" >
     
-		<div class="row helplinks border-top pt-3">
+		<div class="row helplinks border-top pt-1">
         	<div class="col-sm-12 col-md-4 col-lg-4" style="text-align: center;">
         		<a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a>
 			</div>
@@ -33,7 +33,7 @@ limitations under the License.
 		</div>
 
         <div class="row copyright_background">
-            <div class="footer-col-4-md" align="center" style="width: 393px;"> <img alt="Harvard Museum of Comparative Zoology Logo" title="Harvard Museum of Comparative Zoology Logo" class="media-element file-default file-os-files-medium" src="/includes/images/harvard_museum.png">
+            <div class="footer-col-4-md" align="center"> <img alt="Harvard Museum of Comparative Zoology Logo" title="Harvard Museum of Comparative Zoology Logo" class="media-element file-default file-os-files-medium" src="/includes/images/harvard_museum.png">
 				<p class="agreements" style="font-size: smaller;"><a href="/Affiliates.cfm" class="policy_link">Affiliates</a> <a>|</a> <a href="https://mcz.harvard.edu/privacy-policy" class="policy_link">Privacy</a> <a>|</a> <a href="https://mcz.harvard.edu/user-agreement" class="policy_link">User Agreement</a> 
 				</p>
             </div>

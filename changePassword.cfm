@@ -1,0 +1,308 @@
+<cfset pageTitle="Change Password">
+<cfinclude template = "/includes/_header.cfm">
+<!---------------------------------------------------------------------------------->
+<script>
+	function pwc(p,u){
+		var r=orapwCheck(p,u);
+		var elem=document.getElementById('pwstatus');
+		if (r=='Password is acceptable'){
+			var clas='goodPW';
+		} else {
+			var clas='badPW';
+		}
+		elem.innerHTML=r;
+		elem.className=clas;
+	}
+</script>
+<cfif action is "nothing">
+    <cfif len(session.username) is 0>
+        <cflocation url="/changePassword.cfm?action=findPass" addtoken="false">
+    </cfif>
+    <cfoutput>
+		<div class="container-fluid form-div">
+    		<div class="container">
+		<div class="row">
+			<div class="col-lg-1 col-md-1 col-sm-12"></div>
+		<div class="col-lg-5 col-md-5 col-sm-12">
+	 	<cfquery name="pwExp" datasource="uam_god">
+			select pw_change_date from cf_users where username = '#session.username#'
+		</cfquery>
+		<cfset pwtime =  round(now() - pwExp.pw_change_date)>
+		<cfset pwage = Application.max_pw_age - pwtime>
+		<cfif session.username is "guest">
+			<h3>Guests are not allowed to change passwords.</h3><cfabort>
+		</cfif>
+			<h2 class="mt-3 pt-3">Change Your Password</h2>
+			<p>Your password is <b>#pwtime# days old</b>.</p>
+	    <cfquery name="isDb" datasource="uam_god">
+			select
+			(select count(*) c from all_users where
+			username='#ucase(session.username)#')
+			+
+			(select count(*) C from temp_allow_cf_user,
+			cf_users where temp_allow_cf_user.user_id = cf_users.user_id and cf_users.username='#session.username#')
+			cnt
+			from dual
+		</cfquery>
+		<cfif isDb.cnt gt 0>
+			<p>Change password every #Application.max_pw_age# days.</p>
+			<p>Password rules:</p>
+			<ul>
+				<li>At least eight characters</li>
+				<li>Must contain at least
+					<ul>
+						<li>One letter</li>
+						<li>One number</li>
+						<li>One special character from list:<br>!, $, %, &amp;, _, *, ?, -, (,), &lt;, &gt;, =, /, (:), (;), (.)
+						</li>
+					</ul>
+				</li>
+				<li>May not contain some special characters</li>
+				<li>May not contain your username</li>
+	
+			</ul>
+		</cfif>
+			</div>
+			<div class="col-lg-5 col-md-5 col-sm-12 mt-8">
+			
+				<h4 class="mt-8 pt-3">You are logged in as <span class="lead"><mark>#session.username#</mark></span>.</h4>
+				
+		<form action="/changePassword.cfm" method="post">
+	        <input type="hidden" name="action" value="update">
+			
+			<div class="input-group mb-3 w-75">
+			<div class="input-group-prepend">
+					<span class="input-group-text" name="oldpassword" id="basic-addon1">Old Password</span>
+				</div>
+            <input type="password" name="oldpassword" id="oldpassword" class="form-control" aria-label="oldpassword" aria-describedby="basic-addon1">
+			</div>
+			
+			<div class="input-group mb-3 w-75">
+			<div class="input-group-prepend">
+					<span class="input-group-text" name="newpassword" id="basic-addon1">New Password</span>
+				</div>
+            <input type="password" name="newpassword" id="newpassword" class="form-control" aria-label="newpassword" aria-describedby="basic-addon1"
+				<cfif isDb.cnt gt 0>
+						onkeyup="pwc(this.value,'#session.username#')"
+					</cfif>	>
+			</div>
+	        <span id="pwstatus"></span>
+			<div class="input-group mb-3 w-75">
+			<div class="input-group-prepend">
+					<span class="input-group-text" name="newpassword2" id="basic-addon1">Retype</span>
+				</div>
+            <input type="password" name="newpassword2" id="newpassword2" class="form-control" aria-label="newpassword2" aria-describedby="basic-addon1"
+				<cfif isDb.cnt gt 0>
+						onkeyup="pwc(this.value,'#session.username#')"
+					</cfif>	>
+			</div>
+		
+	 
+	        <input type="submit" value="Save Password Change" class="btn btn-secondary">
+	    </form>
+	    <cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select email,username from cf_user_data,cf_users
+			 where cf_user_data.user_id = cf_users.user_id and
+			 username= '#session.username#'
+		</cfquery>
+		<cfif len(isGoodEmail.email) gt 0>
+			<h4><a href="/changePassword.cfm?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#" class="mt-1 pl-1 d-block" >Forgot your password? </a></h4>
+		</cfif>
+			</div>
+		</div></div>
+		</div>
+	</cfoutput>
+</cfif>
+
+<!----------------------------------------------------------->
+<cfif action is "lostPass">
+    <div class="container">
+		<div class="row my-3">
+		<div class="col-lg-1 col-md-1 col-sm-12"></div>
+		<div class="col-lg-9 col-md-9 col-sm-12">
+		<h2>Lost your password? </h2>
+	<p>Passwords are stored in an encrypted format and cannot be recovered.</p>
+    <p>If you have saved your email address in your profile, enter it here to reset your password.</p>
+	<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
+	<div class="form-group w-50">
+	<form name="pw" method="post" action="/changePassword.cfm">
+        <input type="hidden" name="action" value="findPass" class="form-control">
+        <label for="username">Username</label>
+	    <input type="text" name="username" id="username" class="form-control">
+        <label for="email">Email Address</label>
+	    <input type="text" name="email" id="email" class="form-control">
+        <br>
+	    <input type="submit" value="Request Password" class="btn btn-secondary">
+    </form>
+    </div>
+		
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-12"></div>
+		</div>
+	</div>
+</cfif>
+<!-------------------------------------------------------------------->
+<cfif action is "update">
+    <div class="changePW">
+	<cfoutput>
+	<cfquery name="getPass" datasource="cf_dbuser">
+		select password from cf_users where username = '#session.username#'
+	</cfquery>
+	<cfif hash(oldpassword) is not getpass.password>
+		<span style="background-color:red;">
+			Incorrect old password. <a href="changePassword.cfm">Go Back</a>
+		</span>
+		<cfabort>
+	<cfelseif getpass.password is hash(newpassword)>
+		<span style="background-color:red;">
+			You must pick a new password. <a href="changePassword.cfm">Go Back</a>
+		</span>
+		<cfabort>
+	<cfelseif newpassword neq newpassword2>
+		<span style="background-color:red;">
+			New passwords do not match. <a href="changePassword.cfm">Go Back</a>
+		</span>
+		<cfabort>
+	</cfif>
+	<!--- Passwords check out for public users, now see if they're a database user --->
+	<cfquery name="isDb" datasource="uam_god">
+		select * from all_users where
+		username='#ucase(session.username)#'
+	</cfquery>
+	<cfif isDb.recordcount is 0>
+		<cfquery name="setPass" datasource="cf_dbuser">
+			UPDATE cf_users SET password = '#hash(newpassword)#',
+			PW_CHANGE_DATE=sysdate
+			WHERE username = '#session.username#'
+		</cfquery>
+	<cfelse>
+		<cftry>
+			<cftransaction>
+				<cfquery name="dbUser" datasource="uam_god">
+					alter user #session.username#
+					identified by "#newpassword#"
+				</cfquery>
+				<cfquery name="setPass" datasource="uam_god">
+					UPDATE cf_users
+					SET password = '#hash(newpassword)#',
+					PW_CHANGE_DATE=sysdate
+					WHERE username = '#session.username#'
+				</cfquery>
+			</cftransaction>
+			<cfcatch>
+				<cfsavecontent variable="errortext">
+					<h3>Error in creating user.</h3>
+					<p>#cfcatch.Message#</p>
+					<p>#cfcatch.Detail#"</p>
+					<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
+						<CFSET ipaddress="#CGI.HTTP_X_Forwarded_For#">
+					<CFELSEif  isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
+						<CFSET ipaddress="#CGI.Remote_Addr#">
+					<cfelse>
+						<cfset ipaddress='unknown'>
+					</CFIF>
+					<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
+					<hr>
+					<p>Client Dump:</p>
+					<hr>
+					<cfdump var="#client#" label="client">
+					<hr>
+					<p>URL Dump:</p>
+					<hr>
+					<cfdump var="#url#" label="url">
+					<p>CGI Dump:</p>
+					<hr>
+					<cfdump var="#CGI#" label="CGI">
+				</cfsavecontent>
+				<cfmail subject="Error" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="html">
+					#errortext#
+				</cfmail>
+				<h3>Error in changing password user.</h3>
+				<p>#cfcatch.Message#</p>
+				<p>#cfcatch.Detail#"</p>
+				<cfabort>
+			</cfcatch>
+		</cftry>
+	</cfif>
+<cfset session.force_password_change = "">
+<cfset initSession('#session.username#','#newpassword#')>
+Your password has successfully been changed.
+You will be redirected soon, or you may use the menu above now.
+<script>
+	setTimeout("go_now()",5000);
+	function go_now () {
+		document.location='#Application.ServerRootUrl#/UserProfile.cfm';
+	}
+</script>
+</cfoutput>
+    </div>
+</cfif>
+<!---------------------------------------------------------------------->
+<cfif action is "findPass">
+    <div class="changePW">
+<cfoutput>
+	<cfquery name="isGoodEmail" datasource="cf_dbuser">
+		select cf_user_data.user_id, email,username from cf_user_data,cf_users
+		 where cf_user_data.user_id = cf_users.user_id and
+		 email = '#email#' and username= '#username#'
+	</cfquery>
+	<cfif isGoodEmail.recordcount neq 1>
+		Sorry, that email wasn't found with your username.
+		<cfabort>
+	  <cfelse>
+			<cfset charList = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,z,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0">
+			<cfset numList="1,2,3,4,5,6,7,8,9,0">
+			<cfset specList="!,$,%,&,_,*,?,-,(,),<,>,=,/,:,;,.">
+			<cfset newPass = "">
+			<cfset cList="#charList#,#numList#,#specList#">
+			<cfset c=0>
+			<cfset i=1>
+			<cfset thisChar = ListGetAt(charList,RandRange(1,listlen(charList)))>
+			<cfset newPass=newPass & thisChar>
+			<cfset thisChar = ListGetAt(numList,RandRange(1,listlen(numList)))>
+			<cfset newPass=newPass & thisChar>
+			<cfset thisChar = ListGetAt(specList,RandRange(1,listlen(specList)))>
+			<cfset newPass=newPass & thisChar>
+			<cfloop from="1" to="8" index="i">
+				<cfset thisChar = ListGetAt(cList,RandRange(1,listlen(cList)))>
+				<cfset newPass=newPass & thisChar>
+			</cfloop>
+			<cftransaction>
+				<cfquery name="stopTrg" datasource="uam_god">
+					alter trigger CF_PW_CHANGE disable
+				</cfquery>
+				<cfquery name="setNewPass" datasource="uam_god">
+					UPDATE cf_users SET password = '#hash(newPass)#',
+					pw_change_date=sysdate-91
+					where user_id = #isGoodEmail.user_id#
+				</cfquery>
+				<cftry>
+				<cfquery name="db" datasource="uam_god">
+					alter user #isGoodEmail.username# identified by "#newPass#"
+				</cfquery>
+				<cfcatch><!--- not a DB user - whatever ---></cfcatch>
+				</cftry>
+				<cfquery name="stopTrg" datasource="uam_god">
+					alter trigger CF_PW_CHANGE enable
+				</cfquery>
+			</cftransaction>
+			<cfmail to="#email#" subject="MCZbase password" from="LostFound@#Application.fromEmail#" type="text">
+				Your MCZbase username/password is
+
+				#username# / #newPass#
+
+				You will be required to change your password
+				after logging in.
+
+				#Application.ServerRootUrl#/login.cfm
+
+				If you did not request this change, please reply to #Application.technicalEmail#.
+			</cfmail>
+		An email containing your new password has been sent to the email address on file. It may take a few minutes to arrive.
+		<cfset initSession()>
+	</cfif>
+</cfoutput>
+                </div>
+</cfif>
+<!---------------------------------------------------------------------->
+<cfinclude template = "includes/_footer.cfm">
