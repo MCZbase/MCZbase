@@ -116,7 +116,7 @@ limitations under the License.
 	</div>
 </div>
 <nav class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner">
-	<ul class="navbar col-lg-9 col-md-8 col-sm-9 pt-0 pb-0 mb-1">
+	<ul class="navbar col-lg-9 col-md-8 col-sm-6 col-xs-6 pt-0 pb-0 mb-1">
 		<li class="nav-item mcz2"><a href="https://www.mcz.harvard.edu/" target="_blank">Museum of Comparative Zoology</a></li>
 		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">#session.collection_link_text# </a></li>
 	</ul>
@@ -212,79 +212,96 @@ limitations under the License.
 						<li></li>
 						<li><a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">MCZbase Wiki</a></li>
 						<li><a class="dropdown-item" href="/About.cfm">About MCZbase</a> </li>
-				
 					</ul> 
 				 </li>
 			</ul>
+				  
+				  
+				  
+				  
+
 		</div>
 	</div>
-	<ul id="profiles" class="nav justify-content-end col-sm-2 accn-icons pt-1">
-		<li class="nav-item dropdown">
+<ul id="profiles" class="nav justify-content-end col-sm-2 accn-icons pt-1">
+	<li class="nav-item dropdown">
 			<a href="##accountSettings" data-toggle="dropdown" role="button"> 
 				<i class="fas fa-cog text-black-50"></i> 
 			</a> 
+			
+					  <ul class="dropdown-menu" id="accountSettings" aria-labelledby="navbarDropdown">
+						<li><a href="/searchBuilder.cfm">Custom Fixed Search Builder</a> </li>
+						<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a> </li>
+						<li><a href="##">Manage Collection Contact and Link info.</a> </li>
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						<li>
+						<form name="userProfile" method="post" action="/UserProfile.cfm">
+								<input type="hidden" name="action" value="nothing">
+								<button value="User Profile" onclick="userProfile.action.value='nothing';submit();" class="btn btn-light btn-sm btn-block text-left" style="padding-left: 1.25em;">User Profile</button>
+							</form>
+		
+						</li>
+						  </cfif>
+					  </ul>
+			
 		</li>
-		<li class="nav-item dropdown"> 
-			<a href="##formLogin" data-toggle="dropdown" role="button"> 
-				<cfif session.roles contains "coldfusion_user">
-				<i class="fas fa-user-check" style="color: ##39A845;"></i> 
+	
 					
-				<cfelse>
+	
+		<li class="nav-item dropdown">
+				<a href="##formLogin" data-toggle="dropdown" role="button"> 
+				<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+					<i class="fas fa-user-check" style="color: ##39A845;"></i> 
 				
-				<i class="fas fa-user"></i> 
-			
-				</cfif>
-					
+				<cfelse>
+					<i class="fas fa-user"  style="color: ##666666;"></i> 
+				</cfif>	
 			</a> 
-		</li>
-	</ul>
-</nav>
-<div class="dropdown-menu" id="accountSettings">
-	<div class="row">
-		<div class="container-fluid">
-			
-				<div class="form-group"> 
-				<!---	<a href="##">Profile Settings</a> --->
-					<a href="/searchBuilder.cfm">Custom Fixed Search Builder</a> 
-					<a href="/saveSearch.cfm?action=manage">Saved Searches</a> 
-					<a href="##">Manage Collection Contact and Link info.</a> 
-				</div>
+	<ul class="dropdown-menu" id="formLogin" aria-labelledby="navbarDropdown">
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>		
+				<li><form name="signOut" method="post" action="/login.cfm">
+								<input type="hidden" name="action" value="signOut">
+			<button class="alert-link alert-success" onclick="signOut.action.value='signOut';submit();" style="background-color: ##C3E6CB; color: ##155724;" target="_top">Log out #session.username#
+		<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>	
+			<span>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)&nbsp;</span>
+		</cfif>
+						</button>
+					</form>
+					</li>
+		<cfelse>
+			<li>	<form name="userLogin" method="post" action="/login.cfm">
+								<input type="hidden" name="action" value="nothing">
+								<button value="User Login" onclick="userLogin.action.value='nothing';submit();" class="btn btn-light btn-sm btn-block text-left" style="padding-left: 1.25em;">Login</button>
+							</form></li>
+			</cfif>
 		
-		</div>
-	</div>
-</div>
-			
-<div class="dropdown-menu" id="formLogin">
-	<div class="row">
-		<div class="container-fluid">
-			<div class="form-group"> 
-				<cfif not isdefined("session.header_color")>
-					<cfset setDbUser()>
-				</cfif>
-	<cfif isdefined("session.username") and len(#session.username#) gt 0>
-		
-		<a class="alert-link alert-success" style="background-color: ##C3E6CB; color: ##155724;" target="_top" href="/login.cfm?action=signOut">Log out #session.username#
-		<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>	<span>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy hh:mm")#)&nbsp;</span></cfif>
-		</a>
-
-	<cfelse>
+	<cfif isdefined("session.header_color") and len(#session.header_color#) gt 0 and not isdefined("session.username")>
+		<li class="nav-item dropdown">
+				<a href="##formLogin" data-toggle="dropdown" role="button"> 
+				<cfif session.roles contains "public">
+					<i class="fas fa-user-check" style="color: ##39A845;"></i> 
+				<cfelse>
+					<i class="fas fa-user"></i> 
+				</cfif>	
+			</a> 
+	<ul class="dropdown-menu" id="formLogin" aria-labelledby="navbarDropdown">
+	
 		<cfif isdefined("session.needEmailAddr") and session.needEmailAddr is 1>
 		 <br>
 			<span style="font-size: 12px;"> You have no email address in your profile. Please correct. </span>
 		</cfif>
-		<cfif isdefined("session.username") and isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+		</li>
+		<cfif isdefined("session.username")>
 		<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-		<cfelse>
-		<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-		</cfif>
+			<cfelse>
+		<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/Specimens.cfm")>
+			</cfif>
+				<li>
 			<form name="logIn" method="post" action="/login.cfm">
 				  <input type="hidden" name="action" value="signIn">
 				  <input type="hidden" name="gotopage" value="#gtp#">
-			
-				
 				<div class="form-group ml-2">
 					<label for="username" class="wd-90p">Username:</label>
-					<input type="text" name="username" title="Username" size="14" class="loginTxt" onfocus="if(this.value==this.title){this.value=''};">
+					<input type="text" name="username" title="Username" size="14" class="" onfocus="if(this.value==this.title){this.value=''};">
 				</div>
 				<div class="form-group ml-2">
 					<label for="password" class="wd-90p">Password:</label>
@@ -295,20 +312,17 @@ limitations under the License.
 				<input type="submit" value="Create Account" class="btn btn-primary btn-sm" onClick="logIn.action.value='nothing';submit();">
 				</div>
 			</form>
+				</li>
+			</ul>
 	</cfif>
+	
+
+	</ul>
+</nav>
+
 			
-	<cfif isdefined("session.username") and len(#session.username#) gt 0>
-	<form name="userProfile" method="post" action="/UserProfile.cfm">
-			<input type="hidden" name="action" value="nothing">
-			<button value="User Profile" onclick="userProfile.action.value='nothing';submit();" class="btn btn-light btn-sm w-100">User Profile</button>
-		</form>
-		
-		
-			</cfif>
-			</div>
-		</div>
-	</div>
-</div>
+
+	
 </header>
 <cf_rolecheck>
 </cfoutput>

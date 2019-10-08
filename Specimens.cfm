@@ -179,7 +179,7 @@ select media_type from ctmedia_type order by media_type
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
 
-	<div id="search-form-div" class="search-form-div pb-4 px-3">
+	<div id="search-form-div" class="form-div px-3">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-11 col-sm-12 col-lg-11">
