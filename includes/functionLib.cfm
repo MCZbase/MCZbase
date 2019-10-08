@@ -84,13 +84,14 @@ limitations under the License.
 	<cfset session.searchBy="">
 	<cfset session.fancyCOID="">
 	<cfset session.last_login="">
+	<cfset session.customOtherIdentifier="">
 	<cfset session.loan_request_coll_id="">
 	<cfset session.target=''>
 	<cfset session.block_suggest=1>
 	<cfset session.meta_description=''>
 	<cfset temp=cfid & '_' & cftoken & '_' & RandRange(0, 9999)>
 
-<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
+	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
 		<cfquery name="getPrefs" datasource="cf_dbuser">
 			select * from cf_users where username = '#username#' and password='#hash(pwd)#'
 		</cfquery>
@@ -112,6 +113,12 @@ limitations under the License.
 		<cfset session.roles = valuelist(dbrole.role_name)>
 		<cfset session.roles=listappend(session.roles,"public")>
 		<cfset session.last_login = "#getPrefs.last_login#">
+
+		<cfif len(getPrefs.CustomOtherIdentifier) gt 0>
+			<cfset session.customOtherIdentifier = getPrefs.CustomOtherIdentifier>
+		<cfelse>
+			<cfset session.customOtherIdentifier = "">
+		</cfif>
 	
 		<cfif getPrefs.bigsearchbox is 1>
 			<cfset session.searchBy="bigsearchbox">
