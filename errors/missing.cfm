@@ -166,11 +166,13 @@ limitations under the License.
 			<cfif listlen(rdurl,"/") gt 1>
 				<cfset sName = listgetat(rdurl,gPos+1,"/")>
 				<cfquery name="d" datasource="cf_dbuser">
-					select url from cf_canned_search where upper(search_name)='#ucase(sName)#'
+					select url from cf_canned_search 
+					where upper(search_name) = <cfqueryparam value='#ucase(sName)#' cfsqltype="CF_SQL_VARCHAR">
 				</cfquery>
 				<cfif d.recordcount is 0>
 					<cfquery name="d" datasource="cf_dbuser">
-						select url from cf_canned_search where upper(search_name)='#ucase(urldecode(sName))#'
+						select url from cf_canned_search 
+						where upper(search_name) = <cfqueryparam value='#ucase(urldecode(sName))#' cfsqltype="CF_SQL_VARCHAR">
 					</cfquery>
 				</cfif>
 				<cfif d.recordcount is 0>
