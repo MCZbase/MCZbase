@@ -68,7 +68,8 @@ limitations under the License.
 					<cfinclude template="/specimens/SpecimenDetail.cfm">
 				<cfcatch>
 					<cfoutput>[#cfcatch.message#]</cfoutput>
-					<cfinclude template="/errors/404.cfm">
+					<cfoutput>[#cfcatch.detail#]</cfoutput>
+					<cfoutput><cfdump var="#cfcatch#"></cfoutput>
 				</cfcatch>
 				</cftry>
         </cfif>
