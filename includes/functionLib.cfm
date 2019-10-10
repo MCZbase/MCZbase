@@ -46,7 +46,8 @@ limitations under the License.
 	</cfif>
 	<cfif session.roles does not contain "coldfusion_user">
 		<cfquery name="portalInfo" datasource="cf_dbuser">
-			select * from cf_collection where cf_collection_id = #portal_id#
+			select * from cf_collection 
+			where cf_collection_id = <cfqueryparam value="#portal_id#" cfsqltype="CF_SQL_NUMBER">
 		</cfquery>
 		<cfset session.dbuser=portalInfo.dbusername>
 		<cfset session.epw = encrypt(portalInfo.dbpwd,cfid)>
@@ -55,7 +56,8 @@ limitations under the License.
 		<cfset session.flatTableName = "flat">
 	</cfif>
 	<cfset session.portal_id=portal_id>
-	<!--- may need to get generic appearance --->
+	<!---  Bring application display configuration information into the session. --->
+	<!--- TODO: Confirm that all of these are needed in MCZbase in the redesign.  --->
 	<cfset session.header_color = Application.header_color>
 	<cfset session.header_image =  Application.header_image>
 	<cfset session.collection_url =  Application.collection_url>
@@ -93,7 +95,11 @@ limitations under the License.
 
 	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
 		<cfquery name="getPrefs" datasource="cf_dbuser">
-			select * from cf_users where username = '#username#' and password='#hash(pwd)#'
+			select * 
+			from cf_users 
+			where 
+				username = <cfqueryparam value='#username#' cfsqltype="CF_SQL_VARCHAR">
+				AND password = <cfqueryparam value='#hash(pwd)#' cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
 		<cfif getPrefs.recordcount is 0>
 			<cfset session.username = "">
@@ -102,13 +108,14 @@ limitations under the License.
 		</cfif>
 		<cfset session.username=username>
 		<cfquery name="dbrole" datasource="uam_god">
-			 select upper(granted_role) role_name
-	         	from
-	         dba_role_privs,
-	         cf_ctuser_roles
-	         	where
-	         upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) and
-	         upper(grantee) = '#ucase(getPrefs.username)#'
+			 select 
+				upper(granted_role) role_name
+	       from
+				dba_role_privs,
+				cf_ctuser_roles
+			where
+				upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) 
+				AND upper(grantee) = <cfqueryparam '#ucase(getPrefs.username)#' cfsqltype="CF_SQL_VARCHAR" >
 		</cfquery>
 		<cfset session.roles = valuelist(dbrole.role_name)>
 		<cfset session.roles=listappend(session.roles,"public")>
@@ -132,15 +139,20 @@ limitations under the License.
 		</cfif>
 		<cfset session.locSrchPrefs=getPrefs.locSrchPrefs>
 		<cfquery name="logLog" datasource="cf_dbuser">
-			update cf_users set last_login = sysdate where username = '#session.username#'
+			update cf_users 
+			set last_login = sysdate 
+			where username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
 		<cfif listcontainsnocase(session.roles,"coldfusion_user")>
 			<cfset session.dbuser = "#getPrefs.username#">
 			<cfset session.epw = encrypt(pwd,cfid)>
 			<cftry>
 				<cfquery name="ckUserName" datasource="uam_god">
-					select agent_id from agent_name where agent_name='#session.username#' and
-					agent_name_type='login'
+					select agent_id 
+					from agent_name 
+					where 
+						agent_name='#session.username#'
+						AND agent_name_type='login'
 				</cfquery>
 				<cfcatch>
 					<div class="error">
@@ -151,7 +163,7 @@ limitations under the License.
 			</cftry>
 			<cfif len(ckUserName.agent_id) is 0>
 				<div class="error">
-					You must have an agent_name of type login that matches your Arctos username.
+					You must have an agent_name of type login that matches your MCZbase username.
 				</div>
 				<cfabort>
 			</cfif>
