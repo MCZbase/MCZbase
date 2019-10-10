@@ -18,7 +18,7 @@ limitations under the License.
 --->
 
 <!---  Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found  --->
-<cfset pageTitle = "MCZbase Specimen not found: #guid#">
+<cfset pageTitle = "MCZbase Specimen not found.">
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -33,6 +33,7 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <cfif isdefined("guid")>
+	<cfset pageTitle = "MCZbase Specimen not found: #guid#">
 	<!---  Lookup the GUID, handling several possible variations --->
 
 	<!---  Redirect from explicit SpecimenDetail page to  to /guid/ --->

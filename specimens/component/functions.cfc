@@ -60,6 +60,7 @@
     </cfif>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<!--- TODO: Comment documents a shipment method, what follows is an identification method????  --->
 <!--- NEW NEW NEW Obtain the list of shipments and their permits for a transaction formatted in html for display on a transaction page --->
 <!---  @param transaction_id  the transaction for which to obtain a list of shipments and their permits.  --->
 <!---  @return html list of shipments and permits, including editing controls for adding/editing/removing shipments and permits. --->
