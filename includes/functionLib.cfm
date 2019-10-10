@@ -115,7 +115,7 @@ limitations under the License.
 				cf_ctuser_roles
 			where
 				upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) 
-				AND upper(grantee) = <cfqueryparam '#ucase(getPrefs.username)#' cfsqltype="CF_SQL_VARCHAR" >
+				AND upper(grantee) = <cfqueryparam value='#ucase(getPrefs.username)#' cfsqltype="CF_SQL_VARCHAR" >
 		</cfquery>
 		<cfset session.roles = valuelist(dbrole.role_name)>
 		<cfset session.roles=listappend(session.roles,"public")>

@@ -538,7 +538,7 @@ limitations under the License.
 <!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
 						<p style="font-size:.8em;color:gray;"> #full_taxon_name# </p>
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-						<cfquery name="cName" dbtype="query">
+						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT 
 									common_name 
 								FROM 

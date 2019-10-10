@@ -44,7 +44,7 @@ limitations under the License.
 	
 	<!---  GUID is expected to be in the form MCZ:collectioncode:catalognumber --->
 	<cfif guid contains ":">
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cresult">
 			select collection_object_id from
 				#session.flatTableName#
 			WHERE
@@ -56,7 +56,7 @@ limitations under the License.
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
 		<cfset cn=trim(right(guid,spos))>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cfesult">
 			select collection_object_id 
 			from
 				cataloged_item,
@@ -111,9 +111,9 @@ limitations under the License.
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
 		#session.flatTableName#.dec_lat,
 		#session.flatTableName#.dec_long
-		<!--- cfif len(#session.CustomOtherIdentifier#) gt 0>
-			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID">
-		</cfif --->
+		<cfif len(#session.CustomOtherIdentifier#) gt 0>
+			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
+		</cfif>
 	FROM
 		#session.flatTableName#,
 		collection
