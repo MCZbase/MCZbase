@@ -24,16 +24,21 @@
 <cfif action is "makeUser">
 <cfoutput>
 	<cfquery name="exPw" datasource="uam_god">
-		select PASSWORD from cf_users where username='#session.username#'
+		select count(*) as passwordMatchCount
+		from cf_users 
+		where 
+			username = '#session.username#' 
+			AND PASSWORD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(pw)#"> 
 	</cfquery>
-	<cfif hash(pw) is not exPw.password>
+	<cfif exPw.passwordMatchCount NE 1 >
 		<div class="error">
 			You did not enter the correct password.
 		</div>
 		<cfabort>
 	</cfif>
 	<cfquery name="alreadyGotOne" datasource="uam_god">
-		select count(*) c from dba_users where upper(username)='#ucase(session.username)#'
+		select count(*) c from dba_users 
+		where upper(username) = <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfif alreadyGotOne.c is not 0>
 		<cfthrow
@@ -46,35 +51,38 @@
 	<cftry>
 		<cftransaction>
 			<cfquery name="makeUser" datasource="uam_god">
-				create user #session.username# identified by "#pw#" profile "ARCTOS_USER" default TABLESPACE users QUOTA 1G on users
+				create user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
+					identified by <cfqueryparam value="#pw#" cfsqltype="CF_SQL_VARCHAR">
+					profile "ARCTOS_USER" default TABLESPACE users QUOTA 1G on users
 			</cfquery>
 			<cfquery name="grantConn" datasource="uam_god">
-				grant create session to #session.username#
+				grant create session to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
 			</cfquery>
 			<cfquery name="grantTab" datasource="uam_god">
-				grant create table to #session.username#
+				grant create table to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
 			</cfquery>
 			<cfquery name="grantVPD" datasource="uam_god">
-				grant execute on app_security_context to #session.username#
+				grant execute on app_security_context to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
 			</cfquery>
 			<cfquery name="usrInfo" datasource="uam_god">
 				select * from temp_allow_cf_user,cf_users where temp_allow_cf_user.user_id=cf_users.user_id and
-				cf_users.username='#session.username#'
+				cf_users.username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
 			</cfquery>
-			<cfquery name="makeUser" datasource="uam_god">
-				delete from temp_allow_cf_user where user_id=#usrInfo.user_id#
+			<cfquery name="makeUserCleanup" datasource="uam_god">
+				delete from temp_allow_cf_user 
+				where user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_NUMBER">
 			</cfquery>
 			<cfmail to="#usrInfo.invited_by_email#" from="account_created@#Application.fromEmail#" subject="User Authenticated" cc="#Application.PageProblemEmail#" type="html">
 				Arctos user #session.username# has successfully created an Oracle account.
 				<br>
 				You now need to assign them roles and collection access.
-				<br>Contact the Arctos DBA team immediately if you did not invite this user to become an operator.
+				<br>Contact the DBA immediately if you did not invite this user to become an operator.
 			</cfmail>
 		</cftransaction>
 		<cfcatch>
 			<cftry>
-			<cfquery name="makeUser" datasource="uam_god">
-				drop user #session.username#
+			<cfquery name="makeUserCleanup" datasource="uam_god">
+				drop user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
 			</cfquery>
 			<cfcatch>
 			</cfcatch>
@@ -123,14 +131,16 @@
 		agent_name.agent_name_type = 'login' and 
 		agent_name.agent_name = cf_users.username and
 		person.PERSON_ID = agent_name.agent_id and
-		username = '#session.username#' order by cf_users.user_id
+		username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
+		order by cf_users.user_id
 	</cfquery>
 	
 	<cfif getPrefs.recordcount is 0>
 		<cflocation url="/login.cfm?action=signOut" addtoken="false">
 	</cfif>
 	<cfquery name="isInv" datasource="uam_god">
-		select allow from temp_allow_cf_user where user_id=#getPrefs.user_id#
+		select allow from temp_allow_cf_user 
+		where user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_NUMBER">
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
     <div class="container">
@@ -142,11 +152,17 @@
 			<cfif pwage lte 0>
 				 <cfquery name="isDb" datasource="uam_god">
 					select
-					(select count(*) c from all_users where
-					username='#ucase(session.username)#')
+					(
+						select count(*) c from all_users where
+						username= <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR" >
+					)
 					+
-					(select count(*) C from temp_allow_cf_user,
-					cf_users where temp_allow_cf_user.user_id = cf_users.user_id and cf_users.username='#session.username#')
+					(
+						select count(*) C 
+						from temp_allow_cf_usera, cf_users 
+						where temp_allow_cf_user.user_id = cf_users.user_id 
+						AND cf_users.username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
+					)
 					cnt
 					from dual
 				</cfquery>
@@ -186,16 +202,14 @@
 		SELECT
 			cf_users.user_id,
 			first_name,
-	        middle_name,
-	        last_name,
-	        affiliation,
+	      middle_name,
+	      last_name,
+	      affiliation,
 			email
 		FROM
-			cf_user_data,
-			cf_users
+			cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
 		WHERE
-			cf_users.user_id = cf_user_data.user_id (+) AND
-			username = '#session.username#'
+			username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 	</cfquery>
 	<form method="post" action="/UserProfile.cfm" name="dlForm">
 		<input type="hidden" name="user_id" value="#getUserData.user_id#">
@@ -248,7 +262,9 @@
 					
 	
 	<cfquery name="getUserPrefs" datasource="cf_dbuser">
-		select * from cf_users where username='#session.username#'
+		select * from cf_users 
+		where 
+			username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 	</cfquery>
 	
 	<div id="divRss"></div>
@@ -304,7 +320,9 @@
 		<cfabort>
 	</cfif>
 	<cfquery name="isUser" datasource="cf_dbuser">
-		select * from cf_user_data where user_id=#user_id#
+		select * from cf_user_data 
+		where 
+			user_id = <cfqueryparam value='#user_id#' cfsqltype="CF_SQL_NUMBER">
 	</cfquery>
 		<!---- already have a user_data entry --->
 	<cfif isUser.recordcount is 1>
@@ -314,17 +332,17 @@
 				last_name = '#last_name#',
 				AFFILIATION= '#affiliation#'
 				<cfif len(#middle_name#) gt 0>
-					,middle_name = '#middle_name#'
+					,middle_name = <cfqueryparam value='#middle_name#' cfsqltype="CF_SQL_VARCHAR">
 				<cfelse>
 					,middle_name = NULL
 				</cfif>
 				<cfif len(#email#) gt 0>
-					,email = '#email#'
+					,email = <cfqueryparam value='#email#' cfsqltype="CF_SQL_VARCHAR""
 				<cfelse>
 					,email = NULL
 				</cfif>
 			WHERE
-				user_id = #user_id#
+				user_id = <cfqueryparam value="#user_id#" cfsqltype="CF_SQL_NUMBER">
 		</cfquery>
 	</cfif>
 	<cfif #isUser.recordcount# is not 1>
@@ -342,15 +360,15 @@
 				</cfif>
 				)
 			VALUES (
-				#user_id#,
-				'#first_name#',
-				'#last_name#',
-				'#affiliation#'
+				<cfqueryparam value="#user_id#" cfsqltype="CF_SQL_NUMBER">,
+				<cfqueryparam value='#first_name#' cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value='#last_name#' cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value='#affiliation#' cfsqltype="CF_SQL_VARCHAR">
 				<cfif len(#middle_name#) gt 0>
-					,'#middle_name#'
+					,  <cfqueryparam value='#middle_name#' cfsqltype="CF_SQL_VARCHAR">
 				</cfif>
 				<cfif len(#email#) gt 0>
-					,'#email#'
+					,  <cfqueryparam value='#email#' cfsqltype="CF_SQL_VARCHAR">
 				</cfif>
 				)
 		</cfquery>
