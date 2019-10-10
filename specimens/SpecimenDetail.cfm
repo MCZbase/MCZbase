@@ -1,5 +1,3 @@
-<cfset pageTitle = "Specimen Result Details column">
-
 <!---
 SpecimenDetail.cfm
 
@@ -20,63 +18,73 @@ limitations under the License.
 --->
 
 <!---  Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found  --->
-
-<cfinclude template="/includes/_header.cfm">
+<cfset pageTitle = "MCZbase Specimen not found: #guid#">
 <cfif isdefined("collection_object_id")>
-
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select GUID from #session.flatTableName# where collection_object_id=#collection_object_id#
+			select GUID 
+			from #session.flatTableName# 
+			where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
-		<cfheader name="Location" value="/guid/#c.guid#">
+		<cfheader name="Location" value="/specimens/SpecimenDetailBody.cfm?collection_object_id=#collection_object_id#">
+		<cfset guid = c.GUID>
 		<cfabort>
 	</cfoutput>
 </cfif>
 <cfif isdefined("guid")>
-	<cfif cgi.script_name contains "/SpecimenDetail.cfm">
+	<!---  Lookup the GUID, handling several possible variations --->
+
+	<!---  Redirect from explicit SpecimenDetail page to  to /guid/ --->
+	<cfif cgi.script_name contains "/specimens/SpecimenDetail.cfm">
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
 	</cfif>
 	
+	<!---  GUID is expected to be in the form MCZ:collectioncode:catalognumber --->
 	<cfif guid contains ":">
-		<cfoutput>
-			<cfset sql="select collection_object_id from
-					#session.flatTableName#
-				WHERE
-					upper(guid)='#ucase(guid)#'">
-			
-			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				#preservesinglequotes(sql)#
-			</cfquery>
-		</cfoutput>
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cresult">
+			select collection_object_id from
+				#session.flatTableName#
+			WHERE
+				upper(guid) = <cfqueryparam value='#ucase(guid)#' cfsqltype="CF_SQL_VARCHAR">
+		</cfquery>
 	<cfelseif guid contains " ">
+		<!--- TODO: Do we want to continue supporting guid={collection catalognumber}? --->
+		<!--- TODO: NOTE: Existing MCZbase code is broken without trim on cn. --->
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
-		<cfset cn=right(guid,spos)>
-		<cfset sql="select collection_object_id from
+		<cfset cn=trim(right(guid,spos))>
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cfesult">
+			select collection_object_id 
+			from
 				cataloged_item,
 				collection
 			WHERE
-				cataloged_item.collection_id = collection.collection_id AND
-				cat_num = #cn# AND
-				lower(collection.collection)='#lcase(cc)#'">
-		<cfset checkSql(sql)>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			#preservesinglequotes(sql)#
+				cataloged_item.collection_id = collection.collection_id 
+				AND cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cn#"> 
+				AND lower(collection.collection) = <cfqueryparam value='#lcase(cc)#' cfsqltype="CF_SQL_VARCHAR" >
 		</cfquery>
 	</cfif>
-	<cfif isdefined("c.collection_object_id") and len(c.collection_object_id) gt 0>
-		<cfset collection_object_id=c.collection_object_id>
-	<cfelse>
-		<cfinclude template="/errors/404.cfm">
-		<cfabort>
+	<cfif cresult.recordcount EQ 0>
+		<!--- Record for this GUID was not found ---> 
+    	<cfinclude template="/errors/404.cfm">
+	    <cfabort>
+   <cfelse>
+		<!--- Record for this GUID was found, make the collection_object_id available to obtain specimen record details. ---> 
+		<cfoutput query="c">
+			<cfset collection_object_id=c.collection_object_id>
+		</cfoutput>
 	</cfif>
 <cfelse>
 	<cfinclude template="/errors/404.cfm">
 	<cfabort>
 </cfif>
+
+<!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
+<cfset pageTitle = "MCZbase Specimen Details #guid#">
+<cfinclude template="/includes/_header.cfm">
 
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT DISTINCT
@@ -103,9 +111,9 @@ limitations under the License.
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
 		#session.flatTableName#.dec_lat,
 		#session.flatTableName#.dec_long
-		<!--- cfif len(#session.CustomOtherIdentifier#) gt 0>
-			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID">
-		</cfif --->
+		<cfif len(#session.CustomOtherIdentifier#) gt 0>
+			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
+		</cfif>
 	FROM
 		#session.flatTableName#,
 		collection

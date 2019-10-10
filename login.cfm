@@ -11,14 +11,20 @@
 <!------------------------------------------------------------>
 <cfif  action is "newUser">
 	<cfquery name="uUser" datasource="cf_dbuser">
-		select * from cf_users where username = '#username#'
+		select * 
+		from cf_users 
+		where 
+			username = <cfqueryparam value='#username#' cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfset err="">
 	<cfif len(password) is 0>
-		<cfset err="Your password must be at least one character long.">
+		<cfset err="You must provide a password.">
 	</cfif>
 	<cfquery name="dbausr" datasource="uam_god">
-		select username from dba_users where upper(username) = '#ucase(username)#'
+		select username 
+		from dba_users 
+		where 
+			upper(username) = <cfqueryparam value='#ucase(username)#' cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfif len(dbausr.username) gt 0>
 		<cfset err="That username is not available.">
