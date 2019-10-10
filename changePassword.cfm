@@ -22,8 +22,10 @@
 		<div class="container-fluid form-div">
     		<div class="container">
 		<div class="row">
-			<div class="col-lg-1 col-md-1 col-sm-12"></div>
-		<div class="col-lg-5 col-md-5 col-sm-12">
+			<div class="col-md-12 offset-md-2">
+					<h2>Change Your Password</h2>
+			</div>
+		<div class="col-lg-4 col-md-4 col-sm-12 offset-md-2 offset-lg-2">
 	 	<cfquery name="pwExp" datasource="uam_god">
 			select pw_change_date from cf_users where username = '#session.username#'
 		</cfquery>
@@ -32,7 +34,6 @@
 		<cfif session.username is "guest">
 			<h3>Guests are not allowed to change passwords.</h3><cfabort>
 		</cfif>
-			<h2 class="mt-3 pt-3">Change Your Password</h2>
 			<p>Your password is <b>#pwtime# days old</b>.</p>
 	    <cfquery name="isDb" datasource="uam_god">
 			select
@@ -63,9 +64,9 @@
 			</ul>
 		</cfif>
 			</div>
-			<div class="col-lg-5 col-md-5 col-sm-12 mt-8">
+			<div class="col-lg-5 col-md-5 col-sm-12 offset-md-1">
 			
-				<h4 class="mt-8 pt-3">You are logged in as <span class="lead"><mark>#session.username#</mark></span>.</h4>
+				<h4>You are logged in as <span class="lead"><mark>#session.username#</mark></span>.</h4>
 				
 		<form action="/changePassword.cfm" method="post">
 	        <input type="hidden" name="action" value="update">

@@ -6,7 +6,7 @@
 <!------------------------------------------------------------>
 <cfif action is "signOut">
 	<cfset initSession()>
-	<cflocation url="/login.cfm?action=nothing" addtoken="false">
+	<cflocation url="/Specimens.cfm" addtoken="false">
 </cfif>
 <!------------------------------------------------------------>
 <cfif  action is "newUser">
@@ -72,7 +72,8 @@
 	<cfoutput>
 		<cfset initSession('#username#','#password#')>
 		<cfif len(session.username) is 0>
-			<cfset u="login.cfm?badPW=true&username=#username#">
+			<cfset u="/login.cfm?action=nothing&username=#username#">
+			
 			<cfif isdefined("gotopage")>
 				<cfset u=u & '&gotopage=#gotopage#'>
 			</cfif>
@@ -96,7 +97,7 @@
 				<cfset nogo="login.cfm,errors/">
 				<cfloop list="#nogo#" index="n">
 					<cfif gotopage contains n>
-						<cfset gotopage = "/UserProfile.cfm?action=nothing">
+						<cfset gotopage = "/Specimens.cfm">
 					</cfif>
 				</cfloop>
 			<cfelse>
@@ -142,83 +143,53 @@
 </cfif>
 <!------------------------------------------------------------>
 <cfif action is "nothing">
-<script>
-	function isInfo() {
-		var uname = document.signIn.username.value;
-		var pword = document.signIn.password.value;
-		if (uname.length == 0 || pword.length == 0) {
-			alert('Enter a username and a password in this form to create an account.');
-			return false;
-		} else {
-			document.signIn.action.value='newUser';
-			document.signIn.submit();
-		}
-	}
-</script>
+
 <cfoutput>
+
+<cfif isdefined("badPW")>
+	<div class="container-fluid form-div">
+  <div class="container my-2 pt-2">
+	  <div class="row justify-content-center">
+		 <div class="col-md-10 col-lg-10 col-sm-12">
+				<p class="h3">
+					Hello #username#!</p>
+			 <p class="h3">You have entered a bad password. Please try to enter your password again.</p>
+			 </p>
+			 	<p class="pb-3">
+		<a href="/changePassword.cfm?action=lostPass"><strong>Lost your password?</strong></a> If you created a profile with an email address,
+		we can send it to you. You can also just create a new account by entering a different username.  Once you are signed in, look for the "User Profile" link by clicking on the account icon to add your email address.
+	</p>
+			 
+		  </div>
+	  </div>
+	</div>
+	<cfelse>
 <div class="container-fluid form-div">
-  <div class="container my-3 pt-2">
+  <div class="container my-2 pt-2">
+	  <div class="row justify-content-center">
+		 <div class="col-md-10 col-lg-10 col-sm-12">
+		  <h2>MCZbase Accounts</h2>
+		  </div>
+		  <div class="col-md-0 col-lg-10 col-sm-12">
 	<cfparam name="username" default="">
-	<cfset title="Log In or Create Account">
-	<h2>Log In or Create an Account</h2>
+	<cfset title="Account">
+		
 	<p class="pb-3">
 		Logging in enables you to turn on, turn off, or otherwise customize many features of
 		this database. To create an account and log in, simply supply a username and
-		password here and click Create Account.
-	</p>
-	<cfif not isdefined("gotopage")>
-		<cfset gotopage=''>
-	</cfif>
-
-<form action="/login.cfm" method="post" name="signIn">
-	<input name="action" value="signIn" type="hidden">
-		<input name="gotopage" value="#gotopage#" type="hidden">
-	
-	
-			<div class="input-group mb-3">
-			<div class="input-group-prepend">
-					<span class="input-group-text" name="username" id="basic-addon1">Username</span>
-				</div>
-            <input type="text" name="username" value="#username#" class="form-control w-50" placeholder="username" aria-label="username" aria-describedby="basic-addon1">
-			</div>
-	
-			
-			<div class="input-group mb-3">
-			<div class="input-group-prepend">
-					<span class="input-group-text" name="password" id="basic-addon1">Password&nbsp;</span>
-				</div>
-            <input type="password" name="password" value="" id="password" class="form-control w-50" placeholder="password" aria-label="password" aria-describedby="basic-addon1">
-			</div>
-		
-		
-
-   
-			<cfif isdefined("badPW") and badPW is true>
-			<cfif not isdefined("err") or len(err) is 0>
-				<cfset err="Your username or password was not recognized. Please try again.">
-			</cfif>
-			<span style="background-color:##FF0000; font-size:smaller; font-style:italic; margin:.5em;padding:.5em;">
-				#err#
-				<script>
-					$('##username').css('backgroundColor','red');
-					$('##password').val('').css('backgroundColor','red').select().focus();
-				</script>
-			</span>
-		</cfif>
-				<button type="button" value="Sign In" class="btn btn-secondary btn-small" onClick="signIn.action.value='signIn';submit();" tabindex="3">Sign In</button>
-		&nbsp;or&nbsp;<button type="button" value="Create an Account" class="btn btn-primary btn-small" onClick="isInfo();" tabindex="4">Create an Account</button>
-  <!---  <button type="submit" value="Sign In" class="btn btn-secondary" onClick="signIn.action.value='signIn';submit();" tabindex="3">Log in</button>		
-	<span class="d-inline-block px-2">or</span>
-	<button type="button" value="Create an Account" class="btn btn-primary" onClick="isInfo();" tabindex="4">Create an account</button>--->
-</form>
-
-	<p class="my-3 pt-2">
-		<a href="/changePassword.cfm?action=lostPass">Lost your password?</a> If you created a profile with an email address,
-		we can send it to you. You can also just create a new account by entering a different username.
+		password in the login form and click "Create Account."
+	</p>	
+	<p class="pb-3">
+		<a href="/changePassword.cfm?action=lostPass"><strong>Lost your password?</strong></a> If you created a profile with an email address,
+		we can send it to you. You can also just create a new account by entering a different username.  Once you are signed in, look for the "User Profile" link by clicking on the account icon.
 	</p>
 	<p class="pb-3">
-		You can explore MCZbase using basic options without signing in.
+		Explore MCZbase using basic options without signing in.  Contact the collection managers if you cannot find what you need. 
 	</p>
+		
+		</cfif>
+	</div>
+		</div>
     </div>
 		</div>
 	</cfoutput>

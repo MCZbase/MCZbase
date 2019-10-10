@@ -2,7 +2,7 @@
 <cfset pageTitle="MCZbase User Profile">
 <cfinclude template = "/includes/_header.cfm">
 <cfif len(session.username) is 0>
-	<cflocation url="/login.cfm?action=signIn" addtoken="false">
+	<cflocation url="/login.cfm" addtoken="false">
 </cfif>
 <script>
 	function pwc(p,u){
@@ -127,7 +127,7 @@
 	</cfquery>
 	
 	<cfif getPrefs.recordcount is 0>
-		<cflocation url="/login.cfm?action=signOut" addtoken="false">
+		<cflocation url="/Specimens.cfm" addtoken="false">
 	</cfif>
 	<cfquery name="isInv" datasource="uam_god">
 		select allow from temp_allow_cf_user where user_id=#getPrefs.user_id#
@@ -202,12 +202,12 @@
 		<input type="hidden" name="action" value="saveProfile">
 		
 		<h3 class="mb-0">Personal Profile</h3>
-		<h4 class="h4 text-secondary">
+		<h4 class="h4">
 			A profile is required to download data.<br>
 			<small>Personal information will never be shared with anyone, and we'll never send you spam.</small>
 		</h4>
 	
-		<div class="form-group w-50">
+		<div class="form-group col-md-6 col-sm-12 pl-0">
 			<div class="input-group mb-3">
 			<div class="input-group-prepend">
 					<span class="input-group-text" name="first_name" id="basic-addon1">First Name</span>
@@ -227,7 +227,7 @@
             <input type="text" name="last_name" value="#getUserData.last_name#" class="form-control" placeholder="last_name" aria-label="last_name" aria-describedby="basic-addon1">
 			</div>
 		</div>
-		<div class="form-group w-50">
+		<div class="form-group col-md-6 col-sm-12 pl-0">
 			<div class="input-group mb-3">
 			  <div class="input-group-prepend">
 				<span class="input-group-text" name="affiliation" id="basic-addon1">Affiliation</span>
@@ -240,9 +240,12 @@
 			  </div>
 			  <input type="text" name="email" class="form-control" value="#getUserData.email#" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
 			</div>
-				<p>You cannot recover a lost password unless you enter an email address.</p>
+				<h4>You cannot recover a lost password unless you enter an email address.</h4>
+				 <input type="submit" value="Save Profile" class="btn btn-secondary ml-0 mt-1">	
 		</div>
-		 <input type="submit" value="Save Profile" class="btn btn-secondary">				
+	
+		
+	
 </form>
 					
 					
