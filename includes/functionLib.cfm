@@ -151,7 +151,7 @@ limitations under the License.
 					select agent_id 
 					from agent_name 
 					where 
-						agent_name='#session.username#'
+						agent_name = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
 						AND agent_name_type='login'
 				</cfquery>
 				<cfcatch>
