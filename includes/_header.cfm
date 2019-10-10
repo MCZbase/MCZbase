@@ -91,7 +91,6 @@ limitations under the License.
 <script type="text/javascript" src="/includes/js/shared-scripts.js"></script>
 <script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>
 <script type="text/javascript" src="/specimens/js/dialogAjax.js"></script>
-	
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
 <link rel="stylesheet" href="/includes/css/custom_styles.css">
@@ -99,11 +98,8 @@ limitations under the License.
       <cfset setDbUser()>
     </cfif>
 </head>
-
 <body class="default cbp-spmenu-push cbp-spmenu-pushtoleft">
-
 <header id="header">
-
 <cfoutput>
 <div class="branding-container clearfix" style="background-color: #Application.header_color#;">
 	<div class="branding-left justify-content-start">
@@ -131,12 +127,11 @@ limitations under the License.
 	<div class="container p-5px">
 		<button class="navbar-toggler" style="z-index:4000;" type="button" data-toggle="collapse" data-target="##navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 		<div class="col-md-10 col-lg-12 offset-lg-1 offset-md-0 collapse navbar-collapse" id="navbarTogglerDemo01">
-			 <cfif len(session.roles) gt 0 and session.roles is not "public">
-				 <ul class="navbar-nav nav-fill w-100">
-					 <cfelse>
-						 
-			<ul class="navbar-nav nav-fill w-50">
-				</cfif>
+			<cfif len(session.roles) gt 0 and session.roles is not "public">
+				<ul class="navbar-nav nav-fill w-100">
+			<cfelse>		 
+				<ul class="navbar-nav nav-fill w-50">
+			</cfif>
 				<li class="nav-item dropdown active"> <a class="nav-link dropdown-toggle" href="/Specimens.cfm" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Specimen Data</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li></li>
@@ -148,7 +143,7 @@ limitations under the License.
 						<li><a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a></li>
 					</ul>
 				</li>
-			  <cfif len(session.roles) gt 0 and session.roles is not "public">
+			 	<cfif len(session.roles) gt 0 and session.roles is not "public">
               <cfset r = replace(session.roles,",","','","all")>
               <cfset r = "'#r#'">
               <cfquery name="roles" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -215,19 +210,13 @@ limitations under the License.
 					</ul> 
 				 </li>
 			</ul>
-				  
-				  
-				  
-				  
-
 		</div>
 	</div>
 <ul id="profiles" class="nav justify-content-end col-sm-2 accn-icons pt-1">
 	<li class="nav-item dropdown">
-			<a href="##accountSettings" data-toggle="dropdown" role="button"> 
-				<i class="fas fa-cog text-black-50"></i> 
-			</a> 
-			
+		<a href="##accountSettings" data-toggle="dropdown" role="button"> 
+			<i class="fas fa-cog text-black-50"></i> 
+		</a> 
 		  <ul class="dropdown-menu" id="accountSettings" aria-labelledby="navbarDropdown">
 			<li><a href="/searchBuilder.cfm">Custom Fixed Search Builder</a> </li>
 			<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a> </li>
@@ -235,32 +224,27 @@ limitations under the License.
 		  </ul>
 	</li>
 	<li class="nav-item dropdown">
-				<a href="##formLogin" data-toggle="dropdown" role="button"> 
-				<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-					<i class="fas fa-user-check" style="color: ##39A845;"></i> 
-				
-				<cfelse>
-					<i class="fas fa-user"  style="color: ##666666;"></i> 
-				</cfif>	
-			</a> 
+	<a href="##formLogin" data-toggle="dropdown" role="button"> 
+		<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+			<i class="fas fa-user-check" style="color: ##39A845;"></i> 
+		<cfelse>
+			<i class="fas fa-user"  style="color: ##666666;"></i> 
+		</cfif>	
+	</a> 
 	<ul class="dropdown-menu" id="formLogin" aria-labelledby="navbarDropdown">
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>		
-				<li><form name="signOut" method="post" action="/login.cfm">
-								<input type="hidden" name="action" value="signOut">
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>		
+		<li><form name="signOut" method="post" action="/login.cfm">
+			<input type="hidden" name="action" value="signOut">
 			<button class="alert-link alert-success" onclick="signOut.action.value='signOut';submit();" style="background-color: ##C3E6CB; color: ##155724;" target="_top">Log out #session.username#
 		<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>	
 			<span>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)&nbsp;</span>
 		</cfif>
-						</button>
-					</form>
-					</li>
-						 	<li>
-					<!---	<form name="userProfile" method="post" action="/UserProfile.cfm">
-								<input type="hidden" name="action" value="nothing">
-								<button value="User Profile" onclick="userProfile.action.value='nothing';submit();" class="btn btn-light btn-sm btn-block text-left" style="padding-left: 1.25em;">User Profile</button>
-</form>---><a href="/UserProfile.cfm?action=nothing" class="">User Profile</a>
-		
-						</li>
+			</button>
+			</form>
+		</li>
+		<li>
+			<a href="/UserProfile.cfm?action=nothing" class="">User Profile</a>
+		</li>
 		<cfelse>
 			<li>	
 		<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
@@ -269,32 +253,25 @@ limitations under the License.
              <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
         </cfif>
 			<form name="logIn" method="post" action="/login.cfm" class="p-1 my-2">
-								  <input type="hidden" name="action" value="signIn">
-								  <input type="hidden" name="gotopage" value="#gtp#">
-								<div class="form-group ml-2 mb-2">
-									<label for="username"> Username:</label>
-									<input type="text" name="username" title="Username" size="14" class="form-control d-inline w-auto h-auto p-0" onfocus="if(this.value==this.title){this.value=''};">
-								</div>
-								<div class="form-group ml-2 mb-2">
-									<label for="password" class="mr-1"> Password:</label>
-									<input type="password" name="password" title="Password" size="14" class="form-control d-inline w-auto h-auto p-0" >
-								</div>
-								<div class="form-group ml-2">
-								<input type="submit" value="Log In" class="btn btn-secondary btn-sm" ><span class="d-inline-block px-1">or</span>
-								<input type="submit" value="Create Account" class="btn btn-primary btn-sm" onClick="logIn.action.value='newUser';submit();">
-								</div>
-							</form>
-			
+			  <input type="hidden" name="action" value="signIn">
+			  <input type="hidden" name="gotopage" value="#gtp#">
+				<div class="form-group ml-2 mb-2">
+					<label for="username"> Username:</label>
+					<input type="text" name="username" title="Username" size="14" class="form-control d-inline w-auto h-auto p-0" onfocus="if(this.value==this.title){this.value=''};">
+				</div>
+				<div class="form-group ml-2 mb-2">
+					<label for="password" class="mr-1"> Password:</label>
+					<input type="password" name="password" title="Password" size="14" class="form-control d-inline w-auto h-auto p-0" >
+				</div>
+				<div class="form-group ml-2">
+					<input type="submit" value="Log In" class="btn btn-secondary btn-sm" ><span class="d-inline-block px-1">or</span>
+					<input type="submit" value="Create Account" class="btn btn-primary btn-sm" onClick="logIn.action.value='newUser';submit();">
+				</div>
+			</form>
 			</li>
-		
-		</cfif>
-				
+		</cfif>		
 	</ul>
 </nav>
-
-			
-
-	
 </header>
 <cf_rolecheck>
 </cfoutput>
