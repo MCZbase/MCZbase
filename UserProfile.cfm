@@ -30,7 +30,7 @@
 			username = '#session.username#' 
 			AND PASSWORD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(pw)#"> 
 	</cfquery>
-	<cfif exPw.passwordMatchCount NE 1 >
+	<cfif exPw.passwordMatchCount NEQ 1 >
 		<div class="error">
 			You did not enter the correct password.
 		</div>
@@ -337,7 +337,7 @@
 					,middle_name = NULL
 				</cfif>
 				<cfif len(#email#) gt 0>
-					,email = <cfqueryparam value='#email#' cfsqltype="CF_SQL_VARCHAR""
+					,email = <cfqueryparam value='#email#' cfsqltype="CF_SQL_VARCHAR">
 				<cfelse>
 					,email = NULL
 				</cfif>
