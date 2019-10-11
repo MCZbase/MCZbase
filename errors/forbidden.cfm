@@ -1,3 +1,4 @@
+<cfset pageTitle = "MCZbase Error: Access Forbidden">
 <!---
 errors/forbidden.cfm
 

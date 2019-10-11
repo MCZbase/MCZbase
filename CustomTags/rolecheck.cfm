@@ -38,7 +38,6 @@
 				<!--- TODO: Force logout --->
 				<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />
 				<cfset r=replace(currentPath,application.webDirectory,"") />
-				<cfset pageTitle = "MCZbase Error: Access Forbidden">
 				<cfheader statuscode="403" statustext="Forbidden">
 				<cfscript>getPageContext().forward("/errors/forbidden.cfm?ref=#r#");</cfscript>
 				<cfabort />
