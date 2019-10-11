@@ -341,6 +341,7 @@ limitations under the License.
 			<cfset r=replace(currentPath,application.webDirectory,"") />
 			<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
 		</cfif>
+		<cf_rolecheck>
 		<!--- protect "us" directories --->
 		<cfif (CGI.Remote_Addr is not "10.242.110.167") and
 			(not isdefined("session.roles") or session.roles is "public" or len(session.roles) is 0) and
