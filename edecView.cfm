@@ -1,22 +1,22 @@
 <cfcontent type="text/plain; charset=utf-8"><cfif len(session.roles) gt 0 and session.roles is not "public"><cfobject type="Java" class="edu.harvard.mcz.edec.mczbase.EDecBuilder" name="builder"><cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                select
-                        agent_name,
-                        trans_agent_role
-                from
-                        trans_agent left join
-                        preferred_agent_name on trans_agent.agent_id = preferred_agent_name.agent_id
-                where
-                        trans_agent_role = 'received by' and
-                        trans_agent.transaction_id=#transaction_id#
-                order by
-                        trans_agent_role,
-                        agent_name
+	select
+		agent_name,
+		trans_agent_role
+	from
+		trans_agent left join
+		preferred_agent_name on trans_agent.agent_id = preferred_agent_name.agent_id
+	where
+		trans_agent_role = 'received by' and
+		trans_agent.transaction_id= <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_NUMBER">
+	order by
+		trans_agent_role,
+		agent_name
 </cfquery><cfquery name="loanSpecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-     select
-		 scientific_name,
-		 mczbase.get_sovereignnationcode(locality.locality_id) as country,
-		 sum(lot_count)
-	 from 
+	select
+		scientific_name,
+		mczbase.get_sovereignnationcode(locality.locality_id) as country,
+		sum(lot_count)
+	from 
 		loan_item, 
 		loan,
 		specimen_part, 
@@ -36,7 +36,9 @@
 		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 		collecting_event.locality_id = locality.locality_id AND
 		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-	  	loan_item.transaction_id = #transaction_id#
-	group by scientific_name, mczbase.get_sovereignnationcode(locality.locality_id)
-	ORDER BY scientific_name, mczbase.get_sovereignnationcode(locality.locality_id)
+		loan_item.transaction_id = <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_NUMBER">
+	group by 
+		scientific_name, mczbase.get_sovereignnationcode(locality.locality_id)
+	ORDER BY
+		scientific_name, mczbase.get_sovereignnationcode(locality.locality_id)
 </cfquery><cfset res = builder.init(#loanAgents#,#loanSpecies#)><cfset returnVal = builder.getEDecFile()><cfoutput>#returnVal#</cfoutput></cfif>
