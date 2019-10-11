@@ -36,13 +36,16 @@
 
 				<!--- make sure they're really logged out --->
 				<!--- TODO: Force logout --->
+				<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />
+				<cfset r=replace(currentPath,application.webDirectory,"") />
+				<cfset pageTitle = "MCZbase Error: Access Forbidden">
+				<cfinclude template = "/includes/_header.cfm">
 				<div style="color:red;font-size:large;margin-left: 4em;">
-					 <img src="/images/oops.gif" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
-						<p>You tried to visit a form for which you are not authorized, or your login has expired.</p>
-						<p>If this message is in error, please <a class="underline" href="/contact.cfm">contact us</a>.</p>
+					<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+					<p>You tried to visit a form (#r#) for which you are not authorized, or your login has expired.</p>
+					<p>If this message is in error, please <a class="underline" href="/contact.cfm">contact us</a>.</p>
 				</div>
 				<cfheader statuscode="403" statustext="Forbidden">
-				<cfset r=replace(currentPath,application.webDirectory,"") />
 				<cfscript>getPageContext().forward("/errors/forbidden.cfm?ref=#r#");</cfscript>
 				<cfabort />
 			</div>

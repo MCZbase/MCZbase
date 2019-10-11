@@ -27,7 +27,7 @@ limitations under the License.
 			where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
-		<cfheader name="Location" value="/specimens/SpecimenDetailBody.cfm?collection_object_id=#collection_object_id#">
+		<cfheader name="Location" value="/specimens/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
 		<cfset guid = c.GUID>
 		<cfabort>
 	</cfoutput>
