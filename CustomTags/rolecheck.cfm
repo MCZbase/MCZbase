@@ -39,12 +39,6 @@
 				<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />
 				<cfset r=replace(currentPath,application.webDirectory,"") />
 				<cfset pageTitle = "MCZbase Error: Access Forbidden">
-				<cfinclude template = "/includes/_header.cfm">
-				<div style="color:red;font-size:large;margin-left: 4em;">
-					<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
-					<p>You tried to visit a form (#r#) for which you are not authorized, or your login has expired.</p>
-					<p>If this message is in error, please <a class="underline" href="/contact.cfm">contact us</a>.</p>
-				</div>
 				<cfheader statuscode="403" statustext="Forbidden">
 				<cfscript>getPageContext().forward("/errors/forbidden.cfm?ref=#r#");</cfscript>
 				<cfabort />

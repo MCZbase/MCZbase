@@ -22,7 +22,10 @@ limitations under the License.
 <div class="container">
 	<div class="row">
  		<div class="alert alert-danger" role="alert">
-  			Access denied.
+			<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+  			<h2>Access denied.</h2>
+			<p>You tried to visit a form for which you are not authorized, or your login has expired.</p>
+			<p>If this message is in error, please <a class="underline" href="/contact.cfm">contact us</a>.</p>
 		</div>
 	</div>
 </div>
