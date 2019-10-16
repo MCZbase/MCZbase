@@ -18,7 +18,7 @@ limitations under the License.
 --->
 
 <!---  Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found  --->
-<cfset pageTitle = "MCZbase Specimen not found: #guid#">
+<cfset pageTitle = "MCZbase Specimen not found.">
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -27,12 +27,13 @@ limitations under the License.
 			where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
-		<cfheader name="Location" value="/specimens/SpecimenDetailBody.cfm?collection_object_id=#collection_object_id#">
 		<cfset guid = c.GUID>
+		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
 	</cfoutput>
 </cfif>
 <cfif isdefined("guid")>
+	<cfset pageTitle = "MCZbase Specimen not found: #guid#">
 	<!---  Lookup the GUID, handling several possible variations --->
 
 	<!---  Redirect from explicit SpecimenDetail page to  to /guid/ --->

@@ -1,4 +1,3 @@
-<cf_rolecheck>
 <!---
 _header.cfm
 
