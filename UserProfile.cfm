@@ -159,7 +159,7 @@
 					+
 					(
 						select count(*) C 
-						from temp_allow_cf_usera, cf_users 
+						from temp_allow_cf_user, cf_users 
 						where temp_allow_cf_user.user_id = cf_users.user_id 
 						AND cf_users.username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 					)

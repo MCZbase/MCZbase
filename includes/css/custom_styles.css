@@ -39,8 +39,10 @@ h6, .h6 {
 	font-size: .75rem
 }
 p {
-	margin-bottom: .15em;
+	margin-bottom: .75em;
+	line-height: normal;
 }
+
 .w-257 {
 	width: 257px;
 }
@@ -165,6 +167,7 @@ p {
 .border-dk-gray {
 	border: 1px solid #666;
 }
+a {color: #0078bf}
 /* ABOVE: Color override */
 /*************************/
 
@@ -365,7 +368,7 @@ nav.navbar {
 }
 /******  Dropdown menu  *********/
 .dropdown-menu {
-	top: 34px;
+	top: 43px;
 	left: inherit;
 	min-width: 15rem;
 	font-size: .90rem;
@@ -1010,12 +1013,16 @@ table.inputTable tr {
 	color: #555;
 	background-color: #e9ecef;
 	z-index: -1;
-	margin-bottom:0; 
+	margin-bottom: 0; 
 	padding-bottom: 2em;
 	padding-top: 1em;
 }
+.bottom-space {
+	min-height: 11em;
+}
 .input-group-text {
 	background-color: #dddddd;
+	background-color: #BAC5C6;
 }
 #formLogin {
 	right: 0;
@@ -1415,8 +1422,8 @@ h1 {
 	width: 30px;
 }
 .footer-col-4-md {
-	width: 36%;
-	max-width: 41%;
+/*	width: 36%;
+	max-width: 41%;*/
 	margin: 0 auto;
 }
 .hide_button {

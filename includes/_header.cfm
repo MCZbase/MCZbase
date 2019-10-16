@@ -102,16 +102,17 @@ limitations under the License.
 <header id="header">
 <cfoutput>
 <div class="branding-container clearfix" style="background-color: #Application.header_color#;">
-	<div class="branding-left justify-content-start">
-		<a href="http://www.harvard.edu/" > 
-			<img src="https://mcz.harvard.edu/profiles/openscholar/themes/hwpi_basetheme/images/harvard-logo.png" width="235" height="32" alt="University Logo" />
+	<div class="branding-left justify-content-start mt-1">
+		<a href="http://www.harvard.edu/"> 
+			<img src="/includes/images/Harvard_shield-University.png" width="28" height="32">
+			<span class="fs-15 d-inline-block" style="font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';text-transform:uppercase;color: white; letter-spacing: .08em;">Harvard University</span>
 		</a> 
 	</div>
 	<div class="branding-right justify-content-end"> 
 		<a href="http://www.harvard.edu/">HARVARD.EDU</a> 
 	</div>
 </div>
-<nav class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner">
+<nav class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner" style="border-bottom: 1px solid black;">
 	<ul class="navbar col-lg-9 col-md-8 col-sm-6 col-xs-6 pt-0 pb-0 mb-1">
 		<li class="nav-item mcz2"><a href="https://www.mcz.harvard.edu/" target="_blank">Museum of Comparative Zoology</a></li>
 		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">#session.collection_link_text# </a></li>
@@ -124,7 +125,7 @@ limitations under the License.
 </nav>
 </cfoutput>
 <nav class="navbar navbar-expand-md navbar-light bg-light py-1 border-bottom">
-	<div class="container p-5px">
+	<div class="container">
 		<button class="navbar-toggler" style="z-index:4000;" type="button" data-toggle="collapse" data-target="##navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 		<div class="col-md-10 col-lg-12 offset-lg-1 offset-md-0 collapse navbar-collapse" id="navbarTogglerDemo01">
 			<cfif len(session.roles) gt 0 and session.roles is not "public">
@@ -212,13 +213,13 @@ limitations under the License.
 			</ul>
 		</div>
 	</div>
-<ul id="profiles" class="nav justify-content-end col-sm-2 accn-icons pt-1">
+<ul id="profiles" class="nav justify-content-end col-sm-1 accn-icons pt-1">
 	<li class="nav-item dropdown">
 		<a href="##accountSettings" data-toggle="dropdown" role="button"> 
 			<i class="fas fa-cog text-black-50"></i> 
 		</a> 
 		  <ul class="dropdown-menu" id="accountSettings" aria-labelledby="navbarDropdown">
-			<li><a href="/searchBuilder.cfm">Custom Fixed Search Builder</a> </li>
+			<li><a href="/searchBuilder.cfm">Set Fixed Search</a> </li>
 			<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a> </li>
 			<li><a href="##">Manage Collection Contact and Link info.</a> </li>
 		  </ul>
@@ -243,7 +244,9 @@ limitations under the License.
 			</form>
 		</li>
 		<li>
-			<a href="/UserProfile.cfm?action=nothing" class="">User Profile</a>
+			<cfif session.roles contains "coldfusion_user">
+				<a href="/UserProfile.cfm?action=nothing" class="">User Profile</a>
+			</cfif>
 		</li>
 		<cfelse>
 			<li>	

@@ -22,10 +22,10 @@
 		<div class="container-fluid form-div">
     		<div class="container">
 		<div class="row">
-			<div class="col-md-12 offset-md-2">
+			<div class="col-md-12 col-sm-12">
 					<h2>Change Your Password</h2>
 			</div>
-		<div class="col-lg-4 col-md-4 col-sm-12 offset-md-2 offset-lg-2">
+		<div class="col-md-5 col-sm-12">
 	 	<cfquery name="pwExp" datasource="uam_god">
 			select pw_change_date from cf_users where username = '#session.username#'
 		</cfquery>
@@ -64,21 +64,18 @@
 			</ul>
 		</cfif>
 			</div>
-			<div class="col-lg-5 col-md-5 col-sm-12 offset-md-1">
-			
-				<h4>You are logged in as <span class="lead"><mark>#session.username#</mark></span>.</h4>
-				
+			<div class="col-md-7 col-sm-12">
+				<p>You are logged in as <span class="lead"><mark>#session.username#</mark></span>.</p>
 		<form action="/changePassword.cfm" method="post">
-	        <input type="hidden" name="action" value="update">
-			
-			<div class="input-group mb-3 w-75">
+	        <input type="hidden" name="action" value="update">			
+			<div class="input-group mb-3">
 			<div class="input-group-prepend">
 					<span class="input-group-text" name="oldpassword" id="basic-addon1">Old Password</span>
 				</div>
             <input type="password" name="oldpassword" id="oldpassword" class="form-control" aria-label="oldpassword" aria-describedby="basic-addon1">
 			</div>
 			
-			<div class="input-group mb-3 w-75">
+			<div class="input-group mb-3">
 			<div class="input-group-prepend">
 					<span class="input-group-text" name="newpassword" id="basic-addon1">New Password</span>
 				</div>
@@ -88,7 +85,7 @@
 					</cfif>	>
 			</div>
 	        <span id="pwstatus"></span>
-			<div class="input-group mb-3 w-75">
+			<div class="input-group mb-3">
 			<div class="input-group-prepend">
 					<span class="input-group-text" name="newpassword2" id="basic-addon1">Retype</span>
 				</div>
@@ -97,8 +94,6 @@
 						onkeyup="pwc(this.value,'#session.username#')"
 					</cfif>	>
 			</div>
-		
-	 
 	        <input type="submit" value="Save Password Change" class="btn btn-secondary">
 	    </form>
 	    <cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -110,8 +105,12 @@
 			<h4><a href="/changePassword.cfm?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#" class="mt-1 pl-1 d-block" >Forgot your password? </a></h4>
 		</cfif>
 			</div>
-		</div></div>
 		</div>
+		</div>
+		<div class="bottom-space">
+			</div>
+	</div>
+		
 	</cfoutput>
 </cfif>
 

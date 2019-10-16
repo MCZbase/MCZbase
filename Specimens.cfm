@@ -645,6 +645,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 				</main>
 			</div>
 		</div>
+		<div class="bottom-space">
+		</div>
 	</div>
 
 
