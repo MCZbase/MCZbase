@@ -39,46 +39,54 @@
 	<cfif uUser.recordcount gt 0>
 		<cfset err="That username is already in use.">
 	</cfif>
-	<!--- create their account --->
 	<cfif len(err) gt 0>
-		<cflocation url="/login.cfm?action=signIn&username=#username#&badPW=true&err=#err#" addtoken="false">	
-<!---			<div class="container">
+		<cfoutput>
+			<div class="container">
 				<div class="row">
 					<div class="col">
-						<p> You used a bad password or user name</p>
+						<h2>#err#</h2>
+						<p>Unable to create a user with that user name</p>
 						<p>This is what you entered for your username: #username#</p>
-						<p>Try entering your credentials again.</p>
+						<p>Try again.</p>
 					</div>
 				</div>
-			</div>--->
+			</div>
+		</cfoutput>
+	</cfelse>
+		<!--- create their account --->
+		<cftransaction>
+			<!--- obtain the surrogate numeric primary key value for the user then insert.  Must be unitary transaction. --->
+			<cfquery name="nextUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select max(user_id) + 1 as nextid from cf_users
+			</cfquery>
+			<cfquery name="newUser" datasource="cf_dbuser">
+				INSERT INTO cf_users (
+					user_id,
+					username,
+					password,
+					PW_CHANGE_DATE,
+					last_login
+				) VALUES (
+					<cfqueryparam value="#nextUserID.nextid#" cfsqltype="CF_SQL_NUMBER">,
+					<cfqueryparam value='#username#' cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value='#hash(password)#' cfsqltype="CF_SQL_VARCHAR">,
+					sysdate,
+					sysdate
+				)
+			</cfquery>
+		</cftransaction>
+		<cfoutput>
+			<cflocation url="/login.cfm?action=signIn&username=#username#&password=#password#" addtoken="false">
+		</cfoutput>
 	</cfif>
-	<cfquery name="nextUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select max(user_id) + 1 as nextid from cf_users
-	</cfquery>
-	<cfoutput>
-		<cfquery name="newUser" datasource="cf_dbuser">
-			INSERT INTO cf_users (
-				user_id,
-				username,
-				password,
-				PW_CHANGE_DATE,
-				last_login
-			) VALUES (
-				#nextUserID.nextid#,
-				'#username#',
-				'#hash(password)#',
-				sysdate,
-				sysdate
-			)
-		</cfquery>
-		<cflocation url="/login.cfm?action=signIn&username=#username#&password=#password#" addtoken="false">
-	</cfoutput>
 </cfif>
 <!------------------------------------------------------------>
 <CFIF  action is "signIn">
 
 	<cfoutput>
+		<!--- Authenticate the user with initSession ---> 
 		<cfset initSession('#username#','#password#')>
+
 		<cfif len(session.username) is 0>
 			<cfset u="/login.cfm?badPW=true&username=#username#">
 			
@@ -165,7 +173,9 @@
 	}
 </script>
 <cfoutput>
+<!--- TODO: This is odd, cfparam is tag for cffunctions.  --->
 <cfparam name="username" default="">
+<!--- TODO: Identify intended logic for action=nothing and fix accordingly.  --->
 <!---<cfif isdefined("username") and isdefined("err") and err contains "">--->
 <!---	<div class="container-fluid form-div">
   <div class="container my-2 pt-2">
