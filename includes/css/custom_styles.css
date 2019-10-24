@@ -368,7 +368,7 @@ nav.navbar {
 }
 /******  Dropdown menu  *********/
 .dropdown-menu {
-	top: 43px;
+	top: 40px;
 	left: inherit;
 	min-width: 15rem;
 	font-size: .90rem;
@@ -1015,7 +1015,7 @@ table.inputTable tr {
 	z-index: -1;
 	margin-bottom: 0; 
 	padding-bottom: 2em;
-	padding-top: 1em;
+	padding-top: .5em;
 }
 .bottom-space {
 	min-height: 11em;
@@ -1490,7 +1490,7 @@ img.mcz_logo_krono {
 }
 .accn-icons {
 	float: right;
-	margin-top: 0em;
+	margin-top: .25em;
 }
 .mcz_logo_krono {
 	margin-left: 1.75em;

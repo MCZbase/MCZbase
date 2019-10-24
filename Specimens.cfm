@@ -182,14 +182,14 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 	<div id="search-form-div" class="form-div px-3">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-11 col-sm-12 col-lg-11">
+				<div class="col-md-9 col-sm-12 col-lg-10">
 					<h1 class="h3 smallcaps mt-4 pl-1">Search Specimen Records <span class="mt-2 font-italic pb-4 color-green fs-15 mx-0">(access to #getCount.cnt# records)</span> </h1>
 					<div class="tab-card-main mt-1 tab-card">
 						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
 								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-controls="One" aria-selected="true" >Keyword</a> </li>
 								<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link" id="two-tab" data-toggle="tab" href="##two" role="tab" aria-controls="Two" aria-selected="false">Search Builder</a> </li>
-								<li class="nav-item col-sm-12 col-md-4 px-1"> <a class="nav-link" id="three-tab" data-toggle="tab" href="##three" role="tab" aria-controls="Three" aria-selected="false">Custom Fixed Search</a> </li>
+								<li class="nav-item col-sm-12 col-md-4 px-1"> <a class="nav-link" id="three-tab" data-toggle="tab" href="##three" role="tab" aria-controls="Three" aria-selected="false">Fixed Search</a> </li>
 							</ul>
 						</div>
 						<div class="tab-content pb-0" id="myTabContent">

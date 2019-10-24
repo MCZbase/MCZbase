@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,7 +127,8 @@ limitations under the License.
 <nav class="navbar navbar-expand-md navbar-light bg-light py-1 border-bottom">
 	<div class="container">
 		<button class="navbar-toggler" style="z-index:4000;" type="button" data-toggle="collapse" data-target="##navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-		<div class="col-md-10 col-lg-12 offset-lg-1 offset-md-0 collapse navbar-collapse" id="navbarTogglerDemo01">
+	<!---	<div class="col-md-10 col-lg-12 offset-lg-1 offset-md-0 collapse navbar-collapse" id="navbarTogglerDemo01">--->
+				<div class="col-md-10 col-lg-12 collapse navbar-collapse" id="navbarTogglerDemo01">
 			<cfif len(session.roles) gt 0 and session.roles is not "public">
 				<ul class="navbar-nav nav-fill w-100">
 			<cfelse>		 
@@ -212,7 +214,7 @@ limitations under the License.
 			</ul>
 		</div>
 	</div>
-<ul id="profiles" class="nav justify-content-end col-sm-1 accn-icons pt-1">
+<ul id="profiles" class="nav justify-content-end col-sm-1 accn-icons">
 	<li class="nav-item dropdown">
 		<a href="##accountSettings" data-toggle="dropdown" role="button"> 
 			<i class="fas fa-cog text-black-50"></i> 
@@ -234,8 +236,8 @@ limitations under the License.
 	<ul class="dropdown-menu" id="formLogin" aria-labelledby="navbarDropdown">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>		
 		<li><form name="signOut" method="post" action="/login.cfm">
-			<input type="hidden" name="action" value="signOut">
-			<button class="alert-link alert-success" onclick="signOut.action.value='signOut';submit();" style="background-color: ##C3E6CB; color: ##155724;" target="_top">Log out #session.username#
+			<input type="hidden" name="action" value="signOut">			
+			<button class="alert-link alert-success" onclick="signOut.action.value='signOut';submit();" style="background-color: ##C3E6CB; color: ##155724;border:none;" target="_top">Log out #session.username#
 		<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>	
 			<span>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)&nbsp;</span>
 		</cfif>
@@ -243,20 +245,28 @@ limitations under the License.
 			</form>
 		</li>
 		<li>
-			<cfif session.roles contains "coldfusion_user">
-				<a href="/UserProfile.cfm?action=nothing" class="">User Profile</a>
-			</cfif>
+	<cfif session.roles contains "coldfusion_user">
+			<form name="profile" method="post" action="/UserProfile.cfm" class="p-1 my-2">
+			  <input type="hidden" name="action" value="nothing">
+			
+					<input type="submit" value="User Profile" class="btn btn-light btn-sm" onClick="logIn.action.value='nothing';submit();">
+				</div>
+			</form>
+	</cfif>
 		</li>
 		<cfelse>
-			<li>	
-		<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-             <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-        <cfelse>
-             <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-        </cfif>
+			<li>
+
+	  <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+	   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+	  <cfelse>
+	   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+	  </cfif>
+		
 			<form name="logIn" method="post" action="/login.cfm" class="p-1 my-2">
-			  <input type="hidden" name="action" value="signIn">
-			  <input type="hidden" name="gotopage" value="#gtp#">
+			<input type="hidden" name="action" value="signIn">
+			<input type="hidden" name="gotopage" value="#gtp#">	
+			
 				<div class="form-group ml-2 mb-2">
 					<label for="username"> Username:</label>
 					<input type="text" name="username" title="Username" size="14" class="form-control d-inline w-auto h-auto p-0" onfocus="if(this.value==this.title){this.value=''};">
@@ -266,7 +276,7 @@ limitations under the License.
 					<input type="password" name="password" title="Password" size="14" class="form-control d-inline w-auto h-auto p-0" >
 				</div>
 				<div class="form-group ml-2">
-					<input type="submit" value="Log In" class="btn btn-secondary btn-sm" ><span class="d-inline-block px-1">or</span>
+					<input type="submit" value="Log In" class="btn btn-secondary btn-sm" onClick="logIn.action.value='signIn';submit();><span class="d-inline-block px-1">or</span>
 					<input type="submit" value="Create Account" class="btn btn-primary btn-sm" onClick="logIn.action.value='newUser';submit();">
 				</div>
 			</form>

@@ -1,15 +1,23 @@
 <cfset pageTitle = "Login">
 <cfinclude template = "includes/_header.cfm">
-<cfif isdefined("session.username") and len(#session.username#) gt 0 and #action# neq "signOut">
-	<cflocation url="/UserProfile.cfm?action=nothing" addtoken="false">
-		</cfif>
+	<cfoutput>
+<cfparam name="gtp" default="/login.cfm"> 
+<cfparam name="action" default="nothing">
+	
+</cfoutput>
 <!------------------------------------------------------------>
 <cfif action is "signOut">
 	<cfset initSession()>
-	<cflocation url="/login.cfm" addtoken="false">
+				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+             <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/Specimens.cfm")>
+        <cfelse>
+             <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/Specimens.cfm")>
+        </cfif>
+		<input type="hidden" name="gotopage" value="#gtp#">
+	<cflocation url="/Specimens.cfm" addtoken="false">
 </cfif>
 <!------------------------------------------------------------>
-<cfif  action is "newUser">
+<cfif action is "newUser">
 	<cfquery name="uUser" datasource="cf_dbuser">
 		select 
 			* 
@@ -34,67 +42,53 @@
 		<cfset err="That username is not available.">
 	</cfif>
 	<cfif len(username) is 0>
-		<cfset err="Your user name must be at least one character long.">
+		<cfset err="Enter a username and password.">
 	</cfif>
 	<cfif uUser.recordcount gt 0>
 		<cfset err="That username is already in use.">
 	</cfif>
+	<!--- create their account --->
 	<cfif len(err) gt 0>
-		<cfoutput>
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<h2>#err#</h2>
-						<p>Unable to create a user with that user name</p>
-						<p>This is what you entered for your username: #username#</p>
-						<p>Try again.</p>
-					</div>
-				</div>
-			</div>
-		</cfoutput>
-	</cfelse>
-		<!--- create their account --->
-		<cftransaction>
-			<!--- obtain the surrogate numeric primary key value for the user then insert.  Must be unitary transaction. --->
-			<cfquery name="nextUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select max(user_id) + 1 as nextid from cf_users
-			</cfquery>
-			<cfquery name="newUser" datasource="cf_dbuser">
-				INSERT INTO cf_users (
-					user_id,
-					username,
-					password,
-					PW_CHANGE_DATE,
-					last_login
-				) VALUES (
-					<cfqueryparam value="#nextUserID.nextid#" cfsqltype="CF_SQL_NUMBER">,
-					<cfqueryparam value='#username#' cfsqltype="CF_SQL_VARCHAR">,
-					<cfqueryparam value='#hash(password)#' cfsqltype="CF_SQL_VARCHAR">,
-					sysdate,
-					sysdate
-				)
-			</cfquery>
-		</cftransaction>
-		<cfoutput>
-			<cflocation url="/login.cfm?action=signIn&username=#username#&password=#password#" addtoken="false">
-		</cfoutput>
+		<cflocation url="/login.cfm?action=nothing&username=#username#&badPW=true&err=#err#" addtoken="false">	
 	</cfif>
+	<cfquery name="nextUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select max(user_id) + 1 as nextid from cf_users
+	</cfquery>
+	<cfoutput>
+		<cfquery name="newUser" datasource="cf_dbuser">
+			INSERT INTO cf_users (
+				user_id,
+				username,
+				password,
+				PW_CHANGE_DATE,
+				last_login
+			) VALUES (
+				#nextUserID.nextid#,
+				'#username#',
+				'#hash(password)#',
+				sysdate,
+				sysdate
+			)
+		</cfquery>
+		<cflocation url="/login.cfm?action=signIn&username=#username#&password=#password#" addtoken="false">
+	</cfoutput>
 </cfif>
 <!------------------------------------------------------------>
-<CFIF  action is "signIn">
+<CFIF action is "signIn">
+
 
 	<cfoutput>
-		<!--- Authenticate the user with initSession ---> 
 		<cfset initSession('#username#','#password#')>
-
+			
 		<cfif len(session.username) is 0>
-			<cfset u="/login.cfm?badPW=true&username=#username#">
+			<cfset u="/login.cfm?action=nothing">
 			
 			<cfif isdefined("gotopage")>
 				<cfset u=u & '&gotopage=#gotopage#'>
 			</cfif>
 			<cflocation url="#u#" addtoken="false">
 		</cfif>
+				
 
 		<cfif not isdefined("gotopage") or len(gotopage) is 0>
 			<cfif isdefined("cgi.HTTP_REFERER") and left(cgi.HTTP_REFERER,(len(application.serverRootUrl))) is application.serverRootUrl>
@@ -103,17 +97,18 @@
 				<cfloop list="#gotopage#" index="e" delimiters="?&">
 					<cfloop list="#junk#" index="j">
 						<cfif left(e,len(j)) is j>
-							<cfset rurl=replace(gotopage,e,'','all')>
+							<cfset rurl=replace(gotopage,e,'','')>
+								
 						</cfif>
 					</cfloop>
 				</cfloop>
 				<cfset t=1>
 				<cfset rurl=replace(gotopage,"?&","?","all")>
 				<cfset rurl=replace(gotopage,"&&","&","all")>
-				<cfset nogo="login.cfm,errors/">
+				<cfset nogo="login.cfm?action=nothing">
 				<cfloop list="#nogo#" index="n">
 					<cfif gotopage contains n>
-						<cfset gotopage = "/Specimens.cfm">
+						<cfset gotopage = "/login.cfm">
 					</cfif>
 				</cfloop>
 			<cfelse>
@@ -152,7 +147,7 @@
 				<cfset session.needEmailAddr=1>
 			</cfif>
 		<cfelse>
-			<cflocation url="#gotopage#" addtoken="no">
+			<cflocation url="/Specimens.cfm" addtoken="no">
 		</cfif>
 	</cfoutput>
 
@@ -172,69 +167,18 @@
 		}
 	}
 </script>
+
 <cfoutput>
-<!--- TODO: This is odd, cfparam is tag for cffunctions.  --->
 <cfparam name="username" default="">
-<!--- TODO: Identify intended logic for action=nothing and fix accordingly.  --->
-<!---<cfif isdefined("username") and isdefined("err") and err contains "">--->
-<!---	<div class="container-fluid form-div">
-  <div class="container my-2 pt-2">
-	  <div class="row justify-content-center">
-		 <div class="col-md-10 col-lg-10 col-sm-12">
-			<h2>Hello MCZbase User,</h2>
-			<div class="alert alert-danger">You have attempted to create an account with a username that is already in use: <b>#username#</b>. Please select a new username and enter a password with eight characters, one number, one letter, and one special character.
-			</div>
-			<p><a href="/changePassword.cfm?action=lostPass"><strong>Lost your password?</strong></a> If you created a profile with an email address, we can send it to you. You can also just create a new account by entering a different username.  Once you are signed in, look for the "User Profile" link by clicking on the account icon to add your email address.
-			</p>	 
-		  </div>
-	  </div>
-	  <div class="bottom-space">
-	  </div>
-	</div>--->
-<!---	</cfif>--->
-<!---	<cfif isdefined("badPW") and isdefined("username")>
-<div class="container-fluid form-div">
-  <div class="container my-2 pt-2">
-	  <div class="row justify-content-center">
-		 <div class="col-md-10 col-lg-10 col-sm-12">
-			<h2>Hello MCZbase User,</h2>
-			 <p class="alert alert-danger">You have entered a bad password for the username: <b>#username#</b>. Please check the username and try to enter your password again. </p>
-			 <p><a href="/changePassword.cfm?action=lostPass"><strong>Lost your password?</strong></a> If you created a profile with an email address, we can send it to you. You can also just create a new account by entering a different username.  Once you are signed in, look for the "User Profile" link in the account menu <i class="fas fa-user" style="color: ##666666;font-size: smaller; vertical-align: middle;margin-bottom: 1px;"></i> to add your email address.
-			 </p>
-		<div class="bottom-space">
-	  	</div>
-		  </div>
-	  </div>
-	  </div>
-	</div>
-	<cfelse>
-<div class="container-fluid form-div">
-  <div class="container my-2 pt-2">
-	  <div class="row justify-content-center">
-		 <div class="col-md-10 col-lg-10 col-sm-12">
-		  	<h2>MCZbase Accounts</h2>
-		  </div>
-			<div class="col-md-0 col-lg-10 col-sm-12">
-				<cfparam name="username" default="">
-				<cfset title="Account">
-				<p>Logging in enables you to turn on, turn off, or otherwise customize many features of this database. To create an account and log in, simply click on <i class="fas fa-user" style="color: ##666666;font-size: smaller; vertical-align: middle;padding-right: 1px;margin-bottom: 1px;"></i>, supply a username and password in the login form, and click "Create Account."
-				</p>	
-				<p><a href="/changePassword.cfm?action=lostPass"><strong>Lost your password?</strong></a> If you created a profile with an email address, we can send it to you. You can also just create a new account by entering a different username.  Once you are signed in, look for the "User Profile" link by clicking on the account icon.
-				</p>
-				<p>Explore MCZbase using basic options without signing in.  Contact the collection managers if you cannot find what you need. 
-				</p>
-			</div>
-		</div>
-  	</div>
-</div>
-	</cfif>--->
+
 	
 <cfset title="Log In or Create Account">
-<h2>Log In or Create an Account</h2>
-	<p>
-		Logging in enables you to turn on, turn off, or otherwise customize many features of
-		this database. To create an account and log in, simply supply a username and
-		password here and click Create Account.
+<div class="container-fluid form-div">
+  <div class="container my-2 pt-2">
+	  <div class="row justify-content-center">
+		 <div class="col-md-6 col-lg-6 col-sm-12">
+	<h2>Log In or Create an Account</h2>
+	<p>Logging in enables you to turn on, turn off, or otherwise customize many features of this database. To create an account and log in, simply supply a username and password here and click Create Account.
 	</p>
 	<cfif not isdefined("gotopage")>
 		<cfset gotopage=''>
@@ -242,27 +186,37 @@
 	<form action="login.cfm" method="post" name="signIn">
 		<input name="action" value="signIn" type="hidden">
 		<input name="gotopage" value="#gotopage#" type="hidden">
-		<label for="username">Username</label>
-		<input name="username" type="text" tabindex="1" value="#username#" id="username">
-		<label for="password">Password</label>
-		<input name="password" type="password" tabindex="2" value="" id="password">
-		<cfif isdefined("badPW") and badPW is true>
+		<div class="input-group col-md-12 mb-3 pl-0">
+		  <div class="input-group-prepend">
+			<span class="input-group-text" id="inputGroup-sizing-default">Username</span>
+		  </div>
+		 <input type="text" class="form-control" aria-label="username" aria-describedby="inputGroup-sizing-default" id="username" name="username">
+		</div>
+		
+		<div class="input-group col-md-12 mb-3 pl-0">
+		  <div class="input-group-prepend">
+			<span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+		  </div>
+		  <input aria-label="Default" aria-describedby="inputGroup-sizing-default" name="password" type="password" class="form-control w-350" tabindex="2" value="" id="password">
+		</div>
+		
+
+		<button class="btn btn-secondary" onClick="signIn.action.value='signIn';submit();" tabindex="3">Sign In</button>
+		&nbsp;or&nbsp;<button class="btn btn-secondary" onClick="isInfo();" tabindex="4">Create an Account</button>
+	</form>
+				<cfif isdefined("badPW") and badPW is true>
 			<cfif not isdefined("err") or len(err) is 0>
 				<cfset err="Your username or password was not recognized. Please try again.">
 			</cfif>
-			<span style="background-color:##FF0000; font-size:smaller; font-style:italic; margin:.5em;padding:.5em;">
+			<span style="color:##a51c30;background-color: ##ffedeb;border-radius: .25em;border: 1px solid ##A51c30;font-style:italic;display:inline-block; margin:.75em .5em .5em 0;padding:.5em;">
 				#err#
 				<script>
-					$('##username').css('backgroundColor','red');
-					$('##password').val('').css('backgroundColor','red').select().focus();
+					$('##username').css('backgroundColor','##ffedeb');
+					$('##password').val('').css('backgroundColor','##ffedeb').select().focus();
 				</script>
 			</span>
 		</cfif>
-		<br>
-		<input type="submit" value="Sign In" class="savBtn" onClick="signIn.action.value='signIn';submit();" tabindex="3">
-		&nbsp;or&nbsp;<input type="button" value="Create an Account" class="insBtn" onClick="isInfo();" tabindex="4">
-	</form>
-	<p>
+	<p class="mt-3">
 		<a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
 		we can send it to you. You can also just create a new account.
 	</p>
@@ -270,6 +224,10 @@
 		You can explore MCZbase using basic options without signing in.
 	</p>
         </div>
+		</div>
+		</div>
+  	</div>
+</div>
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------->
@@ -277,4 +235,5 @@
 	<cflocation url="/changePassword.cfm?action=nothing" addtoken="false">
 </cfif>
 <!-------------------------------------------------------------------------------------->
+	
 <cfinclude template = "/includes/_footer.cfm">
