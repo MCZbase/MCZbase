@@ -287,7 +287,7 @@ limitations under the License.
 
 	<!-------------------------------------------------------------->
 
-	<cffunction name="onSessionStart" output="false"><cfinclude template="/LoginForm.cfm">
+	<cffunction name="onSessionStart" output="false"><cfinclude template="/includes/loginFunctions.cfm">
 		<cfset initSession() />
 		<cfif (isdefined("session.roles") and
 			session.roles contains "coldfusion_user") and
@@ -331,7 +331,7 @@ limitations under the License.
 			<cfscript>StructDelete(request, "fixAmp");</cfscript>
 		</cfif>
 		<cfif not isdefined("session.roles")>
-			<cfinclude template="/LoginForm.cfm">
+			<cfinclude template="/includes/loginFunctions.cfm">
 			<cfset initSession() />
 		</cfif>
 		<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />

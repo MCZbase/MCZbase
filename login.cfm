@@ -1,8 +1,10 @@
 <cfset pageTitle = "Login">
+	<!--- I put greetings into the redriect strings so that I could tell what is happening. Let's remove them after development phase --->
 <cfinclude template = "includes/_header.cfm">
 	<cfoutput>
-<cfparam name="gtp" default="/login.cfm"> 
-<cfparam name="action" default="nothing">
+		<!--- I don't think I am using these parameters. Needs more testing--->
+	<cfparam name="gtp" default="/login.cfm?greeting=Whatsup"> 
+	<cfparam name="action" default="nothing">
 	
 </cfoutput>
 <!------------------------------------------------------------>
@@ -14,16 +16,16 @@
              <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/Specimens.cfm")>
         </cfif>
 		<input type="hidden" name="gotopage" value="#gtp#">
+			<!--- This is the result after logging out from the green button on the header popup--->
 	<cflocation url="/Specimens.cfm" addtoken="false">
 </cfif>
 <!------------------------------------------------------------>
 <cfif action is "newUser">
 	<cfquery name="uUser" datasource="cf_dbuser">
-		select 
-			* 
-		from 
+		SELECT * 
+		FROM 
 			cf_users 
-		where 
+		WHERE 
 			username = <cfqueryparam value='#username#' cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfset err="">
@@ -31,11 +33,11 @@
 		<cfset err="You must provide a password.">
 	</cfif>
 	<cfquery name="dbausr" datasource="uam_god">
-		select 
+		SELECT 
 			username 
-		from 
+		FROM
 			dba_users 
-		where 
+		WHERE
 			upper(username) = <cfqueryparam value='#ucase(username)#' cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfif len(dbausr.username) gt 0>
@@ -45,6 +47,7 @@
 		<cfset err="Enter a username and password.">
 	</cfif>
 	<cfif uUser.recordcount gt 0>
+		<!---This error messages shows in the URL as well as on the login.cfm(below on ~line 215) page after an attempt to create an account with a username that is already in the database--->
 		<cfset err="That username is already in use.">
 	</cfif>
 	<!--- create their account --->
@@ -75,21 +78,16 @@
 </cfif>
 <!------------------------------------------------------------>
 <CFIF action is "signIn">
-
-
 	<cfoutput>
 		<cfset initSession('#username#','#password#')>
 			
 		<cfif len(session.username) is 0>
-			<cfset u="/login.cfm?action=nothing">
-			
+			<cfset u="login.cfm?action=nothing&badPW=true&username=#username#">
 			<cfif isdefined("gotopage")>
 				<cfset u=u & '&gotopage=#gotopage#'>
 			</cfif>
-			<cflocation url="#u#" addtoken="false">
+				<cflocation url="#u#" addtoken="false">
 		</cfif>
-				
-
 		<cfif not isdefined("gotopage") or len(gotopage) is 0>
 			<cfif isdefined("cgi.HTTP_REFERER") and left(cgi.HTTP_REFERER,(len(application.serverRootUrl))) is application.serverRootUrl>
 				<cfset gotopage=replace(cgi.HTTP_REFERER,application.serverRootUrl,'')>
@@ -97,22 +95,21 @@
 				<cfloop list="#gotopage#" index="e" delimiters="?&">
 					<cfloop list="#junk#" index="j">
 						<cfif left(e,len(j)) is j>
-							<cfset rurl=replace(gotopage,e,'','')>
-								
+							<cfset rurl=replace(gotopage,e,'','')>	
 						</cfif>
 					</cfloop>
 				</cfloop>
 				<cfset t=1>
 				<cfset rurl=replace(gotopage,"?&","?","all")>
 				<cfset rurl=replace(gotopage,"&&","&","all")>
-				<cfset nogo="login.cfm?action=nothing">
+				<cfset nogo="login.cfm?action=nothing&greeting=Hello">
 				<cfloop list="#nogo#" index="n">
 					<cfif gotopage contains n>
-						<cfset gotopage = "/login.cfm">
+						<cfset gotopage = "/login.cfm?greeting=ByeBye">
 					</cfif>
 				</cfloop>
 			<cfelse>
-				<cfset gotopage = "/Specimens.cfm">
+				<cfset gotopage = "/Specimens.cfm?greeting=Hiya">
 			</cfif>
 		</cfif>
 		<cfif session.roles contains "coldfusion_user">
@@ -141,16 +138,18 @@
 				</div>
 				<a href="#gotopage#">Continue to #gotopage#</a>
 			<cfelse>
-				<cflocation url="#gotopage#" addtoken="no">
+				<!---This is a result when you put a good username and password into the login page "signIn" form--->
+				<cflocation url="#gotopage#?greeting=Hola" addtoken="no">
 			</cfif>
 			<cfif len(getUserData.email) is 0>
 				<cfset session.needEmailAddr=1>
 			</cfif>
 		<cfelse>
-			<cflocation url="/Specimens.cfm" addtoken="no">
+			<!--- This is the result when you put a new username into the header login form with a password and click create account--->
+			<!--- This is also the result when you put a username into the login.cfm form with a good password and click sign in--->
+			<cflocation url="/Specimens.cfm?greeting=hi" addtoken="no">
 		</cfif>
 	</cfoutput>
-
 </cfif>
 <!------------------------------------------------------------>
 <cfif action is "nothing">
@@ -167,11 +166,8 @@
 		}
 	}
 </script>
-
 <cfoutput>
 <cfparam name="username" default="">
-
-	
 <cfset title="Log In or Create Account">
 <div class="container-fluid form-div">
   <div class="container my-2 pt-2">
@@ -190,29 +186,26 @@
 		  <div class="input-group-prepend">
 			<span class="input-group-text" id="inputGroup-sizing-default">Username</span>
 		  </div>
-		 <input type="text" class="form-control" aria-label="username" aria-describedby="inputGroup-sizing-default" id="username" name="username">
+		 <input type="text" class="form-control" aria-label="username" aria-describedby="inputGroup-sizing-default" tabindex="1" id="username" name="username" onfocus="if(this.value==this.title){this.value=''};">
 		</div>
-		
 		<div class="input-group col-md-12 mb-3 pl-0">
 		  <div class="input-group-prepend">
 			<span class="input-group-text" id="inputGroup-sizing-default">Password</span>
 		  </div>
-		  <input aria-label="Default" aria-describedby="inputGroup-sizing-default" name="password" type="password" class="form-control w-350" tabindex="2" value="" id="password">
+		  <input aria-label="Default" aria-describedby="inputGroup-sizing-default" name="password" type="password" class="form-control" tabindex="2" value="" id="password">
 		</div>
-		
-
 		<button class="btn btn-secondary" onClick="signIn.action.value='signIn';submit();" tabindex="3">Sign In</button>
-		&nbsp;or&nbsp;<button class="btn btn-secondary" onClick="isInfo();" tabindex="4">Create an Account</button>
+		&nbsp;or&nbsp; <button class="btn btn-secondary" onClick="isInfo();" tabindex="4">Create an Account</button>
 	</form>
-				<cfif isdefined("badPW") and badPW is true>
+		<cfif isdefined("badPW") and badPW is true>
 			<cfif not isdefined("err") or len(err) is 0>
 				<cfset err="Your username or password was not recognized. Please try again.">
 			</cfif>
 			<span style="color:##a51c30;background-color: ##ffedeb;border-radius: .25em;border: 1px solid ##A51c30;font-style:italic;display:inline-block; margin:.75em .5em .5em 0;padding:.5em;">
 				#err#
 				<script>
-					$('##username').css('backgroundColor','##ffedeb');
-					$('##password').val('').css('backgroundColor','##ffedeb').select().focus();
+					$('##username').css('backgroundColor','##ffffff');
+					$('##password').val('').css('backgroundColor','##fffff').select().focus();
 				</script>
 			</span>
 		</cfif>

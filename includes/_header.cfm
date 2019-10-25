@@ -41,10 +41,11 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!---don't know--->
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!--account and cog icons-->
 
-<script type="text/javascript" src="/lib/jquery/jquery-1.7.1.min.js"></script><!---don't know--->
+<!---<script type="text/javascript" src="/lib/jquery/jquery-1.7.1.min.js"></script>---><!---don't know. testing its removal. does everything still work?--->
 <script type="text/javascript" src="/includes/js/popper.js"></script>
 <!---	<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.light.css" />--->
-<script type="text/javascript" src="/lib/jquery/jquery-3.3.1.js"></script><!---don't know --->
+<!---<script type="text/javascript" src="/lib/jquery/jquery-3.3.1.js"></script>---><!---don't know. testing its upgrade to 3.4.1 --->
+<script type="text/javascript" src="/lib/jquery/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!---not there now--->
 <script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>
 <script type="text/javascript" src="/lib/bootstrap/js/bootstrap.min.js"></script>
@@ -84,13 +85,14 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxtree.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdatetimeinput.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/includes/js/knockout-2.2.1.js"></script>
+	<!---commented out knockout after audit of best practices/speed/accessibility--->
+<!---<script type="text/javascript" src="/includes/js/knockout-2.2.1.js"></script>
 <script type="text/javascript" src="/lib/misc/knockout-2.2.1.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxknockout.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxknockout.js"></script>--->
 <script type="text/javascript" src="/lib/JQWidgets/scripts/demos.js"></script>
 <script type="text/javascript" src="/includes/js/shared-scripts.js"></script>
 <script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>
-<script type="text/javascript" src="/specimens/js/dialogAjax.js"></script>
+<!---<script type="text/javascript" src="/specimens/js/dialogAjax.js"></script>---><!---Errors were logged on this for audit;removed temporarily--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
 <link rel="stylesheet" href="/includes/css/custom_styles.css">
@@ -104,7 +106,7 @@ limitations under the License.
 <div class="branding-container clearfix" style="background-color: #Application.header_color#;">
 	<div class="branding-left justify-content-start mt-1">
 		<a href="http://www.harvard.edu/"> 
-			<img src="/includes/images/Harvard_shield-University.png" width="28" height="32">
+			<img src="/includes/images/Harvard_shield-University.png" width="28" height="32" alt="Harvard University Shield">
 			<span class="fs-15 d-inline-block" style="font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';text-transform:uppercase;color: white; letter-spacing: .08em;">Harvard University</span>
 		</a> 
 	</div>
@@ -114,12 +116,12 @@ limitations under the License.
 </div>
 <nav class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner" style="border-bottom: 1px solid black;">
 	<ul class="navbar col-lg-9 col-md-8 col-sm-6 col-xs-6 pt-0 pb-0 mb-1">
-		<li class="nav-item mcz2"><a href="https://www.mcz.harvard.edu/" target="_blank">Museum of Comparative Zoology</a></li>
+		<li class="nav-item mcz2"><a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer">Museum of Comparative Zoology</a></li>
 		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">#session.collection_link_text# </a></li>
 	</ul>
 	<ul class="navbar col-lg-3 col-md-8 col-sm-3 pt-0 pb-0 mb-1 d-flex justify-content-end">
 		<div class="mcz_logo">
-			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu"><img class="mcz_logo_krono" src="#Application.header_image#" width="160"></a> </li>
+			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu"><img class="mcz_logo_krono" src="#Application.header_image#" width="160" alt="mcz kronosaurus logo"></a> </li>
 		</div>
 	</ul>
 </nav>
@@ -216,16 +218,6 @@ limitations under the License.
 	</div>
 <ul id="profiles" class="nav justify-content-end col-sm-1 accn-icons">
 	<li class="nav-item dropdown">
-		<a href="##accountSettings" data-toggle="dropdown" role="button"> 
-			<i class="fas fa-cog text-black-50"></i> 
-		</a> 
-		  <ul class="dropdown-menu" id="accountSettings" aria-labelledby="navbarDropdown">
-			<li><a href="/searchBuilder.cfm">Set Fixed Search</a> </li>
-			<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a> </li>
-			<li><a href="##">Manage Collection Contact and Link info.</a> </li>
-		  </ul>
-	</li>
-	<li class="nav-item dropdown">
 	<a href="##formLogin" data-toggle="dropdown" role="button"> 
 		<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 			<i class="fas fa-user-check" style="color: ##39A845;"></i> 
@@ -235,48 +227,52 @@ limitations under the License.
 	</a> 
 	<ul class="dropdown-menu" id="formLogin" aria-labelledby="navbarDropdown">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>		
-		<li><form name="signOut" method="post" action="/login.cfm">
+		<li>
+			<form name="signOut" method="post" action="/login.cfm">
 			<input type="hidden" name="action" value="signOut">			
-			<button class="alert-link alert-success" onclick="signOut.action.value='signOut';submit();" style="background-color: ##C3E6CB; color: ##155724;border:none;" target="_top">Log out #session.username#
-		<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>	
-			<span>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)&nbsp;</span>
-		</cfif>
+			<button class="alert-link alert-success border-0 text-left px-3" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
+				<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
+				 &nbsp;	(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)
+				</cfif>
 			</button>
 			</form>
 		</li>
 		<li>
-	<cfif session.roles contains "coldfusion_user">
-			<form name="profile" method="post" action="/UserProfile.cfm" class="p-1 my-2">
-			  <input type="hidden" name="action" value="nothing">
-			
-					<input type="submit" value="User Profile" class="btn btn-light btn-sm" onClick="logIn.action.value='nothing';submit();">
-				</div>
-			</form>
-	</cfif>
+			<cfif session.roles contains "coldfusion_user">
+				<form name="profile" method="post" action="/UserProfile.cfm">
+					<input type="hidden" name="action" value="nothing">
+					<input type="submit" value="User Profile" class="anchor-button" onClick="logIn.action.value='nothing';submit();">
+					</div>
+				</form>
+			</cfif>
 		</li>
+			<cfif session.roles contains "public">
+				<li><a href="/searchBuilder.cfm" class="px-3">Set Fixed Search</a> </li>
+				<li><a href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a> </li>
+			</cfif>
 		<cfelse>
 			<li>
-
-	  <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-	   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-	  <cfelse>
-	   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-	  </cfif>
-		
+			  <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+			   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+			  <cfelse>
+			   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+			  </cfif>
 			<form name="logIn" method="post" action="/login.cfm" class="p-1 my-2">
 			<input type="hidden" name="action" value="signIn">
-			<input type="hidden" name="gotopage" value="#gtp#">	
+				<!---I thought this #gtp# was needed for the redirect after a bad login but now I think it isn't needed and is redirecting from login.cfm line 153.  I have a default #gtp# on login.cfm. I don't think it's needed--->
+				<!--<input type="hidden" name="gotopage" value="#gtp#?greeting=HelloSpecimens">--->
 			
 				<div class="form-group ml-2 mb-2">
 					<label for="username"> Username:</label>
-					<input type="text" name="username" title="Username" size="14" class="form-control d-inline w-auto h-auto p-0" onfocus="if(this.value==this.title){this.value=''};">
+					<input type="text" name="username" title="Username" size="14" class="form-control d-inline w-auto h-auto p-0">
 				</div>
 				<div class="form-group ml-2 mb-2">
 					<label for="password" class="mr-1"> Password:</label>
 					<input type="password" name="password" title="Password" size="14" class="form-control d-inline w-auto h-auto p-0" >
 				</div>
 				<div class="form-group ml-2">
-					<input type="submit" value="Log In" class="btn btn-secondary btn-sm" onClick="logIn.action.value='signIn';submit();><span class="d-inline-block px-1">or</span>
+					<input type="submit" value="Log In" class="btn btn-secondary btn-sm" onClick="logIn.action.value='signIn';submit();">
+						<span class="d-inline-block px-1">or</span>
 					<input type="submit" value="Create Account" class="btn btn-primary btn-sm" onClick="logIn.action.value='newUser';submit();">
 				</div>
 			</form>

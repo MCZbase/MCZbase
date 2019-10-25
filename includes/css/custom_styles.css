@@ -42,7 +42,21 @@ p {
 	margin-bottom: .75em;
 	line-height: normal;
 }
-
+input.anchor-button {
+	padding: .65em 1.12em;margin:0 0
+}
+li input.anchor-button {
+	background-color: #f8f9fa;
+	border: none;
+	width: 100%;
+	color: #666;
+	text-align: left;
+}
+li input.anchor-button:hover {
+	border: none;
+	background-color: white;
+	color: #000;
+}
 .w-257 {
 	width: 257px;
 }

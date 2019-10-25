@@ -113,8 +113,8 @@
 			<cflocation url="/changePassword.cfm">
 		</cfif>
 		</cfif>
-		<cfelse>
-			<cflocation url="/login.cfm?action=signIn&username=#username#&password=#password#" addtoken="false">
+<!---		<cfelse>
+			<cflocation url="/login.cfm?action=signIn&username=#username#&password=#password#" addtoken="false">--->
 	</cfif>
 
 	<cfset setDbUser()>
