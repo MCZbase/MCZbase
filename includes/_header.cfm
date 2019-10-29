@@ -99,6 +99,12 @@ limitations under the License.
   <cfif not isdefined("session.header_color")>
       <cfset setDbUser()>
     </cfif>
+
+<script type="text/javascript">
+setTimeout(function(){
+    alert('You are about to lose unsaved changes. Please post the form. This is a 5 minute warning ');
+}, 1000*10*9); // 15 minutes
+</script>
 </head>
 <body class="default cbp-spmenu-push cbp-spmenu-pushtoleft">
 <header id="header">
@@ -257,16 +263,17 @@ limitations under the License.
 			  <cfelse>
 			   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
 			  </cfif>
+
 			<form name="logIn" method="post" action="/login.cfm" class="p-1 my-2">
 			<input type="hidden" name="action" value="signIn">
-				<!---I thought this #gtp# was needed for the redirect after a bad login but now I think it isn't needed and is redirecting from login.cfm line 153.  I have a default #gtp# on login.cfm. I don't think it's needed--->
-				<!--<input type="hidden" name="gotopage" value="#gtp#?greeting=HelloSpecimens">--->
-			
-				<div class="form-group ml-2 mb-2">
+				<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
+				<input type="hidden" name="gotopage" value="#gtp#?greeting=HelloSpecimens">
+
+				<div class="form-group ml-1 mb-2">
 					<label for="username"> Username:</label>
 					<input type="text" name="username" title="Username" size="14" class="form-control d-inline w-auto h-auto p-0">
 				</div>
-				<div class="form-group ml-2 mb-2">
+				<div class="form-group ml-1 mb-2">
 					<label for="password" class="mr-1"> Password:</label>
 					<input type="password" name="password" title="Password" size="14" class="form-control d-inline w-auto h-auto p-0" >
 				</div>

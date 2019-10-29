@@ -1,10 +1,10 @@
 <cfset filePath = replace('#cgi.script_name#','//','/') >
 <cfif fileexists(application.webDirectory & filePath)>
-	<!--- cache for 1 hour on production, otherwise no cache ---> 
+	<!--- cache for 45 mins on production, otherwise no cache ---> 
 	<cfif Application.productionServer EQ true>
-		<cfset cacheInterval = CreateTimeSpan(0,1,0,0)> 
+		<cfset cacheInterval = CreateTimeSpan(0,0,90,0)> 
 	<cfelse>
-		<cfset cacheInterval = CreateTimeSpan(0,0,0,0)> 
+		<cfset cacheInterval = CreateTimeSpan(0,0,7,0)> 
 	</cfif>
 	<!--- for redesign, look up form permissions in a separate table than for current MCZbase --->
 	<cfquery name="validRolesForPage" datasource="uam_god" cachedWithin="#cacheInterval#">
@@ -23,7 +23,8 @@
 	</cfif>
 	<cfif isdefined("bad") and bad is true>
 		<cfoutput>
-			<div class="basic_box">
+			<div class="container">
+				<div class="row">
 				<cftry>
 					<cfmail subject="Access Violation" to="#Application.technicalEmail#" from="Security@#Application.fromEmail#" type="html">
 					IP address (#cgi.HTTP_X_Forwarded_For# - #remote_host#) tried to access
@@ -42,6 +43,7 @@
 				<cfscript>getPageContext().forward("/errors/forbidden.cfm?ref=#r#");</cfscript>
 				<cfabort />
 			</div>
+				</div>
 		</cfoutput>
 	</cfif>
 </cfif>

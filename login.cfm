@@ -139,7 +139,7 @@
 				<a href="#gotopage#">Continue to #gotopage#</a>
 			<cfelse>
 				<!---This is a result when you put a good username and password into the login page "signIn" form--->
-				<cflocation url="#gotopage#?greeting=Hola" addtoken="no">
+				<cflocation url="#gotopage#" addtoken="no">
 			</cfif>
 			<cfif len(getUserData.email) is 0>
 				<cfset session.needEmailAddr=1>

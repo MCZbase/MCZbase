@@ -20,51 +20,51 @@ limitations under the License.
 <cfinclude template = "/includes/_header.cfm">
 <script type="text/javascript">
 //this is for the date slider on the refine results tray
-	$(document).ready(function () {
-	var viewModel = function (value, min, max) {
-		this.value = ko.observable(value);
-		this.min = ko.observable(1700);
-		this.max = ko.observable(max);
-		this.validateValue = function () {
-			if (this.value() > this.max()) this.value(parseFloat(this.max()));
-			if (this.value() < this.min()) this.value(parseFloat(this.min()));
-		}
-
-		this.setMax = ko.computed({
-			read: this.max,
-			write: function (value) {
-				if (!isNaN(value))
-					this.max(parseFloat(value)); // Write to underlying storage
-				if (value < this.min()) this.max(parseFloat(this.min()) + 1);
-				this.validateValue();
-			},
-			owner: this
-		});
-		this.setMin = ko.computed({
-			read: this.min,
-			write: function (value) {
-				if (!isNaN(value))
-					this.min(parseFloat(value)); // Write to underlying storage
-				if (value > this.max()) this.max(parseFloat(value) + 1);
-
-				this.validateValue();
-			},
-			owner: this
-		});
-		this.setValue = ko.computed({
-			read: this.value,
-			write: function (value) {
-				if (!isNaN(value))
-					this.value(parseFloat(value)); // Write to underlying storage
-				this.validateValue();
-			},
-			owner: this
-		});
-		this.disabled = ko.observable(false);
-	};
-
-	ko.applyBindings(new viewModel(2019, 1700, 2019));
-});
+//	$(document).ready(function () {
+//	var viewModel = function (value, min, max) {
+//		this.value = ko.observable(value);
+//		this.min = ko.observable(1700);
+//		this.max = ko.observable(max);
+//		this.validateValue = function () {
+//			if (this.value() > this.max()) this.value(parseFloat(this.max()));
+//			if (this.value() < this.min()) this.value(parseFloat(this.min()));
+//		}
+//
+//		this.setMax = ko.computed({
+//			read: this.max,
+//			write: function (value) {
+//				if (!isNaN(value))
+//					this.max(parseFloat(value)); 
+//				if (value < this.min()) this.max(parseFloat(this.min()) + 1);
+//				this.validateValue();
+//			},
+//			owner: this
+//		});
+//		this.setMin = ko.computed({
+//			read: this.min,
+//			write: function (value) {
+//				if (!isNaN(value))
+//					this.min(parseFloat(value));
+//				if (value > this.max()) this.max(parseFloat(value) + 1);
+//
+//				this.validateValue();
+//			},
+//			owner: this
+//		});
+//		this.setValue = ko.computed({
+//			read: this.value,
+//			write: function (value) {
+//				if (!isNaN(value))
+//					this.value(parseFloat(value)); 
+//				this.validateValue();
+//			},
+//			owner: this
+//		});
+//		this.disabled = ko.observable(false);
+//	};
+//
+//	ko.applyBindings(new viewModel(2019, 1700, 2019));
+//});
 </script>
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -553,8 +553,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 			<div class="text-left col-md-12">
 				<main role="main">
 					<div id="jqxWidget">
-						<div class="pl-2 mb-5" style="padding-right: 1px;">
-		
+						<div class="pl-2 mb-5" style="padding-right: 1px;">	
 							<div class="row mt-4">
 	
 								<div id="jqxgrid" class="jqxGrid"></div>

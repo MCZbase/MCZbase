@@ -4,19 +4,12 @@
 
 <cfif #action# is "nothing">
 
-"Can" the dynamic page that you are currently on to quickly return later. Results are data-based, so you may get different results the next time you visit; only your criteria are stored.
+
 
 <cfoutput>
     <div class="container mb-3">
-	<cfquery name="me" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select user_id from cf_users where username='#session.username#'
-	</cfquery>
-	<cfif len(#me.user_id#) is 0>
-		<p>	
-			You must <a href="/login.cfm?action=nothing">log in</a> to use this feature.
-		</p>
-		<cfabort>
-	</cfif>
+		<div class="row">
+
 	<form name="canMe" method="post" action="/saveSearch.cfm">
 		<input type="hidden" name="action" value="saveThis">
 		<input type="hidden" name="user_id" value="#me.user_id#">
@@ -34,6 +27,7 @@
 	<p>
         <a href="/saveSearch.cfm?action=manage">[ Manage ]</a></p>
         </div>   
+		</div>
 </cfoutput>
 </cfif>
 <cfif #action# is "saveThis">
@@ -78,7 +72,8 @@
 
 <cfoutput>
 <div class="container">
-	<div class="row mt-3">
+	<div class="row my-3">
+		
 	<cfquery name="hasCanned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select SEARCH_NAME,URL,canned_id
 	from cf_canned_search,cf_users
@@ -88,15 +83,15 @@
 </cfquery>
    
 <cfif hasCanned.recordcount is 0>
-	<div class="col-lg-8 col-sm-12 my-3">
+	<div class="col-lg-8 col-md-8 col-sm-12 my-3">
 	<h2> Save your search parameters</h2>
  <p>You may save Specimen Results from searches on the home page for later reference.</p>
  <p>They will appear here when you have done so.</p>
 	</div>
 <cfelse>
-
-<table class="table mt-3">
-  <thead>
+<h2>Saved Searches</h2>
+<table class="table mb-3">
+  <thead class="jqx-widget-header">
     <tr>
       <th scope="col">Delete?</th>
       <th scope="col">Name</th>
@@ -107,21 +102,16 @@
   <tbody>
 <cfloop query="hasCanned">
 	<tr id="tr#canned_id#">
-	<!---	<td><img src="/images/del.gif" class="likeLink" onClick="killMe('#canned_id#');" border="0"></td>--->
-				<td><a href="##" onClick="killMe('#canned_id#');" class=""><i class="far fa-trash-alt"></i></a></td>
-		
+	<td><a href="##" onClick="killMe('#canned_id#');" class="pl-4"><i class="far fa-trash-alt"></i></a></td>
 		<td>#search_name#</td>
-		<td>
-			<a href="/saved/#search_name#">#Application.ServerRootUrl#/saved/#search_name#</a>
-		</td>
-		<td>
-			<span class="likeLink" onclick="window.open('/tools/mailSaveSearch.cfm?canned_id=#canned_id#','_mail','height=300,width=400,resizable,scrollbars')">Mail</span>
-		</td>
+		<td><a href="/saved/#search_name#">#Application.ServerRootUrl#/saved/#search_name#</a></td>
+		<td><span class="likeLink" onclick="window.open('/tools/mailSaveSearch.cfm?canned_id=#canned_id#','_mail','height=300,width=400,resizable,scrollbars')">Mail</span></td>
 	</tr>
 </cfloop>
   </tbody>
 </table>
-
+ <div class="bottom-spacer">
+	</div>
 
 </cfif>
 	</div>

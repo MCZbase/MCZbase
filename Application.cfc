@@ -19,10 +19,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-	<cfset This.name = "MCZbase" />
-	<cfset This.SessionManagement="True" />
-	<cfset This.ClientManagement="true" />
-	<cfset This.ClientStorage="Cookie" />
+	<cfset this.name = "MCZbase" />
+	<cfset this.SessionManagement="True" />
+	<cfset this.ClientManagement="true" />
+	<cfset this.ClientStorage="Cookie" />
+	
 
 	<cffunction name="onMissingTemplate" returnType="boolean" output="false">
 		<cfargument name="thePage" type="string" required="true" />
@@ -248,7 +249,7 @@ limitations under the License.
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 		    <cfelseif serverName contains "-dev">
-			    <cfset Application.header_color = "##666666" />
+			    <cfset Application.header_color = "##1b1b1b" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZBASE:The Database of the Zoological Collections" />
@@ -357,5 +358,5 @@ limitations under the License.
 		</cfif>
 		<cfreturn true />
 	</cffunction>
-
+ 
 </cfcomponent>

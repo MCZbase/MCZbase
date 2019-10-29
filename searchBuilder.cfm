@@ -21,7 +21,7 @@ limitations under the License.
 <!---HTML5 sortable---https://github.com/lukasoppermann/html5sortable/blob/master/README.md--->
 <script type="text/javascript" src="/redesign/searchbuilder/js/searchBuilder.js"></script>
 <section class="mb-3 mx-auto col col-12 px-0">
-    <div class="p-3 clearfix jumbotron border-gray">
+    <div class="p-3 clearfix form-div">
         <div class="col col-md-12 col-sm-12 mb-1">
             <h1 class="smallcaps mx-4">Create a Specimen Search Form</h1>
             <p class="mt-1 mb-3 mx-4">Drag search form fields (rectangles in white background below) to the top three rectangles (gray background) in the order you would like to see them. More than one form field can appear in a column. The selected fields will appear under the default fields:  "Catalog Numbers," "Other IDs," "Any Taxonomy," and "Any Geography" on the search page. Refresh page to empty form.</p>

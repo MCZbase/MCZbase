@@ -107,8 +107,7 @@
 			</div>
 		</div>
 		</div>
-		<div class="bottom-space">
-			</div>
+	
 	</div>
 		
 	</cfoutput>
