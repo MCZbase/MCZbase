@@ -4,7 +4,7 @@
 	<cfif Application.productionServer EQ true>
 		<cfset cacheInterval = CreateTimeSpan(0,0,90,0)> 
 	<cfelse>
-		<cfset cacheInterval = CreateTimeSpan(0,0,7,0)> 
+		<cfset cacheInterval = CreateTimeSpan(0,0,90,0)> 
 	</cfif>
 	<!--- for redesign, look up form permissions in a separate table than for current MCZbase --->
 	<cfquery name="validRolesForPage" datasource="uam_god" cachedWithin="#cacheInterval#">

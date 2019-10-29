@@ -103,7 +103,7 @@ limitations under the License.
 <script type="text/javascript">
 setTimeout(function(){
     alert('You are about to lose unsaved changes. Please post the form. This is a 5 minute warning ');
-}, 1000*10*9); // 15 minutes
+}, 1000*90*85); // 15 minutes
 </script>
 </head>
 <body class="default cbp-spmenu-push cbp-spmenu-pushtoleft">
