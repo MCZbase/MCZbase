@@ -25,7 +25,7 @@
         <table>
 			<tr>
 				<td valign="top">
-					<table class="newRec">
+					<table class="newRec" style="padding:1em 1em 0 1em;border: 1px solid ##ccc;">
 						<tr>
 							<td colspan="6">
 
@@ -90,7 +90,7 @@
 								</select>
 							</td>
 							<td>
-								<label for="estimated_count" onClick="getDocs('accession','estimated_count')" class="likeLink">Est. Cnt.</label>
+								<label for="estimated_count">Est. Cnt.</label>
 								<input type="text" id="estimated_count" name="estimated_count">
 							</td>
 						</tr>
@@ -101,7 +101,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>&nbsp;</td>
+							
 							<td colspan="2">
 								<label for="ent_Date">Entry Date:</label>
 								<cfinput type="text" name="ent_Date" id="ent_Date" value="#thisDate#">
@@ -122,7 +122,7 @@
 							</td>
 							<td>&nbsp;</td>
 						</tr>
-						<tr>
+						<tr style="line-height: 4em">
 							<td colspan="6" align="center">
 							<input type="submit"
 								value="Save this Accession"
