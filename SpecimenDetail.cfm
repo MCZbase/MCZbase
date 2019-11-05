@@ -76,7 +76,8 @@
 		concatparts(#session.flatTableName#.collection_object_id) as partString,
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
 		#session.flatTableName#.dec_lat,
-		#session.flatTableName#.dec_long">
+		#session.flatTableName#.dec_long,
+		#session.flatTableName#.COORDINATEUNCERTAINTYINMETERS">
 <cfif len(#session.CustomOtherIdentifier#) gt 0>
 	<cfset detSelect = "#detSelect#
 	,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as	CustomID">
@@ -228,7 +229,17 @@
       <cfif (len(dec_lat) gt 0 and len(dec_long) gt 0)>
         <cfif encumbrance_action does not contain "coordinates" OR
 						(isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
-          <a href="/bnhmMaps/bnhmMapData.cfm?collection_object_id=#collection_object_id#" target="_blank" class="external">BerkeleyMapper</a> <img src="/images/info.gif" border="0" onClick="getDocs('maps')" class="likeLink">
+		<a href="/bnhmMaps/bnhmMapData.cfm?collection_object_id=#collection_object_id#" target="_blank" class="external" style="display: block;">BerkeleyMapper</a> 		
+		<span class="uncertaintyDisplay">
+			<cfif len(COORDINATEUNCERTAINTYINMETERS) GT 0>
+				Coordinate uncertainty of #COORDINATEUNCERTAINTYINMETERS# meters not shown on Google.
+			<cfelse>
+				Coordinate uncertainty not available to show on map.
+			</cfif>
+		</span>
+		<div class="tooltipMap"><img src="/images/info.gif" border="0" class="likeLink">
+		  <span class="tooltiptextMap">Use the BerkeleyMapper link to display a map with the georeferenced coordinates and the error radius. See Display on left of pages to toggle between Point Marker showing the radius and “MarkerCluster” showing the specimen data when clicked.</span>
+		</div>
         </cfif>
       </cfif>
     </li>

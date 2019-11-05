@@ -5928,3 +5928,32 @@ div.rightexamples p {
 /* To ensure that jquery-ui dialogs are placed above the menu */
 .ui-front { z-index: 3000 !important; } 
 .ui-dialog { z-index: 3001 !important; }
+
+.tooltipMap {
+position: relative;
+display: inline-block;
+border:none;
+}
+.tooltipMap .tooltiptextMap {
+visibility: hidden;
+width: 350px;
+background-color: black;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 6px;
+font-size: 12px;
+position: absolute;
+z-index: 1;
+right:15px;
+top: -60px;
+
+}
+.tooltipMap:hover .tooltiptextMap {
+visibility: visible;
+}
+span.uncertaintyDisplay {
+	font-size: 12px;display:inline-block;padding-top: .5em;
+}
+
+
