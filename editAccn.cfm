@@ -732,6 +732,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
@@ -745,6 +746,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
@@ -758,6 +760,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
