@@ -305,7 +305,7 @@ Current format: #displayFormat#<br/>
             <cfset ident = getTaxa.ident>
             <cfif taxonCount EQ 1 OR Find(ident,idents) EQ 0>
                 <cfset idents = '#idents##iseparator##ident#'>
-                <cfset iseparator = '; '>
+                <cfset iseparator = ' &mdash; '>
             </cfif>
         </cfloop>
 
@@ -313,7 +313,7 @@ Current format: #displayFormat#<br/>
     	<div style="#labelStyle# margin-bottom: 0mm; margin-right: 1.0in;">
     		  <table >
     		      <tr style="padding-bottom: 0px; margin-bottom:0px;">
-    		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px;" >#header_text#<strong> <span style="font-size: 120%; padding-left: 8mm;">#getItems.tray#</span></strong></span></td>
+    		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px; padding-left: 8mm;" >#header_text#<strong> <span style="font-size: 120%; padding-left: 7mm;">#getItems.tray#</span></strong></span></td>
     		      </tr>
     		      <tr style="padding-bottom: 0px; margin-bottom:0px; padding-bottom: 3mm;">
     		         <td><span class="#textClass#" style="padding-top: 0px; margin-top: 0px;"><i>#idents#</i></span></td>
