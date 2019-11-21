@@ -124,15 +124,22 @@ $(document).ready(function() {
 			datafields:
 			[
 				{ name: 'transaction_id', type: 'string' },
+				{ name: 'trans_date', type: 'string' },
 				{ name: 'transaction_type', type: 'string' },
+				{ name: 'nature_of_material', type: 'string' },
+				{ name: 'trans_remarks', type: 'string' },
+				{ name: 'collection_cde', type: 'string' },
+				{ name: 'collection', type: 'string' },
 				{ name: 'number', type: 'string' },
+				{ name: 'type', type: 'string' },
+				{ name: 'status', type: 'string' }
 			],
 			updaterow: function (rowid, rowdata, commit) {
 				commit(true);
 			},
 			root: 'transRecord',
 			id: 'collection_object_id',
-			url: '/transactions/component/search.cfc?method=getDataTable&number=' + searchParam,
+			url: '/transactions/component/search.cfc?method=getTransactions&number=' + searchParam,
 			async: false
 		};
 
@@ -166,14 +173,16 @@ $(document).ready(function() {
 				{text: 'transaction_id', datafield: 'transaction_id', width: 190},
 				{text: 'Transaction', datafield: 'transaction_type', width: 150},
 				{text: 'Number', datafield: 'number', width: 130},
+				{text: 'Date', datafield: 'trans_date', width: 130},
+				{text: 'Collection', datafield: 'collection_cde', width: 130},
+				{text: 'Type', datafield: 'type', width: 130},
+				{text: 'Status', datafield: 'status', width: 130},
 			]
 		});
 
 	});
 });
 </script>
-
-
 
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">
