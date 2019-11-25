@@ -14,7 +14,7 @@ create table cf_temp_id (
 	other_id_type varchar2(60),
 	other_id_number varchar2(60),
 	scientific_name varchar2(255),
-	made_date date,
+	made_date varchar2(22),
 	nature_of_id varchar2(30),
 	accepted_fg number(1),
 	identification_remarks varchar2(255),
