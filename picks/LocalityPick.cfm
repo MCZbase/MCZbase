@@ -34,6 +34,7 @@
 			locality_id,geog_auth_rec_id,locality_id,spec_locality,higher_geog,
 			LatitudeString,LongitudeString,NoGeorefBecause,
 			minimum_elevation,maximum_elevation,orig_elev_units,
+			min_depth,max_depth,depth_units,
 			coordinateDeterminer,
 			determined_date,
 			lat_long_ref_source,
@@ -43,6 +44,7 @@
 			locality_id,geog_auth_rec_id,locality_id,spec_locality,higher_geog,LatitudeString,
 			LongitudeString,NoGeorefBecause,
 			minimum_elevation,maximum_elevation,orig_elev_units,
+			min_depth,max_depth,depth_units,
 			coordinateDeterminer,
 			determined_date,
 			lat_long_ref_source,
@@ -79,6 +81,12 @@
 						<br>
 						<span style="font-size:.7em">
 							Elevation: #minimum_elevation#-#maximum_elevation# #orig_elev_units#
+						</span>
+					</cfif>
+					<cfif len(#depth_units#) gt 0>
+						<br>
+						<span style="font-size:.7em">
+							Depth: #min_depth#-#max_depth# #depth_units#
 						</span>
 					</cfif>
 				</td>
