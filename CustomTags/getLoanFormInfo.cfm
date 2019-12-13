@@ -412,45 +412,59 @@ select
       SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
-			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
-			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
-			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
-			    concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
-			    concattransagent(trans.transaction_id, 'additional outside contact')   additionalContactNames,
-			    concattransagent(trans.transaction_id, 'additional in-house contact')   addInHouseContactNames,
-			    concattransagent(trans.transaction_id, 'recipient institution')  recipientInstitutionName,
-			    outside_contact.agent_name outside_contact_name,
-			    inside_contact.agent_name inside_contact_name,
-				outside_addr.job_title  outside_contact_title,
-				inside_addr.job_title  inside_contact_title,
-				get_address(inside_trans_agent.agent_id) inside_address,
-				get_address(outside_trans_agent.agent_id) outside_address,
-				inside_email.address inside_email_address,
-				outside_email.address outside_email_address,
-				inside_phone.address inside_phone_number,
-				outside_phone.address outside_phone_number,
-				MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
+		replace(to_char(received_date, 'dd-Month-yyyy'),' ','') as received_date,
+	
+		-- inside
+		concattransagent(trans.transaction_id, 'authorized by') authAgentName,
+		concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
+		concattransagent(trans.transaction_id, 'additional in-house contact')   addInHouseContactNames,
+		concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
+		concattransagent(trans.transaction_id, 'entered by')   enteredByName,
+		concattransagent(trans.transaction_id, 'received by')   recAgentName,
+		MCZBASE.get_eaddresses(trans.transaction_id,'in-house contact') inHouseContactPhEmail,
+		MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
+
+		-- outside
+		concattransagent(trans.transaction_id, 'received from')   recFromAgentName,
+		concattransagent(trans.transaction_id, 'outside authorized by') outsideAuthAgentName,
+		concattransagent(trans.transaction_id, 'outside contact')   outsideContactName,
+		concattransagent(trans.transaction_id, 'additional outside contact')   additionalContactNames,
+		MCZBASE.get_eaddresses(trans.transaction_id,'outside contact') outsideContactPhEmail,
+
+		-- deprecated		
+		concattransagent(trans.transaction_id, 'associated with agency')   agencyName,
+
+		outside_addr.job_title  outside_contact_title,
+		inside_addr.job_title  inside_contact_title,
+
+		get_address(inside_trans_agent.agent_id) inside_address,
+		get_address(outside_trans_agent.agent_id) outside_address,
+		inside_email.address inside_email_address,
+		outside_email.address outside_email_address,
+		inside_phone.address inside_phone_number,
+		outside_phone.address outside_phone_number,
                 replace(nature_of_material,'&','&amp;') nature_of_material,
-                '' as  deacc_reason,
-                '' as  deacc_description,
                 replace(trans_remarks,'&','&amp;') trans_remarks,
                 accn_type,
             	'specimens' as  object_specimen,
                 accn_number,
                 accn_status,
-				'' as value,
-				replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
-				shipped_carrier_method,
-				shipment.no_of_packages as no_of_packages,
-				ship_to_addr.formatted_addr  shipped_to_address   ,
-				ship_from_addr.formatted_addr  shipped_from_address  ,
-				processed_by.agent_name processed_by_name,
-				sponsor_name.agent_name project_sponsor_name,
-				acknowledgement,
-				collection.collection,
+		estimated_count,
+		'' as value,
+		replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
+		shipped_carrier_method,
+		shipment.no_of_packages as no_of_packages,
+		ship_to_addr.formatted_addr  shipped_to_address   ,
+		ship_from_addr.formatted_addr  shipped_from_address  ,
+		processed_by.agent_name processed_by_name,
+		sponsor_name.agent_name project_sponsor_name,
+		acknowledgement,
+		collection.collection,
                 shipment.shipment_id,
                 shipment.print_flag,
-                shipment.carriers_tracking_number
+                shipment.carriers_tracking_number, 
+		MCZBASE.get_media_for_trans(trans.transaction_id,'documents accn') as media,
+		MCZBASE.get_permits_for_trans(trans.transaction_id) as permits
         FROM
                 accn,
 				trans,
@@ -474,15 +488,16 @@ select
 				collection
         WHERE
                 accn.transaction_id = trans.transaction_id and
-				trans.transaction_id = inside_trans_agent.transaction_id and
+				trans.transaction_id = inside_trans_agent.transaction_id (+) and
 				inside_trans_agent.agent_id = inside_contact.agent_id and
-				inside_trans_agent.trans_agent_role='in-house contact' and
+				-- TODO: change lookup of internal addresses to be optional
+				-- inside_trans_agent.trans_agent_role='in-house contact' and
 				inside_trans_agent.agent_id = inside_email.agent_id (+) and
 				inside_trans_agent.agent_id = inside_addr.agent_id (+) and
 				inside_trans_agent.agent_id = inside_phone.agent_id (+) and
-				trans.transaction_id = outside_trans_agent.transaction_id and
+				trans.transaction_id = outside_trans_agent.transaction_id (+) and
 				outside_trans_agent.agent_id = outside_contact.agent_id (+) and
-				outside_trans_agent.trans_agent_role='received by' and
+				outside_trans_agent.trans_agent_role='received from' and
 				outside_trans_agent.agent_id = outside_email.agent_id (+) and
 				outside_trans_agent.agent_id = outside_phone.agent_id (+) and
 				outside_trans_agent.agent_id = outside_addr.agent_id (+) and
