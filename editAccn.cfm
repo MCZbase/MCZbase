@@ -320,23 +320,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3">
+						<td colspan="6">
 							<em>Entered by</em>
 							<strong>#accnData.enteredby#</strong> <em>on</em> <strong>#dateformat(accnData.trans_date,'yyyy-mm-dd')#</strong>
-						</td>
-						<td colspan="2">
-							<label for="">Has Correspondence?</label>
-							<select name="CORRESP_FG" size="1" id="CORRESP_FG">
-								<option <cfif #accnData.CORRESP_FG# is "1">selected</cfif> value="1">Yes</option>
-								<option <cfif #accnData.CORRESP_FG# is "0">selected</cfif> value="0">No</option>
-							</select>
-						</td>
-						<td>
-							<label for="">Public?</label>
-							<select name="is_public_fg" size="1" id="is_public_fg">
-								<option <cfif #accnData.is_public_fg# is "1">selected</cfif> value="1">public</option>
-								<option <cfif #accnData.is_public_fg# is "0">selected</cfif> value="0">private</option>
-							</select>
+							<!--- TODO: Remove correspondence and public flags --->
+							<input type="hidden" value="#accnData.CORRESP_FG#" name="CORRESP_FG">
+							<input type="hidden" value="#accnData.is_public_fg#" name="is_public_fg">
 						</td>
 
 					</tr>
