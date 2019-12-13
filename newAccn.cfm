@@ -105,8 +105,8 @@
 								<input type="radio" name="for_use_by" value="" checked="checked" id="radio1">
 							</td>
 							<td colspan="1">
-								<label for="radio2">For use by HMNH</label>
-								<input type="radio" name="for_use_by" value="16793" id="radio2">
+								<label for="radio2">For use by HMNH Exhibits</label>
+								<input type="radio" name="for_use_by" value="116195" id="radio2">
 							</td>
 							<td colspan="2">
 								<label for="radio3">For use by HMNH Education</label>
