@@ -5555,5 +5555,50 @@ Annotation to report problematic data concerning #annotated.guid#
         <cfreturn rankCount>
 </cffunction>
 
+<!-------------------------------------------->
+<!--- obtain QC report on a record from flat --->
+<cffunction name="getQCReportFlat" access="remote">
+    <cfargument name="collection_object_id" type="string" required="yes">
+
+    <cfset result=structNew()>
+    <cftry>
+		<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select guid, basisofrecord, 
+                began_date, ended_date, verbatim_date, day, month, year, dayofyear,
+                scientific_name, made_date 
+            from DIGIR_QUERY.digir_filtered_flat
+            where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_object_id#">
+		</cfquery>
+		<cfif flatrow.recordcount is 1>
+			<cfset result.status="success">
+			<cfset result.collection_object_id=collection_object_id>
+
+            <cfif flatrow.began_date EQ flatrow.ended_date>
+                <cfset eventDate = flatrow.began_date>
+            <cfelse>
+                <cfset eventDate = flatrow.began_date + "/" + flatrow.ended_date>
+            </cfif>
+
+            <cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> 
+
+            <!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
+            <cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
+            <cfset result.eventdateprecision = dqResponse.getValue() >
+            <cfset result.eventdateprecisionstatus = dqResponse.getResultState() >
+            <cfset result.eventdateprecisioncomment = dqResponse.getMessage() >
+
+		<cfelse>
+			<cfset result.status="fail">
+			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.error="record not found">
+		</cfif>
+    <cfcatch>
+			<cfset result.status="fail">
+			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail>
+    </cfcatch>
+	</cftry>
+    <cfreturn result>
+</cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 </cfcomponent>
