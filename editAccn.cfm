@@ -152,10 +152,8 @@
 				trans_date,
 				collection,
 				trans.collection_id,
-				CORRESP_FG,
 				concattransagent(trans.transaction_id,'entered by') enteredby,
-				estimated_count,
-				is_public_fg
+				estimated_count
 			FROM
 				trans,
 				accn,
@@ -323,9 +321,6 @@
 						<td colspan="6">
 							<em>Entered by</em>
 							<strong>#accnData.enteredby#</strong> <em>on</em> <strong>#dateformat(accnData.trans_date,'yyyy-mm-dd')#</strong>
-							<!--- TODO: Remove correspondence and public flags --->
-							<input type="hidden" value="#accnData.CORRESP_FG#" name="CORRESP_FG">
-							<input type="hidden" value="#accnData.is_public_fg#" name="is_public_fg">
 						</td>
 
 					</tr>
@@ -1131,8 +1126,6 @@ $( document ).ready(loadShipments(#transaction_id#));
 					<cfelse>
 						,TRANS_REMARKS = NULL
 					</cfif>
-					,CORRESP_FG=#CORRESP_FG#,
-					is_public_fg=#is_public_fg#
 				WHERE transaction_id = #transaction_id#
 			</cfquery>
 			<cfquery name="wutsThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

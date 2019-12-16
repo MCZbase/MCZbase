@@ -463,8 +463,8 @@ select
                 shipment.shipment_id,
                 shipment.print_flag,
                 shipment.carriers_tracking_number, 
-		MCZBASE.get_media_for_trans(trans.transaction_id,'documents accn') as media,
-		MCZBASE.get_permits_for_trans(trans.transaction_id) as permits
+		replace(MCZBASE.get_media_for_trans(trans.transaction_id,'documents accn'),'&','&amp;') as media,
+		replace(MCZBASE.get_permits_for_trans(trans.transaction_id),'&','&amp;') as permits
         FROM
                 accn,
 				trans,
