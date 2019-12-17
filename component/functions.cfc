@@ -5582,7 +5582,7 @@ Annotation to report problematic data concerning #annotated.guid#
             </cfif>
 
             <cfset dateIdentified = flatrow.made_date>
-            <cfset verbatimEventDate = verbatim_date>
+            <cfset verbatimEventDate = flatrow.verbatim_date>
 
             <cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> 
 
@@ -5659,7 +5659,7 @@ Annotation to report problematic data concerning #annotated.guid#
             <cfset result["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 
             <!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
-            <cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(String year, flatrow.endDayOfYear) >
+            <cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, flatrow.endDayOfYear) >
             <cfset r.label = "dwc:endDayOfYear in range for year" >
             <cfset r.value = dqResponse.getValue() >
             <cfset r.status = dqResponse.getResultState() >
@@ -5683,7 +5683,7 @@ Annotation to report problematic data concerning #annotated.guid#
             <cfset result["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 
             <!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
-            <cfset dqResponse = eventDateQC.validationEventdateEmpty(@ActedUpon(eventDate) >
+            <cfset dqResponse = eventDateQC.validationEventdateEmpty(eventDate) >
             <cfset r.label = "dwc:eventDate contains a value" >
             <cfset r.value = dqResponse.getValue() >
             <cfset r.status = dqResponse.getResultState() >
