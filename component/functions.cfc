@@ -5707,7 +5707,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
-			<cfset dqResponse = eventDateQC.validationYearEmpty(year) >
+			<cfset dqResponse = eventDateQC.validationYearEmpty(flatrow.year) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
