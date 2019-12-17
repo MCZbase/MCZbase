@@ -5727,13 +5727,31 @@ Annotation to report problematic data concerning #annotated.guid#
 
 			<!--- amendment phase --->
 
+			<!--  @Provides("39bb2280-1215-447b-9221-fd13bc990641") --->
+			<cfset dqResponse= eventDateQC.amendmentDateidentifiedStandardized(dateIdentified) >
+			<cfset r.label = "standardize dwc:dateIdentified" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<!--- TODO: Extract dateIdentified value --->
+				<cfset r.value = dqResponse.getValue().getObject().get("dwc:dateIdentified") >
+				<cfset dateIdentified = r.value >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["39bb2280-1215-447b-9221-fd13bc990641"] = r >
+			<cfset r=structNew()>
+
+
+
 			<!--- @Provides("b129fa4d-b25b-43f7-9645-5ed4d44b357b") --->
 			<cfset dqResponse = eventDateQC.amendmentDayStandardized(day) >
 			<cfset r.label = "standardize dwc:day" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT">
+			<cfif r.status eq "CHANGED">
 				<!--- TODO: Extract day value --->
-				<cfset r.value = dqResponse.getValue().getObject() >
+				<cfset r.value = dqResponse.getValue().getObject().get("dwc:day") >
+				<cfset day = r.value >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
