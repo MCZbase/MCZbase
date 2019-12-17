@@ -5732,9 +5732,8 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.label = "standardize dwc:dateIdentified" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "CHANGED">
-				<!--- TODO: Extract dateIdentified value --->
-				<cfset r.value = dqResponse.getValue().getObject().get("dwc:dateIdentified") >
-				<cfset dateIdentified = r.value >
+				<cfset dateIdentified = dqResponse.getValue().getObject().get("dwc:dateIdentified") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -5742,23 +5741,109 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset amendment["39bb2280-1215-447b-9221-fd13bc990641"] = r >
 			<cfset r=structNew()>
 
-
-
 			<!--- @Provides("b129fa4d-b25b-43f7-9645-5ed4d44b357b") --->
 			<cfset dqResponse = eventDateQC.amendmentDayStandardized(day) >
 			<cfset r.label = "standardize dwc:day" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "CHANGED">
-				<!--- TODO: Extract day value --->
-				<cfset r.value = dqResponse.getValue().getObject().get("dwc:day") >
-				<cfset day = r.value >
+				<cfset day = dqResponse.getValue().getObject().get("dwc:day") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset amendment["b129fa4d-b25b-43f7-9645-5ed4d44b357b"] = r >
 			<cfset r=structNew()>
- 
+
+			<!--- @Provides("2e371d57-1eb3-4fe3-8a61-dff43ced50cf") --->
+			<cfset dqResponse = eventDateQC.amendmentMonthStandardized(month) {
+			<cfset r.label = "standardize dwc:month" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset month = dqResponse.getValue().getObject().get("dwc:month") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["2e371d57-1eb3-4fe3-8a61-dff43ced50cf"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("6d0a0c10-5e4a-4759-b448-88932f399812") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromVerbatim(eventDate, verbatimEventDate) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:verbatimEventDate " >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["6d0a0c10-5e4a-4759-b448-88932f399812"] = r >
+			<cfset r=structNew()>
+    
+			<!--- @Provides("3892f432-ddd0-4a0a-b713-f2e2ecbd879d") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromYearmonthday(eventDate, year, month, day) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:month, and dwc:day " >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["3892f432-ddd0-4a0a-b713-f2e2ecbd879d"] = r >
+			<cfset r=structNew()>
+
+			<!---  @Provides("eb0a44fa-241c-4d64-98df-ad4aa837307b") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromYearstartdayofyearenddayofyear(eventDate, startDayOfYear, year, endDayOfYear) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:startDayOfYear and dwc:endDayOfYear" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["eb0a44fa-241c-4d64-98df-ad4aa837307b"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("718dfc3c-cb52-4fca-b8e2-0e722f375da7") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateStandardized(eventDate) >
+			<cfset r.label = "standardize dwc:eventDate " >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["718dfc3c-cb52-4fca-b8e2-0e722f375da7"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("710fe118-17e1-440f-b428-88ba3f547d6d") --->
+			<cfset dqResponse = eventDateQC.amendmentEventFromEventdate(eventDate, startDayOfYear,year,month,day,endDayOfYear) >
+			<cfset r.label = "fill in other Event terms from dwc:eventDate" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<!--- conditionally change terms for which values are proposed --->
+				<cfif dqResponse.getValue().getObject().get("dwc:month") NEQ '' ><cfset month = dqResponse.getValue().getObject().get("dwc:month") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:day") NEQ '' ><cfset day = dqResponse.getValue().getObject().get("dwc:day") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:year") NEQ '' ><cfset year = dqResponse.getValue().getObject().get("dwc:year") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:startDayOfYear") NEQ '' ><cfset startDayOfYear = dqResponse.getValue().getObject().get("dwc:startDayOfYear") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:endDayOfYear") NEQ '' ><cfset endDayOfYear = dqResponse.getValue().getObject().get("dwc:endDayOfYear") ></cfif>
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["710fe118-17e1-440f-b428-88ba3f547d6d"] = r >
+			<cfset r=structNew()>
+
 
 			<!--- post-amendment phase --->
 
