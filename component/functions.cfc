@@ -5697,6 +5697,24 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset result["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
+			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,flatrow.year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset result["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
+			<cfset dqResponse = eventDateQC.validationYearEmpty(year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset result["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset r=structNew()>
+      
 
 		<cfelse>
 			<cfset result.status="fail">
