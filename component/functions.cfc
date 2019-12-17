@@ -5558,11 +5558,14 @@ Annotation to report problematic data concerning #annotated.guid#
 <!-------------------------------------------->
 <!--- obtain QC report on a record from flat --->
 <cffunction name="getQCReportFlat" access="remote">
-    <cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
 
-    <cfset result=structNew()>
-    <cfset r=structNew()>
-    <cftry>
+	<cfset result=structNew()> <!--- overall result to return --->
+	<cfset r=structNew()><!--- temporary result for an individual test, create new after each test --->
+	<cfset preamendment=structNew()><!--- pre-amendment phase measures and validations --->
+	<cfset amendment=structNew()><!--- amendment phase --->
+	<cfset postamendment=structNew()><!--- post-amendment phase measures and validations --->
+	<cftry>
 		<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select guid, basisofrecord, 
                 began_date, ended_date, verbatim_date, day, month, year, dayofyear, 
@@ -5574,8 +5577,10 @@ Annotation to report problematic data concerning #annotated.guid#
 		<cfif flatrow.recordcount is 1>
 			<cfset result.status="success">
 			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.guid=flatrow.guid>
 			<cfset result.error="">
 
+			<!--- store local copies of query results to use in pre-amendment phase  --->
 			<cfif flatrow.began_date EQ flatrow.ended_date>
 				<cfset eventDate = flatrow.began_date>
 			<cfelse>
@@ -5586,8 +5591,13 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset verbatimEventDate = flatrow.verbatim_date>
 			<cfset startDayOfYear = ToString(flatrow.dayofyear) >
 			<cfset endDayOfYear= flatrow.endDayOfYear >
+			<cfset year=flatrow.year >
+			<cfset month=flatrow.month >
+			<cfset day=flatrow.day >
 
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> 
+
+			<!--- pre-amendment phase --->
 
 			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
 			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
@@ -5595,7 +5605,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
+			<cfset preamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
@@ -5604,7 +5614,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
+			<cfset preamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
@@ -5613,52 +5623,52 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
+			<cfset preamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
 			<cfset r=structNew()>
 			
 			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
-			<cfset dqResponse =  eventDateQC.validationDayNotstandard(flatrow.day) >
+			<cfset dqResponse =  eventDateQC.validationDayNotstandard(day) >
 			<cfset r.label = "dwc:day in standard format" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
+			<cfset preamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
-			<cfset dqResponse = eventDateQC.validationDayOutofrange(flatrow.year, flatrow.month, flatrow.day) > 
+			<cfset dqResponse = eventDateQC.validationDayOutofrange(year, month, day) > 
 			<cfset r.label = "dwc:day in range for month and year" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 			<cfset r=structNew()>
 			
 			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
-			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(flatrow.year, flatrow.endDayOfYear) >
+			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, endDayOfYear) >
 			<cfset r.label = "dwc:endDayOfYear in range for year" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
+			<cfset preamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
 			<cfset r=structNew()>
 			
 			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
-			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,flatrow.year,verbatimEventDate,flatrow.month,flatrow.day,endDayOfYear) >
+			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,year,verbatimEventDate,month,day,endDayOfYear) >
 			<cfset r.label = "dwc:Event terms contain some value" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
+			<cfset preamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
-			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,flatrow.year,flatrow.month,flatrow.day,endDayOfYear) >
+			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
 			<cfset r.label = "dwc:Event terms are inconsistent" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
@@ -5667,7 +5677,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
+			<cfset preamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
 			<cfset r=structNew()>
 			
 			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
@@ -5676,7 +5686,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
+			<cfset preamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
@@ -5685,36 +5695,188 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
+			<cfset preamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
-			<cfset dqResponse = eventDateQC.validationMonthNotstandard(flatrow.month) >
+			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
+			<cfset preamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
-			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,flatrow.year) >
+			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,year) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
+			<cfset preamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
-			<cfset dqResponse = eventDateQC.validationYearEmpty(flatrow.year) >
+			<cfset dqResponse = eventDateQC.validationYearEmpty(year) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset result["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset preamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
 			<cfset r=structNew()>
+
+			<!--- amendment phase --->
+
+    		<!--- @Provides("b129fa4d-b25b-43f7-9645-5ed4d44b357b") --->
+			<cfset dqResponse = eventDateQC.amendmentDayStandardized(day) {
+			<cfset r.label = "standardize dwc:day" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT">
+				<!--- TODO: Extract day value --->
+				<cfset r.value = dqResponse.getValue().getObject() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["b129fa4d-b25b-43f7-9645-5ed4d44b357b"] = r >
+			<cfset r=structNew()>
+ 
+
+			<!--- post-amendment phase --->
+
+			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
+			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset r.label = "dwc:eventDate precision in seconds" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedNotstandard(dateIdentified) >
+			<cfset r.label = "dwc:dateIdentified in standard format" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedOutofrange(dateIdentified, eventDate)>
+			<cfset r.label = "dwc:dateIdentified in range" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
+			<cfset dqResponse =  eventDateQC.validationDayNotstandard(day) >
+			<cfset r.label = "dwc:day in standard format" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
+			<cfset dqResponse = eventDateQC.validationDayOutofrange(year, month, day) > 
+			<cfset r.label = "dwc:day in range for month and year" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
+			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, endDayOfYear) >
+			<cfset r.label = "dwc:endDayOfYear in range for year" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
+			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,year,verbatimEventDate,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms contain some value" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
+			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms are inconsistent" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
+			<cfset dqResponse = eventDateQC.validationEventdateEmpty(eventDate) >
+			<cfset r.label = "dwc:eventDate contains a value" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
+			<cfset dqResponse = eventDateQC.validationEventdateNotstandard(eventDate) >
+			<cfset r.label = "dwc:eventDate is in standard form" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
+			<cfset dqResponse = eventDateQC.validationEventdateOutofrange(eventDate) >
+			<cfset r.label = "dwc:eventDate is in range" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
+			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
+			<cfset r.label = "dwc:eventDate is in range" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
+			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
+			<cfset dqResponse = eventDateQC.validationYearEmpty(year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset r=structNew()>
+
+			<!--- Add results from phases to result to return --->
+
+			<cfset result["preamendment"] = preamendment >
       
+			<cfset result["amendment"] = amendment >
+
+			<cfset result["postamendment"] = postamendment >
 
 		<cfelse>
 			<cfset result.status="fail">
