@@ -5580,6 +5580,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset result.guid=flatrow.guid>
 			<cfset result.error="">
 
+
 			<!--- store local copies of query results to use in pre-amendment phase  --->
 			<cfif flatrow.began_date EQ flatrow.ended_date>
 				<cfset eventDate = flatrow.began_date>
@@ -5596,10 +5597,13 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset day=flatrow.day >
 
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> 
+			<!--- TODO: Obtain mechanism from annotation on class --->
+			<cfset result.mechanism = "Kurator: Date Validator - DwCEventTG2DQ" >
 
 			<!--- pre-amendment phase --->
 
 			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
+			<!--- TODO: Provide metadata from annotations --->
 			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
