@@ -5727,8 +5727,8 @@ Annotation to report problematic data concerning #annotated.guid#
 
 			<!--- amendment phase --->
 
-    		<!--- @Provides("b129fa4d-b25b-43f7-9645-5ed4d44b357b") --->
-			<cfset dqResponse = eventDateQC.amendmentDayStandardized(day) {
+			<!--- @Provides("b129fa4d-b25b-43f7-9645-5ed4d44b357b") --->
+			<cfset dqResponse = eventDateQC.amendmentDayStandardized(day) >
 			<cfset r.label = "standardize dwc:day" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT">
@@ -5750,7 +5750,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
+			<cfset postamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
@@ -5759,7 +5759,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
+			<cfset postamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
@@ -5768,7 +5768,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
+			<cfset postamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
 			<cfset r=structNew()>
 			
 			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
@@ -5777,7 +5777,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
+			<cfset postamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
@@ -5786,7 +5786,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset postamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 			<cfset r=structNew()>
 			
 			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
@@ -5795,7 +5795,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
+			<cfset postamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
 			<cfset r=structNew()>
 			
 			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
@@ -5804,7 +5804,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
+			<cfset postamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
@@ -5813,7 +5813,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset postamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
@@ -5822,7 +5822,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
+			<cfset postamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
 			<cfset r=structNew()>
 			
 			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
@@ -5831,7 +5831,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
+			<cfset postamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
@@ -5840,7 +5840,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
+			<cfset postamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
 			<cfset r=structNew()>
 			
 			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
@@ -5849,7 +5849,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
+			<cfset postamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
@@ -5858,7 +5858,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
+			<cfset postamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
@@ -5867,7 +5867,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset postamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
 			<cfset r=structNew()>
 
 			<!--- Add results from phases to result to return --->
