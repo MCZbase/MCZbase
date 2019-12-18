@@ -25,6 +25,8 @@ function loadEventQC(collection_object_id,targetid){
 				var dpre = "";
 				var da = "";
 				var dpost = "";
+				var dprepost = "";
+				var dprepostheader = "";
 				var pre = data.preamendment;
 				var post = data.postamendment;
 				var amend = data.amendment;			
@@ -35,38 +37,77 @@ function loadEventQC(collection_object_id,targetid){
 				var ce = "";
 				var premeasure = "";
 				var postmeasure = "";
+				var status = "";
 
+				// iterate through preamendment tests, for each test found, look up the corresponding post-amendment test and 
+				// obtain the results to display pre/post together in tabular form.
 				for (var k in pre) { 
 					var key = pre[k];
 					if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") {
 						prepass = prepass + 1;
-						cs="<strong>"; ce="</strong>"  
+						cs="<span style='font-color: green;'><strong>"; ce="</strong></span>";
+						status = "";  // don't show status when there is a result
 					} else { 
-						cs=""; ce="";
+						if (key.status == "HAS_RESULT" && key.value == "NOT_COMPLIANT") {
+							cs="<span style='font-color: red;'><strong>"; ce="</strong></span>";
+							status = "";  // don't show status when there is a result
+						} else { 
+							cs=""; ce="";
+							status = key.status;  // show the status when there is no result.
+						}
 					}
 					if (key.type == "VALIDATION") { 
 						validationcount = validationcount + 1; 
-						dpre = dpre + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
+						dpre = dpre + "<span>" + key.label + " " + status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
+						// pre-amendment results for this test.
+						dprepost = dprepost + "<tr><td>" + key.label + "<td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
+						// post-amendment results for this test.
+						var postkey = post[k];
+						if (postkey.status == "HAS_RESULT" && postkey.value == "COMPLIANT") {
+							cs="<span style='font-color: green;'><strong>"; ce="</strong></span>";
+							status = "";
+						} else { 
+							if (postkey.status == "HAS_RESULT" && postkey.value == "NOT_COMPLIANT") {
+								cs="<span style='font-color: red;'><strong>"; ce="</strong></span>";
+								status = "";
+							} else { 
+								cs=""; ce="";
+								status = key.status;
+							}
+						}
+						dprepost = dprepost + "<td>" + status + " " + cs + key.value + ce  + "</td><td> " + key.comment + "</td></tr>";
 					} else { 
+						// MEASURES (and possibly ISSUES), amendments won't be in this phase.
+						// TODO: pre/post measures not in table.
 						premeasure = premeasure + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
 					}
             }
 
+				// Iterate through amendments (would need to obtain acted upon/consulted annotations on terms to fully present as changes to terms).
+				// Could extract change terms from values and present in term centric rather than test centric view.
 				for (var k in amend) { 
 					var key = amend[k];
 					da = da + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span><br>";
             }
 
+				// Iterate through post-amendment tests to at least calculate postpass.
+				// TODO: Remove dpost rendering, just use table.
 				for (var k in post) { 
 					var key = post[k];
 					if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") { 
 						postpass = postpass + 1;
-						cs="<strong>"; ce="</strong>"  
+						cs="<span style='font-color: green;'><strong>"; ce="</strong></span>";
 					} else { 
-						cs=""; ce="";
+						if (key.status == "HAS_RESULT" && key.value == "NOT_COMPLIANT") {
+							cs="<span style='font-color: red;'><strong>"; ce="</strong></span>";
+							status = "";
+						} else { 
+							cs=""; ce="";
+							status = key.status;
+						}
 					}
 					if (key.type == "VALIDATION") { 
-						dpost = dpost + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
+						dpost = dpost + "<span>" + key.label + " " + status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
 					} else { 
 						postmeasure = postmeasure + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
 					}
@@ -74,9 +115,13 @@ function loadEventQC(collection_object_id,targetid){
 				
 				display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
  
+				dprepostheader = "<th><td>Test</td><td>Pre-amendment Result</td><td>Comment</td><td>Post-Amendment Result</td><td>Comment</td></th>";
+				display = display + "<table>" + dprepostheader + dprepost + "</table>";
+
 				display = display + "<h3>Pre-Ammendment Tests</h3><div>" + premeasure + dpre + "</div>";
 				display = display + "<h3>Proposed Amendments</h3><div>" + da + "</div>";
 				display = display + "<h3>Post-Amendment Tests</h3></div>" + postmeasure + dpost + "</div>";
+
 
             $("#"+targetid).html(display);
         } else { 
