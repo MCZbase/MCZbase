@@ -818,7 +818,8 @@ function loadEventQC(collection_object_id,targetid){
 	     returnformat: "json",
 		  collection_object_id	:collection_object_id
      }, 
-     success: function (data) { 
+     success: function (datareturn) { 
+		data = JSON.parse(datareturn);
 		  if (data.status == "success") { 
 				var display = "<h2>"+data.guid+"</h2>";
 				var dpre = "";
@@ -829,26 +830,41 @@ function loadEventQC(collection_object_id,targetid){
 				var amend = data.amendment;			
 				var prepass = 0;
 				var postpass = 0;
-				var validationcount = =;
+				var validationcount = 0;
+				var cs = "";  
+				var ce = "";
 
-				for (var key in pre) { 
-					if (key.status == "HAS_RESULT" && key.value = "COMPLIANT") { prepass = prepass + 1; }
+				for (var k in pre) { 
+					var key = pre[k];
+					if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") {
+						prepass = prepass + 1;
+						cs="<strong>"; ce="</strong>"  
+					} else { 
+						cs=""; ce="";
+					}
 					if (key.type == "VALIDATION") { validationcount = validationcount + 1; }
-					dpre = dpre + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span><br>";
+					dpre = dpre + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
             }
 
-				for (var key in amend) { 
+				for (var k in amend) { 
+					var key = amend[k];
 					da = da + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span><br>";
             }
 
-				for (var key in post) { 
-					if (key.status == "HAS_RESULT" && key.value = "COMPLIANT") { postpass = postpass + 1; }
-					dpost = dpost + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span></br>";
+				for (var k in post) { 
+					var key = post[k];
+					if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") { 
+						postpass = postpass + 1;
+						cs="<strong>"; ce="</strong>"  
+					} else { 
+						cs=""; ce="";
+					}
+					dpost = dpost + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
             }
 				
-				display = display + "<div>Compliant Results Pre-amendment: " + (prepass/validationcount)*100 + "%; Post-amendment: " + (postpass/validationcount)*100) + "%";
+				display = display + "<div>Compliant Results Pre-amendment: " + (prepass/validationcount)*100 + "%; Post-amendment: " + (postpass/validationcount)*100 + "%";
  
-				display = display + "<div>" dpre + "</div><div>" + da "</div></div>" + dpost + "</div>";
+				display = display + "<div>" + dpre + "</div><div>" + da + "</div></div>" + dpost + "</div>";
 
             $("#"+targetid).html(display);
         } else { 
@@ -856,8 +872,7 @@ function loadEventQC(collection_object_id,targetid){
 		  }
      }, 
      fail: function (jqXHR, textStatus) { 
-        $("#"targetid).html("Error:" + textStatus);
+        $("#" + targetid).html("Error:" + textStatus);
      }
   });
-}
 }

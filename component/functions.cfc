@@ -5715,7 +5715,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			
 			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
 			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
-			<cfset r.label = "dwc:eventDate is in range" >
+			<cfset r.label = "dwc:month is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -5745,7 +5745,7 @@ Annotation to report problematic data concerning #annotated.guid#
 
 			<!--- amendment phase --->
 
-			<!--  @Provides("39bb2280-1215-447b-9221-fd13bc990641") --->
+			<!---  @Provides("39bb2280-1215-447b-9221-fd13bc990641") --->
 			<cfset dqResponse= eventDateQC.amendmentDateidentifiedStandardized(dateIdentified) >
 			<cfset r.label = "standardize dwc:dateIdentified" >
 			<cfset r.type = "AMENDMENT" >
@@ -5776,7 +5776,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("2e371d57-1eb3-4fe3-8a61-dff43ced50cf") --->
-			<cfset dqResponse = eventDateQC.amendmentMonthStandardized(month) {
+			<cfset dqResponse = eventDateQC.amendmentMonthStandardized(month) >
 			<cfset r.label = "standardize dwc:month" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5795,7 +5795,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.label = "fill in dwc:eventDate from dwc:verbatimEventDate " >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status EQ "FILLED_IN">
 				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
@@ -5810,7 +5810,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:month, and dwc:day " >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status EQ "FILLED_IN">
 				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
@@ -5855,7 +5855,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.label = "fill in other Event terms from dwc:eventDate" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status EQ "FILLED_IN">
 				<!--- conditionally change terms for which values are proposed --->
 				<cfif dqResponse.getValue().getObject().get("dwc:month") NEQ '' ><cfset month = dqResponse.getValue().getObject().get("dwc:month") ></cfif>
 				<cfif dqResponse.getValue().getObject().get("dwc:day") NEQ '' ><cfset day = dqResponse.getValue().getObject().get("dwc:day") ></cfif>
@@ -5985,7 +5985,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			
 			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
 			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
-			<cfset r.label = "dwc:eventDate is in range" >
+			<cfset r.label = "dwc:month is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
