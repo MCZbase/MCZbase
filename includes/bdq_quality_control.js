@@ -21,6 +21,7 @@ function loadEventQC(collection_object_id,targetid){
 		data = JSON.parse(datareturn);
 		  if (data.status == "success") { 
 				var display = "<h2>"+data.guid+"</h2>";
+				display = display "<div>Results of the TDWG Biodiversity Data Quality IG TG2 Event related tests.</div>";
 				var dpre = "";
 				var da = "";
 				var dpost = "";
@@ -32,6 +33,8 @@ function loadEventQC(collection_object_id,targetid){
 				var validationcount = 0;
 				var cs = "";  
 				var ce = "";
+				var premeasure = "";
+				var postmeasure = "";
 
 				for (var k in pre) { 
 					var key = pre[k];
@@ -41,8 +44,12 @@ function loadEventQC(collection_object_id,targetid){
 					} else { 
 						cs=""; ce="";
 					}
-					if (key.type == "VALIDATION") { validationcount = validationcount + 1; }
-					dpre = dpre + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
+					if (key.type == "VALIDATION") { 
+						validationcount = validationcount + 1; 
+						dpre = dpre + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
+					} else { 
+						premeasure = premeasure + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
+					}
             }
 
 				for (var k in amend) { 
@@ -58,12 +65,18 @@ function loadEventQC(collection_object_id,targetid){
 					} else { 
 						cs=""; ce="";
 					}
-					dpost = dpost + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
+					if (key.type == "VALIDATION") { 
+						dpost = dpost + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
+					} else { 
+						postmeasure = postmeasure + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
+					}
             }
 				
-				display = display + "<div>Compliant Results Pre-amendment: " + (prepass/validationcount)*100 + "%; Post-amendment: " + (postpass/validationcount)*100 + "%";
+				display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
  
-				display = display + "<div>" + dpre + "</div><div>" + da + "</div></div>" + dpost + "</div>";
+				display = display + "<h3>Pre-Ammendment Tests</h3><div>" + premeasure + dpre + "</div>";
+				display = display + "<h3>Proposed Amendments</h3><div>" + da + "</div>";
+				display = display + "<h3>Post-Amendment Tests</h3></div>" + postmeasure + dpost + "</div>";
 
             $("#"+targetid).html(display);
         } else { 
