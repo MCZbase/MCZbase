@@ -422,6 +422,9 @@ function pickedRelationship (id){
 		getPermit(dispInputName,idInputName,formName);
 	} else if (relatedTable=='loan'){
 		getLoan(dispInputName,idInputName,formName);
+	//  } else if (relatedTable=='borrow'){
+		// TODO: Implement a borrow picker
+		// getBorrow(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 	} else if (relatedTable=='delete'){
