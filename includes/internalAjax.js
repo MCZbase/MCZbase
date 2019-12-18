@@ -807,3 +807,57 @@ function deleteLink(r){
 	jQuery('#linkRow' + r + ' td:nth-child(1)').addClass('red').text('deleted').append(newElem);
 	jQuery('#linkRow' + r + ' td:nth-child(2)').addClass('red').text('');
 }
+
+
+function loadEventQC(collection_object_id,targetid){
+  $.ajax({
+     url: "/component/functions.cfc",
+     type: "get",
+     data: {
+        method: "getEventQCReportFlat",
+	     returnformat: "json",
+		  collection_object_id	:collection_object_id
+     }, 
+     success: function (data) { 
+		  if (data.status == "success") { 
+				var display = "<h2>"+data.guid+"</h2>";
+				var dpre = "";
+				var da = "";
+				var dpost = "";
+				var pre = data.preamendment;
+				var post = data.postamendment;
+				var amend = data.amendment;			
+				var prepass = 0;
+				var postpass = 0;
+				var validationcount = =;
+
+				for (var key in pre) { 
+					if (key.status == "HAS_RESULT" && key.value = "COMPLIANT") { prepass = prepass + 1; }
+					if (key.type == "VALIDATION") { validationcount = validationcount + 1; }
+					dpre = dpre + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span><br>";
+            }
+
+				for (var key in amend) { 
+					da = da + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span><br>";
+            }
+
+				for (var key in post) { 
+					if (key.status == "HAS_RESULT" && key.value = "COMPLIANT") { postpass = postpass + 1; }
+					dpost = dpost + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span></br>";
+            }
+				
+				display = display + "<div>Compliant Results Pre-amendment: " + (prepass/validationcount)*100 + "%; Post-amendment: " + (postpass/validationcount)*100) + "%";
+ 
+				display = display + "<div>" dpre + "</div><div>" + da "</div></div>" + dpost + "</div>";
+
+            $("#"+targetid).html(display);
+        } else { 
+            $("#"+targetid).html("<h2>Error:</h2><div>" + data.error + "</div>");
+		  }
+     }, 
+     fail: function (jqXHR, textStatus) { 
+        $("#"targetid).html("Error:" + textStatus);
+     }
+  });
+}
+}
