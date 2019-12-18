@@ -21,7 +21,7 @@ function loadEventQC(collection_object_id,targetid){
 		data = JSON.parse(datareturn);
 		  if (data.status == "success") { 
 				var display = "<h2>"+data.guid+"</h2>";
-				display = display "<div>Results of the TDWG Biodiversity Data Quality IG TG2 Event related tests.</div>";
+				display = display + "<div>Results of the TDWG Biodiversity Data Quality IG TG2 Event related tests.</div>";
 				var dpre = "";
 				var da = "";
 				var dpost = "";
