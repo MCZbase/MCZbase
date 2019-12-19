@@ -36,6 +36,7 @@ function loadEventQC(collection_object_id,targetid){
 				var status = "";  // to show or hide status from display
 				var cs = "";  // open tag styling of status/value 
 				var ce = "";  // close tag for styling of status/value
+				var counter = 0;
 
 				// variable for counting results
 				var prepass = 0;  // total number of compliant tests pre-amendment
@@ -45,6 +46,8 @@ function loadEventQC(collection_object_id,targetid){
 				// iterate through preamendment tests, for each test found, look up the corresponding post-amendment test and 
 				// obtain the results to display pre/post together in tabular form.
 				for (var k in pre) { 
+					counter ++;
+					if (counter % 2 == 0) { rowstyle = ""; } else { rowstyle = "style='background-color: #f2f2f2;'"; }
 					var key = pre[k];
 					if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") {
 						prepass = prepass + 1;
@@ -62,7 +65,7 @@ function loadEventQC(collection_object_id,targetid){
 					if (key.type == "VALIDATION") { 
 						validationcount = validationcount + 1; 
 						// pre-amendment results for this test.
-						displayprepost = displayprepost + "<tr><td>" + key.label + "</td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
+						displayprepost = displayprepost + "<tr " +rowstyle+ "><td>" + key.label + "</td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
 						// find matching post-amendment results for this test.
 						var postkey = post[k];
 						if (postkey.status == "HAS_RESULT" && postkey.value == "COMPLIANT") {
@@ -79,8 +82,9 @@ function loadEventQC(collection_object_id,targetid){
 						}
 						displayprepost = displayprepost + "<td>" + status + " " + cs + key.value + ce  + "</td><td> " + key.comment + "</td></tr>";
 					} else { 
+						if (counter % 2 == 0) { rowstyle = "style='background-color: #ccffcc;'"; } else { rowstyle = "style='background-color: #e6ffe6;'"; }
 						// is a MEASURE (or possibly ISSUE), note that amendments won't be in this phase.
-						displaymeasure = displaymeasure + "<tr><td>" + key.label + "</td><td>" + key.status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
+						displaymeasure = displaymeasure + "<tr " + rowstyle+ "><td>" + key.label + "</td><td>" + key.status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
 						var postkey = post[k];
 						displaymeasure = displaymeasure + "<td>" + postkey.status + " " + postkey.value + "</td><td>" + postkey.comment + "</td></tr>";
 					}
@@ -103,8 +107,8 @@ function loadEventQC(collection_object_id,targetid){
 				
 				// assemble and display the result
 				display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
-				displayprepostheader = "<tr><th>Test</th><th>Pre-amendment Result</th><th>Comment</th><th>Post-Amendment Result</th><th>Comment</th></tr>";
-				display = display + "<table>" + displayprepostheader + displaymeasure + displayprepost + "</table>";
+				displayprepostheader = "<tr style='background-color: #ccffff;'><th>Test</th><th>Pre-amendment Result</th><th>Comment</th><th>Post-Amendment Result</th><th>Comment</th></tr>";
+				display = display + "<table style='border: 1px solid #ddd;' >" + displayprepostheader + displaymeasure + displayprepost + "</table>";
 				display = display + "<h3>Proposed Amendments</h3><div>" + displayamendments + "</div>";
 
 				$("#"+targetid).html(display);

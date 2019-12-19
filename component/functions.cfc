@@ -5612,8 +5612,14 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.type = "MEASURE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
-			<cfset r.comment = dqResponse.getComment() >
+			<cfif r.status eq "HAS_RESULT">
+				<cfset r.value = dqResponse.getValue().getObject() >
+				<cfset days = Round(r.value / 60 / 60 / 24)>
+				<cfset r.comment = dqResponse.getComment() & " (" & days & " days)" >
+			<cfelse>
+				<cfset r.value = "">
+				<cfset r.comment = dqResponse.getComment()  >
+			</cfif>
 			<cfset preamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
 			<cfset r=structNew()>
 
@@ -5882,7 +5888,14 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.type = "MEASURE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "HAS_RESULT">
+				<cfset r.value = dqResponse.getValue().getObject() >
+				<cfset days = Round(r.value / 60 / 60 / 24)>
+				<cfset r.comment = dqResponse.getComment() & " (" & days & " days)" >
+			<cfelse>
+				<cfset r.value = "">
+				<cfset r.comment = dqResponse.getComment()  >
+			</cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
 			<cfset r=structNew()>
