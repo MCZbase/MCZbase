@@ -10,14 +10,14 @@
  */
 function loadEventQC(collection_object_id,targetid){
 	$.ajax({
-     url: "/component/functions.cfc",
-     type: "get",
-     data: {
-        method: "getEventQCReportFlat",
-	     returnformat: "json",
-		  collection_object_id	:collection_object_id
-     }, 
-     success: function (datareturn) { 
+		url: "/component/functions.cfc",
+		type: "get",
+		data: {
+			method: "getEventQCReportFlat",
+			returnformat: "json",
+			collection_object_id	:collection_object_id
+		}, 
+		success: function (datareturn) { 
 		data = JSON.parse(datareturn);
 		  if (data.status == "success") { 
 				// extract the phases from the returned result
@@ -83,14 +83,14 @@ function loadEventQC(collection_object_id,targetid){
 						var postkey = post[k];
 						displaymeasure = displaymeasure + "<td>" + postkey.status + " " postkey.value + "</td><td>" + postkey.comment + "</td></tr>";
 					}
-            }
+				}
 
 				// Iterate through amendments (would need to obtain acted upon/consulted annotations on terms to fully present as changes to terms).
 				// Could extract change terms from values and present in term centric rather than test centric view.
 				for (var k in amend) { 
 					var key = amend[k];
 					displayamendments = displayamendments + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span><br>";
-            }
+				}
 
 				// Iterate through post-amendment tests to calculate postpass.
 				for (var k in post) { 
@@ -98,21 +98,20 @@ function loadEventQC(collection_object_id,targetid){
 					if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") { 
 						postpass = postpass + 1;
 					}
-            }
+				}
 				
 				display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
 				displayprepostheader = "<th><td>Test</td><td>Pre-amendment Result</td><td>Comment</td><td>Post-Amendment Result</td><td>Comment</td></th>";
 				display = display + "<table>" + displayprepostheader + displaymeasure + displayprepost + "</table>";
 				display = display + "<h3>Proposed Amendments</h3><div>" + displayamendments + "</div>";
 
-
-            $("#"+targetid).html(display);
-        } else { 
-            $("#"+targetid).html("<h2>Error:</h2><div>" + data.error + "</div>");
-		  }
-     }, 
-     fail: function (jqXHR, textStatus) { 
-        $("#" + targetid).html("Error:" + textStatus);
-     }
-  });
+				$("#"+targetid).html(display);
+			} else { 
+				$("#"+targetid).html("<h2>Error:</h2><div>" + data.error + "</div>");
+			}
+		}, 
+		fail: function (jqXHR, textStatus) { 
+			$("#" + targetid).html("Error:" + textStatus);
+		}
+	});
 }
