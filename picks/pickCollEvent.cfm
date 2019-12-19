@@ -135,7 +135,7 @@
 			
 			<td colspan="2">
 				<font size="-1">
-					#VerbatimLatitude# / #verbatimLongitude# &plusmn; #max_error_distance# #max_error_units# <em><strong>Ref:</strong></em> #lat_long_ref_source#
+					#LatitudeString# / #LongitudeString# &plusmn; #max_error_distance# #max_error_units# <em><strong>Ref:</strong></em> #lat_long_ref_source#
 				</font>
 			</td>
 		</tr>
