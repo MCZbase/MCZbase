@@ -51,11 +51,11 @@ function loadEventQC(collection_object_id,targetid){
 					var key = pre[k];
 					if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") {
 						prepass = prepass + 1;
-						cs="<span style='font-color: green;'><strong>"; ce="</strong></span>";
+						cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 						status = "";  // don't show status when there is a result
 					} else { 
 						if (key.status == "HAS_RESULT" && key.value == "NOT_COMPLIANT") {
-							cs="<span style='font-color: red;'><strong>"; ce="</strong></span>";
+							cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 							status = "";  // don't show status when there is a result
 						} else { 
 							cs=""; ce="";
@@ -69,11 +69,11 @@ function loadEventQC(collection_object_id,targetid){
 						// find matching post-amendment results for this test.
 						var postkey = post[k];
 						if (postkey.status == "HAS_RESULT" && postkey.value == "COMPLIANT") {
-							cs="<span style='font-color: green;'><strong>"; ce="</strong></span>";
+							cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 							status = "";
 						} else { 
 							if (postkey.status == "HAS_RESULT" && postkey.value == "NOT_COMPLIANT") {
-								cs="<span style='font-color: red;'><strong>"; ce="</strong></span>";
+								cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 								status = "";
 							} else { 
 								cs=""; ce="";
