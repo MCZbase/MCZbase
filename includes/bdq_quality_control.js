@@ -58,7 +58,7 @@ function loadEventQC(collection_object_id,targetid){
 					}
 					if (key.type == "VALIDATION") { 
 						validationcount = validationcount + 1; 
-						dpre = dpre + "<span>" + key.label + " " + status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
+						// dpre = dpre + "<span>" + key.label + " " + status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
 						// pre-amendment results for this test.
 						dprepost = dprepost + "<tr><td>" + key.label + "<td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
 						// post-amendment results for this test.
@@ -77,9 +77,11 @@ function loadEventQC(collection_object_id,targetid){
 						}
 						dprepost = dprepost + "<td>" + status + " " + cs + key.value + ce  + "</td><td> " + key.comment + "</td></tr>";
 					} else { 
-						// MEASURES (and possibly ISSUES), amendments won't be in this phase.
-						// TODO: pre/post measures not in table.
-						premeasure = premeasure + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
+						// is a MEASURE (or possibly ISSUE), note that amendments won't be in this phase.
+						// premeasure = premeasure + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce  + " " + key.comment + "</span><br>";
+						premeasure = premeasure + "<tr><td>" + key.label + "</td><td>" + key.status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
+						var postkey = post[k];
+						premeasure = premeasure + "<td>" + postkey.status + " " postkey.value + "</td><td>" + postkey.comment + "</td></tr>";
 					}
             }
 
@@ -90,37 +92,36 @@ function loadEventQC(collection_object_id,targetid){
 					da = da + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span><br>";
             }
 
-				// Iterate through post-amendment tests to at least calculate postpass.
-				// TODO: Remove dpost rendering, just use table.
+				// Iterate through post-amendment tests to calculate postpass.
 				for (var k in post) { 
 					var key = post[k];
 					if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") { 
 						postpass = postpass + 1;
-						cs="<span style='font-color: green;'><strong>"; ce="</strong></span>";
-					} else { 
-						if (key.status == "HAS_RESULT" && key.value == "NOT_COMPLIANT") {
-							cs="<span style='font-color: red;'><strong>"; ce="</strong></span>";
-							status = "";
-						} else { 
-							cs=""; ce="";
-							status = key.status;
-						}
+						//cs="<span style='font-color: green;'><strong>"; ce="</strong></span>";
+					//} else { 
+					//	if (key.status == "HAS_RESULT" && key.value == "NOT_COMPLIANT") {
+					//		cs="<span style='font-color: red;'><strong>"; ce="</strong></span>";
+					//		status = "";
+					//	} else { 
+					//		cs=""; ce="";
+					//		status = key.status;
+					//	}
 					}
-					if (key.type == "VALIDATION") { 
-						dpost = dpost + "<span>" + key.label + " " + status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
-					} else { 
-						postmeasure = postmeasure + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
-					}
+					//if (key.type == "VALIDATION") { 
+					//	dpost = dpost + "<span>" + key.label + " " + status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
+					//} else { 
+					//	postmeasure = postmeasure + "<span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></br>";
+					//}
             }
 				
 				display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
  
 				dprepostheader = "<th><td>Test</td><td>Pre-amendment Result</td><td>Comment</td><td>Post-Amendment Result</td><td>Comment</td></th>";
-				display = display + "<table>" + dprepostheader + dprepost + "</table>";
+				display = display + "<table>" + dprepostheader + premeasure + dprepost + "</table>";
 
-				display = display + "<h3>Pre-Ammendment Tests</h3><div>" + premeasure + dpre + "</div>";
+				//display = display + "<h3>Pre-Ammendment Tests</h3><div>" + premeasure + dpre + "</div>";
 				display = display + "<h3>Proposed Amendments</h3><div>" + da + "</div>";
-				display = display + "<h3>Post-Amendment Tests</h3></div>" + postmeasure + dpost + "</div>";
+				//display = display + "<h3>Post-Amendment Tests</h3></div>" + postmeasure + dpost + "</div>";
 
 
             $("#"+targetid).html(display);
