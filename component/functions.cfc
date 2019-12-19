@@ -5686,7 +5686,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
 			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
-			<cfset r.label = "dwc:Event terms are inconsistent" >
+			<cfset r.label = "dwc:Event terms are consistent" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -5963,7 +5963,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
 			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
-			<cfset r.label = "dwc:Event terms are inconsistent" >
+			<cfset r.label = "dwc:Event terms are consistent" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
