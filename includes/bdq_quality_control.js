@@ -68,6 +68,7 @@ function loadEventQC(collection_object_id,targetid){
 						displayprepost = displayprepost + "<tr " +rowstyle+ "><td>" + key.label + "</td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
 						// find matching post-amendment results for this test.
 						var postkey = post[k];
+console.log(postkey);
 						if (postkey.status == "HAS_RESULT" && postkey.value == "COMPLIANT") {
 							cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 							status = "";
@@ -80,7 +81,7 @@ function loadEventQC(collection_object_id,targetid){
 								status = key.status;
 							}
 						}
-						displayprepost = displayprepost + "<td>" + status + " " + cs + key.value + ce  + "</td><td> " + key.comment + "</td></tr>";
+						displayprepost = displayprepost + "<td>" + status + " " + cs + postkey.value + ce  + "</td><td> " + postkey.comment + "</td></tr>";
 					} else { 
 						if (counter % 2 == 0) { rowstyle = "style='background-color: #ccffcc;'"; } else { rowstyle = "style='background-color: #e6ffe6;'"; }
 						// is a MEASURE (or possibly ISSUE), note that amendments won't be in this phase.
