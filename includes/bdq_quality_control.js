@@ -62,7 +62,7 @@ function loadEventQC(collection_object_id,targetid){
 					if (key.type == "VALIDATION") { 
 						validationcount = validationcount + 1; 
 						// pre-amendment results for this test.
-						displayprepost = displayprepost + "<tr><td>" + key.label + "<td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
+						displayprepost = displayprepost + "<tr><td>" + key.label + "</td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
 						// find matching post-amendment results for this test.
 						var postkey = post[k];
 						if (postkey.status == "HAS_RESULT" && postkey.value == "COMPLIANT") {
@@ -82,7 +82,7 @@ function loadEventQC(collection_object_id,targetid){
 						// is a MEASURE (or possibly ISSUE), note that amendments won't be in this phase.
 						displaymeasure = displaymeasure + "<tr><td>" + key.label + "</td><td>" + key.status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
 						var postkey = post[k];
-						displaymeasure = displaymeasure + "<td>" + postkey.status + " " postkey.value + "</td><td>" + postkey.comment + "</td></tr>";
+						displaymeasure = displaymeasure + "<td>" + postkey.status + " " + postkey.value + "</td><td>" + postkey.comment + "</td></tr>";
 					}
 				}
 
@@ -103,7 +103,7 @@ function loadEventQC(collection_object_id,targetid){
 				
 				// assemble and display the result
 				display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
-				displayprepostheader = "<th><td>Test</td><td>Pre-amendment Result</td><td>Comment</td><td>Post-Amendment Result</td><td>Comment</td></th>";
+				displayprepostheader = "<tr><th>Test</th><th>Pre-amendment Result</th><th>Comment</th><th>Post-Amendment Result</th><th>Comment</th></tr>";
 				display = display + "<table>" + displayprepostheader + displaymeasure + displayprepost + "</table>";
 				display = display + "<h3>Proposed Amendments</h3><div>" + displayamendments + "</div>";
 
