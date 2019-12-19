@@ -28,6 +28,7 @@ function loadEventQC(collection_object_id,targetid){
 				// variables to assemble display output
 				var display = "<h2>"+data.guid+"</h2>";   // output to display as the result of the invocation of this method
 				display = display + "<div>Results of the TDWG Biodiversity Data Quality IG TG2 Event related tests.</div>";
+				display = display + "<div>Tests run using (mechanism): " + data.mechanism + ".</div>";
 				var displayamendments = "";   // results of amendment test formatted for display
 				var displayprepost = "";  // results of pre- and post-amendment tests formatted for display
 				var displayprepostheader = "";  // table header for pre- and post-amendment results formatted for display
@@ -100,6 +101,7 @@ function loadEventQC(collection_object_id,targetid){
 					}
 				}
 				
+				// assemble and display the result
 				display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
 				displayprepostheader = "<th><td>Test</td><td>Pre-amendment Result</td><td>Comment</td><td>Post-Amendment Result</td><td>Comment</td></th>";
 				display = display + "<table>" + displayprepostheader + displaymeasure + displayprepost + "</table>";
