@@ -241,7 +241,7 @@
 		select georefMethod from ctgeorefmethod
 	</cfquery>
       <cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select VerificationStatus from ctVerificationStatus
+		select VerificationStatus from ctVerificationStatus order by VerificationStatus
 	</cfquery>
       <cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
