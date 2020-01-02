@@ -5592,13 +5592,15 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset verbatimEventDate = flatrow.verbatim_date>
 			<cfset startDayOfYear = ToString(flatrow.dayofyear) >
 			<cfset endDayOfYear= flatrow.endDayOfYear >
-			<cfset year=flatrow.year >
-			<cfset month=flatrow.month >
-			<cfset day=flatrow.day >
+			<cfset year=ToString(flatrow.year) >
+			<cfset month=ToString(flatrow.month) >
+			<cfset day=ToString(flatrow.day) >
 
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> 
-			<!--- TODO: Obtain mechanism from annotation on class --->
-			<cfset result.mechanism = "Kurator: Date Validator - DwCEventTG2DQ" >
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism"> 
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides"> 
+			<!--- Obtain mechanism from annotation on class --->
+			<cfset result.mechanism = eventDateQC.getClass().getAnnotation(Mechanism.getClass()).label() >
 
 			<!--- pre-amendment phase --->
 

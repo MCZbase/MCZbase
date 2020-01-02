@@ -95,7 +95,14 @@ console.log(postkey);
 				// Could extract change terms from values and present in term centric rather than test centric view.
 				for (var k in amend) { 
 					var key = amend[k];
-					displayamendments = displayamendments + "<span>" + key.label + " " + key.status + " " + key.value + " " + key.comment + "</span><br>";
+					if (key.status == 'FILLED_IN') { 		
+  						cs="<span style='color: blue;'><strong>"; ce="</strong></span>";
+					} else if (key.status == 'CHANGED') { 		
+  						cs="<span style='color: red;'><strong>"; ce="</strong></span>";
+					} else { 
+  						cs=""; ce="";
+					}
+					displayamendments = displayamendments + "<li><span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></li>";
 				}
 
 				// Iterate through post-amendment tests to calculate postpass.
@@ -110,7 +117,7 @@ console.log(postkey);
 				display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
 				displayprepostheader = "<tr style='background-color: #ccffff;'><th>Test</th><th>Pre-amendment Result</th><th>Comment</th><th>Post-Amendment Result</th><th>Comment</th></tr>";
 				display = display + "<table style='border: 1px solid #ddd;' >" + displayprepostheader + displaymeasure + displayprepost + "</table>";
-				display = display + "<h3>Proposed Amendments</h3><div>" + displayamendments + "</div>";
+				display = display + "<h3>Proposed Amendments</h3><div><ul>" + displayamendments + "</ul></div>";
 
 				$("#"+targetid).html(display);
 			} else { 
