@@ -312,7 +312,7 @@
 				<cfset toaddresses = ValueList(to_agents.address,";")>
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
-			<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA">
+			<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 
 			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
@@ -382,7 +382,7 @@
 				We request that you please return the above loan or request an extension by the Due Date. For more information on this loan,
 				</cfif>
 				contact #ValueList(inhouse.agent_name)# in the #collection# Collection (#ValueList(inhouse.address)#).
-				<cfif not ListFind(usCodes,country_cde)>
+				<cfif not ListFind(usCodes,country_cde) AND len(COUNTRY_CDE) GT 0>
 				<br><br>To meet federal regulations regarding importation and clearance of international shipments, researchers returning MCZ material must:<br>
 				<ul>
 					<li>Provide the name of the courier (e.g., FedEx, DHL, trackable post), the Airway Bill number, and an
