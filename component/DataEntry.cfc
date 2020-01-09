@@ -272,7 +272,7 @@
 				locality.MAXIMUM_ELEVATION,
 				locality.MINIMUM_ELEVATION,
 				locality.ORIG_ELEV_UNITS,
-				locality.ORIG_ELEV_UNITS,
+				locality.DEPTH_UNITS,
 				locality.MIN_DEPTH,
 				locality.MAX_DEPTH,
 				locality.SPEC_LOCALITY,
