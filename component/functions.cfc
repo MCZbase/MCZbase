@@ -5607,7 +5607,16 @@ Annotation to report problematic data concerning #annotated.guid#
 			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
 			<!--- TODO: Provide metadata from annotations --->
 			<!--- 
-			eventDateQC.getClass().getMethod('measureEventdatePrecisioninseconds',String.class).getAnnotation(org.datakurator.ffdq.annotations.Provides).toString();
+			eventDateQC.getClass().getMethod('measureEventdatePrecisioninseconds',String.class).getAnnotation(Provides.getClass()).label();
+
+			<cfset methodArray = eventDateQC.getClass().getMethods() >
+
+			<cfloop from="0" to="#arraylen(methodArray)#" index="i">
+				<cfset method = methodArray[i]>
+				<cfset provides = method.getAnnotation(.getClass()).label() >
+
+			</cfloop>
+
 			--->
 
 			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
