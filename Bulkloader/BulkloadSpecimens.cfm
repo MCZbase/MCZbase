@@ -73,7 +73,7 @@
 	<ul class="geol_hier">
 		<li>
 			<a href="BulkloadSpecimens.cfm?action=checkStaged" target="_self">Check and load these records</a>.
-			This is a slow process, but completing it will allow you to re-load your data as necessary.
+			This is a slow process, but completing it will allow you to fix problems in the data in your csv file and re-load your data as necessary.
 			Email a DBA if you wish to check your records at this stage but the process times out. We can schedule
 			the process, allowing it to take as long as necessary to complete, and notify you when it's done.
 			This method is strongly preferred.
@@ -115,6 +115,7 @@
 	Your records have been checked and are now in table Bulkloader and flagged as
 		loaded='BULKLOADED RECORD'. A data administrator can un-flag
 		and load them.
+		You can access these records in the Bulkloader with <a href="Bulkloader/browseBulk.cfm">Browse and Edit</a>.
 </cfoutput>
 </cfif>
 <!------------------------------------------->
@@ -135,6 +136,7 @@
 			<br>
 			Click <a href="bulkloader.txt" target="_blank">here</a>
 			to retrieve all data including error messages. Fix them up and reload them.
+			This method is strongly preferred.
 			<p>
 			Click <a href="bulkloaderLoader.cfm?action=loadAnyway">here</a> to load them to the
 			bulkloader anyway. Use Arctos to fix them up and load them.
@@ -159,6 +161,7 @@
 			Your records have been checked and are now in table Bulkloader and flagged as
 			loaded='BULKLOADED RECORD'. A data administrator can un-flag
 			and load them.
+			You can access these records in the Bulkloader with <a href="Bulkloader/browseBulk.cfm">Browse and Edit</a>.
 		</cftransaction>
 	</cfif>
 </cfoutput>
