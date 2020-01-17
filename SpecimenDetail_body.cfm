@@ -1296,7 +1296,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									<cfif len(determined_date) gt 0>
 										<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
 									</cfif>
-									<cfif len(determination_method) gt 0>,
+									<cfif len(determination_method) gt 0>
 										<cfset determination = '#determination#, #determination_method#'>
 									</cfif>
 									<div class="detailBlock">
