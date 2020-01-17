@@ -1593,7 +1593,7 @@ $( document ).ready(loadShipments(#transaction_id#));
       <cfset variables.encoding="UTF-8">
       <cfscript>
 			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-			d='deacc_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,trans_remarks,ent_agent,Project';
+			d='deacc_number,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,nature_of_material,trans_remarks,ent_agent';
 		 	variables.joFileWriter.writeLine(d);
 	</cfscript>
     </cfif>
@@ -1712,22 +1712,24 @@ $( document ).ready(loadShipments(#transaction_id#));
         </div>
       <cfif csv is true>
         <cfset d='"#escapeDoubleQuotes(collection)# #escapeDoubleQuotes(deacc_number)#"'>
-        <cfset d=d &',"#c.c#"'>
+ <!---       <cfset d=d &',"#c.c#"'>--->
+	
         <cfset d=d &',"#escapeDoubleQuotes(auth_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(inHouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addInhouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(rec_agent)#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(foruseby_agent)#"'>
+		<cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addOutside_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(deacc_type)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(deacc_status)#"'>
         <cfset d=d &',"#dateformat(trans_date,"yyyy-mm-dd")#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>
+       <!--- <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>--->
         <cfset d=d &',"#escapeDoubleQuotes(deacc_reason)#"'>
+		<cfset d=d &',"#escapeDoubleQuotes(nature_of_material)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(trans_remarks)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(ent_agent)#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>
+    <!---    <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>--->
         <cfscript>
 				variables.joFileWriter.writeLine(d);
 			</cfscript>
