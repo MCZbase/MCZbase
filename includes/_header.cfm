@@ -31,24 +31,19 @@ limitations under the License.
    <!--- Long term we can set a default value, short term throw an exception to make developers add pageTitle to invoking pages. --->
    <cfthrow message="Error: includes/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
-<title>#pageTitle#</title>
+<title>#pageTitle# | MCZbase</title>
 <cfinclude template="/includes/functionLib.cfm">
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"><!---needed for overall look--->
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css"><!---don't know--->
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.4.1-dist/css/bootstrap.min.css"><!---needed for overall look--->
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css"><!---don't know not in 4.1.3--->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!--account, magnifier, and cog icons-->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.base.css"><!---don't know--->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.classic.css"><!---don't know--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!---don't know--->
-<script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!--account and cog icons-->
-
-<!---<script type="text/javascript" src="/lib/jquery/jquery-1.7.1.min.js"></script>---><!---don't know. testing its removal. does everything still work?--->
-<script type="text/javascript" src="/includes/js/popper.js"></script>
-<!---	<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.light.css" />--->
-<!---<script type="text/javascript" src="/lib/jquery/jquery-3.3.1.js"></script>---><!---don't know. testing its upgrade to 3.4.1 --->
+<script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
 <script type="text/javascript" src="/lib/jquery/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!---not there now--->
 <script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>
-<script type="text/javascript" src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css"><!---don't know but tabs work--->
 <script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcore.js"></script>
@@ -85,209 +80,209 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxtree.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdatetimeinput.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
-	<!---commented out knockout after audit of best practices/speed/accessibility--->
-<!---<script type="text/javascript" src="/includes/js/knockout-2.2.1.js"></script>
-<script type="text/javascript" src="/lib/misc/knockout-2.2.1.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxknockout.js"></script>--->
 <script type="text/javascript" src="/lib/JQWidgets/scripts/demos.js"></script>
 <script type="text/javascript" src="/includes/js/shared-scripts.js"></script>
 <script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>
-<!---<script type="text/javascript" src="/specimens/js/dialogAjax.js"></script>---><!---Errors were logged on this for audit;removed temporarily--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
 <link rel="stylesheet" href="/includes/css/custom_styles.css">
   <cfif not isdefined("session.header_color")>
       <cfset setDbUser()>
-    </cfif>
+  </cfif>
 
 <script type="text/javascript">
+
 setTimeout(function(){
-    alert('You are about to lose unsaved changes. Please post the form. This is a 5 minute warning ');
-}, 1000*90*85); // 15 minutes
+    alert('Session will end in 5 minutes due to inactivity. Click to continue session.');
+}, 1000*90*85); // 5 minutes
+</script>
+<script>
+// On dropdown open
+$(document).on('shown.bs.dropdown', function(event) {
+    var dropdown = $(event.target);
+    
+    // Set aria-expanded to true
+    dropdown.find('.dropdown-menu').attr('aria-expanded', true);
+    
+    // Set focus on the first link in the dropdown
+    setTimeout(function() {
+        dropdown.find('.dropdown-menu li:first-child a').focus();
+    }, 10);
+});
+
+// On dropdown close
+$(document).on('hidden.bs.dropdown', function(event) {
+    var dropdown = $(event.target);
+    
+    // Set aria-expanded to false        
+    dropdown.find('.dropdown-menu').attr('aria-expanded', false);
+    
+    // Set focus back to dropdown toggle
+    dropdown.find('.dropdown-toggle').focus();
+});	
 </script>
 </head>
-<body class="default cbp-spmenu-push cbp-spmenu-pushtoleft">
-<header id="header">
+<body class="default "><!---cbp-spmenu-push cbp-spmenu-pushtoleft--->
+	 <a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+<header id="header" aria-level="1" role="heading">
 <cfoutput>
-<div class="branding-container clearfix" style="background-color: #Application.header_color#;">
+<div class="clearfix" style="background-color: #Application.header_color#;">
 	<div class="branding-left justify-content-start mt-1">
-		<a href="http://www.harvard.edu/"> 
+		<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
 			<img src="/includes/images/Harvard_shield-University.png" width="28" height="32" alt="Harvard University Shield">
-			<span class="fs-15 d-inline-block" style="font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';text-transform:uppercase;color: white; letter-spacing: .08em;">Harvard University</span>
+			<span class="d-inline-block parent">Harvard University</span>
 		</a> 
 	</div>
 	<div class="branding-right justify-content-end"> 
-		<a href="http://www.harvard.edu/">HARVARD.EDU</a> 
+		<a href="https://www.harvard.edu/about-harvard" aria-label="link to Harvard website">HARVARD.EDU</a> 
 	</div>
 </div>
-<nav class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner" style="border-bottom: 1px solid black;">
-	<ul class="navbar col-lg-9 col-md-8 col-sm-6 col-xs-6 pt-0 pb-0 mb-1">
+<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner border-bottom border-dark">
+	<ul class="navbar col-lg-9 col-xs-6 pt-0 pb-0 mb-1">
 		<li class="nav-item mcz2"><a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer">Museum of Comparative Zoology</a></li>
 		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">#session.collection_link_text# </a></li>
 	</ul>
-	<ul class="navbar col-lg-3 col-md-8 col-sm-3 pt-0 pb-0 mb-1 d-flex justify-content-end">
-		<div class="mcz_logo">
-			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu"><img class="mcz_logo_krono" src="#Application.header_image#" width="160" alt="mcz kronosaurus logo"></a> </li>
-		</div>
-	</ul>
-</nav>
-</cfoutput>
-<nav class="navbar navbar-expand-md navbar-light bg-light py-1 border-bottom">
-	<div class="container">
-		<button class="navbar-toggler" style="z-index:4000;" type="button" data-toggle="collapse" data-target="##navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-	<!---	<div class="col-md-10 col-lg-12 offset-lg-1 offset-md-0 collapse navbar-collapse" id="navbarTogglerDemo01">--->
-				<div class="col-md-10 col-lg-12 collapse navbar-collapse" id="navbarTogglerDemo01">
-			<cfif len(session.roles) gt 0 and session.roles is not "public">
-				<ul class="navbar-nav nav-fill w-100">
-			<cfelse>		 
-				<ul class="navbar-nav nav-fill w-50">
-			</cfif>
-				<li class="nav-item dropdown active"> <a class="nav-link dropdown-toggle" href="/Specimens.cfm" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Specimen Data</a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li></li>
-						<li><a class="dropdown-item" href="/Specimens.cfm">Specimens</a></li>
-						<li><a class="dropdown-item" href="/Media.cfm">Media</a></li>
-						<li><a class="dropdown-item" href="/Locality.cfm">Places</a></li>
-						<li><a class="dropdown-item" href="/Publication.cfm">Publications</a></li>
-						<li><a class="dropdown-item" href="/Agent.cfm">Agents</a></li>
-						<li><a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a></li>
-					</ul>
-				</li>
-			 	<cfif len(session.roles) gt 0 and session.roles is not "public">
-              <cfset r = replace(session.roles,",","','","all")>
-              <cfset r = "'#r#'">
-              <cfquery name="roles" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
-							select form_path from cf_form_permissions
-							where upper(role_name) IN (#ucase(preservesinglequotes(r))#)
-							minus select form_path from cf_form_permissions
-							where upper(role_name)  not in (#ucase(preservesinglequotes(r))#)
-						</cfquery>
-              <cfset formList = valuelist(roles.form_path)>
-				<li class="nav-item dropdown"> 
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Data Entry </a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li></li>
-						<li><a class="dropdown-item" href="/DataEntry.cfm">Enter Single Records</a></li>
-						<li><a class="dropdown-item" href="/Bulkloader.cfm">Bulkload Records</a> </li>
-						<li><a class="dropdown-item" href="/BulkloadSpecimen.cfm">Bulkload Builder</a></li>
-						<li><a class="dropdown-item" href="/Browse.cfm">Browse and Edit</a> </li>
-						<li><a class="dropdown-item" href="/BulkloaderStatus.cfm">Bulkloader Status</a> </li>
-						<li><a class="dropdown-item" href="##">Batch Tools</a></li>
-					</ul>
-				</li>
-				<li class="nav-item dropdown"> 
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage </a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li></li>
-						<li><a class="dropdown-item" href="##">Projects</a></li>
-						<li class="dropdown-submenu wd-130"><a class="wd-130 dropdown-item dropdown-toggle" href="##">Reports</a>
-							<ul class="dropdown-menu">
-								<li></li>
-								<li><a class="dropdown-item" href="##">Statistics</a></li>
-								<li><a class="dropdown-item" href="##">Annual Reports</a></li>
-								<li class="dropdown-submenu wd-130"><a class="wd-130 dropdown-item dropdown-toggle" href="##">Shared Data</a>
-									<ul class="dropdown-menu">
-										<li></li>
-										<li><a class="dropdown-item" href="##">Recently Georeferenced Localities</a></li>
-										<li><a class="dropdown-item" href="##">Taxonomy Review</a></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li><a class="dropdown-item" href="##">Object Tracking</a></li>
-						<li><a class="dropdown-item" href="##">Encumbrances</a></li>
-						<li><a class="dropdown-item" href="##">Record Review</a></li>
-					</ul>
-				</li>
-				<li class="nav-item dropdown"> 
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Transactions </a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li></li>
-						<li><a class="dropdown-item" href="/Accession.cfm">Accessions</a> </li>
-						<li><a class="dropdown-item" href="/Deaccession.cfm">Deaccessions</a> </li>
-						<li><a class="dropdown-item" href="/Borrow.cfm">Borrows</a> </li>
-						<li><a class="dropdown-item" href="/Loan.cfm">Loans</a> </li>
-						<li><a class="dropdown-item" href="/Permit.cfm;">Permits</a> </li>
-					</ul>
-				</li>
-				  </cfif>
-				<li class="nav-item dropdown">
-				 		<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li></li>
-						<li><a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">MCZbase Wiki</a></li>
-						<li><a class="dropdown-item" href="/About.cfm">About MCZbase</a> </li>
-					</ul> 
-				 </li>
-			</ul>
-		</div>
-	</div>
-<ul id="profiles" class="nav justify-content-end col-sm-1 accn-icons">
-	<li class="nav-item dropdown">
-	<a href="##formLogin" data-toggle="dropdown" role="button"> 
-		<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-			<i class="fas fa-user-check" style="color: ##39A845;"></i> 
-		<cfelse>
-			<i class="fas fa-user"  style="color: ##666666;"></i> 
-		</cfif>	
-	</a> 
-	<ul class="dropdown-menu" id="formLogin" aria-labelledby="navbarDropdown">
-	<cfif isdefined("session.username") and len(#session.username#) gt 0>		
-		<li>
-			<form name="signOut" method="post" action="/login.cfm">
-			<input type="hidden" name="action" value="signOut">			
-			<button class="alert-link alert-success border-0 text-left px-3" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
-				<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
-				 &nbsp;	(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)
-				</cfif>
-			</button>
-			</form>
+	<ul class="navbar col-lg-3 col-sm-3 pt-0 pb-0 mb-1 d-flex justify-content-end">
+		<li class="nav-item d-flex align-content-end"> 
+			<a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="#Application.header_image#" width="160" alt="mcz kronosaurus logo with link to website"></a> 
 		</li>
-		<li>
-			<cfif session.roles contains "coldfusion_user">
-				<form name="profile" method="post" action="/UserProfile.cfm">
-					<input type="hidden" name="action" value="nothing">
-					<input type="submit" value="User Profile" class="anchor-button" onClick="logIn.action.value='nothing';submit();">
+	</ul>
+</div>
+</cfoutput>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbarToggler1" aria-controls="navbarToggler1" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarToggler1">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0 pl-2">
+  <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle pl-1 mr-4" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Data Searches
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+          <a class="dropdown-item" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
+          <a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
+          <a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
+		  <a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
+          <a class="dropdown-item" aria-label="agent search" name="agents" href="##">Agents</a>
+          <a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="##">Taxonomy</a>
+        </div>
+      </li>
+  <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle pl-1 mr-4" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Data Entry
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+          <a class="dropdown-item" name="enter a record" href="##">Enter a Record</a>
+          <a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
+          <a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
+		  <a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
+          <a class="dropdown-item" name="bulkloader status" href="##">Bulkloader Status</a>
+		  <a class="dropdown-item" name="batch tools" href="##">Batch Tools</a>
+        </div>
+      </li>
+	<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle pl-1 mr-4" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Manage Data
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+          <a class="dropdown-item" name="projects" href="##">Projects</a>
+          <a class="dropdown-item" name="statistics" href="##">Statistics</a>
+		  <a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
+          <a class="dropdown-item" name="recently georeferenced localities" href="##">Recently Georefereced Localities</a>
+		  <a class="dropdown-item" name="taxonomy review" href="##">Taxonomy Review</a>
+		  <a class="dropdown-item" name="object tracking" href="##">Object Tracking</a>
+          <a class="dropdown-item" name="encumbrances" href="##">Encumbrances</a>
+		  <a class="dropdown-item" name="record review" href="##">Record Review</a>
+        </div>
+      </li>
+  <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle pl-1 mr-4" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Transactions
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
+          <a class="dropdown-item" name="accessions" href="##">Accessions</a>
+          <a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
+          <a class="dropdown-item" name="borrows" href="##">Borrows</a>
+		  <a class="dropdown-item" name="loans" href="##">Loans</a>
+          <a class="dropdown-item" name="permits" href="##">Permits</a>
+        </div>
+      </li>
+		<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle pl-1" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Help
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">
+          <a class="dropdown-item" name="MCZbase Wiki" href="##">MCZbase Wiki</a>
+          <a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
+			 <a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
+        </div>
+      </li>
+    </ul>
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+	   <ul class="navbar-nav mt-2 mt-lg-0 pl-2">
+		 <li class="nav-item dropdown">
+			 <a class="nav-link dropdown-toggle pl-1" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  Account	<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+						<i class="fas fa-user-check color-green"></i> 
+					<cfelse>
+						<i class="fas fa-user-cog text-body"></i> 
+					</cfif>	
+			</a>
+		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinka">
+		<cfif session.roles contains "coldfusion_user">
+			<form name="profile" method="post" action="/UserProfile.cfm">
+				<input type="hidden" name="action" value="nothing">
+				<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+			
+			</form>
+		</cfif>
+  		<cfif session.roles contains "public">
+			<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
+			<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+		</cfif>
+		</div>
+	  </li>
+	  </ul>
+		  <form class="form-inline my-2 my-lg-0 pl-2" name="signOut" method="post" action="/login.cfm">
+	  <input type="hidden" name="action" value="signOut">	
+      <button class="btn btn-outline-success my-2 my-sm-0" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
+		<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+			&nbsp; <small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+		</cfif>
+	  </button>
+    </form>
+	<cfelse>
+	
+	  <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+	   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+	  <cfelse>
+	   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+	  </cfif>
+				<form name="logIn" method="post" action="/login.cfm" class="pl-2">
+					<input type="hidden" name="action" value="signIn">
+					<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
+					<input type="hidden" name="gotopage" value="#gtp#?greeting=HelloSpecimens">
+					<div class="form-group">
+						<label for="Username" class="sr-only"> Username:</label>
+						<input type="text" name="username" id="Username" size="14" placeholder="username" class="d-inline-block w-auto h-auto rounded" style="padding:2px;">
+						<label for="Password" class="mr-1 sr-only"> Password:</label>
+						<input type="password" id="Password" name="password" placeholder="password" title="Password" size="14" class="d-inline-block w-auto h-auto rounded" style="padding: 2px;">
+						<input type="submit" value="Log In" class="btn btn-secondary btn-sm" style="padding: 3px;margin: 3px 0;margin-top:0"  onClick="logIn.action.value='signIn';submit();">
+						<!---	<span class="d-inline-block px-1">or</span>--->
+						<input type="submit" value="Create Account" class="btn btn-primary btn-sm" style="padding: 3px;margin: 3px 0;margin-top:0;" onClick="logIn.action.value='newUser';submit();">
 					</div>
 				</form>
-			</cfif>
-		</li>
-			<cfif session.roles contains "public">
-				<li><a href="/searchBuilder.cfm" class="px-3">Set Fixed Search</a> </li>
-				<li><a href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a> </li>
-			</cfif>
-		<cfelse>
-			<li>
-			  <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-			   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-			  <cfelse>
-			   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-			  </cfif>
-
-			<form name="logIn" method="post" action="/login.cfm" class="p-1 my-2">
-			<input type="hidden" name="action" value="signIn">
-				<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
-				<input type="hidden" name="gotopage" value="#gtp#?greeting=HelloSpecimens">
-
-				<div class="form-group ml-1 mb-2">
-					<label for="username"> Username:</label>
-					<input type="text" name="username" title="Username" size="14" class="form-control d-inline w-auto h-auto p-0">
-				</div>
-				<div class="form-group ml-1 mb-2">
-					<label for="password" class="mr-1"> Password:</label>
-					<input type="password" name="password" title="Password" size="14" class="form-control d-inline w-auto h-auto p-0" >
-				</div>
-				<div class="form-group ml-2">
-					<input type="submit" value="Log In" class="btn btn-secondary btn-sm" onClick="logIn.action.value='signIn';submit();">
-						<span class="d-inline-block px-1">or</span>
-					<input type="submit" value="Create Account" class="btn btn-primary btn-sm" onClick="logIn.action.value='newUser';submit();">
-				</div>
-			</form>
-			</li>
-		</cfif>		
-	</ul>
+		  </cfif>
+  </div>
 </nav>
+	
+	
+
 </header>
 <cf_rolecheck>
 </cfoutput>
 <cfset HEADER_DELIVERED=true>
+	

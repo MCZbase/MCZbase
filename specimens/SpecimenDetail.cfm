@@ -112,9 +112,9 @@ limitations under the License.
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
 		#session.flatTableName#.dec_lat,
 		#session.flatTableName#.dec_long
-		<cfif len(#session.CustomOtherIdentifier#) gt 0>
+<!---		<cfif len(#session.CustomOtherIdentifier#) gt 0>
 			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
-		</cfif>
+		</cfif>--->
 	FROM
 		#session.flatTableName#,
 		collection
@@ -172,9 +172,9 @@ limitations under the License.
 			</cfif>
 	<div class="card-body d-flex flex-column align-items-start">
 			<div style="font-size:1em">
-				<cfif len(session.CustomOtherIdentifier) gt 0>
+<!---				<cfif len(session.CustomOtherIdentifier) gt 0>
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
-				</cfif>
+				</cfif>--->
 			</div>
 			<h2 class="d-inline-block mb-1 mt-0 h3 font-weight-bold">#collection#&nbsp;#cat_num#</h2>
 				<div class="mb-0 font-weight-normal"> 

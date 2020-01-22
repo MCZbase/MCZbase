@@ -20,27 +20,27 @@ limitations under the License.
     <div class="fixed-bottom bg-inverse">
     <cfif cgi.HTTP_HOST contains "harvard.edu" >
     
-		<div class="row helplinks border-top pt-1">
+		<div class="row helplinks bg-light border-top pt-1">
         	<div class="col-sm-12 col-md-4 col-lg-4" style="text-align: center;">
-        		<a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a>
+        		<a HREF="mailto:bhaley@oeb.harvard.edu" aria-label="email_to_system_admin">System Administrator</a>
 			</div>
        		<div class="col-sm-12 col-md-4 col-lg-4" style="text-align: center;">
-        		<a href="/info/bugs.cfm">Feedback&#8202;/&#8202;Report Errors</a>
+        		<a href="/info/bugs.cfm" aria-label="bug_report_link">Feedback&#8202;/&#8202;Report Errors</a>
 			</div>
         	<div class="col-sm-12 col-md-4 col-lg-4" style="text-align: center;">
-        		<a href="/Collections/index.cfm">Data Providers</a> 
+        		<a href="/Collections/index.cfm" aria-label="data_providers">Data Providers</a> 
         	</div>
 		</div>
 
         <div class="row copyright_background">
-            <div class="footer-col-4-md" align="center"> <img alt="Harvard Museum of Comparative Zoology Logo" title="Harvard Museum of Comparative Zoology Logo" class="media-element file-default file-os-files-medium" src="/includes/images/harvard_museum.png">
-				<p class="agreements" style="font-size: smaller;"><a href="/Affiliates.cfm" class="policy_link">Affiliates</a> <a>|</a> <a href="https://mcz.harvard.edu/privacy-policy" class="policy_link">Privacy</a> <a>|</a> <a href="https://mcz.harvard.edu/user-agreement" class="policy_link">User Agreement</a> 
+            <div class="footer-col-4-md" align="center"> <img alt="Harvard Museum of Comparative Zoology Logo" class="media-element file-default file-os-files-medium" src="/includes/images/harvard_museum.png">
+				<p class="agreements" style="font-size: smaller;"><a href="/Affiliates.cfm" class="policy_link" aria-label="affiliates_link">Affiliates</a> <a>|</a> <a href="https://mcz.harvard.edu/privacy-policy" class="policy_link" aria-label="privacy_policy_link">Privacy</a> <a>|</a> <a href="https://mcz.harvard.edu/user-agreement" class="policy_link" aria-label="user_agreement_link">User Agreement</a> 
 				</p>
             </div>
         </div>
         </div>
         <div class="branding-container">
-            <div class="copyright-bottom fs-012 text-center"> Copyright © 2019 The President and Fellows of Harvard College.&nbsp; <a href="http://accessibility.harvard.edu/" class="text-white">Accessibility</a> | <a href="http://www.harvard.edu/reporting-copyright-infringements" class="text-white">Report Copyright Infringement</a> </div>
+            <div class="copyright-bottom fs-012 text-center"> Copyright &#x24B8; 2019 The President and Fellows of Harvard College.&nbsp; <a href="http://accessibility.harvard.edu/" class="text-white" aria-label="accessibility_link">Accessibility</a> | <a href="http://www.harvard.edu/reporting-copyright-infringements" class="text-white" aria-label="report_copyright_infringement_link">Report Copyright Infringement</a> </div>
         </div>
     </cfif>
     </div>
@@ -146,5 +146,29 @@ window.classie = {
 
 })( window );
 </script>
+
+<script>
+//var navButton = document.querySelector('nav a');
+//navButton.addEventListener('click', function() {
+//    let expanded = this.getAttribute('aria-expanded') === 'true' || false;
+//    this.setAttribute('aria-expanded', !expanded);
+//    let menu = this.nextElementSibling;
+//    menu.hidden = !menu.hidden;
+//});
+
+
+this.button.addEventListener('keydown', function (e) {
+    if (e.keyCode === 40) {
+        this.open();
+    }
+}.bind(this));
+	
+document.onkeydown = function(e) {
+  if(e.keyCode === 13) { // The Enter/Return key
+    document.activeElement.onclick(e);
+  }
+};
+</script>
+<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js"></script>
 </footer>
 </body></html>

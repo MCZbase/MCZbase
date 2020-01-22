@@ -246,13 +246,13 @@ limitations under the License.
 			    <cfset Application.header_color = "##ADE1EA" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
-			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
+			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span> <span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 		    <cfelseif serverName contains "-dev">
 			    <cfset Application.header_color = "##1b1b1b" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
-			    <cfset Application.collection_link_text = "MCZBASE:The Database of the Zoological Collections" />
+			     <cfset Application.collection_link_text = "MCZ<span>BASE-DEV</span>:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 				<cfset Application.meta_description = "MCZbase is the natural science collections database of the Museum of Comparative Zoology at Harvard University." />
 			 <cfelse>

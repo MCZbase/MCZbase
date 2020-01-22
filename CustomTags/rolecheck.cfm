@@ -1,6 +1,6 @@
 <cfset filePath = replace('#cgi.script_name#','//','/') >
 <cfif fileexists(application.webDirectory & filePath)>
-	<!--- cache for 45 mins on production, otherwise no cache ---> 
+	<!--- cache for 90 mins on production, otherwise no cache ---> 
 	<cfif Application.productionServer EQ true>
 		<cfset cacheInterval = CreateTimeSpan(0,0,90,0)> 
 	<cfelse>

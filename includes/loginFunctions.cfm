@@ -42,6 +42,7 @@
 	<cfset session.username="">
 	<cfset session.last_login="">
 	<cfset session.loan_request_coll_id="">
+	<cfset session.collection_link_text="">
 	<cfset session.target=''>
 	<cfset session.meta_description=''>
 	<cfset temp=cfid & '_' & cftoken & '_' & RandRange(0, 9999)>
