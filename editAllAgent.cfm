@@ -648,7 +648,7 @@ function opendialogrank(page,id,title,agentId) {
 							<input type="text" name="zip" id="zip" class="reqdClr">
 						</td>
 						<td>
-							<label for="country_cde">Country</label>
+							<label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
 							<input type="text" name="country_cde" id="country_cde" class="reqdClr">
 						</td>
 					</tr>
