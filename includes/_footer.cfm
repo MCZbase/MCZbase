@@ -9,18 +9,23 @@
             <a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a>
          </div>
          <div class="footer2 clearfix">
-              <div class="copyright">
-          <img src="/images/harvard_logo_sm.png" alt="Harvard Shield (logo)" class="harvard_logo">
-              <p>Database content:  &copy; Copyright 2020 <br/>President and Fellows of Harvard College</p>
-              <a href="https://mcz.harvard.edu/privacy-policy">Privacy Statement</a> <span>|</span> 
-              <a href="https://mcz.harvard.edu/user-agreement">User Agreement</a>
-          </div>
+	<div class="copyright">
+		<img src="/images/harvard_logo_sm.png" alt="Harvard Shield (logo)" class="harvard_logo"> 
+		<p>Database content: <br> (c) Copyright 2019 President and Fellows of Harvard College <br> 
+		<a href="https://mcz.harvard.edu/privacy-policy">Privacy Statement</a> 
+		<span>|</span>
+		<a href="https://mcz.harvard.edu/user-agreement">User Agreement</a>
+		<span>|</span> 
+		<a href="http://accessibility.harvard.edu/">Accessibility</a>
+		</p> 
+	</div>
+
 
          <div class="databases">
               <a href="http://www.gbif.org/">
                   <img src="/images/gbiflogo.png" alt="GBIF" class="gbif_logo">
               </a>
-     <a href="http://www.idigbio.org/">
+     		<a href="http://www.idigbio.org/">
                   <img src="/images/idigbio.png" alt="herpnet" class="idigbio_logo">
               </a>
                 <a href="http://eol.org">
