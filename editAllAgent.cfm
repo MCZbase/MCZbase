@@ -664,7 +664,7 @@ function opendialogrank(page,id,title,agentId) {
 						</script>
 				                     <label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
 				                     <span>
-				                     <input type="hidden" name="country_cde" id="country_cde" class="reqdClr">
+				                     <input type="hidden" name="country_cde" id="country_cde" class="reqdClr" value="USA">
 				                     <input type="radio" name="country" value="USA" onclick="handleCountrySelect();" checked="checked" ><span id="textUS" style="color: black; font-weight: bold">USA</span>
 				                     <input type="radio" name="country" value="other" onclick="handleCountrySelect();" ><span id="textOther">Other</span>
 				                     <input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;" >
