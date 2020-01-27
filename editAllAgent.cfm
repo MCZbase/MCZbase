@@ -647,10 +647,29 @@ function opendialogrank(page,id,title,agentId) {
 							<label for="zip">Zip</label>
 							<input type="text" name="zip" id="zip" class="reqdClr">
 						</td>
-						<td>
-							<label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
-							<input type="text" name="country_cde" id="country_cde" class="reqdClr">
-						</td>
+                  <td>
+<script>
+function handleCountrySelect(){
+   var countrySelection =  $('input:radio[name=country]:checked').val();
+   if (countrySelection == 'USA') { 
+      $("##textUS").css("color: black;");
+      $("##otherCountryCode").toggle("false");
+      $("##country_code").val("USA");
+   } else { 
+      $("##textUS").css("color: grey;");
+      $("##otherCountryCode").toggle("true");
+      $("##country_code").val($("##other_country_cd").val());
+   }
+}
+</script>
+                     <label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
+                     <span>
+                     <input type="hidden" name="country_cde" id="country_cde" class="reqdClr">
+                     <input type="radio" name="country" value="USA" onclick="handleCountrySelect();" checked="checked" ><span id="textUS">USA</span>
+                     <input type="radio" name="country" value="other" onclick="handleCountrySelect();" ><span id="textOther">Other</span>
+                     <input type="text" name="other_country_cde" id="other_country_cde" onBlur=" $('##country_cde').val($('##other_country_cde').val());" >
+                     <span>
+                  </td>
 					</tr>
 					<tr>
 						<td>
