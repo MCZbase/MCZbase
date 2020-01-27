@@ -647,10 +647,29 @@ function opendialogrank(page,id,title,agentId) {
 							<label for="zip">Zip</label>
 							<input type="text" name="zip" id="zip" class="reqdClr">
 						</td>
-						<td>
-							<label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
-							<input type="text" name="country_cde" id="country_cde" class="reqdClr">
-						</td>
+                  				<td>
+						<script>
+						function handleCountrySelect(){
+						   var countrySelection =  $('input:radio[name=country]:checked').val();
+						   if (countrySelection == 'USA') { 
+						      $("##textUS").css({"color": "black", "font-weight":"bold" });
+						      $("##other_country_cde").toggle("false");
+						      $("##country_cde").val("USA");
+						   } else { 
+						      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
+						      $("##other_country_cde").toggle("true");
+						      $("##country_cde").val($("##other_country_cde").val());
+						   }
+						}
+						</script>
+				                     <label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
+				                     <span>
+				                     <input type="hidden" name="country_cde" id="country_cde" class="reqdClr">
+				                     <input type="radio" name="country" value="USA" onclick="handleCountrySelect();" checked="checked" ><span id="textUS" style="color: black; font-weight: bold">USA</span>
+				                     <input type="radio" name="country" value="other" onclick="handleCountrySelect();" ><span id="textOther">Other</span>
+				                     <input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;" >
+				                     <span>
+				                  </td>
 					</tr>
 					<tr>
 						<td>
