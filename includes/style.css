@@ -4406,8 +4406,8 @@ table.navtabs {
 	margin-right: 1.5em;
 }
 .copyright {
-	width: 315px;
-	font-size: 13px;
+	width: 440px;
+	font-size: 14px;
 	color: #000;
 	float: left;
 	margin-left: 5em;
@@ -4419,22 +4419,22 @@ table.navtabs {
 	margin-right: 5px;
 }
 .copyright p {
-	width: 340px;
 	margin: 1px 0 7px 0;
 }
 .copyright a {
-	color: #666;
+	color: #000;
 	font-weight: normal;
-	font-size: 12px;
+	font-size: 13px;
 }
 .copyright span {
-	color: #666;
+	color: #000;
 }
 .copyright a:hover {
-	color: blue;
+	color: #114bc7;
+	text-decoration:underline;
 }
 .copyright a:visited {
-	color: #666;
+	color: #000;
 	font-weight: normal;
 }
 #authTab {
