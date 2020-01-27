@@ -1,29 +1,35 @@
-<cfset title="Manage Media">
-<cfinclude template="/includes/_header.cfm">
-<script type='text/javascript' src='/includes/internalAjax.js'></script>
-<script>
-	function manyCatItemToMedia(mid){
-		var bgDiv = document.createElement('div');
-		bgDiv.id = 'bgDiv';
-		bgDiv.className = 'bgDiv';
-		bgDiv.setAttribute('onclick','closeManyMedia()');
-		document.body.appendChild(bgDiv);
-		var guts = "/includes/forms/manyCatItemToMedia.cfm?media_id=" + mid;
-		var theDiv = document.createElement('div');
-		theDiv.id = 'annotateDiv';
-		theDiv.className = 'annotateBox';
-		theDiv.innerHTML='';
-		theDiv.src = '';
-		document.body.appendChild(theDiv);
-		$('#annotateDiv').append('<iframe id="commentiframe" width="90%" height="100%">');
-		$('#commentiframe').attr('src', guts);
-	}
+<cfif isdefined("headless") and headless EQ 'true'>	
+	<!--- Exclude display of page headers and includes --->
+        <cfinclude template="/includes/functionLib.cfm">
+	<cf_rolecheck>
+<cfelse>
+	<cfset title="Manage Media">
+	<cfinclude template="/includes/_header.cfm">
+	<script type='text/javascript' src='/includes/internalAjax.js'></script>
+	<script>
+		function manyCatItemToMedia(mid){
+			var bgDiv = document.createElement('div');
+			bgDiv.id = 'bgDiv';
+			bgDiv.className = 'bgDiv';
+			bgDiv.setAttribute('onclick','closeManyMedia()');
+			document.body.appendChild(bgDiv);
+			var guts = "/includes/forms/manyCatItemToMedia.cfm?media_id=" + mid;
+			var theDiv = document.createElement('div');
+			theDiv.id = 'annotateDiv';
+			theDiv.className = 'annotateBox';
+			theDiv.innerHTML='';
+			theDiv.src = '';
+			document.body.appendChild(theDiv);
+			$('#annotateDiv').append('<iframe id="commentiframe" width="90%" height="100%">');
+			$('#commentiframe').attr('src', guts);
+		}
+		
+		function popupDefine() {
+	    	window.open("/info/mediaDocumentation.cfm", "_blank", "toolbar=no,scrollbars=yes,resizable=no,menubar=no,top=70,left=580,width=860,height=650");
+		}
 	
-	function popupDefine() {
-    	window.open("/info/mediaDocumentation.cfm", "_blank", "toolbar=no,scrollbars=yes,resizable=no,menubar=no,top=70,left=580,width=860,height=650");
-	}
-
-</script>
+	</script>
+</cfif>
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_relationship from ctmedia_relationship order by media_relationship
 </cfquery>
@@ -60,8 +66,21 @@
 	</cfquery>
     <!--- relations --->
     <cfloop from="1" to="#number_of_relations#" index="n">
-      <cfset thisRelationship = #evaluate("relationship__" & n)#>
-      <cfset thisRelatedId = #evaluate("related_id__" & n)#>
+      <cfset failure=0>
+      <cftry>
+      	<cfset thisRelationship = #evaluate("relationship__" & n)#>
+      <cfcatch>
+        <cfset failure=1>
+      </cfcatch>
+      </cftry>
+      <cftry>
+      	<cfset thisRelatedId = #evaluate("related_id__" & n)#>
+      <cfcatch>
+        <cfset failure=1>
+      </cfcatch>
+      </cftry>
+      <cfif thisRelatedId EQ ''><cfset failure=1></cfif>
+      <cfif failure EQ 0>
       <cfif isdefined("media_relations_id__#n#")>
         <cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
         <cfelse>
@@ -90,8 +109,9 @@
 						related_primary_key=#thisRelatedId#
 					where media_relations_id=#thisRelationID#
 				</cfquery>
-        </cfif>
-      </cfif>
+        </cfif><!--- delete or update relation --->
+      </cfif><!--- relation exists ---> 
+      </cfif><!--- Failure check --->
     </cfloop>
     <cfloop from="1" to="#number_of_labels#" index="n">
       <cfset thisLabel = #evaluate("label__" & n)#>
@@ -125,7 +145,11 @@
         </cfif>
       </cfif>
     </cfloop>
-    <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+    <cfif isdefined("headless") and headless EQ 'true'>
+        <h2>Changes to Media Record Saved</h2>
+    <cfelse>
+        <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+    </cfif>
   </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
@@ -338,6 +362,7 @@
    
       <label for="relationships" style="margin-top:.5em;">Media Relationships</label>
       <div id="relationships" class="graydot">
+        <div id="relationshiperror"></div>
         <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
           <option value="">None/Unpick</option>
           <cfloop query="ctmedia_relationship">
@@ -374,22 +399,40 @@
 				onmouseout="this.className='insBtn'">
     </form>
     <cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
-      <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select guid from flat where collection_object_id=#collection_object_id#
-			</cfquery>
-      <script language="javascript" type="text/javascript">
-				$("##relationship__1").val('shows cataloged_item');
-				$("##related_value__1").val('#s.guid#');
-				$("##related_id__1").val('#collection_object_id#');
-			</script>
+       <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+          select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+       </cfquery>
+       <script language="javascript" type="text/javascript">
+          $("##relationship__1").val('shows cataloged_item');
+          $("##related_value__1").val('#s.guid#');
+          $("##related_id__1").val('#collection_object_id#');
+       </script>
     </cfif>
-      </div>
+    <cfif isdefined("relationship") and len(relationship) gt 0>
+      <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	  select media_relationship from ctmedia_relationship where media_relationship= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+      </cfquery>
+      <cfif s.recordCount eq 1 >
+         <script language="javascript" type="text/javascript">
+            $("##relationship__1").val('#relationship#');
+            $("##related_value__1").val('#related_value#');
+            $("##related_id__1").val('#related_id#');
+         </script>
+      <cfelse>
+          <script language="javascript" type="text/javascript">
+				$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
+         </script>
+      </cfif>
+    </cfif>
+    </div>
   </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------------------>
 <cfif #action# is "saveNew">
+  <cfset error=false>
   <cfoutput>
     <cftransaction>
+      <cftry>
       <cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select sq_media_id.nextval nv from dual
 		</cfquery>
@@ -422,8 +465,37 @@
 				</cfquery>
         </cfif>
       </cfloop>
+      <cfcatch>
+        <cftransaction action="rollback">
+        <h2>Error saving new media record</h2>
+        <p>#cfcatch.message#</p>
+        <p>#cfcatch.detail#</p> 
+        <cfif cfcatch.detail contains "ORA-00001: unique constraint (MCZBASE.U_MEDIA_URI)" >
+           <h3>A media record for that resource already exists in MCZbase.</h3>
+        </cfif>
+        <cfset error=true>
+      </cfcatch>
+      </cftry>
     </cftransaction>
-    <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+    <cfif not error>
+	    <cfif isdefined("headless") and headless EQ 'true'>	
+		<h2>New Media Record Saved</h2>
+                <div id='savedLinkDiv'><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
+                <cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
+                    <div>Created with relationship: #thisRelationship#</div>
+                </cfif>
+        	<script language='javascript' type='text/javascript'>
+                 $('##savedLinkDiv').removeClass('ui-widget-content');
+                </script>
+	    <cfelse>
+		<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+	    </cfif>
+    </cfif>
   </cfoutput>
 </cfif>
-<cfinclude template="/includes/_footer.cfm">
+
+<cfif isdefined("headless") and headless EQ 'true'>	
+	<!--- Leave off footer  --->
+<cfelse>
+	<cfinclude template="/includes/_footer.cfm">
+</cfif>

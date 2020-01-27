@@ -1471,66 +1471,221 @@
 		<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getMediaForTransHtml" returntype="string" access="remote" returnformat="plain">
-   <cfargument name="transaction_id" type="string" required="yes">
-   <cfargument name="transaction_type" type="string" required="yes">
+<cffunction name="addAddressHtml" returntype="string" access="remote" returnformat="plain">
+   <cfargument name="create_from_address_id" type="string" required="yes">
+   <cfargument name="address_type" type="string" required="no">
+   <cfset result="">
+   <cfif not isdefined("address_type") or len(#address_type#) gt 0>
+      <cfset address_type = "temporary">
+   </cfif>
+   <cfquery name="qAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select agent_id from addr where addr_id = <cfqueryparam value="#create_from_address_id#" CFSQLTYPE="CF_SQL_VARCHAR">
+   </cfquery>
+   <cfset agent_id = qAgent.agent_id >
+   <cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select addr_type from ctaddr_type where addr_type = <cfqueryparam value="#address_type#" CFSQLTYPE="CF_SQL_VARCHAR">
+   </cfquery>
+   <cfif ctAddrType.addr_type IS ''>
+       <cfset result=result & "<ul><li>Provided address type is unknown.</li></ul>">
+   <cfelse>
    <cfset result="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           select distinct
-               media.media_id as media_id,
-               preview_uri,
-               media.media_uri,
-               media.mime_type,
-               media.media_type as media_type,
-               MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-               MCZBASE.get_medialabel(media.media_id, 'description') as label_value
-           from
-               media_relations left join media on media_relations.media_id = media.media_id
+           select agent_name 
+           from agent a left join agent_name on a.preferred_agent_name_id = agent_name.agent_name_id
            where
-               media_relationship like '% #transaction_type#' 
-               and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+               a.agent_id = <cfqueryparam value="#agent_id#" CFSQLType="CF_SQL_DECIMAL">
+               and rownum < 2
    </cfquery>
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
-          <cfset puri=getMediaPreview(preview_uri,media_type) >
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""shows #transaction_type#""); } ); '>Remove</a> </li>" >
+<!-- TODO: Make ajax response to save and hold resulting addressid for pickup.-->
+          <cfset result = result & "
+<div id='newAddressStatus'></div>
+<form name='newAddress' id='newAddressForm'>
+    <input type='hidden' name='method' value='addNewAddress'>
+    <input type='hidden' name='returnformat' value='json'>
+    <input type='hidden' name='queryformat' value='column'>
+    <input type='hidden' name='agent_id' value='#agent_id#'>
+    <input type='hidden' name='addr_type' value='#address_type#'>
+    <input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
+    <table>
+     <tr>
+      <td>
+       <strong>Address Type:</strong> #ctAddrType.addr_type#
+      </td>
+      <td>
+       <strong>Address For:</strong> #query.agent_name#
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='institution'>Institution</label>
+       <input type='text' name='institution' id='institution'size='50' >
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='department'>Department</label>
+       <input type='text' name='department' id='department' size='50' >
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='street_addr1'>Street Address 1</label>
+       <input type='text' name='street_addr1' id='street_addr1' size='50' class='reqdClr'>
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='street_addr2'>Street Address 2</label>
+       <input type='text' name='street_addr2' id='street_addr2' size='50'>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       <label for='city'>City</label>
+       <input type='text' name='city' id='city' class='reqdClr'>
+      </td>
+      <td>
+       <label for='state'>State</label>
+       <input type='text' name='state' id='state' class='reqdClr'>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       <label for='zip'>Zip</label>
+       <input type='text' name='zip' id='zip' class='reqdClr'>
+      </td>
+      <td>
+       <label for='country_cde'>Country</label>
+       <input type='text' name='country_cde' id='country_cde' class='reqdClr'>
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='mail_stop'>Mail Stop</label>
+       <input type='text' name='mail_stop' id='mail_stop'>
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <label for='addr_remarks'>Address Remark</label>
+       <input type='text' name='addr_remarks' id='addr_remarks' size='50'>
+      </td>
+     </tr>
+     <tr>
+      <td colspan='2'>
+       <input type='submit' class='insBtn' value='Create Address' >
+       <script>
+         $('##newAddressForm').submit( function (e) { 
+             $.ajax({
+                url: '/component/functions.cfc',
+                data : $('##newAddressForm').serialize(),
+                success: function (result) {
+                     if (result.DATA.STATUS[0]=='success') { 
+                        $('##newAddressStatus').html('New Address Added');
+                        $('##new_address_id').val(result.DATA.ADDRESS_ID[0]);
+                        $('##new_address').val(result.DATA.ADDRESS[0]);
+                        $('##tempAddressDialog').dialog('close');
+                     } else { 
+                        $('##newAddressStatus').html(result.DATA.MESSAGE[0]);
+                     }
+                },
+        	dataType: 'json'
+              });
+              e.preventDefault();
+         });
+      </script>
+      </td>
+     </tr>
+    </table>
+    <input type='hidden' name='new_address_id' id='new_address_id' value=''>
+    <input type='hidden' name='new_address' id='new_address' value=''>
+</form>
+" >
        </cfloop>
        <cfset result= result & "</ul>">
    <cfelse>
-       <cfset result=result & "<ul><li>None</li></ul>">
+       <cfset result=result & "<ul><li>No Agent Found for temporary address.</li></ul>">
    </cfif>
+   </cfif>  <!--- known address type provided --->
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getDeaccMediaHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="addNewAddress" access="remote" returntype="query">
+	<cftransaction>
+    <cftry>
+        <cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            select agent_name from preferred_agent_name 
+            where agent_id= <cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_NUMBER'>
+        </cfquery>
+        <cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            select sq_addr_id.nextval as id from dual
+        </cfquery>
+        <cfset pk = addrNextId.id>
+        <cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
+            INSERT INTO addr (
+                                ADDR_ID
+                                ,STREET_ADDR1
+                                ,STREET_ADDR2
+                                ,institution
+                                ,department
+                                ,CITY
+                                ,state
+                                ,ZIP
+                                ,COUNTRY_CDE
+                                ,MAIL_STOP
+                                ,agent_id
+                                ,addr_type
+                                ,valid_addr_fg
+                                ,addr_remarks
+                        ) VALUES (
+                                 <cfqueryparam value='#pk#' cfsqltype='CF_SQL_NUMBER'>
+                                ,<cfqueryparam value='#STREET_ADDR1#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#STREET_ADDR2#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#institution#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#department#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#CITY#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#state#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#ZIP#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#COUNTRY_CDE#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#MAIL_STOP#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_NUMBER'>
+                                ,<cfqueryparam value='#addr_type#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#valid_addr_fg#' cfsqltype='CF_SQL_NUMBER'>
+                                ,<cfqueryparam value='#addr_remarks#' cfsqltype='CF_SQL_VARCHAR'>
+                        )
+        </cfquery>
+        <cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
+            select formatted_addr from addr 
+            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_NUMBER">
+        </cfquery>
+		<cfset q=queryNew("STATUS,ADDRESS_ID,ADDRESS,MESSAGE")>
+		<cfset t = queryaddrow(q,1)>
+		<cfset t = QuerySetCell(q, "STATUS", "success", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS_ID", "#pk#", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS", "#newAddr.formatted_addr#", 1)>
+		<cfset t = QuerySetCell(q, "MESSAGE", "", 1)>
+     <cfcatch>
+        <cftransaction action="rollback"/>
+		<cfset q=queryNew("STATUS,ADDRESS_ID,ADDRESS,MESSAGE")>
+		<cfset t = queryaddrow(q,1)>
+		<cfset t = QuerySetCell(q, "STATUS", "error", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS_ID", "", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS", "", 1)>
+		<cfset t = QuerySetCell(q, "MESSAGE", "Error: #cfcatch.message# #cfcatch.detail#", 1)>
+     </cfcatch>
+     </cftry>
+	</cftransaction>
+     <cfreturn q>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getMediaForTransHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="transaction_id" type="string" required="yes">
+   <cfargument name="transaction_type" type="string" required="yes">
+   <cfset relword="documents">
    <cfset result="">
-   <cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                select
-            trans.transaction_id,
-                        trans.trans_date,
-                        deaccession.deacc_number,
-                        deaccession.deacc_type,
-                        deaccession.deacc_status,
-            deaccession.value,
-            deaccession.method,
-                        deaccession.deacc_reason,
-                        trans.nature_of_material,
-                        trans.trans_remarks,
-                        to_char(closed_date, 'YYYY-MM-DD') closed_date,
-                        trans.collection_id,
-                        collection.collection,
-                        concattransagent(trans.transaction_id,'entered by') enteredby
-                 from
-                        deaccession,
-                        trans,
-                        collection
-                where
-                        deaccession.transaction_id = trans.transaction_id AND
-                        trans.collection_id=collection.collection_id and
-                        trans.transaction_id = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
-   </cfquery>
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
            select distinct
                media.media_id as media_id,
@@ -1543,22 +1698,19 @@
            from
                media_relations left join media on media_relations.media_id = media.media_id
            where
-               media_relationship like '% deaccession'
+               media_relationship like '% #transaction_type#' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this deaccession?"", ""Confirm Unlink Media"", function() { deleteMediaFromDeacc(#media_id#,#transaction_id#,""shows deaccession""); } ); '>Remove</a> </li>" >
+		<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
        </cfloop>
        <cfset result= result & "</ul>">
    <cfelse>
        <cfset result=result & "<ul><li>None</li></ul>">
    </cfif>
-   <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#deaccDetails.collection# #deaccDetails.deacc_number#','#transaction_id#');"">Create Media</span> ">
-   <cfset result = result & "</span>&nbsp;~&nbsp;">
-   <cfset result = result & "<span id='addDeacc_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=shows deaccession','addDeaccDlg_#transaction_id#','Pick Media for Deaccession', reloadDeaccessionMedia ,650,900); "" ></div><div id='addDeaccDlg_#transaction_id#'></div></span>">
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -2414,7 +2566,7 @@
 	</cfoutput>
 </cffunction>
 
-            <!-------------------------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------------->
 <cffunction name="addPartToDeacc" access="remote">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="partID" type="numeric" required="yes">
@@ -2605,6 +2757,11 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a list of collection object ids, return a result object consisting of collection object id values with
+       corresponding type status values (along with counts) for that collection object in a typeList variable.  In 
+       the event of an error return a result object with one row where the collection object id has the value -1 and 
+       the typeList contains an error message.
+---> 
 <cffunction name="getTypes" access="remote">
 	<cfargument name="idList" type="string" required="yes">
 	<cfset theResult=queryNew("collection_object_id,typeList")>
@@ -2638,6 +2795,1016 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+<!--- Create an html form for entering a new permit and linking it to a transaction or shipment.   
+      @param related_id the transaction or shipment ID to link the new permit to.
+      @param related_label a human readable description of the transaction or shipment to link the new permit to.
+      @param relation_type 'transaction' to relate the new permit to a transaction, 'shipment' to relate to a shipment.
+      @return an html form suitable for placement as the content of a jquery-ui dialog to create the new permit.
+
+      @see createNewPermitForTrans
+---> 
+<cffunction name="getNewPermitForTransHtml" access="remote" returntype="string">
+    <cfargument name="related_id" type="string" required="yes">
+    <cfargument name="related_label" type="string" required="yes">
+    <cfargument name="relation_type" type="string" required="yes">
+
+    <cfset result = "">
+
+   <cftry>
+     <cfif relation_type EQ "transaction">
+         <cfset transaction_id = related_id>
+     <cfelse>
+         <cfset shipment_id = related_id>
+     </cfif>
+    
+    <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, ct.permit_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type, ct.permit_type
+        order by ct.specific_type
+    </cfquery>
+    <cfset result = result & "<h2>Create New Permissions &amp; Rights Document</h2>
+    <p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
+       material transfer agreements, collecting permits, salvage permits, etc.)  This record will be linked to #related_label#</p>
+	<cfoutput>
+	<form id='newPermitForm' onsubmit='addnewpermit'>
+   	    <input type='hidden' name='method' value='createNewPermitForTrans'>
+    	<input type='hidden' name='returnformat' value='plain'>
+    	<input type='hidden' name='related_id' value='#related_id#'>
+    	<input type='hidden' name='related_label' value='#related_label#'>
+    	<input type='hidden' name='relation_type' value='#relation_type#'>
+	<table>
+		<tr>
+			<td>Issued By</td>
+			<td colspan='3'>
+			<input type='hidden' name='IssuedByAgentId'>
+			<input type='text' name='IssuedByAgent' class='reqdClr' size='50' required='yes'
+		 	  onchange=""getAgent('IssuedByAgentId','IssuedByAgent','newPermitForm',this.value); return false;""
+			  onKeyUp='return noenter();'>
+
+
+		    </td>
+		</tr>
+			<tr>
+			<td>Issued To</td>
+			<td colspan='3'>
+			<input type='hidden' name='IssuedToAgentId'>
+			<input type='text' name='IssuedToAgent' class='reqdClr' size='50' required='yes'
+			  onchange=""getAgent('IssuedToAgentId','IssuedToAgent','newPermitForm',this.value); return false;""
+			  onKeyUp='return noenter();'>
+		    </td>
+		</tr>
+		<tr>
+			<td>Contact Person</td>
+			<td colspan='3'>
+			<input type='hidden' name='contact_agent_id'>
+			<input type='text' name='ContactAgent' size='50'
+		 		onchange=""getAgent('contact_agent_id','ContactAgent','newPermitForm',this.value); return false;""
+			  	onKeyUp='return noenter();'>
+
+
+		    </td>
+		</tr>
+		<tr>
+			<td>Issued Date</td>
+			<td><input type='text' name='issued_Date'></td>
+			<td>Renewed Date</td>
+			<td><input type='text' name='renewed_Date'></td>
+		</tr>
+		<tr>
+			<td>Expiration Date</td>
+			<td><input type='text' name='exp_Date'></td>
+			<td>Permit Number</td>
+			<td><input type='text' name='permit_Num'></td>
+		</tr>
+		<tr>
+			<td>Specific Document Type</td>
+			<td colspan=3>
+				<select name='specific_type' id='specific_type' size='1' class='reqdClr' required='yes' >
+					<option value=''></option>">
+					<cfloop query="ctSpecificPermitType">
+                        <cfset result = result & " <option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>">
+					</cfloop>
+                    <cfset result = result & "
+				</select>">
+                   <cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+                        <cfset result = result & "
+                       <button id='addSpecificTypeButton' onclick='openAddSpecificTypeDialog(); event.preventDefault();'>+</button>
+                       <div id='newPermitASTDialog'></div> ">
+                   </cfif>
+            <cfset result = result & "
+			</td>
+		</tr>
+		<tr>
+			<td>Document Title</td>
+			<td><input type='text' name='permit_title' style='width: 26em;' ></td>
+			<td>Remarks</td>
+			<td><input type='text' name='permit_remarks' style='width: 26em;' ></td>
+		</tr>
+		<tr>
+			<td>Summary of Restrictions on use</td>
+			<td colspan='3'><textarea cols='80' rows='3' name='restriction_summary'></textarea></td>
+		</tr>
+		<tr>
+			<td>Summary of Agreed Benefits</td>
+			<td colspan='3'><textarea cols='80' rows='3' name='benefits_summary'></textarea></td>
+		</tr>
+		<tr>
+			<td>Benefits Provided</td>
+			<td colspan='3'><textarea cols='80' rows='3' name='benefits_provided'></textarea></td>
+		</tr>
+	</table>
+    <script language='javascript' type='text/javascript'>
+        function addnewpermit(event) { 
+           event.preventDefault();
+           return false; 
+        };
+        </script>
+    </form> 
+    <div id='permitAddResults'></div>
+">
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result >
+</cffunction>
+<!--------------------------------------------------------------------------------------------------->
+<!--- Given information about a new permissions/rights document record, create that record, and
+      link it to a provided transaction or shipment.
+
+      @param related_id the transaction_id or shipment_id to link the new permit to.
+      @param related_label a human readable descriptor of the transaction or shipment to link to.
+      @param relation_type the value "tranasction" to link the new permit to a transaction, "shipment"
+            to link it to a shipment.
+
+      @see getNewPermitForTransHtml
+--->
+<cffunction name="createNewPermitForTrans" returntype="string" access="remote">
+    <cfargument name="related_id" type="string" required="yes">
+    <cfargument name="related_label" type="string" required="yes">
+    <cfargument name="relation_type" type="string" required="yes">
+    <cfargument name="specific_type" type="string" required="yes">
+    <cfargument name="issuedByAgentId" type="string" required="yes">
+    <cfargument name="issuedToAgentId" type="string" required="yes">
+    <cfargument name="issued_date" type="string" required="no">
+    <cfargument name="renewed_date" type="string" required="no">
+    <cfargument name="exp_date" type="string" required="no">
+    <cfargument name="permit_num" type="string" required="no">
+    <cfargument name="permit_title" type="string" required="no">
+    <cfargument name="permit_remarks" type="string" required="no">
+    <cfargument name="restriction_summary" type="string" required="no">
+    <cfargument name="benefits_summary" type="string" required="no">
+    <cfargument name="benefits_provided" type="string" required="no">
+    <cfargument name="contact_agent_id" type="string" required="no">
+
+    <cfset result = "">
+
+    <cftransaction action="begin">
+    <cftry>
+        <cfif NOT isdefined('issued_date')><cfset issued_date=''></cfif>
+        <cfif NOT isdefined('renewed_date')><cfset renewed_date=''></cfif>
+        <cfif NOT isdefined('exp_date')><cfset exp_date=''></cfif>
+        <cfif NOT isdefined('permit_num')><cfset permit_num=''></cfif>
+        <cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+        <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+        <cfif NOT isdefined('restriction_summary')><cfset restriction_summary=''></cfif>
+        <cfif NOT isdefined('benefits_summary')><cfset benefits_summary=''></cfif>
+        <cfif NOT isdefined('benefits_provided')><cfset benefits_provided=''></cfif>
+        <cfif NOT isdefined('contact_agent_id')><cfset contact_agent_id=''></cfif>
+
+        <cfif relation_type EQ "transaction">
+             <cfset transaction_id = related_id>
+         <cfelse>
+             <cfset shipment_id = related_id>
+         </cfif>
+
+        <cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+        </cfquery>
+        <cfset permit_type = #ptype.permit_type#>
+        <cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        	select sq_permit_id.nextval nextPermit from dual
+        </cfquery>
+        <cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
+	        <cfthrow message="Error: There was an error selecting the permit type for the specific document type.  Please file a bug report.">
+        </cfif>
+		<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
+		INSERT INTO permit (
+			 PERMIT_ID,
+			 ISSUED_BY_AGENT_ID
+			 <cfif len(#ISSUED_DATE#) gt 0>
+			 	,ISSUED_DATE
+			 </cfif>
+			 ,ISSUED_TO_AGENT_ID
+			  <cfif len(#RENEWED_DATE#) gt 0>
+			 	,RENEWED_DATE
+			 </cfif>
+			 <cfif len(#EXP_DATE#) gt 0>
+			 	,EXP_DATE
+			 </cfif>
+			 <cfif len(#PERMIT_NUM#) gt 0>
+			 	,PERMIT_NUM
+			 </cfif>
+			 ,PERMIT_TYPE
+			 ,SPECIFIC_TYPE
+			 <cfif len(#PERMIT_TITLE#) gt 0>
+			 	,PERMIT_TITLE
+			 </cfif>
+			 <cfif len(#PERMIT_REMARKS#) gt 0>
+			 	,PERMIT_REMARKS
+			 </cfif>
+			 <cfif len(#restriction_summary#) gt 0>
+			 	,restriction_summary
+			 </cfif>
+			 <cfif len(#benefits_summary#) gt 0>
+			 	,benefits_summary
+			 </cfif>
+			 <cfif len(#benefits_provided#) gt 0>
+			 	,benefits_provided
+			 </cfif>
+			  <cfif len(#contact_agent_id#) gt 0>
+			 	,contact_agent_id
+			 </cfif>)
+		VALUES (
+			 #nextPermit.nextPermit#
+			 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
+			 <cfif len(#ISSUED_DATE#) gt 0>
+			 	,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">
+			 </cfif>
+			 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
+			  <cfif len(#RENEWED_DATE#) gt 0>
+			 	,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RENEWED_DATE,"yyyy-mm-dd")#">
+			 </cfif>
+			 <cfif len(#EXP_DATE#) gt 0>
+			 	,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(EXP_DATE,"yyyy-mm-dd")#">
+			 </cfif>
+			 <cfif len(#PERMIT_NUM#) gt 0>
+			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
+			 </cfif>
+			 , <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+			 , <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+			<cfif len(#PERMIT_TITLE#) gt 0>
+			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+			 </cfif>
+			<cfif len(#PERMIT_REMARKS#) gt 0>
+			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
+			 </cfif>
+			 <cfif len(#restriction_summary#) gt 0>
+			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
+		     </cfif>
+			 <cfif len(#benefits_summary#) gt 0>
+			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+		     </cfif>
+			 <cfif len(#benefits_provided#) gt 0>
+			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
+		     </cfif>
+			 <cfif len(#contact_agent_id#) gt 0>
+			 	, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#contact_agent_id#">
+			 </cfif>)
+		</cfquery>
+        <cfif newPermitResult.recordcount eq 1>
+            <cfset result = result & "<span>Created new Permissons/Rights record. ">
+            <cfset result = result & "<a id='permitEditLink' href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+            <cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
+            <cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
+        </cfif>
+		<cfquery name="newPermitLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitLinkResult">
+            <cfif relation_type EQ "transaction">
+            INSERT into permit_trans (permit_id, transaction_id)
+            <cfelse>
+            INSERT into permit_shipment (permit_id, shipment_id)
+            </cfif>
+            VALUES
+            (<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#nextPermit.nextPermit#">,
+            <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#related_id#">)
+        </cfquery>
+        <cfif newPermitLinkResult.recordcount eq 1>
+            <cfset result = result & "Linked to #related_label#">
+        </cfif>
+        <cftransaction action="commit">
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+        <cftransaction action="rollback">
+    </cfcatch>
+    </cftry>
+    </cftransaction>
+    <cfreturn result >
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="savePermitChanges" returntype="string" access="remote">
+    <cfargument name="permit_id" type="string" required="yes">
+    <cfargument name="specific_type" type="string" required="yes">
+    <cfargument name="issuedByAgentId" type="string" required="yes">
+    <cfargument name="issuedToAgentId" type="string" required="yes">
+    <cfargument name="issued_date" type="string" required="no">
+    <cfargument name="renewed_date" type="string" required="no">
+    <cfargument name="exp_date" type="string" required="no">
+    <cfargument name="permit_num" type="string" required="no">
+    <cfargument name="permit_title" type="string" required="no">
+    <cfargument name="permit_remarks" type="string" required="no">
+    <cfargument name="restriction_summary" type="string" required="no">
+    <cfargument name="benefits_summary" type="string" required="no">
+    <cfargument name="benefits_provided" type="string" required="no">
+    <cfargument name="contact_agent_id" type="string" required="no">
+
+    <cftransaction action="begin">
+    <cftry> 
+        <cfif NOT isdefined('issued_date')><cfset issued_date=''></cfif>
+        <cfif NOT isdefined('renewed_date')><cfset renewed_date=''></cfif>
+        <cfif NOT isdefined('exp_date')><cfset exp_date=''></cfif>
+        <cfif NOT isdefined('permit_num')><cfset permit_num=''></cfif>
+        <cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+        <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+        <cfif NOT isdefined('restriction_summary')><cfset restriction_summary=''></cfif>
+        <cfif NOT isdefined('benefits_summary')><cfset benefits_summary=''></cfif>
+        <cfif NOT isdefined('benefits_provided')><cfset benefits_provided=''></cfif>
+        <cfif NOT isdefined('contact_agent_id')><cfset contact_agent_id=''></cfif>
+		<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+		</cfquery>
+		<cfset permit_type = #ptype.permit_type#>
+		<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		UPDATE permit SET
+			permit_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#permit_id#">
+			<cfif len(#issuedByAgentId#) gt 0>
+			 	,ISSUED_BY_AGENT_ID = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#issuedByAgentId#">
+		    </cfif>
+			 <cfif len(#ISSUED_DATE#) gt 0>
+			 	,ISSUED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">
+			 </cfif>
+			 <cfif len(#IssuedToAgentId#) gt 0>
+			 	,ISSUED_TO_AGENT_ID = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
+			 </cfif>
+			 <cfif len(#RENEWED_DATE#) gt 0>
+			 	,RENEWED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#RENEWED_DATE#">
+			 </cfif>
+			 <cfif len(#EXP_DATE#) gt 0>
+			 	,EXP_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#EXP_DATE#">
+			 </cfif>
+			 <cfif len(#PERMIT_NUM#) gt 0>
+			 	,PERMIT_NUM = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#PERMIT_NUM#">
+			 </cfif>
+			 <cfif len(#PERMIT_TYPE#) gt 0>
+			 	,PERMIT_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+			 </cfif>
+			 <cfif len(#SPECIFIC_TYPE#) gt 0>
+			 	,SPECIFIC_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+			 </cfif>
+			 <cfif len(#PERMIT_TITLE#) gt 0>
+			 	,PERMIT_TITLE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+			 </cfif>
+			<cfif len(#PERMIT_REMARKS#) gt 0>
+			 	,PERMIT_REMARKS = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
+		    </cfif>
+			<cfif len(#restriction_summary#) gt 0>
+			 	,restriction_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
+		    </cfif>
+			<cfif len(#benefits_summary#) gt 0>
+			 	,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+		    </cfif>
+			<cfif len(#benefits_provided#) gt 0>
+			 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
+		    </cfif>
+			 <cfif len(#contact_agent_id#) gt 0>
+			 	,contact_agent_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#contact_agent_id#">
+			<cfelse>
+				,contact_agent_id = null
+			 </cfif>
+			 where  permit_id =  <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+		</cfquery>
+          <cfif updatePermit.recordcount eq 1>
+             <cfset result=queryNew("status, message")>
+             <cfset t = queryaddrow(result,1)>
+             <cfset t = QuerySetCell(result, "status", "1", 1)>
+             <cfset t = QuerySetCell(result, "message", "Changes saved.", 1)>
+            <cftransaction action="commit">
+          <cfelse>
+            <cfthrow message="No records modified.">
+            <cftransaction action="rollback">
+          </cfif>
+       <cfcatch>
+          <cfset result=queryNew("status, message")>
+          <cfset t = queryaddrow(result,1)>
+          <cfset t = QuerySetCell(result, "status", "-1", 1)>
+          <cfset t = QuerySetCell(result, "message", "Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+       </cfcatch>
+    </cftry>
+    </cftransaction>
+    <cfreturn result>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a shipment_id, return a block of html code for a permit picking dialog to pick permits for the given
+       shipment.
+       @param shipment_id the transaction to which selected permits are to be related.
+       @return html content for a permit picker dialog for transaction permits or an error message if an exception was raised.
+
+       @see setShipmentForPermit 
+       @see findPermitShipSearchResults  
+--->
+<cffunction name="shipmentPermitPickerHtml" returntype="string" access="remote">
+    <cfargument name="shipment_id" type="string" required="yes">
+    <cfargument name="shipment_label" type="string" required="yes">
+   
+    <cfset result = "">
+    <cftry>
+        <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select ct.permit_type, count(p.permit_id) uses 
+        from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
+        group by ct.permit_type
+        order by ct.permit_type
+        </cfquery>
+        <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, count(p.permit_id) uses 
+        from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type
+        order by ct.specific_type
+        </cfquery>
+        <cfset result = result & "
+   <h3>Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h3>
+   <form id='findPermitForm' onsubmit='searchforpermits(event);'>
+   	<input type='hidden' name='method' value='findPermitShipSearchResults'>
+    	<input type='hidden' name='returnformat' value='plain'>
+	<input type='hidden' name='shipment_id' value='#shipment_id#'>
+	<input type='hidden' name='shipment_label' value='#shipment_label#'>
+	<table>
+		<tr>
+			<td>Issued By</td>
+			<td><input type='text' name='IssuedByAgent'></td>
+			<td>Issued To</td>
+			<td><input type='text' name='IssuedToAgent'></td>
+			
+			
+		</tr>
+		<tr>
+			<td>Issued Date</td>
+			<td><input type='text' name='issued_Date'></td>
+			<td>Renewed Date</td>
+			<td><input type='text' name='renewed_Date'></td>
+		</tr>
+		<tr>
+			<td>Expiration Date</td>
+			<td><input type='text' name='exp_Date'></td>
+			<td>Permit Number</td>
+			<td><input type='text' name='permit_Num' id='permit_Num'></td>
+		</tr>
+		<tr>
+			<td>Permit Type</td>
+			<td>
+				<select name='permit_Type' size='1' style='width: 15em;'>
+					<option value=''></option>">
+					<cfloop query='ctPermitType'>
+                        <cfset result = result & "<option value = '#ctPermitType.permit_type#'>#ctPermitType.permit_type# (#ctPermitType.uses#)</option>">
+					</cfloop>
+				    <cfset result = result & "
+				</select>
+			</td>
+			<td>Remarks</td>
+			<td><input type='text' name='permit_remarks'></td>
+		</tr>
+		<tr>
+			<td>Specific Type</td>
+			<td>
+				<select name='specific_type' size='1' style='width: 15em;'>
+					<option value=''></option> ">
+					<cfloop query='ctSpecificPermitType'>
+						<cfset result = result & "<option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>" >
+					</cfloop>
+				    <cfset result = result & "
+				</select>
+			</td>
+			<td>Permit Title</td>
+			<td><input type='text' name='permit_title'></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+			    <input type='submit' value='Search' class='schBtn'>	
+			</td>
+			<td>
+                <script>
+                   function createPermitDialogDone () { 
+                       $('##permit_Num').val($('##permit_number_passon').val()); 
+                   };
+                </script>
+                <span id='createPermit_#shipment_id#_span'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog(""createPermitDlg_#shipment_id#"",""#shipment_label#"", #shipment_id#, ""shipment"", createPermitDialogDone);' ></span><div id='createPermitDlg_#shipment_id#'></div>
+
+			</td>
+			<td>
+   			    <input type='reset' value='Clear' class='clrBtn'>
+			</td>
+		</tr>
+	</table>
+	</form>
+    <script language='javascript' type='text/javascript'>
+        function searchforpermits(event) { 
+           event.preventDefault();
+           // to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
+           // alert($('##findPermitForm').serialize());
+           jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: $('##findPermitForm').serialize(),
+             success: function (data) {
+                 $('##permitSearchResults').html(data);
+             },
+             fail: function (jqXHR, textStatus) {
+                 $('##permitSearchResults').html('Error:' + textStatus);
+             }
+           });
+           return false; 
+        };
+        </script>
+    <div id='permitSearchResults'></div>
+    ">
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result >
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Given a shipment_id and a list of permit search criteria return an html list of permits matching the
+      search criteria, along with controls allowing selected permits to be linked to the specified shipment.
+
+      @see shipmentPermitPickerHtml
+      @see setShipmentForPermit 
+--->
+<cffunction name="findPermitShipSearchResults" access="remote" returntype="string">
+    <cfargument name="shipment_id" type="string" required="yes">
+    <cfargument name="shipment_label" type="string" required="yes">
+	<cfargument name="IssuedByAgent" type="string" required="no">
+	<cfargument name="IssuedToAgent" type="string" required="no">
+	<cfargument name="issued_Date" type="string" required="no">
+	<cfargument name="renewed_Date" type="string" required="no">
+	<cfargument name="exp_Date" type="string" required="no">
+	<cfargument name="permit_Num" type="string" required="no">
+	<cfargument name="specific_type" type="string" required="no">
+	<cfargument name="permit_Type" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+    <cfset result = "">
+    <cftry>
+        <cfif NOT isdefined('IssuedByAgent')><cfset IssuedByAgent=''></cfif>
+        <cfif NOT isdefined('IssuedToAgent')><cfset IssuedToAgent=''></cfif>
+        <cfif NOT isdefined('issued_Date')><cfset issued_Date=''></cfif>
+        <cfif NOT isdefined('renewed_Date')><cfset renewed_Date=''></cfif>
+        <cfif NOT isdefined('exp_Date')><cfset exp_Date=''></cfif>
+        <cfif NOT isdefined('permit_Num')><cfset permit_Num=''></cfif>
+        <cfif NOT isdefined('specific_type')><cfset specific_type=''></cfif>
+        <cfif NOT isdefined('permit_Type')><cfset permit_Type=''></cfif>
+        <cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+        <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+        <cfif len(IssuedByAgent) EQ 0 AND len(IssuedToAgent) EQ 0 AND len(issued_Date) EQ 0 AND 
+              len(renewed_Date) EQ 0 AND len(exp_Date) EQ 0 AND len(permit_Num) EQ 0 AND 
+              len(specific_type) EQ 0 AND len(permit_Type) EQ 0 AND len(permit_title) EQ 0 AND 
+              len(permit_remarks) EQ 0 >
+            <cfthrow type="noQueryParameters" message="No search criteria provided." >
+        </cfif>
+
+    <cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select distinct permit.permit_id,
+	    issuedByPref.agent_name IssuedByAgent,
+    	issuedToPref.agent_name IssuedToAgent,
+	    issued_Date,
+	    renewed_Date,
+    	exp_Date,
+	    permit_Num,
+    	permit_Type,
+	    permit_title,
+    	specific_type,
+	    permit_remarks,
+            (select count(*) from permit_shipment
+		where permit_shipment.permit_id = permit.permit_id
+		and permit_shipment.shipment_id = <cfqueryparam cfsqltype='CF_SQL_NUMBER' value='#shipment_id#'>
+	    ) as linkcount
+    from 
+	    permit 
+    	left join preferred_agent_name issuedToPref on permit.issued_to_agent_id = issuedToPref.agent_id 
+	    left join preferred_agent_name issuedByPref on permit.issued_by_agent_id = issuedByPref.agent_id 
+    	left join agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+ 	    left join agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id 
+            left join permit_trans on permit.permit_id = permit_trans.permit_id 
+    where 
+        permit.permit_id is not null
+		<cfif len(#IssuedByAgent#) gt 0>
+			 AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedByAgent)#%'>
+		</cfif>
+		<cfif len(#IssuedToAgent#) gt 0>
+			 AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedToAgent)#%'>
+		</cfif>
+		<cfif len(#issued_Date#) gt 0>
+			 AND upper(issued_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(issued_Date)#%'>
+		</cfif>
+		<cfif len(#renewed_Date#) gt 0>
+			 AND upper(renewed_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(renewed_Date)#%'>
+		</cfif>
+		<cfif len(#exp_Date#) gt 0>
+			 AND upper(exp_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(exp_Date)#%'>
+		</cfif>
+		<cfif len(#permit_Num#) gt 0>
+			 AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Num#'>
+		</cfif>
+		<cfif len(#specific_type#) gt 0>
+			 AND specific_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#specific_type#'>
+		</cfif>
+		<cfif len(#permit_Type#) gt 0>
+			 AND permit_Type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Type#'>
+		</cfif>
+		<cfif len(#permit_title#) gt 0>
+			 AND upper(permit_title) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_title)#%'>
+		</cfif>
+		<cfif len(#permit_remarks#) gt 0>
+			 AND upper(permit_remarks) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_remarks)#%'>
+		</cfif>
+    ORDER BY permit_id
+    </cfquery>
+    <cfset i=1>
+    <cfset result = result & "<h2>Find permits to link to #shipment_label#</h2>">
+    <cfloop query="matchPermit" >
+        <cfset result = result & "<hr><div">
+        <cfif (i MOD 2) EQ 0> 
+             <cfset result = result & "class='evenRow'"> 
+        <cfelse> 
+             <cfset result = result & "class='oddRow'"> 
+        </cfif>
+        <cfset result = result & " >">
+        <cfset result = result & "
+    	<form id='pp_#permit_id#_#shipment_id#_#i#' >
+	        Permit Number #matchPermit.permit_Num# (#matchPermit.permit_Type#:#matchPermit.specific_type#) 
+            issued to #matchPermit.IssuedToAgent# by #matchPermit.IssuedByAgent# on #dateformat(matchPermit.issued_Date,'yyyy-mm-dd')# ">
+            <cfif len(#matchPermit.renewed_Date#) gt 0><cfset result = result & " (renewed #dateformat(matchPermit.renewed_Date,'yyyy-mm-dd')#)"></cfif>
+            <cfset result = result & ". Expires #dateformat(matchPermit.exp_Date,'yyyy-mm-dd')#.  ">
+            <cfif len(#matchPermit.permit_remarks#) gt 0><cfset result = result & "Remarks: #matchPermit.permit_remarks# "></cfif> 
+            <cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
+            <div id='pickResponse#shipment_id#_#i#'>">
+                <cfif matchPermit.linkcount GT 0>
+            		<cfset result = result & " This Permit is already linked to #shipment_label# ">
+                <cfelse>
+			<cfset result = result & "
+                <input type='button' class='picBtn'
+                onclick='linkpermittoship(#matchPermit.permit_id#,#shipment_id#,""#shipment_label#"",""pickResponse#shipment_id#_#i#"");' value='Add this permit'>
+			">
+		</cfif>
+		<cfset result = result & "
+            </div>
+    	</form>
+        <script language='javascript' type='text/javascript'>
+        $('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
+        function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
+          jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: {
+                method: 'setShipmentForPermit',
+                permit_id: permit_id,
+                shipment_id: shipment_id,
+		returnformat: 'json',
+		queryformat: 'column'
+            },
+            success: function (data) {
+		var dataobj = JSON.parse(data)
+                $('##'+div_id).html(dataobj.DATA.MESSAGE);
+            },
+            fail: function (jqXHR, textStatus) {
+                $('##'+div_id).html('Error:' + textStatus);
+            }
+          });
+        };
+        </script>
+        </div>">
+        <cfset i=i+1>
+    </cfloop>
+
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
+
+
+<!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a transaction_id, return a block of html code for a permit picking dialog to pick permits for the given
+       transaction.
+       @param transaction_id the transaction to which selected permits are to be related.
+       @return html content for a permit picker dialog for transaction permits or an error message if an exception was raised.
+
+       @see linkPermitToTrans 
+       @see findPermitSearchResults
+--->
+<cffunction name="transPermitPickerHtml" returntype="string" access="remote">
+    <cfargument name="transaction_id" type="string" required="yes">
+    <cfargument name="transaction_label" type="string" required="yes">
+   
+    <cfset result = "">
+    <cftry>
+        <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select ct.permit_type, count(p.permit_id) uses 
+        from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
+        group by ct.permit_type
+        order by ct.permit_type
+        </cfquery>
+        <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, count(p.permit_id) uses 
+        from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type
+        order by ct.specific_type
+        </cfquery>
+        <cfset result = result & "
+   <h3>Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h3>
+   <form id='findPermitForm' onsubmit='searchforpermits(event);'>
+   	<input type='hidden' name='method' value='findPermitSearchResults'>
+    	<input type='hidden' name='returnformat' value='plain'>
+	<input type='hidden' name='transaction_id' value='#transaction_id#'>
+	<input type='hidden' name='transaction_label' value='#transaction_label#'>
+	<table>
+		<tr>
+			<td>Issued By</td>
+			<td><input type='text' name='IssuedByAgent'></td>
+			<td>Issued To</td>
+			<td><input type='text' name='IssuedToAgent'></td>
+			
+			
+		</tr>
+		<tr>
+			<td>Issued Date</td>
+			<td><input type='text' name='issued_Date'></td>
+			<td>Renewed Date</td>
+			<td><input type='text' name='renewed_Date'></td>
+		</tr>
+		<tr>
+			<td>Expiration Date</td>
+			<td><input type='text' name='exp_Date'></td>
+			<td>Permit Number</td>
+			<td><input type='text' name='permit_Num' id='permit_Num'></td>
+		</tr>
+		<tr>
+			<td>Permit Type</td>
+			<td>
+				<select name='permit_Type' size='1' style='width: 15em;'>
+					<option value=''></option>">
+					<cfloop query='ctPermitType'>
+                        <cfset result = result & "<option value = '#ctPermitType.permit_type#'>#ctPermitType.permit_type# (#ctPermitType.uses#)</option>">
+					</cfloop>
+				    <cfset result = result & "
+				</select>
+			</td>
+			<td>Remarks</td>
+			<td><input type='text' name='permit_remarks'></td>
+		</tr>
+		<tr>
+			<td>Specific Type</td>
+			<td>
+				<select name='specific_type' size='1' style='width: 15em;'>
+					<option value=''></option> ">
+					<cfloop query='ctSpecificPermitType'>
+						<cfset result = result & "<option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>" >
+					</cfloop>
+				    <cfset result = result & "
+				</select>
+			</td>
+			<td>Permit Title</td>
+			<td><input type='text' name='permit_title'></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+			    <input type='submit' value='Search' class='schBtn'>	
+			</td>
+			<td>
+                <script>
+                   function createPermitDialogDone () { 
+                       $('##permit_Num').val($('##permit_number_passon').val()); 
+                   };
+                </script>
+                <span id='createPermit_#transaction_id#_span'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog(""createPermitDlg_#transaction_id#"",""#transaction_label#"", #transaction_id#, ""transaction"", createPermitDialogDone);' ></span><div id='createPermitDlg_#transaction_id#'></div>
+
+			</td>
+			<td>
+   			    <input type='reset' value='Clear' class='clrBtn'>
+			</td>
+		</tr>
+	</table>
+	</form>
+    <script language='javascript' type='text/javascript'>
+        function searchforpermits(event) { 
+           event.preventDefault();
+           // to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
+           // alert($('##findPermitForm').serialize());
+           jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: $('##findPermitForm').serialize(),
+             success: function (data) {
+                 $('##permitSearchResults').html(data);
+             },
+             fail: function (jqXHR, textStatus) {
+                 $('##permitSearchResults').html('Error:' + textStatus);
+             }
+           });
+           return false; 
+        };
+        </script>
+    <div id='permitSearchResults'></div>
+    ">
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result >
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Given a transaction_id and a list of permit search criteria return an html list of permits matching the
+      search criteria, along with controls allowing selected permits to be linked to the specified transaction.
+
+      @see transPermitPickerHtml
+      @see linkPermitToTrans 
+--->
+<cffunction name="findPermitSearchResults" access="remote" returntype="string">
+    <cfargument name="transaction_id" type="string" required="yes">
+    <cfargument name="transaction_label" type="string" required="yes">
+	<cfargument name="IssuedByAgent" type="string" required="no">
+	<cfargument name="IssuedToAgent" type="string" required="no">
+	<cfargument name="issued_Date" type="string" required="no">
+	<cfargument name="renewed_Date" type="string" required="no">
+	<cfargument name="exp_Date" type="string" required="no">
+	<cfargument name="permit_Num" type="string" required="no">
+	<cfargument name="specific_type" type="string" required="no">
+	<cfargument name="permit_Type" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+    <cfset result = "">
+    <cftry>
+        <cfif NOT isdefined('IssuedByAgent')><cfset IssuedByAgent=''></cfif>
+        <cfif NOT isdefined('IssuedToAgent')><cfset IssuedToAgent=''></cfif>
+        <cfif NOT isdefined('issued_Date')><cfset issued_Date=''></cfif>
+        <cfif NOT isdefined('renewed_Date')><cfset renewed_Date=''></cfif>
+        <cfif NOT isdefined('exp_Date')><cfset exp_Date=''></cfif>
+        <cfif NOT isdefined('permit_Num')><cfset permit_Num=''></cfif>
+        <cfif NOT isdefined('specific_type')><cfset specific_type=''></cfif>
+        <cfif NOT isdefined('permit_Type')><cfset permit_Type=''></cfif>
+        <cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+        <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+        <cfif len(IssuedByAgent) EQ 0 AND len(IssuedToAgent) EQ 0 AND len(issued_Date) EQ 0 AND 
+              len(renewed_Date) EQ 0 AND len(exp_Date) EQ 0 AND len(permit_Num) EQ 0 AND 
+              len(specific_type) EQ 0 AND len(permit_Type) EQ 0 AND len(permit_title) EQ 0 AND 
+              len(permit_remarks) EQ 0 >
+            <cfthrow type="noQueryParameters" message="No search criteria provided." >
+        </cfif>
+
+    <cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select distinct permit.permit_id,
+	    issuedByPref.agent_name IssuedByAgent,
+    	issuedToPref.agent_name IssuedToAgent,
+	    issued_Date,
+	    renewed_Date,
+    	exp_Date,
+	    permit_Num,
+    	permit_Type,
+	    permit_title,
+    	specific_type,
+	    permit_remarks,
+            (select count(*) from permit_trans 
+		where permit_trans.permit_id = permit.permit_id
+		and permit_trans.transaction_id = <cfqueryparam cfsqltype='CF_SQL_NUMBER' value='#transaction_id#'>
+	    ) as linkcount
+    from 
+	    permit 
+    	left join preferred_agent_name issuedToPref on permit.issued_to_agent_id = issuedToPref.agent_id 
+	    left join preferred_agent_name issuedByPref on permit.issued_by_agent_id = issuedByPref.agent_id 
+    	left join agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+ 	    left join agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id 
+            left join permit_trans on permit.permit_id = permit_trans.permit_id 
+    where 
+        permit.permit_id is not null
+		<cfif len(#IssuedByAgent#) gt 0>
+			 AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedByAgent)#%'>
+		</cfif>
+		<cfif len(#IssuedToAgent#) gt 0>
+			 AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedToAgent)#%'>
+		</cfif>
+		<cfif len(#issued_Date#) gt 0>
+			 AND upper(issued_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(issued_Date)#%'>
+		</cfif>
+		<cfif len(#renewed_Date#) gt 0>
+			 AND upper(renewed_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(renewed_Date)#%'>
+		</cfif>
+		<cfif len(#exp_Date#) gt 0>
+			 AND upper(exp_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(exp_Date)#%'>
+		</cfif>
+		<cfif len(#permit_Num#) gt 0>
+			 AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Num#'>
+		</cfif>
+		<cfif len(#specific_type#) gt 0>
+			 AND specific_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#specific_type#'>
+		</cfif>
+		<cfif len(#permit_Type#) gt 0>
+			 AND permit_Type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Type#'>
+		</cfif>
+		<cfif len(#permit_title#) gt 0>
+			 AND upper(permit_title) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_title)#%'>
+		</cfif>
+		<cfif len(#permit_remarks#) gt 0>
+			 AND upper(permit_remarks) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_remarks)#%'>
+		</cfif>
+    ORDER BY permit_id
+    </cfquery>
+    <cfset i=1>
+    <cfset result = result & "<h2>Find permits to link to #transaction_label#</h2>">
+    <cfloop query="matchPermit" >
+        <cfset result = result & "<hr><div">
+        <cfif (i MOD 2) EQ 0> 
+             <cfset result = result & "class='evenRow'"> 
+        <cfelse> 
+             <cfset result = result & "class='oddRow'"> 
+        </cfif>
+        <cfset result = result & " >">
+        <cfset result = result & "
+    	<form id='pp_#permit_id#_#transaction_id#_#i#' >
+	        Permit Number #matchPermit.permit_Num# (#matchPermit.permit_Type#:#matchPermit.specific_type#) 
+            issued to #matchPermit.IssuedToAgent# by #matchPermit.IssuedByAgent# on #dateformat(matchPermit.issued_Date,'yyyy-mm-dd')# ">
+            <cfif len(#matchPermit.renewed_Date#) gt 0><cfset result = result & " (renewed #dateformat(matchPermit.renewed_Date,'yyyy-mm-dd')#)"></cfif>
+            <cfset result = result & ". Expires #dateformat(matchPermit.exp_Date,'yyyy-mm-dd')#.  ">
+            <cfif len(#matchPermit.permit_remarks#) gt 0><cfset result = result & "Remarks: #matchPermit.permit_remarks# "></cfif> 
+            <cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
+            <div id='pickResponse#transaction_id#_#i#'>">
+                <cfif matchPermit.linkcount GT 0>
+            		<cfset result = result & " This Permit is already linked to #transaction_label# ">
+                <cfelse>
+			<cfset result = result & "
+                <input type='button' class='picBtn'
+                onclick='linkpermit(#matchPermit.permit_id#,#transaction_id#,""#transaction_label#"",""pickResponse#transaction_id#_#i#"");' value='Add this permit'>
+			">
+		</cfif>
+		<cfset result = result & "
+            </div>
+    	</form>
+        <script language='javascript' type='text/javascript'>
+        $('##pp_#permit_id#_#transaction_id#_#i#').removeClass('ui-widget-content');
+        function linkpermit(permit_id, transaction_id, transaction_label, div_id) { 
+          jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: {
+                method: 'linkPermitToTrans',
+                returnformat: 'plain',
+                permit_id: permit_id,
+                transaction_id: transaction_id,
+                transaction_label: transaction_label
+            },
+            success: function (data) {
+                $('##'+div_id).html(data);
+            },
+            fail: function (jqXHR, textStatus) {
+                $('##'+div_id).html('Error:' + textStatus);
+            }
+          });
+        };
+        </script>
+        </div>">
+        <cfset i=i+1>
+    </cfloop>
+
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------------------------------->
+<!---  Given a transaction_id and a permit_id, create a permit_trans record to link the permit to the transaction.
+       @param transaction_id the transaction to link
+       @param permit_id the permit to link
+       @return html message indicating success, or an error message on failure.
+
+       @see transPermitPickerHtml
+       @see findPermitSearchResults
+--->
+<cffunction name="linkPermitToTrans" access="remote" returntype="string">
+    <cfargument name="transaction_id" type="string" required="yes">
+    <cfargument name="transaction_label" type="string" required="yes">
+    <cfargument name="permit_id" type="string" required="yes">
+
+    <cfset result = "">
+    <cftry>
+		<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO permit_trans (permit_id, transaction_id) VALUES (#permit_id#, #transaction_id#)
+		</cfquery>
+		
+		<cfset result = "Added this permit (#permit_id#) to transaction #transaction_label#. ">
+
+    <cfcatch>
+		<cfif cfcatch.detail CONTAINS "ORA-00001: unique constraint (MCZBASE.PKEY_PERMIT_TRANS">
+			<cfset result = "Error: This permit is already linked to #transaction_label#">
+                <cfelse>  
+			<cfset result = "Error: #cfcatch.message# #cfcatch.detail#">
+ 		</cfif>
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
 <!--- get permits as query json objects by a list of permit ids
@@ -2688,7 +3855,17 @@
 
    <cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
    <cfloop query="query">
-       <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
+   	<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select media.media_id, media_uri, preview_uri, media_type 
+		from media_relations left join media on media_relations.media_id = media.media_id
+		where media_relations.media_relationship = 'shows permit' 
+			and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
+	</cfquery>
+	<cfset mediaLink = "&##8855;">
+	<cfloop query="mediaQuery">
+		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
+	</cfloop>
+       <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
 
        <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
@@ -2756,6 +3933,7 @@
    <cfargument name="issued_to_agent_id" type="string" required="yes">
    <cfargument name="permit_remarks" type="string" required="yes">
    <cfset theResult=queryNew("status, message")>
+   <cftransaction action="begin">
    <cftry>
       <cfif permit_id EQ "">
          <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2789,6 +3967,7 @@
                 permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
           </cfquery>
       </cfif>
+      <cftransaction action="commit">
       <cfset t = queryaddrow(theResult,1)>
       <cfset t = QuerySetCell(theResult, "status", "1", 1)>
       <cfset t = QuerySetCell(theResult, "message", "Saved.", 1)>
@@ -2796,8 +3975,10 @@
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
 		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+        <cftransaction action="rollback">
 	</cfcatch>
-      </cftry>
+    </cftry>
+   </cftransaction>
     <cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -2809,8 +3990,9 @@
        <cfset heading = "Additional Documents">
    <cfelse>
        <cfset relation = "shows permit">
-       <cfset heading = "Permit">
+       <cfset heading = "The Document (copy of the actual permit)">
    </cfif>
+   <cfset rel = left(relation,3)>
    <cfset result="">
      <cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select permit.permit_id,
@@ -2840,18 +4022,20 @@
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); '>Remove</a> </li>" >
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <input class='delBtn' onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); event.prefentDefault(); ' value='Remove' style='width: 5em; text-align: center;' onmouseover=""this.className='delBtn btnhov'"" onmouseout=""this.className='delBtn'"" > </li>" >
+
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
+   <cfset result=result & "<span>">
    <cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-      <cfset result = result & "<span class='likeLink' onclick=""addMediaHere('#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','#permit_id#','#relation#');"">Create Media">
-      <cfset result = result & "</span>&nbsp;~&nbsp;"> 
-<!---
-      <cfset result = result & "<span><span id='newPermit_#permit_id#'><input type='button' value='Create Media' style='margin-left: 2px;' class='lnkBtn' onclick=""opendialog('media.cfm?action=newMedia','#permitInfo.permit_Type# #permitInfo.IssuedByAgent# #permitInfo.permit_Num#','##newPermitDlg_#permit_id#','Add media to #permit_id#');""><div id='newPermitDlg_#permit_id#' ></div></span>">
---->
-      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick=""opendialog('picks/MediaPick.cfm?target_id=#permit_id#&target_relation=#urlEncodedFormat(relation)#','##addPermitDlg_#permit_id#','Pick Media for Permit'); "" ></div><div id='addPermitDlg_#permit_id#'></div></span>">
+	<cfset result = result & "<input type='button' 
+		onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);"" value='Create Media' class='lnkBtn'>&nbsp;" >
+	<cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); "" ></span>">
    </cfif>
+   <cfset result=result & "</span>">
+   <cfset result=result & "<div id='addMediaDlg_#permit_id#_#rel#'></div>" >
+   <cfset result=result & "<div id='addPermitDlg_#permit_id#_#rel#'></div>">
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -3024,7 +4208,17 @@
    <cfif query.recordcount gt 0>
        <cfset result="<ul>">
        <cfloop query="query">
-          <cfset result = result & "<li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</li>">
+   	    <cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		    select media.media_id, media_uri, preview_uri, media_type 
+    		from media_relations left join media on media_relations.media_id = media.media_id
+	    	where media_relations.media_relationship = 'shows permit' 
+		    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#query.permit_id#>
+    	</cfquery>
+	    <cfset mediaLink = "&##8855;">
+    	<cfloop query="mediaQuery">
+	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
+    	</cfloop>
+          <cfset result = result & "<li><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
@@ -3219,6 +4413,7 @@
                  where
                    permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
          </cfquery>
+         <cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
          <cfset resulthtml = resulthtml & "<div class='shipment'>" >
             <cfset resulthtml = resulthtml & "<ul class='shipheaders'><li>Ship Date:</li><li>Method:</li><li>Packages:</li><li>Tracking Number:</li></ul>">
             <cfset resulthtml = resulthtml & " <ul class='shipdata'>" >
@@ -3232,12 +4427,21 @@
                 <cfset resulthtml = resulthtml & "<li>(#printedOnInvoice#) #tofaddr#</li> ">
                 <cfset resulthtml = resulthtml & " <li>#fromfaddr#</li>">
             <cfset resulthtml = resulthtml & "</ul>">
-            <cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick=""opendialog('picks/PermitShipmentPick.cfm?shipment_id=#shipment_id#','##addPermitDlg_#shipment_id#','Pick Permit for Shipment'); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
-
+            <cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
             <cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
                  <cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
                  <cfloop query="shippermit">
-                    <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
+   	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			    select media.media_id, media_uri, preview_uri, media_type 
+    				from media_relations left join media on media_relations.media_id = media.media_id
+			    	where media_relations.media_relationship = 'shows permit' 
+			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
+		    	</cfquery>
+	    		<cfset mediaLink = "&##8855;">
+		    	<cfloop query="mediaQuery">
+	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
+		    	</cfloop>
+                    <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
@@ -3809,6 +5013,384 @@ Annotation to report problematic data concerning #annotated.guid#
         </cfquery>
         <cfreturn childLoans>
 </cffunction>
+<!------------------------------------->
+<!--- 
+      @see findMediaSearchResults 
+      @see linkMediaRecord
+--->
+<cffunction name="linkMediaHtml" access="remote">
+   <cfargument name="relationship" type="string" required="yes">
+   <cfargument name="related_value" type="string" required="yes">
+   <cfargument name="related_id" type="string" required="yes">
+   <cfset target_id = related_id>
+   <cfset target_relation = relationship>
+   <cfset target_label = related_value>
+   <cfset result = "">
+   <cftry> 
+   <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_type from ctmedia_type order by media_type
+   </cfquery>
+   <cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select mime_type from ctmime_type order by mime_type
+   </cfquery>
+    <cfset result = result & "
+    <div id='mediaSearchForm'>
+    Search for media. Any part of media uri accepted.<br>
+    <form id='findMediaForm' onsubmit='return searchformedia(event);' >
+        <input type='hidden' name='method' value='findMediaSearchResults'>
+        <input type='hidden' name='returnformat' value='plain'>
+        <input type='hidden' name='target_id' value='#target_id#'>
+        <input type='hidden' name='target_relation' value='#target_relation#'>
+        <table>
+    
+          <tr>
+          <td colspan='3'>
+             <label for='media_uri'>Media URI</label>
+             <input type='text' name='media_uri' id='media_uri' size='90' value=''>
+          </td>
+          </tr>
+    
+          <tr>
+          <td>
+             <label for='mimetype'>MIME Type</label>
+             <select name='mimetype' id='mimetype'>
+               <option value=''></option>
+    ">
+               <cfloop query='ctmime_type'>
+    
+                 <cfset result = result & "<option value='#ctmime_type.mime_type#'>#ctmime_type.mime_type#</option>">
+               </cfloop>
+    <cfset result = result & "
+             </select>
+          </td>
+          <td>
+             <label for='mediatype'>Media Type</label>
+             <select name='mediatype' id='mediatype'>
+               <option value=''></option>
+    ">
+               <cfloop query='ctmedia_type'>
+                 <cfset result = result & "<option value='#ctmedia_type.media_type#'>#ctmedia_type.media_type#</option>">
+               </cfloop>
+    <cfset result = result & "
+             </select>
+          </td>
+          <td></td>
+          </tr>
+            <tr>
+            <td>
+               <span>
+                 <input type='checkbox' name='unlinked' id='unlinked' value='true'>
+                 <label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
+               </span>
+            </td>
+            <td>
+                <input type='submit' value='Search' class='schBtn'>    
+            </td>
+            <td>
+                <span ><input type='reset' value='Clear' class='clrBtn'>
+		<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" value='Create Media' class='lnkBtn' >&nbsp;
+                </span>
+            </td>
+            </tr>
+        </table>
+    </form>
+    </div>
+    <script language='javascript' type='text/javascript'>
+        function searchformedia(event) { 
+           event.preventDefault();
+           jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: $('##findMediaForm').serialize(),
+             success: function (data) {
+                 $('##mediaSearchResults').html(data);
+             },
+             fail: function (jqXHR, textStatus) {
+                 $('##mediaSearchResults').html('Error:' + textStatus);
+             }
+           });
+           return false; 
+        };
+        </script>
+    <div id='newMediaDlg1_#target_id#'></div>
+    <div id='mediaSearchResults'></div>
+    " >
+    <cfcatch> 
+      <cfset result = "Error: " & cfcatch.type & " " & cfcatch.message & " " &  cfcatch.detail >
+    </cfcatch>
+    </cftry>
+
+   <cfreturn result>
+</cffunction>
+<!------------------------------------->
+<!--- Given some basic query parameters for media records, find matching media records and return
+      a list with controls to link those media records in a provided relation to a provided target 
+      @param target_relation the type of media relationship that is to be made. 
+      @param target_id the primary key of the related record that the media record is to be related to.
+      @param mediatype the media type to search for, can be blank.
+      @param mimetype the mime type of the media to search for, can be blank.
+      @param media_uri the uri of the media record to search for, can be blank.
+      @param unlinked if equal to the string literal 'true' then only return matching media records that lack relations, can be blank.
+      @return html listing matching media records with 'add this media' buttons for each record or an error message.
+      @see linkMediaRecord
+--->
+<cffunction name="findMediaSearchResults" access="remote">
+   <cfargument name="target_relation" type="string" required="yes">
+   <cfargument name="target_id" type="string" required="yes">
+   <cfargument name="mediatype" type="string" required="no">
+   <cfargument name="mimetype" type="string" required="no">
+   <cfargument name="media_uri" type="string" required="no">
+   <cfargument name="unlinked" type="string" required="no">
+   <cfset result = "">
+   <cftry>
+    <cfquery name="matchMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select distinct media.media_id, media_uri uri, preview_uri, mime_type, media_type, 
+               MCZBASE.get_medialabel(media.media_id,'description') description
+        from media
+          <cfif isdefined("unlinked") and unlinked EQ "true">
+             left join media_relations on media.media_id = media_relations.media_id
+          </cfif>
+        where
+          media.media_id is not null
+          <cfif isdefined("mediatype") and len(mediatype) gt 0>
+            and media_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mediatype#">
+          </cfif>
+          <cfif isdefined("mimetype") and len(mimetype) gt 0>
+            and mime_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mimetype#">
+          </cfif>
+          <cfif isdefined("media_uri") and len(media_uri) gt 0>
+            and media_uri like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_uri#%">
+          </cfif>
+          <cfif isdefined("unlinked") and unlinked EQ "true">
+            and media_relations.media_id is null
+          </cfif>
+    </cfquery>
+
+    <cfset i=1>
+    <cfif matchMedia.recordcount eq 0>
+       <cfset result = "No matching media records found">
+    <cfelse>
+    <cfloop query="matchMedia">
+        <cfset result = result & "<div">
+          <cfif (i MOD 2) EQ 0> 
+             <cfset result = result & "class='evenRow'"> 
+          <cfelse> 
+             <cfset result = result & "class='oddRow'"> 
+          </cfif>
+        <cfset result = result & "
+        <form id='pickForm#target_id#_#i#'>
+            <input type='hidden' value='#target_relation#' name='target_relation'>
+            <input type='hidden' name='target_id' value='#target_id#'>
+            <input type='hidden' name='media_id' value='#media_id#'>
+            <input type='hidden' name='Action' value='addThisOne'>
+            <div><a href='#uri#'>#uri#</a></div><div>#description# #mime_type# #media_type#</div><div><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
+        <div id='pickResponse#target_id#_#i#'>
+            <input type='button' 
+            onclick='linkmedia(#media_id#,#target_id#,""#target_relation#"",""pickResponse#target_id#_#i#"");' value='Add this media'>
+        </div>
+        <hr>
+        </form>
+        <script language='javascript' type='text/javascript'>
+        $('##pickForm#target_id#_#i#').removeClass('ui-widget-content');
+        function linkmedia(media_id, target_id, target_relation, div_id) { 
+          jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: {
+                method: 'linkMediaRecord',
+                returnformat: 'plain',
+                target_relation: target_relation,
+                target_id: target_id,
+                media_id: media_id
+            },
+            success: function (data) {
+                $('##'+div_id).html(data);
+            },
+            fail: function (jqXHR, textStatus) {
+                $('##'+div_id).html('Error:' + textStatus);
+            }
+          });
+        };
+        </script>
+        </div>">
+        <cfset i=i+1>
+    </cfloop>
+    </cfif>
+    <cfcatch>
+        <cfset result = "Error: " & cfcatch.type & " " & cfcatch.message & " " &  cfcatch.detail >
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
+<!------------------------------------->
+<!--- Given a relationship, primary key to link to, and media_id, create a media relation by
+      performing an insert into media_relations.
+      @return text indicating action performed or an error message.
+  --->
+<cffunction name="linkMediaRecord" access="remote">
+   <cfargument name="target_relation" type="string" required="yes">
+   <cfargument name="target_id" type="string" required="yes">
+   <cfargument name="media_id" type="string" required="yes">
+   <cfset result = "">
+   <cftry>
+            <cfquery name="addMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addMediaResult">
+                INSERT INTO media_relations (media_id, related_primary_key, media_relationship,created_by_agent_id) VALUES (
+                  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+                  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">,
+                  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#target_relation#">,
+                  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">)
+            </cfquery>
+            <cfset result = "Added media #media_id# in relationship #target_relation# to #target_id#.">
+    <cfcatch>
+        <cfset result = "Error: " & cfcatch.type & " " & cfcatch.message & " " &  cfcatch.detail >
+    </cfcatch>
+    </cftry>
+    <cfreturn result>
+</cffunction>
+<!------------------------------------->
+<cffunction name="createMediaHtml" access="remote">
+   <cfargument name="relationship" type="string" required="yes">
+   <cfargument name="related_value" type="string" required="yes">
+   <cfargument name="related_id" type="string" required="yes">
+   <cfargument name="collection_object_id" type="string" required="no">
+   <cfset result = "">
+   <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_relationship from ctmedia_relationship order by media_relationship
+   </cfquery>
+   <cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_label from ctmedia_label order by media_label
+   </cfquery>
+   <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_type from ctmedia_type order by media_type
+   </cfquery>
+   <cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select mime_type from ctmime_type order by mime_type
+   </cfquery>
+   <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_license_id,display media_license from ctmedia_license order by media_license_id
+   </cfquery>
+   <!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
+   <cfset result = result & '
+      <div>
+          <h2 class="wikilink">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs(''Media'')" class="likeLink" alt="[ help ]"></h2>
+          <div style="border: 1px dotted gray; background-color: ##f8f8f8;padding: 1em;margin: .5em 0 1em 0;">
+    <form name="newMedia" id="newMedia">
+      <input type="hidden" name="action" value="saveNew">
+      <input type="hidden" name="headless" value="true">
+      <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
+      <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
+      <label for="media_uri">Media URI</label>
+      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr" required>
+      <!--- <span class="infoLink" id="uploadMedia">Upload</span> --->
+      <label for="preview_uri">Preview URI</label>
+      <input type="text" name="preview_uri" id="preview_uri" size="105">
+      <label for="mime_type">MIME Type</label>
+      <select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;" required>
+        <option value=""></option>'>
+        <cfloop query="ctmime_type">
+          <cfset result = result & "<option value='#mime_type#'>#mime_type#</option>">
+        </cfloop>
+      <cfset result = result & '
+      </select>
+      <label for="media_type">Media Type</label>
+      <select name="media_type" id="media_type" class="reqdClr" style="width: 160px;" required>
+        <option value=""></option>'>
+        <cfloop query="ctmedia_type">
+          <cfset result = result & '<option value="#media_type#">#media_type#</option>' >
+        </cfloop> 
+      <cfset result = result & '
+      </select>
+      <div class="license_box" style="padding-bottom: 1em;padding-left: 1.15em;">
+        <label for="media_license_id">License</label>
+        <select name="media_license_id" id="media_license_id" style="width:300px;">
+          <option value="">Research copyright &amp; then choose...</option>'>
+          <cfloop query="ctmedia_license">
+             <cfset result = result & '<option value="#media_license_id#">#media_license#</option>'>
+          </cfloop>
+        <cfset result = result & '
+        </select>
+        <a class="infoLink" onClick="popupDefine()">Define Licenses</a><br/>
+        <ul class="lisc">
+            <p>Notes:</p>
+          <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
+          <li>remove media immediately if owner requests it</li>
+          <li>contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+        </ul>
+      </div>
+      <label for="mask_media_fg">Media Record Visibility</label>
+      <select name="mask_media_fg" value="mask_media_fg">
+           <option value="0" selected="selected">Public</option>
+           <option value="1">Hidden</option>
+      </select>
+   
+      <label for="relationships" style="margin-top:.5em;">Media Relationships</label>
+      <div id="relationships" class="graydot">
+        <div id="relationshiperror"></div>
+        <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
+          <option value="">None/Unpick</option>'>
+          <cfloop query="ctmedia_relationship">
+            <cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
+          </cfloop>
+        <cfset result = result & '
+        </select>
+        :&nbsp;
+        <input type="text" name="related_value__1" id="related_value__1" size="70" readonly>
+        <input type="hidden" name="related_id__1" id="related_id__1">
+       <br>
+        <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+ 
+      <label for="labels" style="margin-top:.5em;">Media Labels</label>
+      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a "description" media label.</p>
+      <div id="labels" class="graydot">
+        <div id="labelsDiv__1">
+          <select name="label__1" id="label__1" size="1" style="width: 200px;">
+            <option value=""></option>'>
+            <cfloop query="ctmedia_label">
+              <cfset result = result & '<option value="#media_label#">#media_label#</option>'>
+            </cfloop>
+          <cfset result = result & '
+          </select>
+          :&nbsp;
+          <input type="text" name="label_value__1" id="label_value__1" size="70">&nbsp;
+            <br><span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
+      </div>
+        
+       </div>
+        </div>
+    </form>'>
+    <cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
+       <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+          select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+       </cfquery>
+       <cfset result = result & '
+       <script language="javascript" type="text/javascript">
+          $("##relationship__1").val("shows cataloged_item");
+          $("##related_value__1").val("#s.guid#");
+          $("##related_id__1").val("#collection_object_id#");
+       </script>'>
+    </cfif>
+    <cfif isdefined("relationship") and len(relationship) gt 0>
+      <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	  select media_relationship from ctmedia_relationship where media_relationship= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+      </cfquery>
+      <cfif s.recordCount eq 1 >
+       <cfset result = result & '
+         <script language="javascript" type="text/javascript">
+            $("##relationship__1").val("#relationship#");
+            $("##related_value__1").val("#related_value#");
+            $("##related_id__1").val("#related_id#");
+         </script>'>
+      <cfelse>
+       <cfset result = result & '
+          <script language="javascript" type="text/javascript">
+				$("##relationshiperror").html("<h2>Error: Unknown media relationship type #relationship#</h2>");
+         </script>'>
+      </cfif>
+    </cfif>
+    <cfset result = result & '</div>'>
+
+   <cfreturn result>
+</cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getMediaOfPermit" access="remote">
 	<cfargument name="permitid" type="string" required="yes">
@@ -3973,5 +5555,514 @@ Annotation to report problematic data concerning #annotated.guid#
         <cfreturn rankCount>
 </cffunction>
 
+<!-------------------------------------------->
+<!--- obtain QC report concerning Event terms on a record from flat --->
+<cffunction name="getEventQCReportFlat" access="remote">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset result=structNew()> <!--- overall result to return --->
+	<cfset r=structNew()><!--- temporary result for an individual test, create new after each test --->
+	<cfset preamendment=structNew()><!--- pre-amendment phase measures and validations --->
+	<cfset amendment=structNew()><!--- amendment phase --->
+	<cfset postamendment=structNew()><!--- post-amendment phase measures and validations --->
+	<cftry>
+		<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select guid, basisofrecord, 
+                began_date, ended_date, verbatim_date, day, month, year, dayofyear, 
+                '' as endDayOfYear,
+                scientific_name, made_date 
+            from DIGIR_QUERY.digir_filtered_flat
+            where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_object_id#">
+		</cfquery>
+		<cfif flatrow.recordcount is 1>
+			<cfset result.status="success">
+			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.guid=flatrow.guid>
+			<cfset result.error="">
+
+
+			<!--- store local copies of query results to use in pre-amendment phase  --->
+			<cfif flatrow.began_date EQ flatrow.ended_date>
+				<cfset eventDate = flatrow.began_date>
+			<cfelse>
+				<cfset eventDate = flatrow.began_date & "/" & flatrow.ended_date>
+			</cfif>
+
+			<cfset dateIdentified = flatrow.made_date>
+			<cfset verbatimEventDate = flatrow.verbatim_date>
+			<cfset startDayOfYear = ToString(flatrow.dayofyear) >
+			<cfset endDayOfYear= flatrow.endDayOfYear >
+			<cfset year=ToString(flatrow.year) >
+			<cfset month=ToString(flatrow.month) >
+			<cfset day=ToString(flatrow.day) >
+
+			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> 
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism"> 
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides"> 
+			<!--- Obtain mechanism from annotation on class --->
+			<cfset result.mechanism = eventDateQC.getClass().getAnnotation(Mechanism.getClass()).label() >
+
+			<!--- pre-amendment phase --->
+
+			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
+			<!--- TODO: Provide metadata from annotations --->
+			<!--- 
+			eventDateQC.getClass().getMethod('measureEventdatePrecisioninseconds',String.class).getAnnotation(Provides.getClass()).label();
+
+			<cfset methodArray = eventDateQC.getClass().getMethods() >
+
+			<cfloop from="0" to="#arraylen(methodArray)#" index="i">
+				<cfset method = methodArray[i]>
+				<cfset provides = method.getAnnotation(.getClass()).label() >
+
+			</cfloop>
+
+			--->
+
+			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset r.label = "dwc:eventDate precision in seconds" >
+			<cfset r.type = "MEASURE" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT">
+				<cfset r.value = dqResponse.getValue().getObject() >
+				<cfset days = Round(r.value / 60 / 60 / 24)>
+				<cfif days EQ 1><cfset s=""><cfelse><cfset s="s"></cfif>
+				<cfset r.comment = dqResponse.getComment() & " (" & days & " day" & s &")" >
+			<cfelse>
+				<cfset r.value = "">
+				<cfset r.comment = dqResponse.getComment()  >
+			</cfif>
+			<cfset preamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedNotstandard(dateIdentified) >
+			<cfset r.label = "dwc:dateIdentified in standard format" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedOutofrange(dateIdentified, eventDate)>
+			<cfset r.label = "dwc:dateIdentified in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
+			<cfset dqResponse =  eventDateQC.validationDayNotstandard(day) >
+			<cfset r.label = "dwc:day in standard format" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
+			<cfset dqResponse = eventDateQC.validationDayOutofrange(year, month, day) > 
+			<cfset r.label = "dwc:day in range for month and year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
+			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, endDayOfYear) >
+			<cfset r.label = "dwc:endDayOfYear in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
+			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,year,verbatimEventDate,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms contain some value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
+			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms are consistent" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
+			<cfset dqResponse = eventDateQC.validationEventdateEmpty(eventDate) >
+			<cfset r.label = "dwc:eventDate contains a value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
+			<cfset dqResponse = eventDateQC.validationEventdateNotstandard(eventDate) >
+			<cfset r.label = "dwc:eventDate is in standard form" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
+			<cfset dqResponse = eventDateQC.validationEventdateOutofrange(eventDate) >
+			<cfset r.label = "dwc:eventDate is in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
+			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
+			<cfset r.label = "dwc:month is in standard form" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
+			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
+			<cfset dqResponse = eventDateQC.validationYearEmpty(year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset r=structNew()>
+
+			<!--- amendment phase --->
+
+			<!---  @Provides("39bb2280-1215-447b-9221-fd13bc990641") --->
+			<cfset dqResponse= eventDateQC.amendmentDateidentifiedStandardized(dateIdentified) >
+			<cfset r.label = "standardize dwc:dateIdentified" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset dateIdentified = dqResponse.getValue().getObject().get("dwc:dateIdentified") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["39bb2280-1215-447b-9221-fd13bc990641"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("b129fa4d-b25b-43f7-9645-5ed4d44b357b") --->
+			<cfset dqResponse = eventDateQC.amendmentDayStandardized(day) >
+			<cfset r.label = "standardize dwc:day" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset day = dqResponse.getValue().getObject().get("dwc:day") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["b129fa4d-b25b-43f7-9645-5ed4d44b357b"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("2e371d57-1eb3-4fe3-8a61-dff43ced50cf") --->
+			<cfset dqResponse = eventDateQC.amendmentMonthStandardized(month) >
+			<cfset r.label = "standardize dwc:month" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset month = dqResponse.getValue().getObject().get("dwc:month") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["2e371d57-1eb3-4fe3-8a61-dff43ced50cf"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("6d0a0c10-5e4a-4759-b448-88932f399812") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromVerbatim(eventDate, verbatimEventDate) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:verbatimEventDate " >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status EQ "FILLED_IN">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["6d0a0c10-5e4a-4759-b448-88932f399812"] = r >
+			<cfset r=structNew()>
+    
+			<!--- @Provides("3892f432-ddd0-4a0a-b713-f2e2ecbd879d") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromYearmonthday(eventDate, year, month, day) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:month, and dwc:day " >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status EQ "FILLED_IN">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["3892f432-ddd0-4a0a-b713-f2e2ecbd879d"] = r >
+			<cfset r=structNew()>
+
+			<!---  @Provides("eb0a44fa-241c-4d64-98df-ad4aa837307b") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromYearstartdayofyearenddayofyear(eventDate, startDayOfYear, year, endDayOfYear) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:startDayOfYear and dwc:endDayOfYear" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["eb0a44fa-241c-4d64-98df-ad4aa837307b"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("718dfc3c-cb52-4fca-b8e2-0e722f375da7") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateStandardized(eventDate) >
+			<cfset r.label = "standardize dwc:eventDate " >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["718dfc3c-cb52-4fca-b8e2-0e722f375da7"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("710fe118-17e1-440f-b428-88ba3f547d6d") --->
+			<cfset dqResponse = eventDateQC.amendmentEventFromEventdate(eventDate, startDayOfYear,year,month,day,endDayOfYear) >
+			<cfset r.label = "fill in other Event terms from dwc:eventDate" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status EQ "FILLED_IN">
+				<!--- conditionally change terms for which values are proposed --->
+				<cfif dqResponse.getValue().getObject().get("dwc:month") NEQ '' ><cfset month = dqResponse.getValue().getObject().get("dwc:month") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:day") NEQ '' ><cfset day = dqResponse.getValue().getObject().get("dwc:day") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:year") NEQ '' ><cfset year = dqResponse.getValue().getObject().get("dwc:year") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:startDayOfYear") NEQ '' ><cfset startDayOfYear = dqResponse.getValue().getObject().get("dwc:startDayOfYear") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:endDayOfYear") NEQ '' ><cfset endDayOfYear = dqResponse.getValue().getObject().get("dwc:endDayOfYear") ></cfif>
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["710fe118-17e1-440f-b428-88ba3f547d6d"] = r >
+			<cfset r=structNew()>
+
+
+			<!--- post-amendment phase --->
+
+			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
+			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset r.label = "dwc:eventDate precision in seconds" >
+			<cfset r.type = "MEASURE" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT">
+				<cfset r.value = dqResponse.getValue().getObject() >
+				<cfset days = Round(r.value / 60 / 60 / 24)>
+				<cfif days EQ 1><cfset s=""><cfelse><cfset s="s"></cfif>
+				<cfset r.comment = dqResponse.getComment() & " (" & days & " day" & s &")" >
+			<cfelse>
+				<cfset r.value = "">
+				<cfset r.comment = dqResponse.getComment()  >
+			</cfif>
+			<cfset postamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedNotstandard(dateIdentified) >
+			<cfset r.label = "dwc:dateIdentified in standard format" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedOutofrange(dateIdentified, eventDate)>
+			<cfset r.label = "dwc:dateIdentified in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
+			<cfset dqResponse =  eventDateQC.validationDayNotstandard(day) >
+			<cfset r.label = "dwc:day in standard format" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
+			<cfset dqResponse = eventDateQC.validationDayOutofrange(year, month, day) > 
+			<cfset r.label = "dwc:day in range for month and year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
+			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, endDayOfYear) >
+			<cfset r.label = "dwc:endDayOfYear in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
+			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,year,verbatimEventDate,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms contain some value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
+			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms are consistent" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
+			<cfset dqResponse = eventDateQC.validationEventdateEmpty(eventDate) >
+			<cfset r.label = "dwc:eventDate contains a value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
+			<cfset dqResponse = eventDateQC.validationEventdateNotstandard(eventDate) >
+			<cfset r.label = "dwc:eventDate is in standard form" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
+			<cfset dqResponse = eventDateQC.validationEventdateOutofrange(eventDate) >
+			<cfset r.label = "dwc:eventDate is in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
+			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
+			<cfset r.label = "dwc:month is in standard form" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
+			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
+			<cfset dqResponse = eventDateQC.validationYearEmpty(year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset r=structNew()>
+
+			<!--- Add results from phases to result to return --->
+
+			<cfset result["preamendment"] = preamendment >
+      
+			<cfset result["amendment"] = amendment >
+
+			<cfset result["postamendment"] = postamendment >
+
+		<cfelse>
+			<cfset result.status="fail">
+			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.error="record not found">
+		</cfif>
+    <cfcatch>
+			<cfset result.status="fail">
+			<cfset result.collection_object_id=collection_object_id>
+			<cfset line = cfcatch.tagcontext[1].line>
+			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+    </cfcatch>
+	</cftry>
+    <cfreturn serializeJSON(result) >
+</cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 </cfcomponent>

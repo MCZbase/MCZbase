@@ -25,7 +25,7 @@
         <table>
 			<tr>
 				<td valign="top">
-					<table class="newRec">
+					<table class="newRec" style="padding:1em 1em 0 1em;border: 1px solid ##ccc;">
 						<tr>
 							<td colspan="6">
 
@@ -43,11 +43,11 @@
 							</td>
 							<td>
 								<label for="accn_number">Accn Number:</label>
-								<input type="text" name="accn_number" id="accn_number" class="reqdClr">
+								<input type="text" name="accn_number" id="accn_number" class="reqdClr" required="true">
 							</td>
 							<td>
 								<label for="accn_status">Status:</label>
-								<select name="accn_status" size="1" class="reqdClr">
+								<select name="accn_status" size="1" class="reqdClr" required="true">
 									<cfloop query="ctStatus">
 										<option
 											<cfif #ctStatus.accn_status# is "in process">selected </cfif>
@@ -56,23 +56,27 @@
 								</select>
 							</td>
 							<td>
-								<label for="rec_date">Rec. Date:</label>
-								<input type="text" name="rec_date" id="rec_date" class="reqdClr">
+								<label for="rec_date">Date Received:</label>
+								<input type="text" name="rec_date" id="rec_date" class="reqdClr" required="true">
 							</td>
 						</tr>
 						<tr>
 							<td colspan="9">
 								<label for="nature_of_material">Nature of Material:</label>
-								<textarea name="nature_of_material" rows="5" cols="90" class="reqdClr"></textarea>
+								<textarea name="nature_of_material" rows="5" cols="90" class="reqdClr" required="true"></textarea>
 							</td>
 						</tr>
 						<tr>
-							<td>
+							<td colspan="2">
 								<label for="rec_agent">Received From:</label>
-								<input type="text" name="rec_agent" class="reqdClr" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+								<input type="text" name="rec_agent" class="reqdClr" size="40"
+									readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 									onchange="getAgent('received_agent_id','rec_agent','newAccn',this.value); return false;"
-								 	onKeyPress="return noenter(event);">
+								 	onKeyPress="return noenter(event);"
+									required="true"
+									>
 								<input type="hidden" name="received_agent_id">
+								<!---
 							</td>
 							<td>
 								<label for="rec_agent">From Agency:</label>
@@ -80,6 +84,7 @@
 									onchange="getAgent('trans_agency_id','trans_agency','newAccn',this.value); return false;"
 								 	onKeyPress="return noenter(event);">
 								<input type="hidden" name="trans_agency_id">
+								--->
 							</td>
 							<td>
 								<label for="accn_type">Accn Type</label>
@@ -90,8 +95,22 @@
 								</select>
 							</td>
 							<td>
-								<label for="estimated_count" onClick="getDocs('accession','estimated_count')" class="likeLink">Est. Cnt.</label>
+								<label for="estimated_count">Estimated Count</label>
 								<input type="text" id="estimated_count" name="estimated_count">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="1">
+								<label for="radio1">To be MCZ cataloged</label>
+								<input type="radio" name="for_use_by" value="" checked="checked" id="radio1">
+							</td>
+							<td colspan="1">
+								<label for="radio2">For use by HMNH Exhibits</label>
+								<input type="radio" name="for_use_by" value="116195" id="radio2">
+							</td>
+							<td colspan="2">
+								<label for="radio3">For use by HMNH Education</label>
+								<input type="radio" name="for_use_by" value="91906" id="radio3">
 							</td>
 						</tr>
 						<tr>
@@ -101,28 +120,33 @@
 							</td>
 						</tr>
 						<tr>
-							<td>&nbsp;</td>
+							
 							<td colspan="2">
 								<label for="ent_Date">Entry Date:</label>
-								<cfinput type="text" name="ent_Date" id="ent_Date" value="#thisDate#">
+								<cfinput type="text" name="ent_Date_dis" id="ent_Date_dis" value="#thisDate#" disabled="true">
+								<input type="hidden" name="ent_Date" id="ent_Date" value="#thisDate#">
 							</td>
 							<td>
+								<!---
 								<label for="">Has Correspondence?</label>
 								<select name="correspFg">
 									<option value="1">Yes</option>
 									<option value="0">No</option>
 								</select>
+								--->
 							</td>
 							<td>
+								<!---
 								<label for="is_public_fg">Public?</label>
 								<select name="is_public_fg">
 									<option value="1">public</option>
 									<option selected="selected" value="0">private</option>
 								</select>
+								--->
 							</td>
 							<td>&nbsp;</td>
 						</tr>
-						<tr>
+						<tr style="line-height: 4em">
 							<td colspan="6" align="center">
 							<input type="submit"
 								value="Save this Accession"
@@ -174,17 +198,17 @@
 					is_public_fg
 				) VALUES (
 					#n.n#,
-					'#dateformat(ent_Date,"yyyy-mm-dd")#',
-					#correspFg#,
-					'#collection_id#',
+					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(ent_Date,"yyyy-mm-dd")#'>,
+					null,
+					<cfqueryparam cfsqltype="CF_SQL_NUMBER" value='#collection_id#'>,
 					'accn'
 					<cfif len(#NATURE_OF_MATERIAL#) gt 0>
-						,'#NATURE_OF_MATERIAL#'
+						, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#NATURE_OF_MATERIAL#'>
 					</cfif>
 					<cfif len(#REMARKS#) gt 0>
-						,'#REMARKS#'
+						, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#REMARKS#'>
 					</cfif>,
-					#is_public_fg#
+					null
 				)
 				</cfquery>
 				<cfquery name="newAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -220,7 +244,21 @@
 						'received from'
 					)
 				</cfquery>
-				<cfif len(#trans_agency_id#) gt 0>
+				<cfif len(#for_use_by#) gt 0>
+					<cfquery name="newAgent" datasource="user_login" username="#session.username#" password="#decrypt(session.epw,cfid)#">
+						insert into trans_agent (
+							transaction_id,
+							agent_id,
+							trans_agent_role
+						) values (
+							#n.n#,
+							<cfqueryparam cfsqltype="CF_SQL_NUMBER" value='#for_use_by#'>,
+							'for_use_by'
+						)
+					</cfquery>
+				</cfif>
+`				<!--- TODO: Remove associated with agency 
+				<cfif isdefined("trans_agency_id") AND len(#trans_agency_id#) gt 0>
 					<cfquery name="newAgent" datasource="user_login" username="#session.username#" password="#decrypt(session.epw,cfid)#">
 						insert into trans_agent (
 							transaction_id,
@@ -233,7 +271,7 @@
 						)
 					</cfquery>
 				</cfif>
-
+				--->
 		</cftransaction>
 		<cflocation url="editAccn.cfm?Action=edit&transaction_id=#n.n#" addtoken="false">
   </cfoutput>

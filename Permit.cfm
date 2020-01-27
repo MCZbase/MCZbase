@@ -144,7 +144,7 @@ where
 	permit.contact_agent_id = Contact.agent_id (+)">
 
 <cfif len(#IssuedByAgent#) gt 0>
-	<cfset sql = "#sql# AND upper(issuedBy.agent_name) like '%#ucase(IssuedByAgent)#%'">
+	<cfset sql = "#sql# AND upper(issuedBy.agent_name) like '%#escapequotes(ucase(IssuedByAgent))#%'">
 </cfif>
 <cfif isdefined("ISSUED_BY_AGENT_ID") and len(#ISSUED_BY_AGENT_ID#) gt 0>
 	<cfset sql = "#sql# AND ISSUED_BY_AGENT_ID = #ISSUED_BY_AGENT_ID#">
@@ -157,7 +157,7 @@ where
 </cfif>
 
 <cfif len(#IssuedToAgent#) gt 0>
-	<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#ucase(IssuedToAgent)#%'">
+	<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#escapequotes(ucase(IssuedToAgent))#%'">
 </cfif>
 <cfif len(#issued_date#) gt 0>
     <cfif len(#issued_date#) EQ 4>
@@ -656,8 +656,8 @@ function opendialog(page,id,title) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
-    height: 800,
-    width: 1100,
+    height: 900,
+    width: 1200,
     minWidth: 400,
     minHeight: 400,
     draggable:true,
@@ -778,31 +778,29 @@ function opendialog(page,id,title) {
 	</table>
 </cfform>
     <!---  Show/add media copy of permit  (shows permit) --->
-    <div id="copyofpermit" class="shippingBlock" ></div>
-    <!---  list/add media copy of associated documents (document for permit) TODO: Create Media --->
-    <div id="associateddocuments" class="shippingBlock"></div>
+    <div id="copyofpermit" class="shippingBlock" ><img src='images/indicator.gif'></div>
+    <!---  list/add media copy of associated documents (document for permit) --->
+    <div id="associateddocuments" class="shippingBlock"><img src='images/indicator.gif'></div>
 
     <script>
-    function addMediaHere (permitLabel,permit_id,relationship){
-                var bgDiv = document.createElement('div');
-                bgDiv.id = 'bgDiv';
-                bgDiv.className = 'bgDiv';
-                bgDiv.setAttribute('onclick','removeMediaDiv()');
-                document.body.appendChild(bgDiv);
-                var theDiv = document.createElement('div');
-                theDiv.id = 'mediaDiv';
-                theDiv.className = 'annotateBox';
-                ctl='<span class="likeLink" style="position:absolute;right:0px;top:0px;padding:5px;color:red;" onclick="removeMediaDiv();">Close Frame</span>';
-                theDiv.innerHTML=ctl;
-                document.body.appendChild(theDiv);
-                jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
-                jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
-            jQuery('iframe##mediaIframe').load(function() {
-                jQuery('##mediaIframe').contents().find('##relationship__1').val(relationship);
-                jQuery('##mediaIframe').contents().find('##related_value__1').val(permitLabel);
-                jQuery('##mediaIframe').contents().find('##related_id__1').val(permit_id);
-                viewport.init("##mediaDiv");
-             });
+    function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
+           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+permit_id ;
+           var amddialog = $('##'+targetid)
+           .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
+           .dialog({
+                 title: title,
+                 autoOpen: false,
+                 dialogClass: 'dialog_fixed,ui-widget-header',
+                 modal: true,
+                 height: 900,
+                 width: 1100,
+                 minWidth: 400,
+                 minHeight: 400,
+                 draggable:true,
+                 buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
+           });
+           amddialog.dialog('open');          
+           amddialog.dialog('moveToTop');
      };
 
      function removeMediaDiv() {
@@ -837,6 +835,14 @@ function opendialog(page,id,title) {
         }
         );
     };
+	
+	function reloadTransMedia() { 
+		reloadPermitMedia();
+	}
+	function reloadPermitMedia() { 
+		loadPermitMedia(#permit_id#);
+		loadPermitRelatedMedia(#permit_id#);
+	}
 
      jQuery(document).ready(loadPermitMedia(#permit_id#));
      jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
@@ -916,6 +922,9 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         <cfloop query="permituse">
            <li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
         </cfloop>
+        <cfif permituse.recordCount eq 0>
+           <li>No linked transactions or shipments.</li>
+        </cfif>
      </ul></div>
 
      <span>

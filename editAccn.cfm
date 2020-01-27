@@ -77,27 +77,6 @@
 			jQuery('##mediaDiv').remove();
 		}
 	}
-	function addMediaHere (accnnum,transid){
-		var bgDiv = document.createElement('div');
-		bgDiv.id = 'bgDiv';
-		bgDiv.className = 'bgDiv';
-		bgDiv.setAttribute('onclick','removeMediaDiv()');
-		document.body.appendChild(bgDiv);
-		var theDiv = document.createElement('div');
-		theDiv.id = 'mediaDiv';
-		theDiv.className = 'annotateBox';
-		ctl='<span class="likeLink" style="position:absolute;right:0px;top:0px;padding:5px;color:red;" onclick="removeMediaDiv();">Close Frame</span>';
-		theDiv.innerHTML=ctl;
-		document.body.appendChild(theDiv);
-		jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
-		jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
-	    jQuery('iframe##mediaIframe').load(function() {
-	        jQuery('##mediaIframe').contents().find('##relationship__1').val('documents accn');
-	        jQuery('##mediaIframe').contents().find('##related_value__1').val(accnnum);
-	        jQuery('##mediaIframe').contents().find('##related_id__1').val(transid);
-	        viewport.init("##mediaDiv");
-	    });
-	}
 --->
 </cfoutput>
 <cfset title="Edit Accession">
@@ -105,7 +84,7 @@
 	<cfset project_id = -1>
 </cfif>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role)  from cttrans_agent_role  where trans_agent_role != 'borrow overseen by' and trans_agent_role != 'lending institution' order by trans_agent_role
+	select distinct(trans_agent_role)  from cttrans_agent_role  where trans_agent_role not in ('borrow overseen by', 'lending institution', 'recipient institution', 'entered by') order by trans_agent_role
 </cfquery>
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection,collection_id from collection order by collection
@@ -123,16 +102,46 @@
 <cfif action is "edit">
     <div style="width: 75em; margin: 0 auto;padding: 2em 0 4em 0;">
 	<cfoutput>
+	<cftry>
 		<script>
 			jQuery(document).ready(function() {
 				getMedia('accn','#transaction_id#','accnMediaDiv','6','1');
 			});
+    function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
+           console.log(targetid);
+           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;
+           var amddialog = $('##'+targetid)
+           .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
+           .dialog({
+                 title: title,
+                 autoOpen: false,
+                 dialogClass: 'dialog_fixed,ui-widget-header',
+                 modal: true,
+                 height: 900,
+                 width: 1100,
+                 minWidth: 400,
+                 minHeight: 400,
+                 draggable:true,
+                 buttons: {
+                     "Close": function () { 
+                        loadTransactionFormMedia(#transaction_id#,'accn'); 
+                        $(this).dialog("close"); 
+                     } 
+                 }
+           });
+           amddialog.dialog('open');          
+           console.log('dialog open called');
+           console.log(transaction_id);
+           console.log(relationship);
+     };
+
 		</script>
 
 		<cfset title="Edit Accession">
 		<cfquery name="accnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				trans.transaction_id,
+				trans.transaction_type,
 				accn_number,
 			 	accn_status,
 				accn_type,
@@ -143,10 +152,8 @@
 				trans_date,
 				collection,
 				trans.collection_id,
-				CORRESP_FG,
 				concattransagent(trans.transaction_id,'entered by') enteredby,
-				estimated_count,
-				is_public_fg
+				estimated_count
 			FROM
 				trans,
 				accn,
@@ -156,6 +163,12 @@
 				trans.collection_id=collection.collection_id and
 				trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
+		<cfif accnData.RecordCount EQ 0 > 
+			<cfthrow message = "No such Accession.">
+		</cfif>
+		<cfif accnData.RecordCount GT 0 AND accnData.transaction_type NEQ 'accn'> 
+			<cfthrow message = "Request to edit an Accession, but the provided transaction_id was for a different transaction type.">
+		</cfif>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				trans_agent_id,
@@ -305,23 +318,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3">
+						<td colspan="6">
 							<em>Entered by</em>
 							<strong>#accnData.enteredby#</strong> <em>on</em> <strong>#dateformat(accnData.trans_date,'yyyy-mm-dd')#</strong>
-						</td>
-						<td colspan="2">
-							<label for="">Has Correspondence?</label>
-							<select name="CORRESP_FG" size="1" id="CORRESP_FG">
-								<option <cfif #accnData.CORRESP_FG# is "1">selected</cfif> value="1">Yes</option>
-								<option <cfif #accnData.CORRESP_FG# is "0">selected</cfif> value="0">No</option>
-							</select>
-						</td>
-						<td>
-							<label for="">Public?</label>
-							<select name="is_public_fg" size="1" id="is_public_fg">
-								<option <cfif #accnData.is_public_fg# is "1">selected</cfif> value="1">public</option>
-								<option <cfif #accnData.is_public_fg# is "0">selected</cfif> value="0">private</option>
-							</select>
 						</td>
 
 					</tr>
@@ -372,6 +371,15 @@
 		</td></tr></table>
 
 <div class="shippingBlock"> 
+   		<label for="redir">Print... (DRAFT, not ready for use)</label>
+		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+   			<option value=""></option>
+			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_accn_header">DRAFT Header Copy for MCZ Files</option>
+        </select>
+</div>
+
+
+<div class="shippingBlock"> 
 
 			<h3>Projects associated with this Accession:</h3>
 			<ul style="list-style:none;">
@@ -413,54 +421,17 @@
 
 <div class="shippingBlock"> 
 			<h3>Media associated with this Accession:</h3>
-            <p style="margin:0px;">Include copies of the deed of gift, correspondence, and other documents which are not permits or compliance documents here.</p>
-
-			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					media.media_id,
-					preview_uri,
-					media_uri,
-					media_type,
-					label_value
-				from
-					media,
-					media_relations,
-					(select * from media_labels where media_label='description') media_labels
-				where
-					media.media_id=media_labels.media_id (+) and
-					media.media_id=media_relations.media_id and
-					media_relationship like '% accn' and
-					related_primary_key=#transaction_id#
-			</cfquery>
-			<!---
-            <ul>
-				<cfif #media.recordcount# gt 0>
-					<cfloop query="media">
-						<li>
-							<a href="#media_uri#">
-								<cfif len(preview_uri) gt 0>
-									<img src="#preview_uri#">
-								<cfelse>
-									<img src="/images/noThumb.jpg">
-								</cfif>
-							</a>
-							<br><a class="infoLink" href="/MediaSearch.cfm?action=search&media_id=#media_id#">edit</a>
-							<br>#label_value#
-						</li>
-					</cfloop>
-				<cfelse>
-					<li>None</li>
-				</cfif>
-			</ul>
-			--->
-			<br><span class="likeLink"
-					onclick="addMediaHere('#accnData.collection# #accnData.accn_number#','#transaction_id#');">
-						Create Media
+            <p style="margin:0px;">Include copies of correspondence and other documents (e.g. data files, scans of maps, inventory lists) which are not permissions or rights documents documents here.</p>
+			<br><span>
+		                <cfset relation="documents accn">
+				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+      				<span id='addMedia_#transaction_id#'>
+				<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
 				</span>
-                                <cfset relation="shows accn">
-      				<span id='addMedia_#transaction_id#'><input type='button' style='margin-left: 30px;' value='Link Media' class='lnkBtn' onClick="opendialogcallback('picks/MediaPick.cfm?target_id=#transaction_id#&target_relation=#urlEncodedFormat(relation)#','addMediaDlg_#transaction_id#','Pick Media for Accession', reloadTransMedia, 650,900); " >
-				<div id='addMediaDlg_#transaction_id#'></div></span>
-				<div id="transactionFormMedia">Loading Media....</div>
+			</span>
+			<div id='addMediaDlg_#transaction_id#'></div>
+			<div id='newMediaDlg_#transaction_id#'></div>
+			<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
 <script>
 
 // callback for ajax methods to reload from dialog
@@ -476,12 +447,17 @@ $( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 </script>
 </div>
 <div class="shippingBlock"> 
-    <h3>Permits and permit-like documents:</h3>
-    <p style="margin:0px;">List here all collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents associated with this accession.  Permits listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong>  Only include the deed of gift or correspondence here if you expect to need to print copies of with each loan shipment.</p>
+    <h3>Permissions and Rights documents (e.g. Permits):</h3>
+    <p style="margin:0px;">List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong></p>
 
                 <div style="float:left;width:95%; margin-top:0px;" id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
 
-                <div class='shipbuttons' id='addPermit_#transaction_id#'><input type='button' value='Add Permit to this Accession' class='lnkBtn' onClick="opendialogcallback('picks/PermitPick.cfm?transaction_id=#transaction_id#&inDialog=true','addPermitDlg_#transaction_id#','Pick Permit for Accession', reloadTransPermits, 650,800); " ></div><div id='addPermitDlg_#transaction_id#'></div>
+                <div class='shipbuttons' id='addPermit_#transaction_id#'>
+				   <input type='button' 
+                          style='margin-left: 30px;' 
+                          onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#',reloadTransPermits);" 
+                          value='Add Permit to this Accession' class='lnkBtn'>
+                </div><div id='addPermitDlg_#transaction_id#'></div>
 </div>
 
 <script>
@@ -512,8 +488,8 @@ function opendialog(page,id,title) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
-    height: 800,
-    width: 950,
+    height: 900,
+    width: 1100,
     minWidth: 400,
     minHeight: 450,
     draggable:true,
@@ -630,15 +606,23 @@ $( document ).ready(loadShipments(#transaction_id#));
 		<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
 
 		<label for="shipped_to_addr">Shipped To Address</label>
-		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+        	<span>
+            		<input type="button" value="Pick Address" class="picBtn"
+                	onClick="addrPickWithTemp('shipped_to_addr_id','shipped_to_addr','shipmentForm');  $('##tempShipToAddrButton').removeAttr('disabled').removeClass('ui-state-disabled'); return false;">
+            		<input type="button" value="Temporary Address" class="picBtn ui-state-disabled"  disabled="true" id="tempShipToAddrButton"
+                		onClick="addTemporaryAddress('shipped_to_addr_id','shipped_to_addr',#transaction_id#); $('##tempShipToAddrButton').attr('disabled','true').addClass('ui-state-disabled'); return false;">
+        	</span>
 		<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 
 		<label for="shipped_from_addr">Shipped From Address</label>
-		<input type="button" value="Pick Address" class="picBtn"
-			onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+        	<span>
+           		<input type="button" value="Pick Address" class="picBtn"
+                		onClick="addrPickWithTemp('shipped_from_addr_id','shipped_from_addr','shipmentForm');  $('##tempShipFromAddrButton').removeAttr('disabled').removeClass('ui-state-disabled'); return false;">
+            		<input type="button" value="Temporary Address" class="picBtn ui-state-disabled"  disabled="true" id="tempShipFromAddrButton"
+                		onClick="addTemporaryAddress('shipped_from_addr_id','shipped_from_addr',#transaction_id#); $('##tempShipFromAddrButton').attr('disabled','true').addClass('ui-state-disabled'); return false;">
+        	</span>
 		<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 			readonly="yes" class="reqdClr"></textarea>
 		<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
@@ -653,6 +637,7 @@ $( document ).ready(loadShipments(#transaction_id#));
   <div id="shipmentFormPermits"></div>
   <div id="shipmentFormStatus"></div>
 </div>
+<div id="tempAddressDialog"></div>
 
 <div class="shippingBlock"> 
 	<h3>Dispositions of cataloged items:</h3>
@@ -679,6 +664,11 @@ $( document ).ready(loadShipments(#transaction_id#));
         </cfloop>
 	</table>
 </div>
+	<cfcatch>
+		<h2>Error: #cfcatch.message#</h2>
+		<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+	</cfcatch>
+	</cftry>
 	</cfoutput>
 </div>
 </cfif>
@@ -726,6 +716,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
@@ -739,6 +730,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
@@ -752,6 +744,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
@@ -1133,8 +1126,6 @@ $( document ).ready(loadShipments(#transaction_id#));
 					<cfelse>
 						,TRANS_REMARKS = NULL
 					</cfif>
-					,CORRESP_FG=#CORRESP_FG#,
-					is_public_fg=#is_public_fg#
 				WHERE transaction_id = #transaction_id#
 			</cfquery>
 			<cfquery name="wutsThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

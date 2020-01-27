@@ -123,6 +123,12 @@
 <cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select geology_attribute from ctgeology_attribute order by geology_attribute
 </cfquery>
+<cfquery name="ctsovereign_nation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+	select ctsovereign_nation.sovereign_nation, count(locality_id) as ct from ctsovereign_nation
+ 		left join locality on ctsovereign_nation.sovereign_nation=locality.sovereign_nation
+	group by ctsovereign_nation.sovereign_nation
+        order by sovereign_nation
+</cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collection,collection_id from collection order by collection
 </cfquery>
@@ -362,9 +368,21 @@
 
 					</table>
 				</td>
+				<td>
+					<label for="sovereign_nation">Sovereign Nation</label>
+					<select name="sovereign_nation" id="sovereign_nation" size="1">
+		            			<option value=""></option>
+			                	<cfloop query="ctsovereign_nation">
+			                		<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
+				                </cfloop>
+			                	<cfloop query="ctsovereign_nation" startRow="1">
+			                		<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
+				                </cfloop>
+		        	   	</select>
+				</td>
 			</tr>
 		</table>
-		<span id="georefDetailCtl" class="infoLink" style="font-size: 12px;margin-left: 600px;margin-bottom: 1em;display:block;margin-top:-2em;" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
+		<span id="georefDetailCtl" class="infoLink" style="font-size: 12px;margin-left: 600px;margin-bottom: 1em;display:block;" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
 		<div id="georefDetail" class="noShow">
 		<table cellpadding="0" cellspacign="0">
 			<tr>
@@ -372,8 +390,6 @@
 					<label for="findNoGeoRef">No Georeferences</label>
 					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef">
 				</td>
-			</tr>
-			<tr>
 				<td>
 					<label for="findNoAccGeoRef">No Accepted Georeferences</label>
 					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef">
@@ -381,18 +397,16 @@
 			</tr>
 			<tr>
 				<td>
+					<label for="NoGeorefBecause">NoGeorefBecause</label>
+					<input type="text" name="NoGeorefBecause" size="50" id="NoGeorefBecause">
+				</td>
+				<td>
 					<label for="isIncomplete">isIncomplete</label>
 					<input type="checkbox" name="isIncomplete" id="isIncomplete">
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<label for="NoGeorefBecause">NoGeorefBecause</label>
-					<input type="text" name="NoGeorefBecause" size="50" id="NoGeorefBecause">
-				</td>
-			</tr>
-			<tr>
-				<td>
+				<td colspan="2">
 					<label for="nullNoGeorefBecause">NULL NoGeorefBecause</label>
 					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause">
 				</td>
@@ -406,6 +420,12 @@
 							<option value="#VerificationStatus#">#VerificationStatus#</option>
 						</cfloop>
 					</select>
+				</td>
+				<td>
+					<div style="margin-left: 2em;" class="geolocateScoreDiv">
+						<label>Shared Localities Only</label>
+						<input type="checkbox" name="onlyShared" id="onlyShared">
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -433,7 +453,7 @@
 						</div>
 				</td>
 			</tr>
-            <tr>
+			<tr>
 				<td>
 					<label for="coordinateDeterminer">Coordinate Determiner</label>
 					<input type="text" name="coordinateDeterminer" size="50" id="coordinateDeterminer">
@@ -460,12 +480,7 @@
 							</div>
 							</div>
 				</td>
-
-
 			</tr>
-
-
-
 		</table>
 	</div>
 	</div>

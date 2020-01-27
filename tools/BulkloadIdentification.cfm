@@ -14,7 +14,7 @@ create table cf_temp_id (
 	other_id_type varchar2(60),
 	other_id_number varchar2(60),
 	scientific_name varchar2(255),
-	made_date date,
+	made_date varchar2(22),
 	nature_of_id varchar2(30),
 	accepted_fg number(1),
 	identification_remarks varchar2(255),
@@ -259,6 +259,18 @@ sho err
 					<cfset problem = "#problem#; nature_of_id not found">
 				</cfif>
 			</cfif>
+			<cfif len(made_date) GT 0>
+				<cfquery name="chkDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select is_iso8601('#MADE_DATE#') as valid from dual
+				</cfquery>
+				<cfif chkDate.valid NEQ "valid">
+					<cfif len(#problem#) is 0>
+						<cfset problem = "made date not a valid date">
+					<cfelse>
+						<cfset problem = "#problem#; made date not a valid date">
+					</cfif>
+				</cfif>
+			</cfif>
 			<cfif accepted_fg is not 1 and accepted_fg is not 0>
 				<cfif len(#problem#) is 0>
 					<cfset problem = "accepted_fg must be 1 or 0">
@@ -353,7 +365,7 @@ sho err
 			) values (
 				sq_identification_id.nextval,
 				#COLLECTION_OBJECT_ID#,
-				to_date('#dateformat(MADE_DATE,"yyyy-mm-dd")#'),
+				'#MADE_DATE#',
 				'#NATURE_OF_ID#',
 				#ACCEPTED_FG#,
 				'#IDENTIFICATION_REMARKS#',

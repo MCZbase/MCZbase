@@ -358,9 +358,11 @@ function setBorrowNum(cid,v){
 <cfset title="Edit Borrow">
   <div style="width: 95%;margin: 0 auto;overflow: hidden;padding: 2em;">
 <cfoutput>
+	<cftry>
 		<cfquery name="getBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				borrow.TRANSACTION_ID,
+				trans.transaction_type,
 				LENDERS_TRANS_NUM_CDE,
 				BORROW_NUMBER,
 				LENDERS_INVOICE_RETURNED_FG,
@@ -388,6 +390,12 @@ function setBorrowNum(cid,v){
 				trans.collection_id = collection.collection_id and
 			        trans.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
+	<cfif getBorrow.RecordCount EQ 0 > 
+		<cfthrow message = "No such Borrow.">
+	</cfif>
+	<cfif getBorrow.RecordCount GT 0 AND getBorrow.transaction_type NEQ 'borrow'> 
+		<cfthrow message = "Request to edit a Borrow, but the provided transaction_id was for a different transaction type.">
+	</cfif>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				trans_agent_id,
@@ -641,7 +649,8 @@ function setBorrowNum(cid,v){
 			        function deleteBorrowItem(borrow_item_id) {
 				    jQuery.ajax(
 			            {
-			                url : "/component/functions.cfc",
+			                
+url : "/component/functions.cfc",
 			                type : "post",
 			                dataType : "json",
 			                data : {
@@ -714,6 +723,35 @@ function setBorrowNum(cid,v){
 					</td>
 			</tr>
 </table>
+
+<div class="shippingBlock"> 
+			<h3>Media documenting this Borrow:</h3>
+            <p style="margin:0px;">Include copies of signed loan invoices and correspondence here.</p>
+
+			<br><span>
+		                <cfset relation="documents borrow">
+				<input type='button' onClick="opencreatemediadialog('addMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+      				<span id='addMedia_#transaction_id#'>
+				<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Borrow: #getBorrow.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
+				</span>
+				</span>
+				<div id='addMediaDlg_#transaction_id#'></div>
+				<div id='newMediaDlg_#transaction_id#'></div>
+				<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
+<script>
+
+// callback for ajax methods to reload from dialog
+function reloadTransMedia() { 
+    loadTransactionFormMedia(#transaction_id#,"borrow");
+    if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+        $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+    }
+};
+
+$( document ).ready(loadTransactionFormMedia(#transaction_id#,"borrow"));
+
+</script>
+</div>
 
 <div class="shippingBlock" style="width: 98.5%">
     <h3>Shipment Information:</h3>
@@ -872,7 +910,11 @@ $(function() {
   <div id="shipmentFormStatus"></div>
 </div>
 
-
+	<cfcatch>
+		<h2>Error: #cfcatch.message#</h2>
+		<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+	</cfcatch>
+	</cftry>
 	</cfoutput>
                 </div>
 </cfif>

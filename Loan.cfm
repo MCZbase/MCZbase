@@ -407,9 +407,39 @@
 <cfif action is "editLoan">
 	<cfset title="Edit #scope#">
 	<cfoutput>
+	<cftry>
+	<script>
+    function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
+           console.log(targetid);
+           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;
+           var amddialog = $('##'+targetid)
+           .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
+           .dialog({
+                 title: title,
+                 autoOpen: false,
+                 dialogClass: 'dialog_fixed,ui-widget-header',
+                 modal: true,
+                 height: 900,
+                 width: 1100,
+                 minWidth: 400,
+                 minHeight: 400,
+                 draggable:true,
+                 buttons: {
+                     "Ok": function () { 
+                        loadTransactionFormMedia(#transaction_id#,'loan'); 
+                        $(this).dialog("close"); 
+                     } 
+                 }
+           });
+           amddialog.dialog('open');          
+           console.log(transaction_id);
+           console.log(relationship);
+     };
+	</script>
 	<cfquery name="loanDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans.transaction_id,
+			trans.transaction_type,
 			trans_date,
 			loan_number,
 			loan_type,
@@ -434,6 +464,12 @@
 			trans.collection_id=collection.collection_id and
 			trans.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
+	<cfif loanDetails.RecordCount EQ 0 > 
+		<cfthrow message = "No such Loan.">
+	</cfif>
+	<cfif loanDetails.RecordCount GT 0 AND loanDetails.transaction_type NEQ 'loan'> 
+		<cfthrow message = "Request to edit a loan, but the provided transaction_id was for a different transaction type.">
+	</cfif>
 	<cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans_agent_id,
@@ -577,7 +613,7 @@
 				<th></th>
 				<th>Role</th>
 				<th>Delete?</th>
-				<th>Clone&nbps;As</th>
+				<th>Clone As</th>
 				<td rowspan="99">
                      <cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
                                         <!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
@@ -812,7 +848,7 @@
 					<li><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
 				</cfloop>
 			<cfelse>
-				<li>None</li>
+				<li style="margin: .5em 1.25em;">None</li>
 			</cfif>
 		</ul>
 		<hr>
@@ -975,6 +1011,52 @@
 		</select>
 </div>
 
+<div class="shippingBlock"> 
+			<h3>Media documenting this Loan:</h3>
+            <p style="margin:0px;">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
+
+			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					media.media_id,
+					preview_uri,
+					media_uri,
+					media_type,
+					label_value
+				from
+					media,
+					media_relations,
+					(select * from media_labels where media_label='description') media_labels
+				where
+					media.media_id=media_labels.media_id (+) and
+					media.media_id=media_relations.media_id and
+					media_relationship like '% loan' and
+					related_primary_key=#transaction_id#
+			</cfquery>
+			<br><span>
+				<cfset relation="documents loan">
+				<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+      				<span id='addMedia_#transaction_id#'>
+				<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
+				</span>
+			</span>
+			<div id='addMediaDlg_#transaction_id#'></div>
+			<div id='newMediaDlg_#transaction_id#'></div>
+			<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
+<script>
+
+// callback for ajax methods to reload from dialog
+function reloadTransMedia() { 
+    loadTransactionFormMedia(#transaction_id#,"loan");
+    if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+        $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+    }
+};
+
+$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
+
+</script>
+</div>
+
 <div class="shippingBlock">
     <h3>Countries of Origin of items in this loan</h3>
     <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1008,8 +1090,8 @@ function opendialog(page,id,title) {
     autoOpen: false,
     dialogClass: 'dialog_fixed,ui-widget-header',
     modal: true,
-    height: 800,
-    width: 950,
+    height: 900,
+    width: 1100,
     minWidth: 400,
     minHeight: 450,
     draggable:true,
@@ -1150,7 +1232,7 @@ $( document ).ready(loadShipments(#transaction_id#));
   <div id="shipmentFormStatus"></div>
 </div>
 <div id="accsection">
-	<h3>Accessions (and their permits) for material in this loan:</h3>
+	<h3>Accessions of material in this loan:</h3>
         <!--- List Accessions for collection objects included in the Loan --->
 	<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id from
@@ -1165,17 +1247,19 @@ $( document ).ready(loadShipments(#transaction_id#));
 	<cfloop query="getAccessions">
             <li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
 	    <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct permit_num, permit_type, issued_date, permit.permit_id,
+		select distinct permit_num, permit.permit_type, permit.specific_type, issued_date, permit.permit_id,
                     issuedBy.agent_name as IssuedByAgent
 		from permit_trans left join permit on permit_trans.permit_id = permit.permit_id
+		     left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
                      left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
 		where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-                order by permit_type, issued_date
+		     and ctspecific_permit_type.accn_show_on_shipment = 1
+                order by permit.permit_type, issued_date
             </cfquery>
              <cfif getAccnPermits.recordcount gt 0>
 	      <ul class="accnpermit">
               <cfloop query="getAccnPermits">
-                 <li><span style="font-weight:bold;">Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+                 <li><span style="font-weight:bold;">#permit_type#:</span> #specific_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
 
               </cfloop>
               </ul>
@@ -1185,27 +1269,29 @@ $( document ).ready(loadShipments(#transaction_id#));
 	</cfloop>
         </ul>
 </div>
-    <!--- TODO: Print permits associated with these accessions --->
+    <!--- Print permits associated with these accessions --->
 	  <div id="permitmedia">
-      <h3>Permit Media (PDF copies of Permits)</h3>
+      <h3>Permissions and Rights Documents (PDF copies of Permits) from Accessions and the Shipments of this Loan.</h3>
         <cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select distinct media_id, uri, permit_type, permit_num, permit_title from (
+        select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment from (
                 select 
                        mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
                        mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-                       p.permit_type, p.permit_num, p.permit_title
+                       p.permit_type, p.permit_num, p.permit_title, p.specific_type,
+                       ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
            from loan_item li
                    left join specimen_part sp on li.collection_object_id = sp.collection_object_id
                    left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
                    left join accn on ci.accn_id = accn.transaction_id
-           left join permit_trans on accn.transaction_id = permit_trans.transaction_id
-           left join permit p on permit_trans.permit_id = p.permit_id
+                   left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+                   left join permit p on permit_trans.permit_id = p.permit_id
+                   left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
                 where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
         union
                 select 
                    mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
                    mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-                   p.permit_type, p.permit_num, p.permit_title
+                   p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
            from shipment s
            left join permit_shipment ps on s.shipment_id = ps.shipment_id
            left join permit p on ps.permit_id = p.permit_id
@@ -1216,18 +1302,27 @@ $( document ).ready(loadShipments(#transaction_id#));
     <ul>
   	<cfloop query="getPermitMedia">
            <cfif media_id is ''> 
-              <li>#permit_type# #permit_num# #permit_title# (no pdf)</li>
+              <li>#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
            <cfelse>
-              <li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
-              <cfset uriList = ListAppend(uriList,uri)>
+	      <cfif show_on_shipment EQ 1> 
+                 <li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
+                 <cfset uriList = ListAppend(uriList,uri)>
+              <cfelse>
+                 <li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
+	      </cfif>
            </cfif>
         </cfloop>
     </ul>
     <cfif ListLen(uriList,',',false) gt 0 >
-        <a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permits</a>
+        <a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
     </cfif>
     </div>
 
+<cfcatch>
+	<h2>Error: #cfcatch.message#</h2>
+	<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+</cfcatch>
+</cftry>
 </cfoutput>
 <script>
 	dCount();

@@ -29,6 +29,7 @@
 				REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
 				last_name,
 				first_name,
+				country_cde,
 				round(RETURN_DUE_DATE - (sysdate)) + 1 as numdays
 			FROM
 				loan,
@@ -75,6 +76,7 @@
 				nature_of_material,
 				collection_id,
 				formatted_addr,
+				country_cde,
 				numdays
 			from
 				expLoan
@@ -91,6 +93,7 @@
 				nature_of_material,
 				collection_id,
 				formatted_addr,
+				country_cde,
 				numdays
 		</cfquery>
 		<!--- loop once for each loan --->
@@ -309,6 +312,7 @@
 				<cfset toaddresses = ValueList(to_agents.address,";")>
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
+			<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 
 			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
@@ -377,7 +381,20 @@
 				<cfelse>
 				We request that you please return the above loan or request an extension by the Due Date. For more information on this loan,
 				</cfif>
-				contact the  #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated.
+				contact #ValueList(inhouse.agent_name)# in the #collection# Collection (#ValueList(inhouse.address)#).
+				<cfif not ListFind(usCodes,country_cde) AND len(COUNTRY_CDE) GT 0>
+				<br><br>To meet federal regulations regarding importation and clearance of international shipments, researchers returning MCZ material must:<br>
+				<ul>
+					<li>Provide the name of the courier (e.g., FedEx, DHL, trackable post), the Airway Bill number, and an
+						invoice of contents (scientific names and number of specimens of each) to the MCZ Curatorial
+						Associate <strong>at least 72 hours in advance of any shipment.</strong></li>
+					<li>Include “<strong>USFWS CLEARANCE REQUIRED</strong>” on the International waybill AND in red on all sides of the
+						outside of the package. (Note: “Scientific research specimens, not restricted, Special Provision A180
+						applies” should also be noted on the waybill and package if applicable.)</li>
+					<li>Include three copies of all documentation in the waybill pouch.</li>
+				</ul>
+				</cfif>
+				Your attention to this matter will be greatly appreciated.
 				<cfif findnocase("CRYO",#loan_number#) GT 0>
 				<br><br>
 				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.

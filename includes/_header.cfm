@@ -25,7 +25,7 @@
                 }).superfish({
                     delay:       600,
                     animation:   {opacity:'show',height:'show'},
-                    speed:       0,
+                    speed:       0
                 });
                 if (top.location!=document.location) {
                     // the page is being included in a frame or a dialog within a page which already contains the header, main menu, and footer

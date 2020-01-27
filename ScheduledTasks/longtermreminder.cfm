@@ -63,9 +63,9 @@
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" startrow=1 endrow=450>
+<cfloop query="agent" <!---startrow=1 endrow=405--->>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2019-04-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2019-10-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -203,7 +203,7 @@
 			</cfquery>
 			<cfquery name="formattedinhouse" dbtype="query">
 				select
-					(expLoan.collection + ' Collection (' + expLoan.address + ')') contact,
+					(expLoan.agent_name + ' in the ' + expLoan.collection + ' Collection (' + expLoan.address + ')') contact,
 					expLoan.agent_name
 				from
 					agent_loans, expLoan
@@ -371,7 +371,7 @@
 				#address.formatted_addr#--->
 				<br><br>
 				We request that you please return the above loan<cfif #loan.recordcount# GT 1>s</cfif>
-					 as soon as possible. For more information on <cfif #loan.recordcount# EQ 1>this loan<cfelse>these loans</cfif>, contact the
+					 as soon as possible. For more information on <cfif #loan.recordcount# EQ 1>this loan<cfelse>these loans</cfif>, contact
 					<cfif collections.recordcount EQ 1>
 						#Replace(ValueList(formattedinhouse.contact, ', '), "Special Collections Collection", "Special Collections")#.
 					<cfelse >

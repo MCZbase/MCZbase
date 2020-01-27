@@ -1,6 +1,9 @@
 :<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <cfoutput>
+	<cfhtmlhead text='<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>
+<cfoutput>
         <script>
                 function useGL(glat,glon,gerr){
                         $("##MAX_ERROR_DISTANCE").val(gerr);
@@ -37,6 +40,7 @@
 	    } else {
 		window.attachEvent("onmessage", getGeolocate);
 	    }
+		mapsYo();
 	});
 	function geolocate() {
                 var guri="#Application.protocol#://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
@@ -71,7 +75,7 @@
                 $("##popDiv").append(theFrame);
         }
         function getGeolocate(evt) {
-            if (evt.origin.includes("://mczbase") && evt.data == "") { 
+            if (evt.origin.includes("://mczbase") && evt.data == "") {
                console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
             } else {
                if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
@@ -195,6 +199,106 @@
 			}
 		}
 	}
+
+		function mapsYo(){
+			$("input[id^='coordinates_']").each(function(e){
+				var locid=this.id.split('_')[1];
+				var coords=this.value;
+				var bounds = new google.maps.LatLngBounds();
+				var polygonArray = [];
+				var ptsArray=[];
+				var lat=coords.split(',')[0];
+				var lng=coords.split(',')[1];
+				var errorm=$("#error_" + locid).val();
+				var mapOptions = {
+					zoom: 1,
+				    center: new google.maps.LatLng(lat, lng),
+				    mapTypeId: google.maps.MapTypeId.ROADMAP,
+				    panControl: false,
+				    scaleControl: true,
+					fullscreenControl: true,
+					zoomControl: true
+				};
+				var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+
+				var center=new google.maps.LatLng(lat,lng);
+				var marker = new google.maps.Marker({
+					position: center,
+					map: map,
+					zIndex: 10
+				});
+				bounds.extend(center);
+				if (parseInt(errorm)>0){
+					var circleoptn = {
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: '#FF0000',
+						fillOpacity: 0.15,
+						map: map,
+						center: center,
+						radius: parseInt(errorm),
+						zIndex:-99
+					};
+					crcl = new google.maps.Circle(circleoptn);
+					bounds.union(crcl.getBounds());
+				}
+				// WKT can be big and slow, so async fetch
+				/*$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&specimen_event_id=" + locid, function( wkt ) {
+  					  if (wkt.length>0){
+						var regex = /\(([^()]+)\)/g;
+						var Rings = [];
+						var results;
+						while( results = regex.exec(wkt) ) {
+						    Rings.push( results[1] );
+						}
+						for(var i=0;i<Rings.length;i++){
+							// for every polygon in the WKT, create an array
+							var lary=[];
+							var da=Rings[i].split(",");
+							for(var j=0;j<da.length;j++){
+								// push the coordinate pairs to the array as LatLngs
+								var xy = da[j].trim().split(" ");
+								var pt=new google.maps.LatLng(xy[1],xy[0]);
+								lary.push(pt);
+								//console.log(lary);
+								bounds.extend(pt);
+							}
+							// now push the single-polygon array to the array of arrays (of polygons)
+							ptsArray.push(lary);
+						}
+						var poly = new google.maps.Polygon({
+						    paths: ptsArray,
+						    strokeColor: '#1E90FF',
+						    strokeOpacity: 0.8,
+						    strokeWeight: 2,
+						    fillColor: '#1E90FF',
+						    fillOpacity: 0.35
+						});
+						poly.setMap(map);
+						polygonArray.push(poly);
+						// END this block build WKT
+  					  	} else {
+  					  		$("#mapdiv_" + locid).addClass('noWKT');
+  					  	}
+  					  	if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+					       bounds.extend(extendPoint1);
+					       bounds.extend(extendPoint2);
+					    }
+						map.fitBounds(bounds);
+			        	for(var a=0; a<polygonArray.length; a++){
+			        		if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+			        			$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+				        	} else {
+				    			$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+			        		}
+			        	}
+					});
+					map.fitBounds(bounds);*/
+			});
+		}
 </script>
 
 <!--- Provide a probably sane value for sovereign_nation if none is currently provided. --->
@@ -252,10 +356,13 @@
 			collection.collection
   	</cfquery>
 	<cfquery name="getLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select * from
+        select LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,LAT_SEC,LAT_DIR,LONG_DEG,DEC_LONG_MIN,LONG_MIN,LONG_SEC,LONG_DIR,DEC_LAT,DEC_LONG,DATUM,to_meters(max_error_distance, max_error_units) COORDINATEUNCERTAINTYINMETERS,UTM_ZONE,UTM_EW,UTM_NS,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT,GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,VERIFIED_BY_AGENT_ID,db.agent_name as "determiner",vb.agent_name as "verifiedby"
+		 from
 			lat_long,
-			preferred_agent_name
-		where determined_by_agent_id = agent_id
+			preferred_agent_name db,
+			preferred_agent_name vb
+		where determined_by_agent_id = db.agent_id
+		and verified_by_agent_id = vb.agent_id(+)
         and locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		order by ACCEPTED_LAT_LONG_FG DESC, lat_long_id
      </cfquery>
@@ -295,40 +402,45 @@
   	<table>
   		<tr>
 			<td>
- 					<ul class="headercol1" style="padding-left:0;margin-left:0;">
- 					<li>
- 				<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
-  				<cfif #whatSpecs.recordcount# is 0>
-  					<font color="##FF0000">This Locality (#locDet.locality_id#)
-					contains no specimens. Please delete it if you don't have plans for it!</font>
-  				<cfelseif #whatSpecs.recordcount# is 1>
-					<font color="##FF0000">This Locality (#locDet.locality_id#)
+				<div style="position: relative;">
+					<div style="width: 60em;postion: relative;">
+					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
+						<li>
+					<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
+						<cfif #whatSpecs.recordcount# is 0>
+							<font color="##FF0000">This Locality (#locDet.locality_id#)
+							contains no specimens. Please delete it if you don't have plans for it!</font>
+						<cfelseif #whatSpecs.recordcount# is 1>
+							<font color="##FF0000">This Locality (#locDet.locality_id#)
 
-					contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
-					<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
-				<cfelse>
-					<font color="##FF0000">This Locality (#locDet.locality_id#)
+							contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
+							<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
+						<cfelse>
+							<font color="##FF0000">This Locality (#locDet.locality_id#)
 
-					contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
-					<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
-						<cfloop query="whatSpecs">
-							<li><font color="##FF0000">#numOfSpecs# #collection#</font></li>
-						</cfloop>
+							contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
+							<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
+								<cfloop query="whatSpecs">
+									<li style="margin-left: 1.5em;"><font color="##FF0000">#numOfSpecs# #collection#</font></li>
+								</cfloop>
+							</ul>
+
+						</cfif>
+						</h3>
+						</li>
 					</ul>
-  				</cfif>
-                    </h3>
-					</li>
-						</ul>
-					<ul class="headercol3">
-				    <li>
-				      <cfif len(getAccLL.dec_lat) gt 0 and len(getAccLL.dec_long) gt 0 and (getAccLL.dec_lat is not 0 and getAccLL.dec_long is not 0)>
-				        <cfset iu="http://maps.google.com/maps/api/staticmap?key=#application.gmap_api_key#&center=#getAccLL.dec_lat#,#getAccLL.dec_long#">
-				        <cfset iu=iu & "&markers=color:red|size:tiny|#getAccLL.dec_lat#,#getAccLL.dec_long#&sensor=false&size=100x100&zoom=2">
-				        <cfset iu=iu & "&maptype=roadmap">
-				        <a href="http://maps.google.com/maps?q=#getAccLL.dec_lat#,#getAccLL.dec_long#" target="_blank"> <img src="#iu#" alt="Google Map"> </a>
-				      </cfif>
-				    </li>
-				</ul>
+
+					   <div style="top: 0;right:10px;position:absolute;height: 260px;width: 250px;">
+						  <cfif len(getAccLL.dec_lat) gt 0 and len(getAccLL.dec_long) gt 0 and (getAccLL.dec_lat is not 0 and getAccLL.dec_long is not 0)>
+							<cfset coordinates="#getAccLL.dec_lat#,#getAccLL.dec_long#">
+							<input type="hidden" id="coordinates_#getAccLL.locality_id#" value="#coordinates#">
+							<input type="hidden" id="error_#getAccLL.locality_id#" value="#getAccLL.COORDINATEUNCERTAINTYINMETERS#">
+							<div id="mapdiv_#getAccLL.locality_id#" class="smallmap"></div>
+							<!---span class="infoLink mapdialog">map key/tools</div--->
+							</cfif>
+							</div>
+						</div>
+				</div>
 			</td>
 		</tr>
 	</cfoutput>
@@ -345,7 +457,7 @@
 						name="higher_geog"
 						id="higher_geog"
 						value="#higher_geog#"
-						size="131"
+						size="90"
 						class="readClr"
 						readonly="yes" >
 				</td>
@@ -376,7 +488,7 @@
             <input type="hidden" name="action" value="saveLocalityEdit">
             <input type="hidden" name="locality_id" value="#locality_id#">
          </table>
-			<hr />
+			<br><br>
             <table>
 			<tr>
 				<td><h4 style="margin-bottom: .5em;">Locality</h4></td>
@@ -648,7 +760,7 @@
 					<label for="determined_by#i#">
 						<a href="javascript:void(0);" onClick="getDocs('lat_long','determiner')">Determiner</a>
 					</label>
-					<input type="text" name="determined_by" id="determined_by#i#" class="reqdClr" value="#agent_name#" size="40"
+					<input type="text" name="determined_by" id="determined_by#i#" class="reqdClr" value="#determiner#" size="40"
 						onchange="getAgent('determined_by_agent_id','determined_by','latLong#i#',this.value); return false;"
 		 				onKeyPress="return noenter(event);">
 		 			<input type="hidden" name="determined_by_agent_id" value="#determined_by_agent_id#">
@@ -730,7 +842,16 @@
 					<label for="VerificationStatus#i#">
 						Verification Status
 					</label>
-					<select name="VerificationStatus" id="VerificationStatus#i#" size="1" class="reqdClr">
+					<select name="VerificationStatus" id="VerificationStatus#i#" size="1" class="reqdClr"
+						onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
+									{document.getElementById('verified_by#i#').style.display = 'block';
+									document.getElementById('verified_byLBL#i#').style.display = 'block';
+									document.getElementById('verified_by#i#').className = 'reqdClr';}
+									else
+									{document.getElementById('verified_by#i#').value = '';
+									document.getElementById('verified_by#i#').style.display = 'none';
+									document.getElementById('verified_byLBL#i#').style.display = 'none';
+									document.getElementById('verified_by#i#').className = '';}">
 					   	<cfset thisVerificationStatus = #VerificationStatus#>
 					   		<cfloop query="ctVerificationStatus">
 								<option
@@ -739,7 +860,18 @@
 							</cfloop>
 					   </select>
 				</td>
-				<td colspan="3">
+				<td colspan=2>
+					<label for="verified_by#i#" id="verified_byLBL#i#" <cfif #VerificationStatus# EQ "verified by MCZ collection" or #VerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
+						Verified by
+					</label>
+					<input type="text" name="verified_by" id="verified_by#i#" value="#verifiedby#" size="40" <cfif #VerificationStatus# EQ "verified by MCZ collection" or #VerificationStatus# EQ "rejected by MCZ collection">class="reqdClr" style="display:block"<cfelse>style="display:none"</cfif>
+						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','latLong#i#',this.value); return false;}"
+		 				onKeyPress="return noenter(event);">
+		 			<input type="hidden" name="verified_by_agent_id" value="#verified_by_agent_id#">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
 					<label for="LAT_LONG_REMARKS#i#">
 						Remarks
 					</label>
@@ -747,7 +879,7 @@
 						name="LAT_LONG_REMARKS"
 						id="LAT_LONG_REMARKS#i#"
 						value="#encodeForHTML(LAT_LONG_REMARKS)#"
-						size="60">
+						size="120">
 				</td>
 			</tr>
 			<tr>
@@ -1064,13 +1196,33 @@
 					<label for="VerificationStatus">
 						Verification Status
 					</label>
-					<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr">
+					<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
+							onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
+									{document.getElementById('verified_by').style.display = 'block';
+									document.getElementById('verified_byLBL').style.display = 'block';
+									document.getElementById('verified_by').className = 'reqdClr';}
+									else
+									{document.getElementById('verified_by').value = '';
+									document.getElementById('verified_by').style.display = 'none';
+									document.getElementById('verified_byLBL').style.display = 'none';
+									document.getElementById('verified_by').className = '';}">
 					   		<cfloop query="ctVerificationStatus">
 								<option value="#VerificationStatus#">#VerificationStatus#</option>
 							</cfloop>
 					   </select>
 				</td>
-				<td colspan="3">
+				<td colspan=2>
+					<label for="verified_by" id="verified_byLBL" style="display:none">
+						Verified by
+					</label>
+					<input type="text" name="verified_by" id="verified_by" size="40" style="display:none"
+						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','newlatLong',this.value); return false;}"
+		 				onKeyPress="return noenter(event);">
+		 			<input type="hidden" name="verified_by_agent_id">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
 					<label for="LAT_LONG_REMARKS">
 						Remarks
 					</label>
@@ -1729,7 +1881,8 @@
 							,EXTENT
 							,GPSACCURACY
 							,GEOREFMETHOD
-							,VERIFICATIONSTATUS)
+							,VERIFICATIONSTATUS
+							,VERIFIED_BY_AGENT_ID)
 						VALUES (
 							sq_lat_long_id.nextval,
 							#lid#
@@ -1855,7 +2008,12 @@
 								,NULL
 							</cfif>
 							,'#GEOREFMETHOD#'
-							,'#VERIFICATIONSTATUS#')
+							,'#VERIFICATIONSTATUS#'
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
+							<cfelse>
+								,NULL
+							</cfif>)
 					</cfquery>
 				</cfloop>
 			</cfif>
@@ -1898,7 +2056,8 @@
 							,EXTENT
 							,GPSACCURACY
 							,GEOREFMETHOD
-							,VERIFICATIONSTATUS)
+							,VERIFICATIONSTATUS,
+							,VERIFIED_BY_AGENT_ID)
 						VALUES (
 							sq_lat_long_id.nextval,
 							#lid#
@@ -2024,7 +2183,12 @@
 								,NULL
 							</cfif>
 							,'#GEOREFMETHOD#'
-							,'#VERIFICATIONSTATUS#')
+							,'#VERIFICATIONSTATUS#'
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
+							<cfelse>
+								,NULL
+							</cfif>)
 					</cfquery>
 				</cfloop>
 			</cfif>
@@ -2058,6 +2222,11 @@
 		,determined_by_agent_id = #determined_by_agent_id#
 		,georefMethod='#georefMethod#'
 		,VerificationStatus='#VerificationStatus#'">
+		<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+			<cfset sql = "#sql#,VERIFIED_BY_AGENT_ID = #VERIFIED_BY_AGENT_ID#">
+		  <cfelse>
+			<cfset sql = "#sql#,VERIFIED_BY_AGENT_ID = NULL">
+		</cfif>
 		<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 			<cfset sql = "#sql#,MAX_ERROR_DISTANCE = #MAX_ERROR_DISTANCE#">
 		  <cfelse>
@@ -2216,6 +2385,12 @@
 		,verificationstatus
 		,DATUM
 		">
+		<cfif len(#verified_by_agent_id#) gt 0>
+			<cfset sql = "#sql#,verified_by_agent_id">
+		</cfif>
+		<cfif len(#gpsaccuracy#) gt 0>
+			<cfset sql = "#sql#,gpsaccuracy">
+		</cfif>
 		<cfif len(#extent#) gt 0>
 			<cfset sql = "#sql#,extent">
 		</cfif>
@@ -2280,6 +2455,9 @@
 		,'#georefmethod#'
 		,'#verificationstatus#'
 		,'#DATUM#'">
+		<cfif len(#verified_by_agent_id#) gt 0 and len(#verified_by# GT 0)>
+			<cfset sql = "#sql#,#verified_by_agent_id#">
+		</cfif>
 		<cfif len(#extent#) gt 0>
 			<cfset sql="#sql#,'#extent#'">
 		</cfif>

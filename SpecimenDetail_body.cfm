@@ -450,7 +450,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									</cfif>
 									Identified by #agent_name#
 									<cfif len(made_date) gt 0>
-										on #dateformat(made_date,"yyyy-mm-dd")#
+										<cfif len(made_date) gt 8> on <cfelse> in </cfif>#made_date#
 									</cfif>
 									<br>Nature of ID: #nature_of_id#
 									<cfif len(identification_remarks) gt 0>
@@ -1296,7 +1296,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									<cfif len(determined_date) gt 0>
 										<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
 									</cfif>
-									<cfif len(determination_method) gt 0>,
+									<cfif len(determination_method) gt 0>
 										<cfset determination = '#determination#, #determination_method#'>
 									</cfif>
 									<div class="detailBlock">
@@ -1654,6 +1654,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 </table>
 <cfif oneOfUs is 1>
 </form>
+</cfif>
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_AGENT_RANKING")>
+	<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
+	<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+	<input type="button" value="QC" class="savBtn" onClick="loadEventQC(#collection_object_id#, 'EventDQDiv');">
+	<div id="EventDQDiv"></div>
 </cfif>
 </cfoutput>
 <cf_customizeIFrame>

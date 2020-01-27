@@ -37,7 +37,10 @@ Current format: #displayFormat#<br/>
 
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct 
-       get_scientific_name(cat.collection_object_id) as ident, 
+       get_scientific_name(cat.collection_object_id) as ident,
+       cp.label,
+       cat.collection_cde,
+       to_number(regexp_replace(cat.cat_num,'[^0-9]','')) as cat_num_numeric,
        'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','') as tray, 
        cat.collection_cde || ':' || cat.cat_num as cat_num
     from container cc left join container cp on cc.parent_container_id = cp.container_id
@@ -48,8 +51,7 @@ Current format: #displayFormat#<br/>
         and ch.current_container_fg = 1
         and cat.collection_cde = 'SC'
     order by
-       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray',''), 
-        cat.collection_cde || ':' || cat.cat_num
+       cp.label, cat.collection_cde, to_number(regexp_replace(cat.cat_num,'[^0-9]',''))
     </cfquery>
 
     <!--- Layout parameters --->
@@ -85,9 +87,9 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times12">
+    <cfset textClass = "arial12">
     <cfset dateStyle = "yyyy-mmm-dd">
-    <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# font: times,serif;'>
+    <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# font: Arial,Helvetica,sans-serif;;'>
 
     <cfdocument
     	format="pdf"
@@ -101,9 +103,7 @@ Current format: #displayFormat#<br/>
     	filename="#Application.webDirectory#/temp/#targetfile#"
     	overwrite="yes">
     <cfoutput>
-<!---
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
---->
     #pageHeader#
     <!--- Main loop --->
     <cfset curItem = 0 >  <!--- counter to track if we are at the end of the record set yet --->
@@ -138,9 +138,9 @@ Current format: #displayFormat#<br/>
                <!--- reset the cell counter ---> 
                <cfset curItemInTray=0>
 <!---    	       <div style="#labelStyle# font-size: 12pt; ">  ---->
-    		  <table style="width:100%; height: 2.6in; border: 1px solid black;">
+    		  <table style="width:100%; height: 2.6in; border: 1px solid black;" class="#textClass#">
     		      <tr style="height: 0.1in; ">
-    		         <td style="width: 4.0in; border: none; vertical-align: top; "><span style="float: left;">#header_text#</span><span style="float: right;"><strong> #lastTray#</strong></span></td>
+    		         <td style="width: 4.0in; border: none; vertical-align: top; "><span style="float: left; font: sans-serif; font-size: 12pt; padding-right: 0; margin-right: 0;">#header_text#</span><span style="float: right; padding-left: 0; margin-left: 0; font-size: 12pt;"><strong> #lastTray#</strong></span></td>
     		      </tr>
     		      <tr style="height: 0.1in;">
     		         <td style="vertical-align: top; border: none;"><span style="line-height: 0px;" ><i>#trim(idents)#</i></span></td>
@@ -210,8 +210,8 @@ Current format: #displayFormat#<br/>
 
     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct 
-       get_scientific_name(cat.collection_object_id) as ident, 
-       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','') as tray
+       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','') as tray,
+        cp.barcode
     from container cc left join container cp on cc.parent_container_id = cp.container_id
        left join coll_obj_cont_hist ch on cc.container_id = ch.container_id
        left join specimen_part sp on ch.COLLECTION_OBJECT_ID = sp.COLLECTION_OBJECT_ID
@@ -220,16 +220,15 @@ Current format: #displayFormat#<br/>
         and ch.current_container_fg = 1
         and cat.collection_cde = 'SC'
     order by
-       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray',''),
-       get_scientific_name(cat.collection_object_id) 
+       'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','')
     </cfquery>
 
     <!--- Layout parameters --->
-    <cfset maxCol = 3>
+    <cfset maxCol = 2>
     <cfset orientiation = 'portrait'>
-    <cfset maxRow = 20>
-    <cfset labelWidth = 'width: 4.0in;'>
-    <cfset labelHeight = 'height: 0.25in;'>
+    <cfset maxRow = 22>
+    <cfset labelWidth = 'width: 77mm;'>
+    <cfset labelHeight = 'height: 12mm;'>
    
     <cfset numRecordsPerPage = maxCol * maxRow>
     <cfset curPage = 1>
@@ -238,7 +237,7 @@ Current format: #displayFormat#<br/>
     <!--- Formatting parameters --->
     <cfset labelBorder = 'border: 1px solid black;'>
     <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0" '>
-    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0.2in" border="0" '>
+    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0" '>
     <cfset pageHeader='
     <table #outerTableParams#>
        <tr><td>
@@ -254,7 +253,7 @@ Current format: #displayFormat#<br/>
     </table>
     '>
 
-    <cfset textClass = "times8">
+    <cfset textClass = "arial12">
     <cfset dateStyle = "yyyy-mmm-dd">
     <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
@@ -274,38 +273,55 @@ Current format: #displayFormat#<br/>
     #pageHeader#
     <!--- Main loop --->
     <cfset curItem = 0 >  <!--- counter to track if we are at the end of the record set yet --->
-    <!--- accumulators for values to display in the label ---> 
-    <cfset lastTray = ''>
-    <cfset idents = ''>
-    <cfset iseparator = ''>
     <!--- count of current column and row location to know when to start a new column and a new page --->
     <cfset rowCount = 0>
     <cfset colCount = 0>
     <cfloop query="getItems">
        <!--- loop through all of the cataloged items (sorted by tray and scientific name --->
        <cfset curItem = curItem + 1>
-       <cfset currentTray=tray>
-       <cfif currentTray NEQ lastTray OR curItem EQ getItems.recordCount> 
-            <!--- output previous tray ---> 
-            <cfif curItem gt 1> 
-               <cfset rowCount = rowCount + 1>
-    	       <div style="#labelStyle# margin: 0.1in; font-size: 8pt;">
+
+        <!---  For each tray, get the list of scientific names, in order by other id --->
+        <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select distinct
+           get_scientific_name(cat.collection_object_id) as ident,
+           MCZBASE.get_single_other_id_concat(cat.collection_object_id, 'other number') as othernumber
+        from container cc left join container cp on cc.parent_container_id = cp.container_id
+           left join coll_obj_cont_hist ch on cc.container_id = ch.container_id
+           left join specimen_part sp on ch.COLLECTION_OBJECT_ID = sp.COLLECTION_OBJECT_ID
+           left join cataloged_item cat on sp.DERIVED_FROM_CAT_ITEM = cat.COLLECTION_OBJECT_ID
+        where cp.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getItems.barcode#">
+            and ch.current_container_fg = 1
+        order by
+           MCZBASE.get_single_other_id_concat(cat.collection_object_id, 'other number'),
+           get_scientific_name(cat.collection_object_id)
+        </cfquery>
+
+        <cfset idents = ''>
+        <cfset iseparator = ''>
+    	<cfset taxonCount = 0>
+        <cfloop query="getTaxa">
+	    <cfset taxonCount = taxonCount + 1>
+            <!--- Accumulate list of distinct taxon names --->
+            <cfset ident = getTaxa.ident>
+            <cfif taxonCount EQ 1 OR Find(ident,idents) EQ 0>
+                <cfset idents = '#idents##iseparator##ident#'>
+                <cfset iseparator = ' &mdash; '>
+            </cfif>
+        </cfloop>
+
+        <cfset rowCount = rowCount + 1>
+    	<div style="#labelStyle# margin-bottom: 0mm; margin-right: 1.0in;">
     		  <table >
-    		      <tr>
-    		         <td><span class="#textClass#">#header_text#<strong> #lastTray#</strong></span></td>
+    		      <tr style="padding-bottom: 0px; margin-bottom:0px;">
+    		         <td><span class="#textClass#" style="padding-bottom: 0px; margin-bottom:0px; padding-left: 8mm;" >#header_text#<strong> <span style="font-size: 120%; padding-left: 7mm;">#getItems.tray#</span></strong></span></td>
     		      </tr>
-    		      <tr>
-    		         <td><span class="#textClass#"><i>#idents#</i></span></td>
+    		      <tr style="padding-bottom: 0px; margin-bottom:0px; padding-bottom: 3mm;">
+    		         <td><span class="#textClass#" style="padding-top: 0px; margin-top: 0px;"><i>#idents#</i></span></td>
     		      </tr>
                   </table>
-               </div>
-            </cfif>
-            <!--- Begin a new tray --->
-            <cfset idents = ''>
-            <cfset iseparator = ''>
-            <cfset lastTray=tray>
-              <!--- If at end of column, add next column --->
-          	<cfif rowCount EQ maxRow >
+        </div>
+        <!--- If at end of column, add next column --->
+        <cfif rowCount EQ maxRow >
                     <cfset colCount = colCount + 1>
                     <cfset rowCount = 0>
           	    </td></tr></table></td>
@@ -313,10 +329,10 @@ Current format: #displayFormat#<br/>
           	    <cfif curItem LT getItems.recordCount AND colCount LT maxCol>
           		<td valign='top'><table #innerTableParams#><tr><td>
           	    </cfif>
-          	</cfif>
+        </cfif>
       
-              <!--- If at end of page, add new page set to first column --->
-          	<cfif colCount EQ maxCol OR curItem EQ getItems.recordcount >
+        <!--- If at end of page, add new page set to first column --->
+        <cfif colCount EQ maxCol OR curItem EQ getItems.recordcount >
                  <cfset curPage = curPage + 1> <!--- currently not used, could be used for page x of y --->
                  <cfset rowCount = 0> <!--- restart row and column counters for new page --->
                  <cfset colCount = 0>
@@ -327,13 +343,10 @@ Current format: #displayFormat#<br/>
                       <cfdocumentitem type="pagebreak"></cfdocumentitem>
           		#pageHeader#
                  </cfif>
-          	</cfif>
-       </cfif>
+        </cfif>
        
        <!---  Iterate Through Trays, one label per tray, accumulating identifications in tray---> 
        <!---  taxa are distinct in query, just append them to list.  --->
-       <cfset idents = '#idents##iseparator##ident#'>
-       <cfset iseparator = '; '>
 
     </cfloop>
     </cfoutput>

@@ -63,7 +63,7 @@
 		var t=setTimeout("dCount()",500);
 	}
 
-    function addMediaHere (deaccessionLabel,transaction_id){
+    function addMediaHere (deaccessionLabel,transaction_id,relationship){
                 var bgDiv = document.createElement('div');
                 bgDiv.id = 'bgDiv';
                 bgDiv.className = 'bgDiv';
@@ -78,7 +78,7 @@
                 jQuery('##mediaDiv').append('<iframe id="mediaIframe" />');
                 jQuery('##mediaIframe').attr('src', '/media.cfm?action=newMedia').attr('width','100%').attr('height','100%');
             jQuery('iframe##mediaIframe').load(function() {
-                jQuery('##mediaIframe').contents().find('##relationship__1').val('shows deaccession');
+                jQuery('##mediaIframe').contents().find('##relationship__1').val(relationship);
                 jQuery('##mediaIframe').contents().find('##related_value__1').val(deaccessionLabel);
                 jQuery('##mediaIframe').contents().find('##related_id__1').val(transaction_id);
                 viewport.init("##mediaDiv");
@@ -376,9 +376,11 @@
 <cfif action is "editDeacc">
 	<cfset title="Edit Deaccession">
 	<cfoutput>
-	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cftry>
+	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deaccDetailsResult" >
 		select
             trans.transaction_id,
+			trans.transaction_type,
 			trans.trans_date,
 			deaccession.deacc_number,
 			deaccession.deacc_type,
@@ -401,6 +403,12 @@
 			trans.collection_id=collection.collection_id and
 			trans.transaction_id = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 	</cfquery>
+	<cfif deaccDetails.RecordCount EQ 0 > 
+		<cfthrow message = "No such Deaccession.">
+	</cfif>
+	<cfif deaccDetails.RecordCount GT 0 AND deaccDetails.transaction_type NEQ 'deaccession'> 
+		<cfthrow message = "Request to edit a deaccession, but the provided transaction_id was for a different transaction type.">
+	</cfif>
 	<cfquery name="deaccAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans_agent_id,
@@ -691,33 +699,32 @@
     </table>
     </div>
 
-<div class="shippingBlock">
-     <strong>Media (e.g. copies of correspondence) associated with this Deaccession:</strong>
-      <div id="deaccessionMedia"></div>
+<div class="shippingBlock"> 
+    <h3>Media associated with this Deaccession:</h3>
+    <p style="margin:0px;">Include copies of correspondence and other documents (e.g. data files, scans of maps, inventory lists) which are not permissions or rights documents documents here.</p>
+    <br><span>
+        <cfset relation="documents deaccession">
+        <input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccDetails.deacc_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+        <span id='addMedia_#transaction_id#'>
+            <input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccDetails.deacc_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
+        </span>
+    </span>
+    <div id='addMediaDlg_#transaction_id#'></div>
+    <div id='newMediaDlg_#transaction_id#'></div>
+    <div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
 
-</div>
-<script>
-    function loadDeaccessionMedia(transaction_id) {
-        jQuery.get("/component/functions.cfc",
-        {
-            method : "getDeaccMediaHtml",
-            transaction_id : transaction_id
-        },
-        function (result) {
-           $("##deaccessionMedia").html(result);
-        }
-        );
-    };
-
+    <script type="text/javascript" language="javascript">
     // callback for ajax methods to reload from dialog
-    function reloadDeaccessionMedia() {
-        loadDeaccessionMedia(#transaction_id#);
-        $('##addDeaccDlg_#transaction_id#').html('').dialog('destroy');
+    function reloadTransMedia() { 
+        loadTransactionFormMedia(#transaction_id#,"deaccession");
+        if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+            $('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+        }
     };
 
-    jQuery(document).ready(loadDeaccessionMedia(#transaction_id#));
-
-</script>
+    $( document ).ready(loadTransactionFormMedia(#transaction_id#,"deacccession"));
+    </script>
+</div><!---  End of Media block ---> 
 
 <div class="shippingBlock">
     <h3>Shipment Information:</h3>
@@ -872,7 +879,8 @@ $( document ).ready(loadShipments(#transaction_id#));
   </form>
   <div id="shipmentFormPermits"></div>
   <div id="shipmentFormStatus"></div>
-</div>
+</div> <!---  End of shipment block ---> 
+
 <div id="accsection">
 	<h3>Accessions (and their permits) for material in this deaccession:</h3>
         <!--- List Accessions for collection objects included in the Deaccession --->
@@ -908,9 +916,10 @@ $( document ).ready(loadShipments(#transaction_id#));
         </li>
 	</cfloop>
         </ul>
-</div>
-    <!--- TODO: Print permits associated with this deaccession --->
-	  <div id="permitmedia">
+</div>  <!--- End of list accessions block ---> 
+
+<!--- TODO: Print permits associated with this deaccession --->
+<div id="permitmedia">
       <h3>Permit Media (PDF copies of Permits)</h3>
 	<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitMediaRes">
         select distinct media_id, uri, permit_type, permit_num from (
@@ -953,9 +962,14 @@ $( document ).ready(loadShipments(#transaction_id#));
          <p>No Permits Found</p>
     </cfif>
     </ul>
-    </div>
+</div> <!---  End of permit block --->
 
 
+<cfcatch>
+	<h2>Error: #cfcatch.message#</h2>
+	<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+</cfcatch>
+</cftry>
 </cfoutput>
 <script>
 	dCount();
@@ -1579,7 +1593,7 @@ $( document ).ready(loadShipments(#transaction_id#));
       <cfset variables.encoding="UTF-8">
       <cfscript>
 			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-			d='deacc_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,trans_remarks,ent_agent,Project';
+			d='deacc_number,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,nature_of_material,trans_remarks,ent_agent';
 		 	variables.joFileWriter.writeLine(d);
 	</cfscript>
     </cfif>
@@ -1698,22 +1712,24 @@ $( document ).ready(loadShipments(#transaction_id#));
         </div>
       <cfif csv is true>
         <cfset d='"#escapeDoubleQuotes(collection)# #escapeDoubleQuotes(deacc_number)#"'>
-        <cfset d=d &',"#c.c#"'>
+ <!---       <cfset d=d &',"#c.c#"'>--->
+	
         <cfset d=d &',"#escapeDoubleQuotes(auth_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(inHouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addInhouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(rec_agent)#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(foruseby_agent)#"'>
+		<cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addOutside_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(deacc_type)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(deacc_status)#"'>
         <cfset d=d &',"#dateformat(trans_date,"yyyy-mm-dd")#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>
+       <!--- <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>--->
         <cfset d=d &',"#escapeDoubleQuotes(deacc_reason)#"'>
+		<cfset d=d &',"#escapeDoubleQuotes(nature_of_material)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(trans_remarks)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(ent_agent)#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>
+    <!---    <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>--->
         <cfscript>
 				variables.joFileWriter.writeLine(d);
 			</cfscript>

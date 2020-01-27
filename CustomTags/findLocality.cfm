@@ -37,7 +37,7 @@
 		max_depth,
 		min_depth,
 		depth_units,
-                MCZBASE.get_collcodes_for_locality(locality.locality_id) as collcountlocality
+                /*MCZBASE.get_collcodes_for_locality(locality.locality_id)*/ null as collcountlocality
 	from
 		geog_auth_rec,
 		locality,
@@ -59,12 +59,12 @@
 		<cfset collnOper="usedOnlyBy">
 	</cfif>
 	<cfif collnOper is "usedOnlyBy">
-		<cfset sql = "#sql# AND cataloged_item.collection_id in ( #collection_id# ) and
-			cataloged_item.collection_id not in ( select collection_id from collection minus select #collection_id# from dual)">
+		<cfset sql = "#sql# AND locality.locality_id in (select locality_id from vpd_collection_locality where collection_id = #collection_id#) and
+						locality.locality_id not in (select locality_id from vpd_collection_locality where collection_id <> #collection_id#)">
 	<cfelseif collnOper is "usedBy">
-		<cfset sql = "#sql# AND cataloged_item.collection_id in ( #collection_id# )">
+		<cfset sql = "#sql# AND locality.locality_id in (select locality_id from vpd_collection_locality where collection_id = #collection_id#)">
 	<cfelseif collnOper is "notUsedBy">
-		<cfset sql = "#sql# AND cataloged_item.collection_id not in ( #collection_id# )">
+		<cfset sql = "#sql# AND locality.locality_id  not in (select locality_id from vpd_collection_locality where collection_id = #collection_id#)">
 	</cfif>
 </cfif>
 <cfif isdefined("locality_id") and len(#locality_id#) gt 0>
@@ -142,6 +142,13 @@
 	<cfset sloc = #ucase(replace(spec_locality,"'","''","all"))#>
 	<cfset sql = "#sql# AND upper(spec_locality) like '%#escapeQuotes(ucase(spec_locality))#%'">
 </cfif>
+<cfif isdefined("sovereign_nation") and len(#sovereign_nation#) gt 0>
+        <cfif left(sovereign_nation,1) is "!">
+                <CFSET sql = "#SQL# AND upper(sovereign_nation) <> '#ucase(right(sovereign_nation,len(sovereign_nation)-1))#'">
+        <cfelse>
+                <CFSET sql = "#SQL# AND upper(sovereign_nation) = '#ucase(sovereign_nation)#'">
+        </cfif>
+</cfif>
 <cfif isdefined("maximum_elevation") and len(#maximum_elevation#) gt 0>
 	<cfset sql = "#sql# AND maximum_elevation #maxElevOper# #maximum_elevation#">
 </cfif>
@@ -208,9 +215,9 @@
 </cfif>
 <cfif isdefined("higher_geog") and len(#higher_geog#) gt 0>
 	<cfif left(higher_geog,1) is "=">
-		<CFSET sql = "#SQL# AND upper(higher_geog) = '#ucase(right(higher_geog,len(higher_geog)-1))#'">
+		<CFSET sql = "#SQL# AND upper(higher_geog) = '#escapequotes(ucase(right(higher_geog,len(higher_geog)-1)))#'">
 	<cfelse>
-		<cfset sql = "#sql# AND upper(higher_geog) like '%#ucase(higher_geog)#%'">
+		<cfset sql = "#sql# AND upper(higher_geog) like '%#escapequotes(ucase(higher_geog))#%'">
 	</cfif>
 </cfif>
 <cfif isdefined("NoGeorefBecause") AND len(#NoGeorefBecause#) gt 0>
@@ -252,6 +259,9 @@
 		<cfset sql = "#sql# AND accepted_lat_long.geolocate_score #gs_comparator# #geolocate_score#">
 	</cfif>
 </cfif>
+<cfif isdefined("onlyShared") and len(#onlyShared#) gt 0>
+	<cfset sql = "#sql# AND locality.locality_id in (select locality_id from VPD_COLLECTION_LOCALITY group by locality_id having count(*) > 1)" >
+</cfif>
 <!---cfset sql = "#sql# AND rownum < 10000"--->
 <cfif right(sql,4) is " (+)">
 	<span class="error">You must enter search criteria.</span>
@@ -261,7 +271,7 @@
 	higher_geog,
 	spec_locality,
 	verbatim_locality"--->
-
+<cfset checkSql(sql)>
 <cfset linguisticFlag = false>
 <cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1><cfset linguisticFlag=true></cfif>
 <cfif linguisticFlag >

@@ -1226,8 +1226,3 @@ function success_newpart(result) {
 	} // end else for got good partID
 }
 
-
-
-
-
-

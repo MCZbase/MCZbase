@@ -40,9 +40,13 @@
 	<cfoutput>
 		<cfset thisName = #replace(getAgentId.agent_name,"'","\'","all")#>
 		<script>
-			opener.document.#formName#.#agentIdFld#.value='#getAgentId.agent_id#';
-			opener.document.#formName#.#agentNameFld#.value='#thisName#';
-			opener.document.#formName#.#agentNameFld#.style.background='##8BFEB9';
+                        var form = opener.document.#formName#;
+                        if (form==null) { 
+                            form = opener.document.getElementById('#formName#');
+                        }
+			form.#agentIdFld#.value='#getAgentId.agent_id#';
+			form.#agentNameFld#.value='#thisName#';
+			form.#agentNameFld#.style.background='##8BFEB9';
 			window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
 			self.close();
 		</script>
@@ -84,9 +88,13 @@
 		<br>
 		<cfset thisName = #replace(agent_name,"'","\'","all")#>
 		<a href="##" onClick="javascript: 
-                    opener.document.#formName#.#agentIdFld#.value='#agent_id#';
-                    opener.document.#formName#.#agentNameFld#.value='#thisName#';
-                    opener.document.#formName#.#agentNameFld#.style.background='##8BFEB9';
+                    var form = opener.document.#formName#;
+                    if (form==null) { 
+                        form = opener.document.getElementById('#formName#');
+                    }
+                    form.#agentIdFld#.value='#agent_id#';
+                    form.#agentNameFld#.value='#thisName#';
+                    form.#agentNameFld#.style.background='##8BFEB9';
 		    window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
                     self.close();
                ">#agent_name# (#agent_id#)</a> <cfif #edited# EQ 1>*</cfif>
@@ -125,9 +133,13 @@
 	</cftransaction>
 	<cfoutput>
 	<script>
-		opener.document.#formName#.#agentIdFld#.value='#aid.agent_id#';
-		opener.document.#formName#.#agentNameFld#.value='#replace(newName,"'","\'","all")#';
-		opener.document.#formName#.#agentNameFld#.style.background='##8BFEB9';
+                var form = opener.document.#formName#;
+                if (form==null) { 
+                	form = opener.document.getElementById('#formName#');
+		}
+		form.#agentIdFld#.value='#aid.agent_id#';
+		form.#agentNameFld#.value='#replace(newName,"'","\'","all")#';
+		form.#agentNameFld#.style.background='##8BFEB9';
 		window.opener.jQuery('##'+'#agentIdFld#').trigger('change'); 
 		self.close();
 	</script>

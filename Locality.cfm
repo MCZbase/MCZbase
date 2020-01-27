@@ -337,7 +337,7 @@ You do not have permission to create Higher Geographies
            <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
 		<cfset title="Find Locality">
 		<cfset showLocality=1>
-		  <h2 class="wikilink">Search Locality</h2>
+		  <h2 class="wikilink">Search Locality <img src="/images/info_i_2.gif" onClick="getMCZDocs('Searching_for_Localities')" class="likeLink" alt="[help]"/></h2>
 	    <form name="getCol" method="post" action="Locality.cfm">
 			<input type="hidden" name="Action" value="findLocality">
 			<cfinclude template="/includes/frmFindLocation_guts.cfm">
@@ -1790,7 +1790,8 @@ INSERT INTO geog_auth_rec (
                     minimum_elevation,
 					maximum_elevation,
 					orig_elev_units
-
+				order by 
+					higher_geog, spec_locality, verbatim_locality
 			</cfquery>
 
 <table border>
@@ -2008,6 +2009,8 @@ INSERT INTO geog_auth_rec (
             minimum_elevation,
 			maximum_elevation,
 			orig_elev_units
+		order by
+			higher_geog, spec_locality
 
 	</cfquery>
 

@@ -9,7 +9,8 @@
 	select agent_type from ctagent_type order by agent_type
 </cfquery>
 <cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select addr_type from ctaddr_type
+	select addr_type from ctaddr_type 
+	where addr_type <> 'temporary'
 </cfquery>
 <cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select address_type from ctelectronic_addr_type
@@ -252,13 +253,14 @@ function opendialogrank(page,id,title,agentId) {
 	<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from addr
 		where
-		agent_id = #person.agent_id#
+		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_NUMBER">
+			and addr.addr_type <> 'temporary'
 		order by valid_addr_fg DESC
 	</cfquery>
 	<cfquery name="elecagentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from electronic_address
 		where
-		agent_id = #person.agent_id#
+		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_NUMBER"> 
 	</cfquery>
 	<cfoutput>
 		<cfset i=1>
@@ -646,7 +648,7 @@ function opendialogrank(page,id,title,agentId) {
 							<input type="text" name="zip" id="zip" class="reqdClr">
 						</td>
 						<td>
-							<label for="country_cde">Country</label>
+							<label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
 							<input type="text" name="country_cde" id="country_cde" class="reqdClr">
 						</td>
 					</tr>
