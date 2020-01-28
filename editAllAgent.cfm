@@ -655,10 +655,12 @@ function opendialogrank(page,id,title,agentId) {
 						      $("##textUS").css({"color": "black", "font-weight":"bold" });
 						      $("##other_country_cde").toggle("false");
 						      $("##country_cde").val("USA");
+						      $("##other_country_cde").removeClass("reqdClr");
 						   } else { 
 						      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
 						      $("##other_country_cde").toggle("true");
 						      $("##country_cde").val($("##other_country_cde").val());
+						      $("##other_country_cde").addClass("reqdClr");
 						   }
 						}
 						</script>
@@ -913,8 +915,38 @@ function opendialogrank(page,id,title,agentId) {
 						<input type="text" name="zip" id="zip" class="reqdClr" value="#zip#">
 					</td>
 					<td>
-						<label for="country_cde">Country</label>
-						<input type="text" name="country_cde" id="country_cde" class="reqdClr" value="#country_cde#">
+						<script>
+						function handleCountrySelect(){
+						   var countrySelection =  $('input:radio[name=country]:checked').val();
+						   if (countrySelection == 'USA') { 
+						      $("##textUS").css({"color": "black", "font-weight":"bold" });
+						      $("##other_country_cde").toggle("false");
+						      $("##country_cde").val("USA");
+						      $("##other_country_cde").removeClass("reqdClr");
+						   } else { 
+						      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
+						      $("##other_country_cde").toggle("true");
+						      $("##country_cde").val($("##other_country_cde").val());
+						      $("##other_country_cde").addClass("reqdClr");
+						   }
+						}
+						</script>
+							<cfif country_cde EQ 'USA'>
+								<cfset usaChecked = "checked='checked'">
+								<cfset otherChecked = "">
+								<cfset otherStyle = "style='display: none;'">
+							<cfelse>
+								<cfset otherChecked = "checked='checked'">
+								<cfset usaChecked = "">
+								<cfset otherStyle = "">
+							</cfif>
+				                     <label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
+				                     <span>
+				                     <input type="hidden" name="country_cde" id="country_cde" class="reqdClr" value="#country_cde#">
+				                     <input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #usaChecked# ><span id="textUS" style="color: black; font-weight: bold">USA</span>
+				                     <input type="radio" name="country" value="other" onclick="handleCountrySelect();" #otherChecked# ><span id="textOther">Other</span>
+				                     <input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" #otherStyle# value="#country_cde#" >
+				                     <span>
 					</td>
 				</tr>
 				<tr>
