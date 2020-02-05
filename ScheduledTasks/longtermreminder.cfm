@@ -26,7 +26,8 @@
 				nature_of_material,
 				REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
 				last_name,
-				first_name
+				first_name,
+				addr.country_cde
 			FROM
 				loan,
 				trans,
@@ -63,9 +64,9 @@
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
 		</cfquery>
 		<!--- loop once for each agent --->
-<cfloop query="agent" <!---startrow=1 endrow=405--->>
+<cfloop query="agent" startrow=1 endrow=10>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2019-10-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2020-01-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -85,7 +86,8 @@
 				collection,
 				nature_of_material,
 				collection_id,
-				formatted_addr
+				formatted_addr,
+				country_cde
 			from
 				agent_loans
 			where
@@ -103,7 +105,8 @@
 				collection,
 				nature_of_material,
 				collection_id,
-				formatted_addr
+				formatted_addr,
+				country_cde
 			order by collection, trans_date
 		</cfquery>
 		<cfquery name="loanunderreview" dbtype="query">
@@ -118,7 +121,8 @@
 				collection,
 				nature_of_material,
 				collection_id,
-				formatted_addr
+				formatted_addr,
+				country_cde
 			from
 				agent_loans
 			where
@@ -136,7 +140,8 @@
 				collection,
 				nature_of_material,
 				collection_id,
-				formatted_addr
+				formatted_addr,
+				country_cde
 			order by collection, trans_date
 		</cfquery>
 		<!---cfquery name="loanexhibition" dbtype="query">
@@ -267,6 +272,16 @@
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
 
+			<!---cfif to_agents.recordcount EQ 0>
+				<cfset toaddresses = "bhaley@oeb.harvard.edu">
+				<cfset ccaddresses = "">
+				<cfset specialmail="noemails">
+			<cfelse>
+				<cfset toaddresses = "bhaley@oeb.harvard.edu">
+				<cfset ccaddresses = "">
+			</cfif--->
+
+	<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 	<cfif loan.recordcount GT 0>
 			<cfquery name="collections" dbtype="query">
 				select distinct collection from loan
@@ -289,6 +304,7 @@
 	             	<<< ENTER EXTERNAL CONTACTS FOR THIS LOAN  >>><br>
 					</font>
 			</cfif>
+
 				<p>---------------------------------------------------------------------<br>
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
@@ -314,7 +330,11 @@
 				LOAN<cfif #loan.recordcount# GT 1>S</cfif> DUE TO BE RETURNED:
 
 				<br><br>
+				<cfset isInternational = 0>
 				<cfloop query="loan">
+				<cfif not ListFind(usCodes,country_cde) AND len(COUNTRY_CDE) GT 0>
+					<cfset isInternational = 1>
+				</cfif>
 					<cfquery name="counts" datasource="uam_god">
 						select
 							sum(coll_object.lot_count) total, sum(decode(coll_object.coll_obj_disposition, 'on loan', coll_object.lot_count, 0)) outstanding
@@ -377,6 +397,18 @@
 					<cfelse >
 						#REPLACE(ReReplace(ValueList(formattedinhouse.contact, ', '),',(?=[^,]+$)' , ', and ' ), "Special Collections Collection", "Special Collections")#.
 					</cfif>
+				<cfif isInternational EQ 1>
+				<br><br>To meet federal regulations regarding importation and clearance of international shipments, researchers returning MCZ material must:<br>
+				<ul>
+					<li>Provide the name of the courier (e.g., FedEx, DHL, trackable post), the Airway Bill number, and an
+						invoice of contents (scientific names and number of specimens of each) to the MCZ Curatorial
+						Associate <strong>at least 72 hours in advance of any shipment.</strong></li>
+					<li>Include “<strong>USFWS CLEARANCE REQUIRED</strong>” on the International waybill AND in red on all sides of the
+						outside of the package. (Note: “Scientific research specimens, not restricted, Special Provision A180
+						applies” should also be noted on the waybill and package if applicable.)</li>
+					<li>Include three copies of all documentation in the waybill pouch.</li>
+				</ul>
+				</cfif>
 				 Your attention to this matter will be greatly appreciated.
 				 <cfif findnocase("CRYOGENIC",ValueList(formattedinhouse.contact, ', ')) GT 0>
 				<br><br>
@@ -401,6 +433,9 @@
 	<cfif loanunderreview.recordcount GT 0>
 				<cfset toaddresses = ValueList(cc_agents.address,";")>
 				<cfset ccaddresses = "">
+
+				<!---cfset toaddresses = "bhaley@oeb.harvard.edu">
+				<cfset ccaddresses = ""--->
 
 			<cfquery name="collections" dbtype="query">
 				select distinct collection from loanunderreview
@@ -448,7 +483,11 @@
 				LOAN<cfif #loanunderreview.recordcount# GT 1>S</cfif> DUE TO BE RETURNED:
 
 				<br><br>
+				<cfset isInternational = 0>
 				<cfloop query="loanunderreview">
+				<cfif not ListFind(usCodes,country_cde) AND len(COUNTRY_CDE) GT 0>
+					<cfset isInternational = 1>
+				</cfif>
 					<cfquery name="counts" datasource="uam_god">
 						select
 							sum(coll_object.lot_count) total, sum(decode(coll_object.coll_obj_disposition, 'on loan', coll_object.lot_count, 0)) outstanding
@@ -511,6 +550,18 @@
 					<cfelse >
 						#REPLACE(ReReplace(ValueList(formattedinhouse.contact, ', '),',(?=[^,]+$)' , ', and ' ), "Special Collections Collection", "Special Collections")#.
 					</cfif>
+				<cfif isInternational EQ 1>
+				<br><br>To meet federal regulations regarding importation and clearance of international shipments, researchers returning MCZ material must:<br>
+				<ul>
+					<li>Provide the name of the courier (e.g., FedEx, DHL, trackable post), the Airway Bill number, and an
+						invoice of contents (scientific names and number of specimens of each) to the MCZ Curatorial
+						Associate <strong>at least 72 hours in advance of any shipment.</strong></li>
+					<li>Include “<strong>USFWS CLEARANCE REQUIRED</strong>” on the International waybill AND in red on all sides of the
+						outside of the package. (Note: “Scientific research specimens, not restricted, Special Provision A180
+						applies” should also be noted on the waybill and package if applicable.)</li>
+					<li>Include three copies of all documentation in the waybill pouch.</li>
+				</ul>
+				</cfif>
 				 Your attention to this matter will be greatly appreciated. Thank you.
 				<BR>
 				---------------------------------------------------------------------</P>
