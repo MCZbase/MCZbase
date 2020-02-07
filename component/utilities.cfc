@@ -18,7 +18,7 @@
 	<cfelse>
 		<cfquery name="d" datasource="uam_god">
 			select
-				sdo_util.to_wktgeometry(geog_auth_rec.shape) WKT_POLYGON
+				WKT_POLYGON
 			from
 				geog_auth_rec,
 				locality
