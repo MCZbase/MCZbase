@@ -722,7 +722,7 @@
         }
     };
 
-    $( document ).ready(loadTransactionFormMedia(#transaction_id#,"deacccession"));
+    $( document ).ready(loadTransactionFormMedia(#transaction_id#,"deaccession"));
     </script>
 </div><!---  End of Media block ---> 
 
