@@ -5,7 +5,8 @@
 </cfoutput>
 <cfoutput>
         <script>
-                function useGL(glat,glon,gerr){
+                function useGL(glat,glon,gerr,gpoly){
+						var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';
                         $("##MAX_ERROR_DISTANCE").val(gerr);
                         $("##MAX_ERROR_UNITS").val('m');
                         $("##DATUM").val('WGS84');
@@ -15,6 +16,7 @@
                         $("##LAT_LONG_REF_SOURCE").val('GEOLocate');
                         $("##dec_lat").val(glat);
                         $("##dec_long").val(glon);
+						$("##errorPoly").val(gpoly_wkt);
                         closeGeoLocate();
                 }
         </script>
@@ -88,7 +90,8 @@
                         var glat=breakdown[0];
                         var glon=breakdown[1];
                         var gerr=breakdown[2];
-                        useGL(glat,glon,gerr)
+						var gpoly=breakdown[3].replace(/([^,]*),([^,]*)[,]{0,1}/g,'$2 $1,');
+                        useGL(glat,glon,gerr,gpoly)
                    } else {
                         alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
                         closeGeoLocate('ERROR - breakdown length');
@@ -244,7 +247,7 @@
 					bounds.union(crcl.getBounds());
 				}
 				// WKT can be big and slow, so async fetch
-				/*$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&specimen_event_id=" + locid, function( wkt ) {
+				$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
   					  if (wkt.length>0){
 						var regex = /\(([^()]+)\)/g;
 						var Rings = [];
@@ -296,7 +299,7 @@
 			        		}
 			        	}
 					});
-					map.fitBounds(bounds);*/
+					map.fitBounds(bounds);
 			});
 		}
 </script>
@@ -356,7 +359,7 @@
 			collection.collection
   	</cfquery>
 	<cfquery name="getLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,LAT_SEC,LAT_DIR,LONG_DEG,DEC_LONG_MIN,LONG_MIN,LONG_SEC,LONG_DIR,DEC_LAT,DEC_LONG,DATUM,to_meters(max_error_distance, max_error_units) COORDINATEUNCERTAINTYINMETERS,UTM_ZONE,UTM_EW,UTM_NS,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT,GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,VERIFIED_BY_AGENT_ID,db.agent_name as "determiner",vb.agent_name as "verifiedby"
+        select LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,LAT_SEC,LAT_DIR,LONG_DEG,DEC_LONG_MIN,LONG_MIN,LONG_SEC,LONG_DIR,trim(DEC_LAT) DEC_LAT,trim(DEC_LONG) DEC_LONG,DATUM,to_meters(max_error_distance, max_error_units) COORDINATEUNCERTAINTYINMETERS,UTM_ZONE,UTM_EW,UTM_NS,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT,GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,VERIFIED_BY_AGENT_ID,ERROR_POLYGON,db.agent_name as "determiner",vb.agent_name as "verifiedby"
 		 from
 			lat_long,
 			preferred_agent_name db,
@@ -1012,6 +1015,12 @@
 					</table>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="4">
+					<label for = "errorPoly#i#">Error Polygon<label>
+					<input type="text" name="errorPoly" value="#ERROR_POLYGON#" id = "ERROR_POLYGON#i#" size="120">
+				</td>
+			</tr>
               <tr>
                 <td colspan="4">
 				<input type="button" value="Save Changes" class="savBtn"
@@ -1357,6 +1366,12 @@
 							</td>
 						</tr>
 					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<label for = "errorPoly">Error Polygon<label>
+					<input type="text" name="errorPoly" id = "errorPoly" size="120">
 				</td>
 			</tr>
               <tr>
@@ -2406,6 +2421,9 @@
 		<cfif len(#MAX_ERROR_UNITS#) gt 0>
 			<cfset sql = "#sql#,MAX_ERROR_UNITS">
 		</cfif>
+		<cfif len(#errorPoly#) gt 0>
+			<cfset sql = "#sql#,ERROR_POLYGON">
+		</cfif>
 		<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
 			<cfset sql="#sql#
 			,LAT_DEG
@@ -2442,6 +2460,7 @@
 			</div>
 			<cfabort>
 		</cfif>
+
 		<cfset sql="#sql#
 		)
 	VALUES (
@@ -2472,6 +2491,9 @@
 		</cfif>
 		<cfif len(#MAX_ERROR_UNITS#) gt 0>
 			<cfset sql="#sql#,'#MAX_ERROR_UNITS#'">
+		</cfif>
+		<cfif len(#errorPoly#) gt 0>
+			<cfset sql = "#sql#,'#errorPoly#'">
 		</cfif>
 		<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
 		<cfset sql="#sql#
