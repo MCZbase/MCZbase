@@ -6,7 +6,10 @@
 <cfoutput>
         <script>
                 function useGL(glat,glon,gerr,gpoly){
-						var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';
+						if (gpoly=='')
+							{var gpoly_wkt='';}
+						else
+							{var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';}
                         $("##MAX_ERROR_DISTANCE").val(gerr);
                         $("##MAX_ERROR_UNITS").val('m');
                         $("##DATUM").val('WGS84');
@@ -90,7 +93,11 @@
                         var glat=breakdown[0];
                         var glon=breakdown[1];
                         var gerr=breakdown[2];
-						var gpoly=breakdown[3].replace(/([^,]*),([^,]*)[,]{0,1}/g,'$2 $1,');
+						console.log(breakdown[3]);
+						if (breakdown[3]== "Unavailable")
+							{var gpoly='';}
+						else
+							{var gpoly=breakdown[3].replace(/([^,]*),([^,]*)[,]{0,1}/g,'$2 $1,');}
                         useGL(glat,glon,gerr,gpoly)
                    } else {
                         alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
