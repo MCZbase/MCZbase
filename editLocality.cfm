@@ -1018,7 +1018,7 @@
 			<tr>
 				<td colspan="4">
 					<label for = "errorPoly#i#">Error Polygon<label>
-					<input type="text" name="errorPoly" value="#ERROR_POLYGON#" id = "ERROR_POLYGON#i#" size="120">
+					<input type="text" name="errorPoly" value="#ERROR_POLYGON#" id = "ERROR_POLYGON#i#" size="120" readonly>
 				</td>
 			</tr>
               <tr>
@@ -1371,7 +1371,7 @@
 			<tr>
 				<td colspan="4">
 					<label for = "errorPoly">Error Polygon<label>
-					<input type="text" name="errorPoly" id = "errorPoly" size="120">
+					<input type="text" name="errorPoly" id = "errorPoly" size="120" readonly>
 				</td>
 			</tr>
               <tr>
@@ -2353,9 +2353,11 @@
 			<cfabort>
 		</cfif>
 		<cfset sql = "#sql#	where lat_long_id=#lat_long_id#">
+<cftransaction>
 <cfquery name="upLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	#preservesinglequotes(sql)#
 </cfquery>
+</cftransaction>
 <!---/cftransaction--->
 <cfquery name="getAcc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select lat_long_id from lat_long where locality_id=#locality_id#
@@ -2386,6 +2388,9 @@
 	<cfquery name="notAcc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE lat_long SET accepted_lat_long_fg = 0 where
 		locality_id=#locality_id#
+	</cfquery>
+	<cfquery name="getLATLONGID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select sq_lat_long_id.nextval latlongid from dual
 	</cfquery>
 	<cfset sql = "
 	INSERT INTO lat_long (
@@ -2420,9 +2425,6 @@
 		</cfif>
 		<cfif len(#MAX_ERROR_UNITS#) gt 0>
 			<cfset sql = "#sql#,MAX_ERROR_UNITS">
-		</cfif>
-		<cfif len(#errorPoly#) gt 0>
-			<cfset sql = "#sql#,ERROR_POLYGON">
 		</cfif>
 		<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
 			<cfset sql="#sql#
@@ -2464,7 +2466,7 @@
 		<cfset sql="#sql#
 		)
 	VALUES (
-		sq_lat_long_id.nextval,
+		#getLATLONGID.latlongid#,
 		#LOCALITY_ID#
 		,#ACCEPTED_LAT_LONG_FG#
 		,'#stripQuotes(lat_long_ref_source)#'
@@ -2491,9 +2493,6 @@
 		</cfif>
 		<cfif len(#MAX_ERROR_UNITS#) gt 0>
 			<cfset sql="#sql#,'#MAX_ERROR_UNITS#'">
-		</cfif>
-		<cfif len(#errorPoly#) gt 0>
-			<cfset sql = "#sql#,'#errorPoly#'">
 		</cfif>
 		<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
 		<cfset sql="#sql#
@@ -2524,9 +2523,16 @@
 			 	,#UTM_NS#">
 		</cfif>
 		<cfset sql="#sql# )">
+<cftransaction>
 	<cfquery name="newLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
+	<cfif len(#errorPoly#) gt 0>
+	<cfquery name="addPoly" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		update lat_long set error_polygon = <cfqueryparam cfsqltype="cf_sql_clob" value="#errorPoly#"> where lat_long_id = #getLATLONGID.latlongid#
+	</cfquery>
+	</cfif>
+</cftransaction>
 	<cfquery name="getAcc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select lat_long_id from lat_long where locality_id=#locality_id#
 		and accepted_lat_long_fg = 1
