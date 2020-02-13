@@ -165,7 +165,7 @@
 			container.parent_container_id as parent_container_id,
 			container_type,
 			label,
-			MCZBASE.GET_PARENTCONTAINERLABEL(container.container_id) as parent_label,
+			MCZBASE.GET_PARENTCONTLABELFORCONT(container.container_id) as parent_label,
 			description,
 			container_remarks,
 			barcode,
