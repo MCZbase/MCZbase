@@ -879,7 +879,7 @@ You do not have permission to create Higher Geographies
 					</td>
 				</tr>
 			</table>
-			</table>
+			<table>
 				<tr>
 					<td style="padding-right: 1.5em;"><label for="verbatimCoordinateSystem">Verbatim Coordinate System (e.g., decimal degrees)<label>
 							<input type="text" name="verbatimCoordinateSystem" <cfif isdefined("verbatimCoordinateSystem")>value="#stripQuotes(verbatimCoordinateSystem)#"</cfif> id="verbatimCoordinateSystem" size="50">
@@ -938,32 +938,37 @@ You do not have permission to create Higher Geographies
 		<table>
 			<tr>
 				<td style="padding-right: 1.5em;">
-					<tr>
+					
 						<label for="began_date">Began Date</label>
 				      	<input type="text" name="began_date" id="began_date"
 						  	<cfif isdefined("began_date")>
 								value="#began_date#"
 							</cfif>
 						>
-					</tr>
+			       </td>
 				<td>
-					<tr>
+				
 				        <label for="ended_date">Ended Date</label>
 				        <input type="text" name="ended_date" id="ended_date"
 							<cfif isdefined("ended_date")>
 								value="#ended_date#"
 							</cfif>
 						>
-					</tr>
+					
 				</td>
 			</tr>
 		</table>
+		<table>
+		   <tr>
+			<td>
 			<label for="coll_event_remarks">Remarks</label>
 			<input type="text" name="coll_event_remarks" id="coll_event_remarks"
 			  	<cfif isdefined("coll_event_remarks")>
 					value="#stripquotes(coll_event_remarks)#"
 				</cfif>
 			size="115">
+			</td>
+		   </tr>
 		<table>
 			<tr>
 				<td style="padding-right: 2em;">
@@ -989,15 +994,15 @@ You do not have permission to create Higher Geographies
 						</cfif>
 					size="92">
 				</td>
-			</tr>
-		<table>
+			</tr></table>
+		<table><tr><td>
 			<label for="habitat_desc">Habitat</label>
 			<input type="text" name="habitat_desc" id="habitat_desc"
 				<cfif isdefined("HABITAT_DESC")>
 					value="#HABITAT_DESC#"
 				</cfif>
 			size="115">
-			<br>
+			</td></tr></table>
 			<input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		</form>
