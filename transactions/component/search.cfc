@@ -59,7 +59,7 @@ limitations under the License.
 		<cfset row["error"] = "true">
 		<cfset data[1]  = row>
       --->
-      <cfset message = "Error processing getTransactions: " + cfcatch.message + " " + cfcatch.detail + " " + cfcatch.queryError>
+      <cfset message = "Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & cfcatch.queryError>
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>

@@ -156,7 +156,11 @@ $(document).ready(function() {
 						}
 					}
 				});      
-				$( "##messageDiv" ).html(error);
+				if (status=='parsererror') { 
+				   $( "##messageDiv" ).html(jqXHR);
+				} else { 
+				   $( "##messageDiv" ).html(error);
+				}
 			},
 			async: true
 		};
