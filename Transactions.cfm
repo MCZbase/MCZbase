@@ -20,7 +20,7 @@ limitations under the License.
 <cfinclude template = "/includes/_header.cfm">
 
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT count(transaction_id) as cnt FROM transaction
+	SELECT count(transaction_id) as cnt FROM trans
 </cfquery>
 
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -31,6 +31,9 @@ limitations under the License.
 </cfquery>
 <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
+</cfquery>
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select * from collection order by collection
 </cfquery>
 
 <cfoutput>
