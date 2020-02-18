@@ -145,7 +145,7 @@ $(document).ready(function() {
 			root: 'transRecord',
 			id: 'collection_object_id',
 			url: '/transactions/component/search.cfc?method=getTransactions&number=' + searchParam,
-			timeout: 30,
+			timeout: 3000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
 				$( "##messageDiv" ).dialog({
 					modal: true,
