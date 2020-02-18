@@ -55,9 +55,12 @@ limitations under the License.
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cfset row = StructNew()>
+		<!--- <cfset row = StructNew()>
 		<cfset row["error"] = "true">
 		<cfset data[1]  = row>
+      --->
+      <cfheader statusCode="500" statusText="Error processing getTransactions.">
+	   <cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>

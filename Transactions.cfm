@@ -94,6 +94,8 @@ limitations under the License.
 				<div id="jqxWidget">
 					<div class="pl-2 mb-5">
 						<div class="row mt-4">
+								<div id="messageDiv"></div>
+								<div id="searchText"></div>
 								<!--Grid Related code is below along with search handler for keyword search-->
 								<div id="searchResultsGrid" class="jqxGrid"></div>
 							<div class="mt-005" id="enableselection"></div>
@@ -111,7 +113,7 @@ $(document).ready(function () {
 	$(".jqxdatetimeinput").jqxDateTimeInput({ width: '250px', height: '25px', theme: 'summer' });
 });
 
-///   JQXGRID -- for Keyword Search /////
+/* Supporting JQXGRID for Search */
 $(document).ready(function() {
 
 	$('##searchForm').bind('submit', function(evt){
@@ -143,10 +145,24 @@ $(document).ready(function() {
 			root: 'transRecord',
 			id: 'collection_object_id',
 			url: '/transactions/component/search.cfc?method=getTransactions&number=' + searchParam,
-			async: false
+			timeout: 30,
+			loadError: function(jqXHR, status, error) { 
+				$( "##messageDiv" ).dialog({
+					modal: true,
+					title: "Error: " + status,
+					buttons: {
+						Ok: function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				});      
+				$( "##messageDiv" ).html(error);
+			},
+			async: true
 		};
 
-		var dataAdapter = new $.jqx.dataAdapter(search);
+		var dataAdapter = new $.jqx.dataAdapter(search) 
+;
 
 		var editrow = -1;
 		// grid rendering starts below
