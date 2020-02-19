@@ -155,8 +155,14 @@ $(document).ready(function() {
 							$( this ).dialog( "close" );
 						}
 					}
-				});      
-				$( "##messageDiv" ).html(error + jqXHR.responseText);
+				});
+            var message = "";      
+				if (error == 'timeout') { 
+               message = ' Server took too long to respond.';
+            } else { 
+               message = jqHXR.responseText;
+            }
+				$( "##messageDiv" ).html(error + message);
 			},
 			async: true
 		};

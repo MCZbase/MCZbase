@@ -24,32 +24,35 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfif isDefined("number") and len(number) gt 0>
-	    <cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfset rows = 0>
+	    <cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				transaction_id, trans_date, transaction_type,
 				nature_of_material, trans_remarks,
 				collection_cde, collection,
 				specific_number, specific_type, status
 			FROM 
-				MCZBASE.transactions_view
-			WHERE 
-             num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#">
+				MCZBASE.transaction_view
+			WHERE
+				 transaction_id > 0 
+		       <cfif isDefined("number") and len(number) gt 0>
+                and specific_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#">
+		       </cfif>
 	    </cfquery>
-		</cfif>
+      <cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["transaction_id"] = "#qryLoc.transaction_id#">
-			<cfset row["trans_date"] = "#qryLoc.trans_date#">
-			<cfset row["transaction_type"] = "#qryLoc.transaction_type#">
-			<cfset row["nature_of_material"] = "#qryLoc.nature_of_material#">
-			<cfset row["trans_remarks"] = "#qryLoc.trans_remarks#">
-			<cfset row["collection_cde"] = "#qryLoc.collection_cde#">
-			<cfset row["collection"] = "#qryLoc.collection#">
-			<cfset row["number"] = "#qryLoc.num#">
-			<cfset row["type"] = "#qryLoc.type#">
-			<cfset row["status"] = "#qryLoc.status#">
+			<cfset row["transaction_id"] = "#search.transaction_id#">
+			<cfset row["trans_date"] = "#search.trans_date#">
+			<cfset row["transaction_type"] = "#search.transaction_type#">
+			<cfset row["nature_of_material"] = "#search.nature_of_material#">
+			<cfset row["trans_remarks"] = "#search.trans_remarks#">
+			<cfset row["collection_cde"] = "#search.collection_cde#">
+			<cfset row["collection"] = "#search.collection#">
+			<cfset row["number"] = "#search.specific_number#">
+			<cfset row["type"] = "#search.specific_type#">
+			<cfset row["status"] = "#search.status#">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -59,8 +62,8 @@ limitations under the License.
 		<cfset row["error"] = "true">
 		<cfset data[1]  = row>
       --->
-      <cfif isdefined(cfcatch.queryError) ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = "Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & queryError>
+      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+      <cfset message = trim("Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
