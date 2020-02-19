@@ -30,9 +30,9 @@ limitations under the License.
 				transaction_id, trans_date, transaction_type,
 				nature_of_material, trans_remarks,
 				collection_cde, collection,
-				num, type, status
+				specific_number, specific_type, status
 			FROM 
-				transactions_view
+				MCZBASE.transactions_view
 			WHERE 
              num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#">
 	    </cfquery>
@@ -59,7 +59,8 @@ limitations under the License.
 		<cfset row["error"] = "true">
 		<cfset data[1]  = row>
       --->
-      <cfset message = "Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & cfcatch.queryError>
+      <cfif isdefined(cfcatch.queryError) ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+      <cfset message = "Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & queryError>
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
