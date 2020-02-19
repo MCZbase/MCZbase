@@ -808,6 +808,7 @@ You do not have permission to create Higher Geographies
 			Collecting Source
 		</label>
 		<select name="collecting_source" id="collecting_source" size="1">
+		<option value="">Choose...</option>
 			<cfloop query="ctCollecting_Source">
 				<option <cfif ctCollecting_Source.Collecting_Source is locDet.collecting_source> selected="selected" </cfif>
 					value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
@@ -979,6 +980,7 @@ You do not have permission to create Higher Geographies
 						<cfset collsrc = "">
 					</cfif>
 					<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
+					<option value="">Choose...</option>
 						<cfloop query="ctCollecting_Source">
 							<option
 								<cfif ctCollecting_Source.Collecting_Source is collsrc> selected="selected" </cfif>
