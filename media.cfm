@@ -377,7 +377,7 @@
  
       <label for="labels" style="margin-top:.5em;">Media Labels</label>
       <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p><label for="labels">Media Labels <span class="likeLink" onclick="getCtDoc('ctmedia_label');"> Define</span></label>
-      <div id="labels" class="graydot" style="padding: .25em .5em;">
+      <div id="labels" class="graydot" style="padding: .5em .25em;">
       <cfset i=1>
       <cfloop>
         <div id="labelsDiv__#i#">
