@@ -147,15 +147,15 @@
 			<tr>
 				<td>Part Name</td>
 				<td>
-			   		<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr">
-						<option selected="selected" value=""></option>
+			   		<select name="exist_part_name" id="exist_part_name" size="1">
+						<option selected="selected" value="">select or ignore</option>
 							<cfloop query="existParts">
 						    	<option value="#Part_Name#">#Part_Name#</option>
 							</cfloop>
 					</select>
 				</td>
 				<td>
-					<input type="text" name="new_part_name" id="new_part_name" class="reqdClr"
+					<input type="text" name="new_part_name" id="new_part_name"
 						onchange="findPart(this.id,this.value,'#colcdes#');"
 						onkeypress="return noenter(event);">
 				</td>
@@ -163,15 +163,15 @@
 			<tr>
 				<td>Preserve Method</td>
 				<td>
-			   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="reqdClr">
-						<option selected="selected" value=""></option>
+			   		<select name="exist_preserve_method" id="exist_preserve_method" size="1">
+						<option selected="selected" value="">select or ignore</option>
 							<cfloop query="existPreserve">
 						    	<option value="#Preserve_method#">#Preserve_method#</option>
 							</cfloop>
 					</select>
 				</td>
 				<td>
-					<select name="new_preserve_method" id="new_preserve_method" size="1"  class="reqdClr">
+					<select name="new_preserve_method" id="new_preserve_method" size="1">
 						<option value="">no update</option>
 						<cfloop query="ctPreserveMethod">
 							<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
@@ -182,8 +182,8 @@
     		<tr>
 				<td>Lot Count</td>
 				<td>
-					<select name="existing_lot_count" id="existing_lot_count" size="1" class="reqdClr">
-						<option selected="selected" value="">ignore</option>
+					<select name="existing_lot_count" id="existing_lot_count" size="1">
+						<option selected="selected" value="">select or ignore</option>
 							<cfloop query="existLotCount">
 						    	<option value="#lot_count#">#lot_count#</option>
 							</cfloop>
@@ -196,15 +196,15 @@
 			<tr>
 				<td>Disposition</td>
 				<td>
-					<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="reqdClr">
-						<option selected="selected" value="">ignore</option>
+					<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1">
+						<option selected="selected" value="">select or ignore</option>
 							<cfloop query="existDisp">
 						    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
 							</cfloop>
 					</select>
 				</td>
 				<td>
-					<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="reqdClr">
+					<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1">
 						<option value="">no update</option>
 						<cfloop query="ctDisp">
 							<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
@@ -505,10 +505,10 @@
 </cfif>
 <!---------------------------------------------------------------------------->
 <cfif action is "modPart">
-	<cfif len(exist_part_name) is 0 or len(new_part_name) is 0>
+	<!--<cfif len(exist_part_name) is 0 or len(new_part_name) is 0>
 		Not enough information.
 		<cfabort>
-	</cfif>
+	</cfif>-->
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
@@ -537,8 +537,10 @@
 				specimen_part.collection_object_id=coll_object.collection_object_id and
 				specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
 				cataloged_item.collection_object_id=identification.collection_object_id and
-				accepted_id_fg=1 and
-				part_name='#exist_part_name#'
+				accepted_id_fg=1 
+				<cfif len(exist_part_name) gt 0>
+					and part_name='#exist_part_name#'
+				</cfif>
 				<cfif len(existing_lot_count) gt 0>
 					and lot_count=#existing_lot_count#
 				</cfif>
@@ -586,7 +588,13 @@
 					<td>#collection# #cat_num#</td>
 					<td>#scientific_name#</td>
 					<td>#part_name#</td>
-					<td>#new_part_name#</td>
+					<td>
+						<cfif len(new_part_name) gt 0>
+							#new_part_name#
+						<cfelse>
+							NOT UPDATED
+						</cfif>
+					</td>
 					<td>#preserve_method#</td>
 					<td>
 						<cfif len(new_preserve_method) gt 0>
