@@ -79,7 +79,7 @@
         <cfset failure=1>
       </cfcatch>
       </cftry>
-      <cfif thisRelatedId EQ ''><cfset failure=1></cfif>
+      <cfif thisRelatedId EQ '' AND thisRelationship NEQ "delete"><cfset failure=1></cfif>
       <cfif failure EQ 0>
       <cfif isdefined("media_relations_id__#n#")>
         <cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
