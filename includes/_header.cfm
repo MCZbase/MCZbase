@@ -269,8 +269,8 @@ limitations under the License.
 				<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 357px;">
 					<input type="hidden" name="action" value="signIn">
 					<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
-					<input type="hidden" name="gotopage" value="#gtp#?greeting=HelloSpecimens">
-					<div class="form-group">
+					<input type="hidden" name="gotopage" value="#gtp#">
+					<div class="form-group" id="header_login_form_div">
 						<label for="Username" class="sr-only"> Username:</label>
 						<input type="text" name="username" id="Username" size="14" placeholder="username" class="border d-inline-block w-auto h-auto rounded loginButtons">
 						<label for="Password" class="mr-1 sr-only"> Password:</label>
