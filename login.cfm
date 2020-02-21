@@ -1,12 +1,9 @@
 <cfset pageTitle = "Login">
 	<!--- I put greetings into the redriect strings so that I could tell what is happening. Let's remove them after development phase --->
 <cfinclude template = "includes/_header.cfm">
-	<cfoutput>
-		<!--- I don't think I am using these parameters. Needs more testing--->
-	<cfparam name="gtp" default="/login.cfm?greeting=Whatsup"> 
-	<cfparam name="action" default="nothing">
-	
-</cfoutput>
+<cfif isdefined("session.username") and len(#session.username#) gt 0 and #action# neq "signOut">
+	<cflocation url="myArctos.cfm" addtoken="false">
+</cfif>
 <!------------------------------------------------------------>
 <cfif action is "signOut">
 	<cfset initSession()>
@@ -88,28 +85,28 @@
 			</cfif>
 				<cflocation url="#u#" addtoken="false">
 		</cfif>
-		<cfif not isdefined("gotopage") or len(gotopage) is 0>
+			<cfif not isdefined("gotopage") or len(gotopage) is 0>
 			<cfif isdefined("cgi.HTTP_REFERER") and left(cgi.HTTP_REFERER,(len(application.serverRootUrl))) is application.serverRootUrl>
 				<cfset gotopage=replace(cgi.HTTP_REFERER,application.serverRootUrl,'')>
 				<cfset junk="CFID,CFTOKEN">
 				<cfloop list="#gotopage#" index="e" delimiters="?&">
 					<cfloop list="#junk#" index="j">
 						<cfif left(e,len(j)) is j>
-							<cfset rurl=replace(gotopage,e,'','')>	
+							<cfset rurl=replace(gotopage,e,'','all')>
 						</cfif>
 					</cfloop>
 				</cfloop>
 				<cfset t=1>
 				<cfset rurl=replace(gotopage,"?&","?","all")>
 				<cfset rurl=replace(gotopage,"&&","&","all")>
-				<cfset nogo="login.cfm?action=nothing&greeting=Hello">
+				<cfset nogo="login.cfm,errors/">
 				<cfloop list="#nogo#" index="n">
 					<cfif gotopage contains n>
-						<cfset gotopage = "/login.cfm?greeting=ByeBye">
+						<cfset gotopage = "/Specimens.cfm">
 					</cfif>
 				</cfloop>
 			<cfelse>
-				<cfset gotopage = "/Specimens.cfm?greeting=Hiya">
+				<cfset gotopage = "/Specimens.cfm">
 			</cfif>
 		</cfif>
 		<cfif session.roles contains "coldfusion_user">
@@ -147,7 +144,7 @@
 		<cfelse>
 			<!--- This is the result when you put a new username into the header login form with a password and click create account--->
 			<!--- This is also the result when you put a username into the login.cfm form with a good password and click sign in--->
-			<cflocation url="/Specimens.cfm?greeting=hi" addtoken="no">
+		<cflocation url="#gotopage#" addtoken="no">
 		</cfif>
 	</cfoutput>
 </cfif>
@@ -194,7 +191,7 @@
 		  </div>
 		  <input aria-label="Default" aria-describedby="inputGroup-sizing-default" name="password" type="password" class="form-control" tabindex="2" value="" id="password">
 		</div>
-		<button class="btn btn-secondary" onClick="signIn.action.value='signIn';submit();" tabindex="3">Sign In</button>
+		<button class="btn btn-secondary" onClick="signIn.action.value='signIn';submit();" tabindex="3">Log In</button>
 		&nbsp;or&nbsp; <button class="btn btn-secondary" onClick="isInfo();" tabindex="4">Create an Account</button>
 	</form>
 		<cfif isdefined("badPW") and badPW is true>
