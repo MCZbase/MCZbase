@@ -17,7 +17,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- TODO: Cleanup for MCZbase --->
+<cfset pageRequestObject = GetPageContext().GetRequest() >
+<cfset pageRequest = pageRequestObject.getRequestUrl().toString() >
+<cfif pageRequest contains "/component/">
+   <cfheader statuscode="404" statustext="Page Not Found"/>
+   <cfabort>
+</cfif>
 <cfif not isdefined("HEADER_DELIVERED")>
 	<cfset pageTitle = "404 Error - Page Not Found">
 	<cfinclude template="/includes/_header.cfm">
