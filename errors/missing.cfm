@@ -2,7 +2,7 @@
 errors/missing.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2019 President and Fellows of Harvard College
+Copyright 2008-2020 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,6 +17,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<cfset pageRequestObject = GetPageContext().GetRequest() >
+<cfset pageRequest = pageRequestObject.getRequestUrl().toString() >
+<cfif pageRequest contains "/component/">
+   <cfheader statuscode="404" statustext="Page Not Found"/>
+   <cfabort>
+</cfif>
 <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
 	<cfset rdurl=cgi.REDIRECT_URL>
 	<cfif rdurl contains chr(195) & chr(151)>

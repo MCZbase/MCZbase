@@ -71,11 +71,6 @@ limitations under the License.
         <style>
             ul {list-style: none;}
         </style>
-	<script type="text/javascript">
-		var GOOG_FIXURL_LANG = 'en';
-		var GOOG_FIXURL_SITE = 'http://arctos.database.museum/';
-	</script>
-	<script type="text/javascript" src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
 	<script type="text/javascript" language="javascript">
 		function changeCollection () {
 			jQuery.getJSON("/component/functions.cfc",
@@ -102,18 +97,19 @@ limitations under the License.
 				<cfif len(session.roles) gt 0 and session.roles is not "public">
 					If you are an operator, you may have to log out or ask your supervisor for more access.
 				</cfif>
-				You are accessing Arctos through the #yourcollid.collection# portal, and cannot access specimen data in
-				other collections. You may
+				You are accessing MCZbase with permissions for the #yourcollid.collection# collection, and 
+				cannot access specimen data in other collections for which you do not have permissions. You may
 				<span class="likeLink" onclick="changeCollection()">try again in the public portal</span>.
 			</p>
 		</cfif>
 	</cfif>
 	<p>
-        If you followed a link from within Arctos, please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
-	 	containing any information that might help us resolve this issue.
+        If you followed a link from within MCZbase, please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
+	containing any information that might help us resolve this issue, including which page the link was on and 
+	which page you were trying to reach
 	</p>
 	<p>
-		If you followed an external link, please use your back button and tell the webmaster that
+	If you followed an external link, please use your back button and tell the webmaster of that site that
         something is broken, or <a href="/info/bugs.cfm"><b>submit a bug report</b></a> telling us how you got this error.
 	</p>
 <div style="margin: .5em 1.25em">
@@ -169,7 +165,7 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	 <p>
-	 	Use the tabs in the header to continue navigating Arctos.
+	 	Use the tabs in the header to continue navigating MCZbase.
 	 </p>
         </div>
 </cfoutput>
