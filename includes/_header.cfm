@@ -264,8 +264,8 @@ $(document).on('hidden.bs.dropdown', function(event) {
 				<form name="logIn" method="post" action="/login.cfm" class="pl-2">
 					<input type="hidden" name="action" value="signIn">
 					<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
-					<input type="hidden" name="gotopage" value="#gtp#?greeting=HelloSpecimens">
-					<div class="form-group">
+					<input type="hidden" name="gotopage" value="#gtp#">
+					<div class="form-group" id="header_login_form_div">
 						<label for="Username" class="sr-only"> Username:</label>
 						<input type="text" name="username" id="Username" size="14" placeholder="username" class="d-inline-block w-auto h-auto rounded" style="padding:2px;">
 						<label for="Password" class="mr-1 sr-only"> Password:</label>

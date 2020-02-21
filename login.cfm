@@ -1,23 +1,18 @@
 <cfset pageTitle = "Login">
-	<!--- I put greetings into the redriect strings so that I could tell what is happening. Let's remove them after development phase --->
+<!--- Login handler and login page delivery --->
 <cfinclude template = "includes/_header.cfm">
-	<cfoutput>
-		<!--- I don't think I am using these parameters. Needs more testing--->
-	<cfparam name="gtp" default="/login.cfm?greeting=Whatsup"> 
-	<cfparam name="action" default="nothing">
-	
-</cfoutput>
+<cfparam name="action" default="nothing">
 <!------------------------------------------------------------>
 <cfif action is "signOut">
 	<cfset initSession()>
-				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+	<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
              <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/Specimens.cfm")>
-        <cfelse>
+   <cfelse>
              <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/Specimens.cfm")>
-        </cfif>
-		<input type="hidden" name="gotopage" value="#gtp#">
-			<!--- This is the result after logging out from the green button on the header popup--->
+   </cfif>
+	<!--- On Sign out, go to the Specimen search page. --->
 	<cflocation url="/Specimens.cfm" addtoken="false">
+	<!---  Done, cflocation stops execution of this page and opens the provided url. --->
 </cfif>
 <!------------------------------------------------------------>
 <cfif action is "newUser">
@@ -52,7 +47,9 @@
 	</cfif>
 	<!--- create their account --->
 	<cfif len(err) gt 0>
-		<cflocation url="/login.cfm?action=nothing&username=#username#&badPW=true&err=#err#" addtoken="false">	
+		<!--- There was an error, switch to the login dialog with the error message --->
+		<cflocation url="/login.cfm?username=#username#&badPW=true&err=#err#" addtoken="false">	
+	   <!---  Done, cflocation stops execution of this page and opens the provided url. --->
 	</cfif>
 	<cfquery name="nextUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select max(user_id) + 1 as nextid from cf_users
@@ -73,20 +70,28 @@
 				sysdate
 			)
 		</cfquery>
+		<!---  Success, switch to the login page and request that the user login. --->
 		<cflocation url="/login.cfm?action=signIn&username=#username#&password=#password#" addtoken="false">
+		<!---  Done, cflocation stops execution of this page and opens the provided url. --->
 	</cfoutput>
 </cfif>
 <!------------------------------------------------------------>
 <CFIF action is "signIn">
+   <!--- where are we sending the user to on success if they didn't specify a go to page --->
+   <cfset defaultLoginTarget = "/UserProfile.cfm">
 	<cfoutput>
+		<!---  initSession attempts login and creates a session with session variables including session.username if there was a successfull login --->
 		<cfset initSession('#username#','#password#')>
 			
 		<cfif len(session.username) is 0>
-			<cfset u="login.cfm?action=nothing&badPW=true&username=#username#">
+			<!---  Failure: initSession did not login user --->
+			<cfset u="login.cfm?badPW=true&username=#username#">
 			<cfif isdefined("gotopage")>
+			    <!--- TODO: Obtain and pass on request parameters for target page --->
 				<cfset u=u & '&gotopage=#gotopage#'>
 			</cfif>
-				<cflocation url="#u#" addtoken="false">
+			<cflocation url="#u#" addtoken="false">
+			<!---  Done, cflocation stops execution of this page and opens the provided url. --->
 		</cfif>
 		<cfif not isdefined("gotopage") or len(gotopage) is 0>
 			<cfif isdefined("cgi.HTTP_REFERER") and left(cgi.HTTP_REFERER,(len(application.serverRootUrl))) is application.serverRootUrl>
@@ -102,14 +107,14 @@
 				<cfset t=1>
 				<cfset rurl=replace(gotopage,"?&","?","all")>
 				<cfset rurl=replace(gotopage,"&&","&","all")>
-				<cfset nogo="login.cfm?action=nothing&greeting=Hello">
+				<cfset nogo="login.cfm,includes/,errors/,component/,lib/">
 				<cfloop list="#nogo#" index="n">
 					<cfif gotopage contains n>
-						<cfset gotopage = "/login.cfm?greeting=ByeBye">
+						<cfset gotopage = defaultLoginTarget>
 					</cfif>
 				</cfloop>
 			<cfelse>
-				<cfset gotopage = "/Specimens.cfm?greeting=Hiya">
+				<cfset gotopage = defaultLoginTarget>
 			</cfif>
 		</cfif>
 		<cfif session.roles contains "coldfusion_user">
@@ -139,7 +144,9 @@
 				<a href="#gotopage#">Continue to #gotopage#</a>
 			<cfelse>
 				<!---This is a result when you put a good username and password into the login page "signIn" form--->
+				<!--- Go to the page the user was trying to log into --->  
 				<cflocation url="#gotopage#" addtoken="no">
+	   		<!---  Done, cflocation stops execution of this page and opens the provided url. --->
 			</cfif>
 			<cfif len(getUserData.email) is 0>
 				<cfset session.needEmailAddr=1>
@@ -147,7 +154,8 @@
 		<cfelse>
 			<!--- This is the result when you put a new username into the header login form with a password and click create account--->
 			<!--- This is also the result when you put a username into the login.cfm form with a good password and click sign in--->
-			<cflocation url="/Specimens.cfm?greeting=hi" addtoken="no">
+			<cflocation url="#defaultLoginTarget#" addtoken="no">
+	   	<!---  Done, cflocation stops execution of this page and opens the provided url. --->
 		</cfif>
 	</cfoutput>
 </cfif>
@@ -167,6 +175,10 @@
 	}
 </script>
 <cfoutput>
+<!--- Hide the login form in the header, as the page is showing a login form --->
+<script>
+   $("##header_login_form_div").hide();
+</script>
 <cfparam name="username" default="">
 <cfset title="Log In or Create Account">
 <div class="container-fluid form-div">
@@ -177,7 +189,7 @@
 	<p>Logging in enables you to turn on, turn off, or otherwise customize many features of this database. To create an account and log in, simply supply a username and password here and click Create Account.
 	</p>
 	<cfif not isdefined("gotopage")>
-		<cfset gotopage=''>
+		<cfset gotopage='/UserProfile.cfm'>
 	</cfif>
 	<form action="login.cfm" method="post" name="signIn">
 		<input name="action" value="signIn" type="hidden">
@@ -186,7 +198,7 @@
 		  <div class="input-group-prepend">
 			<span class="input-group-text" id="inputGroup-sizing-default">Username</span>
 		  </div>
-		 <input type="text" class="form-control" aria-label="username" aria-describedby="inputGroup-sizing-default" tabindex="1" id="username" name="username" onfocus="if(this.value==this.title){this.value=''};">
+		 <input type="text" class="form-control" aria-label="username" aria-describedby="inputGroup-sizing-default" tabindex="1" id="username" name="username" onfocus="if(this.value==this.title){this.value=''};" value='#username#' >
 		</div>
 		<div class="input-group col-md-12 mb-3 pl-0">
 		  <div class="input-group-prepend">
@@ -226,6 +238,7 @@
 <!-------------------------------------------------------------------------------------->
 <cfif action is "lostPass">
 	<cflocation url="/changePassword.cfm?action=nothing" addtoken="false">
+	<!---  Done, cflocation stops execution of this page and opens the provided url. --->
 </cfif>
 <!-------------------------------------------------------------------------------------->
 	
