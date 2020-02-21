@@ -19,6 +19,7 @@ limitations under the License.
 --->
 <!--- TODO: Cleanup for MCZbase --->
 <cfif not isdefined("HEADER_DELIVERED")>
+	<cfset pageTitle = "404 Error - Page Not Found">
 	<cfinclude template="/includes/_header.cfm">
 </cfif>
 <cfoutput>
