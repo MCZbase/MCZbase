@@ -84,7 +84,12 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxtree.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdatetimeinput.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/scripts/demos.js"></script>
+<!--- 
+   demos.js hard codes non existent includes/JQWidgets/jqwidgets/styles/ paths, which
+   ends up requesting a copy of jqx.light.css down that path which returns a 404 error page rather than the css.
+   TODO: Can this invocation of demos.js be removed entirely from MCZbase?
+   <script type="text/javascript" src="/lib/JQWidgets/scripts/demos.js"></script>
+--->
 <script type="text/javascript" src="/includes/js/shared-scripts.js"></script>
 <script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>	
 <cfif isdefined("addheaderresource")>
