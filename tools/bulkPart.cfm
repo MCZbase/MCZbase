@@ -464,7 +464,9 @@
 		<cfloop list="#partID#" index="i">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update specimen_part set
+					<cfif len(new_part_name) gt 0>
 					part_name='#new_part_name#'
+					</cfif>
 					<cfif len(new_preserve_method) gt 0>
 							,preserve_method='#new_preserve_method#'
 					</cfif>
