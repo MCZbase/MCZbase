@@ -54,6 +54,7 @@
 		<cflocation url="/login.cfm?username=#username#&badPW=true&err=#err#" addtoken="false">	
 	   <!---  Done, cflocation stops execution of this page and opens the provided url. --->
 	</cfif>
+   <!--- TODO: get next id then insert needs to be within a transaction, or use a sequence in the insert --->
 	<cfquery name="nextUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select max(user_id) + 1 as nextid from cf_users
 	</cfquery>
@@ -67,8 +68,8 @@
 				last_login
 			) VALUES (
 				#nextUserID.nextid#,
-				'#username#',
-				'#hash(password)#',
+			   <cfqueryparam value='#username#' cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value='#hash(password)#' cfsqltype="CF_SQL_VARCHAR">,
 				sysdate,
 				sysdate
 			)
@@ -135,7 +136,7 @@
 					cf_users
 				WHERE
 					cf_users.user_id = cf_user_data.user_id (+) AND
-					username = '#session.username#'
+					username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
 			</cfquery>
 			<cfset pwtime =  round(now() - getUserData.pw_change_date)>
 			<cfset pwage = Application.max_pw_age - pwtime>
