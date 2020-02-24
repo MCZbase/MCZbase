@@ -510,10 +510,10 @@
 </cfif>
 <!---------------------------------------------------------------------------->
 <cfif action is "modPart">
-	<!--<cfif len(exist_part_name) is 0 or len(new_part_name) is 0>
+	<!---<cfif len(exist_part_name) is 0 or len(new_part_name) is 0>
 		Not enough information.
 		<cfabort>
-	</cfif>-->
+	</cfif>--->
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
@@ -522,7 +522,136 @@
 				cataloged_item.cat_num,
 				identification.scientific_name,
 				specimen_part.part_name,
-				specimen_par
+				specimen_part.preserve_method,
+				coll_object.condition,
+				coll_object.lot_count,
+				coll_object.coll_obj_disposition,
+				coll_object_remark.coll_object_remarks
+			from
+				cataloged_item,
+				collection,
+				coll_object,
+				specimen_part,
+				identification,
+				coll_object_remark,
+				#table_name#
+			where
+				cataloged_item.collection_id=collection.collection_id and
+				cataloged_item.collection_object_id=#table_name#.collection_object_id and
+				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
+				specimen_part.collection_object_id=coll_object.collection_object_id and
+				specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
+				cataloged_item.collection_object_id=identification.collection_object_id and
+				accepted_id_fg=1 
+				<cfif len(exist_part_name) gt 0>
+					and part_name='#exist_part_name#'
+				</cfif>
+				<cfif len(exist_preserve_method)gt 0>
+					and preserve_method='#exist_preserve_method#'
+			</cfif>
+				<cfif len(existing_lot_count) gt 0>
+					and lot_count=#existing_lot_count#
+				</cfif>
+				<cfif len(existing_coll_obj_disposition) gt 0>
+					and coll_obj_disposition='#existing_coll_obj_disposition#'
+				</cfif>
+			order by
+				collection.collection,cataloged_item.cat_num
+		</cfquery>
+		<form name="modPart" method="post" action="bulkPart.cfm">
+			<input type="hidden" name="action" value="modPart2">
+			<input type="hidden" name="table_name" value="#table_name#">
+			<input type="hidden" name="exist_part_name" value="#exist_part_name#">
+			<input type="hidden" name="new_part_name" value="#new_part_name#">
+			<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
+			<input type="hidden" name="new_preserve_method" value="#new_preserve_method#">
+			<input type="hidden" name="existing_lot_count" value="#existing_lot_count#">
+			<input type="hidden" name="new_lot_count" value="#new_lot_count#">
+			<input type="hidden" name="existing_coll_obj_disposition" value="#existing_coll_obj_disposition#">
+			<input type="hidden" name="new_coll_obj_disposition" value="#new_coll_obj_disposition#">
+			<input type="hidden" name="new_condition" value="#new_condition#">
+			<input type="hidden" name="new_remark" value="#new_remark#">
+			<input type="hidden" name="partID" value="#valuelist(d.partID)#">
+			<input type="submit" value="Looks good - do it" class="savBtn">
+		</form>
+		<table border>
+			<tr>
+				<th>Specimen</th>
+				<th>ID</th>
+				<th>OldPart</th>
+				<th>NewPart</th>
+				<th>OldPresMethod</th>
+				<th>NewPresMethod</th>
+				<th>OldCondition</th>
+				<th>NewCondition</th>
+				<th>OldCnt</th>
+				<th>NewCnt</th>
+				<th>OldDispn</th>
+				<th>NewDispn</th>
+				<th>OldRemark</th>
+				<th>NewRemark</th>
+					
+			</tr>
+			<cfloop query="d">
+				<tr>
+					<td>#collection# #cat_num#</td>
+					<td>#scientific_name#</td>
+						<td>#part_name#</td>
+					<td>
+						<cfif len(new_part_name) gt 0>
+							#new_part_name#
+						<cfelse>
+						NOT UPDATED
+						</cfif>
+						</td>
+				
+					<td>#preserve_method#</td>
+					<td>
+						<cfif len(new_preserve_method) gt 0>
+							#new_preserve_method#
+						<cfelse>
+							NOT UPDATED
+						</cfif>
+					</td>
+					<td>#condition#</td>
+					<td>
+						<cfif len(new_condition) gt 0>
+							#new_condition#
+						<cfelse>
+							NOT UPDATED
+						</cfif>
+					</td>
+					<td>#lot_count#</td>
+					<td>
+						<cfif len(new_lot_count) gt 0>
+							#new_lot_count#
+						<cfelse>
+							NOT UPDATED
+						</cfif>
+					</td>
+					<td>#coll_obj_disposition#</td>
+					<td>
+						<cfif len(coll_obj_disposition) gt 0>
+							#coll_obj_disposition#
+						<cfelse>
+							NOT UPDATED
+						</cfif>
+					</td>
+					<td>#coll_object_remarks#</td>
+			
+					<td>
+						<cfif len(new_remark) gt 0>
+							#new_remark#
+						<cfelse>
+							NOT UPDATED
+						</cfif>
+					</td>
+
+				</tr>
+			</cfloop>
+		</table>
+	</cfoutput>
+</cfif>
 <!---------------------------------------------------------------------------->
 <cfif action is "newPart">
 <cfoutput>
