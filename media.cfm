@@ -391,7 +391,7 @@
           <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="">
 	 </div>
 	 <cfset i=i+1>
-	</cfloop
+	</cfloop>
           <span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span>
       </div>
         
