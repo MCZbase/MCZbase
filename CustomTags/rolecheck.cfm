@@ -37,10 +37,21 @@
 
 				<!--- make sure they're really logged out --->
 				<!--- TODO: Force logout --->
+
+				<!--- Various things we could pass on as the information about the requested resource ---->
+				<!--- The entire request IRI --->
+				<cfset objRequest = GetPageContext().GetRequest() />
+				<cfset requestUrl = objRequest.GetRequestUrl().Append( "?" & objRequest.GetQueryString()).ToString() />
+				<!--- The requested page and any query parameters --->
+				<!---   this is likely the desired information to pass on --->
+				<cfset requestPage = CGI.script_name & "?" & CGI.query_string > 
+				<!--- The directory in which the requested page resides --->
 				<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />
 				<cfset r=replace(currentPath,application.webDirectory,"") />
+
+            <cfset targetRef = requestPage>
 				<cfheader statuscode="403" statustext="Forbidden">
-				<cfscript>getPageContext().forward("/errors/forbidden.cfm?ref=#r#");</cfscript>
+				<cfscript>getPageContext().forward("/errors/forbidden.cfm?ref=#r#&gotopage=#targetRef#&from=rolecheck");</cfscript>
 				<cfabort />
 			</div>
 				</div>

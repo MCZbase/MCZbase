@@ -273,11 +273,23 @@ limitations under the License.
     </form>
 	<cfelse>
 	
-	  <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-	   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+	  <cfif isdefined("gotopage") and len(gotopage) GT 0>
+			<cfset gtp = gotopage>
 	  <cfelse>
-	   <cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+		  <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+			   <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+		  <cfelse>
+     		<cfset requestData = #GetHttpRequestData()#>
+	  		<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+				<cfset gtp=requestData.headers.referer>
+			<cfelse>
+		   	<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+			</cfif>
+	 	 </cfif>
 	  </cfif>
+		<cfif gtp EQ '/errors/forbidden.cfm'>
+			<cfset gtp = "/UserProfile.cfm">
+		</cfif>
 				<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 357px;">
 					<input type="hidden" name="action" value="signIn">
 					<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
