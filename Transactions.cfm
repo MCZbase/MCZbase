@@ -66,8 +66,8 @@ limitations under the License.
 												<option value="#collection_id#">#collection#</option>
 											</cfloop>
 										</select>
-											
-										<input id="number" type="text" class="has-clear form-control w-50 form-control-borderless rounded" name="number" placeholder="">
+									   <cfif not isdefined("number")><cfset number=""></cfif>
+										<input id="number" type="text" class="has-clear form-control w-50 form-control-borderless rounded" name="number" placeholder="" value="#number#">
 										<span class="input-group-btn">
 											<button class="btn button px-3 border-0" id="searchButton" type="submit">Search</button>
 										</span>
@@ -180,9 +180,8 @@ $(document).ready(function() {
 			filterable: true,
 			sortable: true,
 			pageable: true,
-			autoheight: true,
 			editable: true,
-			pagesize: '10',
+			pagesize: '50',
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: false,
@@ -192,19 +191,20 @@ $(document).ready(function() {
 			groupable: true,
 			selectionmode: 'checkbox',
 			altrows: true,
-			showtoolbar: true,
-			
+			showtoolbar: false,
 			columns: [
 				{text: 'transaction_id', datafield: 'transaction_id', width: 190},
+				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Transaction', datafield: 'transaction_type', width: 150},
 				{text: 'Number', datafield: 'number', width: 130},
-				{text: 'Date', datafield: 'trans_date', width: 130},
-				{text: 'Collection', datafield: 'collection_cde', width: 130},
-				{text: 'Type', datafield: 'type', width: 130},
+				{text: 'Date', datafield: 'trans_date', width: 50},
+				{text: 'Type', datafield: 'type', width: 50},
 				{text: 'Status', datafield: 'status', width: 130},
+				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130 },
+				{text: 'Collection', datafield: 'collection', width: 130},
+				{text: 'Remarks', datafield: 'trans_remarks' },
 			]
 		});
-
 	});
 });
 </script>
