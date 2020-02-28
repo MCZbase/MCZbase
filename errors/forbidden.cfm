@@ -20,7 +20,7 @@ limitations under the License.
 --->
 <!--- 403 error handler invoked from Application.cfc  --->
 
-<cfif isdefined("") and url.ref CONTAINS "/component/" >
+<cfif isdefined("url.ref") and url.ref CONTAINS "/component/" >
 	<!--- Attempt to access a backing component expected to be invoked in an ajax call.  --->
 	<!--- Probably the result of an ajax call from an open page when the user's session has expired. --->
 	<!--- Return a 403 status, and an error message without header/footer to display in an error dialog --->
