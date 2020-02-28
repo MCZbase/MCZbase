@@ -137,7 +137,7 @@ $(document).ready(function() {
 				{ name: 'collection', type: 'string' },
 				{ name: 'number', type: 'string' },
 				{ name: 'type', type: 'string' },
-				{ name: 'status', type: 'string' }
+				{ name: 'status', type: 'string' },
 				{ name: 'id_link', type: 'string' }
 			],
 			updaterow: function (rowid, rowdata, commit) {
@@ -203,7 +203,7 @@ $(document).ready(function() {
 				{text: 'Status', datafield: 'status', width: 130},
 				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130 },
 				{text: 'Collection', datafield: 'collection', width: 130},
-				{text: 'Remarks', datafield: 'trans_remarks' },
+				{text: 'Remarks', datafield: 'trans_remarks' }
 			]
 		});
 	});
