@@ -42,6 +42,10 @@ limitations under the License.
       <cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
+			<cfswitch expression="#search.transaction_type#">
+				<cfcase value="loan"><cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
+				<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
+ 			</cfswitch>
 			<cfset row = StructNew()>
 			<cfset row["transaction_id"] = "#search.transaction_id#">
 			<cfset row["trans_date"] = "#search.trans_date#">
@@ -53,7 +57,7 @@ limitations under the License.
 			<cfset row["number"] = "#search.specific_number#">
 			<cfset row["type"] = "#search.specific_type#">
 			<cfset row["status"] = "#search.status#">
-			<cfset row["id_link"] = "<a href='/transactions/transaction.cfm?transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
+			<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
