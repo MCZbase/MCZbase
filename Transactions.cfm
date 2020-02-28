@@ -138,6 +138,7 @@ $(document).ready(function() {
 				{ name: 'number', type: 'string' },
 				{ name: 'type', type: 'string' },
 				{ name: 'status', type: 'string' }
+				{ name: 'id_link', type: 'string' }
 			],
 			updaterow: function (rowid, rowdata, commit) {
 				commit(true);
@@ -180,7 +181,7 @@ $(document).ready(function() {
 			filterable: true,
 			sortable: true,
 			pageable: true,
-			editable: true,
+			editable: false,
 			pagesize: '50',
 			showaggregates: true,
 			columnsresize: true,
@@ -193,7 +194,7 @@ $(document).ready(function() {
 			altrows: true,
 			showtoolbar: false,
 			columns: [
-				{text: 'transaction_id', datafield: 'transaction_id', width: 190},
+				{text: 'Transaction', datafield: 'id_link', width: 190},
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Transaction', datafield: 'transaction_type', width: 150},
 				{text: 'Number', datafield: 'number', width: 130},
