@@ -160,7 +160,7 @@ $(document).ready(function() {
 				if (error == 'timeout') { 
                message = ' Server took too long to respond.';
             } else { 
-               message = jqHXR.responseText;
+               message = jqXHR.responseText;
             }
 				$( "##messageDiv" ).html(error + message);
 			},
