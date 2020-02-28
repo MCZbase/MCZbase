@@ -53,7 +53,7 @@ limitations under the License.
 			<cfset row["number"] = "#search.specific_number#">
 			<cfset row["type"] = "#search.specific_type#">
 			<cfset row["status"] = "#search.status#">
-			<cfset row["id_link"] = "<a href='/transactions/transaction.cfm?transaction_id=#search.transaction_id#' target='_blank'>#search.number#</a>">
+			<cfset row["id_link"] = "<a href='/transactions/transaction.cfm?transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
