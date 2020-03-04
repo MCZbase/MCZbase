@@ -122,7 +122,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="collection_id">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="w-100">
+								<select name="collection_id" size="1" id="collection_id" class="reqdClr w-100">
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 									</cfloop>
@@ -130,7 +130,7 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
 								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
-								<input type="text" name="loan_number" class="reqdClr" id="loan_number" required pattern="#LOANNUMBERPATTERN#" class="w-100">
+								<input type="text" name="loan_number" class="reqdClr w-100" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 						</div>
 						<div class="form-row">
