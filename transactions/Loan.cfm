@@ -124,204 +124,206 @@ limitations under the License.
 <cfif  action is "newLoan">
 	<cfset title="New Loan">
 	<cfoutput>
-	<div class="newLoanWidth" style="overflow:hidden;">
-	<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
-	   <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
-	</h2>
-  		<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
-           		<input type="hidden" name="action" value="makeLoan">
-			<table border id="newLoanTable">
-				<tr>
-					<td>
-						<label for="collection_id">Collection
-						</label>
-						<select name="collection_id" size="1" id="collection_id">
-							<cfloop query="ctcollection">
-								<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
-							</cfloop>
-						</select>
-					</td>
-					<td id="upperRightCell"><!--- id for positioning nextnum div --->
-						<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
-						<input type="text" name="loan_number" class="reqdClr" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
-					</td">
-				</tr>
-				<tr>
-					<td>
-						<label for="auth_agent_name">Authorized By</label>
-						<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr" required size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
-						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="auth_agent_id" id="auth_agent_id"
-                            				onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
-  				                <div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</td>
-					<td>
-						<label for="rec_agent_name">Received By:</label>
-						<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr" required size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
-						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="rec_agent_id" id="rec_agent_id"
-							onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
-						<div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="in_house_contact_agent_name">In-House Contact:</label>
-						<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  class="reqdClr" required size="40"
-						  onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
-						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
-							onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
-						<div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</td>
-					<td>
-						<label for="additional_contact_agent_name">Additional Outside Contact:</label>
-						<input type="text" name="additional_contact_agent_name" size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
-						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id"
-							onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
-						<div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="recipient_institution_agent_name">Recipient Institution:</label>
-						<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  class="reqdClr" required size="40"
-						  onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
-						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
-							onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
-						<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</td>
-					<td>
-						<label for="foruseby_agent_name">For Use By:</label>
-						<input type="text" name="foruseby_agent_name" size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
-						  onKeyPress="return noenter(event);">
-						<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id"
-							onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
-						<div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</td>
-				</tr>
-				<tr>
-				<tr>
-					<td>
-						<label for="loan_type">Loan Type</label>
-						<script>
-						 $(function() {
-                          // on page load, hide the insurance section.
-                          $("##insurance_section").hide();
-						   // on page load, remove transfer and exhibition-master from the list of loan/gift types
-						   $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
-						   $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
-						   // on page load, bind a function to collection_id to change the list of loan types
-						   // based on the selected collection
-						   $("##collection_id").change( function () {
-						 	  if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-							     // only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters (but only add once).
-                                 if ($("##loan_type option[value='exhibition-master']").length < 1) { 
-							         $("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
-                                 }
-							 } else {
-                                 $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
-                                 $("##insurance_section").hide();
-							 }
-						   });
-    						   // on page load, bind a function to loan_type to hide/show the insurance section.
-						   $("##loan_type").change( function () {
-           						if ($("##loan_type").val() == "exhibition-master") {
-                                                            $("##insurance_section").show();
-                          				    $("##return_due_date").datepicker('option','disabled',false);
-							} else if ($("##loan_type").val() == "exhibition-subloan") {
-							    $("##insurance_section").hide();
-                          				    $("##return_due_date").datepicker('option','disabled',true);
-                                                        } else {
-                                                            $("##insurance_section").hide();
-                          				    $("##return_due_date").datepicker('option','disabled',false);
-                                                        }
-						   });
-						 });
-						</script>
-						<select name="loan_type" id="loan_type" class="reqdClr" required >
-							<cfloop query="ctLoanType">
-								<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-							</cfloop>
-						</select>
-
-					</td>
-					<td>
-						<label for="loan_status">Loan Status</label>
-						<select name="loan_status" id="loan_status" class="reqdClr" required >
-							<cfloop query="ctLoanStatus">
-                                  <cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
-								<option value="#ctLoanStatus.loan_status#"
-								<cfif #ctLoanStatus.loan_status# is "open">selected='selected'</cfif>>
-                                #ctLoanStatus.loan_status#</option>
-                                 </cfif>
-							</cfloop>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="initiating_date">Transaction Date</label>
-						<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#">
-					</td>
-					<td>
-						<label for="return_due_date">Return Due Date</label>
-						<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" >
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<label for="nature_of_material">Nature of Material</label>
-						<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr" required ></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<label for="loan_description">Description</label>
-						<textarea name="loan_description" id="loan_description" rows="3" cols="80"></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<label for="loan_instructions">Loan Instructions</label>
-						<textarea name="loan_instructions" id="loan_instructions" rows="3" cols="80"></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<label for="trans_remarks">Internal Remarks</label>
-						<textarea name="trans_remarks" id="trans_remarks" rows="3" cols="80"></textarea>
-					</td>
-				</tr>
-				<tr id="insurance_section">
-					<td>
- 		   				<label for="insurance_value">Insurance value</label>
-						<input type="text" name="insurance_value" id="insurance_value" value="">
-					</td>
-					<td>
-		   				<label for="insurance_maintained_by">Insurance Maintained By</label>
-		   				<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="">
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-						<input type="button" value="Create Loan" class="insBtn"
-						       onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
-						&nbsp;
-						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm'">
-			   		</td>
-				</tr>
-			</table>
-		</form>
-                <script>
+	<div class="container-fluid form-div">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
+						<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
+					</h2>
+					<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+						<input type="hidden" name="action" value="makeLoan">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="collection_id">Collection</label>
+								<select name="collection_id" size="1" id="collection_id">
+									<cfloop query="ctcollection">
+										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="form-group col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
+								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
+								<input type="text" name="loan_number" class="reqdClr" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="auth_agent_name">Authorized By</label>
+								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr" 
+									required size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+						  			onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
+						  			onKeyPress="return noenter(event);">
+								<input type="hidden" name="auth_agent_id" id="auth_agent_id"
+									onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
+								<div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="rec_agent_name">Received By:</label>
+								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr" 
+									required size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+						  			onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
+						  			onKeyPress="return noenter(event);">
+								<input type="hidden" name="rec_agent_id" id="rec_agent_id"
+									onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
+							<div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="in_house_contact_agent_name">In-House Contact:</label>
+								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
+										autocomplete="off" onfocus="this.removeAttribute('readonly');"
+										class="reqdClr" required size="40"
+										onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
+										onKeyPress="return noenter(event);">
+								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
+										onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
+								<div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+								<input type="text" name="additional_contact_agent_name" size="40" readonly 
+										autocomplete="off" onfocus="this.removeAttribute('readonly');"
+										onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
+										onKeyPress="return noenter(event);">
+								<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id"
+										onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
+								<div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="recipient_institution_agent_name">Recipient Institution:</label>
+								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
+										autocomplete="off" onfocus="this.removeAttribute('readonly');"
+										class="reqdClr" required size="40"
+										onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
+										onKeyPress="return noenter(event);">
+								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
+										onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
+								<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="foruseby_agent_name">For Use By:</label>
+								<input type="text" name="foruseby_agent_name" size="40" readonly 
+										autocomplete="off" onfocus="this.removeAttribute('readonly');"
+										onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
+										onKeyPress="return noenter(event);">
+								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id"
+										onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
+								<div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="loan_type">Loan Type</label>
+								<script>
+									 $(function() {
+			                          // on page load, hide the insurance section.
+			                          $("##insurance_section").hide();
+									   // on page load, remove transfer and exhibition-master from the list of loan/gift types
+									   $("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+									   $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
+									   // on page load, bind a function to collection_id to change the list of loan types
+									   // based on the selected collection
+									   $("##collection_id").change( function () {
+									 	  if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
+										     // only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters (but only add once).
+			                                 if ($("##loan_type option[value='exhibition-master']").length < 1) { 
+										         $("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
+			                                 }
+										 } else {
+			                                 $("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
+			                                 $("##insurance_section").hide();
+										 }
+									   });
+			    						   // on page load, bind a function to loan_type to hide/show the insurance section.
+									   $("##loan_type").change( function () {
+			           						if ($("##loan_type").val() == "exhibition-master") {
+			                                                            $("##insurance_section").show();
+			                          				    $("##return_due_date").datepicker('option','disabled',false);
+										} else if ($("##loan_type").val() == "exhibition-subloan") {
+										    $("##insurance_section").hide();
+			                          				    $("##return_due_date").datepicker('option','disabled',true);
+			                                                        } else {
+			                                                            $("##insurance_section").hide();
+			                          				    $("##return_due_date").datepicker('option','disabled',false);
+			                                                        }
+									   });
+									 });
+								</script>
+								<select name="loan_type" id="loan_type" class="reqdClr" required >
+									<cfloop query="ctLoanType">
+										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="loan_status">Loan Status</label>
+								<select name="loan_status" id="loan_status" class="reqdClr" required >
+								<cfloop query="ctLoanStatus">
+                        	<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
+										<cfif #ctLoanStatus.loan_status# is "open"><cfset selected = "selected='selected'"><cfelse><cfset selected=""></cfif>>
+										<option value="#ctLoanStatus.loan_status#" #selected# #ctLoanStatus.loan_status#</option>
+                           </cfif>
+								</cfloop>
+								</select>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="initiating_date">Transaction Date</label>
+								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="return_due_date">Return Due Date</label>
+								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" >
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<label for="nature_of_material">Nature of Material</label>
+								<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr" required ></textarea>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<label for="loan_description">Description</label>
+								<textarea name="loan_description" id="loan_description" rows="3" cols="80"></textarea>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<label for="loan_instructions">Loan Instructions</label>
+								<textarea name="loan_instructions" id="loan_instructions" rows="3" cols="80"></textarea>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<label for="trans_remarks">Internal Remarks</label>
+								<textarea name="trans_remarks" id="trans_remarks" rows="3" cols="80"></textarea>
+							</div>
+						</div>
+						<div class="form-row" id="insurance_section">
+							<div class="form-group col-md-6">
+ 		   					<label for="insurance_value">Insurance value</label>
+								<input type="text" name="insurance_value" id="insurance_value" value="">
+							</div>
+							<div class="form-group col-md-6">
+		   					<label for="insurance_maintained_by">Insurance Maintained By</label>
+		   					<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<input type="button" value="Create Loan" class="insBtn"
+						      	 onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
+								&nbsp;
+								<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm'">
+							</div>
+						</div>
+					</form>
+               <script>
                           $("##newLoan").submit( function(event) {
                               if ($("##loan_type").val()=="gift" || $("##loan_type").val()=="transfer") {
                                  $("##return_due_date").val(null);
@@ -348,65 +350,58 @@ limitations under the License.
                                  event.preventDefault();
                               };
                            });
-                </script>
-		<div class="nextnum" id="nextNumDiv">
-			<p>Next Available Loan Number:</p>
-			<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from collection order by collection
-			</cfquery>
-			<cfloop query="all_coll">
-				<cfif (institution_acronym is 'MCZ')>
-					<!---- yyyy-n-CCDE format --->
-					<cfset stg="'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#'">
-					<cfset whr=" AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
-				<cfelse>
-					<!--- n format --->
-					<cfset stg="'#dateformat(now(),"yyyy")#.' || max(to_number(substr(loan_number,instr(loan_number,'.')+1,instr(loan_number,'.',1,2)-instr(loan_number,'.')-1) + 1)) || '.#collection_cde#'">
-					<cfset whr=" AND is_number(loan_number)=1 and substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'">
-				</cfif>
-				<cftry>
-					<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select
-							 #preservesinglequotes(stg)# nn
-						from
-							loan,
-							trans,
-							collection
-						where
-							loan.transaction_id=trans.transaction_id and
-							trans.collection_id=collection.collection_id
-							<cfif institution_acronym is not "MVZ" and institution_acronym is not "MVZObs">
-								and	collection.collection_id=#collection_id#
-							</cfif>
-							#preservesinglequotes(whr)#
-					</cfquery>
-					<cfcatch>
-						<hr>
-						#cfcatch.detail#
-						<br>
-						#cfcatch.message#
-						<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select
-								 'check data' nn
-							from
-								dual
+               </script>
+					<div class="nextnum" id="nextNumDiv">
+						<p>Next Available Loan Number:</p>
+						<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select * from collection order by collection
 						</cfquery>
-					</cfcatch>
-				</cftry>
-				<cfif len(thisQ.nn) gt 0>
-					<span class="likeLink" onclick="setLoanNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
-				<cfelse>
-					<span style="font-size:x-small">
-						No data available for #collection#.
-					</span>
-				</cfif>
-				<br>
-			</cfloop>
+						<cfloop query="all_coll">
+							<!---- Loan numbers follow yyyy-n-CCDE format --->
+							<cftry>
+								<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+										'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#'
+									from
+										loan,
+										trans,
+										collection
+									where
+										loan.transaction_id=trans.transaction_id 
+										AND trans.collection_id=collection.collection_id
+										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_NUMBER">
+										AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
+								</cfquery>
+								<cfcatch>
+									<hr>
+									#cfcatch.detail#
+									<br>
+									#cfcatch.message#
+									<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select
+											 'check data' nn
+										from
+											dual
+									</cfquery>
+								</cfcatch>
+							</cftry>
+							<cfif len(thisQ.nn) gt 0>
+								<span class="likeLink" onclick="setLoanNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
+							<cfelse>
+								<span style="font-size:x-small">
+									No data available for #collection#.
+								</span>
+							</cfif>
+							<br>
+						</cfloop>
+					</div>
+               <script>
+               	$(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+3 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
+               </script>
+				</div>
+			</div>
 		</div>
-                <script>
-                        $(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+3 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
-                </script>
-        </div>
+	</div>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
@@ -572,13 +567,14 @@ limitations under the License.
 			});
 		});
 	</script>
-       <div class="editLoanbox">
+	<div class="container-fluid form-div">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
        <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>	</h2>
 
-<div class="shippingBlock">
-
-  <form name="editloan" id="editLoan" action="Loan.cfm" method="post">
+	<form name="editloan" id="editLoan" action="Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 
@@ -959,8 +955,10 @@ limitations under the License.
 		    </cfif>
 		</cfif>
 
-	</div>
 	</form>
+	</div>
+	</div>
+	</div>
 
    		<label for="redir">Print...</label>
 		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
@@ -1275,8 +1273,8 @@ $( document ).ready(loadShipments(#transaction_id#));
 	</cfloop>
         </ul>
 </div>
-    <!--- Print permits associated with these accessions --->
-	  <div id="permitmedia">
+	<!--- Print permits associated with these accessions --->
+	<div id="permitmedia">
       <h3>Permissions and Rights Documents (PDF copies of Permits) from Accessions and the Shipments of this Loan.</h3>
         <cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment from (
