@@ -343,10 +343,12 @@ limitations under the License.
 					<div class="nextnum" id="nextNumDiv">
 						<p>Next Available Loan Number:</p>
 						<!--- Find list of all non-observational collections --->
-						<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select collection_id, collection_cde, collection from collection order by collection where collection not like '% Observations'
+						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collection_id, collection_cde, collection from collection 
+							where collection not like '% Observations'
+							order by collection 
 						</cfquery>
-						<cfloop query="all_coll">
+						<cfloop query="loanableCollections">
 							<cftry>
 								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
 								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
