@@ -122,7 +122,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="collection_id">Collection</label>
-								<select name="collection_id" size="1" id="collection_id">
+								<select name="collection_id" size="1" id="collection_id" class="w-100">
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 									</cfloop>
@@ -130,14 +130,14 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
 								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
-								<input type="text" name="loan_number" class="reqdClr" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+								<input type="text" name="loan_number" class="reqdClr" id="loan_number" required pattern="#LOANNUMBERPATTERN#" class="w-100">
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="auth_agent_name">Authorized By</label>
-								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr" 
-									required size="30" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr w-100" 
+									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
 								<input type="hidden" name="auth_agent_id" id="auth_agent_id"
@@ -146,8 +146,8 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-6">
 								<label for="rec_agent_name">Received By:</label>
-								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr" 
-									required size="30" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr w-100" 
+									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id"
@@ -159,7 +159,7 @@ limitations under the License.
 								<label for="in_house_contact_agent_name">In-House Contact:</label>
 								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										class="reqdClr" required size="30"
+										class="reqdClr w-100" required 
 										onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
@@ -168,7 +168,7 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-6">
 								<label for="additional_contact_agent_name">Additional Outside Contact:</label>
-								<input type="text" name="additional_contact_agent_name" size="30" readonly 
+								<input type="text" name="additional_contact_agent_name" readonly class="w-100"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
@@ -182,7 +182,7 @@ limitations under the License.
 								<label for="recipient_institution_agent_name">Recipient Institution:</label>
 								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										class="reqdClr" required size="30"
+										class="reqdClr w-100" required 
 										onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
@@ -191,7 +191,7 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-6">
 								<label for="foruseby_agent_name">For Use By:</label>
-								<input type="text" name="foruseby_agent_name" size="30" readonly 
+								<input type="text" name="foruseby_agent_name" readonly class="w-100"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
@@ -238,7 +238,7 @@ limitations under the License.
 									   });
 									 });
 								</script>
-								<select name="loan_type" id="loan_type" class="reqdClr" required >
+								<select name="loan_type" id="loan_type" class="reqdClr w-100" required >
 									<cfloop query="ctLoanType">
 										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
 									</cfloop>
@@ -246,7 +246,7 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-6">
 								<label for="loan_status">Loan Status</label>
-								<select name="loan_status" id="loan_status" class="reqdClr" required >
+								<select name="loan_status" id="loan_status" class="reqdClr w-100" required >
 								<cfloop query="ctLoanStatus">
                         	<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 										<cfif #ctLoanStatus.loan_status# is "open"><cfset selected = "selected='selected'"><cfelse><cfset selected=""></cfif>>
@@ -259,11 +259,11 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="initiating_date">Transaction Date</label>
-								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#">
+								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100">
 							</div>
 							<div class="form-group col-md-6">
 								<label for="return_due_date">Return Due Date</label>
-								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" >
+								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100" >
 							</div>
 						</div>
 						<div class="form-row">
