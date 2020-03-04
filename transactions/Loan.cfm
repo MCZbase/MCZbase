@@ -112,13 +112,11 @@ limitations under the License.
 	<cfoutput>
 	<div class="container-fluid form-div">
 		<div class="container">
+			<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
+				<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
+			</h2>
 			<div class="form-row">
-			<div class="coll-sm-4"><!--- Begin entry form --->
-			<div class="form-row">
-				<div class="col-sm-12">
-					<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
-						<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
-					</h2>
+				<div class="col-sm-8">
 					<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row">
@@ -139,7 +137,7 @@ limitations under the License.
 							<div class="form-group col-md-6">
 								<label for="auth_agent_name">Authorized By</label>
 								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr" 
-									required size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+									required size="30" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
 								<input type="hidden" name="auth_agent_id" id="auth_agent_id"
@@ -149,7 +147,7 @@ limitations under the License.
 							<div class="form-group col-md-6">
 								<label for="rec_agent_name">Received By:</label>
 								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr" 
-									required size="40" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+									required size="30" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id"
@@ -161,7 +159,7 @@ limitations under the License.
 								<label for="in_house_contact_agent_name">In-House Contact:</label>
 								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										class="reqdClr" required size="40"
+										class="reqdClr" required size="30"
 										onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
@@ -170,7 +168,7 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-6">
 								<label for="additional_contact_agent_name">Additional Outside Contact:</label>
-								<input type="text" name="additional_contact_agent_name" size="40" readonly 
+								<input type="text" name="additional_contact_agent_name" size="30" readonly 
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
@@ -184,7 +182,7 @@ limitations under the License.
 								<label for="recipient_institution_agent_name">Recipient Institution:</label>
 								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										class="reqdClr" required size="40"
+										class="reqdClr" required size="30"
 										onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
@@ -193,7 +191,7 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-6">
 								<label for="foruseby_agent_name">For Use By:</label>
-								<input type="text" name="foruseby_agent_name" size="40" readonly 
+								<input type="text" name="foruseby_agent_name" size="30" readonly 
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
@@ -271,25 +269,25 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group">
 								<label for="nature_of_material">Nature of Material</label>
-								<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr" required ></textarea>
+								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="80" class="reqdClr" required ></textarea>
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group">
 								<label for="loan_description">Description</label>
-								<textarea name="loan_description" id="loan_description" rows="3" cols="80"></textarea>
+								<textarea name="loan_description" id="loan_description" rows="4" cols="80"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group">
 								<label for="loan_instructions">Loan Instructions</label>
-								<textarea name="loan_instructions" id="loan_instructions" rows="3" cols="80"></textarea>
+								<textarea name="loan_instructions" id="loan_instructions" rows="10" cols="80"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group">
 								<label for="trans_remarks">Internal Remarks</label>
-								<textarea name="trans_remarks" id="trans_remarks" rows="3" cols="80"></textarea>
+								<textarea name="trans_remarks" id="trans_remarks" rows="4" cols="80"></textarea>
 							</div>
 						</div>
 						<div class="form-row" id="insurance_section">
@@ -340,8 +338,8 @@ limitations under the License.
 				</div>
 			</div> <!--- End entry form --->
 			<div class="coll-sm-4"> <!--- Begin next available number list --->
-					<div class="nextnum" id="nextNumDiv">
-						<p>Next Available Loan Number:</p>
+					<div id="nextNumDiv" class="border border-primary p-md-2">
+						<h3>Next Available Loan Number:</h3>
 						<!--- Find list of all non-observational collections --->
 						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_id, collection_cde, collection from collection 
@@ -386,8 +384,9 @@ limitations under the License.
 						</cfloop>
 					</div>
 				</div>
-				</div>
 			</div>
+		</div>
+	</div>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
