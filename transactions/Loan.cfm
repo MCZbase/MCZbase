@@ -24,22 +24,8 @@ limitations under the License.
 
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 
-
-<cfif action is "editLoan">
-	<cfset scope = 'Loan'>
-   <!--- for existing records, look up the scope from the record.  --->
-	<cfquery name="loanScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-             select scope from loan left join ctloan_type on loan.loan_type = ctloan_type.loan_type where loan.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
-        </cfquery>
-        <cfset scope = loanScope.scope >
-</cfif>
-
-<!--- Loan types relevant to the current scope --->
+<!--- Loan types --->
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select loan_type from ctloan_type where scope = <cfqueryparam value=#scope# CFSQLType="CF_SQL_VARCHAR" > order by ordinal asc, loan_type
-</cfquery>
-<!--- All loan types for loan and gift query --->
-<cfquery name="ctAllLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_type from ctloan_type order by ordinal asc, loan_type
 </cfquery>
 <cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -118,7 +104,7 @@ limitations under the License.
 </cfoutput>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
-	<cflocation url="Loan.cfm?action=search" addtoken="false">
+	<cflocation url="/Transactions.cfm?type=Loan" addtoken="false">
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newLoan">
@@ -131,7 +117,7 @@ limitations under the License.
 					<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
 						<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 					</h2>
-					<form name="newloan" id="newLoan" action="Loan.cfm" method="post" onSubmit="return noenter();">
+					<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row">
 							<div class="form-group col-md-6">
@@ -318,8 +304,6 @@ limitations under the License.
 							<div class="form-group">
 								<input type="button" value="Create Loan" class="insBtn"
 						      	 onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
-								&nbsp;
-								<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm'">
 							</div>
 						</div>
 					</form>
@@ -406,7 +390,7 @@ limitations under the License.
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "editLoan">
-	<cfset title="Edit #scope#">
+	<cfset title="Edit Loan">
 	<cfoutput>
 	<cftry>
 	<script>
@@ -571,10 +555,10 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-       <h2 class="wikilink" style="margin-left: 0;">Edit #scope# <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
+       <h2 class="wikilink" style="margin-left: 0;">Edit Loan <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
         <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>	</h2>
 
-	<form name="editloan" id="editLoan" action="Loan.cfm" method="post">
+	<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 		<input type="hidden" name="action" value="saveEdits">
 		<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 
@@ -592,7 +576,7 @@ limitations under the License.
 		</select>
        </td>
        <td>
-          <label for="loan_number">#scope# Number (yyyy-n-Coll)</label>
+          <label for="loan_number">Loan Number (yyyy-n-Coll)</label>
 		<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr" required  pattern="#LOANNUMBERPATTERN#"  >
         </td>
         </tr>
@@ -683,7 +667,7 @@ limitations under the License.
 		<table>
 			<tr>
 				<td width="44%">
-					<label for="loan_type">#scope# Type</label>
+					<label for="loan_type">Loan Type</label>
 					<select name="loan_type" id="loan_type" class="reqdClr" required >
 						<cfloop query="ctLoanType">
                                                       <cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
@@ -697,7 +681,7 @@ limitations under the License.
 					</select>
 				</td>
 				<td>
-					<label for="loan_status">#scope# Status</label>
+					<label for="loan_status">Loan Status</label>
 					<select name="loan_status" id="loan_status" class="reqdClr" required >
                                                 <!---  Normal transaction users are only allowed certain loan status state transitions, users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
 						<cfloop query="ctLoanStatus">
@@ -743,7 +727,7 @@ limitations under the License.
                      Exhibition-Master Loan:
                      <cfif parentLoan.RecordCount GT 0>
 			<cfloop query="parentLoan">
-                  <a href="Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
+                  <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
             </cfloop>
   		     <cfelse>
                         This exhibition subloan has not been linked to a master loan.
@@ -757,7 +741,7 @@ limitations under the License.
                         <cfset childseparator = "">
 			<cfloop query="childLoans">
                            #childseparator#
-                       <a href="Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
+                       <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
                            <button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
                            <script>
 			   $(function() {
@@ -774,7 +758,7 @@ limitations under the License.
                                                     var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
                                                     var separator = "";
                                                     for (var i=0; i<r.ROWCOUNT; i++) {
-      							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+      							retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
                                                         separator = ";&nbsp";
 						    };
 						    retval = retval + "<BR>";
@@ -806,7 +790,7 @@ limitations under the License.
                                                     var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
                                                     var separator = "";
                                                     for (var i=0; i<r.ROWCOUNT; i++) {
-      							retval = retval + separator + "<a href=Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + ">" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+      							retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
                                                         separator = ";&nbsp";
 						    };
 						    retval = retval + "<BR>";
@@ -854,7 +838,7 @@ limitations under the License.
 			</cfif>
 		</ul>
 		<hr>
-		<label for="project_id">Pick a Project to associate with this #scope#</label>
+		<label for="project_id">Pick a Project to associate with this Loan</label>
 		<input type="hidden" name="project_id">
 		<input type="text"
 			size="40"
@@ -863,7 +847,7 @@ limitations under the License.
 			onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
 			onKeyPress="return noenter(event);">
 		<hr>
-		<label for=""><span style="font-size:large">Create a project from this #scope#</span></label>
+		<label for=""><span style="font-size:large">Create a project from this Loan</span></label>
                 <div id="create_project">
 		<label for="newAgent_name">Project Agent Name</label>
 		<input type="text" name="newAgent_name" id="newAgent_name"
@@ -900,7 +884,7 @@ limitations under the License.
 		</tr>
 		</table>
 
-		<label for="loan_instructions">#scope# Instructions (<span id="lbl_loan_instructions"></span>)</label>
+		<label for="loan_instructions">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
 		<textarea name="loan_instructions" id="loan_instructions" rows="7"
 			cols="120">#loanDetails.loan_instructions#</textarea>
 		<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
@@ -910,7 +894,7 @@ limitations under the License.
                         onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 
    		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
-                            <input type="button" value="Delete #scope#" class="delBtn"
+                            <input type="button" value="Delete Loan" class="delBtn"
 			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
    		<br />
 	<div class="shippingBlock">
@@ -1364,7 +1348,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 		DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and
 		permit_id=#permit_id#
 	</cfquery>
-	<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
+	<cflocation url="/transactions/Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "saveEdits">
@@ -1526,7 +1510,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				   </cfif>
 				</cfloop>
 			</cftransaction>
-			<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
+			<cflocation url="/transactions/Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
@@ -1696,11 +1680,12 @@ $( document ).ready(loadShipments(#transaction_id#));
 				select sq_transaction_id.currval nextTransactionId from dual
 			</cfquery>
 		</cftransaction>
-		<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#nextTransId.nextTransactionId#" addtoken="false">
+		<cflocation url="/transactions/Loan.cfm?Action=editLoan&transaction_id=#nextTransId.nextTransactionId#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "search">
+	<!--- TODO: Move to tab in Transactions.cfm --->
   <cfset title="Search for Loans">
   <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
   <cfoutput>
@@ -1784,8 +1769,8 @@ $( document ).ready(loadShipments(#transaction_id#));
             <td align="right">Type: </td>
             <td><select name="loan_type">
                 <option value=""></option>
-                <cfloop query="ctAllLoanType">
-                  <option value="#ctAllLoanType.loan_type#">#ctAllLoanType.loan_type#</option>
+                <cfloop query="ctLoanType">
+                  <option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
                 </cfloop>
               </select>
               <img src="images/nada.gif" width="25" height="1"> Status:&nbsp;
@@ -1885,6 +1870,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "listLoans">
+<!--- TODO: Move to table display in Transactions.cfm --->
 <cfoutput>
 	<cfset title="Loan Item List">
 	<cfset sel = "select
