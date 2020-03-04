@@ -1,3 +1,9 @@
+/** This file contains Various local style customizations **/
+/************************/
+/** Styling of Required fields on forms **/
+input.reqdClr, select.reqdClr, textarea.reqdClr {
+   background-color: #E4E476;
+}
 /************************
 *************************
 GENERIC STYLES to override
