@@ -341,11 +341,11 @@ limitations under the License.
 							select * from collection order by collection
 						</cfquery>
 						<cfloop query="all_coll">
-							<!---- Loan numbers follow yyyy-n-CCDE format --->
 							<cftry>
-								<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
-										'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#'
+										'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
 									from
 										loan,
 										trans,
@@ -361,16 +361,14 @@ limitations under the License.
 									#cfcatch.detail#
 									<br>
 									#cfcatch.message#
-									<cfquery name="thisq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select
-											 'check data' nn
-										from
-											dual
+									<!--- Put an error message into nextNumberQuery.nextNumber --->
+									<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select 'check data' as nextNumber from dual
 									</cfquery>
 								</cfcatch>
 							</cftry>
-							<cfif len(thisQ.nn) gt 0>
-								<span class="likeLink" onclick="setLoanNum('#collection_id#','#thisQ.nn#')">#collection# #thisQ.nn#</span>
+							<cfif len(nextNumberQuery.nextNumber) gt 0>
+								<span class="likeLink" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</span>
 							<cfelse>
 								<span style="font-size:x-small">
 									No data available for #collection#.
