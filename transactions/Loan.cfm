@@ -250,7 +250,7 @@ limitations under the License.
 								<cfloop query="ctLoanStatus">
                         	<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 										<cfif #ctLoanStatus.loan_status# is "open"><cfset selected = "selected='selected'"><cfelse><cfset selected=""></cfif>>
-										<option value="#ctLoanStatus.loan_status#" #selected# #ctLoanStatus.loan_status#</option>
+										<option value="#ctLoanStatus.loan_status#" #selected# >#ctLoanStatus.loan_status#</option>
                            </cfif>
 								</cfloop>
 								</select>
