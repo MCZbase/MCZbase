@@ -112,8 +112,10 @@ limitations under the License.
 	<cfoutput>
 	<div class="container-fluid form-div">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
+			<div class="form-row">
+			<div class="coll-sm-4"><!--- Begin entry form --->
+			<div class="form-row">
+				<div class="col-sm-12">
 					<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
 						<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 					</h2>
@@ -335,10 +337,14 @@ limitations under the License.
                               };
                            });
                </script>
+				</div>
+			</div> <!--- End entry form --->
+			<div class="coll-sm-4"> <!--- Begin next available number list --->
 					<div class="nextnum" id="nextNumDiv">
 						<p>Next Available Loan Number:</p>
+						<!--- Find list of all non-observational collections --->
 						<cfquery name="all_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select * from collection order by collection
+							select collection_id, collection_cde, collection from collection order by collection where collection not like '% Observations'
 						</cfquery>
 						<cfloop query="all_coll">
 							<cftry>
@@ -377,13 +383,9 @@ limitations under the License.
 							<br>
 						</cfloop>
 					</div>
-               <script>
-               	$(document).ready( function() { $('##nextNumDiv').position( { my: "left top", at: "right+3 top-3", of: $('##upperRightCell'), colision: "none" } ); } );
-               </script>
+				</div>
 				</div>
 			</div>
-		</div>
-	</div>
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
