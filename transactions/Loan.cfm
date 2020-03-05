@@ -120,7 +120,7 @@ limitations under the License.
 					<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row">
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="collection_id">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr custom-select1 form-control-sm">
 									<cfloop query="ctcollection">
@@ -128,13 +128,13 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="form-group col-12 col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
+							<div class="col-12 col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
 								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" class="reqdClr form-control-sm" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="auth_agent_name">Authorized By</label>
 								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" 
 									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
@@ -144,7 +144,7 @@ limitations under the License.
 									onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
 								<div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="rec_agent_name">Received By:</label>
 								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" 
 									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
@@ -156,7 +156,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="in_house_contact_agent_name">In-House Contact:</label>
 								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
@@ -167,7 +167,7 @@ limitations under the License.
 										onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
 								<div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="additional_contact_agent_name">Additional Outside Contact:</label>
 								<input type="text" name="additional_contact_agent_name" readonly class="form-control-sm"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
@@ -179,7 +179,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="recipient_institution_agent_name">Recipient Institution:</label>
 								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
@@ -190,7 +190,7 @@ limitations under the License.
 										onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
 								<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="foruseby_agent_name">For Use By:</label>
 								<input type="text" name="foruseby_agent_name" readonly class="form-control-sm"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
@@ -202,7 +202,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="loan_type">Loan Type</label>
 								<script>
 									 $(function() {
