@@ -142,7 +142,7 @@ limitations under the License.
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------------->
-<div class="container-fluid form-div">
+<div class="container-fluid">
 	<cfif action is "nothing">
 	<cfquery name="getPrefs" datasource="cf_dbuser">
 		select * from cf_users, user_loan_request,agent_name, person
@@ -162,14 +162,16 @@ limitations under the License.
 		where user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_NUMBER">
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
-    <div class="container">
-	
-	<h2>Welcome back, <b>#getPrefs.first_name# #getPrefs.last_name#</b>!<br><small>(login: #getPrefs.username#)</small></h2>
-			<h4><a href="/changePassword.cfm?action=nothing">Change your password</a>
-			<cfset pwtime =  round(now() - getPrefs.pw_change_date)>
-			<cfset pwage = Application.max_pw_age - pwtime>
-			<cfif pwage lte 0>
-				 <cfquery name="isDb" datasource="uam_god">
+		<div class="container mt-4">
+			<div class="row mb-5">
+				<div class="col-12 col-md-6">
+			<h1 class="h2">Welcome back, <b>#getPrefs.first_name# #getPrefs.last_name#</b>!<br>
+						<small>(login: #getPrefs.username#)</small></h1>
+					<h4><a href="/changePassword.cfm?action=nothing">Change your password</a>
+						<cfset pwtime =  round(now() - getPrefs.pw_change_date)>
+						<cfset pwage = Application.max_pw_age - pwtime>
+						<cfif pwage lte 0>
+							<cfquery name="isDb" datasource="uam_god">
 					select
 					(
 						select count(*) c from all_users where
@@ -185,19 +187,16 @@ limitations under the License.
 					cnt
 					from dual
 				</cfquery>
-				<cfif isDb.cnt gt 0>
-					<cfset session.force_password_change = "yes">
-					<cflocation url="ChangePassword.cfm" addtoken="false">
-				</cfif>
-			<cfelseif pwage lte 10>
-				<span style="color:red;font-weight:bold;">
-					Your password expires in #pwage# days.
-				</span>
-				</cfif></h4>
-			<h4>
-				<a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a><br> 
-				<small>Click "Save Search" from Specimen Results to save a search.</small>
-			</h4>
+							<cfif isDb.cnt gt 0>
+								<cfset session.force_password_change = "yes">
+								<cflocation url="ChangePassword.cfm" addtoken="false">
+							</cfif>
+							<cfelseif pwage lte 10>
+							<span style="color:red;font-weight:bold;"> Your password expires in #pwage# days. </span>
+						</cfif>
+					</h4>
+					<h4> <a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a><br>
+						<small>Click "Save Search" from Specimen Results to save a search.</small> </h4>
 	
 	<cfif isInv.allow is 1>
 			You've been invited to become an Operator. Password restrictions apply.
@@ -239,8 +238,7 @@ limitations under the License.
 			A profile is required to download data.<br>
 			<small>Personal information will never be shared with anyone, and we'll never send you spam.</small>
 		</h4>
-	
-		<div class="form-group col-md-6 col-sm-12 pl-0">
+		<div class="form-group col-md-12 col-sm-12 pl-0">
 			<div class="input-group mb-3">
 			<div class="input-group-prepend">
 					<span class="input-group-text" name="first_name" id="basic-addon1">First Name</span>
@@ -260,7 +258,7 @@ limitations under the License.
             <input type="text" name="last_name" value="#getUserData.last_name#" class="form-control" placeholder="last_name" aria-label="last_name" aria-describedby="basic-addon1">
 			</div>
 		</div>
-		<div class="form-group col-md-6 col-sm-12 pl-0">
+		<div class="form-group col-md-12 col-sm-12 pl-0">
 			<div class="input-group mb-3">
 			  <div class="input-group-prepend">
 				<span class="input-group-text" name="affiliation" id="basic-addon1">Affiliation</span>
@@ -276,13 +274,11 @@ limitations under the License.
 				<h4>You cannot recover a lost password unless you enter an email address.</h4>
 				 <input type="submit" value="Save Profile" class="btn btn-secondary ml-0 mt-1">	
 		</div>
-	
-		
-	
-</form>
+
+	</form>
+		</div>				
 					
-					
-	
+				<div class="col-12 col-md-6 float-left">
 	<cfquery name="getUserPrefs" datasource="cf_dbuser">
 		select * from cf_users 
 		where 
@@ -291,7 +287,7 @@ limitations under the License.
 	
 	<div id="divRss"></div>
     </div>
-	<script>
+				<script>
 		$( document ).ready(function(){
 
             jQuery.getFeed({
@@ -324,7 +320,9 @@ limitations under the License.
 
 	    });
     </script>
-				</div>
+			</div>
+		</div>
+	</div>
 </cfoutput>
 </cfif>
 
