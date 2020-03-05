@@ -120,23 +120,23 @@ limitations under the License.
 					<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row">
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="collection_id">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="reqdClr w-100">
+								<select name="collection_id" size="1" id="collection_id" class="reqdClr custom-select1 form-control-sm">
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 									</cfloop>
 								</select>
 							</div>
-							<div class="form-group col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
+							<div class="form-group col-12 col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
 								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
-								<input type="text" name="loan_number" class="reqdClr w-100" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+								<input type="text" name="loan_number" class="reqdClr form-control-sm" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="auth_agent_name">Authorized By</label>
-								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr w-100" 
+								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" 
 									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
@@ -144,9 +144,9 @@ limitations under the License.
 									onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
 								<div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="rec_agent_name">Received By:</label>
-								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr w-100" 
+								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" 
 									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
@@ -156,20 +156,20 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="in_house_contact_agent_name">In-House Contact:</label>
 								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										class="reqdClr w-100" required 
+										class="reqdClr form-control-sm" required 
 										onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
 										onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
 								<div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="additional_contact_agent_name">Additional Outside Contact:</label>
-								<input type="text" name="additional_contact_agent_name" readonly class="w-100"
+								<input type="text" name="additional_contact_agent_name" readonly class="form-control-sm"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
@@ -179,20 +179,20 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="recipient_institution_agent_name">Recipient Institution:</label>
 								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										class="reqdClr w-100" required 
+										class="reqdClr form-control-sm" required 
 										onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
 										onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
 								<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="foruseby_agent_name">For Use By:</label>
-								<input type="text" name="foruseby_agent_name" readonly class="w-100"
+								<input type="text" name="foruseby_agent_name" readonly class="form-control-sm"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
@@ -202,7 +202,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="loan_type">Loan Type</label>
 								<script>
 									 $(function() {
@@ -239,15 +239,15 @@ limitations under the License.
 									   });
 									 });
 								</script>
-								<select name="loan_type" id="loan_type" class="reqdClr w-100" required >
+								<select name="loan_type" id="loan_type" class="reqdClr custom-select1 form-control-sm" required >
 									<cfloop query="ctLoanType">
 										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
 									</cfloop>
 								</select>
 							</div>
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="loan_status">Loan Status</label>
-								<select name="loan_status" id="loan_status" class="reqdClr w-100" required >
+								<select name="loan_status" id="loan_status" class="reqdClr custom-select1 form-control-sm" required >
 								<cfloop query="ctLoanStatus">
                         	<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 										<cfif #ctLoanStatus.loan_status# is "open"><cfset selected = "selected='selected'"><cfelse><cfset selected=""></cfif>>
@@ -258,47 +258,47 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="initiating_date">Transaction Date</label>
 								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100">
 							</div>
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label for="return_due_date">Return Due Date</label>
 								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100" >
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-sm-12 col-md-12">
+							<div class="form-group col-12 col-sm-12 col-md-12">
 								<label for="nature_of_material">Nature of Material</label>
-								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="80" class="reqdClr" required ></textarea>
+								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="80" class="reqdClr form-control form-control-sm" required ></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-sm-12 col-md-12">
+							<div class="form-group col-12 col-sm-12 col-md-12">
 								<label for="loan_description">Description</label>
-								<textarea name="loan_description" id="loan_description" rows="4" cols="80"></textarea>
+								<textarea name="loan_description" id="loan_description" class="form-control-sm form-control" rows="4" cols="80"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-sm-12 col-md-12">
+							<div class="form-group col-12 col-sm-12 col-md-12">
 								<label for="loan_instructions">Loan Instructions</label>
-								<textarea name="loan_instructions" id="loan_instructions" rows="10" cols="80"></textarea>
+								<textarea name="loan_instructions" id="loan_instructions" rows="10" cols="80" class="form-control form-control-sm"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-sm-12 col-md-12">
+							<div class="form-group col-12 col-sm-12 col-md-12">
 								<label for="trans_remarks">Internal Remarks</label>
-								<textarea name="trans_remarks" id="trans_remarks" rows="4" cols="80"></textarea>
+								<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm" rows="4" cols="80"></textarea>
 							</div>
 						</div>
 						<div class="form-row" id="insurance_section">
 							<div class="form-group col-md-6">
  		   					<label for="insurance_value">Insurance value</label>
-								<input type="text" name="insurance_value" id="insurance_value" value="">
+								<input type="text" name="insurance_value" id="insurance_value" value="" class="form-control form-control-sm">
 							</div>
 							<div class="form-group col-md-6">
 		   					<label for="insurance_maintained_by">Insurance Maintained By</label>
-		   					<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="">
+		   					<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="form-control form-control-sm">
 							</div>
 						</div>
 						<div class="form-row">
@@ -337,7 +337,7 @@ limitations under the License.
                            });
                </script>
 				</div>
-			</div> <!--- End entry form --->
+		
 			<div class="coll-sm-4"> <!--- Begin next available number list --->
 					<div id="nextNumDiv" class="border border-primary p-md-2">
 						<h3>Next Available Loan Number:</h3>
