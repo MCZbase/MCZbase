@@ -194,7 +194,8 @@ form input.anchor-button:hover {
 	background-color: #f8f9fa;
 }
 label {
-	margin-bottom: 0.25em;
+	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
+	margin-bottom: 0;
 }
 .border {
 	/*	border-color: #bac5c6;

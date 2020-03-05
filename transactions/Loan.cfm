@@ -5,7 +5,8 @@
 <!--
 transactions/Loan.cfm
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2020 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -128,36 +129,43 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
+							<div class="col-12 col-md-6">
 								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" class="reqdClr form-control-sm" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="auth_agent_name">Authorized By</label>
+								<span>
+									<label for="auth_agent_name">Authorized By</label>
+									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" 
 									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
 								<input type="hidden" name="auth_agent_id" id="auth_agent_id"
 									onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
-								<div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="rec_agent_name">Received By:</label>
+								<span>
+									<label for="rec_agent_name">Received By:</label>
+									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" 
 									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id"
 									onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
-							<div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="in_house_contact_agent_name">In-House Contact:</label>
+								<span>
+									<label for="in_house_contact_agent_name">In-House Contact:</label>
+									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										class="reqdClr form-control-sm" required 
@@ -165,22 +173,26 @@ limitations under the License.
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
 										onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
-								<div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+								<span>
+									<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+									<span id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="additional_contact_agent_name" readonly class="form-control-sm"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id"
 										onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
-								<div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="recipient_institution_agent_name">Recipient Institution:</label>
+								<span>
+									<label for="recipient_institution_agent_name">Recipient Institution:</label>
+									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										class="reqdClr form-control-sm" required 
@@ -188,17 +200,18 @@ limitations under the License.
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
 										onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
-								<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="foruseby_agent_name">For Use By:</label>
+								<span>
+									<label for="foruseby_agent_name">For Use By:</label>
+									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="foruseby_agent_name" readonly class="form-control-sm"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id"
 										onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
-								<div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
 						<div class="form-row mb-2">
