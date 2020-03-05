@@ -133,7 +133,7 @@ limitations under the License.
 								<input type="text" name="loan_number" class="reqdClr form-control-sm" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 						</div>
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label for="auth_agent_name">Authorized By</label>
 								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" 
@@ -155,7 +155,7 @@ limitations under the License.
 							<div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label for="in_house_contact_agent_name">In-House Contact:</label>
 								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
@@ -201,7 +201,7 @@ limitations under the License.
 								<div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label for="loan_type">Loan Type</label>
 								<script>
@@ -245,7 +245,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="loan_status">Loan Status</label>
 								<select name="loan_status" id="loan_status" class="reqdClr custom-select1 form-control-sm" required >
 								<cfloop query="ctLoanStatus">
@@ -257,52 +257,52 @@ limitations under the License.
 								</select>
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="form-group col-12 col-md-6">
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
 								<label for="initiating_date">Transaction Date</label>
 								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100">
 							</div>
-							<div class="form-group col-12 col-md-6">
+							<div class="col-12 col-md-6">
 								<label for="return_due_date">Return Due Date</label>
 								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100" >
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="form-group col-12 col-sm-12 col-md-12">
+						<div class="form-row mb-2">
+							<div class="col-12 col-sm-12 col-md-12">
 								<label for="nature_of_material">Nature of Material</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="80" class="reqdClr form-control form-control-sm" required ></textarea>
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="form-group col-12 col-sm-12 col-md-12">
+						<div class="form-row mb-2">
+							<div class="col-12 col-sm-12 col-md-12">
 								<label for="loan_description">Description</label>
 								<textarea name="loan_description" id="loan_description" class="form-control-sm form-control" rows="4" cols="80"></textarea>
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="form-group col-12 col-sm-12 col-md-12">
+						<div class="form-row mb-2">
+							<div class="col-12 col-sm-12 col-md-12">
 								<label for="loan_instructions">Loan Instructions</label>
 								<textarea name="loan_instructions" id="loan_instructions" rows="10" cols="80" class="form-control form-control-sm"></textarea>
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="form-group col-12 col-sm-12 col-md-12">
+						<div class="form-row mb-2">
+							<div class="col-12 col-sm-12 col-md-12">
 								<label for="trans_remarks">Internal Remarks</label>
 								<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm" rows="4" cols="80"></textarea>
 							</div>
 						</div>
-						<div class="form-row" id="insurance_section">
-							<div class="form-group col-md-6">
+						<div class="form-row mb-2" id="insurance_section">
+							<div class="col-md-6">
  		   					<label for="insurance_value">Insurance value</label>
 								<input type="text" name="insurance_value" id="insurance_value" value="" class="form-control form-control-sm">
 							</div>
-							<div class="form-group col-md-6">
+							<div class="col-md-6">
 		   					<label for="insurance_maintained_by">Insurance Maintained By</label>
 		   					<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="form-control form-control-sm">
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="form-group">
+						<div class="form-row my-2">
+							<div class="ml-auto">
 								<input type="button" value="Create Loan" class="insBtn"
 						      	 onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
 							</div>
