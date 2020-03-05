@@ -116,10 +116,10 @@ limitations under the License.
 				<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 			</h2>
 			<div class="form-row mb-2">
-				<div class="col-sm-8">
+				<div class="col-sm-8 mr-4">
 					<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label for="collection_id">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr custom-select1 form-control-sm">
