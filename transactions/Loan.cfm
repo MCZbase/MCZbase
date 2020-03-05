@@ -340,34 +340,31 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-               <script>
-                          $("##newLoan").submit( function(event) {
-                              if ($("##loan_type").val()=="gift" || $("##loan_type").val()=="transfer") {
-                                 $("##return_due_date").val(null);
-                              }
-                              validated = true;
-                              errors = "";
-                              errorCount = 0;
-                              $(".reqdClr").each(function(index, element) {
-                                 if ($(element).val().length===0) {
-                                   validated = false;
-                                   errorCount++;
-                                   errors = errors + " " + element.name;
-                                 }
-                              });
-                              if (!validated) {
-                                 if (errorCount==1) {
-                                    msg = 'A required value is missing:' + errors;
-                                 } else {
-                                    msg = errorCount + ' required values are missing:' + errors;
-                                 }
-                                 var errdiv = document.createElement('div');
-                                 errdiv.innerHTML = msg;
-                                 $(errdiv).dialog({ title:"Error Creating Loan"}).dialog("open");
-                                 event.preventDefault();
-                              };
-                           });
-               </script>
+					<script>
+						$("##newLoan").submit( function(event) {
+							validated = true;
+							errors = "";
+							errorCount = 0;
+							$(".reqdClr").each(function(index, element) {
+								if ($(element).val().length===0) {
+									validated = false;
+									errorCount++;
+									errors = errors + " " + element.name;
+								}
+							});
+							if (!validated) {
+								if (errorCount==1) {
+									msg = 'A required value is missing:' + errors;
+								} else {
+									msg = errorCount + ' required values are missing:' + errors;
+								}
+								var errdiv = document.createElement('div');
+								errdiv.innerHTML = msg;
+								$(errdiv).dialog({ title:"Error Creating Loan" }).dialog("open"); 
+								event.preventDefault();
+							};
+						});
+					</script>
 				</div>
 		
 			<div class="coll-sm-4 ml-sm-4"> <!--- Begin next available number list, ml-sm-4 to provide offset from column above holding form. --->
