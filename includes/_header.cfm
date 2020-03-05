@@ -218,7 +218,7 @@ limitations under the License.
           <a class="dropdown-item" name="accessions" href="##">Accessions</a>
           <a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
           <a class="dropdown-item" name="borrows" href="##">Borrows</a>
-		  <a class="dropdown-item <cfoutput><cfif pageTitle EQ "Loan Management">active </cfif></cfoutput>" name="loan management" href="Loan.cfm?action=newLoan">Loan Management</a>
+		 <a class="dropdown-item <cfoutput><cfif pageTitle EQ "Loan Management">active </cfif></cfoutput>" name="loan management" href="Loan.cfm?action=newLoan">Loan Management</a>
           <a class="dropdown-item" name="permits" href="##">Permits</a>
         </div>
       </li>
