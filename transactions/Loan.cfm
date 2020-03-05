@@ -115,7 +115,7 @@ limitations under the License.
 			<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
 				<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 			</h2>
-			<div class="form-row">
+			<div class="form-row mb-2">
 				<div class="col-sm-8">
 					<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
@@ -178,7 +178,7 @@ limitations under the License.
 								<div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label for="recipient_institution_agent_name">Recipient Institution:</label>
 								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
