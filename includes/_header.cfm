@@ -136,17 +136,12 @@ limitations under the License.
 </script>
 </head>
 <body class="default">
-	
-
-
-	
-	 <a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
-<header id="header" aria-level="1" role="heading">
-
+<a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+<header id="header" aria-level="1" role="heading" class="border-bottom">
 <div class="branding clearfix" style="background-color: #Application.header_color#;">
 	<div class="branding-left justify-content-start mt-1">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
-			<img src="/includes/images/Harvard_shield-University.png" width="28" height="32" alt="Harvard University Shield">
+			<img class="shield" src="/includes/images/Harvard_shield-University.png" alt="Harvard University Shield">
 			<span class="d-inline-block parent">Harvard University</span>
 		</a> 
 	</div>
@@ -174,12 +169,12 @@ limitations under the License.
 
   <div class="collapse navbar-collapse" id="navbarToggler1">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0 pl-1">
-  <li class="nav-item dropdown active">
+  <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Data Searches
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-          <a class="dropdown-item" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
+          <a class="dropdown-item <cfoutput><cfif pageTitle EQ "Search Specimens">active </cfif></cfoutput>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
           <a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
           <a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
 		  <a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
@@ -192,7 +187,7 @@ limitations under the License.
           Data Entry
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-          <a class="dropdown-item" name="enter a record" href="DataEntry.cfm">Enter a Record</a>
+          <a class="dropdown-item <cfoutput><cfif pageTitle EQ "Data Entry">active </cfif></cfoutput>" name="enter a record" href="DataEntry.cfm">Enter a Record</a>
           <a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
           <a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
 		  <a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
@@ -223,7 +218,7 @@ limitations under the License.
           <a class="dropdown-item" name="accessions" href="##">Accessions</a>
           <a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
           <a class="dropdown-item" name="borrows" href="##">Borrows</a>
-		  <a class="dropdown-item" name="loans" href="##">Loans</a>
+		  <a class="dropdown-item <cfoutput><cfif pageTitle EQ "Loan Management">active </cfif></cfoutput>" name="loan management" href="##">Loan Management</a>
           <a class="dropdown-item" name="permits" href="##">Permits</a>
         </div>
       </li>
@@ -265,7 +260,7 @@ limitations under the License.
 	  </ul>
 		  <form class="form-inline my-2 my-lg-0 pl-2" name="signOut" method="post" action="/login.cfm">
 	  <input type="hidden" name="action" value="signOut">	
-      <button class="btn btn-outline-success my-2 my-sm-0" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
+      <button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
 		<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
 			&nbsp; <small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
 		</cfif>
@@ -290,7 +285,7 @@ limitations under the License.
 		<cfif gtp EQ '/errors/forbidden.cfm'>
 			<cfset gtp = "/UserProfile.cfm">
 		</cfif>
-				<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 470px;">
+				<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 400px;">
 					<input type="hidden" name="action" value="signIn">
 					<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
 					<input type="hidden" name="gotopage" value="#gtp#">
@@ -308,10 +303,21 @@ limitations under the License.
 		  </cfif>
   </div>
 </nav>
-	
-	
-
 </header>
+<script type="text/javascript"> 
+	/** add active class and stay opened when selected */ 
+	var url = window.location; 
+	// for sidebar menu entirely but not cover treeview 
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
+	// for treeview 
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".sidebar-menu > .navbar-nav").addClass('active');
+	
+	
+	$(".navbar-nav .nav-link a").on("click", function(){
+   $(".nav-link").find(".show").removeClass("show");
+   $(this).addClass("show");
+});
+</script>
 <cf_rolecheck>
 </cfoutput>
 <cfset HEADER_DELIVERED=true>
