@@ -20,155 +20,32 @@ limitations under the License.
     <div class="fixed-bottom bg-inverse">
     <cfif cgi.HTTP_HOST contains "harvard.edu" >
     
-		<div class="row helplinks bg-light border-top pt-1">
-        	<div class="col-sm-12 col-md-4 col-lg-4" style="text-align: center;">
+		<div class="row helplinks bg-light border-top">
+        	<div class="col-sm-12 col-md-4 col-lg-4 text-center">
         		<a HREF="mailto:bhaley@oeb.harvard.edu" aria-label="email_to_system_admin">System Administrator</a>
 			</div>
-       		<div class="col-sm-12 col-md-4 col-lg-4" style="text-align: center;">
+       		<div class="col-sm-12 col-md-4 col-lg-4 text-center">
         		<a href="/info/bugs.cfm" aria-label="bug_report_link">Feedback&#8202;/&#8202;Report Errors</a>
 			</div>
-        	<div class="col-sm-12 col-md-4 col-lg-4" style="text-align: center;">
+        	<div class="col-sm-12 col-md-4 col-lg-4 text-center">
         		<a href="/Collections/index.cfm" aria-label="data_providers">Data Providers</a> 
         	</div>
 		</div>
 
         <div class="row copyright_background">
             <div class="footer-col-4-md" align="center"> <img alt="Harvard Museum of Comparative Zoology Logo" class="media-element file-default file-os-files-medium" src="/includes/images/harvard_museum.png">
-				<p class="agreements" style="font-size: smaller;"><a href="/Affiliates.cfm" class="policy_link" aria-label="affiliates_link">Affiliates</a> <a>|</a> <a href="https://mcz.harvard.edu/privacy-policy" class="policy_link" aria-label="privacy_policy_link">Privacy</a> <a>|</a> <a href="https://mcz.harvard.edu/user-agreement" class="policy_link" aria-label="user_agreement_link">User Agreement</a> 
-				</p>
+				<div class="agreements" style="font-size: smaller;"><a href="/Affiliates.cfm" class="policy_link" aria-label="affiliates_link">Affiliates</a> <a>|</a> <a href="https://mcz.harvard.edu/privacy-policy" class="policy_link" aria-label="privacy_policy_link">Privacy</a> <a>|</a> <a href="https://mcz.harvard.edu/user-agreement" class="policy_link" aria-label="user_agreement_link">User Agreement</a> 
+				</div>
             </div>
         </div>
         </div>
         <div class="branding-container">
-            <div class="copyright-bottom fs-012 text-center"> Copyright &#x24B8; 2019 The President and Fellows of Harvard College.&nbsp; <a href="http://accessibility.harvard.edu/" class="text-white" aria-label="accessibility_link">Accessibility</a> | <a href="http://www.harvard.edu/reporting-copyright-infringements" class="text-white" aria-label="report_copyright_infringement_link">Report Copyright Infringement</a> </div>
+            <div class="copyright-bottom text-center"><small> Copyright &#x24B8; 2019 The President and Fellows of Harvard College.&nbsp; <a href="http://accessibility.harvard.edu/" class="text-white" aria-label="accessibility_link">Accessibility</a> | <a href="http://www.harvard.edu/reporting-copyright-infringements" class="text-white" aria-label="report_copyright_infringement_link">Report Copyright Infringement</a></small> </div>
         </div>
     </cfif>
     </div>
 
-<script>
-
-var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
-	showRightPush = document.getElementById( 'showRightPush' ),
-	menuLeft = document.getElementById( 'cbp-spmenu-s3' ),
-	showLeftPush = document.getElementById( 'showLeftPush' ),
-	body = document.body;
-
-    showRightPush.onclick = function() {
-	classie.toggle( this, 'active' );
-	classie.toggle( body, 'cbp-spmenu-push-toleft' );
-	classie.toggle( menuRight, 'cbp-spmenu-open' );
-	
-	disableOther( 'showRightPush' );
-    };
-		
-	showLeftPush.onclick = function() {
-		classie.toggle( this, 'active' );
-		classie.toggle( body, 'cbp-spmenu-push-toright');
-		classie.toggle( menuLeft, 'cbp-spmenu-open' );
-		disableOther( 'showLeftPush' );
-	};
-	
-	function disableOther( button ) {
-	if( button !== 'showLeftPush' ) {
-		classie.toggle( showLeftPush, 'disabled' );
-	}
-	if( button !== 'showRightPush' ) {
-		classie.toggle( showRightPush, 'disabled' );
-	}
-}
-/*!
- * classie - class helper functions
- * from bonzo https://github.com/ded/bonzo
- * 
- * classie.has( elem, 'my-class' ) -> true/false
- * classie.add( elem, 'my-new-class' )
- * classie.remove( elem, 'my-unwanted-class' )
- * classie.toggle( elem, 'my-class' )
- */
-/*jshint browser: true, strict: true, undef: true */
-
-( function( window ) {
-
-'use strict';
-
-// class helper functions from bonzo https://github.com/ded/bonzo
-
-function classReg( className ) {
-  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
-}
-
-// classList support for class management
-// altho to be fair, the api sucks because it won't accept multiple classes at once
-var hasClass, addClass, removeClass;
-
-if ( 'classList' in document.documentElement ) {
-  hasClass = function( elem, c ) {
-    return elem.classList.contains( c );
-  };
-  addClass = function( elem, c ) {
-    elem.classList.add( c );
-  };
-  removeClass = function( elem, c ) {
-    elem.classList.remove( c );
-  };
-}
-else {
-  hasClass = function( elem, c ) {
-    return classReg( c ).test( elem.className );
-  };
-  addClass = function( elem, c ) {
-    if ( !hasClass( elem, c ) ) {
-      elem.className = elem.className + ' ' + c;
-    }
-  };
-  removeClass = function( elem, c ) {
-    elem.className = elem.className.replace( classReg( c ), ' ' );
-  };
-}
-
-function toggleClass( elem, c ) {
-  var fn = hasClass( elem, c ) ? removeClass : addClass;
-  fn( elem, c );
-}
-
-window.classie = {
-  // full names
-  hasClass: hasClass,
-  addClass: addClass,
-  removeClass: removeClass,
-  toggleClass: toggleClass,
-  // short names
-  has: hasClass,
-  add: addClass,
-  remove: removeClass,
-  toggle: toggleClass
-};
-
-})( window );
-</script>
-
-<script>
-//var navButton = document.querySelector('nav a');
-//navButton.addEventListener('click', function() {
-//    let expanded = this.getAttribute('aria-expanded') === 'true' || false;
-//    this.setAttribute('aria-expanded', !expanded);
-//    let menu = this.nextElementSibling;
-//    menu.hidden = !menu.hidden;
-//});
 
 
-this.button.addEventListener('keydown', function (e) {
-    if (e.keyCode === 40) {
-        this.open();
-    }
-}.bind(this));
-	
-document.onkeydown = function(e) {
-  if(e.keyCode === 13) { // The Enter/Return key
-    document.activeElement.onclick(e);
-  }
-};
-</script>
-<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js"></script>
 </footer>
 </body></html>

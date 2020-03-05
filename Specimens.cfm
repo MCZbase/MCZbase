@@ -80,11 +80,11 @@ select media_type from ctmedia_type order by media_type
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
 
-	<div id="search-form-div" class="form-div px-3">
+	<div id="search-form-div" class="search-form-div px-3">
 		<div class="container-fluid" id="content" tabindex="-1">
 			<div class="row">
-				<div class="col-md-12 col-sm-12 col-lg-10 mb-3">
-					<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="mt-2 font-italic pb-4 color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
+				<div class="col-md-12 col-sm-12 col-lg-11 mb-3">
+					<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count font-italic color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
 					<div class="tab-card-main mt-1 tab-card">
 						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
@@ -95,11 +95,12 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 						</div>
 						<div class="tab-content pb-0" id="myTabContent">
 							<!---Keyword Search--->
-							<div class="tab-pane fade show active py-3 mx-sm-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
+							<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
 								<form id="searchForm">
-								<div class="col-12 pl-4 mt-2">
+								<div class="col-sm-12 col-md-11 col-lg-11 mt-2 pl-3">
+									<div class="row">
 										<div class="input-group mt-1">
-											<div class="input-group-btn col-md-3 col-sm-12 pl-2">
+											<div class="input-group-btn col-md-4 col-sm-12">
 												<label for="col-multi-select" class="sr-only">Collection</label>
 												<select class="dropdown-menu" name="col-multi-select" id="col-multi-select" multiple="multiple">
 													<cfloop query="collSearch">
@@ -114,7 +115,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												header: !0,
 												height: 175,
 												minWidth: "310px",
-												classes: "float-sm-left col-sm-12 mx-0 w-310",
+												classes: "float-sm-left col-sm-12 mx-0 w-350",
 												checkAllText: "Check all",
 												uncheckAllText: "Uncheck all",
 												noneSelectedText: "All Collections ",
@@ -128,17 +129,18 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												position: {}
 											});
 											</script>	
-											<div class="col-md-5 col-sm-12 pl-2">
+											<div class="col-sm-12 col-md-5 col-lg-5">
 												<label for="searchText" class="sr-only">Keyword input field </label>
-											<input id="searchText" type="text" class="has-clear form-control" name="searchText" placeholder="Search term" aria-label="search text"> 
+											<input id="searchText" type="text" class="form-control" name="searchText" placeholder="Search term" aria-label="search text"> 
 											</div>
 											
-											<div class="col input-group-btn pr-0">
+											<div class="col-sm-12 col-md-3 col-lg-3 input-group-btn">
 												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
-												<button class="btn btn-primary px-3 float-right mr-3" id="keySearch" type="submit" aria-label="Keyword Search submit">
-													Search MCZbase <i class="fa fa-search"></i>
+												<button class="btn btn-primary px-3 float-right w-100" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase">
+													Search <i class="fa fa-search"></i>
 												</button>
 											</div>
+										</div>
 										</div>
 									</div>
 									
@@ -147,11 +149,11 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							<!---Search Builder--->
 							<div class="tab-pane fade show py-3 mx-3" id="two" role="tabpanel" aria-label="tab 2">
 								<form id="searchForm2">
-									<div class="bg-0 col-sm-12 col-md-12 pl-2">
+									<div class="bg-0 col-sm-12 col-md-12 p-0">
 										<div class="input-group">
-											<div class="mt-1 col-md-12 col-sm-12" id="customFields">
-												<div class="row ml-0 mb-2">
-													<div class="mr-1 pr-1 border-0 mt-1">
+											<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
+												<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
+													<div class="col-md-3 col-sm-12 p-0 mx-1">
 														<label for="selectType" class="sr-only">Select type</label>
 														<select title="Select Type..." name="selectType" id="selectType" class="custom-select border d-flex">
 															<option>Select Type...</option>
@@ -334,9 +336,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 																<option>Specimen Remarks</option>
 															</optgroup>
 														</select>
-													
 													</div>
-													<div class="mr-1 pr-1 border-0 pl-0 mt-1">
+													<div class="col-md-2 col-sm-12 p-0 mx-1">
 														<label for="comparator" class="sr-only">Select Comparator</label>
 														<select title="Select Comparator..." name="comparator" id="comparator" class="custom-select border d-flex">
 															<option>Compare with...</option>
@@ -344,30 +345,24 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 															<option label="eq" value="eq">is</option>
 														</select>
 													</div>
-													<div class="mr-1 pr-1 border-0 mt-1">
+													<div class="col p-0 mx-1">
 														<label for="srchTxt" class="sr-only">Search Text</label>
 														<input type="text" class="form-control d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
 													</div>
-													<div class="mt-1">
-														<a aria-label="Add another set of search criteria" class="btn btn-primary addCF d-flex rounded py-1 px-2" style="margin: .15em;" target="_self" href="javascript:void(0);">Add</a>
+													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
+														<a aria-label="Add another set of search criteria" class="btn btn-primary addCF rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
-													
 												</div>
-												
 											</div>
-											<span class="float-right ml-auto">
-													<button class="btn btn-primary px-3 m-1 mr-3" aria-label="searchbuilder search" type="submit">
-														Search MCZbase <i class="fa fa-search"></i>
-													</button>
-													</span>
-											<div class="row col-12 justify-content-center ml-3 mt-3">
-												<button class="btn btn-secondary pr-2 m-1 ml-0" type="submit" aria-label="searchbuilder submit">Save to My Account <i class="fa fa-user-cog"></i></button>
-												<button class="btn btn-secondary p-2 m-1 ml-2" type="submit" aria-label="searchbuilder submit">Save to Custom Fixed Search <i class="fa fa-save"></i>
-												</button>
-											</div>
+												<span class="d-flex justify-content-center col-sm-12 px-1">
+												<button class="btn btn-primary p-2 m-1 ml-0" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
+												<button class="btn btn-primary p-2 m-1 ml-0" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
+												<button class="btn btn-primary p-2 m-1 ml-0" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
+												</span>
 										</div>
-									</div>
 							</div>
+									</div>
+							
 							<!---custom fixed search--->
 							<div class="tab-pane fade p-3 my-2" id="three" aria-label="tab 3">
 							<div class="container">
@@ -388,7 +383,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													header: !0,
 													height: 175,
 													minWidth: "300px",
-													classes: "col-sm-12 w-75 text-muted",
+													classes: "col-sm-12 text-muted",
 													checkAllText: "Check all",
 													uncheckAllText: "Uncheck all",
 													noneSelectedText: "All Collections ",
@@ -413,7 +408,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-group row">
 												<label for="otherID" class="col-sm-2 col-form-label">Other ID Type</label>
 												<div class="col-sm-10">
-													<select title="otherID" name="otherID" id="otherID" class="custom-select col-sm-12 w-50 text-muted border pl-2">
+													<select title="otherID" name="otherID" id="otherID" class="custom-select col-sm-12 text-muted border pl-2">
 														<option value="">Other ID Type</option>
 														<option value="Collector Number">Collector Number </option>
 														<option value="field number">Field Number</option>
@@ -472,13 +467,13 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									</div>
 										<div class="menu_results"> </div>
 								</form>
-							</div>
-							</div>
-		
 						</div>
 					</div>
+		
 				</div>
 			</div>
+		</div>
+	</div>
 		</div>
 	</div>
 		</div>
@@ -613,7 +608,7 @@ $(document).ready(function() {
 
 
 		$(document).ready(function () {
-			$(".jqxdatetimeinput").jqxDateTimeInput({ width: '250px', height: '25px', theme: 'summer' });
+			$(".jqxDateTimeInput").jqxDateTimeInput({ width: '250px', height: '25px', theme: 'summer' });
 		});
 
 		var editrow = -1;
@@ -964,8 +959,7 @@ $(document).ready(function() {
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
-	$(".addCF").click(function(){
-		$("##customFields").append('<tr class="rounded ml-0"><td class="mx-1 pr-1 border-0"><select title="Join Operator" name="JoinOperator" id="joinOperator" class="custom-select border mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select></td><td class="mx-1 pr-1 border-0"><select title="Select Type" name="SelectType" class="custom-select border d-flex"><option>Select Type...</option><optgroup label="Identifiers"><option>MCZ Catalog (Collection)</option><option>Catalog Number</option><option>Number plus other identifiers?</option><option>Other Identifier Type</option><option>Accession</option><option>Accession Agency</option></optgroup><optgroup label="Taxonomy"><option>Any Taxonomic Element</option><option>Scientific Name</option><option>Genus</option><option>Subgenus</option><option>Species</option><option>Subspecies</option><option>Author Text</option><option>Infraspecific Author Text</option><option>Class</option><option>Superclass</option><option>Subclass</option><option>Order</option><option>Superorder</option><option>Suborder</option><option>Infraorder</option><option>Family</option><option>Superfamily</option><option>Subfamily</option><option>Tribe</option><option>Authority</option><option>Taxon Status</option><option>Nomenclatural Code</option><option>Common Name</option></optgroup><optgroup label="Locality"><option>Any Geographic Element</option><option>Continent/Ocean</option><option>Ocean Region</option><option>Ocean Subregion</option><option>Country</option><option>State/Province</option><option>County</option><option>Island Group</option><option>Island</option><option>Land Feature</option><option>Water Feature</option><option>Specific Locality</option><option>Elevation</option><option>Depth</option><option>Verification Status</option><option>Maximum Uncertainty</option><option>Quad</option><option>Geology Attribute</option><option>Geog Auth Rec ID</option><option>Locality Remarks</option></optgroup><optgroup label="Collecting Event"><option>Verbatim Locality</option><option>Began Date</option><option>Ended Date</option><option>Verbatim Date</option><option>Verbatim Coordinates</option><option>Collecting Method</option><option>Collecting Event Remarks</option><option>Verbatim Coordinate System</option><option>Habitat</option><option>Collecting Source</option><option>Verbatim SRS (Datum)</option><option>Collecting Event ID</option></optgroup><optgroup label="Media"><option>Any Media Type</option><option>Image</option><option>Audible</option><option>Video</option><option>Spectrometer Data</option><option>Media URI</option><option>Any Media Relationship</option><option>Created By Agent</option><option>Document for Permit</option><option>Document for Loan</option><option>Shows Accession</option><option>Shows Borrows</option><option>Shows Cataloged Items</option><option>Shows Collecting Event</option><option>Shows Deaccession</option><option>Shows Locality</option><option>Shows Permit</option><option>Shows Project</option><option>Shows Publication</option><option>Any Media Label</option><option>Aspect</option><option>Credit</option><option>Description</option><option>Height</option><option>Internal Remarks</option><option>Light Source</option><option>Made Date</option><option>md5hash</option><option>Original Filename</option><option>Owner</option><option>Remarks</option><option>Spectrometer</option><option>Spectrometer Reading Location</option><option>Subject</option><option>Width</option></optgroup><optgroup label="Publications"><option>Any Publication</option><option>Title</option><option>Participant/Agent</option><option>Year</option><option>Publication Type</option><option>Journal Name</option><option>Cites Collection</option><option>Cites Specimens</option><option>Accepted Scientific Name</option><option>Peer Reviewed Only?</option></optgroup></td><td class="mx-1 pr-1 border-0"><select title="Comparator" name="comparator" id="comparator" class="custom-select d-flex border"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></td>><td class="mx-1 pr-1 border-0"><input type="text" class="form-control d-flex enter-search mx-0" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/></td><td class="border-0 mx-1 pr-1 py-2"><button href="javascript:void(0);" arial-label="remove" class="rounded btn btn-secondary remCF px-2 py-1">Remove</button></td></td></tr>');
+	$(".addCF").click(function(){$("##customFields").append('<ul class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2"><select title="Join Operator" name="JoinOperator" id="joinOperator" class="custom-select border mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select></li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2"><select title="Select Type" name="SelectType" class="custom-select border d-flex"><option>Select Type...</option><optgroup label="Identifiers"><option>MCZ Catalog (Collection)</option><option>Catalog Number</option><option>Number plus other identifiers?</option><option>Other Identifier Type</option><option>Accession</option><option>Accession Agency</option></optgroup><optgroup label="Taxonomy"><option>Any Taxonomic Element</option><option>Scientific Name</option><option>Began Date</option><option>Ended Date</option></optgroup></select></li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2"><select title="Comparator" name="comparator" id="comparator" class="custom-select d-flex border"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></li><li class="col d-inline mr-2 px-0"><input type="text" class="form-control" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/></li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end"><button href="javascript:void(0);" arial-label="remove" class="rounded btn btn-primary remCF mr-auto">Remove</button></li></ul>');
 		});
 	$("##customFields").on('click','.remCF',function(){
 		$(this).parent().parent().remove();
@@ -974,18 +968,18 @@ $(document).ready(function(){
 </script>
 <script>
 //// script for DatePicker
-$(function() {
-	$("##began_date").datepicker({
-		dateFormat: "yy-mm-dd",
-		changeMonth: true,
-		changeYear: true
-	}).val()
-	$("##ended_date").datepicker({
-		dateFormat: "yy-mm-dd",
-		changeMonth: true,
-		changeYear: true
-	}).val()
-});
+//$(function() {
+//	$("##began_date").datepicker({
+//		dateFormat: "yy-mm-dd",
+//		changeMonth: true,
+//		changeYear: true
+//	}).val()
+//	$("##ended_date").datepicker({
+//		dateFormat: "yy-mm-dd",
+//		changeMonth: true,
+//		changeYear: true
+//	}).val()
+//});
 
 function saveSearch(returnURL){
 	var sName=prompt("Name this search", "my search");
@@ -1009,14 +1003,131 @@ function saveSearch(returnURL){
 	}
 }
 
-	$(document).ready(function () {
-    $('input:checkbox').on('keypress', function (event) {
-        if (event.which == 13) {
-            $(this).prop('checked', !$(this).prop('checked'));
-        }
-    });
-});
+
+</script>
+<script>
+
+var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+	showRightPush = document.getElementById( 'showRightPush' ),
+	menuLeft = document.getElementById( 'cbp-spmenu-s3' ),
+	showLeftPush = document.getElementById( 'showLeftPush' ),
+	body = document.body;
+
+    showRightPush.onclick = function() {
+	classie.toggle( this, 'active' );
+	classie.toggle( body, 'cbp-spmenu-push-toleft' );
+	classie.toggle( menuRight, 'cbp-spmenu-open' );
+	
+	disableOther( 'showRightPush' );
+    };
+		
+	showLeftPush.onclick = function() {
+		classie.toggle( this, 'active' );
+		classie.toggle( body, 'cbp-spmenu-push-toright');
+		classie.toggle( menuLeft, 'cbp-spmenu-open' );
+		disableOther( 'showLeftPush' );
+	};
+	
+	function disableOther( button ) {
+	if( button !== 'showLeftPush' ) {
+		classie.toggle( showLeftPush, 'disabled' );
+	}
+	if( button !== 'showRightPush' ) {
+		classie.toggle( showRightPush, 'disabled' );
+	}
+}
+/*!
+ * classie - class helper functions
+ * from bonzo https://github.com/ded/bonzo
+ * 
+ * classie.has( elem, 'my-class' ) -> true/false
+ * classie.add( elem, 'my-new-class' )
+ * classie.remove( elem, 'my-unwanted-class' )
+ * classie.toggle( elem, 'my-class' )
+ */
+/*jshint browser: true, strict: true, undef: true */
+
+( function( window ) {
+
+'use strict';
+
+// class helper functions from bonzo https://github.com/ded/bonzo
+
+function classReg( className ) {
+  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+}
+
+// classList support for class management
+// altho to be fair, the api sucks because it won't accept multiple classes at once
+var hasClass, addClass, removeClass;
+
+if ( 'classList' in document.documentElement ) {
+  hasClass = function( elem, c ) {
+    return elem.classList.contains( c );
+  };
+  addClass = function( elem, c ) {
+    elem.classList.add( c );
+  };
+  removeClass = function( elem, c ) {
+    elem.classList.remove( c );
+  };
+}
+else {
+  hasClass = function( elem, c ) {
+    return classReg( c ).test( elem.className );
+  };
+  addClass = function( elem, c ) {
+    if ( !hasClass( elem, c ) ) {
+      elem.className = elem.className + ' ' + c;
+    }
+  };
+  removeClass = function( elem, c ) {
+    elem.className = elem.className.replace( classReg( c ), ' ' );
+  };
+}
+
+function toggleClass( elem, c ) {
+  var fn = hasClass( elem, c ) ? removeClass : addClass;
+  fn( elem, c );
+}
+
+window.classie = {
+  // full names
+  hasClass: hasClass,
+  addClass: addClass,
+  removeClass: removeClass,
+  toggleClass: toggleClass,
+  // short names
+  has: hasClass,
+  add: addClass,
+  remove: removeClass,
+  toggle: toggleClass
+};
+
+})( window );
 </script>
 
+<script>
+//var navButton = document.querySelector('nav a');
+//navButton.addEventListener('click', function() {
+//    let expanded = this.getAttribute('aria-expanded') === 'true' || false;
+//    this.setAttribute('aria-expanded', !expanded);
+//    let menu = this.nextElementSibling;
+//    menu.hidden = !menu.hidden;
+//});
+
+
+this.button.addEventListener('keydown', function (e) {
+    if (e.keyCode === 40) {
+        this.open();
+    }
+}.bind(this));
+	
+document.onkeydown = function(e) {
+  if(e.keyCode === 13) { // The Enter/Return key
+    document.activeElement.onclick(e);
+  }
+};
+</script>
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">

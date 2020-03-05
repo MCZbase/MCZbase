@@ -1205,29 +1205,37 @@ limitations under the License.
 			<cfif oneOfUs is 1>
 				<!---  <span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>--->
 			</cfif>
+			
+		
+  
+  
 			<table class="table table-striped table-bordered table-hovered table-responsive-md table-responsive-sm mb-0">
-				<tr>
-					<th scope="col"><span class="innerDetailLabel">Part Name</span></th>
-					<th scope="col"><span class="innerDetailLabel">Condition</span></th>
-					<th scope="col"><span class="innerDetailLabel">Disposition</span></th>
-					<th scope="col"><span class="innerDetailLabel">##</span></th>
+					<cfloop query="rparts">
+				<thead role="rowgroup">
+				  <tr role="row">
+					<th scope="col" role="columnheader"><span class="innerDetailLabel">Part Name</span></th>
+					<th scope="col" role="columnheader"><span class="innerDetailLabel">Condition</span></th>
+					<th scope="col" role="columnheader"><span class="innerDetailLabel">Disposition</span></th>
+					<th scope="col" role="columnheader"><span class="innerDetailLabel">##</span></th>
 					<cfif oneOfus is "1">
-						<th scope="col"><span class="innerDetailLabel">Container Name</span></th>
+						<th scope="col" role="columnheader"><span class="innerDetailLabel">Container Name</span></th>
 					</cfif>
-					<th scope="col"><span class="innerDetailLabel">Remarks</span></th>
+					  <th scope="col" role="columnheader"><span class="innerDetailLabel">Remarks</span></th>
 				</tr>
-				<cfloop query="mPart">
-					<tr>
-						<td class="inside">#part_name#</td>
-						<td class="inside">#part_condition#</td>
-						<td class="inside">#part_disposition#</td>
-						<td class="inside">#lot_count#</td>
+				</thead>
+				<tbody role="rowgroup">
+					<tr role="row">
+					
+						<td class="inside" role="cell">#part_name#</td>
+						<td class="inside" role="cell">#part_condition#</td>
+						<td class="inside" role="cell">#part_disposition#</td>
+						<td class="inside" role="cell">#lot_count#</td>
 						<cfif oneOfus is 1>
-							<td class="inside">#label#</td>
+							<td class="inside" role="cell">#label#</td>
 						</cfif>
-						<td class="inside">#part_remarks#</td>
-					</tr>
-					<cfquery name="patt" dbtype="query">
+						<td class="inside" role="cell">#part_remarks#</td>
+			
+<!---					<cfquery name="patt" dbtype="query">
 						SELECT
 							attribute_type,
 							attribute_value,
@@ -1247,10 +1255,11 @@ limitations under the License.
 							determined_date,
 							attribute_remark,
 							agent_name
-					</cfquery>
-					<cfif patt.recordcount gt 0>
-						<tr>
-							<td colspan="6"><cfloop query="patt">
+					</cfquery>--->
+<!---					<cfif patt.recordcount gt 0>
+					
+							<td colspan="6">
+								<cfloop query="patt">
 									<div style="font-size: 12px;font-weight: 400;"> #attribute_type#=#attribute_value# &nbsp;&nbsp;&nbsp;&nbsp;
 										<cfif len(attribute_units) gt 0>
 											#attribute_units# &nbsp;&nbsp;&nbsp;&nbsp;
@@ -1265,27 +1274,29 @@ limitations under the License.
 											remark=#attribute_remark# &nbsp;&nbsp;&nbsp;&nbsp;
 										</cfif>
 									</div>
-								</cfloop></td>
-						</tr>
-						<!---/cfloop--->
-					</cfif>
-					<cfquery name="sPart" dbtype="query">
+								</cfloop>
+							</td>
+					</cfif>--->
+				<!---	<cfquery name="sPart" dbtype="query">
 								select * from parts 
 								where sampled_from_obj_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_DECIMAL">
 							</cfquery>
 					<cfloop query="sPart">
-						<tr>
-							<td><span>#part_name# subsample</span></td>
-							<td>#part_condition#</td>
-							<td>#part_disposition#</td>
-							<td>#lot_count#</td>
+						
+							<td role="cell"><span>#part_name# subsample</span></td>
+							<td role="cell">#part_condition#</td>
+							<td role="cell">#part_disposition#</td>
+							<td role="cell">#lot_count#</td>
 							<cfif oneOfus is 1>
 								<td>#label#</td>
 							</cfif>
-							<td>#part_remarks#</td>
-						</tr>
-					</cfloop>
-				</cfloop>
+							<td role="cell">#part_remarks#</td>
+					
+					</cfloop>--->
+			
+			</tr>		
+			</tbody>
+							</cfloop>
 			</table>
 		</cfif>
 		</div>
