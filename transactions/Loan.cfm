@@ -307,6 +307,16 @@ limitations under the License.
 								<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm" rows="2" cols="80"></textarea>
 							</div>
 						</div>
+						<div class="form-row mb-2" id="insurance_section">
+							<div class="col-md-6">
+ 		   					<label for="insurance_value">Insurance value</label>
+								<input type="text" name="insurance_value" id="insurance_value" value="" class="form-control form-control-sm">
+							</div>
+							<div class="col-md-6">
+		   					<label for="insurance_maintained_by">Insurance Maintained By</label>
+		   					<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="form-control form-control-sm">
+							</div>
+						</div>
 						<script>
 						function autogrow (event) {
 							$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
@@ -322,16 +332,6 @@ limitations under the License.
 						// apply the above to all textareas currently defined.
 						$("textarea").keyup(autogrow);  
 						</script>
-						<div class="form-row mb-2" id="insurance_section">
-							<div class="col-md-6">
- 		   					<label for="insurance_value">Insurance value</label>
-								<input type="text" name="insurance_value" id="insurance_value" value="" class="form-control form-control-sm">
-							</div>
-							<div class="col-md-6">
-		   					<label for="insurance_maintained_by">Insurance Maintained By</label>
-		   					<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="form-control form-control-sm">
-							</div>
-						</div>
 						<div class="form-row my-2">
 							<div class="ml-auto">
 								<input type="button" value="Create Loan" class="insBtn"
