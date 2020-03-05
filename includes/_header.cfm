@@ -290,7 +290,7 @@ limitations under the License.
 		<cfif gtp EQ '/errors/forbidden.cfm'>
 			<cfset gtp = "/UserProfile.cfm">
 		</cfif>
-				<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 357px;">
+				<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 470px;">
 					<input type="hidden" name="action" value="signIn">
 					<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
 					<input type="hidden" name="gotopage" value="#gtp#">
