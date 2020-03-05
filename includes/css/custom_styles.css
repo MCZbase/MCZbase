@@ -1,9 +1,6 @@
 /** This file contains Various local style customizations **/
 /************************/
-/** Styling of Required fields on forms **/
-input.reqdClr, select.reqdClr, textarea.reqdClr {
-   background-color: #E4E476;
-}
+
 /************************
 *************************
 GENERIC STYLES to override
@@ -18,12 +15,11 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 500;
 }
 p, dl, ol, ul {
-/*	font-size: .9rem;*/
 	margin-top: 0;
 	margin-bottom: 1rem;
 }
 h1, .h1 {
-	font-size: 1.35rem;
+	font-size: 1.35em;
 	margin-bottom: 1em;
 }
 .dropdown-item.active, .dropdown-item:active,.dropdown-item>a:active {
@@ -45,16 +41,16 @@ h2, .h2 {
 	font-size: 1.5em;
 }
 h3, .h3 {
-	font-size: 1.25rem
+	font-size: 1.25em
 }
 h4, .h4 {
-	font-size: 1rem
+	font-size: 1em
 }
 h5, .h5 {
-	font-size: .875rem
+	font-size: .875em
 }
 h6, .h6 {
-	font-size: .75rem
+	font-size: .75em
 }
 p {
 	margin-bottom: .75em;
@@ -69,9 +65,6 @@ p {
 	width: 0;
 	overflow: hidden;
 }
-.branding-container {
-	background-color: #1b1b1b;
-}
 form input.anchor-button {
 	background-color: white;
 	border: none;
@@ -79,7 +72,7 @@ form input.anchor-button {
 	color: #16181b;
 	text-align: left;
 	padding: .65em 1.12em;
-	margin:0 0;
+	margin: 0;
 }
 form input.anchor-button:hover {
 	border: none;
@@ -88,13 +81,14 @@ form input.anchor-button:hover {
     background-color: #f8f9fa;
 }
 label {margin-bottom: 0.25em;}
-
+/** Styling of Required fields on forms **/
+input.reqdClr, select.reqdClr, textarea.reqdClr {
+   background-color: #E4E476;
+}
 .border {
-/*	border-color: #bac5c6;
-	border-width: 1px;
-	border-style: solid;*/
 	border: 1px solid #bac5c6 !important; 
 }
+
 /*************************/
 /*************************/
 /*************************/
@@ -119,7 +113,9 @@ label {margin-bottom: 0.25em;}
 	border: 1px solid #666;
 }
 a {color: #0078bf}
-
+.branding-container {
+	background-color: #1b1b1b;
+}
 /* ABOVE: Color override */
 /*************************/
 .col-md-half {
@@ -161,7 +157,6 @@ button.ui-multiselect.ui-state-default {
 	border-color: #bac5c6;
 	background-color: white;
 }
-
 button.ui-multiselect.ui-state-active {
 	color: #333;
 	border: 1px solid #bac5c6;
@@ -180,9 +175,9 @@ span.ui-icon {
 	color: #555;
 	margin-top: 1px;
 }
-.ui-state-active .ui-icon, .ui-button:active .ui-icon {
-	background-image: url(../images/ui-icons_444444_256x240.png);
-}
+/*.ui-state-active .ui-icon, .ui-button:active .ui-icon {
+	background-image: url(images/ui-icons_444444_256x240.png);
+}*/
 /* ABOVE: override for collection dropdown (JQuery) taken from Arctos*/
 /*************************/
 /*************************/
@@ -224,7 +219,7 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 	padding: 0;
 	margin: 0;
 }
-/*.branding-container {
+.branding-container {
 	background-color: #1b1b1b;
 	font-family: Verdana, Arial, Helvetica, sans-serif!important;
 	font-size: smaller;
@@ -232,15 +227,19 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 	color: white;
 	width: 100%;
 	margin: 0 auto;
-}*/
+}
 .branding-left {
 	float: left;
-	margin: 0 0 0 15px;
+	margin: 8px 0 0 15px;
+	position: relative;
+	z-index: 1;
+	height: 20px;
 }
 .branding-right {
 	float: right;
 	line-height: 38px;
-	margin: 0 15px 0 0;
+	margin: 0 15px -3px 0;
+	text-transform: uppercase;
 }
 .branding-right a {
 	color: white;
@@ -258,7 +257,7 @@ a.navbar-brand div {
 	font-weight: 700;
 	display: inline;
 	font-size: 22px;
-	vertical-align: middle
+	vertical-align: middle;
 }
 .mcz {
 	font-size: 1.5em;
@@ -266,6 +265,8 @@ a.navbar-brand div {
 .mcz2 {
 	list-style: none;
 	font-family: Constantia, 'Lucida Bright', 'DejaVu Serif', Georgia, 'serif';
+	font-size: .9em;
+	letter-spacing: .02em;
 }
 nav .mcz2 a {
 	color: white;
@@ -274,6 +275,11 @@ nav .mczbase a:hover {
 	color: white;
 	text-decoration: none;
 }
+.mcz-center {
+	justify-content: center;
+	padding-top: 1em;
+	text-align: center;
+}
 .mcz_logo_krono {
 	padding-left: 1em;
 	margin-left: 0;
@@ -281,13 +287,13 @@ nav .mczbase a:hover {
 .fas {
 	width: 32px;
 }
-/*.accn-icons {
+.accn-icons {
 	float: right;
 	margin-top: 0;
 }
 .accn-icons a{
 	padding: 1px .5em;
-}*/
+}
 /************************
 ABOVE: HEADER STYLES
 *************************
@@ -328,13 +334,11 @@ nav button {
 	color: #1b1b1b;
 	border: 1px solid #666;
 }
-
 .btn-primary:hover {
 	background-color: #ffdb06; 
   	color: #1b1b1b;
 	border: 1px solid #666;
 }
-
 .btn-primary:focus, .btn-primary.focus {
 	background-color: #ffdb06; 
   	color: #1b1b1b;
@@ -470,14 +474,12 @@ li.pid {
 	background-color: #DEEBEC;
 	padding: .1rem 1.25rem;
 }
-.card {
-	border: 1px solid #7889a4;
-}
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;
 }
 .card {
+	border: 1px solid #7889a4;
 	background-color: transparent;
 }
 li.list-group-item.thethumbs {
@@ -507,7 +509,6 @@ override Bootstrap styles
 table#POITable {
 	display: block;
 	border: none;
-/*	width: 100%;*/
 }
 #POITable select option {
 	font-size: 12px;
@@ -637,7 +638,7 @@ section a#showLeftPush {
 	right: 0px;
 	border-left: 1px solid #ccc;
 	padding-right: 3px;
-	    transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 .cbp-spmenu, .cbp-spmenu-push {
 	-webkit-transition: all 0.3s ease;
@@ -771,12 +772,10 @@ body {
 body > .container {
   padding: 60px 15px 0;
 }
-
 .footer > .container {
   padding-right: 15px;
   padding-left: 15px;
 }
-
 code {
   font-size: 80%;
 }
@@ -845,7 +844,7 @@ override Bootstrap styles
 .ui-dialog .ui-dialog-titlebar-close {
 	background-color: white;
     /* TODO: Remove fixed reference to mczbase-dev *************************************** */
-	background-image: url(https://mczbase-dev.rc.fas.harvard.edu/includes/images/close.png);
+	background-image: url("lib/JQWidgets/images/close_window-26.png");
 	background-repeat: no-repeat;
 	background-size: 16px;
 	border: 2px solid white;
@@ -882,10 +881,6 @@ input.text {
 	width: 95%;
 	padding: .4em;
 }
-/*h1 {
-	font-size: 1.2em;
-	margin: .6em 0;
-}*/
 div#users-contain {
 	width: 350px;
 	margin: 20px 0;
@@ -902,10 +897,6 @@ div#users-contain table td, div#users-contain table th {
 }
 .ui-dialog .ui-state-error {
 	padding: .3em;
-}
-.validateTips {
-	border: 1px solid transparent;
-	padding: 0.3em;
 }
 button#save.white_bk {
 	background-color: white;
@@ -1034,13 +1025,11 @@ table.inputTable tr {
 	min-height: 11em;
 }
 .input-group-text {
-	background-color: #dddddd;
 	background-color: #BAC5C6;
 }
 #formLogin {
 	right: 0;
 	width: auto;
-
 }
 #accountSettings {
 	right: 0;
@@ -1057,7 +1046,7 @@ table.inputTable tr {
 	padding-top: .6em;
 	padding-bottom: .6em;
 	margin-right: -3px;
-	z-index: 1050
+	z-index: 1050;
 }
 .ui-icon.ui-icon-triangle-2-n-s {
 	background-position: -124px -16px;
@@ -1112,7 +1101,6 @@ select {
 	border: 1px solid #ccc;
 }
 /* Tabs Card */
-
 .tab-card {
 	border: 1px solid #eee;
 	border-radius: 8px;
@@ -1142,7 +1130,6 @@ select {
 }
 .tab-card-header > .nav-tabs > li > a {
 	border: 0;
-	/*border-bottom: 2px solid transparent;*/
 	margin-right: 0;
 	color: #555;
 	padding: 10px 15px;
@@ -1228,7 +1215,7 @@ ul.checks li {
 	width: 90px;
 	float: left;
 	display: inline;
-	padding: 0px;
+	padding: 0;
 	padding-top: 0;
 }
 ul.checks li input {
@@ -1343,15 +1330,10 @@ thead tr {
 	top: -9999px;
 	left: -9999px;
 }
-/*tr {
-	border: 1px solid #ccc;
-}*/
 td {
 	border: none;
 	border-bottom: 1px solid #eee;
 	position: relative;
-/*	padding-left: 200px;*/
-/*	margin-left: 150px;*/
 }
 td:before {
 	position: absolute;
@@ -1384,8 +1366,8 @@ h1 {
 
 @media (min-width:1060px) and (max-width: 1459px) {
 .mcz2 {
-/*	font-size: .9em;
-	letter-spacing: 0;*/
+	font-size: .9em;
+	letter-spacing: 0;
 }
 .mcz-center {
 	justify-content: center;
@@ -1395,7 +1377,7 @@ h1 {
 
 @media (min-width:768px) and (max-width: 1059px) {
 .mcz2 {
-/*	font-size: .8em;*/
+	font-size: .8em;
 }
 .card_search {
 	padding-right: 0em;
@@ -1420,19 +1402,11 @@ h1 {
 }
 }
 
-@media (min-width: 978px) {
-/*.navbar-nav li:first-child {
-	margin-left: 100px;
-}*/
-}
-
 @media(min-width:768px) {
 .col-md-1 {
 	width: 30px;
 }
 .footer-col-4-md {
-/*	width: 36%;
-	max-width: 41%;*/
 	margin: 0 auto;
 }
 .hide_button {
@@ -1449,7 +1423,7 @@ img.mcz_logo_krono {
 	margin-left: 1.75em;
 }
 .mcz2 {
-/*	font-size: .9em;*/
+	font-size: .9em;
 	width: 100%;
 	padding-bottom: .1em;
 }
@@ -1467,8 +1441,8 @@ img.mcz_logo_krono {
 	color: white;
 	text-decoration: none;
 }
-/*.w-300 {width: 300px;}
-.w-310 {width: 310px;}*/
+.w-300 {width: 300px;}
+.w-310 {width: 310px;}
 img.mcz_logo_krono {
 	display: block;
 }
@@ -1485,9 +1459,6 @@ img.mcz_logo_krono {
 	widows: 1;
 	column-span: all;
 }
-/*.col-sm-6 {
-	padding-right: 0;
-}*/
 .mcz {
 	font-size: 1.5em;
 	opacity: .9;
@@ -1507,22 +1478,11 @@ img.mcz_logo_krono {
 }
 }
 
-
-
 @media(max-width:1024px){
-	
 	.mcz_logo_krono {
 		display: none;
 	}	
 	.mczbase a {
 		color: white;
-	}
-/*	.navbar {
-		display:block;
-	}*/
-	
+	}	
 }
-
-
-
-
