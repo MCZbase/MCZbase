@@ -113,8 +113,8 @@ limitations under the License.
 	<cfoutput>
 	<div class="container-fluid form-div">
 		<div class="container">
-			<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
-				<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
+			<h2 class="wikilink m-0" >Create New Loan
+				<img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 			</h2>
 			<div class="form-row mb-2">
 				<div class="col-sm-8 mr-4">
