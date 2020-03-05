@@ -1,4 +1,7 @@
 <cfset pageTitle = "Loan Management">
+<cfif isdefined("action") AND action EQ 'newLoan'>
+	<cfset pageTitle = "Create New Loan">
+</cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
 <cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
@@ -117,7 +120,7 @@ limitations under the License.
 				<img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 			</h2>
 			<div class="form-row mb-2">
-				<div class="col-sm-8 mr-4">
+				<div class="col-sm-8">
 					<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row mb-2">
@@ -273,37 +276,52 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label for="initiating_date">Transaction Date</label>
-								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100">
+								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm">
 							</div>
 							<div class="col-12 col-md-6">
 								<label for="return_due_date">Return Due Date</label>
-								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100" >
+								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm" >
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-sm-12 col-md-12">
 								<label for="nature_of_material">Nature of Material</label>
-								<textarea name="nature_of_material" id="nature_of_material" rows="3" cols="80" class="reqdClr form-control form-control-sm" required ></textarea>
+								<textarea name="nature_of_material" id="nature_of_material" rows="2" cols="80" class="reqdClr form-control form-control-sm" required ></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-sm-12 col-md-12">
 								<label for="loan_description">Description</label>
-								<textarea name="loan_description" id="loan_description" class="form-control-sm form-control" rows="3" cols="80"></textarea>
+								<textarea name="loan_description" id="loan_description" class="form-control-sm form-control" rows="2" cols="80"></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-sm-12 col-md-12">
 								<label for="loan_instructions">Loan Instructions</label>
-								<textarea name="loan_instructions" id="loan_instructions" rows="3" cols="80" class="form-control form-control-sm"></textarea>
+								<textarea name="loan_instructions" id="loan_instructions" rows="2" cols="80" class="form-control form-control-sm"></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-sm-12 col-md-12">
 								<label for="trans_remarks">Internal Remarks</label>
-								<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm" rows="3" cols="80"></textarea>
+								<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm" rows="2" cols="80"></textarea>
 							</div>
 						</div>
+						<script>
+						function autogrow (event) {
+							$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
+							while($(this).outerHeight() < this.scrollHeight +
+										parseFloat($(this).css("borderTopWidth")) +
+										parseFloat($(this).css("borderBottomWidth"))) 
+							{
+								// increase the height until the text fits into the scroll bar height, taking borders into account.
+								$(this).height($(this).height()+1);
+							}
+							$(this).css('overflow-y','auto');
+						};
+						// apply the above to all textareas currently defined.
+						$("textarea").keyup(autogrow);  
+						</script>
 						<div class="form-row mb-2" id="insurance_section">
 							<div class="col-md-6">
  		   					<label for="insurance_value">Insurance value</label>
@@ -351,7 +369,7 @@ limitations under the License.
                </script>
 				</div>
 		
-			<div class="coll-sm-4"> <!--- Begin next available number list --->
+			<div class="coll-sm-4 ml-sm-4"> <!--- Begin next available number list, ml-sm-4 to provide offset from column above holding form. --->
 					<div id="nextNumDiv" class="border border-primary p-md-2">
 						<h3>Next Available Loan Number:</h3>
 						<!--- Find list of all non-observational collections --->
