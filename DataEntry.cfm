@@ -18,39 +18,577 @@ limitations under the License.
 
 -->
 <cfinclude template = "/includes/_header.cfm">
+
+<style>
+
+</style>
 <cfoutput>
-	<div class="container-fluid">
-		
-		<div class="row px-4">
-			<div class="col-md-12">
-			<h2>Enter a New Record</h2>
+<div class="container-fluid">
+	<div  class="row col-sm-12 col-md-12 col-xl-12 justify-content-left mt-2">
+		<form id="regFormAll" action="/DataEntry.cfm">
+			<!-- One "tab" for each step in the form: -->
+			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
+			<div class="tab2 float-left col-lg-6 col-md-6 col-sm-12 col-12 border py-2 pb-4 my-2 rounded">
+				<h2 class="fs-title text-center">Record Numbers</h2>
+				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
+				<div class="form-group mb-0 row">
+					<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
+					<div class="col-sm-9">
+						<p>
+							<input placeholder="Catalog Number" class="form-control form-control-sm validate" oninput="this.className = ''" name="cat_num">
+						</p>
+					</div>
+				</div>
+				<div class="form-group row mb-1">
+					<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
+					<div class="col-sm-4 col-md-4">
+						<select class="custom-select1 form-control input-xs border" oninput="this.className = ''" mt-0 required>
+							<option value="">Other ID Type</option>
+							<option value="1">Field Number</option>
+							<option value="2">Collector Number</option>
+							<option value="3">Previous Number</option>
+						</select>
+					</div>
+					<div class="col-sm-5">
+						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Mask Record</label>
+					<div class="col-sm-9 col-md-9 text-left">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
+							<label class="form-check-label w-auto mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="relations" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other Records</label>
+					<div class="col-sm-4 col-md-4 text-left">
+						<select class="custom-select1 form-control input-xs border">
+							<option value="">Relationship Type</option>
+							<option value="1">Re-Cataloged as</option>
+							<option value="2">Bad Duplicate of</option>
+							<option value="3">Cloned from Record</option>
+							<option value="4">Duplicate Recataloged as</option>
+						</select>
+					</div>
+					<div class="col-sm-5">
+						<input type="text" class="form-control form-control-sm"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
+					</div>
+				</div>
 			</div>
-			<div class="col-md-5 mh-40p border rounded p-3 m-3">Catalog Numbers</div>
-			<div class="col-md-5 mh-40p border rounded p-3 m-3">Accession</div>
-			<div class="col-md-5 mh-40p border rounded p-3 m-3">Other IDs</div>
-			<div class="col-md-5 mh-40p border rounded p-3 m-3">Collector</div>
-			<div class="col-md-5 mh-40p border rounded p-3 m-3">Catalog Numbers</div>
-			<div class="col-md-5 mh-40p border rounded p-3 m-3">Accession</div>
-			<div class="col-md-5 mh-40p border rounded p-3 m-3">Other IDs</div>
-			<div class="col-md-5 mh-40p border rounded p-3 m-3">Collector</div>
-		</div>
-		
-		<div class="row px-4 my-3">
-			<div class="col-md-1 border rounded p-2 m-2 text-center">Reset Form</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 1</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 2</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 3</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 4</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 5</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 6</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 7</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 8</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 9</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step10</div>
-			<div class="col-md-half border rounded p-2 m-2 text-center">Step 11</div>
-			<div class="col-md-1 border rounded p-2 m-2 text-center">See Inputs</div>
-		</div>
-	</div>	
+			<div class="tab2 float-left col-lg-6 col-md-6 col-sm-12 col-12 border py-2 pb-4 my-2 rounded">
+				<h2 class="fs-title text-center">Collector/Preparator</h2>
+				<h3 class="fs-subtitle text-center">This is step 2</h3>
+				<div class="form-group row my-0">
+					<label for="collector1" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select1 border form-control-sm input-xs mt-0 validate">
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control form-control-sm validate" id="collector1" placeholder="Agent Name">
+					</div>
+				</div>
+				<div class="form-group row my-0">
+					<label for="collector2" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select1 form-control-sm input-xs border mt-0" style="font-size: 14px;">
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control form-control-sm" id="collector2" placeholder="Agent Name">
+					</div>
+				</div>
+				<div class="form-group row my-1">
+					<label for="collector3" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select1 form-control-sm input-xs border mt-0" required>
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control form-control-sm" id="collector3" placeholder="Agent Name">
+					</div>
+				</div>
+				<div class="form-group row my-1">
+					<label for="collector4" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select1 form-control-sm input-xs border mt-0" required >
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control form-control-sm" id="collector4" placeholder="Agent Name">
+					</div>
+				</div>
+				<div class="form-group row my-1">
+					<label for="collector5" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select1 form-control-sm input-xs border mt-0">
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control form-control-sm" id="collector5" placeholder="Agent Name">
+					</div>
+				</div>
+			</div>
+			<div class="tab2 float-left col-lg-6 col-md-6 col-sm-12 col-12 border py-2 pb-4 my-2 rounded">
+				<h2 class="fs-title text-center">Scientific Name</h2>
+				<h3 class="fs-subtitle text-center">This is step 3</h3>
+				<div class="form-group row mb-0">
+					<label for="scientific_name" class="col-sm-3 col-form-label text-center text-md-right">Scientific Name</label>
+					<div class="col-sm-9">
+						<input type="text" name="scientific_name" class="form-control form-control-sm" placeholder="Scientific Name" />
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="made_by" class="col-sm-3 col-form-label text-center text-md-right">ID Made By</label>
+					<div class="col-sm-9">
+						<input type="text" name="made_by" class="form-control form-control-sm" placeholder="Identifier's Name" />
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="nature_of_id" class="col-sm-3 col-form-label text-center text-md-right">Nature of ID</label>
+					<div class="col-sm-4">
+						<select class="custom-select1 form-control-sm input-xs border form-control" required>
+							<option value="">Expert ID</option>
+							<option value="1">Field ID</option>
+							<option value="2">Non-Expert ID</option>
+							<option value="3">Curatorial ID</option>
+						</select>
+					</div>
+					<div class="col-sm-5">
+						<input type="text" name="made_by_date" class="form-control form-control-sm" placeholder="Date of ID" />
+					</div>
+				</div>
+				<div class="form-group row my-0">
+					<label for="id_remark" class="col-sm-3 col-form-label text-center text-md-right">ID Remark</label>
+					<div class="col-sm-9">
+						<textarea type="text" name="id_remark" class="form-control form-control-sm" placeholder="ID remark"/>
+						</textarea>
+					</div>
+				</div>
+			</div>
+			<div class="tab2 float-left col-lg-6 col-md-6 col-sm-12 col-12  border py-2 pb-4 my-2 rounded">
+				<h2 class="fs-title text-center">Locality</h2>
+				<h3 class="fs-subtitle text-center">This is step 4</h3>
+				<div class="form-group mb-0 row">
+					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Higher Geography</label>
+					<div class="col-sm-9">
+						<input type="text" name="higher_geog" class="form-control form-control-sm" placeholder="Higher Geography" />
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Specific Locality</label>
+					<div class="col-sm-9">
+						<input type="text" name="spec_locality" class="form-control form-control-sm" placeholder="Specific Locality" />
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Elevation</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control form-control-sm" id="inputMinElev" placeholder="Min Elevation">
+					</div>
+					<div class="col-sm-3">
+						<input type="text" class="form-control form-control-sm" id="inputMaxElev" placeholder="Max Elevation">
+					</div>
+					<div class="col-sm-2">
+						<select class="custom-select1 form-control-sm input-xs border form-control" required>
+							<option value="">Feet</option>
+							<option value="1">Fathoms</option>
+							<option value="2">Yards</option>
+							<option value="3">Meters</option>
+							<option value="4">Miles</option>
+							<option value="5">Kilometers</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Depth</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control form-control-sm" id="inputMinDepth" placeholder="Min Depth">
+					</div>
+					<div class="col-sm-3">
+						<input type="text" class="form-control form-control-sm" id="inputMaxDepth" placeholder="Max Depth">
+					</div>
+					<div class="col-sm-2">
+						<select class="custom-select1 form-control-sm input-xs border form-control" required>
+							<option value="">Feet</option>
+							<option value="1">Fathoms</option>
+							<option value="2">Yards</option>
+							<option value="3">Meters</option>
+							<option value="4">Miles</option>
+							<option value="5">Kilometers</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="sovereign_nation" class="col-sm-3 col-form-label text-center text-md-right">Sovereign Nation</label>
+					<div class="col-sm-9">
+						<input type="text" name="sovereign_nation" class="form-control form-control-sm" placeholder="Sovereign Nation" />
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Geology Attribute</label>
+					<div class="col-sm-9 my-0">
+						<input type="text" name="geology_attribute" class="form-control form-control-sm" placeholder="Geology Attribute" />
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="habitat" class="col-sm-3 col-form-label text-center text-md-right">Habitat</label>
+					<div class="col-sm-9">
+						<input type="text" name="habitat" class="form-control form-control-sm" placeholder="Habitat" />
+					</div>
+				</div>
+			</div>
 	
+		</form>
+	</div>
+</div>
+	
+	
+<div class="container">
+	<div  class="row col-sm-12 col-md-8 col-xl-8 justify-content-center mt-2 mx-auto">
+		<form id="regForm" action="/DataEntry.cfm">
+			<!-- One "tab" for each step in the form: -->
+			<h1 class="text-center mt-4 mb-1">Enter a New Record</h1>
+			<div class="tab">
+				<h2 class="fs-title text-center">Record Numbers</h2>
+				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
+				<div class="form-group row">
+					<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
+					<div class="col-sm-9">
+						<p>
+							<input placeholder="Catalog Number" class="form-control form-control-sm validate" oninput="this.className = ''" name="cat_num">
+						</p>
+					</div>
+				</div>
+				<div class="form-group mb-0 row">
+					<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Other ID</label>
+					<div class="col-sm-4 col-md-4">
+						<select class="custom-select form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
+							<option value="">Other ID Type</option>
+							<option value="1">Field Number</option>
+							<option value="2">Collector Number</option>
+							<option value="3">Previous Number</option>
+						</select>
+					</div>
+					<div class="col-sm-5">
+						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
+					<div class="col-sm-9 col-md-9 text-left">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
+							<label class="form-check-label w-auto mt-1" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="relations" class="col-sm-3 col-form-label text-center text-md-right">Other Records</label>
+					<div class="col-sm-4 col-md-4 text-left">
+						<select class="custom-select border form-control form-control-sm mt-0" required>
+							<option value="">Relationship Type</option>
+							<option value="1">Re-Cataloged as</option>
+							<option value="2">Bad Duplicate of</option>
+							<option value="3">Cloned from Record</option>
+							<option value="4">Duplicate Recataloged as</option>
+						</select>
+					</div>
+					<div class="col-sm-5">
+						<input type="text" class="form-control"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
+					</div>
+				</div>
+			</div>
+			<div class="tab">
+				<h2 class="fs-title text-center">Collector/Preparator</h2>
+				<h3 class="fs-subtitle text-center">This is step 2</h3>
+				<div class="form-group row my-0">
+					<label for="collector1" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select border mt-0 validate">
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control validate" id="collector1" placeholder="Agent Name">
+					</div>
+				</div>
+				<div class="form-group row my-0">
+					<label for="collector2" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select border mt-0">
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control" id="collector2" placeholder="Agent Name">
+					</div>
+				</div>
+				<div class="form-group row my-1">
+					<label for="collector3" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select border mt-0" required>
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control" id="collector3" placeholder="Agent Name">
+					</div>
+				</div>
+				<div class="form-group row my-1">
+					<label for="collector4" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select border mt-0" required >
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control" id="collector4" placeholder="Agent Name">
+					</div>
+				</div>
+				<div class="form-group row my-1">
+					<label for="collector5" class="col-sm-3 col-form-label mt-0">
+						<select class="custom-select border mt-0">
+							<option value="">Select Role...</option>
+							<option value="1">Collector</option>
+							<option value="2">Preparator</option>
+						</select>
+					</label>
+					<div class="col-sm-9 col-md-9 mt-1">
+						<input type="text" class="form-control" id="collector5" placeholder="Agent Name">
+					</div>
+				</div>
+			</div>
+			<div class="tab">
+				<h2 class="fs-title text-center">Scientific Name</h2>
+				<h3 class="fs-subtitle text-center">This is step 3</h3>
+				<div class="form-group row">
+					<label for="scientific_name" class="col-sm-3 col-form-label text-center text-md-right">Scientific Name</label>
+					<div class="col-sm-9">
+						<input type="text" name="scientific_name" class="form-control" placeholder="Scientific Name" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="made_by" class="col-sm-3 col-form-label text-center text-md-right">ID Made By</label>
+					<div class="col-sm-9">
+						<input type="text" name="made_by" class="form-control" placeholder="Identifier's Name" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="nature_of_id" class="col-sm-3 col-form-label text-center text-md-right">Nature of ID</label>
+					<div class="col-sm-4">
+						<select class="custom-select border form-control" required>
+							<option value="">Expert ID</option>
+							<option value="1">Field ID</option>
+							<option value="2">Non-Expert ID</option>
+							<option value="3">Curatorial ID</option>
+						</select>
+					</div>
+					<div class="col-sm-5">
+						<input type="text" name="made_by_date" class="form-control" placeholder="Date of ID" />
+					</div>
+				</div>
+				<div class="form-group row my-0">
+					<label for="id_remark" class="col-sm-3 col-form-label text-center text-md-right">ID Remark</label>
+					<div class="col-sm-9">
+						<textarea type="text" name="id_remark" class="form-control" placeholder="ID remark"/>
+						</textarea>
+					</div>
+				</div>
+			</div>
+			<div class="tab">
+				<h2 class="fs-title text-center">Locality</h2>
+				<h3 class="fs-subtitle text-center">This is step 4</h3>
+				<div class="form-group row">
+					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Higher Geography</label>
+					<div class="col-sm-9">
+						<input type="text" name="higher_geog" class="form-control" placeholder="Higher Geography" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Specific Locality</label>
+					<div class="col-sm-9">
+						<input type="text" name="spec_locality" class="form-control" placeholder="Specific Locality" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Elevation</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputMinElev" placeholder="Min Elevation">
+					</div>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
+					</div>
+					<div class="col-sm-2">
+						<select class="custom-select border form-control" required>
+							<option value="">Feet</option>
+							<option value="1">Fathoms</option>
+							<option value="2">Yards</option>
+							<option value="3">Meters</option>
+							<option value="4">Miles</option>
+							<option value="5">Kilometers</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Depth</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputMinDepth" placeholder="Min Depth">
+					</div>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
+					</div>
+					<div class="col-sm-2">
+						<select class="custom-select border form-control" required>
+							<option value="">Feet</option>
+							<option value="1">Fathoms</option>
+							<option value="2">Yards</option>
+							<option value="3">Meters</option>
+							<option value="4">Miles</option>
+							<option value="5">Kilometers</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="sovereign_nation" class="col-sm-3 col-form-label text-center text-md-right">Sovereign Nation</label>
+					<div class="col-sm-9">
+						<input type="text" name="sovereign_nation" class="form-control" placeholder="Sovereign Nation" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Geology Attribute</label>
+					<div class="col-sm-9 my-0">
+						<input type="text" name="geology_attribute" class="form-control" placeholder="Geology Attribute" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="habitat" class="col-sm-3 col-form-label text-center text-md-right">Habitat</label>
+					<div class="col-sm-9">
+						<input type="text" name="habitat" class="form-control" placeholder="Habitat" />
+					</div>
+				</div>
+			</div>
+			<div style="overflow:auto;" class="mt-4 mb-2">
+				<div class="text-right">
+					<button type="button" id="prevBtn" class="btn btn-primary" onclick="nextPrev(-1)">Previous</button>
+					<button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Next</button>
+				</div>
+				<div class="text-center my-2">
+					<button type="button" id="seeAll" class="btn btn-primary">See All</button>
+				</div>
+			</div>
+			<!-- Circles which indicates the steps of the form: -->
+			<div class="my-4 text-center"> 
+				<span class="step">1</span> 
+				<span class="step">2</span> 
+				<span class="step">3</span> 
+				<span class="step">4</span> 
+				<span class="step">5</span> 
+				<span class="step">6</span> 
+				<span class="step">7</span> 
+				<span class="step">8</span>
+				<span class="step">9</span> 
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+	var currentTab = 0; // Current tab is set to be the first tab (0)
+	showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form ...
+
+  	var x = document.getElementsByClassName("tab");
+
+  	x[n].style.display = "block";
+  
+  // ... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+	
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+	
+  } 
+
+  // ... and run a function that displays the correct step indicator:
+  fixStepIndicator(n)
+}
+	
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form... :
+  if (currentTab >= x.length) {
+    //...the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByClassName("validate");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false:
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class to the current step:
+  x[n].className += " active";
+}
+	
+</script> 
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">
