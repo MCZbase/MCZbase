@@ -146,7 +146,7 @@ limitations under the License.
 <div class="branding clearfix" style="background-color: #Application.header_color#;">
 	<div class="branding-left justify-content-start mt-1">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
-			<img class="shield" src="/includes/images/Harvard_shield-University.png" alt="Harvard University Shield">
+			<img src="/includes/images/Harvard_shield-University.png" width="28" height="32" alt="Harvard University Shield">
 			<span class="d-inline-block parent">Harvard University</span>
 		</a> 
 	</div>
