@@ -153,6 +153,7 @@ limitations under the License.
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id"
 									onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
 							<div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
@@ -267,25 +268,25 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group">
+							<div class="form-group col-sm-12 col-md-12">
 								<label for="nature_of_material">Nature of Material</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="80" class="reqdClr" required ></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group">
+							<div class="form-group col-sm-12 col-md-12">
 								<label for="loan_description">Description</label>
 								<textarea name="loan_description" id="loan_description" rows="4" cols="80"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group">
+							<div class="form-group col-sm-12 col-md-12">
 								<label for="loan_instructions">Loan Instructions</label>
 								<textarea name="loan_instructions" id="loan_instructions" rows="10" cols="80"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group">
+							<div class="form-group col-sm-12 col-md-12">
 								<label for="trans_remarks">Internal Remarks</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="4" cols="80"></textarea>
 							</div>
