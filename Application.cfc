@@ -39,6 +39,20 @@ limitations under the License.
 	<cffunction name="onError">
 		<cfargument name="exception" required="true" />
 		<cfargument name="EventName" type="String" required="true" />
+
+		<!--- If request was for a component, return an http 500 (server error) status code --->.
+		<cfset pageRequestObject = GetPageContext().GetRequest() >
+			<cfset pageRequest = pageRequestObject.getRequestUrl().toString() >
+			<cfif pageRequest contains "/component/">
+			<cfif isdefined("exception.message")>
+				<cfset message = exception.message>
+			<cfelse>
+				<cfset message = "Internal Server Error">
+			</cfif>
+		   <cfheader statuscode="500" statustext="Error: #message#"/>
+		   <cfabort>
+		</cfif>
+
 		<cfset showErr=1 />
 		<cfif isdefined("exception.type") and exception.type eq "coldfusion.runtime.AbortException">
                          <cfif  Application.productionServer EQ false >
