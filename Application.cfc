@@ -60,7 +60,7 @@ limitations under the License.
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 						</div>
 					</div>
-			</div>
+				</div>
 			</cfoutput>
 			<cfabort>
 		</cfif>
