@@ -139,17 +139,23 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-6 ui-widget">
 								<span>
-									<label for="auth_agent_name">Authorized By</label>
+									<label for="auth_agent_id">Authorized By</label>
 									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" 
-									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  			onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
-						  			onKeyPress="return noenter(event);">
-								<input type="hidden" name="auth_agent_id" id="auth_agent_id"
-									onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
+								<input name="auth_agent_id" id="auth_agent_id" class="reqdClr form-control-sm" required >
+								<script>
+									$(function(){
+										$("##auth_agent_id").autocomplete({
+											source: "/agents/component/search.cfc?method=getAgentAutocomplete",
+											minLength: 3,
+											select: function (event, result) {
+												updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');
+											}
+										});
+									});
+								</script>
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
