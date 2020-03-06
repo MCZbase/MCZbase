@@ -34,25 +34,34 @@ limitations under the License.
 <title>#pageTitle# | MCZbase</title>
 <cfinclude template="/includes/functionLib.cfm">
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.4.1-dist/css/bootstrap.min.css"><!---needed for overall look--->
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css"><!---don't know not in 4.1.3--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.base.css"><!---don't know--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.classic.css"><!---don't know--->
-<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!---don't know--->
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css"><!---don't know but tabs work--->
-<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!--account, magnifier, and cog icons-->
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css"><!--- TODO: Remove? don't know not in 4.1.3--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.classic.css"><!--- TODO: Remove? don't know--->
+<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css"><!--- TODO: Remove? don't know but tabs work--->
+<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
 <link rel="stylesheet" href="/includes/css/custom_styles.css">
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
 <script type="text/javascript" src="/lib/jquery/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!---not there now--->
+<script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. --->
 <script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>
 <script type="text/javascript" src="/lib/bootstrap/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdata.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.filter.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.edit.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.selection.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.storage.js"></script>
+<!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
+<!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxbuttons.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxscrollbar.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxlistbox.js"></script>
@@ -62,13 +71,6 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdatetimeinput.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdate.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxslider.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.filter.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.edit.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.sort.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.selection.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.storage.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxpanel.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcheckbox.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.pager.js"></script>
@@ -80,17 +82,11 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsresize.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsreorder.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcalendar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdate.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxtree.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdatetimeinput.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
-<!--- 
-   demos.js hard codes non existent includes/JQWidgets/jqwidgets/styles/ paths, which
-   ends up requesting a copy of jqx.light.css down that path which returns a 404 error page rather than the css.
-   TODO: Can this invocation of demos.js be removed entirely from MCZbase?
-   <script type="text/javascript" src="/lib/JQWidgets/scripts/demos.js"></script>
---->
 <script type="text/javascript" src="/includes/js/shared-scripts.js"></script>
+<!--- End supspect block --->
+
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/includes/js/internal-scripts.js"></script>
 </cfif>
