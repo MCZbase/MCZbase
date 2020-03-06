@@ -97,6 +97,9 @@ limitations under the License.
 		<script type="text/javascript" src="/lib/misc/jquery.jfeed.js"></script>
    </cfif>
 </cfif>
+<cfif CGI.script_name CONTAINS "/transactions/">
+	<script type="text/javascript" src="/transactions/js/transactions,js"></script>
+</cfif>
 
 <cfif not isdefined("session.header_color")>
 	<cfset setDbUser()>
