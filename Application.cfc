@@ -42,37 +42,50 @@ limitations under the License.
 
 		<!--- If request was for a component, return an http 500 (server error) status code --->.
 		<cfset pageRequestObject = GetPageContext().GetRequest() >
-			<cfset pageRequest = pageRequestObject.getRequestUrl().toString() >
-			<cfif pageRequest contains "/component/">
+		<cfset pageRequest = pageRequestObject.getRequestUrl().toString() >
+		<cfif pageRequest contains "/component/">
 			<cfif isdefined("exception.message")>
 				<cfset message = exception.message>
 			<cfelse>
 				<cfset message = "Internal Server Error">
 			</cfif>
-		   <cfheader statuscode="500" statustext="Error: #message#"/>
-		   <cfabort>
+			<cfheader statuscode="500" statustext="Error: #message#"/>
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+			</div>
+			</cfoutput>
+			<cfabort>
 		</cfif>
 
+		<!--- Determine whether or not to include stack trace and exception details when showing error --->
 		<cfset showErr=1 />
 		<cfif isdefined("exception.type") and exception.type eq "coldfusion.runtime.AbortException">
-                         <cfif  Application.productionServer EQ false >
-                                <cfset showErr=1 />
-                        <cfelse>
-                                <cfset showErr=0 />
-                        </cfif>
-
+			<cfif Application.productionServer EQ false >
+				<cfset showErr=1 />
+			<cfelse>
+				<cfset showErr=0 />
+			</cfif>
 			<cfreturn />
 		</cfif>
+
 		<cfif StructKeyExists(form,"C0-METHODNAME")>
 			<!--- cfajax calling cfabort --->
-                         <cfif  Application.productionServer EQ false >
-                                <cfset showErr=1 />
-                        <cfelse>
-                                <cfset showErr=0 />
-                        </cfif>
-
+			<cfif  Application.productionServer EQ false >
+				<cfset showErr=1 />
+			<cfelse>
+				<cfset showErr=0 />
+			</cfif>
 			<cfreturn />
 		</cfif>
+
 		<cfif showErr is 1>
 			<cfsavecontent variable="errortext">
 				<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and len(CGI.HTTP_X_Forwarded_For) gt 0>
