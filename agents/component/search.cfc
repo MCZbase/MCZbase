@@ -79,7 +79,7 @@ Function getAgentList.  Search for agents by name with a substring match on any 
 						</div>
 					</div>
 				</div>
-			<cfoutput>
+			</cfoutput>
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -142,7 +142,7 @@ Function getAgentAutocomplete.  Search for agents by name with a substring match
 						</div>
 					</div>
 				</div>
-			<cfoutput>
+			</cfoutput>
 		<cfabort>
 	</cfcatch>
 	</cftry>
