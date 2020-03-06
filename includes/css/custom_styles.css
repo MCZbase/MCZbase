@@ -1151,7 +1151,7 @@ override Bootstrap styles
 .ui-widget-header {
 	/*	border: 1px solid #1b1b1b;
 	background: #1b1b1b;*/
-	color: #fff;
+	/* color: #fff; // override makes text illegible, too close in color to background of header */
 	font-weight: bold;
 }
 .ui-widget {
