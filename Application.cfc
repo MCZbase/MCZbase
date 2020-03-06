@@ -40,7 +40,7 @@ limitations under the License.
 		<cfargument name="exception" required="true" />
 		<cfargument name="EventName" type="String" required="true" />
 
-		<!--- If request was for a component, return an http 500 (server error) status code --->.
+		<!--- If request was for a component, return an http 500 (server error) status code --->
 		<cfset pageRequestObject = GetPageContext().GetRequest() >
 		<cfset pageRequest = pageRequestObject.getRequestUrl().toString() >
 		<cfif pageRequest contains "/component/">
