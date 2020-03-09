@@ -1,11 +1,15 @@
 <cfset pageTitle = "Loan Management">
+<cfif isdefined("action") AND action EQ 'newLoan'>
+	<cfset pageTitle = "Create New Loan">
+</cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
 <cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <!--
 transactions/Loan.cfm
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2020 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -81,6 +85,7 @@ limitations under the License.
            $("##collection_id").change();
            if (cid==#MAGIC_MCZ_CRYO#) {
                $("##loan_instructions").val( $("##loan_instructions").val() + "If not all the genetic material is consumed, any unused portion must be returned to the MCZ-CRYO after the study is complete. Grantees may be requested to return extracts derived from granted samples (e.g., DNA). Publications should include a table that lists MCZ voucher numbers and acknowledge the MCZ departmental collection (i.e., Ornithology) and MCZ-CRYO for providing samples. Grantees must provide reprints of any publications to the MCZ-CRYO. In addition, GenBank, NCBI BioProject, NBCI BioSample or other accession numbers for published sequence data must be submitted to officially close the loan. Genetic samples and their derivatives cannot be distributed to other researchers without MCZ permission.");
+					$("##loan_instructions").trigger("keyup");
            }
 	}
 	function dCount() {
@@ -112,11 +117,11 @@ limitations under the License.
 	<cfoutput>
 	<div class="container-fluid form-div">
 		<div class="container">
-			<h2 class="wikilink" style="margin-left: 0;">Initiate a Loan
-				<img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
+			<h2 class="wikilink m-0" >Create New Loan
+				<img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 			</h2>
 			<div class="form-row mb-2">
-				<div class="col-sm-8 mr-4">
+				<div class="col-sm-8">
 					<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row mb-2">
@@ -128,36 +133,49 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-6" id="upperRightCell"><!--- id for positioning nextnum div --->
+							<div class="col-12 col-md-6">
 								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" class="reqdClr form-control-sm" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-								<label for="auth_agent_name">Authorized By</label>
-								<input type="text" name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" 
-									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  			onchange="getAgent('auth_agent_id','auth_agent_name','newloan',this.value); return false;"
-						  			onKeyPress="return noenter(event);">
-								<input type="hidden" name="auth_agent_id" id="auth_agent_id"
-									onChange=" updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');">
-								<div id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							<div class="col-12 col-md-6 ui-widget">
+								<span>
+									<label for="auth_agent_id">Authorized By</label>
+									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<input name="auth_agent_id" id="auth_agent_id" class="reqdClr form-control-sm" required >
+								<script>
+									$(function(){
+										$("##auth_agent_id").autocomplete({
+											source: "/agents/component/search.cfc?method=getAgentAutocomplete",
+											minLength: 3,
+											select: function (event, result) {
+												updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');
+											}
+										});
+									});
+								</script>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="rec_agent_name">Received By:</label>
+								<span>
+									<label for="rec_agent_name">Received By:</label>
+									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" 
 									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  			onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
 						  			onKeyPress="return noenter(event);">
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id"
 									onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
-							<div id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="in_house_contact_agent_name">In-House Contact:</label>
+								<span>
+									<label for="in_house_contact_agent_name">In-House Contact:</label>
+									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										class="reqdClr form-control-sm" required 
@@ -165,22 +183,26 @@ limitations under the License.
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
 										onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
-								<div id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+								<span>
+									<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+									<span id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="additional_contact_agent_name" readonly class="form-control-sm"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id"
 										onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
-								<div id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="recipient_institution_agent_name">Recipient Institution:</label>
+								<span>
+									<label for="recipient_institution_agent_name">Recipient Institution:</label>
+									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										class="reqdClr form-control-sm" required 
@@ -188,17 +210,18 @@ limitations under the License.
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
 										onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
-								<div id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="foruseby_agent_name">For Use By:</label>
+								<span>
+									<label for="foruseby_agent_name">For Use By:</label>
+									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
 								<input type="text" name="foruseby_agent_name" readonly class="form-control-sm"
 										autocomplete="off" onfocus="this.removeAttribute('readonly');"
 										onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
 										onKeyPress="return noenter(event);">
 								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id"
 										onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
-								<div id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -260,35 +283,11 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label for="initiating_date">Transaction Date</label>
-								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100">
+								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm">
 							</div>
 							<div class="col-12 col-md-6">
 								<label for="return_due_date">Return Due Date</label>
-								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100" >
-							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-sm-12 col-md-12">
-								<label for="nature_of_material">Nature of Material</label>
-								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="80" class="reqdClr form-control form-control-sm" required ></textarea>
-							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-sm-12 col-md-12">
-								<label for="loan_description">Description</label>
-								<textarea name="loan_description" id="loan_description" class="form-control-sm form-control" rows="4" cols="80"></textarea>
-							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-sm-12 col-md-12">
-								<label for="loan_instructions">Loan Instructions</label>
-								<textarea name="loan_instructions" id="loan_instructions" rows="10" cols="80" class="form-control form-control-sm"></textarea>
-							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-sm-12 col-md-12">
-								<label for="trans_remarks">Internal Remarks</label>
-								<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm" rows="4" cols="80"></textarea>
+								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm" >
 							</div>
 						</div>
 						<div class="form-row mb-2" id="insurance_section">
@@ -301,6 +300,45 @@ limitations under the License.
 		   					<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="form-control form-control-sm">
 							</div>
 						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-sm-12 col-md-12">
+								<label for="nature_of_material">Nature of Material</label>
+								<textarea name="nature_of_material" id="nature_of_material" rows="2" cols="80" class="reqdClr form-control form-control-sm" required ></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-sm-12 col-md-12">
+								<label for="loan_description">Description</label>
+								<textarea name="loan_description" id="loan_description" class="form-control-sm form-control" rows="2" cols="80"></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-sm-12 col-md-12">
+								<label for="loan_instructions">Loan Instructions</label>
+								<textarea name="loan_instructions" id="loan_instructions" rows="2" cols="80" class="form-control form-control-sm"></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-sm-12 col-md-12">
+								<label for="trans_remarks">Internal Remarks</label>
+								<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm" rows="2" cols="80"></textarea>
+							</div>
+						</div>
+						<script>
+						function autogrow (event) {
+							$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
+							while($(this).outerHeight() < this.scrollHeight +
+										parseFloat($(this).css("borderTopWidth")) +
+										parseFloat($(this).css("borderBottomWidth"))) 
+							{
+								// increase the height until the text fits into the scroll bar height, taking borders into account.
+								$(this).height($(this).height()+1);
+							}
+							$(this).css('overflow-y','auto');
+						};
+						// apply the above to all textareas currently defined.
+						$("textarea").keyup(autogrow);  
+						</script>
 						<div class="form-row my-2">
 							<div class="ml-auto">
 								<input type="button" value="Create Loan" class="insBtn"
@@ -308,37 +346,34 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-               <script>
-                          $("##newLoan").submit( function(event) {
-                              if ($("##loan_type").val()=="gift" || $("##loan_type").val()=="transfer") {
-                                 $("##return_due_date").val(null);
-                              }
-                              validated = true;
-                              errors = "";
-                              errorCount = 0;
-                              $(".reqdClr").each(function(index, element) {
-                                 if ($(element).val().length===0) {
-                                   validated = false;
-                                   errorCount++;
-                                   errors = errors + " " + element.name;
-                                 }
-                              });
-                              if (!validated) {
-                                 if (errorCount==1) {
-                                    msg = 'A required value is missing:' + errors;
-                                 } else {
-                                    msg = errorCount + ' required values are missing:' + errors;
-                                 }
-                                 var errdiv = document.createElement('div');
-                                 errdiv.innerHTML = msg;
-                                 $(errdiv).dialog({ title:"Error Creating Loan"}).dialog("open");
-                                 event.preventDefault();
-                              };
-                           });
-               </script>
+					<script>
+						$("##newLoan").submit( function(event) {
+							validated = true;
+							errors = "";
+							errorCount = 0;
+							$(".reqdClr").each(function(index, element) {
+								if ($(element).val().length===0) {
+									validated = false;
+									errorCount++;
+									errors = errors + " " + element.name;
+								}
+							});
+							if (!validated) {
+								if (errorCount==1) {
+									msg = 'A required value is missing:' + errors;
+								} else {
+									msg = errorCount + ' required values are missing:' + errors;
+								}
+								var errdiv = document.createElement('div');
+								errdiv.innerHTML = msg;
+								$(errdiv).dialog({ title:"Error Creating Loan" }).dialog("open"); 
+								event.preventDefault();
+							};
+						});
+					</script>
 				</div>
 		
-			<div class="coll-sm-4"> <!--- Begin next available number list --->
+			<div class="coll-sm-4 ml-sm-4"> <!--- Begin next available number list, ml-sm-4 to provide offset from column above holding form. --->
 					<div id="nextNumDiv" class="border border-primary p-md-2">
 						<h3>Next Available Loan Number:</h3>
 						<!--- Find list of all non-observational collections --->

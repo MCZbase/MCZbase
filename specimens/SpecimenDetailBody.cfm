@@ -396,7 +396,6 @@ limitations under the License.
 	<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/includes/js/internalAjax.js'></script>--->
-		<script type='text/javascript' src='/specimens/js/transAjax.js'></script>
 		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
 			<!---insert identification query--->
 			<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

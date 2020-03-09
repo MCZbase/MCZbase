@@ -194,7 +194,8 @@ form input.anchor-button:hover {
 	background-color: #f8f9fa;
 }
 label {
-	margin-bottom: 0.25em;
+	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
+	margin-bottom: 0;
 }
 .border {
 	/*	border-color: #bac5c6;
@@ -1150,7 +1151,7 @@ override Bootstrap styles
 .ui-widget-header {
 	/*	border: 1px solid #1b1b1b;
 	background: #1b1b1b;*/
-	color: #fff;
+	/* color: #fff; // override makes text illegible, too close in color to background of header */
 	font-weight: bold;
 }
 .ui-widget {
