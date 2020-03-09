@@ -24,7 +24,7 @@ limitations under the License.
 </style>
 <cfoutput>
 <div class="container-fluid">
-	<div  class="row col-sm-12 col-md-12 col-xl-12 justify-content-left mt-2">
+	<div  class="row col-sm-12 col-md-12 col-xl-12 justify-content-left mt-2"  id="data_entry1">
 		<form id="regFormAll" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
@@ -254,11 +254,12 @@ limitations under the License.
 	
 		</form>
 	</div>
+		<input type="button" name="switchForm1" class="btn btn-primary" value="See Form in Steps" onclick="loadDiv(data_entry2)"/>
 </div>
 	
 	
 <div class="container">
-	<div  class="row col-sm-12 col-md-8 col-xl-8 justify-content-center mt-2 mx-auto">
+	<div  class="row col-sm-12 col-md-8 col-xl-8 justify-content-center mt-2 mx-auto" id="data_entry2">
 		<form id="regForm" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-1">Enter a New Record</h1>
@@ -508,7 +509,16 @@ limitations under the License.
 			</div>
 		</form>
 	</div>
+	<input type="button" name="switchForm2" class="btn btn-primary" value="See Full Form" onclick="loadDiv(data_entry1)"/>
 </div>
+	
+<script>
+	function loadDiv(id){
+    document.getElementById("data_entry1").style.display="none";
+    document.getElementById("data_entry2").style.display="none";
+    document.getElementById(id).style.display="block";
+}
+	</script>
 <script>
 	var currentTab = 0; // Current tab is set to be the first tab (0)
 	showTab(currentTab); // Display the current tab
