@@ -158,13 +158,14 @@ limitations under the License.
 													error : function (jqXHR, textStatus, message) {
 														alert(message);
 													}
+												})
 											},
-											minLength: 3,
 											select: function (event, result) {
 												$('##auth_agent_id').val(result.item.id);
 												updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');
-												$('##auth_agent_name').style('background-color: green;');
-											}
+												$('##auth_agent_name').css('background-color: green;');
+											},
+											minLength: 3,
 										});
 									});
 								</script>
