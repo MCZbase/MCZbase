@@ -148,6 +148,7 @@ limitations under the License.
 								<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 								<script>
 									$(function(){
+										// TODO: Change this to a generic makeAgentPicker function. 
 										$("##auth_agent_name").autocomplete({
 											source: function (request, response) { 
 												$.ajax({
@@ -156,7 +157,7 @@ limitations under the License.
 													dataType: 'json',
 													success : function (data) { response(data); },
 													error : function (jqXHR, textStatus, message) {
-                									messageDialog('Error:' & message ,'Error ' & textStatus);
+                									messageDialog('Error:' + message ,'Error ' + textStatus);
 														$('##auth_agent_name').toggleClass('reqdClr',true);
 														$('##auth_agent_name').toggleClass('badPick',true);
 													}
@@ -168,7 +169,7 @@ limitations under the License.
 												$('##auth_agent_name').toggleClass('reqdClr',false);
 												$('##auth_agent_name').toggleClass('goodPick',true);
 											},
-											minLength: 3,
+											minLength: 3
 										});
 									});
 								</script>
