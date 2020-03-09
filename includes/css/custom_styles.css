@@ -111,7 +111,7 @@ nav .navbar-nav li a.nav-link {
 }
 .dropdown-menu a.dropdown-item:hover {
 	background-color: #ddd;
-	color: #3e6f7d;
+	color: #000;
 	width: 100%;
 }
 .dropdown:hover .dropdown-menu {
@@ -122,8 +122,10 @@ nav .navbar-nav li a.nav-link {
 	background-color: #ddd;
 }
 .navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active  {
-	color: #000;
-	background-color: #ddd;
+	color: #000000;
+	background-color: #ffffff;
+	border-right: 2px solid lightgoldenrodyellow;
+	border-left: 2px solid lightgoldenrodyellow;
 }
 .dropdown-item:active, .dropdown-item.active {
 	background-color: #3E6F7D;
@@ -410,11 +412,11 @@ nav button {
 	border: none; 
 	background-color: #f8f9fa;
 }*/
-.w-15em {
+/*.w-15em {
 	min-width: 15em;
-}
+}*/
 .btn-primary {
-	background-color: #FFD03B;
+	background-color: lightgoldenrodyellow;
 	color: #1A5670;
 	border: 1px solid #3E6F7D;
 }
