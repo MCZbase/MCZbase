@@ -144,14 +144,26 @@ limitations under the License.
 									<label for="auth_agent_id">Authorized By</label>
 									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input name="auth_agent_id" id="auth_agent_id" class="reqdClr form-control-sm" required >
+								<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
+								<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 								<script>
 									$(function(){
-										$("##auth_agent_id").autocomplete({
-											source: "/agents/component/search.cfc?method=getAgentAutocomplete",
+										$("##auth_agent_name").autocomplete({
+											source: function (request, response) { 
+												$.ajax({
+													url: "/agents/component/search.cfc",
+													data: { term: request.term, method: 'getAgentAutocomplete' },
+													dataType: 'json',
+													success : function (data) { response(data); },
+													error : function (jqXHR, textStatus, message) {
+														alert(message);
+													}
+											},
 											minLength: 3,
 											select: function (event, result) {
+												$('##auth_agent_id').val(result.item.id);
 												updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');
+												$('##auth_agent_name').style('background-color: green;');
 											}
 										});
 									});
