@@ -156,14 +156,17 @@ limitations under the License.
 													dataType: 'json',
 													success : function (data) { response(data); },
 													error : function (jqXHR, textStatus, message) {
-														alert(message);
+                									messageDialog('Error:' & message ,'Error ' & textStatus);
+														$('##auth_agent_name').toggleClass('reqdClr',true);
+														$('##auth_agent_name').toggleClass('badPick',true);
 													}
 												})
 											},
 											select: function (event, result) {
 												$('##auth_agent_id').val(result.item.id);
 												updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');
-												$('##auth_agent_name').css('background-color: green;');
+												$('##auth_agent_name').toggleClass('reqdClr',false);
+												$('##auth_agent_name').toggleClass('goodPick',true);
 											},
 											minLength: 3,
 										});
