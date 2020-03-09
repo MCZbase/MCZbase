@@ -94,7 +94,6 @@ limitations under the License.
 				<div id="jqxWidget">
 					<div class="pl-2 mb-5">
 						<div class="row mt-4">
-								<div id="messageDiv"></div>
 								<div id="searchText"></div>
 								<!--Grid Related code is below along with search handler for keyword search-->
 								<div id="searchResultsGrid" class="jqxGrid"></div>
@@ -148,22 +147,13 @@ $(document).ready(function() {
 			url: '/transactions/component/search.cfc?method=getTransactions&number=' + searchParam,
 			timeout: 3000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
-				$( "##messageDiv" ).dialog({
-					modal: true,
-					title: "Error: " + status,
-					buttons: {
-						Ok: function() {
-							$( this ).dialog( "close" );
-						}
-					}
-				});
             var message = "";      
 				if (error == 'timeout') { 
                message = ' Server took too long to respond.';
             } else { 
                message = jqXHR.responseText;
             }
-				$( "##messageDiv" ).html(error + message);
+            messageDialog('Error:' + message ,'Error: ' + error);
 			},
 			async: true
 		};

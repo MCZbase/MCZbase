@@ -156,8 +156,14 @@ limitations under the License.
 													data: { term: request.term, method: 'getAgentAutocomplete' },
 													dataType: 'json',
 													success : function (data) { response(data); },
-													error : function (jqXHR, textStatus, message) {
-                									messageDialog('Error:' + message ,'Error ' + textStatus);
+													error : function (jqXHR, status, error) {
+            										var message = "";      
+														if (error == 'timeout') { 
+									   	            message = ' Server took too long to respond.';
+										            } else { 
+										               message = jqXHR.responseText;
+										            }
+                									messageDialog('Error:' + message ,'Error: ' + error);
 														$('##auth_agent_name').toggleClass('reqdClr',true);
 														$('##auth_agent_name').toggleClass('badPick',true);
 													}
