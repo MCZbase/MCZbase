@@ -147,8 +147,8 @@ limitations under the License.
 								<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
 								<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 								<script>
-									function makeTransAgentPicker(nameControl, idControl) { 
-										$(nameControl).autocomplete({
+									function makeTransAgentPicker(nameControl, idControl, viewControl) { 
+										$('##'+nameControl).autocomplete({
 											source: function (request, response) { 
 												$.ajax({
 													url: "/agents/component/search.cfc",
@@ -163,52 +163,22 @@ limitations under the License.
 										               message = jqXHR.responseText;
 										            }
                 									messageDialog('Error:' + message ,'Error: ' + error);
-														$(nameControl).toggleClass('reqdClr',true);
-														$(nameControl).toggleClass('badPick',true);
+														$('##'+nameControl).toggleClass('reqdClr',true);
+														$('##'+nameControl).toggleClass('badPick',true);
 													}
 												})
 											},
 											select: function (event, result) {
 												$(idControl).val(result.item.id);
-												updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');
-												$(nameControl).toggleClass('reqdClr',false);
-												$(nameControl).toggleClass('goodPick',true);
+												updateAgentLink($('##'+idControl).val(),viewControl);
+												$('##'+nameControl).toggleClass('reqdClr',false);
+												$('##'+nameControl).toggleClass('goodPick',true);
 											},
 											minLength: 3
 										});
 										
 									}
-									$(function(){
-										// TODO: Change this to a generic makeAgentPicker function. 
-										$("##auth_agent_name").autocomplete({
-											source: function (request, response) { 
-												$.ajax({
-													url: "/agents/component/search.cfc",
-													data: { term: request.term, method: 'getAgentAutocomplete' },
-													dataType: 'json',
-													success : function (data) { response(data); },
-													error : function (jqXHR, status, error) {
-            										var message = "";      
-														if (error == 'timeout') { 
-									   	            message = ' Server took too long to respond.';
-										            } else { 
-										               message = jqXHR.responseText;
-										            }
-                									messageDialog('Error:' + message ,'Error: ' + error);
-														$('##auth_agent_name').toggleClass('reqdClr',true);
-														$('##auth_agent_name').toggleClass('badPick',true);
-													}
-												})
-											},
-											select: function (event, result) {
-												$('##auth_agent_id').val(result.item.id);
-												updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');
-												$('##auth_agent_name').toggleClass('reqdClr',false);
-												$('##auth_agent_name').toggleClass('goodPick',true);
-											},
-											minLength: 3
-										});
-									});
+									$(makeTransAgentPicker('auth_agent_name','auth_agent_id','auth_agent_view'));
 								</script>
 							</div>
 							<div class="col-12 col-md-6">
@@ -219,7 +189,7 @@ limitations under the License.
 								<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" required >
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
 								<script>
-									$(makeTransAgentPicker('##rec_agent_name','##rec_agent_id'));
+									$(makeTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_view'));
 								</script>
 							</div>
 						</div>
@@ -229,25 +199,23 @@ limitations under the License.
 									<label for="in_house_contact_agent_name">In-House Contact:</label>
 									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" readonly
-										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										class="reqdClr form-control-sm" required 
-										onchange="getAgent('in_house_contact_agent_id','in_house_contact_agent_name','newloan',this.value); return false;"
-										onKeyPress="return noenter(event);">
-								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id"
-										onChange=" updateAgentLink($('##in_house_contact_agent_id').val(),'in_house_contact_agent_view');">
+								<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
+										class="reqdClr form-control-sm" required >
+								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
+								<script>
+									$(makeTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_view'));
+								</script>
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
 									<label for="additional_contact_agent_name">Additional Outside Contact:</label>
 									<span id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input type="text" name="additional_contact_agent_name" readonly class="form-control-sm"
-										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										onchange="getAgent('additional_contact_agent_id','additional_contact_agent_name','newloan',this.value); return false;"
-										onKeyPress="return noenter(event);">
-								<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id"
-										onChange=" updateAgentLink($('##additional_contact_agent_id').val(),'additional_contact_agent_view');">
+								<input type="text" name="additional_contact_agent_name" class="form-control-sm" >
+								<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" >
+								<script>
+									$(makeTransAgentPicker('additional_contact_agent_name','additional_contact_agent_id','additional_contact_agent_view'));
+								</script>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -256,25 +224,23 @@ limitations under the License.
 									<label for="recipient_institution_agent_name">Recipient Institution:</label>
 									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" readonly
-										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										class="reqdClr form-control-sm" required 
-										onchange="getAgent('recipient_institution_agent_id','recipient_institution_agent_name','newloan',this.value); return false;"
-										onKeyPress="return noenter(event);">
-								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id"
-										onChange=" updateAgentLink($('##recipient_institution_agent_id').val(),'recipient_institution_agent_view');">
+								<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" 
+										class="reqdClr form-control-sm" required >
+								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" >
+								<script>
+									$(makeTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_view'));
+								</script>
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
 									<label for="foruseby_agent_name">For Use By:</label>
 									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input type="text" name="foruseby_agent_name" readonly class="form-control-sm"
-										autocomplete="off" onfocus="this.removeAttribute('readonly');"
-										onchange="getAgent('foruseby_agent_id','foruseby_agent_name','newloan',this.value); return false;"
-										onKeyPress="return noenter(event);">
-								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id"
-										onChange=" updateAgentLink($('##foruseby_agent_id').val(),'foruseby_agent_view');">
+								<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control-sm" >
+								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
+								<script>
+									$(makeTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_view'));
+								</script>
 							</div>
 						</div>
 						<div class="form-row mb-2">
