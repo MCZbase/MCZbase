@@ -169,7 +169,7 @@ limitations under the License.
 												})
 											},
 											select: function (event, result) {
-												$(idControl).val(result.item.id);
+												$('##'+idControl).val(result.item.id);
 												updateAgentLink($('##'+idControl).val(),viewControl);
 												$('##'+nameControl).toggleClass('reqdClr',false);
 												$('##'+nameControl).toggleClass('goodPick',true);
