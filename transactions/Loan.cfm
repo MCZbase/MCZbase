@@ -147,6 +147,37 @@ limitations under the License.
 								<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
 								<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 								<script>
+									function makeTransAgentPicker(nameControl, idControl) { 
+										$(nameControl).autocomplete({
+											source: function (request, response) { 
+												$.ajax({
+													url: "/agents/component/search.cfc",
+													data: { term: request.term, method: 'getAgentAutocomplete' },
+													dataType: 'json',
+													success : function (data) { response(data); },
+													error : function (jqXHR, status, error) {
+            										var message = "";      
+														if (error == 'timeout') { 
+									   	            message = ' Server took too long to respond.';
+										            } else { 
+										               message = jqXHR.responseText;
+										            }
+                									messageDialog('Error:' + message ,'Error: ' + error);
+														$(nameControl).toggleClass('reqdClr',true);
+														$(nameControl).toggleClass('badPick',true);
+													}
+												})
+											},
+											select: function (event, result) {
+												$(idControl).val(result.item.id);
+												updateAgentLink($('##auth_agent_id').val(),'auth_agent_view');
+												$(nameControl).toggleClass('reqdClr',false);
+												$(nameControl).toggleClass('goodPick',true);
+											},
+											minLength: 3
+										});
+										
+									}
 									$(function(){
 										// TODO: Change this to a generic makeAgentPicker function. 
 										$("##auth_agent_name").autocomplete({
@@ -185,12 +216,11 @@ limitations under the License.
 									<label for="rec_agent_name">Received By:</label>
 									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input type="text" name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" 
-									required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-						  			onchange="getAgent('rec_agent_id','rec_agent_name','newloan',this.value); return false;"
-						  			onKeyPress="return noenter(event);">
-								<input type="hidden" name="rec_agent_id" id="rec_agent_id"
-									onChange=" updateAgentLink($('##rec_agent_id').val(),'rec_agent_view');">
+								<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" required >
+								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
+								<script>
+									$(makeTransAgentPicker('##rec_agent_name','#rec_agent_id#'));
+								</script>
 							</div>
 						</div>
 						<div class="form-row mb-2">
