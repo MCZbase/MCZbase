@@ -219,7 +219,7 @@ limitations under the License.
 								<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" required >
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
 								<script>
-									$(makeTransAgentPicker('##rec_agent_name','#rec_agent_id#'));
+									$(makeTransAgentPicker('##rec_agent_name','##rec_agent_id'));
 								</script>
 							</div>
 						</div>
