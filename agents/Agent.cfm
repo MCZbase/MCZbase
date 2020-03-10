@@ -37,7 +37,7 @@ limitations under the License.
 <cfcase value="editAgent">
 	<cfset pageTitle = "Edit Agent">
 </cfcase>
-<cfcase value="editAgent">
+<cfcase value="newAgent">
 	<cfset pageTitle = "New Agent">
 </cfcase>
 </cfswitch>
