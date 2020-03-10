@@ -509,12 +509,12 @@ limitations under the License.
 			</div>
 		</form>
 	</div>
-	<input type="button" name="switchForm2" class="btn btn-primary" value="See Full Form" onclick="loadDiv(data_entry1)"/>
+	
 </div>
 	
 <script>
 	function loadDiv(id){
-    document.getElementById("data_entry1").style.display="none";
+    document.getElementById("data_entry1").style.display="block";
     document.getElementById("data_entry2").style.display="none";
     document.getElementById(id).style.display="block";
 }
