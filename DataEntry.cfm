@@ -254,7 +254,7 @@ limitations under the License.
 	
 		</form>
 	</div>
-		<input type="button" name="switchForm1" class="btn btn-primary" value="See Form in Steps" onclick="loadDiv(data_entry2)"/>
+	
 </div>
 	
 	
