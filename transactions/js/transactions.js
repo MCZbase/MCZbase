@@ -47,10 +47,10 @@ function updateAgentLink(agent_id,targetLinkDiv) {
                 $('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
            } else {
               if (rank=='F') {
-                $('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/images/flag-red.svg.png' width='16'>");
+                $('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/agents/images/flag-red.svg.png' width='16'>");
                 messageDialog('Please speak to Collections Ops about this loan agent before proceeding.','Agent with an F Rank');
               } else {
-                $('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/images/flag-yellow.svg.png' width='16'>");
+                $('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/agents/images/flag-yellow.svg.png' width='16'>");
                 messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
               }
            }
