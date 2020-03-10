@@ -211,7 +211,7 @@ limitations under the License.
 									<label for="additional_contact_agent_name">Additional Outside Contact:</label>
 									<span id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input type="text" name="additional_contact_agent_name" class="form-control-sm" >
+								<input type="text" name="additional_contact_agent_name" id="additional_contact_agent_name" class="form-control-sm" >
 								<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" >
 								<script>
 									$(makeTransAgentPicker('additional_contact_agent_name','additional_contact_agent_id','additional_contact_agent_view'));
