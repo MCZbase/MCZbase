@@ -344,7 +344,7 @@ limitations under the License.
 							</div>
 						</div>
 						<script>
-							// Make ass textareas currently defined autogrow as text is entered.
+							// Make all textareas currently defined autogrow as text is entered.
 							$("textarea").keyup(autogrow);  
 						</script>
 						<div class="form-row my-2">
@@ -879,7 +879,7 @@ limitations under the License.
 					<script>
 						// make all textareas currently defined autogrow as text is entered.
 						// may need to move this elsewhere on this page.
-						$('textarea').keyup(autobind);
+						$('textarea').keyup(autogrow);
 					</script>
 				</div>
 
