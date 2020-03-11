@@ -37,7 +37,7 @@ limitations under the License.
 <cfcase value="editAgent">
 	<cfset pageTitle = "Edit Agent">
 </cfcase>
-<cfcase value="editAgent">
+<cfcase value="newAgent">
 	<cfset pageTitle = "New Agent">
 </cfcase>
 </cfswitch>
@@ -69,7 +69,6 @@ limitations under the License.
 				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
 			WHERE
 				agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-				</cfquery>
 		</cfquery>
 
 		<cfoutput>
