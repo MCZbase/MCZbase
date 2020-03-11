@@ -117,7 +117,7 @@ limitations under the License.
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-12 col-md-8 mt-1">
+					<div class="col-12 col-md-8">
 						<input type="text" class="form-control form-control-sm" id="collector2" placeholder="Agent Name">
 					</div>
 				</div>
@@ -129,7 +129,7 @@ limitations under the License.
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-12 col-md-8 mt-1">
+					<div class="col-12 col-md-8">
 						<input type="text" class="form-control form-control-sm" id="collector3" placeholder="Agent Name">
 					</div>
 				</div>
@@ -153,7 +153,7 @@ limitations under the License.
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-12 col-md-8 mt-1">
+					<div class="col-12 col-md-8">
 						<input type="text" class="form-control form-control-sm" id="collector5" placeholder="Agent Name">
 					</div>
 				</div>
