@@ -609,8 +609,10 @@ limitations under the License.
 	</script>
 	<div class="container-fluid form-div">
 		<div class="container">
-			<h2 class="wikilink" style="margin-left: 0;">Edit Loan <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
-			<span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>	</h2>
+			<h2 class="wikilink m-0" >Edit Loan 
+				<img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
+				<span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>
+			</h2>
 
 			<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 				<input type="hidden" name="action" value="saveEdits">
@@ -619,18 +621,19 @@ limitations under the License.
 				<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
 
 				<div class="form-row mb-2">
-					<div class="col-12 cik-md-6">
+					<div class="col-12 col-md-6">
 						<label>Department</label>
-						<select name="collection_id" id="collection_id" size="1">
+						<select name="collection_id" id="collection_id" size="1" class="reqdClr custom-select1 form-control-sm" >
 							<cfloop query="ctcollection">
 								<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
 										value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 							</cfloop>
 						</select>
 					</div>
-					<div class="cik-12 col-md-6">
+					<div class="col-12 col-md-6">
 						<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
-						<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr" required  pattern="#LOANNUMBERPATTERN#"  >
+						<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
+							required  pattern="#LOANNUMBERPATTERN#"  >
 					</div>
 				</div>
 
@@ -650,11 +653,15 @@ limitations under the License.
 
 		<!--- Begin loan agents table TODO: Rework --->
 				<div class="form-row mb-2">
-					<div class="col-12 cik-md-6">
+					<div class="col-12 col-md-6">
 
 		<table id="loanAgents">
 			<tr style="height: 20px;">
-				<th>Agent&nbsp;Name&nbsp;<span class="linkButton" onclick="addTransAgent()">Add Row</span></th>
+				<th><span>
+						Agent&nbsp;Name&nbsp;
+						<button class="ui-button ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
+					</span>
+				</th>
 				<th></th>
 				<th>Role</th>
 				<th>Delete?</th>
@@ -729,7 +736,7 @@ limitations under the License.
 				<div class="form-row mb-2">
 					<div class="col-12 col-md-6">
 						<label for="loan_type">Loan Type</label>
-						<select name="loan_type" id="loan_type" class="reqdClr" required >
+						<select name="loan_type" id="loan_type" class="reqdClr custom-select1 form-control-sm" required >
 							<cfloop query="ctLoanType">
 								<cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
 									<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
@@ -743,7 +750,7 @@ limitations under the License.
 					<div class="col-12 col-md-6">
 						<label for="loan_status">Loan Status</label>
 						<span>
-						<select name="loan_status" id="loan_status" class="reqdClr" required >
+						<select name="loan_status" id="loan_status" class="reqdClr custom-select1 form-control-sm" required >
 							<!---  Normal transaction users are only allowed certain loan status state transitions, --->
 							<!--- users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
 							<cfloop query="ctLoanStatus">
@@ -763,7 +770,7 @@ limitations under the License.
 					<div class="col-12 col-md-6">
 						<label for="initiating_date">Transaction Date</label>
 						<input type="text" name="initiating_date" id="initiating_date"
-							value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr" required >
+							value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="return_due_date">Due Date</label>
@@ -774,11 +781,11 @@ limitations under the License.
 				<div class="form-row mb-2" id="insurance_section">
 					<div class="col-12 col-md-6">
 						<label for="insurance_value">Insurance value</label>
-						<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40">
+						<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40" class="form-control-sm">
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="insurance_maintained_by">Insurance Maintained By</label>
-						<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40">
+						<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40" class="form-control-sm">
 					</div>
 				</div>
 				<div class="form-row mb-2">
@@ -792,85 +799,82 @@ limitations under the License.
 							<cfelse>
 								This exhibition subloan has not been linked to a master loan.
 							</cfif>
-                </span>
-                <span id="subloan_section">
-                     <span id="subloan_list">
-                     Exhibition-Subloans (#childLoans.RecordCount#):
-                     <cfif childLoans.RecordCount GT 0>
-                        <cfset childLoanCounter = 0>
-                        <cfset childseparator = "">
-			<cfloop query="childLoans">
-                           #childseparator#
-                       <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
-                           <button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
-
-
-                           <script>
-			   $(function() {
-				$("##button_remove_subloan_#childLoanCounter#").click( function(event) {
-                     			event.preventDefault();
-					$.get( "component/functions.cfc",
- 						{ transaction_id : "#loanDetails.transaction_id#",
-						  subloan_transaction_id : "#childLoans.transaction_id#" ,
-						  method : "removeSubLoan",
-						  returnformat : "json",
-						  queryformat : 'column'
-						},
-						function(r) {
-                                                    var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
-                                                    var separator = "";
-                                                    for (var i=0; i<r.ROWCOUNT; i++) {
-      							retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
-                                                        separator = ";&nbsp";
-						    };
-						    retval = retval + "<BR>";
-                                          	    $("##subloan_list").html(retval);
-					        },
-						"json"
-					);
- 				});
- 			    });
-                            </script>
-
-                            <cfset childLoanCounter = childLoanCounter + 1 >
-                            <cfset childseparator = ";&nbsp;">
-                        </cfloop>
-                     </cfif>
-		     <br>
-                     </span><!--- end subloan_list --->
-                     <script>
-			$(function() {
-				$("##button_add_subloans").click( function(event) {
-                     			event.preventDefault();
-					$.get( "component/functions.cfc",
- 						{ transaction_id : "#loanDetails.transaction_id#",
-						  subloan_transaction_id : $("##possible_subloans").val() ,
-						  method : "addSubLoanToLoan",
-						  returnformat : "json",
-						  queryformat : 'column'
-						},
-						function(r) {
-                                                    var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
-                                                    var separator = "";
-                                                    for (var i=0; i<r.ROWCOUNT; i++) {
-      							retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
-                                                        separator = ";&nbsp";
-						    };
-						    retval = retval + "<BR>";
-                                          	    $("##subloan_list").html(retval);
-					        },
-						"json"
-					);
- 				});
- 			});
-                     </script>
-                     <select name="possible_subloans" id="possible_subloans">
-			<cfloop query="potentialChildLoans">
-				<option value="#transaction_id#">#loan_number#</option>
-			</cfloop>
-                     </select>
-                     <button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
-                </div>
+						</span>
+						<span id="subloan_section">
+							<span id="subloan_list">
+								Exhibition-Subloans (#childLoans.RecordCount#):
+								<cfif childLoans.RecordCount GT 0>
+									<cfset childLoanCounter = 0>
+									<cfset childseparator = "">
+									<cfloop query="childLoans">
+										#childseparator#
+										<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
+										<button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
+										<script>
+										$(function() {
+											$("##button_remove_subloan_#childLoanCounter#").click( function(event) {
+												event.preventDefault();
+												$.get( "component/functions.cfc", {
+													transaction_id : "#loanDetails.transaction_id#",
+													subloan_transaction_id : "#childLoans.transaction_id#" ,
+													method : "removeSubLoan",
+													returnformat : "json",
+													queryformat : 'column'
+												},
+												function(r) {
+													var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
+													var separator = "";
+													for (var i=0; i<r.ROWCOUNT; i++) {
+														retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+														separator = ";&nbsp";
+													};
+													retval = retval + "<BR>";
+													$("##subloan_list").html(retval);
+												},
+												"json"
+												);
+											});
+										});
+										</script>
+										<cfset childLoanCounter = childLoanCounter + 1 >
+										<cfset childseparator = ";&nbsp;">
+									</cfloop>
+								</cfif>
+								<br>
+							</span><!--- end subloan_list --->
+							<script>
+								$(function() {
+									$("##button_add_subloans").click( function(event) {
+										event.preventDefault();
+										$.get( "component/functions.cfc",
+										{ transaction_id : "#loanDetails.transaction_id#",
+										  subloan_transaction_id : $("##possible_subloans").val() ,
+										  method : "addSubLoanToLoan",
+										  returnformat : "json",
+										  queryformat : 'column'
+										},
+										function(r) {
+											var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
+											var separator = "";
+											for (var i=0; i<r.ROWCOUNT; i++) {
+												retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+												separator = ";&nbsp";
+											};
+											retval = retval + "<BR>";
+											$("##subloan_list").html(retval);
+										},
+										"json"
+										);
+									});
+								});
+							</script>
+							<select name="possible_subloans" id="possible_subloans" class="custom-select1 form-control-sm">
+								<cfloop query="potentialChildLoans">
+									<option value="#transaction_id#">#loan_number#</option>
+								</cfloop>
+							</select>
+							<button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
+						</span><!--- end subloan section --->
 
 				<div class="form-row mb-2">
 					<div class="col-12">
@@ -887,7 +891,7 @@ limitations under the License.
 
 <div id="project">
 
-			<h3>Projects associated with this loan: <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
+			<h3>Projects associated with this loan: <img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
 			project_trans where
@@ -950,27 +954,39 @@ limitations under the License.
 		</tr>
 		</table>
 
-		<label for="loan_instructions">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
-		<textarea name="loan_instructions" id="loan_instructions" rows="7"
-			cols="120">#loanDetails.loan_instructions#</textarea>
-		<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
-		<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="120">#loanDetails.trans_remarks#</textarea>
-		<br>
-		<input type="button" value="Save Edits" class="savBtn"
-                        onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
+				<div class="form-row mb-2">
+					<div class="col-12">
+						<label for="loan_instructions">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
+						<textarea name="loan_instructions" id="loan_instructions" rows="7" class="form-control-sm"
+							cols="120">#loanDetails.loan_instructions#</textarea>
+					</div>
+					<div class="col-12">
+						<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
+						<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="120">#loanDetails.trans_remarks#</textarea>
+					</div>
+				</div>
 
-   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
-                            <input type="button" value="Delete Loan" class="delBtn"
-			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-   		<br />
+				<div class="form-row mb-2">
+					<div class="col-12 col-md-6">
+						<input type="button" value="Save Edits" class="savBtn"
+							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
+						<input type="button" value="Delete Loan" class="delBtn"
+							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
+					</div>
+					<div class="col-12 col-md-6">
+						<input type="button" value="Add Items" class="lnkBtn"
+							onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+						<input type="button" value="Add Items BY Barcode" class="lnkBtn"
+							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
+						<input type="button" value="Review Items" class="lnkBtn"
+							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+					</div>
+				</div>
+
+			</form>
+
+
 	<div class="shippingBlock">
-		<input type="button" value="Add Items" class="lnkBtn"
-			onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-		<input type="button" value="Add Items BY Barcode" class="lnkBtn"
-			onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
-
-		<input type="button" value="Review Items" class="lnkBtn"
-			onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
                 <div id="loanItemCountDiv"></div>
 		<script>
 			$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
@@ -1005,7 +1021,6 @@ limitations under the License.
 		    </cfif>
 		</cfif>
 
-	</form>
 	</div>
 	</div>
 	</div>
