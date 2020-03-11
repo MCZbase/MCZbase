@@ -97,7 +97,7 @@ limitations under the License.
 			<div class="form-group col-12 col-md-5 border pb-2 rounded">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
-				<div class="row mb-1">
+				<div class="row mb-2">
 					<label for="collector1" class="py-0 pr-0 col-sm-4 col-form-label text-center text-md-right">
 						<select class="custom-select1 border form-control-sm input-xs validate">
 							<option value="">Select Role...</option>
@@ -109,7 +109,7 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm validate" id="collector1" placeholder="Agent Name">
 					</div>
 				</div>
-				<div class="row mb-1">
+				<div class="row mb-2">
 					<label for="collector2" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border">
 							<option value="">Select Role...</option>
@@ -117,11 +117,11 @@ limitations under the License.
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-12 col-md-8 mt-0">
+					<div class="col-12 col-md-8 mt-1">
 						<input type="text" class="form-control form-control-sm" id="collector2" placeholder="Agent Name">
 					</div>
 				</div>
-				<div class="row mb-1">
+				<div class="row mb-2">
 					<label for="collector3" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border" required>
 							<option value="">Select Role...</option>
@@ -133,7 +133,7 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm" id="collector3" placeholder="Agent Name">
 					</div>
 				</div>
-				<div class="row mb-1">
+				<div class="row mb-2">
 					<label for="collector4" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border" required >
 							<option value="">Select Role...</option>
@@ -145,7 +145,7 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm" id="collector4" placeholder="Agent Name">
 					</div>
 				</div>
-				<div class="row mb-1">
+				<div class="row mb-2">
 					<label for="collector5" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border">
 							<option value="">Select Role...</option>
