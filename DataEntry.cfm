@@ -29,14 +29,14 @@ limitations under the License.
 
 
 <div class="container-fluid" id="swapper-first">
-	<div  class="row col-sm-12 mt-2">
+	<div  class="row col-12 mt-2">
 		<form id="regFormAll" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
 			
-			<div class="mx-auto row">	
+			<div class="row">	
 <!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-			<div class="form-group col-sm-5 border pb-2 rounded">
+			<div class="form-group col-12 col-sm-5 border pb-2 rounded">
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
 				
@@ -94,7 +94,7 @@ limitations under the License.
 			
 <!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
 	
-			<div class="form-group col-sm-5 border pb-2 rounded">
+			<div class="form-group col-12 col-md-5 border pb-2 rounded">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 				<div class="row">
@@ -161,7 +161,7 @@ limitations under the License.
 <!---Second block Right (above) -- Collector/Preparator: select role, agent name  --->		
 			</div>
 			<div class="mx-auto row">
-			<div class="form-group col-sm-5 pb-2 border rounded">
+			<div class="form-group col-12 col-md-5 pb-2 border rounded">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 				<div class="row">
@@ -198,7 +198,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div class="float-left col-sm-5 border rounded">
+			<div class="form-group col-12 col-md-5 pb-2 border rounded">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
 				<div class="row">
