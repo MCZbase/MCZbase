@@ -23,7 +23,12 @@ limitations under the License.
 
 </style>
 <cfoutput>
-<div class="container-fluid">
+<p style="text-align:center; font-weight:bold; font-style:italic;">
+<a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Swap Divs)</a>
+</p>
+
+
+<div class="container-fluid" id="swapper-first">
 	<div  class="row col-sm-12 col-md-12 col-xl-12 justify-content-left mt-2">
 		<form id="regFormAll" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
@@ -258,7 +263,7 @@ limitations under the License.
 </div>
 	
 	
-<div class="container">
+<div class="container" id="swapper-other">
 	<div  class="row col-sm-12 col-md-8 col-xl-8 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
@@ -511,6 +516,26 @@ limitations under the License.
 	</div>
 	
 </div>
+<script type="text/javascript">
+function SwapDivsWithClick(div1,div2)
+{
+   d1 = document.getElementById(div1);
+   d2 = document.getElementById(div2);
+   if( d2.style.display == "none" )
+   {
+      d1.style.display = "none";
+      d2.style.display = "block";
+   }
+   else
+   {
+      d1.style.display = "block";
+      d2.style.display = "none";
+   }
+}
+</script>
+
+
+	
 <script>
 	var currentTab = 0; // Current tab is set to be the first tab (0)
 	showTab(currentTab); // Display the current tab
