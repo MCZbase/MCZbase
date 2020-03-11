@@ -344,19 +344,8 @@ limitations under the License.
 							</div>
 						</div>
 						<script>
-						function autogrow (event) {
-							$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
-							while($(this).outerHeight() < this.scrollHeight +
-										parseFloat($(this).css("borderTopWidth")) +
-										parseFloat($(this).css("borderBottomWidth"))) 
-							{
-								// increase the height until the text fits into the scroll bar height, taking borders into account.
-								$(this).height($(this).height()+1);
-							}
-							$(this).css('overflow-y','auto');
-						};
-						// apply the above to all textareas currently defined.
-						$("textarea").keyup(autogrow);  
+							// Make ass textareas currently defined autogrow as text is entered.
+							$("textarea").keyup(autogrow);  
 						</script>
 						<div class="form-row my-2">
 							<div class="ml-auto">
@@ -774,7 +763,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="return_due_date">Due Date</label>
-						<input type="text" id="return_due_date" name="return_due_date"
+						<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
 							value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 					</div>
 				</div>
@@ -880,13 +869,18 @@ limitations under the License.
 					<div class="col-12">
 						<label for="nature_of_material">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
 						<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="90"
-							class="reqdClr" required >#loanDetails.nature_of_material#</textarea>
+							class="reqdClr form-control form-control-sm" required >#loanDetails.nature_of_material#</textarea>
 					</div>
 					<div class="col-12">
 						<label for="loan_description">Description (<span id="lbl_loan_description"></span>)</label>
 						<textarea name="loan_description" id="loan_description" rows="7"
-							cols="90">#loanDetails.loan_description#</textarea>
+							class="form-control form-control-sm" cols="90">#loanDetails.loan_description#</textarea>
 					</div>
+					<script>
+						// make all textareas currently defined autogrow as text is entered.
+						// may need to move this elsewhere on this page.
+						$('textarea').keyup(autobind);
+					</script>
 				</div>
 
 <div id="project">

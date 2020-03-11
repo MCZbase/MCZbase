@@ -27,3 +27,18 @@ function messageDialog(dialogText, dialogTitle) {
   });
 };
 
+/** Allow textarea controls to grow in size as text is entered into them 
+ *  to bind to all textareas currently defined on a page use:
+ *  $("textarea").keyup(autogrow);
+*/
+function autogrow (event) {
+	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
+	while($(this).outerHeight() < this.scrollHeight +
+		parseFloat($(this).css("borderTopWidth")) +
+		parseFloat($(this).css("borderBottomWidth"))) 
+	{
+	// increase the height until the text fits into the scroll bar height, taking borders into account.
+	$(this).height($(this).height()+1);
+	}
+	$(this).css('overflow-y','auto');
+};
