@@ -98,31 +98,31 @@ limitations under the License.
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 				<div class="row mb-1">
-					<label for="collector1" class="col-sm-4 col-form-label text-center text-md-right">
+					<label for="collector1" class="py-0 pr-0 col-sm-4 col-form-label text-center text-md-right">
 						<select class="custom-select1 border form-control-sm input-xs mt-0 validate">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-12 col-md-8">
+					<div class="col-12 col-md-8 py-0 my-0">
 						<input type="text" class="form-control form-control-sm validate" id="collector1" placeholder="Agent Name">
 					</div>
 				</div>
 				<div class="row mb-1">
-					<label for="collector2" class="py-0 col-sm-4 col-form-label mt-0">
+					<label for="collector2" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border mt-0">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-12 col-md-8 mt-1">
+					<div class="col-12 col-md-8 mt-0">
 						<input type="text" class="form-control form-control-sm" id="collector2" placeholder="Agent Name">
 					</div>
 				</div>
 				<div class="row mb-1">
-					<label for="collector3" class="py-0 col-sm-4 col-form-label mt-0">
+					<label for="collector3" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border mt-0" required>
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
@@ -134,7 +134,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row mb-1">
-					<label for="collector4" class="py-0 col-sm-4 col-form-label mt-0">
+					<label for="collector4" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border mt-0" required >
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
@@ -146,14 +146,14 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row mb-1">
-					<label for="collector5" class="col-sm-4 col-form-label mt-0">
+					<label for="collector5" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border mt-0">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-12 col-md-8">
+					<div class="col-12 col-md-8 mt-1">
 						<input type="text" class="form-control form-control-sm" id="collector5" placeholder="Agent Name">
 					</div>
 				</div>
