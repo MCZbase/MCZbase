@@ -34,9 +34,9 @@ limitations under the License.
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
 			
-			
+			<div class="mx-auto">	
 <!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-			<div class="float-left col-sm-5 border rounded">
+			<div class="float-left col-sm-5 border m-2 rounded">
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
 				
@@ -60,7 +60,6 @@ limitations under the License.
 					</div>
 					<div class="col-sm-5">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
-						<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
 					</div>
 				</div>
 				
@@ -88,15 +87,15 @@ limitations under the License.
 					</div>
 					<div class="col-sm-5">
 						<input type="text" class="form-control form-control-sm"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
-						<small id="record_number" class="form-text text-muted">Other records. Administrative relationships.</small>
+					
 					</div>
 				</div>
 			</div>	
 <!---First block left (above) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
 			
 <!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
-
-			<div class="float-left col-sm-6 border rounded">
+	
+			<div class="float-left col-sm-5 border m-2 rounded">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 				<div class="row">
@@ -160,7 +159,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div class="float-left col-sm-6 border rounded">
+			<div class="float-left col-sm-5 m-2 border rounded">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 				<div class="row">
@@ -197,7 +196,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div class="float-left col-sm-6 border rounded">
+			<div class="float-left col-sm-5 border m-2 rounded">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
 				<div class="row">
@@ -269,11 +268,13 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-	
+			</div>
 		</form>
-	</div>
-	
+	</div>	
 </div>
+<!---Second block Right (above) -- Collector/Preparator: select role, agent name  --->		
+
+	
 	
 	
 <div class="container" id="swapper-other">
