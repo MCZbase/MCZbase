@@ -29,7 +29,7 @@ limitations under the License.
 
 
 <div class="container-fluid" id="swapper-first">
-	<div  class="row col-sm-12 col-md-12 col-xl-12 justify-content-left mt-2">
+	<div  class="row col-sm-12 mt-2">
 		<form id="regFormAll" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
@@ -198,7 +198,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div class="float-left col-sm-5 border m-2 rounded">
+			<div class="float-left col-sm-5 border rounded">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
 				<div class="row">
