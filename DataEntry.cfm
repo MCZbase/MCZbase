@@ -24,7 +24,7 @@ limitations under the License.
 </style>
 <cfoutput>
 <p style="text-align:center; font-weight:bold; font-style:italic;">
-<a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Swap Divs)</a>
+<a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a>
 </p>
 
 
@@ -33,20 +33,24 @@ limitations under the License.
 		<form id="regFormAll" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
-			<div class="tab2 float-left col-lg-6 col-md-6 col-sm-12 col-12 border py-2 pb-4 my-2 rounded">
+			
+			
+<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
+			<div class="float-left col-sm-5 border rounded">
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
-				<div class="form-group mb-0 row">
-					<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
+				
+				<div class="row">
+    				<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
 					<div class="col-sm-9">
-						<p>
-							<input placeholder="Catalog Number" class="form-control form-control-sm validate" oninput="this.className = ''" name="cat_num">
-						</p>
+    					<input type="text" class="form-control form-control-sm" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" oninput="this.className = ''" name="cat_num">
+    					<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
 					</div>
-				</div>
-				<div class="form-group row mb-1">
-					<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
-					<div class="col-sm-4 col-md-4">
+  				</div>
+				
+				<div class="row">
+					<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Other ID</label>
+					<div class="col-sm-4">
 						<select class="custom-select1 form-control input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Other ID Type</option>
 							<option value="1">Field Number</option>
@@ -56,20 +60,24 @@ limitations under the License.
 					</div>
 					<div class="col-sm-5">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+						<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
-					<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Mask Record</label>
-					<div class="col-sm-9 col-md-9 text-left">
+				
+				
+				<div class="row">
+					<label for="mask_record" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
+					<div class="col-sm-9">
 						<div class="form-check form-check-inline">
 							<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
 							<label class="form-check-label w-auto mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
 						</div>
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
-					<label for="relations" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other Records</label>
-					<div class="col-sm-4 col-md-4 text-left">
+				
+				<div class="row">
+					<label for="relations" class="col-sm-3 col-form-label text-center text-md-right">Other Records</label>
+					<div class="col-sm-4">
 						<select class="custom-select1 form-control input-xs border">
 							<option value="">Relationship Type</option>
 							<option value="1">Re-Cataloged as</option>
@@ -80,25 +88,30 @@ limitations under the License.
 					</div>
 					<div class="col-sm-5">
 						<input type="text" class="form-control form-control-sm"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
+						<small id="record_number" class="form-text text-muted">Other records. Administrative relationships.</small>
 					</div>
 				</div>
-			</div>
-			<div class="tab2 float-left col-lg-6 col-md-6 col-sm-12 col-12 border py-2 pb-4 my-2 rounded">
+			</div>	
+<!---First block left (above) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
+			
+<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
+
+			<div class="float-left col-sm-6 border rounded">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
-				<div class="form-group row my-0">
-					<label for="collector1" class="col-sm-3 col-form-label mt-0">
-						<select class="custom-select1 border form-control-sm input-xs mt-0 validate">
+				<div class="row">
+					<label for="collector1" class="col-sm-3 col-form-label text-center text-md-right">
+						<select class="custom-select1 border form-control-sm input-xs validate">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-sm-9 col-md-9 mt-1">
+					<div class="col-sm-9">
 						<input type="text" class="form-control form-control-sm validate" id="collector1" placeholder="Agent Name">
 					</div>
 				</div>
-				<div class="form-group row my-0">
+				<div class="row">
 					<label for="collector2" class="col-sm-3 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border mt-0" style="font-size: 14px;">
 							<option value="">Select Role...</option>
@@ -110,7 +123,7 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm" id="collector2" placeholder="Agent Name">
 					</div>
 				</div>
-				<div class="form-group row my-1">
+				<div class="row">
 					<label for="collector3" class="col-sm-3 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border mt-0" required>
 							<option value="">Select Role...</option>
@@ -122,7 +135,7 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm" id="collector3" placeholder="Agent Name">
 					</div>
 				</div>
-				<div class="form-group row my-1">
+				<div class="row">
 					<label for="collector4" class="col-sm-3 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border mt-0" required >
 							<option value="">Select Role...</option>
@@ -130,11 +143,11 @@ limitations under the License.
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-sm-9 col-md-9 mt-1">
+					<div class="col-sm-9">
 						<input type="text" class="form-control form-control-sm" id="collector4" placeholder="Agent Name">
 					</div>
 				</div>
-				<div class="form-group row my-1">
+				<div class="row">
 					<label for="collector5" class="col-sm-3 col-form-label mt-0">
 						<select class="custom-select1 form-control-sm input-xs border mt-0">
 							<option value="">Select Role...</option>
@@ -142,27 +155,27 @@ limitations under the License.
 							<option value="2">Preparator</option>
 						</select>
 					</label>
-					<div class="col-sm-9 col-md-9 mt-1">
+					<div class="col-sm-9">
 						<input type="text" class="form-control form-control-sm" id="collector5" placeholder="Agent Name">
 					</div>
 				</div>
 			</div>
-			<div class="tab2 float-left col-lg-6 col-md-6 col-sm-12 col-12 border py-2 pb-4 my-2 rounded">
+			<div class="float-left col-sm-6 border rounded">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
-				<div class="form-group row mb-0">
+				<div class="row">
 					<label for="scientific_name" class="col-sm-3 col-form-label text-center text-md-right">Scientific Name</label>
 					<div class="col-sm-9">
 						<input type="text" name="scientific_name" class="form-control form-control-sm" placeholder="Scientific Name" />
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="made_by" class="col-sm-3 col-form-label text-center text-md-right">ID Made By</label>
 					<div class="col-sm-9">
 						<input type="text" name="made_by" class="form-control form-control-sm" placeholder="Identifier's Name" />
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="nature_of_id" class="col-sm-3 col-form-label text-center text-md-right">Nature of ID</label>
 					<div class="col-sm-4">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required>
@@ -176,7 +189,7 @@ limitations under the License.
 						<input type="text" name="made_by_date" class="form-control form-control-sm" placeholder="Date of ID" />
 					</div>
 				</div>
-				<div class="form-group row my-0">
+				<div class="row">
 					<label for="id_remark" class="col-sm-3 col-form-label text-center text-md-right">ID Remark</label>
 					<div class="col-sm-9">
 						<textarea type="text" name="id_remark" class="form-control form-control-sm" placeholder="ID remark"/>
@@ -184,22 +197,22 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div class="tab2 float-left col-lg-6 col-md-6 col-sm-12 col-12  border py-2 pb-4 my-2 rounded">
+			<div class="float-left col-sm-6 border rounded">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Higher Geography</label>
 					<div class="col-sm-9">
 						<input type="text" name="higher_geog" class="form-control form-control-sm" placeholder="Higher Geography" />
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Specific Locality</label>
 					<div class="col-sm-9">
 						<input type="text" name="spec_locality" class="form-control form-control-sm" placeholder="Specific Locality" />
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Elevation</label>
 					<div class="col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMinElev" placeholder="Min Elevation">
@@ -218,7 +231,7 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Depth</label>
 					<div class="col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMinDepth" placeholder="Min Depth">
@@ -237,19 +250,19 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="sovereign_nation" class="col-sm-3 col-form-label text-center text-md-right">Sovereign Nation</label>
 					<div class="col-sm-9">
 						<input type="text" name="sovereign_nation" class="form-control form-control-sm" placeholder="Sovereign Nation" />
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Geology Attribute</label>
 					<div class="col-sm-9 my-0">
 						<input type="text" name="geology_attribute" class="form-control form-control-sm" placeholder="Geology Attribute" />
 					</div>
 				</div>
-				<div class="form-group mb-0 row">
+				<div class="row">
 					<label for="habitat" class="col-sm-3 col-form-label text-center text-md-right">Habitat</label>
 					<div class="col-sm-9">
 						<input type="text" name="habitat" class="form-control form-control-sm" placeholder="Habitat" />
