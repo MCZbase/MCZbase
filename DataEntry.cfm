@@ -99,7 +99,7 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 				<div class="row mb-1">
 					<label for="collector1" class="py-0 pr-0 col-sm-4 col-form-label text-center text-md-right">
-						<select class="custom-select1 border form-control-sm input-xs mt-0 validate">
+						<select class="custom-select1 border form-control-sm input-xs validate">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
@@ -111,7 +111,7 @@ limitations under the License.
 				</div>
 				<div class="row mb-1">
 					<label for="collector2" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border mt-0">
+						<select class="custom-select1 form-control-sm input-xs border">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
@@ -123,7 +123,7 @@ limitations under the License.
 				</div>
 				<div class="row mb-1">
 					<label for="collector3" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border mt-0" required>
+						<select class="custom-select1 form-control-sm input-xs border" required>
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
@@ -135,7 +135,7 @@ limitations under the License.
 				</div>
 				<div class="row mb-1">
 					<label for="collector4" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border mt-0" required >
+						<select class="custom-select1 form-control-sm input-xs border" required >
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
@@ -147,7 +147,7 @@ limitations under the License.
 				</div>
 				<div class="row mb-1">
 					<label for="collector5" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border mt-0">
+						<select class="custom-select1 form-control-sm input-xs border">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
