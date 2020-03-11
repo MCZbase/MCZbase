@@ -34,9 +34,9 @@ limitations under the License.
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
 			
-			<div class="mx-auto">	
+			<div class="mx-auto row">	
 <!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-			<div class="float-left col-sm-5 border m-2 rounded">
+			<div class="form-group col-sm-5 border pb-2 rounded">
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
 				
@@ -62,8 +62,7 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 					</div>
 				</div>
-				
-				
+							
 				<div class="row">
 					<label for="mask_record" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
 					<div class="col-sm-9">
@@ -95,7 +94,7 @@ limitations under the License.
 			
 <!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
 	
-			<div class="float-left col-sm-5 border m-2 rounded">
+			<div class="form-group col-sm-5 border pb-2 rounded">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 				<div class="row">
@@ -159,7 +158,10 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div class="float-left col-sm-5 m-2 border rounded">
+<!---Second block Right (above) -- Collector/Preparator: select role, agent name  --->		
+			</div>
+			<div class="mx-auto row">
+			<div class="form-group col-sm-5 pb-2 border rounded">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 				<div class="row">
@@ -272,7 +274,7 @@ limitations under the License.
 		</form>
 	</div>	
 </div>
-<!---Second block Right (above) -- Collector/Preparator: select role, agent name  --->		
+	
 
 	
 	
