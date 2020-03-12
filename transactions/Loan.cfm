@@ -864,6 +864,8 @@ limitations under the License.
 							</select>
 							<button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
 						</span><!--- end subloan section --->
+					</div>
+				</div>
 
 				<div class="form-row mb-2">
 					<div class="col-12">

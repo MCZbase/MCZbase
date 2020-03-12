@@ -79,4 +79,70 @@ function updateLoanItemCount(transactionId,targetDiv) {
               $('#' + targetDiv).html(message);
            }
         }
-      )};
+      )
+};
+
+
+function loadTransactionFormMedia(transaction_id,transaction_type) {
+    jQuery.ajax({
+          url: "/transactions/component/functions.cfc",
+          data : {
+            method : "getMediaForTransHtml",
+            transaction_id: transaction_id,
+            transaction_type: transaction_type
+         },
+        success: function (result) {
+           $("#transactionFormMedia").html(result);
+        },
+        dataType: "html"
+       }
+     )
+};
+
+
+function loadShipments(transaction_id) {
+    jQuery.ajax({
+          url: "/transactions/component/functions.cfc",
+          data : {
+            method : "getShipmentsByTransHtml",
+            transaction_id : transaction_id
+         },
+        success: function (result) {
+           $("#shipmentTable").html(result);
+        },
+        dataType: "html"
+       }
+     )
+};
+
+function loadTransactionFormPermits(transaction_id) {
+    jQuery.ajax({
+          url: "/transactions/component/functions.cfc",
+          data : {
+            method : "getPermitsForTransHtml",
+            transaction_id: transaction_id
+         },
+        success: function (result) {
+           $("#transactionFormPermits").html(result);
+        },
+        dataType: "html"
+       }
+     )
+};
+
+function loadShipmentFormPermits(shipment_id) {
+    jQuery.ajax({
+          url: "/transactions/component/functions.cfc",
+          data : {
+            method : "getPermitsForShipment",
+            shipment_id : shipment_id
+         },
+        success: function (result) {
+           $("#shipmentFormPermits").html(result);
+        },
+        dataType: "html"
+       }
+     )
+};
+
+
