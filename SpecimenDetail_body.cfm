@@ -1579,23 +1579,28 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 				<!---div class="thumbs"--->
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="media">
+						<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select mczbase.get_media_descriptor(media_id) media_descriptor 
+							from media 
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#media_id#">
+						</cfquery>
+						<cfset altText = alt.media_descriptor>
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
-		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		            <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select
 								media_label,
 								label_value
 							from
 								media_labels
 							where
-								media_id=#media_id#
-
+								media_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#media_id#">
 						</cfquery>
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
 						</cfquery>
-						<cfset alt="Media Preview Image">
+						<cfset description="Media Preview Image">
 						<cfif desc.recordcount is 1>
-							<cfset alt=desc.label_value>
+							<cfset description=desc.label_value>
 						</cfif>
 						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
                         	<cfset one_thumb = "<div class='one_thumb_box'>">
@@ -1607,11 +1612,11 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						    <cfset aForDetHref = "/media/#media_id#">
 						</cfif>
 		              		#one_thumb#
-			               <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
+			               <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
 			                   	<br><a href="#aForDetHref#" target="_blank">Media Details</a>
-								<br>#alt#
+								<br>#description#
 							</p>
 						</div>
 					</cfloop>

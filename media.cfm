@@ -79,7 +79,7 @@
         <cfset failure=1>
       </cfcatch>
       </cftry>
-      <cfif thisRelatedId EQ ''><cfset failure=1></cfif>
+      <cfif thisRelatedId EQ '' AND thisRelationship NEQ "delete"><cfset failure=1></cfif>
       <cfif failure EQ 0>
       <cfif isdefined("media_relations_id__#n#")>
         <cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
@@ -146,7 +146,7 @@
       </cfif>
     </cfloop>
     <cfif isdefined("headless") and headless EQ 'true'>
-        <h2>Changes to Media Record Saved</h2>
+        <h2>Changes to Media Record Saved <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
     <cfelse>
         <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
     </cfif>
@@ -376,22 +376,27 @@
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
  
       <label for="labels" style="margin-top:.5em;">Media Labels</label>
-      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
-      <div id="labels" class="graydot">
-        <div id="labelsDiv__1">
-          <select name="label__1" id="label__1" size="1" style="width: 200px;">
-            <option value=""></option>
+      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p><label for="labels">Media Labels <span class="likeLink" onclick="getCtDoc('ctmedia_label');"> Define</span></label>
+      <div id="labels" class="graydot" style="padding: .5em .25em;">
+      <cfset i=1>
+      <cfloop>
+        <div id="labelsDiv__#i#">
+          <select name="label__#i#" id="label__#i#" size="1">
+            <option value="delete">Select label...</option>
             <cfloop query="ctmedia_label">
               <option value="#media_label#">#media_label#</option>
             </cfloop>
           </select>
           :&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1" size="70">&nbsp;
-            <br><span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
+          <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="">
+	 </div>
+	 <cfset i=i+1>
+	</cfloop>
+          <span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span>
       </div>
         
        </div>
-        </div>
+      
       <input type="submit" 
 				value="Create Media" 
 				class="insBtn"

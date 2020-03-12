@@ -807,7 +807,7 @@ You do not have permission to create Higher Geographies
         <td style="padding-right: 2em;"><label for="collecting_source">
 			Collecting Source
 		</label>
-		<select name="collecting_source" id="collecting_source" size="1">
+		<select name="collecting_source" id="collecting_source" size="1" required="required">
 			<cfloop query="ctCollecting_Source">
 				<option <cfif ctCollecting_Source.Collecting_Source is locDet.collecting_source> selected="selected" </cfif>
 					value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
@@ -893,7 +893,7 @@ You do not have permission to create Higher Geographies
 			<tr>
 				<td>
 				<label for="verbatim_date">Verbatim Date</label>
-				<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr"
+				<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr" required="required"
 				  	<cfif isdefined("verbatim_date")>
 						value="#verbatim_date#"
 					</cfif>
@@ -978,7 +978,8 @@ You do not have permission to create Higher Geographies
 					<cfelse>
 						<cfset collsrc = "">
 					</cfif>
-					<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
+					<select name="collecting_source" id="collecting_source" size="1" class="reqdClr" required="required" >
+					<option value="">Choose...</option>
 						<cfloop query="ctCollecting_Source">
 							<option
 								<cfif ctCollecting_Source.Collecting_Source is collsrc> selected="selected" </cfif>
