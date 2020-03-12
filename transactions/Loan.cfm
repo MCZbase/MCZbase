@@ -596,8 +596,17 @@ limitations under the License.
 			});
 		});
 	</script>
+	<cfcatch>
+		<!--- Report any exceptions thrown in setting up the page --->
+		<h2>Error: #cfcatch.message#</h2>
+		<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+		<cfabort><!--- Stop processing page, don't display form with data --->
+	</cfcatch>
+	</cftry><!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
+
 	<div class="container-fluid form-div">
 		<div class="container">
+		<cftry>
 			<h2 class="wikilink m-0" >Edit Loan 
 				<img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
 				<span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>
@@ -984,400 +993,400 @@ limitations under the License.
 
 			</form>
 
-
-	<div class="shippingBlock">
-                <div id="loanItemCountDiv"></div>
-		<script>
-			$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
- 		</script>
-
-		<cfif loanDetails.loan_type EQ 'consumable'>
-			<h3>Disposition of material in loan:</h3>
-			<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-				from loan left join loan_item on loan.transaction_id = loan_item.transaction_id
-				left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-				left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-				left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-			where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-		              and coll_obj_disposition is not null
-			group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
-			</cfquery>
-
-		    <cfif getDispositions.RecordCount EQ 0 >
-		        <h4>There are no attached collection objects.</h4>
-		    <cfelse>
-		        <table>
-			       <tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
-		          	<cfloop query="getDispositions">
-		              <cfif len(trim(getDispositions.deacc_number)) GT 0>
-		    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
-		              <cfelse>
-		    	          <tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><strong>Not in a Deaccession</strong></td> </tr>
-		              </cfif>
-		            </cfloop>
-		    	</table>
-		    </cfif>
-		</cfif>
-
-	</div>
-	</div>
-	</div>
-
-				<div class="form-row mb-2">
-					<div class="col-12">
-						<label for="redir">Print...</label>
-						<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
-							<option value=""></option>
-							<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
-									sort={a field name that is in the select portion of the query specified in the custom tag}, or
-									sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
-							--->
-							<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
-							</cfif>
-							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header">Header Copy for MCZ Files</option>
-							<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
-							</cfif>
-							<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus">MCZ Exhibition Loan Header Long</option>
-							</cfif>
-							<cfif inhouse.c is 1 and outside.c is 1 >
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
-							</cfif>
-							<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
-							</cfif>
-							<cfif inhouse.c is 1 and outside.c is 1 >
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
-							</cfif>
-							<option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
-							<option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="form-row mb-2">
-					<div class="col-12">
-						<h3>Media documenting this Loan:</h3>
-						<p style="margin:0px;">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
-						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select
-								media.media_id,
-								preview_uri,
-								media_uri,
-								media_type,
-								label_value
-							from
-								media,
-								media_relations,
-								(select * from media_labels where media_label='description') media_labels
-							where
-								media.media_id=media_labels.media_id (+) and
-								media.media_id=media_relations.media_id and
-								media_relationship like '% loan' and
-							related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_NUMBER">
-						</cfquery>
-						<br>
-						<span>
-							<cfset relation="documents loan">
-							<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
-      					<span id='addMedia_#transaction_id#'>
-								<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
-							</span>
-						</span>
-						<div id='addMediaDlg_#transaction_id#'></div>
-						<div id='newMediaDlg_#transaction_id#'></div>
-						<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
-						<script>
-							// callback for ajax methods to reload from dialog
-							function reloadTransMedia() { 
-								loadTransactionFormMedia(#transaction_id#,"loan");
-								if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
-									$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
-								}
-							};
-							$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
-						</script>
-					</div>
-				</div>
-
-				<div class="form-row mb-2">
-					<div class="col-12">
-						<h3>Countries of Origin of items in this loan</h3>
-						<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select count(*) as ct, sovereign_nation 
-								from loan_item 
-								left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-								left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-								left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-								left join locality on collecting_event.locality_id = locality.locality_id
-							where
-								loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
-							group by sovereign_nation
-						</cfquery>
-						<cfset sep="">
-						<cfloop query=ctSovereignNation>
-							<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
-							<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
-							<cfset sep="; ">
-						</cfloop>
-					</div>
-				</div>
-
-				<div class="form-row mb-2">
-					<div class="col-12">
-						<h3>Shipment Information:</h3>
-						<script>
-						function opendialog(page,id,title) {
-						var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
-						var adialog = $(id)
-							.html(content)
-							.dialog({
-								title: title,
-								autoOpen: false,
-								dialogClass: 'dialog_fixed,ui-widget-header',
-								modal: true,
-								height: 900,
-								width: 1100,
-								minWidth: 400,
-								minHeight: 450,
-								draggable:true,
-								resizable:true,
-								buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
-								close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
-							});
-							adialog.dialog('open');
-						};
-						</script>
-
-					<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
-					</cfquery>
-					<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
-						from shipment sh
-							left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
-							left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
-						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-					</cfquery>
-					<div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
+			<div class="form-row mb-2">
+				<div class="col-12">
+					<div id="loanItemCountDiv"></div>
 					<script>
-					$( document ).ready(loadShipments(#transaction_id#));
-						$(function() {
-						$("##dialog-shipment").dialog({
-							autoOpen: false,
-							modal: true,
-							width: 650,
-							buttons: {
-								"Save": function() {  saveShipment(#transaction_id#); } ,
-								Cancel: function() { $(this).dialog( "close" ); }
-							},
-							close: function() {
-								$(this).dialog( "close" );
-							}
-						});
-					});
+						$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 					</script>
-					<div class="addstyle">
-						<input type="button" class="lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
-						<div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
-					</div><!---moved this to inside of the shipping block--one div up--->
-					</div>
-				</div>
-
-				<!----  Shipment Popup Dialog autoOpen is false --->
-				<div id="dialog-shipment" title="Create new Shipment">
-					<form name="shipmentForm" id="shipmentForm" >
-						<fieldset>
-							<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
-							<input type="hidden" name="shipment_id" value="" id="shipment_id">
-							<input type="hidden" name="returnFormat" value="json" id="returnFormat">
+					<cfif loanDetails.loan_type EQ 'consumable'>
+						<h3>Disposition of material in loan:</h3>
+						<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+							from loan 
+								left join loan_item on loan.transaction_id = loan_item.transaction_id
+								left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+								left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
+								left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+							where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+								and coll_obj_disposition is not null
+							group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
+						</cfquery>
+						<cfif getDispositions.RecordCount EQ 0 >
+							<h4>There are no attached collection objects.</h4>
+						<cfelse>
 							<table>
-								<tr>
-									<td>
-										<label for="shipped_carrier_method">Shipping Method</label>
-										<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
-											<option value=""></option>
-											<cfloop query="ctShip">
-												<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
-											</cfloop>
-										</select>
-									</td>
-									<td colspan="2">
-										<label for="carriers_tracking_number">Tracking Number</label>
-										<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" >
-									</td>
-								</tr><tr>
-									<td>
-										<label for="no_of_packages">Number of Packages</label>
-										<input type="text" value="1" name="no_of_packages" id="no_of_packages">
-									</td>
-									<td>
-										<label for="shipped_date">Ship Date</label>
-										<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
-									</td>
-									<td>
-										<label for="foreign_shipment_fg">Foreign shipment?</label>
-										<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
-											<option selected value="0">no</option>
-											<option value="1">yes</option>
-										</select>
-									</td>
-								</tr><tr>
-									<td>
-										<label for="package_weight">Package Weight (TEXT, include units)</label>
-										<input type="text" value="" name="package_weight" id="package_weight">
-									</td>
-									<td>
-										<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
-										<input type="text" validate="float" label="Numeric value required."
-											value="" name="insured_for_insured_value" id="insured_for_insured_value">
-									</td>
-									<td>
-										<label for="hazmat_fg">HAZMAT?</label>
-										<select name="hazmat_fg" id="hazmat_fg" size="1">
-											<option selected value="0">no</option>
-											<option value="1">yes</option>
-										</select>
-									</td>
-								</tr>
+								<tr> <th>Parts</th> <th>Disposition</th> <th>Deaccession</th> </tr>
+								<cfloop query="getDispositions">
+									<cfif len(trim(getDispositions.deacc_number)) GT 0>
+										<tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td> </tr>
+									<cfelse>
+										<tr> <td>#pcount#</td> <td>#coll_obj_disposition#</td> <td><strong>Not in a Deaccession</strong></td> </tr>
+									</cfif>
+								</cfloop>
 							</table>
-				
-							<label for="packed_by_agent">Packed By Agent</label>
-							<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
-								onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
-								onKeyPress="return noenter(event);">
-							<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
-				
-							<label for="shipped_to_addr">Shipped To Address</label>
-							<input type="button" value="Pick Address" class="picBtn"
-								onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
-							<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
-								readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
-							<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
-				
-							<label for="shipped_from_addr">Shipped From Address</label>
-							<input type="button" value="Pick Address" class="picBtn"
-								onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
-							<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
-								readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
-							<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
-				
-							<label for="shipment_remarks">Remarks</label>
-							<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60">
-							<label for="contents">Contents</label>
-							<input type="text" value="" name="contents" id="contents" size="60">
-						</fieldset>
-					</form>
-					<div id="shipmentFormPermits"></div>
-					<div id="shipmentFormStatus"></div>
+						</cfif>
+					</cfif>
 				</div>
-				<!----  End Shipment dialog --->
+			</div>
 
-				<div class="form-row mb-2">
-					<div class="col-12">
-					<h3>Accessions of material in this loan:</h3>
-					<!--- List Accessions for collection objects included in the Loan --->
-					<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
-						from loan l
-							left join loan_item li on l.transaction_id = li.transaction_id
-							left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-							left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-							left join accn on ci.accn_id = accn.transaction_id
-						where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+
+			<div class="form-row mb-2">
+				<div class="col-12">
+					<label for="redir">Print...</label>
+					<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+						<option value=""></option>
+						<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
+								sort={a field name that is in the select portion of the query specified in the custom tag}, or
+								sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
+						--->
+						<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
+						</cfif>
+						<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header">Header Copy for MCZ Files</option>
+						<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
+						</cfif>
+						<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus">MCZ Exhibition Loan Header Long</option>
+						</cfif>
+						<cfif inhouse.c is 1 and outside.c is 1 >
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
+						</cfif>
+						<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
+						</cfif>
+						<cfif inhouse.c is 1 and outside.c is 1 >
+							<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
+						</cfif>
+						<option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
+						<option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-row mb-2">
+				<div class="col-12">
+					<h3>Media documenting this Loan:</h3>
+					<p style="margin:0px;">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
+					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select
+							media.media_id,
+							preview_uri,
+							media_uri,
+							media_type,
+							label_value
+						from
+							media,
+							media_relations,
+							(select * from media_labels where media_label='description') media_labels
+						where
+							media.media_id=media_labels.media_id (+) and
+							media.media_id=media_relations.media_id and
+							media_relationship like '% loan' and
+						related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_NUMBER">
 					</cfquery>
-					<ul class="accn">
-						<cfloop query="getAccessions">
-							<li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
-							<cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct permit_num, permit.permit_type, permit.specific_type, issued_date, permit.permit_id,
-									issuedBy.agent_name as IssuedByAgent
-								from permit_trans 
-									left join permit on permit_trans.permit_id = permit.permit_id
-									left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
-									left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-								where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-									and ctspecific_permit_type.accn_show_on_shipment = 1
-								order by permit.permit_type, issued_date
-							</cfquery>
-							<cfif getAccnPermits.recordcount gt 0>
-								<ul class="accnpermit">
-									<cfloop query="getAccnPermits">
-										<li><span style="font-weight:bold;">#permit_type#:</span> #specific_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
-									</cfloop>
-								</ul>
+					<br>
+					<span>
+						<cfset relation="documents loan">
+						<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >&nbsp;
+      					<span id='addMedia_#transaction_id#'>
+							<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >&nbsp;
+						</span>
+					</span>
+					<div id='addMediaDlg_#transaction_id#'></div>
+					<div id='newMediaDlg_#transaction_id#'></div>
+					<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
+					<script>
+						// callback for ajax methods to reload from dialog
+						function reloadTransMedia() { 
+							loadTransactionFormMedia(#transaction_id#,"loan");
+							if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+								$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+							}
+						};
+						$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
+					</script>
+				</div>
+			</div>
+
+			<div class="form-row mb-2">
+				<div class="col-12">
+					<h3>Countries of Origin of items in this loan</h3>
+					<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select count(*) as ct, sovereign_nation 
+							from loan_item 
+							left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+							left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+							left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+							left join locality on collecting_event.locality_id = locality.locality_id
+						where
+							loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+						group by sovereign_nation
+					</cfquery>
+					<cfset sep="">
+					<cfloop query=ctSovereignNation>
+						<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
+						<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+						<cfset sep="; ">
+					</cfloop>
+				</div>
+			</div>
+
+			<div class="form-row mb-2">
+				<div class="col-12">
+					<h3>Shipment Information:</h3>
+					<script>
+					function opendialog(page,id,title) {
+					var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+					var adialog = $(id)
+						.html(content)
+						.dialog({
+							title: title,
+							autoOpen: false,
+							dialogClass: 'dialog_fixed,ui-widget-header',
+							modal: true,
+							height: 900,
+							width: 1100,
+							minWidth: 400,
+							minHeight: 450,
+							draggable:true,
+							resizable:true,
+							buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
+							close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
+						});
+						adialog.dialog('open');
+					};
+					</script>
+
+				<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
+				</cfquery>
+				<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
+					from shipment sh
+						left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
+						left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
+					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+				</cfquery>
+				<div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
+				<script>
+				$( document ).ready(loadShipments(#transaction_id#));
+					$(function() {
+					$("##dialog-shipment").dialog({
+						autoOpen: false,
+						modal: true,
+						width: 650,
+						buttons: {
+							"Save": function() {  saveShipment(#transaction_id#); } ,
+							Cancel: function() { $(this).dialog( "close" ); }
+						},
+						close: function() {
+							$(this).dialog( "close" );
+						}
+					});
+				});
+				</script>
+				<div class="addstyle">
+					<input type="button" class="lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+					<div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
+				</div><!---moved this to inside of the shipping block--one div up--->
+				</div>
+			</div>
+
+			<!----  Shipment Popup Dialog autoOpen is false --->
+			<div id="dialog-shipment" title="Create new Shipment">
+				<form name="shipmentForm" id="shipmentForm" >
+					<fieldset>
+						<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
+						<input type="hidden" name="shipment_id" value="" id="shipment_id">
+						<input type="hidden" name="returnFormat" value="json" id="returnFormat">
+						<table>
+							<tr>
+								<td>
+									<label for="shipped_carrier_method">Shipping Method</label>
+									<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
+										<option value=""></option>
+										<cfloop query="ctShip">
+											<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
+										</cfloop>
+									</select>
+								</td>
+								<td colspan="2">
+									<label for="carriers_tracking_number">Tracking Number</label>
+									<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" >
+								</td>
+							</tr><tr>
+								<td>
+									<label for="no_of_packages">Number of Packages</label>
+									<input type="text" value="1" name="no_of_packages" id="no_of_packages">
+								</td>
+								<td>
+									<label for="shipped_date">Ship Date</label>
+									<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
+								</td>
+								<td>
+									<label for="foreign_shipment_fg">Foreign shipment?</label>
+									<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
+										<option selected value="0">no</option>
+										<option value="1">yes</option>
+									</select>
+								</td>
+							</tr><tr>
+								<td>
+									<label for="package_weight">Package Weight (TEXT, include units)</label>
+									<input type="text" value="" name="package_weight" id="package_weight">
+								</td>
+								<td>
+									<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
+									<input type="text" validate="float" label="Numeric value required."
+										value="" name="insured_for_insured_value" id="insured_for_insured_value">
+								</td>
+								<td>
+									<label for="hazmat_fg">HAZMAT?</label>
+									<select name="hazmat_fg" id="hazmat_fg" size="1">
+										<option selected value="0">no</option>
+										<option value="1">yes</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+			
+						<label for="packed_by_agent">Packed By Agent</label>
+						<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
+							onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
+							onKeyPress="return noenter(event);">
+						<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
+			
+						<label for="shipped_to_addr">Shipped To Address</label>
+						<input type="button" value="Pick Address" class="picBtn"
+							onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+						<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
+							readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
+						<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
+			
+						<label for="shipped_from_addr">Shipped From Address</label>
+						<input type="button" value="Pick Address" class="picBtn"
+							onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+						<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
+							readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
+						<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
+			
+						<label for="shipment_remarks">Remarks</label>
+						<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60">
+						<label for="contents">Contents</label>
+						<input type="text" value="" name="contents" id="contents" size="60">
+					</fieldset>
+				</form>
+				<div id="shipmentFormPermits"></div>
+				<div id="shipmentFormStatus"></div>
+			</div>
+			<!----  End Shipment dialog --->
+
+			<div class="form-row mb-2">
+				<div class="col-12">
+				<h3>Accessions of material in this loan:</h3>
+				<!--- List Accessions for collection objects included in the Loan --->
+				<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
+					from loan l
+						left join loan_item li on l.transaction_id = li.transaction_id
+						left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+						left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+						left join accn on ci.accn_id = accn.transaction_id
+					where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+				</cfquery>
+				<ul class="accn">
+					<cfloop query="getAccessions">
+						<li class="accn2"><a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
+						<cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct permit_num, permit.permit_type, permit.specific_type, issued_date, permit.permit_id,
+								issuedBy.agent_name as IssuedByAgent
+							from permit_trans 
+								left join permit on permit_trans.permit_id = permit.permit_id
+								left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
+								left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+							where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+								and ctspecific_permit_type.accn_show_on_shipment = 1
+							order by permit.permit_type, issued_date
+						</cfquery>
+						<cfif getAccnPermits.recordcount gt 0>
+							<ul class="accnpermit">
+								<cfloop query="getAccnPermits">
+									<li><span style="font-weight:bold;">#permit_type#:</span> #specific_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+								</cfloop>
+							</ul>
+						</cfif>
+						</li>
+					</cfloop>
+				</ul>
+				</div>
+			</div>
+
+			<!--- Print permits associated with these accessions --->
+			<div class="form-row mb-2">
+				<div class="col-12">
+					<h3>Permissions and Rights Documents (PDF copies of Permits) from Accessions and the Shipments of this Loan.</h3>
+					<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
+						from (
+							select 
+								mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
+								mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+								p.permit_type, p.permit_num, p.permit_title, p.specific_type,
+								ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
+							from loan_item li
+								left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+								left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+								left join accn on ci.accn_id = accn.transaction_id
+								left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+								left join permit p on permit_trans.permit_id = p.permit_id
+								left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
+							where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+							union
+							select 
+								mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
+								mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+								p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
+							from shipment s
+								left join permit_shipment ps on s.shipment_id = ps.shipment_id
+								left join permit p on ps.permit_id = p.permit_id
+							where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+						) where permit_type is not null
+					</cfquery>
+					<cfset uriList = ''>
+					<ul>
+						<cfloop query="getPermitMedia">
+							<cfif media_id is ''> 
+								<li>#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
+							<cfelse>
+								<cfif show_on_shipment EQ 1> 
+									<li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
+									<cfset uriList = ListAppend(uriList,uri)>
+								<cfelse>
+									<li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
+								</cfif>
 							</cfif>
-							</li>
 						</cfloop>
 					</ul>
-					</div>
+					<cfif ListLen(uriList,',',false) gt 0 >
+						<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
+					</cfif>
 				</div>
+			</div>
 
-				<!--- Print permits associated with these accessions --->
-				<div class="form-row mb-2">
-					<div class="col-12">
-						<h3>Permissions and Rights Documents (PDF copies of Permits) from Accessions and the Shipments of this Loan.</h3>
-						<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
-							from (
-								select 
-									mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
-									mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-									p.permit_type, p.permit_num, p.permit_title, p.specific_type,
-									ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
-								from loan_item li
-									left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-									left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-									left join accn on ci.accn_id = accn.transaction_id
-									left join permit_trans on accn.transaction_id = permit_trans.transaction_id
-									left join permit p on permit_trans.permit_id = p.permit_id
-									left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
-								where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-								union
-								select 
-									mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
-									mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-									p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
-								from shipment s
-									left join permit_shipment ps on s.shipment_id = ps.shipment_id
-									left join permit p on ps.permit_id = p.permit_id
-								where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-							) where permit_type is not null
-						</cfquery>
-						<cfset uriList = ''>
-						<ul>
-							<cfloop query="getPermitMedia">
-								<cfif media_id is ''> 
-									<li>#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
-								<cfelse>
-									<cfif show_on_shipment EQ 1> 
-										<li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
-										<cfset uriList = ListAppend(uriList,uri)>
-									<cfelse>
-										<li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
-									</cfif>
-								</cfif>
-							</cfloop>
-						</ul>
-						<cfif ListLen(uriList,',',false) gt 0 >
-							<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
-						</cfif>
-					</div>
-				</div>
-
-<cfcatch>
-	<h2>Error: #cfcatch.message#</h2>
-	<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
-</cfcatch>
-</cftry>
+		<cfcatch>
+			<h2>Error: #cfcatch.message#</h2>
+			<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+		</cfcatch>
+		</cftry>
+		</div><!--- class="container" --->
+	</div><!--- class="container-fluid form-div" --->
 </cfoutput>
 <!--- TODO: Fix bug in dCount, type error, el is null --->
 <!---
