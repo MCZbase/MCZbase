@@ -303,7 +303,7 @@ limitations under the License.
 					<div class="col-sm-1 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Units">
 					</div>
-					<div class="col-sm-2 pr-0">
+					<div class="col-sm-1 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Date">
 					</div>
 					<div class="col-sm-2 pr-0">
@@ -312,7 +312,7 @@ limitations under the License.
 					<div class="col-sm-2 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Method">
 					</div>
-					<div class="col-sm-1 pr-0">
+					<div class="col-sm-2">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Remarks">
 					</div>
 				</div>
