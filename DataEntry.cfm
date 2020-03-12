@@ -51,7 +51,7 @@ limitations under the License.
 				
 				<div class="form-group row">
 					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other ID</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 pr-0">
 						<select class="custom-select1 form-control input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Other ID Type</option>
 							<option value="1">Field Number</option>
@@ -64,7 +64,7 @@ limitations under the License.
 					</div>
 				</div>
 							
-				<div class="row form-group">
+				<div class="row form-group mb-2">
 					<label for="mask_record" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Mask Record</label>
 					<div class="col-sm-9">
 						<div class="form-check form-check-inline">
@@ -76,7 +76,7 @@ limitations under the License.
 				
 				<div class="form-group row">
 					<label for="relations" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other Records</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 pr-0">
 						<select class="custom-select1 form-control input-xs border">
 							<option value="">Relationship Type</option>
 							<option value="1">Re-Cataloged as</option>
@@ -96,7 +96,7 @@ limitations under the License.
 			
 <!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
 	
-			<div class="form-group col-12 col-md-6 pb-2">
+			<div class="form-group col-12 col-md-6 pb-0">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
@@ -162,9 +162,8 @@ limitations under the License.
 				</div>
 				</div>
 			</div>
-<!---Second block Right (above) -- Collector/Preparator: select role, agent name  --->		
-			</div>
-			<div class="mx-auto row">
+<!---Second block Right (above) -- Collector/Preparator: select role, agent name  --->	
+				
 			<div class="form-group col-12 col-md-6 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Scientific Name</h2>
@@ -204,6 +203,10 @@ limitations under the License.
 				</div>
 				</div>
 			</div>
+				
+			</div>
+			<div class="mx-auto row">
+		
 			<div class="form-group col-12 col-md-6 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Locality</h2>
