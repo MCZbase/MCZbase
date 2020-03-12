@@ -697,7 +697,7 @@ limitations under the License.
                                                     onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 					</td>
 					<td style=" min-width: 3.5em; ">
-					    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif loanAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif loanAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
+					    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif loanAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif loanAgents.worstagentrank EQ 'F'><img src='/includes/images/flag-red.svg.png' width='16'><cfelse><img src='/includes/images/flag-yellow.svg.png' width='16'></cfif>
                                             </span>
 					</td>
 					<td>
@@ -1101,7 +1101,7 @@ limitations under the License.
 					</span>
 					<div id='addMediaDlg_#transaction_id#'></div>
 					<div id='newMediaDlg_#transaction_id#'></div>
-					<div id="transactionFormMedia"><img src='images/indicator.gif'> Loading Media....</div>
+					<div id="transactionFormMedia"><img src='/includes/images/indicator.gif'> Loading Media....</div>
 					<script>
 						// callback for ajax methods to reload from dialog
 						function reloadTransMedia() { 
@@ -1174,7 +1174,7 @@ limitations under the License.
 						left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 				</cfquery>
-				<div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
+				<div id="shipmentTable"><img src='/includes/images/indicator.gif'> Loading shipments...</div> <!--- shippmentTable for ajax replace --->
 				<script>
 				$( document ).ready(loadShipments(#transaction_id#));
 					$(function() {
