@@ -91,70 +91,21 @@ limitations under the License.
 				</div>	
 			</div>	
 				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
-				<div class="form-group col-12 col-md-4 pb-0">
+			<div class="form-group col-12 col-md-4 pb-0">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
-				<div class="row mb-2">
-					<label for="collector1" class="py-0 pr-0 col-sm-4 col-form-label text-center text-md-right">
+					<div class="row mb-2">
+					<label for="collector1" class="col-12 col-lg-4 col-form-label text-center text-md-right">Agent 1</label>
 						<select class="custom-select1 border form-control-sm input-xs validate">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
 						</select>
-					</label>
-					<div class="col-12 col-md-8 py-0 my-0">
+					<div class="col-12 col-lg-8">
 						<input type="text" class="form-control form-control-sm validate" id="collector1" placeholder="Agent Name">
 					</div>
-				</div>
-				<div class="row mb-2">
-					<label for="collector2" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border">
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					</label>
-					<div class="col-12 col-md-8">
-						<input type="text" class="form-control form-control-sm" id="collector2" placeholder="Agent Name">
 					</div>
-				</div>
-				<div class="row mb-2">
-					<label for="collector3" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border" required>
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					</label>
-					<div class="col-12 col-md-8">
-						<input type="text" class="form-control form-control-sm" id="collector3" placeholder="Agent Name">
-					</div>
-				</div>
-				<div class="row mb-2">
-					<label for="collector4" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border" required >
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					</label>
-					<div class="col-12 col-md-8">
-						<input type="text" class="form-control form-control-sm" id="collector4" placeholder="Agent Name">
-					</div>
-				</div>
-				<div class="row mb-2">
-					<label for="collector5" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border">
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					</label>
-					<div class="col-12 col-md-8">
-						<input type="text" class="form-control form-control-sm" id="collector5" placeholder="Agent Name">
-					</div>
-				</div>
 				</div>
 			</div>
 				
