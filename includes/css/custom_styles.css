@@ -1604,6 +1604,7 @@ table#pairs th, table#pairs td {
 }
 .form-control-sm {
 	width: 100%;
+	font-size: .8em;
 	border: 1px solid #ccc;
 }
 .search-form-builder {
