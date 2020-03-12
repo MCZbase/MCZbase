@@ -41,16 +41,16 @@ limitations under the License.
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
 				
-				<div class="row">
-    				<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
+				<div class="form-group row">
+    				<label for="cat_num" class="form-control-sm border-0 col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
 					<div class="col-sm-9">
     					<input type="text" class="form-control form-control-sm" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" oninput="this.className = ''" name="cat_num">
     					<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
 					</div>
   				</div>
 				
-				<div class="row">
-					<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Other ID</label>
+				<div class="form-group row">
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other ID</label>
 					<div class="col-sm-4">
 						<select class="custom-select1 form-control input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Other ID Type</option>
@@ -64,8 +64,8 @@ limitations under the License.
 					</div>
 				</div>
 							
-				<div class="row">
-					<label for="mask_record" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
+				<div class="row form-group">
+					<label for="mask_record" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Mask Record</label>
 					<div class="col-sm-9">
 						<div class="form-check form-check-inline">
 							<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
@@ -74,8 +74,8 @@ limitations under the License.
 					</div>
 				</div>
 				
-				<div class="row">
-					<label for="relations" class="col-sm-3 col-form-label text-center text-md-right">Other Records</label>
+				<div class="form-group row">
+					<label for="relations" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other Records</label>
 					<div class="col-sm-4">
 						<select class="custom-select1 form-control input-xs border">
 							<option value="">Relationship Type</option>
@@ -208,20 +208,20 @@ limitations under the License.
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
-				<div class="row">
-					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Higher Geography</label>
+				<div class="form-group row">
+					<label for="higher_geog" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Higher Geography</label>
 					<div class="col-sm-9">
 						<input type="text" name="higher_geog" class="form-control form-control-sm" placeholder="Higher Geography" />
 					</div>
 				</div>
-				<div class="row">
-					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Specific Locality</label>
+				<div class="row form-group">
+					<label for="higher_geog" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Specific Locality</label>
 					<div class="col-sm-9">
 						<input type="text" name="spec_locality" class="form-control form-control-sm" placeholder="Specific Locality" />
 					</div>
 				</div>
-				<div class="row">
-					<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Elevation</label>
+				<div class="row form-group">
+					<label for="inputPassword3" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Elevation</label>
 					<div class="col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMinElev" placeholder="Min Elevation">
 					</div>
@@ -239,8 +239,8 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<div class="row">
-					<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Depth</label>
+				<div class="row form-group">
+					<label for="inputPassword3" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Depth</label>
 					<div class="col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMinDepth" placeholder="Min Depth">
 					</div>
@@ -258,20 +258,20 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<div class="row">
-					<label for="sovereign_nation" class="col-sm-3 col-form-label text-center text-md-right">Sovereign Nation</label>
+				<div class="row form-group">
+					<label for="sovereign_nation" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Sovereign Nation</label>
 					<div class="col-sm-9">
 						<input type="text" name="sovereign_nation" class="form-control form-control-sm" placeholder="Sovereign Nation" />
 					</div>
 				</div>
-				<div class="row">
-					<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Geology Attribute</label>
+				<div class="row form-group">
+					<label for="higher_geog" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Geology Attribute</label>
 					<div class="col-sm-9 my-0">
 						<input type="text" name="geology_attribute" class="form-control form-control-sm" placeholder="Geology Attribute" />
 					</div>
 				</div>
-				<div class="row">
-					<label for="habitat" class="col-sm-3 col-form-label text-center text-md-right">Habitat</label>
+				<div class="row form-group">
+					<label for="habitat" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Habitat</label>
 					<div class="col-sm-9">
 						<input type="text" name="habitat" class="form-control form-control-sm" placeholder="Habitat" />
 					</div>
