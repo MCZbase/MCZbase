@@ -29,18 +29,16 @@ limitations under the License.
 
 
 <div class="container-fluid" id="swapper-first" style="display: none;">
-	<div  class="row col-12 mt-2">
+	<div class="row col-12 mt-2">
 		<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
-			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
-			
+			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>	
 			<div class="row">	
-<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-			<div class="form-group col-12 col-md-4 pb-2">
+				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
+				<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Record Numbers</h2>
-				<h3 class="fs-subtitle text-center">This is step 1</h3>
-				
+				<h3 class="fs-subtitle text-center">This is step 1</h3>				
 				<div class="form-group row">
     				<label for="cat_num" class="form-control-sm border-0 col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
 					<div class="col-sm-9">
@@ -50,23 +48,23 @@ limitations under the License.
   				</div>
 				
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other ID</label>
-					<div class="col-sm-4 pr-0">
-						<select class="custom-select1 form-control input-xs border" oninput="this.className = ''" mt-0 required>
+					<label for="other_id" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">Other ID</label>
+					<div class="col-lg-4">
+						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Other ID Type</option>
 							<option value="1">Field Number</option>
 							<option value="2">Collector Number</option>
 							<option value="3">Previous Number</option>
 						</select>
 					</div>
-					<div class="col-sm-5">
+					<div class="col-lg-5">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 					</div>
 				</div>
 							
-				<div class="row form-group mb-2">
+				<div class="form-group row mb-2">
 					<label for="mask_record" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Mask Record</label>
-					<div class="col-sm-9">
+					<div class="col-lg-9">
 						<div class="form-check form-check-inline">
 							<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
 							<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
@@ -76,7 +74,7 @@ limitations under the License.
 				
 				<div class="form-group row">
 					<label for="relations" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other Records</label>
-					<div class="col-sm-4 pr-0">
+					<div class="col-lg-4">
 						<select class="custom-select1 form-control input-xs border">
 							<option value="">Relationship Type</option>
 							<option value="1">Re-Cataloged as</option>
@@ -85,104 +83,51 @@ limitations under the License.
 							<option value="4">Duplicate Recataloged as</option>
 						</select>
 					</div>
-					<div class="col-sm-5">
+					<div class="col-lg-5">
 						<input type="text" class="form-control form-control-sm"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
 					
 					</div>
 				</div>
 				</div>	
-			</div>
-<!---First block left (above) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-			
-<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
-	
-			<div class="form-group col-12 col-md-4 pb-0">
+			</div>	
+				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
+			<div class="form-group col-12 col-lg-4 pb-0">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
-				<div class="row mb-2">
-					<label for="collector1" class="py-0 pr-0 col-sm-4 col-form-label text-center text-md-right">
+					<div class="row mb-2">
+					<label for="collector1" class="col-12 col-lg-4 col-form-label text-center text-md-right">Agent 1</label>
 						<select class="custom-select1 border form-control-sm input-xs validate">
 							<option value="">Select Role...</option>
 							<option value="1">Collector</option>
 							<option value="2">Preparator</option>
 						</select>
-					</label>
-					<div class="col-12 col-md-8 py-0 my-0">
+					<div class="col-12 col-lg-8">
 						<input type="text" class="form-control form-control-sm validate" id="collector1" placeholder="Agent Name">
 					</div>
-				</div>
-				<div class="row mb-2">
-					<label for="collector2" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border">
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					</label>
-					<div class="col-12 col-md-8">
-						<input type="text" class="form-control form-control-sm" id="collector2" placeholder="Agent Name">
 					</div>
-				</div>
-				<div class="row mb-2">
-					<label for="collector3" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border" required>
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					</label>
-					<div class="col-12 col-md-8">
-						<input type="text" class="form-control form-control-sm" id="collector3" placeholder="Agent Name">
-					</div>
-				</div>
-				<div class="row mb-2">
-					<label for="collector4" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border" required >
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					</label>
-					<div class="col-12 col-md-8">
-						<input type="text" class="form-control form-control-sm" id="collector4" placeholder="Agent Name">
-					</div>
-				</div>
-				<div class="row mb-2">
-					<label for="collector5" class="py-0 pr-0 col-sm-4 col-form-label mt-0">
-						<select class="custom-select1 form-control-sm input-xs border">
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					</label>
-					<div class="col-12 col-md-8">
-						<input type="text" class="form-control form-control-sm" id="collector5" placeholder="Agent Name">
-					</div>
-				</div>
 				</div>
 			</div>
-<!---Second block Right (above) -- Collector/Preparator: select role, agent name  --->	
 				
-			<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 				<div class="row form-group">
-					<label for="scientific_name" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Scientific Name</label>
-					<div class="col-sm-9">
+					<label for="scientific_name" class="col-12 col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Scientific Name</label>
+					<div class="col-12 col-lg-9">
 						<input type="text" name="scientific_name" class="form-control form-control-sm" placeholder="Scientific Name" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="made_by" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">ID Made By</label>
-					<div class="col-sm-9">
+					<label for="made_by" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">ID Made By</label>
+					<div class="col-12 col-lg-9">
 						<input type="text" name="made_by" class="form-control form-control-sm" placeholder="Identifier's Name" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="nature_of_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Nature of ID</label>
-					<div class="col-sm-4">
+					<label for="nature_of_id" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">Nature of ID</label>
+					<div class="col-12 col-lg-4">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required>
 							<option value="">Expert ID</option>
 							<option value="1">Field ID</option>
@@ -190,24 +135,22 @@ limitations under the License.
 							<option value="3">Curatorial ID</option>
 						</select>
 					</div>
-					<div class="col-sm-5">
+					<div class="col-12 col-lg-5">
 						<input type="text" name="made_by_date" class="form-control form-control-sm" placeholder="Date of ID" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="id_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">ID Remark</label>
-					<div class="col-sm-9">
+					<label for="id_remark" class="col-12 col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">ID Remark</label>
+					<div class="col-12 col-lg-9">
 						<textarea type="text" name="id_remark" class="form-control form-control-sm" placeholder="ID remark"/>
 						</textarea>
 					</div>
 				</div>
 				</div>
-			</div>
-				
+			</div>	
 			</div>
 			<div class="row">
-		
-			<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
@@ -281,53 +224,39 @@ limitations under the License.
 				</div>
 			</div>
 			</div>
-			
-				
-				<div class="form-group col-12 col-md-8 pb-2">
-				<div class="border p-3 m-2">
+
+				<div class="form-group col-12 col-md-4 pb-2">
+					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
-				<div class="form-group row">
-					<label for="other_id" class="col-sm-1 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
-					<div class="col-sm-1 pr-0">
+					<div id="customFields">
+						<div class="form-group row">
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
+					<div class="col-9">
 						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Age Class</option>
 							<option value="1">Citation</option>
 							<option value="2">Host</option>
 							<option value="3">Life Cycle Stage</option>
 						</select>
-					</div>
-					<div class="col-sm-2 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Value">
-					</div>
-					<div class="col-sm-1 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Units">
-					</div>
-					<div class="col-sm-1 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Date">
-					</div>
-					<div class="col-sm-2 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Determiner">
-					</div>
-					<div class="col-sm-2 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Method">
-					</div>
-					<div class="col-sm-2">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Remarks">
 					</div>
 				</div>
-
-				
-			</div>
-			</div>
-				
+					</div>
+				<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+				</div>
+				</div>
+				</div>
 			</div>
 		</form>
 	</div>	
 </div>
-	
-
-	
 	
 	
 <div class="container" id="swapper-other" style="display: block;">
@@ -583,6 +512,16 @@ limitations under the License.
 	</div>
 	
 </div>
+	
+
+<script>
+	//this is the search builder main dropdown for all the columns found in flat
+$(document).ready(function(){
+	$(".addAtt").click(function(){$("##customFields").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="rounded btn btn-primary remAtt mr-auto">Remove</button></div>');
+	});
+	$("##customFields").on('click','.remAtt',function(){$(this).parent().remove();});
+});
+</script>
 <script type="text/javascript">
 function SwapDivsWithClick(div1,div2)
 {
