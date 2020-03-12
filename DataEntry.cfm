@@ -287,9 +287,10 @@ limitations under the License.
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
-				<div class="form-group row" id="customFields">
+					<div id="customFields">
+				<div class="form-group row">
 					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
-					<div class="col">
+					<div class="col-9">
 						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Age Class</option>
 							<option value="1">Citation</option>
@@ -304,9 +305,9 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Remarks">
 					</div>
 				</div>
-													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-														<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-													</div>
+			<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
+				<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+			</div>
 				
 			</div>
 			</div>
@@ -578,7 +579,7 @@ limitations under the License.
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
-	$(".addAtt").click(function(){$("##customFields").append('<div class="row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div>');
+	$(".addAtt").click(function(){$("##customFields").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div></div>');
 	});
 	$("##customFields").on('click','.remAtt',function(){$(this).parent().parent().remove();});
 });
