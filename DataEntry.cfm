@@ -28,7 +28,7 @@ limitations under the License.
 </p>
 
 
-<div class="container-fluid" id="swapper-first">
+<div class="container-fluid" id="swapper-first" style="display: none;">
 	<div  class="row col-12 mt-2">
 		<form id="regFormAll" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
@@ -279,7 +279,7 @@ limitations under the License.
 	
 	
 	
-<div class="container" id="swapper-other">
+<div class="container" id="swapper-other" style="display: block;">
 	<div  class="row col-sm-12 col-md-8 col-xl-8 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
