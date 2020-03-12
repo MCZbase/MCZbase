@@ -29,14 +29,13 @@ limitations under the License.
 
 
 <div class="container-fluid" id="swapper-first" style="display: none;">
-	<div  class="row col-12 mt-2">
+	<div class="row col-12 mt-2">
 		<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
-			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
-			
+			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>	
 			<div class="row">	
-<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-			<div class="form-group col-12 col-md-4 pb-2">
+				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
+				<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center">This is step 1</h3>
@@ -91,12 +90,9 @@ limitations under the License.
 					</div>
 				</div>
 				</div>	
-			</div>
-<!---First block left (above) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-			
-<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
-	
-			<div class="form-group col-12 col-md-4 pb-0">
+			</div>	
+				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->			
+				<div class="form-group col-12 col-md-4 pb-0">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
@@ -162,9 +158,8 @@ limitations under the License.
 				</div>
 				</div>
 			</div>
-<!---Second block Right (above) -- Collector/Preparator: select role, agent name  --->	
 				
-			<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
@@ -202,12 +197,10 @@ limitations under the License.
 					</div>
 				</div>
 				</div>
-			</div>
-				
+			</div>	
 			</div>
 			<div class="row">
-		
-			<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
@@ -281,14 +274,13 @@ limitations under the License.
 				</div>
 			</div>
 			</div>
-			
-				
+
 				<div class="form-group col-12 col-md-4 pb-2">
-				<div class="border p-3 m-2">
+					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
 					<div id="customFields">
-				<div class="form-group row">
+						<div class="form-group row">
 					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
 					<div class="col-9">
 						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
@@ -305,20 +297,16 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Remarks">
 					</div>
 				</div>
-			<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-				<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-			</div>
-				
-			</div>
-			</div>
-				
+					</div>
+				<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+				</div>
+				</div>
+				</div>
 			</div>
 		</form>
 	</div>	
 </div>
-	
-
-	
 	
 	
 <div class="container" id="swapper-other" style="display: block;">
