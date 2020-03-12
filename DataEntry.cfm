@@ -288,8 +288,8 @@ limitations under the License.
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
-					<div class="col-sm-3 pr-0">
+					<label for="other_id" class="col-sm-2 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
+					<div class="col-sm-1 pr-0">
 						<select class="custom-select1 form-control input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Age Class</option>
 							<option value="1">Citation</option>
@@ -297,13 +297,22 @@ limitations under the License.
 							<option value="3">Life Cycle Stage</option>
 						</select>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-2 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-1 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-2 pr-0">
+						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+					</div>
+						<div class="col-sm-2 pr-0">
+						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+					</div>
+							<div class="col-sm-2 pr-0">
+						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+					</div>
+									<div class="col-sm-1 pr-0">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 					</div>
 				</div>
