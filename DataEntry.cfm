@@ -39,7 +39,7 @@ limitations under the License.
 			<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Record Numbers</h2>
-				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
+				<h3 class="fs-subtitle text-center">This is step 1</h3>
 				
 				<div class="form-group row">
     				<label for="cat_num" class="form-control-sm border-0 col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
@@ -205,7 +205,7 @@ limitations under the License.
 			</div>
 				
 			</div>
-			<div class="mx-auto row">
+			<div class="row">
 		
 			<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
@@ -225,13 +225,13 @@ limitations under the License.
 				</div>
 				<div class="row form-group">
 					<label for="inputPassword3" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Elevation</label>
-					<div class="col-sm-3">
+					<div class="col-sm-3 pr-0">
 						<input type="text" class="form-control form-control-sm" id="inputMinElev" placeholder="Min Elevation">
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-3 pr-0">
 						<input type="text" class="form-control form-control-sm" id="inputMaxElev" placeholder="Max Elevation">
 					</div>
-					<div class="col-sm-2">
+					<div class="col-sm-2 pr-0">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required>
 							<option value="">Feet</option>
 							<option value="1">Fathoms</option>
@@ -244,13 +244,13 @@ limitations under the License.
 				</div>
 				<div class="row form-group">
 					<label for="inputPassword3" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Depth</label>
-					<div class="col-sm-3">
+					<div class="col-sm-3 pr-0">
 						<input type="text" class="form-control form-control-sm" id="inputMinDepth" placeholder="Min Depth">
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-3 pr-0">
 						<input type="text" class="form-control form-control-sm" id="inputMaxDepth" placeholder="Max Depth">
 					</div>
-					<div class="col-sm-2">
+					<div class="col-sm-2 pr-0">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required>
 							<option value="">Feet</option>
 							<option value="1">Fathoms</option>
@@ -281,6 +281,37 @@ limitations under the License.
 				</div>
 			</div>
 			</div>
+			
+				
+				<div class="form-group col-12 col-md-8 pb-2">
+				<div class="border p-3 m-2">
+				<h2 class="fs-title text-center">Attributes</h2>
+				<h3 class="fs-subtitle text-center">This is step 5</h3>
+				<div class="form-group row">
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
+					<div class="col-sm-3 pr-0">
+						<select class="custom-select1 form-control input-xs border" oninput="this.className = ''" mt-0 required>
+							<option value="">Age Class</option>
+							<option value="1">Citation</option>
+							<option value="2">Host</option>
+							<option value="3">Life Cycle Stage</option>
+						</select>
+					</div>
+					<div class="col-sm-3">
+						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+					</div>
+					<div class="col-sm-3">
+						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+					</div>
+					<div class="col-sm-3">
+						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+					</div>
+				</div>
+
+				
+			</div>
+			</div>
+				
 			</div>
 		</form>
 	</div>	
