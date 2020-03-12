@@ -30,7 +30,7 @@ limitations under the License.
 
 <div class="container-fluid" id="swapper-first" style="display: none;">
 	<div  class="row col-12 mt-2">
-		<form id="regFormAll" action="/DataEntry.cfm">
+		<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>
 			
@@ -69,7 +69,7 @@ limitations under the License.
 					<div class="col-sm-9">
 						<div class="form-check form-check-inline">
 							<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
-							<label class="form-check-label w-auto mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+							<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
 						</div>
 					</div>
 				</div>
@@ -169,20 +169,20 @@ limitations under the License.
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
-				<div class="row">
-					<label for="scientific_name" class="col-sm-3 col-form-label text-center text-md-right">Scientific Name</label>
+				<div class="row form-group">
+					<label for="scientific_name" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Scientific Name</label>
 					<div class="col-sm-9">
 						<input type="text" name="scientific_name" class="form-control form-control-sm" placeholder="Scientific Name" />
 					</div>
 				</div>
-				<div class="row">
-					<label for="made_by" class="col-sm-3 col-form-label text-center text-md-right">ID Made By</label>
+				<div class="row form-group">
+					<label for="made_by" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">ID Made By</label>
 					<div class="col-sm-9">
 						<input type="text" name="made_by" class="form-control form-control-sm" placeholder="Identifier's Name" />
 					</div>
 				</div>
-				<div class="row">
-					<label for="nature_of_id" class="col-sm-3 col-form-label text-center text-md-right">Nature of ID</label>
+				<div class="row form-group">
+					<label for="nature_of_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Nature of ID</label>
 					<div class="col-sm-4">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required>
 							<option value="">Expert ID</option>
@@ -195,8 +195,8 @@ limitations under the License.
 						<input type="text" name="made_by_date" class="form-control form-control-sm" placeholder="Date of ID" />
 					</div>
 				</div>
-				<div class="row">
-					<label for="id_remark" class="col-sm-3 col-form-label text-center text-md-right">ID Remark</label>
+				<div class="row form-group">
+					<label for="id_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">ID Remark</label>
 					<div class="col-sm-9">
 						<textarea type="text" name="id_remark" class="form-control form-control-sm" placeholder="ID remark"/>
 						</textarea>
