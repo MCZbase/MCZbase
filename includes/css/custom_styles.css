@@ -1608,7 +1608,7 @@ table#pairs th, table#pairs td {
 	border: 1px solid #ccc;
 }
 input {
-	font-size: 13.3333%;
+	font-size: 13.3333px;
 	color: rgba(0,0,0,.8)
 }
 .search-form-builder {
