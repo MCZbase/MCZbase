@@ -71,7 +71,6 @@ limitations under the License.
         <cfreturn rankCount>
 </cffunction>
 
-</cfcomponent>
 
 <!-------------------------------------------->
 <!--- obtain an html block listing the media for a transaction  --->
@@ -289,3 +288,4 @@ limitations under the License.
 </cffunction>
 
 
+</cfcomponent>
