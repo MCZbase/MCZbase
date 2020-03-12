@@ -868,18 +868,21 @@ limitations under the License.
 				<div class="form-row mb-2">
 					<div class="col-12">
 						<label for="nature_of_material">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
-						<textarea name="nature_of_material" id="nature_of_material" rows="7" cols="90"
-							class="reqdClr form-control form-control-sm" required >#loanDetails.nature_of_material#</textarea>
+						<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="90"
+							class="reqdClr form-control form-control-sm autogrow" required >#loanDetails.nature_of_material#</textarea>
 					</div>
+				</div>
+				<div class="form-row mb-2">
 					<div class="col-12">
 						<label for="loan_description">Description (<span id="lbl_loan_description"></span>)</label>
-						<textarea name="loan_description" id="loan_description" rows="7"
-							class="form-control form-control-sm" cols="90">#loanDetails.loan_description#</textarea>
+						<textarea name="loan_description" id="loan_description" rows="4"
+							class="form-control form-control-sm autogrow" cols="90">#loanDetails.loan_description#</textarea>
 					</div>
 					<script>
-						// make all textareas currently defined autogrow as text is entered.
-						// may need to move this elsewhere on this page.
-						$('textarea').keyup(autogrow);
+						// make selected textareas autogrow as text is entered.
+						$(document).ready(function() {
+							$('textarea .autogrow').keyup(autogrow);
+						});
 					</script>
 				</div>
 
@@ -930,16 +933,16 @@ limitations under the License.
 			</cfloop>
 		</select>
 		<label for="project_name" >Project Title</label>
-		<textarea name="project_name" cols="50" rows="2" class="reqdClr"></textarea>
+		<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
 		<label for="start_date" >Project Start Date</label>
 		<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
 		<label for="end_date">Project End Date</label>
 		<input type="text" name="end_date">
 		<label for="project_description" >Project Description</label>
-		<textarea name="project_description"
-			id="project_description" cols="50" rows="6">#loanDetails.loan_description#</textarea>
+		<textarea name="project_description" class="form-control autogrow"
+			id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
 		<label for="project_remarks">Project Remark</label>
-		<textarea name="project_remarks" cols="50" rows="3">#loanDetails.trans_remarks#</textarea>
+		<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
                 </div>
 		<label for="saveNewProject">Check to create project with save</label>
 		<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
@@ -951,12 +954,12 @@ limitations under the License.
 				<div class="form-row mb-2">
 					<div class="col-12">
 						<label for="loan_instructions">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
-						<textarea name="loan_instructions" id="loan_instructions" rows="7" class="form-control-sm"
+						<textarea name="loan_instructions" id="loan_instructions" rows="2" class="form-control-sm form-control autogrow"
 							cols="120">#loanDetails.loan_instructions#</textarea>
 					</div>
 					<div class="col-12">
 						<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
-						<textarea name="trans_remarks" id="trans_remarks" rows="7" cols="120">#loanDetails.trans_remarks#</textarea>
+						<textarea name="trans_remarks" id="trans_remarks" rows="2" cols="120" class="form-control form-control-sm autogrow">#loanDetails.trans_remarks#</textarea>
 					</div>
 				</div>
 
@@ -1255,14 +1258,14 @@ limitations under the License.
 							<input type="button" value="Pick Address" class="picBtn"
 								onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
 							<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
-								readonly="yes" class="reqdClr"></textarea>
+								readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
 							<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 				
 							<label for="shipped_from_addr">Shipped From Address</label>
 							<input type="button" value="Pick Address" class="picBtn"
 								onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
 							<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
-								readonly="yes" class="reqdClr"></textarea>
+								readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
 							<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
 				
 							<label for="shipment_remarks">Remarks</label>
