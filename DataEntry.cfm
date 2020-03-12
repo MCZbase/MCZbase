@@ -38,8 +38,7 @@ limitations under the License.
 				<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Record Numbers</h2>
-				<h3 class="fs-subtitle text-center">This is step 1</h3>
-				
+				<h3 class="fs-subtitle text-center">This is step 1</h3>				
 				<div class="form-group row">
     				<label for="cat_num" class="form-control-sm border-0 col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
 					<div class="col-sm-9">
@@ -49,8 +48,8 @@ limitations under the License.
   				</div>
 				
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other ID</label>
-					<div class="col-sm-4 pr-0">
+					<label for="other_id" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">Other ID</label>
+					<div class="col-lg-4">
 						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Other ID Type</option>
 							<option value="1">Field Number</option>
@@ -58,14 +57,14 @@ limitations under the License.
 							<option value="3">Previous Number</option>
 						</select>
 					</div>
-					<div class="col-sm-5">
+					<div class="col-lg-5">
 						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 					</div>
 				</div>
 							
-				<div class="row form-group mb-2">
+				<div class="form-group row mb-2">
 					<label for="mask_record" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Mask Record</label>
-					<div class="col-sm-9">
+					<div class="col-lg-9">
 						<div class="form-check form-check-inline">
 							<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
 							<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
@@ -75,7 +74,7 @@ limitations under the License.
 				
 				<div class="form-group row">
 					<label for="relations" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other Records</label>
-					<div class="col-sm-4 pr-0">
+					<div class="col-lg-4">
 						<select class="custom-select1 form-control input-xs border">
 							<option value="">Relationship Type</option>
 							<option value="1">Re-Cataloged as</option>
@@ -84,7 +83,7 @@ limitations under the License.
 							<option value="4">Duplicate Recataloged as</option>
 						</select>
 					</div>
-					<div class="col-sm-5">
+					<div class="col-lg-5">
 						<input type="text" class="form-control form-control-sm"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
 					
 					</div>
