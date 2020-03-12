@@ -569,7 +569,7 @@ limitations under the License.
 $(document).ready(function(){
 	$(".addAtt").click(function(){$("##customFields").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="rounded btn btn-primary remAtt mr-auto">Remove</button></div>');
 	});
-	$("##customFields").on('click','.remAtt',function(){$(this).parent().parent().remove();});
+	$("##customFields").on('click','.remAtt',function(){$(this).parent().remove();});
 });
 </script>
 <script type="text/javascript">
