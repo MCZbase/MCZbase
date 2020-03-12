@@ -883,7 +883,7 @@ limitations under the License.
 					<script>
 						// make selected textareas autogrow as text is entered.
 						$(document).ready(function() {
-							$('textarea .autogrow').keyup(autogrow);
+							$('textarea.autogrow').keyup(autogrow);
 						});
 					</script>
 				</div>
