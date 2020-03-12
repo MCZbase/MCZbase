@@ -290,7 +290,7 @@ limitations under the License.
 				<div class="form-group row">
 					<label for="other_id" class="col-sm-1 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
 					<div class="col-sm-1 pr-0">
-						<select class="custom-select1 form-control input-xs border" oninput="this.className = ''" mt-0 required>
+						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Age Class</option>
 							<option value="1">Citation</option>
 							<option value="2">Host</option>
