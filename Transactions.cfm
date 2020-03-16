@@ -52,7 +52,7 @@ limitations under the License.
 							<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-controls="One" aria-selected="true" >All</a> </li>
 						</ul>
 					</div>
-					<div class="tab-content pb-0" id="myTabContent">
+					<div class="tab-content pb-0" id="transactionSearchTab">
 						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="one" role="tabpanel" aria-labelledby="one-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
@@ -118,7 +118,7 @@ limitations under the License.
 						});
 					</script>
 					</div>
-					<div class="tab-content pb-0" id="myTabContent">
+					<div class="tab-content pb-0" id="loanSearchTab">
 						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="one" role="tabpanel" aria-labelledby="one-tab">
      						<h2 class="wikilink">Find Loans <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
