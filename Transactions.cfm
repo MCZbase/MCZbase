@@ -48,12 +48,12 @@ limitations under the License.
 
 					<!--- Tab header div --->
 					<div class="card-header tab-card-header pb-0 w-100">
-						<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
+						<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
 							<li class="nav-item col-sm-12 col-md-2 px-1">
-								<a class="nav-link active" id="one-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="One" aria-selected="true" >All</a>
+								<a class="nav-link active" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a>
 							</li>
 							<li class="nav-item col-sm-12 col-md-2 px-1">
-								<a class="nav-link active" id="one-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="One" aria-selected="true" >Loans</a>
+								<a class="nav-link active" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a>
 							</li>
 						</ul>
 					</div><!--- End tab header div --->
@@ -61,7 +61,7 @@ limitations under the License.
 					<!--- Tab content div --->
 					<div class="tab-content pb-0" id="tabContentDiv">
 						<!--- All Transactions search tab panel --->
-						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="transactionsTab" role="tabpanel" aria-labelledby="one-tab">
+						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
 
@@ -86,7 +86,7 @@ limitations under the License.
 						</div>
 
 						<!--- Loan search tab panel --->
-						<div class="tab-pane fade show py-3 mx-sm-3 mb-3" id="loanTab" role="tabpanel" aria-labelledby="one-tab">
+						<div class="tab-pane fade py-3 mx-sm-3 mb-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
      						<h2 class="wikilink">Find Loans <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
 					<!--- Search for just loans ---->
