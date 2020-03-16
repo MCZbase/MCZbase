@@ -189,22 +189,18 @@ limitations under the License.
              &nbsp; To:
               <input type='text' name='to_trans_date' id="to_trans_date"></td>
           </tr>
-          <cfif scope eq 'Loan' >
-            <tr>
+          <tr>
               <td align="right"> Due Date: </td>
               <td><input type="text" name="return_due_date" id="return_due_date">
                &nbsp; To:
                 <input type='text' name='to_return_due_date' id="to_return_due_date"></td>
-            </tr>
-          </cfif>
-          <cfif scope eq 'Loan' >
-            <tr>
+          </tr>
+          <tr>
               <td align="right"> Closed Date: </td>
               <td><input type="text" name="closed_date" id="closed_date">
                &nbsp; To:
                 <input type='text' name='to_closed_date' id="to_closed_date"></td>
-            </tr>
-          </cfif>
+          </tr>
           <tr>
             <td align="right">Permit Number:</td>
             <td><input type="text" name="permit_num" size="50">
