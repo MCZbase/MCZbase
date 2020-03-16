@@ -231,7 +231,7 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
 					<div id="customFields">
 						<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label>
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute 1</label>
 					<div class="col-9">
 						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
 							<option value="">Age Class</option>
@@ -249,7 +249,7 @@ limitations under the License.
 				</div>
 					</div>
 				<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 				</div>
 				</div>
 				</div>
@@ -512,12 +512,11 @@ limitations under the License.
 	</div>
 	
 </div>
-	
 
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
-	$(".addAtt").click(function(){$("##customFields").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="rounded btn btn-primary remAtt mr-auto">Remove</button></div>');
+	$(".addAtt").click(function(){$("##customFields").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 px-2 mr-md-auto remAtt mr-auto">Remove</button></div>');
 	});
 	$("##customFields").on('click','.remAtt',function(){$(this).parent().remove();});
 });
@@ -538,21 +537,14 @@ function SwapDivsWithClick(div1,div2)
       d2.style.display = "none";
    }
 }
-</script>
-
-
-	
+</script>	
 <script>
 	var currentTab = 0; // Current tab is set to be the first tab (0)
 	showTab(currentTab); // Display the current tab
-
 function showTab(n) {
   // This function will display the specified tab of the form ...
-
   	var x = document.getElementsByClassName("tab");
-
   	x[n].style.display = "block";
-  
   // ... and fix the Previous/Next buttons:
   if (n == 0) {
     document.getElementById("prevBtn").style.display = "none";
@@ -561,12 +553,9 @@ function showTab(n) {
   }
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").innerHTML = "Submit";
-	
   } else {
     document.getElementById("nextBtn").innerHTML = "Next";
-	
   } 
-
   // ... and run a function that displays the correct step indicator:
   fixStepIndicator(n)
 }
