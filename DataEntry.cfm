@@ -113,7 +113,7 @@ limitations under the License.
 					</div>
 					<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
 						
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 px-2 mr-1 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 				</div>
 				</div>
 			</div>
@@ -177,7 +177,7 @@ limitations under the License.
 				</div>
 				<div class="row form-group">
 					<label for="inputPassword3" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Elevation</label>
-					<div class="col-sm-3 pr-0">
+					<div class="col-12 col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMinElev" placeholder="Min Elevation">
 					</div>
 					<div class="col-12 col-sm-3">
