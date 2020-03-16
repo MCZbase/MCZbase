@@ -179,11 +179,12 @@ limitations under the License.
 					<div class="col-sm-3 pr-0">
 						<input type="text" class="form-control form-control-sm" id="inputMinElev" placeholder="Min Elevation">
 					</div>
-					<div class="col-sm-3 pr-0">
+					<div class="col-12 col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMaxElev" placeholder="Max Elevation">
 					</div>
-					<div class="col-sm-2 pr-0">
-						<select class="custom-select1 form-control-sm input-xs border form-control" required>
+					<div class="col-12 col-sm-2">
+						<div class="col-12 col-lg-4">
+							<select class="custom-select1 form-control-sm input-xs border form-control" required>
 							<option value="">Feet</option>
 							<option value="1">Fathoms</option>
 							<option value="2">Yards</option>
@@ -191,17 +192,18 @@ limitations under the License.
 							<option value="4">Miles</option>
 							<option value="5">Kilometers</option>
 						</select>
+						</div>
 					</div>
 				</div>
 				<div class="row form-group">
 					<label for="inputPassword3" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Depth</label>
-					<div class="col-sm-3 pr-0">
+					<div class="col-12 col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMinDepth" placeholder="Min Depth">
 					</div>
-					<div class="col-sm-3 pr-0">
+					<div class="col-12 col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMaxDepth" placeholder="Max Depth">
 					</div>
-					<div class="col-sm-2 pr-0">
+					<div class="col-12 col-sm-2">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required>
 							<option value="">Feet</option>
 							<option value="1">Fathoms</option>
