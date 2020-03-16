@@ -94,9 +94,9 @@ limitations under the License.
 				
 			<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Collectors/Preparators</h2>
+				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
-					<div id="customFields">
+					<div id="customAgent">
 						<div class="form-group row">
 							<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label>
 							<div class="col-lg-4">
@@ -113,27 +113,6 @@ limitations under the License.
 					<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
 					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 				</div>
-				</div>
-			</div>
-				
-			<div class="form-group col-12 col-lg-4 pb-0">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Collector/Preparator</h2>
-				<h3 class="fs-subtitle text-center">This is step 2</h3>
-					<div class="row mb-2">
-					<label for="collector1" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label>
-						<select class="custom-select1 border form-control-sm input-xs validate">
-							<option value="">Select Role...</option>
-							<option value="1">Collector</option>
-							<option value="2">Preparator</option>
-						</select>
-					<div class="col-12 col-lg-8">
-						<input type="text" class="form-control form-control-sm validate" id="collector1" placeholder="Agent Name">
-					</div>
-						
-						
-				
-					</div>
 				</div>
 			</div>
 				
