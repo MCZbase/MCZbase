@@ -182,9 +182,8 @@ limitations under the License.
 					<div class="col-12 col-sm-3">
 						<input type="text" class="form-control form-control-sm" id="inputMaxElev" placeholder="Max Elevation">
 					</div>
-					<div class="col-12 col-sm-2">
-						<div class="col-12 col-lg-4">
-							<select class="custom-select1 form-control-sm input-xs border form-control" required>
+					<div class="col-12 col-sm-2">	
+						<select class="custom-select1 form-control-sm input-xs border form-control" required>
 							<option value="">Feet</option>
 							<option value="1">Fathoms</option>
 							<option value="2">Yards</option>
@@ -192,7 +191,6 @@ limitations under the License.
 							<option value="4">Miles</option>
 							<option value="5">Kilometers</option>
 						</select>
-						</div>
 					</div>
 				</div>
 				<div class="row form-group">
@@ -242,19 +240,19 @@ limitations under the License.
 					<div id="customFields">
 						<div class="form-group row">
 					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute 1</label>
-					<div class="col-9">
-						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
+					<div class="col-12 col-lg-9">
+						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
 							<option value="">Age Class</option>
 							<option value="1">Citation</option>
 							<option value="2">Host</option>
 							<option value="3">Life Cycle Stage</option>
 						</select>
-						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Value">
-						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Units">
-						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Date">
-						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Determiner">
-						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Method">
-						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Remarks">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks">
 					</div>
 				</div>
 					</div>
