@@ -89,6 +89,14 @@ limitations under the License.
 					<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select coll_obj_disposition from ctcoll_obj_disp
 					</cfquery>
+					<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(trans_agent_role) 
+						from cttrans_agent_role  
+						where trans_agent_role != 'associated with agency' 
+								and trans_agent_role != 'received from' 
+								and trans_agent_role != 'borrow overseen by' 
+						order by trans_agent_role
+					</cfquery>
 					<div class="card-header tab-card-header pb-0 w-100">
 						<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
 							<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-controls="One" aria-selected="true" >Loans</a></li>
@@ -134,7 +142,7 @@ limitations under the License.
           <tr>
             <td align="right"><select name="trans_agent_role_1">
                 <option value="">Please choose an agent role...</option>
-                <cfloop query="cttrans_agent_role">
+                <cfloop query="cttrans_agent_role_loan">
                   <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
                 </cfloop>
               </select></td>
@@ -143,7 +151,7 @@ limitations under the License.
           <tr>
             <td align="right"><select name="trans_agent_role_2">
                 <option value="">Please choose an agent role...</option>
-                <cfloop query="cttrans_agent_role">
+                <cfloop query="cttrans_agent_role_loan">
                   <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
                 </cfloop>
               </select></td>
@@ -152,7 +160,7 @@ limitations under the License.
           <tr>
             <td align="right"><select name="trans_agent_role_3">
                 <option value="">Please choose an agent role...</option>
-                <cfloop query="cttrans_agent_role">
+                <cfloop query="cttrans_agent_role_loan">
                   <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
                 </cfloop>
               </select></td>
