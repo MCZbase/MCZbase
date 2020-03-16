@@ -29,8 +29,9 @@ limitations under the License.
 
 
 <div class="container-fluid" id="swapper-first" style="display: none;">
-	<div class="row col-12 mt-2">
-		<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
+	<div class="row">
+		<div class="col-12 mt-2">
+			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>	
 			<div class="row">	
@@ -262,6 +263,7 @@ limitations under the License.
 				</div>
 			</div>
 		</form>
+	    </div>
 	</div>	
 </div>
 	
