@@ -46,14 +46,22 @@ limitations under the License.
 				<h1 class="h3 smallcaps mt-4 pl-1">Search Transactions <span class="mt-2 font-italic pb-4 color-green fs-15 mx-0">(#getCount.cnt# records)</span></h1>
 				<div class="tab-card-main mt-1 tab-card">
 
-					<!--- Search Form, tab header div then tab contents div --->
+					<!--- Tab header div --->
 					<div class="card-header tab-card-header pb-0 w-100">
 						<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
-							<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-controls="One" aria-selected="true" >All</a> </li>
+							<li class="nav-item col-sm-12 col-md-2 px-1">
+								<a class="nav-link active" id="one-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="One" aria-selected="true" >All</a>
+							</li>
+							<li class="nav-item col-sm-12 col-md-2 px-1">
+								<a class="nav-link active" id="one-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="One" aria-selected="true" >Loans</a>
+							</li>
 						</ul>
-					</div>
-					<div class="tab-content pb-0" id="transactionSearchTab">
-						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="one" role="tabpanel" aria-labelledby="one-tab">
+					</div><!--- End tab header div --->
+
+					<!--- Tab content div --->
+					<div class="tab-content pb-0" id="tabContentDiv">
+						<!--- All Transactions search tab panel --->
+						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="transactionsTab" role="tabpanel" aria-labelledby="one-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
 
@@ -76,8 +84,10 @@ limitations under the License.
 
 							</form>
 						</div>
-					</div>
 
+						<!--- Loan search tab panel --->
+						<div class="tab-pane fade show py-3 mx-sm-3 mb-3" id="loanTab" role="tabpanel" aria-labelledby="one-tab">
+     						<h2 class="wikilink">Find Loans <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
 					<!--- Search for just loans ---->
 					<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -97,11 +107,6 @@ limitations under the License.
 								and trans_agent_role != 'borrow overseen by' 
 						order by trans_agent_role
 					</cfquery>
-					<div class="card-header tab-card-header pb-0 w-100">
-						<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
-							<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-controls="One" aria-selected="true" >Loans</a></li>
-						</ul>
-					</div>
 					<script>
 						jQuery(document).ready(function() {
 							jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
@@ -117,11 +122,6 @@ limitations under the License.
 							});
 						});
 					</script>
-					</div>
-					<div class="tab-content pb-0" id="loanSearchTab">
-						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="one" role="tabpanel" aria-labelledby="one-tab">
-     						<h2 class="wikilink">Find Loans <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
-
 
       <form name="SpecData" action="transactions/Loan.cfm" method="post">
         <input type="hidden" name="Action" value="listLoans">
@@ -262,11 +262,9 @@ limitations under the License.
         </table>
       </form>
 
-						</div> <!---tab-pane--->
-					</div> <!--- tab-content --->
+						</div> <!---tab-pane loan search--->
 
-
-					<!--- Additional tabs with tab header then tab contents go here --->
+					</div> <!--- End tab-content div --->
 
 				</div>
 			</div>
