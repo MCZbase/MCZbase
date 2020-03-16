@@ -112,9 +112,8 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-						
 					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 px-2 mr-1 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-				</div>
+					</div>
 				</div>
 			</div>
 				
@@ -231,15 +230,15 @@ limitations under the License.
 						<input type="text" name="habitat" class="form-control form-control-sm" placeholder="Habitat" />
 					</div>
 				</div>
-			</div>
-			</div>
+				</div>
+				</div>
 
 				<div class="form-group col-12 col-md-4 pb-2">
 					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
-					<div id="customFields">
-						<div class="form-group row">
+				<div id="customFields">
+				<div class="form-group row">
 					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute 1</label>
 					<div class="col-12 col-lg-9">
 						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
@@ -256,7 +255,7 @@ limitations under the License.
 						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks">
 					</div>
 				</div>
-					</div>
+				</div>
 				<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
 					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 				</div>
