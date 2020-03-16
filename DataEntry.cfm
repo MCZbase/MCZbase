@@ -112,7 +112,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 px-2 mr-1 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded pb-1 px-2 mr-1 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 					</div>
 				</div>
 			</div>
