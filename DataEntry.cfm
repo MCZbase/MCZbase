@@ -112,7 +112,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded pb-1 px-2 ml-auto" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a>
 					</div>
 				</div>
 			</div>
@@ -257,7 +257,7 @@ limitations under the License.
 				</div>
 				</div>
 				<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 ml-auto px-2" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a>
 				</div>
 				</div>
 				</div>
@@ -525,7 +525,7 @@ limitations under the License.
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
-	$(".addAtt").click(function(){$("##customFields").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded pb-1 px-2 mr-auto ml-5 remAtt">Remove</button></div>');
+	$(".addAtt").click(function(){$("##customFields").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded mr-auto ml-3 remAtt">Remove</button></div>');
 	});
 	$("##customFields").on('click','.remAtt',function(){$(this).parent().remove();});
 });
@@ -533,7 +533,7 @@ $(document).ready(function(){
 	<script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
-	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label><div class="col-lg-4"><select class="custom-select1 form-control-sm input-xs border"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons rounded pb-1 px-2 ml-4 mr-auto remAgent">Remove</button></div>');
+	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label><div class="col-lg-4"><select class="custom-select1 form-control-sm input-xs border"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-3 mr-auto remAgent">Remove</button></div>');
 	});
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
