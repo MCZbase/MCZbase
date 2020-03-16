@@ -78,6 +78,190 @@ limitations under the License.
 						</div>
 					</div>
 
+
+					<!--- Search for just loans ---->
+					<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select loan_type from ctloan_type order by loan_type
+					</cfquery>
+					<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select loan_status from ctloan_status order by loan_status
+					</cfquery>
+					<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select coll_obj_disposition from ctcoll_obj_disp
+					</cfquery>
+					<div class="card-header tab-card-header pb-0 w-100">
+						<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
+							<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-controls="One" aria-selected="true" >Loans</a></li>
+						</ul>
+					</div>
+					<script>
+						jQuery(document).ready(function() {
+							jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
+								width: 320,
+								max: 50,
+								autofill: false,
+								multiple: false,
+								scroll: true,
+								scrollHeight: 300,
+								matchContains: true,	
+								minChars: 1,
+								selectFirst:false
+							});
+						});
+					</script>
+					</div>
+					<div class="tab-content pb-0" id="myTabContent">
+						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="one" role="tabpanel" aria-labelledby="one-tab">
+     						<h2 class="wikilink">Find Loans <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+
+
+      <form name="SpecData" action="transactions/Loan.cfm" method="post">
+        <input type="hidden" name="Action" value="listLoans">
+        <input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
+        <table>
+          <tr>
+            <td align="right">Collection Name: </td>
+            <td><select name="collection_id" size="1">
+                <option value=""></option>
+                <cfloop query="ctcollection">
+                  <option value="#collection_id#">#collection#</option>
+                </cfloop>
+              </select>
+              <img src="images/nada.gif" width="2" height="1"> Number: (yyyy-n-Coll) <span class="lnum">
+              <input type="text" name="loan_number">
+              </span></td>
+          </tr>
+          <tr>
+            <td align="right"><select name="trans_agent_role_1">
+                <option value="">Please choose an agent role...</option>
+                <cfloop query="cttrans_agent_role">
+                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
+                </cfloop>
+              </select></td>
+            <td><input type="text" name="agent_1"  size="50"></td>
+          </tr>
+          <tr>
+            <td align="right"><select name="trans_agent_role_2">
+                <option value="">Please choose an agent role...</option>
+                <cfloop query="cttrans_agent_role">
+                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
+                </cfloop>
+              </select></td>
+            <td><input type="text" name="agent_2"  size="50"></td>
+          </tr>
+          <tr>
+            <td align="right"><select name="trans_agent_role_3">
+                <option value="">Please choose an agent role...</option>
+                <cfloop query="cttrans_agent_role">
+                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
+                </cfloop>
+              </select></td>
+            <td><input type="text" name="agent_3"  size="50"></td>
+          </tr>
+          <tr>
+            <td align="right">Type: </td>
+            <td><select name="loan_type">
+                <option value=""></option>
+                <cfloop query="ctLoanType">
+                  <option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+                </cfloop>
+              </select>
+              <img src="images/nada.gif" width="25" height="1"> Status:&nbsp;
+              <select name="loan_status">
+                <option value=""></option>
+                <cfloop query="ctLoanStatus">
+                  <option value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
+                </cfloop>
+                <option value="not closed">not closed</option>
+              </select></td>
+          </tr>
+          <tr>
+            <td align="right">Transaction Date:</td>
+            <td><input name="trans_date" id="trans_date" type="text">
+             &nbsp; To:
+              <input type='text' name='to_trans_date' id="to_trans_date"></td>
+          </tr>
+          <cfif scope eq 'Loan' >
+            <tr>
+              <td align="right"> Due Date: </td>
+              <td><input type="text" name="return_due_date" id="return_due_date">
+               &nbsp; To:
+                <input type='text' name='to_return_due_date' id="to_return_due_date"></td>
+            </tr>
+          </cfif>
+          <cfif scope eq 'Loan' >
+            <tr>
+              <td align="right"> Closed Date: </td>
+              <td><input type="text" name="closed_date" id="closed_date">
+               &nbsp; To:
+                <input type='text' name='to_closed_date' id="to_closed_date"></td>
+            </tr>
+          </cfif>
+          <tr>
+            <td align="right">Permit Number:</td>
+            <td><input type="text" name="permit_num" size="50">
+              <span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span></td>
+          </tr>
+          <tr>
+            <td align="right">Nature of Material:</td>
+            <td><textarea name="nature_of_material" rows="3" cols="50"></textarea></td>
+          </tr>
+          <tr>
+            <td align="right">Description: </td>
+            <td><textarea name="loan_description" rows="3" cols="50"></textarea></td>
+          </tr>
+          <tr>
+          <tr>
+            <td align="right">Instructions:</td>
+            <td><textarea name="loan_instructions" rows="3" cols="50"></textarea></td>
+          </tr>
+          <tr>
+            <td align="right">Internal Remarks: </td>
+            <td><textarea name="trans_remarks" rows="3" cols="50"></textarea></td>
+          </tr>
+          <tr>
+            <td class="parts1"> Parts: </td>
+            <td><table class="partloan">
+                <tr>
+                  <td valign="top"><label for="part_name_oper">Part<br/>
+                      Match</label>
+                    <select id="part_name_oper" name="part_name_oper">
+                      <option value="is">is</option>
+                      <option value="contains">contains</option>
+                    </select></td>
+                  <td valign="top"><label for="part_name">Part<br/>
+                      Name</label>
+                    <input type="text" id="part_name" name="part_name"></td>
+                  <td valign="top"><label for="part_disp_oper">Disposition&nbsp;<br/>
+                      Match</label>
+                    <select id="part_disp_oper" name="part_disp_oper">
+                      <option value="is">is</option>
+                      <option value="isnot">is not</option>
+                    </select></td>
+                  <td valign="top"><label for="coll_obj_disposition">Part Disposition</label>
+                    <select name="coll_obj_disposition" id="coll_obj_disposition" size="5" multiple="multiple">
+                      <option value=""></option>
+                      <cfloop query="ctCollObjDisp">
+                        <option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
+                      </cfloop>
+                    </select></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+            <input type="submit" value="Search" class="schBtn">
+              &nbsp;
+            <input type="reset" value="Clear" class="qutBtn">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+						<\div> <!---tab-pane--->>
+					</div> <!--- tab-content --->
+
+
 					<!--- Additional tabs with tab header then tab contents go here --->
 
 				</div>
@@ -145,7 +329,7 @@ $(document).ready(function() {
 			root: 'transRecord',
 			id: 'collection_object_id',
 			url: '/transactions/component/search.cfc?method=getTransactions&number=' + searchParam,
-			timeout: 3000,  // units not specified, miliseconds? 
+			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
             var message = "";      
 				if (error == 'timeout') { 
