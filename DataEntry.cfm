@@ -261,6 +261,34 @@ limitations under the License.
 				</div>
 				</div>
 				</div>
+								<div class="form-group col-12 col-md-4 pb-2">
+					<div class="border p-3 m-2">
+				<h2 class="fs-title text-center">Parts</h2>
+				<h3 class="fs-subtitle text-center">This is step 5</h3>
+				<div id="customFields">
+				<div class="form-group row">
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute 1</label>
+					<div class="col-12 col-lg-9">
+						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
+							<option value="">Age Class</option>
+							<option value="1">Citation</option>
+							<option value="2">Host</option>
+							<option value="3">Life Cycle Stage</option>
+						</select>
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method">
+						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks">
+					</div>
+				</div>
+				</div>
+				<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a>
+				</div>
+				</div>
+				</div>
 			</div>
 		</form>
 	    </div>
