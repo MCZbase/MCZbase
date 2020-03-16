@@ -262,7 +262,7 @@ limitations under the License.
         </table>
       </form>
 
-						<\div> <!---tab-pane--->>
+						</div> <!---tab-pane--->
 					</div> <!--- tab-content --->
 
 
