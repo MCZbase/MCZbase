@@ -261,27 +261,44 @@ limitations under the License.
 				</div>
 				</div>
 				</div>
-								<div class="form-group col-12 col-md-4 pb-2">
-					<div class="border p-3 m-2">
+				<div class="form-group col-12 col-md-4 pb-2">
+				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Parts</h2>
 				<h3 class="fs-subtitle text-center">This is step 6</h3>
 				<div id="customFields">
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part 1</label>
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part Name</label>
 					<div class="col-12 col-lg-9">
 						<input type="text" class="form-control form-control-sm" name="part_name" placeholder="Part Name">
+					</div>
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Preserve Method</label>
+					<div class="col-12 col-lg-9">
 						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
-							<option value="">whole animal</option>
-							<option value="1">Citation</option>
-							<option value="2">Host</option>
-							<option value="3">Life Cycle Stage</option>
+							<option value="">ethanol</option>
+							<option value="1">RNALater</option>
+							<option value="2">DNA/RNA Shield</option>
+							<option value="3">Alcohol</option>
 						</select>
-						
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks">
+					</div>	
+					<label for="condition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Condition</label>
+					<div class="col-12 col-lg-9">
+						<input type="text" class="form-control form-control-sm" name="condition" placeholder="Condition">
+					</div>	
+					<label for="disposition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Disposition</label>
+					<div class="col-12 col-lg-9">
+						<input type="text" class="form-control form-control-sm" name="disposition" placeholder="Disposition">
+					</div>
+					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right"># Modifier</label>
+					<div class="col-12 col-lg-9">
+						<input type="text" class="form-control form-control-sm" name="modifier" placeholder="# Modifier">
+					</div>
+					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right"># Modifier</label>
+					<div class="col-12 col-lg-9">
+						<input type="text" class="form-control form-control-sm" name="part_number" placeholder="part_modifier">
+					</div>
+					<label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label>
+					<div class="col-12 col-lg-9">
+						<input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="container unique id">
 					</div>
 				</div>
 				</div>
@@ -296,7 +313,7 @@ limitations under the License.
 	</div>	
 </div>
 	
-	
+<!---Step by step form for each section of the Data Entry form--->	
 <div class="container" id="swapper-other" style="display: block;">
 	<div  class="row col-sm-12 col-md-8 col-xl-8 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
