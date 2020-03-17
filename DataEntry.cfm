@@ -292,13 +292,17 @@ limitations under the License.
 					<div class="col-12 col-lg-9">
 						<input type="text" class="form-control form-control-sm" name="modifier" placeholder="## Modifier">
 					</div>
-					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">## Modifier</label>
+					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="part_number" placeholder="part_modifier">
+						<input type="text" class="form-control form-control-sm" name="part_number" placeholder="number of parts">
 					</div>
 					<label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label>
 					<div class="col-12 col-lg-9">
 						<input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="container unique id">
+					</div>
+					<label for="part_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Remark</label>
+					<div class="col-12 col-lg-9">
+						<input type="text" class="form-control form-control-sm" name="part_remark" placeholder="part remark">
 					</div>
 				</div>
 				</div>
