@@ -23,7 +23,7 @@ limitations under the License.
 
 </style>
 <cfoutput>
-<p style="text-align:center; font-weight:bold; font-style:italic;">
+<p class="font-italic font-weight-bold text-center mt-3 mb-0">
 <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a>
 </p>
 
@@ -33,7 +33,7 @@ limitations under the License.
 		<div class="col-12 mt-2">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
-			<h1 class="text-center mt-4 mb-3">Enter a New Record</h1>	
+			<h1 class="text-center mt-2 mb-3">Enter a New Record</h1>	
 			<div class="row">	
 				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
 				<div class="form-group col-12 col-md-4 pb-2">
@@ -285,7 +285,7 @@ limitations under the License.
 				</div>
 				</div>
 				<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a>
 				</div>
 				</div>
 				</div>
