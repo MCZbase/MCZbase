@@ -99,8 +99,8 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 					<div id="customAgent">
 						<div class="form-group row">
-							<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label>
-							<div class="col-lg-4">
+							<label for="other_id" class="col-12 col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label>
+							<div class="col-12 col-lg-4">
 								<select class="custom-select1 form-control-sm input-xs border">
 									<option value="">Collector</option>
 									<option value="1">Preparator</option>
@@ -112,7 +112,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a>
 					</div>
 				</div>
 			</div>
@@ -294,8 +294,11 @@ limitations under the License.
 							<option value="3">missing</option>
 						</select>
 					</div>
-					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">## Modifier</label>
-					<div class="col-12 col-lg-9">
+				
+			
+					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
+					<div class="col-12">
+					<div class="col-3 col-lg-2">
 						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
 							<option value=""> </option>
 							<option value="1">&gt;</option>
@@ -303,9 +306,9 @@ limitations under the License.
 							<option value="3">ca.</option>
 						</select>
 					</div>
-					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
-					<div class="col-12 col-lg-9">
+					<div class="col-9 col-lg-8">
 						<input type="text" class="form-control form-control-sm" name="part_number" placeholder="number of parts">
+					</div>
 					</div>
 					<label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label>
 					<div class="col-12 col-lg-9">
