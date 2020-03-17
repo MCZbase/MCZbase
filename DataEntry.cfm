@@ -232,7 +232,7 @@ limitations under the License.
 				</div>
 				</div>
 				</div>
-<cfset att = "12">
+<cfset i = 1>
 				<div class="form-group col-12 col-md-4 pb-2">
 					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
@@ -261,11 +261,13 @@ limitations under the License.
 				</div>
 				</div>
 				</div>
+	
+	
 				<div class="form-group col-12 col-md-4 pb-2">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Parts</h2>
 				<h3 class="fs-subtitle text-center">This is step 6</h3>
-				<div id="customFields">
+				<div id="customPart">
 				<div class="form-group row">
 					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part Name</label>
 					<div class="col-12 col-lg-9">
@@ -596,6 +598,14 @@ $(document).ready(function(){
 	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label><div class="col-lg-4"><select class="custom-select1 form-control-sm input-xs border"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-3 mr-auto remAgent">Remove</button></div>');
 	});
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
+});
+</script>
+	<script>
+	//this is the search builder main dropdown for all the columns found in flat
+$(document).ready(function(){
+	$(".addPart").click(function(){$("##customPart").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label><div class="col-lg-4"><select class="custom-select1 form-control-sm input-xs border"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
+	});
+	$("##customPart").on('click','.remPart',function(){$(this).parent().remove();});
 });
 </script>
 <script type="text/javascript">
