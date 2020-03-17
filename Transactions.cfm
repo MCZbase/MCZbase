@@ -169,7 +169,7 @@ limitations under the License.
 													<option value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
 												</cfloop>
 												<option value="not closed">not closed</option>
-											</select><
+											</select>
 										</div>
 									</div>
 									<div class="form-row mb-2">

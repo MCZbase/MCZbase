@@ -46,7 +46,7 @@ function autogrow (event) {
 /** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker
  */
 function makeAgentPicker(nameControl, idControl) { 
-	$('##'+nameControl).autocomplete({
+	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
 				url: "/agents/component/search.cfc",
@@ -65,7 +65,7 @@ function makeAgentPicker(nameControl, idControl) {
 			})
 		},
 		select: function (event, result) {
-			$('##'+idControl).val(result.item.id);
+			$('#'+idControl).val(result.item.id);
 		},
 		minLength: 3
 	});
