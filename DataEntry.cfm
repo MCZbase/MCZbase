@@ -232,7 +232,7 @@ limitations under the License.
 				</div>
 				</div>
 				</div>
-<cfset i = 1>
+
 				<div class="form-group col-12 col-md-4 pb-2">
 					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
