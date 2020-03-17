@@ -288,11 +288,11 @@ limitations under the License.
 					<div class="col-12 col-lg-9">
 						<input type="text" class="form-control form-control-sm" name="disposition" placeholder="Disposition">
 					</div>
-					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right"># Modifier</label>
+					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">## Modifier</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="modifier" placeholder="# Modifier">
+						<input type="text" class="form-control form-control-sm" name="modifier" placeholder="## Modifier">
 					</div>
-					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right"># Modifier</label>
+					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">## Modifier</label>
 					<div class="col-12 col-lg-9">
 						<input type="text" class="form-control form-control-sm" name="part_number" placeholder="part_modifier">
 					</div>
