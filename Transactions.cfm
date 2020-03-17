@@ -208,7 +208,7 @@ limitations under the License.
 											<input type="hidden" name="agent_3_id" >
 										</div>
 										<script>
-										$(document).ready(function () {
+										$(document).ready(function() {
 											$(makeAgentPicker('agent_1','agent_1_id'));
 											$(makeAgentPicker('agent_2','agent_2_id'));
 											$(makeAgentPicker('agent_3','agent_3_id'));
@@ -218,19 +218,19 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
 											<label for"trans_date">Transaction Date:</label>
-											<span>
+											<div class="form-row"><div class="col-12">
 												<input name="trans_date" id="trans_date" type="text" class="jqxdatetimeinput" >
 												&nbsp; To:
 												<input type='text' name='to_trans_date' id="to_trans_date" class="jqxdatetimeinput">
-											</span>
+											</div></div>
 										</div>
 										<div class="col-12 col-md-6">
 											<label for="return_due_date"> Due Date: </label>
-											<span>
+											<div class="form-row"><div class="col-12">
 												<input type="text" name="return_due_date" id="return_due_date" class="jqxdatetimeinput">
 												&nbsp; To:
 												<input type='text' name='to_return_due_date' id="to_return_due_date" class="jqxdatetimeinput">
-											</span>
+											</div></div>
 										</div>
 									</div>
 									<div class="form-row mb-2">
