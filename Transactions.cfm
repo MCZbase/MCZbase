@@ -33,7 +33,7 @@ limitations under the License.
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select * from collection order by collection
+	select * from collection order by collection
 </cfquery>
 
 <cfoutput>
@@ -53,7 +53,7 @@ limitations under the License.
 								<a class="nav-link active" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a>
 							</li>
 							<li class="nav-item col-sm-12 col-md-2 px-1">
-								<a class="nav-link active" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a>
+								<a class="nav-link" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a>
 							</li>
 						</ul>
 					</div><!--- End tab header div --->
@@ -89,143 +89,188 @@ limitations under the License.
 						<div class="tab-pane fade py-3 mx-sm-3 mb-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
      						<h2 class="wikilink">Find Loans <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
-					<!--- Search for just loans ---->
-					<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select loan_type from ctloan_type order by loan_type
-					</cfquery>
-					<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select loan_status from ctloan_status order by loan_status
-					</cfquery>
-					<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select coll_obj_disposition from ctcoll_obj_disp
-					</cfquery>
-					<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct(trans_agent_role) 
-						from cttrans_agent_role  
-						where trans_agent_role != 'associated with agency' 
-								and trans_agent_role != 'received from' 
-								and trans_agent_role != 'borrow overseen by' 
-						order by trans_agent_role
-					</cfquery>
-					<script>
-						jQuery(document).ready(function() {
-							jQuery("##part_name").autocomplete("/ajax/part_name.cfm", {
-								width: 320,
-								max: 50,
-								autofill: false,
-								multiple: false,
-								scroll: true,
-								scrollHeight: 300,
-								matchContains: true,	
-								minChars: 1,
-								selectFirst:false
-							});
-						});
-					</script>
+								<!--- Search for just loans ---->
+								<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select loan_type from ctloan_type order by loan_type
+								</cfquery>
+								<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select loan_status from ctloan_status order by loan_status
+								</cfquery>
+								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select coll_obj_disposition from ctcoll_obj_disp
+								</cfquery>
+								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct(trans_agent_role) 
+									from cttrans_agent_role  
+									where trans_agent_role != 'associated with agency' 
+										and trans_agent_role != 'received from' 
+										and trans_agent_role != 'borrow overseen by' 
+									order by trans_agent_role
+								</cfquery>
+								<script>
+									jQuery(document).ready(function() {
+										jQuery("##part_name").autocomplete({
+											source: function (request, response) { 
+												$.ajax({
+													url: "/specimens/component/functions.cfc",
+													data: { term: request.term, method: 'getPartName' },
+													dataType: 'json',
+													success : function (data) { response(data); },
+													error : function (jqXHR, status, error) {
+														var message = "";      
+														if (error == 'timeout') { 
+															message = ' Server took too long to respond.';
+														} else { 
+															message = jqXHR.responseText;
+														}
+														messageDialog('Error:' + message ,'Error: ' + error);
+													}
+												})
+											},
+											select: function (event, result) {
+												$('##part_name').val(result.item.id);
+											},
+											minLength: 1
+										});
+									});
+								</script>
 
-      <form name="SpecData" action="transactions/Loan.cfm" method="post">
-        <input type="hidden" name="Action" value="listLoans">
-        <input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-        <table>
-          <tr>
-            <td align="right">Collection Name: </td>
-            <td><select name="collection_id" size="1">
-                <option value=""></option>
-                <cfloop query="ctcollection">
-                  <option value="#collection_id#">#collection#</option>
-                </cfloop>
-              </select>
-              <img src="images/nada.gif" width="2" height="1"> Number: (yyyy-n-Coll) <span class="lnum">
-              <input type="text" name="loan_number">
-              </span></td>
-          </tr>
-          <tr>
-            <td align="right"><select name="trans_agent_role_1">
-                <option value="">Please choose an agent role...</option>
-                <cfloop query="cttrans_agent_role_loan">
-                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
-                </cfloop>
-              </select></td>
-            <td><input type="text" name="agent_1"  size="50"></td>
-          </tr>
-          <tr>
-            <td align="right"><select name="trans_agent_role_2">
-                <option value="">Please choose an agent role...</option>
-                <cfloop query="cttrans_agent_role_loan">
-                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
-                </cfloop>
-              </select></td>
-            <td><input type="text" name="agent_2"  size="50"></td>
-          </tr>
-          <tr>
-            <td align="right"><select name="trans_agent_role_3">
-                <option value="">Please choose an agent role...</option>
-                <cfloop query="cttrans_agent_role_loan">
-                  <option value="#trans_agent_role#">-> #trans_agent_role#:</option>
-                </cfloop>
-              </select></td>
-            <td><input type="text" name="agent_3"  size="50"></td>
-          </tr>
-          <tr>
-            <td align="right">Type: </td>
-            <td><select name="loan_type">
-                <option value=""></option>
-                <cfloop query="ctLoanType">
-                  <option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-                </cfloop>
-              </select>
-              <img src="images/nada.gif" width="25" height="1"> Status:&nbsp;
-              <select name="loan_status">
-                <option value=""></option>
-                <cfloop query="ctLoanStatus">
-                  <option value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
-                </cfloop>
-                <option value="not closed">not closed</option>
-              </select></td>
-          </tr>
-          <tr>
-            <td align="right">Transaction Date:</td>
-            <td><input name="trans_date" id="trans_date" type="text">
-             &nbsp; To:
-              <input type='text' name='to_trans_date' id="to_trans_date"></td>
-          </tr>
-          <tr>
-              <td align="right"> Due Date: </td>
-              <td><input type="text" name="return_due_date" id="return_due_date">
-               &nbsp; To:
-                <input type='text' name='to_return_due_date' id="to_return_due_date"></td>
-          </tr>
-          <tr>
-              <td align="right"> Closed Date: </td>
-              <td><input type="text" name="closed_date" id="closed_date">
-               &nbsp; To:
-                <input type='text' name='to_closed_date' id="to_closed_date"></td>
-          </tr>
-          <tr>
-            <td align="right">Permit Number:</td>
-            <td><input type="text" name="permit_num" size="50">
-              <span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span></td>
-          </tr>
-          <tr>
-            <td align="right">Nature of Material:</td>
-            <td><textarea name="nature_of_material" rows="3" cols="50"></textarea></td>
-          </tr>
-          <tr>
-            <td align="right">Description: </td>
-            <td><textarea name="loan_description" rows="3" cols="50"></textarea></td>
-          </tr>
-          <tr>
-          <tr>
-            <td align="right">Instructions:</td>
-            <td><textarea name="loan_instructions" rows="3" cols="50"></textarea></td>
-          </tr>
-          <tr>
-            <td align="right">Internal Remarks: </td>
-            <td><textarea name="trans_remarks" rows="3" cols="50"></textarea></td>
-          </tr>
-          <tr>
-            <td class="parts1"> Parts: </td>
-            <td><table class="partloan">
+								<form name="SpecData" action="transactions/Loan.cfm" method="post">
+									<input type="hidden" name="Action" value="listLoans">
+									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-3">
+											<label for="collection_id">Collection Name:</label>
+											<select name="collection_id" size="1" class="custom-select1 form-control-sm">
+												<option value=""></option>
+												<cfloop query="ctcollection">
+													<option value="#collection_id#">#collection#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="loan_number">Number: (yyyy-n-Coll)</label>
+											<input type="text" name="loan_number" id="loan_number" class="form-control-sm">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="loan_type">Type:</label>
+											<select name="loan_type" id="loan_type" class="custom-select1 form-control-sm">
+												<option value=""></option>
+												<cfloop query="ctLoanType">
+													<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="loan_status">Status:</label>
+											<select name="loan_status" id="loan_status" class="custom-select1 form-control-sm" >
+												<option value=""></option>
+												<cfloop query="ctLoanStatus">
+													<option value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
+												</cfloop>
+												<option value="not closed">not closed</option>
+											</select><
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-4">
+											<select name="trans_agent_role_1" id="trans_agent_role_1" class="form-control-sm custom-select1">
+												<option value="">agent role...</option>
+												<cfloop query="cttrans_agent_role_loan">
+													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+												</cfloop>
+											</select>
+											<input type="text" name="agent_1" class="form-control-sm" >
+											<input type="hidden" name="agent_1_id" >
+											<script>
+											</script>
+										</div>
+										<div class="col-12 col-md-4">
+											<select name="trans_agent_role_2" id="trans_agent_role_2" class="form-control-sm custom-select1">
+												<option value="">agent role...</option>
+												<cfloop query="cttrans_agent_role_loan">
+													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+												</cfloop>
+											</select>
+											<input type="text" name="agent_2" class="form-control-sm" >
+											<input type="hidden" name="agent_2_id" >
+											<script>
+											</script>
+										</div>
+										<div class="col-12 col-md-4">
+											<select name="trans_agent_role_3" id="trans_agent_role_3" class="form-control-sm custom-select1">
+												<option value="">agent role...</option>
+												<cfloop query="cttrans_agent_role_loan">
+													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+												</cfloop>
+											</select>
+											<input type="text" name="agent_3" class="form-control-sm" >
+											<input type="hidden" name="agent_3_id" >
+										</div>
+										<script>
+										$(document).ready(function () {
+											$(makeAgentPicker('agent_1','agent_1_id'));
+											$(makeAgentPicker('agent_2','agent_2_id'));
+											$(makeAgentPicker('agent_3','agent_3_id'));
+										});
+										</script>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<label for"trans_date">Transaction Date:</label>
+											<span>
+												<input name="trans_date" id="trans_date" type="text" class="jqxdatetimeinput" >
+												&nbsp; To:
+												<input type='text' name='to_trans_date' id="to_trans_date" class="jqxdatetimeinput">
+											</span>
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="return_due_date"> Due Date: </label>
+											<span>
+												<input type="text" name="return_due_date" id="return_due_date" class="jqxdatetimeinput">
+												&nbsp; To:
+												<input type='text' name='to_return_due_date' id="to_return_due_date" class="jqxdatetimeinput">
+											</span>
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<label for="closed_date"> Closed Date: </span>
+											<span>
+												<input type="text" name="closed_date" id="closed_date" class="jqxdatetimeinput">
+												&nbsp; To:
+												<input type='text' name='to_closed_date' id="to_closed_date" class="jqxdatetimeinput">
+											</span>
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="permit_num">Permit Number:</label>
+											<input type="text" name="permit_num" class="form-control-sm">
+											<span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span>
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<label for="">Nature of Material:</label>
+											<input type="text" name="nature_of_material" class="form-control-sm">
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="">Description: </label>
+											<input type="text" name="loan_description" class="form-control-sm">
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<label for="">Instructions:</label>
+											<input type="text" name="loan_instructions" class="form-control-sm">
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="">Internal Remarks: </label>
+										<input type="text" name="trans_remarks" class="form-control-sm">
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<label>Parts:</label>
+            	<table class="partloan">
                 <tr>
                   <td valign="top"><label for="part_name_oper">Part<br/>
                       Match</label>
@@ -250,18 +295,18 @@ limitations under the License.
                       </cfloop>
                     </select></td>
                 </tr>
-              </table></td>
-          </tr>
-          <tr>
-            <td colspan="2" align="center">
-            <input type="submit" value="Search" class="schBtn">
-              &nbsp;
-            <input type="reset" value="Clear" class="qutBtn">
-            </td>
-          </tr>
-        </table>
-      </form>
-
+              </table>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<input type="submit" value="Search" class="schBtn">
+										</div>
+										<div class="col-12 col-md-6">
+											<input type="reset" value="Clear" class="qutBtn">
+										</div>
+									</div>
+								</form>
+							</div>
 						</div> <!---tab-pane loan search--->
 
 					</div> <!--- End tab-content div --->
