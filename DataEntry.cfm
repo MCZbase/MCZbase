@@ -106,7 +106,7 @@ limitations under the License.
 									<option value="1">Preparator</option>
 								</select>
 							</div>
-							<div class="col-12 col-lg-5 pl-0">
+							<div class="col-12 col-lg-5">
 								<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value">
 							</div>
 						</div>
