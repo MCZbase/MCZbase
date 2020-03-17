@@ -257,7 +257,7 @@ limitations under the License.
 				</div>
 				</div>
 				<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a>
 				</div>
 				</div>
 				</div>
@@ -296,9 +296,10 @@ limitations under the License.
 					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">## Modifier</label>
 					<div class="col-12 col-lg-9">
 						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
-							<option value="">&gt;</option>
-							<option value="1">&lt;</option>
-							<option value="2">ca.</option>
+							<option value=""> </option>
+							<option value="1">&gt;</option>
+							<option value="2">&lt;</option>
+							<option value="3">ca.</option>
 						</select>
 					</div>
 					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
@@ -316,7 +317,7 @@ limitations under the License.
 				</div>
 				</div>
 				<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a>
 				</div>
 				</div>
 				</div>
