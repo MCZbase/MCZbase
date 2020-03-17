@@ -44,6 +44,8 @@ function autogrow (event) {
 };
 
 /** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
  */
 function makeAgentPicker(nameControl, idControl) { 
 	$('#'+nameControl).autocomplete({

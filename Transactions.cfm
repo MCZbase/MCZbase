@@ -180,8 +180,8 @@ limitations under the License.
 													<option value="#trans_agent_role#">#trans_agent_role#:</option>
 												</cfloop>
 											</select>
-											<input type="text" name="agent_1" class="form-control-sm" >
-											<input type="hidden" name="agent_1_id" >
+											<input type="text" name="agent_1" id="agent_1" class="form-control-sm" >
+											<input type="hidden" name="agent_1_id" id="agent_1_id" >
 											<script>
 											</script>
 										</div>
@@ -192,8 +192,8 @@ limitations under the License.
 													<option value="#trans_agent_role#">#trans_agent_role#:</option>
 												</cfloop>
 											</select>
-											<input type="text" name="agent_2" class="form-control-sm" >
-											<input type="hidden" name="agent_2_id" >
+											<input type="text" name="agent_2" id="agent_2" class="form-control-sm" >
+											<input type="hidden" name="agent_2_id" id="agent_2_id" >
 											<script>
 											</script>
 										</div>
@@ -204,8 +204,8 @@ limitations under the License.
 													<option value="#trans_agent_role#">#trans_agent_role#:</option>
 												</cfloop>
 											</select>
-											<input type="text" name="agent_3" class="form-control-sm" >
-											<input type="hidden" name="agent_3_id" >
+											<input type="text" name="agent_3" id="agent_3" class="form-control-sm" >
+											<input type="hidden" name="agent_3_id" id="agent_3_id" >
 										</div>
 										<script>
 										$(document).ready(function() {
@@ -248,15 +248,21 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
 											<label for="closed_date"> Closed Date: </span>
-											<span>
-												<input type="text" name="closed_date" id="closed_date" class="jqxdatetimeinput">
-												&nbsp; To:
-												<input type='text' name='to_closed_date' id="to_closed_date" class="jqxdatetimeinput">
-											</span>
-										</div>
+											<div class="form-row">
+												<div class="col-md-6 col-12 float-right">
+													<input type="text" name="closed_date" id="closed_date" class="jqxdatetimeinput float-right">
+												</div>
+												<div class="col-md-6 col-12 float-left">
+													<div class="input-group float-left">
+														<div id="closed_date_to_marker" class="input-group-prepend">To:</div>
+														<input type='text' name='to_closed_date' id="to_closed_date" class="jqxdatetimeinput" aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
+													</div>
+												</div>
+											</div>
 										<div class="col-12 col-md-6">
 											<label for="permit_num">Permit Number:</label>
 											<input type="text" name="permit_num" class="form-control-sm">
+											<!--- TODO: move backing into transactions/ change from popup window. --->
 											<span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span>
 										</div>
 									</div>
