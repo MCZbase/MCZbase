@@ -299,7 +299,7 @@ limitations under the License.
 					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
 					<div class="col-12">
 					<div class="col-3 col-lg-2">
-						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
+						<select class="custom-select1 form-control-sm input-xs border mt-0 pl-2" required>
 							<option value=""> </option>
 							<option value="1">&gt;</option>
 							<option value="2">&lt;</option>
