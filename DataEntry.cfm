@@ -232,14 +232,15 @@ limitations under the License.
 				</div>
 				</div>
 				</div>
-
+<cfset intAttributes = 10 />
 				<div class="form-group col-12 col-md-4 pb-2">
 					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
 				<div id="customFields">
+					#IIF((intAttributes LT 10),"++intAttributes")#
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute 1</label>
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute #intAttributes#</label>
 					<div class="col-12 col-lg-9">
 						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
 							<option value="">Age Class</option>
