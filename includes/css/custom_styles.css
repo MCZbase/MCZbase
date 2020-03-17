@@ -1388,8 +1388,8 @@ table.inputTable tr {
 }
 .input-xs {
 	line-height: 1.1em;
-	font-size: 13px;
-	padding: 0px .25em;
+	font-size: 1em;
+	padding: 0px .5em;
 	border-radius: 3px;
 }
 input[type="button"]#delPOIbutton {
@@ -1604,7 +1604,7 @@ table#pairs th, table#pairs td {
 }
 .form-control-sm {
 	width: 100%;
-	font-size: .8em;
+/*	font-size: .8em;*/
 	border: 1px solid #ccc;
 }
 input, select {
