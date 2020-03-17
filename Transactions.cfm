@@ -352,7 +352,7 @@ limitations under the License.
 <script>
 
 $(document).ready(function () {
-	$(".jqxdatetimeinput").jqxDateTimeInput({ value: null, height: '25px', theme: 'summer'  min: new Date(1700, 0, 1)   });
+	$(".jqxdatetimeinput").jqxDateTimeInput({ value: null, height: '25px', theme: 'summer', min: new Date(1700,0,1) });
 });
 
 /* Supporting JQXGRID for Search */
