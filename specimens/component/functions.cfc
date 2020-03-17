@@ -125,5 +125,55 @@
     <cfthread action="join" name="getSBTHtmlThread" />
     <cfreturn getSBTHtmlThread.output>
 </cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getPartName" returntype="string" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+   <cftry>
+      <cfset rows = 0>
+      <cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select a.part_name
+			from (
+				select part_name, partname
+				from ctspecimen_part_name, ctspecimen_part_list_order
+				where ctspecimen_part_name.part_name =  ctspecimen_part_list_order.partname (+)
+					and upper(part_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#%">
+				) a
+			group by a.part_name, a.partname
+			order by a.partname asc, a.part_name
+      </cfquery>
+   <cfset rows = search_result.recordcount>
+      <cfset i = 1>
+      <cfloop query="search">
+         <cfset row = StructNew()>
+         <cfset row["id"] = "#search.part_name#">
+         <cfset row["value"] = "#search.part_name#" >
+         <cfset data[i]  = row>
+         <cfset i = i + 1>
+      </cfloop>
+      <cfreturn #serializeJSON(data)#>
+   <cfcatch>
+      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+      <cfset message = trim("Error processing getAgentPartName: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+      <cfheader statusCode="500" statusText="#message#">
+         <cfoutput>
+            <div class="container">
+               <div class="row">
+                  <div class="alert alert-danger" role="alert">
+                     <img src="/includes/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+                     <h2>Internal Server Error.</h2>
+                     <p>#message#</p>
+                     <p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+                  </div>
+               </div>
+            </div>
+         </cfoutput>
+      <cfabort>
+   </cfcatch>
+   </cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 </cfcomponent>
