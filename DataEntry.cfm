@@ -239,14 +239,7 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
 				<div id="customFields">
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right"><cfoutput>
-
-<cfloop index="i" from="1" to="5">
-    <cfset att = att + 1>
-  Attribute #att#
-</cfloop>
-
-</cfoutput></label>
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute 1</label>
 					<div class="col-12 col-lg-9">
 						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
 							<option value="">Age Class</option>
