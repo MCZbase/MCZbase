@@ -33,7 +33,7 @@ limitations under the License.
 		<div class="col-12 mt-2">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
-			<h1 class="text-center mt-2 mb-3">Enter a New Record</h1>	
+			<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>	
 			<div class="row">	
 				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
 				<div class="form-group col-12 col-md-4 pb-2">
@@ -264,18 +264,19 @@ limitations under the License.
 								<div class="form-group col-12 col-md-4 pb-2">
 					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Parts</h2>
-				<h3 class="fs-subtitle text-center">This is step 5</h3>
+				<h3 class="fs-subtitle text-center">This is step 6</h3>
 				<div id="customFields">
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute 1</label>
+					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part 1</label>
 					<div class="col-12 col-lg-9">
+						<input type="text" class="form-control form-control-sm" name="part_name" placeholder="Part Name">
 						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
-							<option value="">Age Class</option>
+							<option value="">whole animal</option>
 							<option value="1">Citation</option>
 							<option value="2">Host</option>
 							<option value="3">Life Cycle Stage</option>
 						</select>
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value">
+						
 						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units">
 						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date">
 						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner">
@@ -300,7 +301,7 @@ limitations under the License.
 	<div  class="row col-sm-12 col-md-8 col-xl-8 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
-			<h1 class="text-center mt-4 mb-1">Enter a New Record</h1>
+			<h1 class="text-center mt-2 mb-1">Enter a New Record</h1>
 			<div class="tab">
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
