@@ -269,7 +269,7 @@ limitations under the License.
 				<div class="form-group row">
 					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part Name</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="part_name" placeholder="Part Name">
+						<input type="text" class="form-control form-control-sm" name="part_name" placeholder="part name">
 					</div>
 					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Preserve Method</label>
 					<div class="col-12 col-lg-9">
@@ -282,15 +282,24 @@ limitations under the License.
 					</div>	
 					<label for="condition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Condition</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="condition" placeholder="Condition">
+						<input type="text" class="form-control form-control-sm" name="condition" placeholder="condition">
 					</div>	
 					<label for="disposition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Disposition</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="disposition" placeholder="Disposition">
+						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
+							<option value="">being processed</option>
+							<option value="1">deaccessioned</option>
+							<option value="2">in collection</option>
+							<option value="3">missing</option>
+						</select>
 					</div>
 					<label for="modifier" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">## Modifier</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="modifier" placeholder="## Modifier">
+						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
+							<option value="">&gt;</option>
+							<option value="1">&lt;</option>
+							<option value="2">ca.</option>
+						</select>
 					</div>
 					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
 					<div class="col-12 col-lg-9">
@@ -302,7 +311,7 @@ limitations under the License.
 					</div>
 					<label for="part_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Remark</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="part_remark" placeholder="part remark">
+						<input type="text" class="form-control form-control-sm" name="part_remark" placeholder="part remarks">
 					</div>
 				</div>
 				</div>
