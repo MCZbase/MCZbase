@@ -217,20 +217,32 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<label for"trans_date">Transaction Date:</label>
-											<div class="form-row"><div class="col-12">
-												<input name="trans_date" id="trans_date" type="text" class="jqxdatetimeinput" >
-												&nbsp; To:
-												<input type='text' name='to_trans_date' id="to_trans_date" class="jqxdatetimeinput">
-											</div></div>
+											<label for"trans_date">Loan Date:</label>
+											<div class="form-row">
+												<div class="col-md-6 col-12 float-right">
+													<input name="trans_date" id="trans_date" type="text" class="jqxdatetimeinput float-right" >
+												</div>
+												<div class="col-md-6 col-12 float-left">
+													<div class="input-group float-left">
+														<div class="input-group-prepend" id="trans_date_to_marker" >To:</div>
+														<input type='text' name='to_trans_date' id="to_trans_date" class="jqxdatetimeinput" aria-label="loan date search range to" aria-described="rans_date_to_marker">
+													</div>
+												</div>
+											</div>
 										</div>
 										<div class="col-12 col-md-6">
 											<label for="return_due_date"> Due Date: </label>
-											<div class="form-row"><div class="col-12">
-												<input type="text" name="return_due_date" id="return_due_date" class="jqxdatetimeinput">
-												&nbsp; To:
-												<input type='text' name='to_return_due_date' id="to_return_due_date" class="jqxdatetimeinput">
-											</div></div>
+											<div class="form-row">
+												<div class="col-md-6 col-12 float-right">
+													<input type="text" name="return_due_date" id="return_due_date" class="jqxdatetimeinput float-right">
+												</div>
+												<div class="col-md-6 col-12 float-left">
+													<div class="input-group float-left">
+														<div id="return_due_date_to_marker" class="input-group-prepend">To:</div>
+														<input type='text' name='to_return_due_date' id="to_return_due_date" class="jqxdatetimeinput" aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 									<div class="form-row mb-2">
@@ -340,7 +352,7 @@ limitations under the License.
 <script>
 
 $(document).ready(function () {
-	$(".jqxdatetimeinput").jqxDateTimeInput({ width: '250px', height: '25px', theme: 'summer' });
+	$(".jqxdatetimeinput").jqxDateTimeInput({ value: null, height: '25px', theme: 'summer'  min: new Date(1700, 0, 1)   });
 });
 
 /* Supporting JQXGRID for Search */
