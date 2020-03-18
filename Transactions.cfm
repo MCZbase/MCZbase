@@ -268,10 +268,10 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-6">
 											<div class="form-row mb-2">
-												<div class="col-12 col-md-4">
+												<div class="col-12 col-md-3">
 													<label for="permit_num">Permit Number:</label>
 												</div>
-												<div class="col-12 col-md-8">
+												<div class="col-12 col-md-9">
 													<div class="input-group float-left">
 														<input type="text" name="permit_num" id="permit_num" class="form-control" aria-described-by="permitNumberLabel">
 														<!--- TODO: move backing into transactions/ change from popup window. --->
@@ -301,34 +301,33 @@ limitations under the License.
 											<input type="text" name="trans_remarks" class="form-control-sm">
 										</div>
 									</div>
-									<div class="form-row mb-2">
-										<label>Parts:</label>
-            	<table class="partloan">
-                <tr>
-                  <td valign="top"><label for="part_name_oper">Part<br/>
-                      Match</label>
-                    <select id="part_name_oper" name="part_name_oper">
-                      <option value="is">is</option>
-                      <option value="contains">contains</option>
-                    </select></td>
-                  <td valign="top"><label for="part_name">Part<br/>
-                      Name</label>
-                    <input type="text" id="part_name" name="part_name"></td>
-                  <td valign="top"><label for="part_disp_oper">Disposition&nbsp;<br/>
-                      Match</label>
-                    <select id="part_disp_oper" name="part_disp_oper">
-                      <option value="is">is</option>
-                      <option value="isnot">is not</option>
-                    </select></td>
-                  <td valign="top"><label for="coll_obj_disposition">Part Disposition</label>
-                    <select name="coll_obj_disposition" id="coll_obj_disposition" size="5" multiple="multiple">
-                      <option value=""></option>
-                      <cfloop query="ctCollObjDisp">
-                        <option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
-                      </cfloop>
-                    </select></td>
-                </tr>
-              </table>
+									<div class="form-row mb-2" class="border border-secondary">
+										<div class="col-12 col-md-3">
+											<label for="part_name_oper">Part Match</label>
+											<select id="part_name_oper" name="part_name_oper" class="form-control-sm custom-select1">
+												<option value="is">is</option>
+												<option value="contains">contains</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="part_name">Part Name</label>
+											<input type="text" id="part_name" name="part_name" class="form-control-sm">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="part_disp_oper">Disposition Match</label>
+											<select id="part_disp_oper" name="part_disp_oper" class="form-control-sm custom-select1">
+												<option value="is">is</option>
+												<option value="isnot">is not</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="coll_obj_disposition">Part Disposition</label>
+											<select name="coll_obj_disposition" id="coll_obj_disposition" size="5" multiple="multiple" class="form-control-sm custom-select1">
+												<option value=""></option>
+												<cfloop query="ctCollObjDisp">
+												<option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
+											</cfloop>
+										</div>
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
