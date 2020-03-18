@@ -37,52 +37,23 @@ limitations under the License.
 			<div class="row">	
 				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Record Numbers</h2>
-				<h3 class="fs-subtitle text-center">This is step 1</h3>				
-				<div class="form-group row">
-    				<label for="cat_num" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Catalog Number</label>
-					<div class="col-xl-9">
-    					<input type="text" class="form-control form-control-sm" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" oninput="this.className = ''" name="cat_num">
-    					<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
-					</div>
-  				</div>
-				
-		
-							
-				<div class="form-group row mb-2">
-					<label for="mask_record" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Mask Record</label>
-					<div class="col-xl-9">
-						<div class="form-check form-check-inline">
-							<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
-							<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+					<div class="border p-3 m-2">
+					<h2 class="fs-title text-center">Catalog Record Number</h2>
+					<h3 class="fs-subtitle text-center">This is step 1</h3>				
+					<div class="form-group row">
+						<label for="cat_num" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Catalog Number</label>
+						<div class="col-xl-9">
+							<input type="text" class="form-control form-control-sm" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" oninput="this.className = ''" name="cat_num">
+							<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
 						</div>
 					</div>
-				</div>
-				
-				<div class="form-group row">
-					<label for="relations" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other Records</label>
-					<div class="col-xl-4">
-						<select class="custom-select1 form-control input-xs border">
-							<option value="">Relationship Type</option>
-							<option value="1">Re-Cataloged as</option>
-							<option value="2">Bad Duplicate of</option>
-							<option value="3">Cloned from Record</option>
-							<option value="4">Duplicate Recataloged as</option>
-						</select>
-					</div>
-					<div class="col-xl-5">
-						<input type="text" class="form-control form-control-sm"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
-					
-					</div>
-				</div>
+					</div>	
 				</div>	
-			</div>	
 				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->					
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Other IDs</h2>
-				<h3 class="fs-subtitle text-center">This is step 3</h3>
+				<h3 class="fs-subtitle text-center">This is step 2</h3>
 					<div id="customID">
 					<div class="form-group row">
 					<label for="other_id" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other ID</label>
@@ -104,6 +75,54 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
+				
+								<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="border p-3 m-2">
+				<h2 class="fs-title text-center">Record Relationships</h2>
+				<h3 class="fs-subtitle text-center">This is step 3</h3>
+					<div id="customAgent">
+					<div class="form-group row">
+					<label for="relations" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other Records</label>
+					<div class="col-xl-4">
+						<select class="custom-select1 form-control input-xs border">
+							<option value="">Relationship Type</option>
+							<option value="1">Re-Cataloged as</option>
+							<option value="2">Bad Duplicate of</option>
+							<option value="3">Cloned from Record</option>
+							<option value="4">Duplicate Recataloged as</option>
+						</select>
+					</div>
+					<div class="col-xl-5">
+						<input type="text" class="form-control form-control-sm" id="record_number" placeholder="Record Number">
+					
+					</div>
+				</div>
+					</div>
+					<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a>
+					</div>
+				</div>
+			</div>
+	
+				
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
+					<div class="border p-3 m-2">
+					<h2 class="fs-title text-center">Encumbrance</h2>
+					<h3 class="fs-subtitle text-center">This is step 4</h3>
+						<div id="customAgent">
+						<div class="form-group row mb-2">
+							<label for="mask_record" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Mask Record</label>
+							<div class="col-xl-9">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
+									<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+	
 				
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
@@ -168,6 +187,7 @@ limitations under the License.
 				</div>
 				</div>
 			</div>	
+				
 			</div>
 			<div class="row">
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
