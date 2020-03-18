@@ -1607,6 +1607,7 @@ table#pairs th, table#pairs td {
 	width: 100%;
 /*	font-size: .8em;*/
 	border: 1px solid #ccc;
+	line-height: 1.1em;
 }
 input, select {
 	font-size: 13.3333px;

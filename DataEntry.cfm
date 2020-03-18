@@ -36,7 +36,7 @@ limitations under the License.
 			<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>	
 			<div class="row">	
 				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-				<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center">This is step 1</h3>				
@@ -92,8 +92,7 @@ limitations under the License.
 				</div>	
 			</div>	
 				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->	
-				
-			<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
@@ -117,7 +116,7 @@ limitations under the License.
 				</div>
 			</div>
 				
-				<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
@@ -158,7 +157,7 @@ limitations under the License.
 			</div>	
 			</div>
 			<div class="row">
-				<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
@@ -233,7 +232,7 @@ limitations under the License.
 				</div>
 				</div>
 
-				<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
@@ -262,7 +261,7 @@ limitations under the License.
 				</div>
 				</div>
 	
-				<div class="form-group col-12 col-md-4 pb-2">
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Parts</h2>
 				<h3 class="fs-subtitle text-center">This is step 6</h3>
@@ -584,8 +583,10 @@ limitations under the License.
 	
 </div>
 
+	
+
 <script>
-	//this is the search builder main dropdown for all the columns found in flat
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row
 $(document).ready(function(){
 	$(".addAtt").click(function(){$("##customFields").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded mr-auto ml-3 remAtt">Remove</button></div>');
 	});
@@ -593,7 +594,7 @@ $(document).ready(function(){
 });
 </script>
 	<script>
-	//this is the search builder main dropdown for all the columns found in flat
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-group row"><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label><div class="col-lg-4"><select class="custom-select1 form-control-sm input-xs border"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-3 mr-auto remAgent">Remove</button></div>');
 	});
@@ -601,7 +602,7 @@ $(document).ready(function(){
 });
 </script>
 	<script>
-	//this is the search builder main dropdown for all the columns found in flat
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addPart").click(function(){$("##customPart").append('<h6>Part</h6><div class="form-group row"><label for="part_name" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="part_name" placeholder="Part Name"></div><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Preserve Method</label><div class="col-12 col-lg-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">Ethanol</option><option value="1">RNALater</option><option value="2">DNA/RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Condition</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="condition" placeholder="Condition"></div><label for="disposition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Disposition</label><div class="col-12 col-lg-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">being processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Number of Parts</label><div class="col-12 col-lg-4"><select class="custom-select1 form-control-sm input-xs border form-control" required=""><option value="">modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="form-control form-control-sm" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Remark</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="part_remark" placeholder="Part Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
 	});
