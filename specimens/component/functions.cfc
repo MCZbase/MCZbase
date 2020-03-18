@@ -127,7 +127,7 @@
 </cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getPartName" returntype="string" access="remote" returntype="any" returnformat="json">
+<cffunction name="getPartName" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 
