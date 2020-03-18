@@ -328,7 +328,7 @@ limitations under the License.
 													<option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
 												</cfloop>
 											</select --->
-											<div name="coll_obj_disposition" id="coll_obj_disposition">
+											<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
 											<script>
 												$(document).ready(function () {
 													var dispositionsource = [
