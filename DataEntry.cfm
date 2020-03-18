@@ -80,7 +80,7 @@ limitations under the License.
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Record Relationships</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
-					<div id="customAgent">
+					<div id="customRelationship">
 					<div class="form-group row">
 					<label for="relations" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other Records</label>
 					<div class="col-xl-4">
@@ -99,7 +99,7 @@ limitations under the License.
 				</div>
 					</div>
 					<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a>
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a>
 					</div>
 				</div>
 			</div>
