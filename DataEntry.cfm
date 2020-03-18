@@ -312,23 +312,23 @@ limitations under the License.
 					<label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Number of Parts</label>
 					<div class="col-12 col-lg-4">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required="">
-							<option value="">modifier</option>
+							<option value="">Modifier</option>
 							<option value="1">ca.</option>
 							<option value="2">&gt;</option>
 							<option value="3">&lt;</option>
 						</select>
 					</div>
 					<div class="col-12 col-lg-5">
-						<input type="text" name="part_number" class="form-control form-control-sm" placeholder="number of parts">
+						<input type="text" name="part_number" class="form-control form-control-sm" placeholder="Number of Parts">
 					</div>
 				</div>
 					<label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="container unique id">
+						<input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="Container Unique ID">
 					</div>
 					<label for="part_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Remark</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="part_remark" placeholder="part remarks">
+						<input type="text" class="form-control form-control-sm" name="part_remark" placeholder="Part Remarks">
 					</div>
 				</div>
 				</div>
@@ -617,7 +617,7 @@ $(document).ready(function(){
 	<script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
-	$(".addPart").click(function(){$("##customPart").append('<h6>Part</h6><div class="form-group row"><label for="part_name" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="part_name" placeholder="part name"></div><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Preserve Method</label><div class="col-12 col-lg-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">ethanol</option><option value="1">RNALater</option><option value="2">DNA RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Condition</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="condition" placeholder="condition"></div><label for="disposition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Disposition</label><div class="col-12 col-lg-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">being processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Number of Parts</label><div class="col-12 col-lg-4"><select class="custom-select1 form-control-sm input-xs border form-control" required=""><option value="">modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="form-control form-control-sm" placeholder="number of parts"></div></div><label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="container unique id"></div><label for="part_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Remark</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="part_remark" placeholder="part remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
+	$(".addPart").click(function(){$("##customPart").append('<h6>Part</h6><div class="form-group row"><label for="part_name" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="part_name" placeholder="Part Name"></div><label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Preserve Method</label><div class="col-12 col-lg-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">ethanol</option><option value="1">RNALater</option><option value="2">DNA RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Condition</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="condition" placeholder="Condition"></div><label for="disposition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Disposition</label><div class="col-12 col-lg-9"><select class="custom-select1 form-control-sm input-xs border" mt-0 required><option value="">being processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Number of Parts</label><div class="col-12 col-lg-4"><select class="custom-select1 form-control-sm input-xs border form-control" required=""><option value="">modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="form-control form-control-sm" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Remark</label><div class="col-12 col-lg-9"><input type="text" class="form-control form-control-sm" name="part_remark" placeholder="Part Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
 	});
 	$("##customPart").on('click','.remPart',function(){$(this).parent().remove();});
 });
