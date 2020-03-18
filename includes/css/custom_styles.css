@@ -1383,7 +1383,7 @@ table.inputTable tr {
 }
 .custom-select1 {
 	border: none;
-	height: calc(1.25em + .75rem + 2px);
+	height: calc(1.25em + .75rem + 1px);
 	border-radius: 5px;
 }
 .input-xs {
