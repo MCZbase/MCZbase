@@ -43,7 +43,7 @@ limitations under the License.
 					<div class="form-group row">
 						<label for="cat_num" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Catalog Number</label>
 						<div class="col-xl-9">
-							<input type="text" class="form-control form-control-sm" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" oninput="this.className = ''" name="cat_num">
+							<input type="text" class="form-control form-control-sm" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 							<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
 						</div>
 					</div>
@@ -76,7 +76,7 @@ limitations under the License.
 				</div>
 			</div>
 				
-								<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Record Relationships</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
@@ -103,8 +103,8 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-	
-				
+			</div>
+			<div class="row">
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
 					<h2 class="fs-title text-center">Encumbrance</h2>
@@ -122,8 +122,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-	
-				
+			
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
@@ -187,7 +186,6 @@ limitations under the License.
 				</div>
 				</div>
 			</div>	
-				
 			</div>
 			<div class="row">
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
@@ -327,7 +325,7 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-12 row mx-0 px-0">
-					<label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Number of Parts</label>
+					<label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">## of Parts</label>
 					<div class="col-12 col-lg-4">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required="">
 							<option value="">Modifier</option>
