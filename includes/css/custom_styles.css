@@ -1383,14 +1383,15 @@ table.inputTable tr {
 }
 .custom-select1 {
 	border: none;
-	height: calc(1.25em + .75rem + 2px);
+	height: calc(1.25em + .75rem + 1px);
 	border-radius: 5px;
 }
 .input-xs {
 	line-height: 1.1em;
-	font-size: 1em;
+/*	font-size: 1em;*/
 	padding: 0px .5em;
 	border-radius: 3px;
+	color: rgba(0,0,0,.6);
 }
 input[type="button"]#delPOIbutton {
 	font-family: FontAwesome;
