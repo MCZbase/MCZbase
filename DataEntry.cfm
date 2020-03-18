@@ -332,7 +332,7 @@ limitations under the License.
 	
 <!---Step by step form for each section of the Data Entry form--->	
 <div class="container" id="swapper-other" style="display: block;">
-	<div  class="row col-sm-12 col-md-8 col-xl-8 justify-content-center mt-2 mx-auto">
+	<div  class="row col-sm-12 col-md-9 col-xl-9 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-2 mb-1">Enter a New Record</h1>
