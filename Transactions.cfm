@@ -322,12 +322,24 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="coll_obj_disposition">Part Disposition</label>
-											<select name="coll_obj_disposition" id="coll_obj_disposition" size="5" multiple="multiple" class="form-control-sm custom-select1">
+											<!--- select name="coll_obj_disposition" id="coll_obj_disposition" size="5" multiple="multiple" class="form-control-sm custom-select1">
 												<option value=""></option>
 												<cfloop query="ctCollObjDisp">
 													<option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
 												</cfloop>
-											</select>
+											</select --->
+											<div name="coll_obj_disposition" id="coll_obj_disposition">
+											<script>
+												$(document).ready(function () {
+													var dispositionsource = [
+														""
+														<cfloop query="ctCollObjDisp">
+															,"#ctCollObjDisp.coll_obj_disposition#"
+														</cfloop>
+													];
+													$("##col_obj_disposition").jqxComboBox({ source: dispositionsource, selectedIndex: 0 });
+												});
+											</script>
 										</div>
 									</div>
 									<div class="form-row mb-2">
