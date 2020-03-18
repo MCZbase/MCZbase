@@ -312,7 +312,7 @@ limitations under the License.
 					<label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Number of Parts</label>
 					<div class="col-12 col-lg-4">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required="">
-							<option value="">Modifier</option>
+							<option value="">modifier</option>
 							<option value="1">ca.</option>
 							<option value="2">&gt;</option>
 							<option value="3">&lt;</option>

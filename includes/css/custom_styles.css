@@ -1391,6 +1391,7 @@ table.inputTable tr {
 /*	font-size: 1em;*/
 	padding: 0px .5em;
 	border-radius: 3px;
+	color: rgba(0,0,0,.6);
 }
 input[type="button"]#delPOIbutton {
 	font-family: FontAwesome;
