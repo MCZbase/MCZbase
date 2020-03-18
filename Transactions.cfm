@@ -221,8 +221,8 @@ limitations under the License.
 												<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
 												</div>
-												<div class="col-md-5 col-12">
-													<input name="trans_date" id="trans_date" type="text" class="jqxdatetimeinput" >
+												<div class="col-md-5 col-12 float-left">
+													<input name="trans_date" id="trans_date" type="text" class="jqxdatetimeinput float-right" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
@@ -267,37 +267,38 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<!--- label for="permit_num">Permit Number:</label --->
-											<div class="input-group float-left">
-												<div class="input-group-prepend">
-													<span class="input-group-text" id="permitNumberLabel" >Permit Number:</span>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-4">
+													<label for="permit_num">Permit Number:</label>
 												</div>
-												<input type="text" name="permit_num" id="permit_num" class="form-control-sm" aria-described-by="permitNumberLabel">
-												<!--- TODO: move backing into transactions/ change from popup window. --->
-												<div class="input-group-append">
-													<span class="input-group-text" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span>
+												<div class="col-12 col-md-8">
+													<div class="input-group float-left">
+														<input type="text" name="permit_num" id="permit_num" class="form-control" aria-described-by="permitNumberLabel">
+														<!--- TODO: move backing into transactions/ change from popup window. --->
+														<div class="input-group-append">
+															<span class="input-group-text" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-3">
 											<label for="">Nature of Material:</label>
 											<input type="text" name="nature_of_material" class="form-control-sm">
 										</div>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-3">
 											<label for="">Description: </label>
 											<input type="text" name="loan_description" class="form-control-sm">
 										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-3">
 											<label for="">Instructions:</label>
 											<input type="text" name="loan_instructions" class="form-control-sm">
 										</div>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-3">
 											<label for="">Internal Remarks: </label>
-										<input type="text" name="trans_remarks" class="form-control-sm">
+											<input type="text" name="trans_remarks" class="form-control-sm">
 										</div>
 									</div>
 									<div class="form-row mb-2">
