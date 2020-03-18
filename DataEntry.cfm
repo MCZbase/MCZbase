@@ -41,15 +41,15 @@ limitations under the License.
 				<h2 class="fs-title text-center">Record Numbers</h2>
 				<h3 class="fs-subtitle text-center">This is step 1</h3>				
 				<div class="form-group row">
-    				<label for="cat_num" class="form-control-sm border-0 col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
-					<div class="col-sm-9">
+    				<label for="cat_num" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Catalog Number</label>
+					<div class="col-xl-9">
     					<input type="text" class="form-control form-control-sm" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" oninput="this.className = ''" name="cat_num">
     					<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
 					</div>
   				</div>
 				
 				<div class="form-group row">
-					<label for="other_id" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">Other ID</label>
+					<label for="other_id" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Other ID</label>
 					<div class="col-lg-4">
 						<select class="custom-select1 form-control-sm input-xs border" required>
 							<option value="">Other ID Type</option>
