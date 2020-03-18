@@ -1388,7 +1388,7 @@ table.inputTable tr {
 }
 .input-xs {
 	line-height: 1.1em;
-	font-size: 1em;
+/*	font-size: 1em;*/
 	padding: 0px .5em;
 	border-radius: 3px;
 }
