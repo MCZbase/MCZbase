@@ -48,20 +48,7 @@ limitations under the License.
 					</div>
   				</div>
 				
-				<div class="form-group row">
-					<label for="other_id" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other ID</label>
-					<div class="col-xl-4">
-						<select class="custom-select1 form-control-sm input-xs border" required>
-							<option value="">Other ID Type</option>
-							<option value="1">Field Number</option>
-							<option value="2">Collector Number</option>
-							<option value="3">Previous Number</option>
-						</select>
-					</div>
-					<div class="col-xl-5">
-						<input type="text" class="form-control form-control-sm"  name="other_id" placeholder="Other ID">
-					</div>
-				</div>
+		
 							
 				<div class="form-group row mb-2">
 					<label for="mask_record" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Mask Record</label>
@@ -91,7 +78,33 @@ limitations under the License.
 				</div>
 				</div>	
 			</div>	
-				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->	
+				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->					
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="border p-3 m-2">
+				<h2 class="fs-title text-center">Other IDs</h2>
+				<h3 class="fs-subtitle text-center">This is step 3</h3>
+					<div id="customID">
+					<div class="form-group row">
+					<label for="other_id" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other ID</label>
+					<div class="col-xl-4">
+						<select class="custom-select1 form-control-sm input-xs border" required>
+							<option value="">Other ID Type</option>
+							<option value="1">Field Number</option>
+							<option value="2">Collector Number</option>
+							<option value="3">Previous Number</option>
+						</select>
+					</div>
+					<div class="col-xl-5">
+						<input type="text" class="form-control form-control-sm"  name="other_id" placeholder="Other ID">
+					</div>
+				</div>
+					</div>
+					<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
+					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Other ID</a>
+					</div>
+				</div>
+			</div>
+				
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
