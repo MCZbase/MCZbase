@@ -294,7 +294,7 @@ limitations under the License.
 							<option value="3">missing</option>
 						</select>
 					</div>
-					<div class="row form-group">
+				<!--	<div class="row form-group">
 					<label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
 					<div class="col-12 col-lg-4">
 						<select class="custom-select1 form-control-sm input-xs border form-control" required>
@@ -307,8 +307,21 @@ limitations under the License.
 					<div class="col-12 col-lg-5">
 						<input type="text" name="part_number" class="form-control form-control-sm" placeholder="number of parts" />
 					</div>
+				</div>-->
+					<div class="col-12 row mx-0 px-0">
+					<label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Number of Parts</label>
+					<div class="col-12 col-lg-4">
+						<select class="custom-select1 form-control-sm input-xs border form-control" required="">
+							<option value="">Modifier</option>
+							<option value="1">ca.</option>
+							<option value="2">&gt;</option>
+							<option value="3">&lt;</option>
+						</select>
+					</div>
+					<div class="col-12 col-lg-5">
+						<input type="text" name="part_number" class="form-control form-control-sm" placeholder="number of parts">
+					</div>
 				</div>
-			
 					<label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label>
 					<div class="col-12 col-lg-9">
 						<input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="container unique id">
