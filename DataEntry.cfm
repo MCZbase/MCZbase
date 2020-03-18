@@ -49,8 +49,8 @@ limitations under the License.
   				</div>
 				
 				<div class="form-group row">
-					<label for="other_id" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">Other ID</label>
-					<div class="col-lg-4">
+					<label for="other_id" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other ID</label>
+					<div class="col-xl-4">
 						<select class="custom-select1 form-control-sm input-xs border" required>
 							<option value="">Other ID Type</option>
 							<option value="1">Field Number</option>
@@ -58,14 +58,14 @@ limitations under the License.
 							<option value="3">Previous Number</option>
 						</select>
 					</div>
-					<div class="col-lg-5">
+					<div class="col-xl-5">
 						<input type="text" class="form-control form-control-sm"  name="other_id" placeholder="Other ID">
 					</div>
 				</div>
 							
 				<div class="form-group row mb-2">
-					<label for="mask_record" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Mask Record</label>
-					<div class="col-lg-9">
+					<label for="mask_record" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Mask Record</label>
+					<div class="col-xl-9">
 						<div class="form-check form-check-inline">
 							<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
 							<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
@@ -74,8 +74,8 @@ limitations under the License.
 				</div>
 				
 				<div class="form-group row">
-					<label for="relations" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Other Records</label>
-					<div class="col-lg-4">
+					<label for="relations" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other Records</label>
+					<div class="col-xl-4">
 						<select class="custom-select1 form-control input-xs border">
 							<option value="">Relationship Type</option>
 							<option value="1">Re-Cataloged as</option>
@@ -84,7 +84,7 @@ limitations under the License.
 							<option value="4">Duplicate Recataloged as</option>
 						</select>
 					</div>
-					<div class="col-lg-5">
+					<div class="col-xl-5">
 						<input type="text" class="form-control form-control-sm"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
 					
 					</div>
@@ -99,14 +99,14 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 					<div id="customAgent">
 						<div class="form-group row">
-							<label for="other_id" class="col-12 col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Agent 1</label>
-							<div class="col-12 col-lg-4">
+							<label for="other_id" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Agent 1</label>
+							<div class="col-12 col-xl-4">
 								<select class="custom-select1 form-control-sm input-xs border">
 									<option value="">Collector</option>
 									<option value="1">Preparator</option>
 								</select>
 							</div>
-							<div class="col-12 col-lg-5">
+							<div class="col-12 col-xl-5">
 								<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value">
 							</div>
 						</div>
@@ -294,21 +294,21 @@ limitations under the License.
 							<option value="3">missing</option>
 						</select>
 					</div>
-				
-					<div class="col-12">
-					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
-					<div class="col-3 col-sm-3">
-						<select class="custom-select1 form-control-sm input-xs border mt-0 pl-2" required>
-							<option value=""> </option>
-							<option value="1">&gt;</option>
-							<option value="2">&lt;</option>
-							<option value="3">ca.</option>
+					<div class="row form-group">
+					<label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
+					<div class="col-12 col-lg-4">
+						<select class="custom-select1 form-control-sm input-xs border form-control" required>
+							<option value="">Modifier</option>
+							<option value="1">ca.</option>
+							<option value="2">></option>
+							<option value="3"><</option>
 						</select>
 					</div>
-					<div class="col-9 col-lg-6">
-						<input type="text" class="form-control form-control-sm" name="part_number" placeholder="number of parts">
+					<div class="col-12 col-lg-5">
+						<input type="text" name="part_number" class="form-control form-control-sm" placeholder="number of parts" />
 					</div>
-					</div>
+				</div>
+			
 					<label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label>
 					<div class="col-12 col-lg-9">
 						<input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="container unique id">
@@ -332,7 +332,7 @@ limitations under the License.
 	
 <!---Step by step form for each section of the Data Entry form--->	
 <div class="container" id="swapper-other" style="display: block;">
-	<div  class="row col-12 justify-content-center mt-2 mx-auto">
+	<div  class="row col-12 col-xl-10 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-2 mb-1">Enter a New Record</h1>
