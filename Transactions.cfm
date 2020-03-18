@@ -87,7 +87,7 @@ limitations under the License.
 
 						<!--- Loan search tab panel --->
 						<div class="tab-pane fade py-3 mx-sm-3 mb-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-     						<h2 class="wikilink">Find Loans <img src="/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+     						<h2 class="wikilink">Find Loans <img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
 								<!--- Search for just loans ---->
 								<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -322,12 +322,6 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="coll_obj_disposition">Part Disposition</label>
-											<!--- select name="coll_obj_disposition" id="coll_obj_disposition" size="5" multiple="multiple" class="form-control-sm custom-select1">
-												<option value=""></option>
-												<cfloop query="ctCollObjDisp">
-													<option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
-												</cfloop>
-											</select --->
 											<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
 											<script>
 												$(document).ready(function () {
