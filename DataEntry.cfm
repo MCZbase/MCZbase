@@ -109,7 +109,7 @@ limitations under the License.
 					<div class="border p-3 m-2">
 					<h2 class="fs-title text-center">Encumbrance</h2>
 					<h3 class="fs-subtitle text-center">This is step 4</h3>
-						<div id="customAgent">
+						<div id="encumbrance">
 						<div class="form-group row mb-2">
 							<label for="mask_record" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Mask Record</label>
 							<div class="col-xl-9">
