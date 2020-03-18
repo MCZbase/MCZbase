@@ -325,17 +325,19 @@ limitations under the License.
 											<select name="coll_obj_disposition" id="coll_obj_disposition" size="5" multiple="multiple" class="form-control-sm custom-select1">
 												<option value=""></option>
 												<cfloop query="ctCollObjDisp">
-												<option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
-											</cfloop>
+													<option value="#ctCollObjDisp.coll_obj_disposition#">#ctCollObjDisp.coll_obj_disposition#</option>
+												</cfloop>
+											</select>
 										</div>
 									</div>
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-2">
 											<input type="submit" value="Search" class="schBtn">
 										</div>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-2">
 											<input type="reset" value="Clear" class="qutBtn">
 										</div>
+										<div class="col"></div>
 									</div>
 								</form>
 							</div>
