@@ -139,7 +139,7 @@
 				select part_name, partname
 				from ctspecimen_part_name, ctspecimen_part_list_order
 				where ctspecimen_part_name.part_name =  ctspecimen_part_list_order.partname (+)
-					and upper(part_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#%">
+					and upper(part_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
 				) a
 			group by a.part_name, a.partname
 			order by a.partname asc, a.part_name
