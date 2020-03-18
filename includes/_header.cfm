@@ -60,6 +60,7 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.selection.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.export.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.storage.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcombobox.js"></script>
 <!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
 <!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxbuttons.js"></script>

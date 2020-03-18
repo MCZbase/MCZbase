@@ -337,7 +337,7 @@ limitations under the License.
 															,"#ctCollObjDisp.coll_obj_disposition#"
 														</cfloop>
 													];
-													$("##col_obj_disposition").jqxComboBox({ source: dispositionsource, selectedIndex: 0 });
+													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, selectedIndex: 0, multiSelect: true });
 												});
 											</script>
 										</div>
