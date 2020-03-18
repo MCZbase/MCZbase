@@ -51,7 +51,7 @@ limitations under the License.
 				<div class="form-group row">
 					<label for="other_id" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">Other ID</label>
 					<div class="col-lg-4">
-						<select class="custom-select1 form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
+						<select class="custom-select1 form-control-sm input-xs border" required>
 							<option value="">Other ID Type</option>
 							<option value="1">Field Number</option>
 							<option value="2">Collector Number</option>
@@ -59,7 +59,7 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-lg-5">
-						<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+						<input type="text" class="form-control form-control-sm"  name="other_id" placeholder="Other ID">
 					</div>
 				</div>
 							
@@ -295,10 +295,9 @@ limitations under the License.
 						</select>
 					</div>
 				
-			
-					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
 					<div class="col-12">
-					<div class="col-3 col-lg-2">
+					<label for="part_number" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Number of Parts</label>
+					<div class="col-3 col-sm-3">
 						<select class="custom-select1 form-control-sm input-xs border mt-0 pl-2" required>
 							<option value=""> </option>
 							<option value="1">&gt;</option>
@@ -306,7 +305,7 @@ limitations under the License.
 							<option value="3">ca.</option>
 						</select>
 					</div>
-					<div class="col-9 col-lg-8">
+					<div class="col-9 col-lg-6">
 						<input type="text" class="form-control form-control-sm" name="part_number" placeholder="number of parts">
 					</div>
 					</div>
