@@ -38,12 +38,12 @@ limitations under the License.
 				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
-					<h2 class="fs-title text-center">Catalog Record Number</h2>
+					<h2 class="fs-title text-center">Catalog Number</h2>
 					<h3 class="fs-subtitle text-center">This is step 1</h3>				
 					<div class="form-group row">
-						<label for="cat_num" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Catalog Number</label>
+						<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Catalog Number</label>
 						<div class="col-xl-9">
-							<input type="text" class="form-control form-control-sm" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
+							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 							<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
 						</div>
 					</div>
@@ -56,9 +56,9 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 					<div id="customID">
 					<div class="form-group row">
-					<label for="other_id" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other ID</label>
+					<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
 					<div class="col-xl-4">
-						<select class="custom-select1 form-control-sm input-xs border" required>
+						<select class="data-entry-select" required>
 							<option value="">Other ID Type</option>
 							<option value="1">Field Number</option>
 							<option value="2">Collector Number</option>
@@ -66,7 +66,7 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-xl-5">
-						<input type="text" class="form-control form-control-sm"  name="other_id" placeholder="Other ID">
+						<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 					</div>
 				</div>
 					</div>
@@ -82,7 +82,7 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 					<div id="customRelationship">
 					<div class="form-group row">
-					<label for="relations" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other Records</label>
+					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship 1</label>
 					<div class="col-xl-4">
 						<select class="data-entry-select">
 							<option value="">Relationship Type</option>
@@ -111,7 +111,7 @@ limitations under the License.
 					<h3 class="fs-subtitle text-center">This is step 4</h3>
 						<div id="encumbrance">
 						<div class="form-group row mb-2">
-							<label for="mask_record" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Mask Record</label>
+							<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Mask Record</label>
 							<div class="col-xl-9">
 								<div class="form-check form-check-inline">
 									<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
