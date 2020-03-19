@@ -79,15 +79,16 @@ limitations under the License.
 								<input  type="hidden" name="method" value="getTransactions">
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-6">
+										<label for="collection_id">Collection/Number (nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll):</label>
 										<div class="input-group">
-											<select name="collection_id" size="1" class="input-group-prepend custom-select1 form-control-sm ">
+											<select name="collection_id" size="1" class="input-group-prepend custom-select1 form-control rounded ">
 												<option value=""></option>
 												<cfloop query="ctcollection">
 													<option value="#collection_id#">#collection#</option>
 												</cfloop>
 											</select>
 											<cfif not isdefined("number")><cfset number=""></cfif>
-											<input id="number" type="text" class="has-clear form-control-sm rounded" name="number" placeholder="" value="#number#">
+											<input id="number" type="text" class="has-clear form-control rounded" name="number" placeholder="" value="#number#">
 										</div>
 									</div>
 									<div class="col-12 col-md-6">
