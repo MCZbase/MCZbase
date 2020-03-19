@@ -76,6 +76,7 @@ limitations under the License.
 						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
+									<input  type="hidden" name="method" value="getTransactions">
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
 											<div class="input-group">
@@ -407,8 +408,6 @@ $(document).ready(function() {
 	$('##searchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
-		var searchParam = $('##number').val();
-
 		$('##searchText').jqxGrid('showloadelement');
 		$("##searchResultsGrid").jqxGrid('clearfilters');
 		var search =
@@ -433,7 +432,10 @@ $(document).ready(function() {
 			},
 			root: 'transRecord',
 			id: 'collection_object_id',
-			url: '/transactions/component/search.cfc?method=getTransactions&number=' + searchParam,
+			url: '/transactions/component/search.cfc',
+			data: { 
+				$('##searchForm').serialize();
+			},
 			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
             var message = "";      

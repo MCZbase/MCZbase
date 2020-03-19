@@ -36,13 +36,14 @@ limitations under the License.
 				nature_of_material, trans_remarks,
 				collection_cde, collection,
 				specific_number, specific_type, status, 
-				ent_agent
+				concattransagent(transaction_id,'entered_by') as ent_agent
 			FROM 
 				MCZBASE.transaction_view
+				left join collection on transaction_view.collection_id = collection.collection_id
 			WHERE
-				 transaction_id is not null
+				 transaction_id is > 0
 				<cfif isDefined("number") and len(number) gt 0>
-					and specific_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#">
+					and specific_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
 				</cfif>
 				<cfif isDefined("status") and len(status) gt 0>
 					and status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
@@ -51,7 +52,7 @@ limitations under the License.
 					and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 				<cfif isDefined("agent_1") and len(agent_1) gt 0>
-					and concattransagent(trans.trsactionid,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_role_1#">)
+					and concattransagent(transaction_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_role_1#">)
 						like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_1#%">
 				</cfif>
 		</cfquery>
