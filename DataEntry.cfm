@@ -57,7 +57,7 @@ limitations under the License.
 					<div id="customID">
 					<div class="form-group row">
 					<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
-					<div class="col-xl-4">
+					<div class="col-xl-4 px-xl-0">
 						<select class="data-entry-select" required>
 							<option value="">Other ID Type</option>
 							<option value="1">Field Number</option>
@@ -83,7 +83,7 @@ limitations under the License.
 					<div id="customRelationship">
 					<div class="form-group row">
 					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship 1</label>
-					<div class="col-xl-4">
+					<div class="col-xl-4 px-xl-0">
 						<select class="data-entry-select">
 							<option value="">Relationship Type</option>
 							<option value="1">Re-Cataloged as</option>
