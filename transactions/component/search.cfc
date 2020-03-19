@@ -41,7 +41,7 @@ limitations under the License.
 				MCZBASE.transaction_view
 				left join collection on transaction_view.collection_id = collection.collection_id
 			WHERE
-				 transaction_id is not null
+				 transaction_id is > 0
 				<cfif isDefined("number") and len(number) gt 0>
 					and specific_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
 				</cfif>
