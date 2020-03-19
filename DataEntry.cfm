@@ -84,7 +84,7 @@ limitations under the License.
 					<div class="form-group row">
 					<label for="relations" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other Records</label>
 					<div class="col-xl-4">
-						<select class="custom-select1 form-control input-xs border">
+						<select class="data-entry-select">
 							<option value="">Relationship Type</option>
 							<option value="1">Re-Cataloged as</option>
 							<option value="2">Bad Duplicate of</option>
@@ -93,7 +93,7 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-xl-5">
-						<input type="text" class="form-control form-control-sm" id="record_number" placeholder="Record Number">
+						<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 					
 					</div>
 				</div>
@@ -115,7 +115,7 @@ limitations under the License.
 							<div class="col-xl-9">
 								<div class="form-check form-check-inline">
 									<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
-									<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+									<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>
 								</div>
 							</div>
 						</div>
