@@ -49,7 +49,7 @@ limitations under the License.
 					and status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
 				</cfif>
 				<cfif isDefined("collection_id") and len(collection_id) gt 0>
-					and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 				<cfif isDefined("agent_1") and len(agent_1) gt 0>
 					and concattransagent(transaction_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_role_1#">)
