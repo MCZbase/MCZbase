@@ -1614,14 +1614,14 @@ table#pairs th, table#pairs td {
 
 .data-entry-input {
 	width: 100%;
-	font-size: .785em;
-	line-height: .9em;
-	height: calc(.9em + .5rem + 1px);
+	font-size: .85em;
+    line-height: .9em;
+    height: calc(.9em + .5rem + 3px);
 	display:block;
 	border: 1px solid #ccc;
 	background-color: #fff;
     background-clip: padding-box;
-	padding: .2em .5em;
+	padding: .25em .5em .35em .5em;
 	border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	font-weight: 400;
