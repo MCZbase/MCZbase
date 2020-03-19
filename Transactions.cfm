@@ -25,7 +25,6 @@ limitations under the License.
 <cfquery name="ctSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct specific_type from mczbase.transaction_view order by specific_type
 </cfquery>
-<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(transaction_id), specific_type, transaction_type 
 	from mczbase.transaction_view 
