@@ -22,6 +22,19 @@ limitations under the License.
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT count(transaction_id) as cnt FROM trans
 </cfquery>
+<cfquery name="ctSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct specific_type from mczbase.transaction_view order by specific_type
+</cfquery>
+<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select count(transaction_id), specific_type, transaction_type 
+	from mczbase.transaction_view 
+	group by specific_type, transaction_type
+	order by specific_type
+</cfquery>
+<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct status from mczbase.transaction_view order by status
+</cfquery>
 
 <cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_type from ctloan_type order by loan_type
@@ -64,21 +77,33 @@ limitations under the License.
 						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
-
-								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xs-offset-2">
-									<div class="input-group">
-
-										<select name="collection_id" size="1">
-											<option value=""></option>
-											<cfloop query="ctcollection">
-												<option value="#collection_id#">#collection#</option>
-											</cfloop>
-										</select>
-									   <cfif not isdefined("number")><cfset number=""></cfif>
-										<input id="number" type="text" class="has-clear form-control w-50 form-control-borderless rounded" name="number" placeholder="" value="#number#">
-										<span class="input-group-btn">
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<div class="input-group">
+												<select name="collection_id" size="1" class="input-group-prepend custom-select1 form-control-sm ">
+													<option value=""></option>
+													<cfloop query="ctcollection">
+														<option value="#collection_id#">#collection#</option>
+													</cfloop>
+												</select>
+												<cfif not isdefined("number")><cfset number=""></cfif>
+												<input id="number" type="text" class="has-clear form-control-sm rounded" name="number" placeholder="" value="#number#">
+											</div>
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="status">Status:</label>
+											<select name="status" id="status" class="custom-select1 form-control-sm" >
+												<option value=""></option>
+												<cfloop query="ctStatus">
+													<option value="#ctStatus.status#">#ctStatus.status#</option>
+												</cfloop>
+											</select>
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12">
 											<button class="btn button px-3 border-0" id="searchButton" type="submit">Search</button>
-										</span>
+										</div>
 									</div>
 								</div>
 
@@ -90,12 +115,6 @@ limitations under the License.
      						<h2 class="wikilink">Find Loans <img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
 								<!--- Search for just loans ---->
-								<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select loan_type from ctloan_type order by loan_type
-								</cfquery>
-								<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select loan_status from ctloan_status order by loan_status
-								</cfquery>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
@@ -273,10 +292,10 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-9">
 													<div class="input-group float-left">
-														<input type="text" name="permit_num" id="permit_num" class="form-control" aria-described-by="permitNumberLabel">
+														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel">
 														<!--- TODO: move backing into transactions/ change from popup window. --->
 														<div class="input-group-append">
-															<span class="input-group-text" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span>
+															<span class="input-group-text py-0" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span>
 														</div>
 													</div>
 												</div>
@@ -301,7 +320,7 @@ limitations under the License.
 											<input type="text" name="trans_remarks" class="form-control-sm">
 										</div>
 									</div>
-									<div class="form-row mb-2" class="border border-secondary">
+									<div class="form-row mb-2 border border-secondary pb-2">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper">Part Match</label>
 											<select id="part_name_oper" name="part_name_oper" class="form-control-sm custom-select1">
@@ -464,6 +483,7 @@ $(document).ready(function() {
 				{text: 'Status', datafield: 'status', width: 130},
 				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130 },
 				{text: 'Collection', datafield: 'collection', width: 130},
+				{text: 'Entered By', datafield: 'entered_by', width: 50},
 				{text: 'Remarks', datafield: 'trans_remarks' }
 			]
 		});
