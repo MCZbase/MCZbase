@@ -1637,9 +1637,9 @@ table#pairs th, table#pairs td {
 .data-entry-select {
 	display: block;
     width: 100%;
-    height: calc(.9em + .5rem + 3px);
-    padding: .25em .5em .35em .5em;
-    font-size: .9em;
+    height: calc(.9em + .5rem + 2px);
+    padding: 0 .5em .2em .5em;
+    font-size: .89em;
     font-weight: 400;
     line-height: .9em;
     color: rgba(0,0,0,.6);
