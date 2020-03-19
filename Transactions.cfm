@@ -408,7 +408,6 @@ $(document).ready(function() {
 
 		$('##searchText').jqxGrid('showloadelement');
 		$("##searchResultsGrid").jqxGrid('clearfilters');
-		var getData = $('##searchForm').serialize();
 		var search =
 		{
 			datatype: "json",
@@ -431,8 +430,7 @@ $(document).ready(function() {
 			},
 			root: 'transRecord',
 			id: 'collection_object_id',
-			url: '/transactions/component/search.cfc',
-			data: getData,
+			url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
 			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
             var message = "";      
