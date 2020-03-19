@@ -81,7 +81,7 @@ limitations under the License.
 									<div class="col-12 col-md-6">
 										<label for="collection_id">Collection/Number (nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll):</label>
 										<div class="input-group">
-											<select name="collection_id" size="1" class="input-group-prepend custom-select1 form-control rounded ">
+											<select name="collection_id" size="1" class="input-group-prepend form-control rounded ">
 												<option value=""></option>
 												<cfloop query="ctcollection">
 													<option value="#collection_id#">#collection#</option>
