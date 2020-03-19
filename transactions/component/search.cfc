@@ -26,7 +26,7 @@ limitations under the License.
 	<cfargument name="agent_1" type="string" required="no">
 	<cfargument name="agent_role_1" type="string" required="no">
 
-	<cfif not isDefined("agent_role_1")><cfset agent_role_1 = 'entered by'><cfif>
+	<cfif not isDefined("agent_role_1")><cfset agent_role_1 = 'entered by'></cfif>
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
