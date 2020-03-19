@@ -43,6 +43,7 @@ limitations under the License.
 			WHERE
 				 transaction_id is not null
 				<cfif isDefined("number") and len(number) gt 0>
+					and specific_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
 				</cfif>
 				<cfif isDefined("status") and len(status) gt 0>
 					and status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
