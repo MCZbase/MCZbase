@@ -1620,8 +1620,9 @@ table#pairs th, table#pairs td {
 	display:block;
 	border: 1px solid #ccc;
 	background-color: #fff;
+	color: rgba(0,0,0,.6);
     background-clip: padding-box;
-	padding: .25em .5em .35em .5em;
+	padding: .25em .5em .35em .75em;
 	border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	font-weight: 400;
@@ -1657,11 +1658,6 @@ table#pairs th, table#pairs td {
 	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
 
-
-input, select {
-	font-size: 13.3333px;
-	color: rgba(0,0,0,.8)
-}
 .search-form-builder {
 	border: 1px solid #ccc;
 }
