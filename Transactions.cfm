@@ -76,37 +76,35 @@ limitations under the License.
 						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
-									<input  type="hidden" name="method" value="getTransactions">
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<div class="input-group">
-												<select name="collection_id" size="1" class="input-group-prepend custom-select1 form-control-sm ">
-													<option value=""></option>
-													<cfloop query="ctcollection">
-														<option value="#collection_id#">#collection#</option>
-													</cfloop>
-												</select>
-												<cfif not isdefined("number")><cfset number=""></cfif>
-												<input id="number" type="text" class="has-clear form-control-sm rounded" name="number" placeholder="" value="#number#">
-											</div>
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="status">Status:</label>
-											<select name="status" id="status" class="custom-select1 form-control-sm" >
+								<input  type="hidden" name="method" value="getTransactions">
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-6">
+										<div class="input-group">
+											<select name="collection_id" size="1" class="input-group-prepend custom-select1 form-control-sm ">
 												<option value=""></option>
-												<cfloop query="ctStatus">
-													<option value="#ctStatus.status#">#ctStatus.status#</option>
+												<cfloop query="ctcollection">
+													<option value="#collection_id#">#collection#</option>
 												</cfloop>
 											</select>
+											<cfif not isdefined("number")><cfset number=""></cfif>
+											<input id="number" type="text" class="has-clear form-control-sm rounded" name="number" placeholder="" value="#number#">
 										</div>
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<button class="btn button px-3 border-0" id="searchButton" type="submit">Search</button>
-										</div>
+									<div class="col-12 col-md-6">
+										<label for="status">Status:</label>
+										<select name="status" id="status" class="custom-select1 form-control-sm" >
+											<option value=""></option>
+											<cfloop query="ctStatus">
+												<option value="#ctStatus.status#">#ctStatus.status#</option>
+											</cfloop>
+										</select>
 									</div>
 								</div>
-
+								<div class="form-row mb-2">
+									<div class="col-12">
+										<button class="btn button px-3 border-0" id="searchButton" type="submit">Search</button>
+									</div>
+								</div>
 							</form>
 						</div>
 
@@ -410,6 +408,7 @@ $(document).ready(function() {
 
 		$('##searchText').jqxGrid('showloadelement');
 		$("##searchResultsGrid").jqxGrid('clearfilters');
+		var getData = $('##searchForm').serialize();
 		var search =
 		{
 			datatype: "json",
@@ -433,9 +432,7 @@ $(document).ready(function() {
 			root: 'transRecord',
 			id: 'collection_object_id',
 			url: '/transactions/component/search.cfc',
-			data: { 
-				$('##searchForm').serialize();
-			},
+			data: getData,
 			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
             var message = "";      
