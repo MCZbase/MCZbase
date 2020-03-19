@@ -1610,23 +1610,20 @@ table#pairs th, table#pairs td {
 	line-height: 1.1em;
 }
 
-
-
 .data-entry-input {
+	display:block;
 	width: 100%;
 	font-size: .85em;
     line-height: .9em;
     height: calc(.9em + .5rem + 3px);
-	display:block;
-	border: 1px solid #ccc;
-	background-color: #fff;
+	padding: .25em .5em .35em .8em;
 	color: rgba(0,0,0,.6);
-    background-clip: padding-box;
-	padding: .25em .5em .35em .75em;
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
 	border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	font-weight: 400;
-	
 }
 .data-entry-input:focus {
 	color: #495057;
@@ -1638,17 +1635,17 @@ table#pairs th, table#pairs td {
 .data-entry-select {
 	display: block;
     width: 100%;
+	font-size: .89em;
+	line-height: .9em;
     height: calc(.9em + .5rem + 2px);
-    padding: 0 .5em .2em .5em;
-    font-size: .89em;
-    font-weight: 400;
-    line-height: .9em;
+    padding: 0 .5em .2em .5em;  
     color: rgba(0,0,0,.6);
-    background-color: #fff;
+	border: 1px solid #ced4da;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+	background-color: #fff;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	font-weight: 400;
 }
 .data-entry-select:focus {
 	color: #495057;
