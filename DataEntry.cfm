@@ -93,7 +93,7 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-xl-5">
-						<input type="text" class="form-control form-control-sm" id="record_number" placeholder="Record Number">
+						<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 					
 					</div>
 				</div>
@@ -115,7 +115,7 @@ limitations under the License.
 							<div class="col-xl-9">
 								<div class="form-check form-check-inline">
 									<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
-									<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+									<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>
 								</div>
 							</div>
 						</div>
