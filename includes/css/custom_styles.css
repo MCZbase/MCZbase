@@ -1617,6 +1617,7 @@ table#pairs th, table#pairs td {
 	height: calc(.9em + .5em + 2px);
 	padding: .25em .5em;
 	margin-bottom: .5em;
+	margin-top: .25em;
 }
 .data-entry-input {
 	display:block;

@@ -41,7 +41,7 @@ limitations under the License.
 					<h2 class="fs-title text-center">Catalog Number</h2>
 					<h3 class="fs-subtitle text-center">This is step 1</h3>				
 					<div class="form-group row">
-						<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Catalog Number</label>
+						<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
 						<div class="col-xl-9">
 							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 							<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
@@ -82,7 +82,7 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 					<div id="customRelationship">
 					<div class="form-group row">
-					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship 1</label>
+					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
 					<div class="col-xl-4 px-xl-0">
 						<select class="data-entry-select">
 							<option value="">Relationship Type</option>
@@ -151,19 +151,19 @@ limitations under the License.
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
-				<div class="row form-group">
+				<div class="row">
 					<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
 					<div class="col-12 col-lg-9">
 						<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row">
 					<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
 					<div class="col-12 col-lg-9">
 						<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row">
 					<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
 					<div class="col-12 col-lg-4">
 						<select class="data-entry-select" required>
@@ -177,10 +177,10 @@ limitations under the License.
 						<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row">
 					<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right">ID Remark</label>
 					<div class="col-12 col-lg-9">
-						<textarea type="text" name="id_remark" class="data-entry" placeholder="ID remark"/>
+						<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID remark"/>
 						</textarea>
 					</div>
 				</div>
