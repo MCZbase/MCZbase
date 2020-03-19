@@ -84,7 +84,7 @@ limitations under the License.
 					<div class="form-group row">
 					<label for="relations" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Other Records</label>
 					<div class="col-xl-4">
-						<select class="custom-select1 form-control input-xs border">
+						<select class="data-entry-select">
 							<option value="">Relationship Type</option>
 							<option value="1">Re-Cataloged as</option>
 							<option value="2">Bad Duplicate of</option>
