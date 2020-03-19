@@ -111,10 +111,10 @@ limitations under the License.
 					<h3 class="fs-subtitle text-center">This is step 4</h3>
 						<div id="encumbrance">
 						<div class="form-group row mb-2">
-							<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Mask Record</label>
+							<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
 							<div class="col-xl-9">
 								<div class="form-check form-check-inline">
-									<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
+									<input class="form-check-input w-auto mt-0" style="margin-top: -2px" value="mask" type="checkbox" id="gridCheck1">
 									<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>
 								</div>
 							</div>
@@ -129,15 +129,15 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 2</h3>
 					<div id="customAgent">
 						<div class="form-group row">
-							<label for="other_id" class="form-control-sm border-0 col-12 col-xl-3 col-form-label text-center text-xl-right">Agent 1</label>
+							<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Agent</label>
 							<div class="col-12 col-xl-4">
-								<select class="custom-select1 form-control-sm input-xs border">
+								<select class="data-entry-select">
 									<option value="">Collector</option>
 									<option value="1">Preparator</option>
 								</select>
 							</div>
 							<div class="col-12 col-xl-5">
-								<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value">
+								<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 							</div>
 						</div>
 					</div>
@@ -152,21 +152,21 @@ limitations under the License.
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 				<div class="row form-group">
-					<label for="scientific_name" class="col-12 col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Scientific Name</label>
+					<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" name="scientific_name" class="form-control form-control-sm" placeholder="Scientific Name" />
+						<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="made_by" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">ID Made By</label>
+					<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" name="made_by" class="form-control form-control-sm" placeholder="Identifier's Name" />
+						<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="nature_of_id" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">Nature of ID</label>
+					<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
 					<div class="col-12 col-lg-4">
-						<select class="custom-select1 form-control-sm input-xs border form-control" required>
+						<select class="data-entry-select" required>
 							<option value="">Expert ID</option>
 							<option value="1">Field ID</option>
 							<option value="2">Non-Expert ID</option>
@@ -174,13 +174,13 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-12 col-lg-5">
-						<input type="text" name="made_by_date" class="form-control form-control-sm" placeholder="Date of ID" />
+						<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="id_remark" class="col-12 col-lg-3 form-control-sm border-0 col-form-label text-center text-md-right">ID Remark</label>
+					<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right">ID Remark</label>
 					<div class="col-12 col-lg-9">
-						<textarea type="text" name="id_remark" class="form-control form-control-sm" placeholder="ID remark"/>
+						<textarea type="text" name="id_remark" class="data-entry" placeholder="ID remark"/>
 						</textarea>
 					</div>
 				</div>
@@ -269,20 +269,20 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 5</h3>
 				<div id="customFields">
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Attribute 1</label>
+					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute</label>
 					<div class="col-12 col-lg-9">
-						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
+						<select class="data-entry-select" required>
 							<option value="">Age Class</option>
 							<option value="1">Citation</option>
 							<option value="2">Host</option>
 							<option value="3">Life Cycle Stage</option>
 						</select>
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Units">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Date">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Determiner">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method">
-						<input type="text" class="form-control form-control-sm" name="other_id" placeholder="Remarks">
+						<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
+						<input type="text" class="data-entry-input" name="other_id" placeholder="Units">
+						<input type="text" class="data-entry-input" name="other_id" placeholder="Date">
+						<input type="text" class="data-entry-input" name="other_id" placeholder="Determiner">
+						<input type="text" class="data-entry-input" name="other_id" placeholder="Method">
+						<input type="text" class="data-entry-input" name="other_id" placeholder="Remarks">
 					</div>
 				</div>
 				</div>
@@ -298,13 +298,13 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 6</h3>
 				<div id="customPart">
 				<div class="form-group row">
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Part Name</label>
+					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="part_name" placeholder="Part Name">
+						<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
 					</div>
-					<label for="other_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Preserve Method</label>
+					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
 					<div class="col-12 col-lg-9">
-						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
+						<select class="form-control-select" required>
 							<option value="">Ethanol</option>
 							<option value="1">RNALater</option>
 							<option value="2">DNA/RNA Shield</option>
@@ -317,7 +317,7 @@ limitations under the License.
 					</div>	
 					<label for="disposition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Disposition</label>
 					<div class="col-12 col-lg-9">
-						<select class="custom-select1 form-control-sm input-xs border" mt-0 required>
+						<select class="data-entry-select px-0" required>
 							<option value="">Being Processed</option>
 							<option value="1">Deaccessioned</option>
 							<option value="2">In Collection</option>
@@ -325,9 +325,9 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-12 row mx-0 px-0">
-					<label for="part_number" class="col-lg-3 form-control-sm border-0 col-form-label text-center text-xl-right">## of Parts</label>
+					<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
 					<div class="col-12 col-lg-4">
-						<select class="custom-select1 form-control-sm input-xs border form-control" required="">
+						<select class="data-entry-select" required="">
 							<option value="">Modifier</option>
 							<option value="1">ca.</option>
 							<option value="2">&gt;</option>
@@ -335,7 +335,7 @@ limitations under the License.
 						</select>
 					</div>
 					<div class="col-12 col-lg-5">
-						<input type="text" name="part_number" class="form-control form-control-sm" placeholder="Number of Parts">
+						<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
 					</div>
 				</div>
 					<label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label>
