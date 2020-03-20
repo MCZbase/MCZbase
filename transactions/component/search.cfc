@@ -298,7 +298,6 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset targetform = "Loan.cfm?action=editLoan&">
- 			</cfswitch>
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#col#"] = "#search[col][currentRow]#">
