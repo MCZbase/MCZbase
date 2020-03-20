@@ -1646,7 +1646,7 @@ table#pairs th, table#pairs td {
     width: 100%;
 	font-size: .8em;
 	line-height: .9em;
-    height: calc(.9em + .5rem + 2px);
+    height: calc(.8em + .5rem + 4px);
     padding: 0 .5em .2em .5em;  
     color: rgba(0,0,0,.6);
 	border: 1px solid #ced4da;
