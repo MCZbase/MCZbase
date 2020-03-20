@@ -205,19 +205,19 @@ limitations under the License.
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
-				<div class="form-group row">
+				<div class="row">
 					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
 					<div class="col-sm-9">
 						<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row">
 					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right">Specific Locality</label>
 					<div class="col-sm-9">
 						<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row">
 					<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
 					<div class="col-12 col-sm-3">
 						<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
@@ -236,7 +236,7 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row">
 					<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
 					<div class="col-12 col-sm-3">
 						<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
@@ -255,19 +255,19 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<div class="row form-group">
-					<label for="sovereign_nation" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Sovereign Nation</label>
+				<div class="row">
+					<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right">Sovereign Nation</label>
 					<div class="col-sm-9">
-						<input type="text" name="sovereign_nation" class="form-control form-control-sm" placeholder="Sovereign Nation" />
+						<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row">
 					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
 					<div class="col-sm-9 my-0">
 						<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row">
 					<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
 					<div class="col-sm-9">
 						<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
