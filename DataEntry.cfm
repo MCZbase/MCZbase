@@ -95,7 +95,7 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 					<div id="customRelationship">
 					<div class="form-group row">
-					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Relationship</label>
+					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
 					<div class="col-xl-4 px-xl-0">
 						<select class="data-entry-select">
 							<option value="">Relationship Type</option>
@@ -206,27 +206,27 @@ limitations under the License.
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
 				<div class="form-group row">
-					<label for="higher_geog" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Higher Geography</label>
+					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
 					<div class="col-sm-9">
-						<input type="text" name="higher_geog" class="form-control form-control-sm" placeholder="Higher Geography" />
+						<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="higher_geog" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Specific Locality</label>
+					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right">Specific Locality</label>
 					<div class="col-sm-9">
-						<input type="text" name="spec_locality" class="form-control form-control-sm" placeholder="Specific Locality" />
+						<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="inputPassword3" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Elevation</label>
+					<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
 					<div class="col-12 col-sm-3">
-						<input type="text" class="form-control form-control-sm" id="inputMinElev" placeholder="Min Elevation">
+						<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
 					</div>
 					<div class="col-12 col-sm-3">
-						<input type="text" class="form-control form-control-sm" id="inputMaxElev" placeholder="Max Elevation">
+						<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
 					</div>
 					<div class="col-12 col-sm-2">	
-						<select class="custom-select1 form-control-sm input-xs border form-control" required>
+						<select class="data-entry-select" required>
 							<option value="">Feet</option>
 							<option value="1">Fathoms</option>
 							<option value="2">Yards</option>
@@ -237,15 +237,15 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="inputPassword3" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Depth</label>
+					<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
 					<div class="col-12 col-sm-3">
-						<input type="text" class="form-control form-control-sm" id="inputMinDepth" placeholder="Min Depth">
+						<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 					</div>
 					<div class="col-12 col-sm-3">
-						<input type="text" class="form-control form-control-sm" id="inputMaxDepth" placeholder="Max Depth">
+						<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
 					</div>
 					<div class="col-12 col-sm-2">
-						<select class="custom-select1 form-control-sm input-xs border form-control" required>
+						<select class="data-entry-select" required>
 							<option value="">Feet</option>
 							<option value="1">Fathoms</option>
 							<option value="2">Yards</option>
