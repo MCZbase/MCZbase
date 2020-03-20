@@ -35,11 +35,24 @@ limitations under the License.
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>	
 			<div class="row">	
+				<div class="form-group col-12 col-md-4 pb-2 px-1">
+					<div class="border p-3 m-2">
+					<h2 class="fs-title text-center">Collection</h2>
+					<h3 class="fs-subtitle text-center">This is step 1</h3>				
+					<div class="form-group row">
+						<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
+						<div class="col-xl-9">
+							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
+							<small id="catNumHelp" class="form-text text-muted">Collection selection determines selection template.</small>
+						</div>
+					</div>
+					</div>	
+				</div>	
 				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
 					<h2 class="fs-title text-center">Catalog Number</h2>
-					<h3 class="fs-subtitle text-center">This is step 1</h3>				
+					<h3 class="fs-subtitle text-center">This is step 2</h3>				
 					<div class="form-group row">
 						<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
 						<div class="col-xl-9">
