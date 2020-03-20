@@ -136,9 +136,12 @@ limitations under the License.
 				left join permit on permit_trans.permit_id = permit.permit_id 
 				left join ctloan_type on loan.loan_type= ctloan_type.loan_type
 			where
-				transaction_id is not null
+				trans.transaction_id is not null
 				<cfif isdefined("loan_number") AND len(#loan_number#) gt 0>
 					AND upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(loan_number)#%">
+				</cfif>
+				<cfif isdefined("collection_id") AND collection_id gt 0>
+					AND collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 				<cfif isdefined("permit_num") AND len(#permit_num#) gt 0>
 					AND PERMIT_NUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PERMIT_NUM#">
