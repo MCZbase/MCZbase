@@ -558,13 +558,13 @@ $(document).ready(function() {
 			columns: [
 				{text: 'Loan', datafield: 'id_link', width: 130},
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
-				{text: 'Status', datafield: 'status', width: 100},
+				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Due Date', datafield: 'return_due_date', width: 100},
 				{text: 'Closed', datafield: 'closed_date', width: 100},
 				{text: 'To', datafield: 'rec_agent', width: 100},
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
-				{text: 'Entered By', datafield: 'entered_by', width: 80},
+				{text: 'Entered By', datafield: 'ent_agent', width: 80},
 				{text: 'Nature of Material', datafield: 'nature_of_material' }
 			]
 		});

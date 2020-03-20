@@ -32,10 +32,16 @@ limitations under the License.
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
-				transaction_id, trans_date, transaction_type,
-				nature_of_material, trans_remarks,
-				collection_cde, collection,
-				specific_number, specific_type, status, 
+				transaction_id, 
+				transaction_type,
+				to_char(trans_date,'YYYY-MM-DD') trans_date,
+				nature_of_material, 
+				trans_remarks,
+				collection_cde, 
+				collection,
+				specific_number, 
+				specific_type, 
+				status, 
 				concattransagent(transaction_id,'entered_by') as ent_agent
 			FROM 
 				MCZBASE.transaction_view
@@ -102,7 +108,7 @@ limitations under the License.
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			select distinct
 				trans.transaction_id,
-				trans_date,
+				to_char(trans_date,'YYYY-MM-DD') trans_date,
 				trans_remarks,
 				loan_number,
 				loan.loan_type loan_type,
@@ -300,7 +306,7 @@ limitations under the License.
 			<cfset targetform = "Loan.cfm?action=editLoan&">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#col#"] = "#search[col][currentRow]#">
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
 			<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
 			<cfset data[i]  = row>
