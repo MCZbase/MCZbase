@@ -73,7 +73,7 @@ limitations under the License.
 					<!--- Tab content div --->
 					<div class="tab-content pb-0" id="tabContentDiv">
 						<!--- All Transactions search tab panel --->
-						<div class="tab-pane fade show active py-3 mx-sm-3 mb-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+						<div class="tab-pane fade show active py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
 								<input  type="hidden" name="method" value="getTransactions">
@@ -103,14 +103,15 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12">
-										<button class="btn button px-3 border-0" id="searchButton" type="submit">Search</button>
+										<button class="btn btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search"></span></button>
+										<button type="reset" class="btn btn-warning" aria-label="Clear transaction search form">Clear</button>
 									</div>
 								</div>
 							</form>
 						</div>
 
 						<!--- Loan search tab panel --->
-						<div class="tab-pane fade py-3 mx-sm-3 mb-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
+						<div class="tab-pane fade py-0 mx-sm-3 mb-1" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
      						<h2 class="wikilink">Find Loans <img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
 								<!--- Search for just loans ---->
@@ -356,10 +357,10 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-2">
-											<input type="submit" value="Search" class="schBtn">
+											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search"></span></button>
 										</div>
 										<div class="col-12 col-md-2">
-											<input type="reset" value="Clear" class="qutBtn">
+											<button type="reset" class="btn btn-warning" aria-label="Clear loan search form">Clear</button>
 										</div>
 										<div class="col"></div>
 									</div>
