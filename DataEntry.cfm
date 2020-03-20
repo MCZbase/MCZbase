@@ -95,7 +95,7 @@ limitations under the License.
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 					<div id="customRelationship">
 					<div class="form-group row">
-					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
+					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Relationship</label>
 					<div class="col-xl-4 px-xl-0">
 						<select class="data-entry-select">
 							<option value="">Relationship Type</option>
@@ -317,18 +317,18 @@ limitations under the License.
 					</div>
 					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
 					<div class="col-12 col-lg-9">
-						<select class="form-control-select" required>
+						<select class="data-entry-select" required>
 							<option value="">Ethanol</option>
 							<option value="1">RNALater</option>
 							<option value="2">DNA/RNA Shield</option>
 							<option value="3">Alcohol</option>
 						</select>
 					</div>	
-					<label for="condition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Condition</label>
+					<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="condition" placeholder="Condition">
+						<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
 					</div>	
-					<label for="disposition" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Disposition</label>
+					<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label>
 					<div class="col-12 col-lg-9">
 						<select class="data-entry-select px-0" required>
 							<option value="">Being Processed</option>
@@ -351,13 +351,13 @@ limitations under the License.
 						<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
 					</div>
 				</div>
-					<label for="container_unique_id" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Container</label>
+					<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="container_unique_id" placeholder="Container Unique ID">
+						<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
 					</div>
-					<label for="part_remark" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Remark</label>
+					<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="form-control form-control-sm" name="part_remark" placeholder="Part Remarks">
+						<input type="text" class="data-entry-input" name="part_remark" placeholder="Part Remarks">
 					</div>
 				</div>
 				</div>
