@@ -262,15 +262,15 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="higher_geog" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Geology Attribute</label>
+					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
 					<div class="col-sm-9 my-0">
-						<input type="text" name="geology_attribute" class="form-control form-control-sm" placeholder="Geology Attribute" />
+						<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
 					</div>
 				</div>
 				<div class="row form-group">
-					<label for="habitat" class="col-sm-3 form-control-sm border-0 col-form-label text-center text-md-right">Habitat</label>
+					<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
 					<div class="col-sm-9">
-						<input type="text" name="habitat" class="form-control form-control-sm" placeholder="Habitat" />
+						<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
 					</div>
 				</div>
 				</div>
