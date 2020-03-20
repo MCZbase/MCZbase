@@ -201,8 +201,7 @@ limitations under the License.
 				<div class="row">
 					<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right">ID Remark</label>
 					<div class="col-12 col-lg-9">
-						<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID remark"/>
-						</textarea>
+						<textarea type="text" name="id_remark" class="data-entry-textarea"/>ID remark</textarea>
 					</div>
 				</div>
 				</div>
@@ -213,74 +212,80 @@ limitations under the License.
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 8</h3>
-				<div class="row">
-					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
-					<div class="col-sm-9">
-						<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
+					<div class="row">
+						<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
+						<div class="col-sm-9">
+							<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right">Specific Locality</label>
-					<div class="col-sm-9">
-						<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
+					<div class="row">
+						<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right">Specific Locality</label>
+						<div class="col-sm-9">
+							<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
-					<div class="col-12 col-sm-3">
-						<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
+					<div class="row">
+						<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
+						<div class="col-12 col-sm-3">
+							<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
+						</div>
+						<div class="col-12 col-sm-3">
+							<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
+						</div>
+						<div class="col-12 col-sm-2">	
+							<select class="data-entry-select" required>
+								<option value="">Feet</option>
+								<option value="1">Fathoms</option>
+								<option value="2">Yards</option>
+								<option value="3">Meters</option>
+								<option value="4">Miles</option>
+								<option value="5">Kilometers</option>
+							</select>
+						</div>
 					</div>
-					<div class="col-12 col-sm-3">
-						<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
+					<div class="row">
+						<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
+						<div class="col-12 col-sm-3">
+							<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
+						</div>
+						<div class="col-12 col-sm-3">
+							<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
+						</div>
+						<div class="col-12 col-sm-2">
+							<select class="data-entry-select" required>
+								<option value="">Feet</option>
+								<option value="1">Fathoms</option>
+								<option value="2">Yards</option>
+								<option value="3">Meters</option>
+								<option value="4">Miles</option>
+								<option value="5">Kilometers</option>
+							</select>
+						</div>
 					</div>
-					<div class="col-12 col-sm-2">	
-						<select class="data-entry-select" required>
-							<option value="">Feet</option>
-							<option value="1">Fathoms</option>
-							<option value="2">Yards</option>
-							<option value="3">Meters</option>
-							<option value="4">Miles</option>
-							<option value="5">Kilometers</option>
-						</select>
+					<div class="row">
+						<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right">Sovereign Nation</label>
+						<div class="col-sm-9">
+							<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
-					<div class="col-12 col-sm-3">
-						<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
+					<div class="row">
+						<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
+						<div class="col-sm-9 my-0">
+							<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
+						</div>
 					</div>
-					<div class="col-12 col-sm-3">
-						<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
+					<div class="row">
+						<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+						<div class="col-sm-9">
+							<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+						</div>
 					</div>
-					<div class="col-12 col-sm-2">
-						<select class="data-entry-select" required>
-							<option value="">Feet</option>
-							<option value="1">Fathoms</option>
-							<option value="2">Yards</option>
-							<option value="3">Meters</option>
-							<option value="4">Miles</option>
-							<option value="5">Kilometers</option>
-						</select>
+					<div class="row">
+						<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
+						<div class="col-sm-9">
+							<textarea type="text" name="locality_remark" class="data-entry-textarea"/>Locality Remark</textarea>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right">Sovereign Nation</label>
-					<div class="col-sm-9">
-						<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
-					</div>
-				</div>
-				<div class="row">
-					<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
-					<div class="col-sm-9 my-0">
-						<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
-					</div>
-				</div>
-				<div class="row">
-					<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
-					<div class="col-sm-9">
-						<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
-					</div>
-				</div>
 				</div>
 				</div>
 
@@ -303,8 +308,7 @@ limitations under the License.
 						<input type="text" class="data-entry-input" name="other_id" placeholder="Date">
 						<input type="text" class="data-entry-input" name="other_id" placeholder="Determiner">
 						<input type="text" class="data-entry-input" name="other_id" placeholder="Method">
-					<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
-						</textarea>
+						<textarea type="text" name="attribute_remark" class="data-entry-textarea"/>Attribute Remark</textarea>
 					</div>
 				</div>
 				</div>
@@ -642,7 +646,7 @@ limitations under the License.
 <script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row
 $(document).ready(function(){
-	$(".addAtt").click(function(){$("##customFields").append('<div class="row mt-2"><label for="other_id" class="form-control-label col-sm-3 text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="data-entry-select" required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="data-entry-input" name="other_id" placeholder="Value"><input type="text" class="data-entry-input" name="other_id" placeholder="Units"><input type="text" class="data-entry-input" name="other_id" placeholder="Date"><input type="text" class="data-entry-input" name="other_id" placeholder="Determiner"><input type="text" class="data-entry-input" name="other_id" placeholder="Method"><input type="text" class="data-entry-input" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded mr-auto ml-3 remAtt">Remove</button></div>');
+	$(".addAtt").click(function(){$("##customFields").append('<div class="row mt-2"><label for="other_id" class="form-control-label col-sm-3 text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="data-entry-select" required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="data-entry-input" name="other_id" placeholder="Value"><input type="text" class="data-entry-input" name="other_id" placeholder="Units"><input type="text" class="data-entry-input" name="other_id" placeholder="Date"><input type="text" class="data-entry-input" name="other_id" placeholder="Determiner"><input type="text" class="data-entry-input" name="other_id" placeholder="Method"><textarea type="text" name="attribute_remark" class="data-entry-textarea"/>Attribute Remark</textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded mr-auto ml-3 remAtt">Remove</button></div>');
 	});
 	$("##customFields").on('click','.remAtt',function(){$(this).parent().remove();});
 });
@@ -650,7 +654,7 @@ $(document).ready(function(){
 	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="col-sm-3 text-center text-md-right">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="form-control-input" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-3 mr-auto remAgent">Remove</button></div>');
+	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="data-entry-input" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-3 mr-auto remAgent">Remove</button></div>');
 	});
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
@@ -658,7 +662,7 @@ $(document).ready(function(){
 	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addPart").click(function(){$("##customPart").append('<div class="row mt-2"><label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_name" placeholder="Part Name"></div><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right">Preserve Method</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Ethanol</option><option value="1">RNALater</option><option value="2">DNA/RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="condition" placeholder="Condition"></div><label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">being processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Number of Parts</label><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_remark" placeholder="Part Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
+	$(".addPart").click(function(){$("##customPart").append('<div class="row mt-2"><label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_name" placeholder="Part Name"></div><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right">Preserve Method</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Ethanol</option><option value="1">RNALater</option><option value="2">DNA/RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="condition" placeholder="Condition"></div><label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">being processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Number of Parts</label><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_remark" class="data-entry-textarea"/>Part Remark</textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
 	});
 	$("##customPart").on('click','.remPart',function(){$(this).parent().remove();});
 });
