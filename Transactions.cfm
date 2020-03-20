@@ -81,14 +81,14 @@ limitations under the License.
 									<div class="col-12 col-md-6">
 										<label for="collection_id">Collection/Number (nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll):</label>
 										<div class="input-group">
-											<select name="collection_id" size="1" class="input-group-prepend form-control rounded ">
+											<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
 												<option value=""></option>
 												<cfloop query="ctcollection">
 													<option value="#collection_id#">#collection#</option>
 												</cfloop>
 											</select>
 											<cfif not isdefined("number")><cfset number=""></cfif>
-											<input id="number" type="text" class="has-clear form-control rounded" name="number" placeholder="" value="#number#">
+											<input id="number" type="text" class="has-clear form-control form-control-sm rounded" name="number" placeholder="" value="#number#">
 										</div>
 									</div>
 									<div class="col-12 col-md-6">
@@ -103,7 +103,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12">
-										<button class="btn btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search"></span></button>
+										<button class="btn btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn btn-warning" aria-label="Clear transaction search form">Clear</button>
 									</div>
 								</div>
@@ -193,38 +193,40 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-4">
-											<select name="trans_agent_role_1" id="trans_agent_role_1" class="form-control-sm custom-select1">
-												<option value="">agent role...</option>
-												<cfloop query="cttrans_agent_role_loan">
-													<option value="#trans_agent_role#">#trans_agent_role#:</option>
-												</cfloop>
-											</select>
-											<input type="text" name="agent_1" id="agent_1" class="form-control-sm" >
-											<input type="hidden" name="agent_1_id" id="agent_1_id" >
-											<script>
-											</script>
+											<div class="input-group">
+												<select name="trans_agent_role_1" id="trans_agent_role_1" class="form-control form-control-sm input-group-prepend">
+													<option value="">agent role...</option>
+													<cfloop query="cttrans_agent_role_loan">
+														<option value="#trans_agent_role#">#trans_agent_role#:</option>
+													</cfloop>
+												</select>
+												<input type="text" name="agent_1" id="agent_1" class="form-control form-control-sm" >
+												<input type="hidden" name="agent_1_id" id="agent_1_id" >
+											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<select name="trans_agent_role_2" id="trans_agent_role_2" class="form-control-sm custom-select1">
-												<option value="">agent role...</option>
-												<cfloop query="cttrans_agent_role_loan">
-													<option value="#trans_agent_role#">#trans_agent_role#:</option>
-												</cfloop>
-											</select>
-											<input type="text" name="agent_2" id="agent_2" class="form-control-sm" >
-											<input type="hidden" name="agent_2_id" id="agent_2_id" >
-											<script>
-											</script>
+											<div class="input-group">
+												<select name="trans_agent_role_2" id="trans_agent_role_2" class="form-control form-control-sm custom-select1 input-group-prepend">
+													<option value="">agent role...</option>
+													<cfloop query="cttrans_agent_role_loan">
+														<option value="#trans_agent_role#">#trans_agent_role#:</option>
+													</cfloop>
+												</select>
+												<input type="text" name="agent_2" id="agent_2" class="form-control-sm" >
+												<input type="hidden" name="agent_2_id" id="agent_2_id" >
+											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<select name="trans_agent_role_3" id="trans_agent_role_3" class="form-control-sm custom-select1">
-												<option value="">agent role...</option>
-												<cfloop query="cttrans_agent_role_loan">
-													<option value="#trans_agent_role#">#trans_agent_role#:</option>
-												</cfloop>
-											</select>
-											<input type="text" name="agent_3" id="agent_3" class="form-control-sm" >
-											<input type="hidden" name="agent_3_id" id="agent_3_id" >
+											<div class="input-group">
+												<select name="trans_agent_role_3" id="trans_agent_role_3" class="form-control form-control-sm input-group-prepend">
+													<option value="">agent role...</option>
+													<cfloop query="cttrans_agent_role_loan">
+														<option value="#trans_agent_role#">#trans_agent_role#:</option>
+													</cfloop>
+												</select>
+												<input type="text" name="agent_3" id="agent_3" class="form-control-sm" >
+												<input type="hidden" name="agent_3_id" id="agent_3_id" >
+											</div>
 										</div>
 										<script>
 										$(document).ready(function() {
@@ -357,7 +359,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-2">
-											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search"></span></button>
+											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 										</div>
 										<div class="col-12 col-md-2">
 											<button type="reset" class="btn btn-warning" aria-label="Clear loan search form">Clear</button>
