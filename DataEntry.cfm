@@ -35,12 +35,12 @@ limitations under the License.
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>	
 			<div class="row">	
-				<div class="form-group col-12 col-md-4 pb-2 px-1"></div>
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1"></div>
+				<div class="col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
 					<h2 class="fs-title text-center">Collection</h2>
 					<h3 class="fs-subtitle text-center">This is step 1</h3>	
-					<div class="form-group row">
+					<div class="row">
 						<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
 					<div class="col-12 col-lg-9">
 						<select class="data-entry-select px-0" required>
@@ -53,15 +53,15 @@ limitations under the License.
 					</div>	
 					</div>
 				</div>	
-				<div class="form-group col-12 col-md-4 pb-2 px-1"></div>
+				<div class="col-12 col-md-4 pb-2 px-1"></div>
 				</div>
 					<div class="row">	
 				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
 					<h2 class="fs-title text-center">Catalog Number</h2>
 					<h3 class="fs-subtitle text-center">This is step 2</h3>				
-					<div class="form-group row">
+					<div class="row">
 						<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
 						<div class="col-xl-9">
 							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
@@ -71,12 +71,12 @@ limitations under the License.
 					</div>	
 				</div>	
 				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->					
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Other IDs</h2>
 				<h3 class="fs-subtitle text-center">This is step 3</h3>
 					<div id="customID">
-					<div class="form-group row">
+					<div class="row">
 					<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
 					<div class="col-xl-4 px-xl-0">
 						<select class="data-entry-select" required>
@@ -97,12 +97,12 @@ limitations under the License.
 				</div>
 			</div>
 				
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Record Relationships</h2>
 				<h3 class="fs-subtitle text-center">This is step 4</h3>
 					<div id="customRelationship">
-					<div class="form-group row">
+					<div class="row">
 					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
 					<div class="col-xl-4 px-xl-0">
 						<select class="data-entry-select">
@@ -126,12 +126,12 @@ limitations under the License.
 			</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
 					<h2 class="fs-title text-center">Encumbrance</h2>
 					<h3 class="fs-subtitle text-center">This is step 5</h3>
 						<div id="encumbrance">
-						<div class="form-group row mb-2">
+						<div class="row mb-2">
 							<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
 							<div class="col-xl-9">
 								<div class="form-check form-check-inline">
@@ -144,12 +144,12 @@ limitations under the License.
 					</div>
 				</div>
 			
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Collector/Preparator</h2>
 				<h3 class="fs-subtitle text-center">This is step 6</h3>
 					<div id="customAgent">
-						<div class="form-group row">
+						<div class="row">
 							<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Agent</label>
 							<div class="col-12 col-xl-4">
 								<select class="data-entry-select">
@@ -168,7 +168,7 @@ limitations under the License.
 				</div>
 			</div>
 				
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Scientific Name</h2>
 				<h3 class="fs-subtitle text-center">This is step 7</h3>
@@ -209,7 +209,7 @@ limitations under the License.
 			</div>	
 			</div>
 			<div class="row">
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Locality</h2>
 				<h3 class="fs-subtitle text-center">This is step 8</h3>
@@ -284,12 +284,12 @@ limitations under the License.
 				</div>
 				</div>
 
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 9</h3>
 				<div id="customFields">
-				<div class="form-group row">
+				<div class="row">
 					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute</label>
 					<div class="col-12 col-lg-9">
 						<select class="data-entry-select" required>
@@ -313,12 +313,12 @@ limitations under the License.
 				</div>
 				</div>
 	
-				<div class="form-group col-12 col-md-4 pb-2 px-1">
+				<div class="col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Parts</h2>
 				<h3 class="fs-subtitle text-center">This is step 10</h3>
 				<div id="customPart">
-				<div class="form-group row">
+				<div class="row">
 					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
 					<div class="col-12 col-lg-9">
 						<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
