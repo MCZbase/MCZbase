@@ -360,6 +360,8 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" onclick=" $("##searchResultsGrid").jqxGrid('exportdata', 'csv', 'loan_list.csv');" disabled >Export to CSV</button>
+											<button id="loanxlsbutton" class="btn btn-secondary px-3" aria-label="Export results to xls" onclick=" $("##searchResultsGrid").jqxGrid('exportdata', 'xls', 'loan_list.xls');" disabled >Export to CSV</button>
 											<button type="reset" class="btn btn-warning" aria-label="Clear loan search form">Clear</button>
 										</div>
 									</div>
@@ -454,6 +456,7 @@ $(document).ready(function() {
 			pageable: true,
 			editable: false,
 			pagesize: '50',
+			pagesizeoptions: ['50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: false,
@@ -481,6 +484,9 @@ $(document).ready(function() {
 	/* Setup jqxgrid for Loan Search */
 	$('##loanSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
+
+		$('##loancsvbutton').prop('disabled',true);
+		$('##loanxlsbutton').prop('disabled',true);
 
 		$('##searchText').jqxGrid('showloadelement');
 		$("##searchResultsGrid").jqxGrid('clearfilters');
@@ -545,6 +551,7 @@ $(document).ready(function() {
 			pageable: true,
 			editable: false,
 			pagesize: '50',
+			pagesizeoptions: ['50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: false,
@@ -555,6 +562,10 @@ $(document).ready(function() {
 			selectionmode: 'checkbox',
 			altrows: true,
 			showtoolbar: false,
+			bindingcomplete: function(event) {
+				$('##loancsvbutton').prop('disabled',false);
+				$('##loanxlsbutton').prop('disabled',false);
+			}, 
 			columns: [
 				{text: 'Loan', datafield: 'id_link', width: 130},
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
