@@ -91,7 +91,7 @@ limitations under the License.
 </cffunction>
 
 
-<!---   Function getTransactions  --->
+<!---   Function getLoans  --->
 <cffunction name="getLoans" access="remote" returntype="any" returnformat="json">
     <cfargument name="number" type="string" required="no">
     <cfargument name="collection_id" type="numeric" required="no">
@@ -124,7 +124,8 @@ limitations under the License.
 				to_char(closed_date, 'YYYY-MM-DD') closed_date,
 				project_name,
 				project.project_id pid,
-				collection.collection
+				collection.collection,
+				collection.collection_cde
 			from
 				loan
 				left join trans on loan.transaction_id = trans.transaction_id
@@ -298,16 +299,9 @@ limitations under the License.
 				<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
  			</cfswitch>
 			<cfset row = StructNew()>
-			<cfset row["transaction_id"] = "#search.transaction_id#">
-			<cfset row["trans_date"] = "#search.trans_date#">
-			<cfset row["transaction_type"] = "#search.transaction_type#">
-			<cfset row["nature_of_material"] = "#search.nature_of_material#">
-			<cfset row["trans_remarks"] = "#search.trans_remarks#">
-			<cfset row["collection_cde"] = "#search.collection_cde#">
-			<cfset row["collection"] = "#search.collection#">
-			<cfset row["number"] = "#search.specific_number#">
-			<cfset row["type"] = "#search.specific_type#">
-			<cfset row["status"] = "#search.status#">
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#col#"] = "#search[col][currentRow]#">
+			</cfloop>
 			<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>

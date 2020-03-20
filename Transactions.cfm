@@ -154,8 +154,8 @@ limitations under the License.
 									});
 								</script>
 
-								<form name="SpecData" action="transactions/Loan.cfm" method="post">
-									<input type="hidden" name="Action" value="listLoans">
+								<form name="loanSearchForm">
+									<input type="hidden" name="method" value="getLoans">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
@@ -358,13 +358,10 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-2">
+										<div class="col-12">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-										</div>
-										<div class="col-12 col-md-2">
 											<button type="reset" class="btn btn-warning" aria-label="Clear loan search form">Clear</button>
 										</div>
-										<div class="col"></div>
 									</div>
 								</form>
 							</div>
@@ -400,13 +397,11 @@ limitations under the License.
 
 <script>
 
-$(document).ready(function () {
-	$(".jqxdatetimeinput").jqxDateTimeInput({ value: null, height: '25px', theme: 'summer', min: new Date(1700,0,1) });
-});
-
-/* Supporting JQXGRID for Search */
 $(document).ready(function() {
+	/* Setup date time input controls */
+	$(".jqxdatetimeinput").jqxDateTimeInput({ value: null, height: '25px', theme: 'summer', min: new Date(1700,0,1) });
 
+	/* Setup jqxgrid for Transactions Search */
 	$('##searchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
@@ -433,7 +428,7 @@ $(document).ready(function() {
 				commit(true);
 			},
 			root: 'transRecord',
-			id: 'collection_object_id',
+			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
 			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
@@ -449,10 +444,6 @@ $(document).ready(function() {
 		};
 
 		var dataAdapter = new $.jqx.dataAdapter(search) 
-;
-
-		var editrow = -1;
-		// grid rendering starts below
 
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -474,19 +465,110 @@ $(document).ready(function() {
 			altrows: true,
 			showtoolbar: false,
 			columns: [
-				{text: 'Transaction', datafield: 'id_link', width: 190},
+				{text: 'Transaction', datafield: 'id_link', width: 130},
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Transaction', datafield: 'transaction_type', width: 150},
-				{text: 'Number', datafield: 'number', width: 130},
-				{text: 'Date', datafield: 'trans_date', width: 50},
-				{text: 'Type', datafield: 'type', width: 50},
-				{text: 'Status', datafield: 'status', width: 130},
+				{text: 'Date', datafield: 'trans_date', width: 100},
+				{text: 'Type', datafield: 'type', width: 80},
+				{text: 'Status', datafield: 'status', width: 100},
+				{text: 'Entered By', datafield: 'entered_by', width: 80},
 				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130 },
-				{text: 'Collection', datafield: 'collection', width: 130},
-				{text: 'Entered By', datafield: 'entered_by', width: 50},
 				{text: 'Remarks', datafield: 'trans_remarks' }
 			]
 		});
+	});
+
+	/* Setup jqxgrid for Loan Search */
+	$('##searchForm').bind('submit', function(evt){
+		evt.preventDefault();
+
+		$('##searchText').jqxGrid('showloadelement');
+		$("##searchResultsGrid").jqxGrid('clearfilters');
+
+		var loanSearch =
+		{
+			datatype: "json",
+			datafields:
+			[
+				{ name: 'transaction_id', type: 'string' },
+				{ name: 'trans_date', type: 'string' },
+				{ name: 'trans_remarks', type: 'string' },
+				{ name: 'loan_number', type: 'string' },
+				{ name: 'loan_type', type: 'string' },
+				{ name: 'loan_type_scope', type: 'string' },
+				{ name: 'loan_status', type: 'string' },
+				{ name: 'nature_of_material', type: 'string' },
+				{ name: 'loan_instructions', type: 'string' },
+				{ name: 'loan_description', type: 'string' },
+				{ name: 'collection', type: 'string' },
+				{ name: 'collection_cde', type: 'string' },
+				{ name: 'return_due_date', type: 'string' },
+				{ name: 'dueindays', type: 'string' },
+				{ name: 'closed_date', type: 'string' },
+				{ name: 'auth_agent', type: 'string' },
+				{ name: 'ent_agent', type: 'string' },
+				{ name: 'rec_agent', type: 'string' },
+				{ name: 'foruseby_agent', type: 'string' },
+				{ name: 'inHouse_agent', type: 'string' },
+				{ name: 'addInhouse_agent', type: 'string' },
+				{ name: 'addOutside_agent', type: 'string' },
+				{ name: 'recip_inst', type: 'string' },
+				{ name: 'project_name', type: 'string' },
+				{ name: 'pid', type: 'string' },
+				{ name: 'id_link', type: 'string' }
+			],
+			updaterow: function (rowid, rowdata, commit) {
+				commit(true);
+			},
+			root: 'transRecord',
+			id: 'transaction_id',
+			url: '/transactions/component/search.cfc?' + $('##loanSearchForm').serialize(),
+			timeout: 30000,  // units not specified, miliseconds? 
+			loadError: function(jqXHR, status, error) { 
+            var message = "";      
+				if (error == 'timeout') { 
+               message = ' Server took too long to respond.';
+            } else { 
+               message = jqXHR.responseText;
+            }
+            messageDialog('Error:' + message ,'Error: ' + error);
+			},
+			async: true
+		};
+		var loanDataAdapter = new $.jqx.dataAdapter(loanSearch) 
+		$("##searchResultsGrid").jqxGrid({
+			width: '100%',
+			autoheight: 'true',
+			source: dataAdapter,
+			filterable: true,
+			sortable: true,
+			pageable: true,
+			editable: false,
+			pagesize: '50',
+			showaggregates: true,
+			columnsresize: true,
+			autoshowfiltericon: false,
+			autoshowcolumnsmenubutton: false,
+			selectionmode: 'multiplecellsextended',
+			columnsreorder: true,
+			groupable: true,
+			selectionmode: 'checkbox',
+			altrows: true,
+			showtoolbar: false,
+			columns: [
+				{text: 'Loan', datafield: 'id_link', width: 130},
+				{text: 'Coll.', datafield: 'collection_cde', width: 50},
+				{text: 'Status', datafield: 'status', width: 100},
+				{text: 'Date', datafield: 'trans_date', width: 100},
+				{text: 'Due Date', datafield: 'return_due_date', width: 100},
+				{text: 'Closed', datafield: 'closed_date', width: 100},
+				{text: 'To', datafield: 'rec_agent', width: 100},
+				{text: 'Recipient', datafield: 'recip_inst', width: 100},
+				{text: 'Entered By', datafield: 'entered_by', width: 80},
+				{text: 'Nature of Material', datafield: 'nature_of_material' }
+			]
+		});
+
 	});
 });
 </script>
