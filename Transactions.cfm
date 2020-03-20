@@ -206,13 +206,13 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_2" id="trans_agent_role_2" class="form-control form-control-sm custom-select1 input-group-prepend">
+												<select name="trans_agent_role_2" id="trans_agent_role_2" class="form-control form-control-sminput-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
 														<option value="#trans_agent_role#">#trans_agent_role#:</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_2" id="agent_2" class="form-control-sm" >
+												<input type="text" name="agent_2" id="agent_2" class="form-control form-control-sm" >
 												<input type="hidden" name="agent_2_id" id="agent_2_id" >
 											</div>
 										</div>
@@ -224,7 +224,7 @@ limitations under the License.
 														<option value="#trans_agent_role#">#trans_agent_role#:</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_3" id="agent_3" class="form-control-sm" >
+												<input type="text" name="agent_3" id="agent_3" class="form-control form-control-sm" >
 												<input type="hidden" name="agent_3_id" id="agent_3_id" >
 											</div>
 										</div>
