@@ -443,7 +443,7 @@ $(document).ready(function() {
 			async: true
 		};
 
-		var dataAdapter = new $.jqx.dataAdapter(search) 
+		var dataAdapter = new $.jqx.dataAdapter(search);
 
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -535,11 +535,11 @@ $(document).ready(function() {
 			},
 			async: true
 		};
-		var loanDataAdapter = new $.jqx.dataAdapter(loanSearch) 
+		var loanDataAdapter = new $.jqx.dataAdapter(loanSearch);
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
-			source: dataAdapter,
+			source: loanDataAdapter,
 			filterable: true,
 			sortable: true,
 			pageable: true,
