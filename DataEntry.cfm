@@ -303,7 +303,8 @@ limitations under the License.
 						<input type="text" class="data-entry-input" name="other_id" placeholder="Date">
 						<input type="text" class="data-entry-input" name="other_id" placeholder="Determiner">
 						<input type="text" class="data-entry-input" name="other_id" placeholder="Method">
-						<input type="text" class="data-entry-input" name="other_id" placeholder="Remarks">
+					<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
+						</textarea>
 					</div>
 				</div>
 				</div>
@@ -365,7 +366,8 @@ limitations under the License.
 					</div>
 					<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label>
 					<div class="col-12 col-lg-9">
-						<input type="text" class="data-entry-input" name="part_remark" placeholder="Part Remarks">
+							<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
+						</textarea>
 					</div>
 				</div>
 				</div>
@@ -640,7 +642,7 @@ limitations under the License.
 <script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row
 $(document).ready(function(){
-	$(".addAtt").click(function(){$("##customFields").append('<div class="row mt-2"><label for="other_id" class="form-control-label col-sm-3 text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="data-entry-select" required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Value"><input type="text" class="data-entry-input" name="other_id" placeholder="Units"><input type="text" class="data-entry-input" name="other_id" placeholder="Date"><input type="text" class="data-entry-input" name="other_id" placeholder="Determiner"><input type="text" class="form-control form-control-sm" name="other_id" placeholder="Method"><input type="text" class="data-entry-input" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded mr-auto ml-3 remAtt">Remove</button></div>');
+	$(".addAtt").click(function(){$("##customFields").append('<div class="row mt-2"><label for="other_id" class="form-control-label col-sm-3 text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="data-entry-select" required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="data-entry-input" name="other_id" placeholder="Value"><input type="text" class="data-entry-input" name="other_id" placeholder="Units"><input type="text" class="data-entry-input" name="other_id" placeholder="Date"><input type="text" class="data-entry-input" name="other_id" placeholder="Determiner"><input type="text" class="data-entry-input" name="other_id" placeholder="Method"><input type="text" class="data-entry-input" name="other_id" placeholder="Remarks"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded mr-auto ml-3 remAtt">Remove</button></div>');
 	});
 	$("##customFields").on('click','.remAtt',function(){$(this).parent().remove();});
 });
