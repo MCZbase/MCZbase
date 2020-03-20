@@ -479,7 +479,7 @@ $(document).ready(function() {
 	});
 
 	/* Setup jqxgrid for Loan Search */
-	$('##searchForm').bind('submit', function(evt){
+	$('##loanSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
 		$('##searchText').jqxGrid('showloadelement');
