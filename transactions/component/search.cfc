@@ -297,7 +297,7 @@ limitations under the License.
       <cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
+			<cfset targetform = "Loan.cfm?action=editLoan&">
  			</cfswitch>
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
