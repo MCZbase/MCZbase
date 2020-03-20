@@ -154,7 +154,7 @@ limitations under the License.
 									});
 								</script>
 
-								<form name="loanSearchForm">
+								<form id="loanSearchForm">
 									<input type="hidden" name="method" value="getLoans">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2">
