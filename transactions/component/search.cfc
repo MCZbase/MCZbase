@@ -48,7 +48,7 @@ limitations under the License.
 				<cfif isDefined("status") and len(status) gt 0>
 					and status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
 				</cfif>
-				<cfif isDefined("collection_id") and len(collection_id) gt 0>
+				<cfif isDefined("collection_id") and collection_id gt 0>
 					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 				<cfif isDefined("agent_1") and len(agent_1) gt 0>
