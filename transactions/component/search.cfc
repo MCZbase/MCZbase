@@ -141,7 +141,7 @@ limitations under the License.
 					AND upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(loan_number)#%">
 				</cfif>
 				<cfif isdefined("collection_id") AND collection_id gt 0>
-					AND collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+					AND trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 				<cfif isdefined("permit_num") AND len(#permit_num#) gt 0>
 					AND PERMIT_NUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PERMIT_NUM#">
