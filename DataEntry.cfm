@@ -39,7 +39,8 @@ limitations under the License.
 				<div class="form-group col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
 					<h2 class="fs-title text-center">Collection</h2>
-					<h3 class="fs-subtitle text-center">This is step 1</h3>				
+					<h3 class="fs-subtitle text-center">This is step 1</h3>	
+					<div class="form-group row">
 						<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
 					<div class="col-12 col-lg-9">
 						<select class="data-entry-select px-0" required>
@@ -50,6 +51,7 @@ limitations under the License.
 						</select>
 					</div>
 					</div>	
+					</div>
 				</div>	
 				<div class="form-group col-12 col-md-4 pb-2 px-1"></div>
 				</div>
