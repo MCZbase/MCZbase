@@ -297,9 +297,7 @@ limitations under the License.
       <cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfswitch expression="#search.transaction_type#">
-				<cfcase value="loan"><cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
-				<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
+			<cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
  			</cfswitch>
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
@@ -312,7 +310,7 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
       <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = trim("Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+      <cfset message = trim("Error processing getLoans: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
