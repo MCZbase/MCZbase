@@ -386,14 +386,15 @@ limitations under the License.
 	<div class="row">
 		<div class="text-left col-md-12">
 			<main role="main">
-				<div id="jqxWidget">
-					<div class="pl-2 mb-5">
-						<div class="row mt-4">
-								<div id="searchText"></div>
-								<!--Grid Related code is below along with search handler for keyword search-->
-								<div id="searchResultsGrid" class="jqxGrid"></div>
-							<div class="mt-005" id="enableselection"></div>
-						</div>
+				<div class="pl-2 mb-5">
+					<div class="row mt-1">
+						<span id="resultCount"></span>
+					</div>
+					<div class="row mt-1">
+						<div id="searchText"></div>
+						<!--Grid Related code is below along with search handlers-->
+						<div id="searchResultsGrid" class="jqxGrid"></div>
+						<div class="mt-005" id="enableselection"></div>
 					</div>
 				</div>
 			</main>
@@ -404,7 +405,10 @@ limitations under the License.
 <script>
 
 function exportGridToCSV (idOfGrid, filename) {
-	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata', 'csv');
+	var exportHeader = true;
+	var rows = null; // null for all rows
+	var exportHiddenColumns = true;
+	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata', 'csv',exportHeader,rows,exportHiddenColumns);
 	exportToCSV(csvStringData, filename);	
 };
 
@@ -427,8 +431,12 @@ $(document).ready(function() {
 	$('##searchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
+		$('##loancsvbutton').prop('disabled',true);
+		$('##transcsvbutton').prop('disabled',true);
+		$('##resultCount').html('');
 		$('##searchText').jqxGrid('showloadelement');
 		$("##searchResultsGrid").jqxGrid('clearfilters');
+
 		var search =
 		{
 			datatype: "json",
@@ -486,10 +494,9 @@ $(document).ready(function() {
 			columnsresize: true,
 			autoshowfiltericon: false,
 			autoshowcolumnsmenubutton: false,
-			selectionmode: 'multiplecellsextended',
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'checkbox',
+			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
 			columns: [
@@ -502,7 +509,11 @@ $(document).ready(function() {
 				{text: 'Entered By', datafield: 'entered_by', width: 80},
 				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130 },
 				{text: 'Remarks', datafield: 'trans_remarks' }
-			]
+			],
+			gridComplete: function () {
+				var rowcount = $('##searchResultsGrid').getGridParam('records');
+				$('##resultCount').html('Found ' + rowcount + ' transactions');
+			}
 		});
 	});
 
@@ -511,7 +522,8 @@ $(document).ready(function() {
 		evt.preventDefault();
 
 		$('##loancsvbutton').prop('disabled',true);
-
+		$('##transcsvbutton').prop('disabled',true);
+		$('##resultCount').html('');
 		$('##searchText').jqxGrid('showloadelement');
 		$("##searchResultsGrid").jqxGrid('clearfilters');
 
@@ -585,10 +597,9 @@ $(document).ready(function() {
 			columnsresize: true,
 			autoshowfiltericon: false,
 			autoshowcolumnsmenubutton: false,
-			selectionmode: 'multiplecellsextended',
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'checkbox',
+			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
 			columns: [
@@ -602,6 +613,10 @@ $(document).ready(function() {
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
 				{text: 'Entered By', datafield: 'ent_agent', width: 80},
 				{text: 'Nature of Material', datafield: 'nature_of_material' }
+			],
+			gridComplete: function () {
+				var rowcount = $('##searchResultsGrid').getGridParam('records');
+				$('##resultCount').html('Found ' + rowcount + ' loans');
 			]
 		});
 
