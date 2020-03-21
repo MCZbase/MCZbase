@@ -408,7 +408,7 @@ function exportGridToCSV (idOfGrid, filename) {
 	var exportHeader = true;
 	var rows = null; // null for all rows
 	var exportHiddenColumns = true;
-	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata', 'csv',exportHeader,rows,exportHiddenColumns);
+	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata', 'csv',null,exportHeader,rows,exportHiddenColumns);
 	exportToCSV(csvStringData, filename);	
 };
 
