@@ -436,7 +436,6 @@ $(document).ready(function() {
 		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
 		$('##searchText').jqxGrid('showloadelement');
-		//$("##searchResultsGrid").jqxGrid('clearfilters');
 
 		var search =
 		{
@@ -453,6 +452,7 @@ $(document).ready(function() {
 				{ name: 'number', type: 'string' },
 				{ name: 'type', type: 'string' },
 				{ name: 'status', type: 'string' },
+				{ name: 'entered_by', type: 'string' },
 				{ name: 'id_link', type: 'string' }
 			],
 			updaterow: function (rowid, rowdata, commit) {
@@ -496,15 +496,18 @@ $(document).ready(function() {
 			altrows: true,
 			showtoolbar: false,
 			columns: [
-				{text: 'Transaction', datafield: 'id_link', width: 130},
+				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
+				{text: 'Transaction', datafield: 'id_link', width: 110},
+				{text: 'transactionID', datafield 'transaction_id', width: 50, hideable: true, hidden: true },
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
+				{text: 'Collection', datafield: 'collection', width: 80, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'transaction_type', width: 150},
-				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Type', datafield: 'type', width: 80},
+				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Status', datafield: 'status', width: 100},
-				{text: 'Entered By', datafield: 'entered_by', width: 80},
-				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130 },
-				{text: 'Remarks', datafield: 'trans_remarks' }
+				{text: 'Entered By', datafield: 'entered_by', width: 80, hideable: true, hidden: false },
+				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130, hideable:true, hidden: false },
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: false }
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
@@ -526,7 +529,6 @@ $(document).ready(function() {
 		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
 		$('##searchText').jqxGrid('showloadelement');
-		//$("##searchResultsGrid").jqxGrid('clearfilters');
 
 		var loanSearch =
 		{
@@ -599,8 +601,10 @@ $(document).ready(function() {
 			altrows: true,
 			showtoolbar: false,
 			columns: [
-				{text: 'Loan', datafield: 'id_link', width: 130},
+				{text: 'Loan Number', datafield 'loan_number', width: 100, hideable: true, hidden: true },
+				{text: 'Loan', datafield: 'id_link', width: 100},
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
+				{text: 'Type', datafield: 'loan_type', width: 100},
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Due Date', datafield: 'return_due_date', width: 100},
@@ -608,7 +612,21 @@ $(document).ready(function() {
 				{text: 'To', datafield: 'rec_agent', width: 100},
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
 				{text: 'Entered By', datafield: 'ent_agent', width: 80},
-				{text: 'Nature of Material', datafield: 'nature_of_material' }
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+//				{ name: 'transaction_id', type: 'string' },
+//				{ name: 'trans_remarks', type: 'string' },
+//				{ name: 'loan_type_scope', type: 'string' },
+//				{ name: 'loan_instructions', type: 'string' },
+//				{ name: 'loan_description', type: 'string' },
+//				{ name: 'collection', type: 'string' },
+//				{ name: 'dueindays', type: 'string' },
+//				{ name: 'auth_agent', type: 'string' },
+//				{ name: 'foruseby_agent', type: 'string' },
+//				{ name: 'inHouse_agent', type: 'string' },
+//				{ name: 'addInhouse_agent', type: 'string' },
+//				{ name: 'addOutside_agent', type: 'string' },
+//				{ name: 'project_name', type: 'string' },
+//				{ name: 'pid', type: 'string' },
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {

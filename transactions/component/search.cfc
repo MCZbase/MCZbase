@@ -42,7 +42,7 @@ limitations under the License.
 				specific_number, 
 				specific_type, 
 				status, 
-				concattransagent(transaction_id,'entered_by') as ent_agent
+				concattransagent(transaction_id,'entered by') as entered_by_agent
 			FROM 
 				MCZBASE.transaction_view
 				left join collection on transaction_view.collection_id = collection.collection_id
@@ -80,7 +80,7 @@ limitations under the License.
 			<cfset row["number"] = "#search.specific_number#">
 			<cfset row["type"] = "#search.specific_type#">
 			<cfset row["status"] = "#search.status#">
-			<cfset row["entered_by"] = "#search.ent_agent#">
+			<cfset row["entered_by"] = "#search.entered_by_agent#">
 			<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
