@@ -360,7 +360,9 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" onclick=" exportToCSV($('##searchResultsGrid'.jqxGrid('exportdata', 'csv'), 'loan_list.csv'); " disabled >Export to CSV</button>
+											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
+												onclick=" exportToCSV($('##searchResultsGrid').jqxGrid('exportdata', 'csv'), 'loan_list.csv'); "
+												disabled >Export to CSV</button>
 											<button type="reset" class="btn btn-warning" aria-label="Clear loan search form">Clear</button>
 										</div>
 									</div>
@@ -401,7 +403,7 @@ limitations under the License.
 function exportToCSV (csvStringData, filename) {
   var downloadLink = document.createElement("a");
   var csvblob = new Blob(["\ufeff", csvStringData]);
-  var url = URL.createObjectURL(blob);
+  var url = URL.createObjectURL(csvBlob);
   downloadLink.href = url;
   downloadLink.download = filename;
   document.body.appendChild(downloadLink);
