@@ -477,6 +477,9 @@ $(document).ready(function() {
 		$("##searchResultsGrid").off('bindingcomplete').on("bindingcomplete", function(event) {
 				$('##loancsvbutton').prop('disabled',true);
 				$('##transcsvbutton').prop('disabled',false);
+				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				$('##resultCount').html('Found ' + rowcount + ' transactions');
 			}
 		);
 
@@ -509,11 +512,7 @@ $(document).ready(function() {
 				{text: 'Entered By', datafield: 'entered_by', width: 80},
 				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130 },
 				{text: 'Remarks', datafield: 'trans_remarks' }
-			],
-			gridComplete: function () {
-				var rowcount = $('##searchResultsGrid').getGridParam('records');
-				$('##resultCount').html('Found ' + rowcount + ' transactions');
-			}
+			]
 		});
 	});
 
@@ -581,6 +580,9 @@ $(document).ready(function() {
 		$("##searchResultsGrid").off('bindingcomplete').on("bindingcomplete", function(event) {
 				$('##loancsvbutton').prop('disabled',false);
 				$('##transcsvbutton').prop('disabled',true);
+				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				$('##resultCount').html('Found ' + rowcount + ' loans');
 			}
 		);
 		$("##searchResultsGrid").jqxGrid({
@@ -613,10 +615,6 @@ $(document).ready(function() {
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
 				{text: 'Entered By', datafield: 'ent_agent', width: 80},
 				{text: 'Nature of Material', datafield: 'nature_of_material' }
-			],
-			gridComplete: function () {
-				var rowcount = $('##searchResultsGrid').getGridParam('records');
-				$('##resultCount').html('Found ' + rowcount + ' loans');
 			]
 		});
 
