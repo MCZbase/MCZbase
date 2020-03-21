@@ -498,7 +498,7 @@ $(document).ready(function() {
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
-				{text: 'transactionID', datafield 'transaction_id', width: 50, hideable: true, hidden: true },
+				{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', width: 80, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'transaction_type', width: 150},
