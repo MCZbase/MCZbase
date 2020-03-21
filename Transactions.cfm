@@ -545,7 +545,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 				$('##loancsvbutton').prop('disabled',false);
 				$('##loanxlsbutton').prop('disabled',false);
-			};
+			}
 		);
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
