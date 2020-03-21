@@ -104,6 +104,9 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12">
 										<button class="btn btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
+											<button id="transcsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
+												onclick=" exportGridToCSV('searchResultsGrid', 'transaction_list.csv'); "
+												disabled >Export to CSV</button>
 										<button type="reset" class="btn btn-warning" aria-label="Clear transaction search form">Clear</button>
 									</div>
 								</div>
@@ -361,7 +364,7 @@ limitations under the License.
 										<div class="col-12">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
-												onclick=" exportToCSV($('##searchResultsGrid').jqxGrid('exportdata', 'csv'), 'loan_list.csv'); "
+												onclick=" exportGridToCSV('searchResultsGrid', 'loan_list.csv'); "
 												disabled >Export to CSV</button>
 											<button type="reset" class="btn btn-warning" aria-label="Clear loan search form">Clear</button>
 										</div>
@@ -400,15 +403,20 @@ limitations under the License.
 
 <script>
 
+function exportGridToCSV (idOfGrid, filename) {
+	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata', 'csv');
+	exportToCSV(csvStringData, filename);	
+};
+
 function exportToCSV (csvStringData, filename) {
-  var downloadLink = document.createElement("a");
-  var csvblob = new Blob(["\ufeff", csvStringData]);
-  var url = URL.createObjectURL(csvBlob);
-  downloadLink.href = url;
-  downloadLink.download = filename;
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-  document.body.removeChild(downloadLink);
+	var downloadLink = document.createElement("a");
+	var csvblob = new Blob(["\ufeff", csvStringData]);
+	var url = URL.createObjectURL(csvblob);
+	downloadLink.href = url;
+	downloadLink.download = filename;
+	document.body.appendChild(downloadLink);
+	downloadLink.click();
+	document.body.removeChild(downloadLink);
 }; 
 
 $(document).ready(function() {
@@ -458,6 +466,11 @@ $(document).ready(function() {
 		};
 
 		var dataAdapter = new $.jqx.dataAdapter(search);
+		$("##searchResultsGrid").off('bindingcomplete').on("bindingcomplete", function(event) {
+				$('##loancsvbutton').prop('disabled',true);
+				$('##transcsvbutton').prop('disabled',false);
+			}
+		);
 
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -553,8 +566,9 @@ $(document).ready(function() {
 			async: true
 		};
 		var loanDataAdapter = new $.jqx.dataAdapter(loanSearch);
-		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+		$("##searchResultsGrid").off('bindingcomplete').on("bindingcomplete", function(event) {
 				$('##loancsvbutton').prop('disabled',false);
+				$('##transcsvbutton').prop('disabled',true);
 			}
 		);
 		$("##searchResultsGrid").jqxGrid({
