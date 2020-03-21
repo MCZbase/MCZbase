@@ -431,11 +431,12 @@ $(document).ready(function() {
 	$('##searchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
+		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
 		$('##loancsvbutton').prop('disabled',true);
 		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
 		$('##searchText').jqxGrid('showloadelement');
-		$("##searchResultsGrid").jqxGrid('clearfilters');
+		//$("##searchResultsGrid").jqxGrid('clearfilters');
 
 		var search =
 		{
@@ -474,14 +475,6 @@ $(document).ready(function() {
 		};
 
 		var dataAdapter = new $.jqx.dataAdapter(search);
-		$("##searchResultsGrid").off('bindingcomplete').on("bindingcomplete", function(event) {
-				$('##loancsvbutton').prop('disabled',true);
-				$('##transcsvbutton').prop('disabled',false);
-				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
-				var rowcount = datainformation.rowscount;
-				$('##resultCount').html('Found ' + rowcount + ' transactions');
-			}
-		);
 
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -514,17 +507,26 @@ $(document).ready(function() {
 				{text: 'Remarks', datafield: 'trans_remarks' }
 			]
 		});
+		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+				$('##loancsvbutton').prop('disabled',true);
+				$('##transcsvbutton').prop('disabled',false);
+				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				$('##resultCount').html('Found ' + rowcount + ' transactions');
+			}
+		);
 	});
 
 	/* Setup jqxgrid for Loan Search */
 	$('##loanSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
+		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
 		$('##loancsvbutton').prop('disabled',true);
 		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
 		$('##searchText').jqxGrid('showloadelement');
-		$("##searchResultsGrid").jqxGrid('clearfilters');
+		//$("##searchResultsGrid").jqxGrid('clearfilters');
 
 		var loanSearch =
 		{
@@ -577,14 +579,6 @@ $(document).ready(function() {
 			async: true
 		};
 		var loanDataAdapter = new $.jqx.dataAdapter(loanSearch);
-		$("##searchResultsGrid").off('bindingcomplete').on("bindingcomplete", function(event) {
-				$('##loancsvbutton').prop('disabled',false);
-				$('##transcsvbutton').prop('disabled',true);
-				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
-				var rowcount = datainformation.rowscount;
-				$('##resultCount').html('Found ' + rowcount + ' loans');
-			}
-		);
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
@@ -617,6 +611,14 @@ $(document).ready(function() {
 				{text: 'Nature of Material', datafield: 'nature_of_material' }
 			]
 		});
+		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+				$('##loancsvbutton').prop('disabled',false);
+				$('##transcsvbutton').prop('disabled',true);
+				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				$('##resultCount').html('Found ' + rowcount + ' loans');
+			}
+		);
 
 	});
 });
