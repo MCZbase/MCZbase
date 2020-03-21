@@ -601,7 +601,7 @@ $(document).ready(function() {
 			altrows: true,
 			showtoolbar: false,
 			columns: [
-				{text: 'Loan Number', datafield 'loan_number', width: 100, hideable: true, hidden: true },
+				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Type', datafield: 'loan_type', width: 100},
