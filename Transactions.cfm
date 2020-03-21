@@ -562,10 +562,6 @@ $(document).ready(function() {
 			selectionmode: 'checkbox',
 			altrows: true,
 			showtoolbar: false,
-			bindingcomplete: function(event) {
-				$('##loancsvbutton').prop('disabled',false);
-				$('##loanxlsbutton').prop('disabled',false);
-			}, 
 			columns: [
 				{text: 'Loan', datafield: 'id_link', width: 130},
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
@@ -579,6 +575,11 @@ $(document).ready(function() {
 				{text: 'Nature of Material', datafield: 'nature_of_material' }
 			]
 		});
+		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+				$('##loancsvbutton').prop('disabled',false);
+				$('##loanxlsbutton').prop('disabled',false);
+			};
+		);
 
 	});
 });
