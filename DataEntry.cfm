@@ -642,20 +642,14 @@ limitations under the License.
 </div>
 
 	
-<script>
-	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row
-$(document).ready(function(){
-	$(".addOtherID").click(function(){$("##customOtherID").append('<div class="row mt-2"><div id="customID"><div class="row"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div></div></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded mr-auto ml-3 remAtt">Remove</button></div>');
+
+
+
+	<script>
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+	$(".addAtt").click(function(){$("##customAtt").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
 	});
-	$("##customFields").on('click','.remAtt',function(){$(this).parent().remove();});
-});
-</script>
-<script>
-	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row
-$(document).ready(function(){
-	$(".addAtt").click(function(){$("##customFields").append('<div class="row mt-2"><label for="other_id" class="form-control-label col-sm-3 text-center text-md-right">Attribute</label><div class="col-sm-9"><select class="data-entry-select" required><option value="">Age Class</option><option value="1">Citation</option><option value="2">Host</option><option value="3">Life Cycle Stage</option></select><input type="text" class="data-entry-input" name="other_id" placeholder="Value"><input type="text" class="data-entry-input" name="other_id" placeholder="Units"><input type="text" class="data-entry-input" name="other_id" placeholder="Date"><input type="text" class="data-entry-input" name="other_id" placeholder="Determiner"><input type="text" class="data-entry-input" name="other_id" placeholder="Method"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="attribute remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded mr-auto ml-3 remAtt">Remove</button></div>');
-	});
-	$("##customFields").on('click','.remAtt',function(){$(this).parent().remove();});
+	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();});
 });
 </script>
 	<script>
