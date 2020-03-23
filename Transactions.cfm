@@ -58,11 +58,12 @@ limitations under the License.
 	select * from collection order by collection
 </cfquery>
 
+<cfset selectedCollection = ''>
 <cfif isdefined("collection_id") and len(collection_id) gt 0>
-	<cfquery name="lookupCollection">
-		select collection from ctcollection where collection_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="collection_id">
+	<cfquery name="lookupCollection" dbtype="query">
+		select collection from ctcollection where collection_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_id#">
 	</cfquery>
-	<cfset collection = lookupCollection.collection >
+	<cfset selectedCollection = lookupCollection.collection >
 </cfif>
 <cfoutput>
 
@@ -116,7 +117,7 @@ limitations under the License.
 											<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
-													<cfif ctcollection.collection eq collection><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<cfif ctcollection.collection eq selectedCollection><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 													<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
 												</cfloop>
 											</select>
@@ -200,7 +201,7 @@ limitations under the License.
 											<select name="collection_id" size="1" class="custom-select1 form-control-sm">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
-													<cfif ctcollection.collection eq collection><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<cfif ctcollection.collection eq selectedCollection><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 													<option value="#collection_id#" #selected#>#collection#</option>
 												</cfloop>
 											</select>
@@ -552,7 +553,7 @@ $(document).ready(function() {
 				$('##transcsvbutton').prop('disabled',false);
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
-				if (rowcount = 1) {
+				if (rowcount == 1) {
 					$('##resultCount').html('Found ' + rowcount + ' transaction');
 				} else {
 					$('##resultCount').html('Found ' + rowcount + ' transactions');
@@ -676,7 +677,7 @@ $(document).ready(function() {
 				$('##transcsvbutton').prop('disabled',true);
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
-				if (rowcount = 1) {
+				if (rowcount == 1) {
 					$('##resultCount').html('Found ' + rowcount + ' loan');
 				} else { 
 					$('##resultCount').html('Found ' + rowcount + ' loans');
