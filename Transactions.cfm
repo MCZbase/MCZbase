@@ -416,7 +416,7 @@ limitations under the License.
 				<div class="pl-2 mb-5">
 					<div class="row mt-1">
 						<span id="resultCount"></span>
-						<span id="resultLink"></span>
+						<span id="resultLink" class="pl-2"></span>
 					</div>
 					<div class="row mt-1">
 						<div id="searchText"></div>
@@ -463,6 +463,7 @@ $(document).ready(function() {
 		$('##loancsvbutton').prop('disabled',true);
 		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
+		$('##resultLink').html('');
 		$('##searchText').jqxGrid('showloadelement');
 
 		var search =
@@ -544,6 +545,7 @@ $(document).ready(function() {
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
 				$('##resultCount').html('Found ' + rowcount + ' transactions');
+				$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 			}
 		);
 	});
@@ -556,6 +558,7 @@ $(document).ready(function() {
 		$('##loancsvbutton').prop('disabled',true);
 		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
+		$('##resultLink').html('');
 		$('##searchText').jqxGrid('showloadelement');
 
 		var loanSearch =

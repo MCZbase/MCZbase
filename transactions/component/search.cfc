@@ -114,6 +114,15 @@ limitations under the License.
     <cfargument name="to_closed_date" type="string" required="no">
     <cfargument name="trans_date" type="string" required="no">
     <cfargument name="to_trans_date" type="string" required="no">
+    <cfargument name="trans_agent_role_1" type="string" required="no">
+    <cfargument name="agent_1" type="string" required="no">
+    <cfargument name="agent_1_id" type="string" required="no">
+    <cfargument name="trans_agent_role_2" type="string" required="no">
+    <cfargument name="agent_2" type="string" required="no">
+    <cfargument name="agent_2_id" type="string" required="no">
+    <cfargument name="trans_agent_role_3" type="string" required="no">
+    <cfargument name="agent_3" type="string" required="no">
+    <cfargument name="agent_3_id" type="string" required="no">
 
 	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
@@ -169,6 +178,30 @@ limitations under the License.
 				left join permit_trans on loan.transaction_id = permit_trans.transaction_id
 				left join permit on permit_trans.permit_id = permit.permit_id 
 				left join ctloan_type on loan.loan_type= ctloan_type.loan_type
+				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
+					left join trans_agent trans_agent_1 on trans.transaction_id = trans_agent_1.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_1_id") OR len(agent_1) eq 0 >
+					<cfif isdefined("agent_1") AND len(agent_1) gt 0 >
+						left join preferred_agent_name trans_agent_name_1 on trans_agent_1.agent_id = trans_agent_name_1.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0) OR (isdefined("agent_2") AND len(agent_2) gt 0) >
+					left join trans_agent trans_agent_2 on trans.transaction_id = trans_agent_2.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_2_id") OR len(agent_2) eq 0 >
+					<cfif isdefined("agent_2") AND len(agent_2) gt 0 >
+						left join preferred_agent_name trans_agent_name_2 on trans_agent_2.agent_id = trans_agent_name_2.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0) OR (isdefined("agent_3") AND len(agent_3) gt 0) >
+					left join trans_agent trans_agent_3 on trans.transaction_id = trans_agent_3.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_3_id") OR len(agent_3) eq 0 >
+					<cfif isdefined("agent_3") AND len(agent_3) gt 0 >
+						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
+					</cfif>
+				</cfif>
 			where
 				trans.transaction_id is not null
 				<cfif isdefined("loan_number") AND len(#loan_number#) gt 0>
@@ -217,53 +250,35 @@ limitations under the License.
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
 				</cfif>
+				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
+					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+				</cfif>
+				<cfif isdefined("agent_1_id") AND len(agent_1_id) gt 0>
+					AND upper(trans_agent_1.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_1_id#">
+				<cfelseif isdefined("agent_1") AND len(agent_1) gt 0>
+					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
+					AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+				</cfif>
+				<cfif isdefined("agent_2_id") AND len(agent_2_id) gt 0>
+					AND upper(trans_agent_2.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_2_id#">
+				<cfelseif isdefined("agent_2") AND len(agent_2) gt 0>
+					AND upper(trans_agent_name_2.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_2)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0>
+					AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+				</cfif>
+				<cfif isdefined("agent_3_id") AND len(agent_3_id) gt 0>
+					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
+				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
+					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
+				</cfif>
 			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
 		</cfquery>
 
 <!--- 
 
-	<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
-		<cfset frm="#frm#,trans_agent trans_agent_1">
-		<cfset sql="#sql# and trans.transaction_id = trans_agent_1.transaction_id">
-		<cfset sql = "#sql# AND trans_agent_1.trans_agent_role = '#trans_agent_role_1#'">
-	</cfif>
-	<cfif isdefined("agent_1") AND len(agent_1) gt 0>
-		<cfif #sql# does not contain "trans_agent_1">
-			<cfset frm="#frm#,trans_agent trans_agent_1">
-			<cfset sql="#sql# and trans.transaction_id = trans_agent_1.transaction_id">
-		</cfif>
-		<cfset frm="#frm#,preferred_agent_name trans_agent_name_1">
-		<cfset sql="#sql# and trans_agent_1.agent_id = trans_agent_name_1.agent_id">
-		<cfset sql = "#sql# AND upper(trans_agent_name_1.agent_name) like '%#ucase(agent_1)#%'">
-	</cfif>
-	<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
-		<cfset frm="#frm#,trans_agent trans_agent_2">
-		<cfset sql="#sql# and trans.transaction_id = trans_agent_2.transaction_id">
-		<cfset sql = "#sql# AND trans_agent_2.trans_agent_role = '#trans_agent_role_2#'">
-	</cfif>
-	<cfif isdefined("agent_2") AND len(agent_2) gt 0>
-		<cfif #sql# does not contain "trans_agent_2">
-			<cfset frm="#frm#,trans_agent trans_agent_2">
-			<cfset sql="#sql# and trans.transaction_id = trans_agent_2.transaction_id">
-		</cfif>
-		<cfset frm="#frm#,preferred_agent_name trans_agent_name_2">
-		<cfset sql="#sql# and trans_agent_2.agent_id = trans_agent_name_2.agent_id">
-		<cfset sql = "#sql# AND upper(trans_agent_name_2.agent_name) like '%#ucase(agent_2)#%'">
-	</cfif>
-	<cfif isdefined("trans_agent_role_3") AND len(#trans_agent_role_3#) gt 0>
-		<cfset frm="#frm#,trans_agent trans_agent_3">
-		<cfset sql="#sql# and trans.transaction_id = trans_agent_3.transaction_id">
-		<cfset sql = "#sql# AND trans_agent_3.trans_agent_role = '#trans_agent_role_3#'">
-	</cfif>
-	<cfif isdefined("agent_3") AND len(#agent_3#) gt 0>
-		<cfif #sql# does not contain "trans_agent_3">
-			<cfset frm="#frm#,trans_agent trans_agent_3">
-			<cfset sql="#sql# and trans.transaction_id = trans_agent_3.transaction_id">
-		</cfif>
-		<cfset frm="#frm#,preferred_agent_name trans_agent_name_3">
-		<cfset sql="#sql# and trans_agent_3.agent_id = trans_agent_name_3.agent_id">
-		<cfset sql = "#sql# AND upper(trans_agent_name_3.agent_name) like '%#ucase(agent_3)#%'">
-	</cfif>
 	<cfif isdefined("rec_agent") AND len(#rec_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(recAgnt.agent_name) LIKE '%#ucase(escapeQuotes(rec_agent))#%'">
 	</cfif>
