@@ -33,11 +33,9 @@ limitations under the License.
 					<div class="col-12 col-md-4 pb-2 px-1"></div>
 					<div class="col-12 col-md-9 mx-auto">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Collection</h2>
-							<h3 class="fs-subtitle text-center">This is step 1</h3>
-					
-								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
-								<div class="col-12 col-lg-9">
+							<div class="h2 fs-title text-center">Collection <span> This is step 1</span></div>
+											
+				
 									<select class="data-entry-select px-0" required>
 										<option value="">Select Collection</option>
 										<option value="1">Herpetology</option>
@@ -45,7 +43,6 @@ limitations under the License.
 										<option value="3">Malacology</option>
 									</select>
 						
-							</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1"></div>
