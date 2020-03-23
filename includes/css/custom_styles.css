@@ -1611,13 +1611,14 @@ table#pairs th, table#pairs td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .8em;
+	font-size: .78em;
 	border: none;
 	line-height: .9em;
 	height: calc(.9em + .5em + 2px);
 	padding: .25em .5em;
 	margin-bottom: .5em;
 	margin-top: .25em;
+	font-weight: 400;
 }
 .data-entry-input {
 	display:block;
