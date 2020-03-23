@@ -57,6 +57,9 @@ limitations under the License.
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
 </cfquery>
+<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct(trans_agent_role) from cttrans_agent_role  order by trans_agent_role
+</cfquery>
 
 <cfset selectedCollection = ''>
 <cfif isdefined("collection_id") and len(collection_id) gt 0>
@@ -143,7 +146,7 @@ limitations under the License.
 										<div class="input-group">
 											<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="form-control form-control-sm input-group-prepend">
 												<option value="">agent role...</option>
-												<cfloop query="cttrans_agent_role_loan">
+												<cfloop query="cttrans_agent_role">
 													<option value="#trans_agent_role#">#trans_agent_role#:</option>
 												</cfloop>
 											</select>
@@ -155,7 +158,7 @@ limitations under the License.
 										<div class="input-group">
 											<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="form-control form-control-sm input-group-prepend">
 												<option value="">agent role...</option>
-												<cfloop query="cttrans_agent_role_loan">
+												<cfloop query="cttrans_agent_role">
 													<option value="#trans_agent_role#">#trans_agent_role#:</option>
 												</cfloop>
 											</select>
@@ -167,7 +170,7 @@ limitations under the License.
 										<div class="input-group">
 											<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="form-control form-control-sm input-group-prepend">
 												<option value="">agent role...</option>
-												<cfloop query="cttrans_agent_role_loan">
+												<cfloop query="cttrans_agent_role">
 													<option value="#trans_agent_role#">#trans_agent_role#:</option>
 												</cfloop>
 											</select>
