@@ -426,8 +426,7 @@ limitations under the License.
 							<h3 class="fs-subtitle text-center">This is step 8</h3>
 							
 							<div class="row">
-								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-9">
+								<div class="col-12">
 									<small>The use of the Collecting Event ID eliminates the need to complete this step.</small>
 								</div>
 							</div>
