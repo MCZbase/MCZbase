@@ -72,7 +72,7 @@ limitations under the License.
 					<cfswitch expression="#action#">
 						<cfcase value="findLoans">
 							<cfset allTabActive = "">
-							<cfset loatabactive = "active">
+							<cfset loanTabActive = "active">
 						</cfcase>
 						<cfdefaultcase>
 							<cfset allTabActive = "active">
