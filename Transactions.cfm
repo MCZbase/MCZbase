@@ -1,12 +1,12 @@
-<cfif not isdefined("action")>
-	<cfset action="findAll">
-</cfif>
+<cfif not isdefined("action")> <cfset action="findAll"> </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="findLoans">
 		<cfset pageTitle = "Search Loans">
+		<cfif isdefined("execute")> <cfset execute="loan"> </cfif>
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Search Transactions">
+		<cfif isdefined("execute")> <cfset execute="all"> </cfif>
 	</cfdefaultcase>
 </cfswitch>
 <!--
@@ -415,6 +415,7 @@ limitations under the License.
 				<div class="pl-2 mb-5">
 					<div class="row mt-1">
 						<span id="resultCount"></span>
+						<span id="resultLink"></span>
 					</div>
 					<div class="row mt-1">
 						<div id="searchText"></div>
@@ -660,11 +661,21 @@ $(document).ready(function() {
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
 				$('##resultCount').html('Found ' + rowcount + ' loans');
+				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '>Link to this search</a>');
 			}
 		);
 
 	});
-
+	// If requested in uri, execute search immediately.
+	<cfif isdefined("execute")>
+		<cfswitch expression="#execute#">
+			<cfcase value="loan">
+				$('##loanSearchForm').submit();
+			</cfcase>
+			<cfcase value="all">
+				$('##searchForm').submit();
+			</cfcase>
+	</cfif>
 
 });
 </script>
