@@ -267,9 +267,21 @@ limitations under the License.
 								</div>
 							</div>
 									<div class="row">
-								<label for="verbatim_coordinates" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Coordinates</label>
+								<label for="verbatim_coordinates" class="data-entry-label col-sm-3 text-center text-md-right px-0">Coordinates</label>
 								<div class="col-sm-9">
 									<input type="text" name="verbatim_coordinates" class="data-entry-input" placeholder="Verbatim Coordinates" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="verbatim_latitude" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Latitude</label>
+								<div class="col-sm-9">
+									<input type="text" name="verbatim_latitude" class="data-entry-input" placeholder="Verbatim Latitude" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="verbatim_longitude" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Longitude</label>
+								<div class="col-sm-9">
+									<input type="text" name="verbatim_longitude" class="data-entry-input" placeholder="Verbatim Longitude" />
 								</div>
 							</div>
 				
