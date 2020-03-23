@@ -58,6 +58,12 @@ limitations under the License.
 	select * from collection order by collection
 </cfquery>
 
+<cfif isdefined("collection_id") and len(collection_id) gt 0>
+	<cfquery name="lookupCollection">
+		select collection from ctcollection where collection_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="collection_id">
+	</cfquery>
+	<cfset collection = lookupCollection.collection >
+</cfif>
 <cfoutput>
 
 <!--- Search form --->
@@ -110,7 +116,8 @@ limitations under the License.
 											<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
-													<option value="#collection_id#">#collection#</option>
+													<cfif ctcollection.collection eq collection><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
 												</cfloop>
 											</select>
 											<cfif not isdefined("number")><cfset number=""></cfif>
@@ -193,7 +200,8 @@ limitations under the License.
 											<select name="collection_id" size="1" class="custom-select1 form-control-sm">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
-													<option value="#collection_id#">#collection#</option>
+													<cfif ctcollection.collection eq collection><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#collection_id#" #selected#>#collection#</option>
 												</cfloop>
 											</select>
 										</div>
