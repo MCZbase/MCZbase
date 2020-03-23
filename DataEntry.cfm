@@ -19,392 +19,375 @@ limitations under the License.
 -->
 <cfinclude template = "/includes/_header.cfm">
 
-<style>
-
-</style>
+<style></style>
 <cfoutput>
-<p class="font-italic font-weight-bold text-center mt-3 mb-0">
-<a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a>
-</p>
 
-
+<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
 <div class="container-fluid" id="swapper-first" style="display: none;">
 	<div class="row">
 		<div class="col-12 mt-2">
-		<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
-			<!-- One "tab" for each step in the form: -->
-			<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>	
-			<div class="row">	
-				<div class="col-12 col-md-4 pb-2 px-1"></div>
-				<div class="col-12 col-md-4 pb-2 px-1">
-					<div class="border p-3 m-2">
-					<h2 class="fs-title text-center">Collection</h2>
-					<h3 class="fs-subtitle text-center">This is step 1</h3>	
-					<div class="row">
-						<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
-					<div class="col-12 col-lg-9">
-						<select class="data-entry-select px-0" required>
-							<option value="">Select Collection</option>
-							<option value="1">Herpetology</option>
-							<option value="2">Mammalogy</option>
-							<option value="3">Malacology</option>
-						</select>
-					</div>
-					</div>	
-					</div>
-				</div>	
-				<div class="col-12 col-md-4 pb-2 px-1"></div>
-			</div>
-			<div class="row">	
-				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
-				<div class="col-12 col-md-4 pb-2 px-1">
-					<div class="border p-3 m-2">
-					<h2 class="fs-title text-center">Catalog Number</h2>
-					<h3 class="fs-subtitle text-center">This is step 2</h3>				
-					<div class="row">
-						<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
-						<div class="col-xl-9">
-							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-							<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small>
-						</div>
-					</div>
-					</div>	
-				</div>	
-				<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->					
-				<div class="col-12 col-md-4 pb-2 px-1">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Other IDs</h2>
-				<h3 class="fs-subtitle text-center">This is step 3</h3>
-					<div id="customID">
-					<div class="row">
-					<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
-					<div class="col-xl-4 px-xl-0">
-						<select class="data-entry-select" required>
-							<option value="">Other ID Type</option>
-							<option value="1">Field Number</option>
-							<option value="2">Collector Number</option>
-							<option value="3">Previous Number</option>
-						</select>
-					</div>
-					<div class="col-xl-5">
-						<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
-					</div>
-				</div>
-					</div>
-					<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addID btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Other ID</a>
-					</div>
-				</div>
-			</div>
-				
-				<div class="col-12 col-md-4 pb-2 px-1">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Record Relationships</h2>
-				<h3 class="fs-subtitle text-center">This is step 4</h3>
-					<div id="customRelationship">
-					<div class="row">
-					<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
-					<div class="col-xl-4 px-xl-0">
-						<select class="data-entry-select">
-							<option value="">Relationship Type</option>
-							<option value="1">Re-Cataloged as</option>
-							<option value="2">Bad Duplicate of</option>
-							<option value="3">Cloned from Record</option>
-							<option value="4">Duplicate Recataloged as</option>
-						</select>
-					</div>
-					<div class="col-xl-5">
-						<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
-					
-					</div>
-				</div>
-					</div>
-					<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a>
-					</div>
-				</div>
-			</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-md-4 pb-2 px-1">
-					<div class="border p-3 m-2">
-					<h2 class="fs-title text-center">Encumbrance</h2>
-					<h3 class="fs-subtitle text-center">This is step 5</h3>
-						<div id="encumbrance">
-						<div class="row mb-2">
-							<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
-							<div class="col-xl-9">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input w-auto mt-0" style="margin-top: -2px" value="mask" type="checkbox" id="gridCheck1">
-									<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>
+			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
+				<!-- One "tab" for each step in the form: -->
+				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
+				<div class="row">
+					<div class="col-12 col-md-4 pb-2 px-1"></div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Collection</h2>
+							<h3 class="fs-subtitle text-center">This is step 1</h3>
+							<div class="row">
+								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
+								<div class="col-12 col-lg-9">
+									<select class="data-entry-select px-0" required>
+										<option value="">Select Collection</option>
+										<option value="1">Herpetology</option>
+										<option value="2">Mammalogy</option>
+										<option value="3">Malacology</option>
+									</select>
 								</div>
 							</div>
 						</div>
-						</div>
 					</div>
+					<div class="col-12 col-md-4 pb-2 px-1"></div>
 				</div>
-			
-				<div class="col-12 col-md-4 pb-2 px-1">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Collector/Preparator</h2>
-				<h3 class="fs-subtitle text-center">This is step 6</h3>
-					<div id="customAgent">
-						<div class="row">
-							<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Agent</label>
-							<div class="col-12 col-xl-4">
-								<select class="data-entry-select">
-									<option value="">Collector</option>
-									<option value="1">Preparator</option>
-								</select>
-							</div>
-							<div class="col-12 col-xl-5">
-								<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
+				<div class="row"> 
+					<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Catalog Number</h2>
+							<h3 class="fs-subtitle text-center">This is step 2</h3>
+							<div class="row">
+								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
+								<div class="col-xl-9">
+									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
+									<small id="catNumHelp" class="form-text text-muted">The catalog number must be unique for the collection.</small> </div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a>
+					<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Other IDs</h2>
+							<h3 class="fs-subtitle text-center">This is step 3</h3>
+							<div id="customID">
+								<div class="row">
+									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
+									<div class="col-xl-4 px-xl-0">
+										<select class="data-entry-select" required>
+											<option value="">Other ID Type</option>
+											<option value="1">Field Number</option>
+											<option value="2">Collector Number</option>
+											<option value="3">Previous Number</option>
+										</select>
+									</div>
+									<div class="col-xl-5">
+										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addID btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Other ID</a> </div>
+						</div>
+					</div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Record Relationships</h2>
+							<h3 class="fs-subtitle text-center">This is step 4</h3>
+							<div id="customRelationship">
+								<div class="row">
+									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
+									<div class="col-xl-4 px-xl-0">
+										<select class="data-entry-select">
+											<option value="">Relationship Type</option>
+											<option value="1">Re-Cataloged as</option>
+											<option value="2">Bad Duplicate of</option>
+											<option value="3">Cloned from Record</option>
+											<option value="4">Duplicate Recataloged as</option>
+										</select>
+									</div>
+									<div class="col-xl-5">
+										<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
+						</div>
 					</div>
 				</div>
-			</div>
-				
-				<div class="col-12 col-md-4 pb-2 px-1">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Scientific Name</h2>
-				<h3 class="fs-subtitle text-center">This is step 7</h3>
 				<div class="row">
-					<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
-					<div class="col-12 col-lg-9">
-						<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Encumbrance</h2>
+							<h3 class="fs-subtitle text-center">This is step 5</h3>
+							<div id="encumbrance">
+								<div class="row mb-2">
+									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
+									<div class="col-xl-9">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input w-auto mt-0" style="margin-top: -2px" value="mask" type="checkbox" id="gridCheck1">
+											<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Collector/Preparator</h2>
+							<h3 class="fs-subtitle text-center">This is step 6</h3>
+							<div id="customAgent">
+								<div class="row">
+									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Agent</label>
+									<div class="col-12 col-xl-4">
+										<select class="data-entry-select">
+											<option value="">Collector</option>
+											<option value="1">Preparator</option>
+										</select>
+									</div>
+									<div class="col-12 col-xl-5 pl-0">
+										<input type="text" class="data-entry-input pl-0" name="other_id" placeholder="Value">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a> </div>
+						</div>
+					</div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Scientific Name</h2>
+							<h3 class="fs-subtitle text-center">This is step 7</h3>
+							<div class="row">
+								<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
+								<div class="col-12 col-lg-9">
+									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
+								<div class="col-12 col-lg-9">
+									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
+								<div class="col-12 col-lg-4">
+									<select class="data-entry-select" required>
+										<option value="">Expert ID</option>
+										<option value="1">Field ID</option>
+										<option value="2">Non-Expert ID</option>
+										<option value="3">Curatorial ID</option>
+									</select>
+								</div>
+								<div class="col-12 col-lg-5">
+									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right">ID Remark</label>
+								<div class="col-12 col-lg-9">
+									<textarea type="text" name="id_remark" class="data-entry-textarea"/>
+									ID remark
+									</textarea>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="row">
-					<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
-					<div class="col-12 col-lg-9">
-						<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
-					</div>
-				</div>
-				<div class="row">
-					<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
-					<div class="col-12 col-lg-4">
-						<select class="data-entry-select" required>
-							<option value="">Expert ID</option>
-							<option value="1">Field ID</option>
-							<option value="2">Non-Expert ID</option>
-							<option value="3">Curatorial ID</option>
-						</select>
-					</div>
-					<div class="col-12 col-lg-5">
-						<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
-					</div>
-				</div>
-				<div class="row">
-					<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right">ID Remark</label>
-					<div class="col-12 col-lg-9">
-						<textarea type="text" name="id_remark" class="data-entry-textarea"/>ID remark</textarea>
-					</div>
-				</div>
-				</div>
-			</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-md-4 pb-2 px-1">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Locality</h2>
-				<h3 class="fs-subtitle text-center">This is step 8</h3>
-					<div class="row">
-						<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
-						<div class="col-sm-9">
-							<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Locality</h2>
+							<h3 class="fs-subtitle text-center">This is step 8</h3>
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
+								<div class="col-sm-9">
+									<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Specific Locality</label>
+								<div class="col-sm-9">
+									<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMinElev" placeholder="Min Elevation">
+								</div>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMaxElev" placeholder="Max Elevation">
+								</div>
+								<div class="col-12 col-sm-2 pr-0">
+									<select class="data-entry-select pr-0" required>
+										<option value="">Feet</option>
+										<option value="1">Fathoms</option>
+										<option value="2">Yards</option>
+										<option value="3">Meters</option>
+										<option value="4">Miles</option>
+										<option value="5">Kilometers</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
+								</div>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
+								</div>
+								<div class="col-12 col-sm-2 pr-0">
+									<select class="data-entry-select pr-0" required>
+										<option value="">Feet</option>
+										<option value="1">Fathoms</option>
+										<option value="2">Yards</option>
+										<option value="3">Meters</option>
+										<option value="4">Miles</option>
+										<option value="5">Kilometers</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
+								<div class="col-sm-9">
+									<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
+								<div class="col-sm-9 my-0">
+									<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+								<div class="col-sm-9">
+									<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
+								<div class="col-sm-9">
+									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
+									</textarea>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Specific Locality</label>
-						<div class="col-sm-9">
-							<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Attributes</h2>
+							<h3 class="fs-subtitle text-center">This is step 9</h3>
+							<div id="customAtt">
+								<div class="row mt-3">
+									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
+									</div>
+									<div class="col-12 row mx-0 px-0">
+										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
+										<div class="col-12 col-lg-5">
+											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
+										</div>
+										<div class="col-12 col-lg-4">
+											<select class="data-entry-select" required="">
+												<option value="">Units</option>
+												<option value="1">Life Cycle Stage</option>
+												<option value="2">Citation</option>
+												<option value="3">Host</option>
+											</select>
+										</div>
+									</div>
+									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="date" placeholder="Date">
+									</div>
+									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
+									</div>
+									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="method" placeholder="Method">
+									</div>
+									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
+									<div class="col-12 col-lg-9">
+										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
+										</textarea>
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
-						<div class="col-12 col-sm-3 pr-0">
-							<input type="text" class="data-entry-input pr-0" id="inputMinElev" placeholder="Min Elevation">
-						</div>
-						<div class="col-12 col-sm-3 pr-0">
-							<input type="text" class="data-entry-input pr-0" id="inputMaxElev" placeholder="Max Elevation">
-						</div>
-						<div class="col-12 col-sm-2 pr-0">	
-							<select class="data-entry-select pr-0" required>
-								<option value="">Feet</option>
-								<option value="1">Fathoms</option>
-								<option value="2">Yards</option>
-								<option value="3">Meters</option>
-								<option value="4">Miles</option>
-								<option value="5">Kilometers</option>
-							</select>
-						</div>
-					</div>
-					<div class="row">
-						<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
-						<div class="col-12 col-sm-3 pr-0">
-							<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
-						</div>
-						<div class="col-12 col-sm-3 pr-0">
-							<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
-						</div>
-						<div class="col-12 col-sm-2 pr-0">
-							<select class="data-entry-select pr-0" required>
-								<option value="">Feet</option>
-								<option value="1">Fathoms</option>
-								<option value="2">Yards</option>
-								<option value="3">Meters</option>
-								<option value="4">Miles</option>
-								<option value="5">Kilometers</option>
-							</select>
-						</div>
-					</div>
-					<div class="row">
-						<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
-						<div class="col-sm-9">
-							<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
-						</div>
-					</div>
-					<div class="row">
-						<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
-						<div class="col-sm-9 my-0">
-							<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
-						</div>
-					</div>
-					<div class="row">
-						<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
-						<div class="col-sm-9">
-							<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
-						</div>
-					</div>
-					<div class="row">
-						<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
-						<div class="col-sm-9">
-							<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Parts</h2>
+							<h3 class="fs-subtitle text-center">This is step 10</h3>
+							<div id="customPart">
+								<div class="row">
+									<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
+									</div>
+									<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
+									<div class="col-12 col-lg-9">
+										<select class="data-entry-select" required>
+											<option value="">Ethanol</option>
+											<option value="1">RNALater</option>
+											<option value="2">DNA/RNA Shield</option>
+											<option value="3">Alcohol</option>
+										</select>
+									</div>
+									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
+									</div>
+									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label>
+									<div class="col-12 col-lg-9">
+										<select class="data-entry-select" required>
+											<option value="">Being Processed</option>
+											<option value="1">Deaccessioned</option>
+											<option value="2">In Collection</option>
+											<option value="3">Missing</option>
+										</select>
+									</div>
+									<div class="col-12 row mx-0 px-0">
+										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
+										<div class="col-12 col-lg-4 pr-0">
+											<select class="data-entry-select pr-0" required="">
+												<option value="">Modifier</option>
+												<option value="1">ca.</option>
+												<option value="2">&gt;</option>
+												<option value="3">&lt;</option>
+											</select>
+										</div>
+										<div class="col-12 col-lg-5">
+											<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
+										</div>
+									</div>
+									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
+									</div>
+									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
+									<div class="col-12 col-lg-9">
+										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
+										</textarea>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> </div>
 						</div>
 					</div>
 				</div>
-				</div>
-
-				<div class="col-12 col-md-4 pb-2 px-1">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Attributes</h2>
-				<h3 class="fs-subtitle text-center">This is step 9</h3>
-				<div id="customAtt">
-				<div class="row mt-3">
-					<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
-					<div class="col-12 col-lg-9">
-						<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
-					</div>
-					<div class="col-12 row mx-0 px-0">
-						<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
-						<div class="col-12 col-lg-5">
-							<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
-						</div>
-						<div class="col-12 col-lg-4">
-							<select class="data-entry-select" required="">
-								<option value="">Units</option>
-								<option value="1">Life Cycle Stage</option>
-								<option value="2">Citation</option>
-								<option value="3">Host</option>
-							</select>
-						</div>
-					</div>
-					<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
-						<div class="col-12 col-lg-9">
-							<input type="text" class="data-entry-input" name="date" placeholder="Date">
-						</div>
-					<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-						<div class="col-12 col-lg-9">
-							<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
-						</div>
-					<label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label>
-						<div class="col-12 col-lg-9">
-							<input type="text" class="data-entry-input" name="method" placeholder="Method">
-						</div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
-					<div class="col-12 col-lg-9">
-						<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea>
-					</div>
-				</div>
-				<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a>
-				</div>
-				</div>
-				</div>
-				</div>
-		
-				<div class="col-12 col-md-4 pb-2 px-1">
-				<div class="border p-3 m-2">
-				<h2 class="fs-title text-center">Parts</h2>
-				<h3 class="fs-subtitle text-center">This is step 10</h3>
-				<div id="customPart">
-				<div class="row">
-					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
-					<div class="col-12 col-lg-9">
-						<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
-					</div>
-					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
-					<div class="col-12 col-lg-9">
-						<select class="data-entry-select" required>
-							<option value="">Ethanol</option>
-							<option value="1">RNALater</option>
-							<option value="2">DNA/RNA Shield</option>
-							<option value="3">Alcohol</option>
-						</select>
-					</div>	
-					<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
-					<div class="col-12 col-lg-9">
-						<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
-					</div>	
-					<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label>
-					<div class="col-12 col-lg-9">
-						<select class="data-entry-select" required>
-							<option value="">Being Processed</option>
-							<option value="1">Deaccessioned</option>
-							<option value="2">In Collection</option>
-							<option value="3">Missing</option>
-						</select>
-					</div>
-					<div class="col-12 row mx-0 px-0">
-					<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
-					<div class="col-12 col-lg-4">
-						<select class="data-entry-select" required="">
-							<option value="">Modifier</option>
-							<option value="1">ca.</option>
-							<option value="2">&gt;</option>
-							<option value="3">&lt;</option>
-						</select>
-					</div>
-					<div class="col-12 col-lg-5">
-						<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
-					</div>
-				</div>
-					<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
-					<div class="col-12 col-lg-9">
-						<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
-					</div>
-					<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
-					<div class="col-12 col-lg-9">
-							<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
-						</textarea>
-					</div>
-				</div>
-				</div>
-				<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-					<a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a>
-				</div>
-				</div>
-				</div>
-			</div>
-		</form>
-	   </div>
-	</div>	
+			</form>
+		</div>
+	</div>
 </div>
 
-<!---Step by step form for each section of the Data Entry form--->	
+<!---Step by step form for each section of the Data Entry form--->
 <div class="container" id="swapper-other" style="display: block;">
 	<div  class="row col-12 col-xl-10 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
@@ -643,49 +626,33 @@ limitations under the License.
 				</div>
 			</div>
 			<!-- Circles which indicates the steps of the form: -->
-			<div class="my-4 text-center"> 
-				<span class="step">1</span> 
-				<span class="step">2</span> 
-				<span class="step">3</span> 
-				<span class="step">4</span> 
-				<span class="step">5</span> 
-				<span class="step">6</span> 
-				<span class="step">7</span> 
-				<span class="step">8</span>
-				<span class="step">9</span> 
-			</div>
+			<div class="my-4 text-center"> <span class="step">1</span> <span class="step">2</span> <span class="step">3</span> <span class="step">4</span> <span class="step">5</span> <span class="step">6</span> <span class="step">7</span> <span class="step">8</span> <span class="step">9</span> </div>
 		</form>
 	</div>
-	
 </div>
-
-	
-
-
-
-	<script>
+<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 	$(".addAtt").click(function(){$("##customAtt").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-3 mr-auto remAtt">Remove</button></div>');
 	});
 	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();
 });
-</script>
-	<script>
+</script> 
+<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="data-entry-input" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-3 mr-auto remAgent">Remove</button></div>');
 	});
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
-</script>
-	<script>
+</script> 
+<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addPart").click(function(){$("##customPart").append('<div class="row mt-2"><label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_name" placeholder="Part Name"></div><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Ethanol</option><option value="1">RNALater</option><option value="2">DNA/RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="condition" placeholder="Condition"></div><label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Being Processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
 	});
 	$("##customPart").on('click','.remPart',function(){$(this).parent().remove();});
 });
-</script>
+</script> 
 <script type="text/javascript">
 function SwapDivsWithClick(div1,div2)
 {
@@ -702,7 +669,7 @@ function SwapDivsWithClick(div1,div2)
       d2.style.display = "none";
    }
 }
-</script>	
+</script> 
 <script>
 	var currentTab = 0; // Current tab is set to be the first tab (0)
 	showTab(currentTab); // Display the current tab
