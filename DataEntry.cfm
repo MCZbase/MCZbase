@@ -219,7 +219,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row">
-						<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right">Specific Locality</label>
+						<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Specific Locality</label>
 						<div class="col-sm-9">
 							<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
 						</div>
@@ -227,13 +227,13 @@ limitations under the License.
 					<div class="row">
 						<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
 						<div class="col-12 col-sm-3">
-							<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
+							<input type="text" class="data-entry-input pr-0" id="inputMinElev" placeholder="Min Elevation">
 						</div>
 						<div class="col-12 col-sm-3">
-							<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
+							<input type="text" class="data-entry-input pr-0" id="inputMaxElev" placeholder="Max Elevation">
 						</div>
 						<div class="col-12 col-sm-2">	
-							<select class="data-entry-select" required>
+							<select class="data-entry-select pr-0" required>
 								<option value="">Feet</option>
 								<option value="1">Fathoms</option>
 								<option value="2">Yards</option>
@@ -263,7 +263,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row">
-						<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right">Sovereign Nation</label>
+						<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
 						<div class="col-sm-9">
 							<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
 						</div>
@@ -681,7 +681,7 @@ $(document).ready(function(){
 	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addPart").click(function(){$("##customPart").append('<div class="row mt-2"><label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_name" placeholder="Part Name"></div><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right">Preserve Method</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Ethanol</option><option value="1">RNALater</option><option value="2">DNA/RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="condition" placeholder="Condition"></div><label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">being processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Number of Parts</label><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
+	$(".addPart").click(function(){$("##customPart").append('<div class="row mt-2"><label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_name" placeholder="Part Name"></div><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Ethanol</option><option value="1">RNALater</option><option value="2">DNA/RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="condition" placeholder="Condition"></div><label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">being processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Number of Parts</label><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
 	});
 	$("##customPart").on('click','.remPart',function(){$(this).parent().remove();});
 });
