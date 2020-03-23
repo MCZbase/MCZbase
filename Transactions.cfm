@@ -183,6 +183,7 @@ limitations under the License.
 									});
 								</script>
 
+								<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
 								<form id="loanSearchForm">
 									<input type="hidden" name="method" value="getLoans">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
@@ -198,7 +199,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="loan_number">Number: (yyyy-n-Coll)</label>
-											<input type="text" name="loan_number" id="loan_number" class="form-control-sm">
+											<input type="text" name="loan_number" id="loan_number" class="form-control-sm" value="#loan_number#">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="loan_type">Type:</label>
