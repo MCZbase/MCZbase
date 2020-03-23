@@ -48,7 +48,7 @@ limitations under the License.
 				specific_number, 
 				specific_type, 
 				status, 
-				concattransagent(transaction_id,'entered by') as entered_by_agent
+				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent
 			FROM 
 				MCZBASE.transaction_view
 				left join collection on transaction_view.collection_id = collection.collection_id
