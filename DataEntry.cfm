@@ -60,7 +60,7 @@ limitations under the License.
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
 								<div class="col-xl-9">
 									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-									<small id="catNumHelp" class="form-text text-center text-muted">The catalog number must be unique for the collection.</small> </div>
+									<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection.</small> </div>
 							</div>
 						</div>
 					</div>
@@ -197,6 +197,18 @@ limitations under the License.
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Collecting Event</h2>
 							<h3 class="fs-subtitle text-center">This is step 8</h3>
+							<div class="row">
+								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
+								<div class="col-sm-9">
+									<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
+								</div>
+							</div>
+									<div class="row">
+								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
+								<div class="col-sm-9">
+									<span>OR</span>
+								</div>
+							</div>
 							<div class="row">
 								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Locality</label>
 								<div class="col-sm-9">
