@@ -1,4 +1,14 @@
-<cfset pageTitle = "Search Transactions">
+<cfif not isdefined("action")>
+	<cfset action="findAll">
+</cfif>
+<cfswitch expression="#action#">
+	<cfcase value="findLoans">
+		<cfset pageTitle = "Search Loans">
+	</cfcase>
+	<cfdefaultcase>
+		<cfset pageTitle = "Search Transactions">
+	</cfdefaultcase>
+</cfswitch>
 <!--
 Transactions.cfm
 
@@ -58,14 +68,26 @@ limitations under the License.
 				<h1 class="h3 smallcaps mt-4 pl-1">Search Transactions <span class="mt-2 font-italic pb-4 color-green fs-15 mx-0">(#getCount.cnt# records)</span></h1>
 				<div class="tab-card-main mt-1 tab-card">
 
+					<!--- Set Active Tab --->
+					<cfswitch expression="#action#">
+						<cfcase value="findLoans">
+							<cfset allTabActive = "">
+							<cfset loatabactive = "active">
+						</cfcase>
+						<cfdefaultcase>
+							<cfset allTabActive = "active">
+							<cfset loanTabActive = "">
+						</cfdefaultcase>
+					</cfswitch>
+
 					<!--- Tab header div --->
 					<div class="card-header tab-card-header pb-0 w-100">
 						<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
 							<li class="nav-item col-sm-12 col-md-2 px-1">
-								<a class="nav-link active" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a>
+								<a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a>
 							</li>
 							<li class="nav-item col-sm-12 col-md-2 px-1">
-								<a class="nav-link" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a>
+								<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a>
 							</li>
 						</ul>
 					</div><!--- End tab header div --->
@@ -638,6 +660,8 @@ $(document).ready(function() {
 		);
 
 	});
+
+
 });
 </script>
 
