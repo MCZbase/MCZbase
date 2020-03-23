@@ -425,6 +425,18 @@ limitations under the License.
 							<h2 class="fs-title text-center">Locality</h2>
 							<h3 class="fs-subtitle text-center">This is step 8</h3>
 							<div class="row">
+								<label for="locality_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
+								<div class="col-sm-9">
+									<input type="text" name="locality_id" class="data-entry-input" placeholder="Locality ID" />
+								</div>
+							</div>
+									<div class="row">
+								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
+								<div class="col-sm-9">
+									<span>OR</span>
+								</div>
+							</div>
+							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
 								<div class="col-sm-9">
 									<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
