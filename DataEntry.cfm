@@ -123,7 +123,7 @@ limitations under the License.
 									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
-											<input class="form-check-input w-auto mt-0" style="margin-top: -2px" value="mask" type="checkbox" id="gridCheck1">
+											<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
 											<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>
 										</div>
 									</div>
@@ -145,7 +145,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-xl-5 pl-0">
-										<input type="text" class="data-entry-input pl-0" name="other_id" placeholder="&nbsp; Value">
+										<input type="text" class="data-entry-input" name="other_id" placeholder="&nbsp; Value">
 									</div>
 								</div>
 							</div>
@@ -170,7 +170,7 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
-								<div class="col-12 col-lg-4">
+								<div class="col-12 col-lg-4 pr-0">
 									<select class="data-entry-select" required>
 										<option value="">Expert ID</option>
 										<option value="1">Field ID</option>
@@ -183,7 +183,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right">ID Remark</label>
+								<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right px-0">ID Remark</label>
 								<div class="col-12 col-lg-9">
 									<textarea type="text" name="id_remark" class="data-entry-textarea"/>
 									ID remark
