@@ -427,7 +427,7 @@ limitations under the License.
 							
 							<div class="row">
 								<div class="col-12">
-									<p>The use of the Collecting Event ID eliminates the need to complete this step.</p>
+									<p><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
 								</div>
 							</div>
 							<div class="row">
