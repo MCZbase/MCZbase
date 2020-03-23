@@ -31,7 +31,7 @@ limitations under the License.
 <div class="container-fluid" id="swapper-first" style="display: none;">
 	<div class="row">
 		<div class="col-12 mt-2">
-			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
+<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>	
 			<div class="row">	
@@ -293,24 +293,41 @@ limitations under the License.
 					<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 9</h3>
-				<div id="customFields">
-				<div class="row">
-					<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute</label>
+				<div id="customAtt">
+				<div class="row mt-3">
+					<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
 					<div class="col-12 col-lg-9">
-						<select class="data-entry-select" required>
-							<option value="">Age Class</option>
-							<option value="1">Citation</option>
-							<option value="2">Host</option>
-							<option value="3">Life Cycle Stage</option>
-						</select>
-						<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
-						<input type="text" class="data-entry-input" name="other_id" placeholder="Units">
-						<input type="text" class="data-entry-input" name="other_id" placeholder="Date">
-						<input type="text" class="data-entry-input" name="other_id" placeholder="Determiner">
-						<input type="text" class="data-entry-input" name="other_id" placeholder="Method">
-						<textarea type="text" name="attribute_remark" class="data-entry-textarea"/>Attribute Remark</textarea>
+						<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
 					</div>
-				</div>
+					<div class="col-12 row mx-0 px-0">
+						<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
+						<div class="col-12 col-lg-5">
+							<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
+						</div>
+						<div class="col-12 col-lg-4">
+							<select class="data-entry-select" required="">
+								<option value="">Units</option>
+								<option value="1">Life Cycle Stage</option>
+								<option value="2">Citation</option>
+								<option value="3">Host</option>
+							</select>
+						</div>
+					</div>
+					<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
+						<div class="col-12 col-lg-9">
+							<input type="text" class="data-entry-input" name="date" placeholder="Date">
+						</div>
+					<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
+						<div class="col-12 col-lg-9">
+							<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
+						</div>
+					<label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label>
+						<div class="col-12 col-lg-9">
+							<input type="text" class="data-entry-input" name="method" placeholder="Method">
+						</div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label>
+					<div class="col-12 col-lg-9">
+						<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea>
+					</div>
 				</div>
 				<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">
 					<a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a>
@@ -649,7 +666,7 @@ limitations under the License.
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 	$(".addAtt").click(function(){$("##customAtt").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove</button></div>');
 	});
-	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();});
+	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();
 });
 </script>
 	<script>
