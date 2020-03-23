@@ -181,7 +181,7 @@ limitations under the License.
 				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
 					left join trans_agent trans_agent_1 on trans.transaction_id = trans_agent_1.transaction_id
 				</cfif>
-				<cfif not isdefined("agent_1_id") OR len(agent_1) eq 0 >
+				<cfif not isdefined("agent_1_id") OR len(agent_1_id) eq 0 >
 					<cfif isdefined("agent_1") AND len(agent_1) gt 0 >
 						left join preferred_agent_name trans_agent_name_1 on trans_agent_1.agent_id = trans_agent_name_1.agent_id
 					</cfif>
@@ -189,7 +189,7 @@ limitations under the License.
 				<cfif (isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0) OR (isdefined("agent_2") AND len(agent_2) gt 0) >
 					left join trans_agent trans_agent_2 on trans.transaction_id = trans_agent_2.transaction_id
 				</cfif>
-				<cfif not isdefined("agent_2_id") OR len(agent_2) eq 0 >
+				<cfif not isdefined("agent_2_id") OR len(agent_2_id) eq 0 >
 					<cfif isdefined("agent_2") AND len(agent_2) gt 0 >
 						left join preferred_agent_name trans_agent_name_2 on trans_agent_2.agent_id = trans_agent_name_2.agent_id
 					</cfif>
@@ -197,7 +197,7 @@ limitations under the License.
 				<cfif (isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0) OR (isdefined("agent_3") AND len(agent_3) gt 0) >
 					left join trans_agent trans_agent_3 on trans.transaction_id = trans_agent_3.transaction_id
 				</cfif>
-				<cfif not isdefined("agent_3_id") OR len(agent_3) eq 0 >
+				<cfif not isdefined("agent_3_id") OR len(agent_3_id) eq 0 >
 					<cfif isdefined("agent_3") AND len(agent_3) gt 0 >
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
