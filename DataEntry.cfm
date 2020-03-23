@@ -30,15 +30,22 @@ limitations under the License.
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				<div class="row">
-					<div class="col-12 col-md-8 mx-auto">
-						<div class="border p-3 m-2 float-left">
-							<div class="h2 fs-title text-center float-left">Collection</div>
-									<select class="data-entry-select px-0 float-right" required>
+					<div class="col-12 col-md-4 pb-2 px-1"></div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Collection</h2>
+							<h3 class="fs-subtitle text-center">This is step 1</h3>
+							<div class="row">
+								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
+								<div class="col-12 col-lg-9">
+									<select class="data-entry-select px-0" required>
 										<option value="">Select Collection</option>
 										<option value="1">Herpetology</option>
 										<option value="2">Mammalogy</option>
 										<option value="3">Malacology</option>
 									</select>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1"></div>
