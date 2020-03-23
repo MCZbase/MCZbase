@@ -31,7 +31,7 @@ limitations under the License.
 <div class="container-fluid" id="swapper-first" style="display: none;">
 	<div class="row">
 		<div class="col-12 mt-2">
-<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
+		<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>	
 			<div class="row">	
@@ -54,8 +54,8 @@ limitations under the License.
 					</div>
 				</div>	
 				<div class="col-12 col-md-4 pb-2 px-1"></div>
-				</div>
-					<div class="row">	
+			</div>
+			<div class="row">	
 				<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
 				<div class="col-12 col-md-4 pb-2 px-1">
 					<div class="border p-3 m-2">
@@ -205,7 +205,7 @@ limitations under the License.
 					</div>
 				</div>
 				</div>
-			</div>	
+			</div>
 			</div>
 			<div class="row">
 				<div class="col-12 col-md-4 pb-2 px-1">
@@ -290,7 +290,7 @@ limitations under the License.
 				</div>
 
 				<div class="col-12 col-md-4 pb-2 px-1">
-					<div class="border p-3 m-2">
+				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Attributes</h2>
 				<h3 class="fs-subtitle text-center">This is step 9</h3>
 				<div id="customAtt">
@@ -334,7 +334,8 @@ limitations under the License.
 				</div>
 				</div>
 				</div>
-	
+				</div>
+		
 				<div class="col-12 col-md-4 pb-2 px-1">
 				<div class="border p-3 m-2">
 				<h2 class="fs-title text-center">Parts</h2>
@@ -399,10 +400,10 @@ limitations under the License.
 				</div>
 			</div>
 		</form>
-	    </div>
+	   </div>
 	</div>	
 </div>
-	
+
 <!---Step by step form for each section of the Data Entry form--->	
 <div class="container" id="swapper-other" style="display: block;">
 	<div  class="row col-12 col-xl-10 justify-content-center mt-2 mx-auto">
