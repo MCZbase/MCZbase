@@ -413,76 +413,100 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Coodinates</h2>
+							<h2 class="fs-title text-center">Coordinates</h2>
 							<h3 class="fs-subtitle text-center">This is step 9</h3>
+							
+							Original lat/long Units		GEOLOCATE	
+Max Error	
+ 	Extent	
+GPS Accuracy	
+Datum	
+Determiner	
+Date	
+... Copy2All
+Reference	
+Georef Meth		Verification	
+LatLongRemk	
+Dec Lat 
+ Dec Long 
+
+							
+							
+							
 							<div class="row">
-								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
 								<div class="col-sm-9">
-									<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Specific Locality</label>
-								<div class="col-sm-9">
-									<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
-								<div class="col-12 col-sm-3 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="inputMinElev" placeholder="Min Elevation">
-								</div>
-								<div class="col-12 col-sm-3 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="inputMaxElev" placeholder="Max Elevation">
-								</div>
-								<div class="col-12 col-sm-2 pr-0">
 									<select class="data-entry-select pr-0" required>
-										<option value="">Feet</option>
-										<option value="1">Fathoms</option>
-										<option value="2">Yards</option>
-										<option value="3">Meters</option>
-										<option value="4">Miles</option>
-										<option value="5">Kilometers</option>
+										<option value="">Decimal Degrees</option>
+										<option value="1">Dec. Min. Secs.</option>
+										<option value="2">Degrees Dec. Minutes</option>
+										<option value="3">Unknown</option>
 									</select>
 								</div>
 							</div>
 							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
-								<div class="col-12 col-sm-3 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Maximumm Error</label>
+								<div class="col-12 col-sm-4">
+									<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
 								</div>
-								<div class="col-12 col-sm-3 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units">
 								</div>
-								<div class="col-12 col-sm-2 pr-0">
+							</div>
+							<div class="row">
+								<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right px-0">Extent</label>
+								<div class="col-sm-9">
+									<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
+								</div>
+							</div>
+								<div class="row">
+								<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right px-0">GPS Accuracy</label>
+								<div class="col-sm-9">
+									<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Datum</label>
+								<div class="col-sm-9">
 									<select class="data-entry-select pr-0" required>
-										<option value="">Feet</option>
-										<option value="1">Fathoms</option>
-										<option value="2">Yards</option>
-										<option value="3">Meters</option>
-										<option value="4">Miles</option>
-										<option value="5">Kilometers</option>
+										<option value="">NAD27</option>
+										<option value="1">POS</option>
+										<option value="2">GRA</option>
+										<option value="3">WGS84</option>
 									</select>
 								</div>
 							</div>
-							<div class="row">
-								<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
+								<div class="row">
+								<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
 								<div class="col-sm-9">
-									<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+									<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 								</div>
 							</div>
-							<div class="row">
-								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
-								<div class="col-sm-9 my-0">
-									<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+								<div class="row">
+								<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
 								<div class="col-sm-9">
-									<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+									<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 								</div>
 							</div>
+								<div class="row">
+								<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right px-0">Reference</label>
+								<div class="col-sm-9">
+									<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
+								</div>
+							</div>
+							
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Georeference Meth.</label>
+								<div class="col-sm-9">
+									<select class="data-entry-select pr-0" required>
+										<option value="">GeoLocate</option>
+										<option value="1">GPS</option>
+										<option value="2">Google Earth</option>
+										<option value="3">Gazetteer</option>
+									</select>
+								</div>
+							</div>
+							
 							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
 								<div class="col-sm-9">
