@@ -185,9 +185,7 @@ limitations under the License.
 							<div class="row">
 								<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right px-0">ID Remark</label>
 								<div class="col-12 col-lg-9">
-									<textarea type="text" name="id_remark" class="data-entry-textarea"/>
-									ID remark
-									</textarea>
+									<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/></textarea>
 								</div>
 							</div>
 						</div>
