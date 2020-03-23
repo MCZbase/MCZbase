@@ -43,8 +43,8 @@ limitations under the License.
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
 				transaction_view.nature_of_material, 
 				transaction_view.trans_remarks,
-				transaction_view.collection_cde, 
-				transaction_view.collection,
+				collection_cde, 
+				collection,
 				transaction_view.specific_number, 
 				transaction_view.specific_type, 
 				transaction_view.status, 
@@ -77,7 +77,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			WHERE
-				transaction_id > 0
+				transaction_view.transaction_id > 0
 				<cfif isDefined("number") and len(number) gt 0>
 					and specific_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
 				</cfif>
