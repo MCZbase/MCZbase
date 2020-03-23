@@ -64,6 +64,18 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Accn Number</h2>
+							<h3 class="fs-subtitle text-center">This is step 2</h3>
+							<div class="row">
+								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Accession</label>
+								<div class="col-xl-9">
+									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession" name="accn">
+									<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database.</small> </div>
+							</div>
+						</div>
+					</div>
 					<!---Second block Right (below) -- Collector/Preparator: select role, agent name  --->
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
@@ -415,24 +427,7 @@ limitations under the License.
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Coordinates</h2>
 							<h3 class="fs-subtitle text-center">This is step 9</h3>
-							
-							Original lat/long Units		GEOLOCATE	
-Max Error	
- 	Extent	
-GPS Accuracy	
-Datum	
-Determiner	
-Date	
-... Copy2All
-Reference	
-Georef Meth		Verification	
-LatLongRemk	
-Dec Lat 
- Dec Long 
-
-							
-							
-							
+						
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
 								<div class="col-sm-9">
