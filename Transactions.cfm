@@ -66,6 +66,8 @@ limitations under the License.
 	<cfset selectedCollection = lookupCollection.collection >
 </cfif>
 <cfoutput>
+<cfif not isdefined("status")><cfset status=""></cfif>
+<cfif not isdefined("loan_status")><cfset loan_status=""></cfif>
 
 <!--- Search form --->
 <div id="search-form-div" class="search-form-div pb-4 px-3">
@@ -130,10 +132,56 @@ limitations under the License.
 										<select name="status" id="status" class="custom-select1 form-control-sm" >
 											<option value=""></option>
 											<cfloop query="ctStatus">
-												<option value="#ctStatus.status#">#ctStatus.status#</option>
+												<cfif status eq ctStatus.status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="#ctStatus.status#" #selected# >#ctStatus.status#</option>
 											</cfloop>
 										</select>
 									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-4">
+										<div class="input-group">
+											<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="form-control form-control-sm input-group-prepend">
+												<option value="">agent role...</option>
+												<cfloop query="cttrans_agent_role_loan">
+													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+												</cfloop>
+											</select>
+											<input type="text" name="agent_1" id="all_agent_1" class="form-control form-control-sm" >
+											<input type="hidden" name="agent_1_id" id="all_agent_1_id" >
+										</div>
+									</div>
+									<div class="col-12 col-md-4">
+										<div class="input-group">
+											<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="form-control form-control-sm input-group-prepend">
+												<option value="">agent role...</option>
+												<cfloop query="cttrans_agent_role_loan">
+													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+												</cfloop>
+											</select>
+											<input type="text" name="agent_2" id="all_agent_2" class="form-control form-control-sm" >
+											<input type="hidden" name="agent_2_id" id="all_agent_2_id" >
+										</div>
+									</div>
+									<div class="col-12 col-md-4">
+										<div class="input-group">
+											<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="form-control form-control-sm input-group-prepend">
+												<option value="">agent role...</option>
+												<cfloop query="cttrans_agent_role_loan">
+													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+												</cfloop>
+											</select>
+											<input type="text" name="agent_3" id="all_agent_3" class="form-control form-control-sm" >
+											<input type="hidden" name="agent_3_id" id="all_agent_3_id" >
+										</div>
+									</div>
+									<script>
+									$(document).ready(function() {
+										$(makeAgentPicker('all_agent_1','all_agent_1_id'));
+										$(makeAgentPicker('all_agent_2','all_agent_2_id'));
+										$(makeAgentPicker('all_agent_3','all_agent_3_id'));
+									});
+									</script>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12">
@@ -224,7 +272,8 @@ limitations under the License.
 											<select name="loan_status" id="loan_status" class="custom-select1 form-control-sm" >
 												<option value=""></option>
 												<cfloop query="ctLoanStatus">
-													<option value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
+													<cfif loan_status eq ctLoanStatus.loan_status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctLoanStatus.loan_status#" #selected#>#ctLoanStatus.loan_status#</option>
 												</cfloop>
 												<option value="not closed">not closed</option>
 											</select>
