@@ -1655,7 +1655,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-	font-weight: 375;
+	font-weight: 350;
 }
 .data-entry-select:focus {
 	color: #495057;
