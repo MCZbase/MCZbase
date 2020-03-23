@@ -676,6 +676,7 @@ $(document).ready(function() {
 			<cfcase value="all">
 				$('##searchForm').submit();
 			</cfcase>
+		</cfswitch>
 	</cfif>
 
 });
