@@ -196,6 +196,200 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Collecting Event</h2>
+							<h3 class="fs-subtitle text-center">This is step 8</h3>
+							<div class="row">
+								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Locality</label>
+								<div class="col-sm-9">
+									<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
+								</div>
+							</div>
+								<div class="row">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Date</label>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="began_date" placeholder="Began Date">
+								</div>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="ended_date" placeholder="Date Ended">
+								</div>
+								<div class="col-12 col-sm-2 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="verbatim_date" placeholder="Verbatim Date">
+								</div>
+							</div>
+							<div class="row">
+								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+								<div class="col-sm-9">
+									<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="microhabitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Microhabitat</label>
+								<div class="col-sm-9">
+									<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Coordinate System</label>
+								<div class="col-sm-9">
+									<input type="text" name="verbatim_coordinate_system" class="data-entry-input" placeholder="Verbatim Coordinate System" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
+								</div>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
+								</div>
+								<div class="col-12 col-sm-2 pr-0">
+									<select class="data-entry-select pr-0" required>
+										<option value="">Feet</option>
+										<option value="1">Fathoms</option>
+										<option value="2">Yards</option>
+										<option value="3">Meters</option>
+										<option value="4">Miles</option>
+										<option value="5">Kilometers</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
+								<div class="col-sm-9">
+									<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
+								<div class="col-sm-9 my-0">
+									<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+								<div class="col-sm-9">
+									<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
+								<div class="col-sm-9">
+									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
+									</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Attributes</h2>
+							<h3 class="fs-subtitle text-center">This is step 9</h3>
+							<div id="customAtt">
+								<div class="row mt-3">
+									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
+									</div>
+									<div class="col-12 row mx-0 px-0">
+										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
+										<div class="col-12 col-lg-5">
+											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
+										</div>
+										<div class="col-12 col-lg-4">
+											<select class="data-entry-select" required="">
+												<option value="">Units</option>
+												<option value="1">Life Cycle Stage</option>
+												<option value="2">Citation</option>
+												<option value="3">Host</option>
+											</select>
+										</div>
+									</div>
+									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="date" placeholder="Date">
+									</div>
+									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
+									</div>
+									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="method" placeholder="Method">
+									</div>
+									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
+									<div class="col-12 col-lg-9">
+										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
+										</textarea>
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Parts</h2>
+							<h3 class="fs-subtitle text-center">This is step 10</h3>
+							<div id="customPart">
+								<div class="row">
+									<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
+									</div>
+									<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
+									<div class="col-12 col-lg-9">
+										<select class="data-entry-select" required>
+											<option value="">Ethanol</option>
+											<option value="1">RNALater</option>
+											<option value="2">DNA/RNA Shield</option>
+											<option value="3">Alcohol</option>
+										</select>
+									</div>
+									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
+									</div>
+									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label>
+									<div class="col-12 col-lg-9">
+										<select class="data-entry-select" required>
+											<option value="">Being Processed</option>
+											<option value="1">Deaccessioned</option>
+											<option value="2">In Collection</option>
+											<option value="3">Missing</option>
+										</select>
+									</div>
+									<div class="col-12 row mx-0 px-0">
+										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
+										<div class="col-12 col-lg-4 pr-0">
+											<select class="data-entry-select pr-0" required="">
+												<option value="">Modifier</option>
+												<option value="1">ca.</option>
+												<option value="2">&gt;</option>
+												<option value="3">&lt;</option>
+											</select>
+										</div>
+										<div class="col-12 col-lg-5">
+											<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
+										</div>
+									</div>
+									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
+									</div>
+									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
+									<div class="col-12 col-lg-9">
+										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
+										</textarea>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Locality</h2>
 							<h3 class="fs-subtitle text-center">This is step 8</h3>
 							<div class="row">
