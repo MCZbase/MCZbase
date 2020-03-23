@@ -586,7 +586,7 @@ limitations under the License.
 </div>
 
 <!---Step by step form for each section of the Data Entry form--->
-<div class="container" id="swapper-other" style="display: block;">
+<div class="container pt-0 mt-0" id="swapper-other" style="display: block;">
 	<div class="row">
 		<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
