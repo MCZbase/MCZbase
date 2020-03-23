@@ -226,13 +226,13 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
-						<div class="col-12 col-sm-3">
+						<div class="col-12 col-sm-3 pr-0">
 							<input type="text" class="data-entry-input pr-0" id="inputMinElev" placeholder="Min Elevation">
 						</div>
-						<div class="col-12 col-sm-3">
+						<div class="col-12 col-sm-3 pr-0">
 							<input type="text" class="data-entry-input pr-0" id="inputMaxElev" placeholder="Max Elevation">
 						</div>
-						<div class="col-12 col-sm-2">	
+						<div class="col-12 col-sm-2 pr-0">	
 							<select class="data-entry-select pr-0" required>
 								<option value="">Feet</option>
 								<option value="1">Fathoms</option>
