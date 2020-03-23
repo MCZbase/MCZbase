@@ -283,7 +283,7 @@ limitations under the License.
 					<div class="row">
 						<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
 						<div class="col-sm-9">
-							<textarea type="text" name="locality_remark" class="data-entry-textarea"/>Locality Remark</textarea>
+							<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
 						</div>
 					</div>
 				</div>
