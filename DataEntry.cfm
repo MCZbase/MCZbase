@@ -213,11 +213,29 @@ limitations under the License.
 									<input type="text" class="data-entry-input pr-0" id="ended_date" placeholder="Date Ended">
 								</div>
 							</div>
+							<div class="row">
+								<label for="collecting_time" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Time</label>
+								<div class="col-sm-9">
+									<input type="text" name="collecting_time" class="data-entry-input" placeholder="Collecting Time" />
+								</div>
+							</div>
 							
 							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Date</label>
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Verbatim Date</label>
 								<div class="col-12 col-sm-9 pr-0">
 									<input type="text" class="data-entry-input pr-0" id="verbatim_date" placeholder="Verbatim Date">
+								</div>
+							</div>
+									<div class="row">
+								<label for="collecting_source" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Source</label>
+								<div class="col-sm-9 my-0">
+									<input type="text" name="collecting_source" class="data-entry-input" placeholder="Collecting Source" />
+								</div>
+							</div>
+									<div class="row">
+								<label for="collecting_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Method</label>
+								<div class="col-sm-9 my-0">
+									<input type="text" name="collecting_method" class="data-entry-input" placeholder="Collecting Method" />
 								</div>
 							</div>
 							<div class="row">
@@ -276,7 +294,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
+								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
 								<div class="col-sm-9">
 									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 									</textarea>
