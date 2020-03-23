@@ -100,8 +100,36 @@ limitations under the License.
 <!---   Function getLoans  --->
 <cffunction name="getLoans" access="remote" returntype="any" returnformat="json">
     <cfargument name="number" type="string" required="no">
+    <cfargument name="loan_type" type="string" required="no">
+    <cfargument name="loan_status" type="string" required="no">
+    <cfargument name="loan_instructions" type="string" required="no">
+    <cfargument name="loan_description" type="string" required="no">
+    <cfargument name="trans_remarks" type="string" required="no">
+    <cfargument name="nature_of_material" type="string" required="no">
     <cfargument name="collection_id" type="numeric" required="no">
+    <cfargument name="permit_num" type="string" required="no">
+    <cfargument name="return_due_date" type="string" required="no">
+    <cfargument name="to_return_due_date" type="string" required="no">
+    <cfargument name="closed_date" type="string" required="no">
+    <cfargument name="to_closed_date" type="string" required="no">
+    <cfargument name="trans_date" type="string" required="no">
+    <cfargument name="to_trans_date" type="string" required="no">
 
+	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
+		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
+			<cfset to_return_due_date=return_due_date>
+		</cfif>
+	</cfif>
+	<cfif isdefined("closed_date") and len(closed_date) gt 0>
+		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
+			<cfset to_closed_date=closed_date>
+		</cfif>
+	</cfif>
+	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
+		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
+			<cfset to_trans_date=trans_date>
+		</cfif>
+	</cfif>
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -152,29 +180,48 @@ limitations under the License.
 				<cfif isdefined("permit_num") AND len(#permit_num#) gt 0>
 					AND PERMIT_NUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PERMIT_NUM#">
 				</cfif>
+				<cfif isdefined("loan_type") AND len(#loan_type#) gt 0>
+					AND loan.loan_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#loan_type#'>
+				</cfif>
+				<cfif isdefined("loan_status") AND len(#loan_status#) gt 0>
+					<cfif loan_status eq "not closed">
+						AND loan_status <> 'closed'
+					<cfelse>
+						 AND loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#loan_status#'>
+					</cfif>
+				</cfif>
+				<cfif isdefined("loan_instructions") AND len(#loan_instructions#) gt 0>
+					AND upper(loan_instructions) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_instructions)#%'>
+				</cfif>
+				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
+					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
+				</cfif>
+				<cfif isdefined("loan_description") AND len(#loan_description#) gt 0>
+					AND upper(loan_description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_description)#%'>
+				</cfif>
+				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
+					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(escapeQuotes(nature_of_material))#%'>
+				</cfif>
+				<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
+					AND return_due_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_due_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_due_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("closed_date") and len(closed_date) gt 0>
+					AND closed_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("trans_date") and len(trans_date) gt 0>
+					AND trans_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+				</cfif>
 			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
 		</cfquery>
 
 <!--- 
 
-	<cfif isdefined("collection_id") AND len(#collection_id#) gt 0>
-		<cfset sql = "#sql# AND trans.collection_id = #collection_id#">
-	</cfif>
-	<cfif isdefined("loan_type") AND len(#loan_type#) gt 0>
-		<cfset sql = "#sql# AND loan.loan_type = '#loan_type#'">
-	</cfif>
-	<cfif isdefined("loan_status") AND len(#loan_status#) gt 0>
-		<cfif loan_status eq "not closed">
-			<cfset sql = "#sql# AND loan_status <> 'closed'">
-		<cfelse>
-			<cfset sql = "#sql# AND loan_status = '#loan_status#'">
-		</cfif>
-	</cfif>
-	<cfif isdefined("loan_instructions") AND len(#loan_instructions#) gt 0>
-		<cfset sql = "#sql# AND upper(loan_instructions) LIKE '%#ucase(loan_instructions)#%'">
-	</cfif>
-	<cfif isdefined("rec_agent") AND len(#rec_agent#) gt 0>
-		<cfset sql = "#sql# AND upper(recAgnt.agent_name) LIKE '%#ucase(escapeQuotes(rec_agent))#%'">
 	<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
 		<cfset frm="#frm#,trans_agent trans_agent_1">
 		<cfset sql="#sql# and trans.transaction_id = trans_agent_1.transaction_id">
@@ -217,42 +264,14 @@ limitations under the License.
 		<cfset sql="#sql# and trans_agent_3.agent_id = trans_agent_name_3.agent_id">
 		<cfset sql = "#sql# AND upper(trans_agent_name_3.agent_name) like '%#ucase(agent_3)#%'">
 	</cfif>
+	<cfif isdefined("rec_agent") AND len(#rec_agent#) gt 0>
+		<cfset sql = "#sql# AND upper(recAgnt.agent_name) LIKE '%#ucase(escapeQuotes(rec_agent))#%'">
 	</cfif>
 	<cfif isdefined("auth_agent") AND len(#auth_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(authAgnt.agent_name) LIKE '%#ucase(escapeQuotes(auth_agent))#%'">
 	</cfif>
 	<cfif isdefined("ent_agent") AND len(#ent_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(entAgnt.agent_name) LIKE '%#ucase(escapeQuotes(ent_agent))#%'">
-	</cfif>
-	<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
-		<cfset sql = "#sql# AND upper(nature_of_material) LIKE '%#ucase(escapeQuotes(nature_of_material))#%'">
-	</cfif>
-	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
-		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
-			<cfset to_return_due_date=return_due_date>
-		</cfif>
-		<cfset sql = "#sql# AND return_due_date between to_date('#dateformat(return_due_date, "yyyy-mm-dd")#')
-			and to_date('#dateformat(to_return_due_date, "yyyy-mm-dd")#')">
-	</cfif>
-	<cfif isdefined("closed_date") and len(closed_date) gt 0>
-		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
-			<cfset to_closed_date=closed_date>
-		</cfif>
-		<cfset sql = "#sql# AND closed_date between to_date('#dateformat(closed_date, "yyyy-mm-dd")#')
-			and to_date('#dateformat(to_closed_date, "yyyy-mm-dd")#')">
-	</cfif>
-	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
-		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
-			<cfset to_trans_date=trans_date>
-		</cfif>
-		<cfset sql = "#sql# AND trans_date between to_date('#dateformat(trans_date, "yyyy-mm-dd")#')
-			and to_date('#dateformat(to_trans_date, "yyyy-mm-dd")#')">
-	</cfif>
-	<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
-		<cfset sql = "#sql# AND upper(trans_remarks) LIKE '%#ucase(trans_remarks)#%'">
-	</cfif>
-	<cfif isdefined("loan_description") AND len(#loan_description#) gt 0>
-		<cfset sql = "#sql# AND upper(loan_description) LIKE '%#ucase(loan_description)#%'">
 	</cfif>
 	<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0>
 		<cfset frm="#frm#, loan_item">
