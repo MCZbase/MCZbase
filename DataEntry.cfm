@@ -312,11 +312,10 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-			
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Locality</h2>
-							<h3 class="fs-subtitle text-center">This is step 8</h3>
+							<h3 class="fs-subtitle text-center">This is step 9</h3>
 							
 							<div class="row">
 								<div class="col-12">
@@ -412,11 +411,93 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-			
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Coodinates</h2>
+							<h3 class="fs-subtitle text-center">This is step 9</h3>
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
+								<div class="col-sm-9">
+									<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Specific Locality</label>
+								<div class="col-sm-9">
+									<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMinElev" placeholder="Min Elevation">
+								</div>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMaxElev" placeholder="Max Elevation">
+								</div>
+								<div class="col-12 col-sm-2 pr-0">
+									<select class="data-entry-select pr-0" required>
+										<option value="">Feet</option>
+										<option value="1">Fathoms</option>
+										<option value="2">Yards</option>
+										<option value="3">Meters</option>
+										<option value="4">Miles</option>
+										<option value="5">Kilometers</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
+								</div>
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
+								</div>
+								<div class="col-12 col-sm-2 pr-0">
+									<select class="data-entry-select pr-0" required>
+										<option value="">Feet</option>
+										<option value="1">Fathoms</option>
+										<option value="2">Yards</option>
+										<option value="3">Meters</option>
+										<option value="4">Miles</option>
+										<option value="5">Kilometers</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
+								<div class="col-sm-9">
+									<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
+								<div class="col-sm-9 my-0">
+									<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+								<div class="col-sm-9">
+									<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
+								<div class="col-sm-9">
+									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
+									</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Attributes</h2>
-							<h3 class="fs-subtitle text-center">This is step 9</h3>
+							<h3 class="fs-subtitle text-center">This is step 10</h3>
 							<div id="customAtt">
 								<div class="row mt-3">
 									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
@@ -462,7 +543,7 @@ limitations under the License.
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Parts</h2>
-							<h3 class="fs-subtitle text-center">This is step 10</h3>
+							<h3 class="fs-subtitle text-center">This is step 11</h3>
 							<div id="customPart">
 								<div class="row">
 									<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
@@ -519,13 +600,10 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> </div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-			
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Attributes</h2>
-							<h3 class="fs-subtitle text-center">This is step 9</h3>
+							<h3 class="fs-subtitle text-center">This is step 12</h3>
 							<div id="customAtt">
 								<div class="row mt-3">
 									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
@@ -568,6 +646,10 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="row">
+			
+					
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Parts</h2>
