@@ -73,10 +73,14 @@ limitations under the License.
 						<cfcase value="findLoans">
 							<cfset allTabActive = "">
 							<cfset loanTabActive = "active">
+							<cfset allTabShow = "">
+							<cfset loanTabShow = "show">
 						</cfcase>
 						<cfdefaultcase>
 							<cfset allTabActive = "active">
 							<cfset loanTabActive = "">
+							<cfset allTabShow = "show">
+							<cfset loanTabShow = "">
 						</cfdefaultcase>
 					</cfswitch>
 
@@ -95,7 +99,7 @@ limitations under the License.
 					<!--- Tab content div --->
 					<div class="tab-content pb-0" id="tabContentDiv">
 						<!--- All Transactions search tab panel --->
-						<div class="tab-pane fade show active py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+						<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
 								<input  type="hidden" name="method" value="getTransactions">
@@ -136,7 +140,7 @@ limitations under the License.
 						</div>
 
 						<!--- Loan search tab panel --->
-						<div class="tab-pane fade py-0 mx-sm-3 mb-1" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
+						<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
      						<h2 class="wikilink">Find Loans <img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
 								<!--- Search for just loans ---->
