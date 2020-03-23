@@ -544,7 +544,11 @@ $(document).ready(function() {
 				$('##transcsvbutton').prop('disabled',false);
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
-				$('##resultCount').html('Found ' + rowcount + ' transactions');
+				if (rowcount = 1) {
+					$('##resultCount').html('Found ' + rowcount + ' transaction');
+				} else {
+					$('##resultCount').html('Found ' + rowcount + ' transactions');
+				}
 				$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 			}
 		);
@@ -664,7 +668,11 @@ $(document).ready(function() {
 				$('##transcsvbutton').prop('disabled',true);
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
-				$('##resultCount').html('Found ' + rowcount + ' loans');
+				if (rowcount = 1) {
+					$('##resultCount').html('Found ' + rowcount + ' loan');
+				} else { 
+					$('##resultCount').html('Found ' + rowcount + ' loans');
+				}
 				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
 			}
 		);
