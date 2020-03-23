@@ -145,7 +145,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-xl-5 pl-0">
-										<input type="text" class="data-entry-input pl-0" name="other_id" placeholder="Value">
+										<input type="text" class="data-entry-input pl-0" name="other_id" placeholder="&nbsp; Value">
 									</div>
 								</div>
 							</div>
