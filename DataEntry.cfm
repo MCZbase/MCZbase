@@ -261,46 +261,34 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Coordinate System</label>
+								<label for="verbatim_coordinate_system" class="data-entry-label col-sm-3 text-center text-md-right px-0">Coordinate System</label>
 								<div class="col-sm-9">
 									<input type="text" name="verbatim_coordinate_system" class="data-entry-input" placeholder="Verbatim Coordinate System" />
 								</div>
 							</div>
-							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
-								<div class="col-12 col-sm-3 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
-								</div>
-								<div class="col-12 col-sm-3 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
-								</div>
-								<div class="col-12 col-sm-2 pr-0">
-									<select class="data-entry-select pr-0" required>
-										<option value="">Feet</option>
-										<option value="1">Fathoms</option>
-										<option value="2">Yards</option>
-										<option value="3">Meters</option>
-										<option value="4">Miles</option>
-										<option value="5">Kilometers</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
+									<div class="row">
+								<label for="verbatim_coordinates" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Coordinates</label>
 								<div class="col-sm-9">
-									<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+									<input type="text" name="verbatim_coordinates" class="data-entry-input" placeholder="Verbatim Coordinates" />
+								</div>
+							</div>
+				
+							<div class="row">
+								<label for="start_day_of_year" class="data-entry-label col-sm-3 text-center text-md-right px-0">Start Day of Year</label>
+								<div class="col-sm-9">
+									<input type="text" name="start_day_of_year" class="data-entry-input" placeholder="Start Day of Year" />
 								</div>
 							</div>
 							<div class="row">
-								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
+								<label for="end_day_of_year" class="data-entry-label col-sm-3 text-center text-md-right px-0">End Day of Year</label>
 								<div class="col-sm-9 my-0">
-									<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
+									<input type="text" name="end_day_of_year" class="data-entry-input" placeholder="End Day of Year" />
 								</div>
 							</div>
 							<div class="row">
-								<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+								<label for="date_determined" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date Determined</label>
 								<div class="col-sm-9">
-									<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+									<input type="text" name="date_determined" class="data-entry-input" placeholder="Date Determined" />
 								</div>
 							</div>
 							<div class="row">
