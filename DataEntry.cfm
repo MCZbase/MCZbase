@@ -205,14 +205,18 @@ limitations under the License.
 								</div>
 							</div>
 								<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Date</label>
-								<div class="col-12 col-sm-3 pr-0">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">ISO Dates</label>
+								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-0" id="began_date" placeholder="Began Date">
 								</div>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-0" id="ended_date" placeholder="Date Ended">
 								</div>
-								<div class="col-12 col-sm-2 pr-0">
+							</div>
+							
+							<div class="row">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Date</label>
+								<div class="col-12 col-sm-9 pr-0">
 									<input type="text" class="data-entry-input pr-0" id="verbatim_date" placeholder="Verbatim Date">
 								</div>
 							</div>
@@ -229,7 +233,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Coordinate System</label>
+								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Coordinate System</label>
 								<div class="col-sm-9">
 									<input type="text" name="verbatim_coordinate_system" class="data-entry-input" placeholder="Verbatim Coordinate System" />
 								</div>
