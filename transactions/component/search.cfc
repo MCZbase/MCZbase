@@ -39,15 +39,15 @@ limitations under the License.
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				transaction_view.transaction_id, 
-				transaction_type,
+				transaction_view.transaction_type,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
-				nature_of_material, 
-				trans_remarks,
-				collection_cde, 
-				collection,
-				specific_number, 
-				specific_type, 
-				status, 
+				transaction_view.nature_of_material, 
+				transaction_view.trans_remarks,
+				transaction_view.collection_cde, 
+				transaction_view.collection,
+				transaction_view.specific_number, 
+				transaction_view.specific_type, 
+				transaction_view.status, 
 				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent
 			FROM 
 				MCZBASE.transaction_view
