@@ -662,7 +662,7 @@ $(document).ready(function() {
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
 				$('##resultCount').html('Found ' + rowcount + ' loans');
-				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '>Link to this search</a>');
+				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
 			}
 		);
 
