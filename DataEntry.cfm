@@ -389,7 +389,8 @@ limitations under the License.
 
 <!---Step by step form for each section of the Data Entry form--->
 <div class="container" id="swapper-other" style="display: block;">
-	<div  class="row col-12 col-xl-10 justify-content-center mt-2 mx-auto">
+	<div class="row">
+		<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
 		<form id="regForm" action="/DataEntry.cfm">
 			<!-- One "tab" for each step in the form: -->
 			<h1 class="text-center mt-2 mb-1">Enter a New Record</h1>
@@ -628,6 +629,7 @@ limitations under the License.
 			<!-- Circles which indicates the steps of the form: -->
 			<div class="my-4 text-center"> <span class="step">1</span> <span class="step">2</span> <span class="step">3</span> <span class="step">4</span> <span class="step">5</span> <span class="step">6</span> <span class="step">7</span> <span class="step">8</span> <span class="step">9</span> </div>
 		</form>
+</div>
 	</div>
 </div>
 <script>
