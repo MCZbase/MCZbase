@@ -361,7 +361,7 @@ limitations under the License.
 					</div>	
 					<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label>
 					<div class="col-12 col-lg-9">
-						<select class="data-entry-select px-0" required>
+						<select class="data-entry-select" required>
 							<option value="">Being Processed</option>
 							<option value="1">Deaccessioned</option>
 							<option value="2">In Collection</option>
