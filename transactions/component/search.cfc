@@ -38,7 +38,7 @@ limitations under the License.
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
-				transaction_id, 
+				transaction_view.transaction_id, 
 				transaction_type,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
 				nature_of_material, 
