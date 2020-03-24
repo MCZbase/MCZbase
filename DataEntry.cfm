@@ -949,7 +949,7 @@ $("##seeAnotherField").change(function() {
     $('##otherField').removeAttr('data-error');
   }
 });
-$("#seeAnotherField").trigger("change");
+$("##seeAnotherField").trigger("change");
 
 $("##seeAnotherFieldGroup").change(function() {
   if ($(this).val() == "yes") {
