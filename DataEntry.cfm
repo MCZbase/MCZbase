@@ -613,9 +613,9 @@ limitations under the License.
 								  </div>
 								</div>
 								 <div class="row">
-								<div class="col-12 mx-0 pt-2 px-0">
+								<div class="col-12 pt-2">
 										<label for="seeAnotherFieldGroup" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Add an Attribute?</label>
-										<div class="col-12 col-lg-9">
+										<div class="col-12 col-xl-9">
 											<select class="data-entry-select" id="seeAnotherFieldGroup" required="">
 												<option value="no">No</option>
 												<option value="yes">Yes</option>
