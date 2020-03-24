@@ -361,12 +361,12 @@ limitations under the License.
 													<label for"trans_date">Loan Date:</label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input name="trans_date" id="trans_date" type="text" class="jqxdatetimeinput float-right" >
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput float-right" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div class="input-group-prepend" id="trans_date_to_marker" >To:</div>
-														<input type='text' name='to_trans_date' id="to_trans_date" class="jqxdatetimeinput" aria-label="loan date search range to" aria-described="rans_date_to_marker">
+														<input type='text' name='to_trans_date' id="to_trans_date" class="datetimeinput" aria-label="loan date search range to" aria-described="rans_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -377,12 +377,12 @@ limitations under the License.
 													<label for="return_due_date"> Due Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="return_due_date" id="return_due_date" class="jqxdatetimeinput float-right">
+													<input type="text" name="return_due_date" id="return_due_date" class="datetimeinput float-right">
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div id="return_due_date_to_marker" class="input-group-prepend">To:</div>
-														<input type='text' name='to_return_due_date' id="to_return_due_date" class="jqxdatetimeinput" aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
+														<input type='text' name='to_return_due_date' id="to_return_due_date" class="datetimeinput" aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -395,12 +395,12 @@ limitations under the License.
 													<label for="closed_date"> Closed Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="closed_date" id="closed_date" class="jqxdatetimeinput float-right">
+													<input type="text" name="closed_date" id="closed_date" class="datetimeinput float-right">
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div id="closed_date_to_marker" class="input-group-prepend">To:</div>
-														<input type='text' name='to_closed_date' id="to_closed_date" class="jqxdatetimeinput" aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
+														<input type='text' name='to_closed_date' id="to_closed_date" class="datetimeinput" aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -478,7 +478,7 @@ limitations under the License.
 									<script>
 										function clearForm(form_id) { 
 										   $('##' + form_id + ' :input').not('.keeponclear').val('');
-										   $('##' + form_id + ' .jqxdatetimeinput').jqxDateTimeInput({value: null});
+										   $('##' + form_id + ' .datetimeinput').jqxDateTimeInput({value: null});
 										}
 									</script>
 									<div class="form-row mb-2">
@@ -547,11 +547,17 @@ function exportToCSV (csvStringData, filename) {
 
 $(document).ready(function() {
 	/* Setup date time input controls */
-	$(".jqxdatetimeinput").jqxDateTimeInput({ 
-		value: null, 
-		height: '25px', 
-		theme: 'summer', 
-		min: new Date(1700,0,1) });
+	$(".datetimeinput").datepicker({ 
+		defaultDate: null,
+		buttonImage: "/includes/images/calendar_icon.png",
+		showOn: "both"
+	});
+
+	//$(".jqxdatetimeinput").jqxDateTimeInput({ 
+	//	value: null, 
+	//	height: '25px', 
+	//	theme: 'summer', 
+	//	min: new Date(1700,0,1) });
 
 	/* Setup jqxgrid for Transactions Search */
 	$('##searchForm').bind('submit', function(evt){
