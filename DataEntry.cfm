@@ -929,7 +929,6 @@ $(document).ready(function(){
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
 </script> 
-
 <script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
@@ -938,29 +937,6 @@ $(document).ready(function(){
 	$("##customPartAtt").on('click','.remPartAtt',function(){$(this).parent().remove();});
 });
 </script> 
- <div class="mt-2" id="partAtt">
-									<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Name</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name">
-									</div>
-									<label for="part_att_value" class="data-entry-label col-sm-3 text-center text-md-right px-0">Value</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_value" placeholder="Part Attribute Value">
-									</div>
-									<label for="part_att_units" class="data-entry-label col-sm-3 text-center text-md-right px-0">Units</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_units" placeholder="Part Attribute Units">
-									</div>
-									<label for="part_att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determined By</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_determined_by" placeholder="Part Attribute Determined By">
-									</div>
-									<label for="part_att_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
-									<div class="col-12 col-lg-9">
-										<textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea>
-									</div>
-								</div>
-
 <script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
