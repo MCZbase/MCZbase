@@ -570,7 +570,8 @@ limitations under the License.
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
 										</textarea>
 									</div>
-									<div class="mt-2" id="customPartAtt">
+							</div>
+									<div class="row mt-2" id="customPartAtt">
 										<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Attribute Name</label>
 										<div class="col-12 col-lg-9">
 											<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name">
