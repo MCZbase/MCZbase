@@ -18,11 +18,12 @@ limitations under the License.
 
 -->
 <cfinclude template = "/includes/_header.cfm">
+
 <cfoutput>
-<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
-<div class="container-fluid pt-1" id="swapper-first" style="display: none;">
-	<div class="row">
-		<div class="col-12 mt-0">
+	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
+	<div class="container-fluid pt-1" id="swapper-first" style="display: none;">
+		<div class="row">
+			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
@@ -570,14 +571,13 @@ limitations under the License.
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
 										</textarea>
 									</div>
+								</div>
+								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> <a aria-label="Add another set of search criteria" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part Att</a></div>
 							</div>
-									<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> </div>
-							</div>
-						</div>
-					
 						</div>
 					</div>
-					<!---	<div class="col-12 col-md-4 pb-2 px-1">
+				</div>
+				<!---	<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Attributes</h2>
 							<h3 class="fs-subtitle text-center">This is step 12</h3>
@@ -623,266 +623,266 @@ limitations under the License.
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
 							
 						</div>
-					</div>---> 
+					</div>--->
 				</div>
 			</form>
 		</div>
 	</div>
-</div>
-
-<!---Step by step form for each section of the Data Entry form--->
-<div class="container pt-0 mt-0" id="swapper-other" style="display: block;">
-	<div class="row">
-		<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
-			<form id="regForm" action="/DataEntry.cfm">
-				<!-- One "tab" for each step in the form: -->
-				<h1 class="text-center mt-2 mb-1">Enter a New Record</h1>
-				<div class="tab">
-					<h2 class="fs-title text-center">Record Numbers</h2>
-					<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
-					<div class="form-group row">
-						<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
-						<div class="col-sm-9">
-							<p>
-								<input placeholder="Catalog Number" class="form-control form-control-sm validate" oninput="this.className = ''" name="cat_num">
-							</p>
+	</div>
+	
+	<!---Step by step form for each section of the Data Entry form--->
+	<div class="container pt-0 mt-0" id="swapper-other" style="display: block;">
+		<div class="row">
+			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
+				<form id="regForm" action="/DataEntry.cfm">
+					<!-- One "tab" for each step in the form: -->
+					<h1 class="text-center mt-2 mb-1">Enter a New Record</h1>
+					<div class="tab">
+						<h2 class="fs-title text-center">Record Numbers</h2>
+						<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
+						<div class="form-group row">
+							<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
+							<div class="col-sm-9">
+								<p>
+									<input placeholder="Catalog Number" class="form-control form-control-sm validate" oninput="this.className = ''" name="cat_num">
+								</p>
+							</div>
 						</div>
-					</div>
-					<div class="form-group mb-0 row">
-						<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Other ID</label>
-						<div class="col-sm-4 col-md-4">
-							<select class="custom-select form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
-								<option value="">Other ID Type</option>
-								<option value="1">Field Number</option>
-								<option value="2">Collector Number</option>
-								<option value="3">Previous Number</option>
-							</select>
+						<div class="form-group mb-0 row">
+							<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Other ID</label>
+							<div class="col-sm-4 col-md-4">
+								<select class="custom-select form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
+									<option value="">Other ID Type</option>
+									<option value="1">Field Number</option>
+									<option value="2">Collector Number</option>
+									<option value="3">Previous Number</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+							</div>
 						</div>
-						<div class="col-sm-5">
-							<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+						<div class="form-group row">
+							<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
+							<div class="col-sm-9 col-md-9 text-left">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
+									<label class="form-check-label w-auto mt-1" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
-						<div class="col-sm-9 col-md-9 text-left">
-							<div class="form-check form-check-inline">
-								<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
-								<label class="form-check-label w-auto mt-1" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+						<div class="form-group row">
+							<label for="relations" class="col-sm-3 col-form-label text-center text-md-right">Other Records</label>
+							<div class="col-sm-4 col-md-4 text-left">
+								<select class="custom-select border form-control form-control-sm mt-0" required>
+									<option value="">Relationship Type</option>
+									<option value="1">Re-Cataloged as</option>
+									<option value="2">Bad Duplicate of</option>
+									<option value="3">Cloned from Record</option>
+									<option value="4">Duplicate Recataloged as</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<input type="text" class="form-control"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
 							</div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label for="relations" class="col-sm-3 col-form-label text-center text-md-right">Other Records</label>
-						<div class="col-sm-4 col-md-4 text-left">
-							<select class="custom-select border form-control form-control-sm mt-0" required>
-								<option value="">Relationship Type</option>
-								<option value="1">Re-Cataloged as</option>
-								<option value="2">Bad Duplicate of</option>
-								<option value="3">Cloned from Record</option>
-								<option value="4">Duplicate Recataloged as</option>
-							</select>
+					<div class="tab">
+						<h2 class="fs-title text-center">Collector/Preparator</h2>
+						<h3 class="fs-subtitle text-center">This is step 2</h3>
+						<div class="form-group row my-0">
+							<label for="collector1" class="col-sm-3 col-form-label mt-0">
+								<select class="custom-select border mt-0 validate">
+									<option value="">Select Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="form-control validate" id="collector1" placeholder="Agent Name">
+							</div>
 						</div>
-						<div class="col-sm-5">
-							<input type="text" class="form-control"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
+						<div class="form-group row my-0">
+							<label for="collector2" class="col-sm-3 col-form-label mt-0">
+								<select class="custom-select border mt-0">
+									<option value="">Select Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="form-control" id="collector2" placeholder="Agent Name">
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="tab">
-					<h2 class="fs-title text-center">Collector/Preparator</h2>
-					<h3 class="fs-subtitle text-center">This is step 2</h3>
-					<div class="form-group row my-0">
-						<label for="collector1" class="col-sm-3 col-form-label mt-0">
-							<select class="custom-select border mt-0 validate">
-								<option value="">Select Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="form-control validate" id="collector1" placeholder="Agent Name">
+						<div class="form-group row my-1">
+							<label for="collector3" class="col-sm-3 col-form-label mt-0">
+								<select class="custom-select border mt-0" required>
+									<option value="">Select Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="form-control" id="collector3" placeholder="Agent Name">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row my-0">
-						<label for="collector2" class="col-sm-3 col-form-label mt-0">
-							<select class="custom-select border mt-0">
-								<option value="">Select Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="form-control" id="collector2" placeholder="Agent Name">
+						<div class="form-group row my-1">
+							<label for="collector4" class="col-sm-3 col-form-label mt-0">
+								<select class="custom-select border mt-0" required >
+									<option value="">Select Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="form-control" id="collector4" placeholder="Agent Name">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row my-1">
-						<label for="collector3" class="col-sm-3 col-form-label mt-0">
-							<select class="custom-select border mt-0" required>
-								<option value="">Select Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="form-control" id="collector3" placeholder="Agent Name">
-						</div>
-					</div>
-					<div class="form-group row my-1">
-						<label for="collector4" class="col-sm-3 col-form-label mt-0">
-							<select class="custom-select border mt-0" required >
-								<option value="">Select Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="form-control" id="collector4" placeholder="Agent Name">
+						<div class="form-group row my-1">
+							<label for="collector5" class="col-sm-3 col-form-label mt-0">
+								<select class="custom-select border mt-0">
+									<option value="">Select Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="form-control" id="collector5" placeholder="Agent Name">
+							</div>
 						</div>
 					</div>
-					<div class="form-group row my-1">
-						<label for="collector5" class="col-sm-3 col-form-label mt-0">
-							<select class="custom-select border mt-0">
-								<option value="">Select Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="form-control" id="collector5" placeholder="Agent Name">
+					<div class="tab">
+						<h2 class="fs-title text-center">Scientific Name</h2>
+						<h3 class="fs-subtitle text-center">This is step 3</h3>
+						<div class="form-group row">
+							<label for="scientific_name" class="col-sm-3 col-form-label text-center text-md-right">Scientific Name</label>
+							<div class="col-sm-9">
+								<input type="text" name="scientific_name" class="form-control" placeholder="Scientific Name" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="made_by" class="col-sm-3 col-form-label text-center text-md-right">ID Made By</label>
+							<div class="col-sm-9">
+								<input type="text" name="made_by" class="form-control" placeholder="Identifier's Name" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="nature_of_id" class="col-sm-3 col-form-label text-center text-md-right">Nature of ID</label>
+							<div class="col-sm-4">
+								<select class="custom-select border form-control" required>
+									<option value="">Expert ID</option>
+									<option value="1">Field ID</option>
+									<option value="2">Non-Expert ID</option>
+									<option value="3">Curatorial ID</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<input type="text" name="made_by_date" class="form-control" placeholder="Date of ID" />
+							</div>
+						</div>
+						<div class="form-group row my-0">
+							<label for="id_remark" class="col-sm-3 col-form-label text-center text-md-right">ID Remark</label>
+							<div class="col-sm-9">
+								<textarea type="text" name="id_remark" class="form-control" placeholder="ID remark"/>
+								</textarea>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="tab">
-					<h2 class="fs-title text-center">Scientific Name</h2>
-					<h3 class="fs-subtitle text-center">This is step 3</h3>
-					<div class="form-group row">
-						<label for="scientific_name" class="col-sm-3 col-form-label text-center text-md-right">Scientific Name</label>
-						<div class="col-sm-9">
-							<input type="text" name="scientific_name" class="form-control" placeholder="Scientific Name" />
+					<div class="tab">
+						<h2 class="fs-title text-center">Locality</h2>
+						<h3 class="fs-subtitle text-center">This is step 4</h3>
+						<div class="form-group row">
+							<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Higher Geography</label>
+							<div class="col-sm-9">
+								<input type="text" name="higher_geog" class="form-control" placeholder="Higher Geography" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Specific Locality</label>
+							<div class="col-sm-9">
+								<input type="text" name="spec_locality" class="form-control" placeholder="Specific Locality" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Elevation</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="inputMinElev" placeholder="Min Elevation">
+							</div>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
+							</div>
+							<div class="col-sm-2">
+								<select class="custom-select border form-control" required>
+									<option value="">Feet</option>
+									<option value="1">Fathoms</option>
+									<option value="2">Yards</option>
+									<option value="3">Meters</option>
+									<option value="4">Miles</option>
+									<option value="5">Kilometers</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Depth</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="inputMinDepth" placeholder="Min Depth">
+							</div>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
+							</div>
+							<div class="col-sm-2">
+								<select class="custom-select border form-control" required>
+									<option value="">Feet</option>
+									<option value="1">Fathoms</option>
+									<option value="2">Yards</option>
+									<option value="3">Meters</option>
+									<option value="4">Miles</option>
+									<option value="5">Kilometers</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="sovereign_nation" class="col-sm-3 col-form-label text-center text-md-right">Sovereign Nation</label>
+							<div class="col-sm-9">
+								<input type="text" name="sovereign_nation" class="form-control" placeholder="Sovereign Nation" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Geology Attribute</label>
+							<div class="col-sm-9 my-0">
+								<input type="text" name="geology_attribute" class="form-control" placeholder="Geology Attribute" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="habitat" class="col-sm-3 col-form-label text-center text-md-right">Habitat</label>
+							<div class="col-sm-9">
+								<input type="text" name="habitat" class="form-control" placeholder="Habitat" />
+							</div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label for="made_by" class="col-sm-3 col-form-label text-center text-md-right">ID Made By</label>
-						<div class="col-sm-9">
-							<input type="text" name="made_by" class="form-control" placeholder="Identifier's Name" />
+					<div style="overflow:auto;" class="mt-4 mb-2">
+						<div class="text-right">
+							<button type="button" id="prevBtn" class="btn btn-primary" onclick="nextPrev(-1)">Previous</button>
+							<button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Next</button>
+						</div>
+						<div class="text-center my-2">
+							<button type="button" id="seeAll" class="btn btn-primary">See All</button>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label for="nature_of_id" class="col-sm-3 col-form-label text-center text-md-right">Nature of ID</label>
-						<div class="col-sm-4">
-							<select class="custom-select border form-control" required>
-								<option value="">Expert ID</option>
-								<option value="1">Field ID</option>
-								<option value="2">Non-Expert ID</option>
-								<option value="3">Curatorial ID</option>
-							</select>
-						</div>
-						<div class="col-sm-5">
-							<input type="text" name="made_by_date" class="form-control" placeholder="Date of ID" />
-						</div>
-					</div>
-					<div class="form-group row my-0">
-						<label for="id_remark" class="col-sm-3 col-form-label text-center text-md-right">ID Remark</label>
-						<div class="col-sm-9">
-							<textarea type="text" name="id_remark" class="form-control" placeholder="ID remark"/>
-							</textarea>
-						</div>
-					</div>
-				</div>
-				<div class="tab">
-					<h2 class="fs-title text-center">Locality</h2>
-					<h3 class="fs-subtitle text-center">This is step 4</h3>
-					<div class="form-group row">
-						<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Higher Geography</label>
-						<div class="col-sm-9">
-							<input type="text" name="higher_geog" class="form-control" placeholder="Higher Geography" />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Specific Locality</label>
-						<div class="col-sm-9">
-							<input type="text" name="spec_locality" class="form-control" placeholder="Specific Locality" />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Elevation</label>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="inputMinElev" placeholder="Min Elevation">
-						</div>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
-						</div>
-						<div class="col-sm-2">
-							<select class="custom-select border form-control" required>
-								<option value="">Feet</option>
-								<option value="1">Fathoms</option>
-								<option value="2">Yards</option>
-								<option value="3">Meters</option>
-								<option value="4">Miles</option>
-								<option value="5">Kilometers</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Depth</label>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="inputMinDepth" placeholder="Min Depth">
-						</div>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
-						</div>
-						<div class="col-sm-2">
-							<select class="custom-select border form-control" required>
-								<option value="">Feet</option>
-								<option value="1">Fathoms</option>
-								<option value="2">Yards</option>
-								<option value="3">Meters</option>
-								<option value="4">Miles</option>
-								<option value="5">Kilometers</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="sovereign_nation" class="col-sm-3 col-form-label text-center text-md-right">Sovereign Nation</label>
-						<div class="col-sm-9">
-							<input type="text" name="sovereign_nation" class="form-control" placeholder="Sovereign Nation" />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Geology Attribute</label>
-						<div class="col-sm-9 my-0">
-							<input type="text" name="geology_attribute" class="form-control" placeholder="Geology Attribute" />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="habitat" class="col-sm-3 col-form-label text-center text-md-right">Habitat</label>
-						<div class="col-sm-9">
-							<input type="text" name="habitat" class="form-control" placeholder="Habitat" />
-						</div>
-					</div>
-				</div>
-				<div style="overflow:auto;" class="mt-4 mb-2">
-					<div class="text-right">
-						<button type="button" id="prevBtn" class="btn btn-primary" onclick="nextPrev(-1)">Previous</button>
-						<button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Next</button>
-					</div>
-					<div class="text-center my-2">
-						<button type="button" id="seeAll" class="btn btn-primary">See All</button>
-					</div>
-				</div>
-				<!-- Circles which indicates the steps of the form: -->
-				<div class="my-4 text-center"> <span class="step">1</span> <span class="step">2</span> <span class="step">3</span> <span class="step">4</span> <span class="step">5</span> <span class="step">6</span> <span class="step">7</span> <span class="step">8</span> <span class="step">9</span> </div>
-			</form>
+					<!-- Circles which indicates the steps of the form: -->
+					<div class="my-4 text-center"> <span class="step">1</span> <span class="step">2</span> <span class="step">3</span> <span class="step">4</span> <span class="step">5</span> <span class="step">6</span> <span class="step">7</span> <span class="step">8</span> <span class="step">9</span> </div>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
-<script>
+	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 	$(".addAtt").click(function(){$("##customAtt").append('<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-3 mr-auto remAtt">Remove</button></div>');
 	});
 	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();
 });
 </script> 
-<script>
+	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-lg-5"><input type="text" class="data-entry-input" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-3 mr-auto remAgent">Remove</button></div>');
@@ -890,7 +890,7 @@ $(document).ready(function(){
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
 </script> 
-<script>
+	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addPart").click(function(){$("##customPart").append('<div class="row mt-2"><label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_name" placeholder="Part Name"></div><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Ethanol</option><option value="1">RNALater</option><option value="2">DNA/RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="condition" placeholder="Condition"></div><label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Being Processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove Part</button></div>');
@@ -898,7 +898,7 @@ $(document).ready(function(){
 	$("##customPart").on('click','.remPart',function(){$(this).parent().remove();});
 });
 </script> 
-<script>
+	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addPartAtt").click(function(){$("##customPartAtt").append('<div class="mt-2" id="partAtt"><label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name"></div><label for="part_att_value" class="data-entry-label col-sm-3 text-center text-md-right px-0">Value</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_value" placeholder="Part Attribute Value"></div><label for="part_att_units" class="data-entry-label col-sm-3 text-center text-md-right px-0">Units</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_units" placeholder="Part Attribute Units"></div><label for="part_att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determined By</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_determined_by" placeholder="Part Attribute Determined By"></div><label for="part_att_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea></div></div><button href="javascript:void(0);" arial-label="remove Part Att" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-3 mr-auto remPartAtt">Remove</button></div>');
@@ -906,7 +906,7 @@ $(document).ready(function(){
 	$("##customPartAtt").on('click','.remPartAtt',function(){$(this).parent().remove();});
 });
 </script> 
-<script type="text/javascript">
+	<script type="text/javascript">
 function SwapDivsWithClick(div1,div2)
 {
    d1 = document.getElementById(div1);
@@ -923,7 +923,7 @@ function SwapDivsWithClick(div1,div2)
    }
 }
 </script> 
-<script>
+	<script>
 	var currentTab = 0; // Current tab is set to be the first tab (0)
 	showTab(currentTab); // Display the current tab
 function showTab(n) {
