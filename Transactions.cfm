@@ -286,11 +286,12 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
+											<cfset ploan_status = loan_status>
 											<label for="loan_status">Status:</label>
 											<select name="loan_status" id="loan_status" class="custom-select1 form-control-sm" >
 												<option value=""></option>
 												<cfloop query="ctLoanStatus">
-													<cfif loan_status eq ctLoanStatus.loan_status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<cfif ploan_status eq ctLoanStatus.loan_status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 													<option value="#ctLoanStatus.loan_status#" #selected#>#ctLoanStatus.loan_status#</option>
 												</cfloop>
 												<option value="not closed">not closed</option>
