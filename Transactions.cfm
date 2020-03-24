@@ -58,10 +58,10 @@ limitations under the License.
 	select * from collection order by collection
 </cfquery>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(*) as cnt, trans_agent_role 
+	select count(*) as cnt, ct.trans_agent_role 
 	from cttrans_agent_role ct left join trans_agent on ct.trans_agent_role = trans_agent.trans_agent_role
 	group by ct.trans_agent_role
-	order by trans_agent_role
+	order by ct.trans_agent_role
 </cfquery>
 
 <cfset selectedCollection = ''>
