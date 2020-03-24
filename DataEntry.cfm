@@ -134,9 +134,9 @@ limitations under the License.
 									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
-											<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
+											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
 											<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>-->
-											<small id="accnHelp" class="form-text float-left text-muted">Should already exist in database.</small> 
+											<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> 
 										</div>
 									</div>
 								</div>
