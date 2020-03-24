@@ -45,8 +45,9 @@ limitations under the License.
 										<option value="2">Mammalogy</option>
 										<option value="3">Malacology</option>
 									</select>
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets the template for the rest of the fields.</small> 
 								</div>
-								<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets the template for the rest of the fields.</small> 
+					
 							</div>
 						</div>
 					</div>		
@@ -71,7 +72,7 @@ limitations under the License.
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Accession</label>
 								<div class="col-xl-9">
 									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession" name="accn">
-									<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database.</small> </div>
+									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
 							</div>
 						</div>
 					</div>
@@ -134,7 +135,8 @@ limitations under the License.
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
 											<input class="form-check-input w-auto mt-0" value="mask" type="checkbox" id="gridCheck1">
-											<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>
+											<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>-->
+											<small id="accnHelp" class="form-text float-left text-muted">Should already exist in database.</small> 
 										</div>
 									</div>
 								</div>
