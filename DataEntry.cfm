@@ -588,7 +588,7 @@ limitations under the License.
 									<div class="col-12 col-lg-9">
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
 									</div>
-								
+								 <div class="mt-2" id="customPartAtt">
 									<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Name</label>
 									<div class="col-12 col-lg-9">
 										<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name">
@@ -609,14 +609,14 @@ limitations under the License.
 									<div class="col-12 col-lg-9">
 										<textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea>
 									</div>
-								
-									</div>
 								</div>
+								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Part Attributes" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part Attribute</a> </div>
+								</div>
+							</div>				
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> </div>
 						</div>
 					</div>
-	</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Attributes</h2>
 							<h3 class="fs-subtitle text-center">This is step 12</h3>
@@ -663,7 +663,6 @@ limitations under the License.
 							
 						</div>
 					</div>
-			
 				</div>
 			</form>
 		</div>
@@ -930,6 +929,38 @@ $(document).ready(function(){
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
 </script> 
+
+<script>
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+$(document).ready(function(){
+	$(".addPartAtt").click(function(){$("##customPartAtt").append('<div class="mt-2" id="partAtt"><label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name"></div><label for="part_att_value" class="data-entry-label col-sm-3 text-center text-md-right px-0">Value</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_value" placeholder="Part Attribute Value"></div><label for="part_att_units" class="data-entry-label col-sm-3 text-center text-md-right px-0">Units</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_units" placeholder="Part Attribute Units"></div><label for="part_att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determined By</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_determined_by" placeholder="Part Attribute Determined By"></div><label for="part_att_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea></div></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-3 mr-auto remAgent">Remove</button></div>');
+	});
+	$("##customPartAtt").on('click','.remPartAtt',function(){$(this).parent().remove();});
+});
+</script> 
+ <div class="mt-2" id="partAtt">
+									<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Name</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name">
+									</div>
+									<label for="part_att_value" class="data-entry-label col-sm-3 text-center text-md-right px-0">Value</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="part_att_value" placeholder="Part Attribute Value">
+									</div>
+									<label for="part_att_units" class="data-entry-label col-sm-3 text-center text-md-right px-0">Units</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="part_att_units" placeholder="Part Attribute Units">
+									</div>
+									<label for="part_att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determined By</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" class="data-entry-input" name="part_att_determined_by" placeholder="Part Attribute Determined By">
+									</div>
+									<label for="part_att_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
+									<div class="col-12 col-lg-9">
+										<textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea>
+									</div>
+								</div>
+
 <script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
