@@ -475,13 +475,19 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
+									<script>
+										function clearForm(form_id) { 
+										   $('##' + form_id + ' :input).val('');
+										   $('##' + form_id + ' .jqxdatetimeinput').jqxDateTimeInput({value: null);
+										}
+									</script>
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
 												onclick=" exportGridToCSV('searchResultsGrid', 'loan_list.csv'); "
 												disabled >Export to CSV</button>
-											<button type="reset" class="btn btn-warning" aria-label="Clear loan search form">Clear</button>
+											<button type="button" class="btn btn-warning" aria-label="Clear loan search form" onclick=" clearForm('loanSearchForm'); ">Clear</button>
 										</div>
 									</div>
 								</form>
@@ -541,7 +547,11 @@ function exportToCSV (csvStringData, filename) {
 
 $(document).ready(function() {
 	/* Setup date time input controls */
-	$(".jqxdatetimeinput").jqxDateTimeInput({ value: null, height: '25px', theme: 'summer', min: new Date(1700,0,1) });
+	$(".jqxdatetimeinput").jqxDateTimeInput({ 
+		value: null, 
+		height: '25px', 
+		theme: 'summer', 
+		min: new Date(1700,0,1) });
 
 	/* Setup jqxgrid for Transactions Search */
 	$('##searchForm').bind('submit', function(evt){
