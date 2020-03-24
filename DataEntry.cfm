@@ -259,8 +259,8 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Verbatim Date</label>
-								<div class="col-12 col-sm-9 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="verbatim_date" placeholder="Verbatim Date">
+								<div class="col-sm-9">
+									<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 								</div>
 							</div>
 							<div class="row">
