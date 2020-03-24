@@ -588,10 +588,10 @@ limitations under the License.
 									<div class="col-12 col-lg-9">
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
 									</div>
-									<div class="mt-2">
-									<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Attribute</label>
+								
+									<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Name</label>
 									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute">
+										<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name">
 									</div>
 									<label for="part_att_value" class="data-entry-label col-sm-3 text-center text-md-right px-0">Value</label>
 									<div class="col-12 col-lg-9">
@@ -601,14 +601,15 @@ limitations under the License.
 									<div class="col-12 col-lg-9">
 										<input type="text" class="data-entry-input" name="part_att_units" placeholder="Part Attribute Units">
 									</div>
-									<label for="att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determined By</label>
+									<label for="part_att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determined By</label>
 									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="att_determined_by" placeholder="Determined By">
+										<input type="text" class="data-entry-input" name="part_att_determined_by" placeholder="Part Attribute Determined By">
 									</div>
 									<label for="part_att_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
 									<div class="col-12 col-lg-9">
 										<textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea>
 									</div>
+								
 									</div>
 								</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> </div>
