@@ -343,7 +343,7 @@ limitations under the License.
 						<cfif part_disp_oper is "is">
 							and coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						<cfelse>
-							and coll_object.coll_obj_disposition NIT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+							and coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						</cfif>
 					</cfif>
 				</cfif>
