@@ -24,30 +24,60 @@ limitations under the License.
 	<cfargument name="status" type="string" required="no">
 	<cfargument name="collection_id" type="numeric" required="no">
 	<cfargument name="agent_1" type="string" required="no">
-	<cfargument name="agent_role_1" type="string" required="no">
+	<cfargument name="agent_1_id" type="string" required="no">
+	<cfargument name="trans_agent_role_1" type="string" required="no">
+	<cfargument name="agent_2" type="string" required="no">
+	<cfargument name="agent_2_id" type="string" required="no">
+	<cfargument name="trans_agent_role_2" type="string" required="no">
+	<cfargument name="agent_3" type="string" required="no">
+	<cfargument name="agent_3_id" type="string" required="no">
+	<cfargument name="trans_agent_role_3" type="string" required="no">
 
-	<cfif not isDefined("agent_role_1")><cfset agent_role_1 = 'entered by'></cfif>
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
-				transaction_id, 
-				transaction_type,
+				transaction_view.transaction_id, 
+				transaction_view.transaction_type,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
-				nature_of_material, 
-				trans_remarks,
+				transaction_view.nature_of_material, 
+				transaction_view.trans_remarks,
 				collection_cde, 
 				collection,
-				specific_number, 
-				specific_type, 
-				status, 
-				concattransagent(transaction_id,'entered by') as entered_by_agent
+				transaction_view.specific_number, 
+				transaction_view.specific_type, 
+				transaction_view.status, 
+				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent
 			FROM 
 				MCZBASE.transaction_view
 				left join collection on transaction_view.collection_id = collection.collection_id
+				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
+					left join trans_agent trans_agent_1 on transaction_view.transaction_id = trans_agent_1.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_1_id") OR len(agent_1_id) eq 0 >
+					<cfif isdefined("agent_1") AND len(agent_1) gt 0 >
+						left join preferred_agent_name trans_agent_name_1 on trans_agent_1.agent_id = trans_agent_name_1.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0) OR (isdefined("agent_2") AND len(agent_2) gt 0) >
+					left join trans_agent trans_agent_2 on transaction_view.transaction_id = trans_agent_2.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_2_id") OR len(agent_2_id) eq 0 >
+					<cfif isdefined("agent_2") AND len(agent_2) gt 0 >
+						left join preferred_agent_name trans_agent_name_2 on trans_agent_2.agent_id = trans_agent_name_2.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0) OR (isdefined("agent_3") AND len(agent_3) gt 0) >
+					left join trans_agent trans_agent_3 on transaction_view.transaction_id = trans_agent_3.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_3_id") OR len(agent_3_id) eq 0 >
+					<cfif isdefined("agent_3") AND len(agent_3) gt 0 >
+						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
+					</cfif>
+				</cfif>
 			WHERE
-				 transaction_id > 0
+				transaction_view.transaction_id > 0
 				<cfif isDefined("number") and len(number) gt 0>
 					and specific_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
 				</cfif>
@@ -57,9 +87,29 @@ limitations under the License.
 				<cfif isDefined("collection_id") and collection_id gt 0>
 					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
-				<cfif isDefined("agent_1") and len(agent_1) gt 0>
-					and concattransagent(transaction_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_role_1#">)
-						like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_1#%">
+				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
+					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+				</cfif>
+				<cfif isdefined("agent_1_id") AND len(agent_1_id) gt 0>
+					AND upper(trans_agent_1.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_1_id#">
+				<cfelseif isdefined("agent_1") AND len(agent_1) gt 0>
+					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
+					AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+				</cfif>
+				<cfif isdefined("agent_2_id") AND len(agent_2_id) gt 0>
+					AND upper(trans_agent_2.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_2_id#">
+				<cfelseif isdefined("agent_2") AND len(agent_2) gt 0>
+					AND upper(trans_agent_name_2.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_2)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0>
+					AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+				</cfif>
+				<cfif isdefined("agent_3_id") AND len(agent_3_id) gt 0>
+					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
+				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
+					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
 				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
