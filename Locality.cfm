@@ -1973,7 +1973,7 @@ INSERT INTO geog_auth_rec (
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLocality">
-      <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+      <div style="width: 90%; margin:0 auto; padding: 1em 0 3em 0;">
 	<cfoutput>
 	<cf_findLocality>
 	<!--- need to filter out distinct --->
