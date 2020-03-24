@@ -132,7 +132,7 @@ limitations under the License.
 						<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
-								<input  type="hidden" name="method" value="getTransactions">
+								<input  type="hidden" name="method" value="getTransactions" class="keeponclear">
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-6">
 										<label for="collection_id">Collection/Number (nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll):</label>
@@ -265,7 +265,7 @@ limitations under the License.
 
 								<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
 								<form id="loanSearchForm">
-									<input type="hidden" name="method" value="getLoans">
+									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
@@ -477,8 +477,8 @@ limitations under the License.
 									</div>
 									<script>
 										function clearForm(form_id) { 
-										   $('##' + form_id + ' :input).val('');
-										   $('##' + form_id + ' .jqxdatetimeinput').jqxDateTimeInput({value: null);
+										   $('##' + form_id + ' :input').not('.keeponclear').val('');
+										   $('##' + form_id + ' .jqxdatetimeinput').jqxDateTimeInput({value: null});
 										}
 									</script>
 									<div class="form-row mb-2">
