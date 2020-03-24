@@ -2002,6 +2002,7 @@ INSERT INTO geog_auth_rec (
             locality_id,
             geog_auth_rec_id,
             spec_locality,
+				sovereign_nation,
             higher_geog,
             LatitudeString,
             LongitudeString,
