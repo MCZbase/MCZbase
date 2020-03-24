@@ -18,10 +18,7 @@ limitations under the License.
 
 -->
 <cfinclude template = "/includes/_header.cfm">
-
-<style></style>
 <cfoutput>
-
 <p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
 <div class="container-fluid pt-1" id="swapper-first" style="display: none;">
 	<div class="row">
@@ -29,8 +26,7 @@ limitations under the License.
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
-			
-				<div class="row"> 
+				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Collection</h2>
@@ -44,12 +40,10 @@ limitations under the License.
 										<option value="2">Mammalogy</option>
 										<option value="3">Malacology</option>
 									</select>
-									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets the template for the rest of the fields.</small> 
-								</div>
-					
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets the template for the rest of the fields.</small> </div>
 							</div>
 						</div>
-					</div>		
+					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Catalog Number</h2>
@@ -58,8 +52,7 @@ limitations under the License.
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
 								<div class="col-12 col-xl-9">
 									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> 
-								</div>
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> </div>
 							</div>
 						</div>
 					</div>
@@ -73,15 +66,13 @@ limitations under the License.
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
 											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
-											<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>-->
-											<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> 
-										</div>
+											<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
+											<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> </div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
@@ -143,7 +134,6 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
 						</div>
 					</div>
-					
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
@@ -242,11 +232,9 @@ limitations under the License.
 									<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 								</div>
 							</div>
-									<div class="row">
+							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-9">
-									<span>OR</span>
-								</div>
+								<div class="col-sm-9"> <span>OR</span> </div>
 							</div>
 							<div class="row">
 								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Locality</label>
@@ -305,7 +293,7 @@ limitations under the License.
 									<input type="text" name="verbatim_coordinate_system" class="data-entry-input" placeholder="Verbatim Coordinate System" />
 								</div>
 							</div>
-									<div class="row">
+							<div class="row">
 								<label for="verbatim_coordinates" class="data-entry-label col-sm-3 text-center text-md-right px-0">Coordinates</label>
 								<div class="col-sm-9">
 									<input type="text" name="verbatim_coordinates" class="data-entry-input" placeholder="Verbatim Coordinates" />
@@ -348,7 +336,6 @@ limitations under the License.
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Locality</h2>
 							<h3 class="fs-subtitle text-center">This is step 9</h3>
-							
 							<div class="row">
 								<div class="col-12">
 									<p><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
@@ -360,11 +347,9 @@ limitations under the License.
 									<input type="text" name="locality_id" class="data-entry-input" placeholder="Locality ID" />
 								</div>
 							</div>
-									<div class="row">
+							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-9">
-									<span>OR</span>
-								</div>
+								<div class="col-sm-9"> <span>OR</span> </div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
@@ -447,7 +432,6 @@ limitations under the License.
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Coordinates</h2>
 							<h3 class="fs-subtitle text-center">This is step 10</h3>
-						
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
 								<div class="col-sm-9">
@@ -474,7 +458,7 @@ limitations under the License.
 									<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
 								</div>
 							</div>
-								<div class="row">
+							<div class="row">
 								<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right px-0">GPS Accuracy</label>
 								<div class="col-sm-9">
 									<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
@@ -491,25 +475,24 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-								<div class="row">
+							<div class="row">
 								<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
 								<div class="col-sm-9">
 									<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 								</div>
 							</div>
-								<div class="row">
+							<div class="row">
 								<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
 								<div class="col-sm-9">
 									<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 								</div>
 							</div>
-								<div class="row">
+							<div class="row">
 								<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right px-0">Reference</label>
 								<div class="col-sm-9">
 									<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
 								</div>
 							</div>
-							
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Georeference Meth.</label>
 								<div class="col-sm-9">
@@ -521,7 +504,6 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							
 							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
 								<div class="col-sm-9">
@@ -531,9 +513,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-			
 				</div>
-				<div class="row">	
+				<div class="row">
 					<div class="col-12 col-md-4 pb-4 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Parts</h2>
@@ -557,7 +538,7 @@ limitations under the License.
 									<div class="col-12 col-lg-9">
 										<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
 									</div>
-									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label>
+									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Disposition</label>
 									<div class="col-12 col-lg-9">
 										<select class="data-entry-select" required>
 											<option value="">Being Processed</option>
@@ -568,8 +549,8 @@ limitations under the License.
 									</div>
 									<div class="col-12 row mx-0 px-0">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
-										<div class="col-12 col-lg-4 pr-0">
-											<select class="data-entry-select pr-0" required="">
+										<div class="col-12 col-lg-4 pr-xl-0">
+											<select class="data-entry-select pr-xl-0" required="">
 												<option value="">Modifier</option>
 												<option value="1">ca.</option>
 												<option value="2">&gt;</option>
@@ -586,33 +567,36 @@ limitations under the License.
 									</div>
 									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
 									<div class="col-12 col-lg-9">
-										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
+										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
+										</textarea>
 									</div>
-								 <div class="mt-2" id="customPartAtt">
-									<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Name</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name">
+									<div class="mt-2" id="customPartAtt">
+										<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Attribute Name</label>
+										<div class="col-12 col-lg-9">
+											<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name">
+										</div>
+										<label for="part_att_value" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Value</label>
+										<div class="col-12 col-lg-9">
+											<input type="text" class="data-entry-input" name="part_att_value" placeholder="Part Attribute Value">
+										</div>
+										<label for="part_att_units" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Units</label>
+										<div class="col-12 col-lg-9">
+											<input type="text" class="data-entry-input" name="part_att_units" placeholder="Part Attribute Units">
+										</div>
+										<label for="part_att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Determined By</label>
+										<div class="col-12 col-lg-9">
+											<input type="text" class="data-entry-input" name="part_att_determined_by" placeholder="Part Attribute Determined By">
+										</div>
+										<label for="part_att_remark" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Attribute Remark</label>
+										<div class="col-12 col-lg-9">
+											<textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/>
+											</textarea>
+										</div>
 									</div>
-									<label for="part_att_value" class="data-entry-label col-sm-3 text-center text-md-right px-0">Value</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_value" placeholder="Part Attribute Value">
-									</div>
-									<label for="part_att_units" class="data-entry-label col-sm-3 text-center text-md-right px-0">Units</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_units" placeholder="Part Attribute Units">
-									</div>
-									<label for="part_att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determined By</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="part_att_determined_by" placeholder="Part Attribute Determined By">
-									</div>
-									<label for="part_att_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
-									<div class="col-12 col-lg-9">
-										<textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea>
-									</div>
+								
 								</div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Part Attributes" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part Attribute</a> </div>
-								</div>
-							</div>				
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Part Attributes" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part Attribute</a> </div>
+							</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> </div>
 						</div>
 					</div>
@@ -662,7 +646,7 @@ limitations under the License.
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
 							
 						</div>
-					</div>--->
+					</div>---> 
 				</div>
 			</form>
 		</div>
@@ -929,7 +913,6 @@ $(document).ready(function(){
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
 </script> 
-
 <script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
@@ -946,7 +929,6 @@ $(document).ready(function(){
 	$("##customPartAtt").on('click','.remPartAtt',function(){$(this).parent().remove();});
 });
 </script> 
-
 <script type="text/javascript">
 function SwapDivsWithClick(div1,div2)
 {
