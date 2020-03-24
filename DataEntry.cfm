@@ -148,6 +148,30 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Biological Relationships</h2>
+							<h3 class="fs-subtitle text-center">This is step 5</h3>
+							<div id="customRelationship">
+								<div class="row">
+									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
+									<div class="col-xl-4 px-xl-0">
+										<select class="data-entry-select">
+											<option value="">Relationship Type</option>
+											<option value="1">Same lot as</option>
+											<option value="2">Egg of</option>
+											<option value="3">Parent of</option>
+											<option value="4">In Nest</option>
+										</select>
+									</div>
+									<div class="col-xl-5">
+										<input type="text" class="data-entry-input" id="relationship" placeholder="Relationship">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
+						</div>
+					</div>
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Collector/Preparator</h2>
 							<h3 class="fs-subtitle text-center">This is step 6</h3>
 							<div id="customAgent">
@@ -206,6 +230,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Collecting Event</h2>
@@ -318,8 +344,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Locality</h2>
@@ -507,52 +531,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Attributes</h2>
-							<h3 class="fs-subtitle text-center">This is step 10</h3>
-							<div id="customAtt">
-								<div class="row mt-3">
-									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
-									</div>
-									<div class="col-12 row mx-0 px-0">
-										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
-										<div class="col-12 col-lg-5">
-											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
-										</div>
-										<div class="col-12 col-lg-4">
-											<select class="data-entry-select" required="">
-												<option value="">Units</option>
-												<option value="1">Life Cycle Stage</option>
-												<option value="2">Citation</option>
-												<option value="3">Host</option>
-											</select>
-										</div>
-									</div>
-									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="date" placeholder="Date">
-									</div>
-									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
-									</div>
-									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label>
-									<div class="col-12 col-lg-9">
-										<input type="text" class="data-entry-input" name="method" placeholder="Method">
-									</div>
-									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
-									<div class="col-12 col-lg-9">
-										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
-										</textarea>
-									</div>
-								</div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
-							</div>
-						</div>
-					</div>
+			
 				</div>
 				<div class="row">	
 					<div class="col-12 col-md-4 pb-2 px-1">
