@@ -252,6 +252,11 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					left join loan_item on loan.transaction_id=loan_item.transaction_id 
+					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
+					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
+				</cfif>
 			where
 				trans.transaction_id is not null
 				<cfif isdefined("loan_number") AND len(#loan_number#) gt 0>
@@ -324,6 +329,24 @@ limitations under the License.
 				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
 					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
 				</cfif>
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					<cfif isdefined("part_name") AND len(part_name) gt 0>
+						<cfif not isdefined("part_name_oper")><cfset part_name_oper='is'></cfif>
+						<cfif part_name_oper is "is">
+							AND specimen_part.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name#">
+						<cfelse>
+							AND upper(specimen_part.part_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(part_name)#%">
+						</cfif>
+					</cfif>
+					<cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
+						<cfif not isdefined("part_disp_oper")><cfset part_disp_oper='is'></cfif>
+						<cfif part_disp_oper is "is">
+							and coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+						<cfelse>
+							and coll_object.coll_obj_disposition NIT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+						</cfif>
+					</cfif>
+				</cfif>
 			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
 		</cfquery>
 
@@ -346,41 +369,6 @@ limitations under the License.
 		<cfset sql = "#sql# AND loan_status <> 'closed'">
 	</cfif>
 
-	<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
-		<cfif frm does not contain "loan_item">
-			<cfset frm="#frm#, loan_item">
-			<cfset sql = "#sql# AND loan.transaction_id=loan_item.transaction_id ">
-		</cfif>
-		<cfif frm does not contain "coll_object">
-			<cfset frm="#frm#,coll_object">
-			<cfset sql=sql & " and loan_item.collection_object_id=coll_object.collection_object_id ">
-		</cfif>
-		<cfif frm does not contain "specimen_part">
-			<cfset frm="#frm#,specimen_part">
-			<cfset sql=sql & " and coll_object.collection_object_id = specimen_part.collection_object_id ">
-		</cfif>
-
-		<cfif isdefined("part_name") AND len(part_name) gt 0>
-			<cfif not isdefined("part_name_oper")>
-				<cfset part_name_oper='is'>
-			</cfif>
-			<cfif part_name_oper is "is">
-				<cfset sql=sql & " and specimen_part.part_name = '#part_name#'">
-			<cfelse>
-				<cfset sql=sql & " and upper(specimen_part.part_name) like  '%#ucase(part_name)#%'">
-			</cfif>
-		</cfif>
-		<cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
-			<cfif not isdefined("part_disp_oper")>
-				<cfset part_disp_oper='is'>
-			</cfif>
-			<cfif part_disp_oper is "is">
-				<cfset sql=sql & " and coll_object.coll_obj_disposition IN ( #listqualify(coll_obj_disposition,'''')# )">
-			<cfelse>
-				<cfset sql=sql & " and coll_object.coll_obj_disposition NOT IN ( #listqualify(coll_obj_disposition,'''')# )">
-			</cfif>
-		</cfif>
-	</cfif>
 
 --->
 

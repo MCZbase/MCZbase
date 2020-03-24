@@ -71,6 +71,15 @@ limitations under the License.
 <cfoutput>
 <cfif not isdefined("status")><cfset status=""></cfif>
 <cfif not isdefined("loan_status")><cfset loan_status=""></cfif>
+<cfif not isdefined("trans_agent_role_1")><cfset trans_agent_role_1=""></cfif>
+<cfif not isdefined("agent_1")><cfset agent_1=""></cfif>
+<cfif not isdefined("agent_1_id")><cfset agent_1_id=""></cfif>
+<cfif not isdefined("trans_agent_role_2")><cfset trans_agent_role_2=""></cfif>
+<cfif not isdefined("agent_2")><cfset agent_2=""></cfif>
+<cfif not isdefined("agent_2_id")><cfset agent_2_id=""></cfif>
+<cfif not isdefined("trans_agent_role_3")><cfset trans_agent_role_3=""></cfif>
+<cfif not isdefined("agent_3")><cfset agent_3=""></cfif>
+<cfif not isdefined("agent_3_id")><cfset agent_3_id=""></cfif>
 
 <!--- Search form --->
 <div id="search-form-div" class="search-form-div pb-4 px-3">
@@ -147,11 +156,12 @@ limitations under the License.
 											<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="form-control form-control-sm input-group-prepend">
 												<option value="">agent role...</option>
 												<cfloop query="cttrans_agent_role">
-													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+													<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 												</cfloop>
 											</select>
-											<input type="text" name="agent_1" id="all_agent_1" class="form-control form-control-sm" >
-											<input type="hidden" name="agent_1_id" id="all_agent_1_id" >
+											<input type="text" name="agent_1" id="all_agent_1" class="form-control form-control-sm" value="#agent_1#" >
+											<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
@@ -159,11 +169,12 @@ limitations under the License.
 											<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="form-control form-control-sm input-group-prepend">
 												<option value="">agent role...</option>
 												<cfloop query="cttrans_agent_role">
-													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+													<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 												</cfloop>
 											</select>
-											<input type="text" name="agent_2" id="all_agent_2" class="form-control form-control-sm" >
-											<input type="hidden" name="agent_2_id" id="all_agent_2_id" >
+											<input type="text" name="agent_2" id="all_agent_2" class="form-control form-control-sm" value="#agent_2#" >
+											<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
@@ -171,11 +182,12 @@ limitations under the License.
 											<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="form-control form-control-sm input-group-prepend">
 												<option value="">agent role...</option>
 												<cfloop query="cttrans_agent_role">
-													<option value="#trans_agent_role#">#trans_agent_role#:</option>
+													<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 												</cfloop>
 											</select>
-											<input type="text" name="agent_3" id="all_agent_3" class="form-control form-control-sm" >
-											<input type="hidden" name="agent_3_id" id="all_agent_3_id" >
+											<input type="text" name="agent_3" id="all_agent_3" class="form-control form-control-sm" value="#agent_3#" >
+											<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
 										</div>
 									</div>
 									<script>
@@ -288,11 +300,12 @@ limitations under the License.
 												<select name="trans_agent_role_1" id="trans_agent_role_1" class="form-control form-control-sm input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
-														<option value="#trans_agent_role#">#trans_agent_role#:</option>
+														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_1" id="agent_1" class="form-control form-control-sm" >
-												<input type="hidden" name="agent_1_id" id="agent_1_id" >
+												<input type="text" name="agent_1" id="agent_1" class="form-control form-control-sm" value="#agent_1#" >
+												<input type="hidden" name="agent_1_id" id="agent_1_id" value="#agent_1_id#" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
@@ -300,11 +313,12 @@ limitations under the License.
 												<select name="trans_agent_role_2" id="trans_agent_role_2" class="form-control form-control-sm input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
-														<option value="#trans_agent_role#">#trans_agent_role#:</option>
+														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_2" id="agent_2" class="form-control form-control-sm" >
-												<input type="hidden" name="agent_2_id" id="agent_2_id" >
+												<input type="text" name="agent_2" id="agent_2" class="form-control form-control-sm" value="#agent_2#" >
+												<input type="hidden" name="agent_2_id" id="agent_2_id" value="#agent_2_id#" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
@@ -312,11 +326,12 @@ limitations under the License.
 												<select name="trans_agent_role_3" id="trans_agent_role_3" class="form-control form-control-sm input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
-														<option value="#trans_agent_role#">#trans_agent_role#:</option>
+														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_3" id="agent_3" class="form-control form-control-sm" >
-												<input type="hidden" name="agent_3_id" id="agent_3_id" >
+												<input type="text" name="agent_3" id="agent_3" class="form-control form-control-sm" value="#agent_3#" >
+												<input type="hidden" name="agent_3_id" id="agent_3_id" value="#agent_3_id#" >
 											</div>
 										</div>
 										<script>
