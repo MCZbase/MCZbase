@@ -72,8 +72,14 @@ limitations under the License.
 	<cfset selectedCollection = lookupCollection.collection >
 </cfif>
 <cfoutput>
+<!--- ensure fields have empty values present if not defined. --->
 <cfif not isdefined("status")><cfset status=""></cfif>
 <cfif not isdefined("loan_status")><cfset loan_status=""></cfif>
+<cfif not isdefined("loan_type")><cfset loan_type=""></cfif>
+<cfif not isdefined("nature_of_material")><cfset nature_of_material=""></cfif>
+<cfif not isdefined("loan_description")><cfset loan_description=""></cfif>
+<cfif not isdefined("loan_instructions")><cfset loan_instructions=""></cfif>
+<cfif not isdefined("trans_remarks")><cfset trans_remarks=""></cfif>
 <cfif not isdefined("trans_agent_role_1")><cfset trans_agent_role_1=""></cfif>
 <cfif not isdefined("agent_1")><cfset agent_1=""></cfif>
 <cfif not isdefined("agent_1_id")><cfset agent_1_id=""></cfif>
@@ -277,11 +283,13 @@ limitations under the License.
 											<input type="text" name="loan_number" id="loan_number" class="form-control-sm" value="#loan_number#">
 										</div>
 										<div class="col-12 col-md-3">
+											<cfset ploan_type = loan_type>
 											<label for="loan_type">Type:</label>
 											<select name="loan_type" id="loan_type" class="custom-select1 form-control-sm">
 												<option value=""></option>
 												<cfloop query="ctLoanType">
-													<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+													<cfif ploan_type eq ctLoanType.loan_type><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctLoanType.loan_type#" #selected#>#ctLoanType.loan_type#</option>
 												</cfloop>
 											</select>
 										</div>
@@ -417,19 +425,19 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
 											<label for="">Nature of Material:</label>
-											<input type="text" name="nature_of_material" class="form-control-sm">
+											<input type="text" name="nature_of_material" class="form-control-sm" value="#nature_of_material#">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="">Description: </label>
-											<input type="text" name="loan_description" class="form-control-sm">
+											<input type="text" name="loan_description" class="form-control-sm" value="#loan_description#">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="">Instructions:</label>
-											<input type="text" name="loan_instructions" class="form-control-sm">
+											<input type="text" name="loan_instructions" class="form-control-sm" value="#loan_instructions#">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="">Internal Remarks: </label>
-											<input type="text" name="trans_remarks" class="form-control-sm">
+											<input type="text" name="trans_remarks" class="form-control-sm" value="#trans_remarks#">
 										</div>
 									</div>
 									<div class="form-row mb-2 border border-secondary pb-2">
