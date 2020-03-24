@@ -584,35 +584,35 @@ limitations under the License.
 							 <div class="form-group" id="otherFieldGroupDiv">
 								<div class="row">
 								  <div class="col-4">
-									<label for="otherField1" class="data-entry-label">Part Attribute</label>
+									<label for="otherField1" class="data-entry-label mb-0">Part Attribute</label>
 									<input type="text" class="data-entry-input" id="otherField1" placeholder="part attribute">
 								  </div>
 								  <div class="col-4">
-									<label for="otherField2" class="data-entry-label">Attribute Value</label>
+									<label for="otherField2" class="data-entry-label mb-0">Attribute Value</label>
 									<input type="text" class="data-entry-input" id="otherField2" placeholder="attribute value">
 								  </div>
 								  <div class="col-4">
-									<label for="otherField2" class="data-entry-label">Attribute Units</label>
+									<label for="otherField2" class="data-entry-label mb-0">Attribute Units</label>
 									<input type="text" class="data-entry-input" id="otherField3" placeholder="attribute Units">
 								  </div>
 								</div>
 								 	<div class="row">
 								  <div class="col-6">
-									<label for="otherField1" class="data-entry-label">Determiner</label>
+									<label for="otherField1" class="data-entry-label mb-0">Determiner</label>
 									<input type="text" class="data-entry-input" id="otherField4">
 								  </div>
 								  <div class="col-6">
-									<label for="otherField2" class="data-entry-label">on Date</label>
-									<input type="text" class="data-entry-value" id="otherField5">
+									<label for="otherField2" class="data-entry-label mb-0">Determined on Date</label>
+									<input type="text" class="data-entry-input" id="otherField5">
 								  </div>
 								</div>
 								 <div class="row">
 								  <div class="col-12">
-									<label for="otherField1" class="data-entry-label">Remarks</label>
+									<label for="otherField1" class="data-entry-label mb-0">Remarks</label>
 									<input type="text" class="data-entry-input" id="otherField6">
 								  </div>
 								</div>
-								 			<div class="col-12 row mx-0 px-0">
+								<div class="col-12 row mx-0 pt-2 px-0">
 										<label for="seeAnotherFieldGroup" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Add an Attribute?</label>
 										<div class="col-12 col-lg-9">
 											<select class="data-entry-select" id="seeAnotherFieldGroup" required="">
@@ -620,7 +620,7 @@ limitations under the License.
 												<option value="yes">Yes</option>
 											</select>
 										</div>
-									</div>
+								</div>
 							  </div>
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a></div>
 							</div>
