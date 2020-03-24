@@ -446,7 +446,7 @@ limitations under the License.
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Coordinates</h2>
-							<h3 class="fs-subtitle text-center">This is step 9</h3>
+							<h3 class="fs-subtitle text-center">This is step 10</h3>
 						
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
@@ -534,7 +534,7 @@ limitations under the License.
 			
 				</div>
 				<div class="row">	
-					<div class="col-12 col-md-4 pb-2 px-1">
+					<div class="col-12 col-md-4 pb-4 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Parts</h2>
 							<h3 class="fs-subtitle text-center">This is step 11</h3>
@@ -636,13 +636,14 @@ limitations under the License.
 										</textarea>
 									</div>
 								</div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
 							</div>
+								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
+							
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Parts</h2>
+							<h2 class="fs-title text-center">Parts Attributes</h2>
 							<h3 class="fs-subtitle text-center">This is step 10</h3>
 							<div id="customPart">
 								<div class="row">
