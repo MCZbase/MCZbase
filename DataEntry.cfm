@@ -583,23 +583,33 @@ limitations under the License.
 									</div>
 							 <div class="form-group" id="otherFieldGroupDiv">
 								<div class="row">
-								  <div class="col-6">
-									<label for="otherField1">Group: Heres One!</label>
-									<input type="text" class="form-control w-100" id="otherField1">
+								  <div class="col-4">
+									<label for="otherField1">Part Attribute</label>
+									<input type="text" class="data-entry-input" id="otherField1" placeholder="part attribute">
 								  </div>
-								  <div class="col-6">
-									<label for="otherField2">Group: Another One!</label>
-									<input type="text" class="form-control w-100" id="otherField2">
+								  <div class="col-4">
+									<label for="otherField2">Attribute Value</label>
+									<input type="text" class="data-entry-input" id="otherField2" placeholder="attribute value">
+								  </div>
+								  <div class="col-4">
+									<label for="otherField2">Attribute Units</label>
+									<input type="text" class="data-entry-input" id="otherField3" placeholder="attribute Units">
 								  </div>
 								</div>
 								 	<div class="row">
 								  <div class="col-6">
-									<label for="otherField1">Group: Heres One!</label>
-									<input type="text" class="form-control w-100" id="otherField1">
+									<label for="otherField1">Determiner</label>
+									<input type="text" class="data-entry-input" id="otherField4">
 								  </div>
 								  <div class="col-6">
-									<label for="otherField2">Group: Another One!</label>
-									<input type="text" class="form-control w-100" id="otherField2">
+									<label for="otherField2">on Date</label>
+									<input type="text" class="data-entry-value" id="otherField5">
+								  </div>
+								</div>
+								 <div class="row">
+								  <div class="col-12">
+									<label for="otherField1">Remarks</label>
+									<input type="text" class="data-entry-input" id="otherField6">
 								  </div>
 								</div>
 							  </div>
