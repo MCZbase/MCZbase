@@ -46,6 +46,7 @@ limitations under the License.
 										<option value="3">Malacology</option>
 									</select>
 								</div>
+								<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets the template for the rest of the fields.</small> 
 							</div>
 						</div>
 					</div>		
@@ -55,16 +56,17 @@ limitations under the License.
 							<h3 class="fs-subtitle text-center">This is step 2</h3>
 							<div class="row">
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
-								<div class="col-xl-9">
+								<div class="col-12 col-xl-9">
 									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-									<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection.</small> </div>
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> 
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Accn Number</h2>
-							<h3 class="fs-subtitle text-center">This is step 2</h3>
+							<h3 class="fs-subtitle text-center">This is step 3</h3>
 							<div class="row">
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Accession</label>
 								<div class="col-xl-9">
