@@ -944,7 +944,7 @@ $("##seePartAtt").change(function() {
     $('##otherField2').removeAttr('data-error');
   }
 });
-$("#seeAnotherFieldGroup").trigger("change");
+$("##seeAnotherFieldGroup").trigger("change");
 </script> 
 
 
