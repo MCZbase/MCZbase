@@ -588,7 +588,7 @@ limitations under the License.
 									<div class="col-12 col-lg-9">
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
 									</div>
-								<div class="row mt-2">
+									<div class="mt-2">
 									<label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Attribute</label>
 									<div class="col-12 col-lg-9">
 										<input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute">
@@ -609,12 +609,12 @@ limitations under the License.
 									<div class="col-12 col-lg-9">
 										<textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea>
 									</div>
+									</div>
 								</div>
-							</div>
-					
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> </div>
 						</div>
 					</div>
+	</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Attributes</h2>
