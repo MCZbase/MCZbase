@@ -572,8 +572,16 @@ limitations under the License.
 										</textarea>
 									</div>
 								</div>
-							<div id="customPartAtt"></div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a><br>	<a aria-label="Add another set of search criteria" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part Att</a> </div>
+									<div class="col-12 row mx-0 px-0">
+										<label for="seePartAtt" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Add a Attribute?</label>
+										<div class="col-12 col-lg-12">
+											<select class="data-entry-select" required="">
+												<option value="">Yes</option>
+												<option value="1">No</option>
+											</select>
+										</div>
+									</div>
+								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a></div>
 							</div>
 					
 						</div>
@@ -907,7 +915,39 @@ $(document).ready(function(){
 	});
 	$("##customPartAtt").on('click','.remPartAtt',function(){$(this).parent().remove();});
 });
+		
+$("##seePartAtt").change(function() {
+  if ($(this).val() == "yes") {
+    $('##customPart').show();
+    $('##otherField').attr('required', '');
+    $('##otherField').attr('data-error', 'This field is required.');
+  } else {
+    $('##otherFieldDiv').hide();
+    $('##otherField').removeAttr('required');
+    $('##otherField').removeAttr('data-error');
+  }
+});
+$("#seePartAtt").trigger("change");
+
+$("#seePartAtt").change(function() {
+  if ($(this).val() == "yes") {
+    $('#otherFieldGroupDiv').show();
+    $('#otherField1').attr('required', '');
+    $('#otherField1').attr('data-error', 'This field is required.');
+    $('#otherField2').attr('required', '');
+    $('#otherField2').attr('data-error', 'This field is required.');
+  } else {
+    $('#otherFieldGroupDiv').hide();
+    $('#otherField1').removeAttr('required');
+    $('#otherField1').removeAttr('data-error');
+    $('#otherField2').removeAttr('required');
+    $('#otherField2').removeAttr('data-error');
+  }
+});
+$("#seeAnotherFieldGroup").trigger("change");
 </script> 
+
+
 	<script type="text/javascript">
 function SwapDivsWithClick(div1,div2)
 {
