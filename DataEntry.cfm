@@ -572,6 +572,7 @@ limitations under the License.
 										</textarea>
 									</div>
 								</div>
+							<div id="customPartAtt"></div>
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a> <a aria-label="Add another set of search criteria" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part Att</a></div>
 							</div>
 						</div>
