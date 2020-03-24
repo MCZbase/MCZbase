@@ -58,7 +58,10 @@ limitations under the License.
 	select * from collection order by collection
 </cfquery>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role) from cttrans_agent_role  order by trans_agent_role
+	select count(*) as cnt, ct.trans_agent_role 
+	from cttrans_agent_role ct left join trans_agent on ct.trans_agent_role = trans_agent.trans_agent_role
+	group by ct.trans_agent_role
+	order by ct.trans_agent_role
 </cfquery>
 
 <cfset selectedCollection = ''>
@@ -157,7 +160,7 @@ limitations under the License.
 												<option value="">agent role...</option>
 												<cfloop query="cttrans_agent_role">
 													<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-													<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
+													<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 												</cfloop>
 											</select>
 											<input type="text" name="agent_1" id="all_agent_1" class="form-control form-control-sm" value="#agent_1#" >
@@ -170,7 +173,7 @@ limitations under the License.
 												<option value="">agent role...</option>
 												<cfloop query="cttrans_agent_role">
 													<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-													<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
+													<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 												</cfloop>
 											</select>
 											<input type="text" name="agent_2" id="all_agent_2" class="form-control form-control-sm" value="#agent_2#" >
@@ -183,7 +186,7 @@ limitations under the License.
 												<option value="">agent role...</option>
 												<cfloop query="cttrans_agent_role">
 													<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-													<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
+													<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 												</cfloop>
 											</select>
 											<input type="text" name="agent_3" id="all_agent_3" class="form-control form-control-sm" value="#agent_3#" >
