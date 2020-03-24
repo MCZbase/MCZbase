@@ -288,7 +288,7 @@ limitations under the License.
 					AND upper(loan_description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_description)#%'>
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
-					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(escapeQuotes(nature_of_material))#%'>
+					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
 				</cfif>
 				<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 					AND return_due_date between 
@@ -343,7 +343,7 @@ limitations under the License.
 						<cfif part_disp_oper is "is">
 							and coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						<cfelse>
-							and coll_object.coll_obj_disposition NIT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+							and coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						</cfif>
 					</cfif>
 				</cfif>
