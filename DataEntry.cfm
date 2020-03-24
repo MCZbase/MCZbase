@@ -31,7 +31,6 @@ limitations under the License.
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 			
 				<div class="row"> 
-					<!---First block left (below) -- Record Numbers: includes catalog number, other ID, Mask Record and other records  --->
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Collection</h2>
@@ -66,6 +65,27 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
+							<h2 class="fs-title text-center">Encumbrance</h2>
+							<h3 class="fs-subtitle text-center">This is step 5</h3>
+							<div id="encumbrance">
+								<div class="row mb-2">
+									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
+									<div class="col-xl-9">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
+											<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>-->
+											<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> 
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-4 pb-2 px-1">
+						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Accession Number</h2>
 							<h3 class="fs-subtitle text-center">This is step 3</h3>
 							<div class="row">
@@ -76,8 +96,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Other IDs</h2>
@@ -125,24 +143,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Encumbrance</h2>
-							<h3 class="fs-subtitle text-center">This is step 5</h3>
-							<div id="encumbrance">
-								<div class="row mb-2">
-									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
-									<div class="col-xl-9">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
-											<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>-->
-											<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> 
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
@@ -317,7 +318,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-			
+				</div>
+				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Locality</h2>
@@ -551,7 +553,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-			
+				</div>
+				<div class="row">	
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Parts</h2>
