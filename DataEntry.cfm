@@ -66,12 +66,12 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Accn Number</h2>
+							<h2 class="fs-title text-center">Accession Number</h2>
 							<h3 class="fs-subtitle text-center">This is step 3</h3>
 							<div class="row">
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Accession</label>
 								<div class="col-xl-9">
-									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession" name="accn">
+									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
 									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
 							</div>
 						</div>
@@ -222,13 +222,13 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-0">Verbatim Locality</label>
+								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Locality</label>
 								<div class="col-sm-9">
 									<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
 								</div>
 							</div>
 							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">ISO Dates</label>
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">ISO Dates</label>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="began_date" placeholder="Began Date">
 								</div>
@@ -296,7 +296,6 @@ limitations under the License.
 									<input type="text" name="verbatim_longitude" class="data-entry-input" placeholder="Verbatim Longitude" />
 								</div>
 							</div>
-				
 							<div class="row">
 								<label for="start_day_of_year" class="data-entry-label col-sm-3 text-center text-md-right px-0">Start Day of Year</label>
 								<div class="col-sm-9">
@@ -310,12 +309,6 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="date_determined" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date Determined</label>
-								<div class="col-sm-9">
-									<input type="text" name="date_determined" class="data-entry-input" placeholder="Date Determined" />
-								</div>
-							</div>
-							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
 								<div class="col-sm-9">
 									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
@@ -324,8 +317,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
+			
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Locality</h2>
@@ -559,8 +551,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">	
+			
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
 							<h2 class="fs-title text-center">Parts</h2>
