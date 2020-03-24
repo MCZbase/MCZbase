@@ -574,10 +574,11 @@ limitations under the License.
 								</div>
 									<div class="col-12 row mx-0 px-0">
 										<label for="seePartAtt" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Add a Attribute?</label>
-										<div class="col-12 col-lg-12">
+										<div class="col-12 col-lg-9">
 											<select class="data-entry-select" required="">
-												<option value="">Yes</option>
-												<option value="1">No</option>
+												<option value=""></option>
+												<option value="1">Yes</option>
+												<option value="2">No</option>
 											</select>
 										</div>
 									</div>
