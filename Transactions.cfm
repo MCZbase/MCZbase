@@ -161,11 +161,12 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-6">
+										<cfset pstatus = status><!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 										<label for="status">Status:</label>
 										<select name="status" id="status" class="custom-select1 form-control-sm" >
 											<option value=""></option>
 											<cfloop query="ctStatus">
-												<cfif status eq ctStatus.status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<cfif pstatus eq ctStatus.status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option value="#ctStatus.status#" #selected# >#ctStatus.status#</option>
 											</cfloop>
 										</select>
@@ -222,10 +223,11 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12">
 										<button class="btn btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
-											<button id="transcsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
+										<button id="transcsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
 												onclick=" exportGridToCSV('searchResultsGrid', 'transaction_list.csv'); "
 												disabled >Export to CSV</button>
-										<button type="reset" class="btn btn-warning" aria-label="Clear transaction search form">Clear</button>
+											<button type="reset" class="btn btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
+											<button type="button" class="btn btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
 									</div>
 								</div>
 							</form>
