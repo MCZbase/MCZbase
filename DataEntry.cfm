@@ -31,7 +31,7 @@ limitations under the License.
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Collection</h2>
-							<h3 class="fs-subtitle text-center">This is step 1</h3>
+							<h3 class="data-entry-subtitle">This is step 1</h3>
 							<div class="row">
 								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
 								<div class="col-12 col-lg-9">
@@ -47,8 +47,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
-							<h2 class="fs-title text-center">Catalog Number</h2>
-							<h3 class="fs-subtitle text-center">This is step 2</h3>
+							<h2 class="data-entry-title">Catalog Number</h2>
+							<h3 class="data-entry-subtitle">This is step 2</h3>
 							<div class="row">
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
 								<div class="col-12 col-xl-9">
@@ -59,8 +59,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
-							<h2 class="fs-title text-center">Encumbrance</h2>
-							<h3 class="fs-subtitle text-center">This is step 5</h3>
+							<h2 class="data-entry-title">Encumbrance</h2>
+							<h3 class="data-entry-subtitle">This is step 5</h3>
 							<div id="encumbrance">
 								<div class="row mb-2">
 									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
@@ -78,8 +78,8 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
-							<h2 class="fs-title text-center">Accession Number</h2>
-							<h3 class="fs-subtitle text-center">This is step 3</h3>
+							<h2 class="data-entry-title">Accession Number</h2>
+							<h3 class="data-entry-subtitle">This is step 3</h3>
 							<div class="row">
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Accession</label>
 								<div class="col-xl-9">
@@ -90,8 +90,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
-							<h2 class="fs-title text-center">Other IDs</h2>
-							<h3 class="fs-subtitle text-center">This is step 3</h3>
+							<h2 class="data-entry-title">Other IDs</h2>
+							<h3 class="data-entry-subtitle">This is step 3</h3>
 							<div id="customID">
 								<div class="row">
 									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
@@ -113,8 +113,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Record Relationships</h2>
-							<h3 class="fs-subtitle text-center">This is step 4</h3>
+							<h2 class="data-entry-title">Record Relationships</h2>
+							<h3 class="data-entry-subtitle">This is step 4</h3>
 							<div id="customRelationship">
 								<div class="row">
 									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
@@ -139,8 +139,8 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Biological Relationships</h2>
-							<h3 class="fs-subtitle text-center">This is step 5</h3>
+							<h2 class="data-entry-title">Biological Relationships</h2>
+							<h3 class="data-entry-subtitle">This is step 5</h3>
 							<div id="customRelationship">
 								<div class="row">
 									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
@@ -163,8 +163,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Collector/Preparator</h2>
-							<h3 class="fs-subtitle text-center">This is step 6</h3>
+							<h2 class="data-entry-title">Collector/Preparator</h2>
+							<h3 class="data-entry-subtitle">This is step 6</h3>
 							<div id="customAgent">
 								<div class="row">
 									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Agent</label>
@@ -184,8 +184,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Scientific Name</h2>
-							<h3 class="fs-subtitle text-center">This is step 7</h3>
+							<h2 class="data-entry-title">Scientific Name</h2>
+							<h3 class="data-entry-subtitle">This is step 7</h3>
 							<div class="row">
 								<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
 								<div class="col-12 col-lg-9">
@@ -225,8 +225,8 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Collecting Event</h2>
-							<h3 class="fs-subtitle text-center">This is step 8</h3>
+							<h2 class="data-entry-title">Collecting Event</h2>
+							<h3 class="data-entry-subtitle">This is step 8</h3>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
 								<div class="col-sm-9">
@@ -335,8 +335,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Locality</h2>
-							<h3 class="fs-subtitle text-center">This is step 9</h3>
+							<h2 class="data-entry-title">Locality</h2>
+							<h3 class="data-entry-subtitle">This is step 9</h3>
 							<div class="row">
 								<div class="col-12">
 									<p><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
@@ -431,8 +431,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Coordinates</h2>
-							<h3 class="fs-subtitle text-center">This is step 10</h3>
+							<h2 class="data-entry-title">Coordinates</h2>
+							<h3 class="data-entry-subtitle">This is step 10</h3>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
 								<div class="col-sm-9">
@@ -518,8 +518,8 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-4 pb-4 px-1">
 						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Parts</h2>
-							<h3 class="fs-subtitle text-center">This is step 11</h3>
+							<h2 class="data-entry-title">Parts</h2>
+							<h3 class="data-entry-subtitle">This is step 11</h3>
 							<div id="customPart">
 								<div class="row">
 									<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>

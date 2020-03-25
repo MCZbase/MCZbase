@@ -143,6 +143,13 @@ h6, .h6 {
 	margin-top: 5px;
 	text-align: center;
 }
+.data_entry-subtitle {
+	font-weight: normal;
+	font-size: 13px;
+	color: #666;
+	margin-bottom: 15px;
+	text-align: center;
+}
 p {
 	margin-bottom: .75em;
 	line-height: normal;
