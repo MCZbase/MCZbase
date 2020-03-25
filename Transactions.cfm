@@ -90,6 +90,11 @@ limitations under the License.
 <cfif not isdefined("agent_3")><cfset agent_3=""></cfif>
 <cfif not isdefined("agent_3_id")><cfset agent_3_id=""></cfif>
 <cfif not isdefined("trans_date")><cfset trans_date=""></cfif>
+<cfif not isdefined("to_trans_date")><cfset to_trans_date=""></cfif>
+<cfif not isdefined("return_due_date")><cfset return_due_date=""></cfif>
+<cfif not isdefined("to_return_due_date")><cfset to_return_due_date=""></cfif>
+<cfif not isdefined("closed_date")><cfset closed_date=""></cfif>
+<cfif not isdefined("to_closed_date")><cfset to_closed_date=""></cfif>
 
 <!--- Search form --->
 <div id="search-form-div" class="search-form-div pb-4 px-3">
@@ -367,7 +372,9 @@ limitations under the License.
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div class="input-group-prepend" id="trans_date_to_marker" >To:</div>
-														<input type='text' name='to_trans_date' id="to_trans_date" class="datetimeinput form-control form-control-sm w-75" aria-label="loan date search range to" aria-described="trans_date_to_marker">
+														<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#"
+																class="datetimeinput form-control form-control-sm w-75" 
+																aria-label="loan date search range to" aria-described="trans_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -378,12 +385,14 @@ limitations under the License.
 													<label for="return_due_date"> Due Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="return_due_date" id="return_due_date" class="datetimeinput form-control-sm w-75">
+													<input type="text" name="return_due_date" id="return_due_date" class="datetimeinput form-control-sm w-75" value="#return_due_date#" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div id="return_due_date_to_marker" class="input-group-prepend">To:</div>
-														<input type='text' name='to_return_due_date' id="to_return_due_date" class="datetimeinput form-control form-control-sm w-75" aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
+														<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#"
+															class="datetimeinput form-control form-control-sm w-75" 
+															aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -396,12 +405,14 @@ limitations under the License.
 													<label for="closed_date"> Closed Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="closed_date" id="closed_date" class="datetimeinput form-control-sm w-75">
+													<input type="text" name="closed_date" id="closed_date" class="datetimeinput form-control-sm w-75" value="#closed_date#">
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div id="closed_date_to_marker" class="input-group-prepend">To:</div>
-														<input type='text' name='to_closed_date' id="to_closed_date" class="datetimeinput form-control form-control-sm w-75" aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
+														<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#"
+															class="datetimeinput form-control form-control-sm w-75" 
+															aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
 													</div>
 												</div>
 											</div>
