@@ -424,6 +424,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-9">
 													<div class="input-group float-left">
+														<input type="hidden" name="permit_id" id="permit_id">
 														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel">
 														<!--- TODO: move backing into transactions/ change from popup window. --->
 														<div class="input-group-append">
@@ -434,6 +435,11 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+									<script>
+										$(document).ready(function() {
+											$(makePermitPicker('permit_num','permit_id'));
+										});
+									</script>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
 											<label for="">Nature of Material:</label>

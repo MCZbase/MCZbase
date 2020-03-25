@@ -56,7 +56,7 @@ function makeAgentPicker(nameControl, idControl) {
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, status, error) {
-					var message = "";      
+					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
 					} else { 

@@ -1,5 +1,36 @@
 /** Scripts specific to transactions pages. **/
 
+
+/** Make a paired hidden permit_id and text permit_name control into an autocomplete permit picker
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected permit_id (without a leading # selector).
+ */
+function makePermitPicker(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/transactions/component/functions.cfc",
+				data: { term: request.term, method: 'getPermitAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	});
+};
+
 /** Check an agent to see if the agent has a flag on the agent, if so alert a message
   * @param agent_id the agent_id of the agent to check for rank flags.  
   **/

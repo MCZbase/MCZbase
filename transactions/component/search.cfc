@@ -158,6 +158,7 @@ limitations under the License.
     <cfargument name="nature_of_material" type="string" required="no">
     <cfargument name="collection_id" type="numeric" required="no">
     <cfargument name="permit_num" type="string" required="no">
+    <cfargument name="permit_id" type="string" required="no">
     <cfargument name="return_due_date" type="string" required="no">
     <cfargument name="to_return_due_date" type="string" required="no">
     <cfargument name="closed_date" type="string" required="no">
@@ -257,6 +258,9 @@ limitations under the License.
 					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					left join shipment on loan.transaction_id = shipment.transaction_id
+				</cfif>
 			where
 				trans.transaction_id is not null
 				<cfif isdefined("loan_number") AND len(#loan_number#) gt 0>
@@ -265,8 +269,12 @@ limitations under the License.
 				<cfif isdefined("collection_id") AND collection_id gt 0>
 					AND trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
-				<cfif isdefined("permit_num") AND len(#permit_num#) gt 0>
-					AND PERMIT_NUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PERMIT_NUM#">
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					AND ( 
+						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_id#">
+						OR
+						shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_id#">
+					)
 				</cfif>
 				<cfif isdefined("loan_type") AND len(#loan_type#) gt 0>
 					AND loan.loan_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#loan_type#'>
