@@ -95,6 +95,8 @@ limitations under the License.
 <cfif not isdefined("to_return_due_date")><cfset to_return_due_date=""></cfif>
 <cfif not isdefined("closed_date")><cfset closed_date=""></cfif>
 <cfif not isdefined("to_closed_date")><cfset to_closed_date=""></cfif>
+<cfif not isdefined("permit_id")><cfset permit_id=""></cfif>
+<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
 
 <!--- Search form --->
 <div id="search-form-div" class="search-form-div pb-4 px-3">
@@ -424,8 +426,8 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-9">
 													<div class="input-group float-left">
-														<input type="hidden" name="permit_id" id="permit_id">
-														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel">
+														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
 														<!--- TODO: move backing into transactions/ change from popup window. --->
 														<div class="input-group-append">
 															<span class="input-group-text py-0" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span>
