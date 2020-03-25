@@ -526,7 +526,7 @@ limitations under the License.
 												onclick=" exportGridToCSV('searchResultsGrid', 'loan_list.csv'); "
 												disabled >Export to CSV</button>
 											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" >Reset</button>
-											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href=#Application.serverRootUrl#/Transactions.cfm?action=findLoans" >New Search</button>
+											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
 									</div>
 								</form>
