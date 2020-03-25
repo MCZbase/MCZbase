@@ -98,7 +98,7 @@ limitations under the License.
 		<script type="text/javascript" src="/lib/misc/jquery.jfeed.js"></script>
 	 </cfif>
 </cfif>
-<cfif CGI.script_name CONTAINS "/transactions/">
+<cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name CONTAINS "/Transactions.cfc">
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
 
