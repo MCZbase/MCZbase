@@ -89,6 +89,18 @@ limitations under the License.
 <cfif not isdefined("trans_agent_role_3")><cfset trans_agent_role_3=""></cfif>
 <cfif not isdefined("agent_3")><cfset agent_3=""></cfif>
 <cfif not isdefined("agent_3_id")><cfset agent_3_id=""></cfif>
+<cfif not isdefined("trans_date")><cfset trans_date=""></cfif>
+<cfif not isdefined("to_trans_date")><cfset to_trans_date=""></cfif>
+<cfif not isdefined("return_due_date")><cfset return_due_date=""></cfif>
+<cfif not isdefined("to_return_due_date")><cfset to_return_due_date=""></cfif>
+<cfif not isdefined("closed_date")><cfset closed_date=""></cfif>
+<cfif not isdefined("to_closed_date")><cfset to_closed_date=""></cfif>
+<cfif not isdefined("permit_id")><cfset permit_id=""></cfif>
+<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
+<cfif not isdefined("part_name_oper")><cfset part_name_oper="is"></cfif>
+<cfif not isdefined("part_name")><cfset part_name=""></cfif>
+<cfif not isdefined("part_disp_oper")><cfset part_disp_oper="is"></cfif>
+<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
 
 <!--- Search form --->
 <div id="search-form-div" class="search-form-div pb-4 px-3">
@@ -132,7 +144,7 @@ limitations under the License.
 						<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 							<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 							<form id="searchForm">
-								<input  type="hidden" name="method" value="getTransactions">
+								<input  type="hidden" name="method" value="getTransactions" class="keeponclear">
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-6">
 										<label for="collection_id">Collection/Number (nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll):</label>
@@ -149,11 +161,12 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-6">
+										<cfset pstatus = status><!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 										<label for="status">Status:</label>
 										<select name="status" id="status" class="custom-select1 form-control-sm" >
 											<option value=""></option>
 											<cfloop query="ctStatus">
-												<cfif status eq ctStatus.status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<cfif pstatus eq ctStatus.status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option value="#ctStatus.status#" #selected# >#ctStatus.status#</option>
 											</cfloop>
 										</select>
@@ -210,10 +223,11 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12">
 										<button class="btn btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
-											<button id="transcsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
+										<button id="transcsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
 												onclick=" exportGridToCSV('searchResultsGrid', 'transaction_list.csv'); "
 												disabled >Export to CSV</button>
-										<button type="reset" class="btn btn-warning" aria-label="Clear transaction search form">Clear</button>
+											<button type="reset" class="btn btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
+											<button type="button" class="btn btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
 									</div>
 								</div>
 							</form>
@@ -265,7 +279,7 @@ limitations under the License.
 
 								<cfif not isdefined("loan_number")><cfset loan_number=""></cfif>
 								<form id="loanSearchForm">
-									<input type="hidden" name="method" value="getLoans">
+									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
@@ -356,33 +370,37 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<div class="form-row">
+											<div class="form-row border border-secondary py-1">
 												<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
 												</div>
-												<div class="col-md-5 col-12 float-left">
-													<input name="trans_date" id="trans_date" type="text" class="jqxdatetimeinput float-right" >
+												<div class="col-md-5 col-12">
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control-sm w-75" value="#trans_date#" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div class="input-group-prepend" id="trans_date_to_marker" >To:</div>
-														<input type='text' name='to_trans_date' id="to_trans_date" class="jqxdatetimeinput" aria-label="loan date search range to" aria-described="rans_date_to_marker">
+														<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#"
+																class="datetimeinput form-control form-control-sm w-75" 
+																aria-label="loan date search range to" aria-described="trans_date_to_marker">
 													</div>
 												</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<div class="form-row">
+											<div class="form-row border border-secondary py-1">
 												<div class="col-md-2 col-12 float-right">
 													<label for="return_due_date"> Due Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="return_due_date" id="return_due_date" class="jqxdatetimeinput float-right">
+													<input type="text" name="return_due_date" id="return_due_date" class="datetimeinput form-control-sm w-75" value="#return_due_date#" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div id="return_due_date_to_marker" class="input-group-prepend">To:</div>
-														<input type='text' name='to_return_due_date' id="to_return_due_date" class="jqxdatetimeinput" aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
+														<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#"
+															class="datetimeinput form-control form-control-sm w-75" 
+															aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -390,17 +408,19 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<div class="form-row">
+											<div class="form-row border border-secondary py-1">
 												<div class="col-md-2 col-12 float-right">
 													<label for="closed_date"> Closed Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="closed_date" id="closed_date" class="jqxdatetimeinput float-right">
+													<input type="text" name="closed_date" id="closed_date" class="datetimeinput form-control-sm w-75" value="#closed_date#">
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div id="closed_date_to_marker" class="input-group-prepend">To:</div>
-														<input type='text' name='to_closed_date' id="to_closed_date" class="jqxdatetimeinput" aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
+														<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#"
+															class="datetimeinput form-control form-control-sm w-75" 
+															aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -412,7 +432,8 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-9">
 													<div class="input-group float-left">
-														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel">
+														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
 														<!--- TODO: move backing into transactions/ change from popup window. --->
 														<div class="input-group-append">
 															<span class="input-group-text py-0" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span>
@@ -422,6 +443,11 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+									<script>
+										$(document).ready(function() {
+											$(makePermitPicker('permit_num','permit_id'));
+										});
+									</script>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
 											<label for="">Nature of Material:</label>
@@ -443,26 +469,49 @@ limitations under the License.
 									<div class="form-row mb-2 border border-secondary pb-2">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper">Part Match</label>
+											<cfif part_name_oper IS "is">
+												<cfset isselect = "selected">
+												<cfset containsselect = "">
+											<cfelse>
+												<cfset isselect = "">
+												<cfset containsselect = "selected">
+											</cfif>
 											<select id="part_name_oper" name="part_name_oper" class="form-control-sm custom-select1">
-												<option value="is">is</option>
-												<option value="contains">contains</option>
+												<option value="is" #isselect#>is</option>
+												<option value="contains" #containsselect#>contains</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="part_name">Part Name</label>
-											<input type="text" id="part_name" name="part_name" class="form-control-sm">
+											<input type="text" id="part_name" name="part_name" class="form-control-sm" value="#part_name#">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="part_disp_oper">Disposition Match</label>
+											<cfif part_disp_oper IS "is">
+												<cfset isselect = "selected">
+												<cfset notselect = "">
+											<cfelse>
+												<cfset isselect = "">
+												<cfset notselect = "selected">
+											</cfif>
 											<select id="part_disp_oper" name="part_disp_oper" class="form-control-sm custom-select1">
-												<option value="is">is</option>
-												<option value="isnot">is not</option>
+												<option value="is" #isselect#>is</option>
+												<option value="isnot" #notselect#>is not</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
+											<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
 											<label for="coll_obj_disposition">Part Disposition</label>
 											<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
 											<script>
+												function setDispositionValues() {
+													$('##coll_obj_disposition').jqxComboBox('clearSelection');
+													<cfloop query="ctCollObjDisp">
+														<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
+															$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+														</cfif>
+													</cfloop>
+												};
 												$(document).ready(function () {
 													var dispositionsource = [
 														""
@@ -470,24 +519,20 @@ limitations under the License.
 															,"#ctCollObjDisp.coll_obj_disposition#"
 														</cfloop>
 													];
-													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, selectedIndex: 0, multiSelect: true });
+													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
+													setDispositionValues();
 												});
 											</script>
 										</div>
 									</div>
-									<script>
-										function clearForm(form_id) { 
-										   $('##' + form_id + ' :input).val('');
-										   $('##' + form_id + ' .jqxdatetimeinput').jqxDateTimeInput({value: null);
-										}
-									</script>
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
 												onclick=" exportGridToCSV('searchResultsGrid', 'loan_list.csv'); "
 												disabled >Export to CSV</button>
-											<button type="button" class="btn btn-warning" aria-label="Clear loan search form" onclick=" clearForm('loanSearchForm'); ">Clear</button>
+											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
+											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
 									</div>
 								</form>
@@ -547,11 +592,12 @@ function exportToCSV (csvStringData, filename) {
 
 $(document).ready(function() {
 	/* Setup date time input controls */
-	$(".jqxdatetimeinput").jqxDateTimeInput({ 
-		value: null, 
-		height: '25px', 
-		theme: 'summer', 
-		min: new Date(1700,0,1) });
+	$(".datetimeinput").datepicker({ 
+		defaultDate: null,
+		buttonImageOnly: true,
+		buttonImage: "/includes/images/calendar_icon.png",
+		showOn: "both"
+	});
 
 	/* Setup jqxgrid for Transactions Search */
 	$('##searchForm').bind('submit', function(evt){
