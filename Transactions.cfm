@@ -477,7 +477,7 @@ limitations under the License.
 									</div>
 									<script>
 										function clearForm(form_id) { 
-										   $('##' + form_id + ' :input').not('.keeponclear').val('');
+										   $('##' + form_id + ' :input :not(.keeponclear)').val('');
 										   // $('##' + form_id + ' .datetimeinput').jqxDateTimeInput({value: null});
 										}
 									</script>
