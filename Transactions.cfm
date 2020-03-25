@@ -460,23 +460,41 @@ limitations under the License.
 											<input type="text" name="trans_remarks" class="form-control-sm" value="#trans_remarks#">
 										</div>
 									</div>
+<cfif not isdefined("part_name_oper")><cfset part_name_oper="is"></cfif>
+<cfif not isdefined("part_name")><cfset part_name=""></cfif>
+<cfif not isdefined("part_disp_oper")><cfset part_disp_oper="is"></cfif>
+<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
 									<div class="form-row mb-2 border border-secondary pb-2">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper">Part Match</label>
+											<cfif part_name_oper IS "is">
+												<cfset isselect = "selected">
+												<cfset containsselect = "">
+											<cfelse>
+												<cfset isselect = "">
+												<cfset containsselect = "selected">
+											</cfif>
 											<select id="part_name_oper" name="part_name_oper" class="form-control-sm custom-select1">
-												<option value="is">is</option>
-												<option value="contains">contains</option>
+												<option value="is" #isselect#>is</option>
+												<option value="contains" #containsselect#>contains</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="part_name">Part Name</label>
-											<input type="text" id="part_name" name="part_name" class="form-control-sm">
+											<input type="text" id="part_name" name="part_name" class="form-control-sm" value="#part_name#">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="part_disp_oper">Disposition Match</label>
+											<cfif part_disp_oper IS "is">
+												<cfset isselect = "selected">
+												<cfset notselect = "">
+											<cfelse>
+												<cfset isselect = "">
+												<cfset notselect = "selected">
+											</cfif>
 											<select id="part_disp_oper" name="part_disp_oper" class="form-control-sm custom-select1">
-												<option value="is">is</option>
-												<option value="isnot">is not</option>
+												<option value="is" #isselect#>is</option>
+												<option value="isnot" #notselect#>is not</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
