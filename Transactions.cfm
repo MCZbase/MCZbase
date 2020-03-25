@@ -498,14 +498,9 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="coll_obj_disposition">Part Disposition #coll_obj_disposition#</label>
+											<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
+											<label for="coll_obj_disposition">Part Disposition</label>
 											<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
-											<cfset i = 1>
-											<cfset selectedIndex = 0>
-											<cfloop query="ctCollObjDisp">
-												<cfif ctCollObjDisp.coll_obj_disposition EQ coll_obj_disposition><cfset selectedIndex = i></cfif>
-												<cfset i=i+1>
-											</cfloop>
 											<script>
 												$(document).ready(function () {
 													var dispositionsource = [
@@ -514,7 +509,13 @@ limitations under the License.
 															,"#ctCollObjDisp.coll_obj_disposition#"
 														</cfloop>
 													];
-													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, selectedIndex: 0, multiSelect: true });
+													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
+													<cfloop query="ctCollObjDisp">
+														<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
+															$("##coll_obj_disposition").jqxComboBox('selectItem',ctCollObjDisp.coll_obj_disposition);
+														</cfif>
+													<cfset i=i+1>
+											</cfloop>
 												});
 											</script>
 										</div>
