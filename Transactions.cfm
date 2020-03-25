@@ -360,8 +360,8 @@ limitations under the License.
 												<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
 												</div>
-												<div class="col-md-5 col-12 float-left">
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput float-right" >
+												<div class="col-md-5 col-12">
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
@@ -478,7 +478,7 @@ limitations under the License.
 									<script>
 										function clearForm(form_id) { 
 										   $('##' + form_id + ' :input').not('.keeponclear').val('');
-										   $('##' + form_id + ' .datetimeinput').jqxDateTimeInput({value: null});
+										   // $('##' + form_id + ' .datetimeinput').jqxDateTimeInput({value: null});
 										}
 									</script>
 									<div class="form-row mb-2">
@@ -552,12 +552,6 @@ $(document).ready(function() {
 		buttonImage: "/includes/images/calendar_icon.png",
 		showOn: "both"
 	});
-
-	//$(".jqxdatetimeinput").jqxDateTimeInput({ 
-	//	value: null, 
-	//	height: '25px', 
-	//	theme: 'summer', 
-	//	min: new Date(1700,0,1) });
 
 	/* Setup jqxgrid for Transactions Search */
 	$('##searchForm').bind('submit', function(evt){
