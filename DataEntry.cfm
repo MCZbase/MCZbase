@@ -30,7 +30,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
-							<h2 class="fs-title text-center">Collection</h2>
+							<h2 class="date-entry-title">Collection</h2>
 							<h3 class="fs-subtitle text-center">This is step 1</h3>
 							<div class="row">
 								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
