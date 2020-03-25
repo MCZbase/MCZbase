@@ -260,6 +260,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					left join shipment on loan.transaction_id = shipment.transaction_id
+					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 				</cfif>
 			where
 				trans.transaction_id is not null
@@ -273,7 +274,7 @@ limitations under the License.
 					AND ( 
 						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_id#">
 						OR
-						shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_id#">
+						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_id#">
 					)
 				</cfif>
 				<cfif isdefined("loan_type") AND len(#loan_type#) gt 0>
