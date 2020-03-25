@@ -111,8 +111,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addID btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Other ID</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Record Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 4</h3>
 							<div id="customRelationship">
@@ -137,8 +137,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 5</h3>
 							<div id="customRelationship">
@@ -161,8 +161,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Collector/Preparator</h2>
 							<h3 class="data-entry-subtitle">This is step 6</h3>
 							<div id="customAgent">
@@ -182,8 +182,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Scientific Name</h2>
 							<h3 class="data-entry-subtitle">This is step 7</h3>
 							<div class="row">
@@ -223,8 +223,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Collecting Event</h2>
 							<h3 class="data-entry-subtitle">This is step 8</h3>
 							<div class="row">
@@ -333,8 +333,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Locality</h2>
 							<h3 class="data-entry-subtitle">This is step 9</h3>
 							<div class="row">
@@ -429,8 +429,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Coordinates</h2>
 							<h3 class="data-entry-subtitle">This is step 10</h3>
 							<div class="row">
@@ -516,17 +516,17 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 col-md-4 pb-4 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Parts</h2>
 							<h3 class="data-entry-subtitle">This is step 11</h3>
 							<div id="customPart">
 								<div class="row">
-									<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
+									<label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
 									<div class="col-12 col-lg-9">
 										<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
 									</div>
-									<label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
+									<label for="preserv_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
 									<div class="col-12 col-lg-9">
 										<select class="data-entry-select" required>
 											<option value="">Ethanol</option>
@@ -596,7 +596,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="otherField3" placeholder="attribute Units">
 								  </div>
 								</div>
-								 	<div class="row">
+								<div class="row">
 								  <div class="col-6">
 									<label for="otherField1" class="data-entry-label mb-0">Determiner</label>
 									<input type="text" class="data-entry-input" id="otherField4">
@@ -606,13 +606,13 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="otherField5">
 								  </div>
 								</div>
-								 <div class="row">
+								<div class="row">
 								  <div class="col-12">
 									<label for="otherField1" class="data-entry-label mb-0">Remarks</label>
 									<input type="text" class="data-entry-input" id="otherField6">
 								  </div>
 								</div>
-								 <div class="row">
+								<div class="row">
 								<div class="col-12 pt-2">
 										<label for="seeAnotherFieldGroup" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Add an Attribute?</label>
 										<div class="col-12 col-xl-9">
@@ -630,10 +630,10 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<!---	<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
-							<h2 class="fs-title text-center">Attributes</h2>
-							<h3 class="fs-subtitle text-center">This is step 12</h3>
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
+							<h2 class="data-entry-title">Attributes</h2>
+							<h3 class="data-entry-subtitle">This is step 12</h3>
 							<div id="customAtt">
 								<div class="row mt-3">
 									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
@@ -676,7 +676,7 @@ limitations under the License.
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
 							
 						</div>
-					</div>--->
+					</div>
 				</div>
 			</form>
 		</div>
