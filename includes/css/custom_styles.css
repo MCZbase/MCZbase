@@ -134,6 +134,14 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem
 }
+h2.data-entry-title {
+	font-weight: 500;
+	font-size: 13px;
+	text-transform: uppercase;
+	margin-bottom: 5px;
+	line-height: 1.25em;
+	margin-top: 5px;
+}
 p {
 	margin-bottom: .75em;
 	line-height: normal;
@@ -838,15 +846,7 @@ column styles
 	color: #666;
 	margin-bottom: 15px;
 }
-h2.data-entry-title {
-	font-weight: 500;
-	font-size: 13px;
-	text-transform: uppercase;
-	margin-bottom: 5px;
-	line-height: 1.25em;
-	margin-top: 5px;
-	
-}
+
 /*progressbar*/
 ul#progressbar {
 	margin-bottom: 0px;
