@@ -136,11 +136,12 @@ h6, .h6 {
 }
 .data-entry-title {
 	font-weight: 500;
-	font-size: 13px;
+	font-size: 15px;
 	text-transform: uppercase;
 	margin-bottom: 5px;
 	line-height: 1.25em;
 	margin-top: 5px;
+	text-align: center;
 }
 p {
 	margin-bottom: .75em;
