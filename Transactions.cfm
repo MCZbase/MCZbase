@@ -89,6 +89,7 @@ limitations under the License.
 <cfif not isdefined("trans_agent_role_3")><cfset trans_agent_role_3=""></cfif>
 <cfif not isdefined("agent_3")><cfset agent_3=""></cfif>
 <cfif not isdefined("agent_3_id")><cfset agent_3_id=""></cfif>
+<cfif not isdefined("trans_date")><cfset trans_date=""></cfif>
 
 <!--- Search form --->
 <div id="search-form-div" class="search-form-div pb-4 px-3">
