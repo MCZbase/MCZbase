@@ -1694,11 +1694,13 @@ table#pairs th, table#pairs td {
     background-clip: padding-box;
 }
 .data-entry-button {
-	line-height: 1.2em;
+	line-height: 1em;
 	border-radius: .2rem;
 	background-color: lightpink;
 	color: red;
+	font-size: .875em;
 	height: 22px;
+	padding: .25em .35em;
 }
 .search-form-builder {
 	border: 1px solid #ccc;
