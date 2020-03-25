@@ -512,7 +512,7 @@ limitations under the License.
 													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
 													<cfloop query="ctCollObjDisp">
 														<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-															$("##coll_obj_disposition").jqxComboBox('selectItem',#ctCollObjDisp.coll_obj_disposition#);
+															$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
 														</cfif>
 													</cfloop>
 												});
