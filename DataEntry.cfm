@@ -28,8 +28,8 @@ limitations under the License.
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				<div class="row">
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="fs-title text-center">Collection</h2>
 							<h3 class="fs-subtitle text-center">This is step 1</h3>
 							<div class="row">
@@ -45,8 +45,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="fs-title text-center">Catalog Number</h2>
 							<h3 class="fs-subtitle text-center">This is step 2</h3>
 							<div class="row">
@@ -57,8 +57,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="fs-title text-center">Encumbrance</h2>
 							<h3 class="fs-subtitle text-center">This is step 5</h3>
 							<div id="encumbrance">
@@ -76,8 +76,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="fs-title text-center">Accession Number</h2>
 							<h3 class="fs-subtitle text-center">This is step 3</h3>
 							<div class="row">
@@ -88,8 +88,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-2 px-1">
-						<div class="border p-3 m-2">
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
 							<h2 class="fs-title text-center">Other IDs</h2>
 							<h3 class="fs-subtitle text-center">This is step 3</h3>
 							<div id="customID">
