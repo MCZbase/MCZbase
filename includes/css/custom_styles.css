@@ -1581,9 +1581,9 @@ tr.pairs td {
 form.keyword {
 	margin: 20px 0;
 }
-form select, button {
+/*form select, button {
 	padding: 5px;
-}
+}*/
 table#pairs {
 	width: 100%;
 	margin-bottom: 20px;
