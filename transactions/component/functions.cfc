@@ -295,19 +295,21 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select distinct permit_num, permit_type, issued_date, permit.permit_id,
+			select distinct permit_num, permit_type, specific_type, permit_title, issued_date, permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent
 			from permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
 				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
 			where upper(permit_num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
-			order by permit_num, permit_type, issued_date
+					OR upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+			order by permit_num, specific_type, issued_date
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.permit_id#">
-			<cfset row["value"] = "#search.permit_num# (#search.permit_type#, #search.issued_date#)" >
+			<cfif len(search.issued_date) gt 0><cfset i_date= ", " || search.issued_date><cfelse><cfset i_date=""></cfif>
+			<cfset row["value"] = "#search.permit_num# #search.permit_title# (#search.specific_type##i_date#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
