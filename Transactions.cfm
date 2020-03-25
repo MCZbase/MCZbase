@@ -361,7 +361,7 @@ limitations under the License.
 													<label for"trans_date">Loan Date:</label>
 												</div>
 												<div class="col-md-5 col-12">
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control-sm w-75" >
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control-sm w-75" value="#trans_date#" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
@@ -477,7 +477,7 @@ limitations under the License.
 									</div>
 									<script>
 										function clearForm(form_id) { 
-										   $('##' + form_id + ' :input :not(.keeponclear)').val('');
+										   $('##' + form_id + ' :input, :not(.keeponclear)').val('');
 										   // $('##' + form_id + ' .datetimeinput').jqxDateTimeInput({value: null});
 										}
 									</script>
