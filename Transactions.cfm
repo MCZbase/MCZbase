@@ -356,33 +356,33 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<div class="form-row">
+											<div class="form-row border border-secondary py-1">
 												<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
 												</div>
 												<div class="col-md-5 col-12">
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control form-control-sm " >
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control form-control-sm w-75" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div class="input-group-prepend" id="trans_date_to_marker" >To:</div>
-														<input type='text' name='to_trans_date' id="to_trans_date" class="datetimeinput form-control form-control-sm" aria-label="loan date search range to" aria-described="rans_date_to_marker">
+														<input type='text' name='to_trans_date' id="to_trans_date" class="datetimeinput form-control form-control-sm w-75" aria-label="loan date search range to" aria-described="trans_date_to_marker">
 													</div>
 												</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<div class="form-row">
+											<div class="form-row border border-secondary py-1">
 												<div class="col-md-2 col-12 float-right">
 													<label for="return_due_date"> Due Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="return_due_date" id="return_due_date" class="datetimeinput float-right">
+													<input type="text" name="return_due_date" id="return_due_date" class="datetimeinput form-control form-control-sm w-75">
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div id="return_due_date_to_marker" class="input-group-prepend">To:</div>
-														<input type='text' name='to_return_due_date' id="to_return_due_date" class="datetimeinput" aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
+														<input type='text' name='to_return_due_date' id="to_return_due_date" class="datetimeinput form-control form-control-sm w-75" aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -390,17 +390,17 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<div class="form-row">
+											<div class="form-row border border-secondary py-1">
 												<div class="col-md-2 col-12 float-right">
 													<label for="closed_date"> Closed Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="closed_date" id="closed_date" class="datetimeinput float-right">
+													<input type="text" name="closed_date" id="closed_date" class="datetimeinput form-control form-control-sm w-75">
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div id="closed_date_to_marker" class="input-group-prepend">To:</div>
-														<input type='text' name='to_closed_date' id="to_closed_date" class="datetimeinput" aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
+														<input type='text' name='to_closed_date' id="to_closed_date" class="datetimeinput form-control form-control-sm w-75" aria-label="closed date search range to" aria-described-by="closed_date_to_marker">
 													</div>
 												</div>
 											</div>
