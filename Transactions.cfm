@@ -514,8 +514,7 @@ limitations under the License.
 														<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
 															$("##coll_obj_disposition").jqxComboBox('selectItem',ctCollObjDisp.coll_obj_disposition);
 														</cfif>
-													<cfset i=i+1>
-											</cfloop>
+													</cfloop>
 												});
 											</script>
 										</div>
