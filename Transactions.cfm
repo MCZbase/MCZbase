@@ -97,6 +97,10 @@ limitations under the License.
 <cfif not isdefined("to_closed_date")><cfset to_closed_date=""></cfif>
 <cfif not isdefined("permit_id")><cfset permit_id=""></cfif>
 <cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
+<cfif not isdefined("part_name_oper")><cfset part_name_oper="is"></cfif>
+<cfif not isdefined("part_name")><cfset part_name=""></cfif>
+<cfif not isdefined("part_disp_oper")><cfset part_disp_oper="is"></cfif>
+<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
 
 <!--- Search form --->
 <div id="search-form-div" class="search-form-div pb-4 px-3">
@@ -460,10 +464,6 @@ limitations under the License.
 											<input type="text" name="trans_remarks" class="form-control-sm" value="#trans_remarks#">
 										</div>
 									</div>
-<cfif not isdefined("part_name_oper")><cfset part_name_oper="is"></cfif>
-<cfif not isdefined("part_name")><cfset part_name=""></cfif>
-<cfif not isdefined("part_disp_oper")><cfset part_disp_oper="is"></cfif>
-<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
 									<div class="form-row mb-2 border border-secondary pb-2">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper">Part Match</label>
@@ -498,8 +498,14 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="coll_obj_disposition">Part Disposition</label>
+											<label for="coll_obj_disposition">Part Disposition #coll_obj_disposition#</label>
 											<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
+											<cfset i = 1>
+											<cfset selectedIndex = 0>
+											<cfloop query="ctCollObjDisp">
+												<cfif ctCollObjDisp.coll_obj_disposition EQ coll_obj_disposition><cfset selectedIndex = i></cfif>
+												<cfset i=i+1>
+											</cfloop>
 											<script>
 												$(document).ready(function () {
 													var dispositionsource = [
