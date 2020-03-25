@@ -134,7 +134,7 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem
 }
-h2.data-entry-title {
+.data-entry-title {
 	font-weight: 500;
 	font-size: 13px;
 	text-transform: uppercase;
