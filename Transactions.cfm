@@ -525,7 +525,7 @@ limitations under the License.
 											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
 												onclick=" exportGridToCSV('searchResultsGrid', 'loan_list.csv'); "
 												disabled >Export to CSV</button>
-											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" >Reset</button>
+											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="$('.jqx-combobox').jqxComboBox('clearSelection');">Reset</button>
 											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
 									</div>
