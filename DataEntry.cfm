@@ -938,7 +938,7 @@ limitations under the License.
 	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-2 text-center text-md-right px-0">Agent X</label><div class="col-lg-3"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-4 pl-xl-0"><input type="text" class="data-entry-input" name="other_id" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm loginButtons col-3 rounded ml-3 mr-auto remAgent">X</button></div>');
+	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-5 pl-xl-0"><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAgent btn-sm float-right loginButtons remAgent">X</button></div>');
 	});
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
