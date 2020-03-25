@@ -361,12 +361,12 @@ limitations under the License.
 													<label for"trans_date">Loan Date:</label>
 												</div>
 												<div class="col-md-5 col-12">
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput" >
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control form-control-sm " >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
 														<div class="input-group-prepend" id="trans_date_to_marker" >To:</div>
-														<input type='text' name='to_trans_date' id="to_trans_date" class="datetimeinput" aria-label="loan date search range to" aria-described="rans_date_to_marker">
+														<input type='text' name='to_trans_date' id="to_trans_date" class="datetimeinput form-control form-control-sm" aria-label="loan date search range to" aria-described="rans_date_to_marker">
 													</div>
 												</div>
 											</div>
@@ -549,6 +549,7 @@ $(document).ready(function() {
 	/* Setup date time input controls */
 	$(".datetimeinput").datepicker({ 
 		defaultDate: null,
+		buttonImageOnly: true,
 		buttonImage: "/includes/images/calendar_icon.png",
 		showOn: "both"
 	});
