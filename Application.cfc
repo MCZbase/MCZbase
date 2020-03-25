@@ -276,7 +276,7 @@ limitations under the License.
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span> <span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
 		    <cfelseif serverName contains "-dev">
-			    <cfset Application.header_color = "##1b1b1b" />
+			    <cfset Application.header_color = "##CAEAAD" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			     <cfset Application.collection_link_text = "MCZ<span>BASE-DEV</span>:The Database of the Zoological Collections" />
