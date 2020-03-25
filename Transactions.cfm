@@ -361,7 +361,7 @@ limitations under the License.
 													<label for"trans_date">Loan Date:</label>
 												</div>
 												<div class="col-md-5 col-12">
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control form-control-sm w-75" >
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control-sm w-75" >
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
@@ -377,7 +377,7 @@ limitations under the License.
 													<label for="return_due_date"> Due Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="return_due_date" id="return_due_date" class="datetimeinput form-control form-control-sm w-75">
+													<input type="text" name="return_due_date" id="return_due_date" class="datetimeinput form-control-sm w-75">
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
@@ -395,7 +395,7 @@ limitations under the License.
 													<label for="closed_date"> Closed Date: </label>
 												</div>
 												<div class="col-md-5 col-12 float-left">
-													<input type="text" name="closed_date" id="closed_date" class="datetimeinput form-control form-control-sm w-75">
+													<input type="text" name="closed_date" id="closed_date" class="datetimeinput form-control-sm w-75">
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
