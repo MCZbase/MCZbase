@@ -1,3 +1,6 @@
+<!-- test lines from integrationbranch --->
+<cfset usealternatehead = "redesign">
+<!--- -------------------------------- --->
 <cfif not isdefined("action")> <cfset action="findAll"> </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="findLoans">
