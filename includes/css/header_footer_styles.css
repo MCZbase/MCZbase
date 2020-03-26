@@ -109,7 +109,7 @@ img.shield {
 	width: 28px;
 	height: 32px;
 }
-/*.mcz2 {
+.mcz2 {
 	list-style: none;
 	font-family: Constantia, 'Lucida Bright', 'DejaVu Serif', Georgia, 'serif';
 }
@@ -120,7 +120,7 @@ img.shield {
 	color: white;
 	text-decoration: none;
 	border-bottom: 1px dotted white;
-}*/
+}
 .mczbase {
 	list-style: none;
 	font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
