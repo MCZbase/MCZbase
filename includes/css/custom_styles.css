@@ -221,24 +221,24 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 .btn-primary:hover {
 	background-color: buttonface;
 	color: #212529;
- border: 1px solid hsl(0, 0%, 62%);
+ 	border: 1px solid hsl(0, 0%, 62%);
 }
 .btn-primary:focus, .btn-primary.focus {
 	background-color: buttonface;
 	color: #212529;
- border: 1px solid hsl(0, 0%, 62%);
+ 	border: 1px solid hsl(0, 0%, 62%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 }
 .btn-primary.disabled, .btn-primary:disabled {
 	background-color: buttonface;
 	color: #212529;
- border: 1px solid hsl(0, 0%, 62%);
+ 	border: 1px solid hsl(0, 0%, 62%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
 	background-color: buttonface;
 	color: #212529;
- border: 1px solid hsl(0, 0%, 62%);
+ 	border: 1px solid hsl(0, 0%, 62%);
 }
 .nav-fill .nav-item {
 	text-align: left;
