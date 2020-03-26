@@ -43,6 +43,7 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
+<link rel="stylesheet" href="/includes/css/header_footer_styles.css">
 <link rel="stylesheet" href="/includes/css/custom_styles.css">
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
 <script type="text/javascript" src="/lib/jquery/jquery-3.4.1.min.js"></script>
