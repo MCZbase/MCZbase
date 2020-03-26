@@ -216,38 +216,6 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
 }
-/* border button */
-
-/*.border-button {
-  position:relative;
-  display:inline-block;
-  width:150px;
-  height:30px;
-  background-color:#d9f0e6;
-  line-height:29px;
-  color:#35495e;
-  font-family:'arial';
-  text-align:center;
-  text-decoration:none;
-  cursor: pointer;
-  border-radius: 4px;
-  overflow:hidden
-}*/
-.btn-primary:after {
-  position:absolute;
-  display:block;
-  content:"";
-  width:100%;
-  height:1px;
-  background-color:#42b883;
-  transform:scale3d(0,1,1);
-  transform-origin:left;
-  transition:transform .3s;
-}
-.btn-primary:hover:after {
-  transform:scale3d(1,1,1);
-}
-
 .nav-fill .nav-item {
 	text-align: left;
 }
