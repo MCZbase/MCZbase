@@ -556,6 +556,7 @@ limitations under the License.
 					<div class="row mt-1">
 						<span id="resultCount"></span>
 						<span id="resultLink" class="pl-2"></span>
+						<span id="columnPick" class="pl-2"></span>
 					</div>
 					<div class="row mt-1">
 						<div id="searchText"></div>
@@ -808,8 +809,10 @@ $(document).ready(function() {
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+				// toggle the csv download buttons appropriate to the search
 				$('##loancsvbutton').prop('disabled',false);
 				$('##transcsvbutton').prop('disabled',true);
+				// display the number of rows found
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
 				if (rowcount == 1) {
@@ -818,6 +821,30 @@ $(document).ready(function() {
 					$('##resultCount').html('Found ' + rowcount + ' loans');
 				}
 				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
+				// add a control to show/hide columns
+				var columns = $('##searchResultsGrid').jqxgrid('columns').records;
+				var columnListSource = [];
+				for (i = 0; i < columns.length; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) { 
+						var listRow = { label: text, value: datafield, checked: show };
+						columListSource.push(listRow);
+					}
+				} 
+				$("##columnPick").jqxListBox({ source: listSource, autoHeight: true, checkboxes: true });
+				$("##columnPick").on('checkChange', function (event) {
+					$("##searchResultsGrid").jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##searchResultsGrid").jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##searchResultsGrid").jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##searchResultsGrid").jqxGrid('endupdate');
+				});
 			}
 		);
 
