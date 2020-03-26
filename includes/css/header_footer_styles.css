@@ -69,7 +69,7 @@ nav .navbar-nav li a.nav-link {
 	width: 16em;
 	padding: 0;
 	margin-left: 1px;
-	margin-top: 0px;
+	margin-top: -1px;
 	background-color: #f8f9fa !important;
 }
 .dropdown-menu a.dropdown-item {
