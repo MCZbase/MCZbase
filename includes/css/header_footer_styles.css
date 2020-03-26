@@ -1,5 +1,8 @@
 /** This file contains Various local style customizations for the header and footer **/
 /************************/
+/*.menu-div, .bg-light {
+	background-color: #f8f9fa;
+}*/
 nav.navbar {
 	padding: 0 1em;
 }
@@ -37,6 +40,7 @@ nav .navbar-nav li a.nav-link {
 	margin-left: 1px;
 	margin-top: -1px;
 	background-color: #f8f9fa !important;
+	border: 1px solid #BAC5C6;
 }
 .dropdown-menu a.dropdown-item {
 	font-size: 1em;
