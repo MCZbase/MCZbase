@@ -849,8 +849,23 @@ $(document).ready(function() {
 					}
 					$("##searchResultsGrid").jqxGrid('endupdate');
 				});
-				$("##columnPickDialog").dialog({ height: '1486px', autoOpen: false,  modal: true, reszable: true, buttons: { Ok: function(){ $(this).dialog("close")}} });
-				$("##columnPickDialogButton").html("<button id='columnPickDialogOpener' onclick="" $('##columnPickDialog').dialog('open'); "">Show/Hide Columns</button>");
+				$("##columnPickDialog").dialog({ 
+					height: 'auto', 
+					title: 'Show/Hide Columns',
+					autoOpen: false,  
+					modal: true, 
+					reszable: true, 
+					buttons: { 
+						Ok: function(){ $(this).dialog("close"); }
+					},
+					open: function (event, ui) { 
+						$('.ui-dialog').css({'z-index': 2000 });
+						$('.ui-widget-overlay').css({'z-index': 1999 });
+					} 
+				});
+				$("##columnPickDialogButton").html(
+					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
+				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// 600 is the z-index of the grid cells when created from the transaction search
 				$('.jqx-grid-cell').css({'z-index': 600});
