@@ -210,9 +210,12 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 	width: 32px;
 }
 .btn-primary {
-	background-color: #fadd1d;
+/*	background-color: #fadd1d;
 	color: #1A5670;
-	border: 1px solid #3E6F7D;
+	border: 1px solid #3E6F7D;*/
+	background-color: #fadd1d;
+	border-color: #fadd1d;
+	color: #212529;
 }
 .btn-primary:hover {
 	background-color: #e8cd1b;
