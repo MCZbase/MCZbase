@@ -211,18 +211,18 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 }
 .btn-primary {
 	background-color: #E4E476;
-	border-color: #fadd1d;
+	border-color: #E4E476;
 	color: #212529;
 }
 .btn-primary:hover {
-	background-color: #fde544;
+	background-color: #ddd224;
 	color: #212529;
-	border: 1px solid #fde544;
+	border: 1px solid #ddd224;
 }
 .btn-primary:focus, .btn-primary.focus {
-	background-color: #fde544;
+	background-color: #E4E476;
 	color: #1A5670;
-	border: 1px solid #fde544;
+	border: 1px solid #E4E476;
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 }
 .btn-primary.disabled, .btn-primary:disabled {
