@@ -141,7 +141,8 @@ limitations under the License.
 <body class="default">
 <a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" aria-level="1" role="heading" class="border-bottom">
-<div class="branding clearfix" style="background-color: #Application.header_color#;">
+<!--- TODO: [Michelle] Move (this fixed) background-color for this top black bar to a stylesheet. --->
+<div class="branding clearfix" style="background-color: ##1b1b1b;">
 	<div class="branding-left justify-content-start mt-1">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
 			<img class="shield" src="/includes/images/Harvard_shield-University.png" alt="Harvard University Shield">
@@ -153,9 +154,14 @@ limitations under the License.
 	</div>
 </div>
 <div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner border-bottom border-dark">
-	<ul class="navbar col-lg-9 col-xs-6 pt-0 pb-0 mb-1">
-		<li class="nav-item mcz2"><a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer">Museum of Comparative Zoology</a></li>
-		<li class="nav-item mczbase"><a href="/Specimens.cfm" target="_blank">#session.collection_link_text# </a></li>
+	<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
+	<ul class="navbar col-lg-9 col-xs-6 pt-0 pb-0 mb-1" style="background-color: #Application.header_color#; ">
+		<li class="nav-item mcz2">
+			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #Application.collectionlinkcolor#;" >Museum of Comparative Zoology</a>
+		</li>
+		<li class="nav-item mczbase">
+			<a href="/Specimens.cfm" target="_blank" style="color: #Application.collectionlinkcolor#" >#session.collection_link_text#</a>
+		</li>
 	</ul>
 	<ul class="navbar col-lg-3 col-sm-3 pt-0 pb-0 mb-1 d-flex justify-content-end">
 		<li class="nav-item d-flex align-content-end"> 
