@@ -385,14 +385,14 @@ nav.navbar-harvard {
 nav.navbar-harvard li {
 	color: white;
 }
-nav.navbar {
+/*nav.navbar {
 	padding-bottom: 0.25em;
-}
+}*/
 /******  Dropdown menu  *********/
 .dropdown-menu {
 
 	min-width: 13em;
-	top:105%;
+	top:104%;
 }
 nav button {
 	border: none; 
@@ -1265,7 +1265,7 @@ ul.list-unstyled li.list-group-item:last-child {
 	margin-top: 0em;
 	margin-bottom: 10px;
 	border-radius: 5px;
-	/*	width: 99%;*/
+
 	width: auto;
 }*/
 .copyright_background a.policy_link {
