@@ -110,7 +110,7 @@ Function getAgentAutocomplete.  Search for agents by name with a substring match
 				left join agent on searchname.agent_id = agent.agent_id
 				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
 			WHERE
-				searchname.agent_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">
+				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
