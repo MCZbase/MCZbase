@@ -662,7 +662,7 @@ $(document).ready(function() {
 			pagesizeoptions: ['50','100'],
 			showaggregates: true,
 			columnsresize: true,
-			autoshowfiltericon: false,
+			autoshowfiltericon: true,
 			autoshowcolumnsmenubutton: false,
 			columnsreorder: true,
 			groupable: true,
@@ -685,8 +685,12 @@ $(document).ready(function() {
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+				// toggle the csv download buttons appropriate to the search
 				$('##loancsvbutton').prop('disabled',true);
 				$('##transcsvbutton').prop('disabled',false);
+				// add a link out to this search, serializing the form as http get parameters
+				$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+				// display the number of rows found
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
 				if (rowcount == 1) {
@@ -694,7 +698,6 @@ $(document).ready(function() {
 				} else {
 					$('##resultCount').html('Found ' + rowcount + ' transactions');
 				}
-				$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 			}
 		);
 	});
@@ -773,7 +776,7 @@ $(document).ready(function() {
 			pagesizeoptions: ['50','100'],
 			showaggregates: true,
 			columnsresize: true,
-			autoshowfiltericon: false,
+			autoshowfiltericon: true,
 			autoshowcolumnsmenubutton: false,
 			columnsreorder: true,
 			groupable: true,
@@ -804,14 +807,16 @@ $(document).ready(function() {
 				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: true },
 				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: true },
 				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true },
-				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false },
-				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true },
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 				// toggle the csv download buttons appropriate to the search
 				$('##loancsvbutton').prop('disabled',false);
 				$('##transcsvbutton').prop('disabled',true);
+				// add a link out to this search, serializing the form as http get parameters
+				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
 				// display the number of rows found
 				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
@@ -820,7 +825,6 @@ $(document).ready(function() {
 				} else { 
 					$('##resultCount').html('Found ' + rowcount + ' loans');
 				}
-				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
 				// add a control to show/hide columns
 				var columns = $('##searchResultsGrid').jqxGrid('columns').records;
 				var columnListSource = [];
@@ -845,6 +849,10 @@ $(document).ready(function() {
 					}
 					$("##searchResultsGrid").jqxGrid('endupdate');
 				});
+				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+				// 600 is the z-index of the grid cells when created from the transaction search
+				$('.jqx-grid-cell').css({'z-index': 600});
+				$('.jqx-grid-group-cell').css({'z-index': 600});
 			}
 		);
 
