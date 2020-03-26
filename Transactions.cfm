@@ -556,7 +556,7 @@ limitations under the License.
 					<div class="row mt-1">
 						<span id="resultCount"></span>
 						<span id="resultLink" class="pl-2"></span>
-						<div id="columnPick" class="pl-2"></div>
+						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>
 					</div>
 					<div class="row mt-1">
 						<div id="searchText"></div>
@@ -849,6 +849,8 @@ $(document).ready(function() {
 					}
 					$("##searchResultsGrid").jqxGrid('endupdate');
 				});
+				$("##columnPickDialog").dialog({ height: '1486px', autoOpen: false,  modal: true, reszable: true, buttons: { Ok: function(){ $(this).dialog("close")}} });
+				$("##columnPickDialogButton").html("<button id='columnPickDialogOpener' onclick="" $('##columnPickDialog').dialog('open'); "">Show/Hide Columns</button>");
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// 600 is the z-index of the grid cells when created from the transaction search
 				$('.jqx-grid-cell').css({'z-index': 600});
