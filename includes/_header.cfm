@@ -311,7 +311,7 @@ limitations under the License.
 						<label for="Login" class="mr-1 sr-only"> Password:</label>
 						<input type="submit" value="Log In" id="login" class="btn btn-primary btn-sm loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 						<label for="CreateAccount" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Create Account" class="btn btn-primary btn-sm loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+						<input type="submit" value="Register" class="btn btn-primary btn-sm loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 					</div>
 				</form>
 			</cfif>
