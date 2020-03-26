@@ -154,18 +154,18 @@ p {
 	margin-bottom: .75em;
 	line-height: normal;
 }
-.mczbase a span {
+/*.mczbase a span {
 	font-size: smaller;
-} /*This is for the "base" of MCZbase*/
+}*/ /*This is for the "base" of MCZbase*/
 .info {
 	position: absolute;
 	left: -9000px;
 	width: 0;
 	overflow: hidden;
 }
-.branding-container {
+/*.branding-container {
 	background-color: #1b1b1b;
-}
+}*/
 form input.anchor-button {
 	background-color: white;
 	border: none;
@@ -214,9 +214,9 @@ label {
 .steps-div {
 	background-color: #deebec; /*greenish-gray*/
 }
-.menu-div, .bg-light {
+/*.menu-div, .bg-light {
 	background-color: #f8f9fa;
-}
+}*/
 .section-buttons {
 	background-color: #3E6f7D; /*teal*/
 }
@@ -297,11 +297,11 @@ Bootstrap styles
 *************************
 *************************
 ************************/
-.harvard_banner {
+/*.harvard_banner {
 	background-color: #a51c30;
 	margin-block-end: 0;
 	padding: .5rem .25rem .7rem .5rem;
-}
+}*/
 input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx-rc-all, input.jqx-rc-all-light, input.jqx-widget-light, input.jqx-fill-state-normal-light, input[type=button] {
 	background: buttonface;
 	padding: .48rem .75rem;
@@ -313,30 +313,30 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 	color: buttontext;
 	margin-top: 0;
 }
-.branding {
+/*.branding {
 	color: white;
-}
-.branding-left {
+}*/
+/*.branding-left {
 	float: left;
 	margin: 0 0 0 15px;
-}
-.branding-right {
+}*/
+/*.branding-right {
 	float: right;
 	line-height: 38px;
 	margin: 0 15px 0 0;
 }
 .branding a {
 	color: white;
-}
-.branding a:hover {
+}*/
+/*.branding a:hover {
 	text-decoration: none;
 	border-bottom: 1px dotted white;
 }
 img.shield {
 	width: 28px;
 	height: 32px;
-}
-.mcz2 {
+}*/
+/*.mcz2 {
 	list-style: none;
 	font-family: Constantia, 'Lucida Bright', 'DejaVu Serif', Georgia, 'serif';
 }
@@ -365,7 +365,7 @@ img.shield {
 .mcz_logo_krono {
 	padding-left: 1em;
 	margin-left: 0;
-}
+}*/
 .fas {
 	width: 32px;
 }
@@ -998,10 +998,10 @@ ul#progressbar li:before {
 FOOTER STYLES to 
 override Bootstrap styles
 ************************/
-.footer {
+/*.footer {
 	line-height: 1em;
-}
-.footer-colr-md-6 {
+}*/
+/*.footer-colr-md-6 {
 	font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 }
 .copyright_background {
@@ -1025,42 +1025,42 @@ override Bootstrap styles
 	padding: 15px;
 	color: white;
 	line-height: 17px;
-}
-.agreements { /* links at footer*/
+}*/
+/*.agreements { 
 	text-align: right;
 	margin-top: -.5em;
 	font-size: 1em;
 	line-height: 1.5em;
-}
+}*/
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+/*html {
 	position: relative;
 	min-height: 100%;
 }
 body {
-	/* Margin bottom by footer height */
+	
 	margin-bottom: 60px;
 }
 .footer {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	/* Set the fixed height of the footer here */
+	
 	height: 60px;
-	line-height: 48px; /* Vertically center the text there */
+	line-height: 48px; 
 	background-color: #f5f5f5;
-}
+}*/
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
-body > .container {
+/*body > .container {
 	padding: 30px 15px 0;
 }
 .footer > .container {
 	padding-right: 15px;
 	padding-left: 15px;
-}
+}*/
 code {
 	font-size: 80%;
 }
@@ -1255,7 +1255,7 @@ ul.list-unstyled li.list-group-item:last-child {
 	/*	width: 99%;*/
 	width: auto;
 }
-.copyright_background a.policy_link {
+/*.copyright_background a.policy_link {
 	color: #004870;
 	text-decoration: none !important;
 }
@@ -1274,7 +1274,7 @@ ul.list-unstyled li.list-group-item:last-child {
 .copyright_background a.policy_link:active {
 	color: #004870;
 	text-decoration: none;
-}
+}*/
 li.colls {
 	margin-left: -20px;
 	list-style: none;
@@ -1596,11 +1596,11 @@ table#pairs th, table#pairs td {
 	padding: 10px;
 	text-align: left;
 }
-.helplinks a {
+/*.helplinks a {
 	font-weight: 600;
 	color: #046aa2 !important;
 	line-height: 2.2em;
-}
+}*/
 .sortable {
 	margin: 2px;
 	padding: 5px;
@@ -1830,7 +1830,7 @@ and also iPads specifically.
 	}
 }
 @media(min-width:991px) {
-	.mcz-center {
+/*	.mcz-center {
 		justify-content: flex-start;
 		margin-left: -1em;
 	}
@@ -1841,21 +1841,21 @@ and also iPads specifically.
 	}
 	.footer-col-4-md img {
 		width: 400px;
-	}
+	}*/
 }
 @media (min-width:1060px) and (max-width: 1459px) {
-	.mcz-center {
+/*	.mcz-center {
 		justify-content: center;
 		text-align: center;
-	}
+	}*/
 	form#regForm.tab {
 		display: none;
 	}
 }
 @media (min-width:768px) and (max-width: 1059px) {
-	.mcz2 {
+/*	.mcz2 {
 		/*	font-size: .8em;*/
-	}
+	}*/
 	.card_search {
 		padding-right: 0em;
 		padding-left: 0em;
@@ -1888,18 +1888,18 @@ and also iPads specifically.
 	.hide_button {
 		display: none;
 	}
-	.mcz {
+/*	.mcz {
 		font-size: 1.5em;
-	}
-	.mcz-center {
+	}*/
+/*	.mcz-center {
 		justify-content: center;
 		padding-top: 1em;
-	}
-	img.mcz_logo_krono {
+	}*/
+/*	img.mcz_logo_krono {
 		margin-left: 1.75em;
-	}
-	.mcz2 {
-		/*	font-size: .9em;*/
+	}*/
+/*	.mcz2 {
+		
 		width: 100%;
 		padding-bottom: .1em;
 	}
@@ -1912,16 +1912,16 @@ and also iPads specifically.
 		padding: 0;
 		margin: 0;
 		width: 100%;
-	}
-	.mczbase a {
+	}*/
+/*	.mczbase a {
 		color: white;
 		text-decoration: none;
-	}
+	}*/
 	/*.w-300 {width: 300px;}
 .w-310 {width: 310px;}*/
-	img.mcz_logo_krono {
+/*	img.mcz_logo_krono {
 		display: block;
-	}
+	}*/
 	.offset-md-2 {
 		margin-left: 12%;
 	}
@@ -1937,7 +1937,7 @@ and also iPads specifically.
 	.card-body h5 {
 		margin-top: -0.25em;
 	}
-	.mcz {
+/*	.mcz {
 		font-size: 1.5em;
 		opacity: .9;
 		font-weight: bold;
@@ -1946,14 +1946,14 @@ and also iPads specifically.
 		justify-content: flex-start;
 		padding-top: 1em;
 		text-align: left;
-	}
+	}*/
 	.accn-icons {
 		float: right;
 		margin-top: .25em;
 	}
-	.mcz_logo_krono {
+/*	.mcz_logo_krono {
 		margin-left: 1.75em;
-	}
+	}*/
 }
 @media(max-width:576px) {
 	.count {
@@ -1962,12 +1962,12 @@ and also iPads specifically.
 	}
 }
 @media(max-width:1024px) {
-	.mcz_logo_krono {
+/*	.mcz_logo_krono {
 		display: none;
 	}
 	.mczbase a {
 		color: white;
-	}
+	}*/
 	.card-columns {
 		column-count: 1;
 	}
