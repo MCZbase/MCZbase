@@ -305,9 +305,9 @@ limitations under the License.
 					<input type="hidden" name="gotopage" value="#gtp#">
 					<div class="form-group" id="header_login_form_div">
 						<label for="Username" class="sr-only"> Username:</label>
-						<input type="text" name="username" id="Username" size="14" placeholder="username" class="border d-inline-block h-auto rounded loginButtons">
+						<input type="text" name="username" id="Username" size="14" placeholder="username" class="border d-inline-block h-auto rounded loginButtons" style="width: 65px;">
 						<label for="Password" class="mr-1 sr-only"> Password:</label>
-						<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="border d-inline-block h-auto rounded loginButtons">
+						<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="border d-inline-block h-auto rounded loginButtons" style="width: 65px;">
 						<label for="Login" class="mr-1 sr-only"> Password:</label>
 						<input type="submit" value="Log In" id="login" class="btn btn-primary btn-sm loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 						<label for="CreateAccount" class="mr-1 sr-only"> Password:</label>
