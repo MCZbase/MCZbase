@@ -184,6 +184,9 @@ nav button {
 	border-radius: .2rem;
 	width: 40px;
 }
+.loginButtons input {
+	width: 65px;
+}
 .logout {
 	padding: .25em .7em;
 	font-size: .83em;
