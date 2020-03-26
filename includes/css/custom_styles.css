@@ -722,16 +722,6 @@ ul#progressbar li:before {
 #regForm .step.finish {
 	background-color: #80ADCC;
 }
-.loginButtons {
-	padding: 2px 5px;
-	font-size: .78rem;
-	line-height: 1.4em;
-	border-radius: .2rem;
-}
-.logout {
-	padding: .25em .7em;
-	font-size: .83em;
-}
 .feedAtom div {
 	float: left;
 	width: auto;
