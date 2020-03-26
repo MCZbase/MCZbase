@@ -556,7 +556,7 @@ limitations under the License.
 					<div class="row mt-1">
 						<span id="resultCount"></span>
 						<span id="resultLink" class="pl-2"></span>
-						<span id="columnPick" class="pl-2"></span>
+						<div id="columnPick" class="pl-2"></div>
 					</div>
 					<div class="row mt-1">
 						<div id="searchText"></div>
@@ -822,7 +822,7 @@ $(document).ready(function() {
 				}
 				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
 				// add a control to show/hide columns
-				var columns = $('##searchResultsGrid').jqxgrid('columns').records;
+				var columns = $('##searchResultsGrid').jqxGrid('columns').records;
 				var columnListSource = [];
 				for (i = 0; i < columns.length; i++) {
 					var text = columns[i].text;
@@ -832,10 +832,10 @@ $(document).ready(function() {
 					var show = ! hidden;
 					if (hideable == true) { 
 						var listRow = { label: text, value: datafield, checked: show };
-						columListSource.push(listRow);
+						columnListSource.push(listRow);
 					}
 				} 
-				$("##columnPick").jqxListBox({ source: listSource, autoHeight: true, checkboxes: true });
+				$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '250px', checkboxes: true });
 				$("##columnPick").on('checkChange', function (event) {
 					$("##searchResultsGrid").jqxGrid('beginupdate');
 					if (event.args.checked) {
