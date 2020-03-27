@@ -654,7 +654,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			var content = "<ul>";
 			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
-			for (i = 0; i < columns.length; i++) {
+			for (i = 1; i < columns.length; i++) {
 				var text = columns[i].text;
 				var datafield = columns[i].datafield;
 				var content = content + "<li><strong>" + text + ":</strong>" + datarecord[datafield] +  "</li>";
@@ -708,7 +708,7 @@ $(document).ready(function() {
 			rowdetails: true,
 			rowdetailstemplate: {
 				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-				rowdetailsheight: 200
+				rowdetailsheight: 350
 			},
 			initrowdetails: initRowDetails
 		});
