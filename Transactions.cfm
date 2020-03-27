@@ -554,9 +554,9 @@ limitations under the License.
 			<main role="main">
 				<div class="pl-2 mb-5">
 					<div class="row mt-1">
-						<span id="resultCount"></span>');
-						<span id="resultLink" class="pl-2)"></span>');
-						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>');
+						<span id="resultCount"></span>
+						<span id="resultLink" class="pl-2)"></span>
+						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>
 					</div>
 					<div class="row mt-1">
 						<div id="searchText"></div>
