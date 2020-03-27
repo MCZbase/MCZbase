@@ -661,6 +661,7 @@ console.log(datarecord)
 			}
 			content = content + "</ul>";
 			details.html(content);
+		};
 
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -707,7 +708,7 @@ console.log(datarecord)
 				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 				rowdetailsheight: 50
 			},
-			initrowdetails: initrowdetails
+			initrowdetails: initRowDetails
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
