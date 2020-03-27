@@ -92,7 +92,7 @@ limitations under the License.
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Other IDs</h2>
 							<h3 class="data-entry-subtitle">This is step 3</h3>
-							<div id="customID">
+							<div id="customOtherID">
 								<div class="row">
 									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
 									<div class="col-xl-4 px-xl-0">
@@ -108,14 +108,14 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addID btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Other ID</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Other ID</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
-							<h2 class="data-entry-title">Record Relationships</h2>
+							<h2 class="data-entry-title">Curatorial Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 4</h3>
-							<div id="customRelationship">
+							<div id="customCurRelationship">
 								<div class="row">
 									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
 									<div class="col-xl-4 px-xl-0">
@@ -132,14 +132,14 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Curatorial Relationship</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addCurRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Curatorial Relationship</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 5</h3>
-							<div id="customRelationship">
+							<div id="customBiolRelationship">
 								<div class="row">
 									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
 									<div class="col-xl-4 px-xl-0">
@@ -152,11 +152,11 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-xl-5">
-										<input type="text" class="data-entry-input" id="relationship" placeholder="Relationship">
+										<input type="text" class="data-entry-input" id="relationship" placeholder="Biological Relationship">
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Biological Relationship</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addBiolRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Biological Relationship</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
@@ -869,11 +869,13 @@ limitations under the License.
 
 	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row 
+		
 $(document).ready(function(){
-	$(".addOtherID").click(function(){$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-3 mr-auto remOtherID">Remove</button></div>');
+	$(".addOtherID").click(function(){
+		$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-3 mr-auto remOtherID">Remove</button></div>');
 	});
-	$("##customOtherID").on('click','.remOtherID',function(){$(this).parent().remove();});
-	});
+		$("##customOtherID").on('click','.remOtherID',function(){
+			$(this).parent().remove();});
 	});
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
