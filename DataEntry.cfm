@@ -133,7 +133,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Curatorial Relationship</a> </div>
 						</div>
 					</div>
 			
@@ -158,7 +158,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Biological Relationship</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
@@ -932,7 +932,7 @@ limitations under the License.
 	</div>
 	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
-	$(".addAtt").click(function(){$("##customAtt").append('<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-3 mr-auto remAtt">Remove</button></div>');
+	$(".addAtt").click(function(){$("##customAtt").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-3 mr-auto remAtt">Remove</button></div>');
 	});
 	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();
 });
@@ -943,6 +943,15 @@ $(document).ready(function(){
 	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-4 pl-xl-0"><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent float-right data-entry-button remAgent"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
+});
+</script> 
+
+	<script>
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+$(document).ready(function(){
+	$(".addCoord").click(function(){$("##customCoord").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-4 pl-xl-0"><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addCoord float-right data-entry-button remCoord"><i class="fas fa-times"></i></button></div>');
+	});
+	$("##customCoord").on('click','.remCoord',function(){$(this).parent().remove();});
 });
 </script> 
 	<script>
