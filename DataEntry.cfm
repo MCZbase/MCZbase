@@ -20,7 +20,7 @@ limitations under the License.
 <cfinclude template = "/includes/_header.cfm">
 
 <cfoutput>
-	
+	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
 	<div class="container-fluid pt-1" id="swapper-first" style="display: none;">
 		
 		<div class="row">
