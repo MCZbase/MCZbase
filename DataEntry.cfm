@@ -205,18 +205,15 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">ISO Dates</label>
-								<div class="col-12 col-sm-4 pr-0">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">ISO Dates and Time</label>
+								<div class="col-12 col-sm-3 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="began_date" placeholder="Began Date">
 								</div>
-								<div class="col-12 col-sm-4 pr-0">
+								<div class="col-12 col-sm-3 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="ended_date" placeholder="Date Ended">
 								</div>
-							</div>
-							<div class="row">
-								<label for="collecting_time" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Time</label>
-								<div class="col-sm-9">
-									<input type="text" name="collecting_time" class="data-entry-input" placeholder="Collecting Time" />
+								<div class="col-12 col-sm-3 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
 								</div>
 							</div>
 							<div class="row">
