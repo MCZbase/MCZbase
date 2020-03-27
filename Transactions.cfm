@@ -651,16 +651,17 @@ $(document).ready(function() {
 
 		var dataAdapter = new $.jqx.dataAdapter(search);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-console.log(datarecord)
 			var details = $($(parentElement).children()[0]);
 			var content = "<ul>";
 			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
 			for (i = 0; i < columns.length; i++) {
 				var text = columns[i].text;
-				var content = "<li><strong>" + text + "</strong>" + "</li>";
+				var datafield = columns[i].datafield;
+				var content = "<li><strong>" + text + "</strong>" + datarecord[datafield] +  "</li>";
 			}
 			content = content + "</ul>";
 			details.html(content);
+console.log(content);
 		};
 
 		$("##searchResultsGrid").jqxGrid({
