@@ -657,7 +657,7 @@ $(document).ready(function() {
 			for (i = 0; i < columns.length; i++) {
 				var text = columns[i].text;
 				var datafield = columns[i].datafield;
-				var content = "<li><strong>" + text + "</strong>" + datarecord[datafield] +  "</li>";
+				var content = content + "<li><strong>" + text + "</strong>" + datarecord[datafield] +  "</li>";
 			}
 			content = content + "</ul>";
 			details.html(content);
