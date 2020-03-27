@@ -1354,7 +1354,7 @@ table#pairs th, table#pairs td {
 }
 .border-fill {
 	border:  1px solid #bac5c6 !important;
-	background-color: #deebec;
+	background-color: #fff;
 }
 /****************end small form fields*********************/
 .search-form-builder {
