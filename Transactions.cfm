@@ -621,6 +621,13 @@ $(document).ready(function() {
 				{ name: 'type', type: 'string' },
 				{ name: 'status', type: 'string' },
 				{ name: 'entered_by', type: 'string' },
+				{ name: 'authorized_by', type: 'string' },
+				{ name: 'received_by', type: 'string' },
+				{ name: 'for_use_by', type: 'string' },
+				{ name: 'inhouse_contact', type: 'string' },
+				{ name: 'additional_inhouse_contact', type: 'string' },
+				{ name: 'additional_outside_contact', type: 'string' },
+				{ name: 'recipient_institution', type: 'string' },
 				{ name: 'id_link', type: 'string' }
 			],
 			updaterow: function (rowid, rowdata, commit) {
@@ -674,7 +681,14 @@ $(document).ready(function() {
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Status', datafield: 'status', width: 100},
 				{text: 'Entered By', datafield: 'entered_by', width: 80, hideable: true, hidden: false },
-				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130, hideable:true, hidden: false },
+				{text: 'Authorized By', datafield: 'authorized_by', width: 80, hideable: true, hidden: true },
+				{text: 'Received By', datafield: 'received_by', width: 80, hideable: true, hidden: true },
+				{text: 'For Use By', datafield: 'for_use_by', width: 80, hideable: true, hidden: true },
+				{text: 'In-house Contact', datafield: 'inhouse_contact', width: 80, hideable: true, hidden: true },
+				{text: 'Additional In-house Contact', datafield: 'additional_inhouse_contact', width: 80, hideable: true, hidden: true },
+				{text: 'Additional Outside Contact', datafield: 'additional_outside_contact', width: 80, hideable: true, hidden: true },
+				{text: 'Recipient Institution', datafield: 'recipient_institution', width: 80, hideable: true, hidden: true },
+				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130, hideable:true, hidden: true },
 				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: false }
 			]
 		});
