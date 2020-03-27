@@ -842,7 +842,7 @@ $(document).ready(function() {
 			rowdetails: true,
 			rowdetailstemplate: {
 				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-				rowdetailsheight: 350
+				rowdetailsheight: 400
 			},
 			initrowdetails: initRowDetails
 		});
