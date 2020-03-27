@@ -141,7 +141,7 @@ limitations under the License.
 			<cfset row["authorized_by"] = "#search.auth_agent#">
 			<cfset row["received_by"] = "#search.rec_agent#">
 			<cfset row["for_use_by"] = "#search.foruseby_agent#">
-			<cfset row["in-house_contact"] = "#search.innHouse_agent#">
+			<cfset row["in-house_contact"] = "#search.inHouse_agent#">
 			<cfset row["additional_inhouse_contact"] = "#search.addInHouse_agent#">
 			<cfset row["additional_outside_contact"] = "#search.addOutside_agent#">
 			<cfset row["recipient_institution"] = "#search.recip_inst#">
