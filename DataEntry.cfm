@@ -260,7 +260,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<div class="text-center w-100">Verbatim Georeference</div>
+								<div class="text-left w-100 py-2 px-5">Verbatim Georeference</div>
 							
 								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Coordinate System</label>
 								<div class="col-12 col-sm-4 pr-0">
@@ -384,6 +384,7 @@ limitations under the License.
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Coordinates</h2>
 							<h3 class="data-entry-subtitle">This is step 10</h3>
+							<div id="customGeoreference">
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
 								<div class="col-sm-9">
@@ -463,6 +464,9 @@ limitations under the License.
 									</textarea>
 								</div>
 							</div>
+						</div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-primary addSciName btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Identification</a></div>
+				</div>
 						</div>
 					</div>
 				</div>
@@ -607,17 +611,6 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="otherField6">
 								  </div>
 								</div>
-<!--								<div class="row">
-								<div class="col-12 pt-2">
-										<label for="seeAnotherFieldGroup" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Add an Attribute?</label>
-										<div class="col-12 col-xl-9">
-											<select class="data-entry-select" id="seeAnotherFieldGroup" required="">
-												<option value="no">No</option>
-												<option value="yes">Yes</option>
-											</select>
-										</div>
-								</div>
-								 </div>-->
 							  </div>
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a></div>
 							</div>
