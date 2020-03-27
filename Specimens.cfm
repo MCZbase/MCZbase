@@ -645,21 +645,21 @@ $(document).ready(function() {
 				container.append('<input id="csvExportDisplayed" class="btn btn-sm ml-3 fs-13 py-1 px-2" type="button" value="Download Displayed Columns"/>');
 				container.append('<input id="clearfilter1" class="btn btn-sm ml-3 fs-13 py-1 px-2" type="button" value="Clear Filters"/>');
 
-			//$("##csvExport").jqxButton();
-			$("##csvExportDisplayed").jqxButton();
-			//delete row.
-			$("##deleterowbutton").jqxButton();
+				//$("##csvExport").jqxButton();
+				$("##csvExportDisplayed").jqxButton();
 
-			$("##deleterowbutton").click(function () {
-				var rowIndexes = $('##jqxgrid').jqxGrid('getselectedrowindexes');
-				var rowIds = new Array();
-				for (var i = 0; i < rowIndexes.length; i++) {
-					var currentId = $('##jqxgrid').jqxGrid('getrowid', rowIndexes[i]);
-					rowIds.push(currentId);
-				};
-				$('##jqxgrid').jqxGrid('deleterow', rowIds);
-				$('##jqxgrid').jqxGrid('clearselection');
-			});
+				//delete row.
+				$("##deleterowbutton").jqxButton();
+				$("##deleterowbutton").click(function () {
+					var rowIndexes = $('##jqxgrid').jqxGrid('getselectedrowindexes');
+					var rowIds = new Array();
+					for (var i = 0; i < rowIndexes.length; i++) {
+						var currentId = $('##jqxgrid').jqxGrid('getrowid', rowIndexes[i]);
+						rowIds.push(currentId);
+					};
+					$('##jqxgrid').jqxGrid('deleterow', rowIds);
+					$('##jqxgrid').jqxGrid('clearselection');
+				});
 			},
 			// This part needs to be dynamic.
 			columns: [
