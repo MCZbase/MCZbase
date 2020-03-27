@@ -650,6 +650,17 @@ $(document).ready(function() {
 		};
 
 		var dataAdapter = new $.jqx.dataAdapter(search);
+		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+console.log(datarecord)
+			var details = $($(parentElement).children()[0]);
+			var content = "<ul>";
+			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
+			for (i = 0; i < columns.length; i++) {
+				var text = columns[i].text;
+				var content = "<li><strong>" + text + "</strong>" + "</li> ;
+			}
+			content = content + "</ul>";
+			details.html(content);
 
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -690,7 +701,13 @@ $(document).ready(function() {
 				{text: 'Recipient Institution', datafield: 'recipient_institution', width: 80, hideable: true, hidden: true },
 				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130, hideable:true, hidden: true },
 				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: false }
-			]
+			],
+			rowdetails: true,
+			rowdetailstemplate: {
+				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+				rowdetailsheight: 50
+			},
+			initrowdetails: initrowdetails
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
@@ -826,6 +843,7 @@ $(document).ready(function() {
 	</cfif>
 
 });
+
 
 function gridLoaded(gridId, searchType) { 
 	var now = new Date();
