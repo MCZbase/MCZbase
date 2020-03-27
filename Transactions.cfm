@@ -685,20 +685,12 @@ $(document).ready(function() {
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
-				// toggle the csv download buttons appropriate to the search
-				$('##loancsvbutton').prop('disabled',true);
-				$('##transcsvbutton').prop('disabled',false);
-				// add a link out to this search, serializing the form as http get parameters
-				$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-				// display the number of rows found
-				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
-				var rowcount = datainformation.rowscount;
-				if (rowcount == 1) {
-					$('##resultCount').html('Found ' + rowcount + ' transaction');
-				} else {
-					$('##resultCount').html('Found ' + rowcount + ' transactions');
-				}
-			}
+			// toggle the csv download buttons appropriate to the search
+			$('##loancsvbutton').prop('disabled',true);
+			$('##transcsvbutton').prop('disabled',false);
+			// add a link out to this search, serializing the form as http get parameters
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+			gridLoaded('searchResultsGrid');
 		);
 	});
 
@@ -812,66 +804,13 @@ $(document).ready(function() {
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
-				// toggle the csv download buttons appropriate to the search
-				$('##loancsvbutton').prop('disabled',false);
-				$('##transcsvbutton').prop('disabled',true);
-				// add a link out to this search, serializing the form as http get parameters
-				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
-				// display the number of rows found
-				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
-				var rowcount = datainformation.rowscount;
-				if (rowcount == 1) {
-					$('##resultCount').html('Found ' + rowcount + ' loan');
-				} else { 
-					$('##resultCount').html('Found ' + rowcount + ' loans');
-				}
-				// add a control to show/hide columns
-				var columns = $('##searchResultsGrid').jqxGrid('columns').records;
-				var columnListSource = [];
-				for (i = 0; i < columns.length; i++) {
-					var text = columns[i].text;
-					var datafield = columns[i].datafield;
-					var hideable = columns[i].hideable;
-					var hidden = columns[i].hidden;
-					var show = ! hidden;
-					if (hideable == true) { 
-						var listRow = { label: text, value: datafield, checked: show };
-						columnListSource.push(listRow);
-					}
-				} 
-				$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '250px', checkboxes: true });
-				$("##columnPick").on('checkChange', function (event) {
-					$("##searchResultsGrid").jqxGrid('beginupdate');
-					if (event.args.checked) {
-						$("##searchResultsGrid").jqxGrid('showcolumn', event.args.value);
-					} else {
-						$("##searchResultsGrid").jqxGrid('hidecolumn', event.args.value);
-					}
-					$("##searchResultsGrid").jqxGrid('endupdate');
-				});
-				$("##columnPickDialog").dialog({ 
-					height: 'auto', 
-					title: 'Show/Hide Columns',
-					autoOpen: false,  
-					modal: true, 
-					reszable: true, 
-					buttons: { 
-						Ok: function(){ $(this).dialog("close"); }
-					},
-					open: function (event, ui) { 
-						$('.ui-dialog').css({'z-index': 2000 });
-						$('.ui-widget-overlay').css({'z-index': 1999 });
-					} 
-				});
-				$("##columnPickDialogButton").html(
-					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
-				);
-				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
-				// 600 is the z-index of the grid cells when created from the transaction search
-				$('.jqx-grid-cell').css({'z-index': 600});
-				$('.jqx-grid-group-cell').css({'z-index': 600});
-			}
-		);
+			// toggle the csv download buttons appropriate to the search
+			$('##loancsvbutton').prop('disabled',false);
+			$('##transcsvbutton').prop('disabled',true);
+			// add a link out to this search, serializing the form as http get parameters
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
+			gridLoaded('searchResultsGrid');
+		});
 
 	});
 	// If requested in uri, execute search immediately.
@@ -887,6 +826,63 @@ $(document).ready(function() {
 	</cfif>
 
 });
+
+function gridLoaded(gridId) { 
+	// display the number of rows found
+	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+	var rowcount = datainformation.rowscount;
+	if (rowcount == 1) {
+		$('##resultCount').html('Found ' + rowcount + ' loan');
+	} else { 
+		$('##resultCount').html('Found ' + rowcount + ' loans');
+	}
+	// add a control to show/hide columns
+	var columns = $('##' + gridId).jqxGrid('columns').records;
+	var columnListSource = [];
+	for (i = 0; i < columns.length; i++) {
+		var text = columns[i].text;
+		var datafield = columns[i].datafield;
+		var hideable = columns[i].hideable;
+		var hidden = columns[i].hidden;
+		var show = ! hidden;
+		if (hideable == true) { 
+			var listRow = { label: text, value: datafield, checked: show };
+			columnListSource.push(listRow);
+		}
+	} 
+	$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '250px', checkboxes: true });
+	$("##columnPick").on('checkChange', function (event) {
+		$("##" + gridId).jqxGrid('beginupdate');
+		if (event.args.checked) {
+			$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+		} else {
+			$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+		}
+		$("##" + gridId).jqxGrid('endupdate');
+	});
+	$("##columnPickDialog").dialog({ 
+		height: 'auto', 
+		title: 'Show/Hide Columns',
+		autoOpen: false,  
+		modal: true, 
+		reszable: true, 
+		buttons: { 
+			Ok: function(){ $(this).dialog("close"); }
+		},
+		open: function (event, ui) { 
+			$('.ui-dialog').css({'z-index': 2000 });
+			$('.ui-widget-overlay').css({'z-index': 1999 });
+		} 
+	});
+	$("##columnPickDialogButton").html(
+		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
+	);
+	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+	// 600 is the z-index of the grid cells when created from the transaction search
+	$('.jqx-grid-cell').css({'z-index': 600});
+	$('.jqx-grid-group-cell').css({'z-index': 600});
+}
+
 </script>
 
 </cfoutput>
