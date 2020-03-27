@@ -666,7 +666,7 @@ $(document).ready(function() {
 			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: true,
-			rendertoolbar: function() { 
+			rendertoolbar: function(toolbar) { 
 				var container = $("<div style='margin: .25em 1em .25em .5em;'></div>");
 				container.append('<h2 class="h3 float-left mt-0 pt-1 mr-4">Results</h2>');
 				container.append('<span id="resultCount"></span>');
@@ -780,7 +780,7 @@ $(document).ready(function() {
 			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: true,
-			rendertoolbar: function() { 
+			rendertoolbar: function(toolbar) { 
 				var container = $("<div style='margin: .25em 1em .25em .5em;'></div>");
 				container.append('<h2 class="h3 float-left mt-0 pt-1 mr-4">Results</h2>');
 				container.append('<span id="resultCount"></span>');
