@@ -826,10 +826,10 @@ function gridLoaded(gridId, searchType) {
 		$('##resultCount').html('Found ' + rowcount + ' loans');
 	}
 	// set maximum page size
-	if (rowscount > 100) { 
-	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowscount]});
-	} else if (rowscount > 50) { 
-	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowscount]});
+	if (rowcount > 100) { 
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+	} else if (rowcount > 50) { 
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
 	} else { 
 	   $('##' + gridId).jqxGrid({ pageable: false });
 	}
