@@ -779,6 +779,20 @@ $(document).ready(function() {
 			async: true
 		};
 		var loanDataAdapter = new $.jqx.dataAdapter(loanSearch);
+		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+			var details = $($(parentElement).children()[0]);
+			var content = "<ul>";
+			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
+			for (i = 1; i < columns.length; i++) {
+				var text = columns[i].text;
+				var datafield = columns[i].datafield;
+				var content = content + "<li><strong>" + text + ":</strong>" + datarecord[datafield] +  "</li>";
+			}
+			content = content + "</ul>";
+			details.html(content);
+			// Workaround, expansion sits below row in zindex.
+			$(parentElement).css('z-index',610);
+		};
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
@@ -824,7 +838,13 @@ $(document).ready(function() {
 				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true },
 				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true },
 				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
-			]
+			],
+			rowdetails: true,
+			rowdetailstemplate: {
+				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+				rowdetailsheight: 350
+			},
+			initrowdetails: initRowDetails
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
