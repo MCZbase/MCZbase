@@ -465,7 +465,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-primary addSciName btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Identification</a></div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Coordinates" class="btn btn-primary addCoord btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Georeference</a></div>
 				</div>
 						</div>
 					</div>
@@ -571,15 +571,7 @@ limitations under the License.
 										</textarea>
 									</div>
 								</div>
-									<div class="col-12 row mx-0 px-0">
-										<label for="seeAnotherFieldGroup" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Add an Attribute?</label>
-										<div class="col-12 col-lg-9">
-											<select class="data-entry-select" id="seeAnotherFieldGroup" required="">
-												<option value="no">No</option>
-												<option value="yes">Yes</option>
-											</select>
-										</div>
-									</div>
+									
 							 <div class="form-group" id="otherFieldGroupDiv">
 								<div class="row">
 								  <div class="col-4">
