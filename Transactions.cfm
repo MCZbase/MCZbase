@@ -554,6 +554,9 @@ limitations under the License.
 			<main role="main">
 				<div class="pl-2 mb-5">
 					<div class="row mt-1">
+						<span id="resultCount"></span>');
+						<span id="resultLink" class="pl-2)"></span>');
+						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>');
 					</div>
 					<div class="row mt-1">
 						<div id="searchText"></div>
@@ -665,15 +668,7 @@ $(document).ready(function() {
 			groupable: true,
 			selectionmode: 'none',
 			altrows: true,
-			showtoolbar: true,
-			rendertoolbar: function(toolbar) { 
-				var container = $("<div style='margin: .25em 1em .25em .5em;'></div>");
-				container.append('<h2 class="h3 float-left mt-0 pt-1 mr-4">Results</h2>');
-				container.append('<span id="resultCount"></span>');
-				container.append('<span id="resultLink" class="pl-2)"></span>');
-				container.append('<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>');
-				toolbar.append(container);
-			},
+			showtoolbar: false,
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -779,15 +774,7 @@ $(document).ready(function() {
 			groupable: true,
 			selectionmode: 'none',
 			altrows: true,
-			showtoolbar: true,
-			rendertoolbar: function(toolbar) { 
-				var container = $("<div style='margin: .25em 1em .25em .5em;'></div>");
-				container.append('<h2 class="h3 float-left mt-0 pt-1 mr-4">Results</h2>');
-				container.append('<span id="resultCount"></span>');
-				container.append('<span id="resultLink" class="pl-2)"></span>');
-				container.append('<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>');
-				toolbar.append(container);
-			},
+			showtoolbar: false,
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
