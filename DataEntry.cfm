@@ -20,7 +20,7 @@ limitations under the License.
 <cfinclude template = "/includes/_header.cfm">
 
 <cfoutput>
-		<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
+	
 	<div class="container-fluid pt-1" id="swapper-first" style="display: none;">
 		
 		<div class="row">
@@ -30,7 +30,7 @@ limitations under the License.
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Collection</h2>
 							<h3 class="data-entry-subtitle">This is step 1</h3>
 							<div class="row">
@@ -47,7 +47,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="form-div p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Catalog Number</h2>
 							<h3 class="data-entry-subtitle">This is step 2</h3>
 							<div class="row">
@@ -59,7 +59,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="form-div p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Encumbrance</h2>
 							<h3 class="data-entry-subtitle">This is step 5</h3>
 							<div id="encumbrance">
@@ -76,7 +76,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="form-div p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Accession Number</h2>
 							<h3 class="data-entry-subtitle">This is step 3</h3>
 							<div class="row">
@@ -90,7 +90,7 @@ limitations under the License.
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="form-div p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Other IDs</h2>
 							<h3 class="data-entry-subtitle">This is step 3</h3>
 							<div id="customOtherID">
@@ -113,7 +113,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Curatorial Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 4</h3>
 							<div id="customCurRelations">
@@ -137,7 +137,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 5</h3>
 							<div id="customBiolRelations">
@@ -161,7 +161,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Collector/Preparator</h2>
 							<h3 class="data-entry-subtitle">This is step 6</h3>
 							<div id="customAgent">
@@ -184,7 +184,7 @@ limitations under the License.
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Collecting Event</h2>
 							<h3 class="data-entry-subtitle">This is step 8</h3>
 							<div class="row">
@@ -280,7 +280,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Locality</h2>
 							<h3 class="data-entry-subtitle">This is step 9</h3>
 							<div class="row">
@@ -376,7 +376,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Coordinates</h2>
 							<h3 class="data-entry-subtitle">This is step 10</h3>
 							<div id="customGeoreference">
@@ -467,7 +467,7 @@ limitations under the License.
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Scientific Name</h2>
 							<h3 class="data-entry-subtitle">This is step 7</h3>
 							<div id="customSciName">
@@ -509,7 +509,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Parts</h2>
 							<h3 class="data-entry-subtitle">This is step 11</h3>
 							<div id="customPart">
@@ -569,7 +569,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Attributes</h2>
 							<h3 class="data-entry-subtitle">This is step 12</h3>
 							<div id="customAtt">
