@@ -223,7 +223,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="collecting_source_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Source &amp; Method</label>
+								<label for="collecting_source_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Source &amp; Method</label>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="collecting_source" placeholder="Collecting Source">
 								</div>
@@ -243,12 +243,31 @@ limitations under the License.
 									<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
 								</div>
 							</div>
+							
+							
+							
+							<div class="row">
+								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Coordinate System</label>
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="Coord. System">
+								</div>
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="Datum" placeholder="SRS or Datum">
+								</div>
+							</div>
+							
+							
+							
 							<div class="row">
 								<label for="verbatim_coordinate_system" class="data-entry-label col-sm-3 text-center text-md-right px-0">Coordinate System</label>
 								<div class="col-sm-9">
 									<input type="text" name="verbatim_coordinate_system" class="data-entry-input" placeholder="Verbatim Coordinate System" />
 								</div>
 							</div>
+							Verbatim Coordinate System	
+(e.g., decimal degrees, degrees minutes seconds, etc.)
+Verbatim SRS or Datum	
+(e.g., WGS84, Clark 1866, etc.)
 							<div class="row">
 								<label for="verbatim_coordinates" class="data-entry-label col-sm-3 text-center text-md-right px-0">Coordinates</label>
 								<div class="col-sm-9">
