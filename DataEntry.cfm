@@ -273,16 +273,13 @@ limitations under the License.
 									<input type="text" name="verbatim_longitude" class="data-entry-input" placeholder="Verbatim Longitude" />
 								</div>
 							</div>
-							<div class="row">
-								<label for="start_day_of_year" class="data-entry-label col-sm-3 text-center text-md-right px-0">Start Day of Year</label>
-								<div class="col-sm-9">
-									<input type="text" name="start_day_of_year" class="data-entry-input" placeholder="Start Day of Year" />
+								<div class="row">
+								<label for="start_end_dayOfyear" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Day of Year</label>
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
 								</div>
-							</div>
-							<div class="row">
-								<label for="end_day_of_year" class="data-entry-label col-sm-3 text-center text-md-right px-0">End Day of Year</label>
-								<div class="col-sm-9 my-0">
-									<input type="text" name="end_day_of_year" class="data-entry-input" placeholder="End Day of Year" />
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
 								</div>
 							</div>
 							<div class="row">
