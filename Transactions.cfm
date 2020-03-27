@@ -223,11 +223,8 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12">
 										<button class="btn btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
-										<button id="transcsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
-												onclick=" exportGridToCSV('searchResultsGrid', 'transaction_list.csv'); "
-												disabled >Export to CSV</button>
-											<button type="reset" class="btn btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
-											<button type="button" class="btn btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
+										<button type="reset" class="btn btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
+										<button type="button" class="btn btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
 									</div>
 								</div>
 							</form>
@@ -555,7 +552,7 @@ limitations under the License.
 						<span id="resultCount"></span>
 						<span id="resultLink" class="pl-2"></span>
 						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>
-						<span id="resultDownloadButtonSpan" class="pl-2"></span>
+						<div id="resultDownloadButtonContainer" class="pl-2"></div>
 					</div>
 					<div class="row mt-0">
 						<div id="searchText"></div>
@@ -604,8 +601,6 @@ $(document).ready(function() {
 		evt.preventDefault();
 
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
-		$('##loancsvbutton').prop('disabled',true);
-		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##searchText').jqxGrid('showloadelement');
@@ -684,9 +679,6 @@ $(document).ready(function() {
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
-			// toggle the csv download buttons appropriate to the search
-			$('##loancsvbutton').prop('disabled',true);
-			$('##transcsvbutton').prop('disabled',false);
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','transaction');
@@ -698,8 +690,6 @@ $(document).ready(function() {
 		evt.preventDefault();
 
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
-		$('##loancsvbutton').prop('disabled',true);
-		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##searchText').jqxGrid('showloadelement');
@@ -803,9 +793,6 @@ $(document).ready(function() {
 			]
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
-			// toggle the csv download buttons appropriate to the search
-			$('##loancsvbutton').prop('disabled',false);
-			$('##transcsvbutton').prop('disabled',true);
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','loan');
@@ -882,7 +869,7 @@ function gridLoaded(gridId, searchType) {
 	// 600 is the z-index of the grid cells when created from the transaction search
 	$('.jqx-grid-cell').css({'z-index': 600});
 	$('.jqx-grid-group-cell').css({'z-index': 600});
-	$('##resultDownloadButtonSpan').html('<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " disabled >Export to CSV</button>');
+	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 
 </script>
