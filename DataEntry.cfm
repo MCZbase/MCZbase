@@ -572,38 +572,7 @@ limitations under the License.
 									</div>
 								</div>
 									
-							 <div class="form-group" id="otherFieldGroupDiv">
-								<div class="row">
-								  <div class="col-4">
-									<label for="otherField1" class="data-entry-label mb-0">Part Attribute</label>
-									<input type="text" class="data-entry-input" id="otherField1" placeholder="part attribute">
-								  </div>
-								  <div class="col-4">
-									<label for="otherField2" class="data-entry-label mb-0">Attribute Value</label>
-									<input type="text" class="data-entry-input" id="otherField2" placeholder="attribute value">
-								  </div>
-								  <div class="col-4">
-									<label for="otherField2" class="data-entry-label mb-0">Attribute Units</label>
-									<input type="text" class="data-entry-input" id="otherField3" placeholder="attribute Units">
-								  </div>
-								</div>
-								<div class="row">
-								  <div class="col-6">
-									<label for="otherField1" class="data-entry-label mb-0">Determiner</label>
-									<input type="text" class="data-entry-input" id="otherField4">
-								  </div>
-								  <div class="col-6">
-									<label for="otherField2" class="data-entry-label mb-0">Determined on Date</label>
-									<input type="text" class="data-entry-input" id="otherField5">
-								  </div>
-								</div>
-								<div class="row">
-								  <div class="col-12">
-									<label for="otherField1" class="data-entry-label mb-0">Remarks</label>
-									<input type="text" class="data-entry-input" id="otherField6">
-								  </div>
-								</div>
-							  </div>
+							
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a></div>
 							</div>
 					
