@@ -222,6 +222,15 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 								</div>
 							</div>
+														<div class="row">
+								<label for="start_end_dayOfyear" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Day of Year</label>
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
+								</div>
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
+								</div>
+							</div>
 							<div class="row">
 								<label for="collecting_source_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Source &amp; Method</label>
 								<div class="col-12 col-sm-4 pr-0">
@@ -244,9 +253,10 @@ limitations under the License.
 								</div>
 							</div>						
 							<div class="row">
-								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Coordinate System</label>
+								<h4>Verbatim Georeference</h4>
+								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Coordinate System</label>
 								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="Coord. System">
+									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
 								</div>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="Datum" placeholder="SRS or Datum">
@@ -262,15 +272,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input pr-xl-0" id="longitude" placeholder="Longitude">
 								</div>
 							</div>
-								<div class="row">
-								<label for="start_end_dayOfyear" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Day of Year</label>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
-								</div>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
-								</div>
-							</div>
+
 							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
 								<div class="col-sm-9">
