@@ -115,7 +115,7 @@ limitations under the License.
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Curatorial Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 4</h3>
-							<div id="customCurRelationship">
+							<div id="customCurRelations">
 								<div class="row">
 									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
 									<div class="col-xl-4 px-xl-0">
@@ -132,14 +132,14 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addCurRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Curatorial Relationship</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addCurRelations btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Curatorial Relationship</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 5</h3>
-							<div id="customBiolRelationship">
+							<div id="customBiolRelations">
 								<div class="row">
 									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
 									<div class="col-xl-4 px-xl-0">
@@ -156,7 +156,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addBiolRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Biological Relationship</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addBiolRelations btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Biological Relationship</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
