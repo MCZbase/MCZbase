@@ -253,10 +253,8 @@ limitations under the License.
 								</div>
 							</div>						
 							<div class="row">
-								<label class="data-entry-label col-sm-3 text-center text-md-right text-bold px-xl-0">Verbatim Georeference</label>
-								<div class="col-12 col-sm-4 pr-0">
-									
-								</div>
+								<div class="text-center">Verbatim Georeference</div>
+							
 								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Coordinate System</label>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
