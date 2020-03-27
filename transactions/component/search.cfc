@@ -48,14 +48,14 @@ limitations under the License.
 				transaction_view.specific_number, 
 				transaction_view.specific_type, 
 				transaction_view.status, 
-				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent
+				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent,
 				concattransagent(transaction_view.transaction_id,'authorized by') auth_agent,
 				concattransagent(transaction_view.transaction_id,'received by') rec_agent,
 				concattransagent(transaction_view.transaction_id,'for use by') foruseby_agent,
 				concattransagent(transaction_view.transaction_id,'in-house contact') inHouse_agent,
 				concattransagent(transaction_view.transaction_id,'additional in-house contact') addInhouse_agent,
 				concattransagent(transaction_view.transaction_id,'additional outside contact') addOutside_agent,
-				concattransagent(transaction_view.transaction_id,'recipient institution') recip_inst,
+				concattransagent(transaction_view.transaction_id,'recipient institution') recip_inst
 			FROM 
 				MCZBASE.transaction_view
 				left join collection on transaction_view.collection_id = collection.collection_id
