@@ -212,7 +212,7 @@ limitations under the License.
 								<div class="col-12 col-sm-3 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="ended_date" placeholder="Date Ended">
 								</div>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-3">
 									<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
 								</div>
 							</div>
@@ -223,9 +223,12 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="collecting_source" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Source</label>
-								<div class="col-sm-9 my-0">
-									<input type="text" name="collecting_source" class="data-entry-input" placeholder="Collecting Source" />
+								<label for="collecting_source_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Source &amp; Method</label>
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="collecting_source" placeholder="Collecting Source">
+								</div>
+								<div class="col-12 col-sm-4 pr-0">
+									<input type="text" class="data-entry-input pr-xl-0" id="collecting_method" placeholder="Collecting Method">
 								</div>
 							</div>
 							<div class="row">
