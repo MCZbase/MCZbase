@@ -855,9 +855,7 @@ limitations under the License.
 							<button type="button" id="prevBtn" class="btn btn-primary" onclick="nextPrev(-1)">Previous</button>
 							<button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Next</button>
 						</div>
-						<div class="text-center my-2">
-							<button type="button" id="seeAll" class="btn btn-primary">See All</button>
-						</div>
+					
 					</div>
 					<!-- Circles which indicates the steps of the form: -->
 					<div class="my-4 text-center"> <span class="step">1</span> <span class="step">2</span> <span class="step">3</span> <span class="step">4</span> <span class="step">5</span> <span class="step">6</span> <span class="step">7</span> <span class="step">8</span> <span class="step">9</span> </div>
