@@ -528,9 +528,6 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
-												onclick=" exportGridToCSV('searchResultsGrid', 'loan_list.csv'); "
-												disabled >Export to CSV</button>
 											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
@@ -553,12 +550,14 @@ limitations under the License.
 		<div class="text-left col-md-12">
 			<main role="main">
 				<div class="pl-2 mb-5">
-					<div class="row mt-1">
+					<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. --->
+					<div class="row mt-1 mb-0 pb-0 jqxwidget-header faux-jqxwidget-header" style="border-color: ##c5c5c5; border-style: solid; border-width: 1px;">
 						<span id="resultCount"></span>
-						<span id="resultLink" class="pl-2)"></span>
+						<span id="resultLink" class="pl-2"></span>
 						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>
+						<span id="resultDownloadButtonSpan" class="pl-2"></span>
 					</div>
-					<div class="row mt-1">
+					<div class="row mt-0">
 						<div id="searchText"></div>
 						<!--Grid Related code is below along with search handlers-->
 						<div id="searchResultsGrid" class="jqxGrid"></div>
@@ -690,7 +689,7 @@ $(document).ready(function() {
 			$('##transcsvbutton').prop('disabled',false);
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-			gridLoaded('searchResultsGrid');
+			gridLoaded('searchResultsGrid','transaction');
 		});
 	});
 
@@ -809,7 +808,7 @@ $(document).ready(function() {
 			$('##transcsvbutton').prop('disabled',true);
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
-			gridLoaded('searchResultsGrid');
+			gridLoaded('searchResultsGrid','loan');
 		});
 
 	});
@@ -827,7 +826,9 @@ $(document).ready(function() {
 
 });
 
-function gridLoaded(gridId) { 
+function gridLoaded(gridId, searchType) { 
+	var now = Date();
+	var filename = searchType + '_results' + now.toLocaleString('en-us').replace(/[^0-9APM]/g,'_') + '.csv';
 	// display the number of rows found
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 	var rowcount = datainformation.rowscount;
@@ -881,6 +882,7 @@ function gridLoaded(gridId) {
 	// 600 is the z-index of the grid cells when created from the transaction search
 	$('.jqx-grid-cell').css({'z-index': 600});
 	$('.jqx-grid-group-cell').css({'z-index': 600});
+	$('##resultDownloadButtonSpan').html('<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " disabled >Export to CSV</button>');
 }
 
 </script>
