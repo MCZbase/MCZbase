@@ -814,8 +814,8 @@ $(document).ready(function() {
 });
 
 function gridLoaded(gridId, searchType) { 
-	var now = Date();
-	var nowstring = now.getFullYear() + '-' + now.getMonth + '-' + now.getDate() + '_' + now.getHours + '_' + now.getMinutes();
+	var now = new Date();
+	var nowstring = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + '_' + now.getHours() + '_' + now.getMinutes();
 	var filename = searchType + '_results' + nowstring + '.csv';
 	// display the number of rows found
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
