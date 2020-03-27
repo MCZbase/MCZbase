@@ -74,7 +74,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-		
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Accession Number</h2>
@@ -87,7 +86,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-							</div>
+				</div>
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
@@ -136,7 +135,6 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Curatorial Relationship</a> </div>
 						</div>
 					</div>
-			
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Biological Relationships</h2>
@@ -182,7 +180,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a> </div>
 						</div>
 					</div>
-						</div>
+				</div>
 				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
@@ -222,7 +220,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 								</div>
 							</div>
-														<div class="row">
+							<div class="row">
 								<label for="start_end_dayOfyear" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Day of Year</label>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
@@ -251,7 +249,7 @@ limitations under the License.
 								<div class="col-sm-9">
 									<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
 								</div>
-							</div>			
+							</div>
 							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
 								<div class="col-sm-9">
@@ -261,7 +259,6 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<div class="text-left w-100 py-2 px-5">Verbatim Georeference</div>
-							
 								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Coordinate System</label>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
@@ -270,7 +267,6 @@ limitations under the License.
 									<input type="text" class="data-entry-input pr-xl-0" id="Datum" placeholder="SRS or Datum">
 								</div>
 							</div>
-
 							<div class="row">
 								<label for="lat_long" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Lat. and Long.</label>
 								<div class="col-12 col-sm-4 pr-0">
@@ -280,8 +276,6 @@ limitations under the License.
 									<input type="text" class="data-entry-input pr-xl-0" id="longitude" placeholder="Longitude">
 								</div>
 							</div>
-
-							
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
@@ -385,136 +379,134 @@ limitations under the License.
 							<h2 class="data-entry-title">Coordinates</h2>
 							<h3 class="data-entry-subtitle">This is step 10</h3>
 							<div id="customGeoreference">
-							<div class="row">
-								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
-								<div class="col-sm-9">
-									<select class="data-entry-select pr-0" required>
-										<option value="">Decimal Degrees</option>
-										<option value="1">Dec. Min. Secs.</option>
-										<option value="2">Degrees Dec. Minutes</option>
-										<option value="3">Unknown</option>
-									</select>
+								<div class="row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
+									<div class="col-sm-9">
+										<select class="data-entry-select pr-0" required>
+											<option value="">Decimal Degrees</option>
+											<option value="1">Dec. Min. Secs.</option>
+											<option value="2">Degrees Dec. Minutes</option>
+											<option value="3">Unknown</option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Maximumm Error</label>
+									<div class="col-12 col-sm-4">
+										<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
+									</div>
+									<div class="col-12 col-sm-4 pr-0">
+										<input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units">
+									</div>
+								</div>
+								<div class="row">
+									<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right px-0">Extent</label>
+									<div class="col-sm-9">
+										<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
+									</div>
+								</div>
+								<div class="row">
+									<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right px-0">GPS Accuracy</label>
+									<div class="col-sm-9">
+										<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
+									</div>
+								</div>
+								<div class="row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Datum</label>
+									<div class="col-sm-9">
+										<select class="data-entry-select pr-0" required>
+											<option value="">NAD27</option>
+											<option value="1">POS</option>
+											<option value="2">GRA</option>
+											<option value="3">WGS84</option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
+									<div class="col-sm-9">
+										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
+									</div>
+								</div>
+								<div class="row">
+									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
+									<div class="col-sm-9">
+										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
+									</div>
+								</div>
+								<div class="row">
+									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right px-0">Reference</label>
+									<div class="col-sm-9">
+										<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
+									</div>
+								</div>
+								<div class="row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Georeference Meth.</label>
+									<div class="col-sm-9">
+										<select class="data-entry-select pr-0" required>
+											<option value="">GeoLocate</option>
+											<option value="1">GPS</option>
+											<option value="2">Google Earth</option>
+											<option value="3">Gazetteer</option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
+									<div class="col-sm-9">
+										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
+										</textarea>
+									</div>
 								</div>
 							</div>
-							<div class="row">
-								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Maximumm Error</label>
-								<div class="col-12 col-sm-4">
-									<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
-								</div>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units">
-								</div>
-							</div>
-							<div class="row">
-								<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right px-0">Extent</label>
-								<div class="col-sm-9">
-									<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right px-0">GPS Accuracy</label>
-								<div class="col-sm-9">
-									<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Datum</label>
-								<div class="col-sm-9">
-									<select class="data-entry-select pr-0" required>
-										<option value="">NAD27</option>
-										<option value="1">POS</option>
-										<option value="2">GRA</option>
-										<option value="3">WGS84</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-								<div class="col-sm-9">
-									<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
-								<div class="col-sm-9">
-									<input type="text" name="date" class="data-entry-input" placeholder="Date" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right px-0">Reference</label>
-								<div class="col-sm-9">
-									<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Georeference Meth.</label>
-								<div class="col-sm-9">
-									<select class="data-entry-select pr-0" required>
-										<option value="">GeoLocate</option>
-										<option value="1">GPS</option>
-										<option value="2">Google Earth</option>
-										<option value="3">Gazetteer</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
-								<div class="col-sm-9">
-									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
-									</textarea>
-								</div>
-							</div>
-						</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Coordinates" class="btn btn-primary addCoord btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Georeference</a></div>
-				</div>
 						</div>
 					</div>
 				</div>
+				</div>
 				<div class="row">
-					
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Scientific Name</h2>
 							<h3 class="data-entry-subtitle">This is step 7</h3>
 							<div id="customSciName">
-							<div class="row">
-								<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
-								<div class="col-12 col-lg-9">
-									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+								<div class="row">
+									<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+									</div>
 								</div>
-							</div>
-							<div class="row">
-								<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
-								<div class="col-12 col-lg-9">
-									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+								<div class="row">
+									<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
+									<div class="col-12 col-lg-9">
+										<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+									</div>
 								</div>
-							</div>
-							<div class="row">
-								<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
-								<div class="col-12 col-lg-4 pr-xl-0">
-									<select class="data-entry-select" required>
-										<option value="">Expert ID</option>
-										<option value="1">Field ID</option>
-										<option value="2">Non-Expert ID</option>
-										<option value="3">Curatorial ID</option>
-									</select>
+								<div class="row">
+									<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
+									<div class="col-12 col-lg-4 pr-xl-0">
+										<select class="data-entry-select" required>
+											<option value="">Expert ID</option>
+											<option value="1">Field ID</option>
+											<option value="2">Non-Expert ID</option>
+											<option value="3">Curatorial ID</option>
+										</select>
+									</div>
+									<div class="col-12 col-lg-5">
+										<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
+									</div>
 								</div>
-								<div class="col-12 col-lg-5">
-									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
+								<div class="row">
+									<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right px-0">ID Remark</label>
+									<div class="col-12 col-lg-9">
+										<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/>
+										</textarea>
+									</div>
 								</div>
-							</div>
-							<div class="row">
-								<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right px-0">ID Remark</label>
-								<div class="col-12 col-lg-9">
-									<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/>
-									</textarea>
-								</div>
-							</div>
 							</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-primary addSciName btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Identification</a></div>
 						</div>
 					</div>
-			
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Parts</h2>
@@ -571,14 +563,10 @@ limitations under the License.
 										</textarea>
 									</div>
 								</div>
-									
-							
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a></div>
 							</div>
-					
 						</div>
 					</div>
-			
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Attributes</h2>
@@ -622,8 +610,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
-							
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
 						</div>
 					</div>
 				</div>
@@ -877,46 +864,67 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
+
+
+
 	<script>
-	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
-	$(".addAtt").click(function(){$("##customAtt").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-3 mr-auto remAtt">Remove</button></div>');
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row 
+$(document).ready(function(){
+	$(".addOtherID").click(function(){$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-3 mr-auto remOtherID">Remove</button></div>');
 	});
-	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();
-});
-</script> 
-	<script>
-	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
-	$(".addSciName").click(function(){$("##customSciName").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addSciName btn-sm loginButtons rounded ml-3 mr-auto remSciName">Remove</button></div>');
+	$("##customOtherID").on('click','.remOtherID',function(){$(this).parent().remove();});
 	});
-	$("##customSciName").on('click','.remSciName',function(){$(this).parent().remove();
-});
-</script> 
-	<script>
+	});
+
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+$(document).ready(function(){
+	$(".addCurRelations").click(function(){$("##customCurRelations").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addCurRelations btn-sm loginButtons rounded ml-3 mr-auto remCurRelations">Remove</button></div>');
+	});
+	$("##customCurRelations").on('click','.remCurRelations',function(){$(this).parent().remove();});
+	});
+
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+$(document).ready(function(){
+	$(".addBiolRelations").click(function(){$("##customBiolRelations").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addBiolRelations btn-sm loginButtons rounded ml-3 mr-auto remBiolRelations">Remove</button></div>');
+	});
+	$("##customCurRelations").on('click','.remCurRelations',function(){$(this).parent().remove();});
+	});
+
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-4 pl-xl-0"><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent float-right data-entry-button remAgent"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
-</script> 
 
-	<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addCoord").click(function(){$("##customCoord").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-4 pl-xl-0"><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addCoord float-right data-entry-button remCoord"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customCoord").on('click','.remCoord',function(){$(this).parent().remove();});
 });
-</script> 
-	<script>
+
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+$(document).ready(function(){
+	$(".addSciName").click(function(){$("##customSciName").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addSciName btn-sm loginButtons rounded ml-3 mr-auto remSciName">Remove</button></div>');
+	});
+	$("##customSciName").on('click','.remSciName',function(){$(this).parent().remove()});
+});
+
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addPart").click(function(){$("##customPart").append('<div class="row mt-2" id="customPartAtt"><label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_name" placeholder="Part Name"></div><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Ethanol</option><option value="1">RNALater</option><option value="2">DNA/RNA Shield</option><option value="3">Alcohol</option></select></div><label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="condition" placeholder="Condition"></div><label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Disposition</label><div class="col-12 col-lg-9"><select class="data-entry-select" required><option value="">Being Processed</option><option value="1">deaccessioned</option><option value="2">in collection</option><option value="3">missing</option></select></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Modifier</option><option value="1">ca.</option><option value="2">&gt;</option><option value="3">&lt;</option></select></div><div class="col-12 col-lg-5"><input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts"></div></div><label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID"></div><label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addPart btn-sm loginButtons rounded ml-3 mr-auto remPart">Remove Part</button></div>');
 	});
 	$("##customPart").on('click','.remPart',function(){$(this).parent().remove();});
 });
-</script> 
-	<script>
+
+	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+$(document).ready(function(){
+	$(".addAtt").click(function(){$("##customAtt").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-3 mr-auto remAtt">Remove</button></div>');
+	});
+	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();});
+	});
+
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
 	$(".addPartAtt").click(function(){$("##customPartAtt").append('<div class="mt-2" id="partAtt"><label for="part_att_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Name</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_name" placeholder="Part Attribute Name"></div><label for="part_att_value" class="data-entry-label col-sm-3 text-center text-md-right px-0">Value</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_value" placeholder="Part Attribute Value"></div><label for="part_att_units" class="data-entry-label col-sm-3 text-center text-md-right px-0">Units</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_units" placeholder="Part Attribute Units"></div><label for="part_att_determined_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determined By</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="part_att_determined_by" placeholder="Part Attribute Determined By"></div><label for="part_att_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="part_att_remark" class="data-entry-textarea" placeholder="Part Attribute Remark"/></textarea></div></div><button href="javascript:void(0);" arial-label="remove Part Att" class="btn btn-primary addPartAtt btn-sm loginButtons rounded ml-3 mr-auto remPartAtt">Remove</button></div>');
@@ -954,8 +962,6 @@ $("##seeAnotherFieldGroup").change(function() {
 });
 $("##seeAnotherFieldGroup").trigger("change");
 </script> 
-
-
 	<script type="text/javascript">
 function SwapDivsWithClick(div1,div2)
 {
