@@ -552,7 +552,7 @@ limitations under the License.
 						<span id="resultCount"></span>
 						<span id="resultLink" class="pl-2"></span>
 						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>
-						<div id="resultDownloadButtonContainer" class="pl-2"></div>
+						<div id="resultDownloadButtonContainer"></div>
 					</div>
 					<div class="row mt-0">
 						<div id="searchText"></div>
@@ -870,7 +870,7 @@ function gridLoaded(gridId, searchType) {
 	// 600 is the z-index of the grid cells when created from the transaction search
 	$('.jqx-grid-cell').css({'z-index': 600});
 	$('.jqx-grid-group-cell').css({'z-index': 600});
-	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 
 </script>
