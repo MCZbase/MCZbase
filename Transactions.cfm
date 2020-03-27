@@ -825,6 +825,14 @@ function gridLoaded(gridId, searchType) {
 	} else { 
 		$('##resultCount').html('Found ' + rowcount + ' loans');
 	}
+	// set maximum page size
+	if (rowscount > 100) { 
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowscount]});
+	} else if (rowscount > 50) { 
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowscount]});
+	} else { 
+	   $('##' + gridId).jqxGrid({ pageable: false });
+	}
 	// add a control to show/hide columns
 	var columns = $('##' + gridId).jqxGrid('columns').records;
 	var columnListSource = [];
