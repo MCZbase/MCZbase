@@ -232,12 +232,6 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="collecting_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Method</label>
-								<div class="col-sm-9 my-0">
-									<input type="text" name="collecting_method" class="data-entry-input" placeholder="Collecting Method" />
-								</div>
-							</div>
-							<div class="row">
 								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
 								<div class="col-sm-9">
 									<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
