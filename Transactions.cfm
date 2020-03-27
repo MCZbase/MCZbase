@@ -657,7 +657,7 @@ console.log(datarecord)
 			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
 			for (i = 0; i < columns.length; i++) {
 				var text = columns[i].text;
-				var content = "<li><strong>" + text + "</strong>" + "</li> ;
+				var content = "<li><strong>" + text + "</strong>" + "</li>";
 			}
 			content = content + "</ul>";
 			details.html(content);
