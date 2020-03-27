@@ -28,7 +28,7 @@ limitations under the License.
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				<div class="row">
-					<div class="col-12 col-md-4 pb-1 px-1">
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Collection</h2>
 							<h3 class="data-entry-subtitle">This is step 1</h3>
@@ -45,7 +45,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-1 px-1">
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Catalog Number</h2>
 							<h3 class="data-entry-subtitle">This is step 2</h3>
@@ -57,7 +57,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-1 px-1">
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Encumbrance</h2>
 							<h3 class="data-entry-subtitle">This is step 5</h3>
@@ -74,9 +74,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 col-md-4 pb-1 px-1">
+		
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Accession Number</h2>
 							<h3 class="data-entry-subtitle">This is step 3</h3>
@@ -88,7 +87,9 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-1 px-1">
+							</div>
+				<div class="row">
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Other IDs</h2>
 							<h3 class="data-entry-subtitle">This is step 3</h3>
@@ -111,7 +112,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addID btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Other ID</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-1 px-1">
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Record Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 4</h3>
@@ -135,9 +136,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 col-md-4 pb-1 px-1">
+			
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 							<h3 class="data-entry-subtitle">This is step 5</h3>
@@ -161,7 +161,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addRelationship btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Record Relationship</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-1 px-1">
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Collector/Preparator</h2>
 							<h3 class="data-entry-subtitle">This is step 6</h3>
@@ -182,6 +182,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a> </div>
 						</div>
 					</div>
+						</div>
+				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Scientific Name</h2>
