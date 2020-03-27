@@ -815,7 +815,7 @@ $(document).ready(function() {
 
 function gridLoaded(gridId, searchType) { 
 	var now = new Date();
-	var nowstring = now.toISOString.replace(/[^0-9TZ]/g,'_');
+	var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 	var filename = searchType + '_results_' + nowstring + '.csv';
 	// display the number of rows found
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
