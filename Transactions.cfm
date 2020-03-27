@@ -696,7 +696,7 @@ $(document).ready(function() {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid');
-		);
+		});
 	});
 
 	/* Setup jqxgrid for Loan Search */
