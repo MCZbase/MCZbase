@@ -880,8 +880,7 @@ $(document).ready(function(){
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addCurRelations").click(function(){$("##customCurRelations").append('<div class="row mt-3"><label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Re-Cataloged as</option><option value="2">Bad Duplicate of</option><option value="3">Cloned from Record</option><option value="4">Duplicate Recataloged as</option></select>
-	</div><div class="col-xl-5"><input type="text" class="data-entry-input" id="record_number" placeholder="Record Number"></div></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addCurRelations btn-sm loginButtons rounded ml-3 mr-auto remCurRelations">Remove</button></div>');
+	$(".addCurRelations").click(function(){$("##customCurRelations").append('<div class="row mt-3"><label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Re-Cataloged as</option><option value="2">Bad Duplicate of</option><option value="3">Cloned from Record</option><option value="4">Duplicate Recataloged as</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input" id="record_number" placeholder="Record Number"></div></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addCurRelations btn-sm loginButtons rounded ml-3 mr-auto remCurRelations">Remove</button></div>');
 	});
 	$("##customCurRelations").on('click','.remCurRelations',function(){$(this).parent().remove();});
 	});
