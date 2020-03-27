@@ -657,11 +657,12 @@ $(document).ready(function() {
 			for (i = 0; i < columns.length; i++) {
 				var text = columns[i].text;
 				var datafield = columns[i].datafield;
-				var content = content + "<li><strong>" + text + "</strong>" + datarecord[datafield] +  "</li>";
+				var content = content + "<li><strong>" + text + ":</strong>" + datarecord[datafield] +  "</li>";
 			}
 			content = content + "</ul>";
 			details.html(content);
-console.log(content);
+			// Workaround, expansion sits below row in zindex.
+			$(parentElement).css('z-index',610);
 		};
 
 		$("##searchResultsGrid").jqxGrid({
@@ -707,7 +708,7 @@ console.log(content);
 			rowdetails: true,
 			rowdetailstemplate: {
 				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-				rowdetailsheight: 50
+				rowdetailsheight: 200
 			},
 			initrowdetails: initRowDetails
 		});
