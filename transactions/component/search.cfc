@@ -49,6 +49,13 @@ limitations under the License.
 				transaction_view.specific_type, 
 				transaction_view.status, 
 				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent
+				concattransagent(transaction_view.transaction_id,'authorized by') auth_agent,
+				concattransagent(transaction_view.transaction_id,'received by') rec_agent,
+				concattransagent(transaction_view.transaction_id,'for use by') foruseby_agent,
+				concattransagent(transaction_view.transaction_id,'in-house contact') inHouse_agent,
+				concattransagent(transaction_view.transaction_id,'additional in-house contact') addInhouse_agent,
+				concattransagent(transaction_view.transaction_id,'additional outside contact') addOutside_agent,
+				concattransagent(transaction_view.transaction_id,'recipient institution') recip_inst,
 			FROM 
 				MCZBASE.transaction_view
 				left join collection on transaction_view.collection_id = collection.collection_id
@@ -131,6 +138,13 @@ limitations under the License.
 			<cfset row["type"] = "#search.specific_type#">
 			<cfset row["status"] = "#search.status#">
 			<cfset row["entered_by"] = "#search.entered_by_agent#">
+			<cfset row["authorized_by"] = "#search.auth_agent#">
+			<cfset row["received_by"] = "#search.rec_agent#">
+			<cfset row["for_use_by"] = "#search.foruseby_agent#">
+			<cfset row["in-house_contact"] = "#search.innHouse_agent#">
+			<cfset row["additional_inhouse_contact"] = "#search.addInHouse_agent#">
+			<cfset row["additional_outside_contact"] = "#search.addOutside_agent#">
+			<cfset row["recipient_institution"] = "#search.recip_inst#">
 			<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
