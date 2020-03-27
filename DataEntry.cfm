@@ -872,7 +872,7 @@ limitations under the License.
 		
 $(document).ready(function(){
 	$(".addOtherID").click(function(){
-		$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-3 mr-auto remOtherID">Remove</button></div>');
+		$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-3 mr-auto remOtherID">Remove</button></div>');
 	});
 		$("##customOtherID").on('click','.remOtherID',function(){
 			$(this).parent().remove();});
