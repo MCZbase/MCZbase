@@ -548,7 +548,7 @@ limitations under the License.
 			<main role="main">
 				<div class="pl-2 mb-5">
 					<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. --->
-					<div class="row mt-1 mb-0 pb-0 jqxwidget-header faux-jqxwidget-header" style="border-color: ##c5c5c5; border-style: solid; border-width: 1px;">
+					<div class="row mt-1 mb-0 pb-0 jqx-widget-header faux-jqxwidget-header" style="border-color: ##c5c5c5; border-style: solid; border-width: 1px;">
 						<span id="resultCount"></span>
 						<span id="resultLink" class="pl-2"></span>
 						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>
@@ -815,7 +815,8 @@ $(document).ready(function() {
 
 function gridLoaded(gridId, searchType) { 
 	var now = Date();
-	var filename = searchType + '_results' + now.toLocaleString('en-us').replace(/[^0-9APM]/g,'_') + '.csv';
+	var nowstring = now.getFullYear() + '-' + now.getMonth + '-' + now.getDate() + '_' + now.getHours + '_' + now.getMinutes();
+	var filename = searchType + '_results' + nowstring + '.csv';
 	// display the number of rows found
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 	var rowcount = datainformation.rowscount;
