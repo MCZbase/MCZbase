@@ -186,47 +186,6 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
-							<h2 class="data-entry-title">Scientific Name</h2>
-							<h3 class="data-entry-subtitle">This is step 7</h3>
-							<div class="row">
-								<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
-								<div class="col-12 col-lg-9">
-									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
-								<div class="col-12 col-lg-9">
-									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
-								<div class="col-12 col-lg-4 pr-xl-0">
-									<select class="data-entry-select" required>
-										<option value="">Expert ID</option>
-										<option value="1">Field ID</option>
-										<option value="2">Non-Expert ID</option>
-										<option value="3">Curatorial ID</option>
-									</select>
-								</div>
-								<div class="col-12 col-lg-5">
-									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right px-0">ID Remark</label>
-								<div class="col-12 col-lg-9">
-									<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/>
-									</textarea>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 col-md-4 pb-1 px-1">
-						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Collecting Event</h2>
 							<h3 class="data-entry-subtitle">This is step 8</h3>
 							<div class="row">
@@ -518,6 +477,47 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row">
+					
+					<div class="col-12 col-md-4 pb-1 px-1">
+						<div class="border p-3 m-1">
+							<h2 class="data-entry-title">Scientific Name</h2>
+							<h3 class="data-entry-subtitle">This is step 7</h3>
+							<div class="row">
+								<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
+								<div class="col-12 col-lg-9">
+									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
+								<div class="col-12 col-lg-9">
+									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
+								<div class="col-12 col-lg-4 pr-xl-0">
+									<select class="data-entry-select" required>
+										<option value="">Expert ID</option>
+										<option value="1">Field ID</option>
+										<option value="2">Non-Expert ID</option>
+										<option value="3">Curatorial ID</option>
+									</select>
+								</div>
+								<div class="col-12 col-lg-5">
+									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
+								</div>
+							</div>
+							<div class="row">
+								<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right px-0">ID Remark</label>
+								<div class="col-12 col-lg-9">
+									<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/>
+									</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+			
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Parts</h2>
@@ -631,7 +631,7 @@ limitations under the License.
 					
 						</div>
 					</div>
-				</div>
+			
 					<div class="col-12 col-md-4 pb-1 px-1">
 						<div class="border p-3 m-1">
 							<h2 class="data-entry-title">Attributes</h2>
