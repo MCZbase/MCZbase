@@ -21,7 +21,7 @@ limitations under the License.
 
 <cfoutput>
 		<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
-	<div class="container-fluid pt-1 form-div" id="swapper-first" style="display: none;">
+	<div class="container-fluid pt-1" id="swapper-first" style="display: none;">
 		
 		<div class="row">
 			<div class="col-12 mt-0">
@@ -47,7 +47,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="form-div p-3 m-1">
 							<h2 class="data-entry-title">Catalog Number</h2>
 							<h3 class="data-entry-subtitle">This is step 2</h3>
 							<div class="row">
@@ -59,7 +59,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="form-div p-3 m-1">
 							<h2 class="data-entry-title">Encumbrance</h2>
 							<h3 class="data-entry-subtitle">This is step 5</h3>
 							<div id="encumbrance">
@@ -76,7 +76,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="form-div p-3 m-1">
 							<h2 class="data-entry-title">Accession Number</h2>
 							<h3 class="data-entry-subtitle">This is step 3</h3>
 							<div class="row">
@@ -90,7 +90,7 @@ limitations under the License.
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border p-3 m-1">
+						<div class="form-div p-3 m-1">
 							<h2 class="data-entry-title">Other IDs</h2>
 							<h3 class="data-entry-subtitle">This is step 3</h3>
 							<div id="customOtherID">
