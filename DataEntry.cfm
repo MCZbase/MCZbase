@@ -251,7 +251,14 @@ limitations under the License.
 								<div class="col-sm-9">
 									<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
 								</div>
-							</div>						
+							</div>			
+							<div class="row">
+								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
+								<div class="col-sm-9">
+									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
+									</textarea>
+								</div>
+							</div>
 							<div class="row">
 								<div class="text-center w-100">Verbatim Georeference</div>
 							
@@ -274,13 +281,7 @@ limitations under the License.
 								</div>
 							</div>
 
-							<div class="row">
-								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
-								<div class="col-sm-9">
-									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
-									</textarea>
-								</div>
-							</div>
+							
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
