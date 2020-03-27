@@ -505,7 +505,7 @@ limitations under the License.
 								</div>
 							</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a></div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-primary addSciName btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Identification</a></div>
 						</div>
 					</div>
 			
@@ -605,7 +605,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="otherField6">
 								  </div>
 								</div>
-								<div class="row">
+<!--								<div class="row">
 								<div class="col-12 pt-2">
 										<label for="seeAnotherFieldGroup" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Add an Attribute?</label>
 										<div class="col-12 col-xl-9">
@@ -615,7 +615,7 @@ limitations under the License.
 											</select>
 										</div>
 								</div>
-								 </div>
+								 </div>-->
 							  </div>
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a></div>
 							</div>
