@@ -658,7 +658,7 @@ $(document).ready(function() {
 			createRowDetailsDialog(datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
-			$(parentElement).css('z-index',maxZIndex + 1);
+			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 		}
 
 		$("##searchResultsGrid").jqxGrid({
@@ -704,7 +704,7 @@ $(document).ready(function() {
 			rowdetails: true,
 			rowdetailstemplate: {
 				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-				rowdetailsheight:  30 // 350
+				rowdetailsheight:  1 // row details will be placed in popup dialog
 			},
 			initrowdetails: initRowDetails
 		});
@@ -723,6 +723,9 @@ $(document).ready(function() {
 		function createRowDetailsDialog(datarecord,rowIndex) {
 			var content = "<div id='searchResultsGridRowDetailsDialog" + rowIndex + "'><ul>";
 			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
+			var gridWidth = $('##searchResultsGrid').width();
+			var dialogWidth = Math.round(gridWidth/2);
+			if (dialogWidth < 150) { dialogWidth = 150; }
 			for (i = 1; i < columns.length; i++) {
 				var text = columns[i].text;
 				var datafield = columns[i].datafield;
@@ -730,7 +733,14 @@ $(document).ready(function() {
 			}
 			content = content + "</ul></div>";
 			$("##rowDetailsTarget" + rowIndex).html(content);
-			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog({ autoOpen: true, buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##searchResultsGrid").jqxGrid('hiderowdetails',rowIndex); } } ] });
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog(
+				{ 
+					autoOpen: true, 
+					buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##searchResultsGrid").jqxGrid('hiderowdetails',rowIndex); } } ],
+					width: dialogWidth,
+					title: 'Record Details'		
+				}
+			);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			//$("##searchResultsGridRowDetailsDialog" + rowIndex ).css('z-index', maxZIndex + 1);
