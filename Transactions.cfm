@@ -652,6 +652,8 @@ $(document).ready(function() {
 		var dataAdapter = new $.jqx.dataAdapter(search);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+			var details = $($(parentElement).children()[0]);
+			details.html("<div id='rowDetailsTarget" + index + "'></div>);
 
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
@@ -724,17 +726,17 @@ $(document).ready(function() {
 				var content = content + "<li><strong>" + text + ":</strong>" + datarecord[datafield] +  "</li>";
 			}
 			content = content + "</ul></div>";
-			details.html(content);
-			$("##searchResultsGridRowDetailsDialog" + rowIndex + ).dialog({ autoOpen: true, buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##searchResultsGrid").jqxGrid('hiderowdetails',rowIndex); } } ] });
+			$("##rowDetailsTarget" + rowIndex).html(content);
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog({ autoOpen: true, buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##searchResultsGrid").jqxGrid('hiderowdetails',rowIndex); } } ] });
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
-			$("##searchResultsGridRowDetailsDialog" + rowIndex + ).css('z-index', maxZIndex + 1);
-		};
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).css('z-index', maxZIndex + 1);
+		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
 			var args = event.args;
 			var rowIndex = args.rowindex;
-			$("##searchResultsGridRowDetailsDialog" + rowIndex + ).dialog("destroy");
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
