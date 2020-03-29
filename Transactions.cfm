@@ -655,6 +655,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			details.html("<div id='rowDetailsTarget" + index + "'></div>");
 
+			createRowDetailsDialog(datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex + 1);
@@ -717,6 +718,9 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
+			createRowDetailsDialog(datarecord,rowIndex);
+		});
+		function createRowDetailsDialog(datarecord,rowIndex) {
 			var content = "<div id='searchResultsGridRowDetailsDialog" + rowIndex + "'><ul>";
 			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
 			for (i = 1; i < columns.length; i++) {
@@ -729,8 +733,9 @@ $(document).ready(function() {
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog({ autoOpen: true, buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##searchResultsGrid").jqxGrid('hiderowdetails',rowIndex); } } ] });
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
-			$("##searchResultsGridRowDetailsDialog" + rowIndex ).css('z-index', maxZIndex + 2);
-		});
+			//$("##searchResultsGridRowDetailsDialog" + rowIndex ).css('z-index', maxZIndex + 1);
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+		};
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
 			var args = event.args;
