@@ -655,7 +655,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			details.html("<div id='rowDetailsTarget" + index + "'></div>");
 
-			createRowDetailsDialog(datarecord,index);
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -718,34 +718,8 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-			createRowDetailsDialog(datarecord,rowIndex);
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
-		function createRowDetailsDialog(datarecord,rowIndex) {
-			var content = "<div id='searchResultsGridRowDetailsDialog" + rowIndex + "'><ul>";
-			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
-			var gridWidth = $('##searchResultsGrid').width();
-			var dialogWidth = Math.round(gridWidth/2);
-			if (dialogWidth < 150) { dialogWidth = 150; }
-			for (i = 1; i < columns.length; i++) {
-				var text = columns[i].text;
-				var datafield = columns[i].datafield;
-				var content = content + "<li><strong>" + text + ":</strong>" + datarecord[datafield] +  "</li>";
-			}
-			content = content + "</ul></div>";
-			$("##rowDetailsTarget" + rowIndex).html(content);
-			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog(
-				{ 
-					autoOpen: true, 
-					buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##searchResultsGrid").jqxGrid('hiderowdetails',rowIndex); } } ],
-					width: dialogWidth,
-					title: 'Record Details'		
-				}
-			);
-			// Workaround, expansion sits below row in zindex.
-			var maxZIndex = getMaxZIndex();
-			//$("##searchResultsGridRowDetailsDialog" + rowIndex ).css('z-index', maxZIndex + 1);
-			$("##searchResultsGridRowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
-		};
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
 			var args = event.args;
@@ -817,20 +791,15 @@ $(document).ready(function() {
 		};
 		var loanDataAdapter = new $.jqx.dataAdapter(loanSearch);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
-			var content = "<ul>";
-			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
-			for (i = 1; i < columns.length; i++) {
-				var text = columns[i].text;
-				var datafield = columns[i].datafield;
-				var content = content + "<li><strong>" + text + ":</strong>" + datarecord[datafield] +  "</li>";
-			}
-			content = content + "</ul>";
-			details.html(content);
+			details.html("<div id='rowDetailsTarget" + index + "'></div>");
+
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
-			$(parentElement).css('z-index',maxZIndex + 1);
-		};
+			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+		}
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
@@ -880,7 +849,7 @@ $(document).ready(function() {
 			rowdetails: true,
 			rowdetailstemplate: {
 				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-				rowdetailsheight: 430
+				rowdetailsheight: 1
 			},
 			initrowdetails: initRowDetails
 		});
@@ -888,6 +857,19 @@ $(document).ready(function() {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','loan');
+		});
+		$('##searchResultsGrid').on('rowexpand', function (event) {
+			//  Create a content div, add it to the detail row, and make it into a dialog.
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			var datarecord = args.owner.source.records[rowIndex];
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+		});
+		$('##searchResultsGrid').on('rowcollapse', function (event) {
+			// remove the dialog holding the row details
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
 
 	});
