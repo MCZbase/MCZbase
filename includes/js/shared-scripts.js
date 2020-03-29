@@ -131,7 +131,7 @@ function getMaxZIndex() {
          var args = event.args;
          var rowIndex = args.rowindex;
 			// id for dialog is gridId + 'RowDetailsDialog", created in createRowDetailsDialog.
-         $("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+         $("#searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
       });
 
  *
@@ -142,8 +142,8 @@ function getMaxZIndex() {
  */
 function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex) {
 	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
-	var columns = $('##' + gridId).jqxGrid('columns').records;
-	var gridWidth = $('##' + gridId).width();
+	var columns = $('#' + gridId).jqxGrid('columns').records;
+	var gridWidth = $('#' + gridId).width();
 	var dialogWidth = Math.round(gridWidth/2);
 	if (dialogWidth < 150) { dialogWidth = 150; }
 	for (i = 1; i < columns.length; i++) {
@@ -152,18 +152,17 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
 		var content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 	}
 	content = content + "</ul></div>";
-	$("##" + rowDetailsTargetId + rowIndex).html(content);
-	$("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+	$("#" + rowDetailsTargetId + rowIndex).html(content);
+	$("#"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
 		{ 
 			autoOpen: true, 
-			buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+			buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("#" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
 			width: dialogWidth,
 			title: 'Record Details'		
 		}
 	);
 	// Workaround, expansion sits below row in zindex.
 	var maxZIndex = getMaxZIndex();
-	//$("##searchResultsGridRowDetailsDialog" + rowIndex ).css('z-index', maxZIndex + 1);
-	$("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 };
 
