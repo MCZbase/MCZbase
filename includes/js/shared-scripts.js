@@ -23,7 +23,13 @@ function messageDialog(dialogText, dialogTitle) {
 		},
 		close: function() {
 			$(this).dialog( "destroy" );
-		}
+		},
+		open: function (event, ui) { 
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 2 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 1 });
+		} 
 	});
 };
 
@@ -72,4 +78,13 @@ function makeAgentPicker(nameControl, idControl) {
 		minLength: 3
 	});
 };
+
+/**
+ * Determine the largest z-index value currently on an element in the DOM.
+ * 
+ * @returns integer value for the current largest z-index value.
+ */
+function getMaxZIndex() { 
+  return Math.max.apply(null, $.map($('body > *'), function (element,n) {  return parseInt($(element).css('z-index')) || 1 })); 
+}
 

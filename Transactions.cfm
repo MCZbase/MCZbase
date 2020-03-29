@@ -651,19 +651,12 @@ $(document).ready(function() {
 
 		var dataAdapter = new $.jqx.dataAdapter(search);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-			var details = $($(parentElement).children()[0]);
-			var content = "<ul>";
-			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
-			for (i = 1; i < columns.length; i++) {
-				var text = columns[i].text;
-				var datafield = columns[i].datafield;
-				var content = content + "<li><strong>" + text + ":</strong>" + datarecord[datafield] +  "</li>";
-			}
-			content = content + "</ul>";
-			details.html(content);
+			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+
 			// Workaround, expansion sits below row in zindex.
-			$(parentElement).css('z-index',610);
-		};
+			var maxZIndex = getMaxZIndex();
+			$(parentElement).css('z-index',maxZIndex + 1);
+		}
 
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -708,7 +701,7 @@ $(document).ready(function() {
 			rowdetails: true,
 			rowdetailstemplate: {
 				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-				rowdetailsheight: 350
+				rowdetailsheight:  30 // 350
 			},
 			initrowdetails: initRowDetails
 		});
@@ -717,9 +710,37 @@ $(document).ready(function() {
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','transaction');
 		});
+		$('##searchResultsGrid').on('rowexpand', function (event) {
+			//  Create a content div, add it to the detail row, and make it into a dialog.
+			var args = event.args;
+			var details = args.details;
+			var rowIndex = args.rowindex;
+			var datarecord = args.owner.source.records[rowIndex];
+			var content = "<div id='searchResultsGridRowDetailsDialog" + rowIndex + "'><ul>";
+			var columns = $('##searchResultsGrid').jqxGrid('columns').records;
+			for (i = 1; i < columns.length; i++) {
+				var text = columns[i].text;
+				var datafield = columns[i].datafield;
+				var content = content + "<li><strong>" + text + ":</strong>" + datarecord[datafield] +  "</li>";
+			}
+			content = content + "</ul></div>";
+			details.html(content);
+			$("##searchResultsGridRowDetailsDialog" + rowIndex + ).dialog({ autoOpen: true, buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##searchResultsGrid").jqxGrid('hiderowdetails',rowIndex); } } ] });
+			// Workaround, expansion sits below row in zindex.
+			var maxZIndex = getMaxZIndex();
+			$("##searchResultsGridRowDetailsDialog" + rowIndex + ).css('z-index', maxZIndex + 1);
+		};
+		$('##searchResultsGrid').on('rowcollapse', function (event) {
+			// remove the dialog holding the row details
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			$("##searchResultsGridRowDetailsDialog" + rowIndex + ).dialog("destroy");
+		});
 	});
+	/* End Setup jqxgrid for Transactions Search ******************************/
 
-	/* Setup jqxgrid for Loan Search */
+
+	/* Setup jqxgrid for Loan Search ******************************************/
 	$('##loanSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
@@ -791,7 +812,8 @@ $(document).ready(function() {
 			content = content + "</ul>";
 			details.html(content);
 			// Workaround, expansion sits below row in zindex.
-			$(parentElement).css('z-index',610);
+			var maxZIndex = getMaxZIndex();
+			$(parentElement).css('z-index',maxZIndex + 1);
 		};
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -876,9 +898,9 @@ function gridLoaded(gridId, searchType) {
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 	var rowcount = datainformation.rowscount;
 	if (rowcount == 1) {
-		$('##resultCount').html('Found ' + rowcount + ' loan');
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
 	} else { 
-		$('##resultCount').html('Found ' + rowcount + ' loans');
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 	}
 	// set maximum page size
 	if (rowcount > 100) { 
@@ -922,8 +944,9 @@ function gridLoaded(gridId, searchType) {
 			Ok: function(){ $(this).dialog("close"); }
 		},
 		open: function (event, ui) { 
-			$('.ui-dialog').css({'z-index': 2000 });
-			$('.ui-widget-overlay').css({'z-index': 1999 });
+			var maxZIndex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZIndex + 2 });
+			$('.ui-widget-overlay').css({'z-index': maxZIndex + 1 });
 		} 
 	});
 	$("##columnPickDialogButton").html(
@@ -931,8 +954,9 @@ function gridLoaded(gridId, searchType) {
 	);
 	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 	// 600 is the z-index of the grid cells when created from the transaction search
-	$('.jqx-grid-cell').css({'z-index': 600});
-	$('.jqx-grid-group-cell').css({'z-index': 600});
+	var maxZIndex = getMaxZIndex();
+	$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+	$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 
