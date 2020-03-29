@@ -653,7 +653,7 @@ $(document).ready(function() {
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
-			details.html("<div id='rowDetailsTarget" + index + "'></div>);
+			details.html("<div id='rowDetailsTarget" + index + "'></div>");
 
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
@@ -715,7 +715,6 @@ $(document).ready(function() {
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			//  Create a content div, add it to the detail row, and make it into a dialog.
 			var args = event.args;
-			var details = args.details;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
 			var content = "<div id='searchResultsGridRowDetailsDialog" + rowIndex + "'><ul>";
@@ -730,7 +729,7 @@ $(document).ready(function() {
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog({ autoOpen: true, buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##searchResultsGrid").jqxGrid('hiderowdetails',rowIndex); } } ] });
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
-			$("##searchResultsGridRowDetailsDialog" + rowIndex ).css('z-index', maxZIndex + 1);
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).css('z-index', maxZIndex + 2);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
