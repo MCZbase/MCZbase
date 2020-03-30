@@ -17,7 +17,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template = "/includes/_header.cfm">
+<!---<cfinclude template = "/includes/_header.cfm">--->
+<cfinclude template = "/shared/_header.cfm">
 
 <cfoutput>
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
@@ -871,7 +872,7 @@ limitations under the License.
 		
 $(document).ready(function(){
 	$(".addOtherID").click(function(){
-		$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-3 mr-auto remOtherID"><i class="fas fa-times"></i></button></div>');
+		$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID btn-sm loginButtons rounded ml-3 mr-auto remOtherID"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customOtherID").on('click','.remOtherID',function(){
 			$(this).parent().remove();});
