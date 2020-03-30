@@ -17,8 +17,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<!---<cfinclude template = "/includes/_header.cfm">--->
-<cfinclude template = "/shared/_header.cfm">
+<cfinclude template = "/includes/_header.cfm">
+	
 
 <cfoutput>
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
