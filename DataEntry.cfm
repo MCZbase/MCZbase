@@ -872,7 +872,7 @@ limitations under the License.
 		
 $(document).ready(function(){
 	$(".addOtherID").click(function(){
-		$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID float-right data-entry-button remOtherID"><i class="fas fa-times"></i></button></div>');
+		$("##customOtherID").append('<div class="row mt-3"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-4"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID float-right data-entry-button remOtherID"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customOtherID").on('click','.remOtherID',function(){
 			$(this).parent().remove();});
@@ -880,7 +880,7 @@ $(document).ready(function(){
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addCurRelations").click(function(){$("##customCurRelations").append('<div class="row mt-3"><label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Re-Cataloged as</option><option value="2">Bad Duplicate of</option><option value="3">Cloned from Record</option><option value="4">Duplicate Recataloged as</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input" id="record_number" placeholder="Record Number"></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addCurRelations btn-sm loginButtons rounded ml-3 mr-auto remCurRelations"><i class="fas fa-times"></i></button></div>');
+	$(".addCurRelations").click(function(){$("##customCurRelations").append('<div class="row mt-3"><label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Re-Cataloged as</option><option value="2">Bad Duplicate of</option><option value="3">Cloned from Record</option><option value="4">Duplicate Recataloged as</option></select></div><div class="col-xl-4"><input type="text" class="data-entry-input" id="record_number" placeholder="Record Number"></div><button href="javascript:void(0);" arial-label="remove" class="btn addCurRelations data-entry-button float-right remCurRelations"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customCurRelations").on('click','.remCurRelations',function(){$(this).parent().remove();});
 	});
