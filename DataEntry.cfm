@@ -380,7 +380,7 @@ limitations under the License.
 						<div class="border-fill p-3 m-1">
 							<h2 class="data-entry-title">Coordinates</h2>
 							<h3 class="data-entry-subtitle">This is step 10</h3>
-							<div id="customGeoreference">
+							<div id="customCoord">
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
 									<div class="col-sm-9">
@@ -887,7 +887,7 @@ $(document).ready(function(){
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addBiolRelations").click(function(){$("##customBiolRelations").append('<div class="row mt-1"><label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Re-Cataloged as</option><option value="2">Bad Duplicate of</option><option value="3">Cloned from Record</option><option value="4">Duplicate Recataloged as</option></select></div><div class="col-xl-5"><input type="text" class="data-entry-input" id="record_number" placeholder="Record Number"></div><button href="javascript:void(0);" arial-label="remove" class="btn addBiolRelations data-entry-button float-right remBiolRelations"><i class="fas fa-times"></i></button></div>');
+	$(".addBiolRelations").click(function(){$("##customBiolRelations").append('<div class="row mt-1"><label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Re-Cataloged as</option><option value="2">Bad Duplicate of</option><option value="3">Cloned from Record</option><option value="4">Duplicate Recataloged as</option></select></div><div class="col-xl-4"><input type="text" class="data-entry-input" id="record_number" placeholder="Record Number"></div><button href="javascript:void(0);" arial-label="remove" class="btn addBiolRelations data-entry-button float-right remBiolRelations"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customBiolRelations").on('click','.remBiolRelations',function(){$(this).parent().remove();});
 	});
