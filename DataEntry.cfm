@@ -154,7 +154,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-xl-5">
-										<input type="text" class="data-entry-input" id="relationship" placeholder="Biological Relationship">
+										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
 									</div>
 								</div>
 							</div>
