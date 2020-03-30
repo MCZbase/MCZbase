@@ -1346,11 +1346,12 @@ table#pairs th, table#pairs td {
 .data-entry-button {
 	line-height: 1em;
 	border-radius: .2rem;
-	background-color: lightpink;
+	background-color: #ffb6c166;
 	color: red;
-	font-size: .875em;
+	font-size: .85em;
 	height: 22px;
-	padding: .25em .35em;
+	padding: .2em .35em;
+	font-weight: 400;
 }
 .border-fill {
 	border:  1px solid #bac5c6 !important;
