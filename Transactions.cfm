@@ -281,7 +281,7 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
 											<label for="collection_id">Collection Name:</label>
-											<select name="collection_id" size="1" class="custom-select1 form-control-sm">
+											<select name="collection_id" size="1" class="data-entry-select">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -291,12 +291,12 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="loan_number">Number: (yyyy-n-Coll)</label>
-											<input type="text" name="loan_number" id="loan_number" class="form-control-sm" value="#loan_number#">
+											<input type="text" name="loan_number" id="loan_number" class="data-entry-input" value="#loan_number#">
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
 											<label for="loan_type">Type:</label>
-											<select name="loan_type" id="loan_type" class="custom-select1 form-control-sm">
+											<select name="loan_type" id="loan_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctLoanType">
 													<cfif ploan_type eq ctLoanType.loan_type><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -307,7 +307,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 											<cfset ploan_status = loan_status>
 											<label for="loan_status">Status:</label>
-											<select name="loan_status" id="loan_status" class="custom-select1 form-control-sm" >
+											<select name="loan_status" id="loan_status" class="data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctLoanStatus">
 													<cfif ploan_status eq ctLoanStatus.loan_status><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -320,14 +320,14 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_1" id="trans_agent_role_1" class="form-control form-control-sm input-group-prepend">
+												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-select input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_1" id="agent_1" class="form-control form-control-sm" value="#agent_1#" >
+												<input type="text" name="agent_1" id="agent_1" class="data-entry-input" value="#agent_1#" >
 												<input type="hidden" name="agent_1_id" id="agent_1_id" value="#agent_1_id#" >
 											</div>
 										</div>
