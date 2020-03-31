@@ -93,10 +93,12 @@ label {
 	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
 }
 
-/* BELOW  code for 3 searches */
-/*************************/
-/*************************/
-/* BELOW: override for collection dropdown (JQuery) taken from Arctos*/
+
+/***************************************/
+/*   BELOW: override for collection    */
+/*  dropdown (JQuery) taken from Arctos*/
+/***************************************/
+
 button.ui-multiselect {
 	padding: .5em;
 	margin: 0;
@@ -116,7 +118,7 @@ ul.ui-multiselect-checkboxes input {
 	float: left;
 }
 .ui-multiselect-header span.ui-icon {
-	top: -2px;
+	top: -1px;
 }
 button.ui-multiselect.ui-state-default.multiselect2 {
 	padding: 4px 12px 4px 12px;
@@ -143,11 +145,13 @@ span.ui-icon {
 	color: #555;
 	margin-top: 1px;
 }
+
+/*********************************/
+/* BELOW:    code for 3 searches */
+/*********************************/
+
 .fas {
 	width: 32px;
-}
-.ui-state-active .ui-icon, .ui-button:active .ui-icon {
-	background-image: url(../images/ui-icons_444444_256x240.png);
 }
 input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx-rc-all, input.jqx-rc-all-light, input.jqx-widget-light, input.jqx-fill-state-normal-light, input[type=button] {
 	background: buttonface;
