@@ -187,7 +187,7 @@ BELOW: Main button (bootstrap override)
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
 }
-.btn-outline-primary {background-color: buttonface; border-radius:  5px 0 0 5px;}
+
 
 /************************
 *************************
@@ -1241,11 +1241,33 @@ table#pairs th, table#pairs td {
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
-	border-radius: .25rem;
+	border-radius:  5px 0 0 5px;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 350;
 }
 .data-entry-select:focus {
+	color: #495057;
+	background-color: #fff;
+	border-color: #80bdff;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+.data-entry-select-input {
+	display: block;
+	width: 100%;
+	font-size: .9em;
+	line-height: 1em;
+	height: calc(.9em + .5rem + 4px);
+	padding: 0 .5em;
+	color: rgba(0, 0, 0, .6);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
+	border-radius: 0 5px 5px 0;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font-weight: 375;
+}
+.data-entry-select-input:focus {
 	color: #495057;
 	background-color: #fff;
 	border-color: #80bdff;
