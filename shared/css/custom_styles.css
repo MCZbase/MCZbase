@@ -10,6 +10,27 @@ input.badPick, select.badPick, textarea.badPick {
 input.goodPick, select.goodPick, textarea.goodPick {
 	background-color: #8BFEB9;
 }
+
+/* BELOW: Are these used?  */
+/*form input.anchor-button {  
+	background-color: white;
+	border: none;
+	width: 100%;
+	color: #16181b;
+	text-align: left;
+	padding: .65em 1.12em;
+	margin: 0 0;
+}
+form input.anchor-button:hover {
+	border: none;
+	color: #16181b;
+	text-decoration: none;
+	background-color: #f8f9fa;
+}*/
+
+/*********************************************/
+/* BELOW  Misc. Override of Bootstrap Styles */
+/*********************************************/
 h1, h2, h3, h4, h5, h6 {
 	line-height: 1.25;
 	margin-top: 1em;
@@ -61,63 +82,17 @@ p {
 	width: 0;
 	overflow: hidden;
 }
-form input.anchor-button {
-	background-color: white;
-	border: none;
-	width: 100%;
-	color: #16181b;
-	text-align: left;
-	padding: .65em 1.12em;
-	margin: 0 0;
-}
-form input.anchor-button:hover {
-	border: none;
-	color: #16181b;
-	text-decoration: none;
-	background-color: #f8f9fa;
-}
 label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
 }
-/*
-.border-green {
-	border: 1px solid #006100;
-}
-.color-green {
-	color: #006100;
-}
-.bg-blue-gray {
-	background-color: #BAC5C6;
-}
-.border-blue-gray {
-	border: 1px solid #BAC5c6;
-}
-.form-div {
-	background-color: #f8f9fa;
-}*/
-/*.steps-div {
-	background-color: #deebec; 
-}
-.section-buttons {
-	background-color: #3E6f7D;
-}*/
-/*.border-gray {
-	border: 1px solid #ccc;
-}
-
-.col-md-half {
-	mx-flex: 0 0 5%;
-	flex: 0 0 5%;
-	max-width: 5%;
-	position: relative;
-}*/
-.border-dk-gray {/* border for buttons on specimen detail cards */
-	border: 1px solid #666;
-}
-.border {
+.border {  /* bootstrap border override */
 	border: 1px solid #bac5c6 !important;
 }
+.shadowbox {
+	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
+}
+
 /* BELOW  code for 3 searches */
 /*************************/
 /*************************/
@@ -168,6 +143,9 @@ span.ui-icon {
 	color: #555;
 	margin-top: 1px;
 }
+.fas {
+	width: 32px;
+}
 .ui-state-active .ui-icon, .ui-button:active .ui-icon {
 	background-image: url(../images/ui-icons_444444_256x240.png);
 }
@@ -182,9 +160,22 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 	color: buttontext;
 	margin-top: 0;
 }
-.fas {
-	width: 32px;
+.nav-fill .nav-item {
+	text-align: left;
 }
+.form-group:last-child {
+	margin-bottom: 0;
+}
+.parent {
+	font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';
+	text-transform: uppercase;
+	color: white;
+	letter-spacing: .08em;
+}
+/************************
+*************************
+BELOW: Main button (bootstrap override)
+************************/
 .btn-primary {
 	background-color: buttonface;
 	border-color: #E4E476;
@@ -218,18 +209,7 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
 }
-.nav-fill .nav-item {
-	text-align: left;
-}
-.form-group:last-child {
-	margin-bottom: 0;
-}
-.parent {
-	font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';
-	text-transform: uppercase;
-	color: white;
-	letter-spacing: .08em;
-}
+
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -323,9 +303,6 @@ li.pid {
 	background-color: #DEEBEC;
 	padding: .1rem 1.25rem;
 }
-.card {
-	border: 1px solid #7889a4;
-}
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;
@@ -352,6 +329,8 @@ li.list-group-item.thethumbs:first-child {
 	margin-right: 10px;
 	margin-left: 10px;
 }
+
+
 /************************
 *************************
 BELOW: SEARCH PAGE STYLES to 
@@ -378,19 +357,18 @@ table#POITable {
 	color: #006100;
 	font-size: 15px;
 }
-.headerCollectionTextSmall {
-	font-size: smaller;
-}
 body.modal-open {
 	padding: 0 !important;
 	overflow-y: scroll !important;
 }
-/************************************/
-/************************************/
+
+/***********************************************/
 /* BELOW: filter and column slider menu styles */
+/***********************************************/
 #cbp-spmenu-s2 {
 	z-index: 600;
 }
+/* #showRightPush black label "Filters" tab that moves the filter for what is in the columns*/
 section a#showRightPush {
 	width: 30px;
 	margin-left: -30px;
@@ -409,6 +387,7 @@ section a#showRightPush {
 	-moz-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
+/* #showLeftPush black label "Columns" tab that moves the filter for displaying the columns*/
 section a#showLeftPush {
 	width: 32px;
 	margin-right: -30px;
@@ -534,14 +513,17 @@ section a#showLeftPush {
 	box-shadow: rgb(204, 204, 204) 0px 0px 5px;
 	border-width: 3px 0 3px 3px;
 }
-/*************************/
-/*****ABOVE:  filter and 
-column styles
-/*************************/
-/*************************/
-.shadowbox {
-	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
+a#showRightPush.hiddenclass {
+	display: none;
 }
+a#showLeftPush.hiddenclass {
+	display: none;
+}
+
+/*************************************/
+/*****BELOW:  Data Entry Step Styles
+/*************************************/
+
 /*form styles*/
 #msform {
 	width: 90%;
@@ -566,7 +548,6 @@ column styles
 #msform fieldset:not(:first-of-type) {
 	display: none;
 }
-/*inputs*/
 #msform input, #msform textarea {
 	padding: 15px;
 	border: 1px solid #ccc;
@@ -588,7 +569,6 @@ column styles
 	color: #2C3E50;
 	font-family: montserrat;
 }
-/*buttons*/
 #msform .action-button {
 	width: 100px;
 	background: #27AE60;
@@ -604,7 +584,6 @@ column styles
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
 	border-radius: 5px;
 }
-/*headings*/
 .fs-title {
 	font-size: 15px;
 	text-transform: uppercase;
@@ -616,60 +595,6 @@ column styles
 	font-size: 13px;
 	color: #666;
 	margin-bottom: 15px;
-}
-/*progressbar*/
-ul#progressbar {
-	margin-bottom: 0px;
-	overflow: hidden;
-	height: 34px;
-	padding-inline-start: 0;
-	/*CSS counters to number the steps*/
-	counter-reset: step;
-}
-ul#progressbar li {
-	list-style-type: none;
-	color: transparent;
-	text-transform: uppercase;
-	font-size: 3px;
-	width: 40px;
-	margin: 1em 0 0 0;
-	float: left;
-	position: relative;
-}
-ul#progressbar li:before {
-	content: counter(step);
-	counter-increment: step;
-	width: 24px;
-	line-height: 20px;
-	display: block;
-	font-size: 16px;
-	color: #333;
-	background: white;
-	border-radius: 3px;
-	margin: 0 auto 5px auto;
-	text-align: center;
-}
-/*progressbar connectors*/
-#progressbar li:after {
-	content: '';
-	width: 100%;
-	height: 2px;
-	background: white;
-	position: absolute;
-	left: -50%;
-	top: 9px;
-	z-index: -1; /*put it behind the numbers*/
-}
-#progressbar li:first-child:after {
-	/*connector not needed before the first step*/
-	content: none;
-}
-/*marking active/completed steps green*/
-/*The number of the step and the connector before it = green*/
-#progressbar li.active:before, #progressbar li.active:after {
-	background: #27AE60;
-	color: white;
-	z-index: 1;
 }
 #regForm {
 	margin: 0px auto;
@@ -724,6 +649,14 @@ ul#progressbar li:before {
 #regForm .step.finish {
 	background-color: #80ADCC;
 }
+
+
+
+
+/*************************************/
+/*****BELOW:  User Profile Page styles  RSS feed
+/*************************************/
+
 .feedAtom div {
 	float: left;
 	width: auto;
@@ -745,6 +678,10 @@ ul#progressbar li:before {
 	line-height: 1.5em;
 	margin-left: 1em;
 }
+
+/*************************************/
+/*****BELOW:  ???
+/*************************************/
 code {
 	font-size: 80%;
 }
@@ -761,12 +698,7 @@ code {
 #jqxDropDownList {
 	padding: .86em 0;
 }
-a#showRightPush.hiddenclass {
-	display: none;
-}
-a#showLeftPush.hiddenclass {
-	display: none;
-}
+
 /************************
 *************************
 BELOW: DIALOG BOXES STYLES to 
@@ -826,9 +758,6 @@ override Bootstrap styles
 	border: 1px solid #333;
 }
 .ui-widget-header {
-	/*	border: 1px solid #1b1b1b;
-	background: #1b1b1b;*/
-	/* color: #fff; // override makes text illegible, too close in color to background of header */
 	font-weight: bold;
 }
 .ui-widget {
@@ -966,7 +895,13 @@ table.inputTable tr {
 	position: absolute;
 	left: 1.5em !important;
 }
-.search-form-div {
+
+
+/************************
+*************************
+BELOW: Search Form backgrounds 
+************************/
+/*.search-form-div {
 	color: #1b1b1b;
 	z-index: -1;
 	margin-bottom: 0;
@@ -983,43 +918,22 @@ table.inputTable tr {
 	margin-bottom: 0;
 	padding-bottom: 2em;
 	padding-top: .5em;
-}
-.bottom-space {
-	min-height: 11em;
-}
-.input-group-text {
-	background-color: #dddddd;
+}*/
+/*.input-group-text {
 	background-color: #BAC5C6;
 }
 #formLogin {
 	right: 0;
 	width: auto;
 }
-/*#accountSettings {
-	right: 0;
-	width: auto;
-}
-#accountSettings a {	
-	padding-left: 17px;
-}*/
-.bbr-0 {
-	background: none;
-	border: none;
-}
-.py-090 {
-	padding-top: .6em;
-	padding-bottom: .6em;
-	margin-right: -3px;
-	z-index: 1050
-}
 .ui-icon.ui-icon-triangle-2-n-s {
 	background-position: -124px -16px;
-}
-#localityForm .col-md-4 input, #localityForm .col-12 input {
+}*/
+/*#localityForm .col-md-4 input, #localityForm .col-12 input {
 	width: 100%;
 	margin-left: 0;
-}
-.menu-tabs ul {
+}*/
+/*.menu-tabs ul {
 	width: 100%;
 	margin-top: 5px;
 	background-color: #E1E1E1;
@@ -1034,6 +948,9 @@ table.inputTable tr {
 	background-color: #edf0e3;
 	border: 1px solid #ccc;
 	border-radius: 5px;
+}*/
+select {
+	border: 1px solid #ccc;
 }
 .custom-select {
 	border: none;
@@ -1055,12 +972,12 @@ table.inputTable tr {
 	height: calc(1.25em + .75rem + 1px);
 	border-radius: 5px;
 }
-.input-xs {
+/*.input-xs {
 	line-height: 1.1em;
 	padding: 0px .5em;
 	border-radius: 3px;
 	color: rgba(0, 0, 0, .6);
-}
+}*/
 input[type="button"]#delPOIbutton {
 	font-family: FontAwesome;
 	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
@@ -1074,10 +991,6 @@ input[type="button"]#addmorePOIbutton {
 .tab-card-main {
 	background-color: white;
 }
-select {
-	border: 1px solid #ccc;
-}
-/* Tabs Card */
 .tab-card {
 	border: 1px solid #eee;
 	border-radius: 8px;
