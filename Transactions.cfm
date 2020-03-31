@@ -370,13 +370,13 @@ limitations under the License.
 												<input type="hidden" name="agent_3_id" id="agent_3_id" value="#agent_3_id#" >
 											</div>
 										</div>--->
-										<script>
+					<!---					<script>
 										$(document).ready(function() {
 											$(makeAgentPicker('agent_1','agent_1_id'));
 											$(makeAgentPicker('agent_2','agent_2_id'));
 											$(makeAgentPicker('agent_3','agent_3_id'));
 										});
-										</script>
+										</script>--->
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
