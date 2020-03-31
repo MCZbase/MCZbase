@@ -1102,7 +1102,27 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								<tr>
 									<td class="inside">#part_name#</td>
 									<td class="inside">#part_condition#</td>
-									<td class="inside">#part_disposition#</td>
+									<td class="inside">#part_disposition#
+										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<!--- look up whether this part is in an open loan --->
+											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks 
+												from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+													left join loan on loan_item.transaction_id = loan.transaction_id
+												where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#mPart.part_id#">
+													and loan_status <> 'closed'
+											</cfquery>
+											<cfloop query="partonloan">
+												<cfif partonloan.loan_status EQ 'open' and mPart.part_disposition EQ 'on loan'>
+													<!--- normal case --->
+													<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+												<cfelse>
+													<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+													<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+												</cfif>
+											</cfloop>
+										</cfif>
+									</td>
 									<td class="inside">#lot_count#</td>
 									<cfif oneOfus is 1>
 										<td class="inside">#label#</td>
@@ -1161,7 +1181,27 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									<tr>
 										<td class="inside_sub"><span>#part_name# subsample</span></td>
 										<td class="inside_sub">#part_condition#</td>
-										<td class="inside_sub">#part_disposition#</td>
+										<td class="inside_sub">#part_disposition#
+											<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<!--- look up whether this part is in an open loan --->
+												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks 
+													from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+														left join loan on loan_item.transaction_id = loan.transaction_id
+													where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#sPart.part_id#">
+														and loan_status <> 'closed'
+												</cfquery>
+												<cfloop query="partonloan">
+													<cfif partonloan.loan_status EQ 'open' and sPart.part_disposition EQ 'on loan'>
+														<!--- normal case --->
+														<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+													<cfelse>
+														<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+														<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+													</cfif>
+												</cfloop>
+											</cfif>
+										</td>
 										<td class="inside_sub">#lot_count#</td>
 										<cfif oneOfus is 1>
 											<td class="inside_sub">#label#</td>
