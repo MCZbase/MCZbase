@@ -80,9 +80,7 @@ label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
 }
-/*.border {
-	border: 1px solid #bac5c6 !important;
-}
+/*
 .border-green {
 	border: 1px solid #006100;
 }
@@ -107,15 +105,19 @@ label {
 /*.border-gray {
 	border: 1px solid #ccc;
 }
-.border-dk-gray {
-	border: 1px solid #666;
-}
+
 .col-md-half {
 	mx-flex: 0 0 5%;
 	flex: 0 0 5%;
 	max-width: 5%;
 	position: relative;
 }*/
+.border-dk-gray {/* border for buttons on specimen detail cards */
+	border: 1px solid #666;
+}
+.border {
+	border: 1px solid #bac5c6 !important;
+}
 /* BELOW  code for 3 searches */
 /*************************/
 /*************************/
