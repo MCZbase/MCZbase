@@ -319,16 +319,18 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-4">
-											<div class="input-group" id="##customAgent">
-												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-select input-group-prepend">
+											<div id="##customAgent">
+											<div class="input-group">
+												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-select col-md-3 input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_1" id="agent_1" class="data-entry-input" value="#agent_1#" >
+												<input type="text" name="agent_1" id="agent_1" class="data-entry-input col-md-3" value="#agent_1#" >
 												<input type="hidden" name="agent_1_id" id="agent_1_id" value="#agent_1_id#" >
+											</div>
 											</div>
 											<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a> </div>
 										</div>
