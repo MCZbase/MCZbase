@@ -319,31 +319,18 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-4">
-											<div id="##customAgent">
 											<div class="input-group">
-												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-select col-md-6 input-group-prepend">
+												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-select input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_1" id="agent_1" class="data-entry-input col-md-6" value="#agent_1#" >
+												<input type="text" name="agent_1" id="agent_1" class="data-entry-input" value="#agent_1#" >
 												<input type="hidden" name="agent_1_id" id="agent_1_id" value="#agent_1_id#" >
 											</div>
-											</div>
-											<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a> </div>
 										</div>
-													
-										<script>
-												//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
-												$(document).ready(function(){
-													$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Agent X</label><div class="col-lg-4"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-4 pl-xl-0"><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent float-right data-entry-button remAgent"><i class="fas fa-times"></i></button></div>');
-													});
-													$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
-												});
-										</script>
-					<!---								
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="trans_agent_role_2" class="form-control form-control-sm input-group-prepend">
@@ -369,14 +356,14 @@ limitations under the License.
 												<input type="text" name="agent_3" id="agent_3" class="form-control form-control-sm" value="#agent_3#" >
 												<input type="hidden" name="agent_3_id" id="agent_3_id" value="#agent_3_id#" >
 											</div>
-										</div>--->
-					<!---					<script>
+										</div>
+										<script>
 										$(document).ready(function() {
 											$(makeAgentPicker('agent_1','agent_1_id'));
 											$(makeAgentPicker('agent_2','agent_2_id'));
 											$(makeAgentPicker('agent_3','agent_3_id'));
 										});
-										</script>--->
+										</script>
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
