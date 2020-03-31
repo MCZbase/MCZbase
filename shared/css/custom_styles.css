@@ -80,7 +80,7 @@ label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
 }
-.border {
+/*.border {
 	border: 1px solid #bac5c6 !important;
 }
 .border-green {
@@ -97,14 +97,14 @@ label {
 }
 .form-div {
 	background-color: #f8f9fa;
-}
-.steps-div {
-	background-color: #deebec; /*greenish-gray*/
+}*/
+/*.steps-div {
+	background-color: #deebec; 
 }
 .section-buttons {
-	background-color: #3E6f7D; /*teal*/
-}
-.border-gray {
+	background-color: #3E6f7D;
+}*/
+/*.border-gray {
 	border: 1px solid #ccc;
 }
 .border-dk-gray {
@@ -115,7 +115,7 @@ label {
 	flex: 0 0 5%;
 	max-width: 5%;
 	position: relative;
-}
+}*/
 /* BELOW  code for 3 searches */
 /*************************/
 /*************************/
