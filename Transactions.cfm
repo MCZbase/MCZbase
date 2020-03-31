@@ -319,7 +319,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-4">
-											<div class="input-group">
+											<div class="input-group input-group-sm">
 												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
@@ -332,7 +332,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="input-group">
+											<div class="input-group input-group-sm">
 												<select name="trans_agent_role_2" id="trans_agent_role_2" class="data-entry-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
@@ -345,7 +345,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="input-group">
+											<div class="input-group input-group-sm">
 												<select name="trans_agent_role_3" id="trans_agent_role_3" class="data-entry-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
