@@ -372,7 +372,16 @@ limitations under the License.
 													<label for"trans_date">Loan Date:</label>
 												</div>
 												<div class="col-md-5 col-12">
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control-sm w-75" value="#trans_date#" >
+													    <div class='col-sm-3'>
+															<div class="form-group">
+																<div class='input-group date' id='datetimepicker1'>
+																	<input name="trans_date" id="trans_date" type='text' class="form-control" value="#trans_date#"/>
+																	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+																	</span>
+																</div>
+															</div>
+														</div>
+									<!---				<input name="trans_date" id="trans_date" type="text" class="datetimeinput form-control-sm w-75" value="#trans_date#" >--->
 												</div>
 												<div class="col-md-5 col-12 float-left">
 													<div class="input-group float-left">
