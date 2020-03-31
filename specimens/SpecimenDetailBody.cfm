@@ -429,7 +429,7 @@ limitations under the License.
   <script type="text/javascript">
 	  $( document ).ready(loadIdentifications(#identification_id#));
   </script>
-			 <button type="button" class="detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
+			 <button type="button" class="detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
 		<div class="card-body">
 				<cfloop query="identification">
@@ -573,7 +573,7 @@ limitations under the License.
 	<div class="card">
 		<div class="card-header">
 			<h3 class="h4">Locality</h3>
-			<button type="button" id="edit-locality" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<button type="button" id="edit-locality" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 		</div>
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
@@ -648,7 +648,7 @@ limitations under the License.
 	<div class="card">
 		<div class="card-header">
 			<h3 class="h4">Collecting Event</h3>
-			<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
 		<div class="card-body">
@@ -726,7 +726,7 @@ limitations under the License.
 		<div class="card" style="column-fill:auto">
 			<div class="card-header">
 				<h3 class="h4">Citations</h3>
-				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<ul class="list-group">
 				<cfloop query="citations">
@@ -811,7 +811,7 @@ limitations under the License.
 		<div class="card">
 			<div class="card-header">
 				<h3 class="h4">Other IDs</h4>
-				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body">
 				<ul class="list-group">
@@ -851,7 +851,7 @@ limitations under the License.
 			<div class="card">
 				<div class="card-header">
 					<h3 class="h4">Transactions</h3>
-					<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+					<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<ul class="list-group list-group-flush" style="padding-left: 5px;">
 					<li class="list-group-item">Accession:
@@ -980,7 +980,7 @@ limitations under the License.
 			<div class="card-header">
 				<h3 class="h4">Relationship</h3>
 				<button type="button" 
-					class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" 
+					class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" 
 					onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<ul class="list-group list-group-flush" style="padding-left: 5px;">
@@ -1003,7 +1003,7 @@ limitations under the License.
 		<div class="card">
 			<div class="card-header">
 				<h3 class="h4">Attributes</h3>
-				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body">
 				<cfquery name="sex" dbtype="query">
@@ -1117,7 +1117,7 @@ limitations under the License.
 	<div class="card p-0">
 		<div class="card-header pt-1 pl-4">
 				<h3 class="h4">Parts</h3>
-				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body p-0">
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1389,7 +1389,7 @@ limitations under the License.
 			<div class="card  card-primary bg-light text-left">
 				<div class="card-header">
 					<h3 class="h4">Media</h3>
-					<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border-dk-gray rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+					<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<ul class="list-group" style="display: inline;">
 					<cfloop query="media">
