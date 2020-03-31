@@ -1198,7 +1198,7 @@ table#pairs th, table#pairs td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .78em;
+	font-size: .8em;
 	border: none;
 	line-height: .9em;
 	height: calc(.9em + .5em + 2px);
@@ -1210,10 +1210,10 @@ table#pairs th, table#pairs td {
 .data-entry-input {
 	display: block;
 	width: 100%;
-	font-size: .8em;
-	line-height: .9em;
-	height: calc(.9em + .5rem + 3px);
-	padding: .25em .5em .35em .8em;
+	font-size: .9em;
+	line-height: 1em;
+	height: calc(.9em + .5rem + 4px);
+	padding: 0 .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1232,10 +1232,10 @@ table#pairs th, table#pairs td {
 .data-entry-select {
 	display: block;
 	width: 100%;
-	font-size: .8em;
-	line-height: .9em;
-	height: calc(.8em + .5rem + 4px);
-	padding: 0 .5em .2em .5em;
+	font-size: .9em;
+	line-height: 1em;
+	height: calc(.9em + .5rem + 4px);
+	padding: 0 .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1255,10 +1255,10 @@ table#pairs th, table#pairs td {
 	width: 100%;
 	height: auto;
 	border: 1px solid #ced4da;
-	font-size: .8em;
-	line-height: .9em;
+	font-size: .9em;
+	line-height: 1em;
 	border-radius: .2rem;
-	padding: .25rem .5rem;
+	padding: 0 .5rem;
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
