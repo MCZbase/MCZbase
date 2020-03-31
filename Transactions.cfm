@@ -1,6 +1,3 @@
-<!-- test lines from integrationbranch --->
-<cfset usealternatehead = "redesign">
-<!--- -------------------------------- --->
 <cfif not isdefined("action")> <cfset action="findAll"> </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="findLoans">
@@ -30,7 +27,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT count(transaction_id) as cnt FROM trans
@@ -226,11 +223,8 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12">
 										<button class="btn btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
-										<button id="transcsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
-												onclick=" exportGridToCSV('searchResultsGrid', 'transaction_list.csv'); "
-												disabled >Export to CSV</button>
-											<button type="reset" class="btn btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
-											<button type="button" class="btn btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
+										<button type="reset" class="btn btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
+										<button type="button" class="btn btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
 									</div>
 								</div>
 							</form>
@@ -238,7 +232,7 @@ limitations under the License.
 
 						<!--- Loan search tab panel --->
 						<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-     						<h2 class="wikilink">Find Loans <img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+     						<h2 class="wikilink">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -531,9 +525,6 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button id="loancsvbutton" class="btn btn-secondary px-3" aria-label="Export results to csv" 
-												onclick=" exportGridToCSV('searchResultsGrid', 'loan_list.csv'); "
-												disabled >Export to CSV</button>
 											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
@@ -556,11 +547,14 @@ limitations under the License.
 		<div class="text-left col-md-12">
 			<main role="main">
 				<div class="pl-2 mb-5">
-					<div class="row mt-1">
+					<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. --->
+					<div class="row mt-1 mb-0 pb-0 jqx-widget-header faux-jqxwidget-header" style="border-color: ##c5c5c5; border-style: solid; border-width: 1px;">
 						<span id="resultCount"></span>
 						<span id="resultLink" class="pl-2"></span>
+						<div id="columnPickDialog"><div id="columnPick" class="pl-2"></div></div><div id="columnPickDialogButton"></div>
+						<div id="resultDownloadButtonContainer"></div>
 					</div>
-					<div class="row mt-1">
+					<div class="row mt-0">
 						<div id="searchText"></div>
 						<!--Grid Related code is below along with search handlers-->
 						<div id="searchResultsGrid" class="jqxGrid"></div>
@@ -598,7 +592,7 @@ $(document).ready(function() {
 	$(".datetimeinput").datepicker({ 
 		defaultDate: null,
 		buttonImageOnly: true,
-		buttonImage: "/includes/images/calendar_icon.png",
+		buttonImage: "/shared/images/calendar_icon.png",
 		showOn: "both"
 	});
 
@@ -607,8 +601,6 @@ $(document).ready(function() {
 		evt.preventDefault();
 
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
-		$('##loancsvbutton').prop('disabled',true);
-		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##searchText').jqxGrid('showloadelement');
@@ -629,6 +621,13 @@ $(document).ready(function() {
 				{ name: 'type', type: 'string' },
 				{ name: 'status', type: 'string' },
 				{ name: 'entered_by', type: 'string' },
+				{ name: 'authorized_by', type: 'string' },
+				{ name: 'received_by', type: 'string' },
+				{ name: 'for_use_by', type: 'string' },
+				{ name: 'inhouse_contact', type: 'string' },
+				{ name: 'additional_inhouse_contact', type: 'string' },
+				{ name: 'additional_outside_contact', type: 'string' },
+				{ name: 'recipient_institution', type: 'string' },
 				{ name: 'id_link', type: 'string' }
 			],
 			updaterow: function (rowid, rowdata, commit) {
@@ -651,6 +650,16 @@ $(document).ready(function() {
 		};
 
 		var dataAdapter = new $.jqx.dataAdapter(search);
+		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+			var details = $($(parentElement).children()[0]);
+			details.html("<div id='rowDetailsTarget" + index + "'></div>");
+
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			// Workaround, expansion sits below row in zindex.
+			var maxZIndex = getMaxZIndex();
+			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+		}
 
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
@@ -664,7 +673,7 @@ $(document).ready(function() {
 			pagesizeoptions: ['50','100'],
 			showaggregates: true,
 			columnsresize: true,
-			autoshowfiltericon: false,
+			autoshowfiltericon: true,
 			autoshowcolumnsmenubutton: false,
 			columnsreorder: true,
 			groupable: true,
@@ -682,32 +691,50 @@ $(document).ready(function() {
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Status', datafield: 'status', width: 100},
 				{text: 'Entered By', datafield: 'entered_by', width: 80, hideable: true, hidden: false },
-				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130, hideable:true, hidden: false },
+				{text: 'Authorized By', datafield: 'authorized_by', width: 80, hideable: true, hidden: true },
+				{text: 'Received By', datafield: 'received_by', width: 80, hideable: true, hidden: true },
+				{text: 'For Use By', datafield: 'for_use_by', width: 80, hideable: true, hidden: true },
+				{text: 'In-house Contact', datafield: 'inhouse_contact', width: 80, hideable: true, hidden: true },
+				{text: 'Additional In-house Contact', datafield: 'additional_inhouse_contact', width: 80, hideable: true, hidden: true },
+				{text: 'Additional Outside Contact', datafield: 'additional_outside_contact', width: 80, hideable: true, hidden: true },
+				{text: 'Recipient Institution', datafield: 'recipient_institution', width: 80, hideable: true, hidden: true },
+				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130, hideable:true, hidden: true },
 				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: false }
-			]
+			],
+			rowdetails: true,
+			rowdetailstemplate: {
+				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+				rowdetailsheight:  1 // row details will be placed in popup dialog
+			},
+			initrowdetails: initRowDetails
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
-				$('##loancsvbutton').prop('disabled',true);
-				$('##transcsvbutton').prop('disabled',false);
-				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
-				var rowcount = datainformation.rowscount;
-				if (rowcount == 1) {
-					$('##resultCount').html('Found ' + rowcount + ' transaction');
-				} else {
-					$('##resultCount').html('Found ' + rowcount + ' transactions');
-				}
-				$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-			}
-		);
+			// add a link out to this search, serializing the form as http get parameters
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+			gridLoaded('searchResultsGrid','transaction');
+		});
+		$('##searchResultsGrid').on('rowexpand', function (event) {
+			//  Create a content div, add it to the detail row, and make it into a dialog.
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			var datarecord = args.owner.source.records[rowIndex];
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+		});
+		$('##searchResultsGrid').on('rowcollapse', function (event) {
+			// remove the dialog holding the row details
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+		});
 	});
+	/* End Setup jqxgrid for Transactions Search ******************************/
 
-	/* Setup jqxgrid for Loan Search */
+
+	/* Setup jqxgrid for Loan Search ******************************************/
 	$('##loanSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
-		$('##loancsvbutton').prop('disabled',true);
-		$('##transcsvbutton').prop('disabled',true);
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##searchText').jqxGrid('showloadelement');
@@ -763,6 +790,16 @@ $(document).ready(function() {
 			async: true
 		};
 		var loanDataAdapter = new $.jqx.dataAdapter(loanSearch);
+		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+			var details = $($(parentElement).children()[0]);
+			details.html("<div id='rowDetailsTarget" + index + "'></div>");
+
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			// Workaround, expansion sits below row in zindex.
+			var maxZIndex = getMaxZIndex();
+			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+		}
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
@@ -775,7 +812,7 @@ $(document).ready(function() {
 			pagesizeoptions: ['50','100'],
 			showaggregates: true,
 			columnsresize: true,
-			autoshowfiltericon: false,
+			autoshowfiltericon: true,
 			autoshowcolumnsmenubutton: false,
 			columnsreorder: true,
 			groupable: true,
@@ -806,23 +843,34 @@ $(document).ready(function() {
 				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: true },
 				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: true },
 				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true },
-				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false },
-				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }
-			]
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true },
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+			],
+			rowdetails: true,
+			rowdetailstemplate: {
+				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+				rowdetailsheight: 1
+			},
+			initrowdetails: initRowDetails
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
-				$('##loancsvbutton').prop('disabled',false);
-				$('##transcsvbutton').prop('disabled',true);
-				var datainformation = $('##searchResultsGrid').jqxGrid('getdatainformation');
-				var rowcount = datainformation.rowscount;
-				if (rowcount == 1) {
-					$('##resultCount').html('Found ' + rowcount + ' loan');
-				} else { 
-					$('##resultCount').html('Found ' + rowcount + ' loans');
-				}
-				$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
-			}
-		);
+			// add a link out to this search, serializing the form as http get parameters
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
+			gridLoaded('searchResultsGrid','loan');
+		});
+		$('##searchResultsGrid').on('rowexpand', function (event) {
+			//  Create a content div, add it to the detail row, and make it into a dialog.
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			var datarecord = args.owner.source.records[rowIndex];
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+		});
+		$('##searchResultsGrid').on('rowcollapse', function (event) {
+			// remove the dialog holding the row details
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+		});
 
 	});
 	// If requested in uri, execute search immediately.
@@ -838,7 +886,79 @@ $(document).ready(function() {
 	</cfif>
 
 });
+
+
+function gridLoaded(gridId, searchType) { 
+	var now = new Date();
+	var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+	var filename = searchType + '_results_' + nowstring + '.csv';
+	// display the number of rows found
+	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+	var rowcount = datainformation.rowscount;
+	if (rowcount == 1) {
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+	} else { 
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+	}
+	// set maximum page size
+	if (rowcount > 100) { 
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+	} else if (rowcount > 50) { 
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+	} else { 
+	   $('##' + gridId).jqxGrid({ pageable: false });
+	}
+	// add a control to show/hide columns
+	var columns = $('##' + gridId).jqxGrid('columns').records;
+	var columnListSource = [];
+	for (i = 0; i < columns.length; i++) {
+		var text = columns[i].text;
+		var datafield = columns[i].datafield;
+		var hideable = columns[i].hideable;
+		var hidden = columns[i].hidden;
+		var show = ! hidden;
+		if (hideable == true) { 
+			var listRow = { label: text, value: datafield, checked: show };
+			columnListSource.push(listRow);
+		}
+	} 
+	$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '250px', checkboxes: true });
+	$("##columnPick").on('checkChange', function (event) {
+		$("##" + gridId).jqxGrid('beginupdate');
+		if (event.args.checked) {
+			$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+		} else {
+			$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+		}
+		$("##" + gridId).jqxGrid('endupdate');
+	});
+	$("##columnPickDialog").dialog({ 
+		height: 'auto', 
+		title: 'Show/Hide Columns',
+		autoOpen: false,  
+		modal: true, 
+		reszable: true, 
+		buttons: { 
+			Ok: function(){ $(this).dialog("close"); }
+		},
+		open: function (event, ui) { 
+			var maxZIndex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZIndex + 2 });
+			$('.ui-widget-overlay').css({'z-index': maxZIndex + 1 });
+		} 
+	});
+	$("##columnPickDialogButton").html(
+		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
+	);
+	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+	// 600 is the z-index of the grid cells when created from the transaction search
+	var maxZIndex = getMaxZIndex();
+	$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+	$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+}
+
 </script>
 
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
