@@ -448,7 +448,7 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
 											<label for="">Nature of Material:</label>
-											<input type="text" name="nature_of_material" class="form-control-sm" value="#nature_of_material#">
+											<textarea class="form-control-sm" >#nature_of_material#</textarea>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="">Description: </label>
