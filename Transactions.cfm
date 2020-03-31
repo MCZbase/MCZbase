@@ -375,7 +375,7 @@ limitations under the License.
 													    <div class='col-sm-3'>
 															<div class="form-group">
 																<div class='input-group date' id='datetimepicker1'>
-																	<input name="trans_date" id="trans_date" type='text' class="form-control" value="#trans_date#"/>
+																	<input name="trans_date" id="trans_date" type='text' class="data-entry-input" value="#trans_date#"/>
 																	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
 																	</span>
 																</div>
