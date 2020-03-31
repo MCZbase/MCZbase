@@ -150,32 +150,6 @@ span.ui-icon {
 /* BELOW:    code for 3 searches */
 /*********************************/
 
-.fas {
-	width: 32px;
-}
-input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx-rc-all, input.jqx-rc-all-light, input.jqx-widget-light, input.jqx-fill-state-normal-light, input[type=button] {
-	background: buttonface;
-	padding: .48rem .75rem;
-	border-radius: .2rem;
-	line-height: 1.5;
-	transition: none;
-	border: 1px solid hsl(0, 0%, 62%);
-	/*border: 1px solid #bac5c6;*/
-	color: buttontext;
-	margin-top: 0;
-}
-.nav-fill .nav-item {
-	text-align: left;
-}
-.form-group:last-child {
-	margin-bottom: 0;
-}
-.parent {
-	font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';
-	text-transform: uppercase;
-	color: white;
-	letter-spacing: .08em;
-}
 /************************
 *************************
 BELOW: Main button (bootstrap override)
@@ -528,8 +502,7 @@ a#showLeftPush.hiddenclass {
 /*****BELOW:  Data Entry Step Styles
 /*************************************/
 
-/*form styles*/
-#msform {
+/*#msform {
 	width: 90%;
 	margin: 10px auto;
 	text-align: center;
@@ -545,10 +518,8 @@ a#showLeftPush.hiddenclass {
 	box-sizing: border-box;
 	width: 100%;
 	height: 600px;
-	/*stacking fieldsets above each other*/
 	position: relative;
 }
-/*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {
 	display: none;
 }
@@ -587,7 +558,7 @@ a#showLeftPush.hiddenclass {
 #msform .action-button:hover, #msform .action-button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
 	border-radius: 5px;
-}
+}*/
 .fs-title {
 	font-size: 15px;
 	text-transform: uppercase;
@@ -686,6 +657,32 @@ a#showLeftPush.hiddenclass {
 /*************************************/
 /*****BELOW:  ???
 /*************************************/
+
+/*.fas {
+	width: 32px;
+}*/
+/*input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx-rc-all, input.jqx-rc-all-light, input.jqx-widget-light, input.jqx-fill-state-normal-light, input[type=button] {
+	background: buttonface;
+	padding: .48rem .75rem;
+	border-radius: .2rem;
+	line-height: 1.5;
+	transition: none;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: buttontext;
+	margin-top: 0;
+}*/
+/*.nav-fill .nav-item {
+	text-align: left;
+}
+.form-group:last-child {
+	margin-bottom: 0;
+}
+.parent {
+	font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';
+	text-transform: uppercase;
+	color: white;
+	letter-spacing: .08em;
+}*/
 code {
 	font-size: 80%;
 }
@@ -953,7 +950,7 @@ BELOW: Search Form backgrounds
 	border: 1px solid #ccc;
 	border-radius: 5px;
 }*/
-select {
+/*select {
 	border: 1px solid #ccc;
 }
 .custom-select {
@@ -963,7 +960,18 @@ select {
 }
 .custom-select:hover {
 	border: black;
-}
+}*/
+/*.custom-select1 {
+	border: none;
+	height: calc(1.25em + .75rem + 1px);
+	border-radius: 5px;
+}*/
+/*.input-xs {
+	line-height: 1.1em;
+	padding: 0px .5em;
+	border-radius: 3px;
+	color: rgba(0, 0, 0, .6);
+}*/
 #clear {
 	cursor: pointer;
 	position: absolute;
@@ -971,27 +979,7 @@ select {
 	top: 12px;
 	margin: 0;
 }
-.custom-select1 {
-	border: none;
-	height: calc(1.25em + .75rem + 1px);
-	border-radius: 5px;
-}
-/*.input-xs {
-	line-height: 1.1em;
-	padding: 0px .5em;
-	border-radius: 3px;
-	color: rgba(0, 0, 0, .6);
-}*/
-input[type="button"]#delPOIbutton {
-	font-family: FontAwesome;
-	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-	background-color: white;
-}
-input[type="button"]#addmorePOIbutton {
-	font-family: FontAwesome;
-	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-	background-color: white;
-}
+
 .tab-card-main {
 	background-color: white;
 }
@@ -1062,6 +1050,16 @@ input[type="button"]#addmorePOIbutton {
 .jqx-grid-cell-selected-light a:focus, .jqx-fill-state-pressed a {
 	color: blue !important; /*changed from white*/
 	text-decoration: underline;
+}
+input[type="button"]#delPOIbutton {
+	font-family: FontAwesome;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	background-color: white;
+}
+input[type="button"]#addmorePOIbutton {
+	font-family: FontAwesome;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	background-color: white;
 }
 select#lngbox::after {
 	border-left: 0;
@@ -1178,7 +1176,10 @@ table#pairs th, table#pairs td {
 	border: 1px solid #ccc;
 	line-height: 1.1em;
 }
-/*************Small Form fields --example: Data Entry page ***************/
+
+/**********************************************************/
+/*Small Form fields--example: Data Entry page *************/
+/**********************************************************/
 .data-entry-title {
 	font-weight: 500;
 	font-size: 15px;
@@ -1272,7 +1273,7 @@ table#pairs th, table#pairs td {
 	padding: .2em .35em;
 	font-weight: 400;
 }
-.border-fill {
+.border-fill {/* This is for each square on the data entry full form */
 	border:  1px solid #bac5c6 !important;
 	background-color: #fff;
 }
