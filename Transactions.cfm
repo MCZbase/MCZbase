@@ -320,7 +320,7 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
-												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-select col-md-6 input-group-prepend">
+												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-select col-md-6 btn-outline-primary input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role_loan">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role ><cfset selected="selected"><cfelse><cfset selected=""></cfif>

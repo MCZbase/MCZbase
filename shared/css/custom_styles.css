@@ -187,6 +187,7 @@ BELOW: Main button (bootstrap override)
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
 }
+.btn-outline-primary {background-color: buttonface; border-radius:  5px 0 0 5px;}
 
 /************************
 *************************
