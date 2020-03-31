@@ -1973,7 +1973,7 @@ INSERT INTO geog_auth_rec (
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLocality">
-      <div style="width: 56em; margin:0 auto; padding: 1em 0 3em 0;">
+      <div style="width: 90%; margin:0 auto; padding: 1em 0 3em 0;">
 	<cfoutput>
 	<cf_findLocality>
 	<!--- need to filter out distinct --->
@@ -1982,6 +1982,7 @@ INSERT INTO geog_auth_rec (
 			locality_id,
             geog_auth_rec_id,
             spec_locality,
+				sovereign_nation,
             higher_geog,
             LatitudeString,
             LongitudeString,
@@ -2001,6 +2002,7 @@ INSERT INTO geog_auth_rec (
             locality_id,
             geog_auth_rec_id,
             spec_locality,
+				sovereign_nation,
             higher_geog,
             LatitudeString,
             LongitudeString,
@@ -2041,6 +2043,7 @@ INSERT INTO geog_auth_rec (
       <td><b>Geog ID</b></td>
       <td><b>Locality ID</b></td>
       <td><b>Spec Locality</b></td>
+      <td>Sovereign Nation</td>
 	   <td><b>Geog</b></td>
     </tr>
 	<cfset i=1>
@@ -2057,6 +2060,7 @@ INSERT INTO geog_auth_rec (
 		<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
 
 		</td>
+		  <td rowspan="2">#sovereign_nation#</td>
 
 		  <td rowspan="2">#higher_geog#</td>
       </tr>

@@ -8,6 +8,7 @@
 		collecting_event.collecting_event_id,
 		higher_geog,
 		spec_locality,
+		sovereign_nation,
 		began_date,
 		ended_date,
 		verbatim_date,

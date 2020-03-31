@@ -9,7 +9,7 @@
 	<form name="ins" method="post" action="geol_hierarchy.cfm">
 	<input type="hidden" name="action" value="saveEdit">
 	<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
-	<label for="newTerm">Attribute ("formation")</label>
+	<label for="newTerm">Attribute ("Formation")</label>
 	<input type="text" name="attribute" value="#c.attribute#">
 	<label for="newTerm">Value ("Prince Creek")</label>
 	<input type="text" name="attribute_value" value="#c.attribute_value#">
@@ -85,7 +85,7 @@
 New Term:
 <form name="ins" method="post" action="geol_hierarchy.cfm">
 	<input type="hidden" name="action" value="newTerm">
-	<label for="newTerm">Attribute ("formation")</label>
+	<label for="newTerm">Attribute ("Formation")</label>
 	<input type="text" name="attribute">
 	<label for="newTerm">Value ("Prince Creek")</label>
 	<input type="text" name="attribute_value">
