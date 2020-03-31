@@ -42,7 +42,7 @@ limitations under the License.
 </cfcase>
 </cfswitch>
 
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -104,4 +104,4 @@ limitations under the License.
 </cfcase>
 </cfswitch>
 
-<cfinclude template = "/includes/_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">

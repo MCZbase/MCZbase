@@ -27,7 +27,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT count(transaction_id) as cnt FROM trans
@@ -232,7 +232,7 @@ limitations under the License.
 
 						<!--- Loan search tab panel --->
 						<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-     						<h2 class="wikilink">Find Loans <img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+     						<h2 class="wikilink">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -592,7 +592,7 @@ $(document).ready(function() {
 	$(".datetimeinput").datepicker({ 
 		defaultDate: null,
 		buttonImageOnly: true,
-		buttonImage: "/includes/images/calendar_icon.png",
+		buttonImage: "/shared/images/calendar_icon.png",
 		showOn: "both"
 	});
 
@@ -961,4 +961,4 @@ function gridLoaded(gridId, searchType) {
 </script>
 
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">

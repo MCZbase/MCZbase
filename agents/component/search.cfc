@@ -72,7 +72,7 @@ Function getAgentList.  Search for agents by name with a substring match on any 
 				<div class="container">
 					<div class="row">
 						<div class="alert alert-danger" role="alert">
-							<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
@@ -135,7 +135,7 @@ Function getAgentAutocomplete.  Search for agents by name with a substring match
 				<div class="container">
 					<div class="row">
 						<div class="alert alert-danger" role="alert">
-							<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>

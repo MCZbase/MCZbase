@@ -1,5 +1,5 @@
 <cfset pageTitle="Form Template">
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 
 <cfoutput>
@@ -19,4 +19,4 @@
 </cfoutput>
 
 <!---------------------------------------------------------------------->
-<cfinclude template = "includes/_footer.cfm">
+<cfinclude template = "shared/_footer.cfm">

@@ -17,7 +17,7 @@ Disallow: /errors/
 Disallow: /form/
 Disallow: /help/
 Disallow: /images/
-Disallow: /includes/
+Disallow: /shared/
 Disallow: /info/
 Disallow: /log/
 Disallow: /mediaUploads/

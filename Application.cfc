@@ -54,7 +54,7 @@ limitations under the License.
 				<div class="container">
 					<div class="row">
 						<div class="alert alert-danger" role="alert">
-							<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
@@ -164,7 +164,7 @@ limitations under the License.
 			</cfif>
 			<table cellpadding="10">
 				<tr>
-					<td valign="top"><img src="includes/images/Process-stop.png"></td>
+					<td valign="top"><img src="shared/images/Process-stop.png"></td>
 					<td>
 						<font color="##FF0000" size="+1">
 							<strong>An error occurred while processing this page!</strong>
@@ -189,7 +189,7 @@ limitations under the License.
 					</td>
 				</tr>
 			</table>
-			<cfinclude template="/includes/_footer.cfm">
+			<cfinclude template="/shared/_footer.cfm">
 		</cfif>
 		<cfreturn />
 	</cffunction>
@@ -258,7 +258,7 @@ limitations under the License.
 		<cfset Application.header_image = "/images/genericHeaderIcon.gif" />
 		<cfset Application.collection_url = "/" />
 		<cfset Application.collection_link_text = "Error: Host configuration problem: #serverName# not recognized" />
-		<cfset Application.stylesheet = "/includes/css/custom_styles.css" />
+		<cfset Application.stylesheet = "/shared/css/custom_styles.css" />
 		<cfset Application.meta_description = "MCZbase is a natural science collections database." />
 		<cfset Application.meta_keywords = "museum, collection, management, system, biodiversity" />
 		<cfset Application.domain = replace(Application.serverRootUrl,"#Application.protocol#://",".") />
@@ -274,13 +274,13 @@ limitations under the License.
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ<span>BASE-TEST</span>:The Database of the Zoological Collections" />
-			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
+			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 		    <cfelseif serverName contains "-dev">
 			    <cfset Application.header_color = "##CAEAAD" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			     <cfset Application.collection_link_text = "MCZ<span>BASE-DEV</span>:The Database of the Zoological Collections" />
-			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
+			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 				<cfset Application.meta_description = "MCZbase is the natural science collections database of the Museum of Comparative Zoology at Harvard University." />
 			 <cfelse>
                 <!--- Production MCZbase values --->
@@ -288,7 +288,7 @@ limitations under the License.
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "white" />
 			    <cfset Application.collection_link_text = "MCZ<span>BASE</span>:The Database of the Zoological Collections" />
-			    <cfset Application.header_image = "/includes/images/mcz_logo_white_left.png" />
+			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 			</cfif>
 			<cfset Application.collection_url = "http://www.mcz.harvard.edu" />
 			<cfset Application.institution_url = "http://www.mcz.harvard.edu" />
@@ -308,14 +308,14 @@ limitations under the License.
 			<cfset Application.InstitutionBlurb = "Collections Database, Museum of Comparative Zoology, Harvard University" />
 			<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />
 			<cfset Application.PageProblemEmail = "bhaley@oeb.harvard.edu" />
-			<cfset Application.stylesheet = "/includes/css/custom_styles.css" />
+			<cfset Application.stylesheet = "/shared/css/custom_styles.css" />
 		</cfif>
 		<cfreturn true />
 	</cffunction>
 
 	<!-------------------------------------------------------------->
 
-	<cffunction name="onSessionStart" output="false"><cfinclude template="/includes/loginFunctions.cfm">
+	<cffunction name="onSessionStart" output="false"><cfinclude template="/shared/loginFunctions.cfm">
 		<cfset initSession() />
 		<cfif (isdefined("session.roles") and
 			session.roles contains "coldfusion_user") and
@@ -359,7 +359,7 @@ limitations under the License.
 			<cfscript>StructDelete(request, "fixAmp");</cfscript>
 		</cfif>
 		<cfif not isdefined("session.roles")>
-			<cfinclude template="/includes/loginFunctions.cfm">
+			<cfinclude template="/shared/loginFunctions.cfm">
 			<cfset initSession() />
 		</cfif>
 		<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />

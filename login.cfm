@@ -1,6 +1,6 @@
 <cfset pageTitle = "Login">
 <!--- Login handler and login page delivery --->
-<cfinclude template = "includes/_header.cfm">
+<cfinclude template = "shared/_header.cfm">
 <cfif isdefined("session.username") and len(#session.username#) gt 0 and #action# neq "signOut">
 	<cflocation url="UserProfile.cfm" addtoken="false">
 </cfif>
@@ -111,7 +111,7 @@
 				<cfset t=1>
 				<cfset rurl=replace(gotopage,"?&","?","all")>
 				<cfset rurl=replace(gotopage,"&&","&","all")>
-				<cfset nogo="login.cfm,includes/,errors/,component/,lib/">
+				<cfset nogo="login.cfm,shared/,errors/,component/,lib/">
 				<cfloop list="#nogo#" index="n">
 					<cfif gotopage contains n>
 						<cfset gotopage = defaultLoginTarget>
@@ -247,4 +247,4 @@
 </cfif>
 <!-------------------------------------------------------------------------------------->
 	
-<cfinclude template = "/includes/_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">

@@ -85,7 +85,7 @@ limitations under the License.
 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset pageTitle = "MCZbase Specimen Details #guid#">
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT DISTINCT
@@ -216,7 +216,7 @@ limitations under the License.
 		<p class="card-text mb-1 mt-1 fs-16">#higher_geog#</p>
 		<a href="##" class="fs-13 mt-0 d-block">Berkeley Mapper</a> 
 	</div>
-<img class="card-img-right flex-auto d-none d-md-block z-depth-2 p-3" src="/includes/images/locality.jpg" alt="map" width="150" height="150"> 
+<img class="card-img-right flex-auto d-none d-md-block z-depth-2 p-3" src="/shared/images/locality.jpg" alt="map" width="150" height="150"> 
 </div>
 		</div>
 		</div>
@@ -332,4 +332,4 @@ limitations under the License.
     </cfif>
 </cfoutput>
 <cfinclude template="/specimens/SpecimenDetailBody.cfm">
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">

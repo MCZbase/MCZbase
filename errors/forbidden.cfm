@@ -28,7 +28,7 @@ limitations under the License.
 	<div class="container">
 		<div class="row">
 	 		<div class="alert alert-danger" role="alert">
-				<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+				<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 	  			<h2>Access denied.</h2>
 				<p>You tried to visit a form for which you are not authorized, or your login has expired.</p>
 				<p>If this message is in error, please <a class="underline" href="/contact.cfm">contact us</a>.</p>
@@ -38,11 +38,11 @@ limitations under the License.
 <cfelse>
 	<!--- Other cases, typically a request for a user for a page after their session has expired --->
 	<!--- Display the error in a page with header (and footer) --->
-	<cfinclude template="/includes/_header.cfm">
+	<cfinclude template="/shared/_header.cfm">
 	<div class="container">
 		<div class="row">
 	 		<div class="alert alert-danger" role="alert">
-				<img src="/includes/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+				<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 	  			<h2>Access denied.</h2>
 				<p>You tried to visit a form for which you are not authorized, or your login has expired.</p>
 				<p>If this message is in error, please <a class="underline" href="/contact.cfm">contact us</a>.</p>
@@ -66,5 +66,5 @@ limitations under the License.
 	   extendedInfo = "#errortext#">
 
 	<!--- if we decide not to throw the exception, continue to this line and display the page footer --->
-	<cfinclude template="/includes/_footer.cfm">
+	<cfinclude template="/shared/_footer.cfm">
 </cfif>
