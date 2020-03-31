@@ -10,6 +10,27 @@ input.badPick, select.badPick, textarea.badPick {
 input.goodPick, select.goodPick, textarea.goodPick {
 	background-color: #8BFEB9;
 }
+
+/* BELOW: Are these used?  */
+/*form input.anchor-button {  
+	background-color: white;
+	border: none;
+	width: 100%;
+	color: #16181b;
+	text-align: left;
+	padding: .65em 1.12em;
+	margin: 0 0;
+}
+form input.anchor-button:hover {
+	border: none;
+	color: #16181b;
+	text-decoration: none;
+	background-color: #f8f9fa;
+}*/
+
+/*********************************************/
+/* BELOW  Misc. Override of Bootstrap Styles */
+/*********************************************/
 h1, h2, h3, h4, h5, h6 {
 	line-height: 1.25;
 	margin-top: 1em;
@@ -61,65 +82,23 @@ p {
 	width: 0;
 	overflow: hidden;
 }
-form input.anchor-button {
-	background-color: white;
-	border: none;
-	width: 100%;
-	color: #16181b;
-	text-align: left;
-	padding: .65em 1.12em;
-	margin: 0 0;
-}
-form input.anchor-button:hover {
-	border: none;
-	color: #16181b;
-	text-decoration: none;
-	background-color: #f8f9fa;
-}
 label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
 }
-.border {
+.border {  /* bootstrap border override */
 	border: 1px solid #bac5c6 !important;
 }
-.border-green {
-	border: 1px solid #006100;
+.shadowbox {
+	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
 }
-.color-green {
-	color: #006100;
-}
-.bg-blue-gray {
-	background-color: #BAC5C6;
-}
-.border-blue-gray {
-	border: 1px solid #BAC5c6;
-}
-.form-div {
-	background-color: #f8f9fa;
-}
-.steps-div {
-	background-color: #deebec; /*greenish-gray*/
-}
-.section-buttons {
-	background-color: #3E6f7D; /*teal*/
-}
-.border-gray {
-	border: 1px solid #ccc;
-}
-.border-dk-gray {
-	border: 1px solid #666;
-}
-.col-md-half {
-	mx-flex: 0 0 5%;
-	flex: 0 0 5%;
-	max-width: 5%;
-	position: relative;
-}
-/* BELOW  code for 3 searches */
-/*************************/
-/*************************/
-/* BELOW: override for collection dropdown (JQuery) taken from Arctos*/
+
+
+/***************************************/
+/*   BELOW: override for collection    */
+/*  dropdown (JQuery) taken from Arctos*/
+/***************************************/
+
 button.ui-multiselect {
 	padding: .5em;
 	margin: 0;
@@ -139,7 +118,7 @@ ul.ui-multiselect-checkboxes input {
 	float: left;
 }
 .ui-multiselect-header span.ui-icon {
-	top: -2px;
+	top: -1px;
 }
 button.ui-multiselect.ui-state-default.multiselect2 {
 	padding: 4px 12px 4px 12px;
@@ -166,23 +145,15 @@ span.ui-icon {
 	color: #555;
 	margin-top: 1px;
 }
-.ui-state-active .ui-icon, .ui-button:active .ui-icon {
-	background-image: url(../images/ui-icons_444444_256x240.png);
-}
-input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx-rc-all, input.jqx-rc-all-light, input.jqx-widget-light, input.jqx-fill-state-normal-light, input[type=button] {
-	background: buttonface;
-	padding: .48rem .75rem;
-	border-radius: .2rem;
-	line-height: 1.5;
-	transition: none;
-	border: 1px solid hsl(0, 0%, 62%);
-	/*border: 1px solid #bac5c6;*/
-	color: buttontext;
-	margin-top: 0;
-}
-.fas {
-	width: 32px;
-}
+
+/*********************************/
+/* BELOW:    code for 3 searches */
+/*********************************/
+
+/************************
+*************************
+BELOW: Main button (bootstrap override)
+************************/
 .btn-primary {
 	background-color: buttonface;
 	border-color: #E4E476;
@@ -216,18 +187,7 @@ input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
 }
-.nav-fill .nav-item {
-	text-align: left;
-}
-.form-group:last-child {
-	margin-bottom: 0;
-}
-.parent {
-	font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';
-	text-transform: uppercase;
-	color: white;
-	letter-spacing: .08em;
-}
+
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -321,9 +281,6 @@ li.pid {
 	background-color: #DEEBEC;
 	padding: .1rem 1.25rem;
 }
-.card {
-	border: 1px solid #7889a4;
-}
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;
@@ -350,6 +307,8 @@ li.list-group-item.thethumbs:first-child {
 	margin-right: 10px;
 	margin-left: 10px;
 }
+
+
 /************************
 *************************
 BELOW: SEARCH PAGE STYLES to 
@@ -376,19 +335,18 @@ table#POITable {
 	color: #006100;
 	font-size: 15px;
 }
-.headerCollectionTextSmall {
-	font-size: smaller;
-}
 body.modal-open {
 	padding: 0 !important;
 	overflow-y: scroll !important;
 }
-/************************************/
-/************************************/
+
+/***********************************************/
 /* BELOW: filter and column slider menu styles */
+/***********************************************/
 #cbp-spmenu-s2 {
 	z-index: 600;
 }
+/* #showRightPush black label "Filters" tab that moves the filter for what is in the columns*/
 section a#showRightPush {
 	width: 30px;
 	margin-left: -30px;
@@ -407,6 +365,7 @@ section a#showRightPush {
 	-moz-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
+/* #showLeftPush black label "Columns" tab that moves the filter for displaying the columns*/
 section a#showLeftPush {
 	width: 32px;
 	margin-right: -30px;
@@ -532,16 +491,18 @@ section a#showLeftPush {
 	box-shadow: rgb(204, 204, 204) 0px 0px 5px;
 	border-width: 3px 0 3px 3px;
 }
-/*************************/
-/*****ABOVE:  filter and 
-column styles
-/*************************/
-/*************************/
-.shadowbox {
-	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
+a#showRightPush.hiddenclass {
+	display: none;
 }
-/*form styles*/
-#msform {
+a#showLeftPush.hiddenclass {
+	display: none;
+}
+
+/*************************************/
+/*****BELOW:  Data Entry Step Styles
+/*************************************/
+
+/*#msform {
 	width: 90%;
 	margin: 10px auto;
 	text-align: center;
@@ -557,14 +518,11 @@ column styles
 	box-sizing: border-box;
 	width: 100%;
 	height: 600px;
-	/*stacking fieldsets above each other*/
 	position: relative;
 }
-/*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {
 	display: none;
 }
-/*inputs*/
 #msform input, #msform textarea {
 	padding: 15px;
 	border: 1px solid #ccc;
@@ -586,7 +544,6 @@ column styles
 	color: #2C3E50;
 	font-family: montserrat;
 }
-/*buttons*/
 #msform .action-button {
 	width: 100px;
 	background: #27AE60;
@@ -601,8 +558,7 @@ column styles
 #msform .action-button:hover, #msform .action-button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
 	border-radius: 5px;
-}
-/*headings*/
+}*/
 .fs-title {
 	font-size: 15px;
 	text-transform: uppercase;
@@ -614,60 +570,6 @@ column styles
 	font-size: 13px;
 	color: #666;
 	margin-bottom: 15px;
-}
-/*progressbar*/
-ul#progressbar {
-	margin-bottom: 0px;
-	overflow: hidden;
-	height: 34px;
-	padding-inline-start: 0;
-	/*CSS counters to number the steps*/
-	counter-reset: step;
-}
-ul#progressbar li {
-	list-style-type: none;
-	color: transparent;
-	text-transform: uppercase;
-	font-size: 3px;
-	width: 40px;
-	margin: 1em 0 0 0;
-	float: left;
-	position: relative;
-}
-ul#progressbar li:before {
-	content: counter(step);
-	counter-increment: step;
-	width: 24px;
-	line-height: 20px;
-	display: block;
-	font-size: 16px;
-	color: #333;
-	background: white;
-	border-radius: 3px;
-	margin: 0 auto 5px auto;
-	text-align: center;
-}
-/*progressbar connectors*/
-#progressbar li:after {
-	content: '';
-	width: 100%;
-	height: 2px;
-	background: white;
-	position: absolute;
-	left: -50%;
-	top: 9px;
-	z-index: -1; /*put it behind the numbers*/
-}
-#progressbar li:first-child:after {
-	/*connector not needed before the first step*/
-	content: none;
-}
-/*marking active/completed steps green*/
-/*The number of the step and the connector before it = green*/
-#progressbar li.active:before, #progressbar li.active:after {
-	background: #27AE60;
-	color: white;
-	z-index: 1;
 }
 #regForm {
 	margin: 0px auto;
@@ -722,6 +624,14 @@ ul#progressbar li:before {
 #regForm .step.finish {
 	background-color: #80ADCC;
 }
+
+
+
+
+/*************************************/
+/*****BELOW:  User Profile Page styles  RSS feed
+/*************************************/
+
 .feedAtom div {
 	float: left;
 	width: auto;
@@ -743,6 +653,36 @@ ul#progressbar li:before {
 	line-height: 1.5em;
 	margin-left: 1em;
 }
+
+/*************************************/
+/*****BELOW:  ???
+/*************************************/
+
+/*.fas {
+	width: 32px;
+}*/
+/*input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx-rc-all, input.jqx-rc-all-light, input.jqx-widget-light, input.jqx-fill-state-normal-light, input[type=button] {
+	background: buttonface;
+	padding: .48rem .75rem;
+	border-radius: .2rem;
+	line-height: 1.5;
+	transition: none;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: buttontext;
+	margin-top: 0;
+}*/
+/*.nav-fill .nav-item {
+	text-align: left;
+}
+.form-group:last-child {
+	margin-bottom: 0;
+}
+.parent {
+	font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';
+	text-transform: uppercase;
+	color: white;
+	letter-spacing: .08em;
+}*/
 code {
 	font-size: 80%;
 }
@@ -759,12 +699,7 @@ code {
 #jqxDropDownList {
 	padding: .86em 0;
 }
-a#showRightPush.hiddenclass {
-	display: none;
-}
-a#showLeftPush.hiddenclass {
-	display: none;
-}
+
 /************************
 *************************
 BELOW: DIALOG BOXES STYLES to 
@@ -824,9 +759,6 @@ override Bootstrap styles
 	border: 1px solid #333;
 }
 .ui-widget-header {
-	/*	border: 1px solid #1b1b1b;
-	background: #1b1b1b;*/
-	/* color: #fff; // override makes text illegible, too close in color to background of header */
 	font-weight: bold;
 }
 .ui-widget {
@@ -964,7 +896,13 @@ table.inputTable tr {
 	position: absolute;
 	left: 1.5em !important;
 }
-.search-form-div {
+
+
+/************************
+*************************
+BELOW: Search Form - Home page
+************************/
+/*.search-form-div {
 	color: #1b1b1b;
 	z-index: -1;
 	margin-bottom: 0;
@@ -981,43 +919,22 @@ table.inputTable tr {
 	margin-bottom: 0;
 	padding-bottom: 2em;
 	padding-top: .5em;
-}
-.bottom-space {
-	min-height: 11em;
-}
-.input-group-text {
-	background-color: #dddddd;
+}*/
+/*.input-group-text {
 	background-color: #BAC5C6;
 }
 #formLogin {
 	right: 0;
 	width: auto;
 }
-/*#accountSettings {
-	right: 0;
-	width: auto;
-}
-#accountSettings a {	
-	padding-left: 17px;
-}*/
-.bbr-0 {
-	background: none;
-	border: none;
-}
-.py-090 {
-	padding-top: .6em;
-	padding-bottom: .6em;
-	margin-right: -3px;
-	z-index: 1050
-}
 .ui-icon.ui-icon-triangle-2-n-s {
 	background-position: -124px -16px;
-}
-#localityForm .col-md-4 input, #localityForm .col-12 input {
+}*/
+/*#localityForm .col-md-4 input, #localityForm .col-12 input {
 	width: 100%;
 	margin-left: 0;
-}
-.menu-tabs ul {
+}*/
+/*.menu-tabs ul {
 	width: 100%;
 	margin-top: 5px;
 	background-color: #E1E1E1;
@@ -1032,6 +949,9 @@ table.inputTable tr {
 	background-color: #edf0e3;
 	border: 1px solid #ccc;
 	border-radius: 5px;
+}*/
+/*select {
+	border: 1px solid #ccc;
 }
 .custom-select {
 	border: none;
@@ -1040,7 +960,18 @@ table.inputTable tr {
 }
 .custom-select:hover {
 	border: black;
-}
+}*/
+/*.custom-select1 {
+	border: none;
+	height: calc(1.25em + .75rem + 1px);
+	border-radius: 5px;
+}*/
+/*.input-xs {
+	line-height: 1.1em;
+	padding: 0px .5em;
+	border-radius: 3px;
+	color: rgba(0, 0, 0, .6);
+}*/
 #clear {
 	cursor: pointer;
 	position: absolute;
@@ -1048,34 +979,10 @@ table.inputTable tr {
 	top: 12px;
 	margin: 0;
 }
-.custom-select1 {
-	border: none;
-	height: calc(1.25em + .75rem + 1px);
-	border-radius: 5px;
-}
-.input-xs {
-	line-height: 1.1em;
-	padding: 0px .5em;
-	border-radius: 3px;
-	color: rgba(0, 0, 0, .6);
-}
-input[type="button"]#delPOIbutton {
-	font-family: FontAwesome;
-	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-	background-color: white;
-}
-input[type="button"]#addmorePOIbutton {
-	font-family: FontAwesome;
-	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-	background-color: white;
-}
+
 .tab-card-main {
 	background-color: white;
 }
-select {
-	border: 1px solid #ccc;
-}
-/* Tabs Card */
 .tab-card {
 	border: 1px solid #eee;
 	border-radius: 8px;
@@ -1143,6 +1050,16 @@ select {
 .jqx-grid-cell-selected-light a:focus, .jqx-fill-state-pressed a {
 	color: blue !important; /*changed from white*/
 	text-decoration: underline;
+}
+input[type="button"]#delPOIbutton {
+	font-family: FontAwesome;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	background-color: white;
+}
+input[type="button"]#addmorePOIbutton {
+	font-family: FontAwesome;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	background-color: white;
 }
 select#lngbox::after {
 	border-left: 0;
@@ -1259,7 +1176,10 @@ table#pairs th, table#pairs td {
 	border: 1px solid #ccc;
 	line-height: 1.1em;
 }
-/*************Small Form fields --example: Data Entry page ***************/
+
+/**********************************************************/
+/*Small Form fields--example: Data Entry page *************/
+/**********************************************************/
 .data-entry-title {
 	font-weight: 500;
 	font-size: 15px;
@@ -1278,7 +1198,7 @@ table#pairs th, table#pairs td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .78em;
+	font-size: .8em;
 	border: none;
 	line-height: .9em;
 	height: calc(.9em + .5em + 2px);
@@ -1290,10 +1210,10 @@ table#pairs th, table#pairs td {
 .data-entry-input {
 	display: block;
 	width: 100%;
-	font-size: .8em;
-	line-height: .9em;
-	height: calc(.9em + .5rem + 3px);
-	padding: .25em .5em .35em .8em;
+	font-size: .9em;
+	line-height: 1em;
+	height: calc(.9em + .5rem + 4px);
+	padding: 0 .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1312,10 +1232,10 @@ table#pairs th, table#pairs td {
 .data-entry-select {
 	display: block;
 	width: 100%;
-	font-size: .8em;
-	line-height: .9em;
-	height: calc(.8em + .5rem + 4px);
-	padding: 0 .5em .2em .5em;
+	font-size: .9em;
+	line-height: 1em;
+	height: calc(.9em + .5rem + 4px);
+	padding: 0 .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1335,10 +1255,10 @@ table#pairs th, table#pairs td {
 	width: 100%;
 	height: auto;
 	border: 1px solid #ced4da;
-	font-size: .8em;
-	line-height: .9em;
+	font-size: .9em;
+	line-height: 1em;
 	border-radius: .2rem;
-	padding: .25rem .5rem;
+	padding: 0 .5rem;
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
@@ -1353,12 +1273,16 @@ table#pairs th, table#pairs td {
 	padding: .2em .35em;
 	font-weight: 400;
 }
-.border-fill {
+.border-fill {/* This is for each square on the data entry full form */
 	border:  1px solid #bac5c6 !important;
 	background-color: #fff;
 }
 /****************end small form fields*********************/
-.search-form-builder {
+
+/**********************************************************/
+/*Small Form fields--example: Data Entry page *************/
+/**********************************************************/
+/*.search-form-builder {
 	border: 1px solid #ccc;
 }
 .filter-option-inner-inner {
@@ -1371,8 +1295,6 @@ li, li:hover, li:active {
 	list-style: none;
 	padding-left: 0;
 }
-/*********************************/
-/*********************************/
 .panel-group {
 	margin-bottom: .5em;
 	border-bottom: 2px solid #444;
@@ -1403,8 +1325,9 @@ ul.list-group {}
 .panel-footer {}
 .panel-footer h3 {
 	font-size: 1.1em;
-}
+}*/
 /*********************************/
+/* Device styles below ***********/
 /*********************************/
 @media only screen and (min-width: 1380px) {
 	.cbp-spmenu-push-toleft {

@@ -273,6 +273,12 @@ body > .container {
 	color: #046aa2 !important;
 	line-height: 2.2em;
 }
+.headerCollectionTextSmall {
+	font-size: smaller;
+}
+.color-green {
+	color: #006100;
+}
 
 @media only screen and (max-width: 990px) {
 	nav.navbar {
