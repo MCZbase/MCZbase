@@ -24,7 +24,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 
 <cfif not isdefined("project_id")><cfset project_id = -1></cfif>
 
@@ -118,7 +118,7 @@ limitations under the License.
 	<div class="container-fluid form-div">
 		<div class="container">
 			<h2 class="wikilink m-0" >Create New Loan
-				<img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
+				<img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" class="likeLink" alt="[ help ]">
 			</h2>
 			<div class="form-row mb-2">
 				<div class="col-sm-8">
@@ -608,7 +608,7 @@ limitations under the License.
 		<div class="container">
 		<cftry>
 			<h2 class="wikilink m-0" >Edit Loan 
-				<img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
+				<img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
 				<span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>
 			</h2>
 
@@ -697,7 +697,7 @@ limitations under the License.
                                                     onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 					</td>
 					<td style=" min-width: 3.5em; ">
-					    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif loanAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif loanAgents.worstagentrank EQ 'F'><img src='/includes/images/flag-red.svg.png' width='16'><cfelse><img src='/includes/images/flag-yellow.svg.png' width='16'></cfif>
+					    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif loanAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif loanAgents.worstagentrank EQ 'F'><img src='/shared/images/flag-red.svg.png' width='16'><cfelse><img src='/shared/images/flag-yellow.svg.png' width='16'></cfif>
                                             </span>
 					</td>
 					<td>
@@ -899,7 +899,7 @@ limitations under the License.
 
 <div id="project">
 
-			<h3>Projects associated with this loan: <img src="/includes/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
+			<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 		<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select project_name, project.project_id from project,
 			project_trans where
@@ -1101,7 +1101,7 @@ limitations under the License.
 					</span>
 					<div id='addMediaDlg_#transaction_id#'></div>
 					<div id='newMediaDlg_#transaction_id#'></div>
-					<div id="transactionFormMedia"><img src='/includes/images/indicator.gif'> Loading Media....</div>
+					<div id="transactionFormMedia"><img src='/shared/images/indicator.gif'> Loading Media....</div>
 					<script>
 						// callback for ajax methods to reload from dialog
 						function reloadTransMedia() { 
@@ -1174,7 +1174,7 @@ limitations under the License.
 						left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 				</cfquery>
-				<div id="shipmentTable"><img src='/includes/images/indicator.gif'> Loading shipments...</div> <!--- shippmentTable for ajax replace --->
+				<div id="shipmentTable"><img src='/shared/images/indicator.gif'> Loading shipments...</div> <!--- shippmentTable for ajax replace --->
 				<script>
 				$( document ).ready(loadShipments(#transaction_id#));
 					$(function() {
@@ -1763,4 +1763,4 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">

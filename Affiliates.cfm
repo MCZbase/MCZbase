@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 <cfoutput>
 	<div class="container">
 		<div class="row">
@@ -42,4 +42,4 @@ limitations under the License.
 		</div>
 	</div>
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">

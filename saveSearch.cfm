@@ -1,6 +1,6 @@
 
 <cfset pageTitle="Save Searches">
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 
 <cfif #action# is "nothing">
 
@@ -46,7 +46,7 @@
 
 
 <cfif #action# is "manage">
-<!---<script type='text/javascript' src='/includes/_treeAjax.js'></script>--->
+<!---<script type='text/javascript' src='/shared/_treeAjax.js'></script>--->
 <script type="text/javascript" language="javascript">
 	function killMe(canned_id) {
 		jQuery.getJSON("/component/functions.cfc",
@@ -118,4 +118,4 @@
 </div>
 </cfoutput>
 </cfif>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">

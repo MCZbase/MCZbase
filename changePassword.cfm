@@ -1,5 +1,5 @@
 <cfset pageTitle="Change Password">
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <script>
 	function pwc(p,u){
@@ -304,4 +304,4 @@ You will be redirected soon, or you may use the menu above now.
                 </div>
 </cfif>
 <!---------------------------------------------------------------------->
-<cfinclude template = "includes/_footer.cfm">
+<cfinclude template = "shared/_footer.cfm">

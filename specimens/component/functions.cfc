@@ -1,5 +1,5 @@
 <cfcomponent>
-<cfinclude template = "../../includes/functionLib.cfm">
+<cfinclude template = "../../shared/functionLib.cfm">
 
 <cffunction name="getExternalStatus" access="remote">
 	<cfargument name="uri" type="string" required="yes">
@@ -162,7 +162,7 @@
             <div class="container">
                <div class="row">
                   <div class="alert alert-danger" role="alert">
-                     <img src="/includes/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+                     <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
                      <h2>Internal Server Error.</h2>
                      <p>#message#</p>
                      <p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>

@@ -25,7 +25,7 @@ limitations under the License.
 </cfif>
 <cfif not isdefined("HEADER_DELIVERED")>
 	<cfset pageTitle = "404 Error - Page Not Found">
-	<cfinclude template="/includes/_header.cfm">
+	<cfinclude template="/shared/_header.cfm">
 </cfif>
 <cfoutput>
 	<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and len(CGI.HTTP_X_Forwarded_For) gt 0>
@@ -174,4 +174,4 @@ limitations under the License.
 	 </p>
         </div>
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">

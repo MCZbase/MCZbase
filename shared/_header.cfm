@@ -26,13 +26,13 @@ limitations under the License.
 <meta name="description" content="#Application.meta_description#">
 <meta name="keywords" content="#Application.meta_keywords#">
 <meta name="author" content="Museum of Comparative Zoology, Harvard University">
-<link rel="SHORTCUT ICON" href="/includes/images/favicon.ico">
+<link rel="SHORTCUT ICON" href="/shared/images/favicon.ico">
 <cfif not isdefined("pageTitle")>
 	 <!--- Long term we can set a default value, short term throw an exception to make developers add pageTitle to invoking pages. --->
-	 <cfthrow message="Error: includes/_header.cfm was included from a page that does not set the required pageTitle.">
+	 <cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/includes/functionLib.cfm">
+<cfinclude template="/shared/functionLib.cfm">
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.4.1-dist/css/bootstrap.min.css"><!---needed for overall look--->
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css"><!--- TODO: Remove? don't know not in 4.1.3--->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
@@ -43,8 +43,8 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
-<link rel="stylesheet" href="/includes/css/header_footer_styles.css">
-<link rel="stylesheet" href="/includes/css/custom_styles.css">
+<link rel="stylesheet" href="/shared/css/header_footer_styles.css">
+<link rel="stylesheet" href="/shared/css/custom_styles.css">
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
 <script type="text/javascript" src="/lib/jquery/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. --->
@@ -86,11 +86,11 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcalendar.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxtree.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/includes/js/shared-scripts.js"></script>
+<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <!--- End supspect block --->
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<script type="text/javascript" src="/includes/js/internal-scripts.js"></script>
+	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
 </cfif>
 <script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>	
 <cfif isdefined("addheaderresource")>
@@ -146,7 +146,7 @@ limitations under the License.
 <div class="branding clearfix" style="background-color: ##1b1b1b;">
 	<div class="branding-left justify-content-start mt-1">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
-			<img class="shield" src="/includes/images/Harvard_shield-University.png" alt="Harvard University Shield">
+			<img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield">
 			<span class="d-inline-block parent">Harvard University</span>
 		</a> 
 	</div>

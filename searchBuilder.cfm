@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 <!---HTML5 sortable---https://github.com/lukasoppermann/html5sortable/blob/master/README.md--->
 <script type="text/javascript" src="/redesign/searchbuilder/js/searchBuilder.js"></script>
 <section class="mb-3 mx-auto col col-12 px-0">
@@ -213,4 +213,4 @@ limitations under the License.
 		console.log(document.querySelector('.js-sortable-buttons').h5s.data.opts);
 	});
 </script>
-<cfinclude template = "/includes/_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">

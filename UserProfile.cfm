@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <cfset addheaderresource="feedreader" />
 <cfset pageTitle="MCZbase User Profile">
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 <cfparam name="action" default="nothing">
 <cfif len(session.username) is 0>
 	<cflocation url="/login.cfm" addtoken="false">
@@ -409,4 +409,4 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 
-<cfinclude template = "/includes/_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">

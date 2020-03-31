@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template = "/includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT count(collection_object_id) as cnt FROM cataloged_item
@@ -164,4 +164,4 @@ $(document).ready(function() {
 </script>
 
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
