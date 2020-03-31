@@ -371,10 +371,10 @@ limitations under the License.
 												<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
 												</div>
-												<div class="col-md-5 col-12">
+												<div class="col-md-4 col-12">
 												
 															<div class="form-group">
-																<div class='input-group date' id='datetimepicker1'>
+																<div class='input-group' id='datetimepicker1'>
 																	<input name="trans_date" id="trans_date" type='text' class="datetimeinput data-entry-input" value="#trans_date#"/>
 																	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
 																	</span>
