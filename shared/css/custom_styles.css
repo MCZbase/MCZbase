@@ -900,7 +900,7 @@ table.inputTable tr {
 
 /************************
 *************************
-BELOW: Search Form backgrounds 
+BELOW: Search Form - Home page
 ************************/
 /*.search-form-div {
 	color: #1b1b1b;
@@ -1278,7 +1278,11 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 }
 /****************end small form fields*********************/
-.search-form-builder {
+
+/**********************************************************/
+/*Small Form fields--example: Data Entry page *************/
+/**********************************************************/
+/*.search-form-builder {
 	border: 1px solid #ccc;
 }
 .filter-option-inner-inner {
@@ -1291,8 +1295,6 @@ li, li:hover, li:active {
 	list-style: none;
 	padding-left: 0;
 }
-/*********************************/
-/*********************************/
 .panel-group {
 	margin-bottom: .5em;
 	border-bottom: 2px solid #444;
@@ -1323,8 +1325,9 @@ ul.list-group {}
 .panel-footer {}
 .panel-footer h3 {
 	font-size: 1.1em;
-}
+}*/
 /*********************************/
+/* Device styles below ***********/
 /*********************************/
 @media only screen and (min-width: 1380px) {
 	.cbp-spmenu-push-toleft {
