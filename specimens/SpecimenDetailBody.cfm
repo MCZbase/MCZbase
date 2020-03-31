@@ -268,7 +268,8 @@ limitations under the License.
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked.
-	<!---- TODO: This should return the correct HTTP response, not a 400 ---->
+	<!---- TODO: This should return the correct HTTP response (403), not a 400 ---->
+	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
 <cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
