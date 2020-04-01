@@ -480,7 +480,7 @@ limitations under the License.
 				.datepicker({
 					defaultDate: "+1w",
 					changeMonth: true,
-					numberOfMonths: 3
+					numberOfMonths: 1
 				})
 				.on( "change", function() {
 					to.datepicker( "option", "minDate", getDate( this ) );
@@ -507,14 +507,13 @@ limitations under the License.
 	} );
 	</script>
 												<div class="col-md-6 col-12">
-													<label class="data-entry-label" for="from"> Start Loan Date:</label>
-													<input name="trans_date" id="from" name="from" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
+													<label class="data-entry-label" for="trans_date"> Start Loan Date:</label>
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
 												</div>
 												<div class="col-md-6 col-12">
 													<label class="data-entry-label" for="to">End Loan Date:</label>
-											<!---		<input type="text" class="data-entry-input" id="to" name="to">--->
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input" 
-aria-label="loan date search range to" aria-described="trans_date_to_marker">
+aria-label="loan date search range to" aria-described="trans_date_to">
 												</div>
 												<!---<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
