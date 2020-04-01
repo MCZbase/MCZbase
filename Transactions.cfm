@@ -470,9 +470,7 @@ limitations under the License.
 										});
 										</script> 
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<div class="form-row border rounded p-2 mx-1"> 
+								
 												<script>
 	$( function() {
 		var dateFormat = "yyyy-mm-dd",
@@ -512,11 +510,14 @@ limitations under the License.
 													<label class="data-entry-label" for="trans_date">Loan Date: (start date)</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
 												</div>--->
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<div class="form-row border rounded p-2 mx-1"> 
 												 <div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
 														<label class="data-entry-label" for="trans_date">Loan Date: (start date)</label>
-														<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-10" value="#trans_date#" >
+														<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#trans_date#" >
 															<span class="input-group-append bg-light col-1">
 																<span class="fas fa-calendar"></span>
 															</span>
@@ -528,14 +529,46 @@ limitations under the License.
 													<div class="form-group">
 														<div class='input-group date'>
 														<label class="data-entry-label" for="to"> (end date)</label>
-														<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-sm-10" aria-label="loan date search range to" aria-described="trans_date_to">
+														<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="loan date search range to" aria-described="trans_date_to">
 												      		<span class="input-group-append bg-light col-1">
 																<span class="fas fa-calendar"></span>
                     										</span>
 														</div>								
 													</div>
 												</div>
+											</div>
+										</div>
+									</div>
+												
+									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
+											<div class="form-row border rounded p-2 mx-1"> 
+												 <div class='col-md-6 col-12'>
+													<div class="form-group">
+														<div class='input-group date'>
+														<label class="data-entry-label" for="return_due_date">Due Date: (start date)</label>
+														<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#return_due_date#" >
+															<span class="input-group-append bg-light col-1">
+																<span class="fas fa-calendar"></span>
+															</span>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6 col-12">
+													<div class="form-group">
+														<div class='input-group date'>
+														<label class="data-entry-label" for="to"> (end date)</label>
+														<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="due date search range to" aria-described="return_due_date_to_marker">
+												      		<span class="input-group-append bg-light col-1">
+																<span class="fas fa-calendar"></span>
+                    										</span>
+														</div>								
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+							<!---			<div class="col-12 col-md-6">
 											<div class="form-row border border-secondary py-1">
 												<div class="col-md-2 col-12 float-right">
 													<label for="return_due_date"> Due Date: </label>
@@ -547,12 +580,12 @@ limitations under the License.
 													<div class="input-group float-left">
 														<div id="return_due_date_to_marker" class="input-group-prepend">To:</div>
 														<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#"
-															class="datetimeinput form-control form-control-sm w-75" 
+															class="datetimeinput data-entry-input" 
 															aria-label="due date search range to" aria-described-by="return_due_date_to_marker">
 													</div>
 												</div>
 											</div>
-										</div>
+										</div>--->
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
