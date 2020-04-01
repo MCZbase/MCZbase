@@ -360,6 +360,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2">
+								
 										<div class="col-12 col-md-3">
 											<label for="collection_id" class="data-entry-label mb-0">Collection Name:</label>
 											<select name="collection_id" size="1" class="data-entry-select">
@@ -411,6 +412,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1">
+										<span class="text-left mr-auto">Loan Agents</span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
 												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
