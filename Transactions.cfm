@@ -517,7 +517,9 @@ limitations under the License.
 													
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input" 
 aria-label="loan date search range to" aria-described="trans_date_to">
-													 <span class="input-group-addon" id="basic-addon2">@example.com</span>
+													   <div class="input-group-addon">
+        <span class="fas fa-calendar"></span>
+    </div>
 </div>
 												</div>												
 											</div>
