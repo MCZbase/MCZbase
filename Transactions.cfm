@@ -518,9 +518,7 @@ limitations under the License.
 														<div class='input-group date'>
 														<label class="data-entry-label" for="trans_date">Loan Date: (start date)</label>
 														<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#trans_date#" >
-															<span class="input-group-append bg-light col-1">
-																<span class="fas fa-calendar"></span>
-															</span>
+													
 														</div>
 													</div>
 												</div>
@@ -530,9 +528,7 @@ limitations under the License.
 														<div class='input-group date'>
 														<label class="data-entry-label" for="to"> (end date)</label>
 														<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="loan date search range to" aria-described="trans_date_to">
-												      		<span class="input-group-append bg-light col-1">
-																<span class="fas fa-calendar"></span>
-                    										</span>
+												  
 														</div>								
 													</div>
 												</div>
@@ -548,9 +544,7 @@ limitations under the License.
 														<div class='input-group date'>
 														<label class="data-entry-label" for="return_due_date">Due Date: (start date)</label>
 														<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#return_due_date#" >
-															<span class="input-group-append bg-light col-1">
-																<span class="fas fa-calendar"></span>
-															</span>
+													
 														</div>
 													</div>
 												</div>
@@ -559,9 +553,7 @@ limitations under the License.
 														<div class='input-group date'>
 														<label class="data-entry-label" for="to"> (end date)</label>
 														<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="due date search range to" aria-described="return_due_date_to_marker">
-												      		<span class="input-group-append bg-light col-1">
-																<span class="fas fa-calendar"></span>
-                    										</span>
+												     
 														</div>								
 													</div>
 												</div>
