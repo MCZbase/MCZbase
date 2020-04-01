@@ -472,12 +472,12 @@ limitations under the License.
 										});
 										</script> 
 									</div>
-<!---I wanted to use this because the changeMonth and changeYear would be useful.  It had an ID for from and to and since there are 3 of them I took it out for now. 
+<!---I wanted to use this because the changeMonth and changeYear would be useful.  It has an ID for "from" and "to" and since there are 3 of them, only the first one works. 
 TO-DO:  see where it can be added to the current script/function--->							
 <script>
 $( function() {
 	var dateFormat = "yyyy-mm-dd",
-		from = $( ".date" )
+		from = $( "##trans_date" )
 			.datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
@@ -487,7 +487,7 @@ $( function() {
 			.on( "change", function() {
 				to.datepicker( "option", "minDate", getDate( this ) );
 			}),
-		to = $( ".date" ).datepicker({
+		to = $( "##to_trans_date" ).datepicker({
 			defaultDate: "+1w",
 			changeMonth: true,
 			changeYear: true,
