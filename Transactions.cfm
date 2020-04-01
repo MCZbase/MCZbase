@@ -412,7 +412,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1">
-										<span class="text-left mr-auto">Loan Agents</span>
+										<span class="text-left mr-auto w-100"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
 												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -575,7 +575,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<div class="form-row border rounded px-2 mt-1 py-3 mx-1"> 
+											<div class="form-row border rounded px-2 mt-1 py-4 mx-1"> 
 												<div class="col-12 col-md-3">
 													<label for="permit_num">Permit Number:</label>
 												</div>
