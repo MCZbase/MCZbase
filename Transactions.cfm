@@ -509,7 +509,6 @@ limitations under the License.
 												<div class="col-md-6 col-12">
 													<label class="data-entry-label" for="from"> Start Loan Date:</label>
 													<input name="trans_date" id="from" name="from" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
-													<input type="text" class="data-entry-input" >
 												</div>
 												<div class="col-md-6 col-12">
 													<label class="data-entry-label" for="to">End Loan Date:</label>
