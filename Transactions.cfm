@@ -472,42 +472,43 @@ limitations under the License.
 										});
 										</script> 
 									</div>
-								
-												<script>
-	$( function() {
-		var dateFormat = "yyyy-mm-dd",
-			from = $( "" )
-				.datepicker({
-					defaultDate: "+1w",
-					changeMonth: true,
-					changeYear:true,
-					numberOfMonths: 1
-				})
-				.on( "change", function() {
-					to.datepicker( "option", "minDate", getDate( this ) );
-				}),
-			to = $( "" ).datepicker({
+<!---I wanted to use this because the changeMonth and changeYear would be useful.  It had an ID for from and to and since there are 3 of them I took it out for now. 
+TO-DO:  see where it can be added to the current script/function--->							
+<script>
+$( function() {
+	var dateFormat = "yyyy-mm-dd",
+		from = $( ".date" )
+			.datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
-				changeYear: true,
+				changeYear:true,
 				numberOfMonths: 1
 			})
 			.on( "change", function() {
-				from.datepicker( "option", "maxDate", getDate( this ) );
-			});
+				to.datepicker( "option", "minDate", getDate( this ) );
+			}),
+		to = $( ".date" ).datepicker({
+			defaultDate: "+1w",
+			changeMonth: true,
+			changeYear: true,
+			numberOfMonths: 1
+		})
+		.on( "change", function() {
+			from.datepicker( "option", "maxDate", getDate( this ) );
+		});
 
-		function getDate( element ) {
-			var date;
-			try {
-				date = $.datepicker.parseDate( dateFormat, element.value );
-			} catch( error ) {
-				date = null;
-			}
-
-			return date;
+	function getDate( element ) {
+		var date;
+		try {
+			date = $.datepicker.parseDate( dateFormat, element.value );
+		} catch( error ) {
+			date = null;
 		}
-	} );
-	</script>
+
+		return date;
+	}
+} );
+</script>
 											
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
