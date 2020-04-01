@@ -576,7 +576,7 @@ TO-DO:  see where it can be added to the current script/function--->
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<div class="form-row border rounded px-2 mt-1 py-3 mx-1"> 
+											<div class="form-row border rounded px-2 mt-2 py-3 mx-1"> 
 												<div class="col-12 col-md-3">
 													<label for="permit_num">Permit Number:</label>
 												</div>
