@@ -488,7 +488,7 @@ limitations under the License.
 			to = $( "##to_trans_date" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
-				numberOfMonths: 2
+				numberOfMonths: 1
 			})
 			.on( "change", function() {
 				from.datepicker( "option", "maxDate", getDate( this ) );
@@ -514,9 +514,8 @@ limitations under the License.
 												<div class="col-md-6 col-12">
 													<label class="data-entry-label" for="to">End Loan Date:</label>
 											<!---		<input type="text" class="data-entry-input" id="to" name="to">--->
-													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#"
-																class="datetimeinput" 
-																aria-label="loan date search range to" aria-described="trans_date_to_marker">
+													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input" 
+aria-label="loan date search range to" aria-described="trans_date_to_marker">
 												</div>
 												<!---<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
