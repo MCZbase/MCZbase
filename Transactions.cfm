@@ -512,6 +512,7 @@ limitations under the License.
 												</div>--->
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
+												<div class="form-row border rounded p-2 mx-1"> 
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
@@ -530,14 +531,15 @@ limitations under the License.
 														</div>								
 													</div>
 												</div>
+											</div>
 										</div>
 										<div class="col-12 col-md-6">
+											<div class="form-row border rounded p-2 mx-1"> 
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
 														<label class="data-entry-label" for="return_due_date">Due Date: (start date)</label>
 														<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#return_due_date#" >
-													
 														</div>
 													</div>
 												</div>
@@ -550,6 +552,7 @@ limitations under the License.
 														</div>								
 													</div>
 												</div>
+											</div>
 										</div>
 							     	</div>
 								
