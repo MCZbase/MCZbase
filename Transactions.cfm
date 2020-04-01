@@ -382,7 +382,7 @@ limitations under the License.
 				.on( "change", function() {
 					to.datepicker( "option", "minDate", getDate( this ) );
 				}),
-			to = $( "#to" ).datepicker({
+			to = $( "##to" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
 				numberOfMonths: 3
