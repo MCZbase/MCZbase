@@ -474,7 +474,7 @@ limitations under the License.
 												<script>
 	$( function() {
 		var dateFormat = "yyyy-mm-dd",
-			from = $( "##trans_date" )
+			from = $( "" )
 				.datepicker({
 					defaultDate: "+1w",
 					changeMonth: true,
@@ -484,7 +484,7 @@ limitations under the License.
 				.on( "change", function() {
 					to.datepicker( "option", "minDate", getDate( this ) );
 				}),
-			to = $( "##to_trans_date" ).datepicker({
+			to = $( "" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
 				changeYear: true,
