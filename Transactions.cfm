@@ -472,7 +472,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<div class="form-row border border-secondary py-1"> 
+											<div class="form-row border py-1"> 
 												<script>
 	$( function() {
 		var dateFormat = "mm/dd/yy",
@@ -507,11 +507,11 @@ limitations under the License.
 	} );
 	</script>
 												<div class="col-md-6 col-12">
-													<label class="data-entry-label" for="from"> From</label>
+													<label class="data-entry-label" for="from"> Start Loan Date:</label>
 													<input type="text" class="data-entry-input" id="from" name="from">
 												</div>
 												<div class="col-md-6 col-12">
-													<label class="data-entry-label" for="to">to</label>
+													<label class="data-entry-label" for="to">End Loan Date:</label>
 													<input type="text" class="data-entry-input" id="to" name="to">
 												</div>
 												<!---<div class="col-md-2 col-12 float-right">
