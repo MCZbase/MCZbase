@@ -381,7 +381,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
-											<label for="loan_type" class="data-entry-label">Type:</label>
+											<label for="loan_type" class="data-entry-label mb-0">Type:</label>
 											<select name="loan_type" id="loan_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctLoanType">
@@ -411,7 +411,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row border rounded px-2 mt-1 pt-1 pb-3 mx-1">
+									<div class="form-row border rounded px-2 mt-1 pt-1 pb-3 mx-2">
 										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
@@ -512,7 +512,7 @@ TO-DO:  see where it can be added to the current script/function--->
 											
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-												<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1"> 
+												<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light"> 
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
@@ -532,7 +532,7 @@ TO-DO:  see where it can be added to the current script/function--->
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1"> 
+											<div class="form-row border rounded px-2 mt-1 bg-light pt-1 pb-0 mx-1"> 
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
@@ -554,7 +554,7 @@ TO-DO:  see where it can be added to the current script/function--->
 							     	</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-												<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1"> 
+												<div class="form-row border bg-light rounded px-2 mt-1 pt-1 pb-0 mx-1"> 
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
