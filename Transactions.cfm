@@ -361,7 +361,7 @@ limitations under the License.
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
-											<label for="collection_id">Collection Name:</label>
+											<label for="collection_id" class="data-entry-label">Collection Name:</label>
 											<select name="collection_id" size="1" class="data-entry-select">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
@@ -375,12 +375,12 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="loan_number">Number: (yyyy-n-Coll)</label>
+											<label for="loan_number" class="data-entry-label">Number: (yyyy-n-Coll)</label>
 											<input type="text" name="loan_number" id="loan_number" class="data-entry-input" value="#loan_number#">
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
-											<label for="loan_type">Type:</label>
+											<label for="loan_type" class="data-entry-label">Type:</label>
 											<select name="loan_type" id="loan_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctLoanType">
@@ -555,7 +555,7 @@ limitations under the License.
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label" for="closed_date">Close Date: (start date)</label>
+														<label class="data-entry-label mb-0" for="closed_date">Close Date: (start date)</label>
 														<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#closed_date#" >
 													
 														</div>
@@ -564,7 +564,7 @@ limitations under the License.
 												<div class="col-md-6 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label" for="to_closed_date"> (end date)</label>
+														<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
 														<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="closed date search range to" aria-described="closed_date_to">
 												  
 														</div>								
@@ -573,7 +573,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1"> 
+											<div class="form-row border rounded px-2 mt-1 py-3 mx-1"> 
 												<div class="col-12 col-md-3">
 													<label for="permit_num">Permit Number:</label>
 												</div>
