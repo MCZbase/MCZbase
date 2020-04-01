@@ -472,7 +472,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<div class="form-row border py-1"> 
+											<div class="form-row border p-2 mr-1"> 
 												<script>
 	$( function() {
 		var dateFormat = "yyyy-mm-dd",
@@ -507,11 +507,11 @@ limitations under the License.
 	} );
 	</script>
 												<div class="col-md-6 col-12">
-													<label class="data-entry-label" for="trans_date"> Start Loan Date:</label>
+													<label class="data-entry-label" for="trans_date">Loan Date: (start date)</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
 												</div>
 												<div class="col-md-6 col-12">
-													<label class="data-entry-label" for="to">End Loan Date:</label>
+													<label class="data-entry-label" for="to"> (end date)</label>
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input" 
 aria-label="loan date search range to" aria-described="trans_date_to">
 												</div>
