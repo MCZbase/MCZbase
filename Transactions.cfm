@@ -373,7 +373,7 @@ limitations under the License.
 <script>
 	$( function() {
 		var dateFormat = "mm/dd/yy",
-			from = $( "#from" )
+			from = $( "##from" )
 				.datepicker({
 					defaultDate: "+1w",
 					changeMonth: true,
