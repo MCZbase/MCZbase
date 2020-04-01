@@ -525,7 +525,7 @@ limitations under the License.
         </div>
         <script type="text/javascript">
             $(function () {
-                $('#datetimepicker1').datetimepicker();
+                $('##datetimepicker1').datetimepicker();
             });
         </script>
 												<div class="col-md-6 col-12">
