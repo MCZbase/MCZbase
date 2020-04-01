@@ -475,8 +475,8 @@ limitations under the License.
 											<div class="form-row border py-1"> 
 												<script>
 	$( function() {
-		var dateFormat = "mm/dd/yy",
-			from = $( "##from" )
+		var dateFormat = "yyyy-mm-dd",
+			from = $( "##trans_date" )
 				.datepicker({
 					defaultDate: "+1w",
 					changeMonth: true,
@@ -485,10 +485,10 @@ limitations under the License.
 				.on( "change", function() {
 					to.datepicker( "option", "minDate", getDate( this ) );
 				}),
-			to = $( "##to" ).datepicker({
+			to = $( "##to_trans_date" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
-				numberOfMonths: 3
+				numberOfMonths: 2
 			})
 			.on( "change", function() {
 				from.datepicker( "option", "maxDate", getDate( this ) );
@@ -508,17 +508,21 @@ limitations under the License.
 	</script>
 												<div class="col-md-6 col-12">
 													<label class="data-entry-label" for="from"> Start Loan Date:</label>
-													<input type="text" class="data-entry-input" id="from" name="from">
+													<input name="trans_date" id="from" name="from" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
+													<input type="text" class="data-entry-input" >
 												</div>
 												<div class="col-md-6 col-12">
 													<label class="data-entry-label" for="to">End Loan Date:</label>
-													<input type="text" class="data-entry-input" id="to" name="to">
+											<!---		<input type="text" class="data-entry-input" id="to" name="to">--->
+													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#"
+																class="datetimeinput" 
+																aria-label="loan date search range to" aria-described="trans_date_to_marker">
 												</div>
 												<!---<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
 												</div>
 												<div class="col-md-5 col-12">
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
+													
 												</div>
 												<div class="col-md-6 col-12 float-left">
 													<div class="input-group float-left">
