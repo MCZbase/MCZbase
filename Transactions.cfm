@@ -403,12 +403,12 @@ limitations under the License.
 		}
 	} );
 	</script>
-
-<label for="from">From</label>
-<input type="text" id="from" name="from">
-<label for="to">to</label>
-<input type="text" id="to" name="to">
-												
+											<div class="col-md-2 col-12 float-right">
+												<label class="data-entry-label" for="from"><b>Loan Date</b> - From</label>
+												<input type="text" class="data-entry-input" id="from" name="from">
+												<label class="data-entry-label" for="to">to</label>
+												<input type="text" class="data-entry-input" id="to" name="to">
+												</div>
 												<div class="col-md-2 col-12 float-right">
 													<label for"trans_date">Loan Date:</label>
 												</div>
