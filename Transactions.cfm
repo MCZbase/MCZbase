@@ -512,15 +512,15 @@ limitations under the License.
 													<label class="data-entry-label" for="trans_date">Loan Date: (start date)</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
 												</div>
-												<div class="col-md-6 col-12 input-group">
+												<div class="col-md-6 col-12">
+													<div class="input-group">
 													<label class="data-entry-label" for="to"> (end date)</label>
-													
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input" 
-aria-label="loan date search range to" aria-described="trans_date_to">
-													   <div class="input-group-addon">
-        <span class="fas fa-calendar"></span>
-    </div>
-</div>
+													aria-label="loan date search range to" aria-described="trans_date_to">
+														<div class="input-group-addon">
+															<span class="fas fa-calendar"></span>
+														</div>
+													</div>
 												</div>												
 											</div>
 										</div>
