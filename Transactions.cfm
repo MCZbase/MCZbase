@@ -472,7 +472,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<div class="form-row border p-2 mr-1"> 
+											<div class="form-row border rounded p-2 mx-1"> 
 												<script>
 	$( function() {
 		var dateFormat = "yyyy-mm-dd",
@@ -489,6 +489,7 @@ limitations under the License.
 			to = $( "##to_trans_date" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
+				changeYear: true,
 				numberOfMonths: 1
 			})
 			.on( "change", function() {
@@ -511,26 +512,14 @@ limitations under the License.
 													<label class="data-entry-label" for="trans_date">Loan Date: (start date)</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input" value="#trans_date#" >
 												</div>
-												<div class="col-md-6 col-12">
+												<div class="col-md-6 col-12 input-group">
 													<label class="data-entry-label" for="to"> (end date)</label>
+													
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input" 
 aria-label="loan date search range to" aria-described="trans_date_to">
-												</div>
-												<!---<div class="col-md-2 col-12 float-right">
-													<label for"trans_date">Loan Date:</label>
-												</div>
-												<div class="col-md-5 col-12">
-													
-												</div>
-												<div class="col-md-6 col-12 float-left">
-													<div class="input-group float-left">
-														<div class="" id="trans_date_to_marker" >To:</div>
-														<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#"
-																class="datetimeinput form-control form-control-sm w-75" 
-																aria-label="loan date search range to" aria-described="trans_date_to_marker">
-													</div>
-												</div>---> 
-												
+													 <span class="input-group-addon" id="basic-addon2">@example.com</span>
+</div>
+												</div>												
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
