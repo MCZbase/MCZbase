@@ -411,7 +411,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row border rounded px-2 mt-1 pt-1 pb-3 mx-2">
+									<div class="form-row border rounded px-2 mb-2 mt-3 pt-1 pb-3 mx-1">
 										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
