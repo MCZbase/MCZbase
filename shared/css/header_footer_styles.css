@@ -44,6 +44,7 @@ nav .navbar-nav li a.nav-link {
 }
 .dropdown-menu a.dropdown-item {
 	font-size: 1em;
+	    border: 1px solid aliceblue;
 }
 .dropdown-item {
 	padding: .5em .75em;
