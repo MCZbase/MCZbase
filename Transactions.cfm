@@ -598,12 +598,12 @@ TO-DO:  see where it can be added to the current script/function--->
 										});
 									</script>
 									<div class="form-row mb-2 p-1">
-										<div class="col-12 col-md-6">
-											<label for="">Nature of Material:</label>
-											<textarea class="form-control-sm" >#nature_of_material#</textarea>
+										<div class="col-12 col-md-6 px-2 px-1 mt-1 mx-1">
+											<label for="nature_of_material" class="data-entry-label">Nature of Material:</label>
+											<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
 										</div>
 										<div class="col-12 col-md-6">
-											<label for="">Description: </label>
+											<label for="loan_description">Description: </label>
 											<input type="text" name="loan_description" class="form-control-sm" value="#loan_description#">
 										</div>
 										<div class="col-12 col-md-6">
