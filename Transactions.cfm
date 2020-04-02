@@ -597,22 +597,22 @@ TO-DO:  see where it can be added to the current script/function--->
 											$(makePermitPicker('permit_num','permit_id'));
 										});
 									</script>
-									<div class="form-row mb-2 p-1">
-										<div class="col-12 col-md-6 px-2 px-1 mt-1 mx-1">
-											<label for="nature_of_material" class="data-entry-label">Nature of Material:</label>
+									<div class="form-row">
+										<div class="col-12 col-md-6 p-2 m-0">
+											<label for="nature_of_material" class="data-entry-label mb-0">Nature of Material:</label>
 											<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
 										</div>
-										<div class="col-12 col-md-6">
-											<label for="loan_description">Description: </label>
-											<input type="text" name="loan_description" class="form-control-sm" value="#loan_description#">
+										<div class="col-12 col-md-6 p-2 m-0">
+											<label for="loan_description" class="data-enty-label mb-0">Description: </label>
+											<textarea class="data-entry-textarea">#loan_description#</textarea>
 										</div>
-										<div class="col-12 col-md-6">
-											<label for="">Instructions:</label>
-											<input type="text" name="loan_instructions" class="form-control-sm" value="#loan_instructions#">
+										<div class="col-12 col-md-6 p-2 m-0">
+											<label for="loan_instructions" class="data-entry-label mb-0">Instructions:</label>
+											<textarea class="data-entry-textarea">#loan_instructions#</textarea>
 										</div>
-										<div class="col-12 col-md-6">
-											<label for="">Internal Remarks: </label>
-											<input type="text" name="trans_remarks" class="form-control-sm" value="#trans_remarks#">
+										<div class="col-12 col-md-6 p-2 m-0">
+											<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
+											<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 										</div>
 									</div>
 									<div class="form-row mb-2 border border-secondary pb-2">
