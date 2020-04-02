@@ -4,6 +4,10 @@
 <cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
 	<cfset linguisticFlag=true>
 </cfif>
+<cfset includeCounts = false>
+<cfif isdefined("includeCounts") AND includeCounts EQ 1>
+	<cfset includeCounts=true>
+</cfif>
 <cfif isdefined("collection_id") and len(collection_id) gt 0>
 	<cfif not isdefined("collnOper") or len(collnOper) is 0>
 		<cfset collnOper="usedOnlyBy">
@@ -82,7 +86,11 @@
 			max_depth,
 			min_depth,
 			depth_units,
-			/*MCZBASE.get_collcodes_for_locality(locality.locality_id)*/ null as collcountlocality
+			<cfif includeCounts >
+				MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality
+			<cfelse>
+				null as collcountlocality
+			</cfif>
 		from
 			geog_auth_rec 
 				left join locality on geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id

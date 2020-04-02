@@ -263,122 +263,134 @@
 				<td>
 					<label for="collnOper">Collection</label>
 					<select name="collnOper" id="collnOper" size="1">
-		            	<option value=""></option>
-		                <option value="usedOnlyBy">used only by</option>
-		                <option value="usedBy">used by</option>
-		                <option value="notUsedBy">not used by</option>
-		             </select>
-		             <select name="collection_id" id="collection_id" size="1">
-		            	<option value=""></option>
-		                <cfloop query="ctcollection">
-		                	<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
-		                </cfloop>
-		           	</select>
+						<option value=""></option>
+						<option value="usedOnlyBy">used only by</option>
+						<option value="usedBy">used by</option>
+						<option value="notUsedBy">not used by</option>
+					</select>
+					<select name="collection_id" id="collection_id" size="1">
+						<option value=""></option>
+						<cfloop query="ctcollection">
+							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+						</cfloop>
+					</select>
 				</td>
 				<td>
-					<label for="MaxDepthOper">Maximum Depth</label>
-					<select name="MaxDepthOper" id="MaxDepthOper" size="1">
-		            	<option value="=">is</option>
-		                <option value="<>">is not</option>
-		                <option value=">">more than</option>
-		                <option value="<">less than</option>
-		            </select>
-					<input type="text" name="maximum_Depth" id="maximum_Depth">
+					<label for="locality_id">Locality ID</label>
+					<input type="text" name="locality_id" id="locality_id">
 				</td>
-
 			</tr>
 			<tr>
 				<td>
 					<label for="MinElevOper">Minimum Elevation</label>
 					<select name="MinElevOper" id="MinElevOper" size="1">
-		            	<option value="=">is</option>
-		                <option value="<>">is not</option>
-		                <option value=">">more than</option>
-		                <option value="<">less than</option>
-		             </select>
+						<option value="=">is</option>
+						<option value="<>">is not</option>
+						<option value=">">more than</option>
+						<option value="<">less than</option>
+					</select>
 					<input type="text" name="minimum_elevation" id="minimum_elevation">
 				</td>
-                <td>
-					<label for="depth_units">Depth Units</label>
-					<select name="depth_units" id="depth_units" size="1">
-		            	<option value=""></option>
-		                <cfloop query="ctDepthUnit">
-		                	<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
-		                </cfloop>
-		           	</select>
+				<td>
+					<label for="minDepthOper">Minimum Depth</label>
+					<select name="minDepthOper" id="MinDepthOper" size="1">
+						<option value="=">is</option>
+						<option value="<>">is not</option>
+						<option value=">">more than</option>
+						<option value="<">less than</option>
+					</select>
+					<input type="text" name="minimum_Depth" id="minimum_Depth">
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<label for="MaxElevOper">Maximum Elevation</label>
 					<select name="MaxElevOper" id="MaxElevOper" size="1">
-		            	<option value="=">is</option>
-		                <option value="<>">is not</option>
-		                <option value=">">more than</option>
-		                <option value="<">less than</option>
-		            </select>
+						<option value="=">is</option>
+						<option value="<>">is not</option>
+						<option value=">">more than</option>
+						<option value="<">less than</option>
+					</select>
 					<input type="text" name="maximum_elevation" id="maximum_elevation">
 				</td>
-                	<td>
-					<label for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" size="50">
+				<td>
+					<label for="MaxDepthOper">Maximum Depth</label>
+					<select name="MaxDepthOper" id="MaxDepthOper" size="1">
+						<option value="=">is</option>
+						<option value="<>">is not</option>
+						<option value=">">more than</option>
+						<option value="<">less than</option>
+					</select>
+					<input type="text" name="maximum_Depth" id="maximum_Depth">
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<label for="orig_elev_units">Elevation Units</label>
 					<select name="orig_elev_units" id="orig_elev_units" size="1">
-		            	<option value=""></option>
-		                <cfloop query="ctElevUnit">
-		                	<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
-		                </cfloop>
-		           	</select>
+						<option value=""></option>
+						<cfloop query="ctElevUnit">
+							<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
+						</cfloop>
+					</select>
 				</td>
-                <td>
-					<label for="locality_id">Locality ID</label>
-					<input type="text" name="locality_id" id="locality_id">
+				<td>
+					<label for="depth_units">Depth Units</label>
+					<select name="depth_units" id="depth_units" size="1">
+						<option value=""></option>
+						<cfloop query="ctDepthUnit">
+							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
+						</cfloop>
+					  	</select>
 				</td>
 			</tr>
-
+			<tr>
+				<td>
+					<label for="locality_remarks">Locality Remarks</label>
+					<input type="text" name="locality_remarks" id="locality_remarks" size="50">
+				</td>
+				<td>
+					<!---  --->
+				</td>
+			</tr>
 			<tr>
 				<td>
 					<table>
-						<tr><td>
-					<label for="geology_attribute">Geology Attribute</label>
-					<select name="geology_attribute" id="geology_attribute">
-						<option value="">Anything</option>
-						<cfloop query="ctgeology_attribute">
-							<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
-						</cfloop>
-					</select>
-						</td>
-
-						<td>
-							<label for="geo_att_value">Attribute Value</label>
-							<input type="text" name="geo_att_value">
-						</td>
-						<td>
-						<label for="geology_attribute_hier">Traverse Hierarchies?</label>
-					<select name="geology_attribute_hier" id="geology_attribute_hier">
-						<option selected="selected" value="0">No</option>
-						<option value="1">Yes</option>
-					</select>
-						</td>
+						<tr>
+							<td>
+								<label for="geology_attribute">Geology Attribute</label>
+								<select name="geology_attribute" id="geology_attribute">
+									<option value="">Anything</option>
+									<cfloop query="ctgeology_attribute">
+										<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
+									</cfloop>
+								</select>
+							</td>
+							<td>
+								<label for="geo_att_value">Attribute Value</label>
+								<input type="text" name="geo_att_value">
+							</td>
+							<td>
+								<label for="geology_attribute_hier">Traverse Hierarchies?</label>
+								<select name="geology_attribute_hier" id="geology_attribute_hier">
+									<option selected="selected" value="0">No</option>
+									<option value="1">Yes</option>
+								</select>
+							</td>
 						</tr>
-
 					</table>
 				</td>
 				<td>
 					<label for="sovereign_nation">Sovereign Nation</label>
 					<select name="sovereign_nation" id="sovereign_nation" size="1">
-		            			<option value=""></option>
-			                	<cfloop query="ctsovereign_nation">
-			                		<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
-				                </cfloop>
-			                	<cfloop query="ctsovereign_nation" startRow="1">
-			                		<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
-				                </cfloop>
-		        	   	</select>
+						<option value=""></option>
+						<cfloop query="ctsovereign_nation">
+							<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
+						</cfloop>
+						<cfloop query="ctsovereign_nation" startRow="1">
+							<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
+						</cfloop>
+					</select>
 				</td>
 			</tr>
 		</table>
@@ -471,12 +483,12 @@
 								<option value="between" >between</option>
 							</select>
 
-							   <label id="hiddenDivlabel" style="display:none;">Min</label>
-								<input type="text" name="geolocate_score" size="3" id="geolocate_score">
+							<label id="hiddenDivlabel" style="display:none;">Min</label>
+							<input type="text" name="geolocate_score" size="3" id="geolocate_score">
 
 							<div id="hiddenDiv" style="display:none"><span style="font-size: 12px;">&amp;</span>
 								<label style="display: inline;">Max</label>
-							   <input type="text" name="geolocate_score2" size="3" id="geolocate_score2">
+								<input type="text" name="geolocate_score2" size="3" id="geolocate_score2">
 							</div>
 							</div>
 				</td>
@@ -582,11 +594,16 @@
 				class="schBtn"
 				onmouseover="this.className='schBtn btnhov'"
 				onmouseout="this.className='schBtn'">&nbsp;&nbsp;
-           <input type="reset"
+         <input type="reset"
 				value="Clear Form"
 				class="clrBtn"
 				onmouseover="this.className='clrBtn btnhov'"
 				onmouseout="this.className='clrBtn'">
+			<label for="includeCounts">Include Specimen Counts?</label>
+			<select name="includeCounts" id="includeCounts">
+				<option selected="selected" value="0">No</option>
+				<option value="1">Yes</option>
+			</select>
 		</td>
 	</tr>
 </table>

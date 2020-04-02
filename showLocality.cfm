@@ -113,7 +113,7 @@
 				verbatim_date,
 				collecting_source,
 				collecting_method,
-                                collcountlocality
+  				collcountlocality
 			from localityResults
 			group by
 				collecting_event_id,
@@ -131,7 +131,7 @@
 				verbatim_date,
 				collecting_source,
 				collecting_method,
-                                collcountlocality
+            collcountlocality
 		</cfquery>
 		<a href="showLocality.cfm">Search Again</a>
 		<table border id="t" class="sortable">
