@@ -599,8 +599,10 @@
 				class="clrBtn"
 				onmouseover="this.className='clrBtn btnhov'"
 				onmouseout="this.className='clrBtn'">
-			<label for="includeCounts">Include Specimen Counts?</label>
-			<select name="includeCounts" id="includeCounts">
+		</td>
+		<td>
+			<label for="include_counts">Include Specimen Counts?</label>
+			<select name="include_counts" id="include_counts">
 				<option selected="selected" value="0">No</option>
 				<option value="1">Yes</option>
 			</select>

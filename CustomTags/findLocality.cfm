@@ -5,7 +5,7 @@
 	<cfset linguisticFlag=true>
 </cfif>
 <cfset includeCounts = false>
-<cfif isdefined("includeCounts") AND includeCounts EQ 1>
+<cfif isdefined("include_counts") AND include_counts EQ 1 >
 	<cfset includeCounts=true>
 </cfif>
 <cfif isdefined("collection_id") and len(collection_id) gt 0>
