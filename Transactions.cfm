@@ -1076,7 +1076,7 @@ function gridLoaded(gridId, searchType) {
 			columnListSource.push(listRow);
 		}
 	} 
-	$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '250px', checkboxes: true });
+	$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: 'auto', checkboxes: true });
 	$("##columnPick").on('checkChange', function (event) {
 		$("##" + gridId).jqxGrid('beginupdate');
 		if (event.args.checked) {
