@@ -597,20 +597,20 @@ TO-DO:  see where it can be added to the current script/function--->
 											$(makePermitPicker('permit_num','permit_id'));
 										});
 									</script>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-3">
+									<div class="form-row mb-2 p-1">
+										<div class="col-12 col-md-6">
 											<label for="">Nature of Material:</label>
 											<textarea class="form-control-sm" >#nature_of_material#</textarea>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-6">
 											<label for="">Description: </label>
 											<input type="text" name="loan_description" class="form-control-sm" value="#loan_description#">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-6">
 											<label for="">Instructions:</label>
 											<input type="text" name="loan_instructions" class="form-control-sm" value="#loan_instructions#">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-6">
 											<label for="">Internal Remarks: </label>
 											<input type="text" name="trans_remarks" class="form-control-sm" value="#trans_remarks#">
 										</div>
