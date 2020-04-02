@@ -156,8 +156,6 @@ BELOW: Main button (bootstrap override)
 ************************/
 .btn-primary {
 	background-color: buttonface;
-	border-color: #E4E476;
-	/*color: #212529;*/
 	background: buttonface;
     border: 1px solid hsl(0, 0%, 62%);
     color: buttontext;
@@ -167,6 +165,7 @@ BELOW: Main button (bootstrap override)
 	background-color: buttonface;
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
+	transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .btn-primary:focus, .btn-primary.focus {
 	background-color: buttonface;
