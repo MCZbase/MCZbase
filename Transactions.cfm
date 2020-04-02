@@ -674,7 +674,7 @@ TO-DO:  see where it can be added to the current script/function--->
 											</script> 
 										</div>
 									</div>
-									<div class="form-row mb-2">
+									<div class="form-row mb-4">
 										<div class="col-12 text-center">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
