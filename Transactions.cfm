@@ -615,10 +615,9 @@ TO-DO:  see where it can be added to the current script/function--->
 											<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 										</div>
 									</div>
-									<div class="form-row mb-2 pb-2">
-										<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
+									<div class="form-row mb-2 pb-2 border rounded px-2 mt-1 py-2 pb-0 my-2 mx-1 bg-light">
 										<div class="col-12 col-md-3">
-											<label for="part_name_oper">Part Match</label>
+											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
 												<cfset isselect = "selected">
 												<cfset containsselect = "">
@@ -626,17 +625,17 @@ TO-DO:  see where it can be added to the current script/function--->
 												<cfset isselect = "">
 												<cfset containsselect = "selected">
 											</cfif>
-											<select id="part_name_oper" name="part_name_oper" class="form-control-sm custom-select1">
+											<select id="part_name_oper" name="part_name_oper" class="data-entry-select">
 												<option value="is" #isselect#>is</option>
 												<option value="contains" #containsselect#>contains</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="part_name">Part Name</label>
-											<input type="text" id="part_name" name="part_name" class="form-control-sm" value="#part_name#">
+											<label for="part_name" class="data-entry-label mb-0">Part Name</label>
+											<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="part_disp_oper">Disposition Match</label>
+											<label for="part_disp_oper" class="data-entry-label mb-0">Disposition Match</label>
 											<cfif part_disp_oper IS "is">
 												<cfset isselect = "selected">
 												<cfset notselect = "">
@@ -644,14 +643,14 @@ TO-DO:  see where it can be added to the current script/function--->
 												<cfset isselect = "">
 												<cfset notselect = "selected">
 											</cfif>
-											<select id="part_disp_oper" name="part_disp_oper" class="form-control-sm custom-select1">
+											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-select">
 												<option value="is" #isselect#>is</option>
 												<option value="isnot" #notselect#>is not</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-											<label for="coll_obj_disposition">Part Disposition</label>
+											<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
 											<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
 											<script>
 												function setDispositionValues() {
@@ -673,7 +672,6 @@ TO-DO:  see where it can be added to the current script/function--->
 													setDispositionValues();
 												});
 											</script> 
-										</div>
 										</div>
 									</div>
 									<div class="form-row mb-2">
