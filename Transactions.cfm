@@ -311,7 +311,7 @@ limitations under the License.
 							</div>
 							
 							<!--- Loan search tab panel --->
-							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
+							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
 								<h2 class="wikilink">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 								
 								<!--- Search for just loans ---->
