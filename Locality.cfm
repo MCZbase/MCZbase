@@ -2082,7 +2082,7 @@ INSERT INTO geog_auth_rec (
 		<cf_findLocality>
 		<!--- need to filter out distinct --->
 		<cfquery name="localityResults2" dbtype="query">
-			select count(locality_id as ct, geog_auth_rec_id,higher_geog
+			select count(locality_id) as ct, geog_auth_rec_id,higher_geog
 			from localityResults
 			group by geog_auth_rec_id, higher_geog
 			order by higher_geog
