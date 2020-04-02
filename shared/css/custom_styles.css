@@ -843,7 +843,7 @@ ul.list-unstyled li.list-group-item:last-child {
 }
 .jqx-widget-header {
 	background-color: #deebec !important;
-	padding: .15em 0;
+/*	padding: .15em 0;*/
 	border-radius: 4px;
 	margin-top: 0px;
 }
