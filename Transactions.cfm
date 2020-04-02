@@ -696,7 +696,7 @@ TO-DO:  see where it can be added to the current script/function--->
 				<main role="main">
 					<div class="pl-2 mb-5"> 
 						<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. --->
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border"> <span class="d-block p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border"> <span class="d-block px-3 py-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
 								<div id="columnPick" class="pl-2"></div>
 							</div>
