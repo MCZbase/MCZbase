@@ -577,10 +577,10 @@ TO-DO:  see where it can be added to the current script/function--->
 										</div>
 										<div class="col-12 col-md-6">
 											<div class="form-row border rounded px-2 mt-2 py-3 mx-1"> 
-												<div class="col-12 col-md-3">
-													<label for="permit_num">Permit Number:</label>
+												<div class="col-12 col-md-2">
+													<label for="permit_num" class="data-entry-label mb-0">Permit Number:</label>
 												</div>
-												<div class="col-12 col-md-9">
+												<div class="col-12 col-md-10">
 													<div class="input-group float-left">
 														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
@@ -598,19 +598,19 @@ TO-DO:  see where it can be added to the current script/function--->
 										});
 									</script>
 									<div class="form-row">
-										<div class="col-12 col-md-6 p-2 m-0">
+										<div class="col-12 col-md-6 px-2 m-0">
 											<label for="nature_of_material" class="data-entry-label mb-0">Nature of Material:</label>
 											<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
 										</div>
-										<div class="col-12 col-md-6 p-2 m-0">
-											<label for="loan_description" class="data-enty-label mb-0">Description: </label>
+										<div class="col-12 col-md-6 px-2 m-0">
+											<label for="loan_description" class="data-entry-label mb-0">Description: </label>
 											<textarea class="data-entry-textarea">#loan_description#</textarea>
 										</div>
-										<div class="col-12 col-md-6 p-2 m-0">
+										<div class="col-12 col-md-6 px-2 m-0">
 											<label for="loan_instructions" class="data-entry-label mb-0">Instructions:</label>
 											<textarea class="data-entry-textarea">#loan_instructions#</textarea>
 										</div>
-										<div class="col-12 col-md-6 p-2 m-0">
+										<div class="col-12 col-md-6 px-2 m-0">
 											<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
 											<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 										</div>
