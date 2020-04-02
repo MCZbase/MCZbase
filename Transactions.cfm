@@ -311,7 +311,7 @@ limitations under the License.
 							</div>
 							
 							<!--- Loan search tab panel --->
-							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
+							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
 								<h2 class="wikilink">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 								
 								<!--- Search for just loans ---->
@@ -516,7 +516,7 @@ TO-DO:  see where it can be added to the current script/function--->
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="trans_date">Loan Date: (start date)</label>
+														<label class="data-entry-label mb-0" for="trans_date">Loan Date: (start)</label>
 														<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#trans_date#">	
 														</div>
 													</div>
@@ -536,7 +536,7 @@ TO-DO:  see where it can be added to the current script/function--->
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="return_due_date">Due Date: (start date)</label>
+														<label class="data-entry-label mb-0" for="return_due_date">Due Date: (start)</label>
 														<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#return_due_date#" >
 														</div>
 													</div>
@@ -558,7 +558,7 @@ TO-DO:  see where it can be added to the current script/function--->
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="closed_date">Close Date: (start date)</label>
+														<label class="data-entry-label mb-0" for="closed_date">Close Date: (start)</label>
 														<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#closed_date#" >
 													
 														</div>
