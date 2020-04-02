@@ -17,38 +17,46 @@
 				author_text,
 				taxon_name_id, 
 				valid_catalog_term_fg
-			from 
-				taxonomy
-			where
-				UPPER(scientific_name) LIKE '#ucase(scientific_name)#%'
-			UNION
-			SELECT 
-				a.scientific_name,
-				a.author_text, 
-				a.taxon_name_id, 
-				a.valid_catalog_term_fg
-			from 
-				taxonomy a,
-				taxon_relations,
-				taxonomy b
-			where
-				a.taxon_name_id = taxon_relations.taxon_name_id (+) and
-				taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
-				UPPER(B.scientific_name) LIKE '#ucase(scientific_name)#%'
-			UNION
-			SELECT 
-				b.scientific_name, 
-				b.author_text,
-				b.taxon_name_id, 
-				b.valid_catalog_term_fg
-			from 
-				taxonomy a,
-				taxon_relations,
-				taxonomy b
-			where
-				a.taxon_name_id = taxon_relations.taxon_name_id (+) and
-				taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
-				UPPER(a.scientific_name) LIKE '#ucase(scientific_name)#%'
+			FROM (
+				SELECT 
+					scientific_name, 
+					author_text,
+					taxon_name_id, 
+					valid_catalog_term_fg
+				from 
+					taxonomy
+				where
+					UPPER(scientific_name) LIKE '#ucase(scientific_name)#%'
+				UNION
+				SELECT 
+					a.scientific_name,
+					a.author_text, 
+					a.taxon_name_id, 
+					a.valid_catalog_term_fg
+				from 
+					taxonomy a,
+					taxon_relations,
+					taxonomy b
+				where
+					a.taxon_name_id = taxon_relations.taxon_name_id (+) and
+					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
+					UPPER(B.scientific_name) LIKE '#ucase(scientific_name)#%'
+				UNION
+				SELECT 
+					b.scientific_name, 
+					b.author_text,
+					b.taxon_name_id, 
+					b.valid_catalog_term_fg
+				from 
+					taxonomy a,
+					taxon_relations,
+					taxonomy b
+				where
+					a.taxon_name_id = taxon_relations.taxon_name_id (+) and
+					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
+					UPPER(a.scientific_name) LIKE '#ucase(scientific_name)#%'
+			) 
+			where scientifc_name is not null
 			ORDER BY scientific_name
 		</cfquery>
 	</cfoutput>
@@ -79,9 +87,7 @@
 			<cfif #getTaxa.valid_catalog_term_fg# is "1">
 				<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><i>#scientific_name#</i> #author_text#</a>
 			<cfelse>
-				<cfif len(taxon_name_id) GT 0 >
-					<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><font color="##FF0000"><i>#scientific_name#</i> #author_text#(unaccepted)</font></a>
-				</cfif>
+				<br><a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#scientific_name#';self.close();"><font color="##FF0000"><i>#scientific_name#</i> #author_text#(unaccepted)</font></a>
 			</cfif>
 		</cfoutput>
 	</cfif>
