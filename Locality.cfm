@@ -1996,7 +1996,7 @@ INSERT INTO geog_auth_rec (
 			depth_units,
 			minimum_elevation,
 			maximum_elevation,
-			orig_elev_units
+			orig_elev_units,
 			collcountlocality
 		from localityResults
 		order by
@@ -2045,7 +2045,9 @@ INSERT INTO geog_auth_rec (
 				#sovereign_nation#
 			</td>
 			<cfif include_counts EQ 1>
-				<td>#collcountlocality#</td>
+				<td rowspan=2>
+					#collcountlocality#
+				</td>
 			</cfif>
 			<td rowspan="2">
 				#higher_geog#
