@@ -167,7 +167,7 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-11 col-sm-12 col-lg-11">
-					<h1 class="h3 smallcaps mt-4 pl-1">Search Transactions <span class="mt-2 font-italic pb-4 color-green fs-15 mx-0">(#getCount.cnt# records)</span></h1>
+					<h1 class="h3 smallcaps mt-4 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 tab-card"> 
 						
 						<!--- Set Active Tab --->
@@ -360,7 +360,6 @@ limitations under the License.
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 p-1">
-								
 										<div class="col-12 col-md-3">
 											<label for="collection_id" class="data-entry-label mb-0">Collection Name:</label>
 											<select name="collection_id" size="1" class="data-entry-select">
@@ -411,8 +410,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row border rounded px-2 mb-2 mt-3 pt-1 pb-3 mx-1">
-										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
+									<div class="form-row border rounded px-2 mb-2 mt-3 pt-1 pb-3 mx-1"> <span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
 												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -472,9 +470,9 @@ limitations under the License.
 										});
 										</script> 
 									</div>
-<!---I wanted to use this because the changeMonth and changeYear would be useful.  It has an ID for "from" and "to" and since there are 3 of them, only the first one works. 
-TO-DO:  see where it can be added to the current script/function--->							
-<script>
+									<!---I wanted to use this because the changeMonth and changeYear would be useful.  It has an ID for "from" and "to" and since there are 3 of them, only the first one works. 
+TO-DO:  see where it can be added to the current script/function---> 
+									<script>
 //$( function() {
 //	var dateFormat = "yyyy-mm-dd",
 //		from = $( "##trans_date" )
@@ -509,74 +507,71 @@ TO-DO:  see where it can be added to the current script/function--->
 //	}
 //} );
 </script>
-											
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-												<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light"> 
+											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="trans_date">Loan Date: (start)</label>
-														<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#trans_date#">	
+															<label class="data-entry-label mb-0" for="trans_date">Loan Date: (start)</label>
+															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#trans_date#">
 														</div>
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="to"> (end date)</label>
-														<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="loan date search range to" aria-described="trans_date_to">
-														</div>								
+															<label class="data-entry-label mb-0" for="to"> (end date)</label>
+															<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="loan date search range to" aria-described="trans_date_to">
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<div class="form-row border rounded px-2 mt-1 bg-light pt-1 pb-0 mx-1"> 
+											<div class="form-row border rounded px-2 mt-1 bg-light pt-1 pb-0 mx-1">
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="return_due_date">Due Date: (start)</label>
-														<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#return_due_date#" >
+															<label class="data-entry-label mb-0" for="return_due_date">Due Date: (start)</label>
+															<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#return_due_date#" >
 														</div>
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="to"> (end date)</label>
-														<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="due date search range to" aria-described="return_due_date_to_marker">
-														</div>								
+															<label class="data-entry-label mb-0" for="to"> (end date)</label>
+															<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="due date search range to" aria-described="return_due_date_to_marker">
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-							     	</div>
+									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-												<div class="form-row border bg-light rounded px-2 mt-1 pt-1 pb-0 mx-1"> 
+											<div class="form-row border bg-light rounded px-2 mt-1 pt-1 pb-0 mx-1">
 												<div class='col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="closed_date">Close Date: (start)</label>
-														<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#closed_date#" >
-													
+															<label class="data-entry-label mb-0" for="closed_date">Close Date: (start)</label>
+															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#closed_date#" >
 														</div>
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
-														<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
-														<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="closed date search range to" aria-described="closed_date_to">
-												  
-														</div>								
+															<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
+															<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="closed date search range to" aria-described="closed_date_to">
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-6">
-											<div class="form-row border rounded px-2 mt-2 py-3 mx-1"> 
+											<div class="form-row border rounded px-2 mt-2 py-3 mx-1">
 												<div class="col-12 col-md-3">
 													<label for="permit_num" class="data-entry-label mb-0">Permit Number:</label>
 												</div>
@@ -590,8 +585,7 @@ TO-DO:  see where it can be added to the current script/function--->
 												</div>
 											</div>
 										</div>
-							     	</div>
-							
+									</div>
 									<script>
 										$(document).ready(function() {
 											$(makePermitPicker('permit_num','permit_id'));
