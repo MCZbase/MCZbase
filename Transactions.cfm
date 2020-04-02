@@ -359,7 +359,7 @@ limitations under the License.
 								<form id="loanSearchForm">
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row mb-2">
+									<div class="form-row mb-2 p-1">
 								
 										<div class="col-12 col-md-3">
 											<label for="collection_id" class="data-entry-label mb-0">Collection Name:</label>
