@@ -187,6 +187,8 @@ BELOW: Main button (bootstrap override)
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
 }
+.btn-warning {border: 1px solid #666;}
+.btn-warning:hover {border: 1px solid #666;}
 
 
 /************************
