@@ -279,7 +279,11 @@ body > .container {
 .color-green {
 	color: #006100;
 }
-
+.login-form {
+	position: absolute;
+	top: 8px;
+	right: 5px;
+}
 @media only screen and (max-width: 990px) {
 	nav.navbar {
 		padding-top: .5em;
