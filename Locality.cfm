@@ -2077,8 +2077,8 @@ INSERT INTO geog_auth_rec (
 <!---------------------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findGeog">
-         <div style="width: 49em; margin:0 auto; padding: 2em 0 3em 0;">
-<cfoutput>
+	<div style="width: 49em; margin:0 auto; padding: 2em 0 3em 0;">
+	<cfoutput>
 		<cf_findLocality>
 		<!--- need to filter out distinct --->
 		<cfquery name="localityResults2" dbtype="query">
@@ -2087,23 +2087,22 @@ INSERT INTO geog_auth_rec (
 			group by geog_auth_rec_id, higher_geog
 			order by higher_geog
 		</cfquery>
-<table border>
-<tr><td><b>Geog ID</b></td><td><b>Higher Geog</b></td><td><b>Localities</b></td></tr>
-<cfloop query="localityResults2">
-<tr>
-	<td><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
-	<td>
-		<!--- make this as input that looks like test to make copying easier --->
-		<input style="border:none;" value="#higher_geog#" size="80" readonly/>
-	</td>
-	<td>
-		#ct#
-	</td>
-</tr>
-</cfloop>
-</cfoutput>
-</table>
-    </div>
+		<table border>
+		<tr>
+			<td><b>Geog ID</b></td><td><b>Higher Geog</b></td><td><b>Localities</b></td>
+		</tr>
+		<cfloop query="localityResults2">
+			<tr>
+				<td><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
+				<td>
+					<input style="border:none;" value="#higher_geog#" size="80" readonly/>
+				</td>
+				<td>#ct#</td>
+			</tr>
+		</cfloop>
+		</table>
+	</cfoutput>
+	</div>
 </cfif>
 
 <!---------------------------------------------------------------------------------------------------->
