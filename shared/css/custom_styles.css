@@ -847,11 +847,12 @@ ul.list-unstyled li.list-group-item:last-child {
 	border-radius: 4px;
 	margin-top: 0px;
 }
-.faux-jqxwidget-header {
+/*I don't know that this is needed.  I used bootstrap styles.*/
+/*.faux-jqxwidget-header { 
 	border-color: #c5c5c5; 
 	border-style: solid; 
 	border-width: 1px;
-}
+}*/
 .jqx-grid-load {
 	background-position: 0% 0%;
 }
