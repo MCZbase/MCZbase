@@ -615,7 +615,8 @@ TO-DO:  see where it can be added to the current script/function--->
 											<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 										</div>
 									</div>
-									<div class="form-row mb-2 border border-secondary pb-2">
+									<div class="form-row mb-2 pb-2">
+										<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper">Part Match</label>
 											<cfif part_name_oper IS "is">
@@ -673,9 +674,10 @@ TO-DO:  see where it can be added to the current script/function--->
 												});
 											</script> 
 										</div>
+										</div>
 									</div>
 									<div class="form-row mb-2">
-										<div class="col-12">
+										<div class="col-12 text-center">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
