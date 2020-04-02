@@ -146,7 +146,7 @@ nav.navbar-harvard li {
 	color: white;
 }
 .dropdown-menu {
-	min-width: 13em;
+	/*min-width: 13em;*/
 	top: 104%;
 }
 nav button {
