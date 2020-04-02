@@ -56,7 +56,7 @@
 					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
 					UPPER(a.scientific_name) LIKE '#ucase(scientific_name)#%'
 			) 
-			where scientifc_name is not null
+			where scientific_name is not null
 			ORDER BY scientific_name
 		</cfquery>
 	</cfoutput>
