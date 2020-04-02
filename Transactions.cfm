@@ -577,10 +577,10 @@ TO-DO:  see where it can be added to the current script/function--->
 										</div>
 										<div class="col-12 col-md-6">
 											<div class="form-row border rounded px-2 mt-2 py-3 mx-1"> 
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-3">
 													<label for="permit_num" class="data-entry-label mb-0">Permit Number:</label>
 												</div>
-												<div class="col-12 col-md-10">
+												<div class="col-12 col-md-9">
 													<div class="input-group float-left">
 														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
@@ -615,7 +615,7 @@ TO-DO:  see where it can be added to the current script/function--->
 											<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 										</div>
 									</div>
-									<div class="form-row mb-2 pb-2 border rounded px-2 mt-1 py-2 pb-0 my-2 mx-1 bg-light">
+									<div class="form-row border rounded pt-1 px-2 pb-3 my-3 mx-1 bg-light">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
