@@ -1978,7 +1978,7 @@ INSERT INTO geog_auth_rec (
 	<cf_findLocality>
 	<!--- need to filter out distinct --->
 	<cfquery name="localityResults" dbtype="query">
-		select
+		select distinct
 			locality_id,
 			geog_auth_rec_id,
 			spec_locality,
