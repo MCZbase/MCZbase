@@ -526,9 +526,9 @@ TO-DO:  see where it can be added to the current script/function--->
 											</div>
 										</div>
 										<div class="col-12 col-md-12 col-xl-3">
-											<div class="form-row border rounded px-2 mt-2 py-3 mx-1">
+											<div class="form-row border rounded px-2 mt-1 py-3 mx-1">
 												<div class="col-12 col-md-3">
-													<label for="permit_num" class="data-entry-label mb-0">Permit Number:</label>
+													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												</div>
 												<div class="col-12 col-md-9">
 													<div class="input-group float-left">
