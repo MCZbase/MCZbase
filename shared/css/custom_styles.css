@@ -1206,19 +1206,19 @@ table#pairs th, table#pairs td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .8em;
+	font-size: .87em;
 	border: none;
 	line-height: .9em;
 	height: calc(.9em + .5em + 2px);
 	padding: .25em .5em;
 	margin-bottom: .5em;
 	margin-top: .25em;
-	font-weight: 400;
+	font-weight: 500;
 }
 .data-entry-input {
 	display: block;
 	width: 100%;
-	font-size: .9em;
+	font-size: .87em;
 	line-height: 1em;
 	height: calc(.9em + .5rem + 4px);
 	padding: 0 .5em .25em .5em;
@@ -1228,7 +1228,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 400;
+	font-weight: 500;
 }
 .data-entry-input:focus {
 	color: #495057;
@@ -1240,7 +1240,7 @@ table#pairs th, table#pairs td {
 .data-entry-select {
 	display: block;
 	width: 100%;
-	font-size: .9em;
+	font-size: .87em;
 	line-height: 1em;
 	height: calc(.9em + .5rem + 4px);
 	padding: 0 .5em .25em .5em;
@@ -1250,7 +1250,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 	border-radius:  5px;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 400;
+	font-weight: 500;
 }
 .data-entry-select:focus {
 	color: #495057;
@@ -1262,7 +1262,7 @@ table#pairs th, table#pairs td {
 .data-entry-prepend-select {
 	display: block;
 	width: 100%;
-	font-size: .9em;
+	font-size: .87em;
 	line-height: 1em;
 	height: calc(.9em + .5rem + 4px);
 	padding: 0 .5em .25em .5em;
@@ -1272,7 +1272,7 @@ table#pairs th, table#pairs td {
 	background-color: #f5f5f5;
 	border-radius:  5px 0 0 5px;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 400;
+	font-weight: 500;
 }
 .data-entry-prepend-select:focus {
 	color: #495057;
@@ -1284,7 +1284,7 @@ table#pairs th, table#pairs td {
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	font-size: .9em;
+	font-size: .87em;
 	line-height: 1em;
 	height: calc(.9em + .5rem + 4px);
 	padding: 0 .5em .25em .5em;
@@ -1294,7 +1294,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 	border-radius: 0 5px 5px 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 400;
+	font-weight: 500;
 }
 .data-entry-select-input:focus {
 	color: #495057;
@@ -1307,21 +1307,21 @@ table#pairs th, table#pairs td {
 	width: 100%;
 	height: auto;
 	border: 1px solid #ced4da;
-	font-size: .9em;
+	font-size: .87em;
 	line-height: 1em;
 	border-radius: .2rem;
 	padding: 0 .5rem;
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
-	font-weight: 400;
+	font-weight: 500;
 }
 .data-entry-button {
 	line-height: 1em;
 	border-radius: .2rem;
 	background-color: #ffb6c166;
 	color: red;
-	font-size: .85em;
+	font-size: .87em;
 	height: 22px;
 	padding: .2em .35em;
 	font-weight: 500;
