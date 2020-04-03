@@ -474,6 +474,7 @@ limitations under the License.
 TO-DO:  see where it can be added to the current script/function---> 
 									<div class="form-row mb-0">
 										<div class="col-12 col-md-12 col-xl-9 mb-1">
+											<div class="row">
 												<div class="col-lg-2 col-md-6 col-12">
 													<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
 														<div class='date input-group mb-3'>
@@ -491,6 +492,7 @@ TO-DO:  see where it can be added to the current script/function--->
 														</div>
 													</div>
 												</div>
+											</div>
 												<div class='col-lg-2 col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
