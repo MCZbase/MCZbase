@@ -475,15 +475,15 @@ TO-DO:  see where it can be added to the current script/function--->
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-9">
 											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
-												<div class='col-md-2 col-12'>
+												<div class='col-lg-2 col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-															<label class="data-entry-label mb-0 ml-2" for="trans_date">Loan Date: (start)</label>
-															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10 ml-auto" value="#trans_date#">
+															<label class="data-entry-label mb-0 ml-md-2" for="trans_date">Loan Date: (start)</label>
+															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#trans_date#">
 														</div>
 													</div>
 												</div>
-												<div class="col-md-2 col-12">
+												<div class="col-lg-2 col-md-6 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="to"> (end date)</label>
@@ -491,15 +491,15 @@ TO-DO:  see where it can be added to the current script/function--->
 														</div>
 													</div>
 												</div>
-												<div class='col-md-2 col-12'>
+												<div class='col-lg-2 col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-															<label class="data-entry-label mb-0 ml-2" for="return_due_date">Due Date: (start)</label>
-															<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-10 ml-auto" value="#return_due_date#" >
+															<label class="data-entry-label mb-0 ml-md-2" for="return_due_date">Due Date: (start)</label>
+															<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#return_due_date#" >
 														</div>
 													</div>
 												</div>
-												<div class="col-md-2 col-12">
+												<div class="col-lg-2 col-md-6 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="to"> (end date)</label>
@@ -507,15 +507,15 @@ TO-DO:  see where it can be added to the current script/function--->
 														</div>
 													</div>
 												</div>
-												<div class='col-md-2 col-12'>
+												<div class='col-lg-2 col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-															<label class="data-entry-label mb-0 ml-2" for="closed_date">Close Date: (start)</label>
-															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10 ml-auto" value="#closed_date#" >
+															<label class="data-entry-label mb-0 ml-md-2" for="closed_date">Close Date: (start)</label>
+															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#closed_date#" >
 														</div>
 													</div>
 												</div>
-												<div class="col-md-2 col-12">
+												<div class="col-lg-2 col-md-6 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
