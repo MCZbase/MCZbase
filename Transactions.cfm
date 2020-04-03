@@ -479,23 +479,23 @@ limitations under the License.
 								<div class="col-sm"> 
 									<div class='date form-row'>
 										<label class="data-entry-label mb-0 " for="trans_date">Loan Date: (start)</label>
-										<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input" value="#trans_date#">
+										<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10" value="#trans_date#">
 										<label class="data-entry-label mb-0" for="to"> (end date)</label>
-										<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input" aria-label="loan date search range to" aria-described="trans_date_to">
+										<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10" aria-label="loan date search range to" aria-described="trans_date_to">
 									</div>
 								</div>
 								<div class="col-sm"> 
 									<div class='date form-row'>
-									<label class="data-entry-label mb-0 ml-md-2" for="return_due_date">Due Date: (start)</label>
-									<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input">
+									<label class="data-entry-label mb-0" for="return_due_date">Due Date: (start)</label>
+									<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-10">
 									<label class="data-entry-label mb-0" for="to"> (end date)</label>
-									<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input" aria-label="due date search range to" aria-described="return_due_date_to_marker">
+									<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-10" aria-label="due date search range to" aria-described="return_due_date_to_marker">
 									</div>
 								</div>
 								<div class="col-sm"> 
 									<div class="date form-row">
-									<label class="data-entry-label mb-0 ml-xl-2" for="closed_date">Close Date: (start)</label>
-									<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#closed_date#" > 
+									<label class="data-entry-label mb-0" for="closed_date">Close Date: (start)</label>
+									<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10" value="#closed_date#" > 
 									<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
 									<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
 									</div>
