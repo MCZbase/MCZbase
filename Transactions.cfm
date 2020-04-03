@@ -507,13 +507,7 @@ TO-DO:  see where it can be added to the current script/function--->
 														</div>
 													</div>
 												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<div class="form-row border bg-light rounded px-2 mt-1 pt-1 pb-0 mx-1">
-												<div class='col-md-6 col-12'>
+												<div class='col-md-3 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="closed_date">Close Date: (start)</label>
@@ -521,7 +515,7 @@ TO-DO:  see where it can be added to the current script/function--->
 														</div>
 													</div>
 												</div>
-												<div class="col-md-6 col-12">
+												<div class="col-md-3 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
@@ -531,7 +525,9 @@ TO-DO:  see where it can be added to the current script/function--->
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-6">
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-3">
 											<div class="form-row border rounded px-2 mt-2 py-3 mx-1">
 												<div class="col-12 col-md-3">
 													<label for="permit_num" class="data-entry-label mb-0">Permit Number:</label>
