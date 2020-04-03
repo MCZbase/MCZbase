@@ -500,12 +500,14 @@ limitations under the License.
 										<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end of range" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
 									</div>
 								</div>
-								<div class="col-sm">
+								<div class="col-sm-6">
+									<div class="form-row border rounded px-2 mt-1 py-3 mx-1">
 									<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 									<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 									<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
 									<div class="input-group-append"> <span class="input-group-text py-0" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span>
 									</div>
+								</div>
 								</div>
 							</div>
 						</div>
