@@ -156,8 +156,6 @@ BELOW: Main button (bootstrap override)
 ************************/
 .btn-primary {
 	background-color: buttonface;
-	border-color: #E4E476;
-	/*color: #212529;*/
 	background: buttonface;
     border: 1px solid hsl(0, 0%, 62%);
     color: buttontext;
@@ -167,6 +165,7 @@ BELOW: Main button (bootstrap override)
 	background-color: buttonface;
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
+	background-color: rgba(0,0,0,.15);
 }
 .btn-primary:focus, .btn-primary.focus {
 	background-color: buttonface;
@@ -187,6 +186,9 @@ BELOW: Main button (bootstrap override)
 	color: #212529;
  	border: 1px solid hsl(0, 0%, 62%);
 }
+.btn-warning {border: 1px solid #666;}
+.btn-warning:hover {border: 1px solid #666;}
+
 
 /************************
 *************************
@@ -841,10 +843,16 @@ ul.list-unstyled li.list-group-item:last-child {
 }
 .jqx-widget-header {
 	background-color: #deebec !important;
-	padding: .15em 0;
+/*	padding: .15em 0;*/
 	border-radius: 4px;
 	margin-top: 0px;
 }
+/*I don't know that this is needed.  I used bootstrap styles.*/
+/*.faux-jqxwidget-header { 
+	border-color: #c5c5c5; 
+	border-style: solid; 
+	border-width: 1px;
+}*/
 .jqx-grid-load {
 	background-position: 0% 0%;
 }
@@ -1198,9 +1206,9 @@ table#pairs th, table#pairs td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .8em;
+	font-size: .87em;
 	border: none;
-	line-height: .9em;
+	line-height: 1em;
 	height: calc(.9em + .5em + 2px);
 	padding: .25em .5em;
 	margin-bottom: .5em;
@@ -1210,17 +1218,17 @@ table#pairs th, table#pairs td {
 .data-entry-input {
 	display: block;
 	width: 100%;
-	font-size: .9em;
+	font-size: .87em;
 	line-height: 1em;
 	height: calc(.9em + .5rem + 4px);
-	padding: 0 .5em;
+	padding: 0 .5em .15em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 375;
+	font-weight: 450;
 }
 .data-entry-input:focus {
 	color: #495057;
@@ -1232,19 +1240,63 @@ table#pairs th, table#pairs td {
 .data-entry-select {
 	display: block;
 	width: 100%;
-	font-size: .9em;
+	font-size: .87em;
 	line-height: 1em;
 	height: calc(.9em + .5rem + 4px);
-	padding: 0 .5em;
+	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
-	border-radius: .25rem;
+	border-radius:  5px;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 350;
+	font-weight: 500;
 }
 .data-entry-select:focus {
+	color: #495057;
+	background-color: #fff;
+	border-color: #80bdff;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+.data-entry-prepend-select {
+	display: block;
+	width: 100%;
+	font-size: .87em;
+	line-height: 1em;
+	height: calc(.9em + .5rem + 4px);
+	padding: 0 .5em .25em .5em;
+	color: rgba(0, 0, 0, .6);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #f5f5f5;
+	border-radius:  5px 0 0 5px;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font-weight: 510;
+}
+.data-entry-prepend-select:focus {
+	color: #495057;
+	background-color: #fff;
+	border-color: #80bdff;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+.data-entry-select-input {
+	display: block;
+	width: 100%;
+	font-size: .87em;
+	line-height: 1em;
+	height: calc(.9em + .5rem + 4px);
+	padding: 0 .5em .25em .5em;
+	color: rgba(0, 0, 0, .6);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
+	border-radius: 0 5px 5px 0;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font-weight: 510;
+}
+.data-entry-select-input:focus {
 	color: #495057;
 	background-color: #fff;
 	border-color: #80bdff;
@@ -1255,23 +1307,24 @@ table#pairs th, table#pairs td {
 	width: 100%;
 	height: auto;
 	border: 1px solid #ced4da;
-	font-size: .9em;
+	font-size: .87em;
 	line-height: 1em;
 	border-radius: .2rem;
 	padding: 0 .5rem;
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
+	font-weight: 500;
 }
 .data-entry-button {
 	line-height: 1em;
 	border-radius: .2rem;
 	background-color: #ffb6c166;
 	color: red;
-	font-size: .85em;
+	font-size: .87em;
 	height: 22px;
 	padding: .2em .35em;
-	font-weight: 400;
+	font-weight: 500;
 }
 .border-fill {/* This is for each square on the data entry full form */
 	border:  1px solid #bac5c6 !important;
@@ -1346,7 +1399,7 @@ and also iPads specifically.
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
 	/* Force table to not be like tables anymore */
 	table, thead, tbody, th, td, tr {
-		display: block;
+	/*	display: block;*/ /* This needs to be removed in order for the calendar to work on mobile devices.*/
 	}
 	.table-bordered thead td, .table-bordered thead th {
 		border-bottom-width: 1px;
@@ -1374,7 +1427,7 @@ and also iPads specifically.
 		border: none;
 	}
 	td {
-		/* Behave  like a "row" */
+	
 		border: none;
 		position: relative;
 		padding-left: 50%;
@@ -1382,9 +1435,9 @@ and also iPads specifically.
 		font-weight: 16px;
 	}
 	td:before {
-		/* Now like a table header */
+		
 		position: absolute;
-		/* Top/left values mimic padding */
+		
 		top: 6px;
 		left: 2px;
 		width: 40%;
