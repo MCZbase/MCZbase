@@ -702,7 +702,7 @@ TO-DO:  see where it can be added to the current script/function--->
 							<span class="d-block px-3 p-2" id="resultCount"></span> 
 							<span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
-								<div id="columnPick" class="pl-2"></div>
+								<div id="columnPick" class="px-1"></div>
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
