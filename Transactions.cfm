@@ -312,7 +312,7 @@ limitations under the License.
 							
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="wikilink">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+								<h2 class="wikilink pl-1">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 								
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -695,12 +695,11 @@ TO-DO:  see where it can be added to the current script/function--->
 			<div class="text-left col-md-12">
 				<main role="main">
 					<div class="pl-2 mb-5"> 
-					
+						
 						<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. [I don't know that this is needed.  I used bootstrap styles.MHK]--->
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2"> 
-								<h4>Results: </h4>
-							<span class="d-block px-3 p-2" id="resultCount"></span> 
-							<span id="resultLink" class="d-block p-2"></span>
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+							<h4>Results: </h4>
+							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
 								<div id="columnPick" class="px-1"></div>
 							</div>
@@ -711,7 +710,7 @@ TO-DO:  see where it can be added to the current script/function--->
 							<div id="searchText"></div>
 							<!--Grid Related code is below along with search handlers-->
 							<div id="searchResultsGrid" class="jqxGrid"></div>
-							<div class="mt-005" id="enableselection"></div>
+							<div id="enableselection"></div>
 						</div>
 					</div>
 				</main>
@@ -814,7 +813,7 @@ $(document).ready(function() {
 		}
 
 		$("##searchResultsGrid").jqxGrid({
-			width: '99%',
+			width: '100%',
 			autoheight: 'true',
 			source: dataAdapter,
 			filterable: true,
