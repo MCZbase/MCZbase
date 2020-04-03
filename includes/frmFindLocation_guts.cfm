@@ -282,7 +282,7 @@
 			</tr>
 			<tr>
 				<td>
-					<label for="MinElevOper">Minimum Elevation</label>
+					<label for="MinElevOper">Minimum Elevation (only with units below)</label>
 					<select name="MinElevOper" id="MinElevOper" size="1">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
@@ -292,7 +292,7 @@
 					<input type="text" name="minimum_elevation" id="minimum_elevation">
 				</td>
 				<td>
-					<label for="minDepthOper">Minimum Depth</label>
+					<label for="minDepthOper">Minimum Depth (only with units below)</label>
 					<select name="minDepthOper" id="MinDepthOper" size="1">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
@@ -342,6 +342,50 @@
 							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
 						</cfloop>
 					  	</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="MinElevOperM">Minimum Elevation (in meters)</label>
+					<select name="MinElevOperM" id="MinElevOperM" size="1">
+						<option value="=">is</option>
+						<option value="<>">is not</option>
+						<option value=">">more than</option>
+						<option value="<">less than</option>
+					</select>
+					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m">
+				</td>
+				<td>
+					<label for="minDepthOperM">Minimum Depth (in meters)</label>
+					<select name="minDepthOperM" id="MinDepthOperM" size="1">
+						<option value="=">is</option>
+						<option value="<>">is not</option>
+						<option value=">">more than</option>
+						<option value="<">less than</option>
+					</select>
+					<input type="text" name="min_depth_m" id="min_depth_m">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="MaxElevOperM">Maximum Elevation (in meters)</label>
+					<select name="MaxElevOperM" id="MaxElevOperM" size="1">
+						<option value="=">is</option>
+						<option value="<>">is not</option>
+						<option value=">">more than</option>
+						<option value="<">less than</option>
+					</select>
+					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m">
+				</td>
+				<td>
+					<label for="MaxDepthOperM">Maximum Depth (in meters)</label>
+					<select name="MaxDepthOperM" id="MaxDepthOperM" size="1">
+						<option value="=">is</option>
+						<option value="<>">is not</option>
+						<option value=">">more than</option>
+						<option value="<">less than</option>
+					</select>
+					<input type="text" name="max_depth_m" id="max_depth_m">
 				</td>
 			</tr>
 			<tr>

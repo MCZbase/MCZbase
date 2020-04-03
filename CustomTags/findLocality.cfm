@@ -31,6 +31,18 @@
 <cfif not isdefined("minDepthOper")>
 	<cfset minDepthOper="=">
 </cfif>
+<cfif not isdefined("maxElevOperM")>
+	<cfset maxElevOperM="=">
+</cfif>
+<cfif not isdefined("minElevOperM")>
+	<cfset minElevOperM="=">
+</cfif>
+<cfif not isdefined("maxDepthOperM")>
+	<cfset maxDepthOperM="=">
+</cfif>
+<cfif not isdefined("minDepthOperM")>
+	<cfset minDepthOperM="=">
+</cfif>
 <cfif not isdefined("gs_comparator")>
 	<cfset minDepthOper="=">
 </cfif>
@@ -263,8 +275,72 @@
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
-			<cfif isdefined("depth_units") and len(#orig_elev_units#) gt 0>
+			<cfif isdefined("depth_units") and len(#depth_units#) gt 0>
 				AND depth_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#depth_units#">
+			</cfif>
+			<cfif isdefined("maximum_elevation_m") and len(#maximum_elevation_m#) gt 0>
+				<cfswitch expression="#maxElevOperM#">
+					<cfcase value = ">">
+						AND TO_METERS(maximum_elevation,orig_elev_units) > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation_m#">
+					</cfcase>
+					<cfcase value = "<">
+						AND TO_METERS(maximum_elevation,orig_elev_units) < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation_m#">
+					</cfcase>
+					<cfcase value = "<>">
+						AND TO_METERS(maximum_elevation,orig_elev_units) <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation_m#">
+					</cfcase>
+					<cfdefaultcase>
+						AND TO_METERS(maximum_elevation,orig_elev_units) = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation_m#">
+					</cfdefaultcase>
+				</cfswitch>
+			</cfif>
+			<cfif isdefined("minimum_elevation_m") and len(#minimum_elevation_m#) gt 0>
+				<cfswitch expression="#minElevOperM#">
+					<cfcase value = ">">
+						AND TO_METERS(minimum_elevation,orig_elev_units) > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation_m#">
+					</cfcase>
+					<cfcase value = "<">
+						AND TO_METERS(minimum_elevation,orig_elev_units) < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation_m#">
+					</cfcase>
+					<cfcase value = "<>">
+						AND TO_METERS(minimum_elevation,orig_elev_units) <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation_m#">
+					</cfcase>
+					<cfdefaultcase>
+						AND TO_METERS(minimum_elevation,orig_elev_units) = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation_m#">
+					</cfdefaultcase>
+				</cfswitch>
+			</cfif>
+			<cfif isdefined("max_depth_m") and len(#max_depth_m#) gt 0>
+				<cfswitch expression="#maxDepthOperM#">
+					<cfcase value = ">">
+						AND TO_METERS(max_depth,depth_units) > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth_m#">
+					</cfcase>
+					<cfcase value = "<">
+						AND TO_METERS(max_depth,depth_units) < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth_m#">
+					</cfcase>
+					<cfcase value = "<>">
+						AND TO_METERS(max_depth,depth_units) <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth_m#">
+					</cfcase>
+					<cfdefaultcase>
+						AND TO_METERS(max_depth,depth_units) = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth_m#">
+					</cfdefaultcase>
+				</cfswitch>
+			</cfif>
+			<cfif isdefined("min_depth_m") and len(#min_depth_m#) gt 0>
+				<cfswitch expression="#minDepthOperM#">
+					<cfcase value = ">">
+						AND TO_METERS(min_depth,depth_units) > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth_m#">
+					</cfcase>
+					<cfcase value = "<">
+						AND TO_METERS(min_depth,depth_units) < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth_m#">
+					</cfcase>
+					<cfcase value = "<>">
+						AND TO_METERS(min_depth,depth_units) <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth_m#">
+					</cfcase>
+					<cfdefaultcase>
+						AND TO_METERS(min_depth,depth_units) = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth_m#">
+					</cfdefaultcase>
+				</cfswitch>
 			</cfif>
 			<cfif isdefined("higher_geog") and len(#higher_geog#) gt 0>
 				<cfif left(higher_geog,1) is "=">
