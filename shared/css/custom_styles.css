@@ -1399,7 +1399,7 @@ and also iPads specifically.
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
 	/* Force table to not be like tables anymore */
 	table, thead, tbody, th, td, tr {
-		display: block;
+	/*	display: block;*/ /* This needs to be removed in order for the calendar to work on mobile devices.*/
 	}
 	.table-bordered thead td, .table-bordered thead th {
 		border-bottom-width: 1px;
@@ -1427,7 +1427,7 @@ and also iPads specifically.
 		border: none;
 	}
 	td {
-		/* Behave  like a "row" */
+	
 		border: none;
 		position: relative;
 		padding-left: 50%;
@@ -1435,9 +1435,9 @@ and also iPads specifically.
 		font-weight: 16px;
 	}
 	td:before {
-		/* Now like a table header */
+		
 		position: absolute;
-		/* Top/left values mimic padding */
+		
 		top: 6px;
 		left: 2px;
 		width: 40%;
