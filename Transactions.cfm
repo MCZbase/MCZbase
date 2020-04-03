@@ -410,7 +410,9 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row border barbershop-pole rounded px-2 mb-2 mt-2 pt-1 pb-3 mx-1"> <span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
+									<div class="form-row border barbershop-pole rounded px-3 mb-2 mt-2 pt-1 pb-3 mx-1"> 
+										<div class="border barbershop-pole rounded">
+										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
 												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -469,6 +471,7 @@ limitations under the License.
 											$(makeAgentPicker('agent_3','agent_3_id'));
 										});
 										</script> 
+										</div>
 									</div>
 									<div class="col-12 col-md-12 col-xl-12">
 										<div class="row">
