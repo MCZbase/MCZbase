@@ -1208,7 +1208,7 @@ table#pairs th, table#pairs td {
 	width: 100%;
 	font-size: .87em;
 	border: none;
-	line-height: .9em;
+	line-height: 1em;
 	height: calc(.9em + .5em + 2px);
 	padding: .25em .5em;
 	margin-bottom: .5em;
