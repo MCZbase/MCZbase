@@ -476,7 +476,7 @@ limitations under the License.
 									
 						<div class="container-fluid px-0">
 							<div class="row">
-								<div class="col-sm"> 
+								<div class="col-sm pl-2"> 
 									<div class='date form-row bg-light border rounded pl-2 py-2'>
 										<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
 										<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#trans_date#">
