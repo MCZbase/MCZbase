@@ -475,43 +475,43 @@ TO-DO:  see where it can be added to the current script/function--->
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-9">
 											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
-												<div class='col-md-3 col-12'>
+												<div class='col-md-2 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="trans_date">Loan Date: (start)</label>
-															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-10" value="#trans_date#">
+															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-11" value="#trans_date#">
 														</div>
 													</div>
 												</div>
-												<div class="col-md-3 col-12">
+												<div class="col-md-2 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="to"> (end date)</label>
-															<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-sm-10" aria-label="loan date search range to" aria-described="trans_date_to">
+															<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-sm-11" aria-label="loan date search range to" aria-described="trans_date_to">
 														</div>
 													</div>
 												</div>
-												<div class='col-md-3 col-12'>
+												<div class='col-md-2 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="return_due_date">Due Date: (start)</label>
-															<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#return_due_date#" >
+															<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-11" value="#return_due_date#" >
 														</div>
 													</div>
 												</div>
-												<div class="col-md-6 col-12">
+												<div class="col-md-2 col-12">
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="to"> (end date)</label>
-															<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="due date search range to" aria-described="return_due_date_to_marker">
+															<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-sm-11" aria-label="due date search range to" aria-described="return_due_date_to_marker">
 														</div>
 													</div>
 												</div>
-												<div class='col-md-3 col-12'>
+												<div class='col-md-2 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="closed_date">Close Date: (start)</label>
-															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-sm-9" value="#closed_date#" >
+															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-sm-11" value="#closed_date#" >
 														</div>
 													</div>
 												</div>
@@ -519,7 +519,7 @@ TO-DO:  see where it can be added to the current script/function--->
 													<div class="form-group">
 														<div class='input-group date'>
 															<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
-															<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" class="datetimeinput data-entry-input col-sm-9" aria-label="closed date search range to" aria-described="closed_date_to">
+															<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" class="datetimeinput data-entry-input col-sm-11" aria-label="closed date search range to" aria-described="closed_date_to">
 														</div>
 													</div>
 												</div>
