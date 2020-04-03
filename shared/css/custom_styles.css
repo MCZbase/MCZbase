@@ -1228,7 +1228,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 375;
+	font-weight: 400;
 }
 .data-entry-input:focus {
 	color: #495057;
@@ -1250,7 +1250,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 	border-radius:  5px;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 350;
+	font-weight: 400;
 }
 .data-entry-select:focus {
 	color: #495057;
@@ -1294,7 +1294,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 	border-radius: 0 5px 5px 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 375;
+	font-weight: 400;
 }
 .data-entry-select-input:focus {
 	color: #495057;
@@ -1314,6 +1314,7 @@ table#pairs th, table#pairs td {
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
+	font-weight: 400;
 }
 .data-entry-button {
 	line-height: 1em;
@@ -1323,7 +1324,7 @@ table#pairs th, table#pairs td {
 	font-size: .85em;
 	height: 22px;
 	padding: .2em .35em;
-	font-weight: 400;
+	font-weight: 500;
 }
 .border-fill {/* This is for each square on the data entry full form */
 	border:  1px solid #bac5c6 !important;
