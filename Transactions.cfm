@@ -474,10 +474,10 @@ limitations under the License.
 									
 							<div class="col-12 col-md-12 col-xl-8">			
 									
-						<div class="container-fluid">
+						<div class="container-fluid px-0">
 							<div class="row">
-								<div class="col-sm px-0"> 
-									<div class='date form-row bg-light border rounded px-auto py-1'>
+								<div class="col-sm"> 
+									<div class='date form-row bg-light border rounded pl-2 py-1'>
 										<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
 										<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#trans_date#">
 										<label class="data-entry-label sr-only" for="to"></label>
@@ -485,7 +485,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-sm"> 
-									<div class='date form-row bg-light border rounded px-auto py-1'>
+									<div class='date form-row bg-light border rounded pl-2 py-1'>
 										<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
 										<input name="return_due_date" id="return_due_date" type="text" placeholder="start of range" class="datetimeinput data-entry-input col-10">
 										<label class="data-entry-label sr-only" for="to"></label>
@@ -493,7 +493,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-sm"> 
-									<div class="date form-row border bg-light rounded px-auto py-1">
+									<div class="date form-row border bg-light rounded pl-2 py-1">
 										<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
 										<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#closed_date#" > 
 										<label class="data-entry-label sr-only" for="to_closed_date"> </label>
