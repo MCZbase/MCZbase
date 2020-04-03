@@ -481,7 +481,7 @@ limitations under the License.
 										<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
 										<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#trans_date#">
 										<label class="data-entry-label sr-only" for="to"></label>
-										<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10"  placeholder="start of range" aria-label="loan date search range to" aria-described="trans_date_to">
+										<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10"  placeholder="end of range" aria-label="loan date search range to" aria-described="trans_date_to">
 									</div>
 								</div>
 								<div class="col-sm"> 
@@ -500,60 +500,15 @@ limitations under the License.
 										<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end of range" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
 									</div>
 								</div>
-							</div>
-						</div>
-				<!---			<div class="form-row mb-0">
-						<div class="col-12 col-md-12 col-xl-9 mb-1" style="border: 1px solid red;">
-								<div class="row">
-									<div class="col-lg-6 col-md-6 col-12">
-										<div class='date'>
-											<label class="data-entry-label mb-0 " for="trans_date">Loan Date: (start)</label>
-											<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5" value="#trans_date#">
-											<div class="input-group-append"> <span class="input-group-text" id="basic-addon2"></span> </div>
-										</div>
-										<div class='date'>
-											<label class="data-entry-label mb-0" for="to"> (end date)</label>
-											<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-5" aria-label="loan date search range to" aria-described="trans_date_to">
-											<div class="input-group-append"> <span class="input-group-text" id="basic-addon2"></span> </div>
-										</div>
+								<div class="col-sm">
+									<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+									<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+									<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
+									<div class="input-group-append"> <span class="input-group-text py-0" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class='col-lg-2 col-md-6 col-12'>
-							<div class="form-group">
-								<div class='input-group date'>
-									<label class="data-entry-label mb-0 ml-md-2" for="return_due_date">Due Date: (start)</label>
-									<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#return_due_date#" >
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-2 col-md-6 col-12">
-							<div class="form-group">
-								<div class='input-group date'>
-									<label class="data-entry-label mb-0" for="to"> (end date)</label>
-									<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-10" aria-label="due date search range to" aria-described="return_due_date_to_marker">
-								</div>
-							</div>
-						</div>
-						<div class='col-lg-2 col-md-6 col-12'>
-							<div class="form-group">
-								<div class='input-group date'>
-									<label class="data-entry-label mb-0 ml-xl-2" for="closed_date">Close Date: (start)</label>
-									<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#closed_date#" >
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-2 col-md-6 col-12">
-							<div class="form-group">
-								<div class='input-group date'>
-									<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
-									<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
-								</div>
-							</div>
-						</div>
-						</div>
-						</div>--->
 						<div class="col-12 col-md-12 col-xl-3">
 							<div class="form-row border rounded px-2 mt-1 py-3 mx-1">
 								<div class="col-12 col-md-3">
