@@ -477,7 +477,7 @@ limitations under the License.
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-sm"> 
-									<div class='date'>
+									<div class='date form-row'>
 										<label class="data-entry-label mb-0 " for="trans_date">Loan Date: (start)</label>
 										<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input" value="#trans_date#">
 										<label class="data-entry-label mb-0" for="to"> (end date)</label>
@@ -485,7 +485,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-sm"> 
-									<div class='date'>
+									<div class='date form-row'>
 									<label class="data-entry-label mb-0 ml-md-2" for="return_due_date">Due Date: (start)</label>
 									<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input">
 									<label class="data-entry-label mb-0" for="to"> (end date)</label>
@@ -493,7 +493,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-sm"> 
-									<div class="date">
+									<div class="date form-row">
 									<label class="data-entry-label mb-0 ml-xl-2" for="closed_date">Close Date: (start)</label>
 									<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#closed_date#" > 
 									<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
