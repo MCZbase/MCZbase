@@ -476,16 +476,16 @@ limitations under the License.
 												<div class="col-lg-6 col-md-6 col-12">
 														<div class='date'>
 															<label class="data-entry-label mb-0 ml-md-2" for="trans_date">Loan Date: (start)</label>
-															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#trans_date#">
+															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5 ml-md-auto" value="#trans_date#">
 															<div class="input-group-append">
-    															<span class="input-group-text" id="basic-addon2"><img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="..."></span>
+    															<span class="input-group-text" id="basic-addon2"></span>
   															</div>
 														</div>
 														<div class='date'>
 															<label class="data-entry-label mb-0" for="to"> (end date)</label>
-															<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10" aria-label="loan date search range to" aria-described="trans_date_to">
+															<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-5" aria-label="loan date search range to" aria-described="trans_date_to">
 																<div class="input-group-append">
-    															<span class="input-group-text" id="basic-addon2"><img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="..."></span>
+    															<span class="input-group-text" id="basic-addon2"></span>
   															</div>
 														</div>
 												</div>
