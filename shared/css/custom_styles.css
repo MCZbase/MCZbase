@@ -1206,7 +1206,7 @@ table#pairs th, table#pairs td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .87em;
+	font-size: .8em;
 	border: none;
 	line-height: 1em;
 	height: calc(.9em + .5em + 2px);
