@@ -473,7 +473,7 @@ limitations under the License.
 									<!---I wanted to use this because the changeMonth and changeYear would be useful.  It has an ID for "from" and "to" and since there are 3 of them, only the first one works. 
 TO-DO:  see where it can be added to the current script/function---> 
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-9">
+										<div class="col-12 col-md-12 col-lg-9">
 											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
 												<div class='col-lg-2 col-md-6 col-12'>
 													<div class="form-group">
@@ -525,7 +525,7 @@ TO-DO:  see where it can be added to the current script/function--->
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-12 col-lg-3">
 											<div class="form-row border rounded px-2 mt-2 py-3 mx-1">
 												<div class="col-12 col-md-3">
 													<label for="permit_num" class="data-entry-label mb-0">Permit Number:</label>
