@@ -500,7 +500,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-6 px-0">
-												<div class="form-row border bg-light rounded px-2 mt-1 py-3 mx-1">
+												<div class="form-row border bg-light rounded px-2 mt-0 py-3 mx-1">
 													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 													<div class="input-group float-left px-2">
 														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
