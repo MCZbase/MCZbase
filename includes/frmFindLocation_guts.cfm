@@ -96,6 +96,9 @@
 <cfif not isdefined("showEvent")>
 	<cfset showEvent=0>
 </cfif>
+<cfif not isdefined("showSpecimenCounts")><!--- show or hide the specimen counts control, show by default if locality section is included --->
+	<cfset showSpecimenCounts = true>
+</cfif>
 <cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select orig_elev_units from ctorig_elev_units order by orig_elev_units
 </cfquery>
@@ -642,7 +645,7 @@
 				onmouseout="this.className='clrBtn'">
 		</td>
 		<td>
-			<cfif #showLocality# is 1>
+			<cfif showLocality is 1 AND showSpecimenCounts>
 				<label for="include_counts">Include Specimen Counts?</label>
 				<select name="include_counts" id="include_counts">
 					<option selected="selected" value="0">No</option>
