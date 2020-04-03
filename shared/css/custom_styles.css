@@ -1331,14 +1331,14 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 }
  .barbershop-pole {
-            width: 64px;
+            width: 100%;
             height: 100%;
             margin: 0 auto;
             background-color: #fff;
-            background-repeat: repeat-y;
+            background-repeat: repeat;
             background-size: 100% 88px;
             background-position: 0% 0%;
-            background-image: repeating-linear-gradient(-25deg, #fff, #fff 20px, #df5646 20px, #df5646 40px, #fff 40px, #fff 60px, #1c78a4 60px, #1c78a4 80px);
+            background-image: repeating-linear-gradient(-25deg, #fff, #fff 20px, #bac5c6 20px, #bac5c6 40px, #fff 40px, #fff 60px, #bac5c6 60px, #bac5c6 80px);
             animation: barberpole 4s linear infinite;
         }
 /****************end small form fields*********************/
