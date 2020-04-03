@@ -481,8 +481,6 @@ TO-DO:  see where it can be added to the current script/function--->
 															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#trans_date#">
 														</div>
 												</div>
-											</div>
-											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
 												<div class="col-lg-2 col-md-6 col-12">
 														<div class='date'>
 															<label class="data-entry-label mb-0" for="to"> (end date)</label>
