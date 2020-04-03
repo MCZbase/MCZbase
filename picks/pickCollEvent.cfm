@@ -16,6 +16,7 @@
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 	<input type="hidden" name="formName" value="#formName#">
 	<input type="hidden" name="collIdFld" value="#collIdFld#">
+	<cfset showSpecimenCounts = false>
  	<cfinclude template="/includes/frmFindLocation_guts.cfm">
 </form>
 </cfoutput>

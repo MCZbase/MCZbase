@@ -20,6 +20,7 @@
 		<input type="hidden" name="speclocFld" value="#speclocFld#">
 		<input type="hidden" name="formName" value="#formName#">
 		<input type="hidden" name="fireEvent" value="#fireEvent#">
+		<cfset showSpecimenCounts = false>
 		<cfinclude template="/includes/frmFindLocation_guts.cfm">
 	</form>
 </cfoutput>
