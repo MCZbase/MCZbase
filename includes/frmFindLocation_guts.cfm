@@ -304,7 +304,7 @@
 			</tr>
 			<tr>
 				<td>
-					<label for="MaxElevOper">Maximum Elevation</label>
+					<label for="MaxElevOper">Maximum Elevation (only with units below)</label>
 					<select name="MaxElevOper" id="MaxElevOper" size="1">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
@@ -314,7 +314,7 @@
 					<input type="text" name="maximum_elevation" id="maximum_elevation">
 				</td>
 				<td>
-					<label for="MaxDepthOper">Maximum Depth</label>
+					<label for="MaxDepthOper">Maximum Depth (only with units below)</label>
 					<select name="MaxDepthOper" id="MaxDepthOper" size="1">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
