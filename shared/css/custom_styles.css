@@ -1336,9 +1336,8 @@ table#pairs th, table#pairs td {
             margin: 0 auto;
             background-color: #fff;
             background-repeat: repeat;
-            background-size: 100% 88px;
             background-position: 0% 0%;
-            background-image: repeating-linear-gradient(-25deg, #fff, #fff 20px, #bac5c6 20px, #bac5c6 40px, #fff 40px, #fff 60px, #bac5c6 60px, #bac5c6 80px);
+            background-image: repeating-linear-gradient(-25deg, #fff, #fff 3px, #bac5c6 3px, #bac5c6 6px, #fff 6px, #fff 8px, #bac5c6 8px, #bac5c6 10px);
             animation: barberpole 4s linear infinite;
         }
 /****************end small form fields*********************/
