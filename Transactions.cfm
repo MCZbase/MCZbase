@@ -474,7 +474,7 @@ limitations under the License.
 									
 							<div class="col-12 col-md-12 col-xl-12">			
 									
-						<div class="container-fluid px-0">
+					
 							<div class="row">
 								<div class="col-sm pl-2"> 
 									<div class='date form-row bg-light border rounded pl-2 py-2'>
@@ -500,7 +500,7 @@ limitations under the License.
 										<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end of range" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
 									</div>
 								</div>
-								<div class="col-sm-6">
+								<div class="col-sm-6 px-0">
 									<div class="form-row border rounded px-2 mt-1 py-3 mx-1">
 									<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 										<div class="input-group float-left">
@@ -513,7 +513,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-12 col-xl-3">
+		<!---				<div class="col-12 col-md-12 col-xl-3">
 							<div class="form-row border rounded px-2 mt-1 py-3 mx-1">
 								<div class="col-12 col-md-3">
 									<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
@@ -527,8 +527,8 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-						</div>
-						</div>
+						</div>--->
+						
 						<script>
 										$(document).ready(function() {
 											$(makePermitPicker('permit_num','permit_id'));
