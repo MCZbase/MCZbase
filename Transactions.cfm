@@ -477,25 +477,25 @@ limitations under the License.
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-sm"> 
-									<div class='date form-row'>
+									<div class='date form-row bg-light px-2 py-1'>
 										<label class="data-entry-label mb-0 " for="trans_date">Loan Date:</label>
-										<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#trans_date#">
+										<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10 mb-1"  placeholder="start of range" value="#trans_date#">
 										<label class="data-entry-label sr-only" for="to"></label>
 										<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10"  placeholder="start of range" aria-label="loan date search range to" aria-described="trans_date_to">
 									</div>
 								</div>
 								<div class="col-sm"> 
-									<div class='date form-row'>
+									<div class='date form-row bg-light px-2 py-1'>
 										<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
-										<input name="return_due_date" id="return_due_date" type="text" placeholder="start of range" class="datetimeinput data-entry-input col-10">
+										<input name="return_due_date" id="return_due_date" type="text" placeholder="start of range" class="datetimeinput data-entry-input col-10 mb-1">
 										<label class="data-entry-label sr-only" for="to"></label>
 										<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end of range" class="datetimeinput data-entry-input col-10" aria-label="due date search range to" aria-described="return_due_date_to_marker">
 									</div>
 								</div>
 								<div class="col-sm"> 
-									<div class="date form-row">
+									<div class="date form-row bg-light px-2 py-1">
 										<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
-										<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#closed_date#" > 
+										<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10 mb-1"  placeholder="start of range" value="#closed_date#" > 
 										<label class="data-entry-label sr-only" for="to_closed_date"> </label>
 										<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end of range" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
 									</div>
