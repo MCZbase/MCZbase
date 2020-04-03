@@ -470,29 +470,28 @@ limitations under the License.
 										});
 										</script> 
 									</div>
-									<!---I wanted to use this because the changeMonth and changeYear would be useful.  It has an ID for "from" and "to" and since there are 3 of them, only the first one works. 
-TO-DO:  see where it can be added to the current script/function---> 
 									<div class="form-row mb-0">
 										<div class="col-12 col-md-12 col-xl-9 mb-1">
 											<div class="row">
-												<div class="col-lg-2 col-md-6 col-12">
-													<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
-														<div class='date input-group mb-3'>
+												<div class="col-lg-6 col-md-6 col-12">
+														<div class='date'>
 															<label class="data-entry-label mb-0 ml-md-2" for="trans_date">Loan Date: (start)</label>
 															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#trans_date#">
 															<div class="input-group-append">
     															<span class="input-group-text" id="basic-addon2"><img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="..."></span>
   															</div>
 														</div>
-														<div class="col-lg-2 col-md-6 col-12">
-															<div class='date'>
-																<label class="data-entry-label mb-0" for="to"> (end date)</label>
-																<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10" aria-label="loan date search range to" aria-described="trans_date_to">
-															</div>
+														<div class='date'>
+															<label class="data-entry-label mb-0" for="to"> (end date)</label>
+															<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10" aria-label="loan date search range to" aria-described="trans_date_to">
+																<div class="input-group-append">
+    															<span class="input-group-text" id="basic-addon2"><img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="..."></span>
+  															</div>
 														</div>
-													</div>
 												</div>
 											</div>
+										</div>
+									</div>
 												<div class='col-lg-2 col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
