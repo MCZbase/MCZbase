@@ -814,7 +814,7 @@ $(document).ready(function() {
 		}
 
 		$("##searchResultsGrid").jqxGrid({
-			width: '100%',
+			width: '99%',
 			autoheight: 'true',
 			source: dataAdapter,
 			filterable: true,
