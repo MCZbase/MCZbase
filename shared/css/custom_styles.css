@@ -1213,7 +1213,7 @@ table#pairs th, table#pairs td {
 	padding: .25em .5em;
 	margin-bottom: .5em;
 	margin-top: .25em;
-	font-weight: 500;
+	font-weight: 400;
 }
 .data-entry-input {
 	display: block;
@@ -1228,7 +1228,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 500;
+	font-weight: 450;
 }
 .data-entry-input:focus {
 	color: #495057;
@@ -1272,7 +1272,7 @@ table#pairs th, table#pairs td {
 	background-color: #f5f5f5;
 	border-radius:  5px 0 0 5px;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 500;
+	font-weight: 510;
 }
 .data-entry-prepend-select:focus {
 	color: #495057;
@@ -1294,7 +1294,7 @@ table#pairs th, table#pairs td {
 	background-color: #fff;
 	border-radius: 0 5px 5px 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 500;
+	font-weight: 510;
 }
 .data-entry-select-input:focus {
 	color: #495057;
