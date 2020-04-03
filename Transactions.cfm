@@ -410,7 +410,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row border barbershop-pole rounded px-3 mb-2 mt-2 pt-1 pb-3 mx-1"> 
+									<div class="form-row px-3 mb-2 mt-2 pt-1 pb-3 mx-1"> 
 										<div class="border barbershop-pole rounded">
 										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
