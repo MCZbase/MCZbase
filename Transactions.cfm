@@ -510,7 +510,7 @@ TO-DO:  see where it can be added to the current script/function--->
 												<div class='col-lg-2 col-md-6 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-															<label class="data-entry-label mb-0 ml-xl-2 pl-0" for="closed_date">Close Date: (start)</label>
+															<label class="data-entry-label mb-0 ml-xl-2" for="closed_date">Close Date: (start)</label>
 															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#closed_date#" >
 														</div>
 													</div>
