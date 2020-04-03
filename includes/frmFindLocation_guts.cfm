@@ -299,7 +299,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="minimum_Depth" id="minimum_Depth">
+					<input type="text" name="min_depth" id="min_depth">
 				</td>
 			</tr>
 			<tr>
@@ -321,7 +321,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="maximum_Depth" id="maximum_Depth">
+					<input type="text" name="max_depth" id="max_depth">
 				</td>
 			</tr>
 			<tr>
@@ -601,11 +601,13 @@
 				onmouseout="this.className='clrBtn'">
 		</td>
 		<td>
-			<label for="include_counts">Include Specimen Counts?</label>
-			<select name="include_counts" id="include_counts">
-				<option selected="selected" value="0">No</option>
-				<option value="1">Yes</option>
-			</select>
+			<cfif #showLocality# is 1>
+				<label for="include_counts">Include Specimen Counts?</label>
+				<select name="include_counts" id="include_counts">
+					<option selected="selected" value="0">No</option>
+					<option value="1">Yes</option>
+				</select>
+			</cfif>
 		</td>
 	</tr>
 </table>
