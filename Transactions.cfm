@@ -410,8 +410,8 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
+									<div class="border barbershop-pole rounded">
 									<div class="form-row px-3 mb-2 mt-2 pt-1 pb-3 mx-1"> 
-										<div class="border barbershop-pole rounded">
 										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
@@ -476,7 +476,7 @@ limitations under the License.
 									<div class="col-12 col-md-12 col-xl-12">
 										<div class="row">
 											<div class="col-sm pl-2">
-												<div class='date form-row bg-light border rounded pl-2 py-2'>
+												<div class='date form-row bg-light border rounded pl-2 pb-2 pt-1'>
 													<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#trans_date#">
 													<label class="data-entry-label sr-only" for="to"></label>
@@ -484,7 +484,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm">
-												<div class='date form-row bg-light border rounded pl-2 py-2'>
+												<div class='date form-row bg-light border rounded pl-2 pb-2 pt-1'>
 													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
 													<input name="return_due_date" id="return_due_date" type="text" placeholder="start of range" class="datetimeinput data-entry-input col-10">
 													<label class="data-entry-label sr-only" for="to"></label>
@@ -492,7 +492,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm">
-												<div class="date form-row border bg-light rounded pl-2 py-2">
+												<div class="date form-row border bg-light rounded pl-2 pb-2 pt-1">
 													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
 													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#closed_date#" >
 													<label class="data-entry-label sr-only" for="to_closed_date"> </label>
