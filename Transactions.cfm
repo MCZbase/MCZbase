@@ -312,7 +312,7 @@ limitations under the License.
 							
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="wikilink pl-1">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+								<h2 class="wikilink pl-1 mb-0">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 								
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -472,41 +472,6 @@ limitations under the License.
 									</div>
 									<!---I wanted to use this because the changeMonth and changeYear would be useful.  It has an ID for "from" and "to" and since there are 3 of them, only the first one works. 
 TO-DO:  see where it can be added to the current script/function---> 
-									<script>
-//$( function() {
-//	var dateFormat = "yyyy-mm-dd",
-//		from = $( "##trans_date" )
-//			.datepicker({
-//				defaultDate: "+1w",
-//				changeMonth: true,
-//				changeYear:true,
-//				numberOfMonths: 1
-//			})
-//			.on( "change", function() {
-//				to.datepicker( "option", "minDate", getDate( this ) );
-//			}),
-//		to = $( "##to_trans_date" ).datepicker({
-//			defaultDate: "+1w",
-//			changeMonth: true,
-//			changeYear: true,
-//			numberOfMonths: 1
-//		})
-//		.on( "change", function() {
-//			from.datepicker( "option", "maxDate", getDate( this ) );
-//		});
-//
-//	function getDate( element ) {
-//		var date;
-//		try {
-//			date = $.datepicker.parseDate( dateFormat, element.value );
-//		} catch( error ) {
-//			date = null;
-//		}
-//
-//		return date;
-//	}
-//} );
-</script>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
 											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
@@ -742,6 +707,8 @@ $(document).ready(function() {
 	/* Setup date time input controls */
 	$(".datetimeinput").datepicker({ 
 		defaultDate: null,
+		changeMonth: true,
+		changeYear: true,
 		buttonImageOnly: true,
 		buttonImage: "/shared/images/calendar_icon.png",
 		showOn: "both"
