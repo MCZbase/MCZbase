@@ -389,12 +389,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="2">
 					<label for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" size="50">
-				</td>
-				<td>
-					<!---  --->
+					<input type="text" name="locality_remarks" id="locality_remarks" size="80">
 				</td>
 			</tr>
 			<tr>
