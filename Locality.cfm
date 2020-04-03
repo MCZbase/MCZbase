@@ -1973,56 +1973,37 @@ INSERT INTO geog_auth_rec (
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLocality">
-      <div style="width: 90%; margin:0 auto; padding: 1em 0 3em 0;">
+	<div style="width: 90%; margin:0 auto; padding: 1em 0 3em 0;">
 	<cfoutput>
 	<cf_findLocality>
 	<!--- need to filter out distinct --->
 	<cfquery name="localityResults" dbtype="query">
-		select
+		select distinct
 			locality_id,
-            geog_auth_rec_id,
-            spec_locality,
-				sovereign_nation,
-            higher_geog,
-            LatitudeString,
-            LongitudeString,
-            NoGeorefBecause,
-            coordinateDeterminer,
-            lat_long_ref_source,
-            determined_date,
+			geog_auth_rec_id,
+			spec_locality,
+			sovereign_nation,
+			higher_geog,
+			LatitudeString,
+			LongitudeString,
+			NoGeorefBecause,
+			coordinateDeterminer,
+			lat_long_ref_source,
+			determined_date,
 			geolAtts,
-            min_depth,
-            max_depth,
-            depth_units,
-            minimum_elevation,
+			min_depth,
+			max_depth,
+			depth_units,
+			minimum_elevation,
 			maximum_elevation,
-			orig_elev_units
+			orig_elev_units,
+			collcountlocality
 		from localityResults
-		group by
-            locality_id,
-            geog_auth_rec_id,
-            spec_locality,
-				sovereign_nation,
-            higher_geog,
-            LatitudeString,
-            LongitudeString,
-            NoGeorefBecause,
-            coordinateDeterminer,
-            lat_long_ref_source,
-            determined_date,
-			geolAtts,
-            min_depth,
-            max_depth,
-            depth_units,
-            minimum_elevation,
-			maximum_elevation,
-			orig_elev_units
 		order by
 			higher_geog, spec_locality
-
 	</cfquery>
 
-<cfif #localityResults.recordcount# lt 1000>
+<cfif #localityResults.recordcount# lt 1001>
 	<cfset thisLocId="">
 	<cfloop query="localityResults">
 		<cfif len(#thisLocId#) is 0>
@@ -2038,83 +2019,92 @@ INSERT INTO geog_auth_rec (
 <br /><strong>Your query found #localityResults.recordcount# localities.</strong>
 
 
-  <table border>
-    <tr>
-      <td><b>Geog ID</b></td>
-      <td><b>Locality ID</b></td>
-      <td><b>Spec Locality</b></td>
-      <td>Sovereign Nation</td>
-	   <td><b>Geog</b></td>
-    </tr>
+<table border>
+	<tr>
+		<td><b>Geog ID</b></td>
+		<td><b>Locality ID</b></td>
+		<td><b>Spec Locality</b></td>
+		<td>Sovereign Nation</td>
+		<cfif include_counts EQ 1><td>Specimens</td></cfif>
+		<td><b>Geog</b></td>
+	</tr>
 	<cfset i=1>
-    <cfloop query="localityResults">
-      <tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-        <td rowspan="2">
-          <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a> </td>
-        <td rowspan="2">
-          <a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
-		  <!----&nbsp;<a href="/fix/DupLocs.cfm?action=killDups&locid=#locality_id#" target="_blank"><font size="-2"><i>kill dups</i></font>----></a>
-		  </td>
-        <td>
-          #spec_locality#
-		<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
-
-		</td>
-		  <td rowspan="2">#sovereign_nation#</td>
-
-		  <td rowspan="2">#higher_geog#</td>
-      </tr>
-      <tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-        <td>
-          <font size="-1">
-		 &nbsp;
-          <cfif len(LatitudeString) gt 0>
-            #LatitudeString# / #LongitudeString#
-            <cfelse>
-            <b>NoGeorefBecause: #NoGeorefBecause#</b>
-          </cfif>
-          <cfif len(minimum_elevation) gt 0> (min-elevation: #minimum_elevation##orig_elev_units#,</cfif>
-         <cfif len(maximum_elevation) gt 0> max-elevation: #maximum_elevation##orig_elev_units#)</cfif>
-           <cfif len(min_depth) gt 0> (min-depth: #min_depth##depth_units#,</cfif>
-         <cfif len(max_depth) gt 0> max-depth: #max_depth##depth_units#)</cfif>
-          Determined by #coordinateDeterminer# on #dateformat(determined_date,"yyyy-mm-dd")# using #lat_long_ref_source#
-
-
-          </font>
-          </td>
-      </tr>
-	  <cfset i=#i#+1>
-	  </cfloop>
-    </cfoutput>
-  </table>
-            </div>
+	<cfloop query="localityResults">
+		<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+			<td rowspan="2">
+				<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
+			</td>
+			<td rowspan="2">
+				<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
+			</td>
+			<td>
+				#spec_locality#
+				<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
+			</td>
+			<td rowspan="2">
+				#sovereign_nation#
+			</td>
+			<cfif include_counts EQ 1>
+				<td rowspan=2>
+					#collcountlocality#
+				</td>
+			</cfif>
+			<td rowspan="2">
+				#higher_geog#
+			</td>
+		</tr>
+		<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+			<td>
+				<font size="-1">
+				&nbsp;
+				<cfif len(LatitudeString) gt 0>
+					#LatitudeString# / #LongitudeString#
+				<cfelse>
+					<b>NoGeorefBecause: #NoGeorefBecause#</b>
+				</cfif>
+				<cfif len(minimum_elevation) gt 0> (min-elevation: #minimum_elevation##orig_elev_units#,</cfif>
+				<cfif len(maximum_elevation) gt 0> max-elevation: #maximum_elevation##orig_elev_units#)</cfif>
+				<cfif len(min_depth) gt 0> (min-depth: #min_depth##depth_units#,</cfif>
+				<cfif len(max_depth) gt 0> max-depth: #max_depth##depth_units#)</cfif>
+				Determined by #coordinateDeterminer# on #dateformat(determined_date,"yyyy-mm-dd")# using #lat_long_ref_source#
+				</font>
+			</td>
+		</tr>
+		<cfset i=#i#+1>
+	</cfloop>
+</table>
+</div>
+</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findGeog">
-         <div style="width: 49em; margin:0 auto; padding: 2em 0 3em 0;">
-<cfoutput>
+	<div style="width: 49em; margin:0 auto; padding: 2em 0 3em 0;">
+	<cfoutput>
 		<cf_findLocality>
 		<!--- need to filter out distinct --->
 		<cfquery name="localityResults2" dbtype="query">
-			select distinct geog_auth_rec_id,higher_geog
+			select count(locality_id) as ct, geog_auth_rec_id,higher_geog
 			from localityResults
+			group by geog_auth_rec_id, higher_geog
 			order by higher_geog
 		</cfquery>
-<table border>
-<tr><td><b>Geog ID</b></td><td><b>Higher Geog</b></td></tr>
-<cfloop query="localityResults2">
-<tr>
-	<td><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
-	<td>
-		<!--- make this as input that looks like test to make copying easier --->
-		<input style="border:none;" value="#higher_geog#" size="80" readonly/>
-	</td>
-</tr>
-</cfloop>
-</cfoutput>
-</table>
-    </div>
+		<table border>
+		<tr>
+			<td><b>Geog ID</b></td><td><b>Higher Geog</b></td><td><b>Localities</b></td>
+		</tr>
+		<cfloop query="localityResults2">
+			<tr>
+				<td><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
+				<td>
+					<input style="border:none;" value="#higher_geog#" size="80" readonly/>
+				</td>
+				<td>#ct#</td>
+			</tr>
+		</cfloop>
+		</table>
+	</cfoutput>
+	</div>
 </cfif>
 
 <!---------------------------------------------------------------------------------------------------->
