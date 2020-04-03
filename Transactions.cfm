@@ -478,8 +478,8 @@ TO-DO:  see where it can be added to the current script/function--->
 												<div class='col-md-2 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-															<label class="data-entry-label mb-0" for="trans_date">Loan Date: (start)</label>
-															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-10" value="#trans_date#">
+															<label class="data-entry-label mb-0 ml-2" for="trans_date">Loan Date: (start)</label>
+															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-sm-10 ml-auto" value="#trans_date#">
 														</div>
 													</div>
 												</div>
@@ -494,8 +494,8 @@ TO-DO:  see where it can be added to the current script/function--->
 												<div class='col-md-2 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-															<label class="data-entry-label mb-0" for="return_due_date">Due Date: (start)</label>
-															<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-10" value="#return_due_date#" >
+															<label class="data-entry-label mb-0 ml-2" for="return_due_date">Due Date: (start)</label>
+															<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-sm-10 ml-auto" value="#return_due_date#" >
 														</div>
 													</div>
 												</div>
@@ -510,8 +510,8 @@ TO-DO:  see where it can be added to the current script/function--->
 												<div class='col-md-2 col-12'>
 													<div class="form-group">
 														<div class='input-group date'>
-															<label class="data-entry-label mb-0" for="closed_date">Close Date: (start)</label>
-															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-sm-10" value="#closed_date#" >
+															<label class="data-entry-label mb-0 ml-2" for="closed_date">Close Date: (start)</label>
+															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-sm-10 ml-auto" value="#closed_date#" >
 														</div>
 													</div>
 												</div>
