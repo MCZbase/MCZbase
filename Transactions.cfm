@@ -411,7 +411,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="border rounded px-2 my-2 mx-1">
-									<div class="form-row barbershop-pole px-2 mb-2 mt-1 pt-1 pb-2"> 
+									<div class="form-row barbershop-pole px-2 mb-1 mt-1 pt-1 pb-2"> 
 										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
