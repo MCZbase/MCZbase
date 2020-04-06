@@ -5,10 +5,14 @@
 	cgi.script_name is not "/ChangePassword.cfm")>
 	<cflocation url="/ChangePassword.cfm">
 </cfif>
-<cfif fileexists(application.webDirectory & replace('#cgi.script_name#','//','/'))>
+<cfset filePath = replace('#cgi.script_name#','//','/') >
+<cfif fileexists(application.webDirectory & filePath)>
 	<cfquery name="isValid" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 		select ROLE_NAME from cf_form_permissions
-		where form_path = replace('#cgi.script_name#','//','/')
+		where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
+		union
+		select ROLE_NAME from cf_form_permissions_r
+		where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfif isValid.recordcount is 0>
 		<cfset bad=true>
