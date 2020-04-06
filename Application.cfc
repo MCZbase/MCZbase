@@ -255,7 +255,6 @@ limitations under the License.
 		<cfset Application.fromEmail = "#serverName#" />
 		<!--- Default header/style apperance --->
 		<cfset Application.header_color = "##E7E7E7" />
-		<cfset Application.header_image = "/images/genericHeaderIcon.gif" />
 		<cfset Application.collection_url = "/" />
 		<cfset Application.collection_link_text = "Error: Host configuration problem: #serverName# not recognized" />
 		<cfset Application.stylesheet = "/shared/css/custom_styles.css" />
@@ -274,13 +273,11 @@ limitations under the License.
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			    <cfset Application.collection_link_text = "MCZ<span>BASE-TEST</span>:The Database of the Zoological Collections" />
-			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 		    <cfelseif serverName contains "-dev">
 			    <cfset Application.header_color = "##CAEAAD" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "##94131C" />
 			     <cfset Application.collection_link_text = "MCZ<span>BASE-DEV</span>:The Database of the Zoological Collections" />
-			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 				<cfset Application.meta_description = "MCZbase is the natural science collections database of the Museum of Comparative Zoology at Harvard University." />
 			 <cfelse>
                 <!--- Production MCZbase values --->
@@ -288,7 +285,6 @@ limitations under the License.
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.collectionlinkcolor = "white" />
 			    <cfset Application.collection_link_text = "MCZ<span>BASE</span>:The Database of the Zoological Collections" />
-			    <cfset Application.header_image = "/shared/images/mcz_logo_white_left.png" />
 			</cfif>
 			<cfset Application.collection_url = "http://www.mcz.harvard.edu" />
 			<cfset Application.institution_url = "http://www.mcz.harvard.edu" />

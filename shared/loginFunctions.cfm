@@ -15,7 +15,6 @@
 	</cfif>
 	<cfset session.portal_id=portal_id>
 	<cfset session.header_color = Application.header_color>
-	<cfset session.header_image =  Application.header_image>
 	<cfset session.collection_url =  Application.collection_url>
 	<cfset session.collection_link_text =  Application.collection_link_text>
 	<cfset session.institution_url =  Application.institution_url>
