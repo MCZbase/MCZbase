@@ -410,7 +410,9 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row border rounded px-2 mb-2 mt-2 pt-1 pb-3 mx-1"> <span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
+									<div class="border rounded px-2 mb-3 mt-2 mx-1">
+									<div class="form-row barbershop-pole px-2 my-2 pt-1 pb-2"> 
+										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
 												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -469,78 +471,62 @@ limitations under the License.
 											$(makeAgentPicker('agent_3','agent_3_id'));
 										});
 										</script> 
+										</div>
 									</div>
-									<!---I wanted to use this because the changeMonth and changeYear would be useful.  It has an ID for "from" and "to" and since there are 3 of them, only the first one works. 
-TO-DO:  see where it can be added to the current script/function---> 
-									<div class="form-row mb-0">
-										<div class="col-12 col-md-12 col-xl-9 mb-1">
-											<div class="form-row border rounded px-2 mt-1 pt-1 pb-0 mx-1 bg-light">
-												<div class='col-lg-2 col-md-6 col-12'>
-													<div class="form-group">
-														<div class='input-group date'>
-															<label class="data-entry-label mb-0 ml-md-2" for="trans_date">Loan Date: (start)</label>
-															<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#trans_date#">
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-2 col-md-6 col-12">
-													<div class="form-group">
-														<div class='input-group date'>
-															<label class="data-entry-label mb-0" for="to"> (end date)</label>
-															<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10" aria-label="loan date search range to" aria-described="trans_date_to">
-														</div>
-													</div>
-												</div>
-												<div class='col-lg-2 col-md-6 col-12'>
-													<div class="form-group">
-														<div class='input-group date'>
-															<label class="data-entry-label mb-0 ml-md-2" for="return_due_date">Due Date: (start)</label>
-															<input name="return_due_date" id="return_due_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#return_due_date#" >
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-2 col-md-6 col-12">
-													<div class="form-group">
-														<div class='input-group date'>
-															<label class="data-entry-label mb-0" for="to"> (end date)</label>
-															<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" class="datetimeinput data-entry-input col-10" aria-label="due date search range to" aria-described="return_due_date_to_marker">
-														</div>
-													</div>
-												</div>
-												<div class='col-lg-2 col-md-6 col-12'>
-													<div class="form-group">
-														<div class='input-group date'>
-															<label class="data-entry-label mb-0 ml-md-2" for="closed_date">Close Date: (start)</label>
-															<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10 ml-md-auto" value="#closed_date#" >
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-2 col-md-6 col-12">
-													<div class="form-group">
-														<div class='input-group date'>
-															<label class="data-entry-label mb-0" for="to_closed_date"> (end date)</label>
-															<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
-														</div>
-													</div>
+									<div class="col-12 col-md-12 col-xl-12">
+										<div class="row">
+											<div class="col-sm pl-2">
+												<div class='date form-row bg-light border rounded pl-2 pb-2 pt-0'>
+													<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#trans_date#">
+													<label class="data-entry-label sr-only" for="to"></label>
+													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-10"  placeholder="end of range" aria-label="loan date search range to" aria-described="trans_date_to">
 												</div>
 											</div>
-										</div>
-										<div class="col-12 col-md-12 col-xl-3">
-											<div class="form-row border rounded px-2 mt-1 py-3 mx-1">
-												<div class="col-12 col-md-3">
-													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+											<div class="col-sm">
+												<div class='date form-row bg-light border rounded pl-2 pb-2 pt-0'>
+													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
+													<input name="return_due_date" id="return_due_date" type="text" placeholder="start of range" class="datetimeinput data-entry-input col-10">
+													<label class="data-entry-label sr-only" for="to"></label>
+													<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end of range" class="datetimeinput data-entry-input col-10" aria-label="due date search range to" aria-described="return_due_date_to_marker">
 												</div>
-												<div class="col-12 col-md-9">
-													<div class="input-group float-left">
+											</div>
+											<div class="col-sm">
+												<div class="date form-row border bg-light rounded pl-2 pb-2 pt-0">
+													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
+													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-10"  placeholder="start of range" value="#closed_date#" >
+													<label class="data-entry-label sr-only" for="to_closed_date"> </label>
+													<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end of range" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
+												</div>
+											</div>
+											<div class="col-sm-6 px-0">
+												<div class="form-row border bg-light rounded px-2 mt-0 py-3 mx-1">
+													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+													<div class="input-group float-left px-2">
 														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
-														<!--- TODO: move backing into transactions/ change from popup window. --->
 														<div class="input-group-append"> <span class="input-group-text py-0" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span> </div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
+									<!---				<div class="col-12 col-md-12 col-xl-3">
+							<div class="form-row border rounded px-2 mt-1 py-3 mx-1">
+								<div class="col-12 col-md-3">
+									<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+								</div>
+								<div class="col-12 col-md-9">
+									<div class="input-group float-left">
+										<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+										<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
+										
+										<div class="input-group-append"> <span class="input-group-text py-0" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span> </div>
+									</div>
+								</div>
+							</div>
+						</div>---> 
+									
 									<script>
 										$(document).ready(function() {
 											$(makePermitPicker('permit_num','permit_id'));
