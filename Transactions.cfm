@@ -410,8 +410,8 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="border rounded px-2 mb-3 mt-2 mx-1">
-									<div class="form-row barbershop-pole px-2 my-2 pt-1 pb-2"> 
+									<div class="border rounded px-2 my-1 mx-1">
+									<div class="form-row barbershop-pole px-2 my-1 pt-0 pb-0"> 
 										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
@@ -550,7 +550,7 @@ limitations under the License.
 											<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 										</div>
 									</div>
-									<div class="form-row border rounded pt-1 px-2 pb-3 my-3 mx-1 bg-light">
+									<div class="form-row border rounded pt-1 px-2 pb-3 my-1 mx-1 bg-light">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
