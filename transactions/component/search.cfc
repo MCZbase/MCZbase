@@ -147,7 +147,7 @@ limitations under the License.
 			<cfset row["additional_inhouse_contact"] = "#search.addInHouse_agent#">
 			<cfset row["additional_outside_contact"] = "#search.addOutside_agent#">
 			<cfset row["recipient_institution"] = "#search.recip_inst#">
-			<!-- cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>" --->
+			<!--- cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>" --->
 			<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
