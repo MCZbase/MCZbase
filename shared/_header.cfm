@@ -166,7 +166,7 @@ limitations under the License.
 	</ul>
 	<ul class="navbar col-lg-3 col-sm-3 pt-0 pb-0 mb-1 d-flex justify-content-end">
 		<li class="nav-item d-flex align-content-end"> 
-			<a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="#Application.header_image#" width="160" alt="mcz kronosaurus logo with link to website"></a> 
+			<a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> 
 		</li>
 	</ul>
 </div>

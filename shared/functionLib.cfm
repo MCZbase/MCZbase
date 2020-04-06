@@ -59,7 +59,6 @@ limitations under the License.
 	<!---  Bring application display configuration information into the session. --->
 	<!--- TODO: Confirm that all of these are needed in MCZbase in the redesign.  --->
 	<cfset session.header_color = Application.header_color>
-	<cfset session.header_image =  Application.header_image>
 	<cfset session.collection_url =  Application.collection_url>
 	<cfset session.collection_link_text =  Application.collection_link_text>
 	<cfset session.institution_url =  Application.institution_url>
