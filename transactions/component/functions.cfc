@@ -295,7 +295,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select distinct permit_num, permit_type, specific_type, permit_title, issued_date, permit.permit_id,
+			select distinct permit_num, permit_type, specific_type, permit_title, to_char(issued_date,'YYYY-MM-DD'), permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent
 			from permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
 				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
@@ -308,7 +308,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.permit_id#">
-			<cfif len(search.issued_date) gt 0><cfset i_date= ", " || search.issued_date><cfelse><cfset i_date=""></cfif>
+			<cfif len(search.issued_date) gt 0><cfset i_date= ", " & search.issued_date><cfelse><cfset i_date=""></cfif>
 			<cfset row["value"] = "#search.permit_num# #search.permit_title# (#search.specific_type##i_date#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -316,7 +316,7 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getAgentPartName: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfset message = trim("Error processing getPermitAutocomplete: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
 		<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
 				<div class="container">
