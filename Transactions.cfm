@@ -1037,18 +1037,20 @@ function gridLoaded(gridId, searchType) {
 		},
 		open: function (event, ui) { 
 			var maxZIndex = getMaxZIndex();
-			$('.ui-dialog').css({'z-index': maxZIndex + 2 });
-			$('.ui-widget-overlay').css({'z-index': maxZIndex + 1 });
+			// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+			$('.ui-dialog').css({'z-index': maxZIndex + 4 });  
+			$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
 		} 
 	});
 	$("##columnPickDialogButton").html(
 		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
 	);
 	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
-	// 600 is the z-index of the grid cells when created from the transaction search
+	// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 	var maxZIndex = getMaxZIndex();
 	$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 	$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+	$('.jqx-popup').css({'z-index': maxZIndex + 2});
 	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 
