@@ -1050,7 +1050,7 @@ function gridLoaded(gridId, searchType) {
 	var maxZIndex = getMaxZIndex();
 	$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 	$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-	$('.jqx-popup').css({'z-index': maxZIndex + 2});
+	$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 
