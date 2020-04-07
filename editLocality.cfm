@@ -440,7 +440,7 @@
 						</li>
 					</ul>
 
-					   <div style="top: 0;right:10px;position:absolute;height: 260px;width: 250px;">
+					   <div style="top: 0;right:10px;position:absolute;height: 288px;width: 288px;">
 						  <cfif len(getAccLL.dec_lat) gt 0 and len(getAccLL.dec_long) gt 0 and (getAccLL.dec_lat is not 0 and getAccLL.dec_long is not 0)>
 							<cfset coordinates="#getAccLL.dec_lat#,#getAccLL.dec_long#">
 							<input type="hidden" id="coordinates_#getAccLL.locality_id#" value="#coordinates#">
@@ -499,7 +499,7 @@
             <input type="hidden" name="locality_id" value="#locality_id#">
          </table>
 			<br><br>
-            <table>
+            <table style="margin-top: 3em;">
 			<tr>
 				<td><h4 style="margin-bottom: .5em;">Locality</h4></td>
 			</tr>
