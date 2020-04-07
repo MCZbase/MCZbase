@@ -167,7 +167,7 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-11 col-sm-12 col-lg-11">
-					<h1 class="h3 smallcaps mt-4 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+					<h1 class="h3 smallcaps my-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 tab-card"> 
 						
 						<!--- Set Active Tab --->
@@ -312,7 +312,7 @@ limitations under the License.
 							
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="wikilink pl-2 mb-0">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+								<h2 class="wikilink pl-2 mb-0 mt-1">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 								
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -410,8 +410,8 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="border rounded px-2 mb-3 mt-2 mx-1">
-									<div class="form-row barbershop-pole px-2 my-2 pt-1 pb-2"> 
+									<div class="border rounded px-2 my-1 mx-1">
+									<div class="form-row barbershop-pole px-2 my-1 pt-0 pb-0"> 
 										<span class="text-left mr-auto w-100 pl-2"><small>Loan Agents</small></span>
 										<div class="col-12 col-md-4">
 											<div class="input-group input-group-sm">
@@ -550,7 +550,7 @@ limitations under the License.
 											<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 										</div>
 									</div>
-									<div class="form-row border rounded pt-1 px-2 pb-3 my-3 mx-1 bg-light">
+									<div class="form-row border rounded pt-1 px-2 pb-3 my-1 mx-1 bg-light">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
@@ -609,7 +609,7 @@ limitations under the License.
 											</script> 
 										</div>
 									</div>
-									<div class="form-row mb-4">
+									<div class="form-row mb-1">
 										<div class="col-12 text-center">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -1037,18 +1037,20 @@ function gridLoaded(gridId, searchType) {
 		},
 		open: function (event, ui) { 
 			var maxZIndex = getMaxZIndex();
-			$('.ui-dialog').css({'z-index': maxZIndex + 2 });
-			$('.ui-widget-overlay').css({'z-index': maxZIndex + 1 });
+			// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+			$('.ui-dialog').css({'z-index': maxZIndex + 4 });  
+			$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
 		} 
 	});
 	$("##columnPickDialogButton").html(
 		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
 	);
 	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
-	// 600 is the z-index of the grid cells when created from the transaction search
+	// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 	var maxZIndex = getMaxZIndex();
 	$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 	$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+	$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 

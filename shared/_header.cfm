@@ -181,7 +181,7 @@ limitations under the License.
 
 	<div class="collapse navbar-collapse" id="navbarToggler1">
 		<ul class="navbar-nav mr-auto mt-2 mt-lg-0 pl-1">
-	<li class="nav-item dropdown">
+			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Data Searches
 				</a>
@@ -194,7 +194,7 @@ limitations under the License.
 					<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="##">Taxonomy</a>
 				</div>
 			</li>
-	<li class="nav-item dropdown">
+			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Data Entry
 				</a>
@@ -204,10 +204,10 @@ limitations under the License.
 					<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
 					<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
 					<a class="dropdown-item" name="bulkloader status" href="##">Bulkloader Status</a>
-			<a class="dropdown-item" name="batch tools" href="##">Batch Tools</a>
+					<a class="dropdown-item" name="batch tools" href="##">Batch Tools</a>
 				</div>
 			</li>
-	<li class="nav-item dropdown">
+			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Manage Data
 				</a>
@@ -222,7 +222,7 @@ limitations under the License.
 					<a class="dropdown-item" name="record review" href="##">Record Review</a>
 				</div>
 			</li>
-	<li class="nav-item dropdown">
+			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Transactions
 				</a>
@@ -236,85 +236,84 @@ limitations under the License.
 					<a class="dropdown-item" name="permits" href="##">Permits</a>
 				</div>
 			</li>
-		<li class="nav-item dropdown">
+			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Help
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">
 					<a class="dropdown-item" name="MCZbase Wiki" href="##">MCZbase Wiki</a>
 					<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
-			 		<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
+					<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 				</div>
 			</li>
 		</ul>
-	<cfif isdefined("session.username") and len(#session.username#) gt 0>
-		 <ul class="navbar-nav mt-2 mt-lg-0 pl-2">
-		 <li class="nav-item dropdown">
-			 <a class="nav-link dropdown-toggle pl-1 border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Account	<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-						<i class="fas fa-user-check color-green"></i> 
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			<ul class="navbar-nav mt-2 mt-lg-0 pl-2">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle pl-1 border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Account
+						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+							<i class="fas fa-user-check color-green"></i> 
+						<cfelse>
+							<i class="fas fa-user-cog text-body"></i> 
+						</cfif>	
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinka">
+						<cfif session.roles contains "coldfusion_user">
+							<form name="profile" method="post" action="/UserProfile.cfm">
+								<input type="hidden" name="action" value="nothing">
+								<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+							</form>
+						</cfif>
+						<cfif session.roles contains "public">
+							<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
+							<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+						</cfif>
+					</div>
+				</li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0 pl-2" name="signOut" method="post" action="/login.cfm">
+				<input type="hidden" name="action" value="signOut">	
+				<button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
+					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+						&nbsp; <small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+					</cfif>
+				</button>
+			</form>
+		<cfelse>
+			<cfif isdefined("gotopage") and len(gotopage) GT 0>
+				<cfset gtp = gotopage>
+			<cfelse>
+				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+					<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+				<cfelse>
+					<cfset requestData = #GetHttpRequestData()#>
+					<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+						<cfset gtp=requestData.headers.referer>
 					<cfelse>
-						<i class="fas fa-user-cog text-body"></i> 
-					</cfif>	
-			</a>
-		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinka">
-		<cfif session.roles contains "coldfusion_user">
-			<form name="profile" method="post" action="/UserProfile.cfm">
-				<input type="hidden" name="action" value="nothing">
-				<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-			
+						<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+					</cfif>
+				</cfif>
+			</cfif>
+			<cfif gtp EQ '/errors/forbidden.cfm'>
+				<cfset gtp = "/UserProfile.cfm">
+			</cfif>
+			<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 400px;">
+				<input type="hidden" name="action" value="signIn">
+				<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
+				<input type="hidden" name="gotopage" value="#gtp#">
+				<div class="login-form" id="header_login_form_div">
+					<label for="Username" class="sr-only"> Username:</label>
+					<input type="text" name="username" id="Username" size="14" placeholder="username" class="border d-inline-block h-auto rounded loginButtons" style="width: 105px;">
+					<label for="Password" class="mr-1 sr-only"> Password:</label>
+					<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="border d-inline-block h-auto rounded loginButtons" style="width: 65px;">
+					<label for="Login" class="mr-1 sr-only"> Password:</label>
+					<input type="submit" value="Log In" id="login" class="btn btn-primary btn-sm loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+					<label for="CreateAccount" class="mr-1 sr-only"> Password:</label>
+					<input type="submit" value="Register" class="btn btn-primary btn-sm loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+				</div>
 			</form>
 		</cfif>
-		<cfif session.roles contains "public">
-			<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
-			<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
-		</cfif>
-		</div>
-		</li>
-		</ul>
-		<form class="form-inline my-2 my-lg-0 pl-2" name="signOut" method="post" action="/login.cfm">
-			<input type="hidden" name="action" value="signOut">	
-			<button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
-				<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-					&nbsp; <small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-				</cfif>
-			</button>
-		</form>
-	<cfelse>
-	
-		<cfif isdefined("gotopage") and len(gotopage) GT 0>
-			<cfset gtp = gotopage>
-		<cfelse>
-			<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-				 <cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-			<cfelse>
-		 		<cfset requestData = #GetHttpRequestData()#>
-				<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
-				<cfset gtp=requestData.headers.referer>
-			<cfelse>
-			 	<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-			</cfif>
-	 	 </cfif>
-		</cfif>
-		<cfif gtp EQ '/errors/forbidden.cfm'>
-			<cfset gtp = "/UserProfile.cfm">
-		</cfif>
-				<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 400px;">
-					<input type="hidden" name="action" value="signIn">
-					<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
-					<input type="hidden" name="gotopage" value="#gtp#">
-					<div class="login-form" id="header_login_form_div">
-						<label for="Username" class="sr-only"> Username:</label>
-						<input type="text" name="username" id="Username" size="14" placeholder="username" class="border d-inline-block h-auto rounded loginButtons" style="width: 105px;">
-						<label for="Password" class="mr-1 sr-only"> Password:</label>
-						<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="border d-inline-block h-auto rounded loginButtons" style="width: 65px;">
-						<label for="Login" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Log In" id="login" class="btn btn-primary btn-sm loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-						<label for="CreateAccount" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Register" class="btn btn-primary btn-sm loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
-					</div>
-				</form>
-			</cfif>
 	</div>
 </nav>
 </header>
