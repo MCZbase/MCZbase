@@ -122,12 +122,21 @@ limitations under the License.
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfswitch expression="#search.transaction_type#">
-				<cfcase value="loan"><cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
-				<cfcase value="accn"><cfset targetform = "editAccn.cfm?action=edit&"></cfcase>
-				<cfcase value="borrow"><cfset targetform = "Borrow.cfm?action=edit&"></cfcase>
-				<cfcase value="deaccession"><cfset targetform = "Deaccession.cfm?action=editDeacc&"></cfcase>
-			</cfswitch>
+			<cfif isdefined("Application.header_image")>
+				<!--- Links for integration on production --->
+				<cfswitch expression="#search.transaction_type#">
+					<cfcase value="loan"><cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
+					<cfcase value="accn"><cfset targetform = "editAccn.cfm?action=edit&"></cfcase>
+					<cfcase value="borrow"><cfset targetform = "Borrow.cfm?action=edit&"></cfcase>
+					<cfcase value="deaccession"><cfset targetform = "Deaccession.cfm?action=editDeacc&"></cfcase>
+				</cfswitch>
+			<cfelse>
+				<!--- Links for redesign --->
+				<cfswitch expression="#search.transaction_type#">
+					<cfcase value="loan"><cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
+					<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
+				</cfswitch>
+			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["transaction_id"] = "#search.transaction_id#">
 			<cfset row["trans_date"] = "#search.trans_date#">
@@ -147,8 +156,13 @@ limitations under the License.
 			<cfset row["additional_inhouse_contact"] = "#search.addInHouse_agent#">
 			<cfset row["additional_outside_contact"] = "#search.addOutside_agent#">
 			<cfset row["recipient_institution"] = "#search.recip_inst#">
-			<!--- cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>" --->
-			<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
+			<cfif isdefined("Application.header_image")>
+				<!--- Links for integration on production --->
+				<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
+			<cfelse>
+				<!--- Links for redesign --->
+				<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
+			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -406,7 +420,13 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
+			<cfif isdefined("Application.header_image")>
+				<!--- Link for integration on production --->
+				<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
+			<cfelse>
+				<!--- Link for redesign --->
+				<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
+			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
