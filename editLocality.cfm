@@ -1904,7 +1904,8 @@
 							,GPSACCURACY
 							,GEOREFMETHOD
 							,VERIFICATIONSTATUS
-							,VERIFIED_BY_AGENT_ID)
+							,VERIFIED_BY_AGENT_ID
+							,ERROR_POLYGON)
 						VALUES (
 							sq_lat_long_id.nextval,
 							#lid#
@@ -2035,6 +2036,11 @@
 								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
 							<cfelse>
 								,NULL
+							</cfif>
+							<cfif len(#ERROR_POLYGON#) gt 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#ERROR_POLYGON#">
+							<cfelse>
+								,NULL
 							</cfif>)
 					</cfquery>
 				</cfloop>
@@ -2079,7 +2085,8 @@
 							,GPSACCURACY
 							,GEOREFMETHOD
 							,VERIFICATIONSTATUS,
-							,VERIFIED_BY_AGENT_ID)
+							,VERIFIED_BY_AGENT_ID
+							,ERROR_POLYGON)
 						VALUES (
 							sq_lat_long_id.nextval,
 							#lid#
@@ -2208,6 +2215,11 @@
 							,'#VERIFICATIONSTATUS#'
 							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
 								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#ERROR_POLYGON#) gt 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#ERROR_POLYGON#">
 							<cfelse>
 								,NULL
 							</cfif>)
