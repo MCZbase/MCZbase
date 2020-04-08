@@ -1785,7 +1785,7 @@ INSERT INTO geog_auth_rec (
 	<tr>
 		<td><b>Geog</b></td>
 		<td><b>Locality</b></td>
-		<cfif include_counts EQ 1><td>Specimens</td></cfif>
+		<cfif include_counts EQ 1><td>Specimens (for locality)</td></cfif>
 		<td><b>Verbatim&nbsp;Locality</b></td>
 		<td><b>Began&nbsp;Date</b></td>
 		<td><b>End&nbsp;Date</b></td>
