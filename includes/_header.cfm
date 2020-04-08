@@ -179,6 +179,7 @@
                 <cfif listfind(formList,"/Loan.cfm")>
                 <li><a target="_top" href="##">Transactions</a>
                       <ul>
+                        <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
                         <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
                         <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
                         <li><a target="_top" href="/Loan.cfm?Action=newLoan">Create Loan</a></li>
