@@ -57,6 +57,9 @@
 <cfif not isdefined("anchor")>
 	<cfset anchor="">
 </cfif>
+<cfif not isdefined("include_counts")>
+	<cfset include_counts=0>
+</cfif>
 <!--------------------------- Code-table queries -------------------------------------------------->
 <cfquery name="ctContinentOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select continent_ocean from ctcontinent order by continent_ocean
