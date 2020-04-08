@@ -203,25 +203,26 @@ limitations under the License.
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<label for="collection_id">Collection/Number <span class="format_example"><small>(nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll)</small></span>:</label>
-											<div class="input-group">
-												<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
-													<option value="-1">any collection</option>
-													<cfloop query="ctcollection">
-														<cfif ctcollection.collection eq selectedCollection>
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
-													</cfloop>
-												</select>
-												<cfif not isdefined("number")>
-													<cfset number="">
-												</cfif>
-												<input id="number" type="text" class="has-clear form-control form-control-sm rounded" name="number" placeholder="" value="#number#">
-											</div>
+										<div class="col-12 col-md-3">
+											<label for="collection_id">Collection:</label>
+											<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
+												<option value="-1">any collection</option>
+												<cfloop query="ctcollection">
+													<cfif ctcollection.collection eq selectedCollection>
+														<cfset selected="selected">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<cfif not isdefined("number")>
+												<cfset number="">
+											</cfif>
+											<label for="number">Number <span class="format_example"><small>(nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll)</small></span>:</label>
+											<input id="number" type="text" class="has-clear form-control form-control-sm rounded" name="number" placeholder="" value="#number#">
 										</div>
 										<div class="col-12 col-md-6">
 											<cfset pstatus = status>
