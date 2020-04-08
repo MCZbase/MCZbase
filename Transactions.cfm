@@ -204,7 +204,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
-											<label for="collection_id">Collection:</label>
+											<label for="collection_id">Collection Name:</label>
 											<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
