@@ -506,7 +506,7 @@ limitations under the License.
 													<div class="input-group float-left px-2">
 														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
-														<div class="input-group-append"> <span class="input-group-text py-0" onclick="getHelp('get_permit_number');" aria-label="Pick a Permit">Pick</span> </div>
+														<div class="input-group-append"> <span class="input-group-text py-0" onclick="alert('Not working yet, start typing a number or title in the permit field');" aria-label="Pick a Permit">Pick</span> </div>
 													</div>
 												</div>
 											</div>
