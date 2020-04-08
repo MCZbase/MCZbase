@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-   
+
 <cfset title="Bulkload Specimens">
 <cfif #action# is "nothing">
  <div class="basic_box">
@@ -7,7 +7,7 @@
            <h2 class="wikilink">Load your .csv file.</h2>
         <p>Upload a comma-delimited text file (csv).</p>
         <p>If your text file does not load, you can build templates that will load using the <a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>.</p>
-   
+
         <br><br>
 <cfform name="oids" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="Action" value="getFile">
@@ -39,7 +39,7 @@
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
 			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				<cfset thisBit=arrResult[o][i]>
+				<cfset thisBit=trim(arrResult[o][i])>
 				<cfif #o# is 1>
 					<cfset colNames="#colNames#,#thisBit#">
 				<cfelse>
@@ -69,7 +69,7 @@
     <h3>Success!</h3>
     <p>You successfully loaded #c.cnt# records into the <em><strong>staging</strong></em> table.
 	They have not been checked or processed yet. You aren't done here!</p>
-	
+
 	<ul class="geol_hier">
 		<li>
 			<a href="BulkloadSpecimens.cfm?action=checkStaged" target="_self">Check and load these records</a>.
@@ -166,5 +166,5 @@
 	</cfif>
 </cfoutput>
 </cfif>
-    
+
 <cfinclude template="/includes/_footer.cfm">
