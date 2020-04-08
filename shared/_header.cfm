@@ -74,7 +74,6 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdate.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxslider.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcheckbox.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.pager.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.grouping.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.aggregates.js"></script>
