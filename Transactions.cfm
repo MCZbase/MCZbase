@@ -201,27 +201,28 @@ limitations under the License.
 							<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 								<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 								<form id="searchForm">
-									<input  type="hidden" name="method" value="getTransactions" class="keeponclear">
+									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<label for="collection_id">Collection/Number (nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll):</label>
-											<div class="input-group">
-												<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
-													<option value="-1">any collection</option>
-													<cfloop query="ctcollection">
-														<cfif ctcollection.collection eq selectedCollection>
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
-													</cfloop>
-												</select>
-												<cfif not isdefined("number")>
-													<cfset number="">
-												</cfif>
-												<input id="number" type="text" class="has-clear form-control form-control-sm rounded" name="number" placeholder="" value="#number#">
-											</div>
+										<div class="col-12 col-md-3">
+											<label for="collection_id">Collection:</label>
+											<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
+												<option value="-1">any collection</option>
+												<cfloop query="ctcollection">
+													<cfif ctcollection.collection eq selectedCollection>
+														<cfset selected="selected">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<cfif not isdefined("number")>
+												<cfset number="">
+											</cfif>
+											<label for="number">Number <span class="format_example"><small>(nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll)</small></span>:</label>
+											<input id="number" type="text" class="has-clear form-control form-control-sm rounded" name="number" placeholder="" value="#number#">
 										</div>
 										<div class="col-12 col-md-6">
 											<cfset pstatus = status>
@@ -312,7 +313,7 @@ limitations under the License.
 							
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="wikilink pl-2 mb-0 mt-1">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+								<h2 class="wikilink h3 card-title ml-2 mb-0 mt-1">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
 								
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
