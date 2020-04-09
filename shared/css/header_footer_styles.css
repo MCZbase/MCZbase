@@ -85,7 +85,7 @@ nav .navbar-nav li a.nav-link {
 .harvard_banner {
 	background-color: #a51c30;
 	margin-block-end: 0;
-	padding: .5rem .25rem .7rem .5rem;
+	padding: .5rem .25rem 0 0;
 }
 .branding {
 	color: white;
@@ -96,7 +96,7 @@ nav .navbar-nav li a.nav-link {
 }
 .branding-right {
 	float: right;
-	line-height: 38px;
+	line-height: 26px;
 	margin: 0 15px 0 0;
 }
 .branding a {
@@ -107,8 +107,8 @@ nav .navbar-nav li a.nav-link {
 	border-bottom: 1px dotted white;
 }
 img.shield {
-	width: 28px;
-	height: 32px;
+	width: 19px;
+	height: 19px;
 }
 .mcz2 {
 	list-style: none;
@@ -330,7 +330,7 @@ body > .container {
 	}
 	.mcz2 {
 		width: 100%;
-		padding-bottom: .1em;
+		padding-bottom: 0;
 	}
 	.mcz2 a {
 		color: white;
@@ -345,6 +345,7 @@ body > .container {
 	.mczbase a {
 		color: white;
 		text-decoration: none;
+		padding-top:-5px;
 	}
 	img.mcz_logo_krono {
 		display: block;
