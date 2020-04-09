@@ -69,6 +69,7 @@
 			higher_geog,
 			spec_locality,
 			sovereign_nation,
+			locality_remarks,
 			began_date,
 			ended_date,
 			verbatim_date,

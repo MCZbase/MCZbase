@@ -27,12 +27,13 @@
 </cfif>
 <!-------------------------------------------------------------------->
 <cfif #Action# is "findLocality">
-<cfset title = "Select a Locality">
-<cfoutput>
+	<cfset title = "Select a Locality">
+	<cfoutput>
 	<cf_findLocality>
 	<cfquery name="localityResults" dbtype="query">
-		select
+		select distinct
 			locality_id,geog_auth_rec_id,locality_id,spec_locality,higher_geog,
+			locality_remarks,
 			LatitudeString,LongitudeString,NoGeorefBecause,
 			minimum_elevation,maximum_elevation,orig_elev_units,
 			min_depth,max_depth,depth_units,
@@ -41,32 +42,23 @@
 			lat_long_ref_source,
 			geolAtts
 		from localityResults
-		group by
-			locality_id,geog_auth_rec_id,locality_id,spec_locality,higher_geog,LatitudeString,
-			LongitudeString,NoGeorefBecause,
-			minimum_elevation,maximum_elevation,orig_elev_units,
-			min_depth,max_depth,depth_units,
-			coordinateDeterminer,
-			determined_date,
-			lat_long_ref_source,
-			geolAtts
 	</cfquery>
 	<table border>
-    	<tr>
-      		<td><b>&nbsp;</b></td>
-	   		<td><b>Spec Locality</b></td>
-    	</tr>
-    	 <cfloop query="localityResults">
-      		<tr #iif(currentrow MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-       			<td>
-		  			<input type="button" value="Accept" class="lnkBtn"
-   						onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
-  						onClick="javascript: opener.document.#formName#.#localityIdFld#.value='#locality_id#';
+		<tr>
+			<td><b>&nbsp;</b></td>
+			<td><b>Spec Locality</b></td>
+		</tr>
+		<cfloop query="localityResults">
+			<tr #iif(currentrow MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+				<td>
+					<input type="button" value="Accept" class="lnkBtn"
+						onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
+						onClick="javascript: opener.document.#formName#.#localityIdFld#.value='#locality_id#';
 						opener.document.#formName#.#speclocFld#.value='#URLEncodedFormat(spec_locality)#';
 						self.close();">
 				</td>
 				<td>
-          			<span style="font-size:.7em">#higher_geog#</span>
+					<span style="font-size:.7em">#higher_geog#</span>
 					<br>#localityResults.spec_locality#
 					<cfif len(geolAtts) gt 0> [#geolAtts#] </cfif>
 					<br>
@@ -78,7 +70,7 @@
 							#NoGeorefBecause#
 						</cfif>
 					</span>
-		  			<cfif len(#orig_elev_units#) gt 0>
+					<cfif len(#orig_elev_units#) gt 0>
 						<br>
 						<span style="font-size:.7em">
 							Elevation: #minimum_elevation#-#maximum_elevation# #orig_elev_units#
@@ -90,19 +82,17 @@
 							Depth: #min_depth#-#max_depth# #depth_units#
 						</span>
 					</cfif>
+					<cfif len(#locality_remarks#) gt 0>
+						<br>
+						<span style="font-size:.7em">Remarks: #locality_remarks#</span>
+					</cfif>
 				</td>
-
-</tr>
-
-</cfloop>
-                          </table>
-
-
-
-
-		<!---
-		<br><a href="javascript: opener.document.#formName#.#localityIdFld#.value='#locality_id#';opener.document.#formName#.#speclocFld#.value='#spec_locality#';self.close();" onClick="">#spec_locality#</a>
---->
-    </cfoutput>
+			</tr>
+		</cfloop>
+	</table>
+	<!---
+	<br><a href="javascript: opener.document.#formName#.#localityIdFld#.value='#locality_id#';opener.document.#formName#.#speclocFld#.value='#spec_locality#';self.close();" onClick="">#spec_locality#</a>
+	--->
+	</cfoutput>
 </cfif>
 <cfinclude template="../includes/_pickFooter.cfm">
