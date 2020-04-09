@@ -57,6 +57,9 @@
 <cfif not isdefined("anchor")>
 	<cfset anchor="">
 </cfif>
+<cfif not isdefined("include_counts")>
+	<cfset include_counts=0>
+</cfif>
 <!--------------------------- Code-table queries -------------------------------------------------->
 <cfquery name="ctContinentOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select continent_ocean from ctcontinent order by continent_ocean
@@ -1750,7 +1753,7 @@ INSERT INTO geog_auth_rec (
 			<input type="hidden" name="action" value="massMoveCollEvent" />
 			<cf_findLocality>
 			<cfquery name="localityResults" dbtype="query">
-				select
+				select distinct
 					collecting_event_id,
 					higher_geog,
 					geog_auth_rec_id,
@@ -1766,36 +1769,14 @@ INSERT INTO geog_auth_rec (
 					verbatim_date,
 					collecting_source,
 					collecting_method,
-                    min_depth,
-                    max_depth,
-                    depth_units,
-                    minimum_elevation,
+					min_depth,
+					max_depth,
+					depth_units,
+					minimum_elevation,
 					maximum_elevation,
-					orig_elev_units
-
+					orig_elev_units,
+					collcountlocality
 				from localityResults
-				group by
-					collecting_event_id,
-					higher_geog,
-					geog_auth_rec_id,
-					spec_locality,
-					geolAtts,
-					LatitudeString,
-					LongitudeString,
-					nogeorefbecause,
-					locality_id,
-					verbatim_locality,
-					began_date,
-					ended_date,
-					verbatim_date,
-					collecting_source,
-					collecting_method,
-                    min_depth,
-                    max_depth,
-                    depth_units,
-                    minimum_elevation,
-					maximum_elevation,
-					orig_elev_units
 				order by 
 					higher_geog, spec_locality, verbatim_locality
 			</cfquery>
@@ -1804,6 +1785,7 @@ INSERT INTO geog_auth_rec (
 	<tr>
 		<td><b>Geog</b></td>
 		<td><b>Locality</b></td>
+		<cfif include_counts EQ 1><td>Specimens (for locality)</td></cfif>
 		<td><b>Verbatim&nbsp;Locality</b></td>
 		<td><b>Began&nbsp;Date</b></td>
 		<td><b>End&nbsp;Date</b></td>
@@ -1834,6 +1816,11 @@ INSERT INTO geog_auth_rec (
 					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>),
 				</div>
 			<!---&nbsp;<a href="/fix/DupLocs.cfm?action=killDups&locid=#locality_id#" target="_blank"><font size="-2"><i>kill dups</i></font></a>---></td>
+			<cfif include_counts EQ 1>
+				<td>
+					#collcountlocality#
+				</td>
+			</cfif>
 			<td>
 				<div class="smaller">
 				 	#verbatim_locality#
