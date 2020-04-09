@@ -1758,6 +1758,7 @@ INSERT INTO geog_auth_rec (
 					higher_geog,
 					geog_auth_rec_id,
 					spec_locality,
+					locality_remarks,
 					geolAtts,
 					LatitudeString,
 					LongitudeString,
@@ -1802,20 +1803,22 @@ INSERT INTO geog_auth_rec (
 			</td>
 			<td>
 				 <div class="smaller">
-				 #spec_locality# <cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
-                  <cfif len(min_depth) gt 0> (min-depth: #min_depth##depth_units#,</cfif>
-         <cfif len(max_depth) gt 0> max-depth: #max_depth##depth_units#)</cfif>
-
-         <cfif len(minimum_elevation) gt 0> (min-elevation: #minimum_elevation##orig_elev_units#,</cfif>
-         <cfif len(maximum_elevation) gt 0> max-elevation: #maximum_elevation##orig_elev_units#)</cfif>
+					#spec_locality#
+					<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
+					<cfif len(min_depth) gt 0> (min-depth: #min_depth##depth_units#,</cfif>
+					<cfif len(max_depth) gt 0> max-depth: #max_depth##depth_units#)</cfif>
+					<cfif len(minimum_elevation) gt 0> (min-elevation: #minimum_elevation##orig_elev_units#,</cfif>
+					<cfif len(maximum_elevation) gt 0> max-elevation: #maximum_elevation##orig_elev_units#)</cfif>
 					<cfif len(#LatitudeString#) gt 0>
 						<br>#LatitudeString#/#LongitudeString#
 					<cfelse>
 						<br>#nogeorefbecause#
-					</cfif>
-					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>),
+					</cfif>	
+					<cfif len(locality_remarks) gt 0> remarks: #locality_remarks#</cfif>
+					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>)
 				</div>
-			<!---&nbsp;<a href="/fix/DupLocs.cfm?action=killDups&locid=#locality_id#" target="_blank"><font size="-2"><i>kill dups</i></font></a>---></td>
+				<!---&nbsp;<a href="/fix/DupLocs.cfm?action=killDups&locid=#locality_id#" target="_blank"><font size="-2"><i>kill dups</i></font></a>--->
+			</td>
 			<cfif include_counts EQ 1>
 				<td>
 					#collcountlocality#
@@ -1970,6 +1973,7 @@ INSERT INTO geog_auth_rec (
 			geog_auth_rec_id,
 			spec_locality,
 			sovereign_nation,
+			locality_remarks,
 			higher_geog,
 			LatitudeString,
 			LongitudeString,
@@ -2012,6 +2016,7 @@ INSERT INTO geog_auth_rec (
 		<td><b>Locality ID</b></td>
 		<td><b>Spec Locality</b></td>
 		<td>Sovereign Nation</td>
+		<td>Locality Remarks</td>
 		<cfif include_counts EQ 1><td>Specimens</td></cfif>
 		<td><b>Geog</b></td>
 	</tr>
@@ -2030,6 +2035,9 @@ INSERT INTO geog_auth_rec (
 			</td>
 			<td rowspan="2">
 				#sovereign_nation#
+			</td>
+			<td rowspan="2">
+				#locality_remarks#
 			</td>
 			<cfif include_counts EQ 1>
 				<td rowspan=2>
