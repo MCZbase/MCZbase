@@ -166,6 +166,7 @@ nav button {
 .dropdown-submenu {
 	position: relative;
 }
+.nav-link {padding: 0;}
 .dropdown-submenu > .dropdown-menu {
 	top: 0;
 	left: 100%;
