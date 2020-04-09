@@ -286,6 +286,10 @@ body > .container {
 	top: 0px;
 	right: 5px;
 }
+.nav-link {
+    display: block;
+    padding: .25rem 1rem;
+}
 @media only screen and (max-width: 990px) {
 	nav.navbar {
 		padding-top: .5em;
