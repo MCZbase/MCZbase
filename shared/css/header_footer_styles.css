@@ -351,6 +351,7 @@ body > .container {
 		color: white;
 		text-decoration: none;
 		margin-top:-5px;
+		display: block;
 	}
 	img.mcz_logo_krono {
 		display: block;
