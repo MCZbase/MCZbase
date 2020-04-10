@@ -500,7 +500,7 @@ limitations under the License.
 													<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end of range" class="datetimeinput data-entry-input col-10" aria-label="closed date search range to" aria-described="closed_date_to">
 												</div>
 											</div>
-											<div class="col-sm-6 px-0">
+											<div class="col-sm-3 px-0">
 												<div class="form-row border bg-light rounded px-2 mt-0 py-3 mx-1">
 													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 													<div class="input-group float-left px-2">
