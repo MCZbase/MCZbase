@@ -339,10 +339,12 @@ body > .container {
 	.mcz2 {
 		width: 100%;
 		padding-bottom: 0;
+		
 	}
 	.mcz2 a {
 		color: white;
 		text-decoration: none;
+		font-size: .94em;
 	}
 	.mczbase {
 		letter-spacing: .02em;
@@ -353,7 +355,7 @@ body > .container {
 	.mczbase a {
 		color: white;
 		text-decoration: none;
-	/*	margin-top:-5px;*/
+		font-size: .9em;
 		display: block;
 	}
 	img.mcz_logo_krono {
