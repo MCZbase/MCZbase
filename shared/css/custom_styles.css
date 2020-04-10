@@ -1232,19 +1232,19 @@ table#pairs th, table#pairs td {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-.data-entry-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   font-weight: 350;
 }
-.data-entry-input::-moz-placeholder { /* Firefox 19+ */
+iinput::-moz-placeholder { /* Firefox 19+ */
   font-weight: 350;
 }
-.data-entry-input:-ms-input-placeholder { /* IE 10+ */
+input:-ms-input-placeholder { /* IE 10+ */
   font-weight: 350;
 }
-.data-entry-input:-moz-placeholder { /* Firefox 18- */
+input:-moz-placeholder { /* Firefox 18- */
 font-weight: 350;
 }
-.data-entry-input::placeholder {
+input::placeholder {
 	font-weight: 350;
 }
 .data-entry-input:focus {
