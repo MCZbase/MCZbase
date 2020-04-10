@@ -187,8 +187,7 @@ limitations under the License.
 						</cfswitch>
 						
 						<!--- Tab header div --->
-						<div class="card-header tab-card-header pb-0 w-100">
-							<img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink float-right" alt="[ help ]">
+						<div class="card-header tab-card-header pb-0 w-100"><i class="fas fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> </li>
 								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> </li>
