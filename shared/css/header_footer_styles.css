@@ -60,8 +60,8 @@ nav .navbar-nav li a.nav-link {
 	border: 1px solid #f5f5f5;
 }
 .dropdown-menu a.dropdown-item {
-	font-size: 1em;
-	    border: 1px solid aliceblue;
+	font-size: .9em;
+	border: 1px solid aliceblue;
 }
 .dropdown-item {
 	padding: .25em .5em;
