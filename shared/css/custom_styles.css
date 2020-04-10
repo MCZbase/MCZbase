@@ -998,8 +998,9 @@ BELOW: Search Form - Home page
 .tab-card-header {
 	background: none;
 	background-color: #3E6F7D;
-	padding-top: 1em;
+	padding-top: 8px;
 }
+.card-header-tabs {margin:0;}
 .card-title:first-child {
 	padding-left: .5em;
 }
@@ -1021,8 +1022,9 @@ BELOW: Search Form - Home page
 	border: 0;
 	margin-right: 0;
 	color: #555;
-	padding: 10px 15px;
+/*	padding: 2px 15px;*/
 	background-color: #deebec;
+	font-size: .95em;
 }
 .tab-card-main {
 	border: 2px solid #3E6F7D;
