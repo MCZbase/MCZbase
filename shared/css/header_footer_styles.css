@@ -113,6 +113,9 @@ img.shield {
 .mcz2 {
 	list-style: none;
 	font-family: Constantia, 'Lucida Bright', 'DejaVu Serif', Georgia, 'serif';
+	line-height: .9em;
+	padding-bottom: 0;
+	padding-top: .25em;
 }
 .mcz2 a {
 	color: white;

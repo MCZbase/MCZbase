@@ -156,7 +156,7 @@ limitations under the License.
 <div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark">
 	<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
 	<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #Application.header_color#; ">
-		<li class="nav-item mcz2 my-0 py-0">
+		<li class="nav-item mcz2">
 			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #Application.collectionlinkcolor#;" >Museum of Comparative Zoology</a>
 		</li>
 		<li class="nav-item mczbase my-0 py-0">
