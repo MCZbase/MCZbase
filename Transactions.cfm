@@ -204,8 +204,8 @@ limitations under the License.
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
-											<label for="collection_id">Collection Name:</label>
-											<select name="collection_id" size="1" class="input-group-prepend form-control form-control-sm rounded ">
+											<label for="collection_id" class="data-entry-label">Collection Name:</label>
+											<select name="collection_id" size="1" class="data-entry-prepend-select">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
@@ -221,14 +221,14 @@ limitations under the License.
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
-											<label for="number">Number <span class="format_example"><small>(nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll)</small></span>:</label>
-											<input id="number" type="text" class="has-clear form-control form-control-sm rounded" name="number" placeholder="" value="#number#">
+											<label for="number">Number:</label>
+											<input id="number" type="text" class="has-clear data-entry-select-input" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll" value="#number#">
 										</div>
 										<div class="col-12 col-md-6">
 											<cfset pstatus = status>
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
-											<label for="status">Status:</label>
-											<select name="status" id="status" class="custom-select1 form-control-sm" >
+											<label for="status" class="data-entry-label">Status:</label>
+											<select name="status" id="status" class="data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctStatus">
 													<cfif pstatus eq ctStatus.status>
@@ -244,7 +244,7 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="form-control form-control-sm input-group-prepend">
+												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
@@ -255,13 +255,13 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_1" id="all_agent_1" class="form-control form-control-sm" value="#agent_1#" >
+												<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input" value="#agent_1#" placeholder="agent 1" >
 												<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="form-control form-control-sm input-group-prepend">
+												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
@@ -272,13 +272,13 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_2" id="all_agent_2" class="form-control form-control-sm" value="#agent_2#" >
+												<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input" value="#agent_2#" placeholder="agent 2">
 												<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="form-control form-control-sm input-group-prepend">
+												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
@@ -289,7 +289,7 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_3" id="all_agent_3" class="form-control form-control-sm" value="#agent_3#" >
+												<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input" value="#agent_3#" placeholder="agent 3">
 												<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
 											</div>
 										</div>
