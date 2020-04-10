@@ -3,6 +3,23 @@
 /*.menu-div, .bg-light {
 	background-color: #f8f9fa;
 }*/
+.navbar-collapse {
+	font-size: .9em;
+}
+.anchor-button {
+	font-size: .95em;
+	border:none;
+	background-color: transparent;
+	text-align: left;
+}
+.anchor-button:hover {
+	background-color:#F7F7F7;
+	box-shadow: none;
+}
+.anchor-button:hover {
+	background-color:#F7F7F7;
+	box-shadow: none;
+}
 nav.navbar {
 	padding: 0 1em;
 }
@@ -189,8 +206,8 @@ nav button {
 	border-radius: .2rem;
 }
 .logout {
-	padding: .25em .7em;
-	font-size: .83em;
+	padding: 0 .5em .1em .5em;
+    font-size: .8em;
 }
 .footer {
 	line-height: 1em;
