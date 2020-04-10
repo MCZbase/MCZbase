@@ -188,6 +188,7 @@ limitations under the License.
 						
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100">
+							<img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink float-right" alt="[ help ]">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> </li>
 								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> </li>
@@ -313,7 +314,7 @@ limitations under the License.
 							
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="wikilink h3 card-title ml-2 mb-0 mt-1">Find Loans <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" class="likeLink" alt="[ help ]"></h2>
+								<h2 class="wikilink h3 card-title mb-0 mt-2">Find Loans </h2>
 								
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -479,8 +480,8 @@ limitations under the License.
 											<div class="col-sm">
 												<div class='date form-row bg-light border rounded p-2'>
 													<label class="data-entry-label m-0" for="trans_date">Loan Date:</label>
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start of range" value="#trans_date#">
-													<span class="col-1 px-0"><small> to</small></span>
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#trans_date#">
+														<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-4"  placeholder="end of range" aria-label="loan date search range to" aria-described="trans_date_to">
 												</div>
@@ -488,19 +489,19 @@ limitations under the License.
 											<div class="col-sm">
 												<div class='date form-row bg-light border rounded p-2'>
 													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
-													<input name="return_due_date" id="return_due_date" type="text" placeholder="start of range" class="datetimeinput data-entry-input col-4">
-													<span class="col-1 px-0"><small> to</small></span>
+													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4">
+														<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
-													<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end of range" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
+													<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
 												</div>
 											</div>
 											<div class="col-sm">
 												<div class="date form-row border bg-light rounded p-2">
 													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
-													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start of range" value="#closed_date#" >
-													<span class="col-1 px-0"><small> to</small></span>
+													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#closed_date#" >
+													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to_closed_date"> </label>
-													<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end of range" class="datetimeinput data-entry-input col-4" aria-label="closed date search range to" aria-described="closed_date_to">
+													<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="closed date search range to" aria-described="closed_date_to">
 												</div>
 											</div>
 										<!--	<div class="col-sm-3 px-0">
