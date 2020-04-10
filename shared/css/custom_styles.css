@@ -1347,6 +1347,7 @@ input::placeholder {
 	border:  1px solid #bac5c6 !important;
 	background-color: #fff;
 }
+.fa-info-circle {font-size: 1.25em;height:1.25em;}
  .barbershop-pole {
             width: 100%;
             height: 100%;
