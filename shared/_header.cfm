@@ -179,7 +179,7 @@ limitations under the License.
 	</button>
 
 	<div class="collapse navbar-collapse" id="navbarToggler1">
-		<ul class="navbar-nav mr-auto mt-0 mt-lg-0 pl-1">
+		<ul class="navbar-nav mr-auto mt-0 mt-lg-0 pl-0">
 			<cfif isdefined("Application.header_image")>
 				<!---  Redesign menu for integration on production --->
 				<li class="nav-item dropdown">
