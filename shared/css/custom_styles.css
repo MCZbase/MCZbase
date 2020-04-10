@@ -1212,8 +1212,8 @@ table#pairs th, table#pairs td {
 	border: none;
 	line-height: .9em;
 	height: calc(.9em + .8em + 1px);
-	padding: .25em .5em;
-	margin-bottom: .5em;
+	padding: 0em .5em;
+	margin-bottom: .15em;
 	margin-top: .25em;
 	font-weight: 400;
 }
@@ -1257,8 +1257,8 @@ input::placeholder {
 .data-entry-select {
 	display: block;
 	width: 100%;
-	font-size: .87em;
-	line-height: 1em;
+	font-size: .85em;
+	line-height: .9em;
 	height: calc(.9em + .8em + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
@@ -1281,7 +1281,7 @@ input::placeholder {
 	width: 100%;
 	font-size: .85em;
 	line-height: .9em;
-	height: calc(.9em + .5rem + 4px);
+	height: calc(.9em + .5rem + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
@@ -1301,9 +1301,9 @@ input::placeholder {
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	font-size: .87em;
-	line-height: 1em;
-	height: calc(.9em + .5rem + 4px);
+	font-size: .85em;
+	line-height: .9em;
+	height: calc(.9em + .5rem + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
