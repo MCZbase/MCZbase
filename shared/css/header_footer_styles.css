@@ -47,7 +47,7 @@ nav .navbar-nav li a.nav-link {
 	    border: 1px solid aliceblue;
 }
 .dropdown-item {
-	padding: .5em .75em;
+	padding: .25em .5em;
 	color: rgba(0, 0, 0, .7);
 }
 .dropdown-menu a.dropdown-item:hover {
@@ -134,7 +134,7 @@ img.shield {
 .mczbase a:hover {
 	color: white;
 	text-decoration: none;
-	border-bottom: 1px dotted white;
+	/*border-bottom: 1px dotted white;*/
 }
 .mcz_logo_krono {
 	padding-left: 1em;
@@ -350,11 +350,12 @@ body > .container {
 	.mczbase a {
 		color: white;
 		text-decoration: none;
-		margin-top:-5px;
+	/*	margin-top:-5px;*/
 		display: block;
 	}
 	img.mcz_logo_krono {
 		display: block;
+		margin-right: .75em;
 	}
 }
 @media(min-width:576px) {
