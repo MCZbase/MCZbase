@@ -226,6 +226,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 			"Close Dialog": function() {
 				$("#"+dialogid).dialog('close');
 			}
+		},
 		close: function(event,ui) {
 			$("#"+dialogid+"_div").html("");
 			$("#"+dialogid).dialog('destroy');
