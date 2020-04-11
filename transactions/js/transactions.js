@@ -203,4 +203,51 @@ function loadShipmentFormPermits(shipment_id) {
 	});
 };
 
+function openfindpermitdialog(valueControl, idControl, dialogid) { 
+	var title = "Find Permissions and Rights Documents";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 400,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogid).dialog('close');
+			}
+		close: function(event,ui) {
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		type: "get",
+		data: {
+			method: "queryPermitPickerHtml",
+			returnformat: "plain",
+			valuecontrol: valueControl,
+			idcontrol: idControl,
+			dialog: dialogid
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		},
+		fail: function (jqXHR, textStatus) {
+			$("#"+dialogid+"_div").html("Error:" + textStatus);
+		}
+	});
+}
 
