@@ -516,21 +516,21 @@ limitations under the License.
 											<div class="row">
 												<div class="col-md-4">
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0 mr-1">Nature of Material:</label>
-													<textarea class="data-entry-textarea">#nature_of_material#</textarea>
+													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
 												<div class="col-md-4">
 													<label for="loan_description" class="data-entry-label mb-0 pb-0 mr-1">Description: </label>
-													<textarea class="data-entry-textarea">#loan_description#</textarea>
+													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
 												</div>
 												<div class="col-md-4">
 													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
-													<textarea class="data-entry-textarea">#loan_instructions#</textarea>
+													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-md-6">
-													<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
-													<textarea class="data-entry-textarea">#trans_remarks#</textarea>
+													<label for="loan_trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
+													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
 												<div class="col-md-6">
 													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
