@@ -721,6 +721,7 @@ BELOW: DIALOG BOXES STYLES to
 override Bootstrap styles
 ************************/
 #ui-dialog {
+	/* note: z-index almost certainly needs to be set dynamically to play well with jqxwidgets */
 	z-index: 60001;
 }
 #dialog-form header {
