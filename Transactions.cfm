@@ -189,8 +189,8 @@ limitations under the License.
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100"><i class="fas fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> </li>
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> </li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> <i class="fas fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions##Loan')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> <i class="fas fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
@@ -476,8 +476,8 @@ limitations under the License.
 									<div class="col-12 col-md-12 col-xl-12 px-2">
 										<div class="form-row">
 											<div class="col-sm-4">
-												<div class='date form-row bg-light border rounded p-1'>
-													<label class="data-entry-label m-0" for="trans_date">Loan Date:</label>
+												<div class='date form-row rounded p-1'>
+													<label class="data-entry-label my-0" for="trans_date">Loan Date:</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#trans_date#">
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
@@ -485,8 +485,8 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<div class='date form-row bg-light border rounded p-1'>
-													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
+												<div class='date form-row rounded p-1'>
+													<label class="data-entry-label my-0" for="return_due_date">Due Date:</label>
 													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4">
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
@@ -494,8 +494,8 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<div class="date form-row border bg-light rounded p-1">
-													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
+												<div class="date form-row rounded p-1">
+													<label class="data-entry-label my-0" for="closed_date">Close Date:</label>
 													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#closed_date#" >
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to_closed_date"> </label>
@@ -509,7 +509,7 @@ limitations under the License.
 											$(makePermitPicker('permit_num','permit_id'));
 										});
 									</script>
-									<div class="form-row">
+									<div class="form-row mx-0">
 									
 									<div class="col-12 col-md-6 px-2 m-0 mb-1">
 										<label for="nature_of_material" class="data-entry-label mb-0 pb-0 mr-1">Nature of Material:</label>
@@ -521,7 +521,7 @@ limitations under the License.
 										<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
 										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
 									</div>
-									<div class="col-12 col-sm-6 my-3 px-2">
+									<div class="col-12 col-sm-6 my-3 px-2 mr-0">
 										<div class="form-row border bg-light rounded px-2 py-3">
 										
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
