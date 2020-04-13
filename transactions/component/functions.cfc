@@ -591,8 +591,6 @@ limitations under the License.
 				<cfif isdefined("permit_remarks") AND len(#permit_remarks#) gt 0>
 					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
 				</cfif>
-					upper(permit_num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(permit_num)#%">
-					OR upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(permit_num)#%">
 			order by permit_num, specific_type, issued_date
 		</cfquery>
 
