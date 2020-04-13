@@ -203,9 +203,9 @@ limitations under the License.
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
-										<div class="col-12 col-md-3 px-0">
+										<div class="col-12 col-md-3 px-0 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
-											<select name="collection_id" size="1" class="data-entry-select" id="collection_id">
+											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
@@ -217,12 +217,12 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3 px-0">
+										<div class="col-12 col-md-3 pl-0 ml-0 pr-0">
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
 											<label for="number" class="data-entry-label">Number:</label>
-											<input id="number" type="text" class="has-clear data-entry-input" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll" value="#number#">
+											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
 										</div>
 										<div class="col-12 col-md-6">
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
@@ -605,9 +605,9 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 text-center">
-											<button class="btn btn-primary px-3 mx-1" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn btn-warning mx-1" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
-											<button type="button" class="btn btn-warning mx-1" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
+											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
+											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
 									</div>
 								</form>
