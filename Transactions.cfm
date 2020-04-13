@@ -166,7 +166,7 @@ limitations under the License.
 	<div id="search-form-div" class="search-form-div pb-4 px-3">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-11 col-sm-12 col-lg-11">
+				<div class="col-md-12 col-sm-12 col-lg-11">
 					<h1 class="h3 smallcaps my-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 tab-card"> 
 						
@@ -313,7 +313,7 @@ limitations under the License.
 							
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-2 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="wikilink h3 card-title mb-0 mt-2">Find Loans </h2>
+								<h2 class="wikilink h4 card-title mb-0 mt-2">Find Loans </h2>
 								
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -474,20 +474,20 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-12 col-xl-12 px-2">
-										<div class="row">
+										<div class="form-row">
 											<div class="col-sm-4">
 												<div class='date form-row bg-light border rounded p-1'>
 													<label class="data-entry-label m-0" for="trans_date">Loan Date:</label>
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#trans_date#">
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#trans_date#">
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
-													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-4"  placeholder="end" aria-label="loan date search range to" aria-described="trans_date_to">
+													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-8"  placeholder="end" aria-label="loan date search range to" aria-described="trans_date_to">
 												</div>
 											</div>
 											<div class="col-sm-4">
 												<div class='date form-row bg-light border rounded p-1'>
 													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
-													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-5">
+													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4">
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
 													<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
@@ -496,7 +496,7 @@ limitations under the License.
 											<div class="col-sm-4">
 												<div class="date form-row border bg-light rounded p-1">
 													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
-													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#closed_date#" >
+													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#closed_date#" >
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to_closed_date"> </label>
 													<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="closed date search range to" aria-described="closed_date_to">
@@ -511,14 +511,14 @@ limitations under the License.
 									</script>
 									<div class="form-row">
 									
-									<div class="col-12 col-md-6 px-2 m-0">
-										<label for="nature_of_material" class="data-entry-label mb-0">Nature of Material:</label>
+									<div class="col-12 col-md-6 px-2 m-0 mb-1">
+										<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
 										<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
 								
-										<label for="loan_description" class="data-entry-label mb-0">Description: </label>
+										<label for="loan_description" class="data-entry-label mb-0 pb-0">Description: </label>
 										<textarea class="data-entry-textarea">#loan_description#</textarea>
 								
-										<label for="loan_instructions" class="data-entry-label mb-0">Instructions:</label>
+										<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
 										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
 									</div>
 									<div class="col-12 col-sm-6 my-3 px-2">
@@ -527,12 +527,12 @@ limitations under the License.
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
+													<input type="text" name="permit_num" id="permit_num" class="data-entry-input" aria-described-by="permitNumberLabel" value="#permit_num#">
 													<div class="input-group-append"> <span class="input-group-text py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
 													<div id="permitpickerdialog"></div>
 												</div>
 									
-												<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
+												<label for="trans_remarks" class="data-entry-label mb-0 mt-3">Internal Remarks: </label>
 												<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 											</div>
 										</div>

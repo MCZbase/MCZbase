@@ -1346,9 +1346,10 @@ input::placeholder {
 .data-entry-textarea {
 	width: 100%;
 	height: auto;
+	height: calc(.9em + .8rem + 1px);
 	border: 1px solid #ced4da;
-	font-size: .87em;
-	line-height: 1em;
+	font-size: .85em;
+	line-height: .9em;
 	border-radius: .2rem;
 	padding: 0 .5rem;
 	display: block;
