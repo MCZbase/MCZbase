@@ -187,10 +187,10 @@ limitations under the License.
 						</cfswitch>
 						
 						<!--- Tab header div --->
-						<div class="card-header tab-card-header pb-0 w-100"><!---<i class="fas fas-info fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>--->
+						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> <!---<i class="fas fas-info fa-info-circle float-right" onClick="getMCZDocs('Loan_Transactions##Loan')" aria-label="help link"></i>---></li>
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> <!---<i class="fas fas-info fa-info-circle float-right" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>---></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> </li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> </li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
@@ -618,8 +618,7 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-	</div>
-	</div>
+	
 	
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
