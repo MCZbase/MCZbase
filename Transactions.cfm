@@ -529,7 +529,7 @@ limitations under the License.
 										</div>
 										<div class="row">
 										<div class="col-md-6">
-										<label for="trans_remarks" class="data-entry-label mb-0  mt-3">Internal Remarks: </label>
+										<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
 										<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 										</div>
 										<div class="col-md-6">
@@ -544,7 +544,7 @@ limitations under the License.
 									</div>
 										</div>
 												</div>
-									<div class="form-row mx-0 pt-1 px-2 pb-1 my-1 mx-1">
+									<div class="form-row mx-0 px-0 pb-1 my-1 mx-0">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
