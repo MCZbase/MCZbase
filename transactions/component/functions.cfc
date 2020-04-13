@@ -461,11 +461,11 @@ limitations under the License.
 							url: "/transactions/component/search.cfc?" + $("##findPermitSearchForm").serialize()
 						};
 
-						var dataAdapter = new $.jqx.dataAdapter(search);
+						var dataAdapter = new $.jqx.dataAdapter(permitSearch);
 
 						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-							return "<button onclick=" $(''###idcontrol#'').val(value); $(''###valuecontrol#'').val(pvalue); $(''##dialog'').destroy(); ">Select</button>";
+							return "<button onclick=" $(\'###idcontrol#\').val(value); $(\'###valuecontrol#\').val(pvalue); $(\'##dialog\').destroy(); ">Select</button>";
 						};
 
 						$("##searchResultsGrid").jqxGrid({
