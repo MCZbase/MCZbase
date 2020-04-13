@@ -189,8 +189,8 @@ limitations under the License.
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100"><!---<i class="fas fas-info fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>--->
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> <i class="fas fas-info fa-info-circle float-right" onClick="getMCZDocs('Loan_Transactions##Loan')" aria-label="help link"></i></li>
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> <i class="fas fas-info fa-info-circle float-right" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> <!---<i class="fas fas-info fa-info-circle float-right" onClick="getMCZDocs('Loan_Transactions##Loan')" aria-label="help link"></i>---></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> <!---<i class="fas fas-info fa-info-circle float-right" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>---></li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
@@ -199,7 +199,7 @@ limitations under the License.
 						<div class="tab-content pb-0" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-								<h2 class="h3 card-title ml-2">Search All Transactions</h2>
+								<h2 class="h3 card-title ml-2">Search All Transactions <i class="fas fas-info fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></h2>
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2">
@@ -313,7 +313,7 @@ limitations under the License.
 							
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-2 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-							<h2 class="wikilink h4 card-title mb-0 mt-2">Find Loans </h2>
+							<h2 class="wikilink h4 card-title mb-0 mt-2">Find Loans  <i class="fas fas-info fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 							
 							<!--- Search for just loans ---->
 							<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -360,7 +360,7 @@ limitations under the License.
 							<form id="loanSearchForm">
 								<input type="hidden" name="method" value="getLoans" class="keeponclear">
 								<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-								<div class="form-row">
+								<div class="form-row mx-0">
 									<div class="col-12 col-md-3">
 										<label for="collection_id" class="data-entry-label mb-0">Collection Name:</label>
 										<select name="collection_id" size="1" class="data-entry-select">
@@ -411,7 +411,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="form-row"> <span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
+								<div class="form-row mx-0"> <span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
 									<div class="col-12 col-md-4">
 										<div class="input-group input-group-sm">
 											<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
