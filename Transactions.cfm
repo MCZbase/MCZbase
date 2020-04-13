@@ -210,7 +210,7 @@ limitations under the License.
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
 														<cfset selected="selected">
-													<cfelse>
+														<cfelse>
 														<cfset selected="">
 													</cfif>
 													<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
@@ -412,60 +412,59 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="border rounded m-1">
-									<div class="form-row barbershop-pole my-1 p-1"> 
-										<span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
-										<div class="col-12 col-md-4">
-											<div class="input-group input-group-sm">
-												<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
-													<cfloop query="cttrans_agent_role_loan">
-														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_1" id="agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent 1" >
-												<input type="hidden" name="agent_1_id" id="agent_1_id" value="#agent_1_id#" >
+										<div class="form-row barbershop-pole my-1 p-1"> <span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
+											<div class="col-12 col-md-4">
+												<div class="input-group input-group-sm">
+													<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
+														<option value="">agent role...</option>
+														<cfloop query="cttrans_agent_role_loan">
+															<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
+																<cfset selected="selected">
+																<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_1" id="agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent 1" >
+													<input type="hidden" name="agent_1_id" id="agent_1_id" value="#agent_1_id#" >
+												</div>
 											</div>
-										</div>
-										<div class="col-12 col-md-4">
-											<div class="input-group input-group-sm">
-												<select name="trans_agent_role_2" id="trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
-													<cfloop query="cttrans_agent_role_loan">
-														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_2" id="agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent 2" >
-												<input type="hidden" name="agent_2_id" id="agent_2_id" value="#agent_2_id#" >
+											<div class="col-12 col-md-4">
+												<div class="input-group input-group-sm">
+													<select name="trans_agent_role_2" id="trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
+														<option value="">agent role...</option>
+														<cfloop query="cttrans_agent_role_loan">
+															<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
+																<cfset selected="selected">
+																<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_2" id="agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent 2" >
+													<input type="hidden" name="agent_2_id" id="agent_2_id" value="#agent_2_id#" >
+												</div>
 											</div>
-										</div>
-										<div class="col-12 col-md-4">
-											<div class="input-group input-group-sm">
-												<select name="trans_agent_role_3" id="trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
-													<cfloop query="cttrans_agent_role_loan">
-														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_3" id="agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent 3">
-												<input type="hidden" name="agent_3_id" id="agent_3_id" value="#agent_3_id#" >
+											<div class="col-12 col-md-4">
+												<div class="input-group input-group-sm">
+													<select name="trans_agent_role_3" id="trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
+														<option value="">agent role...</option>
+														<cfloop query="cttrans_agent_role_loan">
+															<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
+																<cfset selected="selected">
+																<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_3" id="agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent 3">
+													<input type="hidden" name="agent_3_id" id="agent_3_id" value="#agent_3_id#" >
+												</div>
 											</div>
-										</div>
-										<script>
+											<script>
 										$(document).ready(function() {
 											$(makeAgentPicker('agent_1','agent_1_id'));
 											$(makeAgentPicker('agent_2','agent_2_id'));
@@ -476,25 +475,25 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-12 col-xl-12 px-2">
 										<div class="row">
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<div class='date form-row bg-light border rounded p-1'>
 													<label class="data-entry-label m-0" for="trans_date">Loan Date:</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#trans_date#">
-														<div class="col-1 text-center px-0"><small> to</small></div>
+													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-4"  placeholder="end" aria-label="loan date search range to" aria-described="trans_date_to">
 												</div>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<div class='date form-row bg-light border rounded p-1'>
 													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
 													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-5">
-														<div class="col-1 text-center px-0"><small> to</small></div>
+													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
 													<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
 												</div>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<div class="date form-row border bg-light rounded p-1">
 													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
 													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#closed_date#" >
@@ -503,43 +502,42 @@ limitations under the License.
 													<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="closed date search range to" aria-described="closed_date_to">
 												</div>
 											</div>
-											<div class="col-sm-3">
-												<div class="form-row border bg-light rounded p-1">
-													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
-													<div class="input-group float-left px-2">
-														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-														<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
-														<div class="input-group-append"> <span class="input-group-text py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div><div id="permitpickerdialog"></div>
-													</div>
-												</div>
-											</div>
 										</div>
 									</div>
-									
 									<script>
 										$(document).ready(function() {
 											$(makePermitPicker('permit_num','permit_id'));
 										});
 									</script>
 									<div class="form-row">
-										<div class="col-12 col-md-6 px-2 m-0">
-											<label for="nature_of_material" class="data-entry-label mb-0">Nature of Material:</label>
-											<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
-										</div>
-										<div class="col-12 col-md-6 px-2 m-0">
-											<label for="loan_description" class="data-entry-label mb-0">Description: </label>
-											<textarea class="data-entry-textarea">#loan_description#</textarea>
-										</div>
-										<div class="col-12 col-md-6 px-2 m-0">
-											<label for="loan_instructions" class="data-entry-label mb-0">Instructions:</label>
-											<textarea class="data-entry-textarea">#loan_instructions#</textarea>
-										</div>
-										<div class="col-12 col-md-6 px-2 m-0">
-											<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
-											<textarea class="data-entry-textarea">#trans_remarks#</textarea>
+									
+									<div class="col-12 col-md-6 px-2 m-0">
+										<label for="nature_of_material" class="data-entry-label mb-0">Nature of Material:</label>
+										<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
+								
+										<label for="loan_description" class="data-entry-label mb-0">Description: </label>
+										<textarea class="data-entry-textarea">#loan_description#</textarea>
+								
+										<label for="loan_instructions" class="data-entry-label mb-0">Instructions:</label>
+										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
+									</div>
+									<div class="col-12 col-sm-6">
+										<div class="form-row border bg-light rounded p-1">
+										
+												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+												<div class="input-group float-left px-2">
+													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+													<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
+													<div class="input-group-append"> <span class="input-group-text py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
+													<div id="permitpickerdialog"></div>
+												</div>
+									
+												<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
+												<textarea class="data-entry-textarea">#trans_remarks#</textarea>
+											</div>
 										</div>
 									</div>
-									<div class="form-row border rounded pt-1 px-2 pb-3 my-1 mx-1 bg-light">
+									<div class="form-row border rounded pt-1 px-2 pb-1 my-1 mx-1 bg-light">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
