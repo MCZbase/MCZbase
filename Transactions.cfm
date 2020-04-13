@@ -478,7 +478,7 @@ limitations under the License.
 									<div class="col-12 col-md-12 col-xl-12 px-2">
 										<div class="row">
 											<div class="col-sm-4">
-												<div class="date form-row bg-light border rounded justify-content-center">
+												<div class="date form-row bg-light border pb-2 rounded justify-content-center">
 													<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#trans_date#">
 													<div class="col-1 text-center px-0"><small> to</small></div>
@@ -487,7 +487,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<div class="date form-row bg-light border rounded justify-content-center">
+												<div class="date form-row bg-light border pb-2 rounded justify-content-center">
 													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
 													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-5">
 													<div class="col-1 text-center px-0"><small> to</small></div>
@@ -496,7 +496,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<div class="date form-row border bg-light rounded justify-content-center">
+												<div class="date form-row border bg-light pb-2 rounded justify-content-center">
 													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
 													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#closed_date#" >
 													<div class="col-1 text-center px-0"><small> to</small></div>
@@ -544,7 +544,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<div class="form-row border rounded pt-0 px-2 pb-1 mt-2 mb-2 mx-1 bg-light">
+									<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
