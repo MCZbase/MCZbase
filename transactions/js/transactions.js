@@ -209,6 +209,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);
+	var dialogzindex = getMaxZIndex() + 5;
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -216,7 +217,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
 		stack: true,
-		zindex: 2000,
+		zindex: dialogzindex,
 		height: h,
 		width: w,
 		minWidth: 400,
