@@ -423,7 +423,7 @@ limitations under the License.
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
-							<button type="submit" aria-label="Search for Permits" class="btn btn-primary">Search<span class="fa fa-search pl-1></span></button>"
+							<button type="submit" aria-label="Search for Permits" class="btn btn-primary">Search<span class="fa fa-search pl-1"></span></button>
 						</div>
 					</div>
 				</form>
