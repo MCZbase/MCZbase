@@ -203,9 +203,9 @@ limitations under the License.
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
-										<div class="col-12 col-md-3 pl-0">
+										<div class="col-12 col-md-3 px-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
-											<select name="collection_id" size="1" class="data-entry-prepend-select">
+											<select name="collection_id" size="1" class="data-entry-select" id="collection_id">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
@@ -217,16 +217,16 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3 pr-0">
+										<div class="col-12 col-md-3 px-0">
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
-											<label for="number">Number:</label>
-											<input id="number" type="text" class="has-clear data-entry-select-input" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll" value="#number#">
+											<label for="number" class="data-entry-label">Number:</label>
+											<input id="number" type="text" class="has-clear data-entry-input" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll" value="#number#">
 										</div>
 										<div class="col-12 col-md-6">
-											<cfset pstatus = status>
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
+											<cfset pstatus = status>
 											<label for="status" class="data-entry-label">Status:</label>
 											<select name="status" id="status" class="data-entry-select" >
 												<option value=""></option>
@@ -255,7 +255,7 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent 1" >
+												<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
 												<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
 											</div>
 										</div>
@@ -272,7 +272,7 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent 2">
+												<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
 												<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
 											</div>
 										</div>
@@ -289,17 +289,17 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent 3">
+												<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
 												<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
 											</div>
 										</div>
 										<script>
-									$(document).ready(function() {
-										$(makeAgentPicker('all_agent_1','all_agent_1_id'));
-										$(makeAgentPicker('all_agent_2','all_agent_2_id'));
-										$(makeAgentPicker('all_agent_3','all_agent_3_id'));
-									});
-									</script> 
+											$(document).ready(function() {
+												$(makeAgentPicker('all_agent_1','all_agent_1_id'));
+												$(makeAgentPicker('all_agent_2','all_agent_2_id'));
+												$(makeAgentPicker('all_agent_3','all_agent_3_id'));
+											});
+										</script> 
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12">
@@ -364,8 +364,8 @@ limitations under the License.
 										<div class="col-12 col-md-6 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
-													<label for="collection_id" class="data-entry-label">Collection Name:</label>
-													<select name="collection_id" size="1" class="data-entry-prepend-select input-group-prepend">
+													<label for="loan_collection_id" class="data-entry-label">Collection Name:</label>
+													<select name="collection_id" size="1" class="data-entry-select-input" id="loan_collection_id">
 														<option value="-1">any collection</option>
 														<cfloop query="ctcollection">
 															<cfif ctcollection.collection eq selectedCollection>
@@ -379,7 +379,7 @@ limitations under the License.
 												</div>
 												<div class="col-6 px-0">
 													<label for="loan_number" class="data-entry-label mb-0">Number: </label>
-													<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input" value="#loan_number#" placeholder="nnn, yyy-n-Coll, Byyyy-n-Coll">
+													<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input" value="#loan_number#" placeholder="yyy-n-Coll">
 												</div>
 											</div>
 										</div>
@@ -418,7 +418,7 @@ limitations under the License.
 									<div class="form-row mb-2 mx-0 mt-1">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
+												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
@@ -429,13 +429,13 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent 1" >
-												<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
+												<input type="text" name="agent_1" id="loan_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
+												<input type="hidden" name="agent_1_id" id="loan_agent_1_id" value="#agent_1_id#" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
+												<select name="trans_agent_role_2" id="loan_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
@@ -446,13 +446,13 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent 2">
-												<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
+												<input type="text" name="agent_2" id="loan_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
+												<input type="hidden" name="agent_2_id" id="loan_agent_2_id" value="#agent_2_id#" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
+												<select name="trans_agent_role_3" id="loan_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
@@ -463,15 +463,15 @@ limitations under the License.
 														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 													</cfloop>
 												</select>
-												<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent 3">
-												<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
+												<input type="text" name="agent_3" id="loan_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
+												<input type="hidden" name="agent_3_id" id="loan_agent_3_id" value="#agent_3_id#" >
 											</div>
 										</div>
 										<script>
 									$(document).ready(function() {
-										$(makeAgentPicker('all_agent_1','all_agent_1_id'));
-										$(makeAgentPicker('all_agent_2','all_agent_2_id'));
-										$(makeAgentPicker('all_agent_3','all_agent_3_id'));
+										$(makeAgentPicker('loan_agent_1','loan_agent_1_id'));
+										$(makeAgentPicker('loan_agent_2','loan_agent_2_id'));
+										$(makeAgentPicker('loan_agent_3','loan_agent_3_id'));
 									});
 									</script> 
 									</div>
