@@ -513,7 +513,7 @@ limitations under the License.
 									<div class="form-row mx-0">
 									
 									<div class="col-12 col-md-12 px-2 m-0 mb-1">
-									
+									<div class="row">
 										<label for="nature_of_material" class="data-entry-label mb-0 col-md-3 pb-0 mr-1">Nature of Material:</label>
 							<textarea class="data-entry-textarea col-md-3">#nature_of_material#</textarea>
 									
@@ -527,7 +527,7 @@ limitations under the License.
 										
 										<label for="trans_remarks" class="data-entry-label mb-0 col-md-3 mt-3">Internal Remarks: </label>
 										<textarea class="data-entry-textarea col-md-3">#trans_remarks#</textarea>
-									
+										</div>
 									</div>
 									<div class="col-12 col-sm-6 my-3 px-2 mr-0">
 										<div class="form-row rounded px-2 py-3">
