@@ -998,8 +998,9 @@ BELOW: Search Form - Home page
 .tab-card-header {
 	background: none;
 	background-color: #3E6F7D;
-	padding-top: 1em;
+	padding-top: 8px;
 }
+.card-header-tabs {margin:0;}
 .card-title:first-child {
 	padding-left: .5em;
 }
@@ -1021,8 +1022,9 @@ BELOW: Search Form - Home page
 	border: 0;
 	margin-right: 0;
 	color: #555;
-	padding: 10px 15px;
+/*	padding: 2px 15px;*/
 	background-color: #deebec;
+	font-size: .95em;
 }
 .tab-card-main {
 	border: 2px solid #3E6F7D;
@@ -1208,19 +1210,19 @@ table#pairs th, table#pairs td {
 	width: 100%;
 	font-size: .8em;
 	border: none;
-	line-height: 1em;
-	height: calc(.9em + .5em + 2px);
-	padding: .25em .5em;
-	margin-bottom: .5em;
+	line-height: .9em;
+	height: calc(.9em + .15em);
+	padding: 0em .5em;
+	margin-bottom: .15em;
 	margin-top: .25em;
 	font-weight: 400;
 }
 .data-entry-input {
 	display: block;
 	width: 100%;
-	font-size: .87em;
-	line-height: 1em;
-	height: calc(.9em + .5rem + 4px);
+	font-size: .85em;
+	line-height: .9em;
+	height: calc(.9em + .8em + 1px);
 	padding: 0 .5em .15em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
@@ -1229,6 +1231,21 @@ table#pairs th, table#pairs td {
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
+}
+input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-weight: 350;
+}
+iinput::-moz-placeholder { /* Firefox 19+ */
+  font-weight: 350;
+}
+input:-ms-input-placeholder { /* IE 10+ */
+  font-weight: 350;
+}
+input:-moz-placeholder { /* Firefox 18- */
+font-weight: 350;
+}
+input::placeholder {
+	font-weight: 350;
 }
 .data-entry-input:focus {
 	color: #495057;
@@ -1240,9 +1257,9 @@ table#pairs th, table#pairs td {
 .data-entry-select {
 	display: block;
 	width: 100%;
-	font-size: .87em;
-	line-height: 1em;
-	height: calc(.9em + .5rem + 4px);
+	font-size: .85em;
+	line-height: .9em;
+	height: calc(.9em + .8em + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
@@ -1262,9 +1279,9 @@ table#pairs th, table#pairs td {
 .data-entry-prepend-select {
 	display: block;
 	width: 100%;
-	font-size: .87em;
-	line-height: 1em;
-	height: calc(.9em + .5rem + 4px);
+	font-size: .85em;
+	line-height: .9em;
+	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
@@ -1284,9 +1301,9 @@ table#pairs th, table#pairs td {
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	font-size: .87em;
-	line-height: 1em;
-	height: calc(.9em + .5rem + 4px);
+	font-size: .85em;
+	line-height: .9em;
+	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
@@ -1330,6 +1347,7 @@ table#pairs th, table#pairs td {
 	border:  1px solid #bac5c6 !important;
 	background-color: #fff;
 }
+.fa-info-circle {font-size: 1.25em;height:1.25em;}
  .barbershop-pole {
             width: 100%;
             height: 100%;

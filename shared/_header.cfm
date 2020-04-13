@@ -143,7 +143,7 @@ limitations under the License.
 <header id="header" aria-level="1" role="heading" class="border-bottom">
 <!--- TODO: [Michelle] Move (this fixed) background-color for this top black bar to a stylesheet. --->
 <div class="branding clearfix" style="background-color: ##1b1b1b;">
-	<div class="branding-left justify-content-start mt-1">
+	<div class="branding-left justify-content-start">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
 			<img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield">
 			<span class="d-inline-block parent">Harvard University</span>
@@ -153,17 +153,17 @@ limitations under the License.
 		<a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> 
 	</div>
 </div>
-<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard pt-2 pb-1 harvard_banner border-bottom border-dark">
+<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark">
 	<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
-	<ul class="navbar col-lg-9 col-xs-6 pt-0 pb-0 mb-1" style="background-color: #Application.header_color#; ">
+	<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #Application.header_color#; ">
 		<li class="nav-item mcz2">
 			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #Application.collectionlinkcolor#;" >Museum of Comparative Zoology</a>
 		</li>
-		<li class="nav-item mczbase">
+		<li class="nav-item mczbase my-0 py-0">
 			<a href="/Specimens.cfm" target="_blank" style="color: #Application.collectionlinkcolor#" >#session.collection_link_text#</a>
 		</li>
 	</ul>
-	<ul class="navbar col-lg-3 col-sm-3 pt-0 pb-0 mb-1 d-flex justify-content-end">
+	<ul class="navbar col-lg-3 col-sm-3 p-0 m-0 d-flex justify-content-end">
 		<li class="nav-item d-flex align-content-end"> 
 			<a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> 
 		</li>
@@ -179,7 +179,7 @@ limitations under the License.
 	</button>
 
 	<div class="collapse navbar-collapse" id="navbarToggler1">
-		<ul class="navbar-nav mr-auto mt-2 mt-lg-0 pl-1">
+		<ul class="navbar-nav mr-auto mt-0 mt-lg-0 pl-0">
 			<cfif isdefined("Application.header_image")>
 				<!---  Redesign menu for integration on production --->
 				<li class="nav-item dropdown">
@@ -295,9 +295,9 @@ limitations under the License.
 			</ul>
 			<form class="form-inline my-2 my-lg-0 pl-2" name="signOut" method="post" action="/login.cfm">
 				<input type="hidden" name="action" value="signOut">	
-				<button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
+				<button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-						&nbsp; <small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
 					</cfif>
 				</button>
 			</form>

@@ -3,6 +3,23 @@
 /*.menu-div, .bg-light {
 	background-color: #f8f9fa;
 }*/
+.navbar-collapse {
+	font-size: .9em;
+}
+.anchor-button {
+	font-size: .9em;
+	border:none;
+	background-color: transparent;
+	text-align: left;
+}
+.anchor-button:hover {
+	background-color:#ddd;
+	box-shadow: none;
+}
+.anchor-button:hover {
+	background-color:#ddd;
+	box-shadow: none;
+}
 nav.navbar {
 	padding: 0 1em;
 }
@@ -43,11 +60,11 @@ nav .navbar-nav li a.nav-link {
 	border: 1px solid #f5f5f5;
 }
 .dropdown-menu a.dropdown-item {
-	font-size: 1em;
-	    border: 1px solid aliceblue;
+	font-size: .9em;
+	border: 1px solid aliceblue;
 }
 .dropdown-item {
-	padding: .5em .75em;
+	padding: .25em .5em;
 	color: rgba(0, 0, 0, .7);
 }
 .dropdown-menu a.dropdown-item:hover {
@@ -61,6 +78,10 @@ nav .navbar-nav li a.nav-link {
 .navbar-nav li.show, .navbar-nav li:show, .navbar-nav li.show:hover {
 	text-decoration: none;
 	background-color: #ddd;
+}
+.navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
+	border-right: 2px solid transparent;
+	border-left: 2px solid transparent;
 }
 .navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
 	color: #000000;
@@ -85,7 +106,7 @@ nav .navbar-nav li a.nav-link {
 .harvard_banner {
 	background-color: #a51c30;
 	margin-block-end: 0;
-	padding: .5rem .25rem .7rem .5rem;
+	padding: 0 0 0 1em;
 }
 .branding {
 	color: white;
@@ -96,7 +117,7 @@ nav .navbar-nav li a.nav-link {
 }
 .branding-right {
 	float: right;
-	line-height: 38px;
+	line-height: 26px;
 	margin: 0 15px 0 0;
 }
 .branding a {
@@ -107,12 +128,15 @@ nav .navbar-nav li a.nav-link {
 	border-bottom: 1px dotted white;
 }
 img.shield {
-	width: 28px;
-	height: 32px;
+	width: 19px;
+	height: 19px;
 }
 .mcz2 {
 	list-style: none;
 	font-family: Constantia, 'Lucida Bright', 'DejaVu Serif', Georgia, 'serif';
+	line-height: .9em;
+	padding-bottom: 0;
+	padding-top: .25em;
 }
 .mcz2 a {
 	color: white;
@@ -134,7 +158,7 @@ img.shield {
 .mczbase a:hover {
 	color: white;
 	text-decoration: none;
-	border-bottom: 1px dotted white;
+	/*border-bottom: 1px dotted white;*/
 }
 .mcz_logo_krono {
 	padding-left: 1em;
@@ -166,6 +190,7 @@ nav button {
 .dropdown-submenu {
 	position: relative;
 }
+
 .dropdown-submenu > .dropdown-menu {
 	top: 0;
 	left: 100%;
@@ -185,8 +210,8 @@ nav button {
 	border-radius: .2rem;
 }
 .logout {
-	padding: .25em .7em;
-	font-size: .83em;
+	padding: 0 .5em .1em .5em;
+    font-size: .8em;
 }
 .footer {
 	line-height: 1em;
@@ -282,8 +307,12 @@ body > .container {
 }
 .login-form {
 	position: absolute;
-	top: 8px;
+	top: 0px;
 	right: 5px;
+}
+.nav-link {
+    display: block;
+    padding: .25rem 1rem;
 }
 @media only screen and (max-width: 990px) {
 	nav.navbar {
@@ -330,11 +359,13 @@ body > .container {
 	}
 	.mcz2 {
 		width: 100%;
-		padding-bottom: .1em;
+		padding-bottom: 0;
+		
 	}
 	.mcz2 a {
 		color: white;
 		text-decoration: none;
+		font-size: .94em;
 	}
 	.mczbase {
 		letter-spacing: .02em;
@@ -345,9 +376,12 @@ body > .container {
 	.mczbase a {
 		color: white;
 		text-decoration: none;
+		font-size: .9em;
+		display: block;
 	}
 	img.mcz_logo_krono {
 		display: block;
+		margin-right: .75em;
 	}
 }
 @media(min-width:576px) {
