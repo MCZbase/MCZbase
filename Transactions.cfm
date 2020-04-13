@@ -512,10 +512,10 @@ limitations under the License.
 									<div class="form-row">
 									
 									<div class="col-12 col-md-6 px-2 m-0 mb-1">
-										<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
+										<label for="nature_of_material" class="data-entry-label mb-0 pb-0 mr-1">Nature of Material:</label>
 										<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
 								
-										<label for="loan_description" class="data-entry-label mb-0 pb-0">Description: </label>
+										<label for="loan_description" class="data-entry-label mb-0 pb-0 mr-1">Description: </label>
 										<textarea class="data-entry-textarea">#loan_description#</textarea>
 								
 										<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
@@ -527,8 +527,8 @@ limitations under the License.
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="form-control" aria-described-by="permitNumberLabel" value="#permit_num#">
-													<div class="input-group-append"> <span class="input-group-text py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
+													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#">
+													<div class="input-group-append"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
 													<div id="permitpickerdialog"></div>
 												</div>
 									

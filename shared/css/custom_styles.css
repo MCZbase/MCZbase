@@ -1343,6 +1343,36 @@ input::placeholder {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
+.data-entry-addon-input {
+	display: block;
+	width: 100%;
+	font-size: .85em;
+	line-height: .9em;
+	height: calc(.9em + .8rem + 1px);
+	padding: 0 .5em .25em .5em;
+	color: rgba(0, 0, 0, .6);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
+	border-radius: 5px 0 0 5px;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font-weight: 510;
+}
+.data-entry-addon {
+	display: block;
+	width: 100%;
+	font-size: .85em;
+	line-height: .9em;
+	height: calc(.9em + .8rem + 1px);
+	padding: 0 .5em .25em .5em;
+	color: rgba(0, 0, 0, .6);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #f5f5f5;
+	border-radius:  0 5px 5px 0;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font-weight: 510;
+}
 .data-entry-textarea {
 	width: 100%;
 	height: auto;
