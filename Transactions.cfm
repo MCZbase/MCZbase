@@ -203,9 +203,9 @@ limitations under the License.
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
-										<div class="col-12 col-md-3 pl-0">
+										<div class="col-12 col-md-3 px-0 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
-											<select name="collection_id" size="1" class="data-entry-prepend-select">
+											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
@@ -217,12 +217,12 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3 pr-0">
+										<div class="col-12 col-md-3 pl-0 ml-0 pr-0">
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
 											<label for="number">Number:</label>
-											<input id="number" type="text" class="has-clear data-entry-select-input" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll" value="#number#">
+											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll" value="#number#">
 										</div>
 										<div class="col-12 col-md-6">
 											<cfset pstatus = status>
