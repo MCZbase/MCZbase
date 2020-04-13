@@ -473,9 +473,9 @@ limitations under the License.
 								</div>
 								</div>
 								<div class="col-12">
-									<div class="form-row">
+									<div class="form-row mx-0">
 										<div class="col-sm-4">
-											<div class='date form-row rounded p-1'>
+											<div class='date form-row'>
 												<label class="data-entry-label my-0" for="trans_date">Loan Date:</label>
 												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#trans_date#">
 												<div class="col-1 text-center px-0"><small> to</small></div>
@@ -484,7 +484,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-sm-4">
-											<div class='date form-row rounded p-1'>
+											<div class='date form-row'>
 												<label class="data-entry-label my-0" for="return_due_date">Due Date:</label>
 												<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4">
 												<div class="col-1 text-center px-0"><small> to</small></div>
@@ -493,7 +493,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-sm-4">
-											<div class="date form-row rounded p-1">
+											<div class="date form-row">
 												<label class="data-entry-label my-0" for="closed_date">Close Date:</label>
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#closed_date#" >
 												<div class="col-1 text-center px-0"><small> to</small></div>
@@ -509,7 +509,7 @@ limitations under the License.
 										});
 									</script>
 								<div class="form-row mx-0">
-									<div class="col-12 col-md-12">
+									<div class="col-12">
 										<div class="row">
 											<div class="col-md-4">
 												<label for="nature_of_material" class="data-entry-label mb-0  pb-0 mr-1">Nature of Material:</label>
@@ -541,7 +541,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="form-row mx-0">
 									<div class="col-12 col-md-3">
 										<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 										<cfif part_name_oper IS "is">
