@@ -542,7 +542,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="form-row mx-0">
+								<div class="form-row border rounded pt-1 px-2 pb-1 my-1 mx-1 bg-light">
 									<div class="col-12 col-md-3">
 										<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 										<cfif part_name_oper IS "is">
