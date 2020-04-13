@@ -513,22 +513,21 @@ limitations under the License.
 									<div class="form-row mx-0">
 									
 									<div class="col-12 col-md-12 px-2 m-0 mb-1">
-										<div class="col-12 col-sm-6">
-										<label for="nature_of_material" class="data-entry-label mb-0 pb-0 mr-1">Nature of Material:</label>
-										<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
-										</div>
-										<div class="col-12 col-sm-6">
-										<label for="loan_description" class="data-entry-label mb-0 pb-0 mr-1">Description: </label>
-										<textarea class="data-entry-textarea">#loan_description#</textarea>
-										</div>
-										<div class="col-12 col-sm-6">
-										<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
-										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
-										</div>	
-										<div class="col-12 col-sm-6">
-										<label for="trans_remarks" class="data-entry-label mb-0 mt-3">Internal Remarks: </label>
-										<textarea class="data-entry-textarea">#trans_remarks#</textarea>
-										</div>
+									
+										<label for="nature_of_material" class="data-entry-label mb-0 col-md-3 pb-0 mr-1">Nature of Material:</label>
+							<textarea class="data-entry-textarea col-md-3">#nature_of_material#</textarea>
+									
+										<label for="loan_description" class="data-entry-label mb-0 col-md-3 pb-0 mr-1">Description: </label>
+										<textarea class="data-entry-textarea col-md-3">#loan_description#</textarea>
+									
+									
+										<label for="loan_instructions" class="data-entry-label col-md-3 mb-0 pb-0">Instructions:</label>
+										<textarea class="data-entry-textarea col-md-3">#loan_instructions#</textarea>
+									
+										
+										<label for="trans_remarks" class="data-entry-label mb-0 col-md-3 mt-3">Internal Remarks: </label>
+										<textarea class="data-entry-textarea col-md-3">#trans_remarks#</textarea>
+									
 									</div>
 									<div class="col-12 col-sm-6 my-3 px-2 mr-0">
 										<div class="form-row rounded px-2 py-3">
