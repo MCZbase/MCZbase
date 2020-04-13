@@ -359,38 +359,38 @@ limitations under the License.
 					<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
-							<label for="">Issued By</label>
-							<input type="text" name="issuedByAgent" id="issuedByAgent">
+							<label for="issuedByAgent" class="data-entry-label mb-0">Issued By</label>
+							<input type="text" name="issuedByAgent" id="issuedByAgent" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-6">
-							<label for="issuedToAgent">Issued To</label>
-							<input type="text" name="issuedToAgent" id="issuedToAgent">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="issued_date">Issued Date</label>
-							<input type="text" name="issued_date" id="issued_date">
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="renewed_date">Renewed Date</label>
-							<input type="text" name="renewed_date" id="renewed_date">
+							<label for="issuedToAgent"class="data-entry-label mb-0">Issued To</label>
+							<input type="text" name="issuedToAgent" id="issuedToAgent" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
-							<label for="exp_date">Expiration Date</label>
-							<input type="text" name="exp_date" id="exp_date">
+							<label for="issued_date" class="data-entry-label mb-0">Issued Date</label>
+							<input type="text" name="issued_date" id="issued_date" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-6">
-							<label for="permit_num_search">Permit Number</label>
-							<input type="text" name="permit_num" id="permit_num_search">
+							<label for="renewed_date" class="data-entry-label mb-0">Renewed Date</label>
+							<input type="text" name="renewed_date" id="renewed_date" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
-							<label for="permit_type">Permit Type</label>
-							<select name="permit_Type" id="permit_type" size="1" style="width: 15em;">
+							<label for="exp_date" class="data-entry-label mb-0">Expiration Date</label>
+							<input type="text" name="exp_date" id="exp_date" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="permit_num_search" class="data-entry-label">Permit Number</label>
+							<input type="text" name="permit_num" id="permit_num_search" class="data-entry-input">
+						</div>
+					</div>
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-6">
+							<label for="permit_type" class="data-entry-label mb-0">Permit Type</label>
+							<select name="permit_Type" id="permit_type" size="1" style="width: 15em;" class="data-entry-select">
 								<option value=""></option>
 		'>
 								<cfloop query="ctPermitType">
@@ -400,14 +400,14 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-6">
-							<label for="permit_remarks">Remarks</label>
-							<input type="text" name="permit_remarks">
+							<label for="permit_remarks" class="data-entry-label mb-0">Remarks</label>
+							<input type="text" name="permit_remarks" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
-							<label for="specific_type">Specific Type</label>
-							<select name="specific_type" size="1" style="width: 15em;">
+							<label for="specific_type" class="data-entry-label mb-0">Specific Type</label>
+							<select name="specific_type" size="1" style="width: 15em;" class="data-entry-select">
 								<option value=""></option>
 		'>
 								<cfloop query="ctSpecificPermitType">
@@ -417,13 +417,13 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-6">
-							<label for="permit_title">Permit Title</label>
-							<input type="text" name="permit_title">
+							<label for="permit_title" class="data-entry-label mb-0">Permit Title</label>
+							<input type="text" name="permit_title" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
-							<input type="submit" value="Search" class="schBtn">
+							<button type="submit" aria-label="Search for Permits" class="btn btn-primary">Search<span class="fa fa-search pl-1></span></button>"
 						</div>
 					</div>
 				</form>
@@ -469,7 +469,7 @@ limitations under the License.
 
 						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-							var result = "<button onclick=\" $(''###idcontrol#'').val( ''" +  value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''###dialog#'').dialog(''close''); \">Select</button>";
+							var result = "<button class=\"btn btn-primary\" onclick=\" $(''###idcontrol#'').val( ''" +  value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''###dialog#'').dialog(''close''); \">Select</button>";
 							return result;
 						};
 
@@ -561,7 +561,7 @@ limitations under the License.
    			permit_remarks,
 				issuedBy.agent_name as IssuedByAgent,
 				issuedTo.agent_name as IssuedToAgent
-			from permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
+			from permit left join permit_shipment on permit.permit_id = permit_shipment.permit_id
 				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
 				left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
 			where permit.permit_id is not null
