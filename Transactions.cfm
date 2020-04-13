@@ -509,72 +509,77 @@ limitations under the License.
 											$(makePermitPicker('permit_num','permit_id'));
 										});
 									</script>
-									<div class="form-row">
-									
-									<div class="col-12 col-md-6 px-2 m-0">
-										<label for="nature_of_material" class="data-entry-label mb-0">Nature of Material:</label>
-										<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
-								
-										<label for="loan_description" class="data-entry-label mb-0">Description: </label>
-										<textarea class="data-entry-textarea">#loan_description#</textarea>
-								
-										<label for="loan_instructions" class="data-entry-label mb-0">Instructions:</label>
-										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
-									</div>
-									<div class="col-12 col-sm-6 my-3 px-2">
-										<div class="form-row border bg-light rounded px-2 py-3">
-										
-												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
-												<div class="input-group">
-													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
-													<div class="input-group-append"> <span class="input-group-text py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
-													<div id="permitpickerdialog"></div>
-												</div>
-									
+				<div class="form-row mx-0">
+									<div class="col-12">
+										<div class="row">
+											<div class="col-md-4">
+												<label for="nature_of_material" class="data-entry-label mb-0  pb-0 mr-1">Nature of Material:</label>
+												<textarea class="data-entry-textarea">#nature_of_material#</textarea>
+											</div>
+											<div class="col-md-4">
+												<label for="loan_description" class="data-entry-label mb-0 pb-0 mr-1">Description: </label>
+												<textarea class="data-entry-textarea">#loan_description#</textarea>
+											</div>
+											<div class="col-md-4">
+												<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
+												<textarea class="data-entry-textarea">#loan_instructions#</textarea>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
 												<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
 												<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 											</div>
+											<div class="col-md-6">
+												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+												<div class="input-group">
+													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#">
+													<div class="input-group-append"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
+													<div id="permitpickerdialog"></div>
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="form-row border rounded pt-1 px-2 pb-1 my-1 mx-1 bg-light">
-										<div class="col-12 col-md-3">
-											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
-											<cfif part_name_oper IS "is">
-												<cfset isselect = "selected">
-												<cfset containsselect = "">
-												<cfelse>
-												<cfset isselect = "">
-												<cfset containsselect = "selected">
-											</cfif>
-											<select id="part_name_oper" name="part_name_oper" class="data-entry-select">
-												<option value="is" #isselect#>is</option>
-												<option value="contains" #containsselect#>contains</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="part_name" class="data-entry-label mb-0">Part Name</label>
-											<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#">
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="part_disp_oper" class="data-entry-label mb-0">Disposition Match</label>
-											<cfif part_disp_oper IS "is">
-												<cfset isselect = "selected">
-												<cfset notselect = "">
-												<cfelse>
-												<cfset isselect = "">
-												<cfset notselect = "selected">
-											</cfif>
-											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-select">
-												<option value="is" #isselect#>is</option>
-												<option value="isnot" #notselect#>is not</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-											<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-											<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
-											<script>
+								</div>
+								<div class="form-row mx-0">
+									<div class="col-12 col-md-3">
+										<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
+										<cfif part_name_oper IS "is">
+											<cfset isselect = "selected">
+											<cfset containsselect = "">
+											<cfelse>
+											<cfset isselect = "">
+											<cfset containsselect = "selected">
+										</cfif>
+										<select id="part_name_oper" name="part_name_oper" class="data-entry-select">
+											<option value="is" #isselect#>is</option>
+											<option value="contains" #containsselect#>contains</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="part_name" class="data-entry-label mb-0">Part Name</label>
+										<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="part_disp_oper" class="data-entry-label mb-0">Disposition Match</label>
+										<cfif part_disp_oper IS "is">
+											<cfset isselect = "selected">
+											<cfset notselect = "">
+											<cfelse>
+											<cfset isselect = "">
+											<cfset notselect = "selected">
+										</cfif>
+										<select id="part_disp_oper" name="part_disp_oper" class="data-entry-select">
+											<option value="is" #isselect#>is</option>
+											<option value="isnot" #notselect#>is not</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
+										<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
+										<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
+										<script>
 												function setDispositionValues() {
 													$('##coll_obj_disposition').jqxComboBox('clearSelection');
 													<cfloop query="ctCollObjDisp">
@@ -594,8 +599,8 @@ limitations under the License.
 													setDispositionValues();
 												});
 											</script> 
-										</div>
 									</div>
+								</div>
 									<div class="form-row mb-1">
 										<div class="col-12 text-center">
 											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
