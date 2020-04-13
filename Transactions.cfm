@@ -475,7 +475,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-12 col-xl-12 px-2">
 										<div class="row">
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<div class='date form-row bg-light border rounded p-1'>
 													<label class="data-entry-label m-0" for="trans_date">Loan Date:</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#trans_date#">
@@ -484,7 +484,7 @@ limitations under the License.
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-4"  placeholder="end" aria-label="loan date search range to" aria-described="trans_date_to">
 												</div>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<div class='date form-row bg-light border rounded p-1'>
 													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
 													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-5">
@@ -493,7 +493,7 @@ limitations under the License.
 													<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
 												</div>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<div class="date form-row border bg-light rounded p-1">
 													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
 													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#closed_date#" >
@@ -510,21 +510,20 @@ limitations under the License.
 										});
 									</script>
 									<div class="form-row">
+									
 									<div class="col-12 col-md-6 px-2 m-0">
 										<label for="nature_of_material" class="data-entry-label mb-0">Nature of Material:</label>
 										<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
-									</div>
-									<div class="col-12 col-md-6 px-2 m-0">
+								
 										<label for="loan_description" class="data-entry-label mb-0">Description: </label>
 										<textarea class="data-entry-textarea">#loan_description#</textarea>
-									</div>
-									<div class="col-12 col-md-6 px-2 m-0">
+								
 										<label for="loan_instructions" class="data-entry-label mb-0">Instructions:</label>
 										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
 									</div>
 									<div class="col-12 col-sm-6">
 										<div class="form-row border bg-light rounded p-1">
-											<div class="col-12 col-sm-6">
+										
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group float-left px-2">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
@@ -532,8 +531,7 @@ limitations under the License.
 													<div class="input-group-append"> <span class="input-group-text py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
 													<div id="permitpickerdialog"></div>
 												</div>
-											</div>
-											<div class="col-12 col-md-6 px-2 m-0">
+									
 												<label for="trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
 												<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 											</div>
