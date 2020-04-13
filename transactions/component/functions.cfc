@@ -554,7 +554,7 @@ limitations under the License.
 				to_char(issued_date,'YYYY-MM-DD') as issued_date, 
 				to_char(renewed_date,'YYYY-MM-DD') as renewed_date,
 				to_char(exp_date,'YYYY-MM-DD') as exp_date,
-   			permit_remarks 
+   			permit_remarks,
 				issuedBy.agent_name as IssuedByAgent,
 				issuedTo.agent_name as IssuedToAgent
 			from permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
