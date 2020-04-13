@@ -147,7 +147,7 @@ span.ui-icon {
 *************************
 BELOW: Small Form button (bootstrap override)
 ************************/
-.btn {
+.btn-xs {
 	display: inline-block;
 	font-weight: 400;
 	color: #212529;
@@ -169,6 +169,10 @@ BELOW: Small Form button (bootstrap override)
 .btn-outline-success {
     color: #28a745;
     border-color: #28a745;
+}
+.date-fields-forms {
+	padding: .8em;
+    margin: .8em .9em .2em 1.2em;
 }
 /************************
 *************************
