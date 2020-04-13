@@ -411,7 +411,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-							<div class="form-row mb-2">
+							<div class="form-row mb-2 mx-0 mt-1">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
