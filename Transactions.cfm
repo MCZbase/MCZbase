@@ -189,8 +189,8 @@ limitations under the License.
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> </li>
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> </li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> <i class="fas fas-info fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> <i class="fas fas-info fa-info-circle float-right text-white" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
@@ -202,8 +202,8 @@ limitations under the License.
 								<h2 class="h3 card-title ml-2">Search All Transactions</h2>
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-3">
+									<div class="form-row mb-2 mx-0">
+										<div class="col-12 col-md-3 pr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
 											<select name="collection_id" size="1" class="data-entry-prepend-select">
 												<option value="-1">any collection</option>
@@ -217,7 +217,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 pl-0">
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
@@ -479,7 +479,7 @@ limitations under the License.
 										<div class="row">
 											<div class="col-sm-4">
 												<div class='date form-row bg-light border rounded p-1'>
-													<label class="data-entry-label m-0" for="trans_date">Loan Date:</label>
+													<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#trans_date#">
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
