@@ -426,20 +426,20 @@ limitations under the License.
 
 				<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 					<h4>Results: </h4>
-					<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+					<span class="d-block px-3 p-2" id="permitPickResultCount"></span> <span id="permitPickResultLink" class="d-block p-2"></span>
 				</div>
 				<div class="row mt-0">
-					<div id="searchText"></div>
-					<div id="searchResultsGrid" class="jqxGrid"></div>
+					<div id="permitPickSearchText"></div>
+					<div id="permitPickResultsGrid" class="jqxGrid"></div>
 					<div id="enableselection"></div>
 				</div>
 				<script>
    				$("##findPermitSearchForm").bind("submit", function(evt){
       				evt.preventDefault();
-						$("##searchResultsGrid").replaceWith(''<div id="searchResultsGrid" class="jqxGrid"></div>'');
-						$("##resultCount").html("");
-						$("##resultLink").html("");
-						$("##searchText").jqxGrid("showloadelement");
+						$("##permitPickResultsGrid").replaceWith(''<div id="permitPickResultsGrid" class="jqxGrid"></div>'');
+						$("##permitPickResultCount").html("");
+						$("##permitPickResultLink").html("");
+						$("##permitPickSearchText").jqxGrid("showloadelement");
 
 					   var permitSearch = {
 							datatype: "json",
@@ -465,11 +465,11 @@ limitations under the License.
 
 						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-							var result = "<button onclick=\" $(''###idcontrol#'').val( " +  value + "); $(''###valuecontrol#'').val(" + pvalue + "); $(''##dialog'').destroy(); \">Select</button>";
+							var result = "<button onclick=\" $(''###idcontrol#'').val( ''" +  value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''##dialog'').destroy(); \">Select</button>";
 							return result;
 						};
 
-						$("##searchResultsGrid").jqxGrid({
+						$("##permitPickResultsGrid").jqxGrid({
 							width: "100%",
 							autoheight: "true",
 							source: dataAdapter,
