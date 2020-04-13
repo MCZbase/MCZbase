@@ -411,8 +411,8 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="border rounded m-1">
-										<div class="form-row barbershop-pole my-1 p-1"> <span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
+									<div class="">
+										<div class="form-row"> <span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
 											<div class="col-12 col-md-4">
 												<div class="input-group input-group-sm">
 													<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -542,7 +542,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="form-row border rounded pt-1 px-2 pb-1 my-1 mx-1 bg-light">
+								<div class="form-row border rounded pt-0 px-2 pb-1 mt-2 mb-2 mx-1 bg-light">
 									<div class="col-12 col-md-3">
 										<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 										<cfif part_name_oper IS "is">
@@ -601,11 +601,11 @@ limitations under the License.
 											</script> 
 									</div>
 								</div>
-									<div class="form-row mb-1">
+									<div class="form-row mb-2">
 										<div class="col-12 text-center">
-											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
-											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
+											<button class="btn btn-primary px-3 mx-1" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+											<button type="reset" class="btn btn-warning mx-1" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
+											<button type="button" class="btn btn-warning mx-1" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
 									</div>
 								</form>
