@@ -1412,6 +1412,7 @@ input::placeholder {
             background-image: repeating-linear-gradient(-25deg, #fff, #fff 3px, #f8f9fa 3px, #f8f9fa 6px, #fff 6px, #fff 8px, #f8f9fa 8px, #f8f9fa 10px);
             animation: barberpole 4s linear infinite;
         }
+.fas-info {position: absolute; right: 8px; top:4px;color:#46a1dc; }
 /****************end small form fields*********************/
 
 /**********************************************************/
