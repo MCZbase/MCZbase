@@ -1276,14 +1276,14 @@ input::placeholder {
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
-	background-color: #f5f5f5;
+	background-color: #fff;
 	border-radius: .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
 .data-entry-select:focus {
 	color: #495057;
-	background-color: #f5f5f5;
+	background-color: #fff;
 	border-color: #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);

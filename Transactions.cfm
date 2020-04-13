@@ -164,7 +164,7 @@ limitations under the License.
 	
 	<!--- Search form --->
 	<div id="search-form-div" class="search-form-div pb-4 px-3">
-		<div class="container-fluid">
+		<div class="container">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-lg-11">
 					<h1 class="h3 smallcaps my-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
@@ -478,7 +478,7 @@ limitations under the License.
 									<div class="col-12 col-md-12 col-xl-12 px-2">
 										<div class="row">
 											<div class="col-sm-4">
-												<div class="date form-row bg-light border rounded date-field-forms justify-content-center">
+												<div class="date form-row bg-light border rounded justify-content-center">
 													<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#trans_date#">
 													<div class="col-1 text-center px-0"><small> to</small></div>
@@ -487,7 +487,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<div class="date form-row bg-light border rounded date-field-forms justify-content-center">
+												<div class="date form-row bg-light border rounded justify-content-center">
 													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
 													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-5">
 													<div class="col-1 text-center px-0"><small> to</small></div>
@@ -496,7 +496,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<div class="date form-row border bg-light rounded date-field-forms justify-content-center">
+												<div class="date form-row border bg-light rounded justify-content-center">
 													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
 													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#closed_date#" >
 													<div class="col-1 text-center px-0"><small> to</small></div>
