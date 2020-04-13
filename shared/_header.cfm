@@ -295,10 +295,10 @@ limitations under the License.
 			</ul>
 			<form class="form-inline my-2 my-lg-0 pl-2" name="signOut" method="post" action="/login.cfm">
 				<input type="hidden" name="action" value="signOut">	
-				<button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
-					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+				<button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" title="<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
 						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-					</cfif>
+					</cfif>" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
+					
 				</button>
 			</form>
 		<cfelse>
