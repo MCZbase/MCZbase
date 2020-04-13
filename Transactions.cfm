@@ -475,7 +475,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-12 col-xl-12 px-2">
-										<div class="form-row">
+										<div class="form-row mx-0">
 											<div class="col-sm-4">
 												<div class='date form-row rounded p-1'>
 													<label class="data-entry-label my-0" for="trans_date">Loan Date:</label>
@@ -512,18 +512,23 @@ limitations under the License.
 									</script>
 									<div class="form-row mx-0">
 									
-									<div class="col-12 col-md-6 px-2 m-0 mb-1">
+									<div class="col-12 col-md-12 px-2 m-0 mb-1">
+										<div class="col-12 col-sm-6">
 										<label for="nature_of_material" class="data-entry-label mb-0 pb-0 mr-1">Nature of Material:</label>
 										<textarea class="data-entry-textarea" >#nature_of_material#</textarea>
-								
+										</div>
+										<div class="col-12 col-sm-6">
 										<label for="loan_description" class="data-entry-label mb-0 pb-0 mr-1">Description: </label>
 										<textarea class="data-entry-textarea">#loan_description#</textarea>
-								
+										</div>
+										<div class="col-12 col-sm-6">
 										<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
 										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
-												
+										</div>	
+										<div class="col-12 col-sm-6">
 										<label for="trans_remarks" class="data-entry-label mb-0 mt-3">Internal Remarks: </label>
 										<textarea class="data-entry-textarea">#trans_remarks#</textarea>
+										</div>
 									</div>
 									<div class="col-12 col-sm-6 my-3 px-2 mr-0">
 										<div class="form-row rounded px-2 py-3">
@@ -538,7 +543,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<div class="form-row border rounded pt-1 px-2 pb-1 my-1 mx-1 bg-light">
+									<div class="form-row mx-0 pt-1 px-2 pb-1 my-1 mx-1">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
