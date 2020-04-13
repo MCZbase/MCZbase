@@ -458,14 +458,15 @@ limitations under the License.
 							],
 							root: "permitRecord",
 							id: "permit_id",
-							url: "/transactions/component/search.cfc?" + $("##findPermitSearchForm").serialize()
+							url: "/transactions/component/functions.cfc?" + $("##findPermitSearchForm").serialize()
 						};
 
 						var dataAdapter = new $.jqx.dataAdapter(permitSearch);
 
 						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-							return "<button onclick=" $(\'###idcontrol#\').val(value); $(\'###valuecontrol#\').val(pvalue); $(\'##dialog\').destroy(); ">Select</button>";
+							var result = "<button onclick=\" $(''###idcontrol#'').val( " +  value + "); $(''###valuecontrol#'').val(" + pvalue + "); $(''##dialog'').destroy(); \">Select</button>";
+							return result;
 						};
 
 						$("##searchResultsGrid").jqxGrid({
@@ -590,8 +591,8 @@ limitations under the License.
 				<cfif isdefined("permit_remarks") AND len(#permit_remarks#) gt 0>
 					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
 				</cfif>
-					upper(permit_num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
-					OR upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+					upper(permit_num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(permit_num)#%">
+					OR upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(permit_num)#%">
 			order by permit_num, specific_type, issued_date
 		</cfquery>
 
