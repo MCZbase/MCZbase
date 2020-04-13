@@ -361,9 +361,13 @@ limitations under the License.
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-0 p-1">
-										<div class="col-12 col-md-3">
-											<label for="collection_id" class="data-entry-label mb-0">Collection Name:</label>
-											<select name="collection_id" size="1" class="data-entry-select">
+
+										
+										
+										<div class="col-12 col-md-6 mt-1">
+											<div class="input-group">
+											<label for="collection_id" class="data-entry-label">Collection Name:</label>
+											<select name="collection_id" size="1" class="data-entry-prepend-select col-md-6 input-group-prepend">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
@@ -373,11 +377,10 @@ limitations under the License.
 													</cfif>
 													<option value="#collection_id#" #selected#>#collection#</option>
 												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="loan_number" class="data-entry-label mb-0">Number: (yyyy-n-Coll)</label>
-											<input type="text" name="loan_number" id="loan_number" class="data-entry-input" value="#loan_number#">
+											</select>			
+											<label for="loan_number" class="data-entry-label mb-0">Number: </label>
+											<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input col-md-6" value="#loan_number#" placeholder="(yyyy-n-Coll)">
+									
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
