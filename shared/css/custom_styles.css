@@ -10,7 +10,6 @@ input.badPick, select.badPick, textarea.badPick {
 input.goodPick, select.goodPick, textarea.goodPick {
 	background-color: #8BFEB9;
 }
-
 /* BELOW: Are these used?  */
 /*form input.anchor-button {  
 	background-color: white;
@@ -27,7 +26,6 @@ form input.anchor-button:hover {
 	text-decoration: none;
 	background-color: #f8f9fa;
 }*/
-
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
@@ -86,19 +84,16 @@ label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
 }
-.border {  /* bootstrap border override */
+.border { /* bootstrap border override */
 	border: 1px solid #bac5c6 !important;
 }
 .shadowbox {
 	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
 }
-
-
 /***************************************/
 /*   BELOW: override for collection    */
 /*  dropdown (JQuery) taken from Arctos*/
 /***************************************/
-
 button.ui-multiselect {
 	padding: .5em;
 	margin: 0;
@@ -145,7 +140,6 @@ span.ui-icon {
 	color: #555;
 	margin-top: 1px;
 }
-
 /*********************************/
 /* BELOW:    code for 3 searches */
 /*********************************/
@@ -153,25 +147,24 @@ span.ui-icon {
 *************************
 BELOW: Small Form button (bootstrap override)
 ************************/
-
 .btn {
-    display: inline-block;
-    font-weight: 400;
-    color: #212529;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
- /*   background-color: transparent;*/
-    border: 1px solid transparent;
-    padding: .15em .5em;
-    font-size: .95em;
-    line-height: 1.4;
-    border-radius: .25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	display: inline-block;
+	font-weight: 400;
+	color: #212529;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	/*   background-color: transparent;*/
+	border: 1px solid transparent;
+	padding: .15em .5em;
+	font-size: .95em;
+	line-height: 1.4;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 /************************
 *************************
@@ -180,39 +173,41 @@ BELOW: Main button (bootstrap override)
 .btn-primary {
 	background-color: buttonface;
 	background: buttonface;
-    border: 1px solid hsl(0, 0%, 62%);
-    color: buttontext;
-    margin-top: 0;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: buttontext;
+	margin-top: 0;
 }
 .btn-primary:hover {
 	background-color: buttonface;
 	color: #212529;
- 	border: 1px solid hsl(0, 0%, 62%);
-	background-color: rgba(0,0,0,.15);
+	border: 1px solid hsl(0, 0%, 62%);
+	background-color: rgba(0, 0, 0, .15);
 }
 .btn-primary:focus, .btn-primary.focus {
 	background-color: buttonface;
 	color: #212529;
- 	border: 1px solid hsl(0, 0%, 62%);
+	border: 1px solid hsl(0, 0%, 62%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 	box-shadow: none;
 }
 .btn-primary.disabled, .btn-primary:disabled {
 	background-color: buttonface;
 	color: #212529;
- 	border: 1px solid hsl(0, 0%, 62%);
+	border: 1px solid hsl(0, 0%, 62%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
 	background-color: buttonface;
 	color: #212529;
- 	border: 1px solid hsl(0, 0%, 62%);
+	border: 1px solid hsl(0, 0%, 62%);
 }
-.btn-warning {border: 1px solid #666;}
-.btn-warning:hover {border: 1px solid #666;}
-
-
+.btn-warning {
+	border: 1px solid #666;
+}
+.btn-warning:hover {
+	border: 1px solid #666;
+}
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -332,8 +327,6 @@ li.list-group-item.thethumbs:first-child {
 	margin-right: 10px;
 	margin-left: 10px;
 }
-
-
 /************************
 *************************
 BELOW: SEARCH PAGE STYLES to 
@@ -364,7 +357,6 @@ body.modal-open {
 	padding: 0 !important;
 	overflow-y: scroll !important;
 }
-
 /***********************************************/
 /* BELOW: filter and column slider menu styles */
 /***********************************************/
@@ -522,11 +514,9 @@ a#showRightPush.hiddenclass {
 a#showLeftPush.hiddenclass {
 	display: none;
 }
-
 /*************************************/
 /*****BELOW:  Data Entry Step Styles
 /*************************************/
-
 /*#msform {
 	width: 90%;
 	margin: 10px auto;
@@ -649,14 +639,9 @@ a#showLeftPush.hiddenclass {
 #regForm .step.finish {
 	background-color: #80ADCC;
 }
-
-
-
-
 /*************************************/
 /*****BELOW:  User Profile Page styles  RSS feed
 /*************************************/
-
 .feedAtom div {
 	float: left;
 	width: auto;
@@ -678,11 +663,9 @@ a#showLeftPush.hiddenclass {
 	line-height: 1.5em;
 	margin-left: 1em;
 }
-
 /*************************************/
 /*****BELOW:  ???
 /*************************************/
-
 /*.fas {
 	width: 32px;
 }*/
@@ -724,7 +707,6 @@ code {
 #jqxDropDownList {
 	padding: .86em 0;
 }
-
 /************************
 *************************
 BELOW: DIALOG BOXES STYLES to 
@@ -866,7 +848,7 @@ ul.list-unstyled li.list-group-item:last-child {
 }
 .jqx-widget-header {
 	background-color: #deebec !important;
-/*	padding: .15em 0;*/
+	/*	padding: .15em 0;*/
 	border-radius: 4px;
 	margin-top: 0px;
 }
@@ -927,8 +909,6 @@ table.inputTable tr {
 	position: absolute;
 	left: 1.5em !important;
 }
-
-
 /************************
 *************************
 BELOW: Search Form - Home page
@@ -1010,7 +990,6 @@ BELOW: Search Form - Home page
 	top: 12px;
 	margin: 0;
 }
-
 .tab-card-main {
 	background-color: white;
 }
@@ -1023,7 +1002,9 @@ BELOW: Search Form - Home page
 	background-color: #3E6F7D;
 	padding-top: 8px;
 }
-.card-header-tabs {margin:0;}
+.card-header-tabs {
+	margin: 0;
+}
 .card-title:first-child {
 	padding-left: .5em;
 }
@@ -1045,7 +1026,7 @@ BELOW: Search Form - Home page
 	border: 0;
 	margin-right: 0;
 	color: #555;
-/*	padding: 2px 15px;*/
+	/*	padding: 2px 15px;*/
 	background-color: #deebec;
 	font-size: .95em;
 }
@@ -1209,7 +1190,6 @@ table#pairs th, table#pairs td {
 	border: 1px solid #ccc;
 	line-height: 1.1em;
 }
-
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
@@ -1256,16 +1236,16 @@ table#pairs th, table#pairs td {
 	font-weight: 450;
 }
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  font-weight: 350;
+	font-weight: 350;
 }
 iinput::-moz-placeholder { /* Firefox 19+ */
-  font-weight: 350;
+	font-weight: 350;
 }
 input:-ms-input-placeholder { /* IE 10+ */
-  font-weight: 350;
+	font-weight: 350;
 }
 input:-moz-placeholder { /* Firefox 18- */
-font-weight: 350;
+	font-weight: 350;
 }
 input::placeholder {
 	font-weight: 350;
@@ -1288,7 +1268,7 @@ input::placeholder {
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
-	border-radius:  5px;
+	border-radius: 5px;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 500;
 }
@@ -1310,7 +1290,7 @@ input::placeholder {
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #f5f5f5;
-	border-radius:  5px 0 0 5px;
+	border-radius: 5px 0 0 5px;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 510;
 }
@@ -1369,7 +1349,7 @@ input::placeholder {
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #f5f5f5;
-	border-radius:  0 5px 5px 0;
+	border-radius: 0 5px 5px 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 510;
 }
@@ -1397,24 +1377,31 @@ input::placeholder {
 	padding: .2em .35em;
 	font-weight: 500;
 }*/
-.border-fill {/* This is for each square on the data entry full form */
-	border:  1px solid #bac5c6 !important;
+.border-fill { /* This is for each square on the data entry full form */
+	border: 1px solid #bac5c6 !important;
 	background-color: #fff;
 }
-.fa-info-circle {font-size: 1.25em;height:1.25em;}
- .barbershop-pole {
-            width: 100%;
-            height: 100%;
-            margin: 0 auto;
-            background-color: #fff;
-            background-repeat: repeat;
-            background-position: 0% 0%;
-            background-image: repeating-linear-gradient(-25deg, #fff, #fff 3px, #f8f9fa 3px, #f8f9fa 6px, #fff 6px, #fff 8px, #f8f9fa 8px, #f8f9fa 10px);
-            animation: barberpole 4s linear infinite;
-        }
-.fas-info {position: absolute; right: 8px; top:4px;color:#46a1dc; }
+.fa-info-circle {
+	font-size: 1.25em;
+	height: 1.25em;
+}
+.barbershop-pole {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	background-color: #fff;
+	background-repeat: repeat;
+	background-position: 0% 0%;
+	background-image: repeating-linear-gradient(-25deg, #fff, #fff 3px, #f8f9fa 3px, #f8f9fa 6px, #fff 6px, #fff 8px, #f8f9fa 8px, #f8f9fa 10px);
+	animation: barberpole 4s linear infinite;
+}
+.fas-info {
+	position: absolute;
+	right: 9px;
+	top: 3px;
+	color: #46a1dc;
+}
 /****************end small form fields*********************/
-
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
@@ -1482,7 +1469,7 @@ and also iPads specifically.
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
 	/* Force table to not be like tables anymore */
 	table, thead, tbody, th, td, tr {
-	/*	display: block;*/ /* This needs to be removed in order for the calendar to work on mobile devices.*/
+		/*	display: block;*/ /* This needs to be removed in order for the calendar to work on mobile devices.*/
 	}
 	.table-bordered thead td, .table-bordered thead th {
 		border-bottom-width: 1px;
@@ -1510,7 +1497,6 @@ and also iPads specifically.
 		border: none;
 	}
 	td {
-	
 		border: none;
 		position: relative;
 		padding-left: 50%;
@@ -1518,9 +1504,7 @@ and also iPads specifically.
 		font-weight: 16px;
 	}
 	td:before {
-		
 		position: absolute;
-		
 		top: 6px;
 		left: 2px;
 		width: 40%;

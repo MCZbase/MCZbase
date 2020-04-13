@@ -411,8 +411,9 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="border rounded m-1">
-										<div class="form-row barbershop-pole my-1 p-1"> <span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
+									
+										<div class="form-row my-1 p-1">
+											<span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
 											<div class="col-12 col-md-4">
 												<div class="input-group input-group-sm">
 													<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -520,10 +521,12 @@ limitations under the License.
 								
 										<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
 										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
+												
+										<label for="trans_remarks" class="data-entry-label mb-0 mt-3">Internal Remarks: </label>
+										<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 									</div>
 									<div class="col-12 col-sm-6 my-3 px-2 mr-0">
-										<div class="form-row border bg-light rounded px-2 py-3">
-										
+										<div class="form-row rounded px-2 py-3">
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
@@ -532,8 +535,6 @@ limitations under the License.
 													<div id="permitpickerdialog"></div>
 												</div>
 									
-												<label for="trans_remarks" class="data-entry-label mb-0 mt-3">Internal Remarks: </label>
-												<textarea class="data-entry-textarea">#trans_remarks#</textarea>
 											</div>
 										</div>
 									</div>
