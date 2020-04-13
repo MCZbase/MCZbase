@@ -383,12 +383,45 @@ limitations under the License.
 							<input type="text" name="exp_date" id="exp_date">
 						</div>
 						<div class="col-12 col-md-6">
-							<label for="permit_num">Permit Number</label>
-							<input type="text" name="permit_num" id="permit_num">
+							<label for="permit_num_search">Permit Number</label>
+							<input type="text" name="permit_num" id="permit_num_search">
 						</div>
 					</div>
-
-
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-6">
+							<label for="permit_type">Permit Type</label>
+							<select name="permit_Type" id="permit_type" size="1" style="width: 15em;">
+								<option value=""></option>
+								<cfloop query="ctPermitType">
+									<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="permit_remarks">Remarks</label>
+							<input type="text" name="permit_remarks">
+						</div>
+					</div>
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-6">
+							<label for="specific_type">Specific Type</label>
+							<select name="specific_type" size="1" style="width: 15em;">
+								<option value=""></option>
+								<cfloop query="ctSpecificPermitType">
+									<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="permit_title">Permit Title</label>
+							<input type="text" name="permit_title">
+						</div>
+					</div>
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-6">
+							<input type="submit" value="Search" class="schBtn">
+						</div>
+					</div>
 				</form>
 
 				<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
@@ -426,11 +459,11 @@ limitations under the License.
 							root: "permitRecord",
 							id: "permit_id",
 							url: "/transactions/component/search.cfc?" + $("##findPermitSearchForm").serialize()
-						}
+						};
 
 						var dataAdapter = new $.jqx.dataAdapter(search);
 
-						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { {
+						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
 							return "<button onclick=" $(''###idcontrol#'').val(value); $(''###valuecontrol#'').val(pvalue); $(''##dialog'').destroy(); ">Select</button>";
 						};

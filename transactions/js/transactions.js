@@ -243,10 +243,10 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 			idcontrol: idControl,
 			dialog: dialogid
 		},
-		success: function (data) {
+		success: function(data) {
 			$("#"+dialogid+"_div").html(data);
 		},
-		fail: function (jqXHR, textStatus) {
+		fail: function(jqXHR, textStatus) {
 			$("#"+dialogid+"_div").html("Error:" + textStatus);
 		}
 	});
