@@ -477,7 +477,7 @@ limitations under the License.
 									<div class="col-12 col-md-12 col-xl-12 px-2">
 										<div class="row">
 											<div class="col-sm-3">
-												<div class='date form-row bg-light border rounded p-2'>
+												<div class='date form-row bg-light border rounded p-1'>
 													<label class="data-entry-label m-0" for="trans_date">Loan Date:</label>
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#trans_date#">
 														<div class="col-1 text-center px-0"><small> to</small></div>
@@ -486,7 +486,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-3">
-												<div class='date form-row bg-light border rounded p-2'>
+												<div class='date form-row bg-light border rounded p-1'>
 													<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
 													<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-5">
 														<div class="col-1 text-center px-0"><small> to</small></div>
@@ -495,7 +495,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-sm-3">
-												<div class="date form-row border bg-light rounded p-2">
+												<div class="date form-row border bg-light rounded p-1">
 													<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
 													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#closed_date#" >
 													<div class="col-1 text-center px-0"><small> to</small></div>
@@ -503,8 +503,8 @@ limitations under the License.
 													<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="closed date search range to" aria-described="closed_date_to">
 												</div>
 											</div>
-											<div class="col-sm-3 px-0">
-												<div class="form-row border bg-light rounded px-2 mt-0 mx-1">
+											<div class="col-sm-3">
+												<div class="form-row border bg-light rounded p-1">
 													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 													<div class="input-group float-left px-2">
 														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
