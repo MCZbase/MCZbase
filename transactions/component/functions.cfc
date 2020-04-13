@@ -464,7 +464,7 @@ limitations under the License.
 						var dataAdapter = new $.jqx.dataAdapter(permitSearch);
 
 						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
-							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
+							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
 							var result = "<button onclick=\" $(''###idcontrol#'').val( " +  value + "); $(''###valuecontrol#'').val(" + pvalue + "); $(''##dialog'').destroy(); \">Select</button>";
 							return result;
 						};
