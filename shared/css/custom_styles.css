@@ -1356,16 +1356,16 @@ input::placeholder {
 	background-clip: padding-box;
 	font-weight: 500;
 }
-.data-entry-button {
+/*.data-entry-button {
 	line-height: .9em;
-	border-radius: 5px;
+	border-radius: .2rem;
 	background-color: buttonface;
 	color: #1b1b1b;
 	font-size: .85em;
 	height: calc(.9em + .8rem + 1px);
 	padding: .2em .35em;
 	font-weight: 500;
-}
+}*/
 .border-fill {/* This is for each square on the data entry full form */
 	border:  1px solid #bac5c6 !important;
 	background-color: #fff;

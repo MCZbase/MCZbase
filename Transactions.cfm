@@ -312,7 +312,7 @@ limitations under the License.
 							</div>
 							
 							<!--- Loan search tab panel --->
-							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-3 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
+							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-2 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
 								<h2 class="wikilink h3 card-title mb-0 mt-2">Find Loans </h2>
 								
 								<!--- Search for just loans ---->
@@ -521,11 +521,11 @@ limitations under the License.
 										<label for="loan_instructions" class="data-entry-label mb-0">Instructions:</label>
 										<textarea class="data-entry-textarea">#loan_instructions#</textarea>
 									</div>
-									<div class="col-12 col-sm-6">
-										<div class="form-row border bg-light rounded p-1">
+									<div class="col-12 col-sm-6 my-3 px-2">
+										<div class="form-row border bg-light rounded px-2 py-3">
 										
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
-												<div class="input-group float-left px-2">
+												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 													<input type="text" name="permit_num" id="permit_num" class="form-control py-0 h-auto" aria-described-by="permitNumberLabel" value="#permit_num#">
 													<div class="input-group-append"> <span class="input-group-text py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
@@ -598,7 +598,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-1">
 										<div class="col-12 text-center">
-											<button class="btn btn-primary data-entry-button px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
