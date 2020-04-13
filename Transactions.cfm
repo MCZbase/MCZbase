@@ -203,7 +203,7 @@ limitations under the License.
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
-										<div class="col-12 col-md-3 pr-0">
+										<div class="col-12 col-md-3 pl-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
 											<select name="collection_id" size="1" class="data-entry-prepend-select">
 												<option value="-1">any collection</option>
@@ -217,7 +217,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3 pl-0">
+										<div class="col-12 col-md-3 pr-0">
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
