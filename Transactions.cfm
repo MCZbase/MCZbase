@@ -382,6 +382,7 @@ limitations under the License.
 											<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input col-md-6" value="#loan_number#" placeholder="(yyyy-n-Coll)">
 									
 										</div>
+													</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
 											<label for="loan_type" class="data-entry-label mb-0">Type:</label>
