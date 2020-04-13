@@ -166,6 +166,10 @@ BELOW: Small Form button (bootstrap override)
 	border-radius: .25rem;
 	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+.btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
 /************************
 *************************
 BELOW: Main button (bootstrap override)
