@@ -411,67 +411,65 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="">
-										<div class="form-row"> <span class="text-left mr-auto w-100 sr-only"><small>Loan Agents</small></span>
-											<div class="col-12 col-md-4">
-												<div class="input-group input-group-sm">
-													<select name="trans_agent_role_1" id="trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
-														<option value="">agent role...</option>
-														<cfloop query="cttrans_agent_role_loan">
-															<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
-																<cfset selected="selected">
-																<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
-														</cfloop>
-													</select>
-													<input type="text" name="agent_1" id="agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent 1" >
-													<input type="hidden" name="agent_1_id" id="agent_1_id" value="#agent_1_id#" >
-												</div>
+							<div class="form-row mb-2">
+										<div class="col-12 col-md-4">
+											<div class="input-group">
+												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
+													<option value="">agent role...</option>
+													<cfloop query="cttrans_agent_role">
+														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
+															<cfset selected="selected">
+															<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+													</cfloop>
+												</select>
+												<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent 1" >
+												<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
 											</div>
-											<div class="col-12 col-md-4">
-												<div class="input-group input-group-sm">
-													<select name="trans_agent_role_2" id="trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
-														<option value="">agent role...</option>
-														<cfloop query="cttrans_agent_role_loan">
-															<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
-																<cfset selected="selected">
-																<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
-														</cfloop>
-													</select>
-													<input type="text" name="agent_2" id="agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent 2" >
-													<input type="hidden" name="agent_2_id" id="agent_2_id" value="#agent_2_id#" >
-												</div>
-											</div>
-											<div class="col-12 col-md-4">
-												<div class="input-group input-group-sm">
-													<select name="trans_agent_role_3" id="trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
-														<option value="">agent role...</option>
-														<cfloop query="cttrans_agent_role_loan">
-															<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
-																<cfset selected="selected">
-																<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#trans_agent_role#" #selected#>#trans_agent_role#:</option>
-														</cfloop>
-													</select>
-													<input type="text" name="agent_3" id="agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent 3">
-													<input type="hidden" name="agent_3_id" id="agent_3_id" value="#agent_3_id#" >
-												</div>
-											</div>
-											<script>
-										$(document).ready(function() {
-											$(makeAgentPicker('agent_1','agent_1_id'));
-											$(makeAgentPicker('agent_2','agent_2_id'));
-											$(makeAgentPicker('agent_3','agent_3_id'));
-										});
-										</script> 
 										</div>
+										<div class="col-12 col-md-4">
+											<div class="input-group">
+												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
+													<option value="">agent role...</option>
+													<cfloop query="cttrans_agent_role">
+														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
+															<cfset selected="selected">
+															<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+													</cfloop>
+												</select>
+												<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent 2">
+												<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
+											</div>
+										</div>
+										<div class="col-12 col-md-4">
+											<div class="input-group">
+												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
+													<option value="">agent role...</option>
+													<cfloop query="cttrans_agent_role">
+														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
+															<cfset selected="selected">
+															<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+													</cfloop>
+												</select>
+												<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent 3">
+												<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
+											</div>
+										</div>
+										<script>
+									$(document).ready(function() {
+										$(makeAgentPicker('all_agent_1','all_agent_1_id'));
+										$(makeAgentPicker('all_agent_2','all_agent_2_id'));
+										$(makeAgentPicker('all_agent_3','all_agent_3_id'));
+									});
+									</script> 
 									</div>
 									<div class="col-12 col-md-12 col-xl-12 px-2">
 										<div class="row">
