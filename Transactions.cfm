@@ -598,7 +598,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-1">
 										<div class="col-12 text-center">
-											<button class="btn btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+											<button class="btn btn-primary data-entry-button px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
