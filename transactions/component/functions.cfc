@@ -392,9 +392,11 @@ limitations under the License.
 							<label for="permit_type">Permit Type</label>
 							<select name="permit_Type" id="permit_type" size="1" style="width: 15em;">
 								<option value=""></option>
+		'>
 								<cfloop query="ctPermitType">
-									<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+									<cfset result = result & '<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>' >
 								</cfloop>
+		<cfset result = result & '
 							</select>
 						</div>
 						<div class="col-12 col-md-6">
@@ -407,9 +409,11 @@ limitations under the License.
 							<label for="specific_type">Specific Type</label>
 							<select name="specific_type" size="1" style="width: 15em;">
 								<option value=""></option>
+		'>
 								<cfloop query="ctSpecificPermitType">
-									<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+									<cfset result = result & '<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>' >
 								</cfloop>
+		<cfset result = result & '
 							</select>
 						</div>
 						<div class="col-12 col-md-6">
