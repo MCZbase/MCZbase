@@ -1253,7 +1253,7 @@ input::placeholder {
 .data-entry-input:focus {
 	color: #495057;
 	background-color: #fff;
-	border-color: #80bdff;
+	border-color:#ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
@@ -1265,17 +1265,17 @@ input::placeholder {
 	height: calc(.9em + .8em + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
-	border: 1px solid #80bdff;
+	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #f5f5f5;
 	border-radius: .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight:450;
+	font-weight: 500;
 }
 .data-entry-select:focus {
 	color: #495057;
 	background-color: #f5f5f5;
-	border-color: #80bdff;
+	border-color: #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
@@ -1287,17 +1287,18 @@ input::placeholder {
 	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
-	border: 1px solid #80bdff;
+	border: 1px solid #ced4da;
+	border-right: none;
 	background-clip: padding-box;
 	background-color: #f5f5f5;
 	border-radius: .2em 0 0 .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font-weight: 500;
 }
 .data-entry-prepend-select:focus {
 	color: #495057;
 	background-color: #fff;
-	border-color: #80bdff;
+	border-color: #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
@@ -1309,17 +1310,17 @@ input::placeholder {
 	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
-	border: 1px solid #80bdff;
+	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: 0 .2em .2em 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font-weight: 500;
 }
 .data-entry-select-input:focus {
 	color: #495057;
 	background-color: #fff;
-	border-color: #80bdff;
+	border-color: #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
@@ -1331,12 +1332,12 @@ input::placeholder {
 	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
-	border: 1px solid #80bdff;
+	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: .2em 0 0 .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font-weight: 500;
 }
 .data-entry-addon {
 	display: block;
@@ -1346,18 +1347,18 @@ input::placeholder {
 	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .6);
-	border: 1px solid #80bdff;
+	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #f5f5f5;
 	border-radius: 0 .2em .2em 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font-weight: 500;
 }
 .data-entry-textarea {
 	width: 100%;
 	height: auto;
 	height: calc(.9em + .8rem + 1px);
-	border: 1px solid #80bdff;
+	border: 1px solid #ced4da;
 	font-size: .85em;
 	line-height: .9em;
 	border-radius: .2rem;
@@ -1365,7 +1366,7 @@ input::placeholder {
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
-	font-weight: 450;
+	font-weight: 500;
 }
 /*.data-entry-button {
 	line-height: .9em;
