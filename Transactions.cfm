@@ -744,7 +744,7 @@ $(document).ready(function() {
 		changeMonth: true,
 		changeYear: true,
 		buttonImageOnly: true,
-		//buttonImage: "/shared/images/calendar_icon.png",
+		buttonImage: "/shared/images/calendar_icon.png",
 		showOn: "both"
 	});
 
