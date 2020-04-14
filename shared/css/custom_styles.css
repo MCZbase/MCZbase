@@ -1000,7 +1000,7 @@ BELOW: Search Form - Home page
 	margin: 0;
 }
 .tab-card-main {
-	background-color: white;
+	background-color: #f5f5f5;
 }
 .tab-card {
 	border: 1px solid #eee;
@@ -1028,8 +1028,8 @@ BELOW: Search Form - Home page
 	border-top: 1px solid #3E6F7D;
 }
 .tab-card-header > .nav-tabs > li > a.active {
-	background-color: white;
-	border-bottom: 2px solid white;
+	background-color: #f5f5f5;
+	border-bottom: 2px solid #f5f5f5;
 }
 .tab-card-header > .nav-tabs > li > a {
 	border: 0;
@@ -1057,7 +1057,7 @@ BELOW: Search Form - Home page
 }
 .tab-card-header > .nav-tabs > li > a:hover {
 	color: #3E657D;
-	background-color: white;
+	background-color: #f5f5f5;
 }
 .tab-card-header > .tab-content {
 	padding-bottom: 0;
