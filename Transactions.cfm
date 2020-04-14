@@ -483,7 +483,7 @@ limitations under the License.
 									<div class="form-row mx-0 mt-1">
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 mx-0 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-3" for="trans_date">Loan Date:</label>
+												<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
 												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#trans_date#">
 												<div class="col-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to"></label>
@@ -492,7 +492,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row mx-0 bg-light border pb-2 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-3" for="return_due_date">Due Date:</label>
+												<label class="data-entry-label mb-0" for="return_due_date">Due Date:</label>
 												<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4">
 												<div class="col-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to"></label>
@@ -501,7 +501,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row border bg-light pb-2 rounded mx-0 justify-content-center">
-												<label class="data-entry-label mb-0 px-3" for="closed_date">Close Date:</label>
+												<label class="data-entry-label mb-0" for="closed_date">Close Date:</label>
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#closed_date#" >
 												<div class="col-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date"> </label>
