@@ -365,7 +365,7 @@ limitations under the License.
 											<div class="input-group">
 												<div class="col-6 px-0">
 													<label for="loan_collection_id" class="data-entry-label">Collection Name:</label>
-													<select name="collection_id" size="1" class="data-entry-select-input" id="loan_collection_id">
+													<select name="collection_id" size="1" class="data-entry-select" id="loan_collection_id">
 														<option value="-1">any collection</option>
 														<cfloop query="ctcollection">
 															<cfif ctcollection.collection eq selectedCollection>
@@ -480,10 +480,13 @@ limitations under the License.
 											<div class="col-sm-4">
 												<div class="date form-row bg-light border pb-2 rounded justify-content-center">
 													<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
-													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-5"  placeholder="start" value="#trans_date#">
+													<div class="col-sm-5">
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input"  placeholder="start" value="#trans_date#">
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
+													<div class="col-sm-5">
 													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-4"  placeholder="end" aria-label="loan date search range to" aria-described="trans_date_to">
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-4">
@@ -533,55 +536,55 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-6">
-												<div class="border bg-light rounded px-2 pt-2 mb-2 pb-3 mt-3">
-											<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
-											<div class="input-group">
-												<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-												<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#">
-												<div class="input-group-append"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
-												<div id="permitpickerdialog"></div>
-											</div>
+											<div class="border bg-light rounded px-2 pt-2 mb-2 pb-3 mt-3">
+												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+												<div class="input-group">
+													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#">
+													<div class="input-group-append"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
+													<div id="permitpickerdialog"></div>
+												</div>
 											</div>
 											<div class="form-row mx-0">
 												<div class="col-3 px-0">
 													<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
-												<cfif part_name_oper IS "is">
-												<cfset isselect = "selected">
-												<cfset containsselect = "">
-												<cfelse>
-												<cfset isselect = "">
-												<cfset containsselect = "selected">
-											</cfif>
-											<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
-												<option value="is" #isselect#>is</option>
-												<option value="contains" #containsselect#>contains</option>
-											</select>
+													<cfif part_name_oper IS "is">
+														<cfset isselect = "selected">
+														<cfset containsselect = "">
+														<cfelse>
+														<cfset isselect = "">
+														<cfset containsselect = "selected">
+													</cfif>
+													<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
+														<option value="is" #isselect#>is</option>
+														<option value="contains" #containsselect#>contains</option>
+													</select>
 												</div>
 												<div class="col-9 px-0">
 													<label for="part_name" class="data-entry-label  mb-0">Part Name</label>
 													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="" autocomplete="off">
 												</div>
 											</div>
-													<div class="form-row mx-0">
+											<div class="form-row mx-0">
 												<div class="col-3 px-0">
 													<label for="part_disp_oper" class="data-entry-label mb-0">Disposition Match</label>
 													<cfif part_disp_oper IS "is">
-												<cfset isselect = "selected">
-												<cfset notselect = "">
-												<cfelse>
-												<cfset isselect = "">
-												<cfset notselect = "selected">
-											</cfif>
-											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
-												<option value="is" #isselect#>is</option>
-												<option value="isnot" #notselect#>is not</option>
-											</select>
+														<cfset isselect = "selected">
+														<cfset notselect = "">
+														<cfelse>
+														<cfset isselect = "">
+														<cfset notselect = "selected">
+													</cfif>
+													<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
+														<option value="is" #isselect#>is</option>
+														<option value="isnot" #notselect#>is not</option>
+													</select>
 												</div>
 												<div class="col-9 px-0">
-																<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-											<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-											<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
-											<script>
+													<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
+													<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
+													<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
+													<script>
 												function setDispositionValues() {
 													$('##coll_obj_disposition').jqxComboBox('clearSelection');
 													<cfloop query="ctCollObjDisp">
@@ -605,7 +608,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-						<!---			<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
+									<!---			<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
@@ -741,7 +744,7 @@ $(document).ready(function() {
 		changeMonth: true,
 		changeYear: true,
 		buttonImageOnly: true,
-		buttonImage: "/shared/images/calendar_icon.png",
+		//buttonImage: "/shared/images/calendar_icon.png",
 		showOn: "both"
 	});
 
