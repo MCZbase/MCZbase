@@ -455,7 +455,7 @@
 		</tr>
 	</cfoutput>
 	<cfoutput query="locDet">
-		<form name="geog" action="editLocality.cfm" method="post">
+		<form name="geog" action="editLocality.cfm" method="get">
 			<input type="hidden" name="action" value="changeGeog">
             <input type="hidden" name="geog_auth_rec_id">
             <input type="hidden" name="locality_id" value="#locality_id#">
@@ -1029,7 +1029,7 @@
 				</td>
 			</tr>
               <tr>
-                <td colspan="4">
+                <td colspan=<cfif #accepted_lat_long_fg# is 1>"2"<cfelse>"4"</cfif>>
 				<input type="button" value="Save Changes" class="savBtn"
   						 onmouseover="this.className='savBtn btnhov'"
 						 onmouseout="this.className='savBtn'"
@@ -1038,6 +1038,26 @@
   						 onmouseover="this.className='delBtn btnhov'"
 						 onmouseout="this.className='delBtn'" onClick="latLong#i#.Action.value='deleteLatLong';confirmDelete('latLong#i#');">
 				</td>
+				<cfif #accepted_lat_long_fg# is 1>
+				<td colspan="2">
+				<input type="button" value="Copy Polygon from LocID:" class="savBtn"
+  						 onmouseover="this.className='savBtn btnhov'"
+						 onmouseout="this.className='savBtn'"
+						 onClick="latLong#i#.Action.value='copypolygon';
+						 	if(latLong#i#.copyPolyFrom.value.length==0){
+						 		alert('You need to enter a Locality ID');}
+						 	else if(latLong#i#.errorPoly.value.length>0)
+						 		{var r=confirm('This lat/long has an error polygon. Do you wish to overwrite?');
+						 		if (r==true)
+						 			{submit();}
+						 		else
+						 			{return false;}
+
+						 		}
+						 	else {submit()};">
+				<input type="text" name="copyPolyFrom" value="" size="10">
+				</td>
+				</cfif>
               </tr>
             </table>
           </form>
@@ -2032,7 +2052,7 @@
 							</cfif>
 							,'#GEOREFMETHOD#'
 							,'#VERIFICATIONSTATUS#'
-							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0>
 								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
 							<cfelse>
 								,NULL
@@ -2213,7 +2233,7 @@
 							</cfif>
 							,'#GEOREFMETHOD#'
 							,'#VERIFICATIONSTATUS#'
-							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0>
 								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
 							<cfelse>
 								,NULL
@@ -2593,3 +2613,15 @@
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
+<cfif #Action# is "copypolygon">
+	<cfoutput>
+		<cfquery name="getPoly" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select error_polygon from lat_long where locality_id = #copyPolyFrom# and accepted_lat_long_fg = 1
+		</cfquery>
+		<cfquery name="copyPoly" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update lat_long set error_polygon = <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#getPoly.ERROR_POLYGON#"> WHERE LAT_LONG_ID = #LAT_LONG_ID#
+		</cfquery>
+
+	<cflocation url="editLocality.cfm?locality_id=#locality_id#" addtoken="no">
+	</cfoutput>
+</cfif>
