@@ -416,7 +416,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row mb-2 mx-0 mt-1">
-										<div class="border barbershop-pole p-2 my-2">
+									
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -468,7 +468,7 @@ limitations under the License.
 												<input type="hidden" name="agent_3_id" id="loan_agent_3_id" value="#agent_3_id#" >
 											</div>
 										</div>
-										</div>
+						
 										<script>
 									$(document).ready(function() {
 										$(makeAgentPicker('loan_agent_1','loan_agent_1_id'));
@@ -515,7 +515,7 @@ limitations under the License.
 									</script>
 									<div class="form-row mx-0">
 										<div class="col-12">
-											<div class="row">
+											<div class="border barbershop-pole p-2 my-2">
 												<div class="col-md-4">
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0 mr-1">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
