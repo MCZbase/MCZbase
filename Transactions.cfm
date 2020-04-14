@@ -513,7 +513,7 @@ limitations under the License.
 									</script>
 									<div class="form-row mx-0">
 										<div class="col-md-6">
-											<div class="border barbershop-pole p-2 my-2">
+											<div class="border barbershop-pole rounded px-2 pt-2 mb-0 pb-0 mt-3">
 												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
@@ -533,12 +533,14 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-6">
+												<div class="border barbershop-pole rounded px-2 pt-2 mb-0 pb-0 mt-3">
 											<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 											<div class="input-group">
 												<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 												<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#">
 												<div class="input-group-append"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
 												<div id="permitpickerdialog"></div>
+											</div>
 											</div>
 											<div class="form-row mx-0">
 												<div class="col-3 px-0">
