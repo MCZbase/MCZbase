@@ -244,8 +244,6 @@ limitations under the License.
 									</div>
 									<div class="bg-light border rounded pt-2 mx-0 mr-1 my-2">
 									<div class="form-row mb-2 mx-0">
-										<div class="bg-light border rounded pt-0 mx-0 mr-1 mb-2">
-											<span for="permit_num" class="data-entry-label mb-0 mx-2 pt-0 mt-0">Agents:</span>
 											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -421,8 +419,8 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="bg-light border rounded p-1 mx-1 my-2">
-									<div class="form-row mx-0 mt-1 mb-2">
-									<span for="permit_num" class="data-entry-label mb-0 mx-2 pt-0 mt-0">Agents:</span>
+									<div class="form-row mb-2 mx-0 my-2">
+									
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
