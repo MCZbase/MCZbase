@@ -163,6 +163,7 @@ limitations under the License.
 	</cfif>
 	
 	<!--- Search form --->
+	<div id="overlaycontainer" style="position: relative;"><!---position relative to let overlay cover just this div --->
 	<div id="search-form-div" class="search-form-div pb-4 px-3">
 		<div class="container-fluid">
 			<div class="row">
@@ -686,7 +687,6 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-	</div>
 	
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
@@ -752,6 +752,8 @@ $(document).ready(function() {
 	$('##searchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
+		$("overlay").show();
+
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
@@ -790,6 +792,7 @@ $(document).ready(function() {
 			url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
 			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
+				$("overlay").hide();
             var message = "";      
 				if (error == 'timeout') { 
                message = ' Server took too long to respond.';
@@ -886,6 +889,8 @@ $(document).ready(function() {
 	$('##loanSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
+		$("overlay").show();
+
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
@@ -931,6 +936,7 @@ $(document).ready(function() {
 			url: '/transactions/component/search.cfc?' + $('##loanSearchForm').serialize(),
 			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
+				$("overlay").hide();
             var message = "";      
 				if (error == 'timeout') { 
                message = ' Server took too long to respond.';
@@ -1041,6 +1047,7 @@ $(document).ready(function() {
 
 
 function gridLoaded(gridId, searchType) { 
+	$("overlay").hide();
 	var now = new Date();
 	var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 	var filename = searchType + '_results_' + nowstring + '.csv';
@@ -1112,6 +1119,11 @@ function gridLoaded(gridId, searchType) {
 	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 
-</script> 
+	</script> 
+	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: black; opacity: .5; display: none;">
+		<div id="searchingspinner" style="position: relative; border: 16px solid ##f3f3f3; border-radius: 50%; border-top: 16px solid ##3498db; width: 70px; height: 70px; left:50%; top:50%; -webkit-animation: spin 2s linear infinite; animation: spin 2s linear infinite;">
+		</div>	
+	</div>	
+	</div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
