@@ -752,7 +752,7 @@ $(document).ready(function() {
 	$('##searchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
-		$("overlay").show();
+		$("##overlay").show();
 
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
 		$('##resultCount').html('');
@@ -792,7 +792,7 @@ $(document).ready(function() {
 			url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
 			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
-				$("overlay").hide();
+				$("##overlay").hide();
             var message = "";      
 				if (error == 'timeout') { 
                message = ' Server took too long to respond.';
@@ -889,7 +889,7 @@ $(document).ready(function() {
 	$('##loanSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
 
-		$("overlay").show();
+		$("##overlay").show();
 
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
 		$('##resultCount').html('');
@@ -936,7 +936,7 @@ $(document).ready(function() {
 			url: '/transactions/component/search.cfc?' + $('##loanSearchForm').serialize(),
 			timeout: 30000,  // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
-				$("overlay").hide();
+				$("##overlay").hide();
             var message = "";      
 				if (error == 'timeout') { 
                message = ' Server took too long to respond.';
@@ -1047,7 +1047,7 @@ $(document).ready(function() {
 
 
 function gridLoaded(gridId, searchType) { 
-	$("overlay").hide();
+	$("##overlay").hide();
 	var now = new Date();
 	var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 	var filename = searchType + '_results_' + nowstring + '.csv';
@@ -1121,8 +1121,7 @@ function gridLoaded(gridId, searchType) {
 
 	</script> 
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: black; opacity: .5; display: none;">
-		<div id="searchingspinner" style="position: relative; border: 16px solid ##f3f3f3; border-radius: 50%; border-top: 16px solid ##3498db; width: 70px; height: 70px; left:50%; top:50%; -webkit-animation: spin 2s linear infinite; animation: spin 2s linear infinite;">
-		</div>	
+		<div class="jqx-grid-load">Searching...</div>	
 	</div>	
 	</div>
 </cfoutput>
