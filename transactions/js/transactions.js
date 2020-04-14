@@ -234,6 +234,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		}
 	});
 	thedialog.dialog('open');
+	thedialog.dialog('moveToTop');
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",
 		type: "get",
