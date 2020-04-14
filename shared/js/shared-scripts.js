@@ -9,7 +9,7 @@
  * @prarm dialogTitle
  */
 function messageDialog(dialogText, dialogTitle) {
-	$('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+	var messageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
 		draggable: true,
@@ -31,6 +31,7 @@ function messageDialog(dialogText, dialogTitle) {
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
 		} 
 	});
+	messageDialog.dialog('moveToTop');
 };
 
 /** Allow textarea controls to grow in size as text is entered into them 

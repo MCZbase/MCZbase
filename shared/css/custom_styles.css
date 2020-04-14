@@ -179,34 +179,34 @@ BELOW: Small Form button (bootstrap override)
 BELOW: Main button (bootstrap override)
 ************************/
 .btn-primary {
-	background-color: buttonface;
-	background: buttonface;
+	background-color: #deebec;
+	background: #deebec;
 	border: 1px solid hsl(0, 0%, 62%);
 	color: buttontext;
 	margin-top: 0;
 }
 .btn-primary:hover {
-	background-color: buttonface;
+	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 0%, 62%);
-	background-color: rgba(0, 0, 0, .15);
+	background-color: rgba(222, 235, 236, .15);
 }
 .btn-primary:focus, .btn-primary.focus {
-	background-color: buttonface;
+	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 0%, 62%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 	box-shadow: none;
 }
 .btn-primary.disabled, .btn-primary:disabled {
-	background-color: buttonface;
+	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 0%, 62%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
-	background-color: buttonface;
+	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 0%, 62%);
 }
@@ -1000,7 +1000,7 @@ BELOW: Search Form - Home page
 	margin: 0;
 }
 .tab-card-main {
-	background-color: white;
+	background-color: #f5f5f5;
 }
 .tab-card {
 	border: 1px solid #eee;
@@ -1028,8 +1028,8 @@ BELOW: Search Form - Home page
 	border-top: 1px solid #3E6F7D;
 }
 .tab-card-header > .nav-tabs > li > a.active {
-	background-color: white;
-	border-bottom: 2px solid white;
+	background-color: #f5f5f5;
+	border-bottom: 2px solid #f5f5f5;
 }
 .tab-card-header > .nav-tabs > li > a {
 	border: 0;
@@ -1057,7 +1057,7 @@ BELOW: Search Form - Home page
 }
 .tab-card-header > .nav-tabs > li > a:hover {
 	color: #3E657D;
-	background-color: white;
+	background-color: #f5f5f5;
 }
 .tab-card-header > .tab-content {
 	padding-bottom: 0;
