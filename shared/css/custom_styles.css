@@ -1276,7 +1276,7 @@ input::placeholder {
     color: rgba(0, 0, 0, .6);
     border: 1px solid #ced4da;
     background-clip: padding-box;
-    background-color: #f8f9fa;
+    background-color: white;
     border-radius: .2em 0 0 .2em;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
@@ -1299,7 +1299,7 @@ input::placeholder {
 	border: 1px solid #ced4da;
 	border-right: none;
 	background-clip: padding-box;
-	background-color: #f8f9fa;
+	background-color: white;
 	border-radius: .2em 0 0 .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
