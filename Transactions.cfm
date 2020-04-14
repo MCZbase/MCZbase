@@ -514,26 +514,27 @@ limitations under the License.
 										});
 									</script>
 									<div class="form-row mx-0">
-										<div class="col-12">
+										<div class="col-4">
 											<div class="border barbershop-pole p-2 my-2">
 												<div class="col-md-4">
-													<label for="nature_of_material" class="data-entry-label mb-0  pb-0 mr-1">Nature of Material:</label>
+													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
 												<div class="col-md-4">
-													<label for="loan_description" class="data-entry-label mb-0 pb-0 mr-1">Description: </label>
+													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description: </label>
 													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
 												</div>
 												<div class="col-md-4">
 													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
 													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
 												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-6">
-													<label for="loan_trans_remarks" class="data-entry-label mb-0">Internal Remarks: </label>
+													<div class="col-md-4">
+													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
+											</div>
+										
+											
 												<div class="col-md-6">
 													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 													<div class="input-group">
@@ -543,7 +544,7 @@ limitations under the License.
 														<div id="permitpickerdialog"></div>
 													</div>
 												</div>
-											</div>
+										
 										</div>
 									</div>
 									<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
