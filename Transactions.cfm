@@ -241,7 +241,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="barbershop-pole border rounded p-1 mx-1 my-2">
+									<div class="barbershop-pole border rounded pt-3 mx-1 my-2">
 									<div class="form-row mb-2 mx-0">
 											<div class="col-12 col-md-4">
 											<div class="input-group">
