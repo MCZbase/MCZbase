@@ -514,9 +514,9 @@ limitations under the License.
 										});
 									</script>
 									<div class="form-row mx-0">
-										<div class="col-6">
+										<div class="col-md-6">
 											<div class="border barbershop-pole p-2 my-2">
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
@@ -528,7 +528,7 @@ limitations under the License.
 													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
 													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
 												</div>
-													<div class="col-md-12">
+												<div class="col-md-12">
 													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
@@ -543,9 +543,27 @@ limitations under the License.
 														<div class="input-group-append"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
 														<div id="permitpickerdialog"></div>
 													</div>
+												
+										
+											<div class="col-md-12">
+													<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
+												<cfif part_name_oper IS "is">
+												<cfset isselect = "selected">
+												<cfset containsselect = "">
+												<cfelse>
+												<cfset isselect = "">
+												<cfset containsselect = "selected">
+											</cfif>
+											<select id="part_name_oper" name="part_name_oper" class="data-entry-select-prepend-select input-group-prepend">
+												<option value="is" #isselect#>is</option>
+												<option value="contains" #containsselect#>contains</option>
+											</select>
+													
+											<label for="part_name" class="data-entry-label mb-0">Part Name</label>
+											<input type="text" id="part_name" name="part_name" class="data-entry-select-input" value="#part_name#">		
+													
 												</div>
-										
-										
+													</div>
 									</div>
 									<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
 										<div class="col-12 col-md-3">
