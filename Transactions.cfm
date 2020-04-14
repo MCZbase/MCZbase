@@ -417,7 +417,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="barbershop-pole border rounded p-1 mx-1 my-2">
+									<div class="bg-light border rounded p-1 mx-1 my-2">
 									<div class="form-row mb-2 mx-0 my-2">
 									
 										<div class="col-12 col-md-4">
@@ -588,7 +588,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="border barbershop-pole rounded px-2 pt-2 mb-0 pb-3">
+											<div class="border bg-light rounded px-2 pt-2 mb-0 pb-3">
 												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
