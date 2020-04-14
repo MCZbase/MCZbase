@@ -511,7 +511,7 @@ limitations under the License.
 									</script>
 									<div class="form-row mx-0 my-3">
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-2 pt-2 mb-2 pb-3 mt-3">
+											<div class="border bg-light rounded px-2 pt-2 mb-2 pb-3">
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
@@ -520,7 +520,7 @@ limitations under the License.
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
-											<div class="form-row mx-0">
+											<div class="form-row mx-0 mb-1">
 												<div class="col-3 px-0">
 													<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 													<cfif part_name_oper IS "is">
@@ -662,8 +662,8 @@ limitations under the License.
 											</script> 
 										</div>
 									</div>--->
-									<div class="form-row mb-2">
-										<div class="col-12 text-center">
+									<div class="form-row mb-2 mx-0">
+										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
