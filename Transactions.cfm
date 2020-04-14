@@ -494,7 +494,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="date form-row mx-0 bg-light border pb-2 rounded justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="return_due_date">Due Date:</label>
-												<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4">
+												<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4" value="#return_due_date#">
 												<div class="col-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to"></label>
 												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
@@ -543,7 +543,7 @@ limitations under the License.
 												</div>
 												<div class="col-9 px-0">
 													<label for="part_name" class="data-entry-label  mb-0">Part Name</label>
-													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="" autocomplete="off">
+													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 												</div>
 											</div>
 											<div class="form-row mx-0">
