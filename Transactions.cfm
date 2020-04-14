@@ -550,7 +550,7 @@ limitations under the License.
 												<cfset isselect = "">
 												<cfset containsselect = "selected">
 											</cfif>
-											<select id="part_name_oper" name="part_name_oper" class="data-entry-select-prepend-select input-group-prepend">
+											<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
 												<option value="is" #isselect#>is</option>
 												<option value="contains" #containsselect#>contains</option>
 											</select>
@@ -570,7 +570,7 @@ limitations under the License.
 												<cfset isselect = "">
 												<cfset notselect = "selected">
 											</cfif>
-											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-slect input-group-prepend">
+											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
 												<option value="is" #isselect#>is</option>
 												<option value="isnot" #notselect#>is not</option>
 											</select>
