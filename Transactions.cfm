@@ -603,7 +603,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
+						<!---			<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
 										<div class="col-12 col-md-3">
 											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
 											<cfif part_name_oper IS "is">
@@ -661,7 +661,7 @@ limitations under the License.
 												});
 											</script> 
 										</div>
-									</div>
+									</div>--->
 									<div class="form-row mb-2">
 										<div class="col-12 text-center">
 											<button class="btn-xs btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
