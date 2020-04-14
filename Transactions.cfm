@@ -162,9 +162,9 @@ limitations under the License.
 		<cfset coll_obj_disposition="">
 	</cfif>
 	
+	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
-	<div id="overlaycontainer" style="position: relative;"><!---position relative to let overlay cover just this div --->
-	<div id="search-form-div" class="search-form-div pb-4 px-3">
+	<div id="search-form-div" class="search-form-div pb-3 px-3">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-lg-11">
@@ -686,6 +686,7 @@ limitations under the License.
 				
 			</div>
 		</div>
+	</div>
 	</div>
 	
 	<!--- Results table as a jqxGrid. --->
