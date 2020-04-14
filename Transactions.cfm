@@ -1121,7 +1121,7 @@ function gridLoaded(gridId, searchType) {
 
 	</script> 
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: black; opacity: .5; display: none;">
-		<div style="jqx-rc-all jqx-fill-state-normal" style="left: 50%; top: 25%; width: 10em; height: 3em; padding: 5px; color: ##767676; border-color: ##898989; border-style: solid;">
+		<div class="jqx-rc-all jqx-fill-state-normal" style="left: 50%; top: 25%; width: 10em; height: 3em; padding: 5px; color: ##767676; border-color: ##898989; border-style: solid;">
 			<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
 			<div style="float: left; display: block; margin-left: 1em;">Searching...</div>	
 		</div>
