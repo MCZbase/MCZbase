@@ -163,7 +163,7 @@ limitations under the License.
 	</cfif>
 	
 	<!--- Search form --->
-	<div id="search-form-div" class="search-form-div pb-4 px-3">
+	<div id="search-form-div" class="search-form-div pb-3 px-3">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-lg-11">
