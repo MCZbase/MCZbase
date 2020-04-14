@@ -403,7 +403,7 @@ limitations under the License.
 									where
 										loan.transaction_id=trans.transaction_id 
 										AND trans.collection_id=collection.collection_id
-										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_NUMBER">
+										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
 										AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
 								</cfquery>
 								<cfcatch>
@@ -1089,7 +1089,7 @@ limitations under the License.
 							media.media_id=media_labels.media_id (+) and
 							media.media_id=media_relations.media_id and
 							media_relationship like '% loan' and
-						related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_NUMBER">
+						related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<br>
 					<span>
@@ -1434,63 +1434,65 @@ limitations under the License.
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE  trans  SET
-					collection_id=#collection_id#,
-					TRANS_DATE = '#dateformat(initiating_date,"yyyy-mm-dd")#'
-					,NATURE_OF_MATERIAL = '#NATURE_OF_MATERIAL#'
-					,trans_remarks = '#trans_remarks#'
+				UPDATE trans SET
+					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
+					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(initiating_date,"yyyy-mm-dd")#">,
+					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">,
+					trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
 				where
-					transaction_id = #transaction_id#
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfif not isdefined("return_due_date") or len(return_due_date) eq 0  >
-`			    <!--- If there is no value set for return_due_date, don't overwrite an existing value.  --->
-`			    <!--- This prevents edits to exhibition-subloans from wiping out an existing date value --->
-			    <cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 UPDATE loan SET
-					TRANSACTION_ID = #TRANSACTION_ID#,
-					LOAN_TYPE = '#LOAN_TYPE#',
-					LOAN_NUMber = '#loan_number#'
-					,loan_status = '#loan_status#'
-					,loan_description = '#loan_description#'
-					,LOAN_INSTRUCTIONS = '#LOAN_INSTRUCTIONS#'
-                                        ,insurance_value = '#INSURANCE_VALUE#'
-                                        ,insurance_maintained_by = '#INSURANCE_MAINTAINED_BY#'
-					where transaction_id = #transaction_id#
-			    </cfquery>
+				<!--- If there is no value set for return_due_date, don't overwrite an existing value.  --->
+				<!--- This prevents edits to exhibition-subloans from wiping out an existing date value --->
+				<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE loan SET
+						LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_TYPE#">,
+						LOAN_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_number#">,
+						loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_status#">,
+						loan_description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_description#">,
+						LOAN_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_INSTRUCTIONS#">,
+						insurance_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSURANCE_VALUE#">,
+						insurance_maintained_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSURANCE_MAINTAINED_BY#">
+					where 
+						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				</cfquery>
 			<cfelse>
-			    <cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 UPDATE loan SET
-					TRANSACTION_ID = #TRANSACTION_ID#,
-					LOAN_TYPE = '#LOAN_TYPE#',
-					LOAN_NUMber = '#loan_number#'
-					,return_due_date = '#dateformat(return_due_date,"yyyy-mm-dd")#'
-					,loan_status = '#loan_status#'
-					,loan_description = '#loan_description#'
-					,LOAN_INSTRUCTIONS = '#LOAN_INSTRUCTIONS#'
-                                        ,insurance_value = '#INSURANCE_VALUE#'
-                                        ,insurance_maintained_by = '#INSURANCE_MAINTAINED_BY#'
-					where transaction_id = #transaction_id#
-			    </cfquery>
+				<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE loan SET
+						return_due_date = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(return_due_date,"yyyy-mm-dd")#">,
+						LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_TYPE#">,
+						LOAN_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_number#">,
+						loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_status#">,
+						loan_description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_description#">,
+						LOAN_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_INSTRUCTIONS#">,
+						insurance_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSURANCE_VALUE#">,
+						insurance_maintained_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSURANCE_MAINTAINED_BY#">
+					where 
+						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				</cfquery>
 			</cfif>
 				<cfif isdefined("project_id") and len(project_id) gt 0>
 					<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						INSERT INTO project_trans (
-							project_id, transaction_id)
-							VALUES (
-								#project_id#,#transaction_id#)
+							project_id, 
+							transaction_id)
+						VALUES (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">)
 					</cfquery>
 				</cfif>
 				<cfif isdefined("loan_type") and loan_type EQ 'exhibition-master' >
-`					<!--- Propagate due date to child exhibition-subloans --->
+					<!--- Propagate due date to child exhibition-subloans --->
 					<cfset formatted_due_date = dateformat(return_due_date,"yyyy-mm-dd")>
 					<cfquery name="upChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE loan
- 						SET
-						      return_due_date = <cfqueryparam value = "#formatted_due_date#" CFSQLType="CF_SQL_DATE">
-						WHERE loan_type = 'exhibition-subloan' AND
- 						      transaction_id in (select lr.related_transaction_id from loan_relations lr where
-						      lr.relation_type = 'Subloan' AND
-						      lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">)
+						UPDATE loan SET
+							return_due_date = <cfqueryparam value = "#formatted_due_date#" CFSQLType="CF_SQL_TIMESTAMP">
+						WHERE 
+							loan_type = 'exhibition-subloan' AND
+ 							transaction_id in (select lr.related_transaction_id from loan_relations lr where
+							lr.relation_type = 'Subloan' AND
+							lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">)
 					</cfquery>
 				</cfif>
 				<cfif isdefined("saveNewProject") and saveNewProject is "yes">
@@ -1513,37 +1515,40 @@ limitations under the License.
 							 )
 						VALUES (
 							sq_project_id.nextval,
-							'#PROJECT_NAME#'
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">
 							<cfif len(#START_DATE#) gt 0>
-								,'#dateformat(START_DATE,"yyyy-mm-dd")#'
+								,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(START_DATE,"yyyy-mm-dd")#">
 							</cfif>
-
 							<cfif len(#END_DATE#) gt 0>
-								,'#dateformat(END_DATE,"yyyy-mm-dd")#'
+								,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(END_DATE,"yyyy-mm-dd")#">
 							</cfif>
 							<cfif len(#PROJECT_DESCRIPTION#) gt 0>
-								,'#PROJECT_DESCRIPTION#'
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_DESCRIPTION#">
 							</cfif>
 							<cfif len(#PROJECT_REMARKS#) gt 0>
-								,'#PROJECT_REMARKS#'
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_REMARKS#">
 							</cfif>
 							 )
 					</cfquery>
 					<cfquery name="newProjAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						 INSERT INTO project_agent (
-							 PROJECT_ID,
-							 AGENT_NAME_ID,
-							 PROJECT_AGENT_ROLE,
-							 AGENT_POSITION )
+						INSERT INTO project_agent (
+							PROJECT_ID,
+							AGENT_NAME_ID,
+							PROJECT_AGENT_ROLE,
+							AGENT_POSITION )
 						VALUES (
 							sq_project_id.currval,
-							 #newAgent_name_id#,
-							 '#project_agent_role#',
-							 1
-							)
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newAgent_name_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_agent_role#">,
+							1 )
 					</cfquery>
 					<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						INSERT INTO project_trans (project_id, transaction_id) values (sq_project_id.currval, #transaction_id#)
+						INSERT INTO project_trans 
+							(project_id, transaction_id) 
+						values (
+							sq_project_id.currval,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						)
 					</cfquery>
 				</cfif>
 				<cfloop from="1" to="#numAgents#" index="n">
@@ -1620,6 +1625,12 @@ limitations under the License.
 			<cfset outside_contact_agent_id=REC_AGENT_ID>
 		</cfif --->
 		<cftransaction>
+			<cfquery name="obtainTransNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_transaction_id.nextval as trans_id from dual
+			</cfquery>
+			<cfloop query="obtainTransNumber">
+				<cfset new_transaction_id = obtainTransNumber.trans_id>
+			</cfloop>
 			<cfquery name="newLoanTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans (
 					TRANSACTION_ID,
@@ -1632,14 +1643,14 @@ limitations under the License.
 						,trans_remarks
 					</cfif>)
 				VALUES (
-					sq_transaction_id.nextval,
-					'#initiating_date#',
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#initiating_date#">,
 					0,
 					'loan',
-					'#NATURE_OF_MATERIAL#',
-					#collection_id#
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 					<cfif len(#trans_remarks#) gt 0>
-						,'#trans_remarks#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
 					</cfif>
 					)
 			</cfquery>
@@ -1668,26 +1679,26 @@ limitations under the License.
 					</cfif>
 					 )
 				values (
-					sq_transaction_id.currval,
-					'#loan_type#',
-					'#loan_number#'
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_number#">
 					<cfif len(#loan_status#) gt 0>
-						,'#loan_status#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_status#">
 					</cfif>
 					<cfif len(#return_due_date#) gt 0>
-						,'#dateformat(return_due_date,"yyyy-mm-dd")#'
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(return_due_date,"yyyy-mm-dd")#">
 					</cfif>
 					<cfif len(#LOAN_INSTRUCTIONS#) gt 0>
-						,'#LOAN_INSTRUCTIONS#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_INSTRUCTIONS#">
 					</cfif>
 					<cfif len(#loan_description#) gt 0>
-						,'#loan_description#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_description#">
 					</cfif>
 					<cfif len(#insurance_value#) gt 0>
-						,'#insurance_value#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insurance_value#">
 					</cfif>
 					<cfif len(#insurance_maintained_by#) gt 0>
-						,'#insurance_maintained_by#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insurance_maintained_by#">
 					</cfif>
 					)
 			</cfquery>
@@ -1697,8 +1708,8 @@ limitations under the License.
 				    agent_id,
 				    trans_agent_role
 				) values (
-					sq_transaction_id.currval,
-					#auth_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
 					'authorized by')
 			</cfquery>
 			<cfquery name="in_house_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1707,8 +1718,8 @@ limitations under the License.
 				    agent_id,
 				    trans_agent_role
 				) values (
-					sq_transaction_id.currval,
-					#in_house_contact_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#in_house_contact_agent_id#">,
 					'in-house contact')
 			</cfquery>
 			<cfquery name="recipient_institution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1717,8 +1728,8 @@ limitations under the License.
 				    agent_id,
 				    trans_agent_role
 				) values (
-					sq_transaction_id.currval,
-					#recipient_institution_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recipient_institution_agent_id#">,
 					'recipient institution')
 			</cfquery>
 		<cfif isdefined("additional_contact_agent_id") and len(additional_contact_agent_id) gt 0>
@@ -1728,8 +1739,8 @@ limitations under the License.
 				    agent_id,
 				    trans_agent_role
 				) values (
-					sq_transaction_id.currval,
-					#additional_contact_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_contact_agent_id#">,
 					'additional outside contact')
 			</cfquery>
 		</cfif>
@@ -1740,8 +1751,8 @@ limitations under the License.
 				    agent_id,
 				    trans_agent_role
 				) values (
-					sq_transaction_id.currval,
-					#foruseby_agent_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foruseby_agent_id#">,
 					'for use by')
 			</cfquery>
 		</cfif>
@@ -1751,15 +1762,12 @@ limitations under the License.
 				    agent_id,
 				    trans_agent_role
 				) values (
-					sq_transaction_id.currval,
-					#REC_AGENT_ID#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REC_AGENT_ID#">,
 					'received by')
 			</cfquery>
-			<cfquery name="nextTransId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select sq_transaction_id.currval nextTransactionId from dual
-			</cfquery>
 		</cftransaction>
-		<cflocation url="/transactions/Loan.cfm?Action=editLoan&transaction_id=#nextTransId.nextTransactionId#" addtoken="false">
+		<cflocation url="/transactions/Loan.cfm?Action=editLoan&transaction_id=#new_transaction_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 

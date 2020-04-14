@@ -27,8 +27,8 @@ function messageDialog(dialogText, dialogTitle) {
 		open: function (event, ui) { 
 			// force the dialog to lay above any other elements in the page.
 			var maxZindex = getMaxZIndex();
-			$('.ui-dialog').css({'z-index': maxZindex + 2 });
-			$('.ui-widget-overlay').css({'z-index': maxZindex + 1 });
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
 		} 
 	});
 };
