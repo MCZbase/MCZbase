@@ -1403,7 +1403,7 @@ input::placeholder {
 	background-color: #c9d7e0;
 	background-repeat: repeat;
 	background-position: 0% 0%;
-	/*background-image: repeating-linear-gradient(-25deg, #fff, #fff 3px, #f8f9fa 3px, #f8f9fa 6px, #fff 6px, #fff 8px, #f8f9fa 8px, #f8f9fa 10px);*/
+	background-image: repeating-linear-gradient(-40deg, #fff, #fff 2px, #c9d7e0 2px, #f8f9fa 4px, #fff 4px, #fff 4px, #c9d7e0 6px, #f8f9fa 8px);
 /*	animation: barberpole 4s linear infinite;*/
 }
 .fas-info {
