@@ -241,8 +241,9 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-4">
+									<div class="form-row mb-2 mx-0">
+										<div class="barbershop-pole border rounded p-1 mx-1 my-2">
+											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
@@ -259,7 +260,7 @@ limitations under the License.
 												<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
@@ -276,7 +277,7 @@ limitations under the License.
 												<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role...</option>
@@ -292,6 +293,7 @@ limitations under the License.
 												<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
 												<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
 											</div>
+										</div>
 										</div>
 										<script>
 											$(document).ready(function() {
