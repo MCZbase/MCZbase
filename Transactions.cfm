@@ -479,13 +479,11 @@ limitations under the License.
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="date form-row bg-light border pb-2 rounded justify-content-center">
-													<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>
-													<div class="col-sm-5">
+													<label class="data-entry-label mb-0" for="trans_date">Loan Date:</label>		
 													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input"  placeholder="start" value="#trans_date#">
 													<div class="col-1 text-center px-0"><small> to</small></div>
 													<label class="data-entry-label sr-only" for="to"></label>
-													<div class="col-sm-5">
-													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input col-4"  placeholder="end" aria-label="loan date search range to" aria-described="trans_date_to">
+													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput data-entry-input"  placeholder="end" aria-label="loan date search range to" aria-described="trans_date_to">
 													</div>
 												</div>
 											</div>
