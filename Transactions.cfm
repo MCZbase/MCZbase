@@ -483,7 +483,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mx-0 mt-1 my-xl-2">
 										<div class="col-12 col-md-4">
-											<div class="date form-row bg-light border pb-2 mx-0 rounded justify-content-center">
+											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="trans_date">Loan Date:</label>
 												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#trans_date#">
 												<div class="col-2 text-center px-0"><small> to</small></div>
@@ -492,7 +492,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="date form-row mx-0 bg-light border pb-2 rounded justify-content-center">
+											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="return_due_date">Due Date:</label>
 												<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4" value="#return_due_date#">
 												<div class="col-2 text-center px-0"><small> to</small></div>
@@ -501,7 +501,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="date form-row border bg-light pb-2 rounded mx-0 justify-content-center">
+											<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="closed_date">Close Date:</label>
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#closed_date#" >
 												<div class="col-2 text-center px-0"><small> to</small></div>
@@ -517,7 +517,7 @@ limitations under the License.
 									</script>
 									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-2 pt-2 mb-2 pb-3">
+											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-3">
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
@@ -589,7 +589,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-2 pt-2 mb-0 pb-3">
+											<div class="border bg-light rounded px-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
