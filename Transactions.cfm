@@ -362,7 +362,7 @@ limitations under the License.
 								<form id="loanSearchForm">
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row mb-2 mx-0">
+									<div class="form-row mb-2 mx-0 mb-xl-3">
 										<div class="col-12 col-md-6 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
@@ -480,7 +480,7 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row mx-0 mt-1">
+									<div class="form-row mx-0 mt-1 my-xl-3">
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="trans_date">Loan Date:</label>
