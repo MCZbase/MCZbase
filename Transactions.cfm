@@ -416,6 +416,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row mb-2 mx-0 mt-1">
+										<div class="border barbershop-pole p-2 my-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -466,6 +467,7 @@ limitations under the License.
 												<input type="text" name="agent_3" id="loan_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
 												<input type="hidden" name="agent_3_id" id="loan_agent_3_id" value="#agent_3_id#" >
 											</div>
+										</div>
 										</div>
 										<script>
 									$(document).ready(function() {
