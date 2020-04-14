@@ -2032,7 +2032,7 @@
 							</cfif>
 							,'#GEOREFMETHOD#'
 							,'#VERIFICATIONSTATUS#'
-							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0>
 								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
 							<cfelse>
 								,NULL
@@ -2213,7 +2213,7 @@
 							</cfif>
 							,'#GEOREFMETHOD#'
 							,'#VERIFICATIONSTATUS#'
-							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0>
 								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
 							<cfelse>
 								,NULL
