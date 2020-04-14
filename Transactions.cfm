@@ -520,15 +520,15 @@ limitations under the License.
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description: </label>
 													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
 													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
 												</div>
-													<div class="col-md-6">
+													<div class="col-md-12">
 													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
@@ -557,14 +557,14 @@ limitations under the License.
 												<cfset isselect = "">
 												<cfset containsselect = "selected">
 											</cfif>
-											<select id="part_name_oper" name="part_name_oper" class="data-entry-select">
+											<select id="part_name_oper" name="part_name_oper" class="data-entry-select-prepend-select input-group-prepend">
 												<option value="is" #isselect#>is</option>
 												<option value="contains" #containsselect#>contains</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="part_name" class="data-entry-label mb-0">Part Name</label>
-											<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#">
+											<input type="text" id="part_name" name="part_name" class="data-entry-select-input" value="#part_name#">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="part_disp_oper" class="data-entry-label mb-0">Disposition Match</label>
@@ -575,7 +575,7 @@ limitations under the License.
 												<cfset isselect = "">
 												<cfset notselect = "selected">
 											</cfif>
-											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-select">
+											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-slect input-group-prepend">
 												<option value="is" #isselect#>is</option>
 												<option value="isnot" #notselect#>is not</option>
 											</select>
