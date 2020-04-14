@@ -209,7 +209,6 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);
-	var dialogzindex = getMaxZIndex() + 5;
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -217,7 +216,6 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
 		stack: true,
-		zindex: dialogzindex,
 		height: h,
 		width: w,
 		minWidth: 400,
@@ -228,13 +226,18 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 				$("#"+dialogid).dialog('close');
 			}
 		},
+      open: function (event, ui) {
+         // force the dialog to lay above any other elements in the page.
+         var maxZindex = getMaxZIndex();
+         $('.ui-dialog').css({'z-index': maxZindex + 6 });
+         $('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+      },
 		close: function(event,ui) {
 			$("#"+dialogid+"_div").html("");
 			$("#"+dialogid).dialog('destroy');
 		}
 	});
 	thedialog.dialog('open');
-	thedialog.dialog('moveToTop');
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",
 		type: "get",
