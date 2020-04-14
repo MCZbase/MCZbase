@@ -364,7 +364,7 @@ limitations under the License.
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 mx-0">
 										<div class="col-12 col-md-6 mt-0">
-											<div class="input-group">
+											<div class="input-group border rounded bg-light pt-0 p-2">
 												<div class="col-6 px-0">
 													<label for="loan_collection_id" class="data-entry-label">Collection Name:</label>
 													<select name="collection_id" size="1" class="data-entry-select" id="loan_collection_id">
