@@ -687,7 +687,6 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-	</div>
 	
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
