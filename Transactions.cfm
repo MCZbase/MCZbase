@@ -415,7 +415,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mb-2 mx-0 mt-1">
+									<div class="form-row mb-2 mx-0 my-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -487,7 +487,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row mx-0 bg-light border pb-2 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-2" for="return_due_date">Due Date:</label>
+												<label class="data-entry-label mb-0 px-3" for="return_due_date">Due Date:</label>
 												<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4">
 												<div class="col-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to"></label>
