@@ -514,7 +514,7 @@ limitations under the License.
 										});
 									</script>
 									<div class="form-row mx-0">
-										<div class="col-12">
+										<div class="col-6">
 											<div class="border barbershop-pole p-2 my-2">
 												<div class="col-md-6">
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
@@ -534,7 +534,7 @@ limitations under the License.
 												</div>
 											</div>
 										
-											
+											</div>
 												<div class="col-md-6">
 													<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 													<div class="input-group">
@@ -545,7 +545,7 @@ limitations under the License.
 													</div>
 												</div>
 										
-										</div>
+										
 									</div>
 									<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
 										<div class="col-12 col-md-3">
