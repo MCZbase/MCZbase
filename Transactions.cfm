@@ -164,7 +164,7 @@ limitations under the License.
 	
 	<!--- Search form --->
 	<div id="search-form-div" class="search-form-div pb-4 px-3">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-lg-11">
 					<h1 class="h3 smallcaps my-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
