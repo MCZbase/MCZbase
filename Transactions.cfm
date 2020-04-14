@@ -415,7 +415,9 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
+									<div class="barbershop-pole border rounded p-1 mx-1 my-2">
 									<div class="form-row mb-2 mx-0 my-2">
+									
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -475,6 +477,7 @@ limitations under the License.
 									});
 									</script> 
 									</div>
+									</div>
 									<div class="form-row mx-0 mt-1">
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 mx-0 rounded justify-content-center">
@@ -509,7 +512,7 @@ limitations under the License.
 											$(makePermitPicker('permit_num','permit_id'));
 										});
 									</script>
-									<div class="form-row mx-0 mt-3">
+									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-2 pt-2 mb-2 pb-3">
 												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
