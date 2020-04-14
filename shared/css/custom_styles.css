@@ -1335,7 +1335,7 @@ input::placeholder {
 }
 .data-entry-addon-input {
 	display: block;
-	width: 75%;
+	width: 90%;
 	font-size: .85em;
 	line-height: .9em;
 	height: calc(.9em + .8rem + 1px);
