@@ -533,7 +533,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-6">
-												<div class="border barbershop-pole rounded px-2 pt-2 mb-0 pb-0 mt-3">
+												<div class="border bg-light rounded px-2 pt-2 mb-2 pb-3 mt-3">
 											<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 											<div class="input-group">
 												<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
