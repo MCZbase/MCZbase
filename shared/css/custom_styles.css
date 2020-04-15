@@ -656,11 +656,9 @@ a#showLeftPush.hiddenclass {
 	padding: 1em;
 	margin-top:1.5em;
 }
-#divRss.updatedAtom {
-	background-color: lightgoldenrodyellow;
-	padding: 2px .5em;
-	height: 1.75em;
-	margin: 0 5px 0 0;	
+.shell {
+	background-color: aliceblue;
+	padding-top: .13em;
 }
 .feedAtom div {
 	float: left;
@@ -674,13 +672,15 @@ a#showLeftPush.hiddenclass {
 	background-color: #F3F3F3;
 	padding: .5em;
 }
-.shell {
-	background-color: aliceblue;
-	padding-top: .13em;
+.updatedAtom {
+	background-color: lightgoldenrodyellow;
+	padding: 2px .5em;
+	height: 1.75em;
+	margin: 0 5px 0 0;	
 }
-.shell h3 {
 
-}
+
+
 /*************************************/
 /*****BELOW:  ???
 /*************************************/
