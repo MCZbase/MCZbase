@@ -672,6 +672,10 @@ a#showLeftPush.hiddenclass {
 	background-color: #F3F3F3;
 	padding: .5em;
 }
+.feedAtom.h4 {
+	clear:both;
+	padding: .5em .5em 0 .5em;
+}
 .updatedAtom {
 	background-color: lightgoldenrodyellow;
 	padding: 2px .5em;
