@@ -656,7 +656,7 @@ a#showLeftPush.hiddenclass {
 	padding: 1em;
 	margin-top:1.5em;
 }
-#divRss.updatedAtom p {
+#divRss.updatedAtom {
 	background-color: lightgoldenrodyellow;
 	padding: 2px .5em;
 	height: 1.75em;
@@ -679,9 +679,7 @@ a#showLeftPush.hiddenclass {
 	padding-top: .13em;
 }
 .shell h3 {
-	max-width: 415px;
-	line-height: 1.5em;
-	margin-left: 1em;
+
 }
 /*************************************/
 /*****BELOW:  ???

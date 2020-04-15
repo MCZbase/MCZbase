@@ -306,7 +306,7 @@ limitations under the License.
 					  item.updated = new Date(item.updated);
 					  
                       html += '<div class="feedAtom">';
-					  html += '<div class="updatedAtom"><p>' + item.updated.toDateString() + '</p></div>';
+					  html += '<div class="updatedAtom">' + item.updated.toDateString() + '</div>';
 					  html += '<div class="authorAtom" style="z-index:11;">by ' + item.author + '</div>';
 					  html += '<h3 class="h4"><a href="' + item.link + '">' + item.title + '</a></h3>';
                       html += '<div class="descriptionAtom">' + item.description +'</div>';
