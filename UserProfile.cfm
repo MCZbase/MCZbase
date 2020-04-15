@@ -302,7 +302,7 @@ limitations under the License.
 				header = header.replace("[en]", "");
 				
                  jQuery('##divRss').empty();
-                 var html ='<div class="shell"><h2 class="h3 py-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30"><span class="d-block"><small>- Link to Recent Wiki Changes - </small></span> </a></h2>';
+                 var html ='<div class="shell"><h2 class="h3 py-2 px-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30"><span class="d-block"><small>- Link to Recent Wiki Changes - </small></span> </a></h2>';
 			
                   for(var i = 0; i < feed.items.length && i < 5; i++) {
 					  
