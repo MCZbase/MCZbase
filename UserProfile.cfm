@@ -272,7 +272,7 @@ limitations under the License.
 			  <input type="text" name="email" class="form-control" value="#getUserData.email#" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
 			</div>
 				<h4>You cannot recover a lost password unless you enter an email address.</h4>
-				 <input type="submit" value="Save Profile" class="btn-xs btn-primary ml-0 mt-1">	
+				 <input type="submit" value="Save Profile" class="btn btn-primary ml-0 mt-1">	
 		</div>
 
 	</form>
@@ -299,7 +299,7 @@ limitations under the License.
 				header = header.replace("[en]", "");
 				
                  jQuery('##divRss').empty();
-                 var html ='<div class="shell"><h2 class="h3 py-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30"><span class="d-block"><small>- Link to Recent Changes - </small></span> </a></h2>';
+                 var html ='<div class="shell"><h2 class="h3 py-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30"><span class="d-block"><small>- Link to Recent Wiki Changes - </small></span> </a></h2>';
 			
                   for(var i = 0; i < feed.items.length && i < 5; i++) {
 					  
