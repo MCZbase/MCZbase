@@ -190,7 +190,7 @@
   <div class="container my-2 pt-2">
 	  <div class="row justify-content-center">
 		 <div class="col-md-6 col-lg-6 col-sm-12">
-	<h2>Log In or Create an Account</h2>
+	<h1 class="h2">Log In or Create an Account</h1>
 	<p>Logging in enables you to turn on, turn off, or otherwise customize many features of this database. To create an account and log in, simply supply a username and password here and click Create Account.
 	</p>
 	<cfif not isdefined("gotopage")>
@@ -218,7 +218,7 @@
 			<cfif not isdefined("err") or len(err) is 0>
 				<cfset err="Your username or password was not recognized. Please try again.">
 			</cfif>
-			<span style="color:##a51c30;background-color: ##ffedeb;border-radius: .25em;border: 1px solid ##A51c30;font-style:italic;display:inline-block; margin:.75em .5em .5em 0;padding:.5em;">
+			<span class="loginMessage">
 				#err#
 				<script>
 					$('##username').css('backgroundColor','##ffffff');

@@ -165,6 +165,7 @@ limitations under the License.
 		<div class="container mt-3" id="content">
 			<div class="row mb-5">
 				<div class="col-12 col-md-6 mb-2">
+					
 			<h1 class="h2">Welcome back, <b>#getPrefs.first_name# #getPrefs.last_name#</b>!<br>
 						<small>(login: #getPrefs.username#)</small></h1>
 					<h4><a href="/changePassword.cfm?action=nothing">Change your password</a>

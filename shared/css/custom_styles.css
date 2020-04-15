@@ -719,7 +719,16 @@ a#showLeftPush.hiddenclass {
 	height: 1.75em;
 	margin: 0 5px 0 0;	
 }
-
+.loginMessage {
+	color:#a51c30;
+	background-color: #ffedeb;
+	border-radius: .25em;
+	border: 1px solid #A51c30;
+	font-style:italic;
+	display:inline-block; 
+	margin:.75em .5em .5em 0;
+	padding:.5em;
+}
 
 
 /*************************************/
