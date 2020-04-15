@@ -683,13 +683,13 @@ a#showLeftPush.hiddenclass {
 /*****BELOW:  User Profile Page styles  RSS feed
 /*************************************/
 #divRss {
-	border: 2px solid #beedec;
+	border: 2px solid #deedec;
 	border-radius: .2rem;
 	padding: .23em;
 	margin-top:1.5em;
 }
 .shell {
-	background-color: #beedec;
+	background-color: #deedec;
 	padding-top: .13em;
 }
 .shell h2 span {
