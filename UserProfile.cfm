@@ -348,9 +348,9 @@ limitations under the License.
 	<cfif isUser.recordcount is 1>
 		<cfquery name="upUser" datasource="cf_dbuser">
 			UPDATE cf_user_data SET
-				first_name = '#first_name#',
-				last_name = '#last_name#',
-				AFFILIATION= '#affiliation#'
+				first_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
+				last_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
+				AFFILIATION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
 				<cfif len(#middle_name#) gt 0>
 					,middle_name = <cfqueryparam value='#middle_name#' cfsqltype="CF_SQL_VARCHAR">
 				<cfelse>
