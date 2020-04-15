@@ -904,7 +904,7 @@ limitations under the License.
 			select project_name, project.project_id from project,
 			project_trans where
 			project_trans.project_id =  project.project_id
-			and transaction_id=#transaction_id#
+			and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<ul>
 			<cfif projs.recordcount gt 0>
@@ -1401,13 +1401,16 @@ limitations under the License.
 	<cftry>
 	<cftransaction>
 		<cfquery name="killLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from loan where transaction_id=#transaction_id#
+			delete from loan 
+			where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from trans_agent where transaction_id=#transaction_id#
+			delete from trans_agent 
+			where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from trans where transaction_id=#transaction_id#
+			delete from trans 
+			where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 	</cftransaction>
 	Loan deleted.....
@@ -1424,8 +1427,9 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfif Action is "delePermit">
 	<cfquery name="killPerm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM permit_trans WHERE transaction_id = #transaction_id# and
-		permit_id=#permit_id#
+		DELETE FROM permit_trans 
+			where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+				AND permit_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#permit_id#">
 	</cfquery>
 	<cflocation url="/transactions/Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
 </cfif>
@@ -1564,7 +1568,8 @@ limitations under the License.
 					</cftry>
 					<cfif  del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
 						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							delete from trans_agent where trans_agent_id=#trans_agent_id_#
+							delete from trans_agent 
+							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 						</cfquery>
 					<cfelse>
 	                			<cfif len(agent_id_) GT 0><!--- don't try to add/update a blank row --->
@@ -1575,18 +1580,18 @@ limitations under the License.
 									agent_id,
 									trans_agent_role
 								) values (
-									#transaction_id#,
-									#agent_id_#,
-									'#trans_agent_role_#'
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
 								)
 							</cfquery>
 						<cfelseif del_agnt_ is 0>
 							<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								update trans_agent set
-									agent_id = #agent_id_#,
-									trans_agent_role = '#trans_agent_role_#'
+									agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+									trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
 								where
-									trans_agent_id=#trans_agent_id_#
+									trans_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 							</cfquery>
 						</cfif>
 						</cfif>
