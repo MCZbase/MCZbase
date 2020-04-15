@@ -743,6 +743,7 @@ $(document).ready(function() {
 		defaultDate: null,
 		changeMonth: true,
 		changeYear: true,
+		dateFormat: 'yy-mm-dd', /* ISO Date format, yy is 4 digit year */
 		buttonImageOnly: true,
 		buttonImage: "/shared/images/calendar_icon.png",
 		showOn: "both"
