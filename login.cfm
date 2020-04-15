@@ -189,7 +189,7 @@
 <div class="container-fluid form-div">
   <div class="container my-2 pt-2">
 	  <div class="row justify-content-center">
-		 <div class="col-md-6 col-lg-6 col-sm-12">
+		 <div class="col-md-6 col-lg-6 col-sm-12 pb-5">
 	<h1 class="h2">Log In or Create an Account</h1>
 	<p>Logging in enables you to turn on, turn off, or otherwise customize many features of this database. To create an account and log in, simply supply a username and password here and click Create Account.
 	</p>
