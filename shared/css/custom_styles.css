@@ -686,7 +686,8 @@ a#showLeftPush.hiddenclass {
 	border: 2px solid #deedec;
 	border-radius: .2rem;
 	padding: .23em;
-	margin-top:1.5em;
+	margin-top: 3.5em;
+	margin-bottom: 2em;
 }
 .shell {
 	background-color: #deedec;
