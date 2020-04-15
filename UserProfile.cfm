@@ -309,7 +309,7 @@ limitations under the License.
                       html += '<div class="feedAtom">';
 					  html += '<div class="updatedAtom">' + item.updated.toDateString() + '</div>';
 					  html += '<div class="authorAtom" style="z-index:11;">by ' + item.author + '</div>';
-					  html += '<h3 class="h4"><a href="' + item.link + '">' + item.title + '</a></h3>';
+					  html += '<h3 class="h4 my-1"><a class="pt-1" href="' + item.link + '">' + item.title + '</a></h3>';
                       html += '<div class="descriptionAtom">' + item.description +'</div>';
 					  html += '</div>';
                   } 
