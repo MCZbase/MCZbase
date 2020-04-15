@@ -164,7 +164,7 @@ limitations under the License.
 	<cfoutput query="getPrefs" group="user_id">
 		<div class="container mt-4">
 			<div class="row mb-5">
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-md-6 mb-2">
 			<h1 class="h2">Welcome back, <b>#getPrefs.first_name# #getPrefs.last_name#</b>!<br>
 						<small>(login: #getPrefs.username#)</small></h1>
 					<h4><a href="/changePassword.cfm?action=nothing">Change your password</a>
@@ -192,7 +192,7 @@ limitations under the License.
 								<cflocation url="ChangePassword.cfm" addtoken="false">
 							</cfif>
 							<cfelseif pwage lte 10>
-							<span style="color:red;font-weight:bold;"> Your password expires in #pwage# days. </span>
+							<span style="color:red;"> Your password expires in #pwage# days. </span>
 						</cfif>
 					</h4>
 					<h4> <a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a><br>
@@ -294,11 +294,12 @@ limitations under the License.
 				
                url: 'https://code.mcz.harvard.edu/feed/',
                success: function(feed) {
-				var header = feed.title;
+				//var header = feed.title;
+				   var header = 'MCZ Biodiversity Informatics Project Support';
 				header = header.replace("[en]", "");
 				
                  jQuery('##divRss').empty();
-                 var html ='<div class="shell"><h2 class="h3 py-2 text-center"><a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30">' + header + ' </a><span><small>- Link to Wiki - </small></span></h2>';
+                 var html ='<div class="shell"><h2 class="h3 py-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30"> </a><span class="d-block"><small>- Link toRecent Changes - </small></span></h2>';
 			
                   for(var i = 0; i < feed.items.length && i < 5; i++) {
 					  
