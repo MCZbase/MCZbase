@@ -162,7 +162,7 @@ limitations under the License.
 		where user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_NUMBER">
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
-		<div class="container mt-4">
+		<div class="container mt-3" id="content">
 			<div class="row mb-5">
 				<div class="col-12 col-md-6 mb-2">
 			<h1 class="h2">Welcome back, <b>#getPrefs.first_name# #getPrefs.last_name#</b>!<br>
