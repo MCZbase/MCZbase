@@ -685,11 +685,11 @@ a#showLeftPush.hiddenclass {
 #divRss {
 	border: 2px solid #beedec;
 	border-radius: .2rem;
-	padding: 1em;
+	padding: .23em;
 	margin-top:1.5em;
 }
 .shell {
-	background-color: aliceblue;
+	background-color: #beedec;
 	padding-top: .13em;
 }
 .shell h2 span {
@@ -704,7 +704,7 @@ a#showLeftPush.hiddenclass {
 	padding: .5em;
 }
 .feedAtom:nth-child(odd) {
-	background-color: #F3F3F3;
+	background-color: #F8F9FA;
 	padding: .5em;
 }
 .feedAtom a {
