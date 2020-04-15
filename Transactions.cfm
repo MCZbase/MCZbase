@@ -485,28 +485,28 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="trans_date">Loan Date:</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#trans_date#">
+												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start yyyy-mm-dd" value="#trans_date#">
 												<div class="col-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to"></label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input"  placeholder="end" aria-label="loan date search range to" aria-described="trans_date_to">
+												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input"  placeholder="end yyyy-mm-dd" aria-label="loan date search range to" aria-described="trans_date_to">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="return_due_date">Due Date:</label>
-												<input name="return_due_date" id="return_due_date" type="text" placeholder="start" class="datetimeinput data-entry-input col-4" value="#return_due_date#">
+												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#return_due_date#">
 												<div class="col-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to"></label>
-												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
+												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="closed_date">Close Date:</label>
-												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start" value="#closed_date#" >
+												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start yyyy-mm-dd" value="#closed_date#" >
 												<div class="col-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date"> </label>
-												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end" class="datetimeinput data-entry-input col-4" aria-label="closed date search range to" aria-described="closed_date_to">
+												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4" aria-label="closed date search range to" aria-described="closed_date_to">
 											</div>
 										</div>
 									</div>
