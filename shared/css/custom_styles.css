@@ -189,7 +189,7 @@ BELOW: Main button (bootstrap override)
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
-	background-color: rgba(222, 235, 236, .15);
+	background-color: rgba(211, 223, 224, .25);
 }
 .btn-primary:focus, .btn-primary.focus {
 	background-color: #deebec;

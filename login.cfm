@@ -211,8 +211,8 @@
 		  </div>
 		  <input aria-label="Default" aria-describedby="inputGroup-sizing-default" name="password" type="password" class="form-control" tabindex="2" value="" id="password">
 		</div>
-		<button class="btn btn-secondary" onClick="signIn.action.value='signIn';submit();" tabindex="3">Log In</button>
-		&nbsp;or&nbsp; <button class="btn btn-secondary" onClick="isInfo();" tabindex="4">Create an Account</button>
+		<button class="btn btn-primary" onClick="signIn.action.value='signIn';submit();" tabindex="3">Log In</button>
+		&nbsp;or&nbsp; <button class="btn btn-primary" onClick="isInfo();" tabindex="4">Create an Account</button>
 	</form>
 		<cfif isdefined("badPW") and badPW is true>
 			<cfif not isdefined("err") or len(err) is 0>

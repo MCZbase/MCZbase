@@ -272,6 +272,8 @@ limitations under the License.
 			  </div>
 			  <input type="text" name="email" class="form-control" value="#getUserData.email#" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
 			</div>
+		</div>
+			<div class="form-group col-md-12 col-sm-12 pl-0">
 				<h4>You cannot recover a lost password unless you enter an email address.</h4>
 				 <input type="submit" value="Save Profile" class="btn btn-primary ml-0 mt-1">	
 		</div>
