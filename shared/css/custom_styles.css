@@ -186,10 +186,9 @@ BELOW: Main button (bootstrap override)
 	margin-top: 0;
 }
 .btn-primary:hover {
-	background-color: #deebec;
+	background-color: #d3dfe0;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
-	background-color: rgba(211, 223, 224, .25);
 }
 .btn-primary:focus, .btn-primary.focus {
 	background-color: #deebec;
