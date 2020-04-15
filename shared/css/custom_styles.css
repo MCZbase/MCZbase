@@ -650,6 +650,18 @@ a#showLeftPush.hiddenclass {
 /*************************************/
 /*****BELOW:  User Profile Page styles  RSS feed
 /*************************************/
+#divRss {
+	border: 2px solid #beedec;
+	border-radius: .2rem;
+	padding: 1em;
+	margin-top:1.5em;
+}
+#divRss.updatedAtom p {
+	background-color: lightgoldenrodyellow;
+	padding: 2px .5em;
+	height: 1.75em;
+	margin: 0 5px 0 0;	
+}
 .feedAtom div {
 	float: left;
 	width: auto;
