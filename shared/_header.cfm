@@ -267,8 +267,7 @@ limitations under the License.
 					</div>
 				</li>
 			</cfif>
-		</ul>
-		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						<cfif isdefined("session.username") and len(#session.username#) gt 0>
 			<ul class="navbar-nav mt-2 mt-lg-0 pl-2">
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle pl-1 border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -335,6 +334,8 @@ limitations under the License.
 				</div>
 			</form>
 		</cfif>
+		</ul>
+
 	</div>
 </nav>
 </header>
