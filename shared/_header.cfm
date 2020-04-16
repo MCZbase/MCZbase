@@ -268,10 +268,10 @@ limitations under the License.
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 					</div>
 				</li>
-				</ul>
+			
 			</cfif>
 						<cfif isdefined("session.username") and len(#session.username#) gt 0>
-			<ul class="navbar-nav ml-auto mt-0 mt-lg-0 pl-0">
+		
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Account
@@ -294,10 +294,10 @@ limitations under the License.
 						</cfif>
 					</div>
 				</li>
-		</ul>
+		
 	</cfif>	
 		
-
+</ul>
 	</div>
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 	<!---		<ul class="navbar-nav mt-2 mt-lg-0 pl-2">
