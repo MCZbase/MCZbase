@@ -169,7 +169,7 @@ limitations under the License.
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-lg-11">
 					<h1 class="h3 smallcaps my-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-					<div class="tab-card-main mt-1 tab-card"> 
+					<div class="tab-card-main mt-1 pb-2 tab-card"> 
 						
 						<!--- Set Active Tab --->
 						<cfswitch expression="#action#">
