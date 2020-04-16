@@ -273,7 +273,7 @@ limitations under the License.
 						<cfif isdefined("session.username") and len(#session.username#) gt 0>
 			<ul class="navbar-nav ml-auto mt-0 mt-lg-0 pl-0">
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Account
 						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i> 
@@ -281,7 +281,7 @@ limitations under the License.
 							<i class="fas fa-user-cog text-body"></i> 
 						</cfif>	
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinka">
+					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
 						<cfif session.roles contains "coldfusion_user">
 							<form name="profile" method="post" action="/UserProfile.cfm">
 								<input type="hidden" name="action" value="nothing">
