@@ -204,9 +204,9 @@ nav button {
 	font-size: smaller;
 }
 .loginButtons {
-	padding: 2px 5px;
+	padding: 1px 5px 3px 5px;
 	font-size: .78rem;
-	line-height: 1.4em;
+	line-height: 1.15em;
 	border-radius: .2rem;
 }
 .logout {
@@ -308,7 +308,7 @@ body > .container {
 }
 .login-form {
 	position: absolute;
-	top: 0px;
+	top: 3px;
 	right: 5px;
 }
 .nav-link {
