@@ -167,33 +167,9 @@ limitations under the License.
 		<li class="nav-item d-flex align-content-end"> 
 			<a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> 
 		</li>
+		
 	</ul>
-		<cfif isdefined("session.username") and len(#session.username#) gt 0>
-			<ul class="navbar-nav mt-2 mt-lg-0 pl-2">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle pl-1 border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Account
-						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-							<i class="fas fa-user-check color-green"></i> 
-						<cfelse>
-							<i class="fas fa-user-cog text-body"></i> 
-						</cfif>	
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinka">
-						<cfif session.roles contains "coldfusion_user">
-							<form name="profile" method="post" action="/UserProfile.cfm">
-								<input type="hidden" name="action" value="nothing">
-								<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-							</form>
-						</cfif>
-						<cfif session.roles contains "public">
-							<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
-							<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
-						</cfif>
-					</div>
-				</li>
-			</ul>
-	</cfif>
+
 </div>
 
 
@@ -293,7 +269,32 @@ limitations under the License.
 					</div>
 				</li>
 			</cfif>
-					
+						<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle pl-1 border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Account
+						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+							<i class="fas fa-user-check color-green"></i> 
+						<cfelse>
+							<i class="fas fa-user-cog text-body"></i> 
+						</cfif>	
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinka">
+						<cfif session.roles contains "coldfusion_user">
+							<form name="profile" method="post" action="/UserProfile.cfm">
+								<input type="hidden" name="action" value="nothing">
+								<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+							</form>
+						</cfif>
+						<cfif session.roles contains "public">
+							<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
+							<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+						</cfif>
+					</div>
+				</li>
+		
+	</cfif>	
 		</ul>
 
 	</div>
