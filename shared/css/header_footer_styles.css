@@ -315,6 +315,11 @@ body > .container {
 .color-green {
 	color: #006100;
 }
+.logout-style {
+	position:absolute;
+	top:2px;
+	right: 8px;
+}
 .login-form {
 	position: absolute;
 	top: 3px;

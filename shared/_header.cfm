@@ -258,7 +258,7 @@ limitations under the License.
 						<a class="dropdown-item" name="permits" href="##">Permits</a>
 					</div>
 				</li>
-				<li class="nav-item dropdown">
+				<li class="nav-item dropdown pl-5 pl-md-0">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Help
 					</a>
@@ -324,7 +324,7 @@ limitations under the License.
 					</div>
 				</li>
 			</ul>--->
-			<form class="form-inline my-2 my-lg-0 pl-2" name="signOut" method="post" action="/login.cfm">
+			<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 				<input type="hidden" name="action" value="signOut">	
 				<button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
 			<!---		<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
