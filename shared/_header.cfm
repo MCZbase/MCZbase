@@ -258,11 +258,11 @@ limitations under the License.
 						<a class="dropdown-item" name="permits" href="##">Permits</a>
 					</div>
 				</li>
-				<li class="nav-item dropdown pl-5 pl-md-0">
+				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Help
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">
+					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink5">
 						<a class="dropdown-item" name="MCZbase Wiki" href="##">MCZbase Wiki</a>
 						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
@@ -271,9 +271,9 @@ limitations under the License.
 				</ul>
 			</cfif>
 						<cfif isdefined("session.username") and len(#session.username#) gt 0>
-			<ul class="navbar-nav mr-auto mt-0 mt-lg-0 pl-0">
+			<ul class="navbar-nav ml-auto mt-0 mt-lg-0 pl-0">
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle pl-1 border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Account
 						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i> 
