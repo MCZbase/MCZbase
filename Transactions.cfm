@@ -197,14 +197,14 @@ limitations under the License.
 						<!--- End tab header div ---> 
 						
 						<!--- Tab content div --->
-						<div class="tab-content pb-0" id="tabContentDiv"> 
+						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 								<h2 class="h3 card-title px-0 mx-1 mb-0">Search All Transactions</h2>
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
-										<div class="col-12 col-md-3 px-0 mr-0">
+										<div class="col-6 col-md-3 px-0 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
 											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0">
 												<option value="-1">any collection</option>
@@ -218,7 +218,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3 pl-0 ml-0 pr-0">
+										<div class="col-6 col-md-3 pl-0 ml-0 pr-0">
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
@@ -548,7 +548,7 @@ limitations under the License.
 											</div>
 											<div class="form-row mx-0">
 												<div class="col-3 px-0">
-													<label for="part_disp_oper" class="data-entry-label mb-0">Disposition Match</label>
+													<label for="part_disp_oper" class="data-entry-label mb-0">Disp. Match</label>
 													<cfif part_disp_oper IS "is">
 														<cfset isselect = "selected">
 														<cfset notselect = "">
@@ -668,7 +668,7 @@ limitations under the License.
 											</script> 
 										</div>
 									</div>--->
-									<div class="form-row mb-2 mx-0">
+									<div class="form-row my-2 mx-0">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
