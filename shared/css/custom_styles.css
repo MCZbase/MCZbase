@@ -186,35 +186,66 @@ BELOW: Main button (bootstrap override)
 	margin-top: 0;
 }
 .btn-primary:hover {
-	background-color: #deebec;
+	background-color: #d3dfe0;
 	color: #212529;
-	border: 1px solid hsl(0, 0%, 62%);
-	background-color: rgba(222, 235, 236, .15);
+	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-primary:focus, .btn-primary.focus {
 	background-color: #deebec;
 	color: #212529;
-	border: 1px solid hsl(0, 0%, 62%);
+	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 	box-shadow: none;
 }
 .btn-primary.disabled, .btn-primary:disabled {
 	background-color: #deebec;
 	color: #212529;
-	border: 1px solid hsl(0, 0%, 62%);
+	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
 	background-color: #deebec;
 	color: #212529;
+	border: 1px solid hsl(0, 2%, 47%);
+}
+.btn-secondary {
+	background-color: #d7d7d7;
+	background: #d7d7d7;
 	border: 1px solid hsl(0, 0%, 62%);
+	color: #212529;
+	margin-top: 0;
+}
+.btn-secondary:hover {
+	background-color: #d7d7d7;
+	color: #212529;
+	border: 1px solid hsl(0, 2%, 47%);
+	background-color: rgba(222, 235, 236, .15);
+}
+.btn-secondary:focus, .btn-primary.focus {
+	background-color: #d7d7d7;
+	color: #212529;
+	border: 1px solid hsl(0, 2%, 47%);
+	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+	box-shadow: none;
+}
+.btn-secondary.disabled, .btn-primary:disabled {
+	background-color: #d7d7d7;
+	color: #212529;
+	border: 1px solid hsl(0, 2%, 47%);
+	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
+	box-shadow: none;
+}
+.btn-secondary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+	background-color: #d7d7d7;
+	color: #212529;
+	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-warning {
-	border: 1px solid #666;
+	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-warning:hover {
-	border: 1px solid #666;
+	border: 1px solid hsl(0, 2%, 47%);
 }
 /************************
 *************************
@@ -650,6 +681,20 @@ a#showLeftPush.hiddenclass {
 /*************************************/
 /*****BELOW:  User Profile Page styles  RSS feed
 /*************************************/
+#divRss {
+	border: 2px solid #deedec;
+	border-radius: .2rem;
+	padding: .23em;
+	margin-top: 3.5em;
+	margin-bottom: 2em;
+}
+.shell {
+	background-color: #deedec;
+	padding-top: .13em;
+}
+.shell h2 span {
+	dipslay:block;
+}
 .feedAtom div {
 	float: left;
 	width: auto;
@@ -659,18 +704,33 @@ a#showLeftPush.hiddenclass {
 	padding: .5em;
 }
 .feedAtom:nth-child(odd) {
-	background-color: #F3F3F3;
+	background-color: #F8F9FA;
 	padding: .5em;
 }
-.shell {
-	background-color: aliceblue;
-	padding-top: .13em;
+.feedAtom a {
+	clear: both;
+	padding: .5em .5em 0 .5em;
+	display: block;
+	
 }
-.shell h3 {
-	max-width: 415px;
-	line-height: 1.5em;
-	margin-left: 1em;
+.updatedAtom {
+	background-color: lightgoldenrodyellow;
+	padding: 2px .5em;
+	height: 1.75em;
+	margin: 0 5px 0 0;	
 }
+.loginMessage {
+	color:#a51c30;
+	background-color: #ffedeb;
+	border-radius: .25em;
+	border: 1px solid #A51c30;
+	font-style:italic;
+	display:inline-block; 
+	margin:.75em .5em .5em 0;
+	padding:.5em;
+}
+
+
 /*************************************/
 /*****BELOW:  ???
 /*************************************/
