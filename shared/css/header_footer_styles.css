@@ -322,7 +322,7 @@ body > .container {
 }
 .login-form {
 	position: absolute;
-	top: 3px;
+	top: 2px;
 	right: 5px;
 }
 .nav-link {
@@ -421,4 +421,12 @@ body > .container {
 	.mczbase a {
 		color: white;
 	}
+}
+@media(max-width:575px){
+	.loginButtons {
+	padding: 3px 5px 3px 5px;
+	font-size: .78rem;
+	line-height: 1.15em;
+	border-radius: .2rem;
+}
 }
