@@ -1237,78 +1237,78 @@ You deleted a collecting event.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveGeogEdits">
 	<cfoutput>
-	<cfset srcAuth = #replace(source_authority,"'","''")#>
-	<cfset sql = "UPDATE geog_auth_rec SET source_authority = '#srcAuth#'
-		,valid_catalog_term_fg = #valid_catalog_term_fg#">
+	<cfquery name="edGe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		UPDATE geog_auth_rec 
+		SET 
+		source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#srcAuth#">
+		,valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
 	<cfif len(#continent_ocean#) gt 0>
-		<cfset sql = "#sql#,continent_ocean = '#continent_ocean#'">
+		,continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continent_ocean#">
 	<cfelse>
-		<cfset sql = "#sql#,continent_ocean = null">
+		,continent_ocean = null
 	</cfif>
 
 	<cfif len(#ocean_region#) gt 0>
-		<cfset sql = "#sql#,ocean_region = '#ocean_region#'">
+		,ocean_region = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_region#">
 	<cfelse>
-		<cfset sql = "#sql#,ocean_region = null">
+		,ocean_region = null
 	</cfif>
 
 	<cfif len(#ocean_subregion#) gt 0>
-		<cfset sql = "#sql#,ocean_subregion = '#ocean_subregion#'">
+		,ocean_subregion = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_subregion#">
 	<cfelse>
-		<cfset sql = "#sql#,ocean_subregion = null">
+		,ocean_subregion = null
 	</cfif>
 
 	<cfif len(#country#) gt 0>
-		<cfset sql = "#sql#,country = '#country#'">
+		,country = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#">
 	<cfelse>
-		<cfset sql = "#sql#,country = null">
+		,country = null
 	</cfif>
 
 	<cfif len(#state_prov#) gt 0>
-		<cfset sql = "#sql#,state_prov = '#state_prov#'">
+		,state_prov = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_prov#">
 	<cfelse>
-		<cfset sql = "#sql#,state_prov = null">
+		,state_prov = null
 	</cfif>
 
 	<cfif len(#county#) gt 0>
-		<cfset sql = "#sql#,county = '#county#'">
+		,county = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#county#">
 	<cfelse>
-		<cfset sql = "#sql#,county = null">
+		,county = null
 	</cfif>
 
 	<cfif len(#quad#) gt 0>
-		<cfset sql = "#sql#,quad = '#quad#'">
+		,quad = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#quad#">
 	<cfelse>
-		<cfset sql = "#sql#,quad = null">
+		,quad = null
 	</cfif>
 	<cfif len(#feature#) gt 0>
-		<cfset sql = "#sql#,feature = '#feature#'">
+		,feature = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#feature#">
 	<cfelse>
-		<cfset sql = "#sql#,feature = null">
+		,feature = null
 	</cfif>
 	<cfif len(#water_feature#) gt 0>
-		<cfset sql = "#sql#,water_feature = '#water_feature#'">
+		,water_feature = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#water_feature#">
 	<cfelse>
-		<cfset sql = "#sql#,water_feature = null">
+		,water_feature = null
 	</cfif>
 	<cfif len(#island_group#) gt 0>
-		<cfset sql = "#sql#,island_group = '#island_group#'">
+		,island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_group#">
 	<cfelse>
-		<cfset sql = "#sql#,island_group = null">
+		,island_group = null
 	</cfif>
 	<cfif len(#island#) gt 0>
-		<cfset sql = "#sql#,island = '#island#'">
+		,island = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island#">
 	<cfelse>
-		<cfset sql = "#sql#,island = null">
+		,island = null
 	</cfif>
 	<cfif len(#sea#) gt 0>
-		<cfset sql = "#sql#,sea = '#sea#'">
+		,sea = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sea#">
 	<cfelse>
-		<cfset sql = "#sql#,sea = null">
+		,sea = null
 	</cfif>
-	<cfset sql = "#sql# where geog_auth_rec_id = #geog_auth_rec_id#">
-	<cfquery name="edGe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		#preservesinglequotes(sql)#
+		where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 	</cfquery>
 	<cflocation addtoken="no" url="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">
 </cfoutput>
@@ -1316,95 +1316,97 @@ You deleted a collecting event.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "makeGeog">
 <cfoutput>
-<cfquery name="nextGEO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select sq_geog_auth_rec_id.nextval nextid from dual
-</cfquery>
-
-
-<cfquery name="newGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-INSERT INTO geog_auth_rec (
-	geog_auth_rec_id
-	<cfif len(#continent_ocean#) gt 0>
-		,continent_ocean
-	</cfif>
-	<cfif len(#ocean_region#) gt 0>
-		,ocean_region
-	</cfif>
-	<cfif len(#ocean_subregion#) gt 0>
-		,ocean_subregion
-	</cfif>
-	<cfif len(#country#) gt 0>
-		,country
-	</cfif>
-	<cfif len(#state_prov#) gt 0>
-		,state_prov
-	</cfif>
-	<cfif len(#county#) gt 0>
-		,county
-	</cfif>
-	<cfif len(#quad#) gt 0>
-		,quad
-	</cfif>
-	<cfif len(#feature#) gt 0>
-		,feature
-	</cfif>
-	<cfif len(#water_feature#) gt 0>
-		,water_feature
-	</cfif>
-	<cfif len(#island_group#) gt 0>
-		,island_group
-	</cfif>
-	<cfif len(#island#) gt 0>
-		,island
-	</cfif>
-	<cfif len(#sea#) gt 0>
-		,sea
-	</cfif>
-		,valid_catalog_term_fg
-		,source_authority
+<cftransaction>
+	<cfquery name="nextGEO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select sq_geog_auth_rec_id.nextval nextid from dual
+	</cfquery>
+	<cfquery name="newGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		INSERT INTO geog_auth_rec 
+		(
+			geog_auth_rec_id
+			<cfif len(#continent_ocean#) gt 0>
+				,continent_ocean
+			</cfif>
+			<cfif len(#ocean_region#) gt 0>
+				,ocean_region
+			</cfif>
+			<cfif len(#ocean_subregion#) gt 0>
+				,ocean_subregion
+			</cfif>
+			<cfif len(#country#) gt 0>
+				,country
+			</cfif>
+			<cfif len(#state_prov#) gt 0>
+				,state_prov
+			</cfif>
+			<cfif len(#county#) gt 0>
+				,county
+			</cfif>
+			<cfif len(#quad#) gt 0>
+				,quad
+			</cfif>
+			<cfif len(#feature#) gt 0>
+				,feature
+			</cfif>
+			<cfif len(#water_feature#) gt 0>
+				,water_feature
+			</cfif>
+			<cfif len(#island_group#) gt 0>
+				,island_group
+			</cfif>
+			<cfif len(#island#) gt 0>
+				,island
+			</cfif>
+			<cfif len(#sea#) gt 0>
+				,sea
+			</cfif>
+			,valid_catalog_term_fg
+			,source_authority
 		)
-	VALUES (
-		#nextGEO.nextid#
-		<cfif len(#continent_ocean#) gt 0>
-		,'#continent_ocean#'
-	</cfif>
-	<cfif len(#ocean_region#) gt 0>
-		,'#ocean_region#'
-	</cfif>
-	<cfif len(#ocean_subregion#) gt 0>
-		,'#ocean_subregion#'
-	</cfif>
-	<cfif len(#country#) gt 0>
-		,'#country#'
-	</cfif>
-	<cfif len(#state_prov#) gt 0>
-		,'#state_prov#'
-	</cfif>
-	<cfif len(#county#) gt 0>
-		,'#county#'
-	</cfif>
-	<cfif len(#quad#) gt 0>
-		,'#quad#'
-	</cfif>
-	<cfif len(#feature#) gt 0>
-		,'#feature#'
-	</cfif>
-	<cfif len(#water_feature#) gt 0>
-		,'#water_feature#'
-	</cfif>
-	<cfif len(#island_group#) gt 0>
-		,'#island_group#'
-	</cfif>
-	<cfif len(#island#) gt 0>
-		,'#island#'
-	</cfif>
-	<cfif len(#sea#) gt 0>
-		,'#sea#'
-	</cfif>
-		,#valid_catalog_term_fg#
-		,'#source_authority#'
-)
-</cfquery>
+		VALUES 
+		(
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextGEO.nextid#">
+				<cfif len(#continent_ocean#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continent_ocean#">
+			</cfif>
+			<cfif len(#ocean_region#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_region#">
+			</cfif>
+			<cfif len(#ocean_subregion#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_subregion#">
+			</cfif>
+			<cfif len(#country#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#">
+			</cfif>
+			<cfif len(#state_prov#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_prov#">
+			</cfif>
+			<cfif len(#county#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#county#">
+			</cfif>
+			<cfif len(#quad#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#quad#">
+			</cfif>
+			<cfif len(#feature#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#feature#">
+			</cfif>
+			<cfif len(#water_feature#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#water_feature#">
+			</cfif>
+			<cfif len(#island_group#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_group#">
+			</cfif>
+			<cfif len(#island#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island#">
+			</cfif>
+			<cfif len(#sea#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sea#">
+			</cfif>
+			,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
+		)
+	</cfquery>
+</cftransaction>
 <cfif FIND("?", #cgi.HTTP_REFERER#) EQ 0>
 <cflocation addtoken="no" url="#cgi.HTTP_REFERER#?Action=editGeog&geog_auth_rec_id=#nextGEO.nextid#">
 <cfelse>
@@ -1416,101 +1418,101 @@ INSERT INTO geog_auth_rec (
 <!---------------------------------------------------------------------------------------------------->
 <cfif Action is "newColl">
 <cfoutput>
-	<cfquery name="nextColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select sq_collecting_event_id.nextval nextColl from dual
-	</cfquery>
-
-	<cfquery name="newCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO collecting_event (
-		collecting_event_id,
-		LOCALITY_ID
-		,BEGAN_DATE
-		,ENDED_DATE
-		,VERBATIM_DATE
-		,COLLECTING_SOURCE
-		,VERBATIM_LOCALITY
-		,COLL_EVENT_REMARKS
-		,COLLECTING_METHOD
-		,HABITAT_DESC
-		,collecting_time
-		,VERBATIMCOORDINATES
-		,VERBATIMLATITUDE
-		,VERBATIMLONGITUDE
-		,VERBATIMCOORDINATESYSTEM
-		,VERBATIMSRS
-		,STARTDAYOFYEAR
-		,ENDDAYOFYEAR
-		)
-	VALUES (
-		#nextColl.nextColl#,
-		#LOCALITY_ID#
-		,'#BEGAN_DATE#'
-		,'#ENDED_DATE#'
-		,'#VERBATIM_DATE#'
-		,'#COLLECTING_SOURCE#'
-		<cfif len(#VERBATIM_LOCALITY#) gt 0>
-			,'#VERBATIM_LOCALITY#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#COLL_EVENT_REMARKS#) gt 0>
-			,'#COLL_EVENT_REMARKS#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#COLLECTING_METHOD#) gt 0>
-			,'#COLLECTING_METHOD#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#HABITAT_DESC#) gt 0>
-			,'#HABITAT_DESC#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#collecting_time#) gt 0>
-			,'#collecting_time#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#VERBATIMCOORDINATES#) gt 0>
-			,'#escapequotes(VERBATIMCOORDINATES)#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#VERBATIMLATITUDE#) gt 0>
-			,'#escapequotes(VERBATIMLATITUDE)#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#VERBATIMLONGITUDE#) gt 0>
-			,'#escapequotes(VERBATIMLONGITUDE)#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#VERBATIMCOORDINATESYSTEM#) gt 0>
-			,'#escapequotes(VERBATIMCOORDINATESYSTEM)#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#VERBATIMSRS#) gt 0>
-			,'#escapequotes(VERBATIMSRS)#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#STARTDAYOFYEAR#) gt 0>
-			,'#escapequotes(STARTDAYOFYEAR)#'
-		<cfelse>
-			,NULL
-		</cfif>
-		<cfif len(#ENDDAYOFYEAR#) gt 0>
-			,'#escapequotes(ENDDAYOFYEAR)#'
-		<cfelse>
-			,NULL
-		</cfif>
-		)
+	<cftransaction>
+		<cfquery name="nextColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select sq_collecting_event_id.nextval nextColl from dual
 		</cfquery>
-
+		<cfquery name="newCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO collecting_event (
+			collecting_event_id,
+			LOCALITY_ID
+			,BEGAN_DATE
+			,ENDED_DATE
+			,VERBATIM_DATE
+			,COLLECTING_SOURCE
+			,VERBATIM_LOCALITY
+			,COLL_EVENT_REMARKS
+			,COLLECTING_METHOD
+			,HABITAT_DESC
+			,collecting_time
+			,VERBATIMCOORDINATES
+			,VERBATIMLATITUDE
+			,VERBATIMLONGITUDE
+			,VERBATIMCOORDINATESYSTEM
+			,VERBATIMSRS
+			,STARTDAYOFYEAR
+			,ENDDAYOFYEAR
+			)
+		VALUES (
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextColl.nextColl#">
+			,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BEGAN_DATE#">
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ENDED_DATE#">
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIM_DATE#">
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_SOURCE#">
+			<cfif len(#VERBATIM_LOCALITY#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIM_LOCALITY#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#COLL_EVENT_REMARKS#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#COLLECTING_METHOD#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#HABITAT_DESC#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#collecting_time#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_time#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#VERBATIMCOORDINATES#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMCOORDINATES#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#VERBATIMLATITUDE#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMLATITUDE#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#VERBATIMLONGITUDE#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMLONGITUDE#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#VERBATIMCOORDINATESYSTEM#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMCOORDINATESYSTEM#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#VERBATIMSRS#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMSRS#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#STARTDAYOFYEAR#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#STARTDAYOFYEAR#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#ENDDAYOFYEAR#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ENDDAYOFYEAR#">
+			<cfelse>
+				,NULL
+			</cfif>
+			)
+		</cfquery>
+	<cftransaction>
 	<cflocation addtoken="no" url="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#nextColl.nextColl#">
 </cfoutput>
 </cfif>
