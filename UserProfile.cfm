@@ -89,7 +89,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="makeUserCleanup" datasource="uam_god">
 				delete from temp_allow_cf_user 
-				where user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_NUMBER">
+				where user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfmail to="#usrInfo.invited_by_email#" from="account_created@#Application.fromEmail#" subject="User Authenticated" cc="#Application.PageProblemEmail#" type="html">
 				Arctos user #session.username# has successfully created an Oracle account.
@@ -159,7 +159,7 @@ limitations under the License.
 	</cfif>
 	<cfquery name="isInv" datasource="uam_god">
 		select allow from temp_allow_cf_user 
-		where user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_NUMBER">
+		where user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
 		<div class="container mt-4" id="content">
@@ -346,7 +346,7 @@ limitations under the License.
 	<cfquery name="isUser" datasource="cf_dbuser">
 		select * from cf_user_data 
 		where 
-			user_id = <cfqueryparam value='#user_id#' cfsqltype="CF_SQL_NUMBER">
+			user_id = <cfqueryparam value='#user_id#' cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 		<!---- already have a user_data entry --->
 	<cfif isUser.recordcount is 1>
@@ -366,7 +366,7 @@ limitations under the License.
 					,email = NULL
 				</cfif>
 			WHERE
-				user_id = <cfqueryparam value="#user_id#" cfsqltype="CF_SQL_NUMBER">
+				user_id = <cfqueryparam value="#user_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 	</cfif>
 	<cfif #isUser.recordcount# is not 1>
@@ -384,7 +384,7 @@ limitations under the License.
 				</cfif>
 				)
 			VALUES (
-				<cfqueryparam value="#user_id#" cfsqltype="CF_SQL_NUMBER">,
+				<cfqueryparam value="#user_id#" cfsqltype="CF_SQL_DECIMAL">,
 				<cfqueryparam value='#first_name#' cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value='#last_name#' cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value='#affiliation#' cfsqltype="CF_SQL_VARCHAR">
