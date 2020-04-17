@@ -46,7 +46,7 @@
 	<!--- get a collecting event ID and relocate to editCollEvnt --->
 	<cfquery name="ceid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select collecting_event_id from cataloged_item where
-		collection_object_id=#collection_object_id#
+		collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
 	<cflocation url="Locality.cfm?action=editCollEvnt&collecting_event_id=#ceid.collecting_event_id#">
 </cfif>
@@ -370,17 +370,19 @@ You do not have permission to create Higher Geographies
             <div style="width:65em; margin:0 auto; padding: 1em 0 3em 0;">
 	<h2 class="wikilink">Edit Higher Geography:</h2>
 		<cfquery name="geogDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		 select * from geog_auth_rec where geog_auth_rec_id = #geog_auth_rec_id#
+			select * from geog_auth_rec 
+			where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 		</cfquery>
 
 		<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) c from locality where geog_auth_rec_id=#geog_auth_rec_id#
+			select count(*) c from locality 
+			where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 		</cfquery>
 		<cfquery name="collecting_events" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) c from locality,collecting_event
 			where
 			locality.locality_id = collecting_event.locality_id AND
-			geog_auth_rec_id=#geog_auth_rec_id#
+			geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 		</cfquery>
 		<cfquery name="specimen" datasource="uam_god">
 			select
@@ -395,8 +397,8 @@ You do not have permission to create Higher Geographies
 			where
 				locality.locality_id = collecting_event.locality_id AND
 				collecting_event.collecting_event_id = cataloged_item.collecting_event_id AND
-			 	cataloged_item.collection_id=collection.collection_id and
-			 	geog_auth_rec_id=#geog_auth_rec_id#
+			 	cataloged_item.collection_id=collection.collection_id AND
+				geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 			 group by
 			 	collection.collection_id,
 				collection.collection
@@ -638,7 +640,7 @@ You do not have permission to create Higher Geographies
 			inner join collecting_event on ( locality.locality_id=collecting_event.locality_id )
 			left outer join accepted_lat_long on (locality.locality_id=accepted_lat_long.locality_id)
 			left outer join preferred_agent_name on (accepted_lat_long.determined_by_agent_id = preferred_agent_name.agent_id)
-		where collecting_event.collecting_event_id=#collecting_event_id#
+		where collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
     </cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
 	  	SELECT
@@ -650,7 +652,7 @@ You do not have permission to create Higher Geographies
 			collection
 		WHERE
 			cataloged_item.collection_id=collection.collection_id and
-			collecting_event_id=#collecting_event_id#
+			collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL", value="#collecting_event_id#">
 		GROUP BY
 			collection,
 	  		collection.collection_id
@@ -846,11 +848,11 @@ You do not have permission to create Higher Geographies
 	<h2 class="wikilink">Create Collecting Events:</h2>
 	  	<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
-			where locality_id=#locality_id#
+			where locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select higher_geog from geog_auth_rec where
-			geog_auth_rec_id=#getLoc.geog_auth_rec_id#
+			geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.geog_auth_rec_id#">
 		</cfquery>
 		<h3>Create Collecting Event</h3>
                 <br>Higher Geography: #getGeo.higher_geog#
@@ -1017,7 +1019,8 @@ You do not have permission to create Higher Geographies
 <cfif action is "newLocality">
 	<cfif isdefined('geog_auth_rec_id')>
 		<cfquery name="getHG" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select higher_geog from geog_auth_rec where geog_auth_rec_id=#geog_auth_rec_id#
+			select higher_geog from geog_auth_rec 
+			where geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 		</cfquery>
 	</cfif>
 	<cfoutput>
@@ -1092,7 +1095,8 @@ You do not have permission to create Higher Geographies
 <cfif action is "deleteGeog">
 <cfoutput>
 	<cfquery name="isLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select geog_auth_rec_id from locality where geog_auth_rec_id=#geog_auth_rec_id#
+		select geog_auth_rec_id from locality 
+		where geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 	</cfquery>
 <cfif len(#isLocality.geog_auth_rec_id#) gt 0>
 	There are active localities for this Geog. It cannot be deleted.
@@ -1100,7 +1104,8 @@ You do not have permission to create Higher Geographies
 	<cfabort>
 <cfelseif len(#isLocality.geog_auth_rec_id#) is 0>
 	<cfquery name="deleGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	delete from geog_auth_rec where geog_auth_rec_id=#geog_auth_rec_id#
+		delete from geog_auth_rec 
+		where geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 	</cfquery>
 </cfif>
 <cflocation addtoken="no" url="#cgi.HTTP_REFERER#">
@@ -1111,7 +1116,8 @@ You do not have permission to create Higher Geographies
 <cfif action is "deleteCollEvent">
 <cfoutput>
 	<cfquery name="isSpec" datasource="uam_god">
-		select collection_object_id from cataloged_item where collecting_event_id=#collecting_event_id#
+		select collection_object_id from cataloged_item 
+		where collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
 <cfif len(#isSpec.collection_object_id#) gt 0>
 	There are specimens for this collecting event. It cannot be deleted. If you can't see them, perhaps they aren't in
@@ -1120,7 +1126,8 @@ You do not have permission to create Higher Geographies
 	<cfabort>
 <cfelseif len(#isSpec.collection_object_id#) is 0>
 	<cfquery name="deleCollEv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	delete from collecting_event where collecting_event_id=#collecting_event_id#
+		delete from collecting_event 
+		where collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
 </cfif>
 You deleted a collecting event.
@@ -1132,7 +1139,9 @@ You deleted a collecting event.
 <cfif action is "changeLocality">
 <cfoutput>
 	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		UPDATE collecting_event SET locality_id=#locality_id# where collecting_event_id=#collecting_event_id#
+		UPDATE collecting_event 
+		SET locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		where collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
 		 <cfif not isdefined("collection_object_id")>
 		 	<cfset collection_object_id=-1>
