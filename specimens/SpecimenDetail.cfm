@@ -24,7 +24,7 @@ limitations under the License.
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select GUID 
 			from #session.flatTableName# 
-			where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">
+			where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfset guid = c.GUID>

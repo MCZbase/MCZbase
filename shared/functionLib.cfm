@@ -47,7 +47,7 @@ limitations under the License.
 	<cfif session.roles does not contain "coldfusion_user">
 		<cfquery name="portalInfo" datasource="cf_dbuser">
 			select * from cf_collection 
-			where cf_collection_id = <cfqueryparam value="#portal_id#" cfsqltype="CF_SQL_NUMBER">
+			where cf_collection_id = <cfqueryparam value="#portal_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfset session.dbuser=portalInfo.dbusername>
 		<cfset session.epw = encrypt(portalInfo.dbpwd,cfid)>

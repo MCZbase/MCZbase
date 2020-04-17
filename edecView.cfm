@@ -7,7 +7,7 @@
 		preferred_agent_name on trans_agent.agent_id = preferred_agent_name.agent_id
 	where
 		trans_agent_role = 'received by' and
-		trans_agent.transaction_id= <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_NUMBER">
+		trans_agent.transaction_id= <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
 	order by
 		trans_agent_role,
 		agent_name
@@ -36,7 +36,7 @@
 		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 		collecting_event.locality_id = locality.locality_id AND
 		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-		loan_item.transaction_id = <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_NUMBER">
+		loan_item.transaction_id = <cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
 	group by 
 		scientific_name, mczbase.get_sovereignnationcode(locality.locality_id)
 	ORDER BY

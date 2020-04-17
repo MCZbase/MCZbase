@@ -91,7 +91,7 @@ limitations under the License.
 		identification.nature_of_id,
 		collecting_event.collecting_event_id,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 		then
 				replace(began_date,substr(began_date,1,4),'8888')
@@ -99,7 +99,7 @@ limitations under the License.
 			collecting_event.began_date
 		end began_date,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 		then
 				replace(ended_date,substr(ended_date,1,4),'8888')
@@ -107,7 +107,7 @@ limitations under the License.
 			collecting_event.ended_date
 		end ended_date,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 		then
 				'Masked'
@@ -118,7 +118,7 @@ limitations under the License.
 		collecting_event.endDayOfYear,
 		collecting_event.habitat_desc,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 			and collecting_event.coll_event_remarks is not null
 		then 
@@ -131,7 +131,7 @@ limitations under the License.
 		locality.maximum_elevation,
 		locality.orig_elev_units,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 			and locality.spec_locality is not null
 		then 
@@ -140,7 +140,7 @@ limitations under the License.
 			locality.spec_locality
 		end spec_locality,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
 			and accepted_lat_long.orig_lat_long_units is not null
 		then 
@@ -156,7 +156,7 @@ limitations under the License.
 			)
 		end VerbatimLatitude,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 			and accepted_lat_long.orig_lat_long_units is not null
 		then 
@@ -209,7 +209,7 @@ limitations under the License.
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
 			and locality.locality_remarks is not null
 		then 
@@ -218,7 +218,7 @@ limitations under the License.
 				locality.locality_remarks
 		end locality_remarks,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 			and verbatim_locality is not null
 		then 
@@ -276,7 +276,7 @@ limitations under the License.
 	SELECT
 		collector.coll_order,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
 		else
 			preferred_agent_name.agent_name
 		end collectors
@@ -294,7 +294,7 @@ limitations under the License.
 	SELECT
 		collector.coll_order,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
 		else
 			preferred_agent_name.agent_name
 		end preparators
@@ -720,7 +720,7 @@ limitations under the License.
 			RELATED_PRIMARY_KEY = c.publication_id and
 			c.publication_id = fp.publication_id and
 			fp.format_style='short' and
-			c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">
+			c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		ORDER by substr(formatted_publication, -4)
 	</cfquery>
 	<cfif len(citations.cited_name) gt 0>
@@ -786,7 +786,7 @@ limitations under the License.
 <!------------------------------------ other identifiers ---------------------------------->
 	<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
-			case when <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#oneOfUs#"> != 1 and
+			case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
 				concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
 				coll_obj_other_id_num.other_id_type = 'original identifier'
 				then 'Masked'
@@ -803,7 +803,7 @@ limitations under the License.
 			coll_obj_other_id_num 
 			left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
 		where
-			collection_object_id= <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_NUMBER">
+			collection_object_id= <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		ORDER BY
 			other_id_type,
 			display_value
@@ -846,7 +846,7 @@ limitations under the License.
 			media.media_id=media_relations.media_id and
 			media.media_id=media_labels.media_id (+) and
 			media_relations.media_relationship like '% accn' and
-			media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_NUMBER">
+			media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif oneOfUs is 1 and vpdaccn is 1>
 			<div class="card">
@@ -890,7 +890,7 @@ limitations under the License.
 				project_trans,
 				specimen_part 
 			WHERE 
-				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_NUMBER"> AND
+				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
 				loan_item.transaction_id=project_trans.transaction_id AND
 				project_trans.project_id=project.project_id AND
 				specimen_part.collection_object_id = loan_item.collection_object_id 
@@ -904,7 +904,7 @@ limitations under the License.
 				loan_item,specimen_part 
 			WHERE 
 				loan_item.collection_object_id=specimen_part.collection_object_id AND
-				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_NUMBER">
+				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
@@ -914,7 +914,7 @@ limitations under the License.
  				left join loan on loan_item.transaction_id = loan.transaction_id
 			WHERE
 				loan_number is not null AND
-				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_NUMBER">
+				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
@@ -922,7 +922,7 @@ limitations under the License.
 			FROM
 				specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 			WHERE
-				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_NUMBER">
+				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
@@ -932,7 +932,7 @@ limitations under the License.
  				left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 			where
 				deacc_number is not null AND
-				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_NUMBER">
+				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or
 			(oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or
@@ -1125,7 +1125,7 @@ limitations under the License.
 				select
 					specimen_part.collection_object_id part_id,
 					Case
-						when <cfqueryparam value="#oneOfus#" cfsqltype="CF_SQL_NUMBER"> = 1
+						when <cfqueryparam value="#oneOfus#" cfsqltype="CF_SQL_DECIMAL"> = 1
 						then pc.label
 						else null
 					End label,
@@ -1196,7 +1196,7 @@ limitations under the License.
 				specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
 				coll_obj_cont_hist.container_id=c.container_id and
 				c.parent_container_id=p.container_id and
-				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">
+				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfquery name="mPart" dbtype="query">
 				select * from parts where sampled_from_obj_id is null order by part_name
