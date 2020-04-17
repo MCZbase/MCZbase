@@ -1960,8 +1960,8 @@ INSERT INTO geog_auth_rec (
 		<cftransaction>
 		<cfloop list="#collecting_event_id#" index="ceid">
 			<cfquery name="upCollLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update collecting_event set locality_id = #locality_id#
-			where collecting_event_id = #ceid#
+			update collecting_event set locality_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#locality_id#">
+			where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#ceid#">
 			</cfquery>
 		</cfloop>
 		</cftransaction>
