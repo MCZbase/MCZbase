@@ -1,7 +1,7 @@
 <cfinclude template = "includes/_header.cfm">
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 <cfset title = "Search for Taxa">
-<cfset metaDesc = "Search Arctos for taxonomy, including accepted, unaccepted, used, and unused names, higher taxonomy, and common names.">
+<cfset metaDesc = "Search MCZbase for taxonomy, including accepted, unaccepted, used, and unused names, higher taxonomy, and common names.">
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) as cnt from taxonomy
 </cfquery>
@@ -84,7 +84,7 @@
 					<table>
 						<tr>
 							<td style="padding-right:3em;">
-                                <p style="margin-top:1em;">Search the taxonomy used in Arctos for:</p>
+                                <p style="margin-top:1em;">Search the taxonomy used in MCZbase for:</p>
 								<ul style="margin-left: 2em;">
 									<li>Common names</li>
 									<li>Synonymies</li>
@@ -94,10 +94,10 @@
 										(especially where specimens were cited by a now-unaccepted name).</li>
 								</ul>
 								<p>
-									These #getCount.cnt# records represent current and past taxonomic treatments in Arctos. 
+									These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. 
 									They are neither complete nor necessarily authoritative. 
 								<p>
-									Not all taxa in Arctos have associated specimens. 
+									Not all taxa in MCZbase have associated specimens. 
 									<a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> 
 									the "Find only taxa for which specimens exist?" box to see all matches.
 							</td>
