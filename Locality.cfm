@@ -1152,79 +1152,78 @@ You deleted a collecting event.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveCollEventEdit">
 	<cfoutput>
-	<cfset sql = "UPDATE collecting_event SET
-		BEGAN_DATE = '#BEGAN_DATE#'
-		,ENDED_DATE = '#ENDED_DATE#'
-		,VERBATIM_DATE = '#escapeQuotes(VERBATIM_DATE)#'
-		,COLLECTING_SOURCE = '#COLLECTING_SOURCE#'">
+	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		UPDATE collecting_event SET
+		BEGAN_DATE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BEGAN_DATE#">
+		,ENDED_DATE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ENDED_DATE#">
+		,VERBATIM_DATE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIM_DATE#">
+		,COLLECTING_SOURCE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_SOURCE#">
 	<cfif len(#verbatim_locality#) gt 0>
-		<cfset sql = "#sql#,verbatim_locality = '#escapeQuotes(verbatim_locality)#'">
+		,verbatim_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">
 	<cfelse>
-		<cfset sql = "#sql#,verbatim_locality = null">
+		,verbatim_locality = null
 	</cfif>
 	<cfif len(#COLL_EVENT_REMARKS#) gt 0>
-		<cfset sql = "#sql#,COLL_EVENT_REMARKS = '#escapeQuotes(COLL_EVENT_REMARKS)#'">
+		,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
 	<cfelse>
-		<cfset sql = "#sql#,COLL_EVENT_REMARKS = null">
+		,COLL_EVENT_REMARKS = null
 	</cfif>
 	<cfif len(#COLLECTING_METHOD#) gt 0>
-		<cfset sql = "#sql#,COLLECTING_METHOD = '#escapeQuotes(COLLECTING_METHOD)#'">
+		,COLLECTING_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
 	<cfelse>
-		<cfset sql = "#sql#,COLLECTING_METHOD = null">
+		,COLLECTING_METHOD = null
 	</cfif>
 	<cfif len(#HABITAT_DESC#) gt 0>
-		<cfset sql = "#sql#,HABITAT_DESC = '#escapeQuotes(HABITAT_DESC)#'">
+		,HABITAT_DESC = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
 	<cfelse>
-		<cfset sql = "#sql#,HABITAT_DESC = null">
+		,HABITAT_DESC = null
 	</cfif>
 	<cfif len(#COLLECTING_TIME#) gt 0>
-		<cfset sql = "#sql#,COLLECTING_TIME = '#escapeQuotes(COLLECTING_TIME)#'">
+		,COLLECTING_TIME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">
 	<cfelse>
-		<cfset sql = "#sql#,COLLECTING_TIME = null">
+		,COLLECTING_TIME = null
 	</cfif>
 	<cfif len(#ICH_FIELD_NUMBER#) gt 0>
-		<cfset sql = "#sql#,FISH_FIELD_NUMBER = '#escapeQuotes(ICH_FIELD_NUMBER)#'">
+		,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ICH_FIELD_NUMBER#">
 	<cfelse>
-		<cfset sql = "#sql#,FISH_FIELD_NUMBER = null">
+		,FISH_FIELD_NUMBER = null
 	</cfif>
 	<cfif len(#verbatimCoordinates#) gt 0>
-		<cfset sql = "#sql#,verbatimCoordinates = '#escapeQuotes(verbatimCoordinates)#'">
+		,verbatimCoordinates = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">
 	<cfelse>
-		<cfset sql = "#sql#,verbatimCoordinates = null">
+		,verbatimCoordinates = null
 	</cfif>
 	<cfif len(#verbatimLatitude#) gt 0>
-		<cfset sql = "#sql#,verbatimLatitude = '#escapeQuotes(verbatimLatitude)#'">
+		,verbatimLatitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">
 	<cfelse>
-		<cfset sql = "#sql#,verbatimLatitude = null">
+		,verbatimLatitude = null
 	</cfif>
 	<cfif len(#verbatimLongitude#) gt 0>
-		<cfset sql = "#sql#,verbatimLongitude = '#escapeQuotes(verbatimLongitude)#'">
+		,verbatimLongitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">
 	<cfelse>
-		<cfset sql = "#sql#,verbatimLongitude = null">
+		,verbatimLongitude = null
 	</cfif>
 	<cfif len(#verbatimCoordinateSystem#) gt 0>
-		<cfset sql = "#sql#,verbatimCoordinateSystem = '#escapeQuotes(verbatimCoordinateSystem)#'">
+		,verbatimCoordinateSystem = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">
 	<cfelse>
-		<cfset sql = "#sql#,verbatimCoordinateSystem = null">
+		,verbatimCoordinateSystem = null
 	</cfif>
 	<cfif len(#verbatimSRS#) gt 0>
-		<cfset sql = "#sql#,verbatimSRS = '#escapeQuotes(verbatimSRS)#'">
+		,verbatimSRS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">
 	<cfelse>
-		<cfset sql = "#sql#,verbatimSRS = null">
+		,verbatimSRS = null
 	</cfif>
 	<cfif len(#startDayOfYear#) gt 0>
-		<cfset sql = "#sql#,startDayOfYear = '#escapeQuotes(startDayOfYear)#'">
+		,startDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#startDayOfYear#">
 	<cfelse>
-		<cfset sql = "#sql#,startDayOfYear = null">
+		,startDayOfYear = null
 	</cfif>
 	<cfif len(#endDayOfYear#) gt 0>
-		<cfset sql = "#sql#,endDayOfYear = '#escapeQuotes(endDayOfYear)#'">
+		,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDayOfYear#">
 	<cfelse>
-		<cfset sql = "#sql#,endDayOfYear = null">
+		,endDayOfYear = null
 	</cfif>
-	<cfset sql = "#sql# where collecting_event_id = #collecting_event_id#">
-	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		#preservesinglequotes(sql)#
+	 where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collecting_event_id#">
 	</cfquery>
 	<cfif #cgi.HTTP_REFERER# contains "editCollEvnt">
 		<cfset refURL = "#cgi.HTTP_REFERER#">
