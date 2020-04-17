@@ -1109,7 +1109,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 												select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks 
 												from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 													left join loan on loan_item.transaction_id = loan.transaction_id
-												where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#mPart.part_id#">
+												where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mPart.part_id#">
 													and loan_status <> 'closed'
 											</cfquery>
 											<cfloop query="partonloan">
@@ -1188,7 +1188,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 													select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks 
 													from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 														left join loan on loan_item.transaction_id = loan.transaction_id
-													where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#sPart.part_id#">
+													where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#sPart.part_id#">
 														and loan_status <> 'closed'
 												</cfquery>
 												<cfloop query="partonloan">
@@ -1622,7 +1622,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select mczbase.get_media_descriptor(media_id) media_descriptor 
 							from media 
-							where media_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#media_id#">
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						</cfquery>
 						<cfset altText = alt.media_descriptor>
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -1633,7 +1633,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							from
 								media_labels
 							where
-								media_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#media_id#">
+								media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						</cfquery>
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'

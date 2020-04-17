@@ -1432,7 +1432,7 @@
 						'#escapeQuotes(GEOREFMETHOD)#',
 						'#escapeQuotes(VERIFICATIONSTATUS)#',
 						<cfif len(verified_by_agent_id) GT 0 and len(verified_by) GT 0>
-							<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
+							<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#VERIFIED_BY_AGENT_ID#">
 						<cfelse>
 							NULL
 						</cfif>

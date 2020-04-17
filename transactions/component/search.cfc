@@ -303,9 +303,9 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					AND ( 
-						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_id#">
+						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 						OR
-						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_id#">
+						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 					)
 				</cfif>
 				<cfif isdefined("loan_type") AND len(#loan_type#) gt 0>

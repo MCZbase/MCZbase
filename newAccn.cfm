@@ -200,7 +200,7 @@
 					#n.n#,
 					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(ent_Date,"yyyy-mm-dd")#'>,
 					null,
-					<cfqueryparam cfsqltype="CF_SQL_NUMBER" value='#collection_id#'>,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#collection_id#'>,
 					'accn'
 					<cfif len(#NATURE_OF_MATERIAL#) gt 0>
 						, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#NATURE_OF_MATERIAL#'>
@@ -252,7 +252,7 @@
 							trans_agent_role
 						) values (
 							#n.n#,
-							<cfqueryparam cfsqltype="CF_SQL_NUMBER" value='#for_use_by#'>,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#for_use_by#'>,
 							'for_use_by'
 						)
 					</cfquery>

@@ -40,7 +40,7 @@
 			cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 			collecting_event.locality_id = locality.locality_id AND
 			locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-			cataloged_item.collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">)
+			cataloged_item.collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">)
 	</cfquery>
 </cfif>
 <cfoutput>
@@ -141,7 +141,7 @@
         FROM
             #session.flatTableName#
         WHERE
-            collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">)
+            collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">)
     </cfquery>
     <cfset guids = "">
     <cfset recordCount = 0>
@@ -189,8 +189,8 @@
 			user_email,
 			submission_date)
 		VALUES (
-			<cfqueryparam value="#bugID.id#" cfsqltype="CF_SQL_NUMBER">,
-			<cfqueryparam value="#user_id#" cfsqltype="CF_SQL_NUMBER">,
+			<cfqueryparam value="#bugID.id#" cfsqltype="CF_SQL_DECIMAL">,
+			<cfqueryparam value="#user_id#" cfsqltype="CF_SQL_DECIMAL">,
 			<cfqueryparam value="#reported_name#" cfsqltype="CF_SQL_VARCHAR">,
 			<cfqueryparam value="#specIRI#" cfsqltype="CF_SQL_VARCHAR">,
 			<cfqueryparam value="#suggested_solution#" cfsqltype="CF_SQL_VARCHAR">,
@@ -212,7 +212,7 @@
 			collection_contacts.collection_id = cataloged_item.collection_id AND
 			address_type='e-mail' AND
 			contact_role='data quality' AND
-			cataloged_item.collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_NUMBER">)
+			cataloged_item.collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">)
 		GROUP BY address
 	</cfquery>
 	<cfset thisAddress = #Application.DataProblemReportEmail#><!--- always send data problems to SOMEONE, even if we don't 

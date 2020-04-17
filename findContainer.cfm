@@ -28,7 +28,7 @@
 	 <cfset autoSubmit=false>
 	 <cfif isdefined("container_id")>
             <cfquery name="labelbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            	select label from container where container_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#container_id#">
+            	select label from container where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
             </cfquery>
             <cfloop query="labelbyid">
 	        <cfset autoSubmit=true>

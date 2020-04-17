@@ -116,26 +116,26 @@
 		where
 			geog_auth_rec.geog_auth_rec_id > -1
 			<cfif isdefined("locality_id") and len(#locality_id#) gt 0>
-				AND locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#locality_id#">
+				AND locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfif>
 			<cfif isdefined("geog_auth_rec_id") and len(#geog_auth_rec_id#) gt 0>
-				AND geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#geog_auth_rec_id#">
+				AND geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 			</cfif>
 			<cfif isdefined("collecting_event_id") and len(#collecting_event_id#) gt 0>
-				AND collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collecting_event_id#">
+				AND collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 			</cfif>
 			<cfif isdefined("collection_id") and len(collection_id) gt 0>
 				<cfif collnOper is "usedOnlyBy">
 					AND locality.locality_id in 
-							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_id#"> ) 
+							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> ) 
 					AND locality.locality_id not in 
-							(select locality_id from vpd_collection_locality where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_id#"> )
+							(select locality_id from vpd_collection_locality where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 				<cfelseif collnOper is "usedBy">
 					AND locality.locality_id in 
-						(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_id#"> )
+						(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 				<cfelseif collnOper is "notUsedBy">
 					AND locality.locality_id  not in
-						(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_id#"> )
+						(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 				</cfif>
 			</cfif>
 			<cfif isdefined("geology_attribute") and len(#geology_attribute#) gt 0>
@@ -212,32 +212,32 @@
 			<cfif isdefined("maximum_elevation") and len(#maximum_elevation#) gt 0>
 				<cfswitch expression="#maxElevOper#">
 					<cfcase value = ">">
-						AND maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation#">
+						AND maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					</cfcase>
 					<cfcase value = "<">
-						AND maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation#">
+						AND maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation#">
+						AND maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					</cfcase>
 					<cfdefaultcase>
-						AND maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation#">
+						AND maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
 			<cfif isdefined("minimum_elevation") and len(#minimum_elevation#) gt 0>
 				<cfswitch expression="#minElevOper#">
 					<cfcase value = ">">
-						AND minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation#">
+						AND minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
 					</cfcase>
 					<cfcase value = "<">
-						AND minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation#">
+						AND minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation#">
+						AND minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
 					</cfcase>
 					<cfdefaultcase>
-						AND minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation#">
+						AND minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
@@ -247,32 +247,32 @@
 			<cfif isdefined("max_depth") and len(#max_depth#) gt 0>
 				<cfswitch expression="#maxDepthOper#">
 					<cfcase value = ">">
-						AND max_depth > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth#">
+						AND max_depth > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth#">
 					</cfcase>
 					<cfcase value = "<">
-						AND max_depth < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth#">
+						AND max_depth < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND max_depth <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth#">
+						AND max_depth <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth#">
 					</cfcase>
 					<cfdefaultcase>
-						AND max_depth = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth#">
+						AND max_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
 			<cfif isdefined("min_depth") and len(#min_depth#) gt 0>
 				<cfswitch expression="#minDepthOper#">
 					<cfcase value = ">">
-						AND min_depth > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth#">
+						AND min_depth > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth#">
 					</cfcase>
 					<cfcase value = "<">
-						AND min_depth < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth#">
+						AND min_depth < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND min_depth <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth#">
+						AND min_depth <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth#">
 					</cfcase>
 					<cfdefaultcase>
-						AND min_depth = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth#">
+						AND min_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
@@ -282,64 +282,64 @@
 			<cfif isdefined("maximum_elevation_m") and len(#maximum_elevation_m#) gt 0>
 				<cfswitch expression="#maxElevOperM#">
 					<cfcase value = ">">
-						AND TO_METERS(maximum_elevation,orig_elev_units) > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation_m#">
+						AND TO_METERS(maximum_elevation,orig_elev_units) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation_m#">
 					</cfcase>
 					<cfcase value = "<">
-						AND TO_METERS(maximum_elevation,orig_elev_units) < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation_m#">
+						AND TO_METERS(maximum_elevation,orig_elev_units) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation_m#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND TO_METERS(maximum_elevation,orig_elev_units) <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation_m#">
+						AND TO_METERS(maximum_elevation,orig_elev_units) <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation_m#">
 					</cfcase>
 					<cfdefaultcase>
-						AND TO_METERS(maximum_elevation,orig_elev_units) = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#maximum_elevation_m#">
+						AND TO_METERS(maximum_elevation,orig_elev_units) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation_m#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
 			<cfif isdefined("minimum_elevation_m") and len(#minimum_elevation_m#) gt 0>
 				<cfswitch expression="#minElevOperM#">
 					<cfcase value = ">">
-						AND TO_METERS(minimum_elevation,orig_elev_units) > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation_m#">
+						AND TO_METERS(minimum_elevation,orig_elev_units) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation_m#">
 					</cfcase>
 					<cfcase value = "<">
-						AND TO_METERS(minimum_elevation,orig_elev_units) < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation_m#">
+						AND TO_METERS(minimum_elevation,orig_elev_units) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation_m#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND TO_METERS(minimum_elevation,orig_elev_units) <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation_m#">
+						AND TO_METERS(minimum_elevation,orig_elev_units) <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation_m#">
 					</cfcase>
 					<cfdefaultcase>
-						AND TO_METERS(minimum_elevation,orig_elev_units) = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#minimum_elevation_m#">
+						AND TO_METERS(minimum_elevation,orig_elev_units) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation_m#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
 			<cfif isdefined("max_depth_m") and len(#max_depth_m#) gt 0>
 				<cfswitch expression="#maxDepthOperM#">
 					<cfcase value = ">">
-						AND TO_METERS(max_depth,depth_units) > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth_m#">
+						AND TO_METERS(max_depth,depth_units) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth_m#">
 					</cfcase>
 					<cfcase value = "<">
-						AND TO_METERS(max_depth,depth_units) < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth_m#">
+						AND TO_METERS(max_depth,depth_units) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth_m#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND TO_METERS(max_depth,depth_units) <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth_m#">
+						AND TO_METERS(max_depth,depth_units) <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth_m#">
 					</cfcase>
 					<cfdefaultcase>
-						AND TO_METERS(max_depth,depth_units) = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#max_depth_m#">
+						AND TO_METERS(max_depth,depth_units) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth_m#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
 			<cfif isdefined("min_depth_m") and len(#min_depth_m#) gt 0>
 				<cfswitch expression="#minDepthOperM#">
 					<cfcase value = ">">
-						AND TO_METERS(min_depth,depth_units) > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth_m#">
+						AND TO_METERS(min_depth,depth_units) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth_m#">
 					</cfcase>
 					<cfcase value = "<">
-						AND TO_METERS(min_depth,depth_units) < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth_m#">
+						AND TO_METERS(min_depth,depth_units) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth_m#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND TO_METERS(min_depth,depth_units) <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth_m#">
+						AND TO_METERS(min_depth,depth_units) <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth_m#">
 					</cfcase>
 					<cfdefaultcase>
-						AND TO_METERS(min_depth,depth_units) = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#min_depth_m#">
+						AND TO_METERS(min_depth,depth_units) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth_m#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
@@ -434,20 +434,20 @@
 				<cfswitch expression="#gs_comparator#">
 					<cfcase value = "between">
 						AND accepted_lat_long.geolocate_score 
-							BETWEEN <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#geolocate_score#"> 
-							AND <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#geolocate_score2#">
+							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#"> 
+							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score2#">
 					</cfcase>
 					<cfcase value = ">">
-						AND accepted_lat_long.geolocate_score > <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#geolocate_score#">
+						AND accepted_lat_long.geolocate_score > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
 					</cfcase>
 					<cfcase value = "<">
-						AND accepted_lat_long.geolocate_score < <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#geolocate_score#">
+						AND accepted_lat_long.geolocate_score < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
 					</cfcase>
 					<cfcase value = "<>">
-						AND accepted_lat_long.geolocate_score <> <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#geolocate_score#">
+						AND accepted_lat_long.geolocate_score <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
 					</cfcase>
 					<cfdefaultcase>
-						AND accepted_lat_long.geolocate_score = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#geolocate_score#">
+						AND accepted_lat_long.geolocate_score = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
 					</cfdefaultcase>
 				</cfswitch>
 			</cfif>
