@@ -1307,7 +1307,7 @@ table#pairs th, table#pairs td {
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 350;
 }
-iinput::-moz-placeholder { /* Firefox 19+ */
+input::-moz-placeholder { /* Firefox 19+ */
 	font-weight: 350;
 }
 input:-ms-input-placeholder { /* IE 10+ */
