@@ -360,9 +360,9 @@ limitations under the License.
 					<label for="Password" class="mr-1 sr-only"> Password:</label>
 					<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="loginButtons">
 					<label for="Login" class="mr-1 sr-only"> Password:</label>
-					<input type="submit" value="Log In" id="login" class="btn btn-primary btn-sm"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+					<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 					<label for="CreateAccount" class="mr-1 sr-only"> Password:</label>
-					<input type="submit" value="Register" class="btn btn-primary btn-sm" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+					<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 				</div>
 			</form>
 		</cfif>
