@@ -403,6 +403,7 @@ input#Password {
 		text-decoration: none;
 		font-size: .9em;
 		display: block;
+		line-height: 1em;
 	}
 	img.mcz_logo_krono {
 		display: block;
