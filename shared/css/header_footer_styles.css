@@ -218,6 +218,7 @@ nav button {
 	line-height: 1em;
 	border-radius: .2rem;
 	display:inline-block;
+	border: 1px solid #
 }
 .logout {
 	padding: 0 .5em .1em .5em;
@@ -333,14 +334,10 @@ body > .container {
     padding: .25rem 1rem;
 }
 input#Username {
-	background-color: red;
 	width: 105px;
-	margin-top: 1px;
 }
 input#Password {
 	width: 70px;
-	margin-top: 1px;
-	background-color: red;
 }
 @media only screen and (max-width: 990px) {
 	nav.navbar {
