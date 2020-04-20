@@ -159,7 +159,7 @@ limitations under the License.
 		<li class="nav-item mcz2">
 			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #Application.collectionlinkcolor#;" >Museum of Comparative Zoology</a>
 		</li>
-		<li class="nav-item mczbase my-0 py-0">
+		<li class="nav-item mczbase my-1 py-0">
 			<a href="/Specimens.cfm" target="_blank" style="color: #Application.collectionlinkcolor#" >#session.collection_link_text#</a>
 		</li>
 	</ul>
