@@ -222,6 +222,8 @@ nav button {
 	padding: 0 .5em .1em .5em;
     font-size: .9em;
 	font-weight: 500;
+	position: absolute;
+	right: 15px;
 }
 .footer {
 	line-height: 1em;
@@ -315,11 +317,11 @@ body > .container {
 .color-green {
 	color: #006100;
 }
-.logout-style {
+/*.logout-style {
 	position:absolute;
 	top:2px;
 	right: 8px;
-}
+}*/
 .login-form {
 	position: absolute;
 	top: 2px;
@@ -328,6 +330,16 @@ body > .container {
 .nav-link {
     display: block;
     padding: .25rem 1rem;
+}
+input#Username {
+	background-color: red;
+	width: 105px;
+	margin-top: 1px;
+}
+input#Password {
+	width: 70px;
+	margin-top: 1px;
+	background-color: red;
 }
 @media only screen and (max-width: 990px) {
 	nav.navbar {
