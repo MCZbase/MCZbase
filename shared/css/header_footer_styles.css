@@ -213,10 +213,11 @@ nav button {
 	font-size: smaller;
 }
 .loginButtons {
-	padding: 1px 5px 3px 5px;
+	padding: .25em .5em;
 	font-size: .78rem;
-	line-height: 1.15em;
+	line-height: 1em;
 	border-radius: .2rem;
+	display:inline-block;
 }
 .logout {
 	padding: 0 .5em .1em .5em;
