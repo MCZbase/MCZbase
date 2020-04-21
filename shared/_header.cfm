@@ -164,9 +164,9 @@ limitations under the License.
 		<a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> 
 	</div>
 </div>
-<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark">
+<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark" style="background-color: #header_color#; ">
 	<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
-	<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #header_color#; ">
+	<ul class="navbar col-lg-9 col-xs-6 p-0 m-0">
 		<li class="nav-item mcz2">
 			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a>
 		</li>
@@ -302,6 +302,10 @@ limitations under the License.
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 					</div>
 				</li>
+			
+			</cfif> <!--- End of Menu for redesign --->
+		</ul><!--- end of menu ul --->
+			<ul class="navbar-nav mr-auto mt-0 mt-lg-0 pl-0">
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -326,10 +330,12 @@ limitations under the License.
 						</div>
 					</li>
 				</cfif>	
-			</cfif> <!--- End of Menu for redesign --->
-		</ul><!--- end of menu ul --->
+		</ul>
 	</div><!--- end navbarToggler1 --->
-	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+
+</nav>
+</header>
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
 			<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 				<input type="hidden" name="action" value="signOut">	
 				<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
@@ -372,8 +378,6 @@ limitations under the License.
 				</div>
 			</form>
 		</cfif>
-</nav>
-</header>
 <script type="text/javascript"> 
 	/** add active class and stay opened when selected */ 
 	var url = window.location; 
