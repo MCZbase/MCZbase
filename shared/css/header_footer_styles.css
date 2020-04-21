@@ -21,7 +21,7 @@
 	box-shadow: none;
 }
 nav.navbar {
-	padding: 0 1em;
+	padding: 0 .5em;
 }
 nav.navbar-nav .nav-item a {
 	font-weight: 600;
