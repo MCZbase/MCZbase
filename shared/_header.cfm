@@ -250,6 +250,7 @@ limitations under the License.
 					</li>
 				</cfif>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<li class="nav-item">
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
 						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
@@ -291,6 +292,7 @@ limitations under the License.
 							<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 						</div>
 					</form>
+						</li>
 				</cfif>
 			</ul>
 		</div>
