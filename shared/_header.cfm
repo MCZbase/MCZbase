@@ -62,10 +62,14 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.export.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.storage.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcombobox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.pager.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.grouping.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.aggregates.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/globalization/globalize.js"></script>
 <!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
 <!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxscrollbar.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxlistbox.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdropdownlist.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxmenu.js"></script>
@@ -74,12 +78,8 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdate.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxslider.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.pager.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.grouping.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.aggregates.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdragdrop.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/globalization/globalize.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsresize.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsreorder.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcalendar.js"></script>
@@ -139,6 +139,17 @@ limitations under the License.
 </script>
 </head>
 <body class="default">
+
+<cfset header_color = Application.header_color>
+<cfset collection_link_color = Application.collectionlinkcolor>
+<!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
+<cfif isdefined("Application.header_image")>
+	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
+	<cfset header_color = "##000000">
+	<cfset collection_link_color = "white">
+</cfif>
+<!--- End workaround --->
+
 <a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" aria-level="1" role="heading" class="border-bottom">
 <!--- TODO: [Michelle] Move (this fixed) background-color for this top black bar to a stylesheet. --->
@@ -155,12 +166,12 @@ limitations under the License.
 </div>
 <div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark">
 	<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
-	<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #Application.header_color#; ">
+	<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #header_color#; ">
 		<li class="nav-item mcz2">
-			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #Application.collectionlinkcolor#;" >Museum of Comparative Zoology</a>
+			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a>
 		</li>
 		<li class="nav-item mczbase my-1 py-0">
-			<a href="/Specimens.cfm" target="_blank" style="color: #Application.collectionlinkcolor#" >#session.collection_link_text#</a>
+			<a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a>
 		</li>
 	</ul>
 	<ul class="navbar col-lg-3 col-sm-3 p-0 m-0 d-flex justify-content-end">
