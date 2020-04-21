@@ -212,6 +212,29 @@ limitations under the License.
 						<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
 					</div>
 				</li>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Account
+							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+								<i class="fas fa-user-check color-green"></i> 
+							<cfelse>
+								<i class="fas fa-user-cog text-body"></i> 
+							</cfif>	
+						</a>
+						<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
+							<cfif session.roles contains "coldfusion_user">
+								<form name="profile" method="post" action="/UserProfile.cfm">
+									<input type="hidden" name="action" value="nothing">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+								</form>
+							</cfif>
+							<cfif session.roles contains "public">
+								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+							</cfif>
+						</div>
+					</li>
+				</cfif>	
 			<cfelse>
 				<!---  Redesign menu for the redesign --->
 				<li class="nav-item dropdown">
@@ -279,71 +302,43 @@ limitations under the License.
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 					</div>
 				</li>
-			
-			</cfif>
-						<cfif isdefined("session.username") and len(#session.username#) gt 0>
-		
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Account
-						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-							<i class="fas fa-user-check color-green"></i> 
-						<cfelse>
-							<i class="fas fa-user-cog text-body"></i> 
-						</cfif>	
-					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
-						<cfif session.roles contains "coldfusion_user">
-							<form name="profile" method="post" action="/UserProfile.cfm">
-								<input type="hidden" name="action" value="nothing">
-								<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-							</form>
-						</cfif>
-						<cfif session.roles contains "public">
-							<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
-							<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
-						</cfif>
-					</div>
-				</li>
-		
-	</cfif>	
-		
-</ul>
-	</div>
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-	<!---		<ul class="navbar-nav mt-2 mt-lg-0 pl-2">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle pl-1 border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Account
-						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-							<i class="fas fa-user-check color-green"></i> 
-						<cfelse>
-							<i class="fas fa-user-cog text-body"></i> 
-						</cfif>	
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinka">
-						<cfif session.roles contains "coldfusion_user">
-							<form name="profile" method="post" action="/UserProfile.cfm">
-								<input type="hidden" name="action" value="nothing">
-								<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-							</form>
-						</cfif>
-						<cfif session.roles contains "public">
-							<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
-							<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
-						</cfif>
-					</div>
-				</li>
-			</ul>--->
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Account
+							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+								<i class="fas fa-user-check color-green"></i> 
+							<cfelse>
+								<i class="fas fa-user-cog text-body"></i> 
+							</cfif>	
+						</a>
+						<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
+							<cfif session.roles contains "coldfusion_user">
+								<form name="profile" method="post" action="/UserProfile.cfm">
+									<input type="hidden" name="action" value="nothing">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+								</form>
+							</cfif>
+							<cfif session.roles contains "public">
+								<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
+								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+							</cfif>
+						</div>
+					</li>
+				</cfif>	
+			</cfif> <!--- End of Menu for redesign --->
+		</ul><!--- end of menu ul --->
+	</div><!--- end navbarToggler1 --->
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 			<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 				<input type="hidden" name="action" value="signOut">	
 				<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
-			<!---		<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+				<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
 						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-					</cfif>--->
+				</cfif>
 				</button>
 			</form>
-		<cfelse>
+	<cfelse>
 			<cfif isdefined("gotopage") and len(gotopage) GT 0>
 				<cfset gtp = gotopage>
 			<cfelse>
