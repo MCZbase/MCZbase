@@ -145,7 +145,7 @@ limitations under the License.
 <!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
 <cfif isdefined("Application.header_image")>
 	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
-	<cfset header_color = "##000000">
+	<cfset header_color = "##A51C30">
 	<cfset collection_link_color = "white">
 </cfif>
 <!--- End workaround --->
