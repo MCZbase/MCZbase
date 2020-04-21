@@ -1307,7 +1307,7 @@ table#pairs th, table#pairs td {
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 350;
 }
-iinput::-moz-placeholder { /* Firefox 19+ */
+input::-moz-placeholder { /* Firefox 19+ */
 	font-weight: 350;
 }
 input:-ms-input-placeholder { /* IE 10+ */
@@ -1594,10 +1594,6 @@ and also iPads specifically.
 	}
 	h1 {
 		margin-bottom: 0;
-	}
-	nav.navbar {
-		padding-top: .5em;
-		padding-bottom: .5em;
 	}
 }
 @media (min-width:1060px) and (max-width: 1459px) {

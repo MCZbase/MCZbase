@@ -62,10 +62,14 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.export.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.storage.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcombobox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.pager.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.grouping.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.aggregates.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/globalization/globalize.js"></script>
 <!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
 <!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxscrollbar.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxlistbox.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdropdownlist.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxmenu.js"></script>
@@ -74,12 +78,8 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdate.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxslider.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.pager.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.grouping.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.aggregates.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdragdrop.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/globalization/globalize.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsresize.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsreorder.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcalendar.js"></script>
@@ -139,6 +139,17 @@ limitations under the License.
 </script>
 </head>
 <body class="default">
+
+<cfset header_color = Application.header_color>
+<cfset collection_link_color = Application.collectionlinkcolor>
+<!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
+<cfif isdefined("Application.header_image")>
+	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
+	<cfset header_color = "##000000">
+	<cfset collection_link_color = "white">
+</cfif>
+<!--- End workaround --->
+
 <a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" aria-level="1" role="heading" class="border-bottom">
 <!--- TODO: [Michelle] Move (this fixed) background-color for this top black bar to a stylesheet. --->
@@ -155,19 +166,21 @@ limitations under the License.
 </div>
 <div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark">
 	<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
-	<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #Application.header_color#; ">
+	<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #header_color#; ">
 		<li class="nav-item mcz2">
-			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #Application.collectionlinkcolor#;" >Museum of Comparative Zoology</a>
+			<a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a>
 		</li>
-		<li class="nav-item mczbase my-0 py-0">
-			<a href="/Specimens.cfm" target="_blank" style="color: #Application.collectionlinkcolor#" >#session.collection_link_text#</a>
+		<li class="nav-item mczbase my-1 py-0">
+			<a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a>
 		</li>
 	</ul>
 	<ul class="navbar col-lg-3 col-sm-3 p-0 m-0 d-flex justify-content-end">
 		<li class="nav-item d-flex align-content-end"> 
 			<a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> 
 		</li>
+		
 	</ul>
+
 </div>
 
 
@@ -199,13 +212,36 @@ limitations under the License.
 						<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
 					</div>
 				</li>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Account
+							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+								<i class="fas fa-user-check color-green"></i> 
+							<cfelse>
+								<i class="fas fa-user-cog text-body"></i> 
+							</cfif>	
+						</a>
+						<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
+							<cfif session.roles contains "coldfusion_user">
+								<form name="profile" method="post" action="/UserProfile.cfm">
+									<input type="hidden" name="action" value="nothing">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+								</form>
+							</cfif>
+							<cfif session.roles contains "public">
+								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+							</cfif>
+						</div>
+					</li>
+				</cfif>	
 			<cfelse>
 				<!---  Redesign menu for the redesign --->
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Searches
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink1">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Specimens">active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
 						<a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
 						<a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
@@ -218,7 +254,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Entry
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink2">
 						<a class="dropdown-item <cfif pageTitle EQ "Data Entry">active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
 						<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
 						<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
@@ -231,7 +267,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Manage Data
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+					<div class="dropdown-menu pl-5 pl-md-5" aria-labelledby="navbarDropdownMenuLink3">
 						<a class="dropdown-item" name="projects" href="##">Projects</a>
 						<a class="dropdown-item" name="statistics" href="##">Statistics</a>
 						<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
@@ -246,7 +282,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Transactions
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
+					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink4">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
 						<a class="dropdown-item" name="accessions" href="##">Accessions</a>
 						<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
@@ -260,48 +296,49 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Help
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">
+					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink5">
 						<a class="dropdown-item" name="MCZbase Wiki" href="##">MCZbase Wiki</a>
 						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 					</div>
 				</li>
-			</cfif>
-		</ul>
-		<cfif isdefined("session.username") and len(#session.username#) gt 0>
-			<ul class="navbar-nav mt-2 mt-lg-0 pl-2">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle pl-1 border-0" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Account
-						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-							<i class="fas fa-user-check color-green"></i> 
-						<cfelse>
-							<i class="fas fa-user-cog text-body"></i> 
-						</cfif>	
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinka">
-						<cfif session.roles contains "coldfusion_user">
-							<form name="profile" method="post" action="/UserProfile.cfm">
-								<input type="hidden" name="action" value="nothing">
-								<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-							</form>
-						</cfif>
-						<cfif session.roles contains "public">
-							<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
-							<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
-						</cfif>
-					</div>
-				</li>
-			</ul>
-			<form class="form-inline my-2 my-lg-0 pl-2" name="signOut" method="post" action="/login.cfm">
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Account
+							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+								<i class="fas fa-user-check color-green"></i> 
+							<cfelse>
+								<i class="fas fa-user-cog text-body"></i> 
+							</cfif>	
+						</a>
+						<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
+							<cfif session.roles contains "coldfusion_user">
+								<form name="profile" method="post" action="/UserProfile.cfm">
+									<input type="hidden" name="action" value="nothing">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+								</form>
+							</cfif>
+							<cfif session.roles contains "public">
+								<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
+								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+							</cfif>
+						</div>
+					</li>
+				</cfif>	
+			</cfif> <!--- End of Menu for redesign --->
+		</ul><!--- end of menu ul --->
+	</div><!--- end navbarToggler1 --->
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 				<input type="hidden" name="action" value="signOut">	
-				<button class="btn btn-outline-success my-1 my-sm-1 logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
-			<!---		<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+				<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
+				<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
 						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-					</cfif>--->
+				</cfif>
 				</button>
 			</form>
-		<cfelse>
+	<cfelse>
 			<cfif isdefined("gotopage") and len(gotopage) GT 0>
 				<cfset gtp = gotopage>
 			<cfelse>
@@ -319,23 +356,22 @@ limitations under the License.
 			<cfif gtp EQ '/errors/forbidden.cfm'>
 				<cfset gtp = "/UserProfile.cfm">
 			</cfif>
-			<form name="logIn" method="post" action="/login.cfm" class="m-0 p-0" style="max-width: 400px;">
+			<form name="logIn" method="post" action="/login.cfm" class="m-0">
 				<input type="hidden" name="action" value="signIn">
 				<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
 				<input type="hidden" name="gotopage" value="#gtp#">
 				<div class="login-form" id="header_login_form_div">
 					<label for="Username" class="sr-only"> Username:</label>
-					<input type="text" name="username" id="Username" size="14" placeholder="username" class="border d-inline-block h-auto rounded loginButtons" style="width: 105px;">
+					<input type="text" name="username" id="Username" placeholder="username" class="loginButtons">
 					<label for="Password" class="mr-1 sr-only"> Password:</label>
-					<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="border d-inline-block h-auto rounded loginButtons" style="width: 65px;">
+					<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="loginButtons">
 					<label for="Login" class="mr-1 sr-only"> Password:</label>
-					<input type="submit" value="Log In" id="login" class="btn btn-primary btn-sm loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+					<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 					<label for="CreateAccount" class="mr-1 sr-only"> Password:</label>
-					<input type="submit" value="Register" class="btn btn-primary btn-sm loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+					<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 				</div>
 			</form>
 		</cfif>
-	</div>
 </nav>
 </header>
 <script type="text/javascript"> 
