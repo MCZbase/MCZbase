@@ -755,7 +755,7 @@ $(document).ready(function() {
 
 		$("##overlay").show();
 
-		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
+		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##searchText').jqxGrid('showloadelement');
@@ -892,7 +892,7 @@ $(document).ready(function() {
 
 		$("##overlay").show();
 
-		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
+		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##searchText').jqxGrid('showloadelement');
