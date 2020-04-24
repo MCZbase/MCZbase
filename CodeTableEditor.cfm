@@ -293,41 +293,41 @@
 						<tr>
 							<td>GUID Type:</td>
 							<td>
-								<input type="text" name="newData" >
+								<input type="text" name="newData" value="#guid_type#" >
 							</td>
 							<td>Name for picklist</td>
 						</tr>
 						<tr>
 							<td>Description:</td>
 							<td colspan="2">
-								<input type="text" name="description">
+								<input type="text" name="description" value="#description#">
 							</td>
 						</tr>
 						<tr>
 							<td>Applies to</td>
 							<td>
-								<input type="text" name="applies_to">
+								<input type="text" name="applies_to" value="#applies_to#">
 							</td>
-							<td>space delimited list of table.field)</td>
+							<td>space delimited list of table.field</td>
 						</tr>
 						<tr>
 							<td>Placeholder</td>
 							<td>
-								<input type="text" name="placeholder">
+								<input type="text" name="placeholder" value="#placeholder#">
 							</td>
 							<td>Hint for data entry, e.g. doi:</td>
 						</tr>
 						<tr>
 							<td>Pattern Regex</td>
 							<td>
-								<input type="text" name="pattern_regex">
+								<input type="text" name="pattern_regex" value="#pattern_regex#">
 							</td>
 							<td>To validate entry, e.g. /doi:10[.].+/</td>
 						</tr>
 						<tr>
 							<td>Resolver Regex</td>
 							<td>
-								<input type="text" name="resolver_regex">
+								<input type="text" name="resolver_regex" value="#resolver_regex#">
 							</td>
 							<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
 						</tr>
