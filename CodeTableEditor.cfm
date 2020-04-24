@@ -228,7 +228,7 @@
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<table class="newRec">
+			<table class="newRec" style="width: 90em;">
 				<tr>
 					<td>GUID Type:</td>
 					<td>
@@ -239,47 +239,49 @@
 				<tr>
 					<td>Description:</td>
 					<td colspan="2">
-						<input type="text" name="description">
+						<input type="text" name="description" size="80">
 					</td>
 				</tr>
 				<tr>
 					<td>Applies to</td>
 					<td>
-						<input type="text" name="applies_to">
+						<input type="text" name="applies_to" size="80">
 					</td>
 					<td>space delimited list of table.field)</td>
 				</tr>
 				<tr>
 					<td>Placeholder</td>
 					<td>
-						<input type="text" name="placeholder">
+						<input type="text" name="placeholder" size="80">
 					</td>
 					<td>Hint for data entry, e.g. doi:</td>
 				</tr>
 				<tr>
 					<td>Pattern Regex</td>
 					<td>
-						<input type="text" name="pattern_regex">
+						<input type="text" name="pattern_regex" size="80">
 					</td>
 					<td>To validate entry, e.g. /doi:10[.].+/</td>
 				</tr>
 				<tr>
 					<td>Resolver Regex</td>
 					<td>
-						<input type="text" name="resolver_regex">
+						<input type="text" name="resolver_regex" size="80">
 					</td>
 					<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
 				</tr>
 				<tr>
-					<td colspan="2"></td>
+					<td></td>
 					<td>
 						<input type="submit" 
 							value="Insert" 
 							class="insBtn">
 					</td>
+					<td></td>
 				</tr>
 			</table>
 		</form>
+      <br>
 		<table>
 			<cfset i = 1>
 			<cfloop query="q">
@@ -289,7 +291,7 @@
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#guid_type#">
-					<table>
+					<table style="border: 1px solid black">
 						<tr>
 							<td>GUID Type:</td>
 							<td>
@@ -300,34 +302,34 @@
 						<tr>
 							<td>Description:</td>
 							<td colspan="2">
-								<input type="text" name="description" value="#description#">
+								<input type="text" name="description" value="#description#" size="80">
 							</td>
 						</tr>
 						<tr>
 							<td>Applies to</td>
 							<td>
-								<input type="text" name="applies_to" value="#applies_to#">
+								<input type="text" name="applies_to" value="#applies_to#" size="80">
 							</td>
 							<td>space delimited list of table.field</td>
 						</tr>
 						<tr>
 							<td>Placeholder</td>
 							<td>
-								<input type="text" name="placeholder" value="#placeholder#">
+								<input type="text" name="placeholder" value="#placeholder#" size="80">
 							</td>
 							<td>Hint for data entry, e.g. doi:</td>
 						</tr>
 						<tr>
 							<td>Pattern Regex</td>
 							<td>
-								<input type="text" name="pattern_regex" value="#pattern_regex#">
+								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80">
 							</td>
 							<td>To validate entry, e.g. /doi:10[.].+/</td>
 						</tr>
 						<tr>
 							<td>Resolver Regex</td>
 							<td>
-								<input type="text" name="resolver_regex" value="#resolver_regex#">
+								<input type="text" name="resolver_regex" value="#resolver_regex#" size="80">
 							</td>
 							<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
 						</tr>
