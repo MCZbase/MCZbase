@@ -219,6 +219,140 @@
 			</cfloop>
 		</table>
 
+	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
+			from ctguid_type 
+			order by guid_type
+		</cfquery>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<td>GUID Type:</td>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>Name for picklist</td>
+				</tr>
+				<tr>
+					<td>Description:</td>
+					<td colspan="2">
+						<input type="text" name="description">
+					</td>
+				</tr>
+				<tr>
+					<td>Applies to</td>
+					<td>
+						<input type="text" name="applies_to">
+					</td>
+					<td>space delimited list of table.field)</td>
+				</tr>
+				<tr>
+					<td>Placeholder</td>
+					<td>
+						<input type="text" name="placeholder">
+					</td>
+					<td>Hint for data entry, e.g. doi:</td>
+				</tr>
+				<tr>
+					<td>Pattern Regex</td>
+					<td>
+						<input type="text" name="pattern_regex">
+					</td>
+					<td>To validate entry, e.g. /doi:10[.].+/</td>
+				</tr>
+				<tr>
+					<td>Resolver Regex</td>
+					<td>
+						<input type="text" name="resolver_regex">
+					</td>
+					<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
+				</tr>
+				<tr>
+					<td colspan="2"></td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#guid_type#">
+					<table>
+						<tr>
+							<td>GUID Type:</td>
+							<td>
+								<input type="text" name="newData" >
+							</td>
+							<td>Name for picklist</td>
+						</tr>
+						<tr>
+							<td>Description:</td>
+							<td colspan="2">
+								<input type="text" name="description">
+							</td>
+						</tr>
+						<tr>
+							<td>Applies to</td>
+							<td>
+								<input type="text" name="applies_to">
+							</td>
+							<td>space delimited list of table.field)</td>
+						</tr>
+						<tr>
+							<td>Placeholder</td>
+							<td>
+								<input type="text" name="placeholder">
+							</td>
+							<td>Hint for data entry, e.g. doi:</td>
+						</tr>
+						<tr>
+							<td>Pattern Regex</td>
+							<td>
+								<input type="text" name="pattern_regex">
+							</td>
+							<td>To validate entry, e.g. /doi:10[.].+/</td>
+						</tr>
+						<tr>
+							<td>Resolver Regex</td>
+							<td>
+								<input type="text" name="resolver_regex">
+							</td>
+							<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<input type="button" 
+									value="Save" 
+									class="savBtn"
+								   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+							</td>
+							<td>
+								<input type="button" 
+									value="Delete" 
+									class="delBtn"
+									onclick="#tbl##i#.action.value='deleteValue';submit();">
+							</td>
+						</tr>
+					<table>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+
 	<cfelseif tbl is "ctloan_type"><!---------------------------------------------------->
 		<!---   Loan type code table includes fields for scope (loan or gift) and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -990,17 +1124,23 @@
 			where
 				publication_attribute='#origData#'
 		</cfquery>
+	<cfelseif tbl is "ctguid_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctguid_type
+			where
+				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
 	<cfelseif tbl is "ctloan_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctloan_type
 			where
-				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcountry_code
 			where
-				COUNTRY = <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				COUNTRY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1047,56 +1187,70 @@
 	<cfif tbl is "ctpublication_attribute">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctpublication_attribute set 
-				publication_attribute='#publication_attribute#',
-				DESCRIPTION='#description#',
-				control='#control#'
+				publication_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
+				DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				control=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#control#">
 			where
-				publication_attribute='#origData#'
+				publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctguid_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
+			update ctguid_type set 
+				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#" />,
+				SCOPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
+				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				applies_to= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
+				placeholder= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
+				pattern_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
+				resolver_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
+			where
+				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctloan_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctloan_type set 
-				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#loan_type#" />,
-				SCOPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
-				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_type#" />,
+				SCOPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
+				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#ordinal#" />
 			where
-				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctcountry_code set 
-				COUNTRY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#country#" />,
-				CODE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#code#" />
+				COUNTRY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#" />,
+				CODE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#code#" />
 			where
-				COUNTRY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				COUNTRY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctspecific_permit_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctspecific_permit_type set 
-				SPECIFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#specific_type#" />,
-				PERMIT_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#permit_type#" />,
-				ACCN_SHOW_ON_SHIPMENT= <cfqueryparam cfsqltype="cf_sql_varchar" value="#accn_show_on_shipment#" />
+				SPECIFIC_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#" />,
+				PERMIT_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#" />,
+				ACCN_SHOW_ON_SHIPMENT= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_show_on_shipment#" />
 			where
-				SPECIFIC_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				SPECIFIC_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctbiol_relations set 
-				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="cf_sql_varchar" value="#biol_indiv_relationship#" />,
-				INVERSE_RELATION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
-				REL_TYPE= <cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
+				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relationship#" />,
+				INVERSE_RELATION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
+				REL_TYPE= <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#rel_type#" />
 			where
-				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctcitation_type_status set 
-				TYPE_STATUS= <cfqueryparam cfsqltype="cf_sql_varchar" value="#type_status#" />,
-				CATEGORY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#category#" />,
-				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />,
-				DESCRIPTION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#description#" />
+				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#" />,
+				CATEGORY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category#" />,
+				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#ordinal#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			where
-				TYPE_STATUS= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1156,6 +1310,19 @@
 				'#control#'
 			)
 		</cfquery>
+	<cfelseif tbl is "ctguid_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctguid_type (
+				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />
+			)
+		</cfquery>
 	<cfelseif tbl is "ctloan_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into ctloan_type (
@@ -1163,9 +1330,9 @@
 				scope,
 				ordinal
 			) values (
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
-				<cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
+				<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#ordinal#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
@@ -1174,8 +1341,8 @@
 				country,
 				code
 			) values (
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
-				<cfqueryparam cfsqltype="cf_sql_number" value="#code#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#code#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctspecific_permit_type">
@@ -1185,9 +1352,9 @@
 				permit_type,
 				accn_show_on_shipment
 			) values (
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
-				<cfqueryparam cfsqltype="cf_sql_number" value="#permit_type#" />,
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#accn_show_on_shipment#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_show_on_shipment#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
@@ -1197,9 +1364,9 @@
 				inverse_relation,
 				rel_type
 			) values (
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
-				<cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
+				<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#rel_type#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
