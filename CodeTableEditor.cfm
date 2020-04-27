@@ -1211,7 +1211,6 @@
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
 			update ctguid_type set 
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
