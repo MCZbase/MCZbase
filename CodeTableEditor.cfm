@@ -275,7 +275,7 @@
 					<td>
 						<input type="text" name="resolver_replacement" size="80">
 					</td>
-					<td>Replacement to convert to a uri, e.g. /https:\/\/doi.org\//</td>
+					<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -1214,7 +1214,6 @@
 				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
 			update ctguid_type set 
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#" />,
-				SCOPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				applies_to= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
 				placeholder= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
