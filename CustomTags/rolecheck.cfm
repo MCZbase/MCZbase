@@ -4,7 +4,7 @@
 	<cfif Application.productionServer EQ true>
 		<cfset cacheInterval = CreateTimeSpan(0,0,90,0)> 
 	<cfelse>
-		<cfset cacheInterval = CreateTimeSpan(0,0,90,0)> 
+		<cfset cacheInterval = CreateTimeSpan(0,0,0,30)> 
 	</cfif>
 	<!--- for redesign, look up form permissions in a separate table than for current MCZbase --->
 	<cfquery name="validRolesForPage" datasource="uam_god" cachedWithin="#cacheInterval#">
@@ -12,8 +12,8 @@
 		where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfif validRolesForPage.recordcount is 0>
-		<!--- Likely cause: A page has been created, but no entry for it has been added to cf_form_permissions  --->
-		<cfthrow message="Page Exists, but there is no entry for it in cf_form_permissions.  (Query Cache time: #cacheInterval#)">
+		<!--- Likely cause: A page has been created, but no entry for it has been added to cf_form_permissions_r (for redesign)  --->
+		<cfthrow message="Page [#filePath#] Exists, but there is no entry for it in cf_form_permissions_r.  (Query Cache time: #cacheInterval#)">
 	<cfelseif valuelist(validRolesForPage.role_name) is not "public">
 		<cfloop query="validRolesForPage">
 			<cfif not listfindnocase(session.roles,role_name)>
