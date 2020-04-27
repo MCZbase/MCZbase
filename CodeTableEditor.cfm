@@ -302,7 +302,7 @@
 						<tr>
 							<td>GUID Type:</td>
 							<td>
-								<input type="text" name="newData" value="#guid_type#" >
+								<input type="text" name="guid_type" value="#guid_type#" >
 							</td>
 							<td>Name for picklist</td>
 						</tr>
