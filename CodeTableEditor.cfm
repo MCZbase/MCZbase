@@ -1220,7 +1220,7 @@
 				placeholder= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
 				pattern_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
 				resolver_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
-				resolver_replacement= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />,
+				resolver_replacement= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />
 			where
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1337,7 +1337,7 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />
 			)
 		</cfquery>
