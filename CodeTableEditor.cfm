@@ -221,7 +221,7 @@
 
 	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
+			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement
 			from ctguid_type 
 			order by guid_type
 		</cfquery>
@@ -261,14 +261,21 @@
 					<td>
 						<input type="text" name="pattern_regex" size="80">
 					</td>
-					<td>To validate entry, e.g. /doi:10[.].+/</td>
+					<td>To validate entry, e.g. /^doi:10[.].+/</td>
 				</tr>
 				<tr>
 					<td>Resolver Regex</td>
 					<td>
 						<input type="text" name="resolver_regex" size="80">
 					</td>
-					<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
+					<td>Substitute to convert to a uri, e.g. /^doi:/</td>
+				</tr>
+				<tr>
+					<td>Resolver Replacement</td>
+					<td>
+						<input type="text" name="resolver_replacement" size="80">
+					</td>
+					<td>Replacement to convert to a uri, e.g. /https:\/\/doi.org\//</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -324,14 +331,21 @@
 							<td>
 								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80">
 							</td>
-							<td>To validate entry, e.g. /doi:10[.].+/</td>
+							<td>Regex to validate entry, e.g. /^doi:10[.].+/</td>
 						</tr>
 						<tr>
 							<td>Resolver Regex</td>
 							<td>
 								<input type="text" name="resolver_regex" value="#resolver_regex#" size="80">
 							</td>
-							<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
+							<td>Regex pattern for conversion to a uri, e.g. /^doi:/</td>
+						</tr>
+						<tr>
+							<td>Resolver Replacement</td>
+							<td>
+								<input type="text" name="resolver_replacement" value="#resolver_replacement#" size="80">
+							</td>
+							<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -1206,6 +1220,7 @@
 				placeholder= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
 				pattern_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
 				resolver_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
+				resolver_replacement= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />,
 			where
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1315,7 +1330,7 @@
 	<cfelseif tbl is "ctguid_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into ctguid_type (
-				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
+				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement
 			) VALUES (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
@@ -1323,6 +1338,7 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctloan_type">
