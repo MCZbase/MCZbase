@@ -221,14 +221,14 @@
 
 	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
+			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement
 			from ctguid_type 
 			order by guid_type
 		</cfquery>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
-			<table class="newRec">
+			<table class="newRec" style="width: 90em;">
 				<tr>
 					<td>GUID Type:</td>
 					<td>
@@ -239,47 +239,56 @@
 				<tr>
 					<td>Description:</td>
 					<td colspan="2">
-						<input type="text" name="description">
+						<input type="text" name="description" size="80">
 					</td>
 				</tr>
 				<tr>
 					<td>Applies to</td>
 					<td>
-						<input type="text" name="applies_to">
+						<input type="text" name="applies_to" size="80">
 					</td>
 					<td>space delimited list of table.field)</td>
 				</tr>
 				<tr>
 					<td>Placeholder</td>
 					<td>
-						<input type="text" name="placeholder">
+						<input type="text" name="placeholder" size="80">
 					</td>
 					<td>Hint for data entry, e.g. doi:</td>
 				</tr>
 				<tr>
 					<td>Pattern Regex</td>
 					<td>
-						<input type="text" name="pattern_regex">
+						<input type="text" name="pattern_regex" size="80">
 					</td>
-					<td>To validate entry, e.g. /doi:10[.].+/</td>
+					<td>To validate entry, e.g. /^doi:10[.].+/</td>
 				</tr>
 				<tr>
 					<td>Resolver Regex</td>
 					<td>
-						<input type="text" name="resolver_regex">
+						<input type="text" name="resolver_regex" size="80">
 					</td>
-					<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
+					<td>Substitute to convert to a uri, e.g. /^doi:/</td>
 				</tr>
 				<tr>
-					<td colspan="2"></td>
+					<td>Resolver Replacement</td>
+					<td>
+						<input type="text" name="resolver_replacement" size="80">
+					</td>
+					<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
+				</tr>
+				<tr>
+					<td></td>
 					<td>
 						<input type="submit" 
 							value="Insert" 
 							class="insBtn">
 					</td>
+					<td></td>
 				</tr>
 			</table>
 		</form>
+      <br>
 		<table>
 			<cfset i = 1>
 			<cfloop query="q">
@@ -289,47 +298,54 @@
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#guid_type#">
-					<table>
+					<table style="border: 1px solid black">
 						<tr>
 							<td>GUID Type:</td>
 							<td>
-								<input type="text" name="newData" value="#guid_type#" >
+								<input type="text" name="guid_type" value="#guid_type#" >
 							</td>
 							<td>Name for picklist</td>
 						</tr>
 						<tr>
 							<td>Description:</td>
 							<td colspan="2">
-								<input type="text" name="description" value="#description#">
+								<input type="text" name="description" value="#description#" size="80">
 							</td>
 						</tr>
 						<tr>
 							<td>Applies to</td>
 							<td>
-								<input type="text" name="applies_to" value="#applies_to#">
+								<input type="text" name="applies_to" value="#applies_to#" size="80">
 							</td>
 							<td>space delimited list of table.field</td>
 						</tr>
 						<tr>
 							<td>Placeholder</td>
 							<td>
-								<input type="text" name="placeholder" value="#placeholder#">
+								<input type="text" name="placeholder" value="#placeholder#" size="80">
 							</td>
 							<td>Hint for data entry, e.g. doi:</td>
 						</tr>
 						<tr>
 							<td>Pattern Regex</td>
 							<td>
-								<input type="text" name="pattern_regex" value="#pattern_regex#">
+								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80">
 							</td>
-							<td>To validate entry, e.g. /doi:10[.].+/</td>
+							<td>Regex to validate entry, e.g. /^doi:10[.].+/</td>
 						</tr>
 						<tr>
 							<td>Resolver Regex</td>
 							<td>
-								<input type="text" name="resolver_regex" value="#resolver_regex#">
+								<input type="text" name="resolver_regex" value="#resolver_regex#" size="80">
 							</td>
-							<td>To convert to a uri, e.g. s/^doi:/https:\/\/doi.org\//</td>
+							<td>Regex pattern for conversion to a uri, e.g. /^doi:/</td>
+						</tr>
+						<tr>
+							<td>Resolver Replacement</td>
+							<td>
+								<input type="text" name="resolver_replacement" value="#resolver_replacement#" size="80">
+							</td>
+							<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -1195,15 +1211,14 @@
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
 			update ctguid_type set 
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#" />,
-				SCOPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				applies_to= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
 				placeholder= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
 				pattern_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
 				resolver_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
+				resolver_replacement= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />
 			where
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1313,14 +1328,15 @@
 	<cfelseif tbl is "ctguid_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into ctguid_type (
-				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex 
+				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement
 			) VALUES (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctloan_type">
