@@ -302,15 +302,18 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 		cited_taxa.taxon_name_id as cited_name_id,
 		formatted_publication.formatted_publication,
 		formatted_publication.publication_id,
-                cited_taxa.taxon_status as cited_name_status
+		publication.doi,
+        cited_taxa.taxon_status as cited_name_status
 	from
 		citation,
 		taxonomy cited_taxa,
-		formatted_publication
+		formatted_publication,
+		publication
 	where
 		citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
 		citation.publication_id = formatted_publication.publication_id AND
 		format_style='short' and
+		citation.publication_id = publication.publication_id and
 		citation.collection_object_id = #collection_object_id#
 	order by
 		substr(formatted_publication, - 4)
@@ -493,7 +496,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									</cfif>
 								</cfif>
 								<div class="detailCellSmall">
+									<cfif len(#DOI#) GT 0>
+									doi: <a target="_blank" href='https://doi.org/#DOI#'>#DOI#</a><br>
+									</cfif>
+									<cfif len(#CITATION_REMARKS#) GT 0>
 									#CITATION_REMARKS#<BR>
+									</cfif>
 								</div>
 							</span>
 						</div>
@@ -1106,7 +1114,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 											<!--- look up whether this part is in an open loan --->
 											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks 
+												select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
 												from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 													left join loan on loan_item.transaction_id = loan.transaction_id
 												where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#mPart.part_id#">
@@ -1185,7 +1193,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 											<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<!--- look up whether this part is in an open loan --->
 												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks 
+													select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
 													from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 														left join loan on loan_item.transaction_id = loan.transaction_id
 													where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#sPart.part_id#">
@@ -1620,8 +1628,8 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="media">
 						<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select mczbase.get_media_descriptor(media_id) media_descriptor 
-							from media 
+							select mczbase.get_media_descriptor(media_id) media_descriptor
+							from media
 							where media_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#media_id#">
 						</cfquery>
 						<cfset altText = alt.media_descriptor>
