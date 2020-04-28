@@ -17,6 +17,16 @@
 <cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select taxon_habitat from cttaxon_habitat order by taxon_habitat
 </cfquery>
+<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement
+   from ctguid_type 
+   where applies_to like '%taxonomy.taxon_id%'
+</cfquery>
+<cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement
+   from ctguid_type 
+   where applies_to like '%taxonomy.scientific_name_id%'
+</cfquery>
 <cfset title="Edit Taxonomy">
 <cfif !isdefined("subgenus_message")>
     <cfset subgenus_message ="">
@@ -85,7 +95,71 @@
 			    </select>
 			</td>
 		</tr>
-      	<tr>
+      <tr>
+			<td>
+				<label for="genus">GUID for Taxon (taxonID)</label>
+				<cfset pattern = "">
+				<cfset placeholder = "">
+				<cfset regex = "">
+				<cfset replacement = "">
+				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="reqdClr">
+		          <cfloop query="ctguid_type_taxon">
+ 							<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type >
+								<cfset sel="selected='selected'">
+								<cfset placeholder = "ctguid_type_taxon.placeholder">
+								<cfset pattern = "ctguid_type_taxon.pattern_regex">
+								<cfset regex = "ctguid_type_taxon.resolver_regex">
+								<cfset replacement = "ctguid_type_taxon.resolver_replacement">
+							</cfif>
+		         	   <option #sel# value="#ctguid_type_taxon.guid_type#">#ct_guid_type_taxon.guid_type#</option>
+		          </cfloop>
+				</select>
+				<input size="25" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
+				<a id="taxonid_link" href="#REReplace(gettaxa.taxonid,regex,replacement)#">Link</a>
+				<script>
+					$('##taxonid_guid_type').on('change', function () { 
+						// On selecting a guid_type, change the pattern.
+						getGuidTypeInfo($('##'+taxonid_guid_type).val(), 'taxonid', 'taxonid_link');
+					});
+					$('##taxonid').on('blur', function () { 
+						// On loss of focus for input, validate against the regex, update link
+						getGuidTypeInfo($('##'+taxonid_guid_type).val(), 'taxonid', 'taxonid_link');
+					}
+				</script>
+			</td>
+			<td>
+				<label for="genus">GUID for Nomenclatural Act (scientificNameID)</label>
+				<cfset pattern = "">
+				<cfset placeholder = "">
+				<cfset regex = "">
+				<cfset replacement = "">
+				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" class="reqdClr">
+		          <cfloop query="ctguid_type_scientificname">
+ 							<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type >
+								<cfset sel="selected='selected'">
+								<cfset placeholder = "ctguid_type_scientificname.placeholder">
+								<cfset pattern = "ctguid_type_scientificname.pattern_regex">
+								<cfset regex = "ctguid_type_scientificname.resolver_regex">
+								<cfset replacement = "ctguid_type_scientificname.resolver_replacement">
+							</cfif>
+		         	   <option #sel# value="#ctguid_type_scientificname.guid_type#">#ct_guid_type_scientificname.guid_type#</option>
+		          </cfloop>
+				</select>
+				<input size="25" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
+				<a id="scientificnameid_link" href="#REReplace(gettaxa.taxonid,regex,replacement)#">Link</a>
+				<script>
+					$('##scientificnameid_guid_type').on('change', function () { 
+						// On selecting a guid_type, change the pattern.
+						getGuidTypeInfo($('##'+scientificnameid_guid_type).val(), 'scientificnameid', 'scientificnameid_link');
+					});
+					$('##scientificnameid').on('blur', function () { 
+						// On loss of focus for input, validate against the regex, update link
+						getGuidTypeInfo($('##'+scientificnameid_guid_type).val(), 'scientificnameid', 'scientificnameid_link');
+					}
+				</script>
+			</td>
+		</tr>
+      <tr>
 			<td>
 				<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
