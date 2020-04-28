@@ -88,3 +88,44 @@ function messageDialog(dialogText, dialogTitle) {
   });
 };
 
+/** Given a paired guid text input and guid anchor control, and a guid type, look up the metadata on the guid type,
+ *  validate the content of the guid text input with the pattern for that guid type, set the placeholder for the 
+ *  input, and construct a resolvable link for the href of the anchor from the text input of the guid.
+ *
+ *  @param guid_type a value from ctguid_type for the current type of guid expected to be found in inputControl.
+ *  @param inputControl the id for the guid text input (without a leading # selector).
+ *  @param linkControl the id for the anchor that is to take the resolvable guid as an href (without a leading # selector).
+ */
+function getGuidTypeInfo(guid_type, inputControl, linkControl) {
+	$.ajax({
+		url: "/shared/component/vocab_control.cfc",
+		data: { 
+			term: guid_type, 
+			method: 'getGuidTypeInfo' 
+		},
+		dataType: 'json',
+		success : function (data) {
+			console.log(data);
+			var guid = $('#'+inputControl).val();
+			$('#'+inputControl).attr("pattern",data.pattern_regex);
+			$('#'+inputControl).attr("placeholder",data.placeholder);
+			if (guid != "") { 
+				// validate input control content against the regex
+				$('#'+inputControl).reportValidity();
+			};
+			// update link
+			$('#'+linkControl).attr("href",guid.replace(data.resolver_regex,data.resolver_replacement)); 
+		},
+		error : function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') {
+				message = ' Server took too long to respond.';
+			} else {
+				message = jqXHR.responseText;
+			}
+			messageDialog('Error:' + message ,'Error: ' + error);
+		}
+	});
+};
+
+
