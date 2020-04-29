@@ -124,11 +124,11 @@
 				<a id="taxonid_link" href="#link#">Link</a>
 				<script>
 					$(document).ready(function () { 
-						$('##taxonid_guid_type').on('change', function () { 
+						$('##taxonid_guid_type').change(function () { 
 							// On selecting a guid_type, change the pattern.
 							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link');
 						});
-						$('##taxonid').on('blur', function () { 
+						$('##taxonid').blur( function () { 
 							// On loss of focus for input, validate against the regex, update link
 							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link');
 						});
@@ -163,11 +163,11 @@
 				<a id="scientificnameid_link" href="#link#">Link</a>
 				<script>
 					$(document).ready(function () { 
-						$('##scientificnameid_guid_type').on('change', function () { 
+						$('##scientificnameid_guid_type').change( function () { 
 							// On selecting a guid_type, change the pattern.
 							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link');
 						});
-						$('##scientificnameid').on('blur', function () { 
+						$('##scientificnameid').blur( function () { 
 							// On loss of focus for input, validate against the regex, update link
 							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link');
 						});
