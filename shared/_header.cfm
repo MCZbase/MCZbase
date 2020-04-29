@@ -85,11 +85,13 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcalendar.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxtree.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <!--- End supspect block --->
+
+<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
+	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
 <script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>	
 <cfif isdefined("addheaderresource")>
