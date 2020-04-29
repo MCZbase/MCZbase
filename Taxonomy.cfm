@@ -115,7 +115,12 @@
 		          </cfloop>
 				</select>
 				<input size="25" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
-				<a id="taxonid_link" href="#REReplace(gettaxa.taxonid,regex,replacement)#">Link</a>
+				<cfif len(regex) GT 0 >
+					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
+				<cfelse>
+					<cfset link = gettaxa.taxonid>
+				</cfif>
+				<a id="taxonid_link" href="#link#">Link</a>
 				<script>
 					$('##taxonid_guid_type').on('change', function () { 
 						// On selecting a guid_type, change the pattern.
@@ -146,7 +151,12 @@
 		          </cfloop>
 				</select>
 				<input size="25" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
-				<a id="scientificnameid_link" href="#REReplace(gettaxa.taxonid,regex,replacement)#">Link</a>
+				<cfif len(regex) GT 0 >
+					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
+				<cfelse>
+					<cfset link = gettaxa.scientificnameid>
+				</cfif>
+				<a id="scientificnameid_link" href="#link#">Link</a>
 				<script>
 					$('##scientificnameid_guid_type').on('change', function () { 
 						// On selecting a guid_type, change the pattern.
