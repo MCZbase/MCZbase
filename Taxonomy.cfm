@@ -20,12 +20,12 @@
 <cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement
    from ctguid_type 
-   where applies_to like '%taxonomy.taxon_id%'
+   where applies_to like '%taxonomy.taxonid%'
 </cfquery>
 <cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement
    from ctguid_type 
-   where applies_to like '%taxonomy.scientific_name_id%'
+   where applies_to like '%taxonomy.scientificnameid%'
 </cfquery>
 <cfset title="Edit Taxonomy">
 <cfif !isdefined("subgenus_message")>
