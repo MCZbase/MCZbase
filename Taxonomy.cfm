@@ -105,7 +105,7 @@
 				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_taxon">
 							<cfset sel="">
- 							<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type >
+ 							<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 								<cfset sel="selected='selected'">
 								<cfset placeholder = "ctguid_type_taxon.placeholder">
 								<cfset pattern = "ctguid_type_taxon.pattern_regex">
@@ -125,12 +125,12 @@
 				<script>
 					$('##taxonid_guid_type').on('change', function () { 
 						// On selecting a guid_type, change the pattern.
-						getGuidTypeInfo($('##'+taxonid_guid_type).val(), 'taxonid', 'taxonid_link');
+						getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link');
 					});
 					$('##taxonid').on('blur', function () { 
 						// On loss of focus for input, validate against the regex, update link
-						getGuidTypeInfo($('##'+taxonid_guid_type).val(), 'taxonid', 'taxonid_link');
-					}
+						getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link');
+					});
 				</script>
 			</td>
 			<td>
@@ -142,7 +142,7 @@
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_scientificname">
 							<cfset sel="">
- 							<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type >
+ 							<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientific_name.recordcount EQ 1 >
 								<cfset sel="selected='selected'">
 								<cfset placeholder = "ctguid_type_scientificname.placeholder">
 								<cfset pattern = "ctguid_type_scientificname.pattern_regex">
@@ -162,12 +162,12 @@
 				<script>
 					$('##scientificnameid_guid_type').on('change', function () { 
 						// On selecting a guid_type, change the pattern.
-						getGuidTypeInfo($('##'+scientificnameid_guid_type).val(), 'scientificnameid', 'scientificnameid_link');
+						getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link');
 					});
 					$('##scientificnameid').on('blur', function () { 
 						// On loss of focus for input, validate against the regex, update link
-						getGuidTypeInfo($('##'+scientificnameid_guid_type).val(), 'scientificnameid', 'scientificnameid_link');
-					}
+						getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link');
+					});
 				</script>
 			</td>
 		</tr>
