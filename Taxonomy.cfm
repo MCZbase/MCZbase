@@ -104,6 +104,7 @@
 				<cfset replacement = "">
 				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_taxon">
+							<cfset sel="">
  							<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type >
 								<cfset sel="selected='selected'">
 								<cfset placeholder = "ctguid_type_taxon.placeholder">
@@ -140,6 +141,7 @@
 				<cfset replacement = "">
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_scientificname">
+							<cfset sel="">
  							<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type >
 								<cfset sel="selected='selected'">
 								<cfset placeholder = "ctguid_type_scientificname.placeholder">
