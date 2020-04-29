@@ -111,7 +111,7 @@
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
 		<label for="publication_remarks">Remark</label>
-		<input type="text" name="publication_remarks" id="publication_remarks" size="100" value="#pub.publication_remarks#">
+		<input type="text" name="publication_remarks" id="publication_remarks" size="100" value="#stripQuotes(pub.publication_remarks)#">
 		</div>
 		<div class="cellDiv">
 		<span >Authors</span>: <span class="infoLink" onclick="addAgent()">Add Row</span>
@@ -328,7 +328,7 @@
 				publication_type='#publication_type#',
 				publication_loc='#publication_loc#',
 				publication_title='#publication_title#',
-				publication_remarks='#publication_remarks#',
+				publication_remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
 				is_peer_reviewed_fg=#is_peer_reviewed_fg#,
         doi='#doi#'
 			where publication_id=#publication_id#
