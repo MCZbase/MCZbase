@@ -21,22 +21,22 @@
 		<cfoutput>
 			<input name="toproject_id" type="hidden" value="#toproject_id#">
 		</cfoutput>
-       
+
 		<table style="width: 100%;">
-			
+
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                 <tr>
 					<td>
 						<a  style="padding: .5em 0;display: block;" href="/Project.cfm?action=makeNew">[ New Project ]</a>
-                  
+
 						<a style="padding: .5em 0;display: block;" href="/Publication.cfm?action=newPub">[ New Publication ]</a>
 		    		 </td>
                     </tr>
 				</cfif>
               <tr>
-             
+
 				<td>
-                
+
 					<h4>Project or Publication Basics</h4>
 					<label for="p_title"><span id="project_publication_title">Title</span></label>
 					<input name="p_title" id="p_title" type="text">
@@ -107,12 +107,12 @@
 						<option value="1">yes</option>
 					</select>
 				</td>
-               
+
 			</tr>
 			<tr>
 				<td colspan="2" align="center" style="padding-top: 2em;">
 					<input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
-					
+
                     <input type="reset"	value="Clear Form"	class="clrBtn">
 				</td>
 			</tr>
@@ -265,6 +265,7 @@
 			publication.publication_title,
 			publication.publication_id,
 			publication.publication_type,
+			publication.doi,
 			formatted_publication.formatted_publication,
 			count(distinct(citation.collection_object_id)) numCits">
 	<cfset basFrom = "
@@ -372,6 +373,7 @@
 				publication.publication_title,
 				publication.publication_id,
 				publication.publication_type,
+				publication.doi,
 				formatted_publication.formatted_publication
 			ORDER BY
 				formatted_publication.formatted_publication,
@@ -397,7 +399,7 @@
 				</div>
 			<cfelse>
 				(#projNames.recordcount# result(s))
-              
+
 			</cfif>
 		</h3>
 		<cfset i=1>
@@ -455,31 +457,33 @@
 	</td>
     <td class="main">
 	<h2 class="wikilink">
-		Publications 
+		Publications
           <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]"></cfif>
 		<cfif publication.recordcount is 0>
 			<div class="notFound">
 				No publications matched your criteria.
 			</div>
-		<cfelseif publication.recordcount is 1>	
+		<cfelseif publication.recordcount is 1>
             <span class="pr_count">(#publication.recordcount# result)</span>
 			<cfset title = "#publication.publication_title#">
 		<cfelse>
 			(#publication.recordcount# results)
 		</cfif>
-   
+
 	</h2>
 	<cfquery name="pubs" dbtype="query">
 		SELECT
 			publication_id,
 			publication_type,
 			formatted_publication,
+			doi,
 			numCits
 		FROM
 			publication
 		GROUP BY
 			publication_id,
 			publication_type,
+			doi,
 			formatted_publication,
 			numCits
 		ORDER BY
@@ -489,7 +493,7 @@
 		<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
             <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><p style="margin: .25em 0;padding-bottom: 0;">Publication ID: #publication_id#</p></cfif>
             <p class="indent" style="margin-top: .5em;">
-				#formatted_publication#
+				#replace(pubs.formatted_publication, pubs.doi, "<a target=""_blank"" href=""https://doi.org/" & pubs.doi & """>" & pubs.doi &"</a>")#
 			</p>
 			<ul>
 				<li><a href="javascript: openAnnotation('publication_id=#publication_id#')">Annotate</a></li>
