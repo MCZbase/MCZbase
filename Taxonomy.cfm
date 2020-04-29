@@ -112,7 +112,7 @@
 								<cfset regex = "ctguid_type_taxon.resolver_regex">
 								<cfset replacement = "ctguid_type_taxon.resolver_replacement">
 							</cfif>
-		         	   <option #sel# value="#ctguid_type_taxon.guid_type#">#ct_guid_type_taxon.guid_type#</option>
+		         	   <option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 		          </cfloop>
 				</select>
 				<input size="25" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
@@ -149,7 +149,7 @@
 								<cfset regex = "ctguid_type_scientificname.resolver_regex">
 								<cfset replacement = "ctguid_type_scientificname.resolver_replacement">
 							</cfif>
-		         	   <option #sel# value="#ctguid_type_scientificname.guid_type#">#ct_guid_type_scientificname.guid_type#</option>
+		         	   <option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 		          </cfloop>
 				</select>
 				<input size="25" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
