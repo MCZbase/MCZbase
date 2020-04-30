@@ -163,7 +163,7 @@
 				<cfelse>
 					<cfset link = gettaxa.scientificnameid>
 				</cfif>
-				<a id="scientificnameid_link" href="#link#">gettaxa.scientificnameid</a>
+				<a id="scientificnameid_link" href="#link#">#gettaxa.scientificnameid#</a>
 				<script>
 					$(document).ready(function () { 
 						$('##scientificnameid_guid_type').change( function () { 
