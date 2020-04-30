@@ -104,6 +104,11 @@
               AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 </cfquery>
   <cfloop query="m" endrow="1">
+	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select mczbase.get_media_descriptor(media_id) media_descriptor from media 
+		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+	</cfquery> 
+	<cfset altText = alt.media_descriptor>
     <cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		select 'MCZ:'||collection_cde||':'||cat_num as relatedGuid from media_relations
         left join cataloged_item on related_primary_key = collection_object_id
@@ -173,11 +178,11 @@
 
        <cfif (#maxheightinset# - #scaledheight#) GT (#maxheightinset#/2)>
             <div class="media_image targetarea" style="height:#mdstop#;min-height: 470px;width:#PVWIDTH#px;">
-      			<img id="multizoom1" src='#m.media_uri#' width="#PVWIDTH#px">
+      			<img id="multizoom1" src='#m.media_uri#' width="#PVWIDTH#px" alt="#altText#">
       		</div>
        <cfelse>
         <div class="targetarea media_image" style="height:#mdstop#px; width:#PVWIDTH#px;">
-            <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
+            <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw# alt="#altText#">
         </div>
     </cfif>
       <!---  Enclosing div reserves a place for metadata about the currently selected image --->
@@ -330,9 +335,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
    			<h4><a href='media/#relm.media_id#'>Media Record (metadata)</a> <span> <!---(metadata for image #counter# of #relm.recordcount#)---></a></h4>">
            <cfset data_content= "#labellist#">
            <!--- one height doesn't work yet --->
-           <cfset datalinks="<h3 class='img_ct'>Image #counter# of #relm.recordcount#</h3><div class='full'><a href='#relm.media_uri#' >Full Image </a></div><div class='full'><a href='#license_uri#' class='full'>#license#</a></div>">
+           <cfset datalinks="<h3 class='img_ct'>Image #counter# of #relm.recordcount#</h3><div class='full'><a href='#relm.media_uri#'>Full Image </a></div><div class='full'><a href='#license_uri#' class='full'>#license#</a></div>">
            <cfoutput><a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
-		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#">#counter#</a></cfoutput>
+		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#" alt="#altText#">#counter#</a></cfoutput>
         </cfif> <!--- end are relm.height and relm.width non null --->
       </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
       <!--- if any related images, show their thumbnails --->
