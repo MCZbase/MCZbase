@@ -376,7 +376,7 @@
 		where
 			format_style='long' and
 			taxonomy_publication.publication_id=formatted_publication.publication_id and
-			taxonomy_publication.taxon_name_id=#taxon_name_id#
+			taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cfset i = 1>
 	<h4>Related Publications</h4>
@@ -420,7 +420,7 @@
 			taxonomy
 		WHERE
 			taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
-			AND taxon_relations.taxon_name_id = #taxon_name_id#
+			AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cfset i = 1>
 	<h4>Related Taxa:</h4>
@@ -491,7 +491,9 @@
 		</cfloop>
 	</table>
 	<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select common_name from common_name where taxon_name_id = #taxon_name_id#
+		select common_name 
+		from common_name 
+		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<h4>Common Names</h4>
 	<cfset i=1>
@@ -520,7 +522,9 @@
 		</tr>
 	</table>
 	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select taxon_habitat from taxon_habitat where taxon_name_id = #taxon_name_id#
+		select taxon_habitat 
+		from taxon_habitat 
+		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 
 	<cfset usedHabitats = valueList(habitat.taxon_habitat)>
@@ -562,15 +566,19 @@
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "removePub">
 	<cfquery name="removePub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from taxonomy_publication where taxonomy_publication_id=#taxonomy_publication_id#
+		delete from taxonomy_publication 
+		where taxonomy_publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxonomy_publication_id#">
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxonPub">
 	<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO taxonomy_publication (taxon_name_id,publication_id)
-		VALUES (#taxon_name_id#,#new_publication_id#)
+		INSERT INTO taxonomy_publication 
+			(taxon_name_id,publication_id)
+		VALUES 
+			(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_publication_id#"> )
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfif>
@@ -578,8 +586,11 @@
 <cfif action is "newCommon">
 <cfoutput>
 	<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO common_name (common_name, taxon_name_id)
-		VALUES ('#common_name#', #taxon_name_id#)
+		INSERT INTO common_name 
+			(common_name, taxon_name_id)
+		VALUES 
+			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> , 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> )
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -588,8 +599,11 @@
 <cfif action is "newHabitat">
 <cfoutput>
 	<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO taxon_habitat (taxon_habitat, taxon_name_id)
-		VALUES ('#taxon_habitat#', #taxon_name_id#)
+		INSERT INTO taxon_habitat 
+			(taxon_habitat, taxon_name_id)
+		VALUES 
+			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -601,9 +615,9 @@
 		DELETE FROM
 			taxonomy
 		WHERE
-			taxon_name_id=#taxon_name_id#
+			taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	You killed it!
+	Taxon record successfully deleted.
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -613,7 +627,8 @@
 		DELETE FROM
 			common_name
 		WHERE
-			common_name='#origCommonName#' AND taxon_name_id=#taxon_name_id#
+			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#"> 
+			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -625,9 +640,10 @@
 		UPDATE
 			common_name
 		SET
-			common_name = '#common_name#'
+			common_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#">
 		WHERE
-			common_name='#origCommonName#' AND taxon_name_id=#taxon_name_id#
+			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#">
+			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -639,7 +655,8 @@
 		DELETE FROM
 			taxon_habitat
 		WHERE
-			taxon_habitat='#orighabitatName#' AND taxon_name_id=#taxon_name_id#
+			taxon_habitat=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orighabitatName#">
+			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -862,188 +879,214 @@
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveNewtaxa">
 <cfoutput>
-<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select sq_taxon_name_id.nextval nextID from dual
-</cfquery>
-	<cfquery name="newTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO taxonomy (
-			taxon_name_id,
-			valid_catalog_term_fg,
-			source_authority
-		<cfif len(#author_text#) gt 0>
-			,author_text
-		</cfif>
-		<cfif len(#tribe#) gt 0>
-			,tribe
-		</cfif>
-		<cfif len(#infraspecific_rank#) gt 0>
-			,infraspecific_rank
-		</cfif>
-		<cfif len(#phylclass#) gt 0>
-			,phylclass
-		</cfif>
-		<cfif len(#phylorder#) gt 0>
-			,phylorder
-		</cfif>
-		<cfif len(#suborder#) gt 0>
-			,suborder
-		</cfif>
-		<cfif len(#family#) gt 0>
-			,family
-		</cfif>
-		<cfif len(#subfamily#) gt 0>
-			,subfamily
-		</cfif>
-		<cfif len(#genus#) gt 0>
-			,genus
-		</cfif>
-		<cfif len(#subgenus#) gt 0>
-			,subgenus
-		</cfif>
-		<cfif len(#species#) gt 0>
-			,species
-		</cfif>
-		<cfif len(#subspecies#) gt 0>
-			,subspecies
-		</cfif>
-		<cfif len(#taxon_remarks#) gt 0>
-			,taxon_remarks
-		</cfif>
-		<cfif len(#phylum#) gt 0>
-			,phylum
-		</cfif>
-		<cfif len(#infraspecific_author#) gt 0>
-			,infraspecific_author
-		</cfif>
-		<cfif len(#kingdom#) gt 0>
-			,kingdom
-		</cfif>
-		<cfif len(#nomenclatural_code#) gt 0>
-			,nomenclatural_code
-		</cfif>
-		<cfif len(#subphylum#) gt 0>
-			,subphylum
-		</cfif>
-		<cfif len(#superclass#) gt 0>
-			,superclass
-		</cfif>
-		<cfif len(#subclass#) gt 0>
-			,subclass
-		</cfif>
-		<cfif len(#superorder#) gt 0>
-			,superorder
-		</cfif>
-		<cfif len(#infraorder#) gt 0>
-			,infraorder
-		</cfif>
-		<cfif len(#superfamily#) gt 0>
-			,superfamily
-		</cfif>
-		<cfif len(#division#) gt 0>
-			,division
-		</cfif>
-		<cfif len(#subdivision#) gt 0>
-			,subdivision
-		</cfif>
-		<cfif len(#subsection#) gt 0>
-			,subsection
-		</cfif>
-		<cfif len(#infraclass#) gt 0>
-			,infraclass
-		</cfif>
-		<cfif len(#taxon_status#) gt 0>
-			,taxon_status
-		</cfif>
-		) VALUES (
-			#nextID.nextID#,
-			#valid_catalog_term_fg#,
-			'#source_authority#'
-		<cfif len(#author_text#) gt 0>
-			,trim('#escapeQuotes(author_text)#')
-		</cfif>
-		<cfif len(#tribe#) gt 0>
-			,trim('#tribe#')
-		</cfif>
-		<cfif len(#infraspecific_rank#) gt 0>
-			,trim('#infraspecific_rank#')
-		</cfif>
-		<cfif len(#phylclass#) gt 0>
-			,trim('#phylclass#')
-		</cfif>
-		<cfif len(#phylorder#) gt 0>
-			,trim('#phylorder#')
-		</cfif>
-		<cfif len(#suborder#) gt 0>
-			,trim('#suborder#')
-		</cfif>
-		<cfif len(#family#) gt 0>
-			,trim('#family#')
-		</cfif>
-		<cfif len(#subfamily#) gt 0>
-			,trim('#subfamily#')
-		</cfif>
-		<cfif len(#genus#) gt 0>
-			,trim('#genus#')
-		</cfif>
-		<cfif len(#subgenus#) gt 0>
-			,trim('#subgenus#')
-		</cfif>
-		<cfif len(#species#) gt 0>
-			,trim('#species#')
-		</cfif>
-		<cfif len(#subspecies#) gt 0>
-			,trim('#subspecies#')
-		</cfif>
-		<cfif len(#taxon_remarks#) gt 0>
-			,trim('#escapeQuotes(taxon_remarks)#')
-		</cfif>
-		<cfif len(#phylum#) gt 0>
-			,'#phylum#'
-		</cfif>
-		<cfif len(#infraspecific_author#) gt 0>
-			,trim('#escapeQuotes(infraspecific_author)#')
-		</cfif>
-		<cfif len(#kingdom#) gt 0>
-			,trim('#kingdom#')
-		</cfif>
-		<cfif len(#nomenclatural_code#) gt 0>
-			,'#nomenclatural_code#'
-		</cfif>
-		<cfif len(#subphylum#) gt 0>
-			,trim('#subphylum#')
-		</cfif>
-		<cfif len(#superclass#) gt 0>
-			,trim('#superclass#')
-		</cfif>
-	 	<cfif len(#subclass#) gt 0>
-			,trim('#subclass#')
-		</cfif>
-		<cfif len(#superorder#) gt 0>
-			,trim('#superorder#')
-		</cfif>
-		<cfif len(#infraorder#) gt 0>
-			,trim('#infraorder#')
-		</cfif>
-		<cfif len(#superfamily#) gt 0>
-			,trim('#superfamily#')
-		</cfif>
-		<cfif len(#division#) gt 0>
-			,trim('#division#')
-		</cfif>
-		<cfif len(#subdivision#) gt 0>
-			,trim('#subdivision#')
-		</cfif>
-		<cfif len(#subsection#) gt 0>
-			,trim('#subsection#')
-		</cfif>
-		<cfif len(#infraclass#) gt 0>
-			,trim('#infraclass#')
-		</cfif>
-		<cfif len(#taxon_status#) gt 0>
-			,trim('#taxon_status#')
-		</cfif>
-		)
-	</cfquery>
+	<cftransaction>
+		<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select sq_taxon_name_id.nextval nextID from dual
+		</cfquery>
+		<cfquery name="newTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO taxonomy (
+				taxon_name_id,
+				valid_catalog_term_fg,
+				source_authority
+			<cfif len(#author_text#) gt 0>
+				,author_text
+			</cfif>
+			<cfif len(#taxonid_guid_type#) gt 0>	
+				,taxonid_guid_type 
+			</cfif>
+			<cfif len(#taxonid#) gt 0>	
+				,taxonid
+			</cfif>
+			<cfif len(#scientificnameid_guid_type#) gt 0>	
+				,scientificnameid_guid_type 
+			</cfif>
+			<cfif len(#scientificnameid#) gt 0>	
+				,scientificnameid
+			</cfif>
+			<cfif len(#tribe#) gt 0>
+				,tribe
+			</cfif>
+			<cfif len(#infraspecific_rank#) gt 0>
+				,infraspecific_rank
+			</cfif>
+			<cfif len(#phylclass#) gt 0>
+				,phylclass
+			</cfif>
+			<cfif len(#phylorder#) gt 0>
+				,phylorder
+			</cfif>
+			<cfif len(#suborder#) gt 0>
+				,suborder
+			</cfif>
+			<cfif len(#family#) gt 0>
+				,family
+			</cfif>
+			<cfif len(#subfamily#) gt 0>
+				,subfamily
+			</cfif>
+			<cfif len(#genus#) gt 0>
+				,genus
+			</cfif>
+			<cfif len(#subgenus#) gt 0>
+				,subgenus
+			</cfif>
+			<cfif len(#species#) gt 0>
+				,species
+			</cfif>
+			<cfif len(#subspecies#) gt 0>
+				,subspecies
+			</cfif>
+			<cfif len(#taxon_remarks#) gt 0>
+				,taxon_remarks
+			</cfif>
+			<cfif len(#phylum#) gt 0>
+				,phylum
+			</cfif>
+			<cfif len(#infraspecific_author#) gt 0>
+				,infraspecific_author
+			</cfif>
+			<cfif len(#kingdom#) gt 0>
+				,kingdom
+			</cfif>
+			<cfif len(#nomenclatural_code#) gt 0>
+				,nomenclatural_code
+			</cfif>
+			<cfif len(#subphylum#) gt 0>
+				,subphylum
+			</cfif>
+			<cfif len(#superclass#) gt 0>
+				,superclass
+			</cfif>
+			<cfif len(#subclass#) gt 0>
+				,subclass
+			</cfif>
+			<cfif len(#superorder#) gt 0>
+				,superorder
+			</cfif>
+			<cfif len(#infraorder#) gt 0>
+				,infraorder
+			</cfif>
+			<cfif len(#superfamily#) gt 0>
+				,superfamily
+			</cfif>
+			<cfif len(#division#) gt 0>
+				,division
+			</cfif>
+			<cfif len(#subdivision#) gt 0>
+				,subdivision
+			</cfif>
+			<cfif len(#subsection#) gt 0>
+				,subsection
+			</cfif>
+			<cfif len(#infraclass#) gt 0>
+				,infraclass
+			</cfif>
+			<cfif len(#taxon_status#) gt 0>
+				,taxon_status
+			</cfif>
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextID#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
+			<cfif len(#author_text#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(author_text)#">
+			</cfif>
+			<cfif len(#taxonid_guid_type#) gt 0>	
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxonid_guid_type#">
+			</cfif>
+			<cfif len(#taxonid#) gt 0>	
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxonid#">
+			</cfif>
+			<cfif len(#scientificnameid_guid_type#) gt 0>	
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificnameid_guid_type#">
+			</cfif>
+			<cfif len(#scientificnameid#) gt 0>	
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificnameid#">
+			</cfif>
+			<cfif len(#tribe#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(tribe)#">
+			</cfif>
+			<cfif len(#infraspecific_rank#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraspecific_rank)#">
+			</cfif>
+			<cfif len(#phylclass#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylclass)#">
+			</cfif>
+			<cfif len(#phylorder#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylorder)#">
+			</cfif>
+			<cfif len(#suborder#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(suborder)#">
+			</cfif>
+			<cfif len(#family#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(family)#">
+			</cfif>
+			<cfif len(#subfamily#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subfamily)#">
+			</cfif>
+			<cfif len(#genus#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(genus)#">
+			</cfif>
+			<cfif len(#subgenus#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subgenus)#">
+			</cfif>
+			<cfif len(#species#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(species)#">
+			</cfif>
+			<cfif len(#subspecies#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subspecies)#">
+			</cfif>
+			<cfif len(#taxon_remarks#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_remarks)#">
+			</cfif>
+			<cfif len(#phylum#) gt 0>
+				,'#phylum#'
+			</cfif>
+			<cfif len(#infraspecific_author#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraspecific_author)#">
+			</cfif>
+			<cfif len(#kingdom#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(kingdom)#">
+			</cfif>
+			<cfif len(#nomenclatural_code#) gt 0>
+				,'#nomenclatural_code#'
+			</cfif>
+			<cfif len(#subphylum#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subphylum)#">
+			</cfif>
+			<cfif len(#superclass#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superclass)#">
+			</cfif>
+		 	<cfif len(#subclass#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subclass)#">
+			</cfif>
+			<cfif len(#superorder#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superorder)#">
+			</cfif>
+			<cfif len(#infraorder#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraorder)#">
+			</cfif>
+			<cfif len(#superfamily#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superfamily)#">
+			</cfif>
+			<cfif len(#division#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(division)#">
+			</cfif>
+			<cfif len(#subdivision#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subdivision)#">
+			</cfif>
+			<cfif len(#subsection#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subsection)#">
+			</cfif>
+			<cfif len(#infraclass#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraclass)#">
+			</cfif>
+			<cfif len(#taxon_status#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_status)#">
+			</cfif>
+			)
+		</cfquery>
+	</cftransaction>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
 </cfoutput>
 </cfif>
@@ -1052,15 +1095,15 @@
 <cfoutput>
 	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO taxon_relations (
-			 TAXON_NAME_ID,
-			 RELATED_TAXON_NAME_ID,
-			 TAXON_RELATIONSHIP,
-			 RELATION_AUTHORITY
-		  )	VALUES (
-			#TAXON_NAME_ID#,
-			 #newRelatedId#,
-			 '#TAXON_RELATIONSHIP#',
-		 	'#RELATION_AUTHORITY#'
+			TAXON_NAME_ID,
+			RELATED_TAXON_NAME_ID,
+			TAXON_RELATIONSHIP,
+			RELATION_AUTHORITY
+		) VALUES (
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TAXON_NAME_ID#">,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newRelatedId#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TAXON_RELATIONSHIP#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATION_AUTHORITY#">
 		)
 	</cfquery>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
@@ -1073,9 +1116,9 @@
 	DELETE FROM
 		taxon_relations
 	WHERE
-		taxon_name_id = #taxon_name_id#
-		AND Taxon_relationship = '#origtaxon_relationship#'
-		AND related_taxon_name_id=#related_taxon_name_id#
+		taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origtaxon_relationship#">
+		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
 		</cfquery>
 		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -1087,19 +1130,19 @@
 	UPDATE taxon_relations SET
 		taxon_relationship = '#taxon_relationship#'
 		<cfif len(#newRelatedId#) gt 0>
-			,related_taxon_name_id = #newRelatedId#
+			,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newRelatedId#">
 		<cfelse>
-			,related_taxon_name_id = #related_taxon_name_id#
+			,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
 		</cfif>
 		<cfif len(#relation_authority#) gt 0>
-			,relation_authority = '#relation_authority#'
+			,relation_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relation_authority#">
 		<cfelse>
 			,relation_authority = null
 		</cfif>
 	WHERE
-		taxon_name_id = #taxon_name_id#
-		AND Taxon_relationship = '#origTaxon_relationship#'
-		AND related_taxon_name_id=#related_taxon_name_id#
+		taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origTaxon_relationship#">
+		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
 </cfquery>
 <cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfoutput>
@@ -1121,149 +1164,169 @@
         <cftransaction>
 	<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cfid)#">
 	UPDATE taxonomy SET
-		valid_catalog_term_fg=#valid_catalog_term_fg#,
-		source_authority = '#source_authority#'
+		valid_catalog_term_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
+		source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 		<cfif len(#author_text#) gt 0>
-			,author_text=trim('#escapeQuotes(author_text)#')
+			,author_text=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(author_text)#">
 		<cfelse>
 			,author_text=null
 		</cfif>
+		<cfif len(#taxonid_guid_type#) gt 0>
+			,taxonid_guid_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxonid_guid_type)#">
+		<cfelse>
+			,taxonid_guid_type=null
+		</cfif>
+		<cfif len(#taxonid#) gt 0>
+			,taxonid=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxonid)#">
+		<cfelse>
+			,taxonid=null
+		</cfif>
+		<cfif len(#scientificnameid_guid_type#) gt 0>
+			,scientificnameid_guid_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(scientificnameid_guid_type)#">
+		<cfelse>
+			,scientificnameid_guid_type=null
+		</cfif>
+		<cfif len(#scientificnameid#) gt 0>
+			,scientificnameid=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(scientificnameid)#">
+		<cfelse>
+			,scientificnameid=null
+		</cfif>
 		<cfif len(#tribe#) gt 0>
-			,tribe = trim('#tribe#')
+			,tribe = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(tribe)#">
 		<cfelse>
 			,tribe = null
 		</cfif>
 		<cfif len(#infraspecific_rank#) gt 0>
-			,infraspecific_rank = '#infraspecific_rank#'
+			,infraspecific_rank = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_rank#">
 		<cfelse>
 			,infraspecific_rank = null
 		</cfif>
 		<cfif len(#phylclass#) gt 0>
-			,phylclass = trim('#phylclass#')
+			,phylclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylclass)#">
 		<cfelse>
 			,phylclass = null
 		</cfif>
 		<cfif len(#phylorder#) gt 0>
-			,phylorder = trim('#phylorder#')
+			,phylorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylorder)#">
 		<cfelse>
 			,phylorder = null
 		</cfif>
 		<cfif len(#suborder#) gt 0>
-			,suborder = trim('#suborder#')
+			,suborder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(suborder)#">
 		<cfelse>
 			,suborder = null
 		</cfif>
 		<cfif len(#family#) gt 0>
-			,family = trim('#family#')
+			,family = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(family)#">
 		<cfelse>
 			,family = null
 		</cfif>
 		<cfif len(#subfamily#) gt 0>
-			,subfamily = trim('#subfamily#')
+			,subfamily = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subfamily)#">
 		<cfelse>
 			,subfamily = null
 		</cfif>
 		<cfif len(#genus#) gt 0>
-			,genus = trim('#genus#')
+			,genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(genus)#">
 		<cfelse>
 			,genus = null
 		</cfif>
 		<cfif len(#subgenus#) gt 0>
-			,subgenus = trim('#subgenus#')
+			,subgenus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subgenus)#">
 		<cfelse>
 			,subgenus = null
 		</cfif>
 		<cfif len(#species#) gt 0>
-			,species = trim('#species#')
+			,species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(species)#">
 		<cfelse>
 			,species = null
 		</cfif>
 		<cfif len(#subspecies#) gt 0>
-			,subspecies = trim('#subspecies#')
+			,subspecies = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subspecies)#">
 		<cfelse>
 			,subspecies = null
 		</cfif>
 		<cfif len(#phylum#) gt 0>
-			,phylum = trim('#phylum#')
+			,phylum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylum)#">
 		<cfelse>
 			,phylum = null
 		</cfif>
 		<cfif len(#taxon_remarks#) gt 0>
-			,taxon_remarks = trim('#escapeQuotes(taxon_remarks)#')
+			,taxon_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_remarks)#">
 		<cfelse>
 			,taxon_remarks = null
 		</cfif>
 		<cfif len(#kingdom#) gt 0>
-			,kingdom = trim('#kingdom#')
+			,kingdom = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(kingdom)#">
 		<cfelse>
 			,kingdom = null
 		</cfif>
 		<cfif len(#nomenclatural_code#) gt 0>
-			,nomenclatural_code = '#nomenclatural_code#'
+			,nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">
 		<cfelse>
 			,nomenclatural_code = null
 		</cfif>
 		<cfif len(#infraspecific_author#) gt 0>
-			,infraspecific_author = trim('#escapeQuotes(infraspecific_author)#')
+			,infraspecific_author = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraspecific_author)#">
 		<cfelse>
 			,infraspecific_author = null
 		</cfif>
 		<cfif len(#subphylum#) gt 0>
-			,subphylum = trim('#subphylum#')
+			,subphylum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subphylum)#">
 		<cfelse>
 			,subphylum = null
 		</cfif>
 		<cfif len(#superclass#) gt 0>
-			,superclass = trim('#superclass#')
+			,superclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superclass)#">
 		<cfelse>
 			,superclass = null
 		</cfif>
 		<cfif len(#subclass#) gt 0>
-			,subclass = trim('#subclass#')
+			,subclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subclass)#">
 		<cfelse>
 			,subclass = null
 		</cfif>
 		<cfif len(#superorder#) gt 0>
-			,superorder = trim('#superorder#')
+			,superorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superorder)#">
 		<cfelse>
 			,superorder = null
 		</cfif>
 		<cfif len(#infraorder#) gt 0>
-			,infraorder = trim('#infraorder#')
+			,infraorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraorder)#">
 		<cfelse>
 			,infraorder = null
 		</cfif>
 		<cfif len(#superfamily#) gt 0>
-			,superfamily = trim('#superfamily#')
+			,superfamily = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superfamily)#">
 		<cfelse>
 			,superfamily = null
 		</cfif>
 		<cfif len(#division#) gt 0>
-			,division = trim('#division#')
+			,division = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(division)#">
 		<cfelse>
 			,division = null
 		</cfif>
 		<cfif len(#subdivision#) gt 0>
-			,subdivision = trim('#subdivision#')
+			,subdivision = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subdivision)#">
 		<cfelse>
 			,subdivision = null
 		</cfif>
 		<cfif len(#subsection#) gt 0>
-			,subsection = trim('#subsection#')
+			,subsection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subsection)#">
 		<cfelse>
 			,subsection = null
 		</cfif>
 		<cfif len(#infraclass#) gt 0>
-			,infraclass  = trim('#infraclass#')
+			,infraclass  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraclass)#">
 		<cfelse>
 			,infraclass = null
 		</cfif>
 		<cfif len(#taxon_status#) gt 0>
-			,taxon_status = trim('#taxon_status#')
+			,taxon_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_status)#">
 		<cfelse>
 			,taxon_status = null
 		</cfif>
-	WHERE taxon_name_id=#taxon_name_id#
+	WHERE taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	</cftransaction>
 	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
