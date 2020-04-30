@@ -261,14 +261,14 @@
 					<td>
 						<input type="text" name="pattern_regex" size="80">
 					</td>
-					<td>To validate entry, e.g. /^doi:10[.].+/</td>
+					<td>To validate entry, e.g. ^doi:10[.].+$</td>
 				</tr>
 				<tr>
 					<td>Resolver Regex</td>
 					<td>
 						<input type="text" name="resolver_regex" size="80">
 					</td>
-					<td>Substitute to convert to a uri, e.g. /^doi:/</td>
+					<td>Substitute to convert to a uri, e.g. doi:</td>
 				</tr>
 				<tr>
 					<td>Resolver Replacement</td>
@@ -331,14 +331,14 @@
 							<td>
 								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80">
 							</td>
-							<td>Regex to validate entry, e.g. /^doi:10[.].+/</td>
+							<td>Regex to validate entry, e.g. ^doi:10[.].+$</td>
 						</tr>
 						<tr>
 							<td>Resolver Regex</td>
 							<td>
 								<input type="text" name="resolver_regex" value="#resolver_regex#" size="80">
 							</td>
-							<td>Regex pattern for conversion to a uri, e.g. /^doi:/</td>
+							<td>Regex pattern for conversion to a uri, e.g. doi:</td>
 						</tr>
 						<tr>
 							<td>Resolver Replacement</td>
