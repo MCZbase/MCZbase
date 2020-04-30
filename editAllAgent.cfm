@@ -253,14 +253,14 @@ function opendialogrank(page,id,title,agentId) {
 	<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from addr
 		where
-		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_NUMBER">
+		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_DECIMAL">
 			and addr.addr_type <> 'temporary'
 		order by valid_addr_fg DESC
 	</cfquery>
 	<cfquery name="elecagentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from electronic_address
 		where
-		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_NUMBER"> 
+		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_DECIMAL"> 
 	</cfquery>
 	<cfoutput>
 		<cfset i=1>

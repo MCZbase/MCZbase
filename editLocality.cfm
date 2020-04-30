@@ -1996,17 +1996,17 @@
 								,NULL
 							</cfif>
 							<cfif len(#UTM_EW#) gt 0>
-						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#UTM_EW#">
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#UTM_EW#">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#UTM_NS#) gt 0>
-						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#UTM_NS#">
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#UTM_NS#">
 							<cfelse>
 								,NULL
 							</cfif>
 							,'#ORIG_LAT_LONG_UNITS#'
-						    ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#DETERMINED_BY_AGENT_ID#">
+						    ,<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">
 							,'#dateformat(DETERMINED_DATE,"yyyy-mm-dd")#'
 						    ,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">
 							<cfif len(#LAT_LONG_REMARKS#) gt 0>
@@ -2015,7 +2015,7 @@
 								,NULL
 							</cfif>
 							<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
-						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#MAX_ERROR_DISTANCE#">
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -2053,7 +2053,7 @@
 							,'#GEOREFMETHOD#'
 							,'#VERIFICATIONSTATUS#'
 							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0>
-								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
+								, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#VERIFIED_BY_AGENT_ID#">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -2234,7 +2234,7 @@
 							,'#GEOREFMETHOD#'
 							,'#VERIFICATIONSTATUS#'
 							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0>
-								, <cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#VERIFIED_BY_AGENT_ID#">
+								, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#VERIFIED_BY_AGENT_ID#">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -2616,14 +2616,14 @@
 <cfif #Action# is "copypolygon">
 	<cfoutput>
 		<cfquery name="getPoly" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select error_polygon from lat_long where locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_NUMERIC" value="#copyPolyFrom#"> and accepted_lat_long_fg = 1
+			select error_polygon from lat_long where locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#copyPolyFrom#"> and accepted_lat_long_fg = 1
 		</cfquery>
 		<cftransaction>
 			<cfquery name="disableLLTrig" datasource="uam_god">
 				alter trigger TR_LATLONG_ACCEPTED_BIUPA disable
 			</cfquery>
 			<cfquery name="copyPoly" datasource="uam_god">
-				update lat_long set error_polygon = <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#getPoly.ERROR_POLYGON#"> WHERE LAT_LONG_ID = <cfqueryparam CFSQLTYPE="CF_SQL_NUMERIC" value="#LAT_LONG_ID#">
+				update lat_long set error_polygon = <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#getPoly.ERROR_POLYGON#"> WHERE LAT_LONG_ID = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#LAT_LONG_ID#">
 			</cfquery>
 			<cfquery name="disableLLTrig" datasource="uam_god">
 				alter trigger TR_LATLONG_ACCEPTED_BIUPA enable
