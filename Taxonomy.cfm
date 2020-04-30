@@ -97,7 +97,7 @@
 			</td>
 		</tr>
       <tr>
-			<td>
+			<td colspan="2">
 				<label for="genus">GUID for Taxon (taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
@@ -136,7 +136,9 @@
 					});
 				</script>
 			</td>
-			<td>
+		</tr>
+      <tr>
+			<td colspan="2">
 				<label for="genus">GUID for Nomenclatural Act (scientificNameID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
