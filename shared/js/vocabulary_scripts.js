@@ -40,7 +40,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl) {
 			$('#'+inputControl).attr("placeholder",data.placeholder);
 			if (guid != "") { 
 				// validate input control content against the regex
-				$('#'+inputControl).reportValidity();
+				$('#'+inputControl).get(0).reportValidity();
 			};
 			// update link
 			$('#'+linkControl).attr("href",guid.replace(data.resolver_regex,data.resolver_replacement)); 
