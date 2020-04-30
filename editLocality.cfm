@@ -2616,14 +2616,14 @@
 <cfif #Action# is "copypolygon">
 	<cfoutput>
 		<cfquery name="getPoly" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select error_polygon from lat_long where locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_NUMERIC" value="#copyPolyFrom#"> and accepted_lat_long_fg = 1
+			select error_polygon from lat_long where locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#copyPolyFrom#"> and accepted_lat_long_fg = 1
 		</cfquery>
 		<cftransaction>
 			<cfquery name="disableLLTrig" datasource="uam_god">
 				alter trigger TR_LATLONG_ACCEPTED_BIUPA disable
 			</cfquery>
 			<cfquery name="copyPoly" datasource="uam_god">
-				update lat_long set error_polygon = <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#getPoly.ERROR_POLYGON#"> WHERE LAT_LONG_ID = <cfqueryparam CFSQLTYPE="CF_SQL_NUMERIC" value="#LAT_LONG_ID#">
+				update lat_long set error_polygon = <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#getPoly.ERROR_POLYGON#"> WHERE LAT_LONG_ID = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#LAT_LONG_ID#">
 			</cfquery>
 			<cfquery name="disableLLTrig" datasource="uam_god">
 				alter trigger TR_LATLONG_ACCEPTED_BIUPA enable

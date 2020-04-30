@@ -510,6 +510,11 @@
 		</cfquery>
 	</cfif>
 	<cfset alt="#media_uri#">
+	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select mczbase.get_media_descriptor(media_id) media_descriptor from media 
+		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+	</cfquery> 
+	<cfset altText = alt.media_descriptor>
 	<cfif desc.recordcount is 1>
 		<cfif findIDs.recordcount is 1>
 			<cfset title = desc.label_value>
@@ -523,7 +528,7 @@
             <table>
 				<tr>
 					<td align="middle" style="padding-right:20px;width:300px;">
-						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#alt#" style="max-width:250px;max-height:250px;"></a>
+						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
 						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
 						<cfif len(display) gt 0>
 							<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
@@ -642,7 +647,7 @@
 							<cfset alt=desc.label_value>
 						</cfif>
 		               <div class="one_thumb">
-			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
+			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
 			                   	<br><a href="/media/#media_id#">Media Details</a>

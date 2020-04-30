@@ -261,14 +261,14 @@
 					<td>
 						<input type="text" name="pattern_regex" size="80">
 					</td>
-					<td>To validate entry, e.g. /^doi:10[.].+/</td>
+					<td>To validate entry, e.g. ^doi:10[.].+$</td>
 				</tr>
 				<tr>
 					<td>Resolver Regex</td>
 					<td>
 						<input type="text" name="resolver_regex" size="80">
 					</td>
-					<td>Substitute to convert to a uri, e.g. /^doi:/</td>
+					<td>Substitute to convert to a uri, e.g. doi:</td>
 				</tr>
 				<tr>
 					<td>Resolver Replacement</td>
@@ -331,14 +331,14 @@
 							<td>
 								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80">
 							</td>
-							<td>Regex to validate entry, e.g. /^doi:10[.].+/</td>
+							<td>Regex to validate entry, e.g. ^doi:10[.].+$</td>
 						</tr>
 						<tr>
 							<td>Resolver Regex</td>
 							<td>
 								<input type="text" name="resolver_regex" value="#resolver_regex#" size="80">
 							</td>
-							<td>Regex pattern for conversion to a uri, e.g. /^doi:/</td>
+							<td>Regex pattern for conversion to a uri, e.g. doi:</td>
 						</tr>
 						<tr>
 							<td>Resolver Replacement</td>
@@ -1227,7 +1227,7 @@
 			update ctloan_type set 
 				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_type#" />,
 				SCOPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
-				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#ordinal#" />
+				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1253,7 +1253,7 @@
 			update ctbiol_relations set 
 				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relationship#" />,
 				INVERSE_RELATION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
-				REL_TYPE= <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#rel_type#" />
+				REL_TYPE= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rel_type#" />
 			where
 				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1262,7 +1262,7 @@
 			update ctcitation_type_status set 
 				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#" />,
 				CATEGORY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category#" />,
-				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#ordinal#" />,
+				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
 				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			where
 				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
@@ -1348,7 +1348,7 @@
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
-				<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#ordinal#" />
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
@@ -1358,7 +1358,7 @@
 				code
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
-				<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#code#" />
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#code#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctspecific_permit_type">
@@ -1369,7 +1369,7 @@
 				accn_show_on_shipment
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
-				<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#permit_type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_type#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_show_on_shipment#" />
 			)
 		</cfquery>
@@ -1382,7 +1382,7 @@
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
-				<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#rel_type#" />
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rel_type#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">

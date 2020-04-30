@@ -1628,8 +1628,8 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="media">
 						<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select mczbase.get_media_descriptor(media_id) media_descriptor 
-							from media 
+							select mczbase.get_media_descriptor(media_id) media_descriptor
+							from media
 							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						</cfquery>
 						<cfset altText = alt.media_descriptor>
