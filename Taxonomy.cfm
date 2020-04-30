@@ -147,7 +147,7 @@
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_scientificname">
 							<cfset sel="">
- 							<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientific_name.recordcount EQ 1 >
+ 							<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 								<cfset sel="selected='selected'">
 								<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
 								<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
