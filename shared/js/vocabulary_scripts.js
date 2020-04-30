@@ -36,14 +36,20 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl) {
 		success : function (data) {
 			console.log(data);
 			var guid = $('#'+inputControl).val();
-			$('#'+inputControl).attr("pattern",data.pattern_regex);
-			$('#'+inputControl).attr("placeholder",data.placeholder);
+			$('#'+inputControl).attr("pattern",data[0].pattern_regex);
+			$('#'+inputControl).attr("placeholder",data[0].placeholder);
 			if (guid != "") { 
 				// validate input control content against the regex
 				$('#'+inputControl).get(0).reportValidity();
 			};
 			// update link
-			$('#'+linkControl).attr("href",guid.replace(data.resolver_regex,data.resolver_replacement)); 
+			var regex = data[0].resolver_regex;
+			var replacement = data[0].resolver_replacement; 
+			var newlink = guid.replace(regex,replacement);
+			console.log(regex);
+			console.log(newlink);
+			$('#'+linkControl).attr("href",newlink); 
+			$('#'+linkControl).html(guid); 
 		},
 		error : function (jqXHR, status, error) {
 			var message = "";
