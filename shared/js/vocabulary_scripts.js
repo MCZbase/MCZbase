@@ -29,7 +29,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl) {
 	$.ajax({
 		url: "/shared/component/vocab_control.cfc",
 		data: { 
-			term: guid_type, 
+			guid_type: guid_type, 
 			method: 'getGuidTypeInfo' 
 		},
 		dataType: 'json',
