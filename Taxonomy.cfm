@@ -122,7 +122,7 @@
 				<cfelse>
 					<cfset link = gettaxa.taxonid>
 				</cfif>
-				<a id="taxonid_link" href="#link#">Link</a>
+				<a id="taxonid_link" href="#link#">#gettaxa.taxonid#</a>
 				<script>
 					$(document).ready(function () { 
 						$('##taxonid_guid_type').change(function () { 
@@ -163,7 +163,7 @@
 				<cfelse>
 					<cfset link = gettaxa.scientificnameid>
 				</cfif>
-				<a id="scientificnameid_link" href="#link#">Link</a>
+				<a id="scientificnameid_link" href="#link#">gettaxa.scientificnameid</a>
 				<script>
 					$(document).ready(function () { 
 						$('##scientificnameid_guid_type').change( function () { 
