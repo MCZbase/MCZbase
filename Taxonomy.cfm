@@ -97,7 +97,7 @@
 			</td>
 		</tr>
       <tr>
-			<td colspan="2">
+			<td colspan="2" style="border: 1px solid blue;">
 				<label for="genus">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
@@ -125,7 +125,7 @@
 		          </cfloop>
 				</select>
 				<a href="#searchlink#" id="taxonid_search">#searchtext#</a>
-				<input size="60" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
+				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 				<cfelse>
@@ -147,7 +147,7 @@
 			</td>
 		</tr>
       <tr>
-			<td colspan="2">
+			<td colspan="2" style="border: 1px solid blue;">
 				<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
@@ -175,7 +175,7 @@
 		          </cfloop>
 				</select>
 				<a href="#searchlink#" id="scientificnameid_search">#searchtext#</a>
-				<input size="60" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
+				<input size="56" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
 				<cfelse>
