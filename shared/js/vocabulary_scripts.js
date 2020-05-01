@@ -19,13 +19,16 @@ limitations under the License.
 
 /** Given a paired guid text input and guid anchor control, and a guid type, look up the metadata on the guid type,
  *  validate the content of the guid text input with the pattern for that guid type, set the placeholder for the 
- *  input, and construct a resolvable link for the href of the anchor from the text input of the guid.
+ *  input, and construct a resolvable link for the href of the anchor from the text input of the guid, and update
+ *  a search link for text on the guid provider.
  *
  *  @param guid_type a value from ctguid_type for the current type of guid expected to be found in inputControl.
  *  @param inputControl the id for the guid text input (without a leading # selector).
  *  @param linkControl the id for the anchor that is to take the resolvable guid as an href (without a leading # selector).
+ *  @param searchControl the id for the anchor that is to take a guid search link as an href (without a leading # selector).
+ *  @param searchText the text to append to the end of the search_uri in the searchControl href to lookup a guid.
  */
-function getGuidTypeInfo(guid_type, inputControl, linkControl) {
+function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, searchText) {
 	$.ajax({
 		url: "/shared/component/vocab_control.cfc",
 		data: { 
@@ -38,18 +41,27 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl) {
 			var guid = $('#'+inputControl).val();
 			$('#'+inputControl).attr("pattern",data[0].pattern_regex);
 			$('#'+inputControl).attr("placeholder",data[0].placeholder);
+			var valid = false;
 			if (guid != "") { 
 				// validate input control content against the regex
-				$('#'+inputControl).get(0).reportValidity();
+				valid = $('#'+inputControl).get(0).reportValidity();
 			};
-			// update link
-			var regex = data[0].resolver_regex;
+			var regex = new RegExp(data[0].resolver_regex);
 			var replacement = data[0].resolver_replacement; 
 			var newlink = guid.replace(regex,replacement);
 			console.log(regex);
 			console.log(newlink);
-			$('#'+linkControl).attr("href",newlink); 
-			$('#'+linkControl).html(guid); 
+			if (valid===true) { 
+				// update link
+				$('#'+linkControl).attr("href",newlink); 
+				$('#'+linkControl).html(guid); 
+			}
+			$('#'+searchControl).attr("href",data[0].search_uri + searchText); 
+			if (searchText && searchText.length > 0) { 
+				$('#'+searchControl).html("Search"); 
+			} else {
+				$('#'+searchControl).html(""); 
+			}
 		},
 		error : function (jqXHR, status, error) {
 			var message = "";
