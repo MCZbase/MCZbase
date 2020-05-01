@@ -268,7 +268,7 @@
 					<td>
 						<input type="text" name="resolver_regex" size="80">
 					</td>
-					<td>Substitute to convert to a uri, e.g. doi:</td>
+					<td>Regex pattern for conversion to a uri, e.g. ^doi:</td>
 				</tr>
 				<tr>
 					<td>Resolver Replacement</td>
@@ -345,7 +345,7 @@
 							<td>
 								<input type="text" name="resolver_regex" value="#resolver_regex#" size="80">
 							</td>
-							<td>Regex pattern for conversion to a uri, e.g. doi:</td>
+							<td>Regex pattern for conversion to a uri, e.g. ^doi:</td>
 						</tr>
 						<tr>
 							<td>Resolver Replacement</td>
