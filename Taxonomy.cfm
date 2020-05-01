@@ -67,36 +67,36 @@
 	</cfquery>
 <cfoutput>
 <div class="content_box_narrow">
-   <h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy:  <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  <em>#getTaxa.scientific_name#</em></h2>
+	<h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy:  <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  <em>#getTaxa.scientific_name#</em></h2>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-    <table class="tInput">
+	<table class="tInput">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
-    	<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-        <input type="hidden" name="Action">
+		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+		<input type="hidden" name="Action">
 		<tr>
 			<td>
 				<label for="source_authority">
 					<span>Source <cfif isSourceAuthorityCurrent.ct eq 0> (#getTaxa.source_authority#) </cfif></span>
 				</label>
 				<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
-                                   <cfif isSourceAuthorityCurrent.ct eq 0>
-                                      <option value="" selected="selected"></option>
-                                   </cfif>
-		             <cfloop query="ctSourceAuth">
-		               <option <cfif isSourceAuthorityCurrent.ct eq 1 and gettaxa.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
+					<cfif isSourceAuthorityCurrent.ct eq 0>
+						<option value="" selected="selected"></option>
+					</cfif>
+					<cfloop query="ctSourceAuth">
+						<option <cfif isSourceAuthorityCurrent.ct eq 1 and gettaxa.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
 							value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
-		             </cfloop>
-		        </select>
+					</cfloop>
+				</select>
 			</td>
 			<td>
 				<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
 				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr">
-			    	<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
-			        <option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
-			    </select>
+					<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
+					<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
+				</select>
 			</td>
 		</tr>
-      <tr>
+		<tr>
 			<td colspan="2" style="border: 1px solid blue;">
 				<label for="genus">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
@@ -105,15 +105,18 @@
 				<cfset replacement = "">
 				<cfset searchlink = "" >		
 				<cfset searchtext = "" >		
-		      <cfloop query="ctguid_type_taxon">
+				<cfloop query="ctguid_type_taxon">
  					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >		
 						<cfset searchtext = "Search" >		
 					</cfif>
 				</cfloop>
 				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="reqdClr">
-		          <cfloop query="ctguid_type_taxon">
-							<cfset sel="">
+					<cfif searchtext EQ "">
+						<option value=""></option>
+					</cfif>
+					<cfloop query="ctguid_type_taxon">
+						<cfset sel="">
  							<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 								<cfset sel="selected='selected'">
 								<cfset placeholder = "#ctguid_type_taxon.placeholder#">
@@ -121,8 +124,8 @@
 								<cfset regex = "#ctguid_type_taxon.resolver_regex#">
 								<cfset replacement = "#ctguid_type_taxon.resolver_replacement#">
 							</cfif>
-		         	   <option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
-		          </cfloop>
+						<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
+					</cfloop>
 				</select>
 				<a href="#searchlink#" id="taxonid_search">#searchtext#</a>
 				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
@@ -146,7 +149,7 @@
 				</script>
 			</td>
 		</tr>
-      <tr>
+		<tr>
 			<td colspan="2" style="border: 1px solid blue;">
 				<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 				<cfset pattern = "">
@@ -155,24 +158,27 @@
 				<cfset replacement = "">
 				<cfset searchlink = "" >		
 				<cfset searchtext = "" >		
-		      <cfloop query="ctguid_type_scientificname">
+				<cfloop query="ctguid_type_scientificname">
  					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >		
 						<cfset searchtext = "Search" >		
 					</cfif>
 				</cfloop>
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" class="reqdClr">
-		          <cfloop query="ctguid_type_scientificname">
-							<cfset sel="">
- 							<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-								<cfset sel="selected='selected'">
-								<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
-								<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
-								<cfset regex = "#ctguid_type_scientificname.resolver_regex#">
-								<cfset replacement = "#ctguid_type_scientificname.resolver_replacement#">
-							</cfif>
-		         	   <option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
-		          </cfloop>
+					<cfif searchtext EQ "">
+						<option value=""></option>
+					</cfif>
+					<cfloop query="ctguid_type_scientificname">
+						<cfset sel="">
+ 						<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+							<cfset sel="selected='selected'">
+							<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
+							<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
+							<cfset regex = "#ctguid_type_scientificname.resolver_regex#">
+							<cfset replacement = "#ctguid_type_scientificname.resolver_replacement#">
+						</cfif>
+						<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
+					</cfloop>
 				</select>
 				<a href="#searchlink#" id="scientificnameid_search">#searchtext#</a>
 				<input size="56" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
