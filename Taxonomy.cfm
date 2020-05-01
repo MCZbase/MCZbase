@@ -19,12 +19,12 @@
 	select taxon_habitat from cttaxon_habitat order by taxon_habitat
 </cfquery>
 <cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_url
    from ctguid_type 
    where applies_to like '%taxonomy.taxonid%'
 </cfquery>
 <cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_url
    from ctguid_type 
    where applies_to like '%taxonomy.scientificnameid%'
 </cfquery>
