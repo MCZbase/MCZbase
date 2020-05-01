@@ -30,7 +30,8 @@ limitations under the License.
 	<cftry>
 		<cfquery name="qryLoc" datasource="uam_god">
 			SELECT
-				guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement 
+				guid_type, description, applies_to, placeholder, 
+				pattern_regex, resolver_regex, resolver_replacement, search_uri 
 			FROM 
 				ctGuid_Type
 			WHERE 
@@ -46,6 +47,7 @@ limitations under the License.
 			<cfset row["pattern_regex"] = "#qryLoc.pattern_regex#">
 			<cfset row["resolver_regex"] = "#qryLoc.resolver_regex#">
 			<cfset row["resolver_replacement"] = "#qryLoc.resolver_replacement#">
+			<cfset row["search_uri"] = "#qryLoc.search_uri#">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
