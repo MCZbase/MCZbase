@@ -98,7 +98,7 @@
 		</tr>
       <tr>
 			<td colspan="2">
-				<label for="genus">GUID for Taxon (taxonID)</label>
+				<label for="genus">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -111,7 +111,6 @@
 						<cfset searchtext = "Search" >		
 					</cfif>
 				</cfloop>
-				<a href="#searchlink#" id="taxonid_search">#searchtext#</a>
 				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_taxon">
 							<cfset sel="">
@@ -125,7 +124,8 @@
 		         	   <option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 		          </cfloop>
 				</select>
-				<input size="80" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
+				<a href="#searchlink#" id="taxonid_search">#searchtext#</a>
+				<input size="60" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 				<cfelse>
@@ -148,7 +148,7 @@
 		</tr>
       <tr>
 			<td colspan="2">
-				<label for="genus">GUID for Nomenclatural Act (scientificNameID)</label>
+				<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -161,7 +161,6 @@
 						<cfset searchtext = "Search" >		
 					</cfif>
 				</cfloop>
-				<a href="#searchlink#" id="scientificnameid_search">#searchtext#</a>
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_scientificname">
 							<cfset sel="">
@@ -175,7 +174,8 @@
 		         	   <option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 		          </cfloop>
 				</select>
-				<input size="80" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
+				<a href="#searchlink#" id="scientificnameid_search">#searchtext#</a>
+				<input size="60" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
 				<cfelse>
