@@ -26,6 +26,7 @@ limitations under the License.
  *  @param inputControl the id for the guid text input (without a leading # selector).
  *  @param linkControl the id for the anchor that is to take the resolvable guid as an href (without a leading # selector).
  *  @param searchControl the id for the anchor that is to take a guid search link as an href (without a leading # selector).
+ *  @param searchText the text to append to the end of the search_uri in the searchControl href to lookup a guid.
  */
 function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, searchText) {
 	$.ajax({
