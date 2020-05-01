@@ -107,7 +107,7 @@
 				<cfset searchtext = "" >		
 		      <cfloop query="ctguid_type_taxon">
  					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
-						<cfset searchlink = ctguid_type_taxon.search_url & getTaxa.scientific_name >		
+						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >		
 						<cfset searchtext = "Search" >		
 					</cfif>
 				</cfloop>
@@ -157,7 +157,7 @@
 				<cfset searchtext = "" >		
 		      <cfloop query="ctguid_type_scientificname">
  					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-						<cfset searchlink = ctguid_type_scientificname.search_url & gettaxa.scientific_name >		
+						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >		
 						<cfset searchtext = "Search" >		
 					</cfif>
 				</cfloop>
