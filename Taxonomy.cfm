@@ -127,14 +127,14 @@
 						<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 					</cfloop>
 				</select>
-				<a href="#searchlink#" id="taxonid_search">#searchtext#</a>
+				<a href="#searchlink#" id="taxonid_search" target="_blank">#searchtext#</a>
 				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 				<cfelse>
 					<cfset link = gettaxa.taxonid>
 				</cfif>
-				<a id="taxonid_link" href="#link#">#gettaxa.taxonid#</a>
+				<a id="taxonid_link" href="#link#" target="_blank">#gettaxa.taxonid#</a>
 				<script>
 					$(document).ready(function () { 
 						$('##taxonid_guid_type').change(function () { 
@@ -180,14 +180,14 @@
 						<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 					</cfloop>
 				</select>
-				<a href="#searchlink#" id="scientificnameid_search">#searchtext#</a>
+				<a href="#searchlink#" id="scientificnameid_search" target="_blank">#searchtext#</a>
 				<input size="56" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
 				<cfelse>
 					<cfset link = gettaxa.scientificnameid>
 				</cfif>
-				<a id="scientificnameid_link" href="#link#">#gettaxa.scientificnameid#</a>
+				<a id="scientificnameid_link" href="#link#" target="_blank">#gettaxa.scientificnameid#</a>
 				<script>
 					$(document).ready(function () { 
 						$('##scientificnameid_guid_type').change( function () { 
@@ -202,14 +202,14 @@
 				</script>
 			</td>
 		</tr>
-      <tr>
+		<tr>
 			<td>
 				<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
-			    	<cfloop query="ctnomenclatural_code">
-			        	<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
-			            	value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
-			        </cfloop>
+					<cfloop query="ctnomenclatural_code">
+						<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
+							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
+					</cfloop>
 				</select>
 			</td>
 			<td>
