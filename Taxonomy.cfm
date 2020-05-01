@@ -110,7 +110,7 @@
 						<cfset searchlink = ctguid_type_taxon.search_url & getTaxa.scientific_name >		
 						<cfset searchtext = "Search" >		
 					</cfif>
-				<cfloop>
+				</cfloop>
 				<a href="#searchlink#" id="taxonid_search">#searchtext#</a>
 				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_taxon">
@@ -160,7 +160,7 @@
 						<cfset searchlink = ctguid_type_scientificname.search_url & gettaxa.scientific_name >		
 						<cfset searchtext = "Search" >		
 					</cfif>
-				<cfloop>
+				</cfloop>
 				<a href="#searchlink#" id="scientificnameid_search">#searchtext#</a>
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" class="reqdClr">
 		          <cfloop query="ctguid_type_scientificname">
