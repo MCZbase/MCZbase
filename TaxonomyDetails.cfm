@@ -58,7 +58,7 @@
 <cfif isdefined("taxon_name_id")>
 	<cfset checkSql(taxon_name_id)>
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select scientific_name from taxonomy where taxon_name_id=#taxon_name_id#
+		select scientific_name from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cfif len(c.scientific_name) gt 0>
 		<cfheader statuscode="301" statustext="Moved permanently">
@@ -90,6 +90,10 @@
 		taxonomy.AUTHOR_TEXT,
 		taxonomy.INFRASPECIFIC_AUTHOR,
 		taxonomy.INFRASPECIFIC_RANK,
+		taxonomy.taxonid_guid_type,
+		taxonomy.taxonid,
+		taxonomy.scientificnameid_guid_type,
+		taxonomy.scientificnameid,
 		common_name,
 		taxon_relations.RELATED_TAXON_NAME_ID,
 		taxon_relations.TAXON_RELATIONSHIP,
@@ -114,7 +118,7 @@
 		taxon_relations.related_taxon_name_id = related_taxa.taxon_name_id (+) AND
 		taxonomy.taxon_name_id = imp_taxon_relations.related_taxon_name_id (+) AND
 		imp_taxon_relations.taxon_name_id = imp_related_taxa.taxon_name_id (+) and
-		taxonomy.taxon_name_id = #tnid#
+		taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 		ORDER BY scientific_name, common_name, related_taxon_name_id
 </cfquery>
 <cfquery name="common_name" dbtype="query">
@@ -140,7 +144,11 @@
 		<cfloop list="#taxaRanksList#" index="i">
 			#i#,
 		</cfloop>
-		INFRASPECIFIC_AUTHOR
+		INFRASPECIFIC_AUTHOR,
+		taxonid_guid_type,
+		taxonid,
+		scientificnameid_guid_type,
+		scientificnameid
 	from
 		getDetails
 	group by
@@ -206,6 +214,24 @@
 		taxonomy_publication.publication_id=formatted_publication.publication_id and
 		taxonomy_publication.taxon_name_id=#tnid#
 </cfquery>
+<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+   from ctguid_type 
+   where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.taxonid_guid_type#">
+</cfquery>
+<cfset taxonidlink = "">
+<cfif len(one.taxonid) GT 0 AND ctguid_type_taxon.recordcount GT 0 >
+	<cfset taxonidlink =  REReplace(one.taxonid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
+</cfif>
+<cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+   from ctguid_type 
+   where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientificnameid_guid_type#">
+</cfquery>
+<cfset scientificnameidlink = "">
+<cfif len(one.scientificnameid) GT 0 AND ctguid_type_taxon.recordcount GT 0 >
+	<cfset scientificnameidlink =  REReplace(one.scientificnameid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
+</cfif>
 <cfoutput>
 	<script>
 		jQuery(document).ready(function(){
@@ -297,6 +323,12 @@
 		</tr>
 	</table>
 	<p>Name Authority: <b>#one.source_Authority#</b></p>
+	<cfif len(taxonidlink) GT 0>
+		<p>dwc:taxonID: <a href="#taxonidlink#" target="_blank">#one.taxonid#</a></p>
+	</cfif>
+	<cfif len(scientificnameidlink) GT 0>
+		<p>dwc:scientificNameID: <a href="#scientificnameidlink#" target="_blank">#one.scientificnameid#</a></p>
+	</cfif>
 	<p>Common Name(s):
 	<ul>
 		<cfif len(common_name.common_name) is 0>
