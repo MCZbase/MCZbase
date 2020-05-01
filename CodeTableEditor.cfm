@@ -221,7 +221,7 @@
 
 	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement
+			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 			from ctguid_type 
 			order by guid_type
 		</cfquery>
@@ -276,6 +276,13 @@
 						<input type="text" name="resolver_replacement" size="80">
 					</td>
 					<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
+				</tr>
+				<tr>
+					<td>Search URI</td>
+					<td>
+						<input type="text" name="search_uri" size="80">
+					</td>
+					<td>URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -346,6 +353,13 @@
 								<input type="text" name="resolver_replacement" value="#resolver_replacement#" size="80">
 							</td>
 							<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
+						</tr>
+						<tr>
+							<td>Search URI</td>
+							<td>
+								<input type="text" name="search_uri" value="#search_uri#" size="80">
+							</td>
+							<td>URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -1215,6 +1229,7 @@
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				applies_to= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
+				search_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_uri#" />,
 				placeholder= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
 				pattern_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
 				resolver_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
@@ -1328,11 +1343,12 @@
 	<cfelseif tbl is "ctguid_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into ctguid_type (
-				 guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement
+				 guid_type, description, applies_to, search_uri, placeholder, pattern_regex, resolver_regex, resolver_replacement
 			) VALUES (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_uri#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
