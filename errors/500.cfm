@@ -1,4 +1,7 @@
-<cfinclude template="/includes/_header.cfm">
+<cfif not isdefined("toProperCase")>
+	<!---  if header has been included, functionLib.cfm will have been invoked and toProperCase will be defined --->
+	<cfinclude template="/includes/_header.cfm">
+</cfif>
 <cfoutput>
 	<cfheader statuscode="500" statustext="Internal Server Error">
 	<div class="basic_box">
