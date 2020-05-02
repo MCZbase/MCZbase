@@ -112,6 +112,7 @@
 			<cfinclude template="/TaxonomyDetails.cfm">
 			<cfcatch>
 				<cfset errorMessage = cfcatch.message>
+				<cfset errorDetail = cfcatch.detail>
 				<cfinclude template="/errors/500.cfm">
 			</cfcatch>
 		</cftry>

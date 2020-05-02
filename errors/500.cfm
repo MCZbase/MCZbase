@@ -10,6 +10,9 @@
 	<cfif isdefined("errorMessage")>
 		<h3>#errorMessage#</h3>
 	</cfif>
+	<cfif isdefined("errorDetail")>
+		<p>#errorDetail#</p>
+	</cfif>
 	<p>
       Please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
 	 	containing any information that might help us resolve this issue.
