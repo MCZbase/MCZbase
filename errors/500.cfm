@@ -7,7 +7,7 @@
 	<div class="basic_box">
 	<cfset title="500: Internal Server Error">
 	<h2>500 Internal Server Error. </h2>
-	<cfif isdefined(errorMessage)>
+	<cfif isdefined("errorMessage")>
 		<h3>#errorMessage#</h3>
 	</cfif>
 	<p>
