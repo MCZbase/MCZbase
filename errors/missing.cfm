@@ -111,7 +111,8 @@
 			<cfset scientific_name = listgetat(rdurl,gPos+1,"/")>
 			<cfinclude template="/TaxonomyDetails.cfm">
 			<cfcatch>
-				<cfinclude template="/errors/404.cfm">
+				<cfset errorMessage = cfcatch.message>
+				<cfinclude template="/errors/500.cfm">
 			</cfcatch>
 		</cftry>
 	<cfelseif listfindnocase(rdurl,'api',"/")>
