@@ -111,7 +111,7 @@
 						<cfset searchtext = "Search" >		
 					</cfif>
 				</cfloop>
-				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="reqdClr">
+				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
 					<cfif searchtext EQ "">
 						<option value=""></option>
 					</cfif>
@@ -164,7 +164,7 @@
 						<cfset searchtext = "Search" >		
 					</cfif>
 				</cfloop>
-				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" class="reqdClr">
+				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
 					<cfif searchtext EQ "">
 						<option value=""></option>
 					</cfif>
