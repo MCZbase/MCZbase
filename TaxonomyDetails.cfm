@@ -163,7 +163,11 @@
 		<cfloop list="#taxaRanksList#" index="i">
 			#i#,
 		</cfloop>
-		INFRASPECIFIC_AUTHOR
+		INFRASPECIFIC_AUTHOR,
+		taxonid_guid_type,
+		taxonid,
+		scientificnameid_guid_type,
+		scientificnameid
 </cfquery>
 <cfquery name="related" dbtype="query">
 	select
