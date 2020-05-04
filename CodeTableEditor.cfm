@@ -926,7 +926,7 @@
 			<input type="hidden" name="tbl" value="ctnomenclatural_code">
 			<table class="newRec">
 				<tr>
-					<th>Code</th>
+					<th>Nomenclatural Code</th>
 					<th>Description</th>
 					<th>Sort Order</th>
 					<th></th>
@@ -936,10 +936,10 @@
 						<input type="text" name="newData" >
 					</td>
 					<td>
-						<textarea name="description" rows="4" cols="40"></textarea>
+						<textarea name="description" rows="4" cols="70"></textarea>
 					</td>
 					<td>
-						<input type="sort_order" name="base_url" size="50">
+						<input type="text" name="sort_order" size="3">
 					</td>
 					<td>
 						<input type="submit" 
@@ -952,7 +952,7 @@
 		<cfset i = 1>
 		<table>
 			<tr>
-				<th>Code</th>
+				<th>Nomenclatural Code</th>
 				<th>Description</th>
 				<th>Sort Order</th>
 			</tr>
@@ -966,10 +966,10 @@
 							<input type="text" name="nomenclatural_code" value="#nomenclatural_code#" size="50">
 						</td>
 						<td>
-							<textarea name="description" rows="4" cols="40">#description#</textarea>
+							<textarea name="description" rows="4" cols="70">#description#</textarea>
 						</td>
 						<td>
-							<input type="text" name="sort_order" size="60" value="#sort_order#">
+							<input type="text" name="sort_order" size="3" value="#sort_order#">
 						</td>				
 						<td>
 							<input type="button" 
