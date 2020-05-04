@@ -36,18 +36,31 @@
 	.warning{border:5px solid red;}
 </style>
 <script>
+	// Check values once per second, warn for issues
 	window.setInterval(chkTax, 1000);
 	function chkTax(){
-		if ($("#nomenclatural_code").val()=='unknown'){
-			$("#nomenclatural_code").addClass('warning');
+		if ($("#nomenclatural_code").val()=="unknown"){
+			// no longer in use, but retain if added again
+			$("#nomenclatural_code").addClass("warning");
 		} else {
-			$("#nomenclatural_code").removeClass('warning');
+			$("#nomenclatural_code").removeClass("warning");
 		}
-		if ($("#kingdom").val()==''){
-			$("#kingdom").addClass('warning');
+		var ncode = $("#nomenclatural_code").val();
+		if ($("#kingdom").val()==""){
+			// kingdom should have a value
+			$("#kingdom").addClass("warning");
 		} else {
-			$("#kingdom").removeClass('warning');
+			$("#kingdom").removeClass("warning");
+			if ( (ncode=="ICNafp" || ncode=="ICBN") && $("#kingdom").val()=="Animalia"){
+				// animals shouldn't have the botanical (ICNafp) code.
+				$("#kingdom").addClass("warning");
+		 	}
 		}
+		if (ncode=="ICZN" && $("#infraspecific_author").val()!="") {
+			$("#infraspecific_author").addClass("warning");
+		} else { 
+			$("#infraspecific_author").removeClass("warning");
+		} 
 	}
 </script>
 <!------------------------------------------------>
