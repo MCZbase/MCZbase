@@ -269,7 +269,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Manage Data
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-5" aria-labelledby="navbarDropdownMenuLink3">
+					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink3">
 						<a class="dropdown-item" name="projects" href="##">Projects</a>
 						<a class="dropdown-item" name="statistics" href="##">Statistics</a>
 						<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
