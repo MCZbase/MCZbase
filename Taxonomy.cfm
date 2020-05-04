@@ -67,7 +67,7 @@
 	</cfquery>
 <cfoutput>
 <div class="content_box_narrow">
-	<h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy:  
+	<h2>Edit Taxon:  
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  
 		<em>#getTaxa.scientific_name#</em> 
 		<span style="font-variant: small-caps;">#getTaxa.author_text#</span>
