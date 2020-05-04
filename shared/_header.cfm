@@ -325,8 +325,8 @@ limitations under the License.
 								</form>
 							</cfif>
 							<cfif session.roles contains "public">
-								<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
-								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+								<a class="dropdown-item pl-5 pl-md-2" href="/customSettings.cfm">Custom Settings</a> 
+								<a class="dropdown-item pl-5 pl-md-2" href="/saveSearch.cfm?action=manage">Saved Searches</a>
 							</cfif>
 						</div>
 					</li>
