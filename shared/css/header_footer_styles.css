@@ -224,11 +224,11 @@ nav button {
 	border: 1px solid #ddd;
 }
 .logout {
-	padding: 0 .35em .1em .25em;
+	padding: 0 .25em;
     font-size: .88em;
-	font-weight: 500;
+	font-weight: normal;
 	position: absolute;
-	right: 7px;
+	right: 10px;
 	top: 3px;
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif"
 }
