@@ -917,6 +917,75 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "ctnomenclatural_code"><!--------------------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select nomenclatural_code, description, sort_order from ctnomenclatural_code order by sort_order
+		</cfquery>	
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="ctnomenclatural_code">
+			<table class="newRec">
+				<tr>
+					<th>Code</th>
+					<th>Description</th>
+					<th>Sort Order</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<textarea name="description" rows="4" cols="40"></textarea>
+					</td>
+					<td>
+						<input type="sort_order" name="base_url" size="50">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">					
+					</td>
+				</tr>
+			</table>
+		</form>
+		<cfset i = 1>
+		<table>
+			<tr>
+				<th>Code</th>
+				<th>Description</th>
+				<th>Sort Order</th>
+			</tr>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="ctnomenclatural_code">
+						<input type="hidden" name="origData" value="#nomenclatural_code#">
+						<td>
+							<input type="text" name="nomenclatural_code" value="#nomenclatural_code#" size="50">
+						</td>
+						<td>
+							<textarea name="description" rows="4" cols="40">#description#</textarea>
+						</td>
+						<td>
+							<input type="text" name="sort_order" size="60" value="#sort_order#">
+						</td>				
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">	
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctspecimen_part_list_order"><!--- special section to handle  another  funky code table --->
 		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from ctspecimen_part_list_order order by
@@ -1154,6 +1223,12 @@
 			where
 				publication_attribute='#origData#'
 		</cfquery>
+	<cfif tbl is "ctnomenclatural_code">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctnomenclatural_code 
+			where
+				nomenclatural_code='#origData#'
+		</cfquery>
 	<cfelseif tbl is "ctguid_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctguid_type
@@ -1222,6 +1297,15 @@
 				control=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#control#">
 			where
 				publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfif tbl is "ctnomenclatural_code">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctnomenclatural_code set 
+				nomenclatural_code=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">,
+				DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				sort_order=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#sort_order#">
+			where
+				nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1335,9 +1419,21 @@
 				DESCRIPTION,
 				control
 			) values (
-				'#newData#',
-				'#description#',
-				'#control#'
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=''#description#'>,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=''#control#'>
+			)
+		</cfquery>
+	<cfif tbl is "ctnomenclatural_code">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctnomenclatural_code(
+				nomenclatural_code,
+				DESCRIPTION,
+				sort_order
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=''#description#'>,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=''#sort_order#'>
 			)
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">

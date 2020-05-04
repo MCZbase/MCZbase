@@ -279,27 +279,25 @@
 				<br>(#existingAnnotations.cnt# existing)
 			</cfif>
 			</a>
-		<cfelse>
-			<a href="/login.cfm">Login or Create Account</a>
 		</cfif>
     </span>
      
 	<div align="left">
 		<cfif one.VALID_CATALOG_TERM_FG is 1>
-	   		<font size="+1"	>
-		    	<h3>#one.display_name# #one.AUTHOR_TEXT#</h3>
+	   	<font size="+1">
+		    	<h3>#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h3>
 			</font>
 			<cfif len(one.AUTHOR_TEXT) gt 0>
 				<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
         	</cfif>
-        <cfelseIF #one.VALID_CATALOG_TERM_FG# is 0>
-	    	<h3>#one.display_name# #one.AUTHOR_TEXT#</h3>
+      <cfelseIF #one.VALID_CATALOG_TERM_FG# is 0>
+	    	<h3>#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h3>
 	        <br>
 	        <font color="##FF0000" size="-1">
 		    	&nbsp;
 		    	This name is not accepted for current identifications.
 			</font>
-	    </cfif>
+	   </cfif>
 	</div>
             </div>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>

@@ -10,7 +10,7 @@
 	select source_authority from CTTAXONOMIC_AUTHORITY order by source_authority
 </cfquery>
 <cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select nomenclatural_code from ctnomenclatural_code order by nomenclatural_code
+	select nomenclatural_code from ctnomenclatural_code order by sort_order
 </cfquery>
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select taxon_status from cttaxon_status order by taxon_status
@@ -67,7 +67,11 @@
 	</cfquery>
 <cfoutput>
 <div class="content_box_narrow">
-	<h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy:  <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  <em>#getTaxa.scientific_name#</em></h2>
+	<h2 class="wikilink" style="margin-left: 0;float:none;">Edit Taxonomy:  
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  
+		<em>#getTaxa.scientific_name#</em> 
+		<span style="font-variant: small-caps;">#getTaxa.author_text#</span>
+	</h2>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 	<table class="tInput">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
@@ -211,6 +215,32 @@
 							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
 					</cfloop>
 				</select>
+				<script>
+					$(document).ready(function() { 
+						$('##nomenclatural_code').change(function() { 
+							val ncode = $('##nomenclatural_code').val();
+							if (ncode=='ICNafp') { 
+								$('.botanical').hide();	
+								if ($('##infraspecific_author').val()=="") { 
+									$('##infraspecific_author').hide(); 
+									$('##infraspecific_author_label').hide(); 
+								}
+							} else { 
+								$('.botanical').show();	
+								$('##infraspecific_author').show(); 
+								$('##infraspecific_author_label').show(); 
+							}
+						};
+
+						if ($('##nomenclatural_code').val()=='ICNafp') { 
+							$('.botanical').hide();	
+							if ($('##infraspecific_author').val()=="") { 
+								$('##infraspecific_author').hide(); 
+								$('##infraspecific_author_label').hide(); 
+							}
+						}
+					});
+				</script>
 			</td>
 			<td>
 				<label for="genus">Genus <span class="likeLink" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
@@ -226,7 +256,7 @@
 			<td>
 				<label for="author_text"><span>Author</span></label>
 				<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" size="30">
-				<span class="infoLink"
+				<span class="infoLink botanical"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
 					Find Kew Abbr
 				</span>
@@ -261,13 +291,13 @@
 				<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#">
 			</td>
 			<td>
-				<label for="author_text"><span>
+				<label for="infraspecific_author" id="infraspecific_author_label"><span>
 					Infraspecific Author (do not use for ICZN names)</span></label>
 				<input type="text" name="infraspecific_author" id="infraspecific_author" value="#gettaxa.infraspecific_author#" size="30">
-				<span class="infoLink"
+				<span class="infoLink botanical"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')">
 						Find Kew Abbr
-					</span>
+				</span>
 			</td>
 		</tr>
 		<tr>
