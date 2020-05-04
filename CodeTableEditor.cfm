@@ -1223,7 +1223,7 @@
 			where
 				publication_attribute='#origData#'
 		</cfquery>
-	<cfif tbl is "ctnomenclatural_code">
+	<cfelseif tbl is "ctnomenclatural_code">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctnomenclatural_code 
 			where
