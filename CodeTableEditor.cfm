@@ -1424,7 +1424,7 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#control#'>
 			)
 		</cfquery>
-	<cfif tbl is "ctnomenclatural_code">
+	<cfelseif tbl is "ctnomenclatural_code">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into ctnomenclatural_code(
 				nomenclatural_code,
