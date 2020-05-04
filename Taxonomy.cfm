@@ -230,7 +230,7 @@
 								$('##infraspecific_author').show(); 
 								$('##infraspecific_author_label').show(); 
 							}
-						};
+						});
 
 						if ($('##nomenclatural_code').val()=='ICNafp') { 
 							$('.botanical').hide();	
