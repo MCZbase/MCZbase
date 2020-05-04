@@ -1420,8 +1420,8 @@
 				control
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=''#description#'>,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=''#control#'>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#control#'>
 			)
 		</cfquery>
 	<cfif tbl is "ctnomenclatural_code">
@@ -1432,8 +1432,8 @@
 				sort_order
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=''#description#'>,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=''#sort_order#'>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#sort_order#'>
 			)
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">
