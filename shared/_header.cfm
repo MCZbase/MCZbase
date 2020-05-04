@@ -194,7 +194,7 @@ limitations under the License.
 	</button>
 
 	<div class="collapse navbar-collapse" id="navbarToggler1">
-		<ul class="navbar-nav mr-auto mt-0 mt-lg-0 px-0">
+		<ul class="navbar-nav mr-auto mt-0 mt-lg-0 pl-0">
 			<cfif isdefined("Application.header_image")>
 				<!---  Redesign menu for integration on production --->
 				<li class="nav-item dropdown">
@@ -307,7 +307,7 @@ limitations under the License.
 			
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				</ul>
-				<ul class="navbar-nav ml-auto mt-0 mt-lg-0 px-0">
+				<ul class="navbar-nav ml-auto mt-0 mt-lg-0 pl-0">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
