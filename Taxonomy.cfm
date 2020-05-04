@@ -218,7 +218,7 @@
 				<script>
 					$(document).ready(function() { 
 						$('##nomenclatural_code').change(function() { 
-							val ncode = $('##nomenclatural_code').val();
+							var ncode = $('##nomenclatural_code').val();
 							if (ncode=='ICNafp') { 
 								$('.botanical').hide();	
 								if ($('##infraspecific_author').val()=="") { 
