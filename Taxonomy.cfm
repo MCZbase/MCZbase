@@ -219,7 +219,7 @@
 					$(document).ready(function() { 
 						$('##nomenclatural_code').change(function() { 
 							var ncode = $('##nomenclatural_code').val();
-							if (ncode=='ICNafp') { 
+							if (ncode!='ICNafp') { 
 								$('.botanical').hide();	
 								if ($('##infraspecific_author').val()=="") { 
 									$('##infraspecific_author').hide(); 
@@ -232,7 +232,7 @@
 							}
 						});
 
-						if ($('##nomenclatural_code').val()=='ICNafp') { 
+						if ($('##nomenclatural_code').val()!='ICNafp') { 
 							$('.botanical').hide();	
 							if ($('##infraspecific_author').val()=="") { 
 								$('##infraspecific_author').hide(); 
