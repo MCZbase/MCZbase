@@ -220,6 +220,14 @@
 							// On loss of focus for input, validate against the regex, update link
 							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 						});
+						$('##species').change(function () { 
+							// On changing species name, update search.
+							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+						});
+						$('##genus').change(function () { 
+							// On changing species name, update search.
+							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+						});
 					});
 				</script>
 			</td>
@@ -271,6 +279,14 @@
 						});
 						$('##scientificnameid').blur( function () { 
 							// On loss of focus for input, validate against the regex, update link
+							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+						});
+						$('##species').change( function () { 
+							// On changing species name, update the search link.
+							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+						});
+						$('##genus').change( function () { 
+							// On changing species name, update the search link.
 							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 						});
 					});
@@ -881,6 +897,14 @@
 								// On loss of focus for input, validate against the regex, update link
 								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 							});
+							$('##species').change(function () { 
+								// On changing species name, update search.
+								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+							});
+							$('##genus').change(function () { 
+								// On changing species name, update search.
+								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+							});
 						});
 					</script>
 				</td>
@@ -928,6 +952,14 @@
 							});
 							$('##scientificnameid').blur( function () { 
 								// On loss of focus for input, validate against the regex, update link
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+							});
+							$('##species').change( function () { 
+								// On changing species name, update the search link.
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+							});
+							$('##genus').change( function () { 
+								// On changing species name, update the search link.
 								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 							});
 						});
