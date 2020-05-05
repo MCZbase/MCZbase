@@ -542,7 +542,7 @@ limitations under the License.
 														<option value="contains" #containsselect#>contains</option>
 													</select>
 												</div>
-												<div class="col-9 px-0">
+												<div class="col-9 px-0 pt-2 pt-sm-0">
 													<label for="part_name" class="data-entry-label  mb-0">Part Name</label>
 													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 												</div>
@@ -562,7 +562,7 @@ limitations under the License.
 														<option value="isnot" #notselect#>is not</option>
 													</select>
 												</div>
-												<div class="col-9 px-0">
+												<div class="col-9 px-0 pt-2 pt-sm-0">
 													<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
 													<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
 													<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
