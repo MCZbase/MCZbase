@@ -183,7 +183,10 @@
 
 	// Hide botanical code elements of form when code is ICZN
 	$(document).ready(function() { 
-		$('##nomenclatural_code').change(toggleBotanicalVisibility());
+		$('##nomenclatural_code').change(function() { 
+			console.log($('##nomenclatural_code').val());
+			toggleBotanicalVisibility();
+		});
 		toggleBotanicalVisibility();
 	});  
 </script>
@@ -443,8 +446,6 @@
 			</td>
 			<td>
 				&nbsp;
-				<!---Deprecated: label for="nomenclatural_code">Nomenclatural Code</label>
-				<input type="text" name="nomenclatural_code" id="nomenclatural_code" value="#gettaxa.nomenclatural_code#" size="30"--->
 			</td>
 		</tr>
 		<tr id="phylum_row">
@@ -1097,8 +1098,6 @@
 				</td>
 			<td>
 				&nbsp;
-				<!---Deprecated:label for="nomenclatural_code">Nomenclatural Code</label>
-				<input type="text" name="nomenclatural_code" id="nomenclatural_code" value="#nomenclatural_code#" size="30"---->
 			</td>
 		</tr>
 		<tr id="phylum_row">
