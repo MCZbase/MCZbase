@@ -85,11 +85,17 @@
 		<em>#getTaxa.scientific_name#</em> 
 		<span style="font-variant: small-caps;">#getTaxa.author_text#</span>
 	</h2>
+	<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
+	<cfif len(getTaxa.taxonid) GT 0>
+		<cfset hasTaxonID = true>
+	<cfelse>
+		<cfset hasTaxonID = false>
+	</cfif>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-	<table class="tInput">
 	<form name="taxa" method="post" action="Taxonomy.cfm">
+	<table class="tInput">
 		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-		<input type="hidden" name="Action">
+		<input type="hidden" name="Action" id="taxon_form_action_input">
 		<tr>
 			<td>
 				<label for="source_authority">
@@ -279,21 +285,23 @@
 			<td>
 				<label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
 				<select name="infraspecific_rank" id="infraspecific_rank" size="1">
-                	<option value=""></option>
-	                <cfloop query="ctInfRank">
-	                  <option
-							<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
-	                </cfloop>
-              	</select>
+					<option value=""></option>
+					<cfloop query="ctInfRank">
+						<option
+							<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
+							value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
+					</cfloop>
+				</select>
 			</td>
 			<td>
 				<label for="taxon_status"><span>Taxon Status</span></label>
 				<select name="taxon_status" id="taxon_status" size="1">
-			    	<option value=""></option>
-			    	<cfloop query="cttaxon_status">
-			        	<option <cfif gettaxa.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
-			            	value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
-			        </cfloop>
+					<option value=""></option>
+					<cfloop query="cttaxon_status">
+						<option 
+							<cfif gettaxa.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
+							value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
+						</cfloop>
 				</select>
 				<span class="infoLink" onclick="getCtDoc('cttaxon_status');">Define</span>
 			</td>
@@ -415,7 +423,7 @@
 				<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" size="29">
 			</td>
 		</tr>
-        <tr>
+		<tr>
 			<td colspan="2">
 				<label for="taxon_remarks">Remarks</label>
 				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#gettaxa.taxon_remarks#</textarea>
@@ -424,14 +432,29 @@
 		<tr>
 			<td colspan="2">
 				<div align="center">
-					<input type="button" value="Save" class="savBtn" onclick="taxa.Action.value='saveTaxaEdits';submit();">
-              		<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxa';submit();">
-   					<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+					<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
+					<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxa';submit();">
+					<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 				</div>
 			</td>
+			<script>
+				function qcTaxonEdits() { 
+					$("##taxon_form_action_input").value('saveTaxonEdits');
+					<cfif hasTaxonId>
+						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
+							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
+							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxa').submit(); } )
+						} else { 
+							$('##taxa').submit();
+						}
+					<cfelse>
+						$('##taxa').submit();
+					</cfif>
+				}
+			</script>
 		</tr>
-      </form>
-    </table>
+ 	</table>
+	</form>
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			taxonomy_publication_id,
@@ -1215,7 +1238,7 @@
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif #Action# is "saveTaxaEdits">
+<cfif #Action# is "saveTaxonEdits">
 <cfoutput>
        <cfset subgenus_message = "">
         <cfif len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
