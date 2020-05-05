@@ -92,7 +92,7 @@
 		<cfset hasTaxonID = false>
 	</cfif>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-	<form name="taxa" method="post" action="Taxonomy.cfm">
+	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
 	<table class="tInput">
 		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 		<input type="hidden" name="Action" id="taxon_form_action_input">
@@ -439,16 +439,16 @@
 			</td>
 			<script>
 				function qcTaxonEdits() { 
-					$("##taxon_form_action_input").value('saveTaxonEdits');
+					$("##taxon_form_action_input").val('saveTaxonEdits');
 					<cfif hasTaxonId>
 						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
 							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
 							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxa').submit(); } )
 						} else { 
-							$('##taxa').submit();
+							$('##taxon_form').submit();
 						}
 					<cfelse>
-						$('##taxa').submit();
+						$('##taxon_form').submit();
 					</cfif>
 				}
 			</script>
