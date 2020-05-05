@@ -443,7 +443,7 @@
 					<cfif hasTaxonId>
 						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
 							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
-							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxa').submit(); } )
+							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
 						} else { 
 							$('##taxon_form').submit();
 						}
