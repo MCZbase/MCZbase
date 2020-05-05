@@ -35,6 +35,7 @@
 <style>
 	.warning{border:5px solid red;}
 </style>
+<cfoutput>
 <script>
 	// Check values once per second, warn for issues
 	window.setInterval(chkTax, 1000);
@@ -68,49 +69,49 @@
 	 */
 	function getLowestTaxon() { 
 		var result = "";
-		if ($('#genus').val()!="") { 
-			result = $('#genus').val();
-			if ($('#subgenus').val()!="") { 
-				result = result + " (" + $('#subgenus').val() + ")";
+		if ($('##genus').val()!="") { 
+			result = $('##genus').val();
+			if ($('##subgenus').val()!="") { 
+				result = result + " (" + $('##subgenus').val() + ")";
 			}
-			if ($('#species').val()!="") { 
-				result = result + " " + $('#species').val();
+			if ($('##species').val()!="") { 
+				result = result + " " + $('##species').val();
 			}
-			if ($('#subspecies').val()!="") { 
-				result = result + " " + $('#subspecies').val();
+			if ($('##subspecies').val()!="") { 
+				result = result + " " + $('##subspecies').val();
 			}
-		} else if ($('#tribe').val()!="") { 
-			result = $('#tribe').val();
-		} else if ($('#subfamily').val()!="") { 
-			result = $('#subfamily').val();
-		} else if ($('#family').val()!="") { 
-			result = $('#family').val();
-		} else if ($('#superfamily').val()!="") { 
-			result = $('#superfamily').val();
-		} else if ($('#infraorder').val()!="") { 
-			result = $('#infraorder').val();
-		} else if ($('#suborder').val()!="") { 
-			result = $('#suborder').val();
-		} else if ($('#phylorder').val()!="") { 
-			result = $('#phylorder').val();
-		} else if ($('#superorder').val()!="") { 
-			result = $('#superorder').val();
-		} else if ($('#subclass').val()!="") { 
-			result = $('#subclass').val();
-		} else if ($('#phylclass').val()!="") { 
-			result = $('#phylclass').val();
-		} else if ($('#superclass').val()!="") { 
-			result = $('#superclass').val();
-		} else if ($('#subphylum').val()!="") { 
-			result = $('#subphylum').val();
-		} else if ($('#phylum').val()!="") { 
-			result = $('#phylum').val();
-		} else if ($('#subdivision').val()!="") { 
-			result = $('#subdivision').val();
-		} else if ($('#division').val()!="") { 
-			result = $('#division').val();
-		} else if ($('#kingdom').val()!="") { 
-			result = $('#kingdom').val();
+		} else if ($('##tribe').val()!="") { 
+			result = $('##tribe').val();
+		} else if ($('##subfamily').val()!="") { 
+			result = $('##subfamily').val();
+		} else if ($('##family').val()!="") { 
+			result = $('##family').val();
+		} else if ($('##superfamily').val()!="") { 
+			result = $('##superfamily').val();
+		} else if ($('##infraorder').val()!="") { 
+			result = $('##infraorder').val();
+		} else if ($('##suborder').val()!="") { 
+			result = $('##suborder').val();
+		} else if ($('##phylorder').val()!="") { 
+			result = $('##phylorder').val();
+		} else if ($('##superorder').val()!="") { 
+			result = $('##superorder').val();
+		} else if ($('##subclass').val()!="") { 
+			result = $('##subclass').val();
+		} else if ($('##phylclass').val()!="") { 
+			result = $('##phylclass').val();
+		} else if ($('##superclass').val()!="") { 
+			result = $('##superclass').val();
+		} else if ($('##subphylum').val()!="") { 
+			result = $('##subphylum').val();
+		} else if ($('##phylum').val()!="") { 
+			result = $('##phylum').val();
+		} else if ($('##subdivision').val()!="") { 
+			result = $('##subdivision').val();
+		} else if ($('##division').val()!="") { 
+			result = $('##division').val();
+		} else if ($('##kingdom').val()!="") { 
+			result = $('##kingdom').val();
 		}
 		return result;
 	}
@@ -139,8 +140,9 @@
 				$('##infraspecific_author_label').hide(); 
 			}
 		}
-	});
+	});  
 </script>
+</cfoutput>
 <!------------------------------------------------>
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
