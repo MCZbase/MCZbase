@@ -62,6 +62,58 @@
 			$("#infraspecific_author").removeClass("warning");
 		} 
 	}
+	/** getLowestTaxon 
+    * find the lowest ranking taxon name on the taxonomy form.
+	 * @return the value of the lowest rank filled in field (or set of fields if below generic rank).
+	 */
+	function() getLowestTaxon() { 
+		var result = "";
+		if ($('#genus').val()!="") { 
+			result = $('#genus').val();
+			if ($('#subgenus').val()!="") { 
+				result = result + " (" + $('#subgenus').val() + ")";
+			}
+			if ($('#species').val()!="") { 
+				result = result + " " + $('#species').val();
+			}
+			if ($('#subspecies').val()!="") { 
+				result = result + " " + $('#subspecies').val();
+			}
+      } else if ($('#tribe').val()!="") { 
+			result = $('#tribe').val();
+      } else if ($('#subfamily').val()!="") { 
+			result = $('#subfamily').val();
+      } else if ($('#family').val()!="") { 
+			result = $('#family').val();
+      } else if ($('#superfamily').val()!="") { 
+			result = $('#superfamily').val();
+      } else if ($('#infraorder').val()!="") { 
+			result = $('#infraorder').val();
+      } else if ($('#suborder').val()!="") { 
+			result = $('#suborder').val();
+      } else if ($('#phylorder').val()!="") { 
+			result = $('#phylorder').val();
+      } else if ($('#superorder').val()!="") { 
+			result = $('#superorder').val();
+      } else if ($('#subclass').val()!="") { 
+			result = $('#subclass').val();
+      } else if ($('#phylclass').val()!="") { 
+			result = $('#phylclass').val();
+      } else if ($('#superclass').val()!="") { 
+			result = $('#superclass').val();
+      } else if ($('#subphylum').val()!="") { 
+			result = $('#subphylum').val();
+      } else if ($('#phylum').val()!="") { 
+			result = $('#phylum').val();
+      } else if ($('#subdivision').val()!="") { 
+			result = $('#subdivision').val();
+      } else if ($('#division').val()!="") { 
+			result = $('#division').val();
+      } else if ($('#kingdom').val()!="") { 
+			result = $('#kingdom').val();
+      }
+		return result;
+	}
 </script>
 <!------------------------------------------------>
 <cfif action is "nothing">
@@ -162,11 +214,11 @@
 					$(document).ready(function () { 
 						$('##taxonid_guid_type').change(function () { 
 							// On selecting a guid_type, change the pattern.
-							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search','#getTaxa.scientific_name#');
+							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 						});
 						$('##taxonid').blur( function () { 
 							// On loss of focus for input, validate against the regex, update link
-							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search','#getTaxa.scientific_name#');
+							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 						});
 					});
 				</script>
@@ -215,11 +267,11 @@
 					$(document).ready(function () { 
 						$('##scientificnameid_guid_type').change( function () { 
 							// On selecting a guid_type, change the pattern.
-							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search','#getTaxa.scientific_name#');
+							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 						});
 						$('##scientificnameid').blur( function () { 
 							// On loss of focus for input, validate against the regex, update link
-							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search','#getTaxa.scientific_name#');
+							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 						});
 					});
 				</script>
@@ -342,14 +394,14 @@
 				<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" size="30">
 			</td>
 		</tr>
-		<tr>
+		<tr class="botanical">
 			<td>
-				<label for="division">Division</label>
-				<input type="text" name="division" id="division" value="#gettaxa.division#" size="30">
+				<label for="division" class="botanical" >Division</label>
+				<input type="text" name="division" id="division" value="#gettaxa.division#" size="30" class="botanical">
 			</td>
 			<td>
-				<label for="subdivision">SubDivision</label>
-				<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" size="30">
+				<label for="subdivision" class="botanical">SubDivision</label>
+				<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" size="30" class="botanical">
 			</td>
 		</tr>
 		<tr>
@@ -419,7 +471,7 @@
 				(<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" size="29">)#subgenus_message#
 			</td>
 			<td>
-				<label for="subgenus">SubSection</label>
+				<label for="subsection">SubSection</label>
 				<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" size="29">
 			</td>
 		</tr>
@@ -433,7 +485,7 @@
 			<td colspan="2">
 				<div align="center">
 					<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
-					<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxa';submit();">
+					<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxon';submit();">
 					<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 				</div>
 			</td>
@@ -522,7 +574,7 @@
 		</tr>
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-			<input type="hidden" name="Action" value="newTaxaRelation">
+			<input type="hidden" name="Action" value="newTaxonRelation">
 			<tr class="newRec">
 				<td>
 					<label for="taxon_relationship">Add Relationship</label>
@@ -753,7 +805,7 @@
 </cfif>
 
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "newTaxa">
+<cfif action is "newTaxon">
 <cfset title = "Add Taxon">
 <cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -818,21 +870,16 @@
 					<a href="#searchlink#" id="taxonid_search" target="_blank">#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 					<input size="56" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#">
-					<cfif len(regex) GT 0 >
-						<cfset link = REReplace(form.taxonid,regex,replacement)>
-					<cfelse>
-						<cfset link = form.taxonid>
-					</cfif>
-					<a id="taxonid_link" href="#link#" target="_blank">#form.taxonid#</a>
+					<a id="taxonid_link" href="" target="_blank"></a>
 					<script>
 						$(document).ready(function () { 
 							$('##taxonid_guid_type').change(function () { 
 								// On selecting a guid_type, change the pattern.
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search','#getClonedFromTaxon.scientific_name#');
+								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 							});
 							$('##taxonid').blur( function () { 
 								// On loss of focus for input, validate against the regex, update link
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search','#getClonedFromTaxon.scientific_name#');
+								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 							});
 						});
 					</script>
@@ -872,21 +919,16 @@
 					<a href="#searchlink#" id="scientificnameid_search" target="_blank">#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 					<input size="56" name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#">
-					<cfif len(regex) GT 0 >
-						<cfset link = REReplace(form.scientificnameid,regex,replacement)>
-					<cfelse>
-						<cfset link = form.scientificnameid>
-					</cfif>
-					<a id="scientificnameid_link" href="#link#" target="_blank">#form.scientificnameid#</a>
+					<a id="scientificnameid_link" href="" target="_blank"></a>
 					<script>
 						$(document).ready(function () { 
 							$('##scientificnameid_guid_type').change( function () { 
 								// On selecting a guid_type, change the pattern.
-								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search','#getClonedFromTaxon.scientific_name#');
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 							});
 							$('##scientificnameid').blur( function () { 
 								// On loss of focus for input, validate against the regex, update link
-								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search','#getClonedFromTaxon.scientific_name#');
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 							});
 						});
 					</script>
@@ -982,14 +1024,14 @@
 				<input type="text" name="subphylum" id="subphylum" value="#subphylum#" size="30">
 			</td>
 		</tr>
-		<tr>
+		<tr class="botanical">
 			<td>
-				<label for="division">Division</label>
-				<input type="text" name="division" id="division" value="#division#" size="30">
+				<label for="division" class="botanical">Division</label>
+				<input type="text" name="division" id="division" value="#division#" size="30" class="botanical">
 			</td>
 			<td>
-				<label for="subdivision">SubDivision</label>
-				<input type="text" name="subdivision" id="subdivision" value="#subdivision#" size="30">
+				<label for="subdivision" class="botanical">SubDivision</label>
+				<input type="text" name="subdivision" id="subdivision" value="#subdivision#" size="30" class="botanical">
 			</td>
 		</tr>
 		<tr>
@@ -1085,7 +1127,7 @@
 		<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select sq_taxon_name_id.nextval nextID from dual
 		</cfquery>
-		<cfquery name="newTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="newTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO taxonomy (
 				taxon_name_id,
 				valid_catalog_term_fg,
@@ -1293,7 +1335,7 @@
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "newTaxaRelation">
+<cfif action is "newTaxonRelation">
 <cfoutput>
 	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO taxon_relations (
