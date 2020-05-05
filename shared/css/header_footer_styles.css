@@ -227,7 +227,7 @@ nav button {
 .logout {
 	padding: 0 .45em;
     font-size: .88em;
-	font-weight: normal;
+	font-weight: bold;
 	/*position: absolute;*/
 	right: 10px;
 	top: 3px;
