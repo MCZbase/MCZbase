@@ -526,7 +526,7 @@ limitations under the License.
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
-											<div class="border bg-light rounded px-2 pt-1 mb-1 pb-4">
+											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-4">
 											<div class="form-row mx-0 mb-1">
 												<div class="col-3 px-0">
 													<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
@@ -589,7 +589,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-															</div>
+										</div>
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
