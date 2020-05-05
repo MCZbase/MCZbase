@@ -67,10 +67,20 @@
 		} else { 
 			$("##division").removeClass("warning");
 		} 
+		if (ncode=="ICZN" && $("##subdivision").val()!="") {
+			$("##subdivision").addClass("warning");
+		} else { 
+			$("##subdivision").removeClass("warning");
+		} 
 		if ((ncode=="ICNafp" || ncode=="ICBN") && $("##phylum").val()!="") {
 			$("##phylum").addClass("warning");
 		} else { 
 			$("##phylum").removeClass("warning");
+		} 
+		if ((ncode=="ICNafp" || ncode=="ICBN") && $("##subphylum").val()!="") {
+			$("##subphylum").addClass("warning");
+		} else { 
+			$("##subphylum").removeClass("warning");
 		} 
 	}
 	/** getLowestTaxon 
@@ -130,7 +140,25 @@
     */
 	function toggleBotanicalVisibility() { 
 		var ncode = $('##nomenclatural_code').val();
-		if (ncode!='ICNafp') { 
+		if (ncode=='ICNafp' || ncode=='ICBN') { 
+			$('.botanical').show();	
+			$('##infraspecific_author').show(); 
+			$('##infraspecific_author_label').show(); 
+			$('##division').show(); 
+			$('##division_label').show(); 
+			$('##subdivision').show(); 
+			$('##subdivision_label').show(); 
+			$('##division_row').show(); 
+			if ($('##phylum').val()=="") { 
+				$('##phylum').hide(); 
+				$('##phylum_label').hide(); 
+				if ($('##subphylum').val()=="") { 
+					$('##subphylum').hide(); 
+					$('##subphylum_label').hide(); 
+					$('##phylum_row').hide(); 
+				}
+			}
+		} else { 
 			$('.botanical').hide();	
 			if ($('##infraspecific_author').val()=="") { 
 				$('##infraspecific_author').hide(); 
@@ -150,24 +178,6 @@
 			$('##subphylum').show(); 
 			$('##subphylum_label').show(); 
 			$('##phylum_row').show(); 
-		} else { 
-			$('.botanical').show();	
-			$('##infraspecific_author').show(); 
-			$('##infraspecific_author_label').show(); 
-			$('##division').show(); 
-			$('##division_label').show(); 
-			$('##subdivision').show(); 
-			$('##subdivision_label').show(); 
-			$('##division_row').show(); 
-			if ($('##phylum').val()=="") { 
-				$('##phylum').hide(); 
-				$('##phylum_label').hide(); 
-				if ($('##subphylum').val()=="") { 
-					$('##subphylum').hide(); 
-					$('##subphylum_label').hide(); 
-					$('##phylum_row').hide(); 
-				}
-			}
 		}
 	}
 
