@@ -754,7 +754,10 @@
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxa">
-<cfset title = "Add Taxonomy">
+<cfset title = "Add Taxon">
+<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+</cfquery>
 <cfoutput>
 <div style="width: 41em; margin:0 auto; padding-bottom: 3em;">
   <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
@@ -792,7 +795,7 @@
 					<cfset searchtext = "" >		
 					<cfloop query="ctguid_type_taxon">
 	 					<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
-							<cfset searchlink = ctguid_type_taxon.search_uri & form.scientific_name >		
+							<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >		
 							<cfset searchtext = "Search" >		
 						</cfif>
 					</cfloop>
@@ -825,11 +828,11 @@
 						$(document).ready(function () { 
 							$('##taxonid_guid_type').change(function () { 
 								// On selecting a guid_type, change the pattern.
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search','#form.scientific_name#');
+								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search','#getClonedFromTaxon.scientific_name#');
 							});
 							$('##taxonid').blur( function () { 
 								// On loss of focus for input, validate against the regex, update link
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search','#form.scientific_name#');
+								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search','#getClonedFromTaxon.scientific_name#');
 							});
 						});
 					</script>
@@ -846,7 +849,7 @@
 					<cfset searchtext = "" >		
 					<cfloop query="ctguid_type_scientificname">
 	 					<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-							<cfset searchlink = ctguid_type_scientificname.search_uri & form.scientific_name >		
+							<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >		
 							<cfset searchtext = "Search" >		
 						</cfif>
 					</cfloop>
@@ -879,11 +882,11 @@
 						$(document).ready(function () { 
 							$('##scientificnameid_guid_type').change( function () { 
 								// On selecting a guid_type, change the pattern.
-								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search','#form.scientific_name#');
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search','#getClonedFromTaxon.scientific_name#');
 							});
 							$('##scientificnameid').blur( function () { 
 								// On loss of focus for input, validate against the regex, update link
-								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search','#form.scientific_name#');
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search','#getClonedFromTaxon.scientific_name#');
 							});
 						});
 					</script>
