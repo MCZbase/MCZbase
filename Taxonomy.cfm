@@ -62,6 +62,16 @@
 		} else { 
 			$("##infraspecific_author").removeClass("warning");
 		} 
+		if (ncode=="ICZN" && $("##division").val()!="") {
+			$("##division").addClass("warning");
+		} else { 
+			$("##division").removeClass("warning");
+		} 
+		if ((ncode=="ICNafp" || ncode=="ICBN") && $("##phylum").val()!="") {
+			$("##phylum").addClass("warning");
+		} else { 
+			$("##phylum").removeClass("warning");
+		} 
 	}
 	/** getLowestTaxon 
     * find the lowest ranking taxon name on the taxonomy form.
@@ -116,30 +126,55 @@
 		return result;
 	}
 
-	// Hide botanical code elements of form when code is ICZN
-	$(document).ready(function() { 
-		$('##nomenclatural_code').change(function() { 
-			var ncode = $('##nomenclatural_code').val();
-			if (ncode!='ICNafp') { 
-				$('.botanical').hide();	
-				if ($('##infraspecific_author').val()=="") { 
-					$('##infraspecific_author').hide(); 
-					$('##infraspecific_author_label').hide(); 
-				}
-			} else { 
-				$('.botanical').show();	
-				$('##infraspecific_author').show(); 
-				$('##infraspecific_author_label').show(); 
-			}
-		});
-	
-		if ($('##nomenclatural_code').val()!='ICNafp') { 
+	/** toggleBotanicalVisibility
+    */
+	function toggleBotanicalVisibility() { 
+		var ncode = $('##nomenclatural_code').val();
+		if (ncode!='ICNafp') { 
 			$('.botanical').hide();	
 			if ($('##infraspecific_author').val()=="") { 
 				$('##infraspecific_author').hide(); 
 				$('##infraspecific_author_label').hide(); 
 			}
+			if ($('##division').val()=="") { 
+				$('##division').hide(); 
+				$('##division_label').hide(); 
+				if ($('##subdivision').val()=="") { 
+					$('##subdivision').hide(); 
+					$('##subdivision_label').hide(); 
+					$('##division_row').hide(); 
+				}
+			}
+			$('##phylum').show(); 
+			$('##phylum_label').show(); 
+			$('##subphylum').show(); 
+			$('##subphylum_label').show(); 
+			$('##phylum_row').show(); 
+		} else { 
+			$('.botanical').show();	
+			$('##infraspecific_author').show(); 
+			$('##infraspecific_author_label').show(); 
+			$('##division').show(); 
+			$('##division_label').show(); 
+			$('##subdivision').show(); 
+			$('##subdivision_label').show(); 
+			$('##division_row').show(); 
+			if ($('##phylum').val()=="") { 
+				$('##phylum').hide(); 
+				$('##phylum_label').hide(); 
+				if ($('##subphylum').val()=="") { 
+					$('##subphylum').hide(); 
+					$('##subphylum_label').hide(); 
+					$('##phylum_row').hide(); 
+				}
+			}
 		}
+	}
+
+	// Hide botanical code elements of form when code is ICZN
+	$(document).ready(function() { 
+		$('##nomenclatural_code').change(toggleBotanicalVisibility());
+		toggleBotanicalVisibility();
 	});  
 </script>
 </cfoutput>
@@ -402,24 +437,24 @@
 				<input type="text" name="nomenclatural_code" id="nomenclatural_code" value="#gettaxa.nomenclatural_code#" size="30"--->
 			</td>
 		</tr>
-		<tr>
+		<tr id="phylum_row">
 			<td>
-				<label for="phylum">Phylum</label>
+				<label for="phylum" id="phylum_label">Phylum</label>
 				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" size="30">
 			</td>
 			<td>
-				<label for="subphylum">Subphylum</label>
+				<label for="subphylum" id="subphylum_label">Subphylum</label>
 				<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" size="30">
 			</td>
 		</tr>
-		<tr class="botanical">
+		<tr id="division_row">
 			<td>
-				<label for="division" class="botanical" >Division</label>
-				<input type="text" name="division" id="division" value="#gettaxa.division#" size="30" class="botanical">
+				<label for="division" id="division_label" >Division</label>
+				<input type="text" name="division" id="division" value="#gettaxa.division#" size="30">
 			</td>
 			<td>
-				<label for="subdivision" class="botanical">SubDivision</label>
-				<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" size="30" class="botanical">
+				<label for="subdivision" id="subdivsion_label">SubDivision</label>
+				<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" size="30">
 			</td>
 		</tr>
 		<tr>
@@ -1002,7 +1037,7 @@
 				<td>
 					<label for="author_text"><span>Author</span></label>
 					<input type="text" name="author_text" id="author_text" value="#author_text#" size="30">
-					<span class="infoLink"
+					<span class="infoLink botanical"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
 							Find Kew Abbr
 					</span>
@@ -1036,10 +1071,10 @@
 					<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#subspecies#">
 				</td>
 				<td>
-					<label for="author_text"><span>
+					<label for="infraspecific_author" id="infraspecfic_author_label"><span>
 						Infraspecific Author</span></label>
 					<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" size="30">
-					<span class="infoLink"
+					<span class="infoLink botanical"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')">
 							Find Kew Abbr
 						</span>
@@ -1056,24 +1091,24 @@
 				<input type="text" name="nomenclatural_code" id="nomenclatural_code" value="#nomenclatural_code#" size="30"---->
 			</td>
 		</tr>
-		<tr>
+		<tr id="phylum_row">
 			<td>
-				<label for="phylum">Phylum</label>
+				<label for="phylum" id="phylum_label">Phylum</label>
 				<input type="text" name="phylum" id="phylum" value="#phylum#" size="30">
 			</td>
 			<td>
-				<label for="subphylum">Subphylum</label>
+				<label for="subphylum" id="subphylum_label">Subphylum</label>
 				<input type="text" name="subphylum" id="subphylum" value="#subphylum#" size="30">
 			</td>
 		</tr>
-		<tr class="botanical">
+		<tr id="division_row">
 			<td>
-				<label for="division" class="botanical">Division</label>
-				<input type="text" name="division" id="division" value="#division#" size="30" class="botanical">
+				<label for="division" id="division_label" >Division</label>
+				<input type="text" name="division" id="division" value="#division#" size="30" >
 			</td>
 			<td>
-				<label for="subdivision" class="botanical">SubDivision</label>
-				<input type="text" name="subdivision" id="subdivision" value="#subdivision#" size="30" class="botanical">
+				<label for="subdivision" id="subdivision_label" >SubDivision</label>
+				<input type="text" name="subdivision" id="subdivision" value="#subdivision#" size="30" >
 			</td>
 		</tr>
 		<tr>
