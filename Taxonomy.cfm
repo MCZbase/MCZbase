@@ -1081,7 +1081,7 @@
 					<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#subspecies#">
 				</td>
 				<td>
-					<label for="infraspecific_author" id="infraspecfic_author_label"><span>
+					<label for="infraspecific_author" id="infraspecific_author_label"><span>
 						Infraspecific Author</span></label>
 					<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" size="30">
 					<span class="infoLink botanical"
