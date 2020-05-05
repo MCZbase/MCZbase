@@ -79,41 +79,67 @@
 			if ($('#subspecies').val()!="") { 
 				result = result + " " + $('#subspecies').val();
 			}
-      } else if ($('#tribe').val()!="") { 
+		} else if ($('#tribe').val()!="") { 
 			result = $('#tribe').val();
-      } else if ($('#subfamily').val()!="") { 
+		} else if ($('#subfamily').val()!="") { 
 			result = $('#subfamily').val();
-      } else if ($('#family').val()!="") { 
+		} else if ($('#family').val()!="") { 
 			result = $('#family').val();
-      } else if ($('#superfamily').val()!="") { 
+		} else if ($('#superfamily').val()!="") { 
 			result = $('#superfamily').val();
-      } else if ($('#infraorder').val()!="") { 
+		} else if ($('#infraorder').val()!="") { 
 			result = $('#infraorder').val();
-      } else if ($('#suborder').val()!="") { 
+		} else if ($('#suborder').val()!="") { 
 			result = $('#suborder').val();
-      } else if ($('#phylorder').val()!="") { 
+		} else if ($('#phylorder').val()!="") { 
 			result = $('#phylorder').val();
-      } else if ($('#superorder').val()!="") { 
+		} else if ($('#superorder').val()!="") { 
 			result = $('#superorder').val();
-      } else if ($('#subclass').val()!="") { 
+		} else if ($('#subclass').val()!="") { 
 			result = $('#subclass').val();
-      } else if ($('#phylclass').val()!="") { 
+		} else if ($('#phylclass').val()!="") { 
 			result = $('#phylclass').val();
-      } else if ($('#superclass').val()!="") { 
+		} else if ($('#superclass').val()!="") { 
 			result = $('#superclass').val();
-      } else if ($('#subphylum').val()!="") { 
+		} else if ($('#subphylum').val()!="") { 
 			result = $('#subphylum').val();
-      } else if ($('#phylum').val()!="") { 
+		} else if ($('#phylum').val()!="") { 
 			result = $('#phylum').val();
-      } else if ($('#subdivision').val()!="") { 
+		} else if ($('#subdivision').val()!="") { 
 			result = $('#subdivision').val();
-      } else if ($('#division').val()!="") { 
+		} else if ($('#division').val()!="") { 
 			result = $('#division').val();
-      } else if ($('#kingdom').val()!="") { 
+		} else if ($('#kingdom').val()!="") { 
 			result = $('#kingdom').val();
-      }
+		}
 		return result;
 	}
+
+	// Hide botanical code elements of form when code is ICZN
+	$(document).ready(function() { 
+		$('##nomenclatural_code').change(function() { 
+			var ncode = $('##nomenclatural_code').val();
+			if (ncode!='ICNafp') { 
+				$('.botanical').hide();	
+				if ($('##infraspecific_author').val()=="") { 
+					$('##infraspecific_author').hide(); 
+					$('##infraspecific_author_label').hide(); 
+				}
+			} else { 
+				$('.botanical').show();	
+				$('##infraspecific_author').show(); 
+				$('##infraspecific_author_label').show(); 
+			}
+		});
+	
+		if ($('##nomenclatural_code').val()!='ICNafp') { 
+			$('.botanical').hide();	
+			if ($('##infraspecific_author').val()=="") { 
+				$('##infraspecific_author').hide(); 
+				$('##infraspecific_author_label').hide(); 
+			}
+		}
+	});
 </script>
 <!------------------------------------------------>
 <cfif action is "nothing">
@@ -302,32 +328,6 @@
 							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
 					</cfloop>
 				</select>
-				<script>
-					$(document).ready(function() { 
-						$('##nomenclatural_code').change(function() { 
-							var ncode = $('##nomenclatural_code').val();
-							if (ncode!='ICNafp') { 
-								$('.botanical').hide();	
-								if ($('##infraspecific_author').val()=="") { 
-									$('##infraspecific_author').hide(); 
-									$('##infraspecific_author_label').hide(); 
-								}
-							} else { 
-								$('.botanical').show();	
-								$('##infraspecific_author').show(); 
-								$('##infraspecific_author_label').show(); 
-							}
-						});
-
-						if ($('##nomenclatural_code').val()!='ICNafp') { 
-							$('.botanical').hide();	
-							if ($('##infraspecific_author').val()=="") { 
-								$('##infraspecific_author').hide(); 
-								$('##infraspecific_author_label').hide(); 
-							}
-						}
-					});
-				</script>
 			</td>
 			<td>
 				<label for="genus">Genus <span class="likeLink" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
@@ -897,6 +897,10 @@
 								// On loss of focus for input, validate against the regex, update link
 								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 							});
+							$('##subspecies').change(function () { 
+								// On changing species name, update search.
+								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+							});
 							$('##species').change(function () { 
 								// On changing species name, update search.
 								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
@@ -952,6 +956,10 @@
 							});
 							$('##scientificnameid').blur( function () { 
 								// On loss of focus for input, validate against the regex, update link
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+							});
+							$('##subspecies').change( function () { 
+								// On changing species name, update the search link.
 								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 							});
 							$('##species').change( function () { 
