@@ -526,6 +526,7 @@ limitations under the License.
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
+											<div class="border bg-light rounded px-2 pt-1 mb-1 pb-4">
 											<div class="form-row mx-0 mb-1">
 												<div class="col-3 px-0">
 													<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
@@ -564,7 +565,7 @@ limitations under the License.
 												<div class="col-9 px-0">
 													<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
 													<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-													<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
+													<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
 													<script>
 												function setDispositionValues() {
 													$('##coll_obj_disposition').jqxComboBox('clearSelection');
@@ -588,6 +589,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
+															</div>
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
@@ -609,65 +611,6 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<!---			<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
-										<div class="col-12 col-md-3">
-											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
-											<cfif part_name_oper IS "is">
-												<cfset isselect = "selected">
-												<cfset containsselect = "">
-												<cfelse>
-												<cfset isselect = "">
-												<cfset containsselect = "selected">
-											</cfif>
-											<select id="part_name_oper" name="part_name_oper" class="data-entry-select-prepend-select input-group-prepend">
-												<option value="is" #isselect#>is</option>
-												<option value="contains" #containsselect#>contains</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="part_name" class="data-entry-label mb-0">Part Name</label>
-											<input type="text" id="part_name" name="part_name" class="data-entry-select-input" value="#part_name#">
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="part_disp_oper" class="data-entry-label mb-0">Disposition Match</label>
-											<cfif part_disp_oper IS "is">
-												<cfset isselect = "selected">
-												<cfset notselect = "">
-												<cfelse>
-												<cfset isselect = "">
-												<cfset notselect = "selected">
-											</cfif>
-											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-slect input-group-prepend">
-												<option value="is" #isselect#>is</option>
-												<option value="isnot" #notselect#>is not</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-											<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-											<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
-											<script>
-												function setDispositionValues() {
-													$('##coll_obj_disposition').jqxComboBox('clearSelection');
-													<cfloop query="ctCollObjDisp">
-														<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-															$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
-														</cfif>
-													</cfloop>
-												};
-												$(document).ready(function () {
-													var dispositionsource = [
-														""
-														<cfloop query="ctCollObjDisp">
-															,"#ctCollObjDisp.coll_obj_disposition#"
-														</cfloop>
-													];
-													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
-													setDispositionValues();
-												});
-											</script> 
-										</div>
-									</div>--->
 									<div class="form-row my-2 mx-0">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
