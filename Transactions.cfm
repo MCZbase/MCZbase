@@ -529,7 +529,7 @@ limitations under the License.
 											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-4">
 											<div class="form-row mx-0 mb-1 px-3">
 												<div class="col-3 px-0">
-													<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
+													<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
 													<cfif part_name_oper IS "is">
 														<cfset isselect = "selected">
 														<cfset containsselect = "">
@@ -542,14 +542,14 @@ limitations under the License.
 														<option value="contains" #containsselect#>contains</option>
 													</select>
 												</div>
-												<div class="col-9 px-0 pt-2 pt-sm-0">
+												<div class="col-9 px-0">
 													<label for="part_name" class="data-entry-label  mb-0">Part Name</label>
 													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 												</div>
 											</div>
 											<div class="form-row mx-0 px-3">
 												<div class="col-3 px-0">
-													<label for="part_disp_oper" class="data-entry-label mb-0">Disp. Match</label>
+													<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
 													<cfif part_disp_oper IS "is">
 														<cfset isselect = "selected">
 														<cfset notselect = "">
@@ -562,7 +562,7 @@ limitations under the License.
 														<option value="isnot" #notselect#>is not</option>
 													</select>
 												</div>
-												<div class="col-9 px-0 pt-2 pt-sm-0">
+												<div class="col-9 px-0">
 													<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
 													<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
 													<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
