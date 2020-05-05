@@ -1701,6 +1701,10 @@
                media_relationship like '% #transaction_type#' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
+   <cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  		select mczbase.get_media_descriptor(media_id) media_descriptor
+  		from media
+  		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
@@ -3862,7 +3866,10 @@
 			and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
 	</cfquery>
 	<cfset mediaLink = "&##8855;">
-
+	   		<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  select mczbase.get_media_descriptor(media_id) media_descriptor
+  from media
+  where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
 
 	<cfloop query="mediaQuery">
 		
@@ -4020,6 +4027,10 @@
                and (media_label = 'description' or media_label is null )
                and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
+	   	   		<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  select mczbase.get_media_descriptor(media_id) media_descriptor
+  from media
+  where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
    <cfset result="<h3>#heading# Media</h3>">
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
@@ -4217,6 +4228,10 @@
 	    	where media_relations.media_relationship = 'shows permit' 
 		    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#query.permit_id#>
     	</cfquery>
+		<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  			select mczbase.get_media_descriptor(media_id) media_descriptor
+  			from media
+  			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
 	    <cfset mediaLink = "&##8855;">
     	<cfloop query="mediaQuery">
 	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#altText#'></a>" >
@@ -4440,6 +4455,10 @@
 			    	where media_relations.media_relationship = 'shows permit' 
 			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
 		    	</cfquery>
+				<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  					select mczbase.get_media_descriptor(media_id) media_descriptor
+  					from media
+  					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
 	    		<cfset mediaLink = "&##8855;">
 		    	<cfloop query="mediaQuery">
 	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#altText#'></a>" >
@@ -5272,10 +5291,7 @@ Annotation to report problematic data concerning #annotated.guid#
    <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
    </cfquery>
-	   		<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  select mczbase.get_media_descriptor(media_id) media_descriptor
-  from media
-  where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
+
    <!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
    <cfset result = result & '
       <div>
