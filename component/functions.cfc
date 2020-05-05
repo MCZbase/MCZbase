@@ -1704,7 +1704,8 @@
    <cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
   		select mczbase.get_media_descriptor(media_id) media_descriptor
   		from media
-  		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
+  		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery>  
+   <cfset altText = alt.media_descriptor>
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
