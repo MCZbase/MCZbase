@@ -3866,17 +3866,15 @@
 			and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
 	</cfquery>
 	<cfset mediaLink = "&##8855;">
-	   		<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  select mczbase.get_media_descriptor(media_id) media_descriptor
-  from media
-  where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
-
+	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  		select mczbase.get_media_descriptor(media_id) media_descriptor
+  		from media
+  		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> 
+	<cfset altText = alt.media_descriptor>
 	<cfloop query="mediaQuery">
-		
 		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#altText#'></a>" >
 	</cfloop>
        <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
-
 
        <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
        <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
@@ -4027,10 +4025,11 @@
                and (media_label = 'description' or media_label is null )
                and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
-	   	   		<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  select mczbase.get_media_descriptor(media_id) media_descriptor
-  from media
-  where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
+	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  		select mczbase.get_media_descriptor(media_id) media_descriptor
+  		from media
+  		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> 
+	<cfset altText = alt.media_descriptor>
    <cfset result="<h3>#heading# Media</h3>">
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
@@ -4231,7 +4230,8 @@
 		<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
   			select mczbase.get_media_descriptor(media_id) media_descriptor
   			from media
-  			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
+  			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> 
+		<cfset altText = alt.media_descriptor>
 	    <cfset mediaLink = "&##8855;">
     	<cfloop query="mediaQuery">
 	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#altText#'></a>" >
@@ -4458,7 +4458,8 @@
 				<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
   					select mczbase.get_media_descriptor(media_id) media_descriptor
   					from media
-  					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> <cfset altText = alt.media_descriptor>
+  					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> 
+				<cfset altText = alt.media_descriptor>
 	    		<cfset mediaLink = "&##8855;">
 		    	<cfloop query="mediaQuery">
 	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#altText#'></a>" >
