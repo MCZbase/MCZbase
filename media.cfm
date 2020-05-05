@@ -155,7 +155,10 @@
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
   <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from media where media_id=#media_id#
+		select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+		mczbase.get_media_descriptor(media_id) as alttag 
+		from media 
+		where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
   <cfset relns=getMediaRelations(#media_id#)>
   <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -169,7 +172,7 @@
 			preferred_agent_name
 		where
 			media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-			media_id=#media_id#
+			media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
   <cfquery name="tag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from tag where media_id=#media_id#
@@ -226,6 +229,7 @@
               <option value="1">Hidden</option>
           </cfif>
       </select>
+		<div><strong>Media Alt tag (as of page load):</strong> #media.alttag#</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
       <div id="relationships" class="graydot">
         <cfset i=1>
