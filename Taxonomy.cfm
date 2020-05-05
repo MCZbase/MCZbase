@@ -66,7 +66,7 @@
     * find the lowest ranking taxon name on the taxonomy form.
 	 * @return the value of the lowest rank filled in field (or set of fields if below generic rank).
 	 */
-	function() getLowestTaxon() { 
+	function getLowestTaxon() { 
 		var result = "";
 		if ($('#genus').val()!="") { 
 			result = $('#genus').val();
