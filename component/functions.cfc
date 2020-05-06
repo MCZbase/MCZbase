@@ -1693,6 +1693,7 @@
                media.media_uri,
                media.mime_type,
                media.media_type as media_type,
+  					mczbase.get_media_descriptor(media.media_id) as media_descriptor,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
                nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
            from
@@ -1701,16 +1702,11 @@
                media_relationship like '% #transaction_type#' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
-   <cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  		select mczbase.get_media_descriptor(media_id) media_descriptor
-  		from media
-  		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery>  
-   <cfset altText = alt.media_descriptor>
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-		<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+		<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#media_descriptor#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
        </cfloop>
        <cfset result= result & "</ul>">
    <cfelse>
@@ -3861,19 +3857,15 @@
    <cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
    <cfloop query="query">
    	<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select media.media_id, media_uri, preview_uri, media_type 
+		select media.media_id, media_uri, preview_uri, media_type, 
+  				 mczbase.get_media_descriptor(media.media_id) as media_descriptor
 		from media_relations left join media on media_relations.media_id = media.media_id
 		where media_relations.media_relationship = 'shows permit' 
 			and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
 	</cfquery>
 	<cfset mediaLink = "&##8855;">
-	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  		select mczbase.get_media_descriptor(media_id) media_descriptor
-  		from media
-  		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> 
-	<cfset altText = alt.media_descriptor>
 	<cfloop query="mediaQuery">
-		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#altText#'></a>" >
+		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#media_descriptor#'></a>" >
 	</cfloop>
        <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
@@ -4019,6 +4011,7 @@
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct media.media_id as media_id, preview_uri, media.media_uri, media.mime_type, media.media_type as media_type,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+  					MCZBASE.get_media_descriptor(media.media_id) as media_descriptor,
                label_value
          from media_relations left join media on media_relations.media_id = media.media_id
                left join media_labels on media.media_id = media_labels.media_id
@@ -4026,17 +4019,12 @@
                and (media_label = 'description' or media_label is null )
                and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
-	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  		select mczbase.get_media_descriptor(media_id) media_descriptor
-  		from media
-  		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> 
-	<cfset altText = alt.media_descriptor>
    <cfset result="<h3>#heading# Media</h3>">
    <cfif query.recordcount gt 0>
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50' alt='#altText#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <input class='delBtn' onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); event.prefentDefault(); ' value='Remove' style='width: 5em; text-align: center;' onmouseover=""this.className='delBtn btnhov'"" onmouseout=""this.className='delBtn'"" > </li>" >
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50' alt='#media_descriptor#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <input class='delBtn' onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); event.prefentDefault(); ' value='Remove' style='width: 5em; text-align: center;' onmouseover=""this.className='delBtn btnhov'"" onmouseout=""this.className='delBtn'"" > </li>" >
 
        </cfloop>
        <cfset result= result & "</ul>">
@@ -4223,19 +4211,15 @@
        <cfset result="<ul>">
        <cfloop query="query">
    	    <cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		    select media.media_id, media_uri, preview_uri, media_type 
+		    select media.media_id, media_uri, preview_uri, media_type,
+  					mczbase.get_media_descriptor(media.media_id) as media_descriptor
     		from media_relations left join media on media_relations.media_id = media.media_id
 	    	where media_relations.media_relationship = 'shows permit' 
 		    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#query.permit_id#>
     	</cfquery>
-		<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  			select mczbase.get_media_descriptor(media_id) media_descriptor
-  			from media
-  			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> 
-		<cfset altText = alt.media_descriptor>
 	    <cfset mediaLink = "&##8855;">
     	<cfloop query="mediaQuery">
-	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#altText#'></a>" >
+	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#media_descriptor#'></a>" >
     	</cfloop>
           <cfset result = result & "<li><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
        </cfloop>
@@ -4451,19 +4435,15 @@
                  <cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
                  <cfloop query="shippermit">
    	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			    select media.media_id, media_uri, preview_uri, media_type 
+			    select media.media_id, media_uri, preview_uri, media_type,
+  						mczbase.get_media_descriptor(media.media_id) as media_descriptor
     				from media_relations left join media on media_relations.media_id = media.media_id
 			    	where media_relations.media_relationship = 'shows permit' 
 			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
 		    	</cfquery>
-				<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  					select mczbase.get_media_descriptor(media_id) media_descriptor
-  					from media
-  					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> </cfquery> 
-				<cfset altText = alt.media_descriptor>
 	    		<cfset mediaLink = "&##8855;">
 		    	<cfloop query="mediaQuery">
-	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#altText#'></a>" >
+	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#media_descriptor#'></a>" >
 		    	</cfloop>
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
