@@ -1702,16 +1702,21 @@
                media_relationship like '% #transaction_type#' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
-   <cfif query.recordcount gt 0>
-       <cfset result=result & "<ul>">
-       <cfloop query="query">
-          <cfset puri=getMediaPreview(preview_uri,media_type) >
-		<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#media_descriptor#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
-       </cfloop>
-       <cfset result= result & "</ul>">
-   <cfelse>
-       <cfset result=result & "<ul><li>None</li></ul>">
-   </cfif>
+	<cfif query.recordcount gt 0>
+		<cfset result=result & "<ul>">
+		<cfloop query="query">
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = query.media_descriptor>
+			</cfif>
+			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+		</cfloop>
+		<cfset result= result & "</ul>">
+	<cfelse>
+		<cfset result=result & "<ul><li>None</li></ul>">
+	</cfif>
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -3865,7 +3870,13 @@
 	</cfquery>
 	<cfset mediaLink = "&##8855;">
 	<cfloop query="mediaQuery">
-		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#media_descriptor#'></a>" >
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = query.media_descriptor>
+			</cfif>
+		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
 	</cfloop>
        <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
@@ -4024,6 +4035,11 @@
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = query.media_descriptor>
+			</cfif>
           <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50' alt='#media_descriptor#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <input class='delBtn' onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); event.prefentDefault(); ' value='Remove' style='width: 5em; text-align: center;' onmouseover=""this.className='delBtn btnhov'"" onmouseout=""this.className='delBtn'"" > </li>" >
 
        </cfloop>
@@ -4219,7 +4235,13 @@
     	</cfquery>
 	    <cfset mediaLink = "&##8855;">
     	<cfloop query="mediaQuery">
-	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#media_descriptor#'></a>" >
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = query.media_descriptor>
+			</cfif>
+	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
     	</cfloop>
           <cfset result = result & "<li><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
        </cfloop>
@@ -4443,7 +4465,13 @@
 		    	</cfquery>
 	    		<cfset mediaLink = "&##8855;">
 		    	<cfloop query="mediaQuery">
-	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15' alt='#media_descriptor#'></a>" >
+					<cfset puri=getMediaPreview(preview_uri,media_type) >
+					<cfif puri EQ "/images/noThumb.jpg">
+						<cfset altText = "Red X in a red square, with text, no preview image available">
+					<cfelse>
+						<cfset altText = query.media_descriptor>
+					</cfif>
+	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='15' alt='#altText#'></a>" >
 		    	</cfloop>
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
