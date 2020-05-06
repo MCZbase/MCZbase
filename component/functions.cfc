@@ -3874,7 +3874,7 @@
 			<cfif puri EQ "/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
-				<cfset altText = query.media_descriptor>
+				<cfset altText = mediaQuery.media_descriptor>
 			</cfif>
 		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
 	</cfloop>
@@ -4239,7 +4239,7 @@
 			<cfif puri EQ "/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
-				<cfset altText = query.media_descriptor>
+				<cfset altText = mediaQuery.media_descriptor>
 			</cfif>
 	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
     	</cfloop>
@@ -4469,7 +4469,7 @@
 					<cfif puri EQ "/images/noThumb.jpg">
 						<cfset altText = "Red X in a red square, with text, no preview image available">
 					<cfelse>
-						<cfset altText = query.media_descriptor>
+						<cfset altText = mediaQuery.media_descriptor>
 					</cfif>
 	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='15' alt='#altText#'></a>" >
 		    	</cfloop>
