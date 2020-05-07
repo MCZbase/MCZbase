@@ -510,7 +510,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					</cfloop>
 					<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
-									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type,
 									mczbase.get_media_descriptor(m.media_id) as media_descriptor 
 								from
 									media_relations mr, 
