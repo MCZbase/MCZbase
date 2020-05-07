@@ -24,6 +24,8 @@
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
 <script language="JavaScript" src="/includes/jquery/jquery.ui.datepicker.min.js" type="text/javascript"></script>
 </cfif>
+<script language="JavaScript" src="/shared/js/vocabulary_scripts.js" type="text/javascript"></script>
+<script language="JavaScript" src="/shared/js/shared-scripts.js" type="text/javascript"></script>
 <script type="text/javascript">
 function getMCZDocs(url,anc) {
 	var url;

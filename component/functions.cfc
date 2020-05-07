@@ -1618,7 +1618,7 @@
     <cftry>
         <cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select agent_name from preferred_agent_name 
-            where agent_id= <cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_NUMBER'>
+            where agent_id= <cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_DECIMAL'>
         </cfquery>
         <cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select sq_addr_id.nextval as id from dual
@@ -1641,7 +1641,7 @@
                                 ,valid_addr_fg
                                 ,addr_remarks
                         ) VALUES (
-                                 <cfqueryparam value='#pk#' cfsqltype='CF_SQL_NUMBER'>
+                                 <cfqueryparam value='#pk#' cfsqltype='CF_SQL_DECIMAL'>
                                 ,<cfqueryparam value='#STREET_ADDR1#' cfsqltype='CF_SQL_VARCHAR'>
                                 ,<cfqueryparam value='#STREET_ADDR2#' cfsqltype='CF_SQL_VARCHAR'>
                                 ,<cfqueryparam value='#institution#' cfsqltype='CF_SQL_VARCHAR'>
@@ -1651,15 +1651,15 @@
                                 ,<cfqueryparam value='#ZIP#' cfsqltype='CF_SQL_VARCHAR'>
                                 ,<cfqueryparam value='#COUNTRY_CDE#' cfsqltype='CF_SQL_VARCHAR'>
                                 ,<cfqueryparam value='#MAIL_STOP#' cfsqltype='CF_SQL_VARCHAR'>
-                                ,<cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_NUMBER'>
+                                ,<cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_DECIMAL'>
                                 ,<cfqueryparam value='#addr_type#' cfsqltype='CF_SQL_VARCHAR'>
-                                ,<cfqueryparam value='#valid_addr_fg#' cfsqltype='CF_SQL_NUMBER'>
+                                ,<cfqueryparam value='#valid_addr_fg#' cfsqltype='CF_SQL_DECIMAL'>
                                 ,<cfqueryparam value='#addr_remarks#' cfsqltype='CF_SQL_VARCHAR'>
                         )
         </cfquery>
         <cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
             select formatted_addr from addr 
-            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_NUMBER">
+            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_DECIMAL">
         </cfquery>
 		<cfset q=queryNew("STATUS,ADDRESS_ID,ADDRESS,MESSAGE")>
 		<cfset t = queryaddrow(q,1)>
@@ -3382,7 +3382,7 @@
 	    permit_remarks,
             (select count(*) from permit_shipment
 		where permit_shipment.permit_id = permit.permit_id
-		and permit_shipment.shipment_id = <cfqueryparam cfsqltype='CF_SQL_NUMBER' value='#shipment_id#'>
+		and permit_shipment.shipment_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#shipment_id#'>
 	    ) as linkcount
     from 
 	    permit 
@@ -3674,7 +3674,7 @@
 	    permit_remarks,
             (select count(*) from permit_trans 
 		where permit_trans.permit_id = permit.permit_id
-		and permit_trans.transaction_id = <cfqueryparam cfsqltype='CF_SQL_NUMBER' value='#transaction_id#'>
+		and permit_trans.transaction_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#transaction_id#'>
 	    ) as linkcount
     from 
 	    permit 
@@ -4161,7 +4161,7 @@
                    <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#noofpackages#">,
                 </cfif>
                 <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
-                   <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#insured_for_insured_value#" null="yes">,
+                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#insured_for_insured_value#" null="yes">,
                 </cfif>
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">,
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
@@ -5605,7 +5605,7 @@ Annotation to report problematic data concerning #annotated.guid#
                 '' as endDayOfYear,
                 scientific_name, made_date 
             from DIGIR_QUERY.digir_filtered_flat
-            where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_object_id#">
+            where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfif flatrow.recordcount is 1>
 			<cfset result.status="success">

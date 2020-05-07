@@ -34,6 +34,30 @@ function messageDialog(dialogText, dialogTitle) {
 	messageDialog.dialog('moveToTop');
 };
 
+function confirmDialog(dialogText, dialogTitle, okFunction) {
+  $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+    modal: true,
+    resizable: false,
+    draggable: true,
+    width: 'auto',
+    minHeight: 80,
+    title: dialogTitle,
+    buttons: {
+      OK: function () {
+         setTimeout(okFunction, 30);
+         $(this).dialog('destroy');
+      },
+      Cancel: function () {
+         $(this).dialog('destroy');
+      }
+    },
+    close: function() {
+       $(this).dialog( "destroy" );
+    }
+  });
+};
+
+
 /** Allow textarea controls to grow in size as text is entered into them 
  *  to bind to all textareas currently defined on a page use:
  *  $("textarea").keyup(autogrow);
