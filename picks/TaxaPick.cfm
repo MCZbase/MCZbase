@@ -12,28 +12,28 @@
 		<cfabort>
 	</cfif>
 		<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
-				scientific_name, 
+			SELECT
+				scientific_name,
 				author_text,
-				taxon_name_id, 
+				taxon_name_id,
 				valid_catalog_term_fg
 			FROM (
-				SELECT 
-					scientific_name, 
+				SELECT
+					scientific_name,
 					author_text,
-					taxon_name_id, 
+					taxon_name_id,
 					valid_catalog_term_fg
-				from 
+				from
 					taxonomy
 				where
 					UPPER(scientific_name) LIKE '#ucase(scientific_name)#%'
 				UNION
-				SELECT 
+				SELECT
 					a.scientific_name,
-					a.author_text, 
-					a.taxon_name_id, 
+					a.author_text,
+					a.taxon_name_id,
 					a.valid_catalog_term_fg
-				from 
+				from
 					taxonomy a,
 					taxon_relations,
 					taxonomy b
@@ -42,12 +42,12 @@
 					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
 					UPPER(B.scientific_name) LIKE '#ucase(scientific_name)#%'
 				UNION
-				SELECT 
-					b.scientific_name, 
+				SELECT
+					b.scientific_name,
 					b.author_text,
-					b.taxon_name_id, 
+					b.taxon_name_id,
 					b.valid_catalog_term_fg
-				from 
+				from
 					taxonomy a,
 					taxon_relations,
 					taxonomy b
@@ -55,7 +55,7 @@
 					a.taxon_name_id = taxon_relations.taxon_name_id (+) and
 					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
 					UPPER(a.scientific_name) LIKE '#ucase(scientific_name)#%'
-			) 
+			)
 			where scientific_name is not null
 			ORDER BY scientific_name
 		</cfquery>
@@ -64,7 +64,7 @@
 	<cfoutput>
 		<cfif #getTaxa.valid_catalog_term_fg# is "1">
 		<script>
-			opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name# #getTaxa.author_text#';self.close();
+			opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();
 		</script>
 		<cfelse>
 			<a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();"><font color="##FF0000"><i>#getTaxa.scientific_name#</i> #author_text# (unaccepted)</font></a>
@@ -73,13 +73,13 @@
 	<cfelseif #getTaxa.recordcount# is 0>
       <cfif #keepValue# is 1>
             <cfoutput>
-			<!---  Allow a keepValue parameter that doesn't reset taxonNameFld to an empty string  --->  
-            Nothing matched #scientific_name#. <a href="javascript:void(0);" onClick="opener.document.#formName#.#taxonIdFld#.value='';opener.document.#formName#.#taxonNameFld#.value='';opener.document.#formName#.#taxonNameFld#.focus();self.close();">Try again</a>, or <a href="javascript:void(0);" onClick="self.close();">Keep if #scientific_name# is a hybrid or or uses a taxonomic formula</a> (i.e., "?", "cf.", "sp.", "ssp." ,"or")    
+			<!---  Allow a keepValue parameter that doesn't reset taxonNameFld to an empty string  --->
+            Nothing matched #scientific_name#. <a href="javascript:void(0);" onClick="opener.document.#formName#.#taxonIdFld#.value='';opener.document.#formName#.#taxonNameFld#.value='';opener.document.#formName#.#taxonNameFld#.focus();self.close();">Try again</a>, or <a href="javascript:void(0);" onClick="self.close();">Keep if #scientific_name# is a hybrid or or uses a taxonomic formula</a> (i.e., "?", "cf.", "sp.", "ssp." ,"or")
             </cfoutput>
-	  <cfelse>   
-	    <!---  otherwise reset taxonNameFld  --->      
+	  <cfelse>
+	    <!---  otherwise reset taxonNameFld  --->
 		<cfoutput>
-			Nothing matched #scientific_name#. <a href="javascript:void(0);" onClick="opener.document.#formName#.#taxonIdFld#.value='';opener.document.#formName#.#taxonNameFld#.value='';opener.document.#formName#.#taxonNameFld#.focus();self.close();">Try again.</a>				
+			Nothing matched #scientific_name#. <a href="javascript:void(0);" onClick="opener.document.#formName#.#taxonIdFld#.value='';opener.document.#formName#.#taxonNameFld#.value='';opener.document.#formName#.#taxonNameFld#.focus();self.close();">Try again.</a>
 		</cfoutput>
 	  </cfif>
 	<cfelse>
