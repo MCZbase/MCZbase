@@ -1296,7 +1296,7 @@ table#pairs th, table#pairs td {
 	line-height: .9em;
 	height: calc(.9em + .8em + 1px);
 	padding: 0 .5em .15em .5em;
-	color: rgba(0, 0, 0, .6);
+	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
@@ -1333,7 +1333,7 @@ input::placeholder {
     line-height: .9em;
     height: calc(.9em + .8em + 3px);
     padding: 0 .5em .25em .5em;
-    color: rgba(0, 0, 0, .6);
+    color: rgba(0, 0, 0, .8);
     border: 1px solid #ced4da;
     background-clip: padding-box;
     background-color: white;
@@ -1355,7 +1355,7 @@ input::placeholder {
 	line-height: .9em;
 	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
-	color: rgba(0, 0, 0, .6);
+	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	border-right: none;
 	background-clip: padding-box;
@@ -1378,7 +1378,7 @@ input::placeholder {
 	line-height: .9em;
 	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
-	color: rgba(0, 0, 0, .6);
+	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
@@ -1400,7 +1400,7 @@ input::placeholder {
 	line-height: .9em;
 	height: calc(.9em + .8rem + 1px);
 	padding: 0 .5em .25em .5em;
-	color: rgba(0, 0, 0, .6);
+	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;

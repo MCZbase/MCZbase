@@ -607,7 +607,7 @@ limitations under the License.
 	<div class="container-fluid form-div">
 		<div class="container">
 		<cftry>
-			<h2 class="wikilink m-0" >Edit Loan 
+			<h2 class="wikilink mt-2">Edit Loan 
 				<img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]">
 				<span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span>
 			</h2>
@@ -619,7 +619,7 @@ limitations under the License.
 				<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
 
 				<div class="form-row mb-2">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-5">
 						<label>Department</label>
 						<select name="collection_id" id="collection_id" size="1" class="reqdClr custom-select1 form-control-sm" >
 							<cfloop query="ctcollection">
@@ -628,7 +628,7 @@ limitations under the License.
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-5">
 						<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
 						<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
 							required  pattern="#LOANNUMBERPATTERN#"  >
@@ -657,7 +657,7 @@ limitations under the License.
 			<tr style="height: 20px;">
 				<th><span>
 						Agent&nbsp;Name&nbsp;
-						<button class="ui-button ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
+						<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
 					</span>
 				</th>
 				<th></th>
@@ -682,7 +682,7 @@ limitations under the License.
 							One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well.
 						</span>
 					</cfif>
-                                     </cfif>
+                  </cfif>
 				</td>
 			</tr>
 			<cfset i=1>
@@ -690,18 +690,23 @@ limitations under the License.
 				<tr>
 					<td>
 						<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr" size="30" value="#agent_name#"
+						<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" size="30" value="#agent_name#"
 		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
 		  				<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
                                                     onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 					</td>
 					<td style=" min-width: 3.5em; ">
-					    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif loanAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif loanAgents.worstagentrank EQ 'F'><img src='/shared/images/flag-red.svg.png' width='16'><cfelse><img src='/shared/images/flag-yellow.svg.png' width='16'></cfif>
-                                            </span>
+					    <span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
+							<cfif loanAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif loanAgents.worstagentrank EQ 'F'>
+							  <img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+								<cfelse>
+							   <img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+							</cfif>
+                         </span>
 					</td>
 					<td>
-						<select name="trans_agent_role_#i#" id="trans_agent_role_#i#">
+						<select name="trans_agent_role_#i#" id="trans_agent_role_#i#" class="data-entry-select">
 							<cfloop query="cttrans_agent_role">
 								<option
 									<cfif cttrans_agent_role.trans_agent_role is loanAgents.trans_agent_role>
@@ -712,10 +717,10 @@ limitations under the License.
 						</select>
 					</td>
 					<td>
-						<input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1">
+						<input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="data-entry-input">
 					</td>
 					<td>
-						<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" style="width:8em">
+						<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" class="data-entry-select" style="width:8em">
 							<option value=""></option>
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
@@ -732,8 +737,8 @@ limitations under the License.
 				</div>
 
 				<div class="form-row mb-2">
-					<div class="col-12 col-md-6">
-						<label for="loan_type">Loan Type</label>
+					<div class="col-12 col-md-5">
+						<label for="loan_type" class="data-entry-label">Loan Type</label>
 						<select name="loan_type" id="loan_type" class="reqdClr custom-select1 form-control-sm" required >
 							<cfloop query="ctLoanType">
 								<cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
@@ -745,8 +750,8 @@ limitations under the License.
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-6">
-						<label for="loan_status">Loan Status</label>
+					<div class="col-12 col-md-5">
+						<label for="loan_status" class="data-entry-label">Loan Status</label>
 						<span>
 						<select name="loan_status" id="loan_status" class="reqdClr custom-select1 form-control-sm" required >
 							<!---  Normal transaction users are only allowed certain loan status state transitions, --->
@@ -765,12 +770,12 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-5">
 						<label for="initiating_date">Transaction Date</label>
 						<input type="text" name="initiating_date" id="initiating_date"
 							value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
 					</div>
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-5">
 						<label for="return_due_date">Due Date</label>
 						<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
 							value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
@@ -787,7 +792,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-5">
 						<span id="parentloan_section">
 							Exhibition-Master Loan:
 							<cfif parentLoan.RecordCount GT 0>
@@ -877,14 +882,14 @@ limitations under the License.
 				</div>
 
 				<div class="form-row mb-2">
-					<div class="col-12">
+					<div class="col-10">
 						<label for="nature_of_material">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
 						<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="90"
 							class="reqdClr form-control form-control-sm autogrow" required >#loanDetails.nature_of_material#</textarea>
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-12">
+					<div class="col-10">
 						<label for="loan_description">Description (<span id="lbl_loan_description"></span>)</label>
 						<textarea name="loan_description" id="loan_description" rows="4"
 							class="form-control form-control-sm autogrow" cols="90">#loanDetails.loan_description#</textarea>
@@ -963,26 +968,26 @@ limitations under the License.
 		</table>
 
 				<div class="form-row mb-2">
-					<div class="col-12">
-						<label for="loan_instructions">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
+					<div class="col-10">
+						<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
 						<textarea name="loan_instructions" id="loan_instructions" rows="2" class="form-control-sm form-control autogrow"
 							cols="120">#loanDetails.loan_instructions#</textarea>
 					</div>
-					<div class="col-12">
-						<label for="trans_remarks">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
+					<div class="col-10">
+						<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
 						<textarea name="trans_remarks" id="trans_remarks" rows="2" cols="120" class="form-control form-control-sm autogrow">#loanDetails.trans_remarks#</textarea>
 					</div>
 				</div>
 
 				<div class="form-row mb-2">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-5">
 						<input type="button" value="Save Edits" class="savBtn"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 						<input type="button" value="Delete Loan" class="delBtn"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
 					</div>
-					<div class="col-12 col-md-6">
-						<input type="button" value="Add Items" class="lnkBtn"
+					<div class="col-12 col-md-">
+						<input type="button" value="Add Items" class="lnkBtn data-entry-input"
 							onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 						<input type="button" value="Add Items BY Barcode" class="lnkBtn"
 							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
@@ -994,7 +999,7 @@ limitations under the License.
 			</form>
 
 			<div class="form-row mb-2">
-				<div class="col-12">
+				<div class="col-10">
 					<div id="loanItemCountDiv"></div>
 					<script>
 						$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
@@ -1032,7 +1037,7 @@ limitations under the License.
 
 
 			<div class="form-row mb-2">
-				<div class="col-12">
+				<div class="col-10">
 					<label for="redir">Print...</label>
 					<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
 						<option value=""></option>
@@ -1071,7 +1076,7 @@ limitations under the License.
 			</div>
 
 			<div class="form-row mb-2">
-				<div class="col-12">
+				<div class="col-10">
 					<h3>Media documenting this Loan:</h3>
 					<p style="margin:0px;">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1116,7 +1121,7 @@ limitations under the License.
 			</div>
 
 			<div class="form-row mb-2">
-				<div class="col-12">
+				<div class="col-10">
 					<h3>Countries of Origin of items in this loan</h3>
 					<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select count(*) as ct, sovereign_nation 
@@ -1139,7 +1144,7 @@ limitations under the License.
 			</div>
 
 			<div class="form-row mb-2">
-				<div class="col-12">
+				<div class="col-10">
 					<h3>Shipment Information:</h3>
 					<script>
 					function opendialog(page,id,title) {
@@ -1289,7 +1294,7 @@ limitations under the License.
 			<!----  End Shipment dialog --->
 
 			<div class="form-row mb-2">
-				<div class="col-12">
+				<div class="col-10">
 				<h3>Accessions of material in this loan:</h3>
 				<!--- List Accessions for collection objects included in the Loan --->
 				<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1330,7 +1335,7 @@ limitations under the License.
 
 			<!--- Print permits associated with these accessions --->
 			<div class="form-row mb-2">
-				<div class="col-12">
+				<div class="col-10">
 					<h3>Permissions and Rights Documents (PDF copies of Permits) from Accessions and the Shipments of this Loan.</h3>
 					<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 

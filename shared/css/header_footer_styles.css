@@ -22,8 +22,7 @@
 	box-shadow: none;
 }
 nav.navbar {
-	padding: 0 .5em;
-	margin:  0 .5em;
+	padding: 0 1em;
 }
 nav.navbar-nav .nav-item a {
 	font-weight: 600;
