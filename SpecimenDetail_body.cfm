@@ -513,7 +513,11 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 									mczbase.get_media_descriptor(m.media_id) as media_descriptor 
 								from
-									media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+									media_relations mr, 
+									media_labels ml, 
+									media m, 
+									citation c, 
+									formatted_publication fp
 								where
 									mr.media_id = ml.media_id and
 									mr.media_id = m.media_id and
@@ -1438,7 +1442,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					media.media_type,
 					media.preview_uri,
 					label_value descr,
-					mczbase.get_media_descriptor(media_id) as media_descriptor
+					mczbase.get_media_descriptor(media.media_id) as media_descriptor
 				from
 					media,
 					media_relations,
@@ -1547,7 +1551,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 		media.mime_type,
 		media.media_type,
 		media.preview_uri,
-		mczbase.get_media_descriptor(media_id) as media_descriptor
+		mczbase.get_media_descriptor(media.media_id) as media_descriptor
 	from
 		media,
 		tag
@@ -1578,7 +1582,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 		media.media_type,
 		media.preview_uri,
 		media_relations.media_relationship,
-		mczbase.get_media_descriptor(media_id) as media_descriptor
+		mczbase.get_media_descriptor(media.media_id) as media_descriptor
 	from
 		media,
 		media_relations,
