@@ -232,7 +232,7 @@
 				<tr>
 					<td>GUID Type:</td>
 					<td>
-						<input type="text" name="newData" >
+						<input type="text" name="newData" class="reqdClr" required >
 					</td>
 					<td>Name for picklist</td>
 				</tr>
@@ -245,7 +245,7 @@
 				<tr>
 					<td>Applies to</td>
 					<td>
-						<input type="text" name="applies_to" size="80">
+						<input type="text" name="applies_to" size="80" class="reqdClr" required>
 					</td>
 					<td>space delimited list of table.field)</td>
 				</tr>
@@ -259,7 +259,7 @@
 				<tr>
 					<td>Pattern Regex</td>
 					<td>
-						<input type="text" name="pattern_regex" size="80">
+						<input type="text" name="pattern_regex" size="80" class="reqdClr" required>
 					</td>
 					<td>To validate entry, e.g. ^doi:10[.].+$</td>
 				</tr>
@@ -309,7 +309,7 @@
 						<tr>
 							<td>GUID Type:</td>
 							<td>
-								<input type="text" name="guid_type" value="#guid_type#" >
+								<input type="text" name="guid_type" value="#guid_type#" class="reqdClr" required >
 							</td>
 							<td>Name for picklist</td>
 						</tr>
@@ -322,21 +322,21 @@
 						<tr>
 							<td>Applies to</td>
 							<td>
-								<input type="text" name="applies_to" value="#applies_to#" size="80">
+								<input type="text" name="applies_to" value="#applies_to#" size="80" class="reqdClr" required>
 							</td>
 							<td>space delimited list of table.field</td>
 						</tr>
 						<tr>
 							<td>Placeholder</td>
 							<td>
-								<input type="text" name="placeholder" value="#placeholder#" size="80">
+								<input type="text" name="placeholder" value="#placeholder#" size="80" >
 							</td>
 							<td>Hint for data entry, e.g. doi:</td>
 						</tr>
 						<tr>
 							<td>Pattern Regex</td>
 							<td>
-								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80">
+								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80" class="reqdClr" required>
 							</td>
 							<td>Regex to validate entry, e.g. ^doi:10[.].+$</td>
 						</tr>
