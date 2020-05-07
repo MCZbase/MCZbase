@@ -538,6 +538,11 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 															where
 																media_id=#media_id#
 														</cfquery>
+														<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select mczbase.get_media_descriptor(media_id) media_descriptor from media 
+															where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+														</cfquery> 
+														<cfset altText = alt.media_descriptor>
 														<cfquery name="desc" dbtype="query">
 															select label_value from labels where media_label='description'
 														</cfquery>
@@ -546,7 +551,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 															<cfset alt=desc.label_value>
 														</cfif>
 										               <div class="one_thumb_small">
-											               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumbSmall"></a>
+											               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumbSmall"></a>
 										                   	<div class="detailCellSmall">
 																#media_type# (#mime_type#)
 											                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
@@ -1446,6 +1451,11 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					media_relations.media_relationship like '% accn' and
 					media_relations.related_primary_key=#one.accn_id#
 			</cfquery>
+			<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select mczbase.get_media_descriptor(media_id) media_descriptor from media 
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+			</cfquery> 
+			<cfset altText = alt.media_descriptor>
 			<cfif oneOfUs is 1 and vpdaccn is 1>
 			<div class="detailCell">
 				<div class="detailLabel">Accession
@@ -1466,7 +1476,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								<cfloop query="accnMedia">
 									<div class="one_thumb">
 						            	<a href="#media_uri#" target="_blank">
-							               <img src="#getMediaPreview(preview_uri,media_type)#" alt="#descr#" class="theThumb">
+							               <img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
 										</a>
 					                   	<p>
 											#media_type# (#mime_type#)
@@ -1550,6 +1560,11 @@ WHERE irel.related_coll_object_id=#collection_object_id#
          media.media_id=tag.media_id and
 		tag.collection_object_id = #collection_object_id#
 </cfquery>
+<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select mczbase.get_media_descriptor(media_id) media_descriptor from media 
+	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+</cfquery> 
+<cfset altText = alt.media_descriptor>
 <cfif mediaTag.recordcount gt 0>
 	 <div class="detailCell">
 		<div class="detailLabel">Tagged in Media
@@ -1558,7 +1573,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 			<cfloop query="mediaTag">
 				<cfset puri=getMediaPreview(preview_uri,media_type)>
 				 <span class="detailData">
-					<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#"></a>
+					<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#" alt="#altText#"></a>
 		        </span>
 			</cfloop>
 		</div>
