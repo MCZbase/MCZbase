@@ -652,7 +652,7 @@ You do not have permission to create Higher Geographies
 			collection
 		WHERE
 			cataloged_item.collection_id=collection.collection_id and
-			collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL", value="#collecting_event_id#">
+			collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 		GROUP BY
 			collection,
 	  		collection.collection_id
