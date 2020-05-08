@@ -173,19 +173,13 @@ function opendialogrank(page,id,title,agentId) {
 			<cfset replacement = "">
 			<cfset searchlink = "" >		
 			<cfset searchtext = "" >		
-			<cfloop query="ctguid_type_agent">
-	 					<cfif form.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
-					<cfset searchlink = ctguid_type_agent.search_uri & getClonedFromTaxon.scientific_name >		
-					<cfset searchtext = "Search" >		
-				</cfif>
-			</cfloop>
 			<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
 				<cfif searchtext EQ "">
 					<option value=""></option>
 				</cfif>
 				<cfloop query="ctguid_type_agent">
 					<cfset sel="">
-						<cfif form.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
+						<cfif ctguid_type_agent.recordcount EQ 1 >
 							<cfset sel="selected='selected'">
 							<cfset placeholder = "#ctguid_type_agent.placeholder#">
 							<cfset pattern = "#ctguid_type_agent.pattern_regex#">
@@ -196,7 +190,6 @@ function opendialogrank(page,id,title,agentId) {
 				</cfloop>
 			</select>
 			<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
-			<!---  Note: value of guid is blank, user must look up a value for the cloned agent --->
 			<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#">
 			<a id="agentguid_link" href="" target="_blank"></a>
 			<script>
