@@ -886,7 +886,7 @@ limitations under the License.
 								<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 								</div>
-								<div class="align-content-right"
+								<div class="align-content-right">
 								<input type="button" value="Delete Loan" class="btn btn-warning"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
 								<input type="button" value="Add Items" class="btn btn-secondary"
