@@ -605,7 +605,7 @@ limitations under the License.
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 						<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<label class="data-entry-label">Department</label>
 								<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" >
 									<cfloop query="ctcollection">
@@ -614,7 +614,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
 							required  pattern="#LOANNUMBERPATTERN#"  >
@@ -839,7 +839,7 @@ limitations under the License.
 									});
 								});
 							</script>
-								<select name="possible_subloans" id="possible_subloans" class="custom-select1 form-control-sm">
+								<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
 									<cfloop query="potentialChildLoans">
 										<option value="#transaction_id#">#loan_number#</option>
 									</cfloop>
@@ -874,7 +874,7 @@ limitations under the License.
 								<textarea name="loan_instructions" id="loan_instructions" rows="2" class="form-control-sm form-control autogrow"
 							cols="120">#loanDetails.loan_instructions#</textarea>
 							</div>
-							<div class="col-10">
+							<div class="col-12 col-md-8">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="2" cols="120" class="form-control form-control-sm autogrow">#loanDetails.trans_remarks#</textarea>
 							</div>
@@ -897,14 +897,15 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
+						<div class="col-12 col-md-8">
 						<div id="project">
 							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select project_name, project.project_id from project,
-			project_trans where
-			project_trans.project_id =  project.project_id
-			and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-		</cfquery>
+								select project_name, project.project_id from project,
+								project_trans where
+								project_trans.project_id =  project.project_id
+								and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							</cfquery>
 							<ul>
 								<cfif projs.recordcount gt 0>
 									<cfloop query="projs">
@@ -918,24 +919,24 @@ limitations under the License.
 							<label for="project_id">Pick a Project to associate with this Loan</label>
 							<input type="hidden" name="project_id">
 							<input type="text"
-			size="40"
-			name="pick_project_name"
-			class="reqdClr"
-			onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
-			onKeyPress="return noenter(event);">
-							<hr>
-							<label for=""><span style="font-size:large">Create a project from this Loan</span></label>
-							<div id="create_project">
-								<label for="newAgent_name">Project Agent Name</label>
-								<input type="text" name="newAgent_name" id="newAgent_name"
-			class="reqdClr"
-			onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
-			onKeyPress="return noenter(event);"
-			value="">
+								size="40"
+								name="pick_project_name"
+								class="reqdClr"
+								onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
+								onKeyPress="return noenter(event);">
+												<hr>
+												<label for=""><span style="font-size:large">Create a project from this Loan</span></label>
+												<div id="create_project">
+													<label for="newAgent_name">Project Agent Name</label>
+													<input type="text" name="newAgent_name" id="newAgent_name"
+								class="reqdClr"
+								onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
+								onKeyPress="return noenter(event);"
+								value="">
 								<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
 								<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select project_agent_role from ctproject_agent_role order by project_agent_role
-		</cfquery>
+									select project_agent_role from ctproject_agent_role order by project_agent_role
+								</cfquery>
 								<label for="project_agent_role">Project Agent Role</label>
 								<select name="project_agent_role" size="1" class="reqdClr">
 									<cfloop query="ctProjAgRole">
@@ -950,16 +951,17 @@ limitations under the License.
 								<input type="text" name="end_date">
 								<label for="project_description" >Project Description</label>
 								<textarea name="project_description" class="form-control autogrow"
-			id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
+										id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
 								<label for="project_remarks">Project Remark</label>
 								<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
 							</div>
 							<label for="saveNewProject">Check to create project with save</label>
 							<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
 						</div>
+								</div>
 					</form>
 					<div class="form-row mb-2">
-						<div class="col-10">
+						<div class="col-12 col-md-8">
 							<div id="loanItemCountDiv"></div>
 							<script>
 						$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
