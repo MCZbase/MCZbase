@@ -302,13 +302,13 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mb-2" id="insurance_section">
-								<div class="col-md-5">
-									<label for="insurance_value">Insurance value</label>
-									<input type="text" name="insurance_value" id="insurance_value" value="" class="form-control form-control-sm">
+								<div class="col-12 col-md-5">
+									<label for="insurance_value" class="data-entry-label">Insurance value</label>
+									<input type="text" name="insurance_value" id="insurance_value" value="" class="data-entry-input">
 								</div>
-								<div class="col-md-5">
-									<label for="insurance_maintained_by">Insurance Maintained By</label>
-									<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="form-control form-control-sm">
+								<div class="col-12 col-md-5">
+									<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
+									<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="data-entry-input">
 								</div>
 							</div>
 							<div class="form-row mb-2">
@@ -670,7 +670,7 @@ limitations under the License.
 										<cfloop query="loanAgents">
 											<tr>
 												<td><input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-													<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" size="30" value="#agent_name#"
+													<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" value="#agent_name#"
 		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
 													<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
@@ -694,7 +694,7 @@ limitations under the License.
 														</cfloop>
 													</select></td>
 												<td><input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="data-entry-input"></td>
-												<td><select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" class="data-entry-select" style="width:8em">
+												<td><select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" class="data-entry-select">
 														<option value=""></option>
 														<cfloop query="cttrans_agent_role">
 															<option value="#trans_agent_role#">#trans_agent_role#</option>
@@ -868,7 +868,6 @@ limitations under the License.
 						});
 					</script> 
 						</div>
-				
 						<div class="form-row mb-2">
 							<div class="col-10">
 								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
@@ -883,21 +882,21 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-10">
 								<div class="text-left">
-								<input type="button" value="Save Edits" class="btn btn-primary"
+									<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 								</div>
-								<div class="align-content-right">
-								<input type="button" value="Delete Loan" class="btn btn-warning"
+								<div class="float-right">
+									<input type="button" value="Delete Loan" class="btn btn-warning"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-								<input type="button" value="Add Items" class="btn btn-secondary"
+									<input type="button" value="Add Items" class="btn btn-secondary"
 							onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-								<input type="button" value="Add Items BY Barcode" class="btn btn-secondary"
+									<input type="button" value="Add Items BY Barcode" class="btn btn-secondary"
 							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
-								<input type="button" value="Review Items" class="btn btn-warning"
+									<input type="button" value="Review Items" class="btn btn-warning"
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+								</div>
 							</div>
 						</div>
-								</div>
 						<div id="project">
 							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
