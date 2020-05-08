@@ -637,8 +637,8 @@ limitations under the License.
 						
 						<!--- Begin loan agents table TODO: Rework --->
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-								<table id="loanAgents">
+							<div class="col-12 col-md-10 table-responsive">
+								<table id="loanAgents" class="table">
 									<tr style="height: 20px;">
 										<th><span> Agent&nbsp;Name&nbsp;
 											<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
@@ -650,15 +650,15 @@ limitations under the License.
 										<td rowspan="99"><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
 												<!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
 												<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
-													<span style="color:green;font-size:small">OK to print</span>
+													<span style="text-success small">OK to print</span>
 													<cfelse>
-													<span style="color:red;font-size:small"> One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. </span>
+													<span style="text-danger small">One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. </span>
 												</cfif>
 												<cfelse>
 												<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-													<span style="color:green;font-size:small">OK to print</span>
+													<span style="text-success small">OK to print</span>
 													<cfelse>
-													<span style="color:red;font-size:small"> One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
+													<span style="text-danger small">One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
 												</cfif>
 											</cfif></td>
 									</tr>
