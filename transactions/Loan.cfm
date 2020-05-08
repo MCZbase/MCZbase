@@ -648,10 +648,24 @@ limitations under the License.
 											<th scope="col">Role</th>
 											<th scope="col">Delete?</th>
 											<th scope="col">Clone As</th>
-											<th rowspan="20">Print?</th>
+										
 										</tr>
 									</thead
-									
+									<td rowspan="0"><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
+																<!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
+																<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+																	<span style="color:green;font-size:small">OK to print</span>
+																	<cfelse>
+																	<span style="color:red;font-size:small"> One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. </span>
+																</cfif>
+																<cfelse>
+																<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+																	<span style="color:green;font-size:small">OK to print</span>
+																	<cfelse>
+																	<span style="color:red;font-size:small"> One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
+																</cfif>
+															</cfif>
+														</td>
 									<tbody>
 										<cfset i=1>
 										<cfloop query="loanAgents">
@@ -691,21 +705,7 @@ limitations under the License.
 										</cfloop>
 										<cfset na=i-1>
 									<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-														<td rowspan="0"><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
-																<!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
-																<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
-																	<span style="color:green;font-size:small">OK to print</span>
-																	<cfelse>
-																	<span style="color:red;font-size:small"> One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. </span>
-																</cfif>
-																<cfelse>
-																<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-																	<span style="color:green;font-size:small">OK to print</span>
-																	<cfelse>
-																	<span style="color:red;font-size:small"> One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
-																</cfif>
-															</cfif>
-														</td>
+														
 											</tr>
 											
 									
