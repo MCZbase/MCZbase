@@ -668,7 +668,7 @@ limitations under the License.
 						<input type="hidden" name="action" value="saveEdits">
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 						<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
-						</div>
+						
 							
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-5">
