@@ -641,10 +641,9 @@ limitations under the License.
 								<table id="loanAgents" class="table table-sm">
 									<tr>
 									<thead>
-									<th><span> Agent&nbsp;Name&nbsp;
+									<th colspan="2"><span> Agent&nbsp;Name&nbsp;
 											<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
 											</span> </th>
-										<th></th>
 										<th>Role</th>
 										<th>Delete?</th>
 										<th>Clone As</th>
