@@ -599,12 +599,13 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="container">
 				<cftry>
+						<div class="col-12 col-md-3">
 					<h2 class="wikilink mt-2">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 						<input type="hidden" name="action" value="saveEdits">
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 						<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
-						
+						</div>
 								<div class="col-12 col-md-3">
 						<div id="project">
 							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
