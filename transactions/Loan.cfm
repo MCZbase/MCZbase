@@ -597,9 +597,9 @@ limitations under the License.
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
 		<div class="container-fluid">
-			<div class="">
+			<div class="row">
 				<cftry>
-					<div class="col-12 col-md-1"></div>
+					<div class="col-12 col-md-2"></div>
 						<div class="col-12 col-md-3">
 						<div id="project">
 							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
