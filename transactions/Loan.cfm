@@ -599,7 +599,7 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="row">
 				<cftry>
-					<div class="col-12 col-md-2"></div>
+			
 						<div class="col-12 col-md-3">
 						<div id="project">
 							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
@@ -662,7 +662,7 @@ limitations under the License.
 							<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
 						</div>
 					</div>	
-						<div class="col-12 col-md-7">
+						<div class="col-12 col-md-8">
 					<h2 class="wikilink mt-2">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 						<input type="hidden" name="action" value="saveEdits">
@@ -963,7 +963,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				
+						<div class="col-12 col-md-1"></div>
 					</form>
 					<div class="form-row mb-2">
 						<div class="col-10">
