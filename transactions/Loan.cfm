@@ -643,7 +643,7 @@ limitations under the License.
 										<tr>
 										<th scope="col"> Agent&nbsp;Name&nbsp;<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
 									     </th>
-										<th scope="#"></th>
+										<th scope="##"></th>
 										<th scope="col">Role</th>
 										<th scope="col">Delete?</th>
 										<th scope="col">Clone As</th>
