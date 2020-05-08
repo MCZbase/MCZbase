@@ -637,7 +637,7 @@ limitations under the License.
 						
 						<!--- Begin loan agents table TODO: Rework --->
 						<div class="form-row my-2">
-							<div class="col-12 col-md-10 table-responsive">
+							<div class="col-12 col-md-8 table-responsive">
 								<table id="loanAgents" class="table table-sm">
 									<tr>
 									<thead class="thead-light">
@@ -712,7 +712,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<label for="loan_type" class="data-entry-label">Loan Type</label>
 								<select name="loan_type" id="loan_type" class="reqdClr custom-select1 form-control-sm" required >
 									<cfloop query="ctLoanType">
@@ -725,7 +725,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<label for="loan_status" class="data-entry-label">Loan Status</label>
 								<span>
 								<select name="loan_status" id="loan_status" class="reqdClr custom-select1 form-control-sm" required >
@@ -744,29 +744,29 @@ limitations under the License.
 								</span> </div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<label for="initiating_date">Transaction Date</label>
 								<input type="text" name="initiating_date" id="initiating_date"
 							value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
 							</div>
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<label for="return_due_date">Due Date</label>
 								<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
 							value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 							</div>
 						</div>
 						<div class="form-row mb-2" id="insurance_section">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-4">
 								<label for="insurance_value">Insurance value</label>
 								<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40" class="form-control-sm">
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-4">
 								<label for="insurance_maintained_by">Insurance Maintained By</label>
 								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40" class="form-control-sm">
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-5"> <span id="parentloan_section"> Exhibition-Master Loan:
+							<div class="col-12 col-md-4"> <span id="parentloan_section"> Exhibition-Master Loan:
 								<cfif parentLoan.RecordCount GT 0>
 									<cfloop query="parentLoan">
 										<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
@@ -849,14 +849,14 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-10">
+							<div class="col-12 col-md-8">
 								<label for="nature_of_material">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="90"
 							class="reqdClr form-control form-control-sm autogrow" required >#loanDetails.nature_of_material#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-10">
+							<div class="col-12 col-md-8">
 								<label for="loan_description">Description (<span id="lbl_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description" rows="4"
 							class="form-control form-control-sm autogrow" cols="90">#loanDetails.loan_description#</textarea>
@@ -869,7 +869,7 @@ limitations under the License.
 					</script> 
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-10">
+							<div class="col-12 col-md-8">
 								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" rows="2" class="form-control-sm form-control autogrow"
 							cols="120">#loanDetails.loan_instructions#</textarea>
@@ -880,7 +880,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-10">
+							<div class="col-12 col-md-8">
 								<div class="text-left">
 									<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
