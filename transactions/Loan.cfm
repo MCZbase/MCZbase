@@ -881,14 +881,12 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-10">
 								<div class="align-content-left">
 								<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 								<input type="button" value="Delete Loan" class="btn btn-warning"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-								</div>
-								<div class="align-content-right">
 								<input type="button" value="Add Items" class="btn btn-secondary"
 							onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 								<input type="button" value="Add Items BY Barcode" class="btn btn-secondary"
