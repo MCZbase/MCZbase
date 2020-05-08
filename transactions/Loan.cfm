@@ -655,15 +655,15 @@ limitations under the License.
 											<td colspan="5"><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
 													<!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
 													<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
-														<span class="text-success small">OK to print</span>
+														<span class="text-success small px-1">OK to print</span>
 														<cfelse>
-														<span class="text-danger small">One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. </span>
+														<span class="text-danger small px-1">One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. </span>
 													</cfif>
 													<cfelse>
 													<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-														<span class="text-success small">OK to print</span>
+														<span class="text-success small px-1">OK to print</span>
 														<cfelse>
-														<span class="text-danger small">One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
+														<span class="text-danger small px-1">One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
 													</cfif>
 												</cfif></td>
 										</tr>

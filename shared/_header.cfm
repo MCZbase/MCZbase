@@ -100,8 +100,9 @@ limitations under the License.
 		<script type="text/javascript" src="/lib/misc/jquery.jfeed.js"></script>
 	 </cfif>
 </cfif>
-<cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name IS "/Transactions.cfm">
+<cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name IS "/Transactions.cfm" OR CGI.script_name IS "/Loan.cfm">
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+	<script type="text/javascript" src="/shared/js/internalAjax.js"></script>
 </cfif>
 
 <cfif not isdefined("session.header_color")>
