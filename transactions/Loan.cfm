@@ -427,12 +427,12 @@ limitations under the License.
 	<cfoutput>
 		<cftry>
 			<script>
-    function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
-           console.log(targetid);
-           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;
-           var amddialog = $('##'+targetid)
-           .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
-           .dialog({
+    		function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
+           	console.log(targetid);
+           	var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;
+           	var amddialog = $('##'+targetid)
+           	.html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
+           	.dialog({
                  title: title,
                  autoOpen: false,
                  dialogClass: 'dialog_fixed,ui-widget-header',
@@ -599,15 +599,15 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<cftry>
-					<h2 class="wikilink mt-2">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
+					<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 						<input type="hidden" name="action" value="saveEdits">
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
-						<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
+						<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-5">
-								<label>Department</label>
-								<select name="collection_id" id="collection_id" size="1" class="reqdClr custom-select1 form-control-sm" >
+								<label class="data-entry-label">Department</label>
+								<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" >
 									<cfloop query="ctcollection">
 										<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
 										value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -636,18 +636,18 @@ limitations under the License.
 				</cfquery>
 						
 						<!--- Begin loan agents table TODO: Rework --->
-						<div class="form-row mb-2">
+						<div class="form-row my-2">
 							<div class="col-12 col-md-10 table-responsive">
 								<table id="loanAgents" class="table table-sm">
 									<tr>
-									<thead>
-									<th colspan="2"><span> Agent&nbsp;Name&nbsp;
+									<thead class="thead-light">
+										<th colspan="2"><span> Agent&nbsp;Name&nbsp;
 											<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
 											</span> </th>
 										<th>Role</th>
 										<th>Delete?</th>
 										<th>Clone As</th>
-											</thead>
+									</thead>
 									</tr>
 									<tbody>
 										<tr>
