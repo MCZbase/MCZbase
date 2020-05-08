@@ -641,71 +641,76 @@ limitations under the License.
 								<table id="loanAgents" class="table">
 									<thead class="thead-light">
 										<tr>
-										<th scope="col"> Agent&nbsp;Name&nbsp;<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
-									     </th>
-										<th scope="##"></th>
-										<th scope="col">Role</th>
-										<th scope="col">Delete?</th>
-										<th scope="col">Clone As</th>
-										<th scope="col">Print?</th>
+											<th scope="col"> Agent&nbsp;Name&nbsp;
+												<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
+											</th>
+											<th scope="##"></th>
+											<th scope="col">Role</th>
+											<th scope="col">Delete?</th>
+											<th scope="col">Clone As</th>
+											<th scope="col">Print?</th>
 										</tr>
-										</thead
+									</thead
+									
 									<tbody>
-									<cfset i=1>
-									<cfloop query="loanAgents">
-										<tr>
-											<td><input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" size="30" value="#agent_name#"
+										<cfset i=1>
+										<cfloop query="loanAgents">
+											<tr>
+												<td><input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+													<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" size="30" value="#agent_name#"
 		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
 		  					onKeyPress="return noenter(event);">
-												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+													<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
                                                     onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "></td>
-											<td style=" min-width: 3.5em; "><span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
-												<cfif loanAgents.worstagentrank EQ 'A'>
-													&nbsp;
-													<cfelseif loanAgents.worstagentrank EQ 'F'>
-													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
-													<cfelse>
-													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
-												</cfif>
-												</span></td>
-											<td><select name="trans_agent_role_#i#" id="trans_agent_role_#i#" class="data-entry-select">
-													<cfloop query="cttrans_agent_role">
-														<option
+												<td style=" min-width: 3.5em; "><span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
+													<cfif loanAgents.worstagentrank EQ 'A'>
+														&nbsp;
+														<cfelseif loanAgents.worstagentrank EQ 'F'>
+														<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+														<cfelse>
+														<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+													</cfif>
+													</span></td>
+												<td><select name="trans_agent_role_#i#" id="trans_agent_role_#i#" class="data-entry-select">
+														<cfloop query="cttrans_agent_role">
+															<option
 									<cfif cttrans_agent_role.trans_agent_role is loanAgents.trans_agent_role>
 										selected="selected"
 									</cfif>
 									value="#trans_agent_role#">#trans_agent_role#</option>
-													</cfloop>
-												</select></td>
-											<td><input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="data-entry-input"></td>
-											<td><select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" class="data-entry-select" style="width:8em">
-													<option value=""></option>
-													<cfloop query="cttrans_agent_role">
-														<option value="#trans_agent_role#">#trans_agent_role#</option>
-													</cfloop>
-												</select></td>
+														</cfloop>
+													</select></td>
+												<td><input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="data-entry-input"></td>
+												<td><select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" class="data-entry-select" style="width:8em">
+														<option value=""></option>
+														<cfloop query="cttrans_agent_role">
+															<option value="#trans_agent_role#">#trans_agent_role#</option>
+														</cfloop>
+													</select></td>
+												<table>
+													<tr>
 														<td><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
-												<!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
-												<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
-													<span style="color:green;font-size:small">OK to print</span>
-													<cfelse>
-													<span style="color:red;font-size:small"> One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. </span>
-												</cfif>
-												<cfelse>
-												<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-													<span style="color:green;font-size:small">OK to print</span>
-													<cfelse>
-													<span style="color:red;font-size:small"> One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
-												</cfif>
-											</cfif></td>
-										</tr>
-										<cfset i=i+1>
-									</cfloop>
-									<cfset na=i-1>
-										<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-							
-							
+																<!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
+																<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+																	<span style="color:green;font-size:small">OK to print</span>
+																	<cfelse>
+																	<span style="color:red;font-size:small"> One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. </span>
+																</cfif>
+																<cfelse>
+																<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+																	<span style="color:green;font-size:small">OK to print</span>
+																	<cfelse>
+																	<span style="color:red;font-size:small"> One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
+																</cfif>
+															</cfif></td>
+													</tr>
+												</table>
+											</tr>
+											<cfset i=i+1>
+										</cfloop>
+										<cfset na=i-1>
+									
+									<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 								</table>
 								<!-- end agents table ---> 
 							</div>
