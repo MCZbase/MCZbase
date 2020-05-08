@@ -596,8 +596,8 @@ limitations under the License.
 		</cftry>
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
-		<div class="container-fluid">
-			<div class="container">
+		<div class="container">
+			<div class="row">
 				<cftry>
 					<h2 class="wikilink mt-2">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
@@ -882,7 +882,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-10">
-								<div class="align-content-left">
+								<div class="text-left">
 								<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 								</div>
