@@ -597,79 +597,13 @@ limitations under the License.
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
 		<div class="container-fluid">
-			<div class="row">
+			<div class="container">
 				<cftry>
-			
-						<div class="col-12 col-md-3">
-						<div id="project">
-							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
-							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select project_name, project.project_id from project,
-			project_trans where
-			project_trans.project_id =  project.project_id
-			and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-		</cfquery>
-							<ul>
-								<cfif projs.recordcount gt 0>
-									<cfloop query="projs">
-										<li><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
-									</cfloop>
-									<cfelse>
-									<li style="margin: .5em 1.25em;">None</li>
-								</cfif>
-							</ul>
-							<hr>
-							<label for="project_id">Pick a Project to associate with this Loan</label>
-							<input type="hidden" name="project_id">
-							<input type="text"
-			size="40"
-			name="pick_project_name"
-			class="reqdClr"
-			onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
-			onKeyPress="return noenter(event);">
-							<hr>
-							<label for=""><span style="font-size:large">Create a project from this Loan</span></label>
-							<div id="create_project">
-								<label for="newAgent_name">Project Agent Name</label>
-								<input type="text" name="newAgent_name" id="newAgent_name"
-			class="reqdClr"
-			onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
-			onKeyPress="return noenter(event);"
-			value="">
-								<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
-								<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select project_agent_role from ctproject_agent_role order by project_agent_role
-		</cfquery>
-								<label for="project_agent_role">Project Agent Role</label>
-								<select name="project_agent_role" size="1" class="reqdClr">
-									<cfloop query="ctProjAgRole">
-										<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
-									</cfloop>
-								</select>
-								<label for="project_name" >Project Title</label>
-								<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
-								<label for="start_date" >Project Start Date</label>
-								<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
-								<label for="end_date">Project End Date</label>
-								<input type="text" name="end_date">
-								<label for="project_description" >Project Description</label>
-								<textarea name="project_description" class="form-control autogrow"
-			id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
-								<label for="project_remarks">Project Remark</label>
-								<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
-							</div>
-							<label for="saveNewProject">Check to create project with save</label>
-							<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
-						</div>
-					</div>	
-						<div class="col-12 col-md-8">
 					<h2 class="wikilink mt-2">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 						<input type="hidden" name="action" value="saveEdits">
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 						<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
-						
-							
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-5">
 								<label>Department</label>
@@ -700,9 +634,8 @@ limitations under the License.
 						<cfquery name="recipientinstitution" dbtype="query">
 					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
 				</cfquery>
-				
+						
 						<!--- Begin loan agents table TODO: Rework --->
-		
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-10 table-responsive">
 								<table id="loanAgents" class="table table-sm">
@@ -935,6 +868,7 @@ limitations under the License.
 						});
 					</script> 
 						</div>
+				
 						<div class="form-row mb-2">
 							<div class="col-10">
 								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
@@ -962,8 +896,67 @@ limitations under the License.
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
 							</div>
 						</div>
-					</div>
-						<div class="col-12 col-md-1"></div>
+				
+						<div id="project">
+							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
+							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select project_name, project.project_id from project,
+			project_trans where
+			project_trans.project_id =  project.project_id
+			and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+							<ul>
+								<cfif projs.recordcount gt 0>
+									<cfloop query="projs">
+										<li><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
+									</cfloop>
+									<cfelse>
+									<li style="margin: .5em 1.25em;">None</li>
+								</cfif>
+							</ul>
+							<hr>
+							<label for="project_id">Pick a Project to associate with this Loan</label>
+							<input type="hidden" name="project_id">
+							<input type="text"
+			size="40"
+			name="pick_project_name"
+			class="reqdClr"
+			onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
+			onKeyPress="return noenter(event);">
+							<hr>
+							<label for=""><span style="font-size:large">Create a project from this Loan</span></label>
+							<div id="create_project">
+								<label for="newAgent_name">Project Agent Name</label>
+								<input type="text" name="newAgent_name" id="newAgent_name"
+			class="reqdClr"
+			onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
+			onKeyPress="return noenter(event);"
+			value="">
+								<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
+								<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select project_agent_role from ctproject_agent_role order by project_agent_role
+		</cfquery>
+								<label for="project_agent_role">Project Agent Role</label>
+								<select name="project_agent_role" size="1" class="reqdClr">
+									<cfloop query="ctProjAgRole">
+										<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
+									</cfloop>
+								</select>
+								<label for="project_name" >Project Title</label>
+								<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
+								<label for="start_date" >Project Start Date</label>
+								<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
+								<label for="end_date">Project End Date</label>
+								<input type="text" name="end_date">
+								<label for="project_description" >Project Description</label>
+								<textarea name="project_description" class="form-control autogrow"
+			id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
+								<label for="project_remarks">Project Remark</label>
+								<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
+							</div>
+							<label for="saveNewProject">Check to create project with save</label>
+							<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
+						</div>
 					</form>
 					<div class="form-row mb-2">
 						<div class="col-10">
