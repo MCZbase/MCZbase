@@ -687,6 +687,14 @@ limitations under the License.
 															<option value="#trans_agent_role#">#trans_agent_role#</option>
 														</cfloop>
 													</select></td>
+											</tr>
+											
+									
+											<cfset i=i+1>
+										</cfloop>
+										<cfset na=i-1>
+									
+									<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 												<table>
 													<tr>
 														<td><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
@@ -702,15 +710,10 @@ limitations under the License.
 																	<cfelse>
 																	<span style="color:red;font-size:small"> One "authorized by", one "in-house contact" and one "received by" are required to print loan forms.  Recipient institution will soon become mandatory as well. </span>
 																</cfif>
-															</cfif></td>
+															</cfif>
+														</td>
 													</tr>
 												</table>
-											</tr>
-											<cfset i=i+1>
-										</cfloop>
-										<cfset na=i-1>
-									
-									<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 								</table>
 								<!-- end agents table ---> 
 							</div>
