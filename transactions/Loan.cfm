@@ -695,8 +695,7 @@ limitations under the License.
 										<cfset na=i-1>
 									
 									<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-												<table>
-													<tr>
+												
 														<td><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
 																<!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
 																<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
@@ -712,8 +711,7 @@ limitations under the License.
 																</cfif>
 															</cfif>
 														</td>
-													</tr>
-												</table>
+												
 								</table>
 								<!-- end agents table ---> 
 							</div>
