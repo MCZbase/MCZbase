@@ -292,11 +292,11 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mb-2">
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-5">
 									<label for="initiating_date">Transaction Date</label>
 									<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm">
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-5">
 									<label for="return_due_date">Return Due Date</label>
 									<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm" >
 								</div>
