@@ -648,7 +648,7 @@ limitations under the License.
 											<th scope="col">Role</th>
 											<th scope="col">Delete?</th>
 											<th scope="col">Clone As</th>
-											<th scope="col">Print?</th>
+											<th rowspan="20">Print?</th>
 										</tr>
 									</thead
 									
@@ -696,7 +696,7 @@ limitations under the License.
 									
 									<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 												
-														<td><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
+														<td rowspan="0"><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
 																<!--- TODO: Rollout of mandatory recipient institution will put more types in this block.  --->
 																<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
 																	<span style="color:green;font-size:small">OK to print</span>
