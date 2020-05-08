@@ -637,7 +637,7 @@ limitations under the License.
 						
 						<!--- Begin loan agents table TODO: Rework --->
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-8">
 								<table id="loanAgents" class="table">
 									<thead class="thead-light">
 										<tr>
