@@ -898,7 +898,7 @@ limitations under the License.
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
 							</div>
 						</div>
-				
+								</div>
 						<div id="project">
 							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
