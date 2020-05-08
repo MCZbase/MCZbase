@@ -604,37 +604,8 @@ limitations under the License.
 						<input type="hidden" name="action" value="saveEdits">
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 						<span style="font-size:14px;">Entered by #loanDetails.enteredby#</span>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-5">
-								<label>Department</label>
-								<select name="collection_id" id="collection_id" size="1" class="reqdClr custom-select1 form-control-sm" >
-									<cfloop query="ctcollection">
-										<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
-										value="#ctcollection.collection_id#">#ctcollection.collection#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-5">
-								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
-								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
-							required  pattern="#LOANNUMBERPATTERN#"  >
-							</div>
-						</div>
 						
-						<!--- Obtain picklist values for loan agents controls.  --->
-						<cfquery name="inhouse" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
-				</cfquery>
-						<cfquery name="outside" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
-				</cfquery>
-						<cfquery name="authorized" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
-				</cfquery>
-						<cfquery name="recipientinstitution" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
-				</cfquery>
-						<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3">
 						<div id="project">
 							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -696,6 +667,37 @@ limitations under the License.
 							<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
 						</div>
 					</div>	
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-5">
+								<label>Department</label>
+								<select name="collection_id" id="collection_id" size="1" class="reqdClr custom-select1 form-control-sm" >
+									<cfloop query="ctcollection">
+										<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
+										value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-5">
+								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
+								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
+							required  pattern="#LOANNUMBERPATTERN#"  >
+							</div>
+						</div>
+						
+						<!--- Obtain picklist values for loan agents controls.  --->
+						<cfquery name="inhouse" dbtype="query">
+					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
+				</cfquery>
+						<cfquery name="outside" dbtype="query">
+					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
+				</cfquery>
+						<cfquery name="authorized" dbtype="query">
+					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
+				</cfquery>
+						<cfquery name="recipientinstitution" dbtype="query">
+					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
+				</cfquery>
+				
 						<!--- Begin loan agents table TODO: Rework --->
 					<div class="col-12 col-md-3">
 						<div class="form-row mb-2">
