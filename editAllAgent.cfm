@@ -24,6 +24,11 @@
 <cfquery name="ctRelns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select AGENT_RELATIONSHIP from CTAGENT_RELATIONSHIP
 </cfquery>
+<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+   from ctguid_type 
+   where applies_to like '%agent.agentguid%'
+</cfquery>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <link rel="stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
@@ -160,6 +165,57 @@ function opendialogrank(page,id,title,agentId) {
     	</select>
 		<label for="pref_name">Preferred Name</label>
 		<input type="text" name="pref_name" id="pref_name">
+		<div style="border: 1px solid blue;">
+			<label for="genus">GUID for Agent</label>
+			<cfset pattern = "">
+			<cfset placeholder = "">
+			<cfset regex = "">
+			<cfset replacement = "">
+			<cfset searchlink = "" >		
+			<cfset searchtext = "" >		
+			<cfloop query="ctguid_type_agent">
+	 					<cfif form.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
+					<cfset searchlink = ctguid_type_agent.search_uri & getClonedFromTaxon.scientific_name >		
+					<cfset searchtext = "Search" >		
+				</cfif>
+			</cfloop>
+			<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
+				<cfif searchtext EQ "">
+					<option value=""></option>
+				</cfif>
+				<cfloop query="ctguid_type_agent">
+					<cfset sel="">
+						<cfif form.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
+							<cfset sel="selected='selected'">
+							<cfset placeholder = "#ctguid_type_agent.placeholder#">
+							<cfset pattern = "#ctguid_type_agent.pattern_regex#">
+							<cfset regex = "#ctguid_type_agent.resolver_regex#">
+							<cfset replacement = "#ctguid_type_agent.resolver_replacement#">
+						</cfif>
+					<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
+				</cfloop>
+			</select>
+			<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
+			<!---  Note: value of guid is blank, user must look up a value for the cloned agent --->
+			<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#">
+			<a id="agentguid_link" href="" target="_blank"></a>
+			<script>
+				$(document).ready(function () { 
+					$('##agentguid_guid_type').change(function () { 
+						// On selecting a guid_type, change the pattern.
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',$('##pref_name').val());
+					});
+					$('##agentguid').blur( function () { 
+						// On loss of focus for input, validate against the regex, update link
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',$('##pref_name').val());
+					});
+					$('##pref_name').change(function () { 
+						// On changing prefered name, update search.
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',$('##pref_name').val());
+					});
+				});
+			</script>
+		</div>
 		<input type="submit" value="Add Person" class="savBtn">
 	</form>
     </div>
