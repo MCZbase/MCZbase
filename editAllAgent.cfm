@@ -165,6 +165,7 @@ function opendialogrank(page,id,title,agentId) {
     	</select>
 		<label for="pref_name">Preferred Name</label>
 		<input type="text" name="pref_name" id="pref_name">
+		<cfoutput>
 		<div style="border: 1px solid blue;">
 			<label for="genus">GUID for Agent</label>
 			<cfset pattern = "">
@@ -209,6 +210,7 @@ function opendialogrank(page,id,title,agentId) {
 				});
 			</script>
 		</div>
+		</cfoutput>
 		<input type="submit" value="Add Person" class="savBtn">
 	</form>
     </div>
