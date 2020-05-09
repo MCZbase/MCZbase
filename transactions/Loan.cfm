@@ -952,6 +952,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+									</div>
 					<div class="col-12 col-md-4">
 						<div class="col-12">
 							<div id="project" class="p-3 mb-2 bg-light border text-dark">
