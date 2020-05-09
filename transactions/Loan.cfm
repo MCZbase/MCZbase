@@ -1018,8 +1018,9 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					</div>
+					
 				</form>
+			
 				<div class="form-row mb-2">
 					<div class="col-12 col-md-8">
 						<label for="redir">Print...</label>
@@ -1358,8 +1359,9 @@ limitations under the License.
 					</cfif>
 				</cfcatch>
 			</cftry>
+							</div>
 		</div>
-		</div>
+
 		<!--- class="container" --->
 		</div>
 		<!--- class="container-fluid form-div" ---> 
