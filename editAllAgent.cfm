@@ -257,7 +257,7 @@ function opendialogrank(page,id,title,agentId) {
 			agent_remarks,
 			agent_type,
 			agent.edited edited,
-			agentguid_type,
+			agentguid_guid_type,
 			agentguid
 		from
 			agent
