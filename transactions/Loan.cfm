@@ -993,7 +993,7 @@ limitations under the License.
 						</div>
 					</div>
 								
-								<div class="col-12 col-md-8">
+								<div class="col-12 col-md-8 px-0">
 							<div id="project" class="p-3 mb-2 bg-light border text-dark">
 								<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 								<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
