@@ -919,7 +919,7 @@ function opendialogrank(page,id,title,agentId) {
 							from
 								media_labels
 							where
-								media_id=#media_id#
+								media_id=<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#media_id#'>
 						</cfquery>
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
@@ -970,12 +970,12 @@ function opendialogrank(page,id,title,agentId) {
 	<cfoutput>
 		<cfquery name="upElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE electronic_address SET
-				address_type = '#address_type#',
-				address = '#address#'
+				address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>,
+				address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
 			where
-				agent_id = #agent_id#
-				and address_type = '#origAddressType#'
-				and address = '#origAddress#'
+				agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				and address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#origAddressType#'>
+				and address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#origAddress#'>
 		</cfquery>
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
@@ -985,9 +985,9 @@ function opendialogrank(page,id,title,agentId) {
 	<cfoutput>
 		<cfquery name="deleElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from electronic_address where
-				agent_id=#agent_id#
-				and address_type='#address_type#'
-				and address='#address#'
+				agent_id=<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agent_id#'>
+				and address_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>
+				and address=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
 		</cfquery>
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
 	</cfoutput>
@@ -1458,12 +1458,25 @@ function opendialogrank(page,id,title,agentId) {
 				INSERT INTO agent (
 					agent_id,
 					agent_type,
-					preferred_agent_name_id)
-				VALUES (
-					#agentID.nextAgentId#,
-					'person',
-					#agentNameID.nextAgentNameId#
+					preferred_agent_name_id
+					<cfif len(#agentguid_guid_type#) gt 0>
+						,agentguid_guid_type
+					</cfif>
+					<cfif len(#agentguid#) gt 0>
+						,agentguid
+					</cfif>
 					)
+				VALUES (
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>,
+					'person',
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentNameID.nextAgentNameId#'>
+					<cfif len(#agentguid_guid_type#) gt 0>
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid_guid_type#">
+					</cfif>
+					<cfif len(#agentguid#) gt 0>
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid#">
+					</cfif>
+				)
 			</cfquery>
 			<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO person (
@@ -1485,21 +1498,21 @@ function opendialogrank(page,id,title,agentId) {
 					</cfif>
 					)
 				VALUES
-					(#agentID.nextAgentId#
+					(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">
 					<cfif len(#prefix#) gt 0>
-						,'#prefix#'
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
 					</cfif>
 					<cfif len(#LAST_NAME#) gt 0>
-						,'#LAST_NAME#'
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#LAST_NAME#'>
 					</cfif>
 					<cfif len(#FIRST_NAME#) gt 0>
-						,'#FIRST_NAME#'
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#FIRST_NAME#'>
 					</cfif>
 					<cfif len(#MIDDLE_NAME#) gt 0>
-						,'#MIDDLE_NAME#'
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MIDDLE_NAME#'>
 					</cfif>
 					<cfif len(#SUFFIX#) gt 0>
-						,'#SUFFIX#'
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#SUFFIX#'>
 					</cfif>
 					)
 			</cfquery>
@@ -1524,8 +1537,10 @@ function opendialogrank(page,id,title,agentId) {
 			</cfif>
 			<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select agent.agent_type,agent_name.agent_id,agent_name.agent_name from agent_name, agent where agent_name.agent_id = agent.agent_id
-                    and upper(agent_name.agent_name) like '%#ucase(pref_name)#%'
+					select agent.agent_type,agent_name.agent_id,agent_name.agent_name 
+						from agent_name, agent 
+						where agent_name.agent_id = agent.agent_id
+							and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
 				</cfquery>
 				<cfif dupPref.recordcount gt 0>
                     <div style="padding: 1em;width: 75%;">
@@ -1566,10 +1581,10 @@ function opendialogrank(page,id,title,agentId) {
 					agent_name,
 					donor_card_present_fg)
 				VALUES (
-					#agentNameID.nextAgentNameId#,
-					#agentID.nextAgentId#,
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,
 					'preferred',
-					'#pref_name#',
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>,
 					0
 					)
 			</cfquery>
@@ -1595,19 +1610,33 @@ function opendialogrank(page,id,title,agentId) {
 					<cfif len(#agent_remarks#) gt 0>
 						,agent_remarks
 					</cfif>
+					<cfif len(#agentguid_guid_type#) gt 0>
+						,agentguid_guid_type
+					</cfif>
+					<cfif len(#agentguid#) gt 0>
+						,agentguid
+					</cfif>
 					)
 				VALUES (
-					#agentID.nextAgentId#,
-					'#agent_type#',
-					#agentNameID.nextAgentNameId#
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_type#'>,
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">
 					<cfif len(#agent_remarks#) gt 0>
-						,'#agent_remarks#'
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
+					</cfif>
+					<cfif len(#agentguid_guid_type#) gt 0>
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid_guid_type#">
+					</cfif>
+					<cfif len(#agentguid#) gt 0>
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid#">
 					</cfif>
 					)
 			</cfquery>
 			<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select agent_id,agent_name from agent_name where upper(agent_name) like '%#ucase(agent_name)#%'
+					select agent_id,agent_name 
+					from agent_name 
+					where upper(agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(agent_name)#%'>
 				</cfquery>
 				<cfif dupPref.recordcount gt 0>
 					<p>That agent may already exist! Click to see details.</p>
@@ -1638,7 +1667,7 @@ function opendialogrank(page,id,title,agentId) {
 					#agentNameID.nextAgentNameId#,
 					#agentID.nextAgentId#,
 					'preferred',
-					'#agent_name#',
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agent_name#'>,
 					0
 					)
 			</cfquery>
