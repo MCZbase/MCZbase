@@ -601,7 +601,7 @@ limitations under the License.
 			<cftry>
 				<div class="col-12">
 				<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
-					<div class="row">
+					<div class="row mt-3">
 					<div class="col-8">
 						<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 							<input type="hidden" name="action" value="saveEdits">
@@ -740,7 +740,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-3 bg-light border">
+								<div class="col-12 col-md-3 bg-light mt-2 border">
 									<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
 										Date Closed: #loanDetails.closed_date#
 									</cfif>
@@ -955,7 +955,7 @@ limitations under the License.
 					
 					<div class="col-12 col-md-4">
 						<div class="col-12">
-							<div id="project" class="p-3 mb-2 bg-light border text-dark">
+							<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
 								<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 								<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_name, project.project_id from project,
