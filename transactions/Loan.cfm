@@ -950,7 +950,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-3 px-0">
 						
 									<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
 										<h3>Projects associated with this loan: <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i></h3>
