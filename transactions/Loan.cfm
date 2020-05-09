@@ -886,11 +886,11 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12">
-											<div class="text-left">
+											<div class="col-2">
 												<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 											</div>
-											<div class="float-right">
+											<div class="col-10">
 												<input type="button" value="Delete Loan" class="btn btn-warning"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
 												<input type="button" value="Add Items" class="btn btn-secondary"
@@ -906,8 +906,8 @@ limitations under the License.
 										<div class="col-12">
 											<div id="loanItemCountDiv"></div>
 											<script>
-						$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
-					</script>
+											$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
+											</script>
 											<cfif loanDetails.loan_type EQ 'consumable'>
 												<h3>Disposition of material in loan:</h3>
 												<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
