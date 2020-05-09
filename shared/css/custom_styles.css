@@ -1473,12 +1473,13 @@ input::placeholder {
 	top: 3px;
 	color: #46a1dc;
 }
-.wikiInfo {
+.fas-info2 {
 	position: absolute;
-	right: 35px;
-	top: 25px;
+	right: 9px;
+	top: 3px;
 	color: #46a1dc;
 }
+
 /****************end small form fields*********************/
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
