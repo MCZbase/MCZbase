@@ -889,22 +889,24 @@ limitations under the License.
 											<div class="col-2">
 												<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
-											</div>
-											<div class="col-10 shippingBlock">
+											
 												<input type="button" value="Delete Loan" class="btn btn-warning"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-												<input type="button" value="Add Items" class="btn btn-secondary"
+												</div>
+											<div class="col-12 shippingBlock">
+												<input type="button" value="Add Items" class="lnkBtn btn btn-secondary"
 							onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-												<input type="button" value="Add Items BY Barcode" class="btn btn-secondary"
+												<input type="button" value="Add Items BY Barcode" class="lnkBtn btn btn-secondary"
 							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
-												<input type="button" value="Review Items" class="btn btn-warning"
+												<input type="button" value="Review Items" class="lnkBtn btn btn-warning"
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-											</div>
+											
 							<!---			</div>
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12">--->
 											<div id="loanItemCountDiv"></div>
+												</div>
 											<script>
 											$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 											</script>
