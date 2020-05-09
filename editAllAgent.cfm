@@ -454,7 +454,7 @@ function opendialogrank(page,id,title,agentId) {
 				                        </td>
  						</tr>
  						<tr>
-							<td colspan="5">
+							<td colspan="5" style="border: 1px solid blue;">
 								<label for="agentguid">GUID for Agent</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
