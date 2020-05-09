@@ -601,6 +601,7 @@ limitations under the License.
 			<cftry>
 				<div class="col-12">
 				<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
+					<div class="row">
 					<div class="col-8">
 						<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 							<input type="hidden" name="action" value="saveEdits">
@@ -1018,7 +1019,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					
+						</div>
 				</form>
 									</div>
 			<div class="col-12">
