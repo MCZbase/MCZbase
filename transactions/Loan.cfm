@@ -950,7 +950,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-3 px-0">
+							<div class="col-12 col-md-3">
 						
 									<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
 										<h3>Projects associated with this loan: <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i></h3>
@@ -980,7 +980,7 @@ limitations under the License.
 										<div id="create_project">
 											<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
 											<input type="text" name="newAgent_name" id="newAgent_name"
-								class="reqdClr"
+								class="reqdClr form-control-sm"
 								onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
 								onKeyPress="return noenter(event);"
 								value="">
@@ -994,16 +994,16 @@ limitations under the License.
 													<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
 												</cfloop>
 											</select>
-											<label for="project_name" >Project Title</label>
+											<label for="project_name" class="form-control-sm">Project Title</label>
 											<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
-											<label for="start_date" >Project Start Date</label>
-											<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
-											<label for="end_date">Project End Date</label>
-											<input type="text" name="end_date">
-											<label for="project_description" >Project Description</label>
+											<label for="start_date" class="data-entry-label">Project Start Date</label>
+											<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
+											<label for="end_date" class="data-entry-label">Project End Date</label>
+											<input type="text" name="end_date" class="form-control-sm">
+											<label for="project_description" class="data-entry-label">Project Description</label>
 											<textarea name="project_description" class="form-control autogrow"
 										id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
-											<label for="project_remarks">Project Remark</label>
+											<label for="project_remarks" class="data-entry-label">Project Remark</label>
 											<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
 										</div>
 										<div class="form-check">
