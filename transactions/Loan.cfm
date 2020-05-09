@@ -953,11 +953,11 @@ limitations under the License.
 									<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
 										<h3>Projects associated with this loan: <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i></h3>
 										<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select project_name, project.project_id from project,
-								project_trans where
-								project_trans.project_id =  project.project_id
-								and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-							</cfquery>
+											select project_name, project.project_id from project,
+											project_trans where
+											project_trans.project_id =  project.project_id
+											and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+										</cfquery>
 										<ul>
 											<cfif projs.recordcount gt 0>
 												<cfloop query="projs">
@@ -970,14 +970,11 @@ limitations under the License.
 										<hr>
 										<label for="project_id">Pick a Project to associate with this Loan</label>
 										<input type="hidden" name="project_id" class="form-control-sm">
-										<input type="text"
-								size="40"
-								name="pick_project_name"
-								class="reqdClr"
-								onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
-								onKeyPress="return noenter(event);">
+										<input type="text" name="pick_project_name" class="reqdClr form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
 										<hr>
-										<label for="" class="data-entry-label"><span style="font-size:large">Create a project from this Loan</span></label>
+										<label for="create_project" class="data-entry-label">
+											<span class="large">Create a project from this Loan</span>
+										</label>
 										<div id="create_project">
 											<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
 											<input type="text" name="newAgent_name" id="newAgent_name"
