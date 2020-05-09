@@ -598,6 +598,7 @@ limitations under the License.
 		
 		<div class="container-fluid">
 			<div class="row">
+				<div class="col-12">
 				<cftry>
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 			<div class="col-12 col-md-10">
@@ -1359,6 +1360,7 @@ limitations under the License.
 					</cfcatch>
 				</cftry>
 			</div>
+								</div>
 			<!--- class="container" ---> 
 		</div>
 		<!--- class="container-fluid form-div" ---> 
