@@ -890,7 +890,7 @@ limitations under the License.
 												<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 											</div>
-											<div class="col-10">
+											<div class="col-10 shippingBlock">
 												<input type="button" value="Delete Loan" class="btn btn-warning"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
 												<input type="button" value="Add Items" class="btn btn-secondary"
@@ -900,10 +900,10 @@ limitations under the License.
 												<input type="button" value="Review Items" class="btn btn-warning"
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
 											</div>
-										</div>
+							<!---			</div>
 									</div>
 									<div class="form-row mb-2">
-										<div class="col-12">
+										<div class="col-12">--->
 											<div id="loanItemCountDiv"></div>
 											<script>
 											$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
@@ -951,7 +951,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-md-4 shippingBlock">
+								<div class="col-12 col-md-4">
 									<div class="col-12">
 										<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
 											<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
