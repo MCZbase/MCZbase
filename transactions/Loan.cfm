@@ -1015,8 +1015,14 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-					<div class="form-row mb-2">
-					<div class="col-12 col-md-8">
+				</div>
+				</div>
+										</div>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12 col-md-7 offset-md-1">
+				<div class="form-row mb-2">
+					<div class="col-12 col-md-7">
 						<label for="redir">Print...</label>
 						<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
 							<option value=""></option>
@@ -1053,10 +1059,6 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				</div>
-				</div>
-			
-			
 				<div class="form-row mb-2">
 					<div class="col-12 col-md-8">
 						<h3>Media documenting this Loan:</h3>
@@ -1349,6 +1351,9 @@ limitations under the License.
 							<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
 						</cfif>
 					</div>
+				</div>
+					</div>
+					<div class="col-12 col-md-4"></div>
 				</div>
 				<cfcatch>
 					<h2>Error: #cfcatch.message#</h2>
