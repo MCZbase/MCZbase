@@ -602,7 +602,7 @@ limitations under the License.
 				<div class="col-12">
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 						<div class="row mt-3">
-							<div class="col-12 col-md-8">
+							<div class="col-12 col-md-7 offset-md-1">
 								<h2 class="wikilink mt-2 mb-0">Edit Loan <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i><span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 								<input type="hidden" name="action" value="saveEdits">
 								<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
@@ -950,7 +950,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3">
 						
 									<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
 										<h3>Projects associated with this loan: <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i></h3>
