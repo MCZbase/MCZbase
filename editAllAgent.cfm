@@ -34,6 +34,7 @@
 <link rel="stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
 <script> var CKEDITOR_BASEPATH = '/includes/js/ckeditor/'; </script>
 <script src="/includes/js/ckeditor/ckeditor.js"></script>
+<cfoutput>
 <script>
 	function getAssembledName() { 
 		var result = "";
@@ -49,6 +50,7 @@
 		return result;
 	}
 </script>
+</cfoutput>
 <cfif not isdefined("agent_id")>
 	<cfset agent_id = -1>
 </cfif>
