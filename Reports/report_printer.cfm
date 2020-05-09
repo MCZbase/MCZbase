@@ -14,7 +14,7 @@
 <cfif not isdefined("show_all")>
     <cfset show_all = "false" >
 </cfif>
-<cfinclude template="/shared/_header.cfm">
+<cfinclude template="/includes/_header.cfm">
 <cfinclude template="/Reports/functions/label_functions.cfm">
 
 <cfif #action# is "nothing">
