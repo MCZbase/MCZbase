@@ -256,7 +256,9 @@ function opendialogrank(page,id,title,agentId) {
 			death_date,
 			agent_remarks,
 			agent_type,
-			agent.edited edited
+			agent.edited edited,
+			agentguid_type,
+			agentguid
 		from
 			agent
 			left outer join person on (agent_id = person_id)
