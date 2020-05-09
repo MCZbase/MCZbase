@@ -956,7 +956,7 @@ limitations under the License.
 								<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
 							</div>
 							<label for="saveNewProject">Check to create project with save</label>
-							<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject">
+							<input type="checkbox" value="yes" name="saveNewProject" id="saveNewProject" class="form-control-sm">
 						</div>
 								</div>
 					</form>
