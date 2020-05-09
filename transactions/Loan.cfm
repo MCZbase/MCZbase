@@ -600,13 +600,13 @@ limitations under the License.
 			<div class="row">
 				<cftry>
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
-			<div class="col-12 col-md-8">
+			<div class="col-12 col-md-10">
 					<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 						<input type="hidden" name="action" value="saveEdits">
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 						<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
 						<div class="form-row mb-2">
-						
+						<div class="col-12 col-md-5">
 								<label class="data-entry-label">Department</label>
 								<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" >
 									<cfloop query="ctcollection">
@@ -615,13 +615,14 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4">
+							
+							<div class="col-12 col-md-5">
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
 							required  pattern="#LOANNUMBERPATTERN#"  >
 							</div>
 					
-						
+						</div>
 						<!--- Obtain picklist values for loan agents controls.  --->
 						<cfquery name="inhouse" dbtype="query">
 					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
