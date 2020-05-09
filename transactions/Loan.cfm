@@ -728,7 +728,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-2">
 								<label for="loan_status" class="data-entry-label">Loan Status</label>
 								<span>
 								<select name="loan_status" id="loan_status" class="reqdClr form-control-sm" required >
@@ -741,10 +741,13 @@ limitations under the License.
 										</cfif>
 									</cfloop>
 								</select>
+					</div>
+					<div class="col-12 col-md-2">
 								<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
 									Date Closed: #loanDetails.closed_date#
 								</cfif>
-								</span> </div>
+								</span> 
+					</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
