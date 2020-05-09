@@ -960,13 +960,13 @@ limitations under the License.
 											project_trans.project_id =  project.project_id
 											and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 										</cfquery>
-										<ul>
+										<ul class="list-group">
 											<cfif projs.recordcount gt 0>
 												<cfloop query="projs">
-													<li><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
+													<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
 												</cfloop>
 												<cfelse>
-												<li class="py-2 px-4">None</li>
+												<li class="list-group-item">None</li>
 											</cfif>
 										</ul>
 										<hr>
@@ -1083,9 +1083,9 @@ limitations under the License.
 						<br>
 						<span>
 						<cfset relation="documents loan">
-						<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn-primary' >
+						<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-primary' >
 						&nbsp; <span id='addMedia_#transaction_id#'>
-						<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn-primary' >
+						<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-primary' >
 						&nbsp; </span> </span>
 						<div id='addMediaDlg_#transaction_id#'></div>
 						<div id='newMediaDlg_#transaction_id#'></div>
@@ -1333,16 +1333,16 @@ limitations under the License.
 						) where permit_type is not null
 					</cfquery>
 						<cfset uriList = ''>
-						<ul>
+						<ul class="list-group">
 							<cfloop query="getPermitMedia">
 								<cfif media_id is ''>
-									<li>#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
+									<li class="list-group-item">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
 									<cfelse>
 									<cfif show_on_shipment EQ 1>
-										<li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
+										<li class="list-group-item"><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
 										<cfset uriList = ListAppend(uriList,uri)>
 										<cfelse>
-										<li><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
+										<li class="list-group-item"><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
 									</cfif>
 								</cfif>
 							</cfloop>
