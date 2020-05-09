@@ -599,10 +599,10 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="row">
 			<cftry>
+				<div class="col-12">
 				<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
-					<div class="col-12">
-						<div class="col-12">
-							<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
+					<div class="col-8">
+						<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 							<input type="hidden" name="action" value="saveEdits">
 							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 							<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
@@ -624,18 +624,17 @@ limitations under the License.
 							</div>
 							<!--- Obtain picklist values for loan agents controls.  --->
 							<cfquery name="inhouse" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
-				</cfquery>
+								select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
+							</cfquery>
 							<cfquery name="outside" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
-				</cfquery>
+								select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
+							</cfquery>
 							<cfquery name="authorized" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
-				</cfquery>
+								select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
+							</cfquery>
 							<cfquery name="recipientinstitution" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
-				</cfquery>
-							
+								select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
+							</cfquery>
 							<!--- Begin loan agents table TODO: Rework --->
 							<div class="form-row my-2">
 								<div class="col-12 table-responsive">
@@ -643,7 +642,7 @@ limitations under the License.
 										<tr>
 										<thead class="thead-light">
 										<th colspan="2"><span> Agent&nbsp;Name&nbsp;
-												<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
+										<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
 												</span> </th>
 											<th>Role</th>
 											<th>Delete?</th>
@@ -744,7 +743,8 @@ limitations under the License.
 									<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
 										Date Closed: #loanDetails.closed_date#
 									</cfif>
-									</span> </div>
+									</span> 
+								</div>
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
@@ -951,8 +951,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
-									</div>
+					
 					<div class="col-12 col-md-4">
 						<div class="col-12">
 							<div id="project" class="p-3 mb-2 bg-light border text-dark">
@@ -1021,7 +1020,8 @@ limitations under the License.
 					</div>
 					
 				</form>
-			
+									</div>
+			<div class="col-12">
 				<div class="form-row mb-2">
 					<div class="col-12 col-md-8">
 						<label for="redir">Print...</label>
