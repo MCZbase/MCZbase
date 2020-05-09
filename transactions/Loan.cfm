@@ -954,44 +954,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-8">
-							<label for="redir">Print...</label>
-							<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
-								<option value=""></option>
-								<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
-								sort={a field name that is in the select portion of the query specified in the custom tag}, or
-								sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
-						--->
-								<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
-								</cfif>
-								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header">Header Copy for MCZ Files</option>
-								<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
-								</cfif>
-								<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus">MCZ Exhibition Loan Header Long</option>
-								</cfif>
-								<cfif inhouse.c is 1 and outside.c is 1 >
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
-								</cfif>
-								<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
-								</cfif>
-								<cfif inhouse.c is 1 and outside.c is 1 >
-									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
-								</cfif>
-								<option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
-								<option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
-							</select>
-						</div>
-					</div>
+			
 								
 								<div class="col-12 col-md-8 px-0">
 							<div id="project" class="p-3 mb-2 bg-light border text-dark">
@@ -1059,15 +1022,48 @@ limitations under the License.
 						</div>
 								
 								</div>
-								
-								
-								
-								
-						
+
 					</form>
-				
+						<div class="form-row mb-2">
+						<div class="col-12 col-md-8">
+							<label for="redir">Print...</label>
+							<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+								<option value=""></option>
+								<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
+								sort={a field name that is in the select portion of the query specified in the custom tag}, or
+								sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
+						--->
+								<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header">MCZ Invoice Header</option>
+								</cfif>
+								<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header">Header Copy for MCZ Files</option>
+								<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header">MCZ Exhibition Loan Header</option>
+								</cfif>
+								<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus">MCZ Exhibition Loan Header Long</option>
+								</cfif>
+								<cfif inhouse.c is 1 and outside.c is 1 >
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy">MCZ Legacy Invoice Header</option>
+								</cfif>
+								<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 >
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num">MCZ Item Invoice</option>
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int">MCZ Item Invoice (cat num sort)</option>
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name">MCZ Item Invoice (taxon sort)</option>
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num">MCZ Item Parts Grouped Invoice</option>
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int">MCZ Item Parts Grouped Invoice (cat num sort)</option>
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name">MCZ Item Parts Grouped Invoice (taxon sort)</option>
+								</cfif>
+								<cfif inhouse.c is 1 and outside.c is 1 >
+									<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary">MCZ Loan Summary Report</option>
+								</cfif>
+								<option value="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology">MCZ Drawer Tags</option>
+								<option value="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</option>
+							</select>
+						</div>
+					</div>
 					<div class="form-row mb-2">
-						<div class="col-10">
+						<div class="col-12 col-md-8">
 							<h3>Media documenting this Loan:</h3>
 							<p style="margin:0px;">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
