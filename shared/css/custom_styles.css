@@ -1550,14 +1550,14 @@ and also iPads specifically.
 	table, thead, tbody, th, td, tr {
 		/*	display: block;*/ /* This needs to be removed in order for the calendar to work on mobile devices.*/
 	}
-	.table-bordered thead td, .table-bordered thead th {
+/*	.table-bordered thead td, .table-bordered thead th {
 		border-bottom-width: 1px;
 	}
 	table thead th {
 		border-bottom: 1px solid #dee2e6;
-	}
+	}*/
 	/* Hide table headers (but not display: none;, for accessibility) */
-	table thead tr {
+	/*table thead tr {
 		position: absolute;
 		left: 0px;
 		width: 33%;
@@ -1589,7 +1589,7 @@ and also iPads specifically.
 		width: 40%;
 		padding-right: 10px;
 		white-space: nowrap;
-	}
+	}*/
 	.step-arrow {
 		background-color: #deebec;
 		border-bottom: 1px solid #aaa;
