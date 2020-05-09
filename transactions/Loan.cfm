@@ -638,11 +638,13 @@ limitations under the License.
 									</cfquery>
 								<!--- Begin loan agents table TODO: Rework --->
 								<div class="form-row my-2">
+								
 									<div class="col-12 table-responsive">
 										<table id="loanAgents" class="table table-sm">
 											<tr>
 											<thead class="thead-light">
-											<th colspan="2"><span> Agent&nbsp;Name&nbsp;
+											<th colspan="2">
+												<span>Agent&nbsp;Name&nbsp;
 													<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
 													</span> </th>
 												<th>Role</th>
@@ -889,7 +891,7 @@ limitations under the License.
 										<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 										<div class="w-75 float-right"</div>
-										<input type="button" value="Delete Loan" class="btn btn-warning"
+										<input type="button" value="Delete Loan" class="btn btn-warning float-right"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
 										<input type="button" value="Add Items" class="btn btn-secondary"
 							onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
