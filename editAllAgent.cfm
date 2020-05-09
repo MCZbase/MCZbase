@@ -34,6 +34,21 @@
 <link rel="stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
 <script> var CKEDITOR_BASEPATH = '/includes/js/ckeditor/'; </script>
 <script src="/includes/js/ckeditor/ckeditor.js"></script>
+<script>
+	function getAssembledName() { 
+		var result = "";
+		if ($('##last_name').val()!="") { 
+			result = $('##last_name').val();
+		}
+		if ($('##middle_name').val()!="") { 
+			result = $('##middle_name').val() + " " + result;
+		}
+		if ($('##first_name').val()!="") { 
+			result = $('##first_name').val() + " " + result;
+		}
+		return result;
+	}
+</script>
 <cfif not isdefined("agent_id")>
 	<cfset agent_id = -1>
 </cfif>
@@ -167,7 +182,7 @@ function opendialogrank(page,id,title,agentId) {
 		<input type="text" name="pref_name" id="pref_name">
 		<cfoutput>
 		<div style="border: 1px solid blue;">
-			<label for="genus">GUID for Agent</label>
+			<label for="agentguid">GUID for Agent</label>
 			<cfset pattern = "">
 			<cfset placeholder = "">
 			<cfset regex = "">
@@ -197,15 +212,23 @@ function opendialogrank(page,id,title,agentId) {
 				$(document).ready(function () { 
 					$('##agentguid_guid_type').change(function () { 
 						// On selecting a guid_type, change the pattern.
-						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',$('##pref_name').val());
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
 					$('##agentguid').blur( function () { 
 						// On loss of focus for input, validate against the regex, update link
-						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',$('##pref_name').val());
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
-					$('##pref_name').change(function () { 
+					$('##first_name').change(function () { 
 						// On changing prefered name, update search.
-						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',$('##pref_name').val());
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+					});
+					$('##middle_name').change(function () { 
+						// On changing prefered name, update search.
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+					});
+					$('##last_name').change(function () { 
+						// On changing prefered name, update search.
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
 				});
 			</script>
@@ -427,6 +450,71 @@ function opendialogrank(page,id,title,agentId) {
 					                       <option value=0 <cfif #edited# EQ 0 or #edited# EQ "">selected</cfif>>no</option>
 				                            </select>
 				                        </td>
+ 						</tr>
+ 						<tr>
+							<td colspan="5">
+								<label for="agentguid">GUID for Agent</label>
+								<cfset pattern = "">
+								<cfset placeholder = "">
+								<cfset regex = "">
+								<cfset replacement = "">
+								<cfset searchlink = "" >		
+								<cfset searchtext = "" >		
+								<cfloop query="ctguid_type_agent">
+				 					<cfif agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
+										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(first_name & ' ' & trim(middle_name & ' ' last_name))),'+','%20') >		
+										<cfset searchtext = "Search" >		
+									</cfif>
+								</cfloop>
+								<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
+									<cfif searchtext EQ "">
+										<option value=""></option>
+									</cfif>
+									<cfloop query="ctguid_type_agent">
+										<cfset sel="">
+				 							<cfif agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
+												<cfset sel="selected='selected'">
+												<cfset placeholder = "#ctguid_type_agent.placeholder#">
+												<cfset pattern = "#ctguid_type_agent.pattern_regex#">
+												<cfset regex = "#ctguid_type_agent.resolver_regex#">
+												<cfset replacement = "#ctguid_type_agent.resolver_replacement#">
+											</cfif>
+										<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
+									</cfloop>
+								</select>
+								<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
+								<input size="55" name="agentguid" id="agentguid" value="#agentguid#" placeholder="#placeholder#" pattern="#pattern#">
+								<cfif len(regex) GT 0 >
+									<cfset link = REReplace(agentguid,regex,replacement)>
+								<cfelse>
+									<cfset link = agentguid>
+								</cfif>
+								<a id="agentguid_link" href="#link#" target="_blank">#agentguid#</a>
+								<script>
+									$(document).ready(function () { 
+										$('##agentguid_guid_type').change(function () { 
+											// On selecting a guid_type, change the pattern.
+											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+										});
+										$('##agentguid').blur( function () { 
+											// On loss of focus for input, validate against the regex, update link
+											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+										});
+										$('##first_name').change(function () { 
+											// On changing name, update search.
+											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+										});
+										$('##middle_name').change(function () { 
+											// On changing name, update search.
+											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+										});
+										$('##last_name').change(function () { 
+											// On changing name, update search.
+											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+										});
+									});
+								</script>
+							</td>
  						</tr>
  						<tr>
 							<td colspan="5">
