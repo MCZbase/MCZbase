@@ -1060,9 +1060,9 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-12 col-md-8">
+					<div class="col-12 border bg-light">
 						<h3>Media documenting this Loan:</h3>
-						<p style="margin:0px;">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
+						<p>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
 						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
 							media.media_id,
@@ -1079,13 +1079,13 @@ limitations under the License.
 							media.media_id=media_relations.media_id and
 							media_relationship like '% loan' and
 						related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
-					</cfquery>
+						</cfquery>
 						<br>
 						<span>
 						<cfset relation="documents loan">
-						<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='lnkBtn' >
+						<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn-primary' >
 						&nbsp; <span id='addMedia_#transaction_id#'>
-						<input type='button' style='margin-left: 30px;' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='lnkBtn' >
+						<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn-primary' >
 						&nbsp; </span> </span>
 						<div id='addMediaDlg_#transaction_id#'></div>
 						<div id='newMediaDlg_#transaction_id#'></div>
@@ -1181,7 +1181,7 @@ limitations under the License.
 				});
 				</script>
 						<div class="addstyle">
-							<input type="button" class="lnkBtn" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+							<input type="button" class="btn-primary" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 							<div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 						</div>
 						<!---moved this to inside of the shipping block--one div up---> 
