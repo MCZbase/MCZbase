@@ -639,7 +639,7 @@ limitations under the License.
 								<!--- Begin loan agents table TODO: Rework --->
 								<div class="form-row my-2">
 								
-									<div class="col-12 table-responsive">
+									<div class="col-12 table-responsive mt-2">
 										<table id="loanAgents" class="table table-sm">
 											<tr>
 											<thead class="thead-light">
@@ -1015,10 +1015,7 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-				</div>
-				</div>
-			
-				<div class="form-row mb-2">
+					<div class="form-row mb-2">
 					<div class="col-12 col-md-8">
 						<label for="redir">Print...</label>
 						<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
@@ -1056,6 +1053,10 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
+				</div>
+				</div>
+			
+			
 				<div class="form-row mb-2">
 					<div class="col-12 col-md-8">
 						<h3>Media documenting this Loan:</h3>
