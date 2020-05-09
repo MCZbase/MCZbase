@@ -896,8 +896,6 @@ limitations under the License.
 							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
 												<input type="button" value="Review Items" class="btn btn-warning"
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-										</div>
-									</div>
 	
 											<div id="loanItemCountDiv"></div>
 											<script>
