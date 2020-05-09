@@ -951,7 +951,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-md-4" id="shippingBlock">
+								<div class="col-12 col-md-4 shippingBlock">
 									<div class="col-12">
 										<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
 											<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
