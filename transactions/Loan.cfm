@@ -641,13 +641,13 @@ limitations under the License.
 								<table id="loanAgents" class="table table-sm">
 									<tr>
 									<thead class="thead-light">
-										<th colspan="2"><span> Agent&nbsp;Name&nbsp;
+									<th colspan="2"><span> Agent&nbsp;Name&nbsp;
 											<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
 											</span> </th>
 										<th>Role</th>
 										<th>Delete?</th>
 										<th>Clone As</th>
-									</thead>
+											</thead>
 									</tr>
 									<tbody>
 										<tr>
@@ -874,6 +874,8 @@ limitations under the License.
 								<textarea name="loan_instructions" id="loan_instructions" rows="2" class="form-control-sm form-control autogrow"
 							cols="120">#loanDetails.loan_instructions#</textarea>
 							</div>
+						</div>
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-8">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="2" cols="120" class="form-control form-control-sm autogrow">#loanDetails.trans_remarks#</textarea>
@@ -898,70 +900,69 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 col-md-8">
-						<div id="project" class="p-3 mb-2 bg-light border text-dark">
-							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
-							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<div id="project" class="p-3 mb-2 bg-light border text-dark">
+								<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
+								<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_name, project.project_id from project,
 								project_trans where
 								project_trans.project_id =  project.project_id
 								and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 							</cfquery>
-							<ul>
-								<cfif projs.recordcount gt 0>
-									<cfloop query="projs">
-										<li><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
-									</cfloop>
-									<cfelse>
-									<li style="margin: .5em 1.25em;">None</li>
-								</cfif>
-							</ul>
-							<hr>
-							<label for="project_id">Pick a Project to associate with this Loan</label>
-							<input type="hidden" name="project_id">
-							<input type="text"
+								<ul>
+									<cfif projs.recordcount gt 0>
+										<cfloop query="projs">
+											<li><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
+										</cfloop>
+										<cfelse>
+										<li style="margin: .5em 1.25em;">None</li>
+									</cfif>
+								</ul>
+								<hr>
+								<label for="project_id">Pick a Project to associate with this Loan</label>
+								<input type="hidden" name="project_id">
+								<input type="text"
 								size="40"
 								name="pick_project_name"
 								class="reqdClr"
 								onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"
 								onKeyPress="return noenter(event);">
-												<hr>
-												<label for=""><span style="font-size:large">Create a project from this Loan</span></label>
-												<div id="create_project">
-													<label for="newAgent_name">Project Agent Name</label>
-													<input type="text" name="newAgent_name" id="newAgent_name"
+								<hr>
+								<label for=""><span style="font-size:large">Create a project from this Loan</span></label>
+								<div id="create_project">
+									<label for="newAgent_name">Project Agent Name</label>
+									<input type="text" name="newAgent_name" id="newAgent_name"
 								class="reqdClr"
 								onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
 								onKeyPress="return noenter(event);"
 								value="">
-								<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
-								<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
+									<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select project_agent_role from ctproject_agent_role order by project_agent_role
 								</cfquery>
-								<label for="project_agent_role">Project Agent Role</label>
-								<select name="project_agent_role" size="1" class="reqdClr">
-									<cfloop query="ctProjAgRole">
-										<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
-									</cfloop>
-								</select>
-								<label for="project_name" >Project Title</label>
-								<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
-								<label for="start_date" >Project Start Date</label>
-								<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
-								<label for="end_date">Project End Date</label>
-								<input type="text" name="end_date">
-								<label for="project_description" >Project Description</label>
-								<textarea name="project_description" class="form-control autogrow"
+									<label for="project_agent_role">Project Agent Role</label>
+									<select name="project_agent_role" size="1" class="reqdClr">
+										<cfloop query="ctProjAgRole">
+											<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
+										</cfloop>
+									</select>
+									<label for="project_name" >Project Title</label>
+									<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
+									<label for="start_date" >Project Start Date</label>
+									<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#">
+									<label for="end_date">Project End Date</label>
+									<input type="text" name="end_date">
+									<label for="project_description" >Project Description</label>
+									<textarea name="project_description" class="form-control autogrow"
 										id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
-								<label for="project_remarks">Project Remark</label>
-								<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
-							</div>
-							
-						<div class="form-check">
-    						<input type="checkbox" name="saveNewProject"  value="yes" class="form-check-input" id="saveNewProject">
-    						<label class="form-check-label" for="saveNewProject">Check to create project with save</label>
-  						</div>
-						</div>
+									<label for="project_remarks">Project Remark</label>
+									<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
 								</div>
+								<div class="form-check">
+									<input type="checkbox" name="saveNewProject"  value="yes" class="form-check-input" id="saveNewProject">
+									<label class="form-check-label" for="saveNewProject">Check to create project with save</label>
+								</div>
+							</div>
+						</div>
 					</form>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-8">
