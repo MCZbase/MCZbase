@@ -466,7 +466,7 @@ function opendialogrank(page,id,title,agentId) {
 								<cfset searchtext = "" >		
 								<cfloop query="ctguid_type_agent">
 				 					<cfif person.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
-										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(first_name & ' ' & trim(middle_name & ' ' & last_name))),'+','%20') >		
+										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(person.first_name & ' ' & trim(person.middle_name & ' ' & person.last_name))),'+','%20') >		
 										<cfset searchtext = "Search" >		
 									</cfif>
 								</cfloop>
