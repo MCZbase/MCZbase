@@ -1060,7 +1060,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-12 border bg-light">
+					<div class="col-12 border bg-light px-3 mt-2 py-1">
 						<h3>Media documenting this Loan:</h3>
 						<p>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
 						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1080,16 +1080,15 @@ limitations under the License.
 							media_relationship like '% loan' and
 						related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
-						<br>
 						<span>
 						<cfset relation="documents loan">
 						<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-primary' >
 						&nbsp; <span id='addMedia_#transaction_id#'>
 						<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-primary' >
 						&nbsp; </span> </span>
-						<div id='addMediaDlg_#transaction_id#'></div>
-						<div id='newMediaDlg_#transaction_id#'></div>
-						<div id="transactionFormMedia"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+						<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
+						<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
+						<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
 						<script>
 						// callback for ajax methods to reload from dialog
 						function reloadTransMedia() { 
