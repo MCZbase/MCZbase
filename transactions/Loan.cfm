@@ -118,7 +118,7 @@ limitations under the License.
 	<cfoutput>
 		<div class="container-fluid form-div">
 			<div class="container">
-				<h2 class="wikilink m-0" >Create New Loan <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h2>
+				<h2 class="wikilink m-0" >Create New Loan <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h2>
 				<div class="form-row mb-2">
 					<div class="col-sm-8">
 						<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
@@ -603,7 +603,7 @@ limitations under the License.
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
 						<div class="row mt-3">
 							<div class="col-12 col-md-8">
-								<h2 class="wikilink mt-2 mb-0">Edit Loan <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i><span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
+								<h2 class="wikilink mt-2 mb-0">Edit Loan <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i><span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 								<input type="hidden" name="action" value="saveEdits">
 								<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 								<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
