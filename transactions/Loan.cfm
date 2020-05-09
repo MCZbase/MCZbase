@@ -742,7 +742,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 					</div>
-					<div class="col-12 col-md-2">
+					<div class="col-12 col-md-2 bg-light border">
 								<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
 									Date Closed: #loanDetails.closed_date#
 								</cfif>
