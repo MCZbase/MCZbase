@@ -896,7 +896,11 @@ limitations under the License.
 							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
 												<input type="button" value="Review Items" class="btn btn-warning"
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-	
+										</div>
+										<div>
+											<div class="form-row mb2">
+												<div class="col-12">
+													
 											<div id="loanItemCountDiv"></div>
 											<script>
 											$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
