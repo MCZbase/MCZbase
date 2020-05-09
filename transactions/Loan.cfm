@@ -884,7 +884,7 @@ limitations under the License.
 											<textarea name="trans_remarks" id="trans_remarks" rows="2" cols="120" class="form-control form-control-sm autogrow">#loanDetails.trans_remarks#</textarea>
 										</div>
 									</div>
-											<div id="shippingBlock">
+						<div id="shippingBlock">
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<div class="col-2">
@@ -1019,7 +1019,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-											</div>
+							</div>
 						</form>
 					</div>
 					<div class="col-12">
