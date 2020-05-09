@@ -954,6 +954,8 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>
+								</div>
+							<div class="col-12 col-md-4">
 			
 								
 								<div class="col-12 col-md-8 px-0">
