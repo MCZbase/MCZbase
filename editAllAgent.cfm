@@ -262,7 +262,7 @@ function opendialogrank(page,id,title,agentId) {
 		from
 			agent
 			left outer join person on (agent_id = person_id)
-			where agent_id=#agent_id#
+			where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 	</cfquery>
 	<cfoutput query="person">
 		<cfif #agent_type# is "person">
@@ -285,7 +285,7 @@ function opendialogrank(page,id,title,agentId) {
 			</cfif>
 		<cfelse>
 			<cfquery name="getName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select agent_name from agent_name where agent_id=#agent_id#
+				select agent_name from agent_name where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				and agent_name_type='preferred'
 			</cfquery>
 			<cfset nameStr=#getName.agent_name#>
@@ -463,7 +463,7 @@ function opendialogrank(page,id,title,agentId) {
 								<cfset searchlink = "" >		
 								<cfset searchtext = "" >		
 								<cfloop query="ctguid_type_agent">
-				 					<cfif agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
+				 					<cfif person.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
 										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(first_name & ' ' & trim(middle_name & ' ' & last_name))),'+','%20') >		
 										<cfset searchtext = "Search" >		
 									</cfif>
@@ -474,7 +474,7 @@ function opendialogrank(page,id,title,agentId) {
 									</cfif>
 									<cfloop query="ctguid_type_agent">
 										<cfset sel="">
-				 							<cfif agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
+				 							<cfif person.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
 												<cfset sel="selected='selected'">
 												<cfset placeholder = "#ctguid_type_agent.placeholder#">
 												<cfset pattern = "#ctguid_type_agent.pattern_regex#">
@@ -485,11 +485,11 @@ function opendialogrank(page,id,title,agentId) {
 									</cfloop>
 								</select>
 								<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
-								<input size="55" name="agentguid" id="agentguid" value="#agentguid#" placeholder="#placeholder#" pattern="#pattern#">
+								<input size="55" name="agentguid" id="agentguid" value="#person.agentguid#" placeholder="#placeholder#" pattern="#pattern#">
 								<cfif len(regex) GT 0 >
-									<cfset link = REReplace(agentguid,regex,replacement)>
+									<cfset link = REReplace(person.agentguid,regex,replacement)>
 								<cfelse>
-									<cfset link = agentguid>
+									<cfset link = person.agentguid>
 								</cfif>
 								<a id="agentguid_link" href="#link#" target="_blank">#agentguid#</a>
 								<script>
