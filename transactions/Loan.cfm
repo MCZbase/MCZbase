@@ -607,7 +607,7 @@ limitations under the License.
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 						<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
 						<div class="form-row mb-2">
-						<div class="col-12 col-md-5">
+						<div class="col-12 col-md-4">
 								<label class="data-entry-label">Department</label>
 								<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" >
 									<cfloop query="ctcollection">
@@ -617,7 +617,7 @@ limitations under the License.
 								</select>
 							</div>
 							
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
 							required  pattern="#LOANNUMBERPATTERN#"  >
@@ -717,7 +717,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<label for="loan_type" class="data-entry-label">Loan Type</label>
-								<select name="loan_type" id="loan_type" class="reqdClr custom-select1 form-control-sm" required >
+								<select name="loan_type" id="loan_type" class="reqdClr form-control-sm" required >
 									<cfloop query="ctLoanType">
 										<cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
 											<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
@@ -731,7 +731,7 @@ limitations under the License.
 							<div class="col-12 col-md-4">
 								<label for="loan_status" class="data-entry-label">Loan Status</label>
 								<span>
-								<select name="loan_status" id="loan_status" class="reqdClr custom-select1 form-control-sm" required >
+								<select name="loan_status" id="loan_status" class="reqdClr form-control-sm" required >
 									<!---  Normal transaction users are only allowed certain loan status state transitions, ---> 
 									<!--- users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
 									<cfloop query="ctLoanStatus">
@@ -769,7 +769,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-4"> <span id="parentloan_section"> Exhibition-Master Loan:
+							<div class="col-12 col-md-4"> <span id="parentloan_section">Exhibition-Master Loan:
 								<cfif parentLoan.RecordCount GT 0>
 									<cfloop query="parentLoan">
 										<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
