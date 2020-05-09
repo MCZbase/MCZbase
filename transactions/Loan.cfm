@@ -745,23 +745,23 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
-								<label for="initiating_date">Transaction Date</label>
+								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="initiating_date" id="initiating_date"
 							value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="return_due_date">Due Date</label>
+								<label for="return_due_date" class="data-entry-label">Due Date</label>
 								<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
 							value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 							</div>
 						</div>
 						<div class="form-row mb-2" id="insurance_section">
 							<div class="col-12 col-md-4">
-								<label for="insurance_value">Insurance value</label>
+								<label for="insurance_value" class="data-entry-label">Insurance value</label>
 								<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40" class="form-control-sm">
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="insurance_maintained_by">Insurance Maintained By</label>
+								<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
 								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40" class="form-control-sm">
 							</div>
 						</div>
@@ -850,14 +850,14 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-8">
-								<label for="nature_of_material">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="90"
 							class="reqdClr form-control form-control-sm autogrow" required >#loanDetails.nature_of_material#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-8">
-								<label for="loan_description">Description (<span id="lbl_loan_description"></span>)</label>
+								<label for="loan_description" class="data-entry-label">Description (<span id="lbl_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description" rows="4"
 							class="form-control form-control-sm autogrow" cols="90">#loanDetails.loan_description#</textarea>
 							</div>
@@ -898,7 +898,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 col-md-8">
-						<div id="project" class="p-3 mb-2 bg-light text-dark">
+						<div id="project" class="p-3 mb-2 bg-light border text-dark">
 							<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
 							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_name, project.project_id from project,
