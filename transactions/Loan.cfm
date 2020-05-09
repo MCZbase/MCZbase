@@ -974,8 +974,8 @@ limitations under the License.
 										<input type="hidden" name="project_id" class="form-control-sm">
 										<input type="text" name="pick_project_name" class="reqdClr form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
 										<hr>
-										<label for="create_project" class="data-entry-label">
-											<span class="large">Create a project from this Loan</span>
+										<label for="create_project">
+											<span class="font-weight-bold">Create a project from this Loan</span>
 										</label>
 										<div id="create_project">
 											<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
