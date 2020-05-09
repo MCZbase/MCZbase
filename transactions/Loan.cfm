@@ -951,7 +951,7 @@ limitations under the License.
 							<div class="col-12 col-md-4">
 						
 									<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
-										<h3>Projects associated with this loan: <i class="fas fas-info2 fa-info-circle pr-4" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i></h3>
+										<h3>Projects associated with this loan: <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i></h3>
 										<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select project_name, project.project_id from project,
 											project_trans where
