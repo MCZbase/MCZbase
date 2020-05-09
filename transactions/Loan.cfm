@@ -596,7 +596,7 @@ limitations under the License.
 		</cftry>
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<cftry>
 					<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
@@ -615,7 +615,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
+								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
 							required  pattern="#LOANNUMBERPATTERN#"  >
 							</div>
