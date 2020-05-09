@@ -599,13 +599,14 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="row">
 				<cftry>
-					<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 					<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
+			<div class="col-12 col-md-4">
+					<h2 class="wikilink mt-2 mb-0">Edit Loan <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" class="likeLink" alt="[ help ]"> <span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> </h2>
 						<input type="hidden" name="action" value="saveEdits">
 						<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 						<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-4">
+						
 								<label class="data-entry-label">Department</label>
 								<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" >
 									<cfloop query="ctcollection">
@@ -619,7 +620,7 @@ limitations under the License.
 								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
 							required  pattern="#LOANNUMBERPATTERN#"  >
 							</div>
-						</div>
+					
 						
 						<!--- Obtain picklist values for loan agents controls.  --->
 						<cfquery name="inhouse" dbtype="query">
@@ -899,6 +900,12 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
+								
+								</div>
+								
+								
+								
+								
 						<div class="col-12 col-md-8">
 							<div id="project" class="p-3 mb-2 bg-light border text-dark">
 								<h3>Projects associated with this loan: <img src="/shared/images/info_i_2.gif" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" class="likeLink" alt="[ help ]"></h3>
