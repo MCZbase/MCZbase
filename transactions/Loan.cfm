@@ -133,7 +133,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 col-md-6">
-									<label for="loan_number">Loan Number (yyyy-n-Coll)</label>
+									<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 									<input type="text" name="loan_number" class="reqdClr form-control-sm" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 								</div>
 							</div>
