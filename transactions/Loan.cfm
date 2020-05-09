@@ -888,6 +888,7 @@ limitations under the License.
 									<div class="col-12">
 										<input type="button" value="Save Edits" class="btn btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
+										<div class="w-75 float-right"</div>
 										<input type="button" value="Delete Loan" class="btn btn-warning"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
 										<input type="button" value="Add Items" class="btn btn-secondary"
@@ -896,9 +897,9 @@ limitations under the License.
 							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
 										<input type="button" value="Review Items" class="btn btn-warning"
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-									</div>
+									</div></div>
 								</div>
-								<div class="form-row mb2">
+								<div class="form-row my-4">
 									<div class="col-12">
 										<div id="loanItemCountDiv"></div>
 										<script>
