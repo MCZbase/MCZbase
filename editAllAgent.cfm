@@ -1710,10 +1710,10 @@ function opendialogrank(page,id,title,agentId) {
 					agent_name,
 					donor_card_present_fg)
 				VALUES (
-					#agentNameID.nextAgentNameId#,
-					#agentID.nextAgentId#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentNameID.nextAgentNameId#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
 					'preferred',
-					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agent_name#'>,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>,
 					0
 					)
 			</cfquery>
