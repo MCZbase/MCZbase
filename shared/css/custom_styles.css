@@ -1304,6 +1304,13 @@ table#pairs th, table#pairs td {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
+.input-sm {
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
+	padding: 3px 6px;
+	font-size: .75em;
+}
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 350;
 }
