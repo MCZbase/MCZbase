@@ -163,7 +163,7 @@ limitations under the License.
 				<cfset resulthtml = resulthtml & "<tbody><tr><td>(#printedOnInvoice#) #tofaddr#</td>">
 				<cfset resulthtml = resulthtml & "<td>#fromfaddr#</td>">
 				<cfset resulthtml = resulthtml & "</tr></tbody></table>">
-				<cfset resulthtml = resulthtml & "<input type='button' value='Edit this Shipment' class='btn btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='btn btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
+				<cfset resulthtml = resulthtml & "<div class='form-row'><div class='col-12'><div><input type='button' value='Edit this Shipment' class='btn btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='btn btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div></div> ">
 				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
 				<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
 					<cfloop query="shippermit">
