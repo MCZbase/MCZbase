@@ -82,7 +82,7 @@ limitations under the License.
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
            select distinct
                media.media_id as media_id,
-               preview_uri,
+               media.preview_uri as preview_uri,
                media.media_uri,
                media.mime_type,
                media.media_type as media_type,
@@ -184,7 +184,7 @@ limitations under the License.
 	    		<cfset mediaLink = "&##8855;">
 		    	<cfloop query="mediaQuery">
 					<cfset puri=getMediaPreview(preview_uri,media_type) >
-					<cfif puri EQ "/images/noThumb.jpg">
+					<cfif puri EQ "/lib/JQWidgets/jqwidgets/styles/images/error.png">
 						<cfset altText = "Red X in a red square, with text, no preview image available">
 					<cfelse>
 						<cfset altText = mediaQuery.media_descriptor>
@@ -193,10 +193,10 @@ limitations under the License.
 		    	</cfloop>
 					<cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
 					<cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
-					<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
-					<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+					<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+					<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn btn btn-xs btn-secondary' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
 					<cfset resulthtml = resulthtml & "<li>">
-					<cfset resulthtml = resulthtml & "<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn' style='padding:1px 6px;' value='Move'>">
+					<cfset resulthtml = resulthtml & "<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn btn btn-xs btn-secondary' style='padding:1px 6px;' value='Move'>">
 					<cfset resulthtml = resulthtml & "<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span></li>">
 				</cfloop>
 				<cfif shippermit.recordcount eq 0>
@@ -204,7 +204,7 @@ limitations under the License.
 				</cfif>
 				<cfset resulthtml = resulthtml & "</span></div></div>"> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
 				<cfif shippermit.recordcount eq 0>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-primary' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
+					 <cfset resulthtml = resulthtml & "<div class='deletestyle' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-secondary' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
 				<cfelse>
 					 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment'></div>">
 				</cfif>
