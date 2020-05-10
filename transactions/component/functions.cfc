@@ -95,9 +95,9 @@ limitations under the License.
                media_relationship like '% #transaction_type#' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
+	   <script function getMediaPreview(preview_uri,media_type)></script>
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
-			<cfset getMediaPreview ='' >
 		<cfloop query="query">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
 			<cfif puri EQ "/images/noThumb.jpg">
