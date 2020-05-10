@@ -646,7 +646,7 @@ limitations under the License.
 												<tr>
 											<th colspan="2">
 												<span>Agent&nbsp;Name&nbsp;
-													<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
+													<button class="ui-button btn-primary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
 													</span> </th>
 												<th>Role</th>
 												<th>Delete?</th>
@@ -890,16 +890,16 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12">
-										<input type="button" value="Save Edits" class="btn btn-primary"
+										<input type="button" value="Save Edits" class="btn btn-xs btn-primary"
 							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 										<div class="w-75 float-right"</div>
-										<input type="button" value="Delete Loan" class="btn btn-warning float-right"
+										<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
 							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
 										<input type="button" value="Add Items" class="btn btn-secondary"
 							onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-										<input type="button" value="Add Items BY Barcode" class="btn btn-secondary"
+										<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
 							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
-										<input type="button" value="Review Items" class="btn btn-secondary"
+										<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
 							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
 									</div></div>
 								</div>
@@ -1084,9 +1084,9 @@ limitations under the License.
 						</cfquery>
 						<span>
 						<cfset relation="documents loan">
-						<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-primary' >
+						<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-primary' >
 						&nbsp; <span id='addMedia_#transaction_id#'>
-						<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-primary' >
+						<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-primary' >
 						&nbsp; </span> </span>
 						<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
 						<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
