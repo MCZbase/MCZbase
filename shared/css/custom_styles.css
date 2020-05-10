@@ -1295,7 +1295,7 @@ table#pairs th, table#pairs td {
 	font-size: .85em;
 	line-height: .9em;
 	height: calc(.9em + .8em + 1px);
-	padding: 0 .5em .15em .5em;
+	padding: .15em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1304,13 +1304,13 @@ table#pairs th, table#pairs td {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-.input-sm {
+/*.input-sm {
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	padding: 3px 6px;
 	font-size: .75em;
-}
+}*/
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 350;
 }
@@ -1339,7 +1339,7 @@ input::placeholder {
     font-size: .85em;
     line-height: .9em;
     height: calc(.9em + .8em + 3px);
-    padding: 0 .5em .25em .5em;
+    padding: .25em .5em;
     color: rgba(0, 0, 0, .8);
     border: 1px solid #ced4da;
     background-clip: padding-box;
