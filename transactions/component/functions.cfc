@@ -82,7 +82,7 @@ limitations under the License.
 	<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct
 			media.media_id as media_id,
-			preview_uri,
+			media.preview_uri as preview_uri,
 			media.media_uri,
 			media.mime_type,
 			media.media_type as media_type,
@@ -92,13 +92,14 @@ limitations under the License.
 			media_relations left join media on media_relations.media_id = media.media_id
 		where
 			media_relationship like '% #transaction_type#'
-			and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			and media_relations.related_primary_key = '#transaction_id#'
+<!---		<cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">--->
 	</cfquery>
 	</cfquery>
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
-			<cfset puri=getMediaPreview(media_uri,media_type) >
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
 			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='needs script'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
 		</cfloop>
 		<cfset result= result & "</ul>">
