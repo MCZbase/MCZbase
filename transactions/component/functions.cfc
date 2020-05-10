@@ -150,51 +150,50 @@ limitations under the License.
 					where
 						permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
-			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
+	<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
 			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
-				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
-				<cfset resulthtml = resulthtml & "<tbody><tr>" >
-			    <cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
-				<cfset resulthtml = resulthtml & "<td>#shipped_carrier_method#&nbsp;</td>">
-				<cfset resulthtml = resulthtml & "<td>#no_of_packages#&nbsp;</td>">
-				<cfset resulthtml = resulthtml & "<td>#carriers_tracking_number#</td>">
-				<cfset resulthtml = resulthtml & " </tr></tbody></table>">
-				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>">
-				<cfset resulthtml = resulthtml & "<tbody><tr><td>(#printedOnInvoice#) #tofaddr#</td>">
-				<cfset resulthtml = resulthtml & "<td>#fromfaddr#</td>">
-				<cfset resulthtml = resulthtml & "</tr></tbody></table>">
-				<cfset resulthtml = resulthtml & "<div class='form-row'><div class='col-6'><input type='button' value='Edit this Shipment' class='btn btn-xs btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div>">
-				<cfset resulthtml = resulthtml & "<div id='addPermit_#shipment_id#' class='col-6'><input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div></div> ">
-				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4 class='font-weight-bold'>Permits:</h4>">
-				<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
+				<cfset resulthtml = resulthtml & "<ul class='shipheaders'><li>Ship Date:</li><li>Method:</li><li>Packages:</li><li>Tracking Number:</li></ul>">
+				<cfset resulthtml = resulthtml & " <ul class='shipdata'>" >
+					 <cfset resulthtml = resulthtml & "<li>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</li> " >
+					 <cfset resulthtml = resulthtml & " <li>#shipped_carrier_method#&nbsp;</li> " >
+					 <cfset resulthtml = resulthtml & " <li>#no_of_packages#&nbsp;</li> " >
+					 <cfset resulthtml = resulthtml & " <li>#carriers_tracking_number#</li>">
+				<cfset resulthtml = resulthtml & "</ul>">
+				<cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To:</li><li>Shipped From:</li></ul>">
+				<cfset resulthtml = resulthtml & " <ul class='shipaddressesdata'>">
+					 <cfset resulthtml = resulthtml & "<li>(#printedOnInvoice#) #tofaddr#</li> ">
+					 <cfset resulthtml = resulthtml & " <li>#fromfaddr#</li>">
+				<cfset resulthtml = resulthtml & "</ul>">
+				<cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
+				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
+					<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
 					<cfloop query="shippermit">
 					<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 	select media.media_id, media_uri, preview_uri, media_type
+				 select media.media_id, media_uri, preview_uri, media_type
 					from media_relations left join media on media_relations.media_id = media.media_id
 					where media_relations.media_relationship = 'shows permit'
 					and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
 				</cfquery>
 				<cfset mediaLink = "&##8855;">
 				<cfloop query="mediaQuery">
-					<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' alt='needs script' height='15'></a>" >
+					<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
 				</cfloop>
-					<cfset resulthtml = resulthtml & "<table class='table-small table permitshipul'><thead><tr><th>#mediaLink# #permit_type# #permit_Num#</th><th>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</th><th> #IssuedByAgent#</th></tr></thead>">
-					<cfset resulthtml = resulthtml & "<tbody><tr class='permitshipul2'>">
-					<cfset resulthtml = resulthtml & "<td><input type='button' class='savBtn btn btn-xs btn-primary' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></td> ">
-					<cfset resulthtml = resulthtml & "<td><input type='button' class='delBtn btn btn-xs btn-primary' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></td>">
-					<cfset resulthtml = resulthtml & "<td>">
-					<cfset resulthtml = resulthtml & "<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn btn btn-xs btn-primary' value='Move'>">
-					<cfset resulthtml = resulthtml & "<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span></td></tr></tbody></table>">
+					<cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
+					<cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
+					<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+					<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+					<cfset resulthtml = resulthtml & "<li>">
+					<cfset resulthtml = resulthtml & "<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn' style='padding:1px 6px;' value='Move'>">
+					<cfset resulthtml = resulthtml & "<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span></li>">
 				</cfloop>
-				
 				<cfif shippermit.recordcount eq 0>
 					<cfset resulthtml = resulthtml & "None">
 				</cfif>
 				<cfset resulthtml = resulthtml & "</span></div></div>"> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
 				<cfif shippermit.recordcount eq 0>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-primary' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
+					 <cfset resulthtml = resulthtml & "<div class='deletestyle' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
 				<cfelse>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn btn btn-xs btn-primary' value='Delete this Shipment'></div>">
+					 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment'></div>">
 				</cfif>
 				<cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
 		</cfloop> <!--- theResult --->
@@ -211,6 +210,7 @@ limitations under the License.
 	 <cfthread action="join" name="getSBTHtmlThread" />
 	 <cfreturn getSBTHtmlThread.output>
 </cffunction>
+
 
 
 <!----------------------------------------------------------------------------------------------------------------->
