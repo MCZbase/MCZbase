@@ -1022,7 +1022,7 @@ limitations under the License.
 										</div>
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-12 col-md-10 offset-md-1">
+					<div class="col-12 col-xl-10 offset-md-1">
 				<div class="form-row mb-4">
 					<div class="col-12 col-md-7">
 						<label for="redir">Print...</label>
@@ -1062,7 +1062,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-12 border bg-light px-3 mt-2 py-1">
+					<div class="col-12 col-xl-10 border bg-light px-3 mt-2 py-1">
 						<h3>Media documenting this Loan: <br/><small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small></h3>
 						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
@@ -1262,11 +1262,12 @@ limitations under the License.
 				<!----  End Shipment dialog --->
 				
 				<div class="form-row mb-2">
-					<div class="col-10 border bg-light p-3">
+					<div class="col-10 border bg-light px-3">
 						<h3>Accessions of material in this loan:</h3>
 						<!--- List Accessions for collection objects included in the Loan --->
 						<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
+					from loan l
 					from loan l
 						left join loan_item li on l.transaction_id = li.transaction_id
 						left join specimen_part sp on li.collection_object_id = sp.collection_object_id
