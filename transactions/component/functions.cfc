@@ -174,24 +174,17 @@ limitations under the License.
 				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4 class='font-weight-bold'>Permits:</h4>">
 				<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
 					<cfloop query="shippermit">
-		      	<cfloop query="shippermit">
-   	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			    select media.media_id, media_uri, preview_uri, media_type,
-  						mczbase.get_media_descriptor(media.media_id) as media_descriptor
-    				from media_relations left join media on media_relations.media_id = media.media_id
-			    	where media_relations.media_relationship = 'shows permit' 
-			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
-		    	</cfquery>
-	    		<cfset mediaLink = "&##8855;">
-		    	<cfloop query="mediaQuery">
-					<cfset puri=getMediaPreview(preview_uri,media_type) >
-					<cfif puri EQ "/images/noThumb.jpg">
-						<cfset altText = "Red X in a red square, with text, no preview image available">
-					<cfelse>
-						<cfset altText = mediaQuery.media_descriptor>
-					</cfif>
-	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='15' alt='#altText#'></a>" >
-		    	</cfloop>
+					<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 	select media.media_id, media_uri, preview_uri, media_type
+					from media_relations left join media on media_relations.media_id = media.media_id
+					where media_relations.media_relationship = 'shows permit'
+					   	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
+				</cfquery>
+				<cfset mediaLink = "&##8855;">
+				<cfloop query="mediaQuery">
+				<cfset puri=getMediaPreview(preview_uri,media_type) >
+					<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='15'></a>" >
+				</cfloop>
 					<cfset resulthtml = resulthtml & "<table class='table-small table permitshipul'><thead><tr><th>Media:</th><th>Type/number:</th><th>Date Issued: </th><th>Issued By: </th></tr></thead>">
 					<cfset resulthtml = resulthtml & "<tbody><tr class='permitshipul2'>">
 						<cfset resulthtml = resulthtml & "<td>#mediaLink#</td><td>#permit_type#</td><td>#permit_Num#</td><td>#IssuedByAgent#</td><td><input type='button' class='savBtn btn btn-xs btn-primary' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></td> ">
