@@ -149,7 +149,6 @@ function loadTransactionFormMedia(transaction_id,transaction_type) {
 	});
 };
 
-
 function loadShipments(transaction_id) {
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",

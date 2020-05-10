@@ -182,7 +182,7 @@ limitations under the License.
 			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
 		    	</cfquery>
 	    		<cfset mediaLink = "&##8855;">
-				<cfset getMediaPreview = ''>
+			
 		    	<cfloop query="mediaQuery">
 					<cfset puri=getMediaPreview(preview_uri,media_type) >
 					<cfif puri EQ "/images/documentNoThumb.png">
@@ -250,7 +250,7 @@ limitations under the License.
 		</cfquery>
 		<cfset mediaLink = "&##8855;">
 			<cfloop query="mediaQuery">
-			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfset puri=function getMediaPreview(preview_uri,media_type) >
 			<cfif puri EQ "/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
