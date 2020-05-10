@@ -382,7 +382,7 @@ limitations under the License.
 												</div>
 												<div class="col-6 px-0">
 													<label for="loan_number" class="data-entry-label mb-0">Number: </label>
-													<input type="text" name="loan_number" id="loan_number" class="form-control input-sm" value="#loan_number#" placeholder="yyyy-n-Coll">
+													<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input" value="#loan_number#" placeholder="yyyy-n-Coll">
 												</div>
 											</div>
 										</div>
