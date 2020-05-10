@@ -1268,7 +1268,6 @@ limitations under the License.
 						<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
 					from loan l
-					from loan l
 						left join loan_item li on l.transaction_id = li.transaction_id
 						left join specimen_part sp on li.collection_object_id = sp.collection_object_id
 						left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
