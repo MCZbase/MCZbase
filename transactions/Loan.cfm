@@ -1022,7 +1022,7 @@ limitations under the License.
 										</div>
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-12 col-md-7 offset-md-1">
+					<div class="col-12 col-md-10 offset-md-1">
 				<div class="form-row mb-4">
 					<div class="col-12 col-md-7">
 						<label for="redir">Print...</label>
@@ -1063,8 +1063,7 @@ limitations under the License.
 				</div>
 				<div class="form-row mb-2">
 					<div class="col-12 border bg-light px-3 mt-2 py-1">
-						<h3>Media documenting this Loan:</h3>
-						<p>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</p>
+						<h3>Media documenting this Loan: <br/><small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small></h3>
 						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
 							media.media_id,
@@ -1182,7 +1181,7 @@ limitations under the License.
 				});
 				</script>
 						<div class="addstyle">
-							<input type="button" class="btn btn-primary" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+							<input type="button" class="btn btn-xs btn-primary" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 							<div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 						</div>
 						<!---moved this to inside of the shipping block--one div up---> 
