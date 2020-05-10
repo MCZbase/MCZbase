@@ -444,7 +444,7 @@ limitations under the License.
                  draggable:true,
                  buttons: {
                      "Ok": function () { 
-                        loadTransactionFormMedia(#transaction_id#,'loan'); 
+                        loadTransactionFormMedia(#transaction_id#,"loan"); 
                         $(this).dialog("close"); 
                      } 
                  }
