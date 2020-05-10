@@ -1127,7 +1127,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-10">
+					<div class="col-12">
 						<h3>Shipment Information:</h3>
 						<script>
 					function opendialog(page,id,title) {
@@ -1302,8 +1302,8 @@ limitations under the License.
 				</div>
 				
 				<!--- Print permits associated with these accessions --->
-				<div class="form-row mb-2">
-					<div class="col-10">
+				<div class="form-row mb-5">
+					<div class="col-12">
 						<h3>Permissions and Rights Documents: <br/><small>PDF copies of Permits from Accessions and the Shipments of this Loan</small></h3>
 						
 						<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
