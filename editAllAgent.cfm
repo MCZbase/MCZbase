@@ -1444,6 +1444,8 @@ function opendialogrank(page,id,title,agentId) {
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "editNonPerson">
+	<cfif not isdefined("agentguid")><cfset agentguid=""></cfif>
+	<cfif not isdefined("agentguid_guid_type")><cfset agentguid_guid_type=""></cfif>
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1636,6 +1638,8 @@ function opendialogrank(page,id,title,agentId) {
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "makeNewAgent">
+	<cfif not isdefined("agentguid")><cfset agentguid=""></cfif>
+	<cfif not isdefined("agentguid_guid_type")><cfset agentguid_guid_type=""></cfif>
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
