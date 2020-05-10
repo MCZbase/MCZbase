@@ -891,16 +891,16 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12">
 										<input type="button" value="Save Edits" class="btn btn-xs btn-primary"
-							onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
-										<div class="w-75 float-right"</div>
+											onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
+										<div class="w-100 mt-4 float-right"</div>
 										<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
-							onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-										<input type="button" value="Add Items" class="btn btn-secondary"
-							onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+											onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
+										<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
+											onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 										<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
-							onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
+											onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
 										<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
-							onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+											onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
 									</div></div>
 								</div>
 								<div class="form-row my-4">
@@ -1023,7 +1023,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12 col-md-7 offset-md-1">
-				<div class="form-row mb-2">
+				<div class="form-row my-2">
 					<div class="col-12 col-md-7">
 						<label for="redir">Print...</label>
 						<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
@@ -1128,7 +1128,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-10">
+					<div class="col-12 col-xl-10">
 						<h3>Shipment Information:</h3>
 						<script>
 					function opendialog(page,id,title) {
