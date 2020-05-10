@@ -1023,7 +1023,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12 col-md-7 offset-md-1">
-				<div class="form-row my-2">
+				<div class="form-row mb-4">
 					<div class="col-12 col-md-7">
 						<label for="redir">Print...</label>
 						<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
