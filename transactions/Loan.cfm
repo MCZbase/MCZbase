@@ -1022,7 +1022,7 @@ limitations under the License.
 										</div>
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-12 col-xl-10 offset-md-1">
+					<div class="col-10 offset-md-1">
 				<div class="form-row mb-4">
 					<div class="col-12 col-md-7">
 						<label for="redir">Print...</label>
@@ -1127,7 +1127,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row mb-2">
-					<div class="col-12 col-xl-10">
+					<div class="col-10">
 						<h3>Shipment Information:</h3>
 						<script>
 					function opendialog(page,id,title) {
