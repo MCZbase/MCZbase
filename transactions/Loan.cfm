@@ -1305,8 +1305,8 @@ limitations under the License.
 				<!--- Print permits associated with these accessions --->
 				<div class="form-row mb-2">
 					<div class="col-10">
-						<h3>Permissions and Rights Documents:</h3>
-						<small>PDF copies of Permits from Accessions and the Shipments of this Loan</small>
+						<h3>Permissions and Rights Documents: <br/><small>PDF copies of Permits from Accessions and the Shipments of this Loan</small></h3>
+						
 						<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
 						from (
