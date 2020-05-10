@@ -1262,7 +1262,7 @@ limitations under the License.
 				<!----  End Shipment dialog --->
 				
 				<div class="form-row mb-2">
-					<div class="col-10">
+					<div class="col-10 border bg-light p-3">
 						<h3>Accessions of material in this loan:</h3>
 						<!--- List Accessions for collection objects included in the Loan --->
 						<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
