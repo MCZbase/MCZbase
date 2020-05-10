@@ -92,7 +92,8 @@ limitations under the License.
 			media_relations left join media on media_relations.media_id = media.media_id
 		where
 			media_relationship like '% #transaction_type#'
-			and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			and media_relations.related_primary_key = 496961
+	<!---	<cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">--->
 	</cfquery>
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
