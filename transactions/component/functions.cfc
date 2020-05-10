@@ -171,7 +171,7 @@ limitations under the License.
 				<cfset resulthtml = resulthtml & "</tr></tbody></table>">
 				<cfset resulthtml = resulthtml & "<div class='form-row'><div class='col-6'><input type='button' value='Edit this Shipment' class='btn btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div>">
 				<cfset resulthtml = resulthtml & "<div id='addPermit_#shipment_id#' class='col-6'><input type='button' value='Add Permit to this Shipment' class='btn btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div></div> ">
-				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
+				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4 class='font-weight-bold'>Permits:</h4>">
 				<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
 				    <cfloop query="shippermit">
    	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -206,7 +206,7 @@ limitations under the License.
 				<cfif shippermit.recordcount eq 0>
 					 <cfset resulthtml = resulthtml & "<div class='deletestyle' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-secondary' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
 				<cfelse>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment'></div>">
+					 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment #shippermit.permit_id#'></div>">
 				</cfif>
 				<cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
 		</cfloop> <!--- theResult --->
