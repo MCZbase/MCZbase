@@ -641,8 +641,9 @@ limitations under the License.
 								
 									<div class="col-12 table-responsive mt-2">
 										<table id="loanAgents" class="table table-sm">
-											<tr>
+											
 											<thead class="thead-light">
+												<tr>
 											<th colspan="2">
 												<span>Agent&nbsp;Name&nbsp;
 													<button class="ui-button btn-primary ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgent()"> Add Row </button>
@@ -650,8 +651,9 @@ limitations under the License.
 												<th>Role</th>
 												<th>Delete?</th>
 												<th>Clone As</th>
+													</tr>
 													</thead>
-											</tr>
+											
 											<tbody>
 												<tr>
 													<td colspan="5"><cfif loanDetails.loan_type eq 'exhibition-master' or loanDetails.loan_type eq 'exhibition-subloan'>
@@ -1180,7 +1182,7 @@ limitations under the License.
 				});
 				</script>
 						<div class="addstyle">
-							<input type="button" class="btn-primary" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+							<input type="button" class="btn btn-primary" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 							<div class="shipmentnote">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 						</div>
 						<!---moved this to inside of the shipping block--one div up---> 

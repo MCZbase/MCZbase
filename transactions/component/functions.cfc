@@ -152,24 +152,23 @@ limitations under the License.
 			</cfquery>
 			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
 			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
-				<cfset resulthtml = resulthtml & "<ul class='shipheaders'><li>Ship Date:</li><li>Method:</li><li>Packages:</li><li>Tracking Number:</li></ul>">
-				<cfset resulthtml = resulthtml & " <ul class='shipdata'>" >
-					 <cfset resulthtml = resulthtml & "<li>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</li> " >
-					 <cfset resulthtml = resulthtml & " <li>#shipped_carrier_method#&nbsp;</li> " >
-					 <cfset resulthtml = resulthtml & " <li>#no_of_packages#&nbsp;</li> " >
-					 <cfset resulthtml = resulthtml & " <li>#carriers_tracking_number#</li>">
-				<cfset resulthtml = resulthtml & "</ul>">
-				<cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To:</li><li>Shipped From:</li></ul>">
-				<cfset resulthtml = resulthtml & " <ul class='shipaddressesdata'>">
-					 <cfset resulthtml = resulthtml & "<li>(#printedOnInvoice#) #tofaddr#</li> ">
-					 <cfset resulthtml = resulthtml & " <li>#fromfaddr#</li>">
-				<cfset resulthtml = resulthtml & "</ul>">
-				<cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
+				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
+				<cfset resulthtml = resulthtml & "<tbody><tr>" >
+			    <cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
+				<cfset resulthtml = resulthtml & "<td>#shipped_carrier_method#&nbsp;</td>">
+				<cfset resulthtml = resulthtml & "<td>#no_of_packages#&nbsp;</td>">
+				<cfset resulthtml = resulthtml & "<td>#carriers_tracking_number#</td>">
+				<cfset resulthtml = resulthtml & " </tr></tbody></table>">
+				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>">
+				<cfset resulthtml = resulthtml & "<tbody><tr><td>(#printedOnInvoice#) #tofaddr#</td>">
+				<cfset resulthtml = resulthtml & "<td>#fromfaddr#</td>">
+				<cfset resulthtml = resulthtml & "</tr></tbody></table>">
+				<cfset resulthtml = resulthtml & "<input type='button' value='Edit this Shipment' class='btn btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='btn btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
 				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
-					<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
+				<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
 					<cfloop query="shippermit">
 					<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 select media.media_id, media_uri, preview_uri, media_type
+				 	select media.media_id, media_uri, preview_uri, media_type
 					from media_relations left join media on media_relations.media_id = media.media_id
 					where media_relations.media_relationship = 'shows permit'
 					and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
