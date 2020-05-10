@@ -97,6 +97,7 @@ limitations under the License.
    </cfquery>
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
+			<cfset getMediaPreview ='' >
 		<cfloop query="query">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
 			<cfif puri EQ "/images/noThumb.jpg">
