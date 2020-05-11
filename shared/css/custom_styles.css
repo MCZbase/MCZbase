@@ -1472,6 +1472,7 @@ input::placeholder {
 }
 .permitshipul2 li{
 	display: inline;
+	list-style: none;
 }
 .barbershop-pole {
 /*	width: 100%;*/
