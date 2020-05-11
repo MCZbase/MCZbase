@@ -1077,9 +1077,9 @@ limitations under the License.
 						</cfquery>
 							<span>
 							<cfset relation="documents loan">
-							<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-primary' >
+							<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
 							&nbsp; <span id='addMedia_#transaction_id#'>
-							<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-primary' >
+							<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
 							&nbsp; </span> </span>
 							<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
 							<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
