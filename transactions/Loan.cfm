@@ -1055,7 +1055,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row mb-2">
-						<div class="col-12 col-md-7 border bg-light px-3 mt-2 py-1">
+						<div class="col-12 col-md-12 border bg-light px-3 mt-2 py-1">
 							<h3>Media documenting this Loan: <br/>
 								<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small></h3>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1097,7 +1097,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row mb-2">
-						<div class="col-12 col-md-7">
+						<div class="col-12 col-md-12">
 							<h3>Countries of Origin of items in this loan</h3>
 							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select count(*) as ct, sovereign_nation 
@@ -1121,7 +1121,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row mb-2">
-						<div class="col-12 col-md-7">
+						<div class="col-12 col-md-12">
 							<h3>Shipment Information:</h3>
 							<script>
 					function opendialog(page,id,title) {
@@ -1256,7 +1256,7 @@ limitations under the License.
 					<!----  End Shipment dialog --->
 					
 					<div class="form-row mb-2">
-						<div class="col-12 col-md-7 border bg-light px-3">
+						<div class="col-12 col-md-12 border bg-light px-3">
 							<h3>Accessions of material in this loan:</h3>
 							<!--- List Accessions for collection objects included in the Loan --->
 							<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1297,7 +1297,7 @@ limitations under the License.
 					
 					<!--- Print permits associated with these accessions --->
 					<div class="form-row mb-5">
-						<div class="col-12 col-md-7">
+						<div class="col-12 col-md-12">
 							<h3>Permissions and Rights Documents: <br/>
 								<small>PDF copies of Permits from Accessions and the Shipments of this Loan</small></h3>
 							<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
