@@ -281,7 +281,7 @@
 					</cfloop>
 				</select>
 				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext#</a>
-				<input size="55" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
+				<input size="54" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 				<cfelse>
@@ -344,7 +344,7 @@
 					</cfloop>
 				</select>
 				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
-				<input size="55" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
+				<input size="54" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
 				<cfelse>
@@ -939,7 +939,7 @@
 					</select>
 					<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-					<input size="55" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#">
+					<input size="54" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#">
 					<a id="taxonid_link" href="" target="_blank" class="hints"></a>
 					<script>
 						$(document).ready(function () { 
@@ -1002,7 +1002,7 @@
 					</select>
 					<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-					<input size="55" name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#">
+					<input size="54" name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#">
 					<a id="scientificnameid_link" href="" target="_blank" class="hints"></a>
 					<script>
 						$(document).ready(function () { 
