@@ -210,9 +210,9 @@ limitations under the License.
 				<cfelse>
 					 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment'></div>">
 				</cfif>
-				<cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
+				<cfset resulthtml = resulthtml & "" > <!--- shipment div --->
 		</cfloop> <!--- theResult --->
-		<cfset resulthtml = resulthtml & "</div>"><!--- shipments div --->
+		<cfset resulthtml = resulthtml & ""><!--- shipments div --->
 		<cfif theResult.recordcount eq 0>
 			 <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
 		</cfif>
