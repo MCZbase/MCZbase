@@ -230,7 +230,8 @@ nav button {
 	/*position: absolute;*/
 	right: 10px;
 	top: 3px;
-	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif"
+	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	letter-spacing: .02em;
 }
 .footer {
 	line-height: 1em;
