@@ -97,6 +97,7 @@ limitations under the License.
    </cfquery>
 
 	<cfif query.recordcount gt 0>
+			#mediaQuery.preview_uri#
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
@@ -184,9 +185,10 @@ limitations under the License.
 		    	</cfquery>
 	    		<cfset mediaLink = "&##8855;">
 					
+					
 			
 		    	<cfloop query="mediaQuery">
-					#mediaQuery.preview_uri#
+				
 					<cfset puri=getMediaPreview(preview_uri,media_type) >
 					<cfif puri EQ "/images/documentNoThumb.png">
 						<cfset altText = "Red X in a red square, with text, no preview image available">
