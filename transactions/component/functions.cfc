@@ -80,13 +80,12 @@ limitations under the License.
    <cfset relword="documents">
    <cfset result="">
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           select distinct
+             select distinct
                media.media_id as media_id,
-               media.preview_uri as preview_uri,
+               preview_uri,
                media.media_uri,
                media.mime_type,
                media.media_type as media_type,
-  					mczbase.get_media_descriptor(media.media_id) as media_descriptor,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
                nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
            from
@@ -99,8 +98,7 @@ limitations under the License.
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
-			<cfset puri=''>
-		<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
 			<cfif puri EQ "/shared/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
@@ -189,8 +187,8 @@ limitations under the License.
 					</cfquery>
 					<cfset mediaLink = "&##8855;">
 					<cfloop query="mediaQuery">
-						<cfset puri=''>
-				<!---		<cfset puri=getMediaPreview(preview_uri,media_type) >--->
+				
+			 		<cfset puri=getMedia(preview_uri,media_type) >
 						<cfif puri EQ "/images/documentNoThumb.png">
 							<cfset altText = "Red X in a red square, with text, no preview image available">
 						<cfelse>
