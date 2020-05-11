@@ -100,10 +100,11 @@ limitations under the License.
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
 			<cfset puri="">
-			<cfset puri=getMediaPreview(#preview_uri#,#media_type#) >
+		#preview_uri#  #media_type#
 			<cfif puri EQ "/shared/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
+					<!---<cfset puri=getMediaPreview(,) >--->
 				<cfset altText = query.media_descriptor>
 			</cfif>
 			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
