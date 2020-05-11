@@ -95,7 +95,7 @@ limitations under the License.
                media_relationship like '% #transaction_type#' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
-	   <script function getMediaPreview(preview_uri,media_type)></script>
+
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
@@ -109,7 +109,7 @@ limitations under the License.
 		</cfloop>
 		<cfset result= result & "</ul>">
 	<cfelse>
-		<cfset result=result & "<ul><li>None</li></ul>">
+		<cfset result=result & "<ul class="pb-2"><li>None</li></ul>">
 	</cfif>
    <cfreturn result>
 </cffunction>
@@ -135,7 +135,7 @@ limitations under the License.
 				 where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				 order by shipped_date
 		</cfquery>
-		<cfset resulthtml = "<div id='shipments'> ">
+		<cfset resulthtml = "<div id='shipments' class='border'> ">
 
 		<cfloop query="theResult">
 			<cfif print_flag eq "1">
@@ -158,7 +158,7 @@ limitations under the License.
 						permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
 			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
-			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
+			<cfset resulthtml = resulthtml & "<div class='shipment bg-light py-2 my-3'>" >
 				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
 				<cfset resulthtml = resulthtml & "<tbody><tr>" >
 			    <cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
