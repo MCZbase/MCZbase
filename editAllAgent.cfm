@@ -183,7 +183,7 @@ function opendialogrank(page,id,title,agentId) {
 		<label for="pref_name">Preferred Name</label>
 		<input type="text" name="pref_name" id="pref_name">
 		<cfoutput>
-		<div style="border: 1px solid blue;">
+		<div class="detailCell">
 			<label for="agentguid">GUID for Agent</label>
 			<cfset pattern = "">
 			<cfset placeholder = "">
@@ -208,8 +208,8 @@ function opendialogrank(page,id,title,agentId) {
 				</cfloop>
 			</select>
 			<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
-			<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#">
-			<a id="agentguid_link" href="" target="_blank"></a>
+			<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+			<a id="agentguid_link" href="" target="_blank" class="hints"></a>
 			<script>
 				$(document).ready(function () { 
 					$('##agentguid_guid_type').change(function () { 
@@ -458,7 +458,7 @@ function opendialogrank(page,id,title,agentId) {
 				                        </td>
  						</tr>
  						<tr>
-							<td colspan="5" style="border: 1px solid blue;">
+							<td colspan="5" class="detailCell">
 								<label for="agentguid">GUID for Agent</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
@@ -466,10 +466,12 @@ function opendialogrank(page,id,title,agentId) {
 								<cfset replacement = "">
 								<cfset searchlink = "" >		
 								<cfset searchtext = "" >		
+								<cfset searchclass = "" >		
 								<cfloop query="ctguid_type_agent">
 				 					<cfif person.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
 										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(person.first_name & ' ' & trim(person.middle_name & ' ' & person.last_name))),'+','%20') >		
 										<cfset searchtext = "Search" >		
+										<cfset searchclass = 'class="smallBtn external"' >		
 									</cfif>
 								</cfloop>
 								<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
@@ -488,14 +490,16 @@ function opendialogrank(page,id,title,agentId) {
 										<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
 									</cfloop>
 								</select>
-								<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
-								<input size="55" name="agentguid" id="agentguid" value="#person.agentguid#" placeholder="#placeholder#" pattern="#pattern#">
+								<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
+								<input size="55" name="agentguid" id="agentguid" value="#person.agentguid#" 
+									placeholder="#placeholder#" 
+									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(person.agentguid,regex,replacement)>
 								<cfelse>
 									<cfset link = person.agentguid>
 								</cfif>
-								<a id="agentguid_link" href="#link#" target="_blank">#agentguid#</a>
+								<a id="agentguid_link" href="#link#" target="_blank" class="hints">#agentguid#</a>
 								<script>
 									$(document).ready(function () { 
 										$('##agentguid_guid_type').change(function () { 
