@@ -161,7 +161,7 @@ limitations under the License.
 			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
 				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
 				<cfset resulthtml = resulthtml & "<tbody><tr>">
-					<cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
+				<cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#shipped_carrier_method#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#no_of_packages#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#carriers_tracking_number#</td>">
@@ -174,7 +174,7 @@ limitations under the License.
 				<cfset resulthtml = resulthtml & "<div id='addPermit_#shipment_id#' class='col-6'><input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div></div> ">
 				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4 class='font-weight-bold mb-0'>Permits:</h4>">
 				<cfset resulthtml = resulthtml & "<div class='permitship pb-2'><span id='permits_ship_#shipment_id#'>">
-				    <cfloop query="shippermit">
+		<cfloop query="shippermit">
    	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			    select media.media_id, media_uri, preview_uri, media_type,
   						mczbase.get_media_descriptor(media.media_id) as media_descriptor
@@ -200,7 +200,7 @@ limitations under the License.
 					<cfset resulthtml = resulthtml & "<li>">
 					<cfset resulthtml = resulthtml & "<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>">
 					<cfset resulthtml = resulthtml & "<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span></li>">
-				</cfloop>
+		</cfloop>
 				<cfif shippermit.recordcount eq 0>
 					<cfset resulthtml = resulthtml & "None">
 				</cfif>
@@ -210,9 +210,9 @@ limitations under the License.
 				<cfelse>
 					 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment'></div>">
 				</cfif>
-				<cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
+				<cfset resulthtml = resulthtml & "" > <!--- shipment div --->
 		</cfloop> <!--- theResult --->
-		<cfset resulthtml = resulthtml & ""><!--- shipments div --->
+					<cfset resulthtml = resulthtml & "</div>"><!--- shipments div --->
 		<cfif theResult.recordcount eq 0>
 			 <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
 		</cfif>
