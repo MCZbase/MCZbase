@@ -1474,14 +1474,7 @@ input::placeholder {
 	display: inline;
 	list-style: none;
 }
-.deletestyle {
-	border-bottom: 2px dotted #bac5c6;
-	margin-bottom: .5em;
-}
-.deletestyle:last-child {
-	border-bottom: none;
-	margin-bottom: 0;
-}
+
 .barbershop-pole {
 /*	width: 100%;*/
 	height: 100%;

@@ -95,7 +95,6 @@ limitations under the License.
                media_relationship like '% #transaction_type#' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
-<cfdump var = "#preview_uri#">
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
@@ -211,9 +210,9 @@ limitations under the License.
 				</cfif>
 				<cfset resulthtml = resulthtml & "</span></div></div>"> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
 				<cfif shippermit.recordcount eq 0>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle pb-3' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-secondary' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
+					 <cfset resulthtml = resulthtml & "<div class='deletestyle pb-1' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-secondary' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
 				<cfelse>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle pb-3'><input type='button' class='disBtn btn btn-xs btn-secondary' value='Delete this Shipment'></div>">
+					 <cfset resulthtml = resulthtml & "<div class='deletestyle pb-1'><input type='button' class='disBtn btn btn-xs btn-secondary' value='Delete this Shipment'></div>">
 				</cfif>
 					<cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
 		</cfloop> <!--- theResult --->
