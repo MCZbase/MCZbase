@@ -172,7 +172,7 @@ limitations under the License.
 				<cfset resulthtml = resulthtml & "<td>#fromfaddr#</td>">
 				<cfset resulthtml = resulthtml & "</tr></tbody></table>">
 				<cfset resulthtml = resulthtml & "<div class='form-row'>">
-				<cfset resulthtml = resulthtml & "<div class='col-6'><input type='button' value='Edit this Shipment' class='btn btn-xs btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div>">
+				<cfset resulthtml = resulthtml & "<div class='col-5'><input type='button' value='Edit this Shipment' class='btn btn-xs btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div>">
 				<cfset resulthtml = resulthtml & "<div id='addPermit_#shipment_id#' class='col-6'><input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div>">
 				<cfset resulthtml = resulthtml & "<div id='addPermitDlg_#shipment_id#'></div>">
 				<cfset resulthtml = resulthtml & "</div>">
