@@ -1054,7 +1054,7 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="form-row mb-2">
+					<div class="form-row mb-2 mt-5">
 						<div class="col-12 col-md-12 border bg-light px-3 mt-2 py-1">
 							<h3>Media documenting this Loan: <br/>
 								<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small></h3>
@@ -1255,7 +1255,7 @@ limitations under the License.
 					</div>
 					<!----  End Shipment dialog --->
 					
-					<div class="form-row mb-2 mt-4">
+					<div class="form-row mb-2 mt-5">
 						<div class="col-12 col-md-12 border bg-light px-3">
 							<h3>Accessions of material in this loan:</h3>
 							<!--- List Accessions for collection objects included in the Loan --->
