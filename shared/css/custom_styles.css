@@ -1463,7 +1463,7 @@ input::placeholder {
 	height: 1.05em;
 }
 .shipments {
-	border: 1px solid gray;
+	border: 1px solid #bac5c6;
 	padding: 1em;
 	margin-bottom: 1em; 
 }
