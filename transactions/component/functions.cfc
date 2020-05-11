@@ -99,7 +99,7 @@ limitations under the License.
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfif puri EQ "/shared/images/noThumb.jpg">
+			<cfif puri EQ "/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
 				<cfset altText = query.media_descriptor>
@@ -188,7 +188,7 @@ limitations under the License.
 					<cfset mediaLink = "&##8855;">
 					<cfloop query="mediaQuery">
 						<cfset puri=getMediaPreview(preview_uri,media_type) >
-						<cfif puri EQ "">
+						<cfif puri EQ "/images/noThumb.jpg">
 							<cfset altText = "Red X in a red square, with text, no preview image available">
 						<cfelse>
 							<cfset altText = mediaQuery.media_descriptor>
