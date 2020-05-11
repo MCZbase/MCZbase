@@ -158,6 +158,7 @@ limitations under the License.
 						permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
 			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
+				
 			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
 				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
 				<cfset resulthtml = resulthtml & "<tbody><tr>">
@@ -182,6 +183,7 @@ limitations under the License.
 			    	where media_relations.media_relationship = 'shows permit' 
 			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
 		    	</cfquery>
+					#puri#
 	    		<cfset mediaLink = "&##8855;">
 			
 		    	<cfloop query="mediaQuery">
