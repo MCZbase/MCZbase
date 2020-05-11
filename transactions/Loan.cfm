@@ -888,7 +888,7 @@ limitations under the License.
 							<div class="col-12">
 								<input type="button" value="Save Edits" class="btn btn-xs btn-primary"
 											onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
-								<div class="w-100 mt-4 float-right"</div>
+								<div class="w-100 mt-4 float-right">
 							<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
 											onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
 							<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
