@@ -207,7 +207,7 @@
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-<div class="content_box_narrow">
+<div class="content_box_narrow" style="width: 46em;">
 	<h2>Edit Taxon:  
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  
 		<em>#getTaxa.scientific_name#</em> 
@@ -281,7 +281,7 @@
 					</cfloop>
 				</select>
 				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext#</a>
-				<input size="54" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
+				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 				<cfelse>
@@ -344,7 +344,7 @@
 					</cfloop>
 				</select>
 				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
-				<input size="54" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
+				<input size="56" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
 				<cfelse>
@@ -879,7 +879,7 @@
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 </cfquery>
 <cfoutput>
-<div style="width: 41em; margin:0 auto; padding-bottom: 3em;">
+<div class="content_box_narrow" style="width: 46em;">
   <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
   <p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
 	<table class="tInput">
@@ -939,7 +939,7 @@
 					</select>
 					<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-					<input size="54" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#">
+					<input size="56" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#">
 					<a id="taxonid_link" href="" target="_blank" class="hints"></a>
 					<script>
 						$(document).ready(function () { 
@@ -1002,7 +1002,7 @@
 					</select>
 					<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-					<input size="54" name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#">
+					<input size="56" name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#">
 					<a id="scientificnameid_link" href="" target="_blank" class="hints"></a>
 					<script>
 						$(document).ready(function () { 
