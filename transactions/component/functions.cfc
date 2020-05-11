@@ -160,8 +160,8 @@ limitations under the License.
 			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
 			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
 				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
-				<cfset resulthtml = resulthtml & "<tbody><tr>" >
-			    <cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
+				<cfset resulthtml = resulthtml & "<tbody><tr>">
+					<cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#shipped_carrier_method#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#no_of_packages#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#carriers_tracking_number#</td>">
@@ -183,8 +183,10 @@ limitations under the License.
 			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
 		    	</cfquery>
 	    		<cfset mediaLink = "&##8855;">
+					
 			
 		    	<cfloop query="mediaQuery">
+					#mediaQuery.preview_uri#
 					<cfset puri=getMediaPreview(preview_uri,media_type) >
 					<cfif puri EQ "/images/documentNoThumb.png">
 						<cfset altText = "Red X in a red square, with text, no preview image available">
