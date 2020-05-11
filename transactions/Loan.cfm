@@ -922,27 +922,30 @@ limitations under the License.
 							<cfif getDispositions.RecordCount EQ 0 >
 								<h4>There are no attached collection objects.</h4>
 								<cfelse>
-								<table>
+								<table class="table table-sm">
+									<thead class="thead-light">
 									<tr>
 										<th>Parts</th>
 										<th>Disposition</th>
 										<th>Deaccession</th>
 									</tr>
+									</thead><tbody>
 									<cfloop query="getDispositions">
 										<cfif len(trim(getDispositions.deacc_number)) GT 0>
 											<tr>
 												<td>#pcount#</td>
 												<td>#coll_obj_disposition#</td>
 												<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
-											</tr>
+												</tr>
 											<cfelse>
 											<tr>
 												<td>#pcount#</td>
 												<td>#coll_obj_disposition#</td>
-												<td><strong>Not in a Deaccession</strong></td>
+												<td>Not in a Deaccession</td>
 											</tr>
 										</cfif>
 									</cfloop>
+										</tbody>
 								</table>
 							</cfif>
 						</cfif>
