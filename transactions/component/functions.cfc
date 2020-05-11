@@ -159,7 +159,7 @@ limitations under the License.
 			</cfquery>
 			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
 				
-			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
+			<cfset resulthtml = resulthtml & "<div class='shipment my-2'>" >
 				<cfset resulthtml = resulthtml & "<table class='table table-sm'>">
 				<cfset resulthtml = resulthtml & "<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
 				<cfset resulthtml = resulthtml & "<tbody><tr>">
@@ -201,7 +201,7 @@ limitations under the License.
 					<cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
 					<cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
 					<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
-					<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn btn btn-xs btn-secondary' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+					<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn btn btn-xs btn-secondary mr-1' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
 					<cfset resulthtml = resulthtml & "<li>">
 					<cfset resulthtml = resulthtml & "<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>">
 					<cfset resulthtml = resulthtml & "<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span></li></ul>">
