@@ -99,7 +99,8 @@ limitations under the License.
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
-		<!---	<cfset puri=getMediaPreview(preview_uri,media_type) >--->
+			<cfset puri="">
+			<cfset puri=getMediaPreview(#preview_uri#,#media_type#) >
 			<cfif puri EQ "/shared/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
