@@ -173,7 +173,7 @@ limitations under the License.
 				<cfset resulthtml = resulthtml & "<div class='form-row'><div class='col-6'><input type='button' value='Edit this Shipment' class='btn btn-xs btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div>">
 				<cfset resulthtml = resulthtml & "<div id='addPermit_#shipment_id#' class='col-6'><input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div></div> ">
 				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4 class='font-weight-bold'>Permits:</h4>">
-				<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
+				<cfset resulthtml = resulthtml & "<div class='permitship pb-2'><span id='permits_ship_#shipment_id#'>">
 				    <cfloop query="shippermit">
    	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			    select media.media_id, media_uri, preview_uri, media_type,
