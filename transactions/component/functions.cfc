@@ -158,7 +158,7 @@ limitations under the License.
 						permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
 			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
-			<cfset resulthtml = resulthtml & "<div class='shipment p-2'>" >
+			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
 				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
 				<cfset resulthtml = resulthtml & "<tbody><tr>">
 					<cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
