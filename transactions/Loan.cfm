@@ -1015,7 +1015,7 @@ limitations under the License.
 			</div>
 			<div class="container-fluid">
 			<div class="row">
-				<div class="col-12 col-md-10 offset-xl-1">
+				<div class="col-12 col-xl-10 offset-xl-1">
 					<div class="form-row mb-4">
 						<div class="col-12 col-md-7">
 							<label for="redir">Print...</label>
