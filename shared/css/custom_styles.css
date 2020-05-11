@@ -1470,7 +1470,7 @@ input::placeholder {
 .shipments td {
 	background-color: white;
 }
-.permitshipul2 li{
+.permitshipul li, .permitshipul2 li{
 	display: inline;
 	list-style: none;
 }
