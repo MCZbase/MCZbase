@@ -135,7 +135,7 @@ limitations under the License.
 				 where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				 order by shipped_date
 		</cfquery>
-		<cfset resulthtml = "<div id='shipments'> ">
+		<cfset resulthtml = "<div id='shipments' class='shipments'> ">
 
 		<cfloop query="theResult">
 			<cfif print_flag eq "1">
@@ -158,21 +158,21 @@ limitations under the License.
 						permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
 			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
-			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
-				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
+			<cfset resulthtml = resulthtml & "<div class='shipment p-2'>" >
+				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>">
 				<cfset resulthtml = resulthtml & "<tbody><tr>">
 					<cfset resulthtml = resulthtml & "<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#shipped_carrier_method#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#no_of_packages#&nbsp;</td>">
 				<cfset resulthtml = resulthtml & "<td>#carriers_tracking_number#</td>">
 				<cfset resulthtml = resulthtml & " </tr></tbody></table>">
-				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>">
+				<cfset resulthtml = resulthtml & "<table class='table table-sm'><thead class='thead-light'><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>">
 				<cfset resulthtml = resulthtml & "<tbody><tr><td>(#printedOnInvoice#) #tofaddr#</td>">
 				<cfset resulthtml = resulthtml & "<td>#fromfaddr#</td>">
 				<cfset resulthtml = resulthtml & "</tr></tbody></table>">
 				<cfset resulthtml = resulthtml & "<div class='form-row'><div class='col-6'><input type='button' value='Edit this Shipment' class='btn btn-xs btn-primary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div>">
 				<cfset resulthtml = resulthtml & "<div id='addPermit_#shipment_id#' class='col-6'><input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-primary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div></div> ">
-				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4 class='font-weight-bold'>Permits:</h4>">
+				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4 class='font-weight-bold mb-0'>Permits:</h4>">
 				<cfset resulthtml = resulthtml & "<div class='permitship pb-2'><span id='permits_ship_#shipment_id#'>">
 				    <cfloop query="shippermit">
    	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

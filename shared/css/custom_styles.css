@@ -1462,6 +1462,14 @@ input::placeholder {
 	font-size: 1.05em;
 	height: 1.05em;
 }
+.shipments {
+	border: 1px solid gray;
+	padding: 1em;
+	margin-bottom: 1em; 
+}
+.shipments td {
+	background-color: white;
+}
 .barbershop-pole {
 /*	width: 100%;*/
 	height: 100%;
