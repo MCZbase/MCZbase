@@ -1018,8 +1018,8 @@ limitations under the License.
 				<div class="col-12 col-md-10 offset-md-1">
 					<div class="form-row mb-4">
 						<div class="col-12 col-md-7">
-							<label for="redir">Print...</label>
-							<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+							<label for="redir" class="form-control">Print...</label>
+							<select name="redir" class="form-control-sm" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
 								<option value=""></option>
 								<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
 								sort={a field name that is in the select portion of the query specified in the custom tag}, or

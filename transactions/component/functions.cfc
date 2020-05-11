@@ -269,8 +269,8 @@ limitations under the License.
 
 
 		<cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
-		<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn btn btn-xs btn-primary pr-1' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
-		<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn btn btn-xs btn-primary pr-1' onClick='confirmAction(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+		<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn btn btn-xs btn-secondary pr-1' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+		<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn btn btn-xs btn-secondary pr-1' onClick='confirmAction(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
 		<cfset resulthtml = resulthtml & "</ul>">
 	</cfloop>
 	<cfif query.recordcount eq 0>
