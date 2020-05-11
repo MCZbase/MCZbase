@@ -188,7 +188,7 @@ limitations under the License.
 					<cfset mediaLink = "&##8855;">
 					<cfloop query="mediaQuery">
 						<cfset puri=getMediaPreview(preview_uri,media_type) >
-						<cfif puri EQ "/shared/images/noThumb.png">
+						<cfif puri EQ "">
 							<cfset altText = "Red X in a red square, with text, no preview image available">
 						<cfelse>
 							<cfset altText = mediaQuery.media_descriptor>
@@ -208,7 +208,7 @@ limitations under the License.
 				</cfif>
 				<cfset resulthtml = resulthtml & "</span></div></div>"> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
 				<cfif shippermit.recordcount eq 0>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle pb-1' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-secondary' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
+					 <cfset resulthtml = resulthtml & "<div class='deletestyle mb-1' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-secondary' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
 				<cfelse>
 					 <cfset resulthtml = resulthtml & "<div class='deletestyle pb-1'><input type='button' class='disBtn btn btn-xs btn-secondary' value='Delete this Shipment'></div>">
 				</cfif>
