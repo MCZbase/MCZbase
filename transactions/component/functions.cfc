@@ -214,10 +214,12 @@ limitations under the License.
 				</cfif>
 					<cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
 		</cfloop> <!--- theResult --->
-					<cfset resulthtml = resulthtml & "</div>"><!--- shipments div --->
+					
 		<cfif theResult.recordcount eq 0>
 			 <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
+
 		</cfif>
+			<cfset resulthtml = resulthtml & "</div>"><!--- shipments div --->
 	<cfcatch>
 		 <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
 	</cfcatch>
