@@ -82,7 +82,7 @@ limitations under the License.
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
            select distinct
                media.media_id as media_id,
-               media.preview_uri as preview_uri,
+               media.preview_uri,
                media.media_uri,
                media.mime_type,
                media.media_type as media_type,
@@ -98,8 +98,7 @@ limitations under the License.
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
-			<cfset puri="">
-		<!---	<cfset puri=getMediaPreview(preview_uri,media_type) >--->
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
 			<cfif puri EQ "/shared/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
@@ -188,8 +187,7 @@ limitations under the License.
 					</cfquery>
 					<cfset mediaLink = "&##8855;">
 					<cfloop query="mediaQuery">
-						<cfset puri=''>
-				<!---		<cfset puri=getMediaPreview(preview_uri,media_type) >--->
+						<cfset puri=getMediaPreview(preview_uri,media_type) >
 						<cfif puri EQ "/images/documentNoThumb.png">
 							<cfset altText = "Red X in a red square, with text, no preview image available">
 						<cfelse>
