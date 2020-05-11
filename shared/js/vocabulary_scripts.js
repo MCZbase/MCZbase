@@ -41,6 +41,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			var guid = $('#'+inputControl).val();
 			$('#'+inputControl).attr("pattern",data[0].pattern_regex);
 			$('#'+inputControl).attr("placeholder",data[0].placeholder);
+			$('#'+inputControl).attr("title","Enter a guid in the form " +  data[0].placeholder);
 			var valid = false;
 			if (guid != "") { 
 				// validate input control content against the regex
