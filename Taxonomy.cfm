@@ -386,14 +386,14 @@
 				</select>
 			</td>
 			<td>
-				<label for="genus">Genus <span class="likeLink" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
+				<label for="genus">Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
 				<input size="25" name="genus" id="genus" maxlength="40" value="#gettaxa.genus#">
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<label for="species">Species <span class="likeLink"
-					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span></label>
+				<label for="species">Species<!--- <span class="likeLink"
+					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
 				<input size="25" name="species" id="species" maxlength="40" value="#gettaxa.species#">
 			</td>
 			<td>
@@ -1046,15 +1046,15 @@
 					</select>
 				</td>
 				<td>
-					<label for="genus">Genus <span class="likeLink"
+					<label for="genus">Genus <span class="likeLink botanical"
 						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
 					<input size="25" name="genus" id="genus" maxlength="40" value="#genus#">
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<label for="species">Species <span class="likeLink"
-						onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span></label>
+					<label for="species">Species<!---  <span class="likeLink"
+						onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
 					<input size="25" name="species" id="species" maxlength="40" value="#species#">
 				</td>
 				<td>
