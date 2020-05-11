@@ -248,7 +248,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" style="border: 1px solid blue;">
+			<td colspan="2" class="detailCell">
 				<label for="genus">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
@@ -256,10 +256,12 @@
 				<cfset replacement = "">
 				<cfset searchlink = "" >		
 				<cfset searchtext = "" >		
+				<cfset searchclass = "" >
 				<cfloop query="ctguid_type_taxon">
  					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >		
 						<cfset searchtext = "Search" >		
+						<cfset searchclass = 'class="smallBtn external"' >
 					</cfif>
 				</cfloop>
 				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
@@ -278,14 +280,14 @@
 						<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 					</cfloop>
 				</select>
-				<a href="#searchlink#" id="taxonid_search" target="_blank">#searchtext#</a>
+				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext#</a>
 				<input size="55" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 				<cfelse>
 					<cfset link = gettaxa.taxonid>
 				</cfif>
-				<a id="taxonid_link" href="#link#" target="_blank">#gettaxa.taxonid#</a>
+				<a id="taxonid_link" href="#link#" target="_blank" class="hints">#gettaxa.taxonid#</a>
 				<script>
 					$(document).ready(function () { 
 						$('##taxonid_guid_type').change(function () { 
@@ -309,7 +311,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" style="border: 1px solid blue;">
+			<td colspan="2" class="detailCell">
 				<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
@@ -317,10 +319,12 @@
 				<cfset replacement = "">
 				<cfset searchlink = "" >		
 				<cfset searchtext = "" >		
+				<cfset searchclass = "" >		
 				<cfloop query="ctguid_type_scientificname">
  					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >		
 						<cfset searchtext = "Search" >		
+						<cfset searchclass = 'class="smallBtn external"' >
 					</cfif>
 				</cfloop>
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
@@ -339,14 +343,14 @@
 						<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 					</cfloop>
 				</select>
-				<a href="#searchlink#" id="scientificnameid_search" target="_blank">#searchtext#</a>
+				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
 				<input size="55" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" placeholder="#placeholder#" pattern="#pattern#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
 				<cfelse>
 					<cfset link = gettaxa.scientificnameid>
 				</cfif>
-				<a id="scientificnameid_link" href="#link#" target="_blank">#gettaxa.scientificnameid#</a>
+				<a id="scientificnameid_link" href="#link#" target="_blank" class="hints">#gettaxa.scientificnameid#</a>
 				<script>
 					$(document).ready(function () { 
 						$('##scientificnameid_guid_type').change( function () { 
@@ -901,7 +905,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" style="border: 1px solid blue;">
+				<td colspan="2" class="detailCell">
 					<label for="genus">GUID for Taxon (dwc:taxonID)</label>
 					<cfset pattern = "">
 					<cfset placeholder = "">
@@ -909,10 +913,12 @@
 					<cfset replacement = "">
 					<cfset searchlink = "" >		
 					<cfset searchtext = "" >		
+					<cfset searchclass = "" >		
 					<cfloop query="ctguid_type_taxon">
 	 					<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 							<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >		
 							<cfset searchtext = "Search" >		
+							<cfset searchclass = 'class="smallBtn external"' >
 						</cfif>
 					</cfloop>
 					<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
@@ -931,10 +937,10 @@
 							<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 						</cfloop>
 					</select>
-					<a href="#searchlink#" id="taxonid_search" target="_blank">#searchtext#</a>
+					<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 					<input size="55" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#">
-					<a id="taxonid_link" href="" target="_blank"></a>
+					<a id="taxonid_link" href="" target="_blank" class="hints"></a>
 					<script>
 						$(document).ready(function () { 
 							$('##taxonid_guid_type').change(function () { 
@@ -962,7 +968,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" style="border: 1px solid blue;">
+				<td colspan="2" class="detailCell">
 					<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 					<cfset pattern = "">
 					<cfset placeholder = "">
@@ -970,10 +976,12 @@
 					<cfset replacement = "">
 					<cfset searchlink = "" >		
 					<cfset searchtext = "" >		
+					<cfset searchclass = "" >		
 					<cfloop query="ctguid_type_scientificname">
 	 					<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 							<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >		
 							<cfset searchtext = "Search" >		
+							<cfset searchclass = 'class="smallBtn external"' >
 						</cfif>
 					</cfloop>
 					<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
@@ -992,10 +1000,10 @@
 							<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 						</cfloop>
 					</select>
-					<a href="#searchlink#" id="scientificnameid_search" target="_blank">#searchtext#</a>
+					<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 					<input size="55" name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#">
-					<a id="scientificnameid_link" href="" target="_blank"></a>
+					<a id="scientificnameid_link" href="" target="_blank" class="hints"></a>
 					<script>
 						$(document).ready(function () { 
 							$('##scientificnameid_guid_type').change( function () { 
