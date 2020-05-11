@@ -101,7 +101,7 @@ limitations under the License.
 		<cfloop query="query">
 			<cfset puri=''>
 		<!---	<cfset puri=getMediaPreview(preview_uri,media_type) >--->
-			<cfif puri EQ "/images/noThumb.jpg">
+			<cfif puri EQ "/shared/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
 				<cfset altText = query.media_descriptor>
