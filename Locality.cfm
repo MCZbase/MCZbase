@@ -1240,7 +1240,7 @@ You deleted a collecting event.
 	<cfquery name="edGe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE geog_auth_rec 
 		SET 
-		source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#srcAuth#">
+		source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 		,valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
 	<cfif len(#continent_ocean#) gt 0>
 		,continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continent_ocean#">
