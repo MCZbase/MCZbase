@@ -223,7 +223,7 @@ limitations under the License.
 												<cfset number="">
 											</cfif>
 											<label for="number" class="data-entry-label">Number:</label>
-											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
+											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
 										</div>
 										<div class="col-12 col-md-6"> 
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
