@@ -73,7 +73,14 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			} else {
 				message = jqXHR.responseText;
 			}
-			messageDialog('Error:' + message ,'Error: ' + error);
+			if (message=="" && error =="") { 
+				// Case of empty error when guid input is modal and save is pressed, closing page 
+				// and triggering empty error dialog briefly before page closes (at least on firefox)
+				// Pause 2 seconds, if page is still up, display a dialog.
+				setTimeout( messageDialog('Error:','Error: Something went wrong looking checking the GUID.'), 2000);
+			} else { 
+			   messageDialog('Error:' + message ,'Error: ' + error);
+			}
 		}
 	});
 };
