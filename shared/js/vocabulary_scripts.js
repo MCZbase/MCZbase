@@ -76,8 +76,8 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			if (message=="" && error =="") { 
 				// Case of empty error when guid input is modal and save is pressed, closing page 
 				// and triggering empty error dialog briefly before page closes (at least on firefox)
-				// Pause 2 seconds, if page is still up, display a dialog.
-				setTimeout( messageDialog('Error:','Error: Something went wrong looking checking the GUID.'), 2000);
+				console.log(status);
+				console.log("ajax request for getGuidTypeInfo failed with no error or message");
 			} else { 
 			   messageDialog('Error:' + message ,'Error: ' + error);
 			}
