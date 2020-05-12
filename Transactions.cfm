@@ -522,7 +522,7 @@ limitations under the License.
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#">
-													<div class="input-group-append"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
+													<div class="input-group-append" aria-label="pick a permit"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-controls="pick and match">Pick</span> </div>
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
