@@ -233,8 +233,8 @@
    where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientificnameid_guid_type#">
 </cfquery>
 <cfset scientificnameidlink = "">
-<cfif len(one.scientificnameid) GT 0 AND ctguid_type_taxon.recordcount GT 0 >
-	<cfset scientificnameidlink =  REReplace(one.scientificnameid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
+<cfif len(one.scientificnameid) GT 0 AND ctguid_type_scientificname.recordcount GT 0 >
+	<cfset scientificnameidlink =  REReplace(one.scientificnameid,ctguid_type_scientificname.resolver_regex,ctguid_type_scientificname.resolver_replacement)>
 </cfif>
 <cfoutput>
 	<script>
