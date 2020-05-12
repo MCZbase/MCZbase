@@ -260,7 +260,11 @@
 				<cfloop query="ctguid_type_taxon">
  					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >		
-						<cfset searchtext = "Search" >		
+						<cfif len(gettaxa.taxonid) GT 0>
+							<cfset searchtext = "Replace GUID" >		
+						<cfelse>
+							<cfset searchtext = "Find GUID" >		
+						</cfif>
 						<cfset searchclass = 'class="smallBtn external"' >
 					</cfif>
 				</cfloop>
@@ -325,7 +329,11 @@
 				<cfloop query="ctguid_type_scientificname">
  					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >		
-						<cfset searchtext = "Search" >		
+						<cfif len(gettaxa.scientificnameid) GT 0>
+							<cfset searchtext = "Replace GUID" >		
+						<cfelse>
+							<cfset searchtext = "Find GUID" >		
+						</cfif>
 						<cfset searchclass = 'class="smallBtn external"' >
 					</cfif>
 				</cfloop>
@@ -923,7 +931,7 @@
 					<cfloop query="ctguid_type_taxon">
 	 					<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 							<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >		
-							<cfset searchtext = "Search" >		
+							<cfset searchtext = "Find GUID" >		
 							<cfset searchclass = 'class="smallBtn external"' >
 						</cfif>
 					</cfloop>
@@ -988,7 +996,7 @@
 					<cfloop query="ctguid_type_scientificname">
 	 					<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 							<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >		
-							<cfset searchtext = "Search" >		
+							<cfset searchtext = "Find GUID" >		
 							<cfset searchclass = 'class="smallBtn external"' >
 						</cfif>
 					</cfloop>
