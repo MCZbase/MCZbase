@@ -291,6 +291,8 @@
 				<script>
 					$(document).ready(function () { 
 						$('##taxonid_guid_type').change(function () { 
+							// On selecting a guid_type, remove an existing guid value.
+							$('##taxonid').val("");
 							// On selecting a guid_type, change the pattern.
 							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 						});
@@ -356,6 +358,8 @@
 				<script>
 					$(document).ready(function () { 
 						$('##scientificnameid_guid_type').change( function () { 
+							// On selecting a guid_type, remove an existing guid value.
+							$('##scientificnameid').val("");
 							// On selecting a guid_type, change the pattern.
 							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 						});
@@ -946,6 +950,8 @@
 					<script>
 						$(document).ready(function () { 
 							$('##taxonid_guid_type').change(function () { 
+								// On selecting a guid_type, remove an existing guid value.
+								$('##taxonid').val("");
 								// On selecting a guid_type, change the pattern.
 								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 							});
@@ -1011,6 +1017,8 @@
 					<script>
 						$(document).ready(function () { 
 							$('##scientificnameid_guid_type').change( function () { 
+								// On selecting a guid_type, remove an existing guid value.
+								$('##scientificnameid').val("");
 								// On selecting a guid_type, change the pattern.
 								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 							});
