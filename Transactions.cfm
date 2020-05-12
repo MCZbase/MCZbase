@@ -200,7 +200,7 @@ limitations under the License.
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-								<h2 class="h3 card-title px-0 mx-1 mb-0">Search All Transactions</h2>
+								<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions</h2>
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
