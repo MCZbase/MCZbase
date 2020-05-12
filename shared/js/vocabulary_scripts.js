@@ -60,7 +60,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			$('#'+searchControl).attr("href",data[0].search_uri + encodeURIComponent(searchText)); 
 			if (searchText && searchText.length > 0) { 
 				if (guid.length > 0) { 
-					$('#'+searchControl).html("Replace GUID"); 
+					$('#'+searchControl).html("Replace"); 
 				} else { 
 					$('#'+searchControl).html("Find GUID"); 
 				}

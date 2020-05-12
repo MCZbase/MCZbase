@@ -261,7 +261,7 @@
  					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >		
 						<cfif len(gettaxa.taxonid) GT 0>
-							<cfset searchtext = "Replace GUID" >		
+							<cfset searchtext = "Replace" >		
 						<cfelse>
 							<cfset searchtext = "Find GUID" >		
 						</cfif>
@@ -330,7 +330,7 @@
  					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >		
 						<cfif len(gettaxa.scientificnameid) GT 0>
-							<cfset searchtext = "Replace GUID" >		
+							<cfset searchtext = "Replace" >		
 						<cfelse>
 							<cfset searchtext = "Find GUID" >		
 						</cfif>
@@ -354,7 +354,7 @@
 					</cfloop>
 				</select>
 				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
-				<input size="56" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" 
+				<input size="54" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 				<cfif len(regex) GT 0 >
@@ -1018,7 +1018,7 @@
 					</select>
 					<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
 					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-					<input size="56" name="scientificnameid" id="scientificnameid" value=""
+					<input size="54" name="scientificnameid" id="scientificnameid" value=""
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 					<a id="scientificnameid_link" href="" target="_blank" class="hints"></a>

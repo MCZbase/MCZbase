@@ -473,7 +473,7 @@ function opendialogrank(page,id,title,agentId) {
 				 					<cfif person.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
 										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(person.first_name & ' ' & trim(person.middle_name & ' ' & person.last_name))),'+','%20') >		
 										<cfif len(person.agentguid) GT 0>
-											<cfset searchtext = "Replace GUID" >		
+											<cfset searchtext = "Replace" >		
 										<cfelse>
 											<cfset searchtext = "Find GUID" >		
 										</cfif>
