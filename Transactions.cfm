@@ -229,8 +229,8 @@ limitations under the License.
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
 											<label for="status" class="data-entry-label">Status:</label>
-											<select name="status" id="status" class="data-entry-select" aria-label="Status" >
-												<option value=""></option>
+											<select name="status" id="status" class="data-entry-select">
+												<option aria-labelledby="status" value=""></option>
 												<cfloop query="ctStatus">
 													<cfif pstatus eq ctStatus.status>
 														<cfset selected="selected">
