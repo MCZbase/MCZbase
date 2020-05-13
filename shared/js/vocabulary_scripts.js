@@ -54,6 +54,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			console.log(newlink);
 			if (valid===true) { 
 				// update link
+				$('#'+linkControl).show(); 
 				$('#'+linkControl).attr("href",newlink); 
 				$('#'+linkControl).html(guid); 
 				// hide input
