@@ -110,20 +110,18 @@ limitations under the License.
 			<div class="col-10">
 				<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
 					<div class="row">
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-8">
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item">
 									<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
 								</li>
 								<li class="list-group-item"><a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;"><b>Display all matches?</b></a></li>
-								<li>
+								<li  class="list-group-item">
 									<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
-								</li>
-								<li class="list-group-item"><a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;"><b>Display only taxa currently accepted for identification?</b></a></li>
+							<a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;"><b>Display only taxa currently accepted for identification?</b></a></li>
 								<li class="list-group-item">
 									<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
-								</li>
-								<li class="list-group-item"><a href="javascript:void(0)" onClick="taxa.we_have_some.checked=true;"><b>Find only taxa for which specimens exist?</b></a></li>
+							<a href="javascript:void(0)" onClick="taxa.we_have_some.checked=true;"><b>Find only taxa for which specimens exist?</b></a></li>
 								<cfif isdefined("session.username") and #session.username# is "gordon">
 									<script type="text/javascript" language="javascript">
 										document.getElementById('we_have_some').checked=false;
@@ -131,10 +129,7 @@ limitations under the License.
 								</cfif>
 								</li>
 							</ul>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-12 col-md-12">
+				
 							<div class="form-row">
 								<div class="form-group col-md-2">
 									<label for="common_name">Common Name</label>
