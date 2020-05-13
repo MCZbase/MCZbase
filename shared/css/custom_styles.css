@@ -248,6 +248,9 @@ BELOW: Main button (bootstrap override)
 .btn-warning:hover {
 	border: 1px solid hsl(0, 2%, 47%);
 }
+.btn-warning.focus, .btn-warning:focus {
+	box-shadow: 0 0 0 0 transparent;
+}
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
