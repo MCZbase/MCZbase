@@ -220,6 +220,7 @@ limitations under the License.
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
+			<cftry>
 	<cfset title="Edit Taxonomy">
 	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -241,6 +242,16 @@ limitations under the License.
 		<cfset hasTaxonID = false>
 	</cfif>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
+			<cfcatch>
+				<!--- Report any exceptions thrown in setting up the page --->
+				<h2>Error: #cfcatch.message#</h2>
+				<cfif cfcatch.detail NEQ ''>
+#cfcatch.detail#
+				</cfif>
+				<cfabort>
+				<!--- Stop processing page, don't display form with data --->
+			</cfcatch>
+				</cftry>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
 	<table class="tInput">
 		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
@@ -498,8 +509,8 @@ limitations under the License.
 				<label for="kingdom">Kingdom</label>
 				<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
 			</td>
-			<td>
-				&nbsp;
+			<td>&nbsp;
+				
 			</td>
 		</tr>
 		<tr id="phylum_row">
@@ -1174,8 +1185,8 @@ limitations under the License.
 					<label for="kingdom">Kingdom</label>
 					<input type="text" name="kingdom" id="kingdom" value="#kingdom#" size="30">
 				</td>
-			<td>
-				&nbsp;
+			<td>&nbsp;
+				
 			</td>
 		</tr>
 		<tr id="phylum_row">
