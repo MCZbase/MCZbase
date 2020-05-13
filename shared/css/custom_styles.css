@@ -162,7 +162,7 @@ BELOW: Small Form button (bootstrap override)
 	border: 1px solid transparent;
 	padding: .25em .5em;
 	font-size: .95em;
-	line-height: 1;
+	line-height: 1em;
 	border-radius: .25rem;
 	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
