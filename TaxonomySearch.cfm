@@ -95,7 +95,7 @@ limitations under the License.
 </script>
 
 <cfoutput>
-	<div class="container-fluid">
+	<div class="container-fluid mb-5">
 		<div class="row">
 			<div class="col-12 col-md-11 offset-md-1 mt-2">
 				<h2>Search Taxonomy <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Search_Taxonomy')" aria-label="help link"></i></h2>
@@ -262,10 +262,10 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<input type="submit" value="Search" class="schBtn">
-				<input type="reset" value="Clear Form" class="clrBtn">
+				<input type="submit" value="Search" class="schBtn btn btn-primary">
+				<input type="reset" value="Clear Form" class="clrBtn btn btn-warning">
 				<input type="hidden" name="action" value="search">
-				<div> Note: This form will not return >1000 records; you may need to narrow your search to return all relevant matches. </div>
+				<div class="float-left"> Note: This form will not return >1000 records; you may need to narrow your search to return all relevant matches. </div>
 			</div>
 			</div>
 		</form>
