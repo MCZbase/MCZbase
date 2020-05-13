@@ -164,13 +164,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="subspecies" placeholder="subspecies">
 									 </div>
 								<div class="form-group col-md-2">
-									<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
-									<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
-										<option></option>
-										<cfloop query="ctnomenclatural_code">
-											<option value="#nomenclatural_code#">#nomenclatural_code#</option>
-										</cfloop>
-									</select>
+								
 								</div>
 								<div class="form-group col-md-2">
 								
@@ -243,7 +237,16 @@ limitations under the License.
 									 </div>
 							</div>
 							<div class="form-row">
-								<div class="form-group col-md-6">
+										<div class="form-group col-md-4">
+									<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
+									<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
+										<option></option>
+										<cfloop query="ctnomenclatural_code">
+											<option value="#nomenclatural_code#">#nomenclatural_code#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="form-group col-md-4">
 									<label for="source_authority" class="data-entry-label">Authority</label>
 									<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
 										<option></option>
@@ -252,6 +255,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
+								
 								<div class="form-group col-md-4">
 									<label for="taxon_status" class="data-entry-label">Taxon Status</label>
 									<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
