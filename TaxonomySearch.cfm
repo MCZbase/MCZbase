@@ -262,10 +262,11 @@ limitations under the License.
 						</select>
 					</div>
 				</div>
-				<input type="submit" value="Search" class="schBtn btn btn-primary">
-				<input type="reset" value="Clear Form" class="clrBtn btn btn-warning">
+					<div class=""><p class="small"> Note: This form will not return >1000 records; you may need to narrow your search to return all relevant matches.</p> </div>
+				<input type="submit" value="Search" class="schBtn btn btn-primary btn-xs mr-2">
+				<input type="reset" value="Clear Form" class="clrBtn btn btn-xs btn-warning">
 				<input type="hidden" name="action" value="search">
-				<div class="float-left"> Note: This form will not return >1000 records; you may need to narrow your search to return all relevant matches. </div>
+			
 			</div>
 			</div>
 		</form>
