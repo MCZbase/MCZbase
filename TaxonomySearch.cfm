@@ -95,14 +95,14 @@ limitations under the License.
 </script>
 
 <cfoutput>
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
 				<h2>Search Taxonomy <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Search_Taxonomy')" aria-label="help link"></i></h2>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-2">
+			<div class="col-12 col-md-3 offset-md-1">
 				<p>Search the taxonomy used in MCZbase for:	Common names, Synonymies, Taxa used for current identifications, Taxa used as authorities for future identifications, Taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 				<p>These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 				<p>Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
@@ -111,19 +111,19 @@ limitations under the License.
 				<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
 					<div class="row">
 						<div class="col-12 col-md-6">
-							<ul>
-								<li>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">
 									<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
 								</li>
-								<li><a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;"><b>Display all matches?</b></a></li>
+								<li class="list-group-item"><a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;"><b>Display all matches?</b></a></li>
 								<li>
 									<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
 								</li>
-								<li><a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;"><b>Display only taxa currently accepted for identification?</b></a></li>
-								<li>
+								<li class="list-group-item"><a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;"><b>Display only taxa currently accepted for identification?</b></a></li>
+								<li class="list-group-item">
 									<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
 								</li>
-								<li><a href="javascript:void(0)" onClick="taxa.we_have_some.checked=true;"><b>Find only taxa for which specimens exist?</b></a></li>
+								<li class="list-group-item"><a href="javascript:void(0)" onClick="taxa.we_have_some.checked=true;"><b>Find only taxa for which specimens exist?</b></a></li>
 								<cfif isdefined("session.username") and #session.username# is "gordon">
 									<script type="text/javascript" language="javascript">
 										document.getElementById('we_have_some').checked=false;
