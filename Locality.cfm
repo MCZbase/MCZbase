@@ -372,7 +372,7 @@
 					<cfset searchtext = "" >		
 					<cfset searchclass = "" >
 					<cfloop query="ctguid_type_highergeography">
-	 					<cfif tguid_type_highergeography.recordcount EQ 1 >
+	 					<cfif ctguid_type_highergeography.recordcount EQ 1 >
 							<cfset searchtext = "Find GUID" >		
 							<cfset searchclass = 'class="smallBtn external"' >
 						</cfif>
