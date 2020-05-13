@@ -119,7 +119,7 @@ limitations under the License.
 							<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
 							
 								<div class="row mx-2">
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-xl-3">
 										<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Taxonomy</h2>
 										<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 										<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
@@ -143,7 +143,7 @@ limitations under the License.
 												</li>
 											</ul>
 									</div>
-									<div class="col-12 col-md-8">
+									<div class="col-12 col-xl-8">
 											<div class="col-12">
 												<p class="small text-success">Add equals sign for exact match where (=) is in the label.</p>
 											</div>
@@ -161,7 +161,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input" id="author_text" placeholder="author text">
 											</div>
 											<div class="col-md-2">
-												<label for="infraspecific_author" class="data-entry-label">Infraspecific Author <span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
+												<label for="infraspecific_author" class="data-entry-label">Infraspec. Author <span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
 											</div>
 												<div class="col-md-2">
