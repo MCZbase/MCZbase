@@ -243,6 +243,7 @@ BELOW: Main button (bootstrap override)
 }
 .btn-warning {
 	border: 1px solid hsl(0, 2%, 47%);
+	background-color:  #e6b41cc4;
 }
 .btn-warning:hover {
 	border: 1px solid hsl(0, 2%, 47%);
