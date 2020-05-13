@@ -107,15 +107,14 @@ limitations under the License.
 				<p>These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 				<p>Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
 			</div>
-			<div class="col-10">
+			<div class="col-8">
 				<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
 					<div class="row">
 						<div class="col-12 col-md-8">
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item">
 									<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
-								</li>
-								<li class="list-group-item"><a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;"><b>Display all matches?</b></a></li>
+								<a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;"><b>Display all matches?</b></a></li>
 								<li  class="list-group-item">
 									<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
 							<a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;"><b>Display only taxa currently accepted for identification?</b></a></li>
