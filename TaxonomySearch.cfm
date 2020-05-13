@@ -107,7 +107,7 @@ limitations under the License.
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link " id="all-tab" data-toggle="tab" href="##one" role="tab" aria-controls="All Transactions" aria-selected="true" >Taxonomy</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="all-tab" data-toggle="tab" href="##one" role="tab" aria-controls="All Transactions" aria-selected="true" >Taxonomy</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Taxonomy Search')" aria-label="help link"></i></li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
