@@ -126,13 +126,13 @@ limitations under the License.
 										<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
 										<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
 											<ul class="list-group list-group-flush">
-												<li class="list-group-item">
+												<li class="list-group-item pb-0">
 													<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
 													<a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;">Display all matches?</a></li>
-												<li  class="list-group-item"> <a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;">
+												<li  class="list-group-item pb-0"> <a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;">
 													<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
 													Display only taxa currently accepted for identification?</a></li>
-												<li class="list-group-item">
+												<li class="list-group-item pb-0">
 													<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
 													<a href="javascript:void(0)" class="smaller-text" onClick="taxa.we_have_some.checked=true;">Find only taxa for which specimens exist?</a></li>
 												<cfif isdefined("session.username") and #session.username# is "gordon">
