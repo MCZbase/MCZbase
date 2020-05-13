@@ -128,15 +128,15 @@ limitations under the License.
 				</div>
 			<div class="col-12 col-md-8">
 							<div class="form-row">
-								<div><p>Add equals symbol for exact match where (=) is in the label.</p></div>
+								<div class="col-12"><p class="small">Add equals symbol for exact match where (=) is in the label.</p></div>
 								<div class="form-group col-md-2">
 									<label for="common_name" class="data-entry-label">Common Name</label>
 									<input type="text" class="data-entry-input" id="common_name" placeholder="common name" aria-label="common name">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="taxonomic_scientific_name" class="data-entry-label">Scientific Name</label>
+									<label for="taxonomic_scientific_name" class="data-entry-label">Scientific Name <span class="small" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;">(=) </span></label>
 									<input type="text" class="data-entry-input" id="scientific_name" placeholder="scientific name">
-									<span class="small" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
 									<label for="full_taxon_name" class="data-entry-label">Any Category</label>
 									<input type="text" class="data-entry-input" id="full_taxon_name" placeholder="Any Category">
