@@ -102,40 +102,22 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-lg-11">
-					<h1 class="h3 smallcaps my-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+					<h1 class="h3 smallcaps my-1 pl-1">Search Taxonomy <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 pb-2 tab-card"> 
-						
-						<!--- Set Active Tab --->
-<!---						<cfswitch expression="#action#">
-							<cfcase value="findLoans">
-							<cfset allTabActive = "">
-							<cfset loanTabActive = "active">
-							<cfset allTabShow = "">
-							<cfset loanTabShow = "show">
-							</cfcase>
-							<cfdefaultcase>
-							<cfset allTabActive = "active">
-							<cfset loanTabActive = "">
-							<cfset allTabShow = "show">
-							<cfset loanTabShow = "">
-							</cfdefaultcase>
-						</cfswitch>
-						--->
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link " id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All Transactions" aria-selected="true" >All</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></li>
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loan tab" aria-selected="false" >Loans</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link " id="all-tab" data-toggle="tab" href="##one" role="tab" aria-controls="All Transactions" aria-selected="true" > &nbsp;</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
 								
 											
 						<!--- Tab content div --->
-						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
-							<!--- All Transactions search tab panel --->
-							<div class="tab-pane fade py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-								<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions</h2>
+						<div class="tab-content pb-0" id="myTabContent">
+							<!---Keyword Search--->
+							<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
+								<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Taxonomy</h2>
 								<div class="row">
 									<div class="col-12 col-md-3 offset-md-1">
 										<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
