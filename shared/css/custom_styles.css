@@ -1370,8 +1370,9 @@ input::placeholder {
     width: 100%;
     font-size: .85em;
     line-height: .85em;
+	padding: .25em .5em;
  /*   height: calc(.9em + .8em + 3px);
-    padding: 0 .5em .25em .5em;*/
+    */
     color: rgba(0, 0, 0, .8);
     border: 1px solid #ced4da;
     background-clip: padding-box;
