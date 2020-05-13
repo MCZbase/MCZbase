@@ -165,7 +165,7 @@ limitations under the License.
 									 </div>
 								<div class="form-group col-md-2">
 									<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
-									<select name="nomenclatural_code" class="data-entry-select custom-select1" id="nomenclatural_code">
+									<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
 										<option></option>
 										<cfloop query="ctnomenclatural_code">
 											<option value="#nomenclatural_code#">#nomenclatural_code#</option>
@@ -182,7 +182,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
 									 </div>
 								<div class="form-group col-md-2">
-									<label for="phylum" class="data-entry-label">Phylum 	<span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
+									<label for="phylum" class="data-entry-label">Phylum <span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="phylum" placeholder="phylum">
 								 </div>
 								<div class="form-group col-md-2">
@@ -243,18 +243,18 @@ limitations under the License.
 									 </div>
 							</div>
 							<div class="form-row">
-								<div class="form-group col-md-4">
-									<label for="source_authority">Authority</label>
-									<select name="source_authority" id="source_authority" size="1">
+								<div class="form-group col-md-6">
+									<label for="source_authority" class="data-entry-label">Authority</label>
+									<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
 										<option></option>
 										<cfloop query="CTTAXONOMIC_AUTHORITY">
 											<option value="#source_authority#">#source_authority#</option>
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group col-md-3">
-									<label for="taxon_status">Taxon Status</label>
-									<select name="taxon_status" id="taxon_status" size="1">
+								<div class="form-group col-md-4">
+									<label for="taxon_status" class="data-entry-label">Taxon Status</label>
+									<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
 										<option></option>
 										<cfloop query="cttaxon_status">
 											<option value="#taxon_status#">#taxon_status#</option>
