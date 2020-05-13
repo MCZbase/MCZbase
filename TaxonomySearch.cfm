@@ -119,7 +119,7 @@ limitations under the License.
 							<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
 							
 								<div class="row mx-2">
-									<div class="col-12 col-xl-3">
+									<div class="col-12 col-xl-4">
 										<h2 class="h3 card-title px-0 mx-1 mb-0">Search All Taxonomy</h2>
 										<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 										<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
