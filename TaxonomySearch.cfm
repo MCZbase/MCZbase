@@ -107,7 +107,7 @@ limitations under the License.
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link " id="all-tab" data-toggle="tab" href="##one" role="tab" aria-controls="All Transactions" aria-selected="true" > &nbsp;</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link " id="all-tab" data-toggle="tab" href="##one" role="tab" aria-controls="All Transactions" aria-selected="true" >Search All Taxonomy</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
@@ -118,7 +118,7 @@ limitations under the License.
 							<!---Keyword Search--->
 							<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
 							
-								<div class="row">
+								<div class="row mx-2">
 									<div class="col-12 col-md-3">
 										<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Taxonomy</h2>
 										<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
@@ -143,7 +143,7 @@ limitations under the License.
 												</li>
 											</ul>
 									</div>
-									<div class="col-12 col-md-8 mb-5">
+									<div class="col-12 col-md-8">
 										<div class="form-row">
 											<div class="col-12">
 												<p class="small text-success">Add equals sign for exact match where (=) is in the label.</p>
