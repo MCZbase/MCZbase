@@ -125,7 +125,7 @@ limitations under the License.
 										<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 										<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
 										<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
-											<ul class="list-group list-group-flush pb-4">
+											<ul class="list-group list-group-flush pb-3">
 												<li class="list-group-item pb-0">
 													<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
 													<a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;">Display all matches?</a></li>
@@ -161,7 +161,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input" id="author_text" placeholder="author text">
 											</div>
 											<div class="col-md-2">
-												<label for="infraspecific_author" class="data-entry-label">Infraspec. Author <span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
+												<label for="infraspecific_author" class="data-entry-label">Infra. Author <span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
 											</div>
 												<div class="col-md-2">
