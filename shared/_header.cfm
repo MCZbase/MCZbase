@@ -250,7 +250,7 @@ limitations under the License.
 						<a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
 						<a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
 						<a class="dropdown-item" aria-label="agent search" name="agents" href="##">Agents</a>
-						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="##">Taxonomy</a>
+						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
