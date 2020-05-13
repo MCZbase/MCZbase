@@ -169,7 +169,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input" id="common_name" placeholder="common name" aria-label="common name">
 											</div>
 										</div>
-										<div class="form-row">
+										<div class="form-row mt-2">
 											<div class="form-group col-md-2">
 												<label for="genus" class="data-entry-label">Genus <span class="small text-success" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="genus" placeholder="genus">
@@ -185,75 +185,75 @@ limitations under the License.
 											<div class="form-group col-md-2"> </div>
 											<div class="form-group col-md-2"> </div>
 										</div>
-										<div class="form-row">
-											<div class="form-group col-md-2">
+										<div class="form-row mb-1">
+											<div class="col-md-2">
 												<label for="genus" class="data-entry-label">Kingdom <span class="small text-success" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
 												<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="phylum" class="data-entry-label">Phylum <span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="phylum" placeholder="phylum">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="subphylum" class="data-entry-label">Subphylum</label>
 												<input type="small" class="data-entry-input" id="subphylum" placeholder="subphylum">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="superclass" class="data-entry-label">Superclass</label>
 												<input type="small" class="data-entry-input" id="superclass" placeholder="superclass">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="phylclass" class="data-entry-label">Class <span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="phylclass" placeholder="phylclass">
 											</div>
-													<div class="form-group col-md-2">
+													<div class="col-md-2">
 												<label for="subclass" class="data-entry-label">Subclass <span class="small text-success" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
 												<input type="text" class="data-entry-input" id="subclass" placeholder="subclass">
 											</div>
 										</div>
-										<div class="form-row">
+										<div class="form-row mb-1">
 									
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="superorder" class="data-entry-label">Superorder</label>
 												<input type="text" class="data-entry-input" id="superorder" placeholder="superorder">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="phylorder" class="data-entry-label">Order <span class="small text-success" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="phylorder" placeholder="phylorder">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="suborder" class="data-entry-label">Suborder <span class="small text-success" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="suborder" placeholder="suborder">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="infraorder" class="data-entry-label">Infraorder <span class="small text-success" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="infraorder" placeholder="infraorder">
 											</div>
 										</div>
-										<div class="form-row">
-											<div class="form-group col-md-2">
+										<div class="form-row mb-1">
+											<div class="col-md-2">
 												<label for="superfamily" class="data-entry-label">Superfamily</label>
 												<input type="text text-success" class="data-entry-input" id="superfamily" placeholder="superfamily">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="subphylum" class="data-entry-label">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="family" placeholder="family">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="subfamily" class="data-entry-label">Subfamily <span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="subfamily" placeholder="subfamily">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="tribe" class="data-entry-label">Tribe <span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="tribe" placeholder="tribe">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="subgenus" class="data-entry-label">Subgenus <span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
 											</div>
 										</div>
-										<div class="form-row">
-											<div class="form-group col-md-2">
+										<div class="form-row mb-2">
+											<div class="col-md-2">
 												<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
 												<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
 													<option></option>
@@ -262,7 +262,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="form-group col-md-4">
+											<div class="col-md-4">
 												<label for="source_authority" class="data-entry-label">Authority</label>
 												<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
 													<option></option>
@@ -271,7 +271,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="taxon_status" class="data-entry-label">Taxon Status</label>
 												<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
 													<option></option>
