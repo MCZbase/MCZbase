@@ -212,6 +212,13 @@ function opendialogrank(page,id,title,agentId) {
 			<a id="agentguid_link" href="" target="_blank" class="hints"></a>
 			<script>
 				$(document).ready(function () { 
+					if ($('##agentguid').val().length > 0) {
+						$('##agentguid').hide();
+					}
+					$('##agentguid_search').click(function () { 
+						$('##agentguid').show();
+						$('##agentguid_link').hide();
+					});
 					$('##agentguid_guid_type').change(function () { 
 						// On selecting a guid_type, remove an existing guid value.
 						$('##agentguid').val("");
@@ -508,6 +515,13 @@ function opendialogrank(page,id,title,agentId) {
 								<a id="agentguid_link" href="#link#" target="_blank" class="hints">#agentguid#</a>
 								<script>
 									$(document).ready(function () { 
+										if ($('##agentguid').val().length > 0) {
+											$('##agentguid').hide();
+										}
+										$('##agentguid_search').click(function () { 
+											$('##agentguid').show();
+											$('##agentguid_link').hide();
+										});
 										$('##agentguid_guid_type').change(function () { 
 											// On selecting a guid_type, remove an existing guid value.
 											$('##agentguid').val("");

@@ -297,15 +297,16 @@
 						if ($('##taxonid').val().length > 0) {
 							$('##taxonid').hide();
 						}
+						$('##taxonid_search').click(function () { 
+							$('##taxonid').show();
+							$('##taxonid_link').hide();
+						});
 						$('##taxonid_guid_type').change(function () { 
 							// On selecting a guid_type, remove an existing guid value.
 							$('##taxonid').val("");
 							$('##taxonid').show();
 							// On selecting a guid_type, change the pattern.
 							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-						});
-						$('##taxonid_link').click(function () { 
-							$('##taxonid').show();
 						});
 						$('##taxonid').blur( function () { 
 							// On loss of focus for input, validate against the regex, update link
@@ -372,6 +373,13 @@
 				<a id="scientificnameid_link" href="#link#" target="_blank" class="hints">#gettaxa.scientificnameid#</a>
 				<script>
 					$(document).ready(function () { 
+						if ($('##scientificnameid').val().length > 0) {
+							$('##scientificnameid').hide();
+						}
+						$('##scientificnameid_search').click(function () { 
+							$('##scientificnameid').show();
+							$('##scientificnameid_link').hide();
+						});
 						$('##scientificnameid_guid_type').change( function () { 
 							// On selecting a guid_type, remove an existing guid value.
 							$('##scientificnameid').val("");
@@ -964,6 +972,13 @@
 					<a id="taxonid_link" href="" target="_blank" class="hints"></a>
 					<script>
 						$(document).ready(function () { 
+							if ($('##taxonid').val().length > 0) {
+								$('##taxonid').hide();
+							}
+							$('##taxonid_search').click(function () { 
+								$('##taxonid').show();
+								$('##taxonid_link').hide();
+							});
 							$('##taxonid_guid_type').change(function () { 
 								// On selecting a guid_type, remove an existing guid value.
 								$('##taxonid').val("");
@@ -1031,6 +1046,13 @@
 					<a id="scientificnameid_link" href="" target="_blank" class="hints"></a>
 					<script>
 						$(document).ready(function () { 
+							if ($('##scientificnameid').val().length > 0) {
+								$('##scientificnameid').hide();
+							}
+							$('##scientificnameid_search').click(function () { 
+								$('##scientificnameid').show();
+								$('##scientificnameid_link').hide();
+							});
 							$('##scientificnameid_guid_type').change( function () { 
 								// On selecting a guid_type, remove an existing guid value.
 								$('##scientificnameid').val("");
