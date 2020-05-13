@@ -106,7 +106,7 @@ limitations under the License.
 					<div class="tab-card-main mt-1 pb-2 tab-card"> 
 						
 						<!--- Set Active Tab --->
-						<cfswitch expression="#action#">
+<!---						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
 							<cfset allTabActive = "">
 							<cfset loanTabActive = "active">
@@ -120,7 +120,7 @@ limitations under the License.
 							<cfset loanTabShow = "">
 							</cfdefaultcase>
 						</cfswitch>
-						
+						--->
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
@@ -134,7 +134,7 @@ limitations under the License.
 						<!--- Tab content div --->
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
-							<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+							<div class="tab-pane fade  py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 								<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions</h2>
 								<div class="row">
 									<div class="col-12 col-md-3 offset-md-1">
