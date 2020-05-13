@@ -241,15 +241,37 @@ BELOW: Main button (bootstrap override)
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 }
+
 .btn-warning {
-	border: 1px solid hsl(0, 2%, 47%);
 	background-color:  #e8b721ba;
+	background: #e8b721ba;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+	margin-top: 0;
 }
 .btn-warning:hover {
+	background-color: #f1bd21;
+	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 }
-.btn-warning.focus, .btn-warning:focus {
-	box-shadow: 0 0 0 0 transparent;
+.btn-warning:focus, .btn-primary.focus {
+	background-color: #f1bd21;
+	color: #212529;
+	border: 1px solid hsl(0, 2%, 47%);
+	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+	box-shadow: none;
+}
+.btn-warning.disabled, .btn-primary:disabled {
+	background-color: #f1bd21;
+	color: #212529;
+	border: 1px solid hsl(0, 2%, 47%);
+	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
+	box-shadow: none;
+}
+.btn-warning:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+	background-color: #f1bd21;
+	color: #212529;
+	border: 1px solid hsl(0, 2%, 47%);
 }
 /************************
 *************************
