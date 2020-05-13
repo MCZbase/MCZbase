@@ -1457,6 +1457,7 @@ input::placeholder {
 	padding: .2em .35em;
 	font-weight: 500;
 }*/
+.smaller-text {font-size: 90%;}
 .border-fill { /* This is for each square on the data entry full form */
 	border: 1px solid #bac5c6 !important;
 	background-color: #fff;
