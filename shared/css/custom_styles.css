@@ -1059,6 +1059,9 @@ BELOW: Search Form - Home page
 	top: 12px;
 	margin: 0;
 }
+.input-group-append {
+	
+}
 .tab-card-main {
 	background-color: #f5f5f5;
 }

@@ -155,7 +155,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
 													<div class="col-md-3 col-sm-12 p-0 mx-1">
 														<label for="selectType" class="sr-only">Select type</label>
-														<select title="Select Type..." name="selectType" id="selectType" class="custom-select border d-flex">
+														<select title="Select Type..." name="selectType" id="selectType" class="custom-select1 form-control-sm border d-flex">
 															<option>Select Type...</option>
 															<optgroup label="Identifiers">
 																<option>MCZ Catalog (Collection)</option>
@@ -339,7 +339,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													</div>
 													<div class="col-md-2 col-sm-12 p-0 mx-1">
 														<label for="comparator" class="sr-only">Select Comparator</label>
-														<select title="Select Comparator..." name="comparator" id="comparator" class="custom-select border d-flex">
+														<select title="Select Comparator..." name="comparator" id="comparator" class="custom-select1 form-control-sm border d-flex">
 															<option>Compare with...</option>
 															<option label="contains" value="like">contains</option>
 															<option label="eq" value="eq">is</option>
@@ -347,7 +347,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													</div>
 													<div class="col p-0 mx-1">
 														<label for="srchTxt" class="sr-only">Search Text</label>
-														<input type="text" class="form-control d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
+														<input type="text" class="form-control-sm d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
 													</div>
 													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
 														<a aria-label="Add another set of search criteria" class="btn btn-primary addCF rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
@@ -368,7 +368,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							<div class="container">
 								<form id="searchForm3">
 									<div class="container">
-										<div class="form-group row">
+										<div class="form-row">
 												<label for="collmultiselect2" class="col-sm-2 col-form-label">Collection</label>
 												<div class="col-sm-10">
 													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple">
@@ -399,66 +399,66 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												</script>
 												</div>
 										</div>
-										<div class="form-group row">
+										<div class="form-row">
 											<label for="catalogNum" class="col-sm-2 col-form-label">Catalog Number</label>
 											<div class="col-sm-10">
-												<textarea id="catalogNum" type="text" rows="1" name="textarea" class="w-100 col-12 pl-0 p-2 border rounded float-left" placeholder="Catalog ##(s)"></textarea>
+												<input id="catalogNum" type="text" rows="1" name="cat_num" class="w-100 col-12 pl-0 p-2 border rounded float-left" placeholder="Catalog ##(s)"></input>
 										</div>
 										</div>
-										<div class="form-group row">
+										<div class="form-row">
 												<label for="otherID" class="col-sm-2 col-form-label">Other ID Type</label>
 												<div class="col-sm-10">
-													<select title="otherID" name="otherID" id="otherID" class="custom-select col-sm-12 text-muted border pl-2">
+													<select title="otherID" name="otherID" id="otherID" class="custom-select1 form-control-sm col-sm-12 text-muted border pl-2">
 														<option value="">Other ID Type</option>
 														<option value="Collector Number">Collector Number </option>
 														<option value="field number">Field Number</option>
 													</select>
 										</div>
 										</div>
-										<div class="form-group row">
+										<div class="form-row">
 							
 											<label for="otherIDnumber" class="col-sm-2 col-form-label">Other ID Text</label>
 											<div class="col-sm-10">
-												<input type="text" class="form-control" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
+												<input type="text" class="form-control-sm" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
 											</div>
 										</div>
-										<div class="form-group row">
+										<div class="form-row">
 											<label for="taxa" class="mb-1 col-sm-2 col-form-label">Any Taxonomy</label>
 											<div class="col-sm-10">
 												<input id="taxa" class="form-control" aria-label="any taxonomy" >
 											</div>
 										</div>
-										<div class="form-group row">
+										<div class="form-row">
 											<label for="geography" class="col-sm-2 col-form-label">Any Geography</label>
 											<div class="col-sm-10">
-												<input type="text" class="form-control" id="geography" aria-label="any geography">
+												<input type="text" class="form-control sm" id="geography" aria-label="any geography">
 											</div>
 										</div>
-										<div class="form-group row">
+										<div class="form-row">
 											<label for="collectors_prep" class="col-sm-2 col-form-label">Collectors/Preparators</label>
 											<div class="col-sm-10">
 												<input id="collectors_prep" type="text" class="form-control">
 											</div>
 										</div>
-										<div class="form-group row">
+										<div class="form-row">
 											<label for="part_name" class="col-sm-2 col-form-label">Part Name</label>
 											<div class="col-sm-10">
 												<input type="text" id="part_name" name="part_name" class="form-control">
 											</div>
 										</div>	
-										<div class="form-group row">
+										<div class="form-row">
 											<label for="place" class="col-sm-2 col-form-label">Loan Number</label>
 											<div class="col-sm-10">
 												<input type="text" name="place" class="form-control" id="place">
 											</div>
 										</div>
-										<div class="form-group row">
+										<div class="form-row">
 											<label class="col-sm-2 col-form-label" for="when">When Collected</label>
 											<div class="col-sm-10">
 												<input type="text" class="form-control" id="when">
 											</div>
 										</div>
-										<div class="form-group row mt-1">
+										<div class="form-row mt-1">
 											<label class="sr-only col-sm-2 position-col-form-label" for="submitbtn" style="position:static;">Submit button</label>
 											<div class="col-sm-10">
 											<button type="submit" class="btn btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
