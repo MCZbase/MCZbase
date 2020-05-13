@@ -128,6 +128,7 @@ limitations under the License.
 				</div>
 			<div class="col-12 col-md-8">
 							<div class="form-row">
+								<div><p>Add equals symbol for exact match where (=) is in the label.</p></div>
 								<div class="form-group col-md-2">
 									<label for="common_name" class="data-entry-label">Common Name</label>
 									<input type="text" class="data-entry-input" id="common_name" placeholder="common name" aria-label="common name">
@@ -141,27 +142,27 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="full_taxon_name" placeholder="Any Category">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="author_text" class="data-entry-label">Author Text</label>
+									<label for="author_text" class="data-entry-label">Author Text <span class="small" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> (=) </span> </label>
 									<input type="text" class="data-entry-input" id="author_text" placeholder="author text">
-									<span class="small" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> Add = for exact match </span> </div>
+									</div>
 								<div class="form-group col-md-2">
-									<label for="infraspecific_author" class="data-entry-label">Infraspecific Author</label>
+									<label for="infraspecific_author" class="data-entry-label">Infraspecific Author <span class="small" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
-									<span class="small" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="genus" class="data-entry-label">Genus</label>
+									<label for="genus" class="data-entry-label">Genus <span class="small" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="genus" placeholder="genus">
-									<span class="small" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
-									<label for="species" class="data-entry-label">Species</label>
+									<label for="species" class="data-entry-label">Species <span class="small" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</span> </label>
 									<input type="text" class="data-entry-input" id="species" placeholder="species">
-									<span class="small" onclick="var e=document.getElementById('species');e.value='='+e.value;"> Add = for exact match </span> </div>
+									</div>
 								<div class="form-group col-md-2">
-									<label for="subspecies" class="data-entry-label">Subspecies</label>
+									<label for="subspecies" class="data-entry-label">Subspecies <span class="small" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="subspecies" placeholder="subspecies">
-									<span class="small" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
 									<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
 									<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code" size="1">
@@ -177,13 +178,13 @@ limitations under the License.
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="genus" class="data-entry-label">Kingdom</label>
+									<label for="genus" class="data-entry-label">Kingdom <span class="small" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
 									<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
-									<span class="small" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
-									<label for="phylum" class="data-entry-label">Phylum</label>
+									<label for="phylum" class="data-entry-label">Phylum 	<span class="small" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="phylum" placeholder="phylum">
-									<span class="small" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> Add = for exact match </span> </div>
+								 </div>
 								<div class="form-group col-md-2">
 									<label for="subphylum" class="data-entry-label">Subphylum</label>
 									<input type="small" class="data-entry-input" id="subphylum" placeholder="subphylum">
@@ -193,53 +194,53 @@ limitations under the License.
 									<input type="small" class="data-entry-input" id="superclass" placeholder="superclass">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="phylclass" class="data-entry-label">Class</label>
+									<label for="phylclass" class="data-entry-label">Class 	<span class="small" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="phylclass" placeholder="phylclass">
-									<span class="small" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> Add = for exact match </span> </div>
+								 </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="subclass" class="data-entry-label">Subclass</label>
+									<label for="subclass" class="data-entry-label">Subclass <span class="small" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
 									<input type="text" class="data-entry-input" id="subclass" placeholder="subclass">
-									<span class="small" onclick="var e=document.getElementById('subclass');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
 									<label for="superorder" class="data-entry-label">Superorder</label>
 									<input type="text" class="data-entry-input" id="superorder" placeholder="superorder">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="phylorder" class="data-entry-label">Order</label>
+									<label for="phylorder" class="data-entry-label">Order <span class="small text-success" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="phylorder" placeholder="phylorder">
-									<span class="small" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
-									<label for="suborder" class="data-entry-label">Suborder</label>
+									<label for="suborder" class="data-entry-label">Suborder <span class="small text-success" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="suborder" placeholder="suborder">
-									<span class="small" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
-									<label for="infraorder" class="data-entry-label">Infraorder</label>
+									<label for="infraorder" class="data-entry-label">Infraorder <span class="small text-success" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="infraorder" placeholder="infraorder">
-									<span class="small" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
 									<label for="superfamily" class="data-entry-label">Superfamily</label>
-									<input type="text" class="data-entry-input" id="superfamily" placeholder="superfamily">
+									<input type="text text-success" class="data-entry-input" id="superfamily" placeholder="superfamily">
 								</div>
 								<div class="form-group col-md-2">
 									<label for="subphylum" class="data-entry-label">Family</label>
 									<input type="text" class="data-entry-input" id="family" placeholder="family">
-									<span class="small" onclick="var e=document.getElementById('family');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="subfamily" class="data-entry-label">Subfamily</label>
 									<input type="text" class="data-entry-input" id="subfamily" placeholder="subfamily">
-									<span class="small" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="tribe" class="data-entry-label">Tribe</label>
 									<input type="text" class="data-entry-input" id="tribe" placeholder="tribe">
-									<span class="small" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="subgenus" class="data-entry-label">Subgenus</label>
 									<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
-									<span class="small" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> Add = for exact match </span> </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
