@@ -1178,7 +1178,7 @@ limitations under the License.
 				});
 				</script>
 							<div class="addstyle">
-								<input type="button" class="btn btn-xs btn-primary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+								<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 								<div class="shipmentnote float-left mb-4">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 							</div>
 							<!---moved this to inside of the shipping block--one div up---> 
