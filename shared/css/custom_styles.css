@@ -178,7 +178,7 @@ BELOW: Small Form button (bootstrap override)
 *************************
 BELOW: Main button (bootstrap override)
 ************************/
-button {font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";}
+button {font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";}
 .btn-primary {
 	background-color: #deebec;
 	background: #deebec;
