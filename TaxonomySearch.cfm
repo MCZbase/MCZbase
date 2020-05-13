@@ -253,7 +253,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mb-2">
-											<div class="col-md-2">
+											<div class="col-md-3">
 												<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
 												<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
 													<option></option>
