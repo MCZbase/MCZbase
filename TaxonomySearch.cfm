@@ -95,7 +95,6 @@ limitations under the License.
 </script>
 
 <cfoutput>
-
 	<div class="container">
 	<div class="row">
 		<h2>Search Taxonomy <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Search_Taxonomy')" aria-label="help link"></i></h2>
@@ -103,9 +102,10 @@ limitations under the License.
 		<p>These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 		<p>Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
 	</div>
-	<div class="col-12 col-md-6">
 	<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
-		<ul>
+		<div class="row">
+		<div class="col-12 col-md-6">
+			<ul>
 			<li>
 				<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
 			</li>
@@ -125,7 +125,10 @@ limitations under the License.
 			</cfif>
 			</li>
 		</ul>
-		<div class="col-12 col-md-6">
+		</div>
+		</div>
+		<div class="row">
+		<div class="col-12 col-md-12">
 		<div class="form-row">
 			<div class="form-group col-md-2">
 				<label for="common_name">Common Name</label>
