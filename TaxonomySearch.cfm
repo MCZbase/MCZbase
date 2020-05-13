@@ -151,20 +151,20 @@ limitations under the License.
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="genus">Genus</label>
-									<input type="text" class="form-control-sm" id="genus" placeholder="genus">
+									<label for="genus" class="data-entry-label">Genus</label>
+									<input type="text" class="data-entry-input" id="genus" placeholder="genus">
 									<span class="small" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="species">Species</label>
-									<input type="text" class="form-control-sm" id="species" placeholder="species">
+									<label for="species" class="data-entry-label">Species</label>
+									<input type="text" class="data-entry-input" id="species" placeholder="species">
 									<span class="small" onclick="var e=document.getElementById('species');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="subspecies">Subspecies</label>
-									<input type="text" class="form-control-sm" id="subspecies" placeholder="subspecies">
+									<label for="subspecies" class="data-entry-label">Subspecies</label>
+									<input type="text" class="data-entry-input" id="subspecies" placeholder="subspecies">
 									<span class="small" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="nomenclatural_code">Nomenclatural Code</label>
-									<select name="nomenclatural_code" id="nomenclatural_code" size="1">
+									<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
+									<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code" size="1">
 										<option></option>
 										<cfloop query="ctnomenclatural_code">
 											<option value="#nomenclatural_code#">#nomenclatural_code#</option>
@@ -172,74 +172,73 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="form-group col-md-2">
-									<label for=""></label>
-									<input type="text" class="form-control-sm" id="" placeholder="">
+								
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="genus">Kingdom</label>
-									<input type="text" class="form-control-sm" id="kingdom" placeholder="kingdom">
+									<label for="genus" class="data-entry-label">Kingdom</label>
+									<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
 									<span class="small" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="phylum">Phylum</label>
-									<input type="text" class="form-control-sm" id="phylum" placeholder="phylum">
+									<label for="phylum" class="data-entry-label">Phylum</label>
+									<input type="text" class="data-entry-input" id="phylum" placeholder="phylum">
 									<span class="small" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="subphylum">Subphylum</label>
-									<input type="small" class="form-control-sm" id="subphylum" placeholder="subphylum">
+									<label for="subphylum" class="data-entry-label">Subphylum</label>
+									<input type="small" class="data-entry-input" id="subphylum" placeholder="subphylum">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="superclass">Superclass</label>
-									<input type="small" class="form-control-sm" id="superclass" placeholder="superclass">
+									<label for="superclass" class="data-entry-label">Superclass</label>
+									<input type="small" class="data-entry-input" id="superclass" placeholder="superclass">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="phylclass">Class</label>
-									<input type="text" class="form-control-sm" id="phylclass" placeholder="phylclass">
+									<label for="phylclass" class="data-entry-label">Class</label>
+									<input type="text" class="data-entry-input" id="phylclass" placeholder="phylclass">
 									<span class="small" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> Add = for exact match </span> </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="subclass">Subclass</label>
-									<input type="text" class="form-control-sm" id="subclass" placeholder="subclass">
+									<label for="subclass" class="data-entry-label">Subclass</label>
+									<input type="text" class="data-entry-input" id="subclass" placeholder="subclass">
 									<span class="small" onclick="var e=document.getElementById('subclass');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="superorder">Superorder</label>
-									<input type="text" class="form-control-sm" id="superorder" placeholder="superorder">
+									<label for="superorder" class="data-entry-label">Superorder</label>
+									<input type="text" class="data-entry-input" id="superorder" placeholder="superorder">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="phylorder">Order</label>
-									<input type="text" class="form-control-sm" id="phylorder" placeholder="phylorder">
+									<label for="phylorder" class="data-entry-label">Order</label>
+									<input type="text" class="data-entry-input" id="phylorder" placeholder="phylorder">
 									<span class="small" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="suborder">Suborder</label>
-									<input type="text" class="form-control-sm" id="suborder" placeholder="suborder">
+									<label for="suborder" class="data-entry-label">Suborder</label>
+									<input type="text" class="data-entry-input" id="suborder" placeholder="suborder">
 									<span class="small" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="infraorder">Infraorder</label>
-									<input type="text" class="form-control-sm" id="infraorder" placeholder="infraorder">
+									<label for="infraorder" class="data-entry-label">Infraorder</label>
+									<input type="text" class="data-entry-input" id="infraorder" placeholder="infraorder">
 									<span class="small" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;"> Add = for exact match </span> </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="superfamily">Superfamily</label>
-									<input type="text" class="form-control-sm" id="superfamily" placeholder="superfamily">
+									<label for="superfamily" class="data-entry-label">Superfamily</label>
+									<input type="text" class="data-entry-input" id="superfamily" placeholder="superfamily">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="subphylum">Family</label>
-									<input type="text" class="form-control-sm" id="family" placeholder="family">
+									<label for="subphylum" class="data-entry-label">Family</label>
+									<input type="text" class="data-entry-input" id="family" placeholder="family">
 									<span class="small" onclick="var e=document.getElementById('family');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="subfamily">Subfamily</label>
-									<input type="text" class="form-control-sm" id="subfamily" placeholder="subfamily">
+									<label for="subfamily" class="data-entry-label">Subfamily</label>
+									<input type="text" class="data-entry-input" id="subfamily" placeholder="subfamily">
 									<span class="small" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="tribe">Tribe</label>
-									<input type="text" class="form-control-sm" id="tribe" placeholder="tribe">
+									<label for="tribe" class="data-entry-label">Tribe</label>
+									<input type="text" class="data-entry-input" id="tribe" placeholder="tribe">
 									<span class="small" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
-									<label for="subgenus">Subgenus</label>
-									<input type="text" class="form-control-sm" id="subgenus" placeholder="subgenus">
+									<label for="subgenus" class="data-entry-label">Subgenus</label>
+									<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
 									<span class="small" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> Add = for exact match </span> </div>
 							</div>
 							<div class="form-row">
