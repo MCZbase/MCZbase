@@ -101,7 +101,7 @@ limitations under the License.
 				<h2>Search Taxonomy <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Search_Taxonomy')" aria-label="help link"></i></h2>
 			</div>
 		</div>
-		<div class="row mb-5">
+		<div class="row">
 		<div class="col-12 col-md-3 offset-md-1">
 		<p>Search the taxonomy used in MCZbase for:	Common names, Synonymies, Taxa used for current identifications, Taxa used as authorities for future identifications, Taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 		<p>These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
@@ -125,7 +125,7 @@ limitations under the License.
 				</li>
 			</ul>
 			</div>
-			<div class="col-12 col-md-8">
+			<div class="col-12 col-md-8 mb-5">
 				<div class="form-row">
 					<div class="col-12">
 						<p class="small text-success">Add equals sign for exact match where (=) is in the label.</p>
