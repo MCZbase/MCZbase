@@ -287,6 +287,9 @@ body {
 body > .container {
 	padding: 30px 15px 0;
 }
+.file-os-file-medium{
+	max-width: 350px;
+}
 .footer > .container {
 	padding-right: 15px;
 	padding-left: 15px;
