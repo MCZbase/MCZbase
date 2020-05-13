@@ -179,16 +179,17 @@ BELOW: Main button (bootstrap override)
 ************************/
 button, input, select {font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";}
 .btn-primary {
-	background-color: #deebec;
-	background: #deebec;
+background-color: #d9f1f3;
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
 	margin-top: 0;
 }
 .btn-primary:hover {
-	background-color: #d3dfe0;
+	/*background-color: #d3dfe0;*/
 	color: #212529;
-	background-color: #d9f1f3;
+	background-color: #deebec;
+	background: #deebec;
+	
 	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-primary:focus, .btn-primary.focus {
