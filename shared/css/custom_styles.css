@@ -181,7 +181,7 @@ BELOW: Main button (bootstrap override)
 .btn-primary {
 	background-color: #deebec;
 	background: #deebec;
-	border: 1px solid hsl(0, 0%, 62%);
+	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
 	margin-top: 0;
 }
