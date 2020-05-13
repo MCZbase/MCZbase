@@ -12,6 +12,39 @@
 
 	});
 
+   /** getLowestGeography 
+    * find the lowest ranking geographic entity name on a geography form,
+	 * note, does not include quad as one of the ranks
+    * @return the value of the lowest rank filled in on the form.
+    */
+   function getLowestGeography() { 
+      var result = "";
+      if ($('##island').val()!="") { 
+         result = $('##island').val();
+      } else if ($('##island_group').val()!="") { 
+         result = $('##island_group').val();
+      } else if ($('##feature').val()!="") { 
+         result = $('##feature').val();
+      } else if ($('##county').val()!="") { 
+         result = $('##county').val();
+      } else if ($('##state_province').val()!="") { 
+         result = $('##state_province').val();
+      } else if ($('##country').val()!="") { 
+         result = $('##country').val();
+      } else if ($('##water_feature').val()!="") { 
+         result = $('##water_feature').val();
+      } else if ($('##sea').val()!="") { 
+         result = $('##sea').val();
+      } else if ($('##ocean_subregion').val()!="") { 
+         result = $('##ocean_subregion').val();
+      } else if ($('##ocean_region').val()!="") { 
+         result = $('##ocean_region').val();
+      } else if ($('##continent_ocean').val()!="") { 
+         result = $('##continent_ocean').val();
+      }
+      return result;
+   }
+
 </script>
 <cfoutput>
 <!--- see if action is duplicated --->
@@ -90,6 +123,11 @@
 </cfquery>
 <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select sovereign_nation from ctsovereign_nation order by sovereign_nation
+</cfquery>
+<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+   from ctguid_type 
+   where applies_to like '%geog_auth_rec.highergeographyid%'
 </cfquery>
 
 <!---------------------------------------------------------------------------------------------------->
@@ -181,7 +219,7 @@
 				<cfelse>
 					<cfset thisContinentOcean = "">
 				</cfif>
-				<select name="continent_ocean">
+				<select name="continent_ocean" id="continent_ocean" class="geoginput">
 					<option value=""></option>
 						<cfloop query="ctContinentOcean">
 							<option
@@ -202,7 +240,7 @@
 				<cfelse>
 					<cfset thisOceanRegion = "">
 				</cfif>
-				<select name="ocean_region" >
+				<select name="ocean_region" id="ocean_region" class="geoginput" >
 					<option value=""></option>
 						<cfloop query="ctOceanRegion">
 							<option
@@ -216,13 +254,13 @@
 			<tr>
 				<td align="right">Ocean Subregion:</td>
 				<td>
-					<input type="text" name="ocean_subregion" <cfif isdefined("ocean_subregion")> value = "#ocean_subregion#"</cfif>>
+					<input type="text" name="ocean_subregion" id="ocean_subregion" <cfif isdefined("ocean_subregion")> value = "#ocean_subregion#"</cfif> class="geoginput" >
 				</td>
 			</tr>
 			<tr>
 				<td align="right">Sea:</td>
 				<td>
-					<input type="text" name="sea" <cfif isdefined("sea")> value = "#sea#"</cfif>>
+					<input type="text" name="sea" id="sea" <cfif isdefined("sea")> value = "#sea#"</cfif> class="geoginput">
 				</td>
 			</tr>
 			<tr>
@@ -233,7 +271,7 @@
 				<cfelse>
 					<cfset thisWater_Feature = "">
 				</cfif>
-				<select name="water_feature">
+				<select name="water_feature" id="water_feature" class="geoginput">
 					<option value=""></option>
 						<cfloop query="ctWater_Feature">
 							<option
@@ -246,25 +284,25 @@
 			<tr>
 				<td align="right">Country:</td>
 				<td>
-					<input type="text" name="country" <cfif isdefined("country")> value = "#country#"</cfif>>
+					<input type="text" name="country" <cfif isdefined("country")> value = "#country#"</cfif> id="country" class="geoginput" >
 				</td>
 			</tr>
 			<tr>
 				<td align="right">State:</td>
 				<td>
-					<input type="text" name="state_prov" <cfif isdefined("state_prov")> value = "#state_prov#"</cfif>>
+					<input type="text" name="state_prov" <cfif isdefined("state_prov")> value = "#state_prov#"</cfif> id="state_prov" class="geoginput" >
 				</td>
 			</tr>
 			<tr>
 				<td align="right">County:</td>
 				<td>
-					<input type="text" name="county" <cfif isdefined("county")> value = "#county#"</cfif>>
+					<input type="text" name="county" <cfif isdefined("county")> value = "#county#"</cfif> id="county" class="geoginput">
 				</td>
 			</tr>
 			<tr>
 				<td align="right">Quad:</td>
 				<td>
-					<input type="text" name="quad" <cfif isdefined("quad")> value = "#quad#"</cfif>>
+					<input type="text" name="quad" <cfif isdefined("quad")> value = "#quad#"</cfif> id="quad" class="geoginput" >
 				</td>
 			</tr>
 			<tr>
@@ -275,7 +313,7 @@
 				<cfelse>
 					<cfset thisFeature = "">
 				</cfif>
-				<select name="feature">
+				<select name="feature" id="feature" class="geoginput" >
 					<option value=""></option>
 						<cfloop query="ctFeature">
 							<option
@@ -287,7 +325,7 @@
 			</tr>
 			<tr>
 				<td align="right">Island Group:</td>
-				<td><select name="island_group" size="1">
+				<td><select name="island_group" size="1" id="island_group" class="geoginput">
 				<option value=""></option>
 				<cfloop query="ctIslandGroup">
 					<option
@@ -301,7 +339,7 @@
 			<tr>
 				<td align="right">Island:</td>
 				<td>
-					<input type="text" name="island" <cfif isdefined("island")> value = "#escapeQuotes(island)#"</cfif> size="50">
+					<input type="text" name="island" <cfif isdefined("island")> value = "#escapeQuotes(island)#"</cfif> size="50" id="island" class="geoginput">
 				</td>
 			</tr>
 			<tr>
@@ -318,6 +356,73 @@
 				<td align="right">Source Authority:</td>
 				<td>
 					<input name="source_authority" id="source_authority" class="reqdClr">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="detailCell">
+					<cfset highergeographyid_guid_type="">
+					<cfset highergeographyid="">
+					<label for="highergeographyid">GUID for Higher Geography (dwc:highergeographyID)</label>
+					<cfset pattern = "">
+					<cfset placeholder = "">
+					<cfset regex = "">
+					<cfset replacement = "">
+					<cfset searchlink = "" >		
+					<cfset searchtext = "" >		
+					<cfset searchclass = "" >
+					<cfloop query="ctguid_type_highergeography">
+	 					<cfif tguid_type_highergeography.recordcount EQ 1 >
+							<cfset searchtext = "Find GUID" >		
+							<cfset searchclass = 'class="smallBtn external"' >
+						</cfif>
+					</cfloop>
+					<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" size="1">
+						<cfif searchtext EQ "">
+							<option value=""></option>
+						</cfif>
+						<cfloop query="ctguid_type_highergeography">
+							<cfset sel="">
+	 							<cfif ctguid_type_highergeography.recordcount EQ 1 >
+									<cfset sel="selected='selected'">
+									<cfset placeholder = "#ctguid_type_highergeography.placeholder#">
+									<cfset pattern = "#ctguid_type_highergeography.pattern_regex#">
+									<cfset regex = "#ctguid_type_highergeography.resolver_regex#">
+									<cfset replacement = "#ctguid_type_highergeography.resolver_replacement#">
+								</cfif>
+							<option #sel# value="#ctguid_type_highergeography.guid_type#">#ctguid_type_highergeography.guid_type#</option>
+						</cfloop>
+					</select>
+					<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
+					<input size="56" name="highergeographyid" id="highergeographyid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+					<cfset link = highergeographyid>
+					</cfif>
+					<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#highergeographyid#</a>
+					<script>
+						$(document).ready(function () { 
+							if ($('##highergeographyid').val().length > 0) {
+								$('##highergeographyid').hide();
+							}
+							$('##highergeographyid_search').click(function () { 
+								$('##highergeographyid').show();
+								$('##highergeographyid_link').hide();
+							});
+							$('##highergeographyid_guid_type').change(function () { 
+								// On selecting a guid_type, remove an existing guid value.
+								$('##highergeographyid').val("");
+								$('##highergeographyid').show();
+								// On selecting a guid_type, change the pattern.
+								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+							});
+							$('##highergeographyid').blur( function () { 
+								// On loss of focus for input, validate against the regex, update link
+								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+							});
+							$('.geoginput').change(function () { 
+								// On changing any geography inptu field name, update search.
+								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+							});
+						});
+					</script>
 				</td>
 			</tr>
 			<tr>
@@ -431,7 +536,7 @@ You do not have permission to create Higher Geographies
 						<label for="continent_ocean" class="likeLink" onClick="getDocs('higher_geography','continent_ocean')">
 							Continent or Ocean
 						</label>
-				<select name="continent_ocean" style="width: 15em;" >
+				<select name="continent_ocean" style="width: 15em;" id="continent_ocean" class="geoginput" >
 				<cfif isdefined("continent_ocean")>
                                      <cfif continent_ocean is not ''>
 					<option value="#continent_ocean#" selected="selected">#continent_ocean#</option>
@@ -447,7 +552,7 @@ You do not have permission to create Higher Geographies
 						<label for="ocean_region" class="likeLink"  onClick="getMCZbaseDocs('Ocean_Regions_%26_Subregions','')" >
                                                        Ocean Region:
 						</label>
-				<select name="ocean_region" style="width: 15em;">
+				<select name="ocean_region" style="width: 15em;" id="ocean_region" class="geoginput">
 				<cfif isdefined("ocean_region")>
                                      <cfif ocean_region is not ''>
 					<option value="#ocean_region#" selected="selected">#ocean_region#</option>
@@ -463,13 +568,13 @@ You do not have permission to create Higher Geographies
 						<label for="ocean_subregion">
 							Ocean Subregion
 						</label>
-						<input type="text" name="ocean_subregion" id="ocean_subregion" value="#ocean_subregion#">
+						<input type="text" name="ocean_subregion" id="ocean_subregion" value="#ocean_subregion#" class="geoginput">
 					</td>
 					<td>
 						<label for="sea" class="likeLink" onClick="getDocs('higher_geography','sea')">
 							Sea
 						</label>
-						<input type="text" name="sea" id="sea" value="#sea#">
+						<input type="text" name="sea" id="sea" value="#sea#" class="geoginput">
 					</td>
 					<td>
 						<cfif isdefined("water_feature")>
@@ -480,7 +585,7 @@ You do not have permission to create Higher Geographies
 						<label for="water_feature" class="likeLink" onClick="getDocs('higher_geography','water_feature')">
 							Water Feature
 						</label>
-						<select name="water_feature" id="water_feature" style="width: 15em;">
+						<select name="water_feature" id="water_feature" style="width: 15em;" class="geoginput">
 							<option value=""></option>
 							<cfloop query="ctWater_Feature">
 								<option	<cfif thisWater_Feature is ctWater_Feature.water_feature> selected="selected" </cfif>
@@ -494,25 +599,25 @@ You do not have permission to create Higher Geographies
 						<label for="country" class="likeLink" onClick="getDocs('higher_geography','country')">
 							Country
 						</label>
-						<input type="text" name="country" id="country" value="#country#">
+						<input type="text" name="country" id="country" value="#country#" class="geoginput">
 					</td>
 					<td>
 						<label for="state_prov" class="likeLink" onClick="getDocs('higher_geography','state_province')">
 							State/Province
 						</label>
-						<input type="text" name="state_prov" id="state_prov" value="#state_prov#">
+						<input type="text" name="state_prov" id="state_prov" value="#state_prov#" class="geoginput">
 					</td>
 					<td>
 						<label for="county" class="likeLink" onClick="getDocs('higher_geography','county')">
 							County
 						</label>
-						<input type="text" name="county" id="county" value="#county#">
+						<input type="text" name="county" id="county" value="#county#" class="geoginput">
 					</td>
                 	<td>
 						<label for="quad" class="likeLink" onClick="getDocs('higher_geography','map_name')">
 							Quad
 						</label>
-						<input type="text" name="quad" id="quad" value="#quad#">
+						<input type="text" name="quad" id="quad" value="#quad#" class="geoginput">
 					</td>
 					<td>
 						<cfif isdefined("feature")>
@@ -523,7 +628,7 @@ You do not have permission to create Higher Geographies
 						<label for="feature" class="likeLink" onClick="getDocs('higher_geography','feature')">
 						Land Feature
 						</label>
-						<select name="feature" id="feature">
+						<select name="feature" id="feature" class="geoginput">
 							<option value=""></option>
 							<cfloop query="ctFeature">
 								<option	<cfif thisFeature is ctFeature.feature> selected="selected" </cfif>
@@ -537,7 +642,7 @@ You do not have permission to create Higher Geographies
 						<label for="island_group" class="likeLink" onClick="getDocs('higher_geography','island_group')">
 							Island Group
 						</label>
-						<select name="island_group" id="island_group" size="1" style="width: 28em;">
+						<select name="island_group" id="island_group" size="1" style="width: 28em;" class="geoginput">
 		                	<option value=""></option>
 		                    <cfloop query="ctIslandGroup">
 		                      <option
@@ -549,7 +654,9 @@ You do not have permission to create Higher Geographies
 						<label for="island" class="likeLink" onClick="getDocs('higher_geography','island')">
 							Island
 						</label>
-						<input type="text" name="island" id="island" value="#island#" size="50">
+						<input type="text" name="island" id="island" value="#island#" size="50" class="geoginput">
+					</td>
+	            <td>
 					</td>
 				</tr>
 				<tr>
@@ -569,7 +676,77 @@ You do not have permission to create Higher Geographies
 		                    <option <cfif geogdetails.valid_catalog_term_fg is "0"> selected="selected" </cfif>value="0">no</option>
 		                  </select>
 					</td>
-					<td>&nbsp;</td>
+					<td colspan="2" class="detailCell">
+						<label for="highergeographyid">GUID for Higher Geography(dwc:highergeographyID)</label>
+						<cfset pattern = "">
+						<cfset placeholder = "">
+						<cfset regex = "">
+						<cfset replacement = "">
+						<cfset searchlink = "" >		
+						<cfset searchtext = "" >		
+						<cfset searchclass = "" >
+						<cfloop query="ctguid_type_highergeography">
+		 					<cfif geogDetails.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
+								<cfset searchlink = ctguid_type_highergeography.search_uri & geogDetails.scientific_name >		
+								<cfif len(geogDetails.highergeographyid) GT 0>
+									<cfset searchtext = "Replace" >		
+								<cfelse>
+									<cfset searchtext = "Find GUID" >		
+								</cfif>
+								<cfset searchclass = 'class="smallBtn external"' >
+							</cfif>
+						</cfloop>
+						<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" size="1">
+							<cfif searchtext EQ "">
+								<option value=""></option>
+							</cfif>
+							<cfloop query="ctguid_type_highergeography">
+								<cfset sel="">
+		 							<cfif geogDetails.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
+										<cfset sel="selected='selected'">
+										<cfset placeholder = "#ctguid_type_highergeography.placeholder#">
+										<cfset pattern = "#ctguid_type_highergeography.pattern_regex#">
+										<cfset regex = "#ctguid_type_highergeography.resolver_regex#">
+										<cfset replacement = "#ctguid_type_highergeography.resolver_replacement#">
+									</cfif>
+								<option #sel# value="#ctguid_type_highergeography.guid_type#">#ctguid_type_highergeography.guid_type#</option>
+							</cfloop>
+						</select>
+						<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
+						<input size="56" name="highergeographyid" id="highergeographyid" value="#geogDetails.highergeographyid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+						<cfif len(regex) GT 0 >
+							<cfset link = REReplace(geogDetails.highergeographyid,regex,replacement)>
+						<cfelse>
+							<cfset link = geogDetails.highergeographyid>
+						</cfif>
+						<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#geogDetails.highergeographyid#</a>
+						<script>
+							$(document).ready(function () { 
+								if ($('##highergeographyid').val().length > 0) {
+									$('##highergeographyid').hide();
+								}
+								$('##highergeographyid_search').click(function () { 
+									$('##highergeographyid').show();
+									$('##highergeographyid_link').hide();
+								});
+								$('##highergeographyid_guid_type').change(function () { 
+									// On selecting a guid_type, remove an existing guid value.
+									$('##highergeographyid').val("");
+									$('##highergeographyid').show();
+									// On selecting a guid_type, change the pattern.
+									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+								});
+								$('##highergeographyid').blur( function () { 
+									// On loss of focus for input, validate against the regex, update link
+									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+								});
+								$('.geoginput').change(function () { 
+									// On changing any geography inptu field name, update search.
+									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+								});
+							});
+						</script>
+					</td>
 				</tr>
 				<tr>
 	                <td colspan="4" nowrap style="padding-top: 1em;">

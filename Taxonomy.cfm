@@ -249,7 +249,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" class="detailCell">
-				<label for="genus">GUID for Taxon (dwc:taxonID)</label>
+				<label for="taxonid">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -326,7 +326,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" class="detailCell">
-				<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+				<label for="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
