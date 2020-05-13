@@ -103,9 +103,9 @@ limitations under the License.
 		</div>
 		<div class="row">
 		<div class="col-12 col-md-3 offset-md-1">
-		<p class="small">Search the taxonomy used in MCZbase for:	Common names, Synonymies, Taxa used for current identifications, Taxa used as authorities for future identifications, Taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
-		<p class="small">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
-		<p class="small">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
+		<p>Search the taxonomy used in MCZbase for:	Common names, Synonymies, Taxa used for current identifications, Taxa used as authorities for future identifications, Taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
+		<p>These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
+		<p>Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
 		<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
 			<ul class="list-group list-group-flush">
 				<li class="list-group-item">
