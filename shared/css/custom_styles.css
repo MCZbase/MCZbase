@@ -189,6 +189,7 @@ button {font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "s
 .btn-primary:hover {
 	background-color: #d3dfe0;
 	color: #212529;
+	background-color: #d9f1f3;
 	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-primary:focus, .btn-primary.focus {
