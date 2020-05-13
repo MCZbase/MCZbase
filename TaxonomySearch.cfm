@@ -106,8 +106,7 @@ limitations under the License.
 				<p>Search the taxonomy used in MCZbase for:	Common names, Synonymies, Taxa used for current identifications, Taxa used as authorities for future identifications, Taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 				<p>These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 				<p>Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
-			</div>
-			<div class="col-8">
+			
 				<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
 					<div class="row">
 						<div class="col-12 col-md-8">
@@ -116,8 +115,8 @@ limitations under the License.
 									<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
 								<a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;"><b>Display all matches?</b></a></li>
 								<li  class="list-group-item">
-									<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
-							<a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;"><b>Display only taxa currently accepted for identification?</b></a></li>
+									
+							<a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;"><input type="radio" name="VALID_CATALOG_TERM_FG" value="1"><b>Display only taxa currently accepted for identification?</b></a></li>
 								<li class="list-group-item">
 									<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
 							<a href="javascript:void(0)" onClick="taxa.we_have_some.checked=true;"><b>Find only taxa for which specimens exist?</b></a></li>
@@ -128,7 +127,8 @@ limitations under the License.
 								</cfif>
 								</li>
 							</ul>
-				
+				</div>
+			<div class="col-8">
 							<div class="form-row">
 								<div class="form-group col-md-2">
 									<label for="common_name">Common Name</label>
@@ -137,7 +137,7 @@ limitations under the License.
 								<div class="form-group col-md-2">
 									<label for="taxonomic_scientific_name">Scientific Name</label>
 									<input type="text" class="form-control-sm" id="scientific_name" placeholder="scientific name">
-									<span class="infoLink" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="full_taxon_name">Any Category</label>
 									<input type="text" class="form-control-sm" id="full_taxon_name" placeholder="Any Category">
@@ -145,25 +145,25 @@ limitations under the License.
 								<div class="form-group col-md-2">
 									<label for="author_text">Author Text</label>
 									<input type="text" class="form-control-sm" id="author_text" placeholder="author text">
-									<span class="infoLink" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="infraspecific_author">Infraspecific Author Text</label>
 									<input type="text" class="form-control-sm" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
-									<span class="infoLink" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> Add = for exact match </span> </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
 									<label for="genus">Genus</label>
 									<input type="text" class="form-control-sm" id="genus" placeholder="genus">
-									<span class="" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="species">Species</label>
 									<input type="text" class="form-control-sm" id="species" placeholder="species">
-									<span class="infoLink" onclick="var e=document.getElementById('species');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('species');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="subspecies">Subspecies</label>
 									<input type="text" class="form-control-sm" id="subspecies" placeholder="subspecies">
-									<span class="infoLink" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="nomenclatural_code">Nomenclatural Code</label>
 									<select name="nomenclatural_code" id="nomenclatural_code" size="1">
@@ -182,11 +182,11 @@ limitations under the License.
 								<div class="form-group col-md-2">
 									<label for="genus">Kingdom</label>
 									<input type="text" class="form-control-sm" id="kingdom" placeholder="kingdom">
-									<span class="infoLink" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="phylum">Phylum</label>
 									<input type="text" class="form-control-sm" id="phylum" placeholder="phylum">
-									<span class="infoLink" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="subphylum">Subphylum</label>
 									<input type="small" class="form-control-sm" id="subphylum" placeholder="subphylum">
@@ -216,11 +216,11 @@ limitations under the License.
 								<div class="form-group col-md-2">
 									<label for="suborder">Suborder</label>
 									<input type="text" class="form-control-sm" id="suborder" placeholder="suborder">
-									<span class="infoLink" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> Add = for exact match </span> </div>
 								<div class="form-group col-md-2">
 									<label for="infraorder">Infraorder</label>
 									<input type="text" class="form-control-sm" id="infraorder" placeholder="infraorder">
-									<span class="infoLink" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;"> Add = for exact match </span> </div>
+									<span class="small" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;"> Add = for exact match </span> </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
