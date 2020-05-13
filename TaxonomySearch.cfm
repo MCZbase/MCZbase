@@ -120,7 +120,7 @@ limitations under the License.
 							
 								<div class="row mx-2">
 									<div class="col-12 col-md-3">
-										<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search Taxonomy</h2>
+										<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Taxonomy</h2>
 										<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 										<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 										<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
