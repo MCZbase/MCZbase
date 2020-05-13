@@ -135,7 +135,7 @@ limitations under the License.
 												<li class="list-group-item pb-0">
 													<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
 													<a href="javascript:void(0)" class="smaller-text" onClick="taxa.we_have_some.checked=true;">Find only taxa for which specimens exist?</a></li>
-												<cfif isdefined("session.username") and #session.username# is "gordon">
+												<cfif isdefined("session.username") and #session.username# is "uamgod">
 													<script type="text/javascript" language="javascript">
 																		document.getElementById('we_have_some').checked=false;
 																	</script>
