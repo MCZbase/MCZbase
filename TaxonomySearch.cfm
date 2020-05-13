@@ -206,12 +206,13 @@ limitations under the License.
 												<label for="phylclass" class="data-entry-label">Class <span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="phylclass" placeholder="phylclass">
 											</div>
-										</div>
-										<div class="form-row">
-											<div class="form-group col-md-2">
+													<div class="form-group col-md-2">
 												<label for="subclass" class="data-entry-label">Subclass <span class="small text-success" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
 												<input type="text" class="data-entry-input" id="subclass" placeholder="subclass">
 											</div>
+										</div>
+										<div class="form-row">
+									
 											<div class="form-group col-md-2">
 												<label for="superorder" class="data-entry-label">Superorder</label>
 												<input type="text" class="data-entry-input" id="superorder" placeholder="superorder">
