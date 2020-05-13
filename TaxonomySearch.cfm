@@ -97,7 +97,7 @@ limitations under the License.
 <cfoutput>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12 col-md-11 offset-md-1">
 				<h2>Search Taxonomy <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Search_Taxonomy')" aria-label="help link"></i></h2>
 			</div>
 		</div>
@@ -108,8 +108,6 @@ limitations under the License.
 				<p>Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
 			
 				<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
-					<div class="row">
-						<div class="col-12 col-md-8">
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item">
 									<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
@@ -128,7 +126,7 @@ limitations under the License.
 								</li>
 							</ul>
 				</div>
-			<div class="col-8">
+			<div class="col-12 col-md-9">
 							<div class="form-row">
 								<div class="form-group col-md-2">
 									<label for="common_name">Common Name</label>
@@ -273,6 +271,6 @@ limitations under the License.
 				</form>
 			</div>
 		</div>
-	</div>
+
 </cfoutput>
 <cfinclude template = "shared/_footer.cfm">
