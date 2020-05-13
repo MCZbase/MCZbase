@@ -56,7 +56,9 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 				// update link
 				$('#'+linkControl).attr("href",newlink); 
 				$('#'+linkControl).html(guid); 
-			}
+				// hide input
+				$('#'+inputControl).hide();
+			} 
 			$('#'+searchControl).attr("href",data[0].search_uri + encodeURIComponent(searchText)); 
 			if (searchText && searchText.length > 0) { 
 				if (guid.length > 0) { 
