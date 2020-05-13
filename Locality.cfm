@@ -396,7 +396,6 @@
 					<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
 					<input size="56" name="highergeographyid" id="highergeographyid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 					<cfset link = highergeographyid>
-					</cfif>
 					<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#highergeographyid#</a>
 					<script>
 						$(document).ready(function () { 
