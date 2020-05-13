@@ -110,13 +110,13 @@ limitations under the License.
 			<ul class="list-group list-group-flush">
 				<li class="list-group-item">
 					<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
-					<a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;">Display all matches?</a></li>
-				<li  class="list-group-item"> <a href="javascript:void(0)" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;">
+					<a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;">Display all matches?</a></li>
+				<li  class="list-group-item"> <a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;">
 					<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
 					Display only taxa currently accepted for identification?</a></li>
 				<li class="list-group-item">
 					<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
-					<a href="javascript:void(0)" onClick="taxa.we_have_some.checked=true;">Find only taxa for which specimens exist?</a></li>
+					<a href="javascript:void(0)" class="smaller-text" onClick="taxa.we_have_some.checked=true;">Find only taxa for which specimens exist?</a></li>
 				<cfif isdefined("session.username") and #session.username# is "gordon">
 					<script type="text/javascript" language="javascript">
 										document.getElementById('we_have_some').checked=false;
