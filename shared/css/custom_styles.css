@@ -160,9 +160,9 @@ BELOW: Small Form button (bootstrap override)
 	user-select: none;
 	/*   background-color: transparent;*/
 	border: 1px solid transparent;
-	padding: .15em .5em;
+	padding: .25em .5em;
 	font-size: .95em;
-	line-height: 1.4;
+	line-height: 1;
 	border-radius: .25rem;
 	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
