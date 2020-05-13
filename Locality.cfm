@@ -221,18 +221,14 @@
 				<select name="continent_ocean" id="continent_ocean" class="geoginput">
 					<option value=""></option>
 						<cfloop query="ctContinentOcean">
-							<option
-								<cfif thisContinentOcean is ctContinentOcean.continent_ocean> selected="selected" </cfif>
-								value = "#ctContinentOcean.continent_ocean#">#ctContinentOcean.continent_ocean#</option>
+							<cfif thisContinentOcean is ctContinentOcean.continent_ocean><cfset sel='selected="selected"'><cfelse><cfset sel=""></cfif>
+							<option #sel# value="#ctContinentOcean.continent_ocean#">#ctContinentOcean.continent_ocean#</option>
 						</cfloop>
 				</select>
 				</td>
 			</tr>
 			<tr>
-				<td align="right">
-                                        Ocean Region:
-
-                                </td>
+				<td align="right">Ocean Region:</td>
 				<td>
 				<cfif isdefined("ocean_region")>
 					<cfset thisOceanRegion = ocean_region>
@@ -242,9 +238,8 @@
 				<select name="ocean_region" id="ocean_region" class="geoginput" >
 					<option value=""></option>
 						<cfloop query="ctOceanRegion">
-							<option
-								<cfif thisOceanRegion is ctOceanRegion.ocean_region> selected="selected" </cfif>
-								value = "#ctOceanRegion.ocean_region#">#ctOceanRegion.ocean_region#</option>
+							<cfif thisOceanRegion is ctOceanRegion.ocean_region><cfset sel='selected="selected"'><cfelse><cfset sel=""></cfif>
+							<option #sel# value = "#ctOceanRegion.ocean_region#">#ctOceanRegion.ocean_region#</option>
 						</cfloop>
 				</select>
 				</td>
@@ -253,13 +248,15 @@
 			<tr>
 				<td align="right">Ocean Subregion:</td>
 				<td>
-					<input type="text" name="ocean_subregion" id="ocean_subregion" <cfif isdefined("ocean_subregion")> value = "#ocean_subregion#"</cfif> class="geoginput" >
+					<cfif isdefined("ocean_subregion")><cfset val= ocean_subregion><cfelse><cfset val=""></cfif>
+					<input type="text" name="ocean_subregion" id="ocean_subregion" value="#val#" class="geoginput" >
 				</td>
 			</tr>
 			<tr>
 				<td align="right">Sea:</td>
 				<td>
-					<input type="text" name="sea" id="sea" <cfif isdefined("sea")> value = "#sea#"</cfif> class="geoginput">
+					<cfif isdefined("sea")><cfset val=sea><cfelse><cfset val=""></cfif>
+					<input type="text" name="sea" id="sea" value="#val#" class="geoginput">
 				</td>
 			</tr>
 			<tr>
@@ -283,25 +280,29 @@
 			<tr>
 				<td align="right">Country:</td>
 				<td>
-					<input type="text" name="country" <cfif isdefined("country")> value = "#country#"</cfif> id="country" class="geoginput" >
+					<cfif isdefined("country")><cfset val=country><cfelse><cfset val=""></cfif>
+					<input type="text" name="country" value = "#val#" id="country" class="geoginput" >
 				</td>
 			</tr>
 			<tr>
 				<td align="right">State:</td>
-				<td>
-					<input type="text" name="state_prov" <cfif isdefined("state_prov")> value = "#state_prov#"</cfif> id="state_prov" class="geoginput" >
+				<td>		
+					<cfif isdefined("state_prov")><cfset val=state_prov><cfelse><cfset val=""></cfif>
+					<input type="text" name="state_prov" value = "#val#" id="state_prov" class="geoginput" >
 				</td>
 			</tr>
 			<tr>
 				<td align="right">County:</td>
 				<td>
-					<input type="text" name="county" <cfif isdefined("county")> value = "#county#"</cfif> id="county" class="geoginput">
+					<cfif isdefined("county")><cfset val=county><cfelse><cfset val=""></cfif>
+					<input type="text" name="county" value="#val#" id="county" class="geoginput">
 				</td>
 			</tr>
 			<tr>
 				<td align="right">Quad:</td>
 				<td>
-					<input type="text" name="quad" <cfif isdefined("quad")> value = "#quad#"</cfif> id="quad" class="geoginput" >
+					<cfif isdefined("quad")><cfset val=quad><cfelse><cfset val=""></cfif>
+					<input type="text" name="quad" value="#val#" id="quad" class="geoginput" >
 				</td>
 			</tr>
 			<tr>
@@ -338,7 +339,8 @@
 			<tr>
 				<td align="right">Island:</td>
 				<td>
-					<input type="text" name="island" <cfif isdefined("island")> value = "#escapeQuotes(island)#"</cfif> size="50" id="island" class="geoginput">
+					<cfif isdefined("island")><cfset val=island><cfelse><cfset val=""></cfif>
+					<input type="text" name="island" value="#val#" size="50" id="island" class="geoginput">
 				</td>
 			</tr>
 			<tr>
