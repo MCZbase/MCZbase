@@ -1325,8 +1325,8 @@ table#pairs th, table#pairs td {
 	width: 100%;
 	font-size: .85em;
 	line-height: .9em;
-	height: calc(.9em + .8em + 1px);
-	padding: .15em .5em .3em .5em;
+/*	height: calc(.9em + .8em + 1px);*/
+	padding: .25em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
