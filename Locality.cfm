@@ -1,11 +1,12 @@
 <cfinclude template="includes/_header.cfm">
 <cf_customizeIFrame>
+<cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-		$("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+		$("##began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
-		$("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+		$("##ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
             $(".ui-datepicker-trigger").css("margin-bottom","-7px");
@@ -44,9 +45,7 @@
       }
       return result;
    }
-
 </script>
-<cfoutput>
 <!--- see if action is duplicated --->
 <cfif action contains ",">
 	<cfset i=1>
