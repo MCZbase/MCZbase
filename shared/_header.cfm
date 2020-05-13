@@ -154,7 +154,7 @@ limitations under the License.
 <!--- End workaround --->
 
 <a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
-<header id="header" aria-level="1" role="heading" class="border-bottom">
+<header id="header" role="heading" class="border-bottom">
 <!--- TODO: [Michelle] Move (this fixed) background-color for this top black bar to a stylesheet. --->
 <div class="branding clearfix bg-black">
 	<div class="branding-left justify-content-start">
