@@ -1,4 +1,4 @@
-<cfset pageTitle = "Search Specimens">
+<cfset pageTitle = "Search Taxonomy">
 <!--
 TaxonomySearch.cfm
 
@@ -107,7 +107,7 @@ limitations under the License.
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="all-tab" data-toggle="tab" href="##one" role="tab" aria-controls="All Transactions" aria-selected="true">Taxonomy</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Taxonomy Search')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active" id="all-tab" data-toggle="tab" href="##one" role="tab" aria-controls="All Taxonomy" aria-selected="true">Taxonomy</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Taxonomy Search')" aria-label="help link"></i></li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
@@ -120,7 +120,7 @@ limitations under the License.
 							
 								<div class="row mx-2">
 									<div class="col-12 col-xl-3">
-										<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Taxonomy</h2>
+										<h2 class="h3 card-title px-0 mx-1 mb-0">Search All Taxonomy</h2>
 										<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 										<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 										<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
@@ -145,11 +145,11 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-xl-8">
 											<div class="col-12">
-												<p class="small text-success">Add equals sign for exact match where (=) is in the label.</p>
+												<p class="small text-success" aria-label="input info">Add equals sign for exact match where (=) is in the label.</p>
 											</div>
 										<div class="form-row bg-light border rounded px-2 pb-2">
 											<div class="col-md-3">
-												<label for="taxonomic_scientific_name" class="data-entry-label">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;">(=) </span></label>
+												<label for="taxonomic_scientific_name" class="data-entry-label">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match where (=) is in the label.">(=) </span></label>
 												<input type="text" class="data-entry-input" id="scientific_name" placeholder="scientific name">
 											</div>
 											<div class="col-md-3">
@@ -187,7 +187,7 @@ limitations under the License.
 										</div>
 										<div class="form-row mb-1">
 											<div class="col-md-2">
-												<label for="genus" class="data-entry-label">Kingdom <span class="small text-success" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
+												<label for="kingdom" class="data-entry-label">Kingdom <span class="small text-success" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
 												<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
 											</div>
 											<div class="col-md-2">
@@ -248,7 +248,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input" id="tribe" placeholder="tribe">
 											</div>
 											<div class="col-md-2">
-												<label for="subgenus" class="data-entry-label">Subgenus <span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> (=) </span></label>
+												<label for="subgenus" class="data-entry-label">Subgenus <span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
 											</div>
 										</div>
