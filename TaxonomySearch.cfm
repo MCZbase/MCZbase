@@ -97,7 +97,7 @@ limitations under the License.
 <cfoutput>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12 col-md-11 offset-md-1">
+			<div class="col-12 col-md-11 offset-md-1 mt-2">
 				<h2>Search Taxonomy <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Search_Taxonomy')" aria-label="help link"></i></h2>
 			</div>
 		</div>
