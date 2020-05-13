@@ -147,26 +147,26 @@ limitations under the License.
 											<div class="col-12">
 												<p class="small text-success">Add equals sign for exact match where (=) is in the label.</p>
 											</div>
-										<div class="form-row bg-light border px-2">
+										<div class="form-row bg-light border px-2 pb-2">
 										
 										
-											<div class="form-group col-md-4">
+											<div class="col-md-4">
 												<label for="taxonomic_scientific_name" class="data-entry-label">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;">(=) </span></label>
 												<input type="text" class="data-entry-input" id="scientific_name" placeholder="scientific name">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="full_taxon_name" class="data-entry-label">Any Category</label>
 												<input type="text" class="data-entry-input" id="full_taxon_name" placeholder="any category">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="author_text" class="data-entry-label">Author Text <span class="small text-success" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> (=) </span> </label>
 												<input type="text" class="data-entry-input" id="author_text" placeholder="author text">
 											</div>
-											<div class="form-group col-md-2">
+											<div class="col-md-2">
 												<label for="infraspecific_author" class="data-entry-label">Infraspecific Author <span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
 											</div>
-												<div class="form-group col-md-2">
+												<div class="col-md-2">
 												<label for="common_name" class="data-entry-label">Common Name</label>
 												<input type="text" class="data-entry-input" id="common_name" placeholder="common name" aria-label="common name">
 											</div>
