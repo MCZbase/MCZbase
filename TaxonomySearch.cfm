@@ -29,7 +29,7 @@ limitations under the License.
 	select source_authority from CTTAXONOMIC_AUTHORITY order by source_authority
 </cfquery>
 <cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select nomenclatural_code from ctnomenclatural_code order by nomenclatural_code
+	select nomenclatural_code from ctnomenclatural_code order by sort_order
 </cfquery>
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select taxon_status from cttaxon_status order by taxon_status
