@@ -126,7 +126,7 @@ limitations under the License.
 								</li>
 							</ul>
 				</div>
-			<div class="col-12 col-md-9">
+			<div class="col-12 col-md-8">
 							<div class="form-row">
 								<div class="form-group col-md-2">
 									<label for="common_name">Common Name</label>
