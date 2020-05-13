@@ -128,13 +128,13 @@ limitations under the License.
 				</div>
 			<div class="col-12 col-md-8">
 							<div class="form-row">
-								<div class="col-12"><p class="small">Add equals symbol for exact match where (=) is in the label.</p></div>
+								<div class="col-12"><p class="small text-success">Add equals sign for exact match where (=) is in the label.</p></div>
 								<div class="form-group col-md-2">
 									<label for="common_name" class="data-entry-label">Common Name</label>
 									<input type="text" class="data-entry-input" id="common_name" placeholder="common name" aria-label="common name">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="taxonomic_scientific_name" class="data-entry-label">Scientific Name <span class="small" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;">(=) </span></label>
+									<label for="taxonomic_scientific_name" class="data-entry-label">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;">(=) </span></label>
 									<input type="text" class="data-entry-input" id="scientific_name" placeholder="scientific name">
 									 </div>
 								<div class="form-group col-md-2">
@@ -142,30 +142,30 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="full_taxon_name" placeholder="Any Category">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="author_text" class="data-entry-label">Author Text <span class="small" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> (=) </span> </label>
+									<label for="author_text" class="data-entry-label">Author Text <span class="small text-success" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> (=) </span> </label>
 									<input type="text" class="data-entry-input" id="author_text" placeholder="author text">
 									</div>
 								<div class="form-group col-md-2">
-									<label for="infraspecific_author" class="data-entry-label">Infraspecific Author <span class="small" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
+									<label for="infraspecific_author" class="data-entry-label">Infraspecific Author <span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
 									 </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="genus" class="data-entry-label">Genus <span class="small" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> (=) </span></label>
+									<label for="genus" class="data-entry-label">Genus <span class="small text-success" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="genus" placeholder="genus">
 									 </div>
 								<div class="form-group col-md-2">
-									<label for="species" class="data-entry-label">Species <span class="small" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</span> </label>
+									<label for="species" class="data-entry-label">Species <span class="small text-success" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</span> </label>
 									<input type="text" class="data-entry-input" id="species" placeholder="species">
 									</div>
 								<div class="form-group col-md-2">
-									<label for="subspecies" class="data-entry-label">Subspecies <span class="small" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </span></label>
+									<label for="subspecies" class="data-entry-label">Subspecies <span class="small text-success" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="subspecies" placeholder="subspecies">
 									 </div>
 								<div class="form-group col-md-2">
 									<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
-									<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code" size="1">
+									<select name="nomenclatural_code" class="data-entry-select custom-select1" id="nomenclatural_code">
 										<option></option>
 										<cfloop query="ctnomenclatural_code">
 											<option value="#nomenclatural_code#">#nomenclatural_code#</option>
@@ -178,11 +178,11 @@ limitations under the License.
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="genus" class="data-entry-label">Kingdom <span class="small" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
+									<label for="genus" class="data-entry-label">Kingdom <span class="small text-success" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
 									<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
 									 </div>
 								<div class="form-group col-md-2">
-									<label for="phylum" class="data-entry-label">Phylum 	<span class="small" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
+									<label for="phylum" class="data-entry-label">Phylum 	<span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="phylum" placeholder="phylum">
 								 </div>
 								<div class="form-group col-md-2">
@@ -194,13 +194,13 @@ limitations under the License.
 									<input type="small" class="data-entry-input" id="superclass" placeholder="superclass">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="phylclass" class="data-entry-label">Class 	<span class="small" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
+									<label for="phylclass" class="data-entry-label">Class 	<span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="phylclass" placeholder="phylclass">
 								 </div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label for="subclass" class="data-entry-label">Subclass <span class="small" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
+									<label for="subclass" class="data-entry-label">Subclass <span class="small text-success" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
 									<input type="text" class="data-entry-input" id="subclass" placeholder="subclass">
 									 </div>
 								<div class="form-group col-md-2">
@@ -226,24 +226,24 @@ limitations under the License.
 									<input type="text text-success" class="data-entry-input" id="superfamily" placeholder="superfamily">
 								</div>
 								<div class="form-group col-md-2">
-									<label for="subphylum" class="data-entry-label">Family</label>
+									<label for="subphylum" class="data-entry-label">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="family" placeholder="family">
-									<span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
-									<label for="subfamily" class="data-entry-label">Subfamily</label>
+									<label for="subfamily" class="data-entry-label">Subfamily <span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="subfamily" placeholder="subfamily">
-									<span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
-									<label for="tribe" class="data-entry-label">Tribe</label>
+									<label for="tribe" class="data-entry-label">Tribe <span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="tribe" placeholder="tribe">
-									<span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 								<div class="form-group col-md-2">
-									<label for="subgenus" class="data-entry-label">Subgenus</label>
+									<label for="subgenus" class="data-entry-label">Subgenus <span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> (=) </span></label>
 									<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
-									<span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> Add = for exact match </span> </div>
+									 </div>
 							</div>
 							<div class="form-row">
-								<div class="form-group col-md-2">
+								<div class="form-group col-md-4">
 									<label for="source_authority">Authority</label>
 									<select name="source_authority" id="source_authority" size="1">
 										<option></option>
@@ -252,7 +252,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group col-md-2">
+								<div class="form-group col-md-3">
 									<label for="taxon_status">Taxon Status</label>
 									<select name="taxon_status" id="taxon_status" size="1">
 										<option></option>
