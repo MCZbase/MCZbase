@@ -248,7 +248,7 @@ limitations under the License.
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 	<cfcatch>
 		<!--- Report any exceptions thrown in setting up the page --->
-		<h2>Error: #cfcatch.message#</h2>
+		<h2>Error1: #cfcatch.message#</h2>
 		<cfif cfcatch.detail NEQ ''>
 			#cfcatch.detail#
 		</cfif>
@@ -358,12 +358,13 @@ limitations under the License.
 				</script></td>
 		</tr>
 		<cfcatch>
-			<h2>Error: #cfcatch.message#</h2>
+			<h2>Error2: #cfcatch.message#</h2>
 			<cfif cfcatch.detail NEQ ''>
 				#cfcatch.detail#
 			</cfif>
 		</cfcatch>
 	</cftry>
+	<cftry>
 	<tr>
 		<td colspan="2" class="detailCell"><label for="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 			<cfset pattern = "">
@@ -440,6 +441,13 @@ limitations under the License.
 					});
 				</script></td>
 	</tr>
+						<cfcatch>
+			<h2>Error3: #cfcatch.message#</h2>
+			<cfif cfcatch.detail NEQ ''>
+				#cfcatch.detail#
+			</cfif>
+		</cfcatch>
+	</cftry>
 	<tr>
 		<td><label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 			<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
