@@ -51,13 +51,16 @@ limitations under the License.
 </cfquery>
 <cfset title="Edit Taxon">
 <cfif !isdefined("subgenus_message")>
-    <cfset subgenus_message ="">
+	<cfset subgenus_message ="">
 </cfif>
+
 <style>
-	.warning{border:5px solid red;}
+.warning {
+	border: 5px solid red;
+}
 </style>
-<cfoutput>
-<script>
+<cfoutput> 
+	<script>
 	// Check values once per second, warn for issues
 	window.setInterval(chkTax, 1000);
 	function chkTax(){
@@ -210,8 +213,8 @@ limitations under the License.
 		});
 		toggleBotanicalVisibility();
 	});  
-</script>
-</cfoutput>
+</script> 
+</cfoutput> 
 <!------------------------------------------------>
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
@@ -220,47 +223,50 @@ limitations under the License.
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
-			<cftry>
-	<cfset title="Edit Taxonomy">
-	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+<cfset title="Edit Taxonomy">
+<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
+	<cftry>
 <div class="content_box_narrow" style="width: 46em;">
-	<h2>Edit Taxon:  
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]"></cfif>  
-		<em>#getTaxa.scientific_name#</em> 
-		<span style="font-variant: small-caps;">#getTaxa.author_text#</span>
-	</h2>
+	<h2>Edit Taxon:
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]">
+		</cfif>
+		<em>#getTaxa.scientific_name#</em> <span style="font-variant: small-caps;">#getTaxa.author_text#</span> </h2>
 	<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
 	<cfif len(getTaxa.taxonid) GT 0>
 		<cfset hasTaxonID = true>
-	<cfelse>
+		<cfelse>
 		<cfset hasTaxonID = false>
 	</cfif>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-			<cfcatch>
-				<!--- Report any exceptions thrown in setting up the page --->
-				<h2>Error: #cfcatch.message#</h2>
-				<cfif cfcatch.detail NEQ ''>
-#cfcatch.detail#
-				</cfif>
-				<cfabort>
-				<!--- Stop processing page, don't display form with data --->
-			</cfcatch>
-				</cftry>
-	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
-	<table class="tInput">
+	<cfcatch>
+		<!--- Report any exceptions thrown in setting up the page --->
+		<h2>Error: #cfcatch.message#</h2>
+		<cfif cfcatch.detail NEQ ''>
+			#cfcatch.detail#
+		</cfif>
+		<cfabort>
+		<!--- Stop processing page, don't display form with data --->
+	</cfcatch>
+	</cftry>
+	<cftry>
+		<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
+		<table class="tInput">
 		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 		<input type="hidden" name="Action" id="taxon_form_action_input">
 		<tr>
-			<td>
-				<label for="source_authority">
-					<span>Source <cfif isSourceAuthorityCurrent.ct eq 0> (#getTaxa.source_authority#) </cfif></span>
-				</label>
+			<td><label for="source_authority"> <span>Source
+					<cfif isSourceAuthorityCurrent.ct eq 0>
+						(#getTaxa.source_authority#)
+					</cfif>
+					</span> </label>
 				<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 					<cfif isSourceAuthorityCurrent.ct eq 0>
 						<option value="" selected="selected"></option>
@@ -269,33 +275,29 @@ limitations under the License.
 						<option <cfif isSourceAuthorityCurrent.ct eq 1 and gettaxa.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
 							value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
 					</cfloop>
-				</select>
-			</td>
-			<td>
-				<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
+				</select></td>
+			<td><label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
 				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr">
 					<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 					<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
-				</select>
-			</td>
+				</select></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="detailCell">
-				<label for="taxonid">GUID for Taxon (dwc:taxonID)</label>
+			<td colspan="2" class="detailCell"><label for="taxonid">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
 				<cfset replacement = "">
-				<cfset searchlink = "" >		
-				<cfset searchtext = "" >		
+				<cfset searchlink = "" >
+				<cfset searchtext = "" >
 				<cfset searchclass = "" >
 				<cfloop query="ctguid_type_taxon">
- 					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
-						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >		
+					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
+						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 						<cfif len(gettaxa.taxonid) GT 0>
-							<cfset searchtext = "Replace" >		
-						<cfelse>
-							<cfset searchtext = "Find GUID" >		
+							<cfset searchtext = "Replace" >
+							<cfelse>
+							<cfset searchtext = "Find GUID" >
 						</cfif>
 						<cfset searchclass = 'class="smallBtn external"' >
 					</cfif>
@@ -306,13 +308,13 @@ limitations under the License.
 					</cfif>
 					<cfloop query="ctguid_type_taxon">
 						<cfset sel="">
- 							<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
-								<cfset sel="selected='selected'">
-								<cfset placeholder = "#ctguid_type_taxon.placeholder#">
-								<cfset pattern = "#ctguid_type_taxon.pattern_regex#">
-								<cfset regex = "#ctguid_type_taxon.resolver_regex#">
-								<cfset replacement = "#ctguid_type_taxon.resolver_replacement#">
-							</cfif>
+						<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
+							<cfset sel="selected='selected'">
+							<cfset placeholder = "#ctguid_type_taxon.placeholder#">
+							<cfset pattern = "#ctguid_type_taxon.pattern_regex#">
+							<cfset regex = "#ctguid_type_taxon.resolver_regex#">
+							<cfset replacement = "#ctguid_type_taxon.resolver_replacement#">
+						</cfif>
 						<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 					</cfloop>
 				</select>
@@ -320,10 +322,10 @@ limitations under the License.
 				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
-				<cfelse>
+					<cfelse>
 					<cfset link = gettaxa.taxonid>
 				</cfif>
-				<a id="taxonid_link" href="#link#" target="_blank" class="hints">#gettaxa.taxonid#</a>
+				<a id="taxonid_link" href="#link#" target="_blank" class="hints">#gettaxa.taxonid#</a> 
 				<script>
 					$(document).ready(function () { 
 						if ($('##taxonid').val().length > 0) {
@@ -353,57 +355,62 @@ limitations under the License.
 							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 						});
 					});
-				</script>
-			</td>
+				</script></td>
 		</tr>
-		<tr>
-			<td colspan="2" class="detailCell">
-				<label for="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
-				<cfset pattern = "">
-				<cfset placeholder = "">
-				<cfset regex = "">
-				<cfset replacement = "">
-				<cfset searchlink = "" >		
-				<cfset searchtext = "" >		
-				<cfset searchclass = "" >		
-				<cfloop query="ctguid_type_scientificname">
- 					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >		
-						<cfif len(gettaxa.scientificnameid) GT 0>
-							<cfset searchtext = "Replace" >		
+		<cfcatch>
+			<h2>Error: #cfcatch.message#</h2>
+			<cfif cfcatch.detail NEQ ''>
+				#cfcatch.detail#
+			</cfif>
+		</cfcatch>
+	</cftry>
+	<tr>
+		<td colspan="2" class="detailCell"><label for="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+			<cfset pattern = "">
+			<cfset placeholder = "">
+			<cfset regex = "">
+			<cfset replacement = "">
+			<cfset searchlink = "" >
+			<cfset searchtext = "" >
+			<cfset searchclass = "" >
+			<cfloop query="ctguid_type_scientificname">
+				<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+					<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
+					<cfif len(gettaxa.scientificnameid) GT 0>
+						<cfset searchtext = "Replace" >
 						<cfelse>
-							<cfset searchtext = "Find GUID" >		
-						</cfif>
-						<cfset searchclass = 'class="smallBtn external"' >
+						<cfset searchtext = "Find GUID" >
 					</cfif>
+					<cfset searchclass = 'class="smallBtn external"' >
+				</cfif>
+			</cfloop>
+			<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
+				<cfif searchtext EQ "">
+					<option value=""></option>
+				</cfif>
+				<cfloop query="ctguid_type_scientificname">
+					<cfset sel="">
+					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+						<cfset sel="selected='selected'">
+						<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
+						<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
+						<cfset regex = "#ctguid_type_scientificname.resolver_regex#">
+						<cfset replacement = "#ctguid_type_scientificname.resolver_replacement#">
+					</cfif>
+					<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 				</cfloop>
-				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
-					<cfif searchtext EQ "">
-						<option value=""></option>
-					</cfif>
-					<cfloop query="ctguid_type_scientificname">
-						<cfset sel="">
- 						<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-							<cfset sel="selected='selected'">
-							<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
-							<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
-							<cfset regex = "#ctguid_type_scientificname.resolver_regex#">
-							<cfset replacement = "#ctguid_type_scientificname.resolver_replacement#">
-						</cfif>
-						<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
-					</cfloop>
-				</select>
-				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
-				<input size="54" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" 
+			</select>
+			<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
+			<input size="54" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-				<cfif len(regex) GT 0 >
-					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
+			<cfif len(regex) GT 0 >
+				<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
 				<cfelse>
-					<cfset link = gettaxa.scientificnameid>
-				</cfif>
-				<a id="scientificnameid_link" href="#link#" target="_blank" class="hints">#gettaxa.scientificnameid#</a>
-				<script>
+				<cfset link = gettaxa.scientificnameid>
+			</cfif>
+			<a id="scientificnameid_link" href="#link#" target="_blank" class="hints">#gettaxa.scientificnameid#</a> 
+			<script>
 					$(document).ready(function () { 
 						if ($('##scientificnameid').val().length > 0) {
 							$('##scientificnameid').hide();
@@ -431,194 +438,129 @@ limitations under the License.
 							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 						});
 					});
-				</script>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
-					<cfloop query="ctnomenclatural_code">
-						<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
+				</script></td>
+	</tr>
+	<tr>
+		<td><label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
+			<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
+				<cfloop query="ctnomenclatural_code">
+					<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
 							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
-					</cfloop>
-				</select>
-			</td>
-			<td>
-				<label for="genus">Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-				<input size="25" name="genus" id="genus" maxlength="40" value="#gettaxa.genus#">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="species">Species<!--- <span class="likeLink"
+				</cfloop>
+			</select></td>
+		<td><label for="genus">Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
+			<input size="25" name="genus" id="genus" maxlength="40" value="#gettaxa.genus#"></td>
+	</tr>
+	<tr>
+		<td><label for="species">Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-				<input size="25" name="species" id="species" maxlength="40" value="#gettaxa.species#">
-			</td>
-			<td>
-				<label for="author_text"><span>Author</span></label>
-				<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" size="30">
-				<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
-					Find Kew Abbr
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
-				<select name="infraspecific_rank" id="infraspecific_rank" size="1">
-					<option value=""></option>
-					<cfloop query="ctInfRank">
-						<option
+			<input size="25" name="species" id="species" maxlength="40" value="#gettaxa.species#"></td>
+		<td><label for="author_text"><span>Author</span></label>
+			<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" size="30">
+			<span class="infoLink botanical"
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span></td>
+	</tr>
+	<tr>
+		<td><label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
+			<select name="infraspecific_rank" id="infraspecific_rank" size="1">
+				<option value=""></option>
+				<cfloop query="ctInfRank">
+					<option
 							<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
 							value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
-					</cfloop>
-				</select>
-			</td>
-			<td>
-				<label for="taxon_status"><span>Taxon Status</span></label>
-				<select name="taxon_status" id="taxon_status" size="1">
-					<option value=""></option>
-					<cfloop query="cttaxon_status">
-						<option 
+				</cfloop>
+			</select></td>
+		<td><label for="taxon_status"><span>Taxon Status</span></label>
+			<select name="taxon_status" id="taxon_status" size="1">
+				<option value=""></option>
+				<cfloop query="cttaxon_status">
+					<option 
 							<cfif gettaxa.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
 							value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
-						</cfloop>
-				</select>
-				<span class="infoLink" onclick="getCtDoc('cttaxon_status');">Define</span>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="subspecies">Subspecies</label>
-				<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#">
-			</td>
-			<td>
-				<label for="infraspecific_author" id="infraspecific_author_label"><span>
-					Infraspecific Author (do not use for ICZN names)</span></label>
-				<input type="text" name="infraspecific_author" id="infraspecific_author" value="#gettaxa.infraspecific_author#" size="30">
-				<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')">
-						Find Kew Abbr
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="kingdom">Kingdom</label>
-				<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
-			</td>
-			<td>&nbsp;
-				
-			</td>
-		</tr>
-		<tr id="phylum_row">
-			<td>
-				<label for="phylum" id="phylum_label">Phylum</label>
-				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" size="30">
-			</td>
-			<td>
-				<label for="subphylum" id="subphylum_label">Subphylum</label>
-				<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" size="30">
-			</td>
-		</tr>
-		<tr id="division_row">
-			<td>
-				<label for="division" id="division_label" >Division</label>
-				<input type="text" name="division" id="division" value="#gettaxa.division#" size="30">
-			</td>
-			<td>
-				<label for="subdivision" id="subdivsion_label">SubDivision</label>
-				<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="superclass">Superclass</label>
-				<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" size="30">
-			</td>
-			<td>
-				<label for="phylclass">Class</label>
-				<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="subclass">SubClass</label>
-				<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" size="30">
-			</td>
-			<td>
-				<label for="infraclass">InfraClass</label>
-				<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="superorder">Superorder</label>
-				<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" size="30">
-			</td>
-			<td>
-				<label for="phylorder">Order</label>
-				<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="suborder">Suborder</label>
-				<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" size="30">
-			</td>
-			<td>
-				<label for="infraorder">Infraorder</label>
-				<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="superfamily">Superfamily</label>
-				<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" size="30">
-			</td>
-			<td>
-				<label for="family">Family</label>
-				<input type="text" name="family" id="family" value="#gettaxa.family#" size="30">
-			</td>
-
-		</tr>
-		<tr>
-			<td>
-				<label for="subfamily">Subfamily</label>
-				<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" size="30">
-			</td>
-			<td>
-				<label for="tribe">Tribe</label>
-				<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="subgenus">Subgenus</label>
-				(<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" size="29">)#subgenus_message#
-			</td>
-			<td>
-				<label for="subsection">SubSection</label>
-				<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" size="29">
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<label for="taxon_remarks">Remarks</label>
-				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#gettaxa.taxon_remarks#</textarea>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div align="center">
-					<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
-					<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxon';submit();">
-					<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
-				</div>
-			</td>
-			<script>
+				</cfloop>
+			</select>
+			<span class="infoLink" onclick="getCtDoc('cttaxon_status');">Define</span></td>
+	</tr>
+	<tr>
+		<td><label for="subspecies">Subspecies</label>
+			<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#"></td>
+		<td><label for="infraspecific_author" id="infraspecific_author_label"><span> Infraspecific Author (do not use for ICZN names)</span></label>
+			<input type="text" name="infraspecific_author" id="infraspecific_author" value="#gettaxa.infraspecific_author#" size="30">
+			<span class="infoLink botanical"
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span></td>
+	</tr>
+	<tr>
+		<td><label for="kingdom">Kingdom</label>
+			<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30"></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr id="phylum_row">
+		<td><label for="phylum" id="phylum_label">Phylum</label>
+			<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" size="30"></td>
+		<td><label for="subphylum" id="subphylum_label">Subphylum</label>
+			<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" size="30"></td>
+	</tr>
+	<tr id="division_row">
+		<td><label for="division" id="division_label" >Division</label>
+			<input type="text" name="division" id="division" value="#gettaxa.division#" size="30"></td>
+		<td><label for="subdivision" id="subdivsion_label">SubDivision</label>
+			<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" size="30"></td>
+	</tr>
+	<tr>
+		<td><label for="superclass">Superclass</label>
+			<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" size="30"></td>
+		<td><label for="phylclass">Class</label>
+			<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" size="30"></td>
+	</tr>
+	<tr>
+		<td><label for="subclass">SubClass</label>
+			<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" size="30"></td>
+		<td><label for="infraclass">InfraClass</label>
+			<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" size="30"></td>
+	</tr>
+	<tr>
+		<td><label for="superorder">Superorder</label>
+			<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" size="30"></td>
+		<td><label for="phylorder">Order</label>
+			<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" size="30"></td>
+	</tr>
+	<tr>
+		<td><label for="suborder">Suborder</label>
+			<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" size="30"></td>
+		<td><label for="infraorder">Infraorder</label>
+			<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" size="30"></td>
+	</tr>
+	<tr>
+		<td><label for="superfamily">Superfamily</label>
+			<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" size="30"></td>
+		<td><label for="family">Family</label>
+			<input type="text" name="family" id="family" value="#gettaxa.family#" size="30"></td>
+	</tr>
+	<tr>
+		<td><label for="subfamily">Subfamily</label>
+			<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" size="30"></td>
+		<td><label for="tribe">Tribe</label>
+			<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" size="30"></td>
+	</tr>
+	<tr>
+		<td><label for="subgenus">Subgenus</label>
+			(
+			<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" size="29">
+			)#subgenus_message#</td>
+		<td><label for="subsection">SubSection</label>
+			<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" size="29"></td>
+	</tr>
+	<tr>
+		<td colspan="2"><label for="taxon_remarks">Remarks</label>
+			<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#gettaxa.taxon_remarks#</textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2"><div align="center">
+				<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
+				<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxon';submit();">
+				<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+			</div></td>
+		<script>
 				function qcTaxonEdits() { 
 					$("##taxon_form_action_input").val('saveTaxonEdits');
 					<cfif hasTaxonId>
@@ -632,9 +574,9 @@ limitations under the License.
 						$('##taxon_form').submit();
 					</cfif>
 				}
-			</script>
-		</tr>
- 	</table>
+			</script> 
+	</tr>
+	</table>
 	</form>
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -651,34 +593,28 @@ limitations under the License.
 	</cfquery>
 	<cfset i = 1>
 	<h4>Related Publications</h4>
-
-		<form name="newPub" method="post" action="Taxonomy.cfm">
-			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-			<input type="hidden" name="Action" value="newTaxonPub">
-			<input type="hidden" name="new_publication_id" id="new_publication_id">
-			<label for="new_pub">Pick Publication</label>
-			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')" size="80">
-			<input type="submit" value="Add Publication" class="insBtn">
-		</form>
-		<cfif tax_pub.recordcount gt 0>
+	<form name="newPub" method="post" action="Taxonomy.cfm">
+		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+		<input type="hidden" name="Action" value="newTaxonPub">
+		<input type="hidden" name="new_publication_id" id="new_publication_id">
+		<label for="new_pub">Pick Publication</label>
+		<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')" size="80">
+		<input type="submit" value="Add Publication" class="insBtn">
+	</form>
+	<cfif tax_pub.recordcount gt 0>
+		<ul>
+	</cfif>
+	<cfloop query="tax_pub">
+		<li> #formatted_publication#
 			<ul>
-		</cfif>
-		<cfloop query="tax_pub">
-			<li>
-				#formatted_publication#
-				<ul>
-					<li>
-						<a href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">[ remove ]</a>
-					</li>
-					<li>
-						<a href="SpecimenUsage.cfm?publication_id=#publication_id#">[ details ]</a>
-					</li>
-				</ul>
-			</li>
-		</cfloop>
-		<cfif tax_pub.recordcount gt 0>
+				<li> <a href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">[ remove ]</a> </li>
+				<li> <a href="SpecimenUsage.cfm?publication_id=#publication_id#">[ details ]</a> </li>
 			</ul>
-		</cfif>
+		</li>
+	</cfloop>
+	<cfif tax_pub.recordcount gt 0>
+		</ul>
+	</cfif>
 	</table>
 	<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
@@ -705,26 +641,18 @@ limitations under the License.
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
 			<tr class="newRec">
-				<td>
-					<label for="taxon_relationship">Add Relationship</label>
+				<td><label for="taxon_relationship">Add Relationship</label>
 					<select name="taxon_relationship" size="1" class="reqdClr">
 						<cfloop query="ctRelation">
 							<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
 						</cfloop>
-					</select>
-				</td>
-				<td>
-					<input type="text" name="relatedName" class="reqdClr" size="35"
+					</select></td>
+				<td><input type="text" name="relatedName" class="reqdClr" size="35"
 						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
 						onKeyPress="return noenter(event);">
-					<input type="hidden" name="newRelatedId">
-				</td>
-				<td>
-					<input type="text" name="relation_authority">
-				</td>
-				<td>
-					<input type="submit" value="Create" class="insBtn">
-	   			</td>
+					<input type="hidden" name="newRelatedId"></td>
+				<td><input type="text" name="relation_authority"></td>
+				<td><input type="submit" value="Create" class="insBtn"></td>
 			</tr>
 		</form>
 		<cfloop query="relations">
@@ -734,28 +662,19 @@ limitations under the License.
 				<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
 				<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
 				<tr>
-					<td>
-						<select name="taxon_relationship" size="1" class="reqdClr">
+					<td><select name="taxon_relationship" size="1" class="reqdClr">
 							<cfloop query="ctRelation">
 								<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
-									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#
-								</option>
+									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
 							</cfloop>
-						</select>
-					</td>
-					<td>
-						<input type="text" name="relatedName" class="reqdClr" size="50" value="#relations.scientific_name#"
+						</select></td>
+					<td><input type="text" name="relatedName" class="reqdClr" size="50" value="#relations.scientific_name#"
 							onChange="taxaPick('newRelatedId','relatedName','relation#i#',this.value); return false;"
 							onKeyPress="return noenter(event);">
-						<input type="hidden" name="newRelatedId">
-					</td>
-					<td>
-						<input type="text" name="relation_authority" value="#relations.relation_authority#">
-					</td>
-					<td>
-						<input type="button" value="Save" class="savBtn" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
-						<input type="button" value="Delete" class="delBtn" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
-					</td>
+						<input type="hidden" name="newRelatedId"></td>
+					<td><input type="text" name="relation_authority" value="#relations.relation_authority#"></td>
+					<td><input type="button" value="Save" class="savBtn" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
+						<input type="button" value="Delete" class="delBtn" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');"></td>
 				</tr>
 			</form>
 			<cfset i = #i#+1>
@@ -781,15 +700,13 @@ limitations under the License.
 	</cfloop>
 	<table class="newRec">
 		<tr>
-			<td>
-				<form name="newCommon" method="post" action="Taxonomy.cfm">
+			<td><form name="newCommon" method="post" action="Taxonomy.cfm">
 					<input type="hidden" name="Action" value="newCommon">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 					<label for="common_name">New Common Name</label>
 					<input type="text" name="common_name" size="50">
 					<input type="submit" value="Create" class="insBtn">
-				</form>
-			</td>
+				</form></td>
 		</tr>
 	</table>
 	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -797,9 +714,7 @@ limitations under the License.
 		from taxon_habitat 
 		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-
 	<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-
 	<h4>Habitat</h4>
 	<cfset i=1>
 	<cfloop query="habitat">
@@ -814,8 +729,7 @@ limitations under the License.
 	</cfloop>
 	<table class="newRec">
 		<tr>
-			<td>
-				<form name="newhabitat" method="post" action="Taxonomy.cfm">
+			<td><form name="newhabitat" method="post" action="Taxonomy.cfm">
 					<input type="hidden" name="Action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 					<label for="taxon_habitat">New Habitat</label>
@@ -827,11 +741,10 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<input type="submit" value="Add" class="insBtn">
-				</form>
-			</td>
+				</form></td>
 		</tr>
 	</table>
-	</div>
+</div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -855,59 +768,58 @@ limitations under the License.
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newCommon">
-<cfoutput>
-	<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO common_name 
 			(common_name, taxon_name_id)
 		VALUES 
 			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> , 
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> )
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfoutput>
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newHabitat">
-<cfoutput>
-	<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO taxon_habitat 
 			(taxon_habitat, taxon_name_id)
 		VALUES 
 			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfoutput>
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif Action is "deleTaxa">
-<cfoutput>
-	<cfquery name="deleTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="deleTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		DELETE FROM
 			taxonomy
 		WHERE
 			taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	Taxon record successfully deleted.
-</cfoutput>
+		Taxon record successfully deleted. </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "deleteCommon">
-<cfoutput>
-	<cfquery name="killCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="killCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		DELETE FROM
 			common_name
 		WHERE
 			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#"> 
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfoutput>
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveCommon">
-<cfoutput>
-	<cfquery name="upCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="upCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE
 			common_name
 		SET
@@ -916,93 +828,89 @@ limitations under the License.
 			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#">
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfoutput>
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "deleteHabitat">
-<cfoutput>
-	<cfquery name="killhabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="killhabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		DELETE FROM
 			taxon_habitat
 		WHERE
 			taxon_habitat=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orighabitatName#">
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfoutput>
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	</cfoutput>
 </cfif>
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxon">
-<cfset title = "Add Taxon">
-<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfset title = "Add Taxon">
+	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 </cfquery>
-<cfoutput>
-<div class="content_box_narrow" style="width: 46em;">
-  <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
-  <p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
-	<table class="tInput">
-		<form name="taxa" method="post" action="Taxonomy.cfm">
-			<input type="hidden" name="Action" value="saveNewTaxa">
-			<tr>
-				<td>
-					<label for="source_authority"><span>Source</span></label>
-					<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
-						<cfloop query="ctSourceAuth">
-							<option
+	<cfoutput>
+		<div class="content_box_narrow" style="width: 46em;">
+			<h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
+			<p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
+			<table class="tInput">
+				<form name="taxa" method="post" action="Taxonomy.cfm">
+					<input type="hidden" name="Action" value="saveNewTaxa">
+					<tr>
+						<td><label for="source_authority"><span>Source</span></label>
+							<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
+								<cfloop query="ctSourceAuth">
+									<option
 								<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
 								value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td>
-					<label for="valid_catalog_term_fg"><span>Valid?</span></label>
-					<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr">
-						<option <cfif valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
-						<option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" class="detailCell">
-					<label for="genus">GUID for Taxon (dwc:taxonID)</label>
-					<cfset pattern = "">
-					<cfset placeholder = "">
-					<cfset regex = "">
-					<cfset replacement = "">
-					<cfset searchlink = "" >		
-					<cfset searchtext = "" >		
-					<cfset searchclass = "" >		
-					<cfloop query="ctguid_type_taxon">
-	 					<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
-							<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >		
-							<cfset searchtext = "Find GUID" >		
-							<cfset searchclass = 'class="smallBtn external"' >
-						</cfif>
-					</cfloop>
-					<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
-						<cfif searchtext EQ "">
-							<option value=""></option>
-						</cfif>
-						<cfloop query="ctguid_type_taxon">
-							<cfset sel="">
-	 							<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
-									<cfset sel="selected='selected'">
-									<cfset placeholder = "#ctguid_type_taxon.placeholder#">
-									<cfset pattern = "#ctguid_type_taxon.pattern_regex#">
-									<cfset regex = "#ctguid_type_taxon.resolver_regex#">
-									<cfset replacement = "#ctguid_type_taxon.resolver_replacement#">
+								</cfloop>
+							</select></td>
+						<td><label for="valid_catalog_term_fg"><span>Valid?</span></label>
+							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr">
+								<option <cfif valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
+								<option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
+							</select></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="detailCell"><label for="genus">GUID for Taxon (dwc:taxonID)</label>
+							<cfset pattern = "">
+							<cfset placeholder = "">
+							<cfset regex = "">
+							<cfset replacement = "">
+							<cfset searchlink = "" >
+							<cfset searchtext = "" >
+							<cfset searchclass = "" >
+							<cfloop query="ctguid_type_taxon">
+								<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
+									<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
+									<cfset searchtext = "Find GUID" >
+									<cfset searchclass = 'class="smallBtn external"' >
 								</cfif>
-							<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
-						</cfloop>
-					</select>
-					<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a>
-					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-					<input size="56" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-					<a id="taxonid_link" href="" target="_blank" class="hints"></a>
-					<script>
+							</cfloop>
+							<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
+								<cfif searchtext EQ "">
+									<option value=""></option>
+								</cfif>
+								<cfloop query="ctguid_type_taxon">
+									<cfset sel="">
+									<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
+										<cfset sel="selected='selected'">
+										<cfset placeholder = "#ctguid_type_taxon.placeholder#">
+										<cfset pattern = "#ctguid_type_taxon.pattern_regex#">
+										<cfset regex = "#ctguid_type_taxon.resolver_regex#">
+										<cfset replacement = "#ctguid_type_taxon.resolver_replacement#">
+									</cfif>
+									<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
+								</cfloop>
+							</select>
+							<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
+							<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
+							
+							<input size="56" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+							<a id="taxonid_link" href="" target="_blank" class="hints"></a> 
+							<script>
 						$(document).ready(function () { 
 							if ($('##taxonid').val().length > 0) {
 								$('##taxonid').hide();
@@ -1034,49 +942,48 @@ limitations under the License.
 								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 							});
 						});
-					</script>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" class="detailCell">
-					<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
-					<cfset pattern = "">
-					<cfset placeholder = "">
-					<cfset regex = "">
-					<cfset replacement = "">
-					<cfset searchlink = "" >		
-					<cfset searchtext = "" >		
-					<cfset searchclass = "" >		
-					<cfloop query="ctguid_type_scientificname">
-	 					<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-							<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >		
-							<cfset searchtext = "Find GUID" >		
-							<cfset searchclass = 'class="smallBtn external"' >
-						</cfif>
-					</cfloop>
-					<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
-						<cfif searchtext EQ "">
-							<option value=""></option>
-						</cfif>
-						<cfloop query="ctguid_type_scientificname">
-							<cfset sel="">
-	 						<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-								<cfset sel="selected='selected'">
-								<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
-								<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
-								<cfset regex = "#ctguid_type_scientificname.resolver_regex#">
-								<cfset replacement = "#ctguid_type_scientificname.resolver_replacement#">
-							</cfif>
-							<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
-						</cfloop>
-					</select>
-					<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
-					<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-					<input size="54" name="scientificnameid" id="scientificnameid" value=""
+					</script></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="detailCell"><label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+							<cfset pattern = "">
+							<cfset placeholder = "">
+							<cfset regex = "">
+							<cfset replacement = "">
+							<cfset searchlink = "" >
+							<cfset searchtext = "" >
+							<cfset searchclass = "" >
+							<cfloop query="ctguid_type_scientificname">
+								<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+									<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
+									<cfset searchtext = "Find GUID" >
+									<cfset searchclass = 'class="smallBtn external"' >
+								</cfif>
+							</cfloop>
+							<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
+								<cfif searchtext EQ "">
+									<option value=""></option>
+								</cfif>
+								<cfloop query="ctguid_type_scientificname">
+									<cfset sel="">
+									<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+										<cfset sel="selected='selected'">
+										<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
+										<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
+										<cfset regex = "#ctguid_type_scientificname.resolver_regex#">
+										<cfset replacement = "#ctguid_type_scientificname.resolver_replacement#">
+									</cfif>
+									<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
+								</cfloop>
+							</select>
+							<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a> 
+							<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
+							
+							<input size="54" name="scientificnameid" id="scientificnameid" value=""
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-					<a id="scientificnameid_link" href="" target="_blank" class="hints"></a>
-					<script>
+							<a id="scientificnameid_link" href="" target="_blank" class="hints"></a> 
+							<script>
 						$(document).ready(function () { 
 							if ($('##scientificnameid').val().length > 0) {
 								$('##scientificnameid').hide();
@@ -1108,201 +1015,137 @@ limitations under the License.
 								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 							});
 						});
-					</script>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-					<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
-						<cfloop query="ctnomenclatural_code">
-							<option
+					</script></td>
+					</tr>
+					<tr>
+						<td><label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
+							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
+								<cfloop query="ctnomenclatural_code">
+									<option
 								<cfif #form.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
 								value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td>
-					<label for="genus">Genus <span class="likeLink botanical"
+								</cfloop>
+							</select></td>
+						<td><label for="genus">Genus <span class="likeLink botanical"
 						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-					<input size="25" name="genus" id="genus" maxlength="40" value="#genus#">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="species">Species<!---  <span class="likeLink"
+							<input size="25" name="genus" id="genus" maxlength="40" value="#genus#"></td>
+					</tr>
+					<tr>
+						<td><label for="species">Species<!---  <span class="likeLink"
 						onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-					<input size="25" name="species" id="species" maxlength="40" value="#species#">
-				</td>
-				<td>
-					<label for="author_text"><span>Author</span></label>
-					<input type="text" name="author_text" id="author_text" value="#author_text#" size="30">
-					<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
-							Find Kew Abbr
-					</span>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
-					<select name="infraspecific_rank" id="infraspecific_rank" size="1">
-	                	<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
-		                <cfloop query="ctInfRank">
-		                  <option
+							<input size="25" name="species" id="species" maxlength="40" value="#species#"></td>
+						<td><label for="author_text"><span>Author</span></label>
+							<input type="text" name="author_text" id="author_text" value="#author_text#" size="30">
+							<span class="infoLink botanical"
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span></td>
+					</tr>
+					<tr>
+						<td><label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
+							<select name="infraspecific_rank" id="infraspecific_rank" size="1">
+								<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
+								<cfloop query="ctInfRank">
+									<option
 								<cfif form.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
-		                </cfloop>
-	              	</select>
-				</td>
-				<td>
-					<label for="taxon_status"><span>Taxon Status</span></label>
-					<select name="taxon_status" id="taxon_status" size="1">
-				    	<option value=""></option>
-				    	<cfloop query="cttaxon_status">
-				        	<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
+								</cfloop>
+							</select></td>
+						<td><label for="taxon_status"><span>Taxon Status</span></label>
+							<select name="taxon_status" id="taxon_status" size="1">
+								<option value=""></option>
+								<cfloop query="cttaxon_status">
+									<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
 				            	value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
-				        </cfloop>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="subspecies">Subspecies</label>
-					<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#subspecies#">
-				</td>
-				<td>
-					<label for="infraspecific_author" id="infraspecific_author_label"><span>
-						Infraspecific Author</span></label>
-					<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" size="30">
-					<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')">
-							Find Kew Abbr
-						</span>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="kingdom">Kingdom</label>
-					<input type="text" name="kingdom" id="kingdom" value="#kingdom#" size="30">
-				</td>
-			<td>&nbsp;
-				
-			</td>
-		</tr>
-		<tr id="phylum_row">
-			<td>
-				<label for="phylum" id="phylum_label">Phylum</label>
-				<input type="text" name="phylum" id="phylum" value="#phylum#" size="30">
-			</td>
-			<td>
-				<label for="subphylum" id="subphylum_label">Subphylum</label>
-				<input type="text" name="subphylum" id="subphylum" value="#subphylum#" size="30">
-			</td>
-		</tr>
-		<tr id="division_row">
-			<td>
-				<label for="division" id="division_label" >Division</label>
-				<input type="text" name="division" id="division" value="#division#" size="30" >
-			</td>
-			<td>
-				<label for="subdivision" id="subdivision_label" >SubDivision</label>
-				<input type="text" name="subdivision" id="subdivision" value="#subdivision#" size="30" >
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="superclass">Superclass</label>
-				<input type="text" name="superclass" id="superclass" value="#superclass#" size="30">
-			</td>
-			<td>
-				<label for="phylclass">Class</label>
-				<input type="text" name="phylclass" id="phylclass" value="#phylclass#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="subclass">SubClass</label>
-				<input type="text" name="subclass" id="subclass" value="#subclass#" size="30">
-			</td>
-			<td>
-				<label for="infraclass">InfraClass</label>
-				<input type="text" name="infraclass" id="infraclass" value="#infraclass#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="superorder">Superorder</label>
-				<input type="text" name="superorder" id="superorder" value="#superorder#" size="30">
-			</td>
-			<td>
-				<label for="phylorder">Order</label>
-				<input type="text" name="phylorder" id="phylorder" value="#phylorder#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="suborder">Suborder</label>
-				<input type="text" name="suborder" id="suborder" value="#suborder#" size="30">
-			</td>
-			<td>
-				<label for="infraorder">Infraorder</label>
-				<input type="text" name="infraorder" id="infraorder" value="#infraorder#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="superfamily">Superfamily</label>
-				<input type="text" name="superfamily" id="superfamily" value="#superfamily#" size="30">
-			</td>
-			<td>
-				<label for="family">Family</label>
-				<input type="text" name="family" id="family" value="#family#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="subfamily">Subfamily</label>
-				<input type="text" name="subfamily" id="subfamily" value="#subfamily#" size="30">
-			</td>
-			<td>
-				<label for="tribe">Tribe</label>
-				<input type="text" name="tribe" id="tribe" value="#tribe#" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="subgenus">Subgenus</label>
-				(<input type="text" name="subgenus" id="subgenus" value="#subgenus#" size="29">)#subgenus_message#
-			</td>
-			<td>
-				<label for="subgenus">SubSection</label>
-				<input type="text" name="subsection" id="subsection" value="#subsection#" size="29">
-			</td>
-		</tr>
-	        <tr>
-				<td colspan="2">
-					<label for="taxon_remarks">Remarks</label>
-					<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#taxon_remarks#</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td align="center" colspan="2">
- 					<input type="submit" value="Create" class="insBtn">
-				</td>
-			</tr>
-		</form>
-	</table>
-    </div>
-</cfoutput>
+								</cfloop>
+							</select></td>
+					</tr>
+					<tr>
+						<td><label for="subspecies">Subspecies</label>
+							<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#subspecies#"></td>
+						<td><label for="infraspecific_author" id="infraspecific_author_label"><span> Infraspecific Author</span></label>
+							<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" size="30">
+							<span class="infoLink botanical"
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span></td>
+					</tr>
+					<tr>
+						<td><label for="kingdom">Kingdom</label>
+							<input type="text" name="kingdom" id="kingdom" value="#kingdom#" size="30"></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr id="phylum_row">
+						<td><label for="phylum" id="phylum_label">Phylum</label>
+							<input type="text" name="phylum" id="phylum" value="#phylum#" size="30"></td>
+						<td><label for="subphylum" id="subphylum_label">Subphylum</label>
+							<input type="text" name="subphylum" id="subphylum" value="#subphylum#" size="30"></td>
+					</tr>
+					<tr id="division_row">
+						<td><label for="division" id="division_label" >Division</label>
+							<input type="text" name="division" id="division" value="#division#" size="30" ></td>
+						<td><label for="subdivision" id="subdivision_label" >SubDivision</label>
+							<input type="text" name="subdivision" id="subdivision" value="#subdivision#" size="30" ></td>
+					</tr>
+					<tr>
+						<td><label for="superclass">Superclass</label>
+							<input type="text" name="superclass" id="superclass" value="#superclass#" size="30"></td>
+						<td><label for="phylclass">Class</label>
+							<input type="text" name="phylclass" id="phylclass" value="#phylclass#" size="30"></td>
+					</tr>
+					<tr>
+						<td><label for="subclass">SubClass</label>
+							<input type="text" name="subclass" id="subclass" value="#subclass#" size="30"></td>
+						<td><label for="infraclass">InfraClass</label>
+							<input type="text" name="infraclass" id="infraclass" value="#infraclass#" size="30"></td>
+					</tr>
+					<tr>
+						<td><label for="superorder">Superorder</label>
+							<input type="text" name="superorder" id="superorder" value="#superorder#" size="30"></td>
+						<td><label for="phylorder">Order</label>
+							<input type="text" name="phylorder" id="phylorder" value="#phylorder#" size="30"></td>
+					</tr>
+					<tr>
+						<td><label for="suborder">Suborder</label>
+							<input type="text" name="suborder" id="suborder" value="#suborder#" size="30"></td>
+						<td><label for="infraorder">Infraorder</label>
+							<input type="text" name="infraorder" id="infraorder" value="#infraorder#" size="30"></td>
+					</tr>
+					<tr>
+						<td><label for="superfamily">Superfamily</label>
+							<input type="text" name="superfamily" id="superfamily" value="#superfamily#" size="30"></td>
+						<td><label for="family">Family</label>
+							<input type="text" name="family" id="family" value="#family#" size="30"></td>
+					</tr>
+					<tr>
+						<td><label for="subfamily">Subfamily</label>
+							<input type="text" name="subfamily" id="subfamily" value="#subfamily#" size="30"></td>
+						<td><label for="tribe">Tribe</label>
+							<input type="text" name="tribe" id="tribe" value="#tribe#" size="30"></td>
+					</tr>
+					<tr>
+						<td><label for="subgenus">Subgenus</label>
+							(
+							<input type="text" name="subgenus" id="subgenus" value="#subgenus#" size="29">
+							)#subgenus_message#</td>
+						<td><label for="subgenus">SubSection</label>
+							<input type="text" name="subsection" id="subsection" value="#subsection#" size="29"></td>
+					</tr>
+					<tr>
+						<td colspan="2"><label for="taxon_remarks">Remarks</label>
+							<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#taxon_remarks#</textarea></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><input type="submit" value="Create" class="insBtn"></td>
+					</tr>
+				</form>
+			</table>
+		</div>
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveNewtaxa">
-<cfoutput>
-	<cftransaction>
-		<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cftransaction>
+			<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select sq_taxon_name_id.nextval nextID from dual
 		</cfquery>
-		<cfquery name="newTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO taxonomy (
 				taxon_name_id,
 				valid_catalog_term_fg,
@@ -1505,14 +1348,14 @@ limitations under the License.
 			</cfif>
 			)
 		</cfquery>
-	</cftransaction>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
-</cfoutput>
+		</cftransaction>
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxonRelation">
-<cfoutput>
-	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO taxon_relations (
 			TAXON_NAME_ID,
 			RELATED_TAXON_NAME_ID,
@@ -1525,13 +1368,13 @@ limitations under the License.
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATION_AUTHORITY#">
 		)
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfoutput>
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif Action is "deleReln">
-<cfoutput>
-<cfquery name="deleReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="deleReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	DELETE FROM
 		taxon_relations
 	WHERE
@@ -1540,12 +1383,12 @@ limitations under the License.
 		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
 		</cfquery>
 		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfoutput>
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveRelnEdit">
-<cfoutput>
-<cfquery name="edRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="edRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	UPDATE taxon_relations SET
 		taxon_relationship = '#taxon_relationship#'
 		<cfif len(#newRelatedId#) gt 0>
@@ -1563,25 +1406,25 @@ limitations under the License.
 		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origTaxon_relationship#">
 		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
 </cfquery>
-<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfoutput>
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveTaxonEdits">
-<cfoutput>
-       <cfset subgenus_message = "">
-        <cfif len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
-            <cfset subgenus_message = "<strong>Do Not include parethesies</strong>">
-            <cfset subgenus = replace(replace(#subgenus#,")",""),"(","") >
-        </cfif>
-        <cfset hasError = 0 >
-        <cfif not isdefined("source_authority") OR len(#source_authority#) is 0>
-	    Error: You didn't select a Source. Go back and try again.  
-            <cfset hasError = 1 >
-        </cfif>
-        <cfif hasError eq 0>
-        <cftransaction>
-	<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfset subgenus_message = "">
+		<cfif len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
+			<cfset subgenus_message = "<strong>Do Not include parethesies</strong>">
+			<cfset subgenus = replace(replace(#subgenus#,")",""),"(","") >
+		</cfif>
+		<cfset hasError = 0 >
+		<cfif not isdefined("source_authority") OR len(#source_authority#) is 0>
+			Error: You didn't select a Source. Go back and try again.
+			<cfset hasError = 1 >
+		</cfif>
+		<cfif hasError eq 0>
+			<cftransaction>
+				<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cfid)#">
 	UPDATE taxonomy SET
 		valid_catalog_term_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
 		source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
@@ -1747,10 +1590,10 @@ limitations under the License.
 		</cfif>
 	WHERE taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	</cftransaction>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
-        </cfif>
-</cfoutput>
+			</cftransaction>
+			<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
+		</cfif>
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 
