@@ -409,11 +409,10 @@ select
 </cfquery>
 <!---  getAccMCZ - information for accession invoice headers.   --->
 <cfquery name="caller.getAccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      SELECT * from (
-      SELECT distinct
+	SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
 		replace(to_char(received_date, 'dd-Month-yyyy'),' ','') as received_date,
-	
+
 		-- inside
 		concattransagent(trans.transaction_id, 'authorized by') authAgentName,
 		concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
@@ -423,32 +422,25 @@ select
 		concattransagent(trans.transaction_id, 'received by')   recAgentName,
 		MCZBASE.get_eaddresses(trans.transaction_id,'in-house contact') inHouseContactPhEmail,
 		MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
-
+		
 		-- outside
 		concattransagent(trans.transaction_id, 'received from')   recFromAgentName,
 		concattransagent(trans.transaction_id, 'outside authorized by') outsideAuthAgentName,
 		concattransagent(trans.transaction_id, 'outside contact')   outsideContactName,
 		concattransagent(trans.transaction_id, 'additional outside contact')   additionalContactNames,
 		MCZBASE.get_eaddresses(trans.transaction_id,'outside contact') outsideContactPhEmail,
-
-		-- deprecated		
-		concattransagent(trans.transaction_id, 'associated with agency')   agencyName,
-
-		outside_addr.job_title  outside_contact_title,
-		inside_addr.job_title  inside_contact_title,
-
-		get_address(inside_trans_agent.agent_id) inside_address,
 		get_address(outside_trans_agent.agent_id) outside_address,
-		inside_email.address inside_email_address,
-		outside_email.address outside_email_address,
-		inside_phone.address inside_phone_number,
-		outside_phone.address outside_phone_number,
-                replace(nature_of_material,'&','&amp;') nature_of_material,
-                replace(trans_remarks,'&','&amp;') trans_remarks,
-                accn_type,
-            	'specimens' as  object_specimen,
-                accn_number,
-                accn_status,
+		'' as outside_contact_title,		
+
+		-- Stewardship
+		concattransagent(trans.transaction_id, 'stewardship from agency')   agencyName,
+		
+		replace(nature_of_material,'&','&amp;') nature_of_material,
+		replace(trans_remarks,'&','&amp;') trans_remarks,
+		accn_type,
+		'specimens' as  object_specimen,
+		accn_number,
+		accn_status,
 		estimated_count,
 		'' as value,
 		replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
@@ -456,63 +448,29 @@ select
 		shipment.no_of_packages as no_of_packages,
 		ship_to_addr.formatted_addr  shipped_to_address   ,
 		ship_from_addr.formatted_addr  shipped_from_address  ,
-		processed_by.agent_name processed_by_name,
+		MCZBASE.get_agentnameoftype(shipment.PACKED_BY_AGENT_ID, 'preferred') as processed_by_name,
 		sponsor_name.agent_name project_sponsor_name,
 		acknowledgement,
 		collection.collection,
-                shipment.shipment_id,
-                shipment.print_flag,
-                shipment.carriers_tracking_number, 
+		shipment.shipment_id,
+		shipment.print_flag,
+		shipment.carriers_tracking_number, 
 		replace(MCZBASE.get_media_for_trans(trans.transaction_id,'documents accn'),'&','&amp;') as media,
 		replace(MCZBASE.get_permits_for_trans(trans.transaction_id),'&','&amp;') as permits
-        FROM
-                accn,
-				trans,
-				trans_agent inside_trans_agent,
-				trans_agent outside_trans_agent,
-				preferred_agent_name outside_contact,
-				preferred_agent_name inside_contact,
-				(select * from electronic_address where address_type ='email') inside_email,
-				(select * from electronic_address where address_type ='email') outside_email,
-				(select * from electronic_address where address_type ='work phone number') inside_phone,
-				(select * from electronic_address where address_type ='work phone number') outside_phone,
-				(select * from addr where addr_type='Correspondence') outside_addr,
-				(select * from addr where addr_type='Correspondence') inside_addr,
-				shipment,
-				addr ship_to_addr,
-				addr ship_from_addr,
-				preferred_agent_name processed_by,
-				project_trans,
-				project_sponsor,
-				agent_name sponsor_name,
-				collection
-        WHERE
-                accn.transaction_id = trans.transaction_id and
-				trans.transaction_id = inside_trans_agent.transaction_id (+) and
-				inside_trans_agent.agent_id = inside_contact.agent_id and
-				-- TODO: change lookup of internal addresses to be optional
-				-- inside_trans_agent.trans_agent_role='in-house contact' and
-				inside_trans_agent.agent_id = inside_email.agent_id (+) and
-				inside_trans_agent.agent_id = inside_addr.agent_id (+) and
-				inside_trans_agent.agent_id = inside_phone.agent_id (+) and
-				trans.transaction_id = outside_trans_agent.transaction_id (+) and
-				outside_trans_agent.agent_id = outside_contact.agent_id (+) and
-				outside_trans_agent.trans_agent_role='received from' and
-				outside_trans_agent.agent_id = outside_email.agent_id (+) and
-				outside_trans_agent.agent_id = outside_phone.agent_id (+) and
-				outside_trans_agent.agent_id = outside_addr.agent_id (+) and
-				accn.transaction_id = shipment.transaction_id (+) and
-				shipment.SHIPPED_TO_ADDR_ID	= ship_to_addr.addr_id (+) and
-				shipment.SHIPPED_FROM_ADDR_ID	= ship_from_addr.addr_id (+) and
-				shipment.PACKED_BY_AGENT_ID = 	processed_by.agent_id (+) and
-				trans.transaction_id = 	project_trans.transaction_id (+) and
-				project_trans.project_id =	project_sponsor.project_id (+) and
-				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and
-				trans.collection_id = collection.collection_id AND
-				accn.transaction_id=#transaction_id#
-        ---  get the shipment with the print flag set, failover to the first entered shipment
-        ---    (by shipment_id, assuming that is sequential) is the incoming shipment
-        ---    generally expected that there is only one shipment for an accession
-        order by shipment.print_flag desc, shipment.shipment_id asc
-        ) where rownum < 2
+	FROM
+		accn 
+		left join trans on accn.transaction_id = trans.transaction_id
+		left join trans_agent outside_trans_agent on trans.transaction_id = outside_trans_agent.transaction_id
+		left join shipment on accn.transaction_id = shipment.transaction_id
+		left join collection on trans.collection_id = collection.collection_id
+		left join addr ship_to_addr on shipment.SHIPPED_TO_ADDR_ID = ship_to_addr.addr_id
+		left join addr ship_from_addr on shipment.SHIPPED_FROM_ADDR_ID	= ship_from_addr.addr_id
+		left join project_trans on trans.transaction_id = project_trans.transaction_id
+		left join project_sponsor on project_trans.project_id = project_sponsor.project_id
+		left join agent_name sponsor_name on project_sponsor.agent_name_id = sponsor_name.agent_name_id
+	WHERE
+		outside_trans_agent.trans_agent_role='received from' and
+		accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+	ORDER BY 
+		shipment.print_flag desc, shipment.shipment_id asc
 </cfquery>
