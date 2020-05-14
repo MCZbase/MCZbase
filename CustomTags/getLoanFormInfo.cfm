@@ -430,7 +430,8 @@ select
 		concattransagent(trans.transaction_id, 'additional outside contact')   additionalContactNames,
 		MCZBASE.get_eaddresses(trans.transaction_id,'outside contact') outsideContactPhEmail,
 		get_address(outside_trans_agent.agent_id) outside_address,
-		
+		'' as outside_contact_title,		
+
 		-- Stewardship
 		concattransagent(trans.transaction_id, 'stewardship from agency')   agencyName,
 		
@@ -459,7 +460,7 @@ select
 	FROM
 		accn 
 		left join trans on accn.transaction_id = trans.transaction_id
-		left join trans_agent outside_trans_agent on trans.transaction_id = inside_trans_agent.transaction_id
+		left join trans_agent outside_trans_agent on trans.transaction_id = outside_trans_agent.transaction_id
 		left join shipment on accn.transaction_id = shipment.transaction_id
 		left join collection on trans.collection_id = collection.collection_id
 		left join addr ship_to_addr on shipment.SHIPPED_TO_ADDR_ID = ship_to_addr.addr_id
