@@ -422,7 +422,6 @@ select
 		concattransagent(trans.transaction_id, 'received by')   recAgentName,
 		MCZBASE.get_eaddresses(trans.transaction_id,'in-house contact') inHouseContactPhEmail,
 		MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
-		get_address(inside_trans_agent.agent_id) inside_address,
 		
 		-- outside
 		concattransagent(trans.transaction_id, 'received from')   recFromAgentName,
@@ -458,16 +457,18 @@ select
 		replace(MCZBASE.get_media_for_trans(trans.transaction_id,'documents accn'),'&','&amp;') as media,
 		replace(MCZBASE.get_permits_for_trans(trans.transaction_id),'&','&amp;') as permits
 	FROM
-		accn left join trans on accn.transaction_id = trans.transaction_id, 
-		left join shipment on accn.transaction_id = shipment.transaction_id,
-		left join collection on trans.collection_id = collection.collection_id,
-		left join trans_agent inside_trans_agent on trans.transaction_id = inside_trans_agent.transaction_id,
-		left join addr ship_to_addr on shipment.SHIPPED_TO_ADDR_ID = ship_to_addr.addr_id,
-		left join addr ship_from_addr on shipment.SHIPPED_FROM_ADDR_ID	= ship_from_addr.addr_id,
-		left join project_trans on trans.transaction_id = project_trans.transaction_id,
-		left join project_sponsor on project_trans.project_id = project_sponsor.project_id,
+		accn 
+		left join trans on accn.transaction_id = trans.transaction_id
+		left join trans_agent outside_trans_agent on trans.transaction_id = inside_trans_agent.transaction_id
+		left join shipment on accn.transaction_id = shipment.transaction_id
+		left join collection on trans.collection_id = collection.collection_id
+		left join addr ship_to_addr on shipment.SHIPPED_TO_ADDR_ID = ship_to_addr.addr_id
+		left join addr ship_from_addr on shipment.SHIPPED_FROM_ADDR_ID	= ship_from_addr.addr_id
+		left join project_trans on trans.transaction_id = project_trans.transaction_id
+		left join project_sponsor on project_trans.project_id = project_sponsor.project_id
 		left join agent_name sponsor_name on project_sponsor.agent_name_id = sponsor_name.agent_name_id
 	WHERE
+		outside_trans_agent.trans_agent_role='received from' and
 		accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	ORDER BY 
 		shipment.print_flag desc, shipment.shipment_id asc
