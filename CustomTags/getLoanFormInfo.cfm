@@ -409,7 +409,6 @@ select
 </cfquery>
 <!---  getAccMCZ - information for accession invoice headers.   --->
 <cfquery name="caller.getAccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
 		replace(to_char(received_date, 'dd-Month-yyyy'),' ','') as received_date,
@@ -439,10 +438,6 @@ select
 
 		get_address(inside_trans_agent.agent_id) inside_address,
 		get_address(outside_trans_agent.agent_id) outside_address,
-		inside_email.address inside_email_address,
-		outside_email.address outside_email_address,
-		inside_phone.address inside_phone_number,
-		outside_phone.address outside_phone_number,
                 replace(nature_of_material,'&','&amp;') nature_of_material,
                 replace(trans_remarks,'&','&amp;') trans_remarks,
                 accn_type,
@@ -472,10 +467,6 @@ select
 				trans_agent outside_trans_agent,
 				preferred_agent_name outside_contact,
 				preferred_agent_name inside_contact,
-				(select * from electronic_address where address_type ='email') inside_email,
-				(select * from electronic_address where address_type ='email') outside_email,
-				(select * from electronic_address where address_type ='work phone number') inside_phone,
-				(select * from electronic_address where address_type ='work phone number') outside_phone,
 				(select * from addr where addr_type='Correspondence') outside_addr,
 				(select * from addr where addr_type='Correspondence') inside_addr,
 				shipment,
@@ -491,15 +482,10 @@ select
 				trans.transaction_id = inside_trans_agent.transaction_id (+) and
 				inside_trans_agent.agent_id = inside_contact.agent_id and
 				-- TODO: change lookup of internal addresses to be optional
-				-- inside_trans_agent.trans_agent_role='in-house contact' and
-				inside_trans_agent.agent_id = inside_email.agent_id (+) and
 				inside_trans_agent.agent_id = inside_addr.agent_id (+) and
-				inside_trans_agent.agent_id = inside_phone.agent_id (+) and
 				trans.transaction_id = outside_trans_agent.transaction_id (+) and
 				outside_trans_agent.agent_id = outside_contact.agent_id (+) and
 				outside_trans_agent.trans_agent_role='received from' and
-				outside_trans_agent.agent_id = outside_email.agent_id (+) and
-				outside_trans_agent.agent_id = outside_phone.agent_id (+) and
 				outside_trans_agent.agent_id = outside_addr.agent_id (+) and
 				accn.transaction_id = shipment.transaction_id (+) and
 				shipment.SHIPPED_TO_ADDR_ID	= ship_to_addr.addr_id (+) and
@@ -514,5 +500,4 @@ select
         ---    (by shipment_id, assuming that is sequential) is the incoming shipment
         ---    generally expected that there is only one shipment for an accession
         order by shipment.print_flag desc, shipment.shipment_id asc
-        ) where rownum < 2
 </cfquery>
