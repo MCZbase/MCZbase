@@ -303,7 +303,7 @@ limitations under the License.
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
 				</cfloop>
-				<div class="col-12 px-0">
+				<div class="col-2 px-0">
 					<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 						<cfif searchtext EQ "">
 							<option value=""></option>
@@ -320,16 +320,18 @@ limitations under the License.
 							<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 						</cfloop>
 					</select>
+				</div>
+				<div class="col-2 px-0">
 					<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
-								</div>
-				<div class="px-0"> 
-					<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+				</div>				
+				<div class="col-8 px-0"> 
+					<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2">
 					<cfif len(regex) GT 0 >
 						<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 						<cfelse>
 						<cfset link = gettaxa.taxonid>
 					</cfif>
-					<a id="taxonid_link" href="#link#" target="_blank" class="hints">#gettaxa.taxonid#</a> 
+					<a id="taxonid_link" href="#link#" target="_blank" class="border rounded px-2 py-0">#gettaxa.taxonid#</a> 
 					<script>
 					$(document).ready(function () { 
 						if ($('##taxonid').val().length > 0) {
