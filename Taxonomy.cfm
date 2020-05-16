@@ -295,7 +295,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				<div class="col-2">
-					<select name="taxonid_guid_type" id="taxonid_guid_type" class="form-control-sm w-25">
+					<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 						<cfif searchtext EQ "">
 							<option value=""></option>
 						</cfif>
