@@ -452,7 +452,7 @@ limitations under the License.
 		<div class="form-row">
 			<label for="part_name" class="col-sm-2 col-form-label px-2">Genus</label>
 			<div class="col-sm-10">
-				<input type="text" id="part_name" name="part_name" class="data-entry-input">
+				<input type="text" id="part_name" name="part_name" class="data-entry-input pt-2">
 			</div>
 		</div>	
 		<div class="form-row">
