@@ -465,7 +465,7 @@ limitations under the License.
 		<div class="col-6 px-0">
 			<label for="subspecies" class="col-sm-2 col-form-label float-left"> Subspecies</label>
 			<div class="col-sm-9 float-left">
-			<input name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input">
+			<input name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="ml-1 data-entry-input my-2">
 			</div>
 		</div>
 		<div class="col-6 px-0">
