@@ -247,15 +247,14 @@ limitations under the License.
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
 		<div class="tInput form-row">
-			<div class="col-6">
+			<div class="col-4">
 				<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
 				<input type="hidden" name="Action" class="data-entry-input" id="taxon_form_action_input">
 				<label for="source_authority"> <span>Source
 					<cfif isSourceAuthorityCurrent.ct eq 0>
 						(#getTaxa.source_authority#)
 					</cfif>
-					</span>
-				</label>
+					</span> </label>
 				<select name="source_authority" id="source_authority" class="reqdClr data-entry-select">
 					<cfif isSourceAuthorityCurrent.ct eq 0>
 						<option value="" selected="selected"></option>
@@ -266,11 +265,20 @@ limitations under the License.
 					</cfloop>
 				</select>
 			</div>
-			<div class="col-6">
+			<div class="col-4">
 				<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
 				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select">
 					<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 					<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
+				</select>
+			</div>
+			<div class="col-4">
+				<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
+				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr form-control-sm">
+					<cfloop query="ctnomenclatural_code">
+						<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
+							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
+					</cfloop>
 				</select>
 			</div>
 		</div>
@@ -313,17 +321,15 @@ limitations under the License.
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-10 float-left px-0">
-				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
-				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-					
-				<cfif len(regex) GT 0 >
-					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
-					<cfelse>
-					<cfset link = gettaxa.taxonid>
-				</cfif>
-				<a id="taxonid_link" href="#link#" target="_blank" class="hints">#gettaxa.taxonid#</a> 
-				<script>
+				<div class="col-10 float-left px-0"> <a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
+					<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+					<cfif len(regex) GT 0 >
+						<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
+						<cfelse>
+						<cfset link = gettaxa.taxonid>
+					</cfif>
+					<a id="taxonid_link" href="#link#" target="_blank" class="hints">#gettaxa.taxonid#</a> 
+					<script>
 					$(document).ready(function () { 
 						if ($('##taxonid').val().length > 0) {
 							$('##taxonid').hide();
@@ -353,7 +359,8 @@ limitations under the License.
 						});
 					});
 				</script> 
-						</div></div>
+				</div>
+			</div>
 		</div>
 		</div>
 		<div class="form-row">
@@ -436,17 +443,7 @@ limitations under the License.
 				</script> 
 			</div>
 		</div>
-		<div class="form-row">
-			<div class="col-12">
-				<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr form-control-sm">
-					<cfloop query="ctnomenclatural_code">
-						<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
-							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
-					</cfloop>
-				</select>
-			</div>
-		</div>
+		<div class="form-row"> </div>
 		<div class="form-row">
 			<div class="col-6">
 				<label for="genus">Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
