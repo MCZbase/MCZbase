@@ -402,7 +402,11 @@ limitations under the License.
 					</cfloop>
 				</select>
 			</div>
-			<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# <i class="fas fa-external-link-alt"></i></a>
+			<div class="col-12 col-md-2 px-0 float-left"> 
+				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# 
+					<i class="fas fa-external-link-alt"></i></a>
+					</div>
+			<div class="col-auto px-0 float-left"> 
 				<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -411,8 +415,8 @@ limitations under the License.
 					<cfelse>
 					<cfset link = gettaxa.scientificnameid>
 				</cfif>
-			</div>
-			<div class="col-auto px-0 float-left"> <a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
+		
+				<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
 				<script>
 					$(document).ready(function () { 
 						if ($('##scientificnameid').val().length > 0) {
