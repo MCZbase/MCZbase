@@ -294,7 +294,7 @@ limitations under the License.
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
 				</cfloop>
-				<div class="col-2">
+				<div class="col-2 float-left px-0">
 					<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 						<cfif searchtext EQ "">
 							<option value=""></option>
@@ -312,8 +312,10 @@ limitations under the License.
 						</cfloop>
 					</select>
 				</div>
+				<div class="col-10 float-left px-0">
 				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
 				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+					
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 					<cfelse>
@@ -350,30 +352,31 @@ limitations under the License.
 						});
 					});
 				</script> 
-			</div>
+						</div></div>
 		</div>
 		</div>
 		<div class="form-row">
-			<div class="col-12 border rounded my-2 pt-0 pb-2 px-2">
-				<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
-				<cfset pattern = "">
-				<cfset placeholder = "">
-				<cfset regex = "">
-				<cfset replacement = "">
-				<cfset searchlink = "" >
-				<cfset searchtext = "" >
-				<cfset searchclass = "" >
-				<cfloop query="ctguid_type_scientificname">
-					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
-						<cfif len(gettaxa.scientificnameid) GT 0>
-							<cfset searchtext = "Replace" >
-							<cfelse>
-							<cfset searchtext = "Find GUID" >
-						</cfif>
-						<cfset searchclass = 'class="btn-xs btn-primary"' >
+		<div class="col-12 border rounded my-2 pt-0 pb-2 px-2">
+			<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+			<cfset pattern = "">
+			<cfset placeholder = "">
+			<cfset regex = "">
+			<cfset replacement = "">
+			<cfset searchlink = "" >
+			<cfset searchtext = "" >
+			<cfset searchclass = "" >
+			<cfloop query="ctguid_type_scientificname">
+				<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+					<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
+					<cfif len(gettaxa.scientificnameid) GT 0>
+						<cfset searchtext = "Replace" >
+						<cfelse>
+						<cfset searchtext = "Find GUID" >
 					</cfif>
-				</cfloop>
+					<cfset searchclass = 'class="btn-xs btn-primary"' >
+				</cfif>
+			</cfloop>
+			<div class="col-2 float-left">
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
 					<cfif searchtext EQ "">
 						<option value=""></option>
@@ -390,7 +393,8 @@ limitations under the License.
 						<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 					</cfloop>
 				</select>
-				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a>
+			</div>
+			<div class="col-10 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# <i class="fas fa-external-link-alt"></i></a>
 				<input size="54" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
