@@ -449,16 +449,12 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row"> </div>
-		<div class="form-row">
-			<label for="part_name" class="col-sm-2 col-form-label">Genus</label>
-			<div class="col-sm-10">
-				<input type="text" id="part_name" name="part_name" class="data-entry-input my-2">
-			</div>
-		</div>	
+	
 		<div class="form-row">
 			<div class="col-6">
-				<label for="genus">Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-				<input name="genus" id="genus" class="form-control-sm" value="#gettaxa.genus#">
+				<label for="genus" class="col-sm-2 col-form-label">Genus  <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
+				<div class="col-sm-10"><input name="genus" id="genus" class="data-entry-input my-2" value="#gettaxa.genus#">
+				</div>
 			</div>
 			<div class="col-6">
 				<label for="species">Species<!--- <span class="likeLink"
