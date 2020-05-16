@@ -457,7 +457,7 @@ limitations under the License.
 			<div class="col-6 px-0">
 				<label for="species" class="col-sm-2 col-form-label float-left"> Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-				<div class="col-sm-9 float-left"><input name="species" id="species" class="ml-1 data-entry-input my-2" value="#gettaxa.species#">
+				<div class="col-sm-9 float-left"><input name="species" id="species" class="data-entry-input my-2" value="#gettaxa.species#">
 				</div>
 			</div>
 		</div>
@@ -491,7 +491,7 @@ limitations under the License.
 			</div>
 		</div>
 			<div class="col-6 px-0">
-			<label for="taxon_status" class="col-sm-4 col-form-label float-left mr-1">Taxon Status 	<i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
+			<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status 	<i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
 			<div class="col-sm-7 float-left">
 			<select name="taxon_status" id="taxon_status" class="data-entry-input my-2">
 				<option value=""></option>
@@ -507,47 +507,60 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
-			<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-2 col-form-label float-left mr-1"><span> Infraspecific Author (do not use for ICZN names)</span></label>
+			<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-2 col-form-label float-left"> Infraspecific Author (do not use for ICZN names)</label>
 			<div class="col-sm-9 float-left">
-				<input type="text" name="infraspecific_author" id="infraspecific_author"  class="data-entry-select" value="#gettaxa.infraspecific_author#">
+				<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select my-2" value="#gettaxa.infraspecific_author#">
 			<span class="infoLink botanical"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
 			</div>
-		</div>
+			</div>
 			<div class="col-6 px-0">
 			<label for="kingdom">Kingdom</label>
 			<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
 		</div>
 		</div>
 		<div class="form-row col-12 px-0">
-		<div id="phylum_row" class="col-6 px-0">
+			<div id="phylum_row" class="col-6 px-0">
 			<label for="phylum" id="phylum_label" class="col-sm-2 col-form-label float-left">Phylum</label>
 			<div class="col-sm-9 float-left">
-				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input">
+				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-2">
 			</div>
 		</div>
-		<div class="col-6">
-			<label for="subphylum" id="subphylum_label">Subphylum</label>
-			<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" size="30">
+			<div class="col-6">
+			<label for="subphylum" id="subphylum_label" class="col-sm-2 col-form-label float-left">Subphylum</label>
+			<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-2">
+		</div>
 		</div>
 		<div id="division_row" class="col-6">
 			<label for="division" id="division_label" >Division</label>
-			<input type="text" name="division" id="division" value="#gettaxa.division#" size="30">
+			<div class="col-9">
+			<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-2">
+			</div>
 		</div>
 		<div class="col-6">
-		<label for="subdivision" id="subdivsion_label">SubDivision</label>
-		<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" size="30">
-		</td>
-		</tr>
-		<tr>
-			<td><label for="superclass">Superclass</label>
-				<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" size="30"></td>
-			<td><label for="phylclass">Class</label>
-				<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" size="30"></td>
-		</tr>
-		<tr>
-			<td><label for="subclass">SubClass</label>
-				<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" size="30"></td>
+			<label for="subdivision" id="subdivsion_label" class="col-sm-2 col-form-label float-left">SubDivision</label>
+			<div class="col-9">
+				<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-2">
+			</div>
+		</div>
+		<div class="col-6">
+			<label for="superclass" class="col-sm-2 col-form-label float-left">Superclass</label>
+			<div class="col-9">
+				<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#">
+			</div>
+		</div>
+		<div class="col-6">
+			<label for="phylclass" class="col-sm-2 col-form-label float-left">Class</label>
+			<div class="col-9">
+				<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input">
+			</div>
+		</div>
+		<div class="col-6">
+			<label for="subclass">SubClass</label>
+			<div class="col-9">
+				<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#">
+			</div>
+		</div>
 			<td><label for="infraclass">InfraClass</label>
 				<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" size="30"></td>
 		</tr>
