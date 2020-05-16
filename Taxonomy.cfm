@@ -491,7 +491,7 @@ limitations under the License.
 			</div>
 		</div>
 			<div class="col-6 px-0">
-			<label for="taxon_status" class="col-sm-4 col-form-label float-left mr-1"><span>Taxon Status</span></label>
+			<label for="taxon_status" class="col-sm-4 col-form-label float-left mr-1">Taxon Status 		<span class="infoLink" onclick="getCtDoc('cttaxon_status');">Define</span></label>
 			<div class="col-sm-7 float-left">
 			<select name="taxon_status" id="taxon_status" class="data-entry-input my-2">
 				<option value=""></option>
@@ -501,7 +501,7 @@ limitations under the License.
 							value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
 				</cfloop>
 			</select>
-			<span class="infoLink" onclick="getCtDoc('cttaxon_status');">Define</span>
+	
 			</div>
 		</div>
 		</div>
