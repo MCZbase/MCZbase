@@ -274,8 +274,8 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row">
-			<div class="col-12 border">
-				<label for="taxonid">GUID for Taxon (dwc:taxonID)</label>
+			<div class="col-12 border rounded my-2 p-2">
+				<label for="taxonid" class="w-100">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -291,10 +291,10 @@ limitations under the License.
 							<cfelse>
 							<cfset searchtext = "Find GUID" >
 						</cfif>
-						<cfset searchclass = 'class="smallBtn external"' >
+						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
 				</cfloop>
-				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="form-control-sm">
+				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="form-control-sm w-25">
 					<cfif searchtext EQ "">
 						<option value=""></option>
 					</cfif>
@@ -310,7 +310,7 @@ limitations under the License.
 						<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 					</cfloop>
 				</select>
-				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext#</a>
+								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
 				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
@@ -350,9 +350,9 @@ limitations under the License.
 				</script> 
 			</div>
 		</div>
-		<div class="form-row">
+		<div class="form-row border mb-2">
 			<div class="col-12">
-				<label for="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+				<label for="scientificnameid" class="w-100">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -442,7 +442,7 @@ limitations under the License.
 		<div class="form-row">
 			<div class="col-6">
 				<label for="genus">Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-				<input size="25" name="genus" id="genus" maxlength="40" value="#gettaxa.genus#">
+				<input name="genus" id="genus" class="form-control-sm" value="#gettaxa.genus#">
 			</div>
 			<div class="col-6">
 				<label for="species">Species<!--- <span class="likeLink"
