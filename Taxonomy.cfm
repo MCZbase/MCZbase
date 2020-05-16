@@ -462,7 +462,7 @@ limitations under the License.
 		</div>
 		<div class="col-6">
 			<label for="author_text"><span>Author</span></label>
-			<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" size="30">
+			<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input">
 			<span class="infoLink botanical"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
 		<div class="col-6">
