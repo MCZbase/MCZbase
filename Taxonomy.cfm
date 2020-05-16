@@ -232,7 +232,7 @@ limitations under the License.
 
 <div class="container">
 <div class="row">
-	<div class="col-12 col-xl-9">
+<div class="col-12 col-xl-9">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]">
@@ -321,10 +321,8 @@ limitations under the License.
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-2 px-0 float-left">
-					<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
-				</div>				
-				<div class="col-auto px-0 float-left"> 
+				<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a> </div>
+				<div class="col-auto px-0 float-left">
 					<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
 					<cfif len(regex) GT 0 >
 						<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
@@ -404,8 +402,8 @@ limitations under the License.
 					</cfloop>
 				</select>
 			</div>
-			<div class="col-10 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# <i class="fas fa-external-link-alt"></i></a>
-				<input size="54" name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" 
+			<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# <i class="fas fa-external-link-alt"></i></a>
+				<input name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 				<cfif len(regex) GT 0 >
@@ -413,7 +411,8 @@ limitations under the License.
 					<cfelse>
 					<cfset link = gettaxa.scientificnameid>
 				</cfif>
-				<a id="scientificnameid_link" href="#link#" target="_blank" class="hints">#gettaxa.scientificnameid#</a> 
+			</div>
+			<div class="col-auto px-0 float-left"> <a id="scientificnameid_link" href="#link#" target="_blank" class="hints">#gettaxa.scientificnameid#</a> 
 				<script>
 					$(document).ready(function () { 
 						if ($('##scientificnameid').val().length > 0) {
