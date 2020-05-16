@@ -463,12 +463,18 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12">
 		<div class="col-6">
+			<label for="subspecies">Subspecies</label>
+			<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#">
+		</div>
+		<div class="col-6">
 			<label for="author_text" class="col-sm-2 col-form-label float-left mr-1"><span>Author</span></label>
 			<div class="col-sm-9 float-left"><input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="ml-1 data-entry-input my-2">
 			<span class="infoLink botanical"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> 
 			</div>
 		</div>
+		</div>
+		<div class="form-row col-12">
 		<div class="col-6">
 			<label for="infraspecific_rank" class="col-sm-2 col-form-label float-left mr-1"><span>Infraspecific Rank</span></label>
 			<div class="col-sm-9 float-left">
@@ -482,8 +488,6 @@ limitations under the License.
 			</select>
 			</div>
 		</div>
-		</div>
-		<div class="form-row col-12">
 		<div class="col-6">
 			<label for="taxon_status" class="col-sm-2 col-form-label float-left mr-1"><span>Taxon Status</span></label>
 			<div class="col-sm-9 float-left">
@@ -498,16 +502,16 @@ limitations under the License.
 			<span class="infoLink" onclick="getCtDoc('cttaxon_status');">Define</span>
 			</div>
 		</div>
-		<div class="col-6">
-			<label for="subspecies">Subspecies</label>
-			<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#">
 		</div>
-		</div>
+		<div class="form-row col-12">
 		<div class="col-6">
-			<label for="infraspecific_author" id="infraspecific_author_label"><span> Infraspecific Author (do not use for ICZN names)</span></label>
-			<input type="text" name="infraspecific_author" id="infraspecific_author"  class="form-control-sm" value="#gettaxa.infraspecific_author#" size="30">
+			<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-2 col-form-label float-left mr-1"><span> Infraspecific Author (do not use for ICZN names)</span></label>
+			<div class="col-sm-9 float-left">
+				<input type="text" name="infraspecific_author" id="infraspecific_author"  class="data-entry-select" value="#gettaxa.infraspecific_author#" size="30">
 			<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span></div>
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
+			</div>
+		</div>
 		<div class="col-6">
 			<label for="kingdom">Kingdom</label>
 			<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
