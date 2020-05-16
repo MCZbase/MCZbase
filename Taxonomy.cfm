@@ -461,14 +461,14 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-		<div class="form-row col-12">
-		<div class="col-6">
+		<div class="form-row col-12 px-0">
+		<div class="col-6 px-0">
 			<label for="subspecies" class="col-sm-2 col-form-label float-left mr-1">Subspecies</label>
 			<div class="col-sm-9 float-left">
 			<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#" class="data-entry-input">
 			</div>
 		</div>
-		<div class="col-6">
+		<div class="col-6 px-0">
 			<label for="author_text" class="col-sm-2 col-form-label float-left mr-1"><span>Author</span></label>
 			<div class="col-sm-9 float-left"><input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="ml-1 data-entry-input my-2">
 			<span class="infoLink botanical"
