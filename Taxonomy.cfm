@@ -322,7 +322,7 @@ limitations under the License.
 					</select>
 				</div>
 				<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a> </div>
-				<div class="col-auto px-0 float-left">
+				<div class="col-12 col-md-7 px-0 float-left">
 					<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
 					<cfif len(regex) GT 0 >
 						<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
@@ -406,7 +406,7 @@ limitations under the License.
 				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# 
 					<i class="fas fa-external-link-alt"></i></a>
 					</div>
-			<div class="col-auto px-0 float-left"> 
+			<div class="col-12 col-md=7 px-0 float-left"> 
 				<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -449,6 +449,12 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row"> </div>
+		<div class="form-row">
+			<label for="part_name" class="col-sm-2 col-form-label"></label>
+			<div class="col-sm-10">
+				<input type="text" id="part_name" name="part_name" class="form-control">
+			</div>
+		</div>	
 		<div class="form-row">
 			<div class="col-6">
 				<label for="genus">Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
