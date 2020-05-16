@@ -248,8 +248,8 @@ limitations under the License.
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
 		<div class="tInput form-row">
 			<div class="col-6">
-				<input type="hidden" name="taxon_name_id" class="form-control-sm" value="#getTaxa.taxon_name_id#">
-				<input type="hidden" name="Action" class="form-control-sm" id="taxon_form_action_input">
+				<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
+				<input type="hidden" name="Action" class="data-entry-input" id="taxon_form_action_input">
 				<label for="source_authority"> <span>Source
 					<cfif isSourceAuthorityCurrent.ct eq 0>
 						(#getTaxa.source_authority#)
@@ -267,7 +267,7 @@ limitations under the License.
 			</div>
 			<div class="col-6">
 				<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
-				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr form-control-sm">
+				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr ">
 					<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 					<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 				</select>
@@ -275,7 +275,7 @@ limitations under the License.
 		</div>
 		<div class="form-row">
 			<div class="col-12 border rounded my-2 pt-0 pb-2 px-2">
-				<label for="taxonid" class="w-100">GUID for Taxon (dwc:taxonID)</label>
+				<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -353,9 +353,9 @@ limitations under the License.
 			</div>
 		</div>
 		</div>
-		<div class="form-row border mb-2">
-			<div class="col-12">
-				<label for="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+		<div class="form-row">
+			<div class="col-12 border rounded my-2 pt-0 pb-2 px-2">
+				<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -371,10 +371,10 @@ limitations under the License.
 							<cfelse>
 							<cfset searchtext = "Find GUID" >
 						</cfif>
-						<cfset searchclass = 'class="smallBtn external"' >
+						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
 				</cfloop>
-				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
+				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
 					<cfif searchtext EQ "">
 						<option value=""></option>
 					</cfif>
