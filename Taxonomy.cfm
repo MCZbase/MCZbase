@@ -457,9 +457,9 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-6">
-				<label for="species">Species<!--- <span class="likeLink"
+				<label for="species" class="col-sm-2 col-form-label float-left mr-1">Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-				<input name="species" id="species" class="form-control-sm" value="#gettaxa.species#">
+				<div class="col-sm-9 float-left"><input name="species" id="species" class="ml-1 data-entry-input my-2" value="#gettaxa.species#"></div>
 			</div>
 		</div>
 		<div class="col-6">
