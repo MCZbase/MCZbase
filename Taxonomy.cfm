@@ -480,7 +480,7 @@ limitations under the License.
 		<div class="col-6 px-0">
 			<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific Rank</span></label>
 			<div class="col-sm-6 float-left">
-			<select name="infraspecific_rank" id="infraspecific_rank" size="1" class="ml-1 data-entry-input my-2">
+			<select name="infraspecific_rank" id="infraspecific_rank" size="1" class="data-entry-input my-2">
 				<option value=""></option>
 				<cfloop query="ctInfRank">
 					<option
@@ -491,9 +491,9 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="col-6 px-0">
-			<label for="taxon_status" class="col-sm-2 col-form-label float-left mr-1"><span>Taxon Status</span></label>
-			<div class="col-sm-9 float-left">
-			<select name="taxon_status" id="taxon_status" size="1">
+			<label for="taxon_status" class="col-sm-4 col-form-label float-left mr-1"><span>Taxon Status</span></label>
+			<div class="col-sm-6 float-left">
+			<select name="taxon_status" id="taxon_status" class="data-entry-input my-2">
 				<option value=""></option>
 				<cfloop query="cttaxon_status">
 					<option 
