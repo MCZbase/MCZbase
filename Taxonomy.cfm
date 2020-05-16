@@ -406,7 +406,7 @@ limitations under the License.
 				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# 
 					<i class="fas fa-external-link-alt"></i></a>
 					</div>
-			<div class="col-12 col-md=auto px-0 float-left"> 
+			<div class="col-12 col-md=auto w-50 px-0 float-left"> 
 				<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -450,9 +450,9 @@ limitations under the License.
 		</div>
 		<div class="form-row"> </div>
 		<div class="form-row">
-			<label for="part_name" class="col-sm-2 col-form-label"></label>
+			<label for="part_name" class="col-sm-2 col-form-label">Genus</label>
 			<div class="col-sm-10">
-				<input type="text" id="part_name" name="part_name" class="form-control">
+				<input type="text" id="part_name" name="part_name" class="data-enty-input">
 			</div>
 		</div>	
 		<div class="form-row">
