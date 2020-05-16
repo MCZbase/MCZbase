@@ -303,7 +303,7 @@ limitations under the License.
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
 				</cfloop>
-				<div class="col-2 float-left px-0">
+				<div class="col-12 px-0">
 					<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 						<cfif searchtext EQ "">
 							<option value=""></option>
@@ -320,9 +320,9 @@ limitations under the License.
 							<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 						</cfloop>
 					</select>
-				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
-								</div>
-				<div class="col-10 float-left px-0"> 
+					<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
+				</div>
+				<div class="px-0"> 
 					<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 					<cfif len(regex) GT 0 >
 						<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
