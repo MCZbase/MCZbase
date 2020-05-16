@@ -254,8 +254,9 @@ limitations under the License.
 					<cfif isSourceAuthorityCurrent.ct eq 0>
 						(#getTaxa.source_authority#)
 					</cfif>
-					</span> </label>
-				<select name="source_authority" id="source_authority" size="1"  class="reqdClr form-control-sm">
+					</span>
+				</label>
+				<select name="source_authority" id="source_authority" class="reqdClr data-entry-select">
 					<cfif isSourceAuthorityCurrent.ct eq 0>
 						<option value="" selected="selected"></option>
 					</cfif>
@@ -267,7 +268,7 @@ limitations under the License.
 			</div>
 			<div class="col-6">
 				<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
-				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr ">
+				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select">
 					<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 					<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 				</select>
