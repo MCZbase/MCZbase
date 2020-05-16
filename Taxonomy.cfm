@@ -509,7 +509,7 @@ limitations under the License.
 			<div class="col-6 px-0">
 			<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-2 col-form-label float-left mr-1"><span> Infraspecific Author (do not use for ICZN names)</span></label>
 			<div class="col-sm-9 float-left">
-				<input type="text" name="infraspecific_author" id="infraspecific_author"  class="data-entry-select" value="#gettaxa.infraspecific_author#" size="30">
+				<input type="text" name="infraspecific_author" id="infraspecific_author"  class="data-entry-select" value="#gettaxa.infraspecific_author#">
 			<span class="infoLink botanical"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
 			</div>
@@ -519,9 +519,12 @@ limitations under the License.
 			<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
 		</div>
 		</div>
-		<div id="phylum_row" class="col-6">
-			<td><label for="phylum" id="phylum_label">Phylum</label>
-				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" size="30">
+		<div class="form-row col-12 px-0">
+		<div id="phylum_row" class="col-6 px-0">
+			<label for="phylum" id="phylum_label" class="col-sm-2 col-form-label float-left">Phylum</label>
+			<div class="col-sm-9 float-left">
+				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input">
+			</div>
 		</div>
 		<div class="col-6">
 			<label for="subphylum" id="subphylum_label">Subphylum</label>
