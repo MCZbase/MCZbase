@@ -274,7 +274,7 @@ limitations under the License.
 			</div>
 			<div class="col-4">
 				<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr form-control-sm">
+				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr data-entry-select">
 					<cfloop query="ctnomenclatural_code">
 						<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
 							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
@@ -283,7 +283,7 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row">
-			<div class="col-12 border rounded my-2 pt-0 pb-2 px-2">
+			<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 px-2">
 				<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
@@ -320,8 +320,9 @@ limitations under the License.
 							<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 						</cfloop>
 					</select>
-				</div>
-				<div class="col-10 float-left px-0"> <a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
+				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
+								</div>
+				<div class="col-10 float-left px-0"> 
 					<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 					<cfif len(regex) GT 0 >
 						<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
