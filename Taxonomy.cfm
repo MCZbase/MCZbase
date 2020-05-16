@@ -232,7 +232,7 @@ limitations under the License.
 
 <div class="container">
 <div class="row">
-<div class="col-12 col-xl-9">
+	<div class="col-12 col-xl-9">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Taxonomy')" class="likeLink" alt="[ help ]">
@@ -276,7 +276,6 @@ limitations under the License.
 		<div class="form-row">
 			<div class="col-12 border rounded my-2 pt-0 pb-2 px-2">
 				<label for="taxonid" class="w-100">GUID for Taxon (dwc:taxonID)</label>
-				<div class="col-2">
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -295,23 +294,25 @@ limitations under the License.
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
 				</cfloop>
-				<select name="taxonid_guid_type" id="taxonid_guid_type" class="form-control-sm w-25">
-					<cfif searchtext EQ "">
-						<option value=""></option>
-					</cfif>
-					<cfloop query="ctguid_type_taxon">
-						<cfset sel="">
-						<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
-							<cfset sel="selected='selected'">
-							<cfset placeholder = "#ctguid_type_taxon.placeholder#">
-							<cfset pattern = "#ctguid_type_taxon.pattern_regex#">
-							<cfset regex = "#ctguid_type_taxon.resolver_regex#">
-							<cfset replacement = "#ctguid_type_taxon.resolver_replacement#">
+				<div class="col-2">
+					<select name="taxonid_guid_type" id="taxonid_guid_type" class="form-control-sm w-25">
+						<cfif searchtext EQ "">
+							<option value=""></option>
 						</cfif>
-						<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
-					</cfloop>
-				</select>
-								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
+						<cfloop query="ctguid_type_taxon">
+							<cfset sel="">
+							<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
+								<cfset sel="selected='selected'">
+								<cfset placeholder = "#ctguid_type_taxon.placeholder#">
+								<cfset pattern = "#ctguid_type_taxon.pattern_regex#">
+								<cfset regex = "#ctguid_type_taxon.resolver_regex#">
+								<cfset replacement = "#ctguid_type_taxon.resolver_replacement#">
+							</cfif>
+							<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
+						</cfloop>
+					</select>
+				</div>
+				<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
 				<input size="56" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 				<cfif len(regex) GT 0 >
 					<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
@@ -350,7 +351,7 @@ limitations under the License.
 					});
 				</script> 
 			</div>
-						</div>
+		</div>
 		</div>
 		<div class="form-row border mb-2">
 			<div class="col-12">
