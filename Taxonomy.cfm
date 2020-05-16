@@ -403,7 +403,7 @@ limitations under the License.
 				</select>
 			</div>
 			<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# <i class="fas fa-external-link-alt"></i></a>
-				<input name="scientificnameid" id="scientificnameid" value="#gettaxa.scientificnameid#" 
+				<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 				<cfif len(regex) GT 0 >
@@ -412,7 +412,7 @@ limitations under the License.
 					<cfset link = gettaxa.scientificnameid>
 				</cfif>
 			</div>
-			<div class="col-auto px-0 float-left"> <a id="scientificnameid_link" href="#link#" target="_blank" class="hints">#gettaxa.scientificnameid#</a> 
+			<div class="col-auto px-0 float-left"> <a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
 				<script>
 					$(document).ready(function () { 
 						if ($('##scientificnameid').val().length > 0) {
