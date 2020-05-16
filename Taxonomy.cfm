@@ -274,8 +274,9 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row">
-			<div class="col-12 border rounded my-2 p-2">
+			<div class="col-12 border rounded my-2 pt-0 pb-2 px-2">
 				<label for="taxonid" class="w-100">GUID for Taxon (dwc:taxonID)</label>
+				<div class="col-2">
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
@@ -294,7 +295,7 @@ limitations under the License.
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
 				</cfloop>
-				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1" class="form-control-sm w-25">
+				<select name="taxonid_guid_type" id="taxonid_guid_type" class="form-control-sm w-25">
 					<cfif searchtext EQ "">
 						<option value=""></option>
 					</cfif>
@@ -349,10 +350,11 @@ limitations under the License.
 					});
 				</script> 
 			</div>
+						</div>
 		</div>
 		<div class="form-row border mb-2">
 			<div class="col-12">
-				<label for="scientificnameid" class="w-100">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+				<label for="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 				<cfset pattern = "">
 				<cfset placeholder = "">
 				<cfset regex = "">
