@@ -457,17 +457,22 @@ limitations under the License.
 			<div class="col-6">
 				<label for="species" class="col-sm-2 col-form-label float-left mr-1">Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-				<div class="col-sm-9 float-left"><input name="species" id="species" class="ml-1 data-entry-input my-2" value="#gettaxa.species#"></div>
+				<div class="col-sm-9 float-left"><input name="species" id="species" class="ml-1 data-entry-input my-2" value="#gettaxa.species#">
+				</div>
+			</div>
+		</div>
+		<div class="form-row col-12">
+		<div class="col-6">
+			<label for="author_text" class="col-sm-2 col-form-label float-left mr-1"><span>Author</span></label>
+			<div class="col-sm-9 float-left"><input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="ml-1 data-entry-input my-2">
+			<span class="infoLink botanical"
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> 
 			</div>
 		</div>
 		<div class="col-6">
-			<label for="author_text"><span>Author</span></label>
-			<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input">
-			<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
-		<div class="col-6">
-			<label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
-			<select name="infraspecific_rank" id="infraspecific_rank" size="1">
+			<label for="infraspecific_rank" class="col-sm-2 col-form-label float-left mr-1"><span>Infraspecific Rank</span></label>
+			<div class="col-sm-9 float-left">
+			<select name="infraspecific_rank" id="infraspecific_rank" size="1" class="ml-1 data-entry-input my-2">
 				<option value=""></option>
 				<cfloop query="ctInfRank">
 					<option
@@ -475,9 +480,13 @@ limitations under the License.
 							value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
 				</cfloop>
 			</select>
+			</div>
 		</div>
+		</div>
+		<div class="form-row col-12">
 		<div class="col-6">
-			<label for="taxon_status"><span>Taxon Status</span></label>
+			<label for="taxon_status" class="col-sm-2 col-form-label float-left mr-1"><span>Taxon Status</span></label>
+			<div class="col-sm-9 float-left">
 			<select name="taxon_status" id="taxon_status" size="1">
 				<option value=""></option>
 				<cfloop query="cttaxon_status">
@@ -487,11 +496,12 @@ limitations under the License.
 				</cfloop>
 			</select>
 			<span class="infoLink" onclick="getCtDoc('cttaxon_status');">Define</span>
-			</td>
+			</div>
 		</div>
 		<div class="col-6">
 			<label for="subspecies">Subspecies</label>
 			<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#">
+		</div>
 		</div>
 		<div class="col-6">
 			<label for="infraspecific_author" id="infraspecific_author_label"><span> Infraspecific Author (do not use for ICZN names)</span></label>
