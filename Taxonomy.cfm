@@ -325,7 +325,7 @@ limitations under the License.
 					<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a>
 				</div>				
 				<div class="col-auto px-0 float-left"> 
-					<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 w-100 rounded py-0">
+					<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
 					<cfif len(regex) GT 0 >
 						<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 						<cfelse>
@@ -365,9 +365,8 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-		</div>
 		<div class="form-row">
-		<div class="col-12 border rounded my-2 pt-0 pb-2 px-2">
+		<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 px-2">
 			<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 			<cfset pattern = "">
 			<cfset placeholder = "">
