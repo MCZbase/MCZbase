@@ -448,13 +448,13 @@ limitations under the License.
 				</script> 
 			</div>
 		</div>
-		<div class="form-row col-12">
+		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="genus" class="col-sm-2 col-form-label float-left"> Genus  <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
 				<div class="col-sm-9 float-left"><input name="genus" id="genus" class="ml-1 data-entry-input my-2" value="#gettaxa.genus#">
 				</div>
 			</div>
-			<div class="col-6">
+			<div class="col-6 px-0">
 				<label for="species" class="col-sm-2 col-form-label float-left"> Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
 				<div class="col-sm-9 float-left"><input name="species" id="species" class="ml-1 data-entry-input my-2" value="#gettaxa.species#">
@@ -476,7 +476,7 @@ limitations under the License.
 			</div>
 		</div>
 		</div>
-		<div class="form-row col-12">
+		<div class="form-row col-12 px-0">
 		<div class="col-6 px-0">
 			<label for="infraspecific_rank" class="col-sm-4 col-form-label float-left"><span>Infraspecific Rank</span></label>
 			<div class="col-sm-7 float-left">
@@ -490,7 +490,7 @@ limitations under the License.
 			</select>
 			</div>
 		</div>
-		<div class="col-6">
+		<div class="col-6 px-0">
 			<label for="taxon_status" class="col-sm-2 col-form-label float-left mr-1"><span>Taxon Status</span></label>
 			<div class="col-sm-9 float-left">
 			<select name="taxon_status" id="taxon_status" size="1">
@@ -505,8 +505,8 @@ limitations under the License.
 			</div>
 		</div>
 		</div>
-		<div class="form-row col-12">
-		<div class="col-6">
+		<div class="form-row col-12 px-0">
+		<div class="col-6 px-0">
 			<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-2 col-form-label float-left mr-1"><span> Infraspecific Author (do not use for ICZN names)</span></label>
 			<div class="col-sm-9 float-left">
 				<input type="text" name="infraspecific_author" id="infraspecific_author"  class="data-entry-select" value="#gettaxa.infraspecific_author#" size="30">
@@ -514,7 +514,7 @@ limitations under the License.
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
 			</div>
 		</div>
-		<div class="col-6">
+		<div class="col-6 px-0">
 			<label for="kingdom">Kingdom</label>
 			<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
 		</div>
