@@ -448,7 +448,7 @@ limitations under the License.
 				</script> 
 			</div>
 		</div>
-		<div class="form-row col-12 px-0">
+		<div class="form-row col-12 px-0 mt-3">
 			<div class="col-6 px-0">
 				<label for="genus" class="col-sm-2 col-form-label float-left"> Genus  <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
 				<div class="col-sm-9 float-left"><input name="genus" id="genus" class="ml-1 data-entry-input my-2" value="#gettaxa.genus#">
@@ -531,28 +531,32 @@ limitations under the License.
 			<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-2">
 		</div>
 		</div>
-		<div id="division_row" class="col-6">
-			<label for="division" id="division_label" >Division</label>
-			<div class="col-9">
-			<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-2">
+		<div class="form-row col-12 px-0">
+			<div id="division_row" class="col-6 px-0">
+				<label for="division" id="division_label" >Division</label>
+				<div class="col-9">
+				<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-2">
+				</div>
+			</div>
+			<div class="col-6 px-0">
+				<label for="subdivision" id="subdivsion_label" class="col-sm-2 col-form-label float-left">SubDivision</label>
+				<div class="col-9">
+					<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-2">
+				</div>
 			</div>
 		</div>
-		<div class="col-6">
-			<label for="subdivision" id="subdivsion_label" class="col-sm-2 col-form-label float-left">SubDivision</label>
-			<div class="col-9">
-				<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-2">
+		<div class="form-row col-12 px-0">
+			<div class="col-6 px-0">
+				<label for="superclass" class="col-sm-2 col-form-label float-left">Superclass</label>
+				<div class="col-9">
+					<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#">
+				</div>
 			</div>
-		</div>
-		<div class="col-6">
-			<label for="superclass" class="col-sm-2 col-form-label float-left">Superclass</label>
-			<div class="col-9">
-				<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#">
-			</div>
-		</div>
-		<div class="col-6">
-			<label for="phylclass" class="col-sm-2 col-form-label float-left">Class</label>
-			<div class="col-9">
-				<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input">
+			<div class="col-6 px-0">
+				<label for="phylclass" class="col-sm-2 col-form-label float-left">Class</label>
+				<div class="col-9">
+					<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input">
+				</div>
 			</div>
 		</div>
 		<div class="col-6">
