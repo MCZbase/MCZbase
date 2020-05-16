@@ -450,12 +450,12 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12">
 			<div class="col-6">
-				<label for="genus" class="col-sm-2 col-form-label float-left mr-1"> Genus  <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
+				<label for="genus" class="col-sm-2 col-form-label float-left"> Genus  <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
 				<div class="col-sm-9 float-left"><input name="genus" id="genus" class="ml-1 data-entry-input my-2" value="#gettaxa.genus#">
 				</div>
 			</div>
 			<div class="col-6">
-				<label for="species" class="col-sm-2 col-form-label float-left mr-1">Species<!--- <span class="likeLink"
+				<label for="species" class="col-sm-2 col-form-label float-left"> Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
 				<div class="col-sm-9 float-left"><input name="species" id="species" class="ml-1 data-entry-input my-2" value="#gettaxa.species#">
 				</div>
@@ -463,9 +463,9 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0">
 		<div class="col-6 px-0">
-			<label for="subspecies" class="col-sm-2 col-form-label float-left mr-1">Subspecies</label>
+			<label for="subspecies" class="col-sm-2 col-form-label float-left"> Subspecies</label>
 			<div class="col-sm-9 float-left">
-			<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#gettaxa.subspecies#" class="data-entry-input">
+			<input name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input">
 			</div>
 		</div>
 		<div class="col-6 px-0">
