@@ -507,6 +507,10 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
+				<label for="kingdom" class="col-sm-2 col-form-label float-left">Kingdom</label>
+				<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input">
+			</div>
+			<div class="col-6 px-0">
 			<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-2 col-form-label float-left"> Infraspecific Author (do not use for ICZN names)</label>
 			<div class="col-sm-9 float-left">
 				<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select my-2" value="#gettaxa.infraspecific_author#">
@@ -514,10 +518,7 @@ limitations under the License.
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
 			</div>
 			</div>
-			<div class="col-6 px-0">
-			<label for="kingdom">Kingdom</label>
-			<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" size="30">
-		</div>
+
 		</div>
 		<div class="form-row col-12 px-0">
 			<div id="phylum_row" class="col-6 px-0">
