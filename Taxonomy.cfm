@@ -515,14 +515,17 @@ limitations under the License.
 				<div  class="col-sm-9 float-left">
 					<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-2">
 				</div>
-				<div id="phylum_row" class="col-6 px-0">
-					<label for="phylum" id="phylum_label" class="col-sm-2 col-form-label float-left">Phylum</label>
-					<div class="col-sm-9 float-left">
-						<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-2">
-					</div>
+			</div>
+		</div>
+		<div class="form-row col-12 px-0">
+			<div id="phylum_row" class="col-6 px-0">
+				<label for="phylum" id="phylum_label" class="col-sm-2 col-form-label float-left">Phylum</label>
+				<div class="col-sm-9 float-left">
+					<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-2">
 				</div>
 			</div>
 		</div>
+	
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="subphylum" id="subphylum_label" class="col-sm-2 col-form-label float-left">Subphylum</label>
