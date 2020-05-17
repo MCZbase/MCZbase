@@ -454,7 +454,7 @@ limitations under the License.
 			<div class="col-6 px-0">
 				<label for="species" class="col-sm-2 col-form-label float-left"> Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-				<div class="col-sm-9 float-left">
+				<div class="col-sm-10 float-left">
 					<input name="species" id="species" class="data-entry-input my-2" value="#gettaxa.species#">
 				</div>
 			</div>
@@ -468,7 +468,7 @@ limitations under the License.
 			</div>
 			<div class="col-6 px-0">
 				<label for="author_text" class="col-sm-2 col-form-label float-left">Author</label>
-				<div class="col-sm-9 float-left">
+				<div class="col-sm-10 float-left">
 					<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input my-2">
 					<span class="infoLink botanical"
 					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> <small style="##007bff;">Find Kew Abbr</small></span>  </span> </div>
@@ -484,7 +484,7 @@ limitations under the License.
 			</div>
 			<div class="col-6 px-0">
 				<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific Rank</span></label>
-				<div class="col-sm-6 float-left">
+				<div class="col-sm-7 float-left">
 					<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-input my-2">
 						<option value=""></option>
 						<cfloop query="ctInfRank">
