@@ -559,19 +559,22 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-		<div class="col-6">
-			<label for="subclass">SubClass</label>
-			<div class="col-9">
-				<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#">
+		<div class="form-row col-12 px-0">
+			<div class="col-6 px-0">
+				<label for="subclass" class="col-sm-2 col-form-label float-left">SubClass</label>
+				<div class="col-9">
+					<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input">
+				</div>
+			</div>
+			<div class="col-6 px-0">
+				<label for="infraclass" class="col-sm-2 col-form-label float-left">InfraClass</label>
+				<div class="col-9">
+					<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input">
+				</div>
 			</div>
 		</div>
-			<td><label for="infraclass">InfraClass</label>
-				<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" size="30"></td>
-		</tr>
-		<tr>
-			<td><label for="superorder">Superorder</label>
-				<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" size="30"></td>
-			<td><label for="phylorder">Order</label>
+			<label for="superorder">Superorder</label>
+				<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#">				<label for="phylorder">Order</label>
 				<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" size="30"></td>
 		</tr>
 		<tr>
