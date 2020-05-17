@@ -235,7 +235,7 @@ limitations under the License.
 <div class="col-12 col-xl-9">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 		</cfif>
 		<em>#getTaxa.scientific_name#</em> <span style="font-variant: small-caps;">#getTaxa.author_text#</span> </h2>
 	<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
@@ -402,11 +402,8 @@ limitations under the License.
 					</cfloop>
 				</select>
 			</div>
-			<div class="col-12 col-md-2 px-0 float-left"> 
-				<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# 
-					<i class="fas fa-external-link-alt"></i></a>
-					</div>
-			<div class="col-12 col-md=auto w-50 px-0 float-left"> 
+			<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# <i class="fas fa-external-link-alt"></i></a> </div>
+			<div class="col-12 col-md=auto w-50 px-0 float-left">
 				<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -415,7 +412,6 @@ limitations under the License.
 					<cfelse>
 					<cfset link = gettaxa.scientificnameid>
 				</cfif>
-		
 				<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
 				<script>
 					$(document).ready(function () { 
@@ -450,14 +446,16 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0 mt-3">
 			<div class="col-6 px-0">
-				<label for="genus" class="col-sm-2 col-form-label float-left"> Genus  <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-				<div class="col-sm-9 float-left"><input name="genus" id="genus" class="ml-1 data-entry-input my-2" value="#gettaxa.genus#">
+				<label for="genus" class="col-sm-2 col-form-label float-left"> Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
+				<div class="col-sm-9 float-left">
+					<input name="genus" id="genus" class="ml-1 data-entry-input my-2" value="#gettaxa.genus#">
 				</div>
 			</div>
 			<div class="col-6 px-0">
 				<label for="species" class="col-sm-2 col-form-label float-left"> Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-				<div class="col-sm-9 float-left"><input name="species" id="species" class="data-entry-input my-2" value="#gettaxa.species#">
+				<div class="col-sm-9 float-left">
+					<input name="species" id="species" class="data-entry-input my-2" value="#gettaxa.species#">
 				</div>
 			</div>
 		</div>
@@ -473,84 +471,82 @@ limitations under the License.
 				<div class="col-sm-9 float-left">
 					<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input my-2">
 					<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> 
-				</div>
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-3 col-form-label float-left"> Infraspecific Author (do not use for ICZN names)</label>
-				<div class="col-9 px-0">
+				<div class="col-sm-9 float-left">
 					<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select my-2" value="#gettaxa.infraspecific_author#">
 					<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
-				</div>
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
 			</div>
 			<div class="col-6 px-0">
 				<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific Rank</span></label>
 				<div class="col-sm-6 float-left">
-					<select name="infraspecific_rank" id="infraspecific_rank" size="1" class="data-entry-input my-2">
+					<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-input my-2">
 						<option value=""></option>
-							<cfloop query="ctInfRank">
+						<cfloop query="ctInfRank">
 							<option
 							<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
 							value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
-							</cfloop>
+						</cfloop>
 					</select>
 				</div>
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
-			<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status 	<i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
-			<div class="col-sm-7 float-left">
-			<select name="taxon_status" id="taxon_status" class="data-entry-input my-2">
-				<option value=""></option>
-				<cfloop query="cttaxon_status">
-					<option 
+				<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
+				<div class="col-sm-7 float-left">
+					<select name="taxon_status" id="taxon_status" class="data-entry-input my-2">
+						<option value=""></option>
+						<cfloop query="cttaxon_status">
+							<option 
 							<cfif gettaxa.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
 							value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
-				</cfloop>
-			</select>
-	
+						</cfloop>
+					</select>
+				</div>
 			</div>
-		</div>
 			<div class="col-6 px-0">
-			<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
-			<div class="col-8 px-0">
-				<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-2">
-			</div>
-			<div id="phylum_row" class="col-6 px-0">
-			<label for="phylum" id="phylum_label" class="col-sm-2 col-form-label float-left">Phylum</label>
-			<div class="col-sm-9 float-left">
-				<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-2">
-			</div>
-		</div>
-		</div>
-		</div>
-		<div class="form-row col-12 px-0">				
-			<div class="col-6">
-			<label for="subphylum" id="subphylum_label" class="col-sm-2 col-form-label float-left">Subphylum</label>
-			<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-2">
-		</div>
-			<div id="division_row" class="col-6 px-0">
-				<label for="division" id="division_label" >Division</label>
-				<div class="col-9">
-				<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-2">
+				<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
+				<div  class="col-sm-9 float-left">
+					<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-2">
+				</div>
+				<div id="phylum_row" class="col-6 px-0">
+					<label for="phylum" id="phylum_label" class="col-sm-2 col-form-label float-left">Phylum</label>
+					<div class="col-sm-9 float-left">
+						<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-2">
+					</div>
 				</div>
 			</div>
 		</div>
-		
+		<div class="form-row col-12 px-0">
+			<div class="col-6 px-0">
+				<label for="subphylum" id="subphylum_label" class="col-sm-2 col-form-label float-left">Subphylum</label>
+				<div  class="col-sm-9 float-left">
+					<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-2">
+				</div>
+			</div>
+			<div id="division_row" class="col-6 px-0">
+				<label for="division" id="division_label" >Division</label>
+				<div class="col-sm-9 float-left">
+					<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-2">
+				</div>
+			</div>
+		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="subdivision" id="subdivsion_label" class="col-sm-2 col-form-label float-left">SubDivision</label>
-				<div class="col-9">
+				<div class="col-sm-9 float-left">
 					<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-2">
 				</div>
 			</div>
 			<div class="col-6 px-0">
 				<label for="superclass" class="col-sm-2 col-form-label float-left">Superclass</label>
-				<div class="col-9">
+				<div class="col-sm-9 float-left">
 					<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#">
 				</div>
 			</div>
@@ -558,7 +554,7 @@ limitations under the License.
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="phylclass" class="col-sm-2 col-form-label float-left">Class</label>
-				<div class="col-9">
+				<div class="col-sm-9 float-left">
 					<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input my-2">
 				</div>
 			</div>
@@ -569,52 +565,80 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-			
-		<div class="col-6 px-0">
+		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="infraclass" class="col-sm-2 col-form-label float-left">InfraClass</label>
-				<div class="col-9">
-					<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input">
+				<div class="col-sm-9 float-left">
+					<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input my-2">
 				</div>
 			</div>
-			<label for="superorder" class="col-sm-2 col-form-label float-left">Superorder</label>
 			<div class="col-6 px-0">
-				<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#">	
+				<label for="superorder" class="col-sm-2 col-form-label float-left">Superorder</label>
+				<div class="col-sm-6 float-left">
+					<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" class="data-entry-input my-2">
+				</div>
 			</div>
 		</div>
+		<div class="form-row col-12 px-0">
+			<div class="col-6 px-0">
 				<label for="phylorder" class="col-sm-2 col-form-label float-left">Order</label>
-				<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" size="30"></td>
-	
-				<label for="suborder" class="col-sm-2 col-form-label float-left">Suborder</label>
-				<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#"></td>
-				<label for="infraorder" class="col-sm-2 col-form-label float-left">Infraorder</label>
-				<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#"></td>
-
-				<label for="superfamily" class="col-sm-2 col-form-label float-left">Superfamily</label>
-				<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#">
-				<label for="family" class="col-sm-2 col-form-label float-left">Family</label>
-				<input type="text" name="family" id="family" value="#gettaxa.family#">
-
-				<label for="subfamily" class="col-sm-2 col-form-label float-left">Subfamily</label>
-				<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#">
-				<label for="tribe" class="col-sm-2 col-form-label float-left">Tribe</label>
-				<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#">
-
-				<label for="subgenus" class="col-sm-2 col-form-label float-left">Subgenus</label>
-				(
-				<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#">
-				)#subgenus_message#</td>
-				<label for="subsection" class="col-sm-2 col-form-label float-left">SubSection</label>
-				<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#">
-				<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks</label>
-				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#gettaxa.taxon_remarks#</textarea>
-	
-				<div align="center">
-					<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
-					<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxon';submit();">
-					<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+				<div class="col-sm-9 float-left">
+					<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#">
 				</div>
-			<script>
+			</div>
+			<div class="col-6 px-0">
+				<label for="suborder" class="col-sm-2 col-form-label float-left">Suborder</label>
+				<div class="col-sm-9 float-left">
+					<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#">
+				</div>
+			</div>
+		</div>
+		<div class="form-row col-12 px-0">
+			<label for="infraorder" class="col-sm-2 col-form-label float-left">Infraorder</label>
+			<div class="col-sm-9 float-left">
+				<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#">
+			</div>
+			<label for="superfamily" class="col-sm-2 col-form-label float-left">Superfamily</label>
+			<div class="col-sm-9 float-left">
+				<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#">
+			</div>
+		</div>
+		<div class="form-row col-12 px-0">
+			<label for="family" class="col-sm-2 col-form-label float-left">Family</label>
+			<div class="col-sm-9 float-left">
+				<input type="text" name="family" id="family" value="#gettaxa.family#">
+			</div>
+			<label for="subfamily" class="col-sm-2 col-form-label float-left">Subfamily</label>
+			<div class="col-sm-9 float-left">
+				<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#">
+			</div>
+		</div>
+		<div class="form-row col-12 px-0">
+			<label for="tribe" class="col-sm-2 col-form-label float-left">Tribe</label>
+			<div class="col-sm-9 float-left">
+				<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#">
+			</div>
+			<label for="subgenus" class="col-sm-2 col-form-label float-left">Subgenus</label>
+			<div class="col-sm-9 float-left"> (
+				<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#">
+				)#subgenus_message# </div>
+		</div>
+		<div class="form-row col-12 px-0">
+			<label for="subsection" class="col-sm-2 col-form-label float-left">SubSection</label>
+			<div class="col-sm-9 float-left">
+				<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#">
+			</div>
+			<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks</label>
+			<div class="col-sm-9 float-left">
+				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#gettaxa.taxon_remarks#</textarea>
+			</div>
+		</div>
+		<div align="center">
+			<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
+			<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxon';submit();">
+			<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+		</div>
+		<script>
 				function qcTaxonEdits() { 
 					$("##taxon_form_action_input").val('saveTaxonEdits');
 					<cfif hasTaxonId>
@@ -628,8 +652,7 @@ limitations under the License.
 						$('##taxon_form').submit();
 					</cfif>
 				}
-			</script> 
-		
+			</script>
 	</form>
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
