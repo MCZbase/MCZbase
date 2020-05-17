@@ -476,7 +476,7 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
-				<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-6 col-form-label float-left"> Infraspecific Author <small>(do not use for ICZN names)</small></label>
+				<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-6 col-form-label float-left"> Infraspecific Author <small style="line-height:1.15em;display:block;">(do not use for ICZN names)</small></label>
 				<div class="col-sm-5 float-left">
 					<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
 					<span class="infoLink botanical"
