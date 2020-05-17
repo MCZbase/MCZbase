@@ -476,11 +476,11 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
-				<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-3 col-form-label float-left"> Infraspecific Author (do not use for ICZN names)</label>
-				<div class="col-sm-9 float-left">
+				<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-6 col-form-label float-left"> Infraspecific Author (do not use for ICZN names)</label>
+				<div class="col-sm-5 float-left">
 					<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select my-2" value="#gettaxa.infraspecific_author#">
 					<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> <small>Find Kew Abbr</small></span> </div>
 			</div>
 			<div class="col-6 px-0">
 				<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific Rank</span></label>
