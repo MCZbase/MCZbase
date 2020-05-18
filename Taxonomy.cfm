@@ -539,7 +539,7 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-6 px-0">
-				<label for="subdivision" id="subdivsion_label" class="col-sm-2 col-form-label float-left">SubDivision</label>
+				<label for="subdivision" id="subdivsion_label" class="col-sm-3 col-form-label float-left">SubDivision</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-2">
 				</div>
