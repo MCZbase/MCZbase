@@ -841,7 +841,7 @@ limitations under the License.
 				</form></td>
 		</tr>
 	</table>
-		</div></div>
+		</div></div></div></div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
