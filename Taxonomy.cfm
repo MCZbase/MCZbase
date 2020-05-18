@@ -308,7 +308,7 @@ limitations under the License.
 							<cfelse>
 							<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 						</cfif>
-						<cfset searchclass = 'class="btn-xs btn-primary"' >
+						<cfset searchclass = 'class="btn-xs btn-secondary"' >
 					</cfif>
 				</cfloop>
 				<div class="col-12 col-md-2 px-0 float-left">
@@ -390,7 +390,7 @@ limitations under the License.
 							<cfelse>
 							<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 						</cfif>
-						<cfset searchclass = 'class="btn-xs btn-primary"' >
+						<cfset searchclass = 'class="btn-xs btn-secondary"' >
 					</cfif>
 				</cfloop>
 				<div class="col-12 col-md-2 px-0 float-left">
