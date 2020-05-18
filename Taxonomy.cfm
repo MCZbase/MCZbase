@@ -575,8 +575,8 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0">				
 			<div class="col-6 px-0">
-				<label for="superorder" class="col-sm-2 col-form-label float-left">Superorder</label>
-				<div class="col-sm-6 float-left">
+				<label for="superorder" class="col-sm-3 col-form-label float-left">Superorder</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" class="data-entry-input my-2">
 				</div>
 			</div>
@@ -589,8 +589,8 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0">	
 			<div class="col-6 px-0">
-				<label for="suborder" class="col-sm-4 col-form-label float-left">Suborder</label>
-				<div class="col-sm-8 float-left">
+				<label for="suborder" class="col-sm-3 col-form-label float-left">Suborder</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" class="data-entry-input my-2">
 				</div>
 			</div>
