@@ -582,8 +582,8 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-6 px-0">
-				<label for="infraclass" class="col-sm-2 col-form-label float-left">InfraClass</label>
-				<div class="col-sm-10 float-left">
+				<label for="infraclass" class="col-sm-3 col-form-label float-left">InfraClass</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input my-2">
 				</div>
 			</div>
