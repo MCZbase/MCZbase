@@ -249,7 +249,7 @@ limitations under the License.
 	<h3 class="w-50 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 	<div class="w-50 float-left text-right my-2">
 			<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
-			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary" onclick="taxa.Action.value='newTaxon';submit();">
+			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 			<input type="button" value="Delete" class="delBtn btn-xs btn-warning"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 	</div>
 </div>
@@ -793,8 +793,8 @@ onKeyPress="return noenter(event);">
 		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 
-		<div class="border bg-light p-2 rounded">
-				<h4 class="mt-3">Common Names</h4>
+		<div class="border bg-light p-2 rounded mt-3">
+				<h4 class="mt-0">Common Names</h4>
 	<cfset i=1>
 	<cfloop query="common">
 		<form name="common#i#" method="post" action="Taxonomy.cfm">
