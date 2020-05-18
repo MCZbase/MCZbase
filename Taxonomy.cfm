@@ -415,7 +415,7 @@ limitations under the License.
 						
 					</a> 
 				</div>
-				<div class="">
+				<div class="col-12 col-md=auto w-50 px-0 float-left">
 					<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
 							pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -424,6 +424,7 @@ limitations under the License.
 						<cfelse>
 						<cfset link = gettaxa.scientificnameid>
 					</cfif>
+				</div>
 					<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
 					<script>
 						$(document).ready(function () { 
@@ -454,7 +455,7 @@ limitations under the License.
 							});
 						});
 					</script> 
-				</div>
+			
 			</div>
 		</div>
 		<div class="form-row col-12 px-0 mt-3">
