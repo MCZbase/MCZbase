@@ -582,14 +582,14 @@ limitations under the License.
 			</div>
 			<div class="col-6 px-0">
 				<label for="phylorder" class="col-sm-2 col-form-label float-left">Order</label>
-				<div class="col-sm-9 float-left">
-					<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#">
+				<div class="col-sm-10 float-left">
+					<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" class="data-entry-input my-2">
 				</div>
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">	
 			<div class="col-6 px-0">
-				<label for="suborder" class="col-sm-2 col-form-label float-left">Suborder</label>
+				<label for="suborder" class="col-sm-3 col-form-label float-left">Suborder</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" class="data-entry-input my-2">
 				</div>
@@ -624,7 +624,7 @@ limitations under the License.
 			</div>
 			<div class="col-6 px-0">
 				<label for="tribe" class="col-sm-2 col-form-label float-left">Tribe</label>
-				<div class="col-sm-9 float-left">
+				<div class="col-sm-10 float-left">
 					<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-2">
 				</div>
 			</div>
