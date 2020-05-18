@@ -644,14 +644,13 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-					<div class="form-row col-12 px-0">
-						
+		<div class="form-row col-12 px-0">
 			<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks</label>
 			<div class="col-sm-10 float-left">
-				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="55" class="data-entry-textarea">#gettaxa.taxon_remarks#</textarea>
+				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" class="data-entry-textarea">#gettaxa.taxon_remarks#</textarea>
 			</div>
 		</div>
-		<div align="center">
+		<div class="form-row col-12 px-0 justify-content-center">
 			<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
 			<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxon';submit();">
 			<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
