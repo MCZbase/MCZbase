@@ -247,6 +247,9 @@ limitations under the License.
 	</cfif>
 
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
+				<input type="button" value="Save" class="savBtn btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
+			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
+			<input type="button" value="Delete" class="delBtn btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 </div>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
 		<div class="tInput form-row mx-2 mb-2">
