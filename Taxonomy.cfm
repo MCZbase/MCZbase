@@ -738,7 +738,7 @@ limitations under the License.
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
-			<div class="newRec">
+			<div class="newRec border">
 		
 				<label for="taxon_relationship">Add Relationship</label>
 					<select name="taxon_relationship" size="1" class="reqdClr">
