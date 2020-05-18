@@ -740,7 +740,7 @@ limitations under the License.
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
-			<div class="p-2 border rounded">
+			<div class="p-2 border bg-light rounded">
 				<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
 					<select name="taxon_relationship" class="reqdClr data-entry-select">
 						<cfloop query="ctRelation">
@@ -803,7 +803,7 @@ onKeyPress="return noenter(event);">
 		<form name="newCommon" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="Action" value="newCommon">
 			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-			<label for="common_name" class="data-entry-label float-left">New Common Name</label>
+			<label for="common_name" class="data-entry-label float-left mt-2">New Common Name</label>
 			<input type="text" name="common_name" class="data-entry-input my-2">
 			<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
 		</form>
