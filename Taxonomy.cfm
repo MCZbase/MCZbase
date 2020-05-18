@@ -781,7 +781,7 @@ onKeyPress="return noenter(event);">
 					<input type="hidden" name="newRelatedId">
 					<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
 					<input type="button" value="Save" class="savBtn btn-xs btn-secondary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
-					<input type="button" value="Delete" class="delBtn btn-xs btn-secondary" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
+					<input type="button" value="Delete" class="delBtn btn-xs btn-secondary ml-1" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
 				
 			</form>
 			<cfset i = #i#+1>
