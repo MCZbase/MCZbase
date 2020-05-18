@@ -246,8 +246,8 @@ limitations under the License.
 		<cfset hasTaxonID = false>
 	</cfif>
 
-	<h3 class="col-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-	<div class="col-6 px-0 float-left text-right my-2">
+	<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
+	<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
 			<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
 			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 			<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
@@ -255,7 +255,7 @@ limitations under the License.
 </div>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
 		<div class="tInput form-row mx-2 mb-2">
-			<div class="col-4">
+			<div class="col-12 col-sm-4">
 				<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
 				<input type="hidden" name="Action" class="data-entry-input" id="taxon_form_action_input">
 				<label for="source_authority"> <span>Source
@@ -273,14 +273,14 @@ limitations under the License.
 					</cfloop>
 				</select>
 			</div>
-			<div class="col-4">
+			<div class="col-12 col-sm-4">
 				<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
 				<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select w-75">
 					<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 					<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 				</select>
 			</div>
-			<div class="col-4">
+			<div class="col-12 col-sm-4">
 				<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 				<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr data-entry-select w-75">
 					<cfloop query="ctnomenclatural_code">
