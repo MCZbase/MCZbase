@@ -229,7 +229,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-<div class="container">
+<div class="container-fluid offset-xl-1">
 <div class="row">
 <div class="col-12 col-xl-9 float-left">
 	<h2>Edit Taxon:
