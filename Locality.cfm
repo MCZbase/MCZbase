@@ -687,7 +687,7 @@ You do not have permission to create Higher Geographies
 						<cfset searchclass = "" >
 						<cfloop query="ctguid_type_highergeography">
 		 					<cfif geogDetails.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
-								<cfset searchlink = ctguid_type_highergeography.search_uri & geogDetails.scientific_name >		
+								<cfset searchlink = ctguid_type_highergeography.search_uri & geogDetails.higher_geog >		
 								<cfif len(geogDetails.highergeographyid) GT 0>
 									<cfset searchtext = "Replace" >		
 								<cfelse>
