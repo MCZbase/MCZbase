@@ -230,8 +230,8 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 <div class="container-fluid">
-
-<div class="row col-12 px-0 mx-0">
+<div class="row">
+<div class="col-12 px-0 mx-0">
 <div class="col-12 col-xl-7 offset-xl-1 float-left">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -851,6 +851,7 @@ limitations under the License.
 </div>
 </div>
 </div>
+		</div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
