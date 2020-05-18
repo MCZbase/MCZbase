@@ -738,7 +738,7 @@ limitations under the License.
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
-			<div class="p-2 border">
+			<div class="p-2 border rounded">
 		
 				<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
 					<select name="taxon_relationship" class="reqdClr data-entry-select">
@@ -748,13 +748,13 @@ limitations under the License.
 					</select>
 			
 				<label for="relatedName" class="data-entry-label">Related Taxa</label>
-				<input type="text" name="relatedName" class="reqdClr data-entry-input my-2"
+				<input type="text" name="relatedName" class="reqdClr data-entry-input "
 						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
 						onKeyPress="return noenter(event);">
 				<input type="hidden" name="newRelatedId">
 				
 				<label for="relation_authority" class="data-entry-label">Authority</label>
-				<input type="text" name="relation_authority" class="data-entry-input my-2">
+				<input type="text" name="relation_authority" class="data-entry-input">
 				<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
 				</div>
 		</form>
