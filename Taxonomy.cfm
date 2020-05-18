@@ -667,7 +667,7 @@ limitations under the License.
 			</div>
 		</div>
 						</div>
-		<div class="form-row col-12 px-0 justify-content-center">
+		<div class="form-row col-12 px-0 justify-content-center mt-2">
 			<input type="button" value="Save" class="savBtn btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
 			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 			<input type="button" value="Delete" class="delBtn btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
