@@ -231,7 +231,7 @@ limitations under the License.
 <cfoutput>
 <div class="container-fluid">
 <div class="row mb-4 mx-0">
-<div class="col-12">
+<div class="col-12 px-0">
 <div class="col-12 col-xl-7 offset-xl-1 float-left">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -246,7 +246,7 @@ limitations under the License.
 	</cfif>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
-		<div class="tInput form-row mx-2 mb-4">
+		<div class="tInput form-row mx-2 mb-2">
 			<div class="col-4">
 				<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
 				<input type="hidden" name="Action" class="data-entry-input" id="taxon_form_action_input">
