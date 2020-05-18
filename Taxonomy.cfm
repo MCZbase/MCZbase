@@ -233,6 +233,7 @@ limitations under the License.
 <div class="row mb-4 mx-0">
 <div class="col-12 px-0">
 <div class="col-12 col-xl-7 offset-xl-1 float-left px-0">
+<div class="form-row col-12">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -244,9 +245,9 @@ limitations under the License.
 		<cfelse>
 		<cfset hasTaxonID = false>
 	</cfif>
-			<div class="form-row col-12 px-0">
+
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-			</div>
+</div>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
 		<div class="tInput form-row mx-2 mb-2">
 			<div class="col-4">
