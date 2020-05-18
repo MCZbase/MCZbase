@@ -250,7 +250,7 @@ limitations under the License.
 	<div class="w-50 float-left text-right my-2">
 			<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
 			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
-			<input type="button" value="Delete" class="delBtn btn-xs btn-warning"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+			<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 	</div>
 </div>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
