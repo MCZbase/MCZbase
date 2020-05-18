@@ -801,7 +801,7 @@ onKeyPress="return noenter(event);">
 				<h4 class="mt-0">Common Names</h4>
 	<cfset i=1>
 	<cfloop query="common">
-		<form name="common#i#" method="post" action="Taxonomy.cfm">
+		<form name="common#i#" method="post" action="/Taxonomy.cfm">
 			<input type="hidden" name="Action">
 			<input type="hidden" name="origCommonName" value="#common_name#">
 			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
@@ -812,7 +812,7 @@ onKeyPress="return noenter(event);">
 		<cfset i=i+1>
 	</cfloop>
 	<div class="newRec">
-		<form name="newCommon" method="post" action="Taxonomy.cfm">
+		<form name="newCommon" method="post" action="/Taxonomy.cfm">
 			<input type="hidden" name="Action" value="newCommon">
 			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 			<label for="common_name" class="data-entry-label float-left mt-2">New Common Name</label>
@@ -834,7 +834,7 @@ onKeyPress="return noenter(event);">
 		delete from taxonomy_publication 
 		where taxonomy_publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxonomy_publication_id#">
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxonPub">
@@ -845,7 +845,7 @@ onKeyPress="return noenter(event);">
 			(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_publication_id#"> )
 	</cfquery>
-	<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newCommon">
@@ -857,7 +857,7 @@ onKeyPress="return noenter(event);">
 			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> , 
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> )
 	</cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -870,7 +870,7 @@ onKeyPress="return noenter(event);">
 			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
 	</cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -894,7 +894,7 @@ onKeyPress="return noenter(event);">
 			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#"> 
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -909,7 +909,7 @@ onKeyPress="return noenter(event);">
 			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#">
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -922,7 +922,7 @@ onKeyPress="return noenter(event);">
 			taxon_habitat=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orighabitatName#">
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 
