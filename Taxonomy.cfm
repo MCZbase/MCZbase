@@ -525,7 +525,7 @@ limitations under the License.
 			</div>
 			<div class="col-6 px-0">
 				<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
-				<div  class="col-sm-9 float-left">
+				<div  class="col-sm-10 float-left">
 					<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-2">
 				</div>
 			</div>
