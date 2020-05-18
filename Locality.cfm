@@ -472,7 +472,7 @@ You do not have permission to create Higher Geographies
 <cfif action is "editGeog">
 <cfset title = "Edit Geography">
 	<cfoutput>
-            <div style="width:65em; margin:0 auto; padding: 1em 0 3em 0;">
+   <div style="margin:0 auto; padding: 1em 1em 3em 1em;">
 	<h2 class="wikilink">Edit Higher Geography:</h2>
 		<cfquery name="geogDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from geog_auth_rec 
@@ -713,7 +713,7 @@ You do not have permission to create Higher Geographies
 							</cfloop>
 						</select>
 						<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
-						<input size="56" name="highergeographyid" id="highergeographyid" value="#geogDetails.highergeographyid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+						<input size="48" name="highergeographyid" id="highergeographyid" value="#geogDetails.highergeographyid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 						<cfif len(regex) GT 0 >
 							<cfset link = REReplace(geogDetails.highergeographyid,regex,replacement)>
 						<cfelse>
