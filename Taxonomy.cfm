@@ -705,8 +705,8 @@ limitations under the License.
 		<input type="hidden" name="new_publication_id" id="new_publication_id">
 
 		<label for="new_pub" class="data-entry-label">Pick Publication</label>
-			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-xl-8 float-left">
-			<div class="col-12 col-xl-4 float-left">
+			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-sm-8 col-xl-8 float-left">
+			<div class="col-12 col-sm-4 float-left">
 				<input type="submit" value="Add Publication" class="insBtn btn-xs btn-secondary">
 			</div>
 		</div>
@@ -714,7 +714,7 @@ limitations under the License.
 	<cfif tax_pub.recordcount gt 0>
 
 		<cfloop query="tax_pub">
-			<div class="col-12 my-2 px-1"> #formatted_publication# 
+			<div class="col-12 my-2 px-1 float-left"> #formatted_publication# 
 			<a class="btn-xs btn-secondary mx-1" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> 
 			<a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> 
 			</div>
