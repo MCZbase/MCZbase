@@ -232,7 +232,7 @@ limitations under the License.
 <div class="container-fluid">
 <div class="row mb-4 mx-0">
 <div class="col-12 px-0">
-<div class="col-12 col-xl-7 offset-xl-1 float-left">
+<div class="col-12 col-xl-7 offset-xl-1 float-left px-0">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -365,85 +365,89 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12">
 			<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
-			<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
-			<cfset pattern = "">
-			<cfset placeholder = "">
-			<cfset regex = "">
-			<cfset replacement = "">
-			<cfset searchlink = "" >
-			<cfset searchtext = "" >
-			<cfset searchclass = "" >
-			<cfloop query="ctguid_type_scientificname">
-				<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-					<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
-					<cfif len(gettaxa.scientificnameid) GT 0>
-						<cfset searchtext = "Replace" >
-						<cfelse>
-						<cfset searchtext = "Find GUID" >
-					</cfif>
-					<cfset searchclass = 'class="btn-xs btn-primary"' >
-				</cfif>
-			</cfloop>
-			<div class="col-12 col-md-2 px-0 float-left">
-				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
-					<cfif searchtext EQ "">
-						<option value=""></option>
-					</cfif>
-					<cfloop query="ctguid_type_scientificname">
-						<cfset sel="">
-						<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
-							<cfset sel="selected='selected'">
-							<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
-							<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
-							<cfset regex = "#ctguid_type_scientificname.resolver_regex#">
-							<cfset replacement = "#ctguid_type_scientificname.resolver_replacement#">
+				<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+				<cfset pattern = "">
+				<cfset placeholder = "">
+				<cfset regex = "">
+				<cfset replacement = "">
+				<cfset searchlink = "" >
+				<cfset searchtext = "" >
+				<cfset searchclass = "" >
+				<cfloop query="ctguid_type_scientificname">
+					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
+						<cfif len(gettaxa.scientificnameid) GT 0>
+							<cfset searchtext = "Replace" >
+							<cfelse>
+							<cfset searchtext = "Find GUID" >
 						</cfif>
-						<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
-					</cfloop>
-				</select>
+						<cfset searchclass = 'class="btn-xs btn-primary"' >
+					</cfif>
+				</cfloop>
+				<div class="col-12 col-md-2 px-0 float-left">
+					<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
+						<cfif searchtext EQ "">
+							<option value=""></option>
+						</cfif>
+						<cfloop query="ctguid_type_scientificname">
+							<cfset sel="">
+							<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+								<cfset sel="selected='selected'">
+								<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
+								<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
+								<cfset regex = "#ctguid_type_scientificname.resolver_regex#">
+								<cfset replacement = "#ctguid_type_scientificname.resolver_replacement#">
+							</cfif>
+							<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-12 col-md-2 px-0 float-left"> 
+					<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# 
+						<i class="fas fa-external-link-alt"></i>
+					</a> 
+				</div>
+				<div class="col-12 col-md=auto w-50 px-0 float-left">
+					<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
+							placeholder="#placeholder#" 
+							pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+					<cfif len(regex) GT 0 >
+						<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
+						<cfelse>
+						<cfset link = gettaxa.scientificnameid>
+					</cfif>
+					<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
+					<script>
+						$(document).ready(function () { 
+							if ($('##scientificnameid').val().length > 0) {
+								$('##scientificnameid').hide();
+							}
+							$('##scientificnameid_search').click(function () { 
+								$('##scientificnameid').show();
+								$('##scientificnameid_link').hide();
+							});
+							$('##scientificnameid_guid_type').change( function () { 
+								// On selecting a guid_type, remove an existing guid value.
+								$('##scientificnameid').val("");
+								// On selecting a guid_type, change the pattern.
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+							});
+							$('##scientificnameid').blur( function () { 
+								// On loss of focus for input, validate against the regex, update link
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+							});
+							$('##species').change( function () { 
+								// On changing species name, update the search link.
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+							});
+							$('##genus').change( function () { 
+								// On changing species name, update the search link.
+								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+							});
+						});
+					</script> 
+				</div>
 			</div>
-			<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# <i class="fas fa-external-link-alt"></i></a> </div>
-			<div class="col-12 col-md=auto w-50 px-0 float-left">
-				<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
-						placeholder="#placeholder#" 
-						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-				<cfif len(regex) GT 0 >
-					<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
-					<cfelse>
-					<cfset link = gettaxa.scientificnameid>
-				</cfif>
-				<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
-				<script>
-					$(document).ready(function () { 
-						if ($('##scientificnameid').val().length > 0) {
-							$('##scientificnameid').hide();
-						}
-						$('##scientificnameid_search').click(function () { 
-							$('##scientificnameid').show();
-							$('##scientificnameid_link').hide();
-						});
-						$('##scientificnameid_guid_type').change( function () { 
-							// On selecting a guid_type, remove an existing guid value.
-							$('##scientificnameid').val("");
-							// On selecting a guid_type, change the pattern.
-							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
-						});
-						$('##scientificnameid').blur( function () { 
-							// On loss of focus for input, validate against the regex, update link
-							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
-						});
-						$('##species').change( function () { 
-							// On changing species name, update the search link.
-							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
-						});
-						$('##genus').change( function () { 
-							// On changing species name, update the search link.
-							getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
-						});
-					});
-				</script> 
-			</div>
-		</div>
 		</div>
 		<div class="form-row col-12 px-0 mt-3">
 			<div class="col-6 px-0">
@@ -675,178 +679,7 @@ limitations under the License.
 			</script>
 	</form>
 </div>			
-<div class="col-12 col-xl-3 mt-5 float-left">
-	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select
-			taxonomy_publication_id,
-			formatted_publication,
-			taxonomy_publication.publication_id
-		from
-			taxonomy_publication,
-			formatted_publication
-		where
-			format_style='long' and
-			taxonomy_publication.publication_id=formatted_publication.publication_id and
-			taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-	<cfset i = 1>
-	<h4>Related Publications</h4>
-	<form name="newPub" method="post" action="Taxonomy.cfm">
-		<div class="col-12 px-0">
-		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-		<input type="hidden" name="Action" value="newTaxonPub">
-		<input type="hidden" name="new_publication_id" id="new_publication_id">
 
-		<label for="new_pub" class="col-form-label col-12 px-0">Pick Publication</label>
-			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-xl-8 float-left">
-			<div class="col-12 col-xl-4 float-left">
-				<input type="submit" value="Add Publication" class="insBtn btn-xs btn-secondary">
-			</div>
-		</div>
-	</form>
-	<cfif tax_pub.recordcount gt 0>
-		<ul>
-	<cfloop query="tax_pub">
-		<li> #formatted_publication# Formatted Publicaton
-			<ul>
-				<li> <a class="btn-xs btn-secondary" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> </li>
-				<li> <a class="btn-xs btn-secondary" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> </li>
-			</ul>
-		</li>
-	</cfloop>
-		</ul>
-	</cfif>
-
-	<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT
-			scientific_name,
-			taxon_relationship,
-			relation_authority,
-			related_taxon_name_id
-		FROM
-			taxon_relations,
-			taxonomy
-		WHERE
-			taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
-			AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-	<cfset i = 1>
-	<h4>Related Taxa:</h4>
-	<div class="col-12">
-		<form name="newRelation" method="post" action="Taxonomy.cfm">
-			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-			<input type="hidden" name="Action" value="newTaxonRelation">
-			<div class="newRec">
-				<div class="col-6">
-				<label for="taxon_relationship">Add Relationship</label>
-					<select name="taxon_relationship" size="1" class="reqdClr">
-						<cfloop query="ctRelation">
-							<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
-						</cfloop>
-					</select>
-				</div>
-				<div class="col-6">
-				<label for="relatedName" class="">Related Taxa</label>
-				<input type="text" name="relatedName" class="reqdClr data-entry-input my-2"
-						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
-						onKeyPress="return noenter(event);">
-				<input type="hidden" name="newRelatedId">
-				</div>
-				<div class="col-6">
-				<label for="relation_authority" class="">Authority</label>
-				<input type="text" name="relation_authority" class="data-entry-input my-2">
-				<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
-				</div>
-		</form>
-	</div>
-		<cfloop query="relations">
-			<form name="relation#i#" method="post" action="Taxonomy.cfm">
-				<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-				<input type="hidden" name="Action">
-				<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
-				<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
-				<tr>
-					<td><select name="taxon_relationship" size="1" class="reqdClr">
-							<cfloop query="ctRelation">
-								<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
-									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
-							</cfloop>
-						</select></td>
-					<td><input type="text" name="relatedName" class="reqdClr" size="50" value="#relations.scientific_name#"
-							onChange="taxaPick('newRelatedId','relatedName','relation#i#',this.value); return false;"
-							onKeyPress="return noenter(event);">
-						<input type="hidden" name="newRelatedId"></td>
-					<td><input type="text" name="relation_authority" value="#relations.relation_authority#"></td>
-					<td><input type="button" value="Save" class="savBtn" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
-						<input type="button" value="Delete" class="delBtn" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');"></td>
-				</tr>
-			</form>
-			<cfset i = #i#+1>
-		</cfloop>
-	</table>
-	<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select common_name 
-		from common_name 
-		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-	<h4>Common Names</h4>
-	<cfset i=1>
-	<cfloop query="common">
-		<form name="common#i#" method="post" action="Taxonomy.cfm">
-			<input type="hidden" name="Action">
-			<input type="hidden" name="origCommonName" value="#common_name#">
-			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-			<input type="text" name="common_name" value="#common_name#" size="50">
-			<input type="button" value="Save" class="savBtn" onClick="common#i#.Action.value='saveCommon';submit();">
-			<input type="button" value="Delete" class="delBtn" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
-		</form>
-		<cfset i=i+1>
-	</cfloop>
-	<div class="newRec">
-		<form name="newCommon" method="post" action="Taxonomy.cfm">
-			<input type="hidden" name="Action" value="newCommon">
-			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-			<label for="common_name" class="col-sm-4 col-form-label float-left">New Common Name</label>
-			<input type="text" name="common_name" class="data-entry-input my-2">
-			<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
-		</form>
-	</div>
-	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select taxon_habitat 
-		from taxon_habitat 
-		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-	<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-	<h4>Habitat</h4>
-	<cfset i=1>
-	<cfloop query="habitat">
-		<form name="habitat#i#" method="post" action="Taxonomy.cfm">
-			<input type="hidden" name="Action">
-			<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
-			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-			<input type="text" name="taxon_habitat" value="#taxon_habitat#" size="30" readonly style="background-color: ##dddddd; border: 0">
-			<input type="button" value="Delete" class="delBtn" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
-		</form>
-		<cfset i=i+1>
-	</cfloop>
-	<table class="newRec">
-		<tr>
-			<td><form name="newhabitat" method="post" action="Taxonomy.cfm">
-					<input type="hidden" name="Action" value="newhabitat">
-					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-					<label for="taxon_habitat">New Habitat</label>
-					<select name="taxon_habitat" id="habitat_name"size="1">
-					<cfloop query="cttaxon_habitat">
-						<option value="">select</option>
-						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
-							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
-						</cfif>
-					</cfloop>
-					<input type="submit" value="Add" class="insBtn">
-				</form></td>
-		</tr>
-	</table>
-</div>
 </div>
 </div>
 </div>
