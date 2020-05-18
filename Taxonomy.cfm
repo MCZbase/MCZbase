@@ -645,15 +645,17 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">
+					<div class="col-6 px-0">
 			<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks</label>
 			<div class="col-sm-10 float-left">
 				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" class="data-entry-textarea">#gettaxa.taxon_remarks#</textarea>
 			</div>
 		</div>
+						</div>
 		<div class="form-row col-12 px-0 justify-content-center">
-			<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
-			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary" onclick="taxa.Action.value='newTaxon';submit();">
-			<input type="button" value="Delete" class="delBtn btn-xs btn-warning"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+			<input type="button" value="Save" class="savBtn btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
+			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
+			<input type="button" value="Delete" class="delBtn btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 		</div>
 		<script>
 				function qcTaxonEdits() { 
