@@ -247,7 +247,8 @@ limitations under the License.
 	</cfif>
 
 	<h3 class="w-50 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-	<div class="w-50 float-left text-right my-2">
+	<div class="w-50 float-left text-right my-2 pr-2">
+	<div class="w-50 float-left text-right my-2 pr-2">
 			<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
 			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 			<input type="button" value="Delete" class="delBtn btn-xs btn-warning"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
@@ -740,9 +741,9 @@ limitations under the License.
 			AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cfset i = 1>
-			<h4 class="mt-3">Related Taxa:</h4>
-	<div class="col-12 px-0">
-	
+		
+	<div class="col-12 px-0 float-left">
+		<h4 class="mt-3">Related Taxa:</h4>
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
