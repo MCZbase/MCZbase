@@ -230,7 +230,7 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 <div class="container-fluid">
-<div class="row mb-4">
+<div class="row mb-4 mx-0">
 <div class="col-12">
 <div class="col-12 col-xl-7 offset-xl-1 float-left">
 	<h2>Edit Taxon:
@@ -246,7 +246,7 @@ limitations under the License.
 	</cfif>
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
-		<div class="tInput form-row">
+		<div class="tInput form-row mx-2 mb-4">
 			<div class="col-4">
 				<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
 				<input type="hidden" name="Action" class="data-entry-input" id="taxon_form_action_input">
@@ -282,7 +282,7 @@ limitations under the License.
 				</select>
 			</div>
 		</div>
-		<div class="form-row col-11">
+		<div class="form-row col-12">
 			<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 				<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 				<cfset pattern = "">
@@ -363,7 +363,7 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-		<div class="form-row col-11">
+		<div class="form-row col-12">
 			<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 			<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 			<cfset pattern = "">
