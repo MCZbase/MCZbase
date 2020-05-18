@@ -713,12 +713,52 @@ limitations under the License.
 	</form>
 	<cfif tax_pub.recordcount gt 0>
 		<cfloop query="tax_pub">
-			<div class="px-0 col-12"> #formatted_publication# 
+			<div class="px-0 col-12 mb-2"> #formatted_publication# 
 			<a class="btn-xs btn-secondary mx-1" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> 
 			<a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> 
 			</div>
 		</cfloop>
 	</cfif>
+		<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT
+			scientific_name,
+			taxon_relationship,
+			relation_authority,
+			related_taxon_name_id
+		FROM
+			taxon_relations,
+			taxonomy
+		WHERE
+			taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
+			AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+	</cfquery>
+	<cfset i = 1>
+	<h4>Related Taxa:</h4>
+	<div class="col-12 px-0">
+		<form name="newRelation" method="post" action="Taxonomy.cfm">
+			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+			<input type="hidden" name="Action" value="newTaxonRelation">
+			<div class="newRec">
+		
+				<label for="taxon_relationship">Add Relationship</label>
+					<select name="taxon_relationship" size="1" class="reqdClr">
+						<cfloop query="ctRelation">
+							<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
+						</cfloop>
+					</select>
+			
+				<label for="relatedName" class="">Related Taxa</label>
+				<input type="text" name="relatedName" class="reqdClr data-entry-input my-2"
+						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
+						onKeyPress="return noenter(event);">
+				<input type="hidden" name="newRelatedId">
+				
+				<label for="relation_authority" class="">Authority</label>
+				<input type="text" name="relation_authority" class="data-entry-input my-2">
+				<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+				</div>
+		</form>
+	</div>
 </div>
 </div>
 </div>
