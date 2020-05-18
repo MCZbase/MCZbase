@@ -646,7 +646,7 @@ limitations under the License.
 		</div>
 			<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks</label>
 			<div class="col-sm-10 float-left">
-				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60" class="data-entry-textarea">#gettaxa.taxon_remarks#</textarea>
+				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="55" class="data-entry-textarea">#gettaxa.taxon_remarks#</textarea>
 			</div>
 		</div>
 		<div align="center">
