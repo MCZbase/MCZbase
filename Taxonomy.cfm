@@ -740,7 +740,7 @@ limitations under the License.
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
-			<div class="p-2 border rounded">
+			<div class="p-2 border bg-light rounded">
 				<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
 					<select name="taxon_relationship" class="reqdClr data-entry-select">
 						<cfloop query="ctRelation">
@@ -786,7 +786,7 @@ onKeyPress="return noenter(event);">
 		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<h4 class="mt-3">Common Names</h4>
-		<div class="border rounded p-2"
+		<div class="border bg-light rounded p-2"
 	<cfset i=1>
 	<cfloop query="common">
 		<form name="common#i#" method="post" action="Taxonomy.cfm">
