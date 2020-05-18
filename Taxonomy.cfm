@@ -695,9 +695,14 @@ limitations under the License.
 		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 		<input type="hidden" name="Action" value="newTaxonPub">
 		<input type="hidden" name="new_publication_id" id="new_publication_id">
-		<label for="new_pub">Pick Publication</label>
-		<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')" size="80">
-		<input type="submit" value="Add Publication" class="insBtn">
+		<div class="col-12">
+		<label for="new_pub" class="col-form-label">Pick Publication</label>
+		
+		<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-8">
+			<div class="col-4">
+		<input type="submit" value="Add Publication" class="insBtn btn-xs btn-secondary">
+			</div>
+		</div>
 	</form>
 	<cfif tax_pub.recordcount gt 0>
 		<ul>
