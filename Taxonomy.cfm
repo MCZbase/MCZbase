@@ -705,8 +705,8 @@ limitations under the License.
 		<input type="hidden" name="new_publication_id" id="new_publication_id">
 
 		<label for="new_pub" class="data-entry-label">Pick Publication</label>
-			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-xl-7 float-left">
-			<div class="col-12 col-xl-4 float-left ml-3">
+			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-xl-8 float-left">
+			<div class="col-12 col-xl-4 float-left">
 				<input type="submit" value="Add Publication" class="insBtn btn-xs btn-secondary">
 			</div>
 		</div>
