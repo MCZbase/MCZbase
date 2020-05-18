@@ -299,9 +299,9 @@ limitations under the License.
 					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 						<cfif len(gettaxa.taxonid) GT 0>
-							<cfset searchtext = "Replace" >
+							<cfset searchtext = "Replace <i class="fas fa-external-link-alt"></i>" >
 							<cfelse>
-							<cfset searchtext = "Find GUID" >
+							<cfset searchtext = "Find GUID <i class="fas fa-external-link-alt"></i>" >
 						</cfif>
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
@@ -324,7 +324,7 @@ limitations under the License.
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# <i class="fas fa-external-link-alt"></i></a> </div>
+				<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> </div>
 				<div class="col-12 col-md-7 px-0 float-left">
 					<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
 					<cfif len(regex) GT 0 >
@@ -380,9 +380,9 @@ limitations under the License.
 					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 						<cfif len(gettaxa.scientificnameid) GT 0>
-							<cfset searchtext = "Replace" >
+							<cfset searchtext = "Replace <i class="fas fa-external-link-alt"></i>" >
 							<cfelse>
-							<cfset searchtext = "Find GUID" >
+							<cfset searchtext = "Find GUID <i class="fas fa-external-link-alt"></i>" >
 						</cfif>
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
@@ -407,7 +407,7 @@ limitations under the License.
 				</div>
 				<div class="col-12 col-md-2 px-0 float-left"> 
 					<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# 
-						<i class="fas fa-external-link-alt"></i>
+						
 					</a> 
 				</div>
 				<div class="col-12 col-md=auto w-50 px-0 float-left">
