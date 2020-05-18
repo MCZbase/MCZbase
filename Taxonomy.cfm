@@ -786,7 +786,7 @@ onKeyPress="return noenter(event);">
 		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<h4 class="mt-3">Common Names</h4>
-		<div class="border bg-light rounded p-2"
+		<div class="border bg-light rounded p-2">
 	<cfset i=1>
 	<cfloop query="common">
 		<form name="common#i#" method="post" action="Taxonomy.cfm">
