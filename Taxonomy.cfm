@@ -712,7 +712,7 @@ limitations under the License.
 	<cfif tax_pub.recordcount gt 0>
 		</ul>
 	</cfif>
-	</div>
+
 	<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
 			scientific_name,
@@ -841,7 +841,7 @@ limitations under the License.
 				</form></td>
 		</tr>
 	</table>
-</div>
+		</div></div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
