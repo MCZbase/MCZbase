@@ -299,9 +299,9 @@ limitations under the License.
 					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 						<cfif len(gettaxa.taxonid) GT 0>
-							<cfset searchtext = "Replace <i class="fas fa-external-link-alt"></i>" >
+							<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 							<cfelse>
-							<cfset searchtext = "Find GUID <i class="fas fa-external-link-alt"></i>" >
+							<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 						</cfif>
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
@@ -380,9 +380,9 @@ limitations under the License.
 					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 						<cfif len(gettaxa.scientificnameid) GT 0>
-							<cfset searchtext = "Replace <i class="fas fa-external-link-alt"></i>" >
+							<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 							<cfelse>
-							<cfset searchtext = "Find GUID <i class="fas fa-external-link-alt"></i>" >
+							<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 						</cfif>
 						<cfset searchclass = 'class="btn-xs btn-primary"' >
 					</cfif>
