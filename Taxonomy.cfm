@@ -231,7 +231,7 @@ limitations under the License.
 <cfoutput>
 <div class="container-fluid">
 
-<div class="row col-12">
+<div class="row col-12 px-0 mx-0">
 <div class="col-12 col-xl-8 offset-xl-1 float-left">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
