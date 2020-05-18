@@ -230,8 +230,8 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 <div class="container-fluid">
-<div class="row">
-<div class="col-12 px-0 mx-0">
+<div class="row mb-4">
+<div class="col-12">
 <div class="col-12 col-xl-7 offset-xl-1 float-left">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -675,7 +675,7 @@ limitations under the License.
 			</script>
 	</form>
 </div>			
-<div class="col-12 col-xl-3 float-left">
+<div class="col-12 col-xl-3 mt-5 float-left">
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			taxonomy_publication_id,
@@ -851,7 +851,7 @@ limitations under the License.
 </div>
 </div>
 </div>
-		</div>
+</div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
