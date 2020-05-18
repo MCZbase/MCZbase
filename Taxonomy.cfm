@@ -673,7 +673,7 @@ limitations under the License.
 				}
 			</script>
 	</form>
-					
+					</div>			
 <div class="col-12 col-xl-3">
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -841,7 +841,10 @@ limitations under the License.
 				</form></td>
 		</tr>
 	</table>
-		</div></div></div></div>
+		</div>
+		</div>
+		</div>
+		</div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
