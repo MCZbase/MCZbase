@@ -682,7 +682,7 @@ limitations under the License.
 			</script>
 	</form>
 </div>			
-<div class="col-12 col-xl-3 float-left px-0 mb-5">
+<div class="col-12 col-xl-3 float-left px-0 my-5">
 	
 	Hello
 </div>
