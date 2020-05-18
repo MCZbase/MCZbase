@@ -229,7 +229,6 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-
 <div class="container">
 <div class="row">
 <div class="col-12 col-xl-9 float-left">
@@ -364,7 +363,7 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row">
-		<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 px-2">
+			<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 px-2">
 			<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 			<cfset pattern = "">
 			<cfset placeholder = "">
@@ -443,6 +442,7 @@ limitations under the License.
 					});
 				</script> 
 			</div>
+		</div>
 		</div>
 		<div class="form-row col-12 px-0 mt-3">
 			<div class="col-6 px-0">
@@ -673,7 +673,7 @@ limitations under the License.
 				}
 			</script>
 	</form>
-					</div>			
+</div>			
 <div class="col-12 col-xl-3 float-left">
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -841,10 +841,9 @@ limitations under the License.
 				</form></td>
 		</tr>
 	</table>
-		</div>
-		</div>
-		</div>
-		</div>
+</div>
+</div>
+</div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
