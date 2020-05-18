@@ -236,7 +236,7 @@ limitations under the License.
 <div class="col-12">
 	<h2 class="w-100">Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+			<i class="fas fas-info fa-info-circle mr-5" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 		</cfif>
 		<em>#getTaxa.scientific_name#</em> <span style="font-variant: small-caps;">#getTaxa.author_text#</span> </h2>
 	<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
