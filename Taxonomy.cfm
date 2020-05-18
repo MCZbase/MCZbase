@@ -232,7 +232,7 @@ limitations under the License.
 <div class="container-fluid">
 <div class="row mb-4 mx-0">
 <div class="col-12 px-0">
-<div class="col-12 col-xl-7 offset-xl-1 float-left px-0">
+<div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mb-5">
 <div class="col-12">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
