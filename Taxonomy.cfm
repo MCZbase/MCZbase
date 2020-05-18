@@ -595,29 +595,29 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-6 px-0">
-				<label for="infraorder" class="col-sm-2 col-form-label float-left">Infraorder</label>
-				<div class="col-sm-10 float-left">
+				<label for="infraorder" class="col-sm-3 col-form-label float-left">Infraorder</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" class="data-entry-input my-2">
 				</div>
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
-				<label for="superfamily" class="col-sm-2 col-form-label float-left">Superfamily</label>
+				<label for="superfamily" class="col-sm-3 col-form-label float-left">Superfamily</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" class="data-entry-input my-2">
 				</div>
 			</div>
 			<div class="col-6 px-0">
 				<label for="family" class="col-sm-2 col-form-label float-left">Family</label>
-				<div class="col-sm-9 float-left">
+				<div class="col-sm-10 float-left">
 					<input type="text" name="family" id="family" value="#gettaxa.family#" class="data-entry-input my-2">
 				</div>
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
-				<label for="subfamily" class="col-sm-2 col-form-label float-left">Subfamily</label>
+				<label for="subfamily" class="col-sm-3 col-form-label float-left">Subfamily</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" class="data-entry-input my-2">
 				</div>
