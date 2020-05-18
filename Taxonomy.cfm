@@ -531,8 +531,8 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-		<div class="form-row col-12 px-0">
-			<div id="division_row" class="col-6 px-0">
+		<div id="division_row" class="form-row col-12 px-0">
+			<div class="col-6 px-0">
 				<label for="division" id="division_label" class="col-sm-3 col-form-label float-left">Division</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-2">
