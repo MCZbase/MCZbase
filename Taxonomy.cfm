@@ -742,7 +742,7 @@ limitations under the License.
 	</cfquery>
 	<cfset i = 1>
 		
-	<div class="col-12 px-0 float-left">
+	<div class="col-12 px-0">
 		<h4 class="mt-3">Related Taxa:</h4>
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
