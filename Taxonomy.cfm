@@ -697,7 +697,7 @@ limitations under the License.
 		<input type="hidden" name="Action" value="newTaxonPub">
 		<input type="hidden" name="new_publication_id" id="new_publication_id">
 
-		<label for="new_pub" class="col-form-label col-12">Pick Publication</label>
+		<label for="new_pub" class="col-form-label col-12 px-0">Pick Publication</label>
 			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-xl-8 float-left">
 			<div class="col-12 col-xl-4 float-left">
 				<input type="submit" value="Add Publication" class="insBtn btn-xs btn-secondary">
@@ -706,16 +706,14 @@ limitations under the License.
 	</form>
 	<cfif tax_pub.recordcount gt 0>
 		<ul>
-	</cfif>
 	<cfloop query="tax_pub">
-		<li> #formatted_publication#
+		<li> #formatted_publication# Formatted Publicaton
 			<ul>
-				<li> <a href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">[ remove ]</a> </li>
-				<li> <a href="SpecimenUsage.cfm?publication_id=#publication_id#">[ details ]</a> </li>
+				<li> <a class="btn-xs btn-secondary" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> </li>
+				<li> <a class="btn-xs btn-secondary" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> </li>
 			</ul>
 		</li>
 	</cfloop>
-	<cfif tax_pub.recordcount gt 0>
 		</ul>
 	</cfif>
 
