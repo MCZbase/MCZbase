@@ -683,7 +683,7 @@ limitations under the License.
 	</form>
 </div>			
 <div class="col-12 col-xl-3 float-left px-0 my-5">
-	<div class="border bg-light rounded p-2">
+	<div class="border rounded p-2" style="background-color: ##f5f5f5;">
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			taxonomy_publication_id,
@@ -793,7 +793,7 @@ onKeyPress="return noenter(event);">
 			<input type="hidden" name="Action">
 			<input type="hidden" name="origCommonName" value="#common_name#">
 			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-			<input type="text" name="common_name" value="#common_name#" class="data-entry-input">
+			<input type="text" name="common_name" value="#common_name#" class="data-entry-input my-2">
 			<input type="button" value="Save" class="savBtn btn-xs btn-secondary" onClick="common#i#.Action.value='saveCommon';submit();">
 			<input type="button" value="Delete" class="delBtn btn-xs btn-secondary" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
 		</form>
