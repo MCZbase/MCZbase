@@ -244,7 +244,9 @@ limitations under the License.
 		<cfelse>
 		<cfset hasTaxonID = false>
 	</cfif>
+			<div class="form-row col-12 px-0">
 	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
+			</div>
 	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
 		<div class="tInput form-row mx-2 mb-2">
 			<div class="col-4">
