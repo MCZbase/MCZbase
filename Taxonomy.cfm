@@ -713,7 +713,7 @@ limitations under the License.
 	</form>
 	<cfif tax_pub.recordcount gt 0>
 		<cfloop query="tax_pub">
-			<div class="px-0 col-12 mb-2"> #formatted_publication# 
+			<div class="px-0 col-12 my-2"> #formatted_publication# 
 			<a class="btn-xs btn-secondary mx-1" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> 
 			<a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> 
 			</div>
@@ -755,7 +755,7 @@ limitations under the License.
 				
 				<label for="relation_authority" class="data-entry-label">Authority</label>
 				<input type="text" name="relation_authority" class="data-entry-input">
-				<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+				<input type="submit" value="Create" class="insBtn btn-xs btn-secondary mt-2">
 				</div>
 		</form>
 	</div>
