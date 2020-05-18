@@ -645,7 +645,7 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">
-					<div class="col-6 px-0">
+					<div class="col-12 px-0">
 			<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks</label>
 			<div class="col-sm-10 float-left">
 				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" class="data-entry-textarea">#gettaxa.taxon_remarks#</textarea>
@@ -673,6 +673,8 @@ limitations under the License.
 				}
 			</script>
 	</form>
+					
+<div class="col-12 col-xl-3">
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			taxonomy_publication_id,
@@ -710,7 +712,7 @@ limitations under the License.
 	<cfif tax_pub.recordcount gt 0>
 		</ul>
 	</cfif>
-	</table>
+	</div>
 	<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
 			scientific_name,
