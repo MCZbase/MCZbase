@@ -735,14 +735,14 @@ limitations under the License.
 			AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cfset i = 1>
-	
+			<h4 class="mt-3">Related Taxa:</h4>
 	<div class="col-12 px-0">
 	
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
 			<div class="p-2 border bg-light rounded">
-					<h4 class="mt-3">Related Taxa:</h4>
+			
 				<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
 					<select name="taxon_relationship" class="reqdClr data-entry-select">
 						<cfloop query="ctRelation">
