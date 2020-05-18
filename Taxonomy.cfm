@@ -747,13 +747,11 @@ limitations under the License.
 							<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
 						</cfloop>
 					</select>
-			
 				<label for="relatedName" class="data-entry-label">Related Taxa</label>
-				<input type="text" name="relatedName" class="reqdClr data-entry-input "
+				<input type="text" name="relatedName" class="reqdClr data-entry-input"
 						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
 						onKeyPress="return noenter(event);">
 				<input type="hidden" name="newRelatedId">
-				
 				<label for="relation_authority" class="data-entry-label">Authority</label>
 				<input type="text" name="relation_authority" class="data-entry-input">
 				<input type="submit" value="Create" class="insBtn btn-xs btn-secondary mt-2">
@@ -773,7 +771,7 @@ limitations under the License.
 						</select>
 					<input type="text" name="relatedName" class="reqdClr data-entry-input" value="#relations.scientific_name#" onChange="taxaPick('newRelatedId','relatedName','relation#i#',this.value); return false;"
 onKeyPress="return noenter(event);">
-						<input type="hidden" name="newRelatedId"></td>
+					<input type="hidden" name="newRelatedId">
 					<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
 					<input type="button" value="Save" class="savBtn btn-xs btn-secondary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
 					<input type="button" value="Delete" class="delBtn btn-xs btn-secondary" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
