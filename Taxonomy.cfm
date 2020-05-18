@@ -719,7 +719,7 @@ limitations under the License.
 	<cfif tax_pub.recordcount gt 0>
 
 		<cfloop query="tax_pub">
-			<div class="col-12 my-2 px-1 float-left"> #formatted_publication# 
+			<div class="col-12 my-2 px-1"> #formatted_publication# 
 			<a class="btn-xs btn-secondary mx-1" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> 
 			<a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> 
 			</div>
@@ -746,8 +746,8 @@ limitations under the License.
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
-			<div class="p-2 border bg-light rounded">
-					<h4 class="mt-3">Related Taxa:</h4>
+			<div class="p-2 border bg-light rounded mt-3">
+					<h4 class="mt-0">Related Taxa:</h4>
 				<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
 					<select name="taxon_relationship" class="reqdClr data-entry-select">
 						<cfloop query="ctRelation">
