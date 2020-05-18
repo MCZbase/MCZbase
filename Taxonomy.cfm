@@ -524,113 +524,126 @@ limitations under the License.
 					<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-2">
 				</div>
 			</div>
-		</div>
-	
-		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
-				<label for="subphylum" id="subphylum_label" class="col-sm-2 col-form-label float-left">Subphylum</label>
+				<label for="subphylum" id="subphylum_label" class="col-sm-3 col-form-label float-left">Subphylum</label>
 				<div  class="col-sm-9 float-left">
 					<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-2">
 				</div>
 			</div>
+		</div>
+		<div class="form-row col-12 px-0">
 			<div id="division_row" class="col-6 px-0">
-				<label for="division" id="division_label" >Division</label>
+				<label for="division" id="division_label" class="col-sm-3 col-form-label float-left">Division</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-2">
 				</div>
 			</div>
-		</div>
-		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="subdivision" id="subdivsion_label" class="col-sm-2 col-form-label float-left">SubDivision</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-2">
 				</div>
 			</div>
-			<div class="col-6 px-0">
-				<label for="superclass" class="col-sm-2 col-form-label float-left">Superclass</label>
-				<div class="col-sm-9 float-left">
-					<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#">
-				</div>
-			</div>
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
-				<label for="phylclass" class="col-sm-2 col-form-label float-left">Class</label>
+				<label for="superclass" class="col-sm-3 col-form-label float-left">Superclass</label>
 				<div class="col-sm-9 float-left">
+					<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" class="data-entry-input my-2">
+				</div>
+			</div>	
+			<div class="col-6 px-0">
+				<label for="phylclass" class="col-sm-2 col-form-label float-left">Class</label>
+				<div class="col-sm-10 float-left">
 					<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input my-2">
 				</div>
 			</div>
-			<div class="col-6 px-0">
-				<label for="subclass" class="col-sm-2 col-form-label float-left">SubClass</label>
-				<div class="col-9">
-					<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input">
-				</div>
-			</div>
 		</div>
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
+				<label for="subclass" class="col-sm-3 col-form-label float-left">SubClass</label>
+				<div class="col-9">
+					<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input my-2">
+				</div>
+			</div>
+			<div class="col-6 px-0">
 				<label for="infraclass" class="col-sm-2 col-form-label float-left">InfraClass</label>
-				<div class="col-sm-9 float-left">
+				<div class="col-sm-10 float-left">
 					<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input my-2">
 				</div>
 			</div>
+		</div>
+		<div class="form-row col-12 px-0">				
 			<div class="col-6 px-0">
 				<label for="superorder" class="col-sm-2 col-form-label float-left">Superorder</label>
 				<div class="col-sm-6 float-left">
 					<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" class="data-entry-input my-2">
 				</div>
 			</div>
-		</div>
-		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="phylorder" class="col-sm-2 col-form-label float-left">Order</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#">
 				</div>
 			</div>
+		</div>
+		<div class="form-row col-12 px-0">	
 			<div class="col-6 px-0">
 				<label for="suborder" class="col-sm-2 col-form-label float-left">Suborder</label>
 				<div class="col-sm-9 float-left">
-					<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#">
+					<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" class="data-entry-input my-2">
+				</div>
+			</div>
+			<div class="col-6 px-0">
+				<label for="infraorder" class="col-sm-2 col-form-label float-left">Infraorder</label>
+				<div class="col-sm-10 float-left">
+					<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" class="data-entry-input my-2">
 				</div>
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">
-			<label for="infraorder" class="col-sm-2 col-form-label float-left">Infraorder</label>
-			<div class="col-sm-9 float-left">
-				<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#">
+			<div class="col-6 px-0">
+				<label for="superfamily" class="col-sm-2 col-form-label float-left">Superfamily</label>
+				<div class="col-sm-9 float-left">
+					<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" class="data-entry-input my-2">
+				</div>
 			</div>
-			<label for="superfamily" class="col-sm-2 col-form-label float-left">Superfamily</label>
-			<div class="col-sm-9 float-left">
-				<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#">
-			</div>
-		</div>
-		<div class="form-row col-12 px-0">
-			<label for="family" class="col-sm-2 col-form-label float-left">Family</label>
-			<div class="col-sm-9 float-left">
-				<input type="text" name="family" id="family" value="#gettaxa.family#">
-			</div>
-			<label for="subfamily" class="col-sm-2 col-form-label float-left">Subfamily</label>
-			<div class="col-sm-9 float-left">
-				<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#">
+			<div class="col-6 px-0">
+				<label for="family" class="col-sm-2 col-form-label float-left">Family</label>
+				<div class="col-sm-9 float-left">
+					<input type="text" name="family" id="family" value="#gettaxa.family#" class="data-entry-input my-2">
+				</div>
 			</div>
 		</div>
 		<div class="form-row col-12 px-0">
-			<label for="tribe" class="col-sm-2 col-form-label float-left">Tribe</label>
-			<div class="col-sm-9 float-left">
-				<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#">
+			<div class="col-6 px-0">
+				<label for="subfamily" class="col-sm-2 col-form-label float-left">Subfamily</label>
+				<div class="col-sm-9 float-left">
+					<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" class="data-entry-input my-2">
+				</div>
 			</div>
-			<label for="subgenus" class="col-sm-2 col-form-label float-left">Subgenus</label>
-			<div class="col-sm-9 float-left"> (
-				<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#">
-				)#subgenus_message# </div>
+			<div class="col-6 px-0">
+				<label for="tribe" class="col-sm-2 col-form-label float-left">Tribe</label>
+				<div class="col-sm-9 float-left">
+					<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-2">
+				</div>
+			</div>
 		</div>
 		<div class="form-row col-12 px-0">
-			<label for="subsection" class="col-sm-2 col-form-label float-left">SubSection</label>
-			<div class="col-sm-9 float-left">
-				<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#">
+			<div class="col-6 px-0">
+				<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
+				<div class="col-sm-9 float-left"> (
+				<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-2">
+				)#subgenus_message# 
+				</div>
 			</div>
+			<div class="col-6 px-0">
+				<label for="subsection" class="col-sm-2 col-form-label float-left">SubSection</label>
+				<div class="col-sm-9 float-left">
+					<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" class="data-entry-input my-2">
+				</div>
+			</div>
+		</div>
 			<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks</label>
 			<div class="col-sm-9 float-left">
 				<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#gettaxa.taxon_remarks#</textarea>
