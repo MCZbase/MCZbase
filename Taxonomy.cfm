@@ -781,7 +781,7 @@ onKeyPress="return noenter(event);">
 					<input type="hidden" name="newRelatedId">
 					<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
 					<input type="button" value="Save" class="savBtn btn-xs btn-secondary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
-					<input type="button" value="Delete" class="delBtn btn-xs btn-secondary ml-1" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
+					<input type="button" value="Delete" class="delBtn btn-xs btn-secondary" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
 				
 			</form>
 			<cfset i = #i#+1>
@@ -803,7 +803,7 @@ onKeyPress="return noenter(event);">
 			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 			<input type="text" name="common_name" value="#common_name#" class="data-entry-input my-2">
 			<input type="button" value="Save" class="savBtn btn-xs btn-secondary" onClick="common#i#.Action.value='saveCommon';submit();">
-			<input type="button" value="Delete" class="delBtn btn-xs btn-secondary" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
+			<input type="button" value="Delete" class="delBtn btn-xs btn-secondary ml-1" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
 		</form>
 		<cfset i=i+1>
 	</cfloop>
