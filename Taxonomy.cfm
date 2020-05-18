@@ -415,7 +415,7 @@ limitations under the License.
 						
 					</a> 
 				</div>
-				<div class="col-12 col-md=auto w-50 px-0 float-left">
+				<div class="">
 					<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
 							pattern="#pattern#" title="Enter a guid in the form #placeholder#">
