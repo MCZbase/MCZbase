@@ -683,7 +683,7 @@ limitations under the License.
 	</form>
 </div>			
 <div class="col-12 col-xl-3 float-left px-0 my-5">
-	<div class="border bg-light rounded p-2">
+	<div class="border rounded p-2" style="background-color: ##f5f5f5;">
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			taxonomy_publication_id,
