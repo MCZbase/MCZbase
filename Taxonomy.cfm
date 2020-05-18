@@ -246,8 +246,8 @@ limitations under the License.
 		<cfset hasTaxonID = false>
 	</cfif>
 
-	<h3 class="w-50 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-	<div class="w-50 float-left text-right my-2">
+	<h3 class="col-6 px-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
+	<div class="col-6 px-0 float-left text-right my-2">
 			<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
 			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 			<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
