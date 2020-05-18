@@ -232,7 +232,7 @@ limitations under the License.
 
 <div class="container">
 <div class="row">
-<div class="col-12 col-xl-9">
+<div class="col-12 col-xl-9 float-left">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -674,7 +674,7 @@ limitations under the License.
 			</script>
 	</form>
 					</div>			
-<div class="col-12 col-xl-3">
+<div class="col-12 col-xl-3 float-left">
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			taxonomy_publication_id,
