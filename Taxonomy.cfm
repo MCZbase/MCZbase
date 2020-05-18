@@ -712,13 +712,14 @@ limitations under the License.
 		</div>
 	</form>
 	<cfif tax_pub.recordcount gt 0>
-		<cfloop query="tax_pub"><div class="row mx-0">
+		<div class="row mx-0">
+		<cfloop query="tax_pub">
 			<div class="px-0 col-12 my-2"> #formatted_publication# 
 			<a class="btn-xs btn-secondary mx-1" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> 
 			<a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> 
 			</div>
-			</div>
 		</cfloop>
+		</div>
 	</cfif>
 		<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
