@@ -728,30 +728,33 @@ limitations under the License.
 	</cfquery>
 	<cfset i = 1>
 	<h4>Related Taxa:</h4>
-	<table border="1">
-		<tr>
-			<th>Relationship</th>
-			<th>Related Taxa</th>
-			<th>Authority</th>
-		</tr>
+	<div class="col-12">
 		<form name="newRelation" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
-			<tr class="newRec">
-				<td><label for="taxon_relationship">Add Relationship</label>
+			<div class="newRec">
+				<div class="col-6">
+				<label for="taxon_relationship">Add Relationship</label>
 					<select name="taxon_relationship" size="1" class="reqdClr">
 						<cfloop query="ctRelation">
 							<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
 						</cfloop>
-					</select></td>
-				<td><input type="text" name="relatedName" class="reqdClr" size="35"
+					</select>
+				</div>
+				<div class="col-6">
+				<label for="relatedName" class="">Related Taxa</label>
+				<input type="text" name="relatedName" class="reqdClr data-entry-input my-2"
 						onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
 						onKeyPress="return noenter(event);">
-					<input type="hidden" name="newRelatedId"></td>
-				<td><input type="text" name="relation_authority"></td>
-				<td><input type="submit" value="Create" class="insBtn"></td>
-			</tr>
+				<input type="hidden" name="newRelatedId">
+				</div>
+				<div class="col-6">
+				<label for="relation_authority" class="">Authority</label>
+				<input type="text" name="relation_authority" class="data-entry-input my-2">
+				<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+				</div>
 		</form>
+	</div>
 		<cfloop query="relations">
 			<form name="relation#i#" method="post" action="Taxonomy.cfm">
 				<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
