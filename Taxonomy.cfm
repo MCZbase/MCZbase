@@ -229,9 +229,9 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-<div class="container-fluid offset-xl-1">
+<div class="container-fluid">
 <div class="row">
-<div class="col-12 col-xl-8 float-left">
+<div class="col-12 col-xl-8  offset-xl-1 float-left">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
