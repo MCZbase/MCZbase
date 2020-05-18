@@ -792,9 +792,9 @@ onKeyPress="return noenter(event);">
 			<input type="hidden" name="Action">
 			<input type="hidden" name="origCommonName" value="#common_name#">
 			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-			<input type="text" name="common_name" value="#common_name#" size="50">
-			<input type="button" value="Save" class="savBtn" onClick="common#i#.Action.value='saveCommon';submit();">
-			<input type="button" value="Delete" class="delBtn" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
+			<input type="text" name="common_name" value="#common_name#" class="data-entry-input">
+			<input type="button" value="Save" class="savBtn btn-xs btn-secondary" onClick="common#i#.Action.value='saveCommon';submit();">
+			<input type="button" value="Delete" class="delBtn btn-xs btn-secondary" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
 		</form>
 		<cfset i=i+1>
 	</cfloop>
@@ -802,7 +802,7 @@ onKeyPress="return noenter(event);">
 		<form name="newCommon" method="post" action="Taxonomy.cfm">
 			<input type="hidden" name="Action" value="newCommon">
 			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-			<label for="common_name" class="col-sm-4 col-form-label float-left">New Common Name</label>
+			<label for="common_name" class="data-entry-label float-left">New Common Name</label>
 			<input type="text" name="common_name" class="data-entry-input my-2">
 			<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
 		</form>
