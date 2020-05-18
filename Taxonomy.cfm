@@ -795,17 +795,15 @@ limitations under the License.
 		</form>
 		<cfset i=i+1>
 	</cfloop>
-	<table class="newRec">
-		<tr>
-			<td><form name="newCommon" method="post" action="Taxonomy.cfm">
-					<input type="hidden" name="Action" value="newCommon">
-					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-					<label for="common_name">New Common Name</label>
-					<input type="text" name="common_name" size="50">
-					<input type="submit" value="Create" class="insBtn">
-				</form></td>
-		</tr>
-	</table>
+	<div class="newRec">
+		<form name="newCommon" method="post" action="Taxonomy.cfm">
+			<input type="hidden" name="Action" value="newCommon">
+			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+			<label for="common_name" class="col-sm-4 col-form-label float-left">New Common Name</label>
+			<input type="text" name="common_name" class="data-entry-input my-2">
+			<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+		</form>
+	</div>
 	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select taxon_habitat 
 		from taxon_habitat 
