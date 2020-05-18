@@ -231,7 +231,7 @@ limitations under the License.
 <cfoutput>
 <div class="container-fluid offset-xl-1">
 <div class="row">
-<div class="col-12 col-xl-9 float-left">
+<div class="col-12 col-xl-8 float-left">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
