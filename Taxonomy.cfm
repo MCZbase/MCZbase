@@ -633,7 +633,7 @@ limitations under the License.
 			<div class="col-6 px-0">
 				<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
 				<div class="col-sm-8 float-left"> (
-				<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-2">
+				<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-2 float-left">
 				)#subgenus_message# 
 				</div>
 			</div>
@@ -651,9 +651,9 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row col-12 px-0 justify-content-center">
-			<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
-			<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxon';submit();">
-			<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+			<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
+			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary" onclick="taxa.Action.value='newTaxon';submit();">
+			<input type="button" value="Delete" class="delBtn btn-xs btn-warning"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 		</div>
 		<script>
 				function qcTaxonEdits() { 
