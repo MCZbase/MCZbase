@@ -340,6 +340,7 @@ limitations under the License.
 					<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.taxonid#</a> 
 					<script>
 					$(document).ready(function () { 
+						$(document).ready(function () { 
 						if ($('##taxonid').val().length > 0) {
 							$('##taxonid').hide();
 						}
