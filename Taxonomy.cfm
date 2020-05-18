@@ -683,7 +683,7 @@ limitations under the License.
 	</form>
 </div>			
 <div class="col-12 col-xl-3 float-left px-0 my-5">
-	<div class="border bg-light p-2">
+	<div class="border bg-light rounded p-2">
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			taxonomy_publication_id,
@@ -699,12 +699,11 @@ limitations under the License.
 	</cfquery>
 	<cfset i = 1>
 	<h4>Related Publications</h4>
-			<form name="newPub" method="post" action="Taxonomy.cfm">
+	<form name="newPub" method="post" action="Taxonomy.cfm">
 		<div class="col-12 px-0">
 		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 		<input type="hidden" name="Action" value="newTaxonPub">
 		<input type="hidden" name="new_publication_id" id="new_publication_id">
-
 		<label for="new_pub" class="data-entry-label">Pick Publication</label>
 			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-sm-8 col-xl-8 float-left">
 			<div class="col-12 col-sm-4 float-left">
@@ -722,7 +721,7 @@ limitations under the License.
 		</cfloop>
 
 	</cfif>
-		<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
 			scientific_name,
 			taxon_relationship,
@@ -762,7 +761,56 @@ limitations under the License.
 				</div>
 		</form>
 	</div>
-		</div>
+			<cfloop query="relations">
+			<form name="relation#i#" method="post" action="Taxonomy.cfm">
+				<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+				<input type="hidden" name="Action">
+				<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
+				<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
+				<select name="taxon_relationship" class="reqdClr data-entry-select">
+							<cfloop query="ctRelation">
+								<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
+									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
+							</cfloop>
+						</select>
+					<input type="text" name="relatedName" class="reqdClr data-entry-input" value="#relations.scientific_name#" onChange="taxaPick('newRelatedId','relatedName','relation#i#',this.value); return false;"
+onKeyPress="return noenter(event);">
+						<input type="hidden" name="newRelatedId"></td>
+					<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
+					<input type="button" value="Save" class="savBtn btn-xs btn-secondary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
+					<input type="button" value="Delete" class="delBtn btn-xs btn-secondary" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
+				
+			</form>
+			<cfset i = #i#+1>
+		</cfloop>
+	<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select common_name 
+		from common_name 
+		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+	</cfquery>
+	<h4 class="mt-3">Common Names</h4>
+	<cfset i=1>
+	<cfloop query="common">
+		<form name="common#i#" method="post" action="Taxonomy.cfm">
+			<input type="hidden" name="Action">
+			<input type="hidden" name="origCommonName" value="#common_name#">
+			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+			<input type="text" name="common_name" value="#common_name#" size="50">
+			<input type="button" value="Save" class="savBtn" onClick="common#i#.Action.value='saveCommon';submit();">
+			<input type="button" value="Delete" class="delBtn" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
+		</form>
+		<cfset i=i+1>
+	</cfloop>
+	<div class="newRec">
+		<form name="newCommon" method="post" action="Taxonomy.cfm">
+			<input type="hidden" name="Action" value="newCommon">
+			<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+			<label for="common_name" class="col-sm-4 col-form-label float-left">New Common Name</label>
+			<input type="text" name="common_name" class="data-entry-input my-2">
+			<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+		</form>
+	</div>
+	</div>
 </div>
 </div>
 </div>
