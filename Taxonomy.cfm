@@ -234,7 +234,7 @@ limitations under the License.
 <div class="col-12 px-0">
 <div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mb-5">
 <div class="col-12">
-	<h2>Edit Taxon:
+	<h2 class="w-100">Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 		</cfif>
@@ -246,12 +246,14 @@ limitations under the License.
 		<cfset hasTaxonID = false>
 	</cfif>
 
-	<h3><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-				<input type="button" value="Save" class="savBtn btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
+	<h3 class="w-50 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
+	<div class="w-50 float-left text-right">
+			<input type="button" value="Save" class="savBtn btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
 			<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 			<input type="button" value="Delete" class="delBtn btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+	</div>
 </div>
-	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form">
+	<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
 		<div class="tInput form-row mx-2 mb-2">
 			<div class="col-4">
 				<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
