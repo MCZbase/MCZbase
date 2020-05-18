@@ -713,9 +713,9 @@ limitations under the License.
 	</form>
 	<cfif tax_pub.recordcount gt 0>
 		<cfloop query="tax_pub">
-			<div class="px-0 col-12"> #formatted_publication# Formatted Publicaton
-			<a class="btn-xs btn-secondary" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> 
-			<a class="btn-xs btn-secondary" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> 
+			<div class="px-0 col-12"> #formatted_publication# 
+			<a class="btn-xs btn-secondary mx-1" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> 
+			<a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> 
 			</div>
 		</cfloop>
 	</cfif>
