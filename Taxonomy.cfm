@@ -632,13 +632,13 @@ limitations under the License.
 		<div class="form-row col-12 px-0">
 			<div class="col-6 px-0">
 				<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
-				<div class="col-sm-9 float-left"> (
+				<div class="col-sm-8 float-left"> (
 				<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-2">
 				)#subgenus_message# 
 				</div>
 			</div>
 			<div class="col-6 px-0">
-				<label for="subsection" class="col-sm-2 col-form-label float-left">SubSection</label>
+				<label for="subsection" class="col-sm-3 col-form-label float-left">SubSection</label>
 				<div class="col-sm-9 float-left">
 					<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" class="data-entry-input my-2">
 				</div>
