@@ -707,7 +707,8 @@ limitations under the License.
 	<cfset i = 1>
 	<h4>Related Publications</h4>
 	<form name="newPub" method="post" action="Taxonomy.cfm">
-		<div class="col-12 px-0">
+		<div class="form-row mx-0">
+		<div class="col-12 px-0 my-2">
 		<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 		<input type="hidden" name="Action" value="newTaxonPub">
 		<input type="hidden" name="new_publication_id" id="new_publication_id">
@@ -715,6 +716,7 @@ limitations under the License.
 			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-sm-8 col-xl-8 float-left">
 			<div class="col-12 col-sm-4 float-left">
 				<input type="submit" value="Add Publication" class="insBtn btn-xs btn-secondary">
+			</div>
 			</div>
 		</div>
 	</form>
