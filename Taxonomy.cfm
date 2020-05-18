@@ -698,8 +698,8 @@ limitations under the License.
 		<div class="col-12">
 		<label for="new_pub" class="col-form-label">Pick Publication</label>
 		
-		<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-8">
-			<div class="col-4">
+		<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-8 float-left">
+			<div class="col-4 float-left">
 		<input type="submit" value="Add Publication" class="insBtn btn-xs btn-secondary">
 			</div>
 		</div>
