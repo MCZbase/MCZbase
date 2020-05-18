@@ -28,8 +28,8 @@
          result = $('##feature').val();
       } else if ($('##county').val()!="") { 
          result = $('##county').val();
-      } else if ($('##state_province').val()!="") { 
-         result = $('##state_province').val();
+      } else if ($('##state_prov').val()!="") { 
+         result = $('##state_prov').val();
       } else if ($('##country').val()!="") { 
          result = $('##country').val();
       } else if ($('##water_feature').val()!="") { 
@@ -418,7 +418,7 @@
 								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
 							});
 							$('.geoginput').change(function () { 
-								// On changing any geography inptu field name, update search.
+								// On changing any geography input field name, update search.
 								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
 							});
 						});
@@ -1485,6 +1485,16 @@ You deleted a collecting event.
 	<cfelse>
 		,sea = null
 	</cfif>
+	<cfif len(#highergeographyid_guid_type#) gt 0>
+		,highergeographyid_guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">
+	<cfelse>
+		,highergeographyid_guid_type = null
+	</cfif>
+	<cfif len(#highergeographyid#) gt 0>
+		,highergeographyid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">
+	<cfelse>
+		,highergeographyid = null
+	</cfif>
 		where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 	</cfquery>
 	<cflocation addtoken="no" url="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">
@@ -1537,6 +1547,12 @@ You deleted a collecting event.
 			<cfif len(#sea#) gt 0>
 				,sea
 			</cfif>
+			<cfif len(#highergeographyid_guid_type#) gt 0>
+				,highergeographyid_guid_type
+			</cfif>
+			<cfif len(#highergeographyid#) gt 0>
+				,highergeographyid
+			</cfif>
 			,valid_catalog_term_fg
 			,source_authority
 		)
@@ -1578,6 +1594,12 @@ You deleted a collecting event.
 			</cfif>
 			<cfif len(#sea#) gt 0>
 				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sea#">
+			</cfif>
+			<cfif len(#highergeographyid_guid_type#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">
+			</cfif>
+			<cfif len(#highergeographyid#) gt 0>
+				, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">
 			</cfif>
 			,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
 			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
