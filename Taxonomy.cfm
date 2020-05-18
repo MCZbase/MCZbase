@@ -232,7 +232,7 @@ limitations under the License.
 <div class="container-fluid">
 
 <div class="row col-12 px-0 mx-0">
-<div class="col-12 col-xl-8 offset-xl-1 float-left">
+<div class="col-12 col-xl-7 offset-xl-1 float-left">
 	<h2>Edit Taxon:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
