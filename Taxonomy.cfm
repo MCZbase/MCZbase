@@ -741,7 +741,6 @@ limitations under the License.
 			<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 			<input type="hidden" name="Action" value="newTaxonRelation">
 			<div class="p-2 border rounded">
-		
 				<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
 					<select name="taxon_relationship" class="reqdClr data-entry-select">
 						<cfloop query="ctRelation">
@@ -760,7 +759,6 @@ limitations under the License.
 				<input type="submit" value="Create" class="insBtn btn-xs btn-secondary mt-2">
 				</div>
 		</form>
-	</div>
 			<cfloop query="relations">
 			<form name="relation#i#" method="post" action="Taxonomy.cfm">
 				<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
@@ -783,6 +781,7 @@ onKeyPress="return noenter(event);">
 			</form>
 			<cfset i = #i#+1>
 		</cfloop>
+	</div>
 	<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select common_name 
 		from common_name 
