@@ -534,8 +534,8 @@ limitations under the License.
 		</div>
 		<div class="form-row col-12 px-0">
 			<div id="phylum_row" class="col-6 px-0">
-				<label for="phylum" id="phylum_label" class="col-sm-2 col-form-label float-left">Phylum</label>
-				<div class="col-sm-10 float-left">
+				<label for="phylum" id="phylum_label" class="col-sm-3 col-form-label float-left">Phylum</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-2">
 				</div>
 			</div>
@@ -568,8 +568,8 @@ limitations under the License.
 				</div>
 			</div>	
 			<div class="col-6 px-0">
-				<label for="phylclass" class="col-sm-2 col-form-label float-left">Class</label>
-				<div class="col-sm-10 float-left">
+				<label for="phylclass" class="col-sm-3 col-form-label float-left">Class</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input my-2">
 				</div>
 			</div>
@@ -596,8 +596,8 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-6 px-0">
-				<label for="phylorder" class="col-sm-2 col-form-label float-left">Order</label>
-				<div class="col-sm-10 float-left">
+				<label for="phylorder" class="col-sm-3 col-form-label float-left">Order</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" class="data-entry-input my-2">
 				</div>
 			</div>
@@ -624,8 +624,8 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-6 px-0">
-				<label for="family" class="col-sm-2 col-form-label float-left">Family</label>
-				<div class="col-sm-10 float-left">
+				<label for="family" class="col-sm-3 col-form-label float-left">Family</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="family" id="family" value="#gettaxa.family#" class="data-entry-input my-2">
 				</div>
 			</div>
@@ -638,8 +638,8 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-6 px-0">
-				<label for="tribe" class="col-sm-2 col-form-label float-left">Tribe</label>
-				<div class="col-sm-10 float-left">
+				<label for="tribe" class="col-sm-3 col-form-label float-left">Tribe</label>
+				<div class="col-sm-9 float-left">
 					<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-2">
 				</div>
 			</div>
