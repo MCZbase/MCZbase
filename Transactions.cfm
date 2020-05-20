@@ -651,7 +651,7 @@ limitations under the License.
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
-							<div id="searchResultsGrid" class="jqxGrid"></div>
+							<div id="searchResultsGrid" class="jqxGrid" aria-label="Search Results Table"></div>
 							<div id="enableselection"></div>
 						</div>
 					</div>
@@ -779,13 +779,13 @@ $(document).ready(function() {
 			//selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
-			        ready: function()
-                    {
-                        $("##searchResultsGrid").jqxGrid('selectcell', 1, 'id_link');
-                        // focus grid.
-                        $("##searchResultsGrid").jqxGrid('focus');
-                    },
-                    selectionmode: 'singlerow',
+			ready: function()
+			{
+				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
+				// focus grid.
+				$("##searchResultsGrid").jqxGrid('focus');
+			},
+			selectionmode: 'singlerow',
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -934,7 +934,7 @@ $(document).ready(function() {
                         // focus grid.
                         $("##searchResultsGrid").jqxGrid('focus');
                     },
-                    selectionmode: 'multiplecellsadvanced',
+                    selectionmode: 'singlerow',
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
