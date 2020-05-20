@@ -779,6 +779,12 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			 ready: function()
+                    {
+                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'number');
+                        // focus jqxgrid.
+                        $("##searchResultsGrid").jqxGrid('focus');
+                    },
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -921,6 +927,12 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			ready: function()
+			{
+				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'loan_number');
+				// focus jqxgrid.
+				$("##searchResultsGrid").jqxGrid('focus');
+			},
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
