@@ -933,29 +933,56 @@ onKeyPress="return noenter(event);">
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 </cfquery>
 	<cfoutput>
-		<div class="content_box_narrow" style="width: 46em;">
-			<h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
-			<p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
-			<table class="tInput">
-				<form name="taxa" method="post" action="Taxonomy.cfm">
-					<input type="hidden" name="Action" value="saveNewTaxa">
-					<tr>
-						<td><label for="source_authority"><span>Source</span></label>
-							<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
+<div class="container-fluid">
+<div class="row mb-4 mx-0">
+<div class="col-12 px-0">
+<div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mb-5">
+<div class="col-12">
+	<h2 class="w-100">Create New Taxonomy: <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+		</cfif>
+		<em>#getTaxa.scientific_name#</em> <span style="font-variant: small-caps;">#getTaxa.author_text#</span> </h2>
+			<span class="small w-100">(through cloning and editing)</span>
+				<form name="taxa" method="post" action="/Taxonomy.cfm">
+					<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
+						<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
+						<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
+						<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+					</div>
+					<div class="tInput form-row mx-2 mb-2">
+					<div class="col-12 col-sm-4">
+						<input type="hidden" name="Action" value="saveNewTaxa">
+						<label for="source_authority">Source</label>
+							<select name="source_authority" id="source_authority" class="reqdClr data-entry-select w-75">
 								<cfloop query="ctSourceAuth">
 									<option
 								<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
 								value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
 								</cfloop>
-							</select></td>
-						<td><label for="valid_catalog_term_fg"><span>Valid?</span></label>
-							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr">
+							</select>
+					</div>
+					<div class="col-12 col-sm-4">
+						<label for="valid_catalog_term_fg">Valid?</label>
+							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr data-entry-select w-75">
 								<option <cfif valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
-							</select></td>
-					</tr>
-					<tr>
-						<td colspan="2" class="detailCell"><label for="genus">GUID for Taxon (dwc:taxonID)</label>
+							</select>
+					</div>
+					<div class="col-12 col-sm-4">
+						<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
+							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
+								<cfloop query="ctnomenclatural_code">
+									<option
+								<cfif #form.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
+								value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
+								</cfloop>
+							</select>
+					</div>
+						<label for="genus">Genus <span class="likeLink botanical"
+						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
+							<input size="25" name="genus" id="genus" maxlength="40" value="#genus#">
+					
+					<label for="genus">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
 							<cfset regex = "">
@@ -1023,10 +1050,9 @@ onKeyPress="return noenter(event);">
 								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 							});
 						});
-					</script></td>
-					</tr>
-					<tr>
-						<td colspan="2" class="detailCell"><label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+					</script>
+				
+				<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
 							<cfset regex = "">
@@ -1063,7 +1089,7 @@ onKeyPress="return noenter(event);">
 							<input size="54" name="scientificnameid" id="scientificnameid" value=""
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-							<a id="scientificnameid_link" href="" target="_blank" class="hints"></a> 
+							<a id="scientificnameid_link" href="" target="_blank" class=""></a> 
 							<script>
 						$(document).ready(function () { 
 							if ($('##scientificnameid').val().length > 0) {
@@ -1096,126 +1122,124 @@ onKeyPress="return noenter(event);">
 								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
 							});
 						});
-					</script></td>
-					</tr>
-					<tr>
-						<td><label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
-								<cfloop query="ctnomenclatural_code">
-									<option
-								<cfif #form.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
-								value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
-								</cfloop>
-							</select></td>
-						<td><label for="genus">Genus <span class="likeLink botanical"
-						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-							<input size="25" name="genus" id="genus" maxlength="40" value="#genus#"></td>
-					</tr>
-					<tr>
-						<td><label for="species">Species<!---  <span class="likeLink"
-						onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-							<input size="25" name="species" id="species" maxlength="40" value="#species#"></td>
-						<td><label for="author_text"><span>Author</span></label>
-							<input type="text" name="author_text" id="author_text" value="#author_text#" size="30">
+					</script>
+			
+							<label for="species">Species</label>
+							<!---  <span class="likeLink" onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>--->
+							<input name="species" id="species" value="#species#">
+											
+							<label for="author_text">Author</label>
+							<input type="text" name="author_text" id="author_text" value="#author_text#">
 							<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span></td>
-					</tr>
-					<tr>
-						<td><label for="infraspecific_rank"><span>Infraspecific Rank</span></label>
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
+			
+							<label for="infraspecific_rank">Infraspecific Rank</label>
 							<select name="infraspecific_rank" id="infraspecific_rank" size="1">
 								<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
 								<cfloop query="ctInfRank">
 									<option
 								<cfif form.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
 								</cfloop>
-							</select></td>
-						<td><label for="taxon_status"><span>Taxon Status</span></label>
-							<select name="taxon_status" id="taxon_status" size="1">
+							</select>
+									
+							<label for="taxon_status">Taxon Status</label>
+							<select name="taxon_status" id="taxon_status">
 								<option value=""></option>
 								<cfloop query="cttaxon_status">
 									<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
 				            	value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
 								</cfloop>
-							</select></td>
-					</tr>
-					<tr>
-						<td><label for="subspecies">Subspecies</label>
-							<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#subspecies#"></td>
-						<td><label for="infraspecific_author" id="infraspecific_author_label"><span> Infraspecific Author</span></label>
-							<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" size="30">
+							</select>
+										
+							<label for="subspecies">Subspecies</label>
+							<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#subspecies#">
+										
+							<label for="infraspecific_author" id="infraspecific_author_label">Infraspecific Author</label>
+							<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#">
 							<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span></td>
-					</tr>
-					<tr>
-						<td><label for="kingdom">Kingdom</label>
-							<input type="text" name="kingdom" id="kingdom" value="#kingdom#" size="30"></td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr id="phylum_row">
-						<td><label for="phylum" id="phylum_label">Phylum</label>
-							<input type="text" name="phylum" id="phylum" value="#phylum#" size="30"></td>
-						<td><label for="subphylum" id="subphylum_label">Subphylum</label>
-							<input type="text" name="subphylum" id="subphylum" value="#subphylum#" size="30"></td>
-					</tr>
-					<tr id="division_row">
-						<td><label for="division" id="division_label" >Division</label>
-							<input type="text" name="division" id="division" value="#division#" size="30" ></td>
-						<td><label for="subdivision" id="subdivision_label" >SubDivision</label>
-							<input type="text" name="subdivision" id="subdivision" value="#subdivision#" size="30" ></td>
-					</tr>
-					<tr>
-						<td><label for="superclass">Superclass</label>
-							<input type="text" name="superclass" id="superclass" value="#superclass#" size="30"></td>
-						<td><label for="phylclass">Class</label>
-							<input type="text" name="phylclass" id="phylclass" value="#phylclass#" size="30"></td>
-					</tr>
-					<tr>
-						<td><label for="subclass">SubClass</label>
-							<input type="text" name="subclass" id="subclass" value="#subclass#" size="30"></td>
-						<td><label for="infraclass">InfraClass</label>
-							<input type="text" name="infraclass" id="infraclass" value="#infraclass#" size="30"></td>
-					</tr>
-					<tr>
-						<td><label for="superorder">Superorder</label>
-							<input type="text" name="superorder" id="superorder" value="#superorder#" size="30"></td>
-						<td><label for="phylorder">Order</label>
-							<input type="text" name="phylorder" id="phylorder" value="#phylorder#" size="30"></td>
-					</tr>
-					<tr>
-						<td><label for="suborder">Suborder</label>
-							<input type="text" name="suborder" id="suborder" value="#suborder#" size="30"></td>
-						<td><label for="infraorder">Infraorder</label>
-							<input type="text" name="infraorder" id="infraorder" value="#infraorder#" size="30"></td>
-					</tr>
-					<tr>
-						<td><label for="superfamily">Superfamily</label>
-							<input type="text" name="superfamily" id="superfamily" value="#superfamily#" size="30"></td>
-						<td><label for="family">Family</label>
-							<input type="text" name="family" id="family" value="#family#" size="30"></td>
-					</tr>
-					<tr>
-						<td><label for="subfamily">Subfamily</label>
-							<input type="text" name="subfamily" id="subfamily" value="#subfamily#" size="30"></td>
-						<td><label for="tribe">Tribe</label>
-							<input type="text" name="tribe" id="tribe" value="#tribe#" size="30"></td>
-					</tr>
-					<tr>
-						<td><label for="subgenus">Subgenus</label>
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
+						
+						<div class="form-row col-12 px-0">	
+							<div class="col-6 px-0">
+								<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
+								<div class="col-sm-9 float-left">
+									<input type="text" name="kingdom" id="kingdom" value="#kingdom#" class="data-entry-input my-2">
+								</div>
+							</div>
+							<div id="phylum_row" class="col-6 px-0">
+								<label for="phylum" id="phylum_label" class="col-sm-3 col-form-label float-left">Phylum</label>
+								<div class="col-sm-9 float-left">
+								<input type="text" name="phylum" id="phylum" value="#phylum#" class="data-entry-input my-2">
+								</div>
+							</div>
+						</div>
+						<div class="form-row col-12 px-0">	
+							<div class="col-6 px-0">
+								<label for="subphylum" id="subphylum_label" class="col-sm-3 col-form-label float-left">Subphylum</label>
+								<div class="col-sm-9 float-left">
+								<input type="text" name="subphylum" id="subphylum" value="#subphylum#" class="data-entry-input my-2">
+								</div>
+							</div>
+							
+							<div id="division_row" class="col-6 px-0">
+								<label for="division" id="division_label" class="col-sm-3 col-form-label float-left">Division</label>
+								<div class="col-sm-9 float-left">
+								<input type="text" name="division" id="division" value="#division#" class="data-entry-input my-2">
+								</div>
+							</div>
+						</div>
+						
+							<label for="subdivision" id="subdivision_label" >SubDivision</label>
+							<input type="text" name="subdivision" id="subdivision" value="#subdivision#">
+			
+							<label for="superclass">Superclass</label>
+							<input type="text" name="superclass" id="superclass" value="#superclass#"></td>
+								
+							<label for="phylclass">Class</label>
+							<input type="text" name="phylclass" id="phylclass" value="#phylclass#">
+						
+							<label for="subclass">SubClass</label>
+							<input type="text" name="subclass" id="subclass" value="#subclass#">
+								
+							<label for="infraclass">InfraClass</label>
+							<input type="text" name="infraclass" id="infraclass" value="#infraclass#">
+				
+							<label for="superorder">Superorder</label>
+							<input type="text" name="superorder" id="superorder" value="#superorder#">
+								
+							<label for="phylorder">Order</label>
+							<input type="text" name="phylorder" id="phylorder" value="#phylorder#">
+					
+							<label for="suborder">Suborder</label>
+							<input type="text" name="suborder" id="suborder" value="#suborder#">
+								
+							<label for="infraorder">Infraorder</label>
+							<input type="text" name="infraorder" id="infraorder" value="#infraorder#">
+					
+							<label for="superfamily">Superfamily</label>
+							<input type="text" name="superfamily" id="superfamily" value="#superfamily#">
+								
+							<label for="family">Family</label>
+							<input type="text" name="family" id="family" value="#family#">
+				
+							<label for="subfamily">Subfamily</label>
+							<input type="text" name="subfamily" id="subfamily" value="#subfamily#">
+								
+							<label for="tribe">Tribe</label>
+							<input type="text" name="tribe" id="tribe" value="#tribe#">
+								
+							<label for="subgenus">Subgenus</label>
 							(
-							<input type="text" name="subgenus" id="subgenus" value="#subgenus#" size="29">
-							)#subgenus_message#</td>
-						<td><label for="subgenus">SubSection</label>
-							<input type="text" name="subsection" id="subsection" value="#subsection#" size="29"></td>
-					</tr>
-					<tr>
-						<td colspan="2"><label for="taxon_remarks">Remarks</label>
-							<textarea name="taxon_remarks" id="taxon_remarks" rows="3" cols="60">#taxon_remarks#</textarea></td>
-					</tr>
-					<tr>
-						<td align="center" colspan="2"><input type="submit" value="Create" class="insBtn"></td>
-					</tr>
+							<input type="text" name="subgenus" id="subgenus" value="#subgenus#">
+							)#subgenus_message#
+							<label for="subgenus">SubSection</label>
+							<input type="text" name="subsection" id="subsection" value="#subsection#">
+				
+							<label for="taxon_remarks">Remarks</label>
+							<textarea name="taxon_remarks" id="taxon_remarks" rows="3">#taxon_remarks#</textarea>
+							<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+		
 				</form>
-			</table>
 		</div>
 	</cfoutput>
 </cfif>
