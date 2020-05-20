@@ -781,9 +781,9 @@ $(document).ready(function() {
 			showtoolbar: false,
 			        ready: function()
                     {
-                        $("#grid").jqxGrid('selectcell', 0, 'number');
+                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'number');
                         // focus grid.
-                        $("#grid").jqxGrid('focus');
+                        $("##searchResultsGrid").jqxGrid('focus');
                     },
                     selectionmode: 'multiplecellsadvanced',
 			columns: [
@@ -930,9 +930,9 @@ $(document).ready(function() {
 			showtoolbar: false,
 			        ready: function()
                     {
-                        $("#grid").jqxGrid('selectcell', 0, 'loan_number');
+                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'loan_number');
                         // focus grid.
-                        $("#grid").jqxGrid('focus');
+                        $("##searchResultsGrid").jqxGrid('focus');
                     },
                     selectionmode: 'multiplecellsadvanced',
 			columns: [
