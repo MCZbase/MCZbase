@@ -777,6 +777,7 @@ $(document).ready(function() {
 			columnsreorder: true,
 			groupable: true,
 			//selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
 			ready: function()
@@ -785,7 +786,7 @@ $(document).ready(function() {
 				// focus grid.
 				$("##searchResultsGrid").jqxGrid('focus');
 			},
-			selectionmode: 'singlerow',
+			
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -926,15 +927,15 @@ $(document).ready(function() {
 			columnsreorder: true,
 			groupable: true,
 			//selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
 			        ready: function()
                     {
-                        $("##searchResultsGrid").jqxGrid('selectcell', 1, 'id_link');
+                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
                         // focus grid.
                         $("##searchResultsGrid").jqxGrid('focus');
                     },
-                    selectionmode: 'singlerow',
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
