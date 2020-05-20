@@ -776,15 +776,16 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlecell',
+			//selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
-			 ready: function()
+			        ready: function()
                     {
-                        $("##searchResultsGrid").jqxGrid('selectcell', 1, 'number');
-                        // focus jqxgrid.
-                        $("##searchResultsGrid").jqxGrid('focus');
+                        $("#grid").jqxGrid('selectcell', 0, 'number');
+                        // focus grid.
+                        $("#grid").jqxGrid('focus');
                     },
+                    selectionmode: 'multiplecellsadvanced',
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -924,15 +925,16 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlecell',
+			//selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
-			ready: function()
-			{
-				$("##searchResultsGrid").jqxGrid('selectcell', 1, 'loan_number');
-				// focus jqxgrid.
-				$("##searchResultsGrid").jqxGrid('focus');
-			},
+			        ready: function()
+                    {
+                        $("#grid").jqxGrid('selectcell', 0, 'loan_number');
+                        // focus grid.
+                        $("#grid").jqxGrid('focus');
+                    },
+                    selectionmode: 'multiplecellsadvanced',
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
