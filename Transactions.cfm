@@ -781,7 +781,7 @@ $(document).ready(function() {
 			showtoolbar: false,
 			 ready: function()
                     {
-                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'number');
+                        $("##searchResultsGrid").jqxGrid('selectcell', 1, 'number');
                         // focus jqxgrid.
                         $("##searchResultsGrid").jqxGrid('focus');
                     },
@@ -929,7 +929,7 @@ $(document).ready(function() {
 			showtoolbar: false,
 			ready: function()
 			{
-				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'loan_number');
+				$("##searchResultsGrid").jqxGrid('selectcell', 1, 'loan_number');
 				// focus jqxgrid.
 				$("##searchResultsGrid").jqxGrid('focus');
 			},
