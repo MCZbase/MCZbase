@@ -776,12 +776,12 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'selectrow',
+			selectionmode: 'singlecell',
 			altrows: true,
 			showtoolbar: false,
 			 ready: function()
                     {
-                        $("##searchResultsGrid").jqxGrid('selectrow', 0, 'number');
+                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'number');
                         // focus jqxgrid.
                         $("##searchResultsGrid").jqxGrid('focus');
                     },
@@ -924,12 +924,12 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'selectrow',
+			selectionmode: 'singlecell',
 			altrows: true,
 			showtoolbar: false,
 			ready: function()
 			{
-				$("##searchResultsGrid").jqxGrid('selectrow', 0, 'loan_number');
+				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'loan_number');
 				// focus jqxgrid.
 				$("##searchResultsGrid").jqxGrid('focus');
 			},
