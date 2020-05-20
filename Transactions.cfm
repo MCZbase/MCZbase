@@ -776,7 +776,7 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlecell',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
 			 ready: function()
@@ -924,7 +924,7 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlecell',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
 			ready: function()
