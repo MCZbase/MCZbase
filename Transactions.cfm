@@ -781,11 +781,11 @@ $(document).ready(function() {
 			showtoolbar: false,
 			        ready: function()
                     {
-                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'number');
+                        $("##searchResultsGrid").jqxGrid('selectcell', 1, 'id_link');
                         // focus grid.
                         $("##searchResultsGrid").jqxGrid('focus');
                     },
-                    selectionmode: 'multiplecellsadvanced',
+                    selectionmode: 'singlerow',
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -930,7 +930,7 @@ $(document).ready(function() {
 			showtoolbar: false,
 			        ready: function()
                     {
-                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'loan_number');
+                        $("##searchResultsGrid").jqxGrid('selectcell', 1, 'id_link');
                         // focus grid.
                         $("##searchResultsGrid").jqxGrid('focus');
                     },
