@@ -938,8 +938,8 @@ onKeyPress="return noenter(event);">
 <div class="col-12 px-0">
 <div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mb-5">
 <div class="col-12">
-<h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
-			<p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
+<h2>Create New Taxonomy</h2>
+			<p>(through cloning and editing)</p>
 				<form name="taxa" method="post" action="/Taxonomy.cfm">
 					<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
 						<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
@@ -1238,6 +1238,10 @@ onKeyPress="return noenter(event);">
 		
 				</form>
 		</div>
+</div>
+</div>
+</div>
+</div>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
