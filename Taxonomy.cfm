@@ -960,7 +960,8 @@ onKeyPress="return noenter(event);">
 										</cfloop>
 									</select>
 								</div>
-		<div class="">
+		</div>
+		<div class="border rounded p-2">
 								<label for="genus" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
@@ -1031,7 +1032,8 @@ onKeyPress="return noenter(event);">
 							});
 						});
 					</script>
-								<label for="genus">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+						<div class="border rounded p-2">
+								<label for="genus" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
 								<cfset regex = "">
@@ -1046,7 +1048,7 @@ onKeyPress="return noenter(event);">
 										<cfset searchclass = 'class="smallBtn external"' >
 									</cfif>
 								</cfloop>
-								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
+								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
 									</cfif>
@@ -1064,11 +1066,12 @@ onKeyPress="return noenter(event);">
 								</select>
 								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a> 
 								<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-								
+												
 								<input size="54" name="scientificnameid" id="scientificnameid" value=""
 						placeholder="#placeholder#" 
 						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<a id="scientificnameid_link" href="" target="_blank" class=""></a> 
+							</div>	
 								<script>
 						$(document).ready(function () { 
 							if ($('##scientificnameid').val().length > 0) {
