@@ -1104,20 +1104,20 @@ onKeyPress="return noenter(event);">
 						});
 					</script>
 								<div class="form-row col-12-px-0">
-								<div class="col-6 px-0">
-									<label for="genus" class="col-sm-3 col-form-label float-left">Genus <span class="likeLink botanical"
+									<div class="col-6 px-0">
+										<label for="genus" class="col-sm-3 col-form-label float-left">Genus <span class="likeLink botanical"
 						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-									<div class="col-sm-9 float-left">
-										<input size="25" name="genus" id="genus" maxlength="40" value="#genus#" class="data-entry-input my-2">
+										<div class="col-sm-9 float-left">
+											<input size="25" name="genus" id="genus" maxlength="40" value="#genus#" class="data-entry-input my-2">
+										</div>
 									</div>
-								</div>
-								<div class="col-6 px-0">
-									<label for="species" class="col-sm-3 col-form-label float-left">Species</label>
-									<div class="col-sm-9 float-left"> 
-										<!---  <span class="likeLink" onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>--->
-										<input name="species" id="species" value="#species#" class="data-entry-input my-2">
+									<div class="col-6 px-0">
+										<label for="species" class="col-sm-3 col-form-label float-left">Species</label>
+										<div class="col-sm-9 float-left"> 
+											<!---  <span class="likeLink" onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>--->
+											<input name="species" id="species" value="#species#" class="data-entry-input my-2">
+										</div>
 									</div>
-								</div>
 								</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
@@ -1142,33 +1142,32 @@ onKeyPress="return noenter(event);">
 											<span class="infoLink botanical"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
 									</div>
-							
-								<div class="col-6 px-0">
-									<label for="infraspecific_rank" class="col-sm-3 col-form-label float-left">Infraspecific Rank</label>
-									<div class="col-sm-9 float-left">
-										<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select">
-											<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
-											<cfloop query="ctInfRank">
-												<option
+									<div class="col-6 px-0">
+										<label for="infraspecific_rank" class="col-sm-4 col-form-label float-left">Infraspecific Rank</label>
+										<div class="col-sm-8 float-left">
+											<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select">
+												<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
+												<cfloop query="ctInfRank">
+													<option
 								<cfif form.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
-											</cfloop>
-										</select>
+												</cfloop>
+											</select>
+										</div>
 									</div>
-								</div>
 								</div>
 								<div class="form-row col-12 px-0">
-								<div class="col-6 px-0">
-									<label for="taxon_status" class="col-sm-3 col-form-label float-left">Taxon Status</label>
-									<div class="col-sm-9 float-left">
-										<select name="taxon_status" id="taxon_status" class="data-entry-select">
-											<option value=""></option>
-											<cfloop query="cttaxon_status">
-												<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
+									<div class="col-6 px-0">
+										<label for="taxon_status" class="col-sm-3 col-form-label float-left">Taxon Status</label>
+										<div class="col-sm-9 float-left">
+											<select name="taxon_status" id="taxon_status" class="data-entry-select">
+												<option value=""></option>
+												<cfloop query="cttaxon_status">
+													<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
 				            	value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
-											</cfloop>
-										</select>
+												</cfloop>
+											</select>
+										</div>
 									</div>
-								</div>
 									<div class="col-6 px-0">
 										<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
 										<div class="col-sm-9 float-left">
@@ -1232,50 +1231,86 @@ onKeyPress="return noenter(event);">
 										</div>
 									</div>
 								</div>
-										
-								<label for="superorder" class="col-sm-3 col-form-label float-left">Superorder</label>
-								<div class="col-sm-9 float-left">
-									<input type="text" name="superorder" id="superorder" value="#superorder#" class="data-entry-input my-2">
-									<label for="phylorder" class="col-sm-3 col-form-label float-left">Order</label>
-									<div class="col-sm-9 float-left">
-										<input type="text" name="phylorder" id="phylorder" value="#phylorder#" class="data-entry-input my-2">
+								<div class="form-row col-12 px-0">
+									<div class="col-6 px-0">
+										<label for="superorder" class="col-sm-3 col-form-label float-left">Superorder</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="superorder" id="superorder" value="#superorder#" class="data-entry-input my-2">
+										</div>
 									</div>
-									<label for="suborder" class="col-sm-3 col-form-label float-left">Suborder</label>
-									<div class="col-sm-9 float-left">
-										<input type="text" name="suborder" id="suborder" value="#suborder#" class="data-entry-input my-2">
+									<div class="col-6 px-0">
+										<label for="phylorder" class="col-sm-3 col-form-label float-left">Order</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="phylorder" id="phylorder" value="#phylorder#" class="data-entry-input my-2">
+										</div>
 									</div>
-									<label for="infraorder" class="col-sm-3 col-form-label float-left">Infraorder</label>
-									<div class="col-sm-9 float-left">
-										<input type="text" name="infraorder" id="infraorder" value="#infraorder#" class="data-entry-input my-2">
+								</div>
+								<div class="form-row col-12 px-0">
+									<div class="col-6 px-0">
+										<label for="suborder" class="col-sm-3 col-form-label float-left">Suborder</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="suborder" id="suborder" value="#suborder#" class="data-entry-input my-2">
+										</div>
 									</div>
+									<div class="col-6 px-0">
+										<label for="infraorder" class="col-sm-3 col-form-label float-left">Infraorder</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="infraorder" id="infraorder" value="#infraorder#" class="data-entry-input my-2">
+										</div>
+									</div>
+								</div>
+								<div class="form-row col-12 px-0">
+								<div class="col-6 px-0">
 									<label for="superfamily" class="col-sm-3 col-form-label float-left">Superfamily</label>
-									<input type="text" name="superfamily" id="superfamily" value="#superfamily#" class="data-entry-input my-2">
+									<div class="col-sm-9 float-left">
+										<input type="text" name="superfamily" id="superfamily" value="#superfamily#" class="data-entry-input my-2">
+									</div>
 								</div>
-								<label for="family" class="col-sm-3 col-form-label float-left">Family</label>
-								<div class="col-sm-9 float-left">
-									<input type="text" name="family" id="family" value="#family#" class="data-entry-input my-2">
+								<div class="col-6 px-0">
+									<label for="family" class="col-sm-3 col-form-label float-left">Family</label>
+									<div class="col-sm-9 float-left">
+										<input type="text" name="family" id="family" value="#family#" class="data-entry-input my-2">
+									</div>
 								</div>
-								<label for="subfamily" class="col-sm-3 col-form-label float-left">Subfamily</label>
-								<div class="col-sm-9 float-left">
-									<input type="text" name="subfamily" id="subfamily" value="#subfamily#" class="data-entry-input my-2">
+								<div class="form-row col-12 px-0">
+									<div class="col-6 px-0">
+										<label for="subfamily" class="col-sm-3 col-form-label float-left">Subfamily</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="subfamily" id="subfamily" value="#subfamily#" class="data-entry-input my-2">
+										</div>
+									</div>
+									<div class="col-6 px-0">
+										<label for="tribe" class="col-sm-3 col-form-label float-left">Tribe</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="tribe" id="tribe" value="#tribe#" class="data-entry-input my-2">
+										</div>
+									</div>
 								</div>
-								<label for="tribe" class="col-sm-3 col-form-label float-left">Tribe</label>
-								<div class="col-sm-9 float-left">
-									<input type="text" name="tribe" id="tribe" value="#tribe#" class="data-entry-input my-2">
+								<div class="form-row col-12 px-0">
+									<div class="col-6 px-0">
+										<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
+										<div class="col-sm-9 float-left"> (
+											<input type="text" name="subgenus" id="subgenus" value="#subgenus#" class="data-entry-input my-2">
+											)#subgenus_message# </div>
+									</div>
+									<div class="col-6 px-0">
+										<label for="subgenus" class="col-sm-3 col-form-label float-left">SubSection</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="subsection" id="subsection" value="#subsection#" class="data-entry-input my-2">
+										</div>
+									</div>
 								</div>
-								<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
-								<div class="col-sm-9 float-left"> (
-									<input type="text" name="subgenus" id="subgenus" value="#subgenus#" class="data-entry-input my-2">
-									)#subgenus_message# </div>
-								<label for="subgenus" class="col-sm-3 col-form-label float-left">SubSection</label>
-								<div class="col-sm-9 float-left">
-									<input type="text" name="subsection" id="subsection" value="#subsection#" class="data-entry-input my-2">
-								</div>
+								<div class="form-row col-12 px-0">
+									<div class="col-12 px-0">
 								<label for="taxon_remarks" class="col-sm-3 col-form-label float-left">Remarks</label>
 								<div class="col-sm-9 float-left">
 									<textarea name="taxon_remarks" id="taxon_remarks" rows="3">#taxon_remarks#</textarea>
 								</div>
+									</div>
+									</div>
+									<div class="form-row col-12 px-0">
 								<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+									</div>
 							</form>
 						</div>
 					</div>
