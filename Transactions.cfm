@@ -917,8 +917,8 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
-			pagesize: '50',
-			pagesizeoptions: ['50','100'],
+			pagesize: '25',
+			pagesizeoptions: ['25','50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: true,
@@ -1020,9 +1020,9 @@ function gridLoaded(gridId, searchType) {
 	}
 	// set maximum page size
 	if (rowcount > 100) { 
-	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
-	} else if (rowcount > 50) { 
-	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['25', '50', '100', rowcount]});
+	} else if (rowcount > 25) { 
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['25', rowcount]});
 	} else { 
 	   $('##' + gridId).jqxGrid({ pageable: false });
 	}
