@@ -951,8 +951,8 @@ onKeyPress="return noenter(event);">
 									</select>
 								</div>
 								<div class="col-12 col-sm-4">
-									<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-									<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr">
+									<label for="nomenclatural_code">Nomenclatural Code</label>
+									<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr data-entry-select">
 										<cfloop query="ctnomenclatural_code">
 											<option
 								<cfif #form.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
@@ -960,7 +960,8 @@ onKeyPress="return noenter(event);">
 										</cfloop>
 									</select>
 								</div>
-								<label for="genus">GUID for Taxon (dwc:taxonID)</label>
+		<div class="">
+								<label for="genus" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
 								<cfset regex = "">
@@ -975,7 +976,7 @@ onKeyPress="return noenter(event);">
 										<cfset searchclass = 'class="smallBtn external"' >
 									</cfif>
 								</cfloop>
-								<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
+								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
 									</cfif>
@@ -994,8 +995,9 @@ onKeyPress="return noenter(event);">
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
 								<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 								
-								<input size="56" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-								<a id="taxonid_link" href="" target="_blank" class="hints"></a> 
+								<input size="56" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input my-2">
+								<a id="taxonid_link" href="" target="_blank" class=""></a> 
+					</div>
 								<script>
 						$(document).ready(function () { 
 							if ($('##taxonid').val().length > 0) {
