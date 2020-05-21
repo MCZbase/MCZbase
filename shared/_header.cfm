@@ -153,7 +153,7 @@ limitations under the License.
 </cfif>
 <!--- End workaround --->
 
-<a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+<a href="##tabHeaders" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" role="heading" class="border-bottom">
 <!--- TODO: [Michelle] Move (this fixed) background-color for this top black bar to a stylesheet. --->
 <div class="branding clearfix bg-black">
