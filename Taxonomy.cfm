@@ -1190,29 +1190,49 @@ onKeyPress="return noenter(event);">
 										</div>
 									</div>
 								</div>
+								<div class="form-row col-12 px-0">
 									<div id="division_row" class="col-6 px-0">
 										<label for="division" id="division_label" class="col-sm-3 col-form-label float-left">Division</label>
 										<div class="col-sm-9 float-left">
 											<input type="text" name="division" id="division" value="#division#" class="data-entry-input my-2">
 										</div>
 									</div>
+									<div class="col-6 px-0">
+										<label for="subdivision" id="subdivision_label" class="col-sm-3 col-form-label float-left">SubDivision</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="subdivision" id="subdivision" value="#subdivision#" class="data-entry-input my-2">
+										</div>
+									</div>
 								</div>
-								<label for="subdivision" id="subdivision_label" class="col-sm-3 col-form-label float-left">SubDivision</label>
-								<div class="col-sm-9 float-left">
-								<input type="text" name="subdivision" id="subdivision" value="#subdivision#" class="data-entry-input my-2">
-								<label for="superclass" class="col-sm-3 col-form-label float-left">Superclass</label>
-								<div class="col-sm-9 float-left">
-								<input type="text" name="superclass" id="superclass" value="#superclass#" class="data-entry-input my-2">
-								</td>
-								<label for="phylclass" class="col-sm-3 col-form-label float-left">Class</label>
-								<div class="col-sm-9 float-left">
-								<input type="text" name="phylclass" id="phylclass" value="#phylclass#" class="data-entry-input my-2">
-								<label for="subclass" class="col-sm-3 col-form-label float-left">SubClass</label>
-								<div class="col-sm-9 float-left">
-								<input type="text" name="subclass" id="subclass" value="#subclass#" class="data-entry-input my-2">
-								<label for="infraclass" class="col-sm-3 col-form-label float-left">InfraClass</label>
-								<div class="col-sm-9 float-left">
-								<input type="text" name="infraclass" id="infraclass" value="#infraclass#">
+								<div class="form-row col-12 px-0">
+									<div class="col-6 px-0">
+										<label for="superclass" class="col-sm-3 col-form-label float-left">Superclass</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="superclass" id="superclass" value="#superclass#" class="data-entry-input my-2">
+										</div>
+									</div>
+									<div class="col-6 px-0">
+										<label for="phylclass" class="col-sm-3 col-form-label float-left">Class</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="phylclass" id="phylclass" value="#phylclass#" class="data-entry-input my-2">
+										</div>
+									</div>
+								</div>
+								<div class="form-row col-12 px-0">
+									<div class="col-6 px-0">
+										<label for="subclass" class="col-sm-3 col-form-label float-left">SubClass</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="subclass" id="subclass" value="#subclass#" class="data-entry-input my-2">
+										</div>
+									</div>
+									<div class="col-6 px-0">
+										<label for="infraclass" class="col-sm-3 col-form-label float-left">InfraClass</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="infraclass" id="infraclass" value="#infraclass#">
+										</div>
+									</div>
+								</div>
+										
 								<label for="superorder" class="col-sm-3 col-form-label float-left">Superorder</label>
 								<div class="col-sm-9 float-left">
 									<input type="text" name="superorder" id="superorder" value="#superorder#" class="data-entry-input my-2">
