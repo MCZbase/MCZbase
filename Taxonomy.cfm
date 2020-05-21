@@ -1144,7 +1144,7 @@ onKeyPress="return noenter(event);">
 									</div>
 							
 								<div class="col-6 px-0">
-									<label for="infraspecific_rank">Infraspecific Rank</label>
+									<label for="infraspecific_rank" class="col-sm-3 col-form-label float-left">Infraspecific Rank</label>
 									<div class="col-sm-9 float-left">
 										<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select">
 											<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
@@ -1228,7 +1228,7 @@ onKeyPress="return noenter(event);">
 									<div class="col-6 px-0">
 										<label for="infraclass" class="col-sm-3 col-form-label float-left">InfraClass</label>
 										<div class="col-sm-9 float-left">
-											<input type="text" name="infraclass" id="infraclass" value="#infraclass#">
+											<input type="text" name="infraclass" id="infraclass" value="#infraclass#" class="data-entry-input my-2">
 										</div>
 									</div>
 								</div>
