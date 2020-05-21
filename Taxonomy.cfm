@@ -1100,38 +1100,69 @@ onKeyPress="return noenter(event);">
 							});
 						});
 					</script>
-								<label for="genus" class="col-sm-3 col-form-label float-left">Genus <span class="likeLink botanical"
+								<div class="form-row col-12-px-0">
+								<div class="col-6 px-0">
+									<label for="genus" class="col-sm-3 col-form-label float-left">Genus <span class="likeLink botanical"
 						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
-								<input size="25" name="genus" id="genus" maxlength="40" value="#genus#">
-								<label for="species" class="col-sm-3 col-form-label float-left">Species</label>
-								<!---  <span class="likeLink" onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>--->
-								<input name="species" id="species" value="#species#">
-								<label for="author_text" class="col-sm-3 col-form-label float-left">Author</label>
-								<input type="text" name="author_text" id="author_text" value="#author_text#">
-								<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
-								<label for="infraspecific_rank">Infraspecific Rank</label>
-								<select name="infraspecific_rank" id="infraspecific_rank" size="1">
-									<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
-									<cfloop query="ctInfRank">
-										<option
+									<div class="col-sm-9 float-left">
+										<input size="25" name="genus" id="genus" maxlength="40" value="#genus#" class="data-entry-input my-2">
+									</div>
+								</div>
+								<div class="col-6 px-0">
+									<label for="species" class="col-sm-3 col-form-label float-left">Species</label>
+									<div class="col-sm-9 float-left"> 
+										<!---  <span class="likeLink" onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>--->
+										<input name="species" id="species" value="#species#" class="data-entry-input my-2">
+									</div>
+								</div>
+								<div class="form-row col-12 px-0">
+									<div class="col-6 px-0">
+										<label for="subspecies" class="col-sm-3 col-form-label float-left">Subspecies</label>
+										<div class="col-sm-9 float-left">
+											<input name="subspecies" id="subspecies" maxlength="40" value="#subspecies#" class="data-entry-input my-2">
+										</div>
+									</div>
+									<div class="col-6 px-0">
+										<label for="author_text" class="col-sm-3 col-form-label float-left">Author</label>
+										<div class="col-sm-9 float-left">
+											<input type="text" name="author_text" id="author_text" value="#author_text#" class="">
+											<span class="infoLink botanical"
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
+									</div>
+								</div>
+								<div class="form-row col-12 px-0">
+								<div class="col-6 px-0">
+									<label for="infraspecific_rank">Infraspecific Rank</label>
+									<div class="col-sm-9 float-left">
+										<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select">
+											<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
+											<cfloop query="ctInfRank">
+												<option
 								<cfif form.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
-									</cfloop>
-								</select>
-								<label for="taxon_status" class="col-sm-3 col-form-label float-left">Taxon Status</label>
-								<select name="taxon_status" id="taxon_status" >
-									<option value=""></option>
-									<cfloop query="cttaxon_status">
-										<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
+											</cfloop>
+										</select>
+									</div>
+								</div>
+								<div class="col-6 px-0">
+									<label for="taxon_status" class="col-sm-3 col-form-label float-left">Taxon Status</label>
+									<div class="col-sm-9 float-left">
+										<select name="taxon_status" id="taxon_status" class="data-entry-select">
+											<option value=""></option>
+											<cfloop query="cttaxon_status">
+												<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
 				            	value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
-									</cfloop>
-								</select>
-								<label for="subspecies" class="col-sm-3 col-form-label float-left">Subspecies</label>
-								<input size="25" name="subspecies" id="subspecies" maxlength="40" value="#subspecies#">
-								<label for="infraspecific_author" id="infraspecific_author_label">Infraspecific Author</label>
-								<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#">
-								<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span>
+											</cfloop>
+										</select>
+									</div>
+								</div>
+								<div class="form-row col-12 px-0">
+								<div class="col-6 px-0">
+									<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-3 col-form-label float-left">Infraspecific Author</label>
+									<div class="col-sm-9 float-left">
+										<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" class="data-entry-input my-2">
+										<span class="infoLink botanical"
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
+								</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
 										<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
