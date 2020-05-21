@@ -961,7 +961,7 @@ onKeyPress="return noenter(event);">
 									</select>
 								</div>
 		</div>
-		<div class="border rounded p-2">
+		<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 								<label for="genus" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
@@ -1032,7 +1032,7 @@ onKeyPress="return noenter(event);">
 							});
 						});
 					</script>
-						<div class="border rounded p-2">
+						<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 								<label for="genus" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
@@ -1130,7 +1130,7 @@ onKeyPress="return noenter(event);">
 									<div class="col-6 px-0">
 										<label for="author_text" class="col-sm-3 col-form-label float-left">Author</label>
 										<div class="col-sm-9 float-left">
-											<input type="text" name="author_text" id="author_text" value="#author_text#" class="">
+											<input type="text" name="author_text" id="author_text" value="#author_text#" class="data-entry-input my-2">
 											<span class="infoLink botanical"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
 									</div>
