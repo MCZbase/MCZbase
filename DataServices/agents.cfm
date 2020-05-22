@@ -145,7 +145,7 @@ sho err
 		<cfset fail = true>
    </cfif>
 	<cfloop from="1" to="#ArrayLen(header)#" index="headeritem">
-		<cfif NOT arrayFindNoCase(tempTableColumns,header[headeritem])>
+		<cfif NOT arrayFindNoCase(listToArray(tempTableColumns),header[headeritem])>
 			<h3>Error: #header[headeritem]# is not a recognized column name</h3>
 			<cfset fail = true>
 		</cfif>
