@@ -1,21 +1,28 @@
 <cfoutput>
+<cfinclude template="/includes/_frameHeader.cfm">
 <cfif not isdefined("table")>
-	<!---- probably a bot ---->
+   <h2>The controled vocabulary to view must be specified</h2>
 	<cfabort>
 </cfif>
-<cfinclude template="/includes/_frameHeader.cfm">
+<cfif refind('^CT[A-Z_+]$'ucase(table)) EQ 0>
+   <h2>This page can only be used for viewing the controled vocabularies in code tables</h2>
+	<cfabort>
+</cfif>
+
 <cfset tableName = right(table,len(table)-2)>
 <cfif not isdefined("field")>
 	<cfset field="">
 </cfif>
+
 <div style="margin: 1em;">
-<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
-<cfif table is 'ctspecimen_part_name'>
-<p>If you need to search for two values, put a pipe in between them and no spaces (e.g., skin|skull)</p>
+	<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
+	<cfif table is 'ctspecimen_part_name'>
+		<p>If you need to search for two values, put a pipe in between them and no spaces (e.g., skin|skull)</p>
 	</cfif>
 	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from #table#
 	</cfquery>
+
 	<cfif table is "ctmedia_license">
 		<table border="1">
 			<tr>
@@ -35,8 +42,57 @@
 				</tr>
 			</cfloop>
 		</table>
+	<cfelseif table is "ctguid_type">
+		<table border="1">
+			<tr>
+				<td>
+					<strong>GUID Type</strong>
+				</td>
+				<td>
+					<strong>Applies To</strong>
+				</td>
+				<td>
+					<strong>Description</strong>
+				</td>
+				<td>
+					<strong>Placeholder</strong>
+				</td>
+				<td>
+					<strong>Search URI</strong>
+				</td>
+			</tr>
+			<cfloop query="docs">
+				<tr>
+					<td>#guid_type#</td>
+					<td>#applies_to#</td>
+					<td>#description#</td>
+					<td>#placeholder#</td>
+					<td>#search_uri#</td>
+				</tr>
+			</cfloop>
+		</table>
+	<cfelseif table is "ctspecfic_permit_type">
+		<table border="1">
+			<tr>
+				<td>
+					<strong>Specific Type</strong>
+				</td>
+				<td>
+					<strong>Permit Type</strong>
+				</td>
+				<td>
+					<strong>Inherit to Shipments</strong>
+				</td>
+			</tr>
+			<cfloop query="docs">
+				<tr>
+					<td>#specific_type#</td>
+					<td>#permit_type#</td>
+					<td>#accn_show_on_shipment#</td>
+				</tr>
+			</cfloop>
+		</table>
 	<cfelse>
-		
 		<!--- figure out the name of the field they want info about - already have the table name,
 			passed in as a JS variable ---->
 		<cfloop list="#docs.columnlist#" index="colName">
