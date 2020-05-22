@@ -88,7 +88,7 @@ sho err
 		<p><a href="/info/ctDocumentation.cfm?table=ctguid_type">Valid agent_guid_guid_types</a> (#agentguidTypes#)</p>
 		<div id="template" style="margin: 1em 0 1.5em 0;">
 			<label for="t">Copy and save as a .csv file</label>
-			<textarea rows="2" cols="80" id="t">#temptTableColumns#</textarea>
+			<textarea rows="2" cols="80" id="t">#tempTableColumns#</textarea>
 		</div> 
 	</cfoutput>
 
