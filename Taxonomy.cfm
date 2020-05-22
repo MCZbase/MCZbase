@@ -1043,8 +1043,8 @@ onKeyPress="return noenter(event);">
 									<cfloop query="ctguid_type_scientificname">
 										<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
-											<cfset searchtext = "Find GUID" >
-											<cfset searchclass = 'class="smallBtn external"' >
+												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt></i>'" >
+											<cfset searchclass = 'class="btn-xs secondary"' >
 										</cfif>
 									</cfloop>
 									<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select">
@@ -1066,10 +1066,8 @@ onKeyPress="return noenter(event);">
 									<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a> 
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									
-									<input size="54" name="scientificnameid" id="scientificnameid" value=""
-						placeholder="#placeholder#" 
-						pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-									<a id="scientificnameid_link" href="" target="_blank" class=""></a> </div>
+						<input name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#"  class="px-2 border w-100 rounded py-0">
+									<a id="scientificnameid_link" href="" target="_blank" class="px-2 py-0"></a> </div>
 								<script>
 						$(document).ready(function () { 
 							if ($('##scientificnameid').val().length > 0) {
@@ -1103,12 +1101,12 @@ onKeyPress="return noenter(event);">
 							});
 						});
 					</script>
-								<div class="form-row col-12-px-0">
+								<div class="form-row col-12-px-0 mt-3">
 									<div class="col-6 px-0">
-										<label for="genus" class="col-sm-3 col-form-label float-left">Genus <span class="likeLink botanical"
-						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</span></label>
+										<label for="genus" class="col-sm-3 col-form-label float-left">Genus <small class="likeLink botanical"
+						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</small></label>
 										<div class="col-sm-9 float-left">
-											<input size="25" name="genus" id="genus" maxlength="40" value="#genus#" class="data-entry-input my-2">
+											<input name="genus" id="genus" value="#genus#" class="data-entry-input my-2">
 										</div>
 									</div>
 									<div class="col-6 px-0">
@@ -1123,7 +1121,7 @@ onKeyPress="return noenter(event);">
 									<div class="col-6 px-0">
 										<label for="subspecies" class="col-sm-3 col-form-label float-left">Subspecies</label>
 										<div class="col-sm-9 float-left">
-											<input name="subspecies" id="subspecies" maxlength="40" value="#subspecies#" class="data-entry-input my-2">
+											<input name="subspecies" id="subspecies" value="#subspecies#" class="data-entry-input my-2">
 										</div>
 									</div>
 									<div class="col-6 px-0">
@@ -1131,21 +1129,21 @@ onKeyPress="return noenter(event);">
 										<div class="col-sm-9 float-left">
 											<input type="text" name="author_text" id="author_text" value="#author_text#" class="data-entry-input my-2">
 											<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"><small style="color:##007bff;"> Find Kew Abbr</small> </span> </div>
 									</div>
 								</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
-										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-3 col-form-label float-left">Infraspecific Author</label>
-										<div class="col-sm-9 float-left">
+										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-4 col-form-label float-left">Infraspecific Author</label>
+										<div class="col-sm-8 float-left">
 											<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" class="data-entry-input my-2">
 											<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> Find Kew Abbr </span> </div>
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"><small style="color:##007bff;"> Find Kew Abbr </small></span> </div>
 									</div>
 									<div class="col-6 px-0">
 										<label for="infraspecific_rank" class="col-sm-4 col-form-label float-left">Infraspecific Rank</label>
 										<div class="col-sm-8 float-left">
-											<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select">
+											<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select my-2">
 												<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
 												<cfloop query="ctInfRank">
 													<option
@@ -1157,8 +1155,8 @@ onKeyPress="return noenter(event);">
 								</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
-										<label for="taxon_status" class="col-sm-3 col-form-label float-left">Taxon Status</label>
-										<div class="col-sm-9 float-left">
+										<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status</label>
+										<div class="col-sm-8 float-left">
 											<select name="taxon_status" id="taxon_status" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="cttaxon_status">
