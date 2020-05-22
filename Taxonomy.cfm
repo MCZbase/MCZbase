@@ -932,10 +932,10 @@ onKeyPress="return noenter(event);">
 							<form name="taxa" method="post" action="/Taxonomy.cfm" class="float-left w-100">
 								
 								<div class="tInput form-row mx-2 mb-2">
-									<div class="col-12 col-sm-4">
+									<div class="col-12 col-sm-6">
 										<input type="hidden" name="Action" value="saveNewTaxa">
 										<label for="source_authority">Source</label>
-										<select name="source_authority" id="source_authority" class="reqdClr data-entry-select w-100">
+										<select name="source_authority" id="source_authority" class="reqdClr data-entry-select w-75">
 											<cfloop query="ctSourceAuth">
 												<option
 								<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
@@ -943,14 +943,14 @@ onKeyPress="return noenter(event);">
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-sm-4">
+									<div class="col-12 col-sm-3">
 										<label for="valid_catalog_term_fg">Valid?</label>
 										<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select w-75">
 											<option <cfif valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 											<option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 										</select>
 									</div>
-									<div class="col-12 col-sm-4">
+									<div class="col-12 col-sm-3">
 										<label for="nomenclatural_code">Nomenclatural Code</label>
 										<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr data-entry-select w-75">
 											<cfloop query="ctnomenclatural_code">
