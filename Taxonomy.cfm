@@ -1143,7 +1143,7 @@ onKeyPress="return noenter(event);">
 									<div class="col-6 px-0">
 										<label for="author_text" class="col-sm-3 col-form-label float-left">Author</label>
 										<div class="col-sm-9 float-left">
-											<input type="text" name="author_text" id="author_text" value="#author_text#" class="data-entry-input my-2">
+											<input type="text" name="author_text" id="author_text" value="#author_text#" class="data-entry-input mt-2">
 											<span class="infoLink botanical"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"><small style="color:##007bff;"> Find Kew Abbr</small> </span> </div>
 									</div>
@@ -1152,7 +1152,7 @@ onKeyPress="return noenter(event);">
 									<div class="col-6 px-0">
 										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-4 col-form-label float-left">Infraspecific Author</label>
 										<div class="col-sm-8 float-left">
-											<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" class="data-entry-input my-2">
+											<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" class="data-entry-input mt-2">
 											<span class="infoLink botanical"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"><small style="color:##007bff;"> Find Kew Abbr </small></span> </div>
 									</div>
