@@ -456,7 +456,7 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 px-0 mt-3">
 						<div class="col-6 px-0">
-							<label for="genus" class="col-sm-3 col-form-label float-left"> Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;"><small style="color:##007bff;">Add &##215;</small></span></label>
+							<label for="genus" class="col-sm-3 col-form-label float-left"> Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;"><small class="link-color">Add &##215;</small></span></label>
 							<div class="col-sm-9 float-left">
 								<input name="genus" id="genus" class="ml-1 data-entry-input my-2" value="#gettaxa.genus#">
 							</div>
@@ -481,7 +481,7 @@ limitations under the License.
 							<div class="col-sm-10 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-2">
 								<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> <small style="color:##007bff;">Find Kew Abbr</small></span> </span> </div>
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </span> </div>
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
@@ -490,7 +490,7 @@ limitations under the License.
 							<div class="col-sm-7 float-left">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> <small style="color:##007bff;">Find Kew Abbr</small></span> </div>
+					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific Rank</span></label>
@@ -642,9 +642,9 @@ limitations under the License.
 					<div class="form-row col-12 px-0">
 						<div class="col-6 px-0">
 							<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
-							<div class="col-sm-9 float-left"><span class="float-left d-inline" style="width: 5px; font-size: 24px;">(</span>
+							<div class="col-sm-9 float-left"><span class="float-left d-inline brackets">(</span>
 								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-2 w-75 float-left">
-								<span class="float-left d-inline" style="width: 5px; font-size: 24px;">)</span><small> #subgenus_message# </small> </div>
+								<span class="float-left d-inline brackets">)</span><small> #subgenus_message# </small> </div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="subsection" class="col-sm-3 col-form-label float-left">SubSection</label>
@@ -684,7 +684,7 @@ limitations under the License.
 				</form>
 			</div>
 			<div class="col-12 col-xl-3 float-left px-0 my-5">
-				<div class="border rounded p-2" style="background-color: ##f5f5f5;">
+				<div class="border rounded p-2 bg-grayish">
 					<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			taxonomy_publication_id,
@@ -1145,7 +1145,7 @@ onKeyPress="return noenter(event);">
 										<div class="col-sm-9 float-left">
 											<input type="text" name="author_text" id="author_text" value="#author_text#" class="data-entry-input mt-2">
 											<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"><small style="color:##007bff;"> Find Kew Abbr</small> </span> </div>
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"><small class="link-color"> Find Kew Abbr</small> </span> </div>
 									</div>
 								</div>
 								<div class="form-row col-12 px-0">

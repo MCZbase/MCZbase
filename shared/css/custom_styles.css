@@ -80,6 +80,13 @@ p {
 	width: 0;
 	overflow: hidden;
 }
+.link-color {
+	color: #007bff;
+}
+.brackets {
+	width: 5px;
+	font-size: 24px;
+}
 label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
@@ -89,6 +96,9 @@ label {
 }
 .shadowbox {
 	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
+}
+.bg-grayish {
+	background-color: #F5F5F5;
 }
 /***************************************/
 /*   BELOW: override for collection    */
