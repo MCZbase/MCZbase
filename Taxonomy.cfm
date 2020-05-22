@@ -929,7 +929,8 @@ limitations under the License.
 									<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 								</div>
 							</div>
-							<form name="taxa" method="post" action="/Taxonomy.cfm" class="float-left w-100">
+						</div>
+						<form name="taxa" method="post" action="/Taxonomy.cfm" class="float-left w-100">
 								
 								<div class="tInput form-row mx-2 mb-2">
 									<div class="col-12 col-sm-6">
@@ -1328,8 +1329,6 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-primary">
 									</div>
 							</form>
-						</div>
-						</div>
 					</div>
 				</div>
 			</div>
