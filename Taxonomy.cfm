@@ -925,7 +925,7 @@ onKeyPress="return noenter(event);">
 						<div class="col-12">
 							<h2>Create New Taxonomy</h2>
 							<p>(through cloning and editing)</p>
-							<form name="taxa" method="post" action="/Taxonomy.cfm">
+							<form name="taxa" method="post" action="/Taxonomy.cfm" class="float-left w-100">
 								<!---	<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
 									<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
 									<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
@@ -961,9 +961,9 @@ onKeyPress="return noenter(event);">
 										</select>
 									</div>
 								</div>
-		<div class="form-row col-12">
+								<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
-									<label for="genus" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
+									<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 									<cfset pattern = "">
 									<cfset placeholder = "">
 									<cfset regex = "">
@@ -974,8 +974,8 @@ onKeyPress="return noenter(event);">
 									<cfloop query="ctguid_type_taxon">
 										<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
-											<cfset searchtext = "Find GUID" >
-											<cfset searchclass = 'class="smallBtn external"' >
+												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+											<cfset searchclass = 'class="btn-xs btn-secondary"'>
 										</cfif>
 									</cfloop>
 									<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
@@ -1035,7 +1035,7 @@ onKeyPress="return noenter(event);">
 													</div>
 							<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
-									<label for="genus" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+									<label for="" class="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 									<cfset pattern = "">
 									<cfset placeholder = "">
 									<cfset regex = "">
@@ -1046,7 +1046,7 @@ onKeyPress="return noenter(event);">
 									<cfloop query="ctguid_type_scientificname">
 										<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
-												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt></i>'" >
+												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 											<cfset searchclass = 'class="btn-xs secondary"' >
 										</cfif>
 									</cfloop>
