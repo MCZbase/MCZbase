@@ -67,31 +67,31 @@ sho err
     <cfset agentNameTypes = "">
     <cfset separator = "">
     <cfloop query="ctagent_name_type">
-       <cfset agentNameTypes = separator & ctagent_name_type.agent_name_type>
+       <cfset agentNameTypes = agentNameTypes & separator & ctagent_name_type.agent_name_type>
        <cfset separator = ", ">
     </cfloop>
     <cfset agentTypes = "">
     <cfset separator = "">
     <cfloop query="ctagent_type">
-       <cfset agentTypes = separator & ctagent_type.agent_type>
+       <cfset agentTypes = agentTypes & separator & ctagent_type.agent_type>
        <cfset separator = ", ">
     </cfloop>
     <cfset agentguidTypes = "">
     <cfset separator = "">
     <cfloop query="ctguid_type">
-       <cfset agentguidTypes = separator & ctguid_type.guid_type>
+       <cfset agentguidTypes = agentguidTypes & separator & ctguid_type.guid_type>
        <cfset separator = ", ">
     </cfloop>
 	<cfoutput>
 		<p><a href="/info/ctDocumentation.cfm?table=ctagent_name_type">Valid agent name types</a> (#agentNameTypes#)</p>
 		<p><a href="/info/ctDocumentation.cfm?table=ctagent_type">Valid agent types</a> (#agentTypes#)</p>
 		<p><a href="/info/ctDocumentation.cfm?table=ctguid_type">Valid agent_guid_guid_types</a> (#agentguidTypes#)</p>
+		<div id="template" style="margin: 1em 0 1.5em 0;">
+			<label for="t">Copy and save as a .csv file</label>
+			<textarea rows="2" cols="80" id="t">#temptTableColumns#</textarea>
+		</div> 
 	</cfoutput>
-	
-	<div id="template" style="margin: 1em 0 1.5em 0;">
-		<label for="t">Copy and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">#temptTableColumns#</textarea>
-	</div> 
+
 	<p>
 	Columns in <span style="color:red">red</span> are required; others are optional:</p>	
 	<ul class="geol_hier" style="padding-bottom: 2em;">
