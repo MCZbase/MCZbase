@@ -1324,7 +1324,7 @@ onKeyPress="return noenter(event);">
 									</div>
 									</div>
 									<div class="form-row col-12 px-0 justify-content-center mt-2">
-								<input type="submit" value="Create" class="btn-xs btn-secondary">
+								<input type="submit" value="Create" class="btn-xs btn-primary">
 									</div>
 							</form>
 						</div>
