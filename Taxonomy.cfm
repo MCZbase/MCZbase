@@ -1150,7 +1150,7 @@ onKeyPress="return noenter(event);">
 								</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
-										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-4 col-form-label float-left">Infraspecific Author</label>
+										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-4 col-form-label float-left">Infraspecific Author  <small style="line-height:1.15em;display:block;">(do not use for ICZN names)</small></label>
 										<div class="col-sm-8 float-left">
 											<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" class="data-entry-input mt-2">
 											<span class="infoLink botanical"
@@ -1318,12 +1318,12 @@ onKeyPress="return noenter(event);">
 									<div class="col-12 px-0">
 								<label for="taxon_remarks" class="col-sm-3 col-form-label float-left">Remarks</label>
 								<div class="col-sm-9 float-left">
-									<textarea name="taxon_remarks" id="taxon_remarks" rows="3">#taxon_remarks#</textarea>
+									<textarea name="taxon_remarks" id="taxon_remarks" rows="3" class="data-entry-textarea">#taxon_remarks#</textarea>
 								</div>
 									</div>
 									</div>
-									<div class="form-row col-12 px-0">
-								<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+									<div class="form-row col-12 px-0 justify-content-center mt-2">
+								<input type="submit" value="Create" class="btn-xs btn-secondary">
 									</div>
 							</form>
 						</div>
