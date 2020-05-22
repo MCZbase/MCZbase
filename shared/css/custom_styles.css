@@ -1389,13 +1389,11 @@ input::placeholder {
     font-size: .85em;
     line-height: .85em;
 	padding: .25em .5em;
- /*   height: calc(.9em + .8em + 3px);
-    */
     color: rgba(0, 0, 0, .8);
     border: 1px solid #ced4da;
     background-clip: padding-box;
     background-color: white;
-    border-radius: .2em 0 0 .2em;
+    border-radius: .2em;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
