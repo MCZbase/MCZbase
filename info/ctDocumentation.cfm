@@ -1,7 +1,19 @@
 <cfoutput>
 <cfinclude template="/includes/_frameHeader.cfm">
 <cfif not isdefined("table")>
-   <h2>The controled vocabulary to view must be specified</h2>
+   <h2>MCZbase controled vocabulary tables</h2>
+   <cfquery name="getCTName" datasource="uam_god">
+      select
+         distinct(table_name) table_name
+      from
+         sys.user_tables
+      where
+         table_name like 'CT%'
+       order by table_name
+   </cfquery>
+   <cfloop query="getCTName">
+      <a href="/info/ctDocumentation.cfm?table=#getCTName.table_name#">#getCTName.table_name#</a><br>
+   </cfloop>
 	<cfabort>
 </cfif>
 <cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
