@@ -1173,7 +1173,7 @@ onKeyPress="return noenter(event);">
 									<div class="col-6 px-0">
 										<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status</label>
 										<div class="col-sm-8 float-left">
-											<select name="taxon_status" id="taxon_status" class="data-entry-select">
+											<select name="taxon_status" id="taxon_status" class="data-entry-select my-2">
 												<option value=""></option>
 												<cfloop query="cttaxon_status">
 													<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
