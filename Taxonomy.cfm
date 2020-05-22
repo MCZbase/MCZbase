@@ -1041,7 +1041,7 @@ onKeyPress="return noenter(event);">
 													
 							<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
-									<label for="" class="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+									<label for="scientificnameid" class="data-entry-label" >GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 									<cfset pattern = "">
 									<cfset placeholder = "">
 									<cfset regex = "">
@@ -1072,12 +1072,14 @@ onKeyPress="return noenter(event);">
 											<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 										</cfloop>
 									</select>
+								</div>
+								<div class="col-12 col-md-2 px-0 float-left"> 
 									<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a> 
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-									
+								</div>	
+						<div class="col-12 col-md-auto w-50 px-0 float-left">
 						<input name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#"  class="px-2 border w-100 rounded py-0">
 									<a id="scientificnameid_link" href="" target="_blank" class="px-2 py-0"></a> 
-								</div>
 							</div>
 								<script>
 						$(document).ready(function () { 
@@ -1112,6 +1114,8 @@ onKeyPress="return noenter(event);">
 							});
 						});
 					</script>
+													</div>
+												</div>
 								<div class="form-row col-12-px-0 mt-3">
 									<div class="col-6 px-0">
 										<label for="genus" class="col-sm-3 col-form-label float-left">Genus <small class="likeLink botanical"
