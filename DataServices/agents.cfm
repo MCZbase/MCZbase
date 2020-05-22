@@ -207,6 +207,7 @@ sho err
 		border:2px solid green;
 	}
 </style>
+<cfoutput>
 <script type='text/javascript' language='javascript'>
 	function saveAll() {
 		var keyList = document.getElementById('keyList').value;
@@ -216,7 +217,7 @@ sho err
 				{
 					method : "loadAgent",
 					key : kAry[i],
-					agent_id : $('#agent_id_' + kAry[i]).val(),
+					agent_id : $('##agent_id_' + kAry[i]).val(),
 					returnformat : "json",
 					queryformat : 'column'
 				},
@@ -226,16 +227,16 @@ sho err
 					var status=r.DATA.STATUS[0];
 					var agent_id=r.DATA.AGENT_ID[0];
 					if (status=='FAIL'){
-						$('#msgDiv_' + key).remove();						
+						$('##msgDiv_' + key).remove();						
 						var ns='<div class="infobox rBorder" id="msgDiv_' + key + '></div>';
-						$('#suggested__' + key).append(ns);
-						$('#msgDiv_' + key).html(msg);
+						$('##suggested__' + key).append(ns);
+						$('##msgDiv_' + key).html(msg);
 					} else if (status=='PASS') {
-						$('#msgDiv_' + key).remove();
+						$('##msgDiv_' + key).remove();
 						var ns='<div class="infobox gBorder" id="msgDiv_' + key + '>';
 						ns+='</div>';
-						$('#suggested__' + key).html(ns);
-						$('#msgDiv_' + key).html(msg);
+						$('##suggested__' + key).html(ns);
+						$('##msgDiv_' + key).html(msg);
 						
 					}
 				}
@@ -243,8 +244,8 @@ sho err
 		}
 	}
 	function useThis(key,name,id) {
-		$('#name_' + key).val(name);
-		$('#agent_id_' + key).val(id);
+		$('##name_' + key).val(name);
+		$('##agent_id_' + key).val(id);
 	}
 	jQuery(document).ready(function() {
 	  	var keyList = document.getElementById('keyList').value;
@@ -265,14 +266,13 @@ sho err
 						ns+="'" + r.DATA.AGENT_ID[a] + "')";
 						ns+='">' + r.DATA.PREFERRED_AGENT_NAME[a] + '</span>';
 						ns+='&nbsp;<a class="infoLink" href="/agents.cfm?agent_id=' + r.DATA.AGENT_ID[a] + '" target="_blank">[info]</a>';
-						$('#suggested__' + key).append(ns);
+						$('##suggested__' + key).append(ns);
 					}
 				}
 			);
 	  	}
 	});
 </script>
-<cfoutput>
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from ds_temp_agent 
 		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
