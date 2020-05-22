@@ -1150,8 +1150,8 @@ onKeyPress="return noenter(event);">
 								</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
-										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-4 col-form-label float-left">Infraspecific Author  <small style="line-height:1.15em;display:block;">(do not use for ICZN names)</small></label>
-										<div class="col-sm-8 float-left">
+										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left">Infraspecific Author  <small style="line-height:1.15em;display:block;">(do not use for ICZN names)</small></label>
+										<div class="col-sm-7 float-left">
 											<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" class="data-entry-input mt-2">
 											<span class="infoLink botanical"
 						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"><small style="color:##007bff;"> Find Kew Abbr </small></span> </div>
@@ -1303,9 +1303,10 @@ onKeyPress="return noenter(event);">
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
 										<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
-										<div class="col-sm-9 float-left"> (
-											<input type="text" name="subgenus" id="subgenus" value="#subgenus#" class="data-entry-input my-2">
-											)#subgenus_message# </div>
+										<div class="col-sm-9 float-left"><span class="float-left d-inline" style="width: 5px; font-size: 24px;">(</span> 
+											<input type="text" name="subgenus" id="subgenus" value="#subgenus#" class="data-entry-input my-2 w-75 float-left">
+											<span class="float-left d-inline" style="width: 5px; font-size: 24px;">)</span><small> #subgenus_message# </small>
+										</div>
 									</div>
 									<div class="col-6 px-0">
 										<label for="subgenus" class="col-sm-3 col-form-label float-left">SubSection</label>
