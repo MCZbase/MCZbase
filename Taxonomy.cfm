@@ -935,7 +935,7 @@ onKeyPress="return noenter(event);">
 									<div class="col-12 col-sm-4">
 										<input type="hidden" name="Action" value="saveNewTaxa">
 										<label for="source_authority">Source</label>
-										<select name="source_authority" id="source_authority" class="reqdClr data-entry-select w-75">
+										<select name="source_authority" id="source_authority" class="reqdClr data-entry-select w-100">
 											<cfloop query="ctSourceAuth">
 												<option
 								<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
