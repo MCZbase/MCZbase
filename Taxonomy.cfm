@@ -1286,6 +1286,7 @@ limitations under the License.
 										<input type="text" name="family" id="family" value="#family#" class="data-entry-input my-2">
 									</div>
 								</div>
+										</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
 										<label for="subfamily" class="col-sm-3 col-form-label float-left">Subfamily</label>
