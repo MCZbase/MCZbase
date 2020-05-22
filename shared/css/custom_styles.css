@@ -87,6 +87,15 @@ p {
 	width: 5px;
 	font-size: 24px;
 }
+.warning {
+	border: 5px solid red;
+}
+.sm-caps {
+	font-variant: small-caps;
+}
+.line-height-sm {
+	line-height:1.15em;
+}
 label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;

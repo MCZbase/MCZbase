@@ -52,11 +52,6 @@ limitations under the License.
 	<cfset subgenus_message ="">
 </cfif>
 
-<style>
-.warning {
-	border: 5px solid red;
-}
-</style>
 <cfoutput> 
 	<script>
 	// Check values once per second, warn for issues
@@ -239,7 +234,7 @@ limitations under the License.
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 						</cfif>
-						<em>#getTaxa.scientific_name#</em> <span style="font-variant: small-caps;">#getTaxa.author_text#</span> </h2>
+						<em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span> </h2>
 					<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
 					<cfif len(getTaxa.taxonid) GT 0>
 						<cfset hasTaxonID = true>
@@ -486,7 +481,7 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-6 px-0">
-							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small style="line-height:1.15em;display:block;">(do not use for ICZN names)</small></label>
+							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
 							<div class="col-sm-7 float-left">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical"
@@ -1150,11 +1145,11 @@ onKeyPress="return noenter(event);">
 								</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
-										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left">Infraspecific Author  <small style="line-height:1.15em;display:block;">(do not use for ICZN names)</small></label>
+										<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left">Infraspecific Author  <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
 										<div class="col-sm-7 float-left">
 											<input type="text" name="infraspecific_author" id="infraspecific_author" value="#infraspecific_author#" class="data-entry-input mt-2">
 											<span class="infoLink botanical"
-						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"><small style="color:##007bff;"> Find Kew Abbr </small></span> </div>
+						onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"><small class="link-color"> Find Kew Abbr </small></span> </div>
 									</div>
 									<div class="col-6 px-0">
 										<label for="infraspecific_rank" class="col-sm-4 col-form-label float-left">Infraspecific Rank</label>
@@ -1303,9 +1298,9 @@ onKeyPress="return noenter(event);">
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
 										<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
-										<div class="col-sm-9 float-left"><span class="float-left d-inline" style="width: 5px; font-size: 24px;">(</span> 
+										<div class="col-sm-9 float-left"><span class="float-left d-inline brackets">(</span> 
 											<input type="text" name="subgenus" id="subgenus" value="#subgenus#" class="data-entry-input my-2 w-75 float-left">
-											<span class="float-left d-inline" style="width: 5px; font-size: 24px;">)</span><small> #subgenus_message# </small>
+											<span class="float-left d-inline brackets">)</span><small> #subgenus_message# </small>
 										</div>
 									</div>
 									<div class="col-6 px-0">
