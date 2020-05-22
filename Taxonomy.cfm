@@ -950,7 +950,7 @@ onKeyPress="return noenter(event);">
 											<option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 										</select>
 									</div>
-									<div class="col-12 col-sm-4">
+									<div class="col-12 col-sm-4 pr-3">
 										<label for="nomenclatural_code">Nomenclatural Code</label>
 										<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr data-entry-select">
 											<cfloop query="ctnomenclatural_code">
