@@ -4,7 +4,7 @@
    <h2>The controled vocabulary to view must be specified</h2>
 	<cfabort>
 </cfif>
-<cfif refind('^CT[A-Z_+]$'ucase(table)) EQ 0>
+<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
    <h2>This page can only be used for viewing the controled vocabularies in code tables</h2>
 	<cfabort>
 </cfif>
