@@ -1513,6 +1513,9 @@ input::placeholder {
 	font-size: 1.05em;
 	height: 1.05em;
 }
+.infoLink, .botanical {
+	cursor: pointer;
+}
 .shipments {
 	border: 1px solid #bac5c6;
 	padding: 1em;

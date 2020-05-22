@@ -476,7 +476,7 @@ limitations under the License.
 							<div class="col-sm-10 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-2">
 								<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </span> </div>
+					onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </span> </div>
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
@@ -485,7 +485,7 @@ limitations under the License.
 							<div class="col-sm-7 float-left">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical"
-					onclick="window.open('/picks/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </div>
+					onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific Rank</span></label>
