@@ -921,11 +921,11 @@ onKeyPress="return noenter(event);">
 							<h2 class="mb-0 px-3">Create New Taxonomy</h2>
 							<p class="px-3">(through cloning and editing)</p>
 							<form name="taxa" method="post" action="/Taxonomy.cfm" class="float-left w-100">
-								<!---	<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
+									<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
 									<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
 									<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 									<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
-								</div>--->
+								</div>
 								<div class="tInput form-row mx-2 mb-2">
 									<div class="col-12 col-sm-4">
 										<input type="hidden" name="Action" value="saveNewTaxa">
