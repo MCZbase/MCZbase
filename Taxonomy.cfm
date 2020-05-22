@@ -681,18 +681,18 @@ limitations under the License.
 			<div class="col-12 col-xl-3 float-left px-0 my-5">
 				<div class="border rounded p-2 bg-grayish">
 					<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select
-			taxonomy_publication_id,
-			formatted_publication,
-			taxonomy_publication.publication_id
-		from
-			taxonomy_publication,
-			formatted_publication
-		where
-			format_style='long' and
-			taxonomy_publication.publication_id=formatted_publication.publication_id and
-			taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
+						select
+							taxonomy_publication_id,
+							formatted_publication,
+							taxonomy_publication.publication_id
+						from
+							taxonomy_publication,
+							formatted_publication
+						where
+							format_style='long' and
+							taxonomy_publication.publication_id=formatted_publication.publication_id and
+							taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					</cfquery>
 					<cfset i = 1>
 					<h4>Related Publications</h4>
 					<form name="newPub" method="post" action="Taxonomy.cfm">
