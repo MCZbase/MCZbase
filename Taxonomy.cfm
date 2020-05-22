@@ -1038,7 +1038,7 @@ onKeyPress="return noenter(event);">
 						});
 					</script>
 													</div>
-													
+												</div>			
 							<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="scientificnameid" class="data-entry-label" >GUID for Nomenclatural Act (dwc:scientificNameID)</label>
