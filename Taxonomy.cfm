@@ -1052,8 +1052,8 @@ onKeyPress="return noenter(event);">
 									<cfloop query="ctguid_type_scientificname">
 										<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
-												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-											<cfset searchclass = 'class="btn-xs secondary"' >
+											<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+											<cfset searchclass = 'class="btn-xs btn-secondary"' >
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-2 px-0 float-left">
