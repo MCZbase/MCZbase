@@ -763,7 +763,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 								<input type="text" name="relatedName" class="reqdClr data-entry-input" value="#relations.scientific_name#" onChange="taxaPick('newRelatedId','relatedName','relation#i#',this.value); return false;"
-onKeyPress="return noenter(event);">
+								onKeyPress="return noenter(event);">
 								<input type="hidden" name="newRelatedId">
 								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
 								<input type="button" value="Save" class="btn-xs btn-primary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
@@ -773,10 +773,10 @@ onKeyPress="return noenter(event);">
 						</cfloop>
 					</div>
 					<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select common_name 
-		from common_name 
-		where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
+							select common_name 
+							from common_name 
+							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					</cfquery>
 					<div class="border bg-light p-2 rounded mt-3">
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
