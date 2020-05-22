@@ -775,7 +775,7 @@ limitations under the License.
 					<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select common_name 
 							from common_name 
-							where taxon_name_id = #taxon_name_id#>
+							where taxon_name_id = 7319
 					</cfquery>
 					<div class="border bg-light p-2 rounded mt-3">
 						<h4 class="mt-0">Common Names</h4>
