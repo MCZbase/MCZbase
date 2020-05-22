@@ -995,11 +995,13 @@ onKeyPress="return noenter(event);">
 											<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 										</cfloop>
 									</select>
+									<div class="col-12 col-md-2 px-0 float">
 									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
+													</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									
-									<input name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input my-2">
-									<a id="taxonid_link" href="" target="_blank" class=""></a> </div>
+									<input name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
+									<a id="taxonid_link" href="" target="_blank" class="px-2 py-0"></a> </div>
 								<script>
 						$(document).ready(function () { 
 							if ($('##taxonid').val().length > 0) {
