@@ -920,10 +920,10 @@ limitations under the License.
 						<div class="col-12">
 							<div class="row mx-0">
 							<div class="col-12 col-sm-6 px-0 float-left my-2">
-							<h2 class="mb-0 px-3 float-left">Create New Taxonomy</h2>
+							<h2 class="mb-0 px-1 float-left">Create New Taxonomy</h2>
 							<p class="px-3 float-left w-100">(through cloning and editing)</p>
 							</div>
-								<div class="col-12 col-sm-6 px-0 float-right text-right mt-sm-5">
+								<div class="col-12 col-sm-6 px-0 float-right text-right mt-sm-5 pr-2">
 									<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
 									<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 									<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
