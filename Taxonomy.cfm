@@ -961,6 +961,7 @@ onKeyPress="return noenter(event);">
 										</select>
 									</div>
 								</div>
+		<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="genus" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 									<cfset pattern = "">
@@ -996,7 +997,7 @@ onKeyPress="return noenter(event);">
 									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									
-									<input size="56" name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input my-2">
+									<input name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input my-2">
 									<a id="taxonid_link" href="" target="_blank" class=""></a> </div>
 								<script>
 						$(document).ready(function () { 
@@ -1031,6 +1032,8 @@ onKeyPress="return noenter(event);">
 							});
 						});
 					</script>
+													</div>
+							<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="genus" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 									<cfset pattern = "">
@@ -1067,7 +1070,9 @@ onKeyPress="return noenter(event);">
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									
 						<input name="scientificnameid" id="scientificnameid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#"  class="px-2 border w-100 rounded py-0">
-									<a id="scientificnameid_link" href="" target="_blank" class="px-2 py-0"></a> </div>
+									<a id="scientificnameid_link" href="" target="_blank" class="px-2 py-0"></a> 
+								</div>
+							</div>
 								<script>
 						$(document).ready(function () { 
 							if ($('##scientificnameid').val().length > 0) {
