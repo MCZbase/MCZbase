@@ -961,7 +961,7 @@ onKeyPress="return noenter(event);">
 										</select>
 									</div>
 								</div>
-								<div class="form-row col-12">
+						<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 									<cfset pattern = "">
@@ -978,7 +978,7 @@ onKeyPress="return noenter(event);">
 											<cfset searchclass = 'class="btn-xs btn-secondary"'>
 										</cfif>
 									</cfloop>
-															<div class="col-12 col-md-2 px-0 float-left">
+								<div class="col-12 col-md-2 px-0 float-left">
 									<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 										<cfif searchtext EQ "">
 											<option value=""></option>
@@ -995,13 +995,15 @@ onKeyPress="return noenter(event);">
 											<option #sel# value="#ctguid_type_taxon.guid_type#">#ctguid_type_taxon.guid_type#</option>
 										</cfloop>
 									</select>
-									<div class="col-12 col-md-2 px-0 float">
+								</div>
+								<div class="col-12 col-md-2 px-0 float-left"> 
 									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
 													</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-									
+								<div class="col-12 col-md-7 px-0 float-left">
 									<input name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
-									<a id="taxonid_link" href="" target="_blank" class="px-2 py-0"></a> </div>
+									<a id="taxonid_link" href="" target="_blank" class="px-2 py-0"></a> 
+								</div>
 								<script>
 						$(document).ready(function () { 
 							if ($('##taxonid').val().length > 0) {
@@ -1036,6 +1038,7 @@ onKeyPress="return noenter(event);">
 						});
 					</script>
 													</div>
+													
 							<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="" class="scientificnameid">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
