@@ -657,9 +657,9 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 justify-content-center mt-2">
-						<input type="button" value="Save" class="savBtn btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
-						<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
-						<input type="button" value="Delete" class="delBtn btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+						<input type="button" value="Save" class="btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
+						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
+						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 					</div>
 					<script>
 				function qcTaxonEdits() { 
@@ -747,7 +747,7 @@ limitations under the License.
 								<input type="hidden" name="newRelatedId">
 								<label for="relation_authority" class="data-entry-label">Authority</label>
 								<input type="text" name="relation_authority" class="data-entry-input">
-								<input type="submit" value="Create" class="insBtn btn-xs btn-secondary mt-2">
+								<input type="submit" value="Create" class="btn-xs btn-secondary mt-2">
 							</div>
 						</form>
 						<cfloop query="relations">
@@ -766,8 +766,8 @@ limitations under the License.
 onKeyPress="return noenter(event);">
 								<input type="hidden" name="newRelatedId">
 								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
-								<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
-								<input type="button" value="Delete" class="delBtn btn-xs btn-warning" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
+								<input type="button" value="Save" class="btn-xs btn-primary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
+								<input type="button" value="Delete" class="btn-xs btn-warning" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
 							</form>
 							<cfset i = #i#+1>
 						</cfloop>
@@ -787,7 +787,7 @@ onKeyPress="return noenter(event);">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<input type="text" name="common_name" value="#common_name#" class="data-entry-input my-2">
 								<input type="button" value="Save" class="savBtn btn-xs btn-primary" onClick="common#i#.Action.value='saveCommon';submit();">
-								<input type="button" value="Delete" class="delBtn btn-xs btn-warning ml-1" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
+								<input type="button" value="Delete" class="btn-xs btn-warning ml-1" onClick="common#i#.Action.value='deleteCommon';confirmDelete('common#i#');">
 							</form>
 							<cfset i=i+1>
 						</cfloop>
@@ -797,7 +797,7 @@ onKeyPress="return noenter(event);">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="common_name" class="data-entry-label float-left mt-2">New Common Name</label>
 								<input type="text" name="common_name" class="data-entry-input my-2">
-								<input type="submit" value="Create" class="insBtn btn-xs btn-secondary">
+								<input type="submit" value="Create" class="btn-xs btn-secondary">
 							</form>
 						</div>
 					</div>
