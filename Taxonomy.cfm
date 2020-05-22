@@ -1117,7 +1117,7 @@ onKeyPress="return noenter(event);">
 					</script>
 								</div>
 							</div>
-								<div class="form-row col-12-px-0 mt-3">
+								<div class="form-row col-12 px-0 mt-3">
 									<div class="col-6 px-0">
 										<label for="genus" class="col-sm-3 col-form-label float-left">Genus <small class="likeLink botanical"
 						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</small></label>
