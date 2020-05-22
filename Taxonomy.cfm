@@ -961,7 +961,7 @@ onKeyPress="return noenter(event);">
 										</select>
 									</div>
 								</div>
-						<div class="form-row col-12">
+								<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 									<cfset pattern = "">
@@ -1037,9 +1037,9 @@ onKeyPress="return noenter(event);">
 							});
 						});
 					</script>
-													</div>
-												</div>			
-							<div class="form-row col-12">
+								</div>
+						</div>			
+								<div class="form-row col-12">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="scientificnameid" class="data-entry-label" >GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 									<cfset pattern = "">
@@ -1073,7 +1073,7 @@ onKeyPress="return noenter(event);">
 											<option #sel# value="#ctguid_type_scientificname.guid_type#">#ctguid_type_scientificname.guid_type#</option>
 										</cfloop>
 									</select>
-								</div>
+									</div>
 								<div class="col-12 col-md-2 px-0 float-left"> 
 									<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext#</a> 
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
@@ -1327,6 +1327,7 @@ onKeyPress="return noenter(event);">
 								<input type="submit" value="Create" class="btn-xs btn-primary">
 									</div>
 							</form>
+						</div>
 						</div>
 					</div>
 				</div>
