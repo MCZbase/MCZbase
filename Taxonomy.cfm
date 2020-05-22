@@ -715,18 +715,18 @@ limitations under the License.
 						</cfloop>
 					</cfif>
 					<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT
-			scientific_name,
-			taxon_relationship,
-			relation_authority,
-			related_taxon_name_id
-		FROM
-			taxon_relations,
-			taxonomy
-		WHERE
-			taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
-			AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
+						SELECT
+							scientific_name,
+							taxon_relationship,
+							relation_authority,
+							related_taxon_name_id
+						FROM
+							taxon_relations,
+							taxonomy
+						WHERE
+							taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
+							AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					</cfquery>
 					<cfset i = 1>
 					<div class="col-12 px-0">
 						<form name="newRelation" method="post" action="Taxonomy.cfm">
@@ -775,7 +775,7 @@ limitations under the License.
 					<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select common_name 
 							from common_name 
-							where taxon_name_id = 7319
+							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					</cfquery>
 					<div class="border bg-light p-2 rounded mt-3">
 						<h4 class="mt-0">Common Names</h4>
@@ -874,7 +874,7 @@ limitations under the License.
 			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#"> 
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -978,7 +978,7 @@ limitations under the License.
 											<cfset searchclass = 'class="btn-xs btn-secondary"'>
 										</cfif>
 									</cfloop>
-								<div class="col-12 col-md-2 px-0 float-left">
+									<div class="col-12 col-md-2 px-0 float-left">
 									<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 										<cfif searchtext EQ "">
 											<option value=""></option>
@@ -996,47 +996,47 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-2 px-0 float-left"> 
+									<div class="col-12 col-md-2 px-0 float-left"> 
 									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
 													</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
-								<div class="col-12 col-md-7 px-0 float-left">
+									<div class="col-12 col-md-7 px-0 float-left">
 									<input name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
 									<a id="taxonid_link" href="" target="_blank" class="px-2 py-0"></a> 
 								</div>
-								<script>
-						$(document).ready(function () { 
-							if ($('##taxonid').val().length > 0) {
-								$('##taxonid').hide();
-							}
-							$('##taxonid_search').click(function () { 
-								$('##taxonid').show();
-								$('##taxonid_link').hide();
-							});
-							$('##taxonid_guid_type').change(function () { 
-								// On selecting a guid_type, remove an existing guid value.
-								$('##taxonid').val("");
-								// On selecting a guid_type, change the pattern.
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-							});
-							$('##taxonid').blur( function () { 
-								// On loss of focus for input, validate against the regex, update link
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-							});
-							$('##subspecies').change(function () { 
-								// On changing species name, update search.
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-							});
-							$('##species').change(function () { 
-								// On changing species name, update search.
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-							});
-							$('##genus').change(function () { 
-								// On changing species name, update search.
-								getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-							});
-						});
-					</script>
+									<script>
+										$(document).ready(function () { 
+											if ($('##taxonid').val().length > 0) {
+												$('##taxonid').hide();
+											}
+											$('##taxonid_search').click(function () { 
+												$('##taxonid').show();
+												$('##taxonid_link').hide();
+											});
+											$('##taxonid_guid_type').change(function () { 
+												// On selecting a guid_type, remove an existing guid value.
+												$('##taxonid').val("");
+												// On selecting a guid_type, change the pattern.
+												getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+											});
+											$('##taxonid').blur( function () { 
+												// On loss of focus for input, validate against the regex, update link
+												getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+											});
+											$('##subspecies').change(function () { 
+												// On changing species name, update search.
+												getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+											});
+											$('##species').change(function () { 
+												// On changing species name, update search.
+												getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+											});
+											$('##genus').change(function () { 
+												// On changing species name, update search.
+												getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+											});
+										});
+									</script>
 								</div>
 						</div>			
 								<div class="form-row col-12">
