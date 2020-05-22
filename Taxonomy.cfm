@@ -781,7 +781,7 @@ limitations under the License.
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
 						<cfloop query="common">
-							<form name="common#i#" method="post" action="/Taxonomy.cfm">
+							<form name="common#i#" method="post" action="Taxonomy.cfm">
 								<input type="hidden" name="Action">
 								<input type="hidden" name="origCommonName" value="#common_name#">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
@@ -791,8 +791,8 @@ limitations under the License.
 							</form>
 							<cfset i=i+1>
 						</cfloop>
-						<div class="newRec">
-							<form name="newCommon" method="post" action="/Taxonomy.cfm">
+						<div class="">
+							<form name="newCommon" method="post" action="Taxonomy.cfm">
 								<input type="hidden" name="Action" value="newCommon">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="common_name" class="data-entry-label float-left mt-2">New Common Name</label>
