@@ -945,14 +945,14 @@ onKeyPress="return noenter(event);">
 									</div>
 									<div class="col-12 col-sm-4">
 										<label for="valid_catalog_term_fg">Valid?</label>
-										<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="reqdClr data-entry-select w-75">
+										<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select w-75">
 											<option <cfif valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 											<option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 										</select>
 									</div>
 									<div class="col-12 col-sm-4 pr-3">
 										<label for="nomenclatural_code">Nomenclatural Code</label>
-										<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr data-entry-select">
+										<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr data-entry-select w-75">
 											<cfloop query="ctnomenclatural_code">
 												<option
 								<cfif #form.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
