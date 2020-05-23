@@ -152,7 +152,7 @@ sho err
 	</cfloop>
 	<cfif fail>
 		<cfset separator = "">
-		<p>Headers were: [<cfloop array="header" item="element">#separator##element#<cfset separator=","></cfloop>]</p>
+		<p>Headers were: [<cfloop array="#header#" item="element">#separator##element#<cfset separator=","></cfloop>]</p>
 		<p>Back to <a href="/DataServices/agents.cfm">Bulkload Agents</a>.</p>
 		<cfinclude template="/includes/_footer.cfm">
 		<cfabort>
