@@ -141,7 +141,7 @@ sho err
 		<cfset fail = true>
    </cfif>
    <cfif arrayFindNoCase(header,"preferred_name") EQ 0>
-		<h3>Error: agent_type is a required column in the csv file</h3>
+		<h3>Error: preferred_name is a required column in the csv file</h3>
 		<cfset fail = true>
    </cfif>
 	<cfloop from="1" to="#ArrayLen(header)#" index="headeritem">
@@ -151,6 +151,9 @@ sho err
 		</cfif>
 	</cfloop>
 	<cfif fail>
+		<p>Headers were: [#header#]</p>
+		<p>Back to <a href="/DataServices/agents.cfm">Bulkload Agents</a>.</p>
+		<cfinclude template="/includes/_footer.cfm">
 		<cfabort>
 	</cfif>
    

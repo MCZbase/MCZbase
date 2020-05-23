@@ -130,7 +130,7 @@
 		<cftry>
 			<cfset msg="">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from ds_temp_agent where key=#key#
+				select * from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 			</cfquery>
 			<cftransaction>
 				<cfset thisName=trim(d.preferred_name)>
@@ -253,7 +253,7 @@
 		<cftry>
 			<cftransaction>
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from ds_temp_agent where key=#key#
+					select * from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
 				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select sq_agent_id.nextval nextAgentId from dual
