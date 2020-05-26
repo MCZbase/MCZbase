@@ -635,11 +635,11 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row">
 			<div class="text-left col-md-12">
-				<main role="main" id="resultsGrid">
+				<main role="main">
 					<div class="pl-2 mb-5"> 
 						
 						<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. [I don't know that this is needed.  I used bootstrap styles.MHK]--->
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2" aria-role="table" aria-label="Search Results Table">
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog" aria-role="list">
@@ -651,7 +651,7 @@ limitations under the License.
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
-							<div id="searchResultsGrid" class="jqxGrid"></div>
+							<div id="searchResultsGrid" class="jqxGrid" aria-role="table" aria-label="Search Results Table"></div>
 							<div id="enableselection"></div>
 						</div>
 					</div>
@@ -776,9 +776,17 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
+			//selectionmode: 'none',
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			ready: function()
+			{
+				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
+				// focus grid.
+				$("##searchResultsGrid").jqxGrid('focus');
+			},
+			
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -918,10 +926,16 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
+			//selectionmode: 'none',
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-
+			        ready: function()
+                    {
+                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
+                        // focus grid.
+                        $("##searchResultsGrid").jqxGrid('focus');
+                    },
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
