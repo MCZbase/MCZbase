@@ -779,13 +779,6 @@ $(document).ready(function() {
 			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
-			ready: function()
-			{
-				$("##resultsGrid").jqxGrid('selectcell', 0, 'id_link');
-				// focus grid.
-				$("##resultsGrid").jqxGrid('focus');
-			},
-			
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -925,16 +918,10 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			//selectionmode: 'none',
-			selectionmode: 'singlerow',
+			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
-			        ready: function()
-                    {
-                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
-                        // focus grid.
-                        $("##searchResultsGrid").jqxGrid('focus');
-                    },
+
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
