@@ -784,7 +784,7 @@ $(document).ready(function() {
 			{
 				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
 				// focus grid.
-				$("##searchResultsGrid").jqxGrid('focus');
+			//	$("##searchResultsGrid").jqxGrid('focus');
 			},
 			
 			columns: [
@@ -934,7 +934,7 @@ $(document).ready(function() {
                     {
                         $("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
                         // focus grid.
-                        $("##searchResultsGrid").jqxGrid('focus');
+              //          $("##searchResultsGrid").jqxGrid('focus');
                     },
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
