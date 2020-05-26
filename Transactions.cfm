@@ -776,8 +776,7 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			//selectionmode: 'none',
-			selectionmode: 'singlerow',
+			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
 			ready: function()
