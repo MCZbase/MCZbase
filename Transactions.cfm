@@ -635,7 +635,7 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row">
 			<div class="text-left col-md-12">
-				<main role="main">
+				<main role="main" id="resultsGrid">
 					<div class="pl-2 mb-5"> 
 						
 						<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. [I don't know that this is needed.  I used bootstrap styles.MHK]--->
@@ -782,9 +782,9 @@ $(document).ready(function() {
 			showtoolbar: false,
 			ready: function()
 			{
-				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
+				$("##resultsGrid").jqxGrid('selectcell', 0, 'id_link');
 				// focus grid.
-				$("##searchResultsGrid").jqxGrid('focus');
+				$("##resultsGrid").jqxGrid('focus');
 			},
 			
 			columns: [
