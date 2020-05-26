@@ -522,7 +522,7 @@ limitations under the License.
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <button class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); "aria-controls="permit_number">Pick</button> </div>
+													<div class="input-group-append" aria-label="pick a permit"> <button class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog');">Pick</button> </div>
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
@@ -784,7 +784,7 @@ $(document).ready(function() {
 			{
 				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
 				// focus grid.
-			//	$("##searchResultsGrid").jqxGrid('focus');
+				$("##searchResultsGrid").jqxGrid('focus');
 			},
 			
 			columns: [
@@ -934,7 +934,7 @@ $(document).ready(function() {
                     {
                         $("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
                         // focus grid.
-              //          $("##searchResultsGrid").jqxGrid('focus');
+                        $("##searchResultsGrid").jqxGrid('focus');
                     },
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
