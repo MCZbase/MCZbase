@@ -639,11 +639,11 @@ limitations under the License.
 					<div class="pl-2 mb-5"> 
 						
 						<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. [I don't know that this is needed.  I used bootstrap styles.MHK]--->
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2" aria-role="table" aria-label="Search Results Table">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog" aria-role="list">
-								<div id="columnPick" class="px-1"></div>
+								<div id="columnPick" class="px-1" aria-controls="button"></div>
 							</div>
 							<div id="columnPickDialogButton" aria-role="button"></div>
 							<div id="resultDownloadButtonContainer" aria-role="button"></div>
@@ -651,7 +651,7 @@ limitations under the License.
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
-							<div id="searchResultsGrid" class="jqxGrid" aria-role="table" aria-label="Search Results Table"></div>
+							<div id="searchResultsGrid" class="jqxGrid"></div>
 							<div id="enableselection"></div>
 						</div>
 					</div>
