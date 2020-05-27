@@ -126,6 +126,39 @@
 	<cfargument name="agent_id" type="any" required="yes">
 	<cfset status="">
 	<cfset msg="">
+	<!--- Validate GUID --->
+	<cfquery name="guids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select agentguid, agentguid_guid_type from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+	</cfquery>
+	<cfloop query="guids">
+		<cfif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) GT 0>
+			<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select guid_type, applies_to, pattern_regex  
+				from ctguid_type 
+				where guid_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids.agentguid_guid_type#">
+				and applies_to like '%agent.agentguid%'
+			</cfquery>
+			<cfif ctguid_type.RecordCount EQ 0>
+				<!--- Error, guid type not recognized, or not applicable to agent.agentguid --->
+				<cfthrow type="Application" message="agent guid_type not recognized" detail="The provided agentguid_guid_type was not recognized.">
+			<cfelseif ctguid_type.RecordCount EQ 1>
+				<!--- appropriate guid_type, check pattern --->
+				<cfif REFind(ctguid_type.pattern_regex,guids.agentguid) EQ 0>
+					<!--- Error, guid doesn't match pattern for specified type --->
+					<cfthrow type="Application" message="agent guid doesn't match pattern" detail="The provided agentguid does not match the expected pattern for the given agentguid_guid_type.">
+				<cfelse>
+					<cfset msg=listappend(msg,'agentguid passed tests')>
+				</cfif>
+			<cfelse>
+				<!---  Unexpected state, should be just one match (guid_types get applied to more than one table or field by both being listed in the applies_to field. --->
+				<cfthrow type="Application" message="more than one record found for guid_type" detail="Unexpected error. More than one match found in ctguid_type for agentguid_guid_type.">
+			<cfelseif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) EQ 0>
+				<cfthrow type="Application" message="no type given for agentguid" detail="agentguid provided without a value in agentguid_guid_type.">
+			</cfif>
+		</cfif>
+	</cfloop>
+	
+	<!--- Update or Insert agent --->
 	<cfif isnumeric(agent_id) and agent_id gt -1>
 		<cftry>
 			<cfset msg="">
@@ -240,6 +273,20 @@
 					</cfcatch>
 					</cftry>
 				</cfif>
+				<cfif len(d.agentguid_guid_type) GT 0 and len(d.agentguid) GT 0>
+					<cftry>
+						<cfquery name="updateguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							update agent 
+							set agentguid_guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR", value="#agentguid_guid_type#">,
+								agent_guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR", value="#agentguid#">
+							where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						</cfquery>
+						<cfset msg=listappend(msg,'Added agent guid')>
+					<cfcatch>
+						<cfset msg=listappend(msg,'Failed: add agent guid<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
+					</cfcatch>
+					</cftry>
+				</cfif>
 			</cftransaction>
 			<cfset status="PASS">
 			<cfset msg=listappend(msg,'<a href="/agents.cfm?agent_id=#agent_id#" target="_blank">agent record</a>')>
@@ -267,11 +314,19 @@
 						agent_type,
 						preferred_agent_name_id,
 						AGENT_REMARKS
+						<cfif len(d.agentguid_guid_type) GT 0 and len(d.agentguid) GT 0>
+							,agentguid_guid_type
+							,agentguid
+						</cfif>
 					) VALUES (
-						#agentID.nextAgentId#,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
 						'person',
-						#agentNameID.nextAgentNameId#,
-						'#trim(d.agent_remark)#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentNameID.nextAgentNameId#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#trim(d.agent_remark)#'>
+						<cfif len(d.agentguid_guid_type) GT 0 and len(d.agentguid) GT 0>
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR", value="#agentguid_guid_type#">
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR", value="#agentguid#">
+						</cfif>
 						)
 				</cfquery>		
 				<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

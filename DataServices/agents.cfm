@@ -48,7 +48,7 @@ sho err
 	select agent_name_type from ctagent_name_type order by agent_name_type
 </cfquery>
 <cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select guid_type from ctguid_type where applies_to like '%agent%' order by guid_type
+	select guid_type, placeholder from ctguid_type where applies_to like '%agent%' order by guid_type
 </cfquery>
 
 <cfset tempTableColumns = "agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agent_remark,agentguid_guid_type,agentguid">
@@ -79,7 +79,7 @@ sho err
     <cfset agentguidTypes = "">
     <cfset separator = "">
     <cfloop query="ctguid_type">
-       <cfset agentguidTypes = agentguidTypes & separator & ctguid_type.guid_type>
+       <cfset agentguidTypes = agentguidTypes & separator & ctguid_type.guid_type & " (" & ctguid_type.placeholder & ")" >
        <cfset separator = ", ">
     </cfloop>
 	<cfoutput>
