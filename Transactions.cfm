@@ -657,7 +657,7 @@ limitations under the License.
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
-							<div id="searchResultsGrid" class="jqxGrid" aria-label="Search Results Table"></div>
+							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 							<div id="enableselection"></div>
 						</div>
 					</div>
