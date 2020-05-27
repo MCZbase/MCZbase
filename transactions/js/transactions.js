@@ -223,7 +223,6 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		buttons: {
 			"Close Dialog": function() {
 				$("#"+dialogid).dialog('close');
-				.find("close") // the first button
             	.addClass("btn-xs btn-secondary");
 			}
 		}
