@@ -908,7 +908,7 @@ $(document).ready(function() {
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
-			details.html("<div tabindex="0" role="button" id='rowDetailsTarget" + index + "'></div>");
+			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
 			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
