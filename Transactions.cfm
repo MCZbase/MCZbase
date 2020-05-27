@@ -651,10 +651,7 @@ limitations under the License.
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
-							<script>$('.jqx-grid-column-menubutton').on('click', function() {
-										$('##searchResultsGrid').html('
 							<div id="searchResultsGrid" class="jqxGrid" aria-label="Search Results Table"></div>
-								});</script>');
 							<div id="enableselection"></div>
 						</div>
 					</div>
@@ -663,9 +660,28 @@ limitations under the License.
 		</div>
 	</div>
 	<script>
+$('.jqx-grid-column-menubutton').on('click', function() {
+   $('document').ready(function(){
+    $('##searchResultsGrid').click(function(){
+    
+    })
+    $('##searchResultsGrid').keypress(function(e){
+        if(e.which == 13){//Enter key pressed
+            $('.jqx-grid-column-menubutton').click();//Trigger search button click event
+        }
+    });
 
-    //do stuff
-
+});
+});
+		
+$(function(){
+  $('.jqx-grid-column-menubutton').on('keypress click', function(e){
+    var search = $('##searchResultsGrid').val();
+    if (e.which === 13 || e.type === 'click') {
+          $('##searchResultsGrid').html(response);
+    }
+  });
+});
 function exportGridToCSV (idOfGrid, filename) {
 	var exportHeader = true;
 	var rows = null; // null for all rows
