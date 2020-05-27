@@ -651,7 +651,10 @@ limitations under the License.
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
+							<script>$('.jqx-grid-column-menubutton').on('click', function() {
+										$('##searchResultsGrid').html('
 							<div id="searchResultsGrid" class="jqxGrid" aria-label="Search Results Table"></div>
+								});</script>');
 							<div id="enableselection"></div>
 						</div>
 					</div>
@@ -660,9 +663,9 @@ limitations under the License.
 		</div>
 	</div>
 	<script>
-$('.jqx-grid-column-menubutton').on('click', function() {
+
     //do stuff
-});
+
 function exportGridToCSV (idOfGrid, filename) {
 	var exportHeader = true;
 	var rows = null; // null for all rows
