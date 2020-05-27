@@ -777,15 +777,15 @@ $(document).ready(function() {
 			columnsreorder: true,
 			groupable: true,
 			//selectionmode: 'none',
-			selectionmode: 'singlerow',
+			//selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-			ready: function()
-			{
-				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
-				// focus grid.
-				$("##searchResultsGrid").jqxGrid('focus');
-			},
+	//		ready: function()
+//			{
+//				$("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
+//				// focus grid.
+//				$("##searchResultsGrid").jqxGrid('focus');
+//			},
 			
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
@@ -927,15 +927,15 @@ $(document).ready(function() {
 			columnsreorder: true,
 			groupable: true,
 			//selectionmode: 'none',
-			selectionmode: 'singlerow',
+			//selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-			        ready: function()
-                    {
-                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
-                        // focus grid.
-                        $("##searchResultsGrid").jqxGrid('focus');
-                    },
+//			        ready: function()
+//                    {
+//                        $("##searchResultsGrid").jqxGrid('selectcell', 0, 'id_link');
+//                        // focus grid.
+//                        $("##searchResultsGrid").jqxGrid('focus');
+//                    },
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
