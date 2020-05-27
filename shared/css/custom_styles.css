@@ -1377,11 +1377,6 @@ input:-moz-placeholder { /* Firefox 18- */
 input::placeholder {
 	font-weight: 320;
 }
-/* Remove outline for non-keyboard :focus */
-*:focus:not(.focus-visible) {
-  outline: none;
-}
-
 /* Optional: Customize .focus-visible */
 .focus-visible {
   outline: lightgreen solid 2px;
