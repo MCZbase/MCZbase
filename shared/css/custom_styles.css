@@ -197,6 +197,7 @@ BELOW: Small Form button (bootstrap override)
 BELOW: Main button (bootstrap override)
 ************************/
 button, input, select {font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";}
+span.data-entry-addon {cursor: pointer;}
 .btn-primary {
 background-color: #d9f1f3;
 	border: 1px solid hsl(0, 0%, 56%, 1);
