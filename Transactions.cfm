@@ -641,12 +641,12 @@ limitations under the License.
 						<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. [I don't know that this is needed.  I used bootstrap styles.MHK]--->
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 							<h4>Results: </h4>
-							<span class="d-block px-3 p-2" id="resultCount"></span> <span tabindex="0" id="resultLink" class="d-block p-2"></span>
+							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog" aria-role="list">
-								<div id="columnPick" class="px-1" aria-controls="button" tabindex="0"></div>
+								<div id="columnPick" class="px-1"></div>
 							</div>
-							<div id="columnPickDialogButton" aria-role="button" tabindex="0"></div>
-							<div id="resultDownloadButtonContainer" aria-role="button" tabindex="0"></div>
+							<div id="columnPickDialogButton"></div>
+							<div id="resultDownloadButtonContainer"></div>
 						</div>
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
@@ -665,7 +665,7 @@ function exportGridToCSV (idOfGrid, filename) {
 	var exportHeader = true;
 	var rows = null; // null for all rows
 	var exportHiddenColumns = true;
-	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata', 'csv',null,exportHeader,rows,exportHiddenColumns);
+	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata','csv',null,exportHeader,rows,exportHiddenColumns);
 	exportToCSV(csvStringData, filename);	
 };
 
@@ -786,7 +786,6 @@ $(document).ready(function() {
 				// focus grid.
 				$("##searchResultsGrid").jqxGrid('focus');
 			},
-			
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
