@@ -225,7 +225,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 				$("#"+dialogid).dialog('close');
             	.addClass("btn-xs btn-secondary");
 			}
-		}
+
 		},
       open: function (event, ui) {
          // force the dialog to lay above any other elements in the page.
