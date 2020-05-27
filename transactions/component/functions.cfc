@@ -416,7 +416,7 @@ limitations under the License.
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
 							<label for="permit_type" class="data-entry-label mb-0">Permit Type</label>
-							<select name="permit_Type" id="permit_type" size="1" style="width: 25em;" class="data-entry-select">
+							<select name="permit_Type" id="permit_type" class="data-entry-select w-75">
 								<option value=""></option>
 		'>
 								<cfloop query="ctPermitType">
@@ -433,7 +433,7 @@ limitations under the License.
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
 							<label for="specific_type" class="data-entry-label mb-0">Specific Type</label>
-							<select name="specific_type" size="1" style="width: 15em;" class="data-entry-select">
+							<select name="specific_type" class="data-entry-select w-75">
 								<option value=""></option>
 		'>
 								<cfloop query="ctSpecificPermitType">
