@@ -643,7 +643,7 @@ limitations under the License.
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span tabindex="0" id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog" aria-role="list">
-								<div id="columnPick" class="px-1" aria-controls="button" tabindex="-1"></div>
+								<div id="columnPick" class="px-1" aria-controls="button" tabindex="0"></div>
 							</div>
 							<div id="columnPickDialogButton" aria-role="button" tabindex="0"></div>
 							<div id="resultDownloadButtonContainer" aria-role="button" tabindex="0"></div>
