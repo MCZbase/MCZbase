@@ -222,8 +222,13 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				$("#"+dialogid).dialog('close').addClass('btn-xs btn-secondary');
-			}
+				$("#"+dialogid).dialog('close');
+			},
+			    create:function () {
+        $(this).closest(".ui-dialog")
+            .find(".ui-button:first") // the first button
+            .addClass("btn-xs btn-secondary");
+    }
 		},
       open: function (event, ui) {
          // force the dialog to lay above any other elements in the page.
