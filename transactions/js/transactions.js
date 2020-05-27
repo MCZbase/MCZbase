@@ -222,7 +222,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				$("#"+dialogid).dialog('close');
+				$("#"+dialogid).dialog('close').addClass('btn-xs btn-secondary');
 			}
 		},
       open: function (event, ui) {
