@@ -522,7 +522,7 @@ limitations under the License.
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <span class="data-entry-addon py-0" tabindex="0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog');" style="cursor:pointer;">Pick</span> </div>
+													<div class="input-group-append" aria-label="pick a permit"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); "aria-labelledby="permit_picklist">Pick</span> </div>
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
@@ -642,7 +642,7 @@ limitations under the License.
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-							<div id="columnPickDialog" aria-role="list">
+							<div id="columnPickDialog">
 								<div id="columnPick" class="px-1"></div>
 							</div>
 							<div id="columnPickDialogButton"></div>
@@ -651,7 +651,7 @@ limitations under the License.
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
-							<div id="searchResultsGrid" class="jqxGrid"></div>
+							<div id="searchResultsGrid" class="jqxGrid" aria-label="Search Results Table"></div>
 							<div id="enableselection"></div>
 						</div>
 					</div>
@@ -665,7 +665,7 @@ function exportGridToCSV (idOfGrid, filename) {
 	var exportHeader = true;
 	var rows = null; // null for all rows
 	var exportHiddenColumns = true;
-	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata','csv',null,exportHeader,rows,exportHiddenColumns);
+	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata', 'csv',null,exportHeader,rows,exportHiddenColumns);
 	exportToCSV(csvStringData, filename);	
 };
 
@@ -786,6 +786,7 @@ $(document).ready(function() {
 				// focus grid.
 				$("##searchResultsGrid").jqxGrid('focus');
 			},
+			
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
