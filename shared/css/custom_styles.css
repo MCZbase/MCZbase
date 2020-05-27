@@ -1363,19 +1363,28 @@ table#pairs th, table#pairs td {
 	font-size: .75em;
 }*/
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-	font-weight: 350;
+	font-weight: 320;
 }
 input::-moz-placeholder { /* Firefox 19+ */
-	font-weight: 350;
+	font-weight: 320;
 }
 input:-ms-input-placeholder { /* IE 10+ */
-	font-weight: 350;
+	font-weight: 320;
 }
 input:-moz-placeholder { /* Firefox 18- */
-	font-weight: 350;
+	font-weight: 320;
 }
 input::placeholder {
-	font-weight: 350;
+	font-weight: 320;
+}
+/* Remove outline for non-keyboard :focus */
+*:focus:not(.focus-visible) {
+  outline: none;
+}
+
+/* Optional: Customize .focus-visible */
+.focus-visible {
+  outline: lightgreen solid 2px;
 }
 .data-entry-input:focus {
 	color: #495057;
