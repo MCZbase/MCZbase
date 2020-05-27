@@ -660,28 +660,7 @@ limitations under the License.
 		</div>
 	</div>
 	<script>
-$('.jqx-grid-column-menubutton').on('click', function() {
-   $('document').ready(function(){
-    $('##searchResultsGrid').click(function(){
-    
-    })
-    $('##searchResultsGrid').keypress(function(e){
-        if(e.which == 13){//Enter key pressed
-            $('.jqx-grid-column-menubutton').click();//Trigger search button click event
-        }
-    });
 
-});
-});
-		
-$(function(){
-  $('.jqx-grid-column-menubutton').on('keypress click', function(e){
-    var search = $('##searchResultsGrid').val();
-    if (e.which === 13 || e.type === 'click') {
-          $('##searchResultsGrid').html(response);
-    }
-  });
-});
 function exportGridToCSV (idOfGrid, filename) {
 	var exportHeader = true;
 	var rows = null; // null for all rows
