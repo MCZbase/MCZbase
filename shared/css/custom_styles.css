@@ -1345,8 +1345,10 @@ input::placeholder {
 	display: block;
 	width: 100%;
 	font-size: .85em;
-	line-height: .85em;
+	line-height: .9em;
 	padding: .25em .5em;
+/*	height: calc(.9em + .8rem + 1px);
+	padding: 0 .5em .25em .5em;*/
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	border-right: none;
@@ -1368,7 +1370,8 @@ input::placeholder {
 	width: 100%;
 	font-size: .85em;
 	line-height: .9em;
-    height: calc(.9em + .8rem + 1px);
+/*    height: calc(.9em + .8rem + 1px);*/
+    padding: .25em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
