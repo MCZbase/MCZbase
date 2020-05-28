@@ -1,8 +1,5 @@
 <!----
 
-
-
-
 drop table ds_temp_agent;
 
 create table ds_temp_agent (
@@ -22,7 +19,10 @@ create table ds_temp_agent (
 	other_name_type_2   varchar2(255),
 	other_name_3  varchar2(255),
 	other_name_type_3   varchar2(255),
-	agent_remark varchar2(4000)
+	agent_remark varchar2(4000),
+	agentguid_guid_type varchar2(255),
+	agentguid varchar2(900),
+	creating_username varchar2(255)
 	);
 	
 create public synonym ds_temp_agent for ds_temp_agent;
@@ -40,10 +40,19 @@ grant select on ds_temp_agent to public;
 /
 sho err
 
-
-
-
 ---->
+<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select agent_type from ctagent_type order by agent_type
+</cfquery>
+<cfquery name="ctagent_name_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select agent_name_type from ctagent_name_type order by agent_name_type
+</cfquery>
+<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select guid_type, placeholder from ctguid_type where applies_to like '%agent%' order by guid_type
+</cfquery>
+
+<cfset tempTableColumns = "agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agent_remark,agentguid_guid_type,agentguid">
+
 <cfinclude template="/includes/_header.cfm">
     <div style="width: 56em;margin: 0 auto; padding: 1em 0 4em 0;">
 <cfif action is "nothing">
@@ -54,13 +63,35 @@ sho err
     <p>
 	NOTE: This application currently handles only agent_type='person'
     </p>
-    <p><a href="/info/ctDocumentation.cfm?table=ctagent_name_type">Valid agent name types</a></p>
-	<p><a href="/info/ctDocumentation.cfm?table=ctagent_type">Valid agent types</a></p>
-	
-	<div id="template" style="margin: 1em 0 1.5em 0;">
-		<label for="t">Copy and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agent_remark</textarea>
-	</div> 
+  
+    <cfset agentNameTypes = "">
+    <cfset separator = "">
+    <cfloop query="ctagent_name_type">
+       <cfset agentNameTypes = agentNameTypes & separator & ctagent_name_type.agent_name_type>
+       <cfset separator = ", ">
+    </cfloop>
+    <cfset agentTypes = "">
+    <cfset separator = "">
+    <cfloop query="ctagent_type">
+       <cfset agentTypes = agentTypes & separator & ctagent_type.agent_type>
+       <cfset separator = ", ">
+    </cfloop>
+    <cfset agentguidTypes = "">
+    <cfset separator = "">
+    <cfloop query="ctguid_type">
+       <cfset agentguidTypes = agentguidTypes & separator & ctguid_type.guid_type & " (" & ctguid_type.placeholder & ")" >
+       <cfset separator = ", ">
+    </cfloop>
+	<cfoutput>
+		<p><a href="/info/ctDocumentation.cfm?table=ctagent_name_type">Valid agent name types</a> (#agentNameTypes#)</p>
+		<p><a href="/info/ctDocumentation.cfm?table=ctagent_type">Valid agent types</a> (#agentTypes#)</p>
+		<p><a href="/info/ctDocumentation.cfm?table=ctguid_type">Valid agent_guid_guid_types</a> (#agentguidTypes#)</p>
+		<div id="template" style="margin: 1em 0 1.5em 0;">
+			<label for="t">Copy and save as a .csv file</label>
+			<textarea rows="2" cols="80" id="t">#tempTableColumns#</textarea>
+		</div> 
+	</cfoutput>
+
 	<p>
 	Columns in <span style="color:red">red</span> are required; others are optional:</p>	
 	<ul class="geol_hier" style="padding-bottom: 2em;">
@@ -80,6 +111,8 @@ sho err
 		<li>other_name_type_2</li>
 		<li>other_name_3</li>
 		<li>other_name_type_3</li>	 
+		<li>agentguid_guid_type</li>
+		<li>agentguid</li>
 	</ul>
 	
 	
@@ -94,12 +127,37 @@ sho err
 <cfoutput>
 	<!--- put this in a temp table --->
 	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from ds_temp_agent
+		delete from ds_temp_agent 
+		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 	</cfquery>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 	<cfset numberOfColumns = ArrayLen(arrResult[1])>
+	<cfset header = arrResult[1] >
+	<cfset fail = false>
+   <cfif arrayFindNoCase(header,"agent_type") EQ 0>
+		<h3>Error: agent_type is a required column in the csv file</h3>
+		<cfset fail = true>
+   </cfif>
+   <cfif arrayFindNoCase(header,"preferred_name") EQ 0>
+		<h3>Error: preferred_name is a required column in the csv file</h3>
+		<cfset fail = true>
+   </cfif>
+	<cfloop from="1" to="#ArrayLen(header)#" index="headeritem">
+		<cfif NOT arrayFindNoCase(listToArray(tempTableColumns),header[headeritem])>
+			<h3>Error: #header[headeritem]# is not a recognized column name</h3>
+			<cfset fail = true>
+		</cfif>
+	</cfloop>
+	<cfif fail>
+		<cfset separator = "">
+		<p>Headers were: [<cfloop from="1" to="#ArrayLen(header)#" index="element">#separator##header[element]#<cfset separator=","></cfloop>]</p>
+		<p>Back to <a href="/DataServices/agents.cfm">Bulkload Agents</a>.</p>
+		<cfinclude template="/includes/_footer.cfm">
+		<cfabort>
+	</cfif>
+   
 	<cfset colNames="">
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
@@ -124,7 +182,7 @@ sho err
 				</cfloop>
 			</cfif>
 			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into ds_temp_agent (#colNames#) values (#preservesinglequotes(colVals)#)				
+				insert into ds_temp_agent (#colNames#,creating_username) values (#preservesinglequotes(colVals)#,'#session.dbuser#')				
 			</cfquery>
 		</cfif>
 	</cfloop>
@@ -153,6 +211,7 @@ sho err
 		border:2px solid green;
 	}
 </style>
+<cfoutput>
 <script type='text/javascript' language='javascript'>
 	function saveAll() {
 		var keyList = document.getElementById('keyList').value;
@@ -162,7 +221,7 @@ sho err
 				{
 					method : "loadAgent",
 					key : kAry[i],
-					agent_id : $('#agent_id_' + kAry[i]).val(),
+					agent_id : $('##agent_id_' + kAry[i]).val(),
 					returnformat : "json",
 					queryformat : 'column'
 				},
@@ -171,26 +230,26 @@ sho err
 					var msg=r.DATA.MSG[0];
 					var status=r.DATA.STATUS[0];
 					var agent_id=r.DATA.AGENT_ID[0];
+					console.log(status);
 					if (status=='FAIL'){
-						$('#msgDiv_' + key).remove();						
-						var ns='<div class="infobox rBorder" id="msgDiv_' + key + '></div>';
-						$('#suggested__' + key).append(ns);
-						$('#msgDiv_' + key).html(msg);
+						console.log(r.DATA);
+						$('##msgDiv_' + key).remove();						
+						var ns='<div class="infobox rBorder" id="msgDiv_' + key + '">Error</div>';
+						$('##suggested__' + key).append(ns);
+						$('##msgDiv_' + key).html(msg);						
 					} else if (status=='PASS') {
-						$('#msgDiv_' + key).remove();
-						var ns='<div class="infobox gBorder" id="msgDiv_' + key + '>';
-						ns+='</div>';
-						$('#suggested__' + key).html(ns);
-						$('#msgDiv_' + key).html(msg);
-						
+						$('##msgDiv_' + key).remove();
+						var ns='<div class="infobox gBorder" id="msgDiv_' + key + '">Saved</div>';
+						$('##suggested__' + key).html(ns);
+						$('##msgDiv_' + key).html(msg);						
 					}
 				}
 			);
 		}
 	}
 	function useThis(key,name,id) {
-		$('#name_' + key).val(name);
-		$('#agent_id_' + key).val(id);
+		$('##name_' + key).val(name);
+		$('##agent_id_' + key).val(id);
 	}
 	jQuery(document).ready(function() {
 	  	var keyList = document.getElementById('keyList').value;
@@ -211,16 +270,16 @@ sho err
 						ns+="'" + r.DATA.AGENT_ID[a] + "')";
 						ns+='">' + r.DATA.PREFERRED_AGENT_NAME[a] + '</span>';
 						ns+='&nbsp;<a class="infoLink" href="/agents.cfm?agent_id=' + r.DATA.AGENT_ID[a] + '" target="_blank">[info]</a>';
-						$('#suggested__' + key).append(ns);
+						$('##suggested__' + key).append(ns);
 					}
 				}
 			);
 	  	}
 	});
 </script>
-<cfoutput>
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from ds_temp_agent
+		select * from ds_temp_agent 
+		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 	</cfquery>
 	<cfquery name="p" dbtype="query">
 		select distinct(agent_type) agent_type from d
@@ -231,6 +290,7 @@ sho err
 	</cfif>
 	<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from ds_temp_agent where preferred_name is null
+		and creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 	</cfquery>
 	<cfif rpn.c is not 0>
 		<div class="error">Preferred name is required for every agent.</div>
@@ -242,16 +302,19 @@ sho err
 				other_name_type_1 nt
 			from
 				ds_temp_agent
+				where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			union
 			select
 				other_name_type_2 nt
 			from
 				ds_temp_agent
+				where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			union
 			select
 				other_name_type_3 nt
 			from
 				ds_temp_agent
+				where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 		)
 		group by nt
 	</cfquery>
@@ -266,16 +329,19 @@ sho err
 				other_name_type_1 nt
 			from
 				ds_temp_agent
+				where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			union
 			select
 				other_name_type_2 nt
 			from
 				ds_temp_agent
+				where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			union
 			select
 				other_name_type_3 nt
 			from
 				ds_temp_agent
+				where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 		)
 		where nt not in (select agent_name_type from ctagent_name_type)
 	</cfquery>
@@ -357,6 +423,8 @@ sho err
 			<th>agent_type</th>
 			<th>birth_date</th>
 			<th>death_date</th>
+			<th>agentguid_guid_type</th>
+			<th>agentguid</th>
 			<th>Remark</th>
 		</tr>
 		<cfloop query="d">
@@ -393,6 +461,8 @@ sho err
 				<td>#agent_type#</td>
 				<td>#birth_date#&nbsp;</td>
 				<td>#death_date#&nbsp;</td>
+				<td>#agentguid_guid_type#&nbsp;</td>
+				<td>#agentguid#&nbsp;</td>
 				<td nowrap="nowrap">#agent_remark#</td>
 			</tr>
 		</cfloop>
