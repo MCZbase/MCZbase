@@ -130,36 +130,43 @@
 	<cfquery name="guids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agentguid, agentguid_guid_type from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 	</cfquery>
-	<cfloop query="guids">
-		<cfif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) GT 0>
-			<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select guid_type, applies_to, pattern_regex  
-				from ctguid_type 
-				where guid_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids.agentguid_guid_type#">
-				and applies_to like '%agent.agentguid%'
-			</cfquery>
-			<cfif ctguid_type.RecordCount EQ 0>
-				<!--- Error, guid type not recognized, or not applicable to agent.agentguid --->
-				<cfthrow type="Application" message="agent guid_type not recognized" detail="The provided agentguid_guid_type was not recognized.">
-			<cfelseif ctguid_type.RecordCount EQ 1>
-				<!--- appropriate guid_type, check pattern --->
-				<cfif REFind(ctguid_type.pattern_regex,guids.agentguid) EQ 0>
-					<!--- Error, guid doesn't match pattern for specified type --->
-					<cfthrow type="Application" message="agent guid doesn't match pattern" detail="The provided agentguid does not match the expected pattern for the given agentguid_guid_type.">
+
+	<cftry>
+		<cfloop query="guids">
+			<cfif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) GT 0>
+				<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select guid_type, applies_to, pattern_regex  
+					from ctguid_type 
+					where guid_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids.agentguid_guid_type#">
+					and applies_to like '%agent.agentguid%'
+				</cfquery>
+				<cfif ctguid_type.RecordCount EQ 0>
+					<!--- Error, guid type not recognized, or not applicable to agent.agentguid --->
+					<cfthrow type="Application" message="agent guid_type not recognized" detail="The provided agentguid_guid_type was not recognized.">
+				<cfelseif ctguid_type.RecordCount EQ 1>
+					<!--- appropriate guid_type, check pattern --->
+					<cfif REFind(ctguid_type.pattern_regex,guids.agentguid) EQ 0>
+						<!--- Error, guid doesn't match pattern for specified type --->
+						<cfthrow type="Application" message="agent guid doesn't match pattern" detail="The provided agentguid does not match the expected pattern for the given agentguid_guid_type.">
+					<cfelse>
+						<cfset msg=listappend(msg,'agentguid passed tests')>
+					</cfif>
 				<cfelse>
-					<cfset msg=listappend(msg,'agentguid passed tests')>
+					<!---  Unexpected state, should be just one match (guid_types get applied to more than one table or field by both being listed in the applies_to field. --->
+					<cfthrow type="Application" message="more than one record found for guid_type" detail="Unexpected error. More than one match found in ctguid_type for agentguid_guid_type.">
 				</cfif>
-			<cfelse>
-				<!---  Unexpected state, should be just one match (guid_types get applied to more than one table or field by both being listed in the applies_to field. --->
-				<cfthrow type="Application" message="more than one record found for guid_type" detail="Unexpected error. More than one match found in ctguid_type for agentguid_guid_type.">
+			<cfelseif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) EQ 0>
+				<cfthrow type="Application" message="no type given for agentguid" detail="agentguid provided without a value in agentguid_guid_type.">
 			</cfif>
-		<cfelseif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) EQ 0>
-			<cfthrow type="Application" message="no type given for agentguid" detail="agentguid provided without a value in agentguid_guid_type.">
-		</cfif>
-	</cfloop>
+		</cfloop>
+	<cfcatch>
+		<cfset status="FAIL">
+		<cfset msg='Failed: update agent<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
+	</cfcatch>
+	</cftry>
 	
 	<!--- Update or Insert agent --->
-	<cfif isnumeric(agent_id) and agent_id gt -1>
+	<cfif len(status) EQ 0 AND isnumeric(agent_id) AND agent_id gt -1>
 		<cftry>
 			<cfset msg="">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
