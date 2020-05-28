@@ -175,25 +175,45 @@
 			<cftransaction>
 				<cfset thisName=trim(d.preferred_name)>
 				<cfset nametype='aka'>
+				<cfset existsName = TRUE>
 				<cftry>
-					<cfquery name="u" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						insert into agent_name (
-							agent_name_id,
-							AGENT_ID,
-							AGENT_NAME_TYPE,
-							AGENT_NAME
-						) values (
-							sq_agent_name_id.nextval,
-							#agent_id#,
-							'#nametype#',
-							'#thisName#'
-						)
+					<cfquery name="akaExistCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select count(*) as ct from agent_name where 
+						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						and agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">
+						and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 					</cfquery>
+					<cfloop query="akaExistCheck">
+						<cfif akaExistCheck.ct EQ 0>
+							<cfset existsName = FALSE>
+						</cfif>
+					</cfloop>
+					<cfcatch>
+					<cfset msg=listappend(msg,'Failed: Error looking for existing #thisName# (#nametype#)<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
 					<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
-				<cfcatch>
-					<cfset msg=listappend(msg,'Failed: add #thisName# (#nametype#)<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
-				</cfcatch>
+				</cfctatch>
 				</cftry>
+				<cfif NOT existsName>
+					<cftry>
+						<cfquery name="u" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into agent_name (
+								agent_name_id,
+								AGENT_ID,
+								AGENT_NAME_TYPE,
+								AGENT_NAME
+							) values (
+								sq_agent_name_id.nextval,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
+							)
+						</cfquery>
+						<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
+					<cfcatch>
+						<cfset msg=listappend(msg,'Failed: add #thisName# (#nametype#)<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
+					</cfcatch>
+					</cftry>
+				</cfif>
 				<cfif len(d.other_name_1) gt 0>
 					<cfset thisName=trim(d.other_name_1)>
 					<cfset nametype=d.other_name_type_1>
@@ -206,9 +226,9 @@
 								AGENT_NAME
 							) values (
 								sq_agent_name_id.nextval,
-								#agent_id#,
-								'#nametype#',
-								'#thisName#'
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 							)
 						</cfquery>
 						<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
@@ -230,9 +250,9 @@
 								AGENT_NAME
 							) values (
 								sq_agent_name_id.nextval,
-								#agent_id#,
-								'#nametype#',
-								'#thisName#'
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 							)
 						</cfquery>
 						<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
@@ -253,9 +273,9 @@
 								AGENT_NAME_TYPE,
 								AGENT_NAME
 							) values (
-								#agent_id#,
-								'#nametype#',
-								'#thisName#'
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 							)
 						</cfquery>
 						<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
@@ -272,7 +292,7 @@
 								null,'#trim(d.agent_remark)#',
 								'#trim(d.agent_remark)#','#trim(d.agent_remark)#',
 								agent_remarks || '; #trim(d.agent_remark)#')
-								where agent_id=#agent_id#
+								where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 						</cfquery>
 						<cfset msg=listappend(msg,'Added remark')>
 					<cfcatch>
