@@ -367,14 +367,14 @@
 						BIRTH_DATE,
 						DEATH_DATE
 					) VALUES (
-						#agentID.nextAgentId#
-						,'#trim(d.prefix)#'
-						,'#trim(d.LAST_NAME)#'
-						,'#trim(d.FIRST_NAME)#'
-						,'#trim(d.MIDDLE_NAME)#'
-						,'#trim(d.SUFFIX)#'
-						,'#trim(d.birth_date)#'
-						,'#trim(d.death_date)#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.prefix)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.LAST_NAME)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.FIRST_NAME)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.MIDDLE_NAME)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.SUFFIX)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.birth_date)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.death_date)#">
 					)
 				</cfquery>
 				<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -385,10 +385,10 @@
 						agent_name,
 						donor_card_present_fg
 					) VALUES (
-						#agentNameID.nextAgentNameId#,
-						#agentID.nextAgentId#,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentNameID.nextAgentNameId#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
 						'preferred',
-						'#trim(d.preferred_name)#',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.preferred_name)#">,
 						0
 					)
 				</cfquery>
@@ -403,9 +403,9 @@
 							donor_card_present_fg
 						) VALUES (
 							sq_agent_name_id.nextval,
-							#agentID.nextAgentId#,
-							'#d.other_name_type_1#',
-							'#trim(d.other_name_1)#',
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.other_name_type_1#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.other_name_1)#">,
 							0
 						)
 					</cfquery>
@@ -420,9 +420,9 @@
 							donor_card_present_fg
 						) VALUES (
 							sq_agent_name_id.nextval,
-							#agentID.nextAgentId#,
-							'#d.other_name_type_2#',
-							'#trim(d.other_name_2)#',
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.other_name_type_2#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.other_name_2)#">,
 							0
 						)
 					</cfquery>
@@ -437,9 +437,9 @@
 							donor_card_present_fg
 						) VALUES (
 							sq_agent_name_id.nextval,
-							#agentID.nextAgentId#,
-							'#d.other_name_type_3#',
-							'#trim(d.other_name_3)#',
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.other_name_type_3#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.other_name_3)#">,
 							0
 						)
 					</cfquery>
