@@ -234,16 +234,15 @@ sho err
 					if (status=='FAIL'){
 						console.log(r.DATA);
 						$('##msgDiv_' + key).remove();						
-						var ns='<div class="infobox rBorder" id="msgDiv_' + key + '></div>';
+						var ns='<div class="infobox rBorder" id="msgDiv_' + key + '>'+msg+'</div>';
 						$('##suggested__' + key).append(ns);
-						$('##msgDiv_' + key).html(msg);
+						//$('##msgDiv_' + key).html(msg);
 					} else if (status=='PASS') {
 						$('##msgDiv_' + key).remove();
-						var ns='<div class="infobox gBorder" id="msgDiv_' + key + '>';
+						var ns='<div class="infobox gBorder" id="msgDiv_' + key + '>' + msg;
 						ns+='</div>';
 						$('##suggested__' + key).html(ns);
-						$('##msgDiv_' + key).html(msg);
-						
+						//$('##msgDiv_' + key).html(msg);
 					}
 				}
 			);
