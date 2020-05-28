@@ -232,7 +232,7 @@ sho err
 					var agent_id=r.DATA.AGENT_ID[0];
 					console.log(status);
 					if (status=='FAIL'){
-						consloe.log(r.DATA);
+						console.log(r.DATA);
 						$('##msgDiv_' + key).remove();						
 						var ns='<div class="infobox rBorder" id="msgDiv_' + key + '></div>';
 						$('##suggested__' + key).append(ns);
