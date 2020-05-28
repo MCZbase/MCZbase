@@ -1010,7 +1010,39 @@ $(document).ready(function() {
 
 });
 
+var b = document.querySelector('div['columnheader']');
+b.passThrough = true;
+b.update = pass => {
+  b.passThrough = pass;
+  b.textContent = "click me to " + (b.passThrough ? "block" : "allow") + " tabbing";
+}
+b.addEventListener('click', e => b.update(!b.passThrough));
+b.update(b.passThrough);
 
+var focussable = Array.from(
+  document.querySelectorAll([
+    'button',
+    '[href]',
+    'input',
+    'select',
+    'textarea',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(','))
+);
+
+// let's pretend this is your last cell.
+var pq = document.querySelector('pq');
+
+// make it kill off keydown events, BUT, also have it redirect focus
+// to "the next focussable element", so you can see what that code looks like.
+pq.addEventListener('keydown', e => e.preventDefault());
+
+document.addEventListener('keydown', e => {
+  if (b.passThrough && e.target === pq) {
+    var next = focussable.indexOf(pq) + 1;
+    focussable[next % focussable.length].focus();
+  }
+});
 function gridLoaded(gridId, searchType) { 
 	$("##overlay").hide();
 	var now = new Date();
