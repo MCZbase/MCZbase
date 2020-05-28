@@ -152,9 +152,9 @@
 			<cfelse>
 				<!---  Unexpected state, should be just one match (guid_types get applied to more than one table or field by both being listed in the applies_to field. --->
 				<cfthrow type="Application" message="more than one record found for guid_type" detail="Unexpected error. More than one match found in ctguid_type for agentguid_guid_type.">
-			<cfelseif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) EQ 0>
-				<cfthrow type="Application" message="no type given for agentguid" detail="agentguid provided without a value in agentguid_guid_type.">
 			</cfif>
+		<cfelseif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) EQ 0>
+			<cfthrow type="Application" message="no type given for agentguid" detail="agentguid provided without a value in agentguid_guid_type.">
 		</cfif>
 	</cfloop>
 	
