@@ -161,7 +161,7 @@
 		</cfloop>
 	<cfcatch>
 		<cfset status="FAIL">
-		<cfset msg='Failed: update agent<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
+		<cfset msg='Failed: create/update agent, guid type error.  <br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
 	</cfcatch>
 	</cftry>
 	
@@ -303,7 +303,7 @@
 			<cfset msg='Failed: update agent<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
 		</cfcatch>
 		</cftry>
-	<cfelseif agent_id is -1>
+	<cfelseif agent_id is -1 AND len(status) EQ 0 >
 		<cftry>
 			<cftransaction>
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
