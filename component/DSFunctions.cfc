@@ -285,7 +285,7 @@
 						<cfquery name="updateguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							update agent 
 							set agentguid_guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.agentguid_guid_type#">,
-								agent_guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.agentguid#">
+								agentguid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.agentguid#">
 							where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 						</cfquery>
 						<cfset msg=listappend(msg,'Added agent guid')>
