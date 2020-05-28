@@ -1347,8 +1347,6 @@ input::placeholder {
 	font-size: .85em;
 	line-height: .85em;
 	padding: .25em .5em;
-	height: calc(.9em + .8rem + 1px);
-	padding: 0 .5em .25em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	border-right: none;
@@ -1371,7 +1369,6 @@ input::placeholder {
 	font-size: .85em;
 	line-height: .9em;
     height: calc(.9em + .8rem + 1px);
-    padding: .5em .75em .60em .75em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
