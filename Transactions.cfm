@@ -1010,7 +1010,7 @@ $(document).ready(function() {
 
 });
 
-var b = document.querySelector('div['columnheader']');
+var b = document.jqxGrid('div['columnheader']');
 b.passThrough = true;
 b.update = pass => {
   b.passThrough = pass;
@@ -1020,7 +1020,7 @@ b.addEventListener('click', e => b.update(!b.passThrough));
 b.update(b.passThrough);
 
 var focussable = Array.from(
-  document.querySelectorAll([
+  document.jqxGrid([
     'button',
     '[href]',
     'input',
@@ -1031,7 +1031,7 @@ var focussable = Array.from(
 );
 
 // let's pretend this is your last cell.
-var pq = document.querySelector('pq');
+var pq = document.jqxGrid('pq');
 
 // make it kill off keydown events, BUT, also have it redirect focus
 // to "the next focussable element", so you can see what that code looks like.
