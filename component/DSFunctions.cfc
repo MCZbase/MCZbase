@@ -188,10 +188,10 @@
 							<cfset existsName = FALSE>
 						</cfif>
 					</cfloop>
-					<cfcatch>
+				<cfcatch>
 					<cfset msg=listappend(msg,'Failed: Error looking for existing #thisName# (#nametype#)<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
 					<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
-				</cfctatch>
+				</cfcatch>
 				</cftry>
 				<cfif NOT existsName>
 					<cftry>
