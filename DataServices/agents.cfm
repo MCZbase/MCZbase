@@ -230,7 +230,9 @@ sho err
 					var msg=r.DATA.MSG[0];
 					var status=r.DATA.STATUS[0];
 					var agent_id=r.DATA.AGENT_ID[0];
+					console.log(status);
 					if (status=='FAIL'){
+						consloe.log(r.DATA);
 						$('##msgDiv_' + key).remove();						
 						var ns='<div class="infobox rBorder" id="msgDiv_' + key + '></div>';
 						$('##suggested__' + key).append(ns);
