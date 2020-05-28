@@ -67,7 +67,7 @@
 			opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();
 		</script>
 		<cfelse>
-			<a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();"><font color="##FF0000"><i>#getTaxa.scientific_name#</i> #author_text# (unaccepted)</font></a>
+			<a href="##" onClick="javascript: opener.document.#formName#.#taxonIdFld#.value='#getTaxa.taxon_name_id#';opener.document.#formName#.#taxonNameFld#.value='#getTaxa.scientific_name#';self.close();"><font color="##FF0000"><i>#getTaxa.scientific_name#</i> #gettaxa.author_text# (unaccepted)</font></a>
 		</cfif>
 	</cfoutput>
 	<cfelseif #getTaxa.recordcount# is 0>
