@@ -199,7 +199,7 @@ BELOW: Main button (bootstrap override)
 button, input, select {font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";}
 span.data-entry-addon {cursor: pointer;}
 .btn-primary {
-background-color: #d9f1f3;
+	background-color: #d9f1f3;
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
 	margin-top: 0;
@@ -209,7 +209,6 @@ background-color: #d9f1f3;
 	color: #212529;
 	background-color: #deebec;
 	background: #deebec;
-	
 	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-primary:focus, .btn-primary.focus {
@@ -217,7 +216,6 @@ background-color: #d9f1f3;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-	outline:0;
 	box-shadow: none;
 }
 .btn-primary.disabled, .btn-primary:disabled {
@@ -1331,20 +1329,6 @@ input::placeholder {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-.data-entry-select:hover {
-    display: block;
-    width: 100%;
-    font-size: .85em;
-    line-height: .85em;
-	padding: .25em .5em;
-    color: rgba(0, 0, 0, .8);
-    border: 1px solid #ced4da;
-    background-clip: padding-box;
-    background-color: white;
-    border-radius: .2em;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
-}
 .data-entry-select:focus {
 	color: #495057;
 	background-color: #fff;
@@ -1353,23 +1337,6 @@ input::placeholder {
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .data-entry-prepend-select {
-	display: block;
-	width: 100%;
-	font-size: .85em;
-	line-height: .85em;
-	padding: .25em .5em;
-	height: calc(.9em + .8rem + 1px);
-	padding: 0 .5em .25em .5em;
-	color: rgba(0, 0, 0, .8);
-	border: 1px solid #ced4da;
-	border-right: none;
-	background-clip: padding-box;
-	background-color: white;
-	border-radius: .2em 0 0 .2em;
-	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
-}
-.data-entry-prepend-select:hover {
 	display: block;
 	width: 100%;
 	font-size: .85em;
