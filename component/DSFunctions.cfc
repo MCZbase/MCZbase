@@ -300,7 +300,7 @@
 			<cfset msg=listchangedelims(msg,"<br>")>
 		<cfcatch>
 			<cfset status="FAIL">
-			<cfset msg='Failed: update agent<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
+			<cfset msg='Failed: update agent<br><span class="cfcatch">#cfcatch.message# #replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
 		</cfcatch>
 		</cftry>
 	<cfelseif agent_id is -1 AND len(status) EQ 0 >
@@ -431,7 +431,7 @@
 		<cfcatch>
 			<cfset status="FAIL">
 			<cfset agent_id="">
-			<cfset msg='Failed: Create agent<span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]","","all")#</span>'>
+			<cfset msg='Failed: Create agent<span class="cfcatch">#cfcatch.message# #replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]","","all")#</span>'>
 		</cfcatch>
 		</cftry>
 	</cfif>
