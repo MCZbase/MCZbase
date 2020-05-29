@@ -122,7 +122,7 @@ limitations under the License.
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
 	<cfif query.recordcount gt 0>
-		<cfset result=result & "<ul class='list-unstyled mr-2'>">
+		<cfset result=result & "<ul class='list-unstyled'>">
 		<cfloop query="query">
 		<cfset puri=getMediaPreview(preview_uri,media_type) >
 			<cfif puri EQ "/images/noThumb.jpg">
@@ -130,7 +130,7 @@ limitations under the License.
 			<cfelse>
 				<cfset altText = query.media_descriptor>
 			</cfif>
-			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#' class='mr-2'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
 		</cfloop>
 		<cfset result= result & "</ul>">
 	<cfelse>
