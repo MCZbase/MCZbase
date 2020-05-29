@@ -176,13 +176,12 @@ BELOW: Small Form button (bootstrap override)
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	/*   background-color: transparent;*/
-	border: 1px solid transparent;
+	background-color: white;
+	border: 1px solid #bac5c6;
 	padding: .25em .5em;
 	font-size: .95em;
 	line-height: 1em;
 	border-radius: .25rem;
-	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 .btn-outline-success {
     color: #28a745;
@@ -1334,6 +1333,12 @@ input::placeholder {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
+.data-entry-select:hover {
+	background-color: white;
+	background: white;
+	border: 1px solid #ced4da;
+}
+
 .data-entry-select:focus {
 	color: #495057;
 	background-color: #fff;
