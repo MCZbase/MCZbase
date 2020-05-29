@@ -122,7 +122,7 @@ limitations under the License.
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
 	<cfif query.recordcount gt 0>
-		<cfset result=result & "<ul class='list-unstyled'>">
+		<cfset result=result & "<ul class='list-unstyled mr-2'>">
 		<cfloop query="query">
 		<cfset puri=getMediaPreview(preview_uri,media_type) >
 			<cfif puri EQ "/images/noThumb.jpg">
