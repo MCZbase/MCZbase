@@ -215,7 +215,7 @@ span.data-entry-addon {cursor: pointer;}
 	background: #deebec;
 	border: 1px solid hsl(0, 2%, 47%);
 }
-.btn-primary:focus, .btn-primary.focus {
+.btn-primary:focus, .btn-primar.focus {
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
@@ -229,11 +229,11 @@ span.data-entry-addon {cursor: pointer;}
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+/*.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
-}
+}*/
 .btn-secondary {
 	background-color: #d7d7d7;
 	background: #d7d7d7;
@@ -261,11 +261,11 @@ span.data-entry-addon {cursor: pointer;}
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
+/*.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
 	background-color: #d7d7d7;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
-}
+}*/
 
 .btn-warning {
 	background-color:  #e8b721ba;
@@ -1274,10 +1274,10 @@ table#pairs th, table#pairs td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .8em;
+	font-size: .88em;
 	border: none;
-	line-height: .9em;
-	height: calc(.9em + .15em);
+	line-height: .88em;
+	height: calc(.88em + .15em);
 	padding: 0em .5em;
 	margin-bottom: .15em;
 	margin-top: .25em;
@@ -1286,9 +1286,9 @@ table#pairs th, table#pairs td {
 .data-entry-input {
 	display: block;
 	width: 100%;
-	font-size: .85em;
-	line-height: .9em;
-	padding: .25em .5em;
+	font-size: .88em;
+	line-height: .88em;
+	padding: .2em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1297,7 +1297,11 @@ table#pairs th, table#pairs td {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-.data-entry-select option {background-color:white; color: black;padding: 2px 5px;}
+.data-entry-select option {
+	background-color: white;
+	color: black;
+	padding: 1px 5px;
+}
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 320;
 }
@@ -1323,9 +1327,10 @@ input::placeholder {
 .data-entry-select {
     display: block;
     width: 100%;
-    font-size: .85em;
-    line-height: .85em;
-	padding: .25em .5em;
+    font-size: .88em;
+    line-height: .88em;
+	padding: .2em .5em;
+	height: calc(.88em + .8rem + 1px);
     color: rgba(0, 0, 0, .8);
     border: 1px solid #ced4da;
     background-clip: padding-box;
@@ -1351,11 +1356,10 @@ input::placeholder {
 .data-entry-prepend-select {
 	display: block;
 	width: 100%;
-	font-size: .85em;
-	line-height: .9em;
-	padding: .25em .5em;
-/*	height: calc(.9em + .8rem + 1px);
-	padding: 0 .5em .25em .5em;*/
+	font-size: .88em;
+	line-height: .88em;
+	padding: .2em .5em;
+	height: calc(.88em + .8rem + 1px);
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	border-right: none;
@@ -1376,8 +1380,8 @@ input::placeholder {
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	font-size: .85em;
-	line-height: .9em;
+	font-size: .88em;
+	line-height: .8em;
     height: calc(.9em + .8rem + 1px);
     padding: .25em .5em;
 	color: rgba(0, 0, 0, .8);
@@ -1412,9 +1416,9 @@ input::placeholder {
 .data-entry-addon-input {
 	display: block;
 	width: 82%;
-	font-size: .85em;
-	line-height: .9em;
-	height: calc(.9em + .8rem + 1px);
+	font-size: .88em;
+	line-height: .88em;
+	height: calc(.99em + .8rem + 1px);
 	padding: .25em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
