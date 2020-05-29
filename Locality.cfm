@@ -128,6 +128,12 @@
    from ctguid_type 
    where applies_to like '%geog_auth_rec.highergeographyid%'
 </cfquery>
+<cfquery name="colEventNumSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id, 
+		CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
+	from coll_event_num_series
+	order by number_series, mczbase.get_agentnameoftype(collector_agent_id)
+</cfquery>
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
@@ -821,7 +827,7 @@ You do not have permission to create Higher Geographies
     </cfquery>
 	<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT number_series, 
-			collector_agent_id,
+			MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
 			coll_event_number
 		FROM 
 			coll_event_number
@@ -992,6 +998,25 @@ You do not have permission to create Higher Geographies
 				</td>
 			</tr>
 		</table>
+		<div>
+			<h3>Collector/Field Numbers (identifying collecting events)</h3>
+			<ul>
+			<cfloop query="colEventNumbers">
+				<li>#coll_event_number# (#number_series#, #collector_agent#)</li>
+			</cfloop>
+			</ul>
+			<div>
+				<label for="coll_event_number_series">Collecting Event Number Series</label>
+				<select id="coll_event_number_series" name="coll_event_number_series">
+					<option value=""></option>
+					<cfloop query="colEventNumSeries">
+						<option value="#colEventNumSeries.coll_event_number_series_id#">#colEventNumSeries.number_series# (#colEventNumSeries.collector_agent#)</option>
+					</cfloop>
+				</select>
+				<label for="coll_event_number">Collector/Field Number</label>
+				<input type="text" name="coll_event_number" id="coll_event_number" size=50>
+			</div>
+		</div>
 		<label for="coll_event_remarks">Remarks</label>
 		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#stripquotes(locDet.COLL_EVENT_REMARKS)#" size="115">
 		<table>
