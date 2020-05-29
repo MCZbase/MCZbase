@@ -819,6 +819,16 @@ You do not have permission to create Higher Geographies
 			left outer join preferred_agent_name on (accepted_lat_long.determined_by_agent_id = preferred_agent_name.agent_id)
 		where collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
     </cfquery>
+	<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT number_series, 
+			collector_agent_id,
+			coll_event_number
+		FROM 
+			coll_event_number
+			left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+		WHERE
+			coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
 	  	SELECT
 	  		count(cat_num) as numOfSpecs,
