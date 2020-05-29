@@ -1443,6 +1443,10 @@ input::placeholder {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
+textarea {
+	padding: .5em;
+	line-height: 1.25em;
+}
 .data-entry-textarea {
 	width: 100%;
 	height: calc(.88em + .8rem + 1px);
@@ -1456,6 +1460,7 @@ input::placeholder {
 	background-clip: padding-box;
 	font-weight: 450;
 }
+
 .smaller-text {font-size: 90%;}
 .border-fill { /* This is for each square on the data entry full form */
 	border: 1px solid #bac5c6 !important;
