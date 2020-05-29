@@ -215,7 +215,7 @@ span.data-entry-addon {cursor: pointer;}
 	background: #deebec;
 	border: 1px solid hsl(0, 2%, 47%);
 }
-.btn-primary:focus, .btn-primar.focus {
+.btn-primary:focus, .btn-primary.focus {
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
@@ -229,11 +229,11 @@ span.data-entry-addon {cursor: pointer;}
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-/*.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
-}*/
+}
 .btn-secondary {
 	background-color: #d7d7d7;
 	background: #d7d7d7;
@@ -261,11 +261,11 @@ span.data-entry-addon {cursor: pointer;}
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-/*.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
+.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
 	background-color: #d7d7d7;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
-}*/
+}
 
 .btn-warning {
 	background-color:  #e8b721ba;
