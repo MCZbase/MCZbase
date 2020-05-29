@@ -1297,6 +1297,7 @@ table#pairs th, table#pairs td {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
+.data-entry-select option {background-color:white; color: black;padding: 2px 5px;}
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 320;
 }
