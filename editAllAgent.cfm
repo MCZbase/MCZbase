@@ -29,6 +29,13 @@
    from ctguid_type 
    where applies_to like '%agent.agentguid%'
 </cfquery>
+<!--- Make sure that agentguid and agentguid_guid_type are defined and empty if not provided --->
+<cfif NOT isDefined("agentguid_guid_type")>
+	<cfset agentguid_guid_type = "">
+</cfif>
+<cfif NOT isDefined("agentguid")>
+	<cfset agentguid = "">
+</cfif>
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <link rel="stylesheet" type="text/css" href="/includes/css/mcz_style.css" title="mcz_style">
