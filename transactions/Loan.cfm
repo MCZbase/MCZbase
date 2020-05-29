@@ -1068,7 +1068,6 @@ limitations under the License.
 							media_uri,
 							media_type,
 							label_value,
-							mczbase.get_media_descriptor(media.media_id) as media_descriptor
 						from
 							media,
 							media_relations,
