@@ -1067,7 +1067,7 @@ limitations under the License.
 							preview_uri,
 							media_uri,
 							media_type,
-							label_value,
+							label_value
 						from
 							media,
 							media_relations,
