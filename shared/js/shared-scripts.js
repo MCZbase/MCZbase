@@ -12,7 +12,7 @@
 
 function loadTransactionFormMedia(transaction_id,transaction_type) {
 	jQuery.ajax({
-		url: "/shared/component/functions.cfc",
+		url: "/component/functions.cfc",
 		data : {
 			method : "getMediaForTransHtml",
 			transaction_id: transaction_id,
