@@ -992,7 +992,7 @@ limitations under the License.
 									<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
 								</cfloop>
 							</select>
-							<label for="project_name" class="form-control-sm">Project Title</label>
+							<label for="project_name" class="data-entry-label">Project Title</label>
 							<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
 							<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
