@@ -112,7 +112,7 @@ limitations under the License.
                media.media_uri,
                media.mime_type,
                media.media_type as media_type,
-	  			 mczbase.get_media_descriptor(media.media_id) as media_descriptor,
+	  		   mczbase.get_media_descriptor(media.media_id) as media_descriptor,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
                nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
            from
@@ -130,7 +130,7 @@ limitations under the License.
 			<cfelse>
 				<cfset altText = query.media_descriptor>
 			</cfif>
-			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#' class='mr-2'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#' class='mr-2'></a> #mime_type# #media_type# #label_value# <a href='' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
 		</cfloop>
 		<cfset result= result & "</ul>">
 	<cfelse>
