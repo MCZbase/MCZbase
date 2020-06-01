@@ -129,26 +129,6 @@ function updateLoanItemCount(transactionId,targetDiv) {
 	)
 };
 
-
-function loadTransactionFormMedia(transaction_id,transaction_type) {
-	jQuery.ajax({
-		url: "/shared/component/functions.cfc",
-		data : {
-			method : "getMediaForTransHtml",
-			transaction_id: transaction_id,
-			transaction_type: transaction_type
-		},
-		success: function (result) {
-			$("#transactionFormMedia").html(result);
-		},
-		error: function (jqXHR, status, message) {
-			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
-			messageDialog("Error loading media: " + message + " " + msg ,'Error: '+ message);
-		},
-		dataType: "html"
-	});
-};
-
 function loadShipments(transaction_id) {
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",
