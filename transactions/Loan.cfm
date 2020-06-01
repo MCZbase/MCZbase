@@ -854,15 +854,15 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
-								<textarea name="nature_of_material" id="nature_of_material" rows="4" cols="90"
-							class="reqdClr autogrow border rounded" required >#loanDetails.nature_of_material#</textarea>
+								<textarea name="nature_of_material" id="nature_of_material" rows="4" 
+							class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
 								<label for="loan_description" class="data-entry-label">Description (<span id="lbl_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description" rows="4"
-							class="autogrow border rounded" cols="90">#loanDetails.loan_description#</textarea>
+							class="autogrow border rounded w-100">#loanDetails.loan_description#</textarea>
 							</div>
 							<script>
 						// make selected textareas autogrow as text is entered.
@@ -875,13 +875,13 @@ limitations under the License.
 							<div class="col-12">
 								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" rows="2" class="autogrow border rounded"
-							cols="120">#loanDetails.loan_instructions#</textarea>
+							w-100>#loanDetails.loan_instructions#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
-								<textarea name="trans_remarks" id="trans_remarks" rows="2" cols="120" class="autogrow border rounded">#loanDetails.trans_remarks#</textarea>
+								<textarea name="trans_remarks" id="trans_remarks" rows="2" class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
