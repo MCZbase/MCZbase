@@ -1078,6 +1078,7 @@ limitations under the License.
 							media_relationship like '% loan' and
 						related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
+						<br>			
 							<span>
 							<cfset relation="documents loan">
 							<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
