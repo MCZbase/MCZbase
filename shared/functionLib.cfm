@@ -39,6 +39,8 @@ limitations under the License.
     </cfif>
 </cffunction>
 		
+<!------------------------------------------------------------------------------------->
+		
 <cffunction name="SubsetEncodeForURL" returntype="Any">
 	<!--- URL escape a small subset of characters that may be found in filenames (used for preview_uri) --->
 	<!--- We don't want to escape the full set of reserved URI characters, as  media.preview_uri --->
