@@ -65,47 +65,7 @@ limitations under the License.
 </cffunction>
 
 
-		
-<!-------------------------------------------->
-<!--- obtain an html block listing the media for a transaction  --->
-<cffunction name="getMediaForTransHtml" returntype="string" access="remote" returnformat="plain">
-   <cfargument name="transaction_id" type="string" required="yes">
-   <cfargument name="transaction_type" type="string" required="yes">
-   <cfset relword="documents">
-   <cfset result="">
-   <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           select distinct
-               media.media_id as media_id,
-               media.preview_uri,
-               media.media_uri,
-               media.mime_type,
-               media.media_type as media_type,
-	  		   mczbase.get_media_descriptor(media.media_id) as media_descriptor,
-               MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-               nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
-           from
-               media_relations left join media on media_relations.media_id = media.media_id
-           where
-               media_relationship like '% #transaction_type#' 
-               and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
-   </cfquery>
-	<cfif query.recordcount gt 0>
-		<cfset result=result & "<ul class='list-unstyled'>">
-		<cfloop query="query">
-		<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfif puri EQ "/shared/images/documentNoThumb.png">
-				<cfset altText = "Red X in a red square, with text, no preview image available">
-			<cfelse>
-				<cfset altText = query.media_descriptor>
-			</cfif>
-			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#' class='mr-2'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
-		</cfloop>
-		<cfset result= result & "</ul>">
-	<cfelse>
-		<cfset result=result & "<ul class='py-2'><li>None</li></ul>">
-	</cfif>
-   <cfreturn result>
-</cffunction>
+
 
 <!---  Obtain the list of shipments and their permits for a transaction formatted in html for display on a transaction page --->
 <!---  @param transaction_id  the transaction for which to obtain a list of shipments and their permits.  --->
