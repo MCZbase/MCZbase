@@ -132,7 +132,7 @@ function updateLoanItemCount(transactionId,targetDiv) {
 
 function loadTransactionFormMedia(transaction_id,transaction_type) {
 	jQuery.ajax({
-		url: "/transactions/component/functions.cfc",
+		url: "/shared/component/functions.cfc",
 		data : {
 			method : "getMediaForTransHtml",
 			transaction_id: transaction_id,
