@@ -17,33 +17,6 @@ limitations under the License.
 
 --->
 <cfcomponent>
-<cffunction name="getMediaPreview" access="public" output="true">
-	<cfargument name="puri" required="true" type="string">
-	<cfargument name="mt" required="false" type="string">
-	<cfset r=0>
-	<cfif len(puri) gt 0>
-		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
-		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="5">
-		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
-			<cfset r=1>
-		</cfif>
-	</cfif>
-	<cfif r is 0>
-		<cfif mt is "image">
-			<cfreturn "/images/noThumb.jpg">
-		<cfelseif mt is "audio">
-			<cfreturn "/images/audioNoThumb.png">
-		<cfelseif mt is "text">
-			<cfreturn "/images/documentNoThumb.png">
-		<cfelseif mt is "multi-page document">
-			<cfreturn "/images/document_thumbnail.png">
-		<cfelse>
-			<cfreturn "/images/noThumb.jpg">
-		</cfif>
-	<cfelse>
-		<cfreturn puri>
-	</cfif>
-</cffunction>
 <cffunction name="checkAgentFlag" access="remote">
 	<cfargument name="agent_id" type="numeric" required="yes">
 	<cfquery name="checkAgentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -130,7 +103,7 @@ limitations under the License.
 			<cfelse>
 				<cfset altText = query.media_descriptor>
 			</cfif>
-			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#' class='mr-2'></a> #mime_type# #media_type# #label_value# <a href='' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#' class='mr-2'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
 		</cfloop>
 		<cfset result= result & "</ul>">
 	<cfelse>

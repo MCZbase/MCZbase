@@ -41,6 +41,32 @@ limitations under the License.
 		
 <!------------------------------------------------------------------------------------->
 		
+<cfscript>
+	function isYear(x){
+       var d = "^[1-9][0-9]{3}$";
+       return isValid("regex", x, d);
+	}
+</cfscript>
+<cffunction name="jsescape">
+	<cfargument name="in" required="yes">
+	<cfset out=replace(in,"'","`","all")>
+	<cfset out=replace(out,'"','``',"all")>
+	<cfreturn out>
+</cffunction>
+<cffunction name="niceURL" returntype="Any">
+	<cfargument name="s" type="string" required="yes">
+	<cfscript>
+		var r=trim(s);
+		r=trim(rereplace(r,'<[^>]*>','',"all"));
+		r=rereplace(r,'[^A-Za-z ]','',"all");
+		r=rereplace(r,' ','-',"all");
+		r=lcase(r);
+		if (len(r) gt 150) {r=left(r,150);}
+		if (right(r,1) is "-") {r=left(r,len(r)-1);}
+		r=rereplace(r,'-+','-','all');
+		return r;
+	</cfscript>
+</cffunction>
 <cffunction name="SubsetEncodeForURL" returntype="Any">
 	<!--- URL escape a small subset of characters that may be found in filenames (used for preview_uri) --->
 	<!--- We don't want to escape the full set of reserved URI characters, as  media.preview_uri --->
@@ -56,8 +82,6 @@ limitations under the License.
 	      return r;
 	</cfscript>
 </cffunction>
-<!------------------------------------------------------------------------------------->
-		
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
 	<cfargument name="mt" required="false" type="string">
@@ -77,7 +101,7 @@ limitations under the License.
 		<cfelseif mt is "text">
 			<cfreturn "/images/documentNoThumb.png">
 		<cfelseif mt is "multi-page document">
-			<cfreturn "/images/noThumb.jpg">
+			<cfreturn "/images/document_thumbnail.png">
 		<cfelse>
 			<cfreturn "/images/noThumb.jpg">
 		</cfif>
@@ -85,6 +109,7 @@ limitations under the License.
 		<cfreturn puri>
 	</cfif>
 </cffunction>
+
 	
 		
 <!------------------------------------------------------------------------------------->			
