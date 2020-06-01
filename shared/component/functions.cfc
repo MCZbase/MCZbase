@@ -1,5 +1,5 @@
 <!---
-specimens/component/functions.cfc
+shared/component/functions.cfc
 
 Copyright 2020 President and Fellows of Harvard College
 
@@ -73,15 +73,15 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "/shared/images/noThumb.jpg">
+			<cfreturn "/images/noThumb.jpg">
 		<cfelseif mt is "audio">
-			<cfreturn "/shared/images/audioNoThumb.png">
+			<cfreturn "/images/audioNoThumb.png">
 		<cfelseif mt is "text">
-			<cfreturn "/shared/images/documentNoThumb.png">
+			<cfreturn "/images/documentNoThumb.png">
 		<cfelseif mt is "multi-page document">
-			<cfreturn "/shared/images/documentNoThumb.png">
+			<cfreturn "/images/documentNoThumb.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumb.jpg">
+			<cfreturn "/images/noThumb.jpg">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
