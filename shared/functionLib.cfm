@@ -38,6 +38,22 @@ limitations under the License.
 		<cfreturn false>
     </cfif>
 </cffunction>
+		
+<cffunction name="SubsetEncodeForURL" returntype="Any">
+	<!--- URL escape a small subset of characters that may be found in filenames (used for preview_uri) --->
+	<!--- We don't want to escape the full set of reserved URI characters, as  media.preview_uri --->
+	<!--- contains both filename paths and URIs. The characters :/&.=?, are all used in valid URIs there.  --->
+	<cfargument name="s" type="string" required="yes">
+	<cfscript>
+	      var r=trim(s);
+	      r = Replace(Replace(r,'[','%5B'),']','%5D');
+	      r = Replace(Replace(r,'(','%28'),')','%29');
+	      r = Replace(r,'!','%21');
+	      r = Replace(r,',','%2C');
+	      r = Replace(r,' ','%20');
+	      return r;
+	</cfscript>
+</cffunction>
 <!------------------------------------------------------------------------------------->
 		
 <cffunction name="getMediaPreview" access="public" output="true">
@@ -67,6 +83,7 @@ limitations under the License.
 		<cfreturn puri>
 	</cfif>
 </cffunction>
+	
 		
 <!------------------------------------------------------------------------------------->			
 <cffunction name="setDbUser" output="true" returntype="boolean">
