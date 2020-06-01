@@ -874,8 +874,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12">
 								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="lbl_loan_instructions"></span>)</label>
-								<textarea name="loan_instructions" id="loan_instructions" rows="2" class="autogrow border rounded"
-							w-100>#loanDetails.loan_instructions#</textarea>
+								<textarea name="loan_instructions" id="loan_instructions" rows="2" class="autogrow border rounded w-100">#loanDetails.loan_instructions#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
