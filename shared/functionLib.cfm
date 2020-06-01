@@ -53,15 +53,15 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "/shared/images/noThumb.jpg">
+			<cfreturn "images/noThumb.jpg">
 		<cfelseif mt is "audio">
-			<cfreturn "/images/audioNoThumb.png">
+			<cfreturn "images/audioNoThumb.png">
 		<cfelseif mt is "text">
-			<cfreturn "/shared/images/noThumb.jpg">
+			<cfreturn "images/noThumb.jpg">
 		<cfelseif mt is "multi-page document">
-			<cfreturn "/shared/images/noThumb.jpg">
+			<cfreturn "images/noThumb.jpg">
 		<cfelse>
-			<cfreturn "/shared/images/noThumb.jpg">
+			<cfreturn "images/noThumb.jpg">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
