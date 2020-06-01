@@ -314,25 +314,25 @@ limitations under the License.
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-10">
 									<label for="nature_of_material">Nature of Material</label>
-									<textarea name="nature_of_material" id="nature_of_material" rows="2" cols="80" class="reqdClr form-control form-control-sm" required ></textarea>
+									<textarea name="nature_of_material" id="nature_of_material" rows="2" class="reqdClr form-control form-control-sm w-100" required ></textarea>
 								</div>
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-10">
 									<label for="loan_description">Description</label>
-									<textarea name="loan_description" id="loan_description" class="form-control-sm form-control" rows="2" cols="80"></textarea>
+									<textarea name="loan_description" id="loan_description" class="form-control-sm form-control w-100" rows="2"></textarea>
 								</div>
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-10">
 									<label for="loan_instructions">Loan Instructions</label>
-									<textarea name="loan_instructions" id="loan_instructions" rows="2" cols="80" class="form-control form-control-sm"></textarea>
+									<textarea name="loan_instructions" id="loan_instructions" rows="2" class="form-control form-control-sm w-100"></textarea>
 								</div>
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-10">
 									<label for="trans_remarks">Internal Remarks</label>
-									<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm" rows="2" cols="80"></textarea>
+									<textarea name="trans_remarks" id="trans_remarks" class="form-control form-control-sm w-100" rows="2"></textarea>
 								</div>
 							</div>
 							<script>
