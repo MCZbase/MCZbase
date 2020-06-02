@@ -2,9 +2,9 @@
 <cfif fileexists(application.webDirectory & filePath)>
 	<!--- cache for 90 mins on production, otherwise no cache ---> 
 	<cfif Application.productionServer EQ true>
-		<cfset cacheInterval = CreateTimeSpan(0,0,90,0)> 
+		<cfset cacheInterval = CreateTimeSpan(0,0,0,0)> 
 	<cfelse>
-		<cfset cacheInterval = CreateTimeSpan(0,0,0,30)> 
+		<cfset cacheInterval = CreateTimeSpan(0,0,0,0)> 
 	</cfif>
 	<!--- for redesign, look up form permissions in a separate table than for current MCZbase --->
 	<cfquery name="validRolesForPage" datasource="uam_god" cachedWithin="#cacheInterval#">
