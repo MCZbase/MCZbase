@@ -101,6 +101,7 @@ limitations under the License.
 	 </cfif>
 </cfif>
 <cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name IS "/Transactions.cfm">
+	<cfinclude template="/shared/functionLib.cfm">
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 	<script type="text/javascript" src="/shared/js/internalAjax.js"></script>
 
