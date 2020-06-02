@@ -1564,9 +1564,16 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 		<div class="detailLabel">Tagged in Media
 		</div>
 		<div class="detailBlock">
+         <cfset mediaStartTime = #Now()#> 
 			<cfloop query="mediaTag">
 				<cfset altText = mediaTag.media_descriptor>
-				<cfset puri=getMediaPreview(preview_uri,media_type)>
+         	<cfset mediaLoopTime = #Now()#> 
+				<cfif DateDiff('s',mediaStartTime,mediaLoopTime) GT 10>
+					<!--- Lookups of mediaPreview on slow remote server can exceed the timeout for cfoutput, if responses are slow, fallback to noThumb before timing out page --->
+					<cfset puri='/images/noThumb.jpg'>
+				<cfelse>
+					<cfset puri=getMediaPreview(preview_uri,media_type)>
+				</cfif>
 				<span class="detailData">
 					<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#" alt="#altText#"></a>
 				</span>
