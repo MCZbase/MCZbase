@@ -1,23 +1,3 @@
-/** Scripts specific to transactions pages. **/
-
-function loadTransactionFormMedia(transaction_id,transaction_type) {
-	jQuery.ajax({
-		url: "/transactions/component/functions.cfc",
-		data : {
-			method : "getMediaForTransHtml",
-			transaction_id: transaction_id,
-			transaction_type: transaction_type
-		},
-		success: function (result) {
-			$("#transactionFormMedia").html(result);
-		},
-		error: function (jqXHR, status, message) {
-			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
-			messageDialog("Error loading media: " + message + " " + msg ,'Error: '+ message);
-		},
-		dataType: "html"
-	});
-};
 /** Make a paired hidden permit_id and text permit_name control into an autocomplete permit picker
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected permit_id (without a leading # selector).
@@ -144,6 +124,26 @@ function updateLoanItemCount(transactionId,targetDiv) {
 		}
 	},
 	)
+};
+/** Scripts specific to transactions pages. **/
+
+function loadTransactionFormMedia(transaction_id,transaction_type) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getMediaForTransHtml",
+			transaction_id: transaction_id,
+			transaction_type: transaction_type
+		},
+		success: function (result) {
+			$("#transactionFormMedia").html(result);
+		},
+		error: function (jqXHR, status, message) {
+			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
+			messageDialog("Error loading media: " + message + " " + msg ,'Error: '+ message);
+		},
+		dataType: "html"
+	});
 };
 
 function loadShipments(transaction_id) {
