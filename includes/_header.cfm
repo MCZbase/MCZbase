@@ -43,7 +43,7 @@
 </head>
 <body>
 <noscript>
-    <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of Arctos, or
+    <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of MCZbase, or
   try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
 </noscript>
 
@@ -223,7 +223,7 @@
                     </li>
               </cfif>
                 </ul>
-          <li><a target="_top" href="##">Manage Arctos</a>
+          <li><a target="_top" href="##">Manage MCZbase</a>
             <ul>
               <cfif listfind(formList,"/ScheduledTasks/index.cfm")>
                 <li> <a target="_top" href="##">Developer Widgets</a>
@@ -241,7 +241,7 @@
                     <li><a target="_top" href="/Admin/form_roles.cfm">Form Permissions</a></li>
                     <li><a target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a></li>
                     <li><a target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a></li>
-                    <li><a target="_top" href="/AdminUsers.cfm">Arctos Users</a></li>
+                    <li><a target="_top" href="/AdminUsers.cfm">MCZbase Users</a></li>
                     <li><a target="_top" href="/Admin/user_roles.cfm">Database Roles</a></li>
                     <li><a target="_top" href="/Admin/user_report.cfm">All User Stats</a></li>
                     <li><a target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a></li>
