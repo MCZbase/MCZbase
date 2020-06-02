@@ -32,7 +32,7 @@ limitations under the License.
 	 <cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/shared/functionLib.cfm">
+
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.4.1-dist/css/bootstrap.min.css"><!---needed for overall look--->
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css"><!--- TODO: Remove? don't know not in 4.1.3--->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
