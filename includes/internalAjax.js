@@ -663,7 +663,10 @@ function addLink (n) {
 
 function addAgent (n) {
 	var lid = jQuery('#authTab tr:last').attr("id");
-	var lastID=lid.replace('authortr','');
+	var lastID='';
+	if (typeof lid !== 'undefined') {
+	   lastID = lid.replace('authortr','');
+	}
 	if(lastID==''){
 		lastID=0;
 	}
