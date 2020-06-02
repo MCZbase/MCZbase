@@ -96,6 +96,7 @@ p {
 .line-height-sm {
 	line-height:1.15em;
 }
+#loanAgents tr {line-height: 1em;}
 label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
