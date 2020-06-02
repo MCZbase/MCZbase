@@ -10,25 +10,6 @@
  */
 
 
-function loadTransactionFormMedia(transaction_id,transaction_type) {
-	jQuery.ajax({
-		url: "/component/functions.cfc",
-		data : {
-			method : "getMediaForTransHtml",
-			transaction_id: transaction_id,
-			transaction_type: transaction_type
-		},
-		success: function (result) {
-			$("#transactionFormMedia").html(result);
-		},
-		error: function (jqXHR, status, message) {
-			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
-			messageDialog("Error loading media: " + message + " " + msg ,'Error: '+ message);
-		},
-		dataType: "html"
-	});
-};
-
 
 function messageDialog(dialogText, dialogTitle) {
 	var messageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
