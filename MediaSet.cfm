@@ -51,7 +51,7 @@
           </cfif>
           <cfimage action="INFO" source="#checkmediauri#" structname="img">
           <cfcatch>
- 		<cfoutput>Error checking image #mediatocheck.media_uri#</cfoutput>
+ 		<cfoutput>Error checking image #mediatocheck.media_uri# #cfcatch.message# #cfcatch.detail#</cfoutput>
           </cfcatch>
         </cftry>
         <cfif isDefined("debug")>
