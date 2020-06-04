@@ -102,7 +102,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="input-group mt-1">
 											<div class="input-group-btn col-md-4 col-sm-12">
 												<label for="col-multi-select" class="sr-only">Collection</label>
-												<select class="dropdown-menu" name="col-multi-select" id="col-multi-select" multiple="multiple">
+												<select class="dropdown-menu" name="col-multi-select" id="col-multi-select" multiple="multiple" style="padding: .2em .5em">
 													<cfloop query="collSearch">
 														<option value="#collSearch.collection#" aria-label="collections"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 													</cfloop>
@@ -350,14 +350,14 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 														<input type="text" class="form-control-sm d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
 													</div>
 													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-														<a aria-label="Add another set of search criteria" class="btn-xs btn-primary addCF rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+														<a aria-label="Add another set of search criteria" class="btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 												</div>
 											</div>
 												<span class="d-flex justify-content-center col-sm-12 px-1">
-												<button class="btn-xs btn-primary m-1 ml-0" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
-												<button class="btn-xs btn-primary m-1 ml-0" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
-												<button class="btn-xs btn-primary m-1 ml-0" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
+												<button class="btn-sm btn-primary m-1 ml-0" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
+												<button class="btn-sm btn-primary m-1 ml-0" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
+												<button class="btn-sm btn-primary m-1 ml-0" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
 												</span>
 										</div>
 							</div>
