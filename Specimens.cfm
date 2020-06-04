@@ -131,7 +131,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											</script>	
 											<div class="col-sm-12 col-md-5 col-lg-5">
 												<label for="searchText" class="sr-only">Keyword input field </label>
-											<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text"> 
+											<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text"> 
 											</div>
 											
 											<div class="col-sm-12 col-md-3 col-lg-3 input-group-btn">
@@ -371,7 +371,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 												<label for="collmultiselect2" class="col-sm-2 data-entry-label text-right">Collection</label>
 												<div class="col-sm-4">
-													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple" style="padding: .1em .5em">
+													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple" style="padding: .12em .5em">
 													<cfloop query="collSearch">
 														<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
 													</cfloop>
