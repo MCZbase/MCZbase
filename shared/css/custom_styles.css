@@ -117,20 +117,12 @@ label {
 .ui-widget {
 	font-size: .875em;
 }
+
 .ui-multiselect {
-	padding: .12em .5em;
+	padding: .14em .5em;
 	margin: 0;
 	font-size: .875rem;
-	border-radius: 5px;
-	font-weight: 500;
-	padding-left: 12px;
-	color: #495057;
-}
-.ui-multiselect {
-	padding: .25em .5em;
-	margin: 0;
-	font-size: .875rem;
-	border-radius: 5px;
+	border-radius: .2em;
 	font-weight: 500;
 	padding-left: 12px;
 	color: #495057;
