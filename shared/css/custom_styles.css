@@ -115,7 +115,7 @@ label {
 /*  dropdown (JQuery) taken from Arctos*/
 /***************************************/
 button.ui-multiselect {
-	padding: .25em .5em;
+	padding: .12em .5em;
 	margin: 0;
 	font-size: .875rem;
 	border-radius: 5px;

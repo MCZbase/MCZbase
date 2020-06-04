@@ -131,7 +131,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											</script>	
 											<div class="col-sm-12 col-md-5 col-lg-5">
 												<label for="searchText" class="sr-only">Keyword input field </label>
-											<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text"> 
+											<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text"> 
 											</div>
 											
 											<div class="col-sm-12 col-md-3 col-lg-3 input-group-btn">
