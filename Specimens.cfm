@@ -370,7 +370,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									<div class="container">
 										<div class="form-row col-12 px-0 mx-0">
 												<label for="collmultiselect2" class="col-sm-2 col-form-label">Collection</label>
-												<div class="col-sm-10">
+												<div class="col-sm-4">
 													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple" style="padding: .2em .5em">
 													<cfloop query="collSearch">
 														<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
@@ -416,7 +416,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													</select>
 										</div>
 											<label for="otherIDnumber" class="col-sm-2 col-form-label">Other ID Text</label>
-											<div class="col-sm-10">
+											<div class="col-sm-4">
 												<input type="text" class="form-control-sm" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
 											</div>
 										</div>
