@@ -114,9 +114,9 @@ label {
 /*   BELOW: override for collection    */
 /*  dropdown (JQuery) taken from Arctos*/
 /***************************************/
-<!--.ui-widget {
+/*.ui-widget {
 	font-size: .875em;
-}-->
+}*/
 
 .ui-multiselect {
 	padding: .25em .5em;
@@ -834,9 +834,9 @@ override Bootstrap styles
 .ui-widget-header {
 	font-weight: bold;
 }
-.ui-widget {
+/*.ui-widget {
 	font-size: .875em;
-}
+}*/
 button.detail-edit-cell {
 	width: auto;
 	margin-top: -1.9em;
