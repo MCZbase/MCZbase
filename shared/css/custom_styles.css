@@ -114,9 +114,9 @@ label {
 /*   BELOW: override for collection    */
 /*  dropdown (JQuery) taken from Arctos*/
 /***************************************/
-.ui-widget {
+<!--.ui-widget {
 	font-size: .875em;
-}
+}-->
 
 .ui-multiselect {
 	padding: .25em .5em;
@@ -1387,7 +1387,7 @@ input::placeholder {
 	display: block;
 	width: 100%;
 	font-size: .875em;
-	line-height: .8em;
+	line-height: .875em;
     height: calc(.875em + .8rem + 1px);
     padding: .2em .5em;
 	color: rgba(0, 0, 0, .8);
@@ -1422,7 +1422,7 @@ input::placeholder {
 .data-entry-addon-input {
 	display: block;
 	width: 82%;
-	font-size: .88em;
+	font-size: .875em;
 	line-height: .875em;
 	height: calc(.875em + .8rem + 1px);
 	padding: .2em .5em;
@@ -1438,7 +1438,7 @@ input::placeholder {
 	display: block;
 	width: 100%;
 	font-size: .875em;
-	line-height: 875em;
+	line-height: .875em;
 	height: calc(.875em + .8rem + 1px);
 	padding: .2em .5em;
 	color: rgba(0, 0, 0, .6);
