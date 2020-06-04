@@ -1280,10 +1280,10 @@ table#pairs th, table#pairs td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .88em;
+	font-size: .875em;
 	border: none;
-	line-height: .88em;
-	height: calc(.88em + .15em);
+	line-height: .875em;
+	height: calc(.875m + .15em);
 	padding: 0em .25em;
 	margin-bottom: .15em;
 	margin-top: .25em;
@@ -1292,9 +1292,9 @@ table#pairs th, table#pairs td {
 .data-entry-input {
 	display: block;
 	width: 100%;
-	font-size: .88em;
-	line-height: .88em;
-	padding: .2em .5em;
+	font-size: .875em;
+	line-height: .875em;
+	padding: .25em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1333,10 +1333,10 @@ input::placeholder {
 .data-entry-select {
     display: block;
     width: 100%;
-    font-size: .88em;
-    line-height: .88em;
-	padding: .2em .5em;
-	height: calc(.88em + .8rem + 1px);
+    font-size: .875em;
+    line-height: .875em;
+	padding: .25em .5em;
+	height: calc(.875em + .8rem + 1px);
     color: rgba(0, 0, 0, .8);
     border: 1px solid #ced4da;
     background-clip: padding-box;
@@ -1362,10 +1362,10 @@ input::placeholder {
 .data-entry-prepend-select {
 	display: block;
 	width: 100%;
-	font-size: .88em;
-	line-height: .88em;
-	padding: .2em .5em;
-	height: calc(.88em + .8rem + 1px);
+	font-size: .875em;
+	line-height: .875em;
+	padding: .25em .5em;
+	height: calc(.875em + .8rem + 1px);
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	border-right: none;
@@ -1386,9 +1386,9 @@ input::placeholder {
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	font-size: .88em;
+	font-size: .875em;
 	line-height: .8em;
-    height: calc(.88em + .8rem + 1px);
+    height: calc(.875em + .8rem + 1px);
     padding: .2em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
@@ -1423,8 +1423,8 @@ input::placeholder {
 	display: block;
 	width: 82%;
 	font-size: .88em;
-	line-height: .88em;
-	height: calc(.88em + .8rem + 1px);
+	line-height: .875em;
+	height: calc(.875em + .8rem + 1px);
 	padding: .2em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
@@ -1437,9 +1437,9 @@ input::placeholder {
 .data-entry-addon {
 	display: block;
 	width: 100%;
-	font-size: .88em;
-	line-height: 88em;
-	height: calc(.88em + .8rem + 1px);
+	font-size: .875em;
+	line-height: 875em;
+	height: calc(.875em + .8rem + 1px);
 	padding: .2em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
@@ -1455,10 +1455,10 @@ textarea {
 }
 .data-entry-textarea {
 	width: 100%;
-	height: calc(.88em + .8rem + 1px);
+	height: calc(.875em + .8rem + 1px);
 	border: 1px solid #ced4da;
-	font-size: .88em;
-	line-height: .88em;
+	font-size: .875em;
+	line-height: .875em;
 	border-radius: .2rem;
 	padding: .2em .5rem;
 	display: block;
