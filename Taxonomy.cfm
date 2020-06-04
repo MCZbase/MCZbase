@@ -919,7 +919,7 @@ limitations under the License.
 					<div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mb-5">
 						<div class="col-12">
 							<div class="row mx-0">
-							<div class="col-12 col-sm-6 px-0 float-left my-2">
+								<div class="col-12 col-sm-6 px-0 float-left my-2">
 							<h2 class="mb-0 px-1 float-left">Create New Taxonomy</h2>
 							<p class="px-3 float-left w-100">(through cloning and editing)</p>
 							</div>
@@ -935,14 +935,14 @@ limitations under the License.
 								<div class="tInput form-row mx-2 mb-2">
 									<div class="col-12 col-sm-6">
 										<input type="hidden" name="Action" value="saveNewTaxa">
-										<label for="source_authority">Source</label>
+								<!---		<label for="source_authority">Source</label>
 										<select name="source_authority" id="source_authority" class="reqdClr data-entry-select w-75">
 											<cfloop query="ctSourceAuth">
 												<option
 								<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
 								value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
 											</cfloop>
-										</select>
+										</select>--->
 									</div>
 									<div class="col-12 col-sm-3">
 										<label for="valid_catalog_term_fg">Valid?</label>
