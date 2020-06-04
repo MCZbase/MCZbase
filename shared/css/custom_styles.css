@@ -123,7 +123,7 @@ label {
 	padding-left: 12px;
 	color: #495057;
 }
-#col-multiselect button.ui-multiselect {
+#col-multi-select button.ui-multiselect {
 	padding: .25em .5em;
 	margin: 0;
 	font-size: .875rem;
