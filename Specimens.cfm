@@ -371,7 +371,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row col-12 px-0 mx-0">
 												<label for="collmultiselect2" class="col-sm-2 col-form-label">Collection</label>
 												<div class="col-sm-4">
-													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple" style="padding: .2em .5em">
+													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple" style="padding: .1em .5em">
 													<cfloop query="collSearch">
 														<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
 													</cfloop>
@@ -398,7 +398,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												});
 												</script>
 												</div>
-										<label for="catalogNum" class="col-sm-2 col-form-label">Catalog Number</label>
+										<label for="catalogNum" class="col-sm-2 data-entry-label">Catalog Number</label>
 											<div class="col-sm-4">
 												<input id="catalogNum" type="text" rows="1" name="cat_num" class="form-control-sm" placeholder="Catalog ##(s)"></input>
 											</div>
@@ -407,47 +407,47 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										</div>
 									
 										<div class="form-row col-12 px-0 mx-0">
-											<label for="otherID" class="col-sm-2 col-form-label">Other ID Type</label>
+											<label for="otherID" class="col-sm-2 data-entry-label">Other ID Type</label>
 												<div class="col-sm-4">
-													<select title="otherID" name="otherID" id="otherID" class="custom-select1 form-control-sm col-sm-12 text-muted border pl-2">
+													<select title="otherID" name="otherID" id="otherID" class="custom-select1 data-entry-select col-sm-12 pl-2">
 														<option value="">Other ID Type</option>
 														<option value="Collector Number">Collector Number </option>
 														<option value="field number">Field Number</option>
 													</select>
 										</div>
-											<label for="otherIDnumber" class="col-sm-2 col-form-label">Other ID Text</label>
+											<label for="otherIDnumber" class="col-sm-2 data-entry-label text-right">Other ID Text</label>
 											<div class="col-sm-4">
-												<input type="text" class="form-control-sm" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
+												<input type="text" class="data-entry-input" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
 											</div>
 										</div>
 										<div class="form-row col-12 px-0 mx-0">
-											<label for="taxa" class="mb-1 col-sm-2 col-form-label">Any Taxonomy</label>
+											<label for="taxa" class="mb-1 col-sm-2 data-entry-label text-right">Any Taxonomy</label>
 											<div class="col-sm-4">
-												<input id="taxa" class="form-control-sm" aria-label="any taxonomy" >
+												<input id="taxa" class="data-entry-input" aria-label="any taxonomy" >
 											</div>
-											<label for="geography" class="col-sm-2 col-form-label">Any Geography</label>
+											<label for="geography" class="col-sm-2 data-entry-label text-right">Any Geography</label>
 											<div class="col-sm-4">
-												<input type="text" class="form-control-sm" id="geography" aria-label="any geography">
+												<input type="text" class="data-entry-input" id="geography" aria-label="any geography">
 											</div>
 										</div>
 										<div class="form-row col-12 px-0 mx-0">
-											<label for="collectors_prep" class="col-sm-2 col-form-label">Collectors/Preparators</label>
+											<label for="collectors_prep" class="col-sm-2 data-entry-label text-right">Collectors/Preparators</label>
 											<div class="col-sm-4">
-												<input id="collectors_prep" type="text" class="form-control-sm">
+												<input id="collectors_prep" type="text" class="data-entry-input">
 											</div>
-											<label for="part_name" class="col-sm-2 col-form-label">Part Name</label>
+											<label for="part_name" class="col-sm-2 data-entry-label">Part Name</label>
 											<div class="col-sm-4">
-												<input type="text" id="part_name" name="part_name" class="form-control-sm">
+												<input type="text" id="part_name" name="part_name" class="data-entry-input">
 											</div>
 										</div>	
 										<div class="form-row col-12 px-0 mx-0">
-											<label for="place" class="col-sm-2 col-form-label">Loan Number</label>
+											<label for="place" class="col-sm-2 data-entry-label text-right">Loan Number</label>
 											<div class="col-sm-4">
-												<input type="text" name="place" class="form-control-sm" id="place">
+												<input type="text" name="place" class="data-entry-input" id="place">
 											</div>
-											<label class="col-sm-2 col-form-label" for="when">When Collected</label>
+											<label class="col-sm-2 data-entry-label text-right" for="when">When Collected</label>
 											<div class="col-sm-4">
-												<input type="text" class="form-control-sm" id="when">
+												<input type="text" class="data-entry-input" id="when">
 											</div>
 										</div>
 										<div class="form-row mt-1">
