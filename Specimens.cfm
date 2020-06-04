@@ -99,7 +99,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 								<form id="searchForm">
 								<div class="col-sm-12 col-md-11 col-lg-11 mt-2 pl-3">
 									<div class="row">
-										<div class="input-group mt-1">
+										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
 												<label for="col-multi-select" class="sr-only">Collection</label>
 												<select class="dropdown-menu" name="col-multi-select" id="col-multi-select" multiple="multiple" style="padding: .2em .5em">
