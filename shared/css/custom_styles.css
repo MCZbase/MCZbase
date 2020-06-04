@@ -1306,7 +1306,7 @@ table#pairs th, table#pairs td {
 .data-entry-select option {
 	background-color: white;
 	color: black;
-	padding: 1px 5px;
+	padding: .25em .5em;
 }
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 320;
