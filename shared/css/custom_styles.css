@@ -843,7 +843,7 @@ override Bootstrap styles
 	font-weight: bold;
 }
 .ui-widget {
-	font-size: 15px;
+	font-size: .875em;
 }
 button.detail-edit-cell {
 	width: auto;
