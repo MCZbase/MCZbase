@@ -407,7 +407,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										</div>
 									
 										<div class="form-row col-12 px-0 mx-0 mb-2">
-											<label for="otherID" class="col-sm-2 data-entry-label">Other ID Type</label>
+											<label for="otherID" class="col-sm-2 data-entry-label text-right">Other ID Type</label>
 												<div class="col-sm-4">
 													<select title="otherID" name="otherID" id="otherID" class="custom-select1 data-entry-select col-sm-12 pl-2">
 														<option value="">Other ID Type</option>
@@ -435,7 +435,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											<div class="col-sm-4">
 												<input id="collectors_prep" type="text" class="data-entry-input">
 											</div>
-											<label for="part_name" class="col-sm-2 data-entry-label">Part Name</label>
+											<label for="part_name" class="col-sm-2 data-entry-label text-right">Part Name</label>
 											<div class="col-sm-4">
 												<input type="text" id="part_name" name="part_name" class="data-entry-input">
 											</div>
@@ -453,7 +453,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row mt-1">
 											<label class="sr-only col-sm-2 position-col-form-label" for="submitbtn" style="position:static;">Submit button</label>
 											<div class="col-sm-10">
-											<button type="submit" class="btn-sm px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
+											<button type="submit" class="btn-xs mr-2 px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
 											</div>
 										</div>	
 									</div>
