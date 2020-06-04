@@ -368,7 +368,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							<div class="container">
 								<form id="searchForm3">
 									<div class="container">
-										<div class="form-row">
+										<div class="form-row col-12 px-0 mx-0">
 												<label for="collmultiselect2" class="col-sm-2 col-form-label">Collection</label>
 												<div class="col-sm-10">
 													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple" style="padding: .2em .5em">
@@ -398,63 +398,55 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												});
 												</script>
 												</div>
-										</div>
-										<div class="form-row">
-											<label for="catalogNum" class="col-sm-2 col-form-label">Catalog Number</label>
-											<div class="col-sm-10">
+										<label for="catalogNum" class="col-sm-2 col-form-label">Catalog Number</label>
+											<div class="col-sm-4">
 												<input id="catalogNum" type="text" rows="1" name="cat_num" class="form-control-sm" placeholder="Catalog ##(s)"></input>
+											</div>
+										
+										
 										</div>
-										</div>
-										<div class="form-row">
-												<label for="otherID" class="col-sm-2 col-form-label">Other ID Type</label>
-												<div class="col-sm-10">
+									
+										<div class="form-row col-12 px-0 mx-0">
+											<label for="otherID" class="col-sm-2 col-form-label">Other ID Type</label>
+												<div class="col-sm-4">
 													<select title="otherID" name="otherID" id="otherID" class="custom-select1 form-control-sm col-sm-12 text-muted border pl-2">
 														<option value="">Other ID Type</option>
 														<option value="Collector Number">Collector Number </option>
 														<option value="field number">Field Number</option>
 													</select>
 										</div>
-										</div>
-										<div class="form-row">
-							
 											<label for="otherIDnumber" class="col-sm-2 col-form-label">Other ID Text</label>
 											<div class="col-sm-10">
 												<input type="text" class="form-control-sm" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
 											</div>
 										</div>
-										<div class="form-row">
+										<div class="form-row col-12 px-0 mx-0">
 											<label for="taxa" class="mb-1 col-sm-2 col-form-label">Any Taxonomy</label>
-											<div class="col-sm-10">
+											<div class="col-sm-4">
 												<input id="taxa" class="form-control-sm" aria-label="any taxonomy" >
 											</div>
-										</div>
-										<div class="form-row">
 											<label for="geography" class="col-sm-2 col-form-label">Any Geography</label>
-											<div class="col-sm-10">
+											<div class="col-sm-4">
 												<input type="text" class="form-control-sm" id="geography" aria-label="any geography">
 											</div>
 										</div>
-										<div class="form-row">
+										<div class="form-row col-12 px-0 mx-0">
 											<label for="collectors_prep" class="col-sm-2 col-form-label">Collectors/Preparators</label>
-											<div class="col-sm-10">
+											<div class="col-sm-4">
 												<input id="collectors_prep" type="text" class="form-control-sm">
 											</div>
-										</div>
-										<div class="form-row">
 											<label for="part_name" class="col-sm-2 col-form-label">Part Name</label>
-											<div class="col-sm-10">
+											<div class="col-sm-4">
 												<input type="text" id="part_name" name="part_name" class="form-control-sm">
 											</div>
 										</div>	
-										<div class="form-row">
+										<div class="form-row col-12 px-0 mx-0">
 											<label for="place" class="col-sm-2 col-form-label">Loan Number</label>
-											<div class="col-sm-10">
+											<div class="col-sm-4">
 												<input type="text" name="place" class="form-control-sm" id="place">
 											</div>
-										</div>
-										<div class="form-row">
 											<label class="col-sm-2 col-form-label" for="when">When Collected</label>
-											<div class="col-sm-10">
+											<div class="col-sm-4">
 												<input type="text" class="form-control-sm" id="when">
 											</div>
 										</div>
@@ -959,7 +951,7 @@ $(document).ready(function() {
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
-	$(".addCF").click(function(){$("##customFields").append('<ul class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2"><select title="Join Operator" name="JoinOperator" id="joinOperator" class="custom-select border mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select></li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2"><select title="Select Type" name="SelectType" class="custom-select border d-flex"><option>Select Type...</option><optgroup label="Identifiers"><option>MCZ Catalog (Collection)</option><option>Catalog Number</option><option>Number plus other identifiers?</option><option>Other Identifier Type</option><option>Accession</option><option>Accession Agency</option></optgroup><optgroup label="Taxonomy"><option>Any Taxonomic Element</option><option>Scientific Name</option><option>Began Date</option><option>Ended Date</option></optgroup></select></li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2"><select title="Comparator" name="comparator" id="comparator" class="custom-select d-flex border"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></li><li class="col d-inline mr-2 px-0"><input type="text" class="form-control" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/></li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end"><button href="javascript:void(0);" arial-label="remove" class="rounded btn btn-primary remCF mr-auto">Remove</button></li></ul>');
+	$(".addCF").click(function(){$("##customFields").append('<ul class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2"><select title="Join Operator" name="JoinOperator" id="joinOperator" class="custom-select border mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select></li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2"><select title="Select Type" name="SelectType" class="custom-select border d-flex"><option>Select Type...</option><optgroup label="Identifiers"><option>MCZ Catalog (Collection)</option><option>Catalog Number</option><option>Number plus other identifiers?</option><option>Other Identifier Type</option><option>Accession</option><option>Accession Agency</option></optgroup><optgroup label="Taxonomy"><option>Any Taxonomic Element</option><option>Scientific Name</option><option>Began Date</option><option>Ended Date</option></optgroup></select></li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2"><select title="Comparator" name="comparator" id="comparator" class="custom-select d-flex border"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></li><li class="col d-inline mr-2 px-0"><input type="text" class="form-control" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/></li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end"><button href="javascript:void(0);" arial-label="remove" class="rounded btn-sm px-3 btn-primary remCF mr-auto">Remove</button></li></ul>');
 		});
 	$("##customFields").on('click','.remCF',function(){
 		$(this).parent().parent().remove();
