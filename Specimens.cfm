@@ -350,7 +350,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 														<input type="text" class="form-control-sm d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
 													</div>
 													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-														<a aria-label="Add another set of search criteria" class="btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+														<a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 												</div>
 											</div>

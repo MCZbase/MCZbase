@@ -270,33 +270,33 @@ span.data-entry-addon {cursor: pointer;}
 }
 
 .btn-warning {
-	background-color:  #e8b721ba;
-	background: #e8b721ba;
+	background-color:#ffc10782;
+	background: #ffc10782;
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
 	margin-top: 0;
 }
 .btn-warning:hover {
-	background-color: #f1bd21;
+	background-color: #f5bd12ba;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-warning:focus, .btn-warning.focus {
-	background-color: #f1bd21;
+	background-color:  #f5bd12ba;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 	box-shadow: none;
 }
 .btn-warning.disabled, .btn-warning:disabled {
-	background-color: #f1bd21;
+	background-color: #f5bd12ba;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
 .btn-warning:not(:disabled):not(.disabled):active, .btn-warning:not(:disabled):not(.disabled).active, .show > .btn-warning.dropdown-toggle {
-	background-color: #f1bd21;
+	background-color: #f5bd12ba;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 }
