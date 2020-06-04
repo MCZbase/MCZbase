@@ -114,7 +114,10 @@ label {
 /*   BELOW: override for collection    */
 /*  dropdown (JQuery) taken from Arctos*/
 /***************************************/
-#collmultiselect2 button.ui-multiselect {
+.ui-widget {
+	font-size: .875em;
+}
+.ui-multiselect {
 	padding: .12em .5em;
 	margin: 0;
 	font-size: .875rem;
@@ -123,7 +126,7 @@ label {
 	padding-left: 12px;
 	color: #495057;
 }
-#col-multi-select button.ui-multiselect {
+.ui-multiselect {
 	padding: .25em .5em;
 	margin: 0;
 	font-size: .875rem;
