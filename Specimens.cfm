@@ -136,7 +136,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											
 											<div class="col-sm-12 col-md-3 col-lg-3 input-group-btn">
 												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
-												<button class="btn-xs btn-primary px-3 float-right w-100" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase">
+												<button class="btn-sm btn-primary px-3 float-right w-100" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase">
 													Search <i class="fa fa-search"></i>
 												</button>
 											</div>
@@ -371,7 +371,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row">
 												<label for="collmultiselect2" class="col-sm-2 col-form-label">Collection</label>
 												<div class="col-sm-10">
-													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple">
+													<select name="selectCollection" class="dropdown-menu mb-3 col-3 col-multi-select" id="collmultiselect2" multiple="multiple" style="padding: .2em .5em">
 													<cfloop query="collSearch">
 														<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
 													</cfloop>
@@ -402,7 +402,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row">
 											<label for="catalogNum" class="col-sm-2 col-form-label">Catalog Number</label>
 											<div class="col-sm-10">
-												<input id="catalogNum" type="text" rows="1" name="cat_num" class="w-100 col-12 pl-0 p-2 border rounded float-left" placeholder="Catalog ##(s)"></input>
+												<input id="catalogNum" type="text" rows="1" name="cat_num" class="form-control-sm" placeholder="Catalog ##(s)"></input>
 										</div>
 										</div>
 										<div class="form-row">
@@ -425,43 +425,43 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row">
 											<label for="taxa" class="mb-1 col-sm-2 col-form-label">Any Taxonomy</label>
 											<div class="col-sm-10">
-												<input id="taxa" class="form-control" aria-label="any taxonomy" >
+												<input id="taxa" class="form-control-sm" aria-label="any taxonomy" >
 											</div>
 										</div>
 										<div class="form-row">
 											<label for="geography" class="col-sm-2 col-form-label">Any Geography</label>
 											<div class="col-sm-10">
-												<input type="text" class="form-control sm" id="geography" aria-label="any geography">
+												<input type="text" class="form-control-sm" id="geography" aria-label="any geography">
 											</div>
 										</div>
 										<div class="form-row">
 											<label for="collectors_prep" class="col-sm-2 col-form-label">Collectors/Preparators</label>
 											<div class="col-sm-10">
-												<input id="collectors_prep" type="text" class="form-control">
+												<input id="collectors_prep" type="text" class="form-control-sm">
 											</div>
 										</div>
 										<div class="form-row">
 											<label for="part_name" class="col-sm-2 col-form-label">Part Name</label>
 											<div class="col-sm-10">
-												<input type="text" id="part_name" name="part_name" class="form-control">
+												<input type="text" id="part_name" name="part_name" class="form-control-sm">
 											</div>
 										</div>	
 										<div class="form-row">
 											<label for="place" class="col-sm-2 col-form-label">Loan Number</label>
 											<div class="col-sm-10">
-												<input type="text" name="place" class="form-control" id="place">
+												<input type="text" name="place" class="form-control-sm" id="place">
 											</div>
 										</div>
 										<div class="form-row">
 											<label class="col-sm-2 col-form-label" for="when">When Collected</label>
 											<div class="col-sm-10">
-												<input type="text" class="form-control" id="when">
+												<input type="text" class="form-control-sm" id="when">
 											</div>
 										</div>
 										<div class="form-row mt-1">
 											<label class="sr-only col-sm-2 position-col-form-label" for="submitbtn" style="position:static;">Submit button</label>
 											<div class="col-sm-10">
-											<button type="submit" class="btn-xs btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
+											<button type="submit" class="btn-sm px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
 											</div>
 										</div>	
 									</div>
