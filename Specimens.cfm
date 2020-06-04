@@ -131,12 +131,12 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											</script>	
 											<div class="col-sm-12 col-md-5 col-lg-5">
 												<label for="searchText" class="sr-only">Keyword input field </label>
-											<input id="searchText" type="text" class="form-control" name="searchText" placeholder="Search term" aria-label="search text"> 
+											<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text"> 
 											</div>
 											
 											<div class="col-sm-12 col-md-3 col-lg-3 input-group-btn">
 												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
-												<button class="btn btn-primary px-3 float-right w-100" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase">
+												<button class="btn-xs btn-primary px-3 float-right w-100" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase">
 													Search <i class="fa fa-search"></i>
 												</button>
 											</div>
@@ -350,14 +350,14 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 														<input type="text" class="form-control-sm d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
 													</div>
 													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-														<a aria-label="Add another set of search criteria" class="btn btn-primary addCF rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+														<a aria-label="Add another set of search criteria" class="btn-xs btn-primary addCF rounded pb-1 px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 												</div>
 											</div>
 												<span class="d-flex justify-content-center col-sm-12 px-1">
-												<button class="btn btn-primary p-2 m-1 ml-0" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
-												<button class="btn btn-primary p-2 m-1 ml-0" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
-												<button class="btn btn-primary p-2 m-1 ml-0" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
+												<button class="btn-xs btn-primary m-1 ml-0" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
+												<button class="btn-xs btn-primary m-1 ml-0" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
+												<button class="btn-xs btn-primary m-1 ml-0" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
 												</span>
 										</div>
 							</div>
@@ -461,7 +461,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row mt-1">
 											<label class="sr-only col-sm-2 position-col-form-label" for="submitbtn" style="position:static;">Submit button</label>
 											<div class="col-sm-10">
-											<button type="submit" class="btn btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
+											<button type="submit" class="btn-xs btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
 											</div>
 										</div>	
 									</div>

@@ -107,7 +107,7 @@ limitations under the License.
     </cfif>
 </cffunction>
 		
-<!-----------Removed getMediaPreview from here and put on functions.cfc---------------------------------------------->
+
 
 <!------------------------------------------------------------------------------------->			
 <cffunction name="setDbUser" output="true" returntype="boolean">
