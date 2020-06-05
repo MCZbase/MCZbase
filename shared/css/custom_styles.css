@@ -1064,8 +1064,8 @@ BELOW: Search Form - Home page
 }
 .custom-select1 {
 	border: none;
-	height: calc(1.25em + .75rem + 1px);
-	border-radius: 5px;
+	height: calc(1.5em + .5rem + 1px);
+	border-radius: .2em;
 }
 .input-group-append {
 	
