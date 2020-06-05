@@ -975,6 +975,16 @@ table.inputTable tr {
 	position: absolute;
 	left: 1.5em !important;
 }
+.custom-select-sm {
+	height: calc(1.5em + .5rem + 2px);
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .5rem;
+    font-size: .875rem;
+    border: 1px solid #ccc;
+    border-radius: .2em;
+    width: 100%;
+}
 /************************
 *************************
 BELOW: Search Form - Home page
@@ -1283,25 +1293,26 @@ table#pairs th, table#pairs td {
 	font-size: .875em;
 	border: none;
 	line-height: .875em;
-	height: calc(.875m + .15em);
 	padding: 0em .25em;
+	height: calc(.875em + .8rem + 1px);
 	margin-bottom: .15em;
 	margin-top: .25em;
 	font-weight: 470;
 }
 .data-entry-input {
 	display: block;
-	width: 100%;
-	font-size: .875em;
-	line-height: .875em;
-	padding: .25em .5em;
-	color: rgba(0, 0, 0, .8);
-	border: 1px solid #ced4da;
-	background-clip: padding-box;
-	background-color: #fff;
-	border-radius: .2em;
-	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+    width: 100%;
+    font-size: .875em;
+    line-height: .875em;
+    padding: .25em .5em;
+    color: rgba(0, 0, 0, .8);
+    height: calc(1.25em + .43rem + 2px);
+    border: 1px solid #ced4da;
+    background-clip: padding-box;
+    background-color: #fff;
+    border-radius: .2em;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    font-weight: 450;
 }
 .data-entry-select option {
 	background-color: white;
