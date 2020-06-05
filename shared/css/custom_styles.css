@@ -94,9 +94,11 @@ p {
 	font-variant: small-caps;
 }
 .line-height-sm {
-	line-height:1.15em;
+	line-height: 1.15em;
 }
-#loanAgents tr {line-height: 1em;}
+#loanAgents tr {
+	line-height: 1em;
+}
 label {
 	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
@@ -117,7 +119,6 @@ label {
 /*.ui-widget {
 	font-size: .875em;
 }*/
-
 .ui-multiselect {
 	padding: .25em .5em;
 	margin: 0;
@@ -190,8 +191,8 @@ BELOW: Small Form button (bootstrap override)
 	border-radius: .25rem;
 }
 .btn-outline-success {
-    color: #28a745;
-    border-color: #28a745;
+	color: #28a745;
+	border-color: #28a745;
 }
 .date-field-forms {
 	padding: .4em .8em .5em .8em;
@@ -201,17 +202,23 @@ BELOW: Small Form button (bootstrap override)
 *************************
 BELOW: Main button (bootstrap override)
 ************************/
-button, input, select {font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";}
-button:focus, input:focus, select:focus,button.focus, input.focus, select.focus {
-		box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-	outline:0;
+button, input, select {
+	font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+}
+button:focus, input:focus, select:focus, button.focus, input.focus, select.focus {
+	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+	outline: 0;
 	border: 1px dotted #ccc;
 }
-span.data-entry-addon {cursor: pointer;}
+span.data-entry-addon {
+	cursor: pointer;
+}
 .btn-primary {
 	background-color: #d9f1f3;
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
+}
+.btn-sm {
 	margin-top: 0;
 	height: calc(1.5em + .5rem + 1px);
 }
@@ -273,9 +280,8 @@ span.data-entry-addon {cursor: pointer;}
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 }
-
 .btn-warning {
-	background-color:#ffc10782;
+	background-color: #ffc10782;
 	background: #ffc10782;
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
@@ -287,7 +293,7 @@ span.data-entry-addon {cursor: pointer;}
 	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-warning:focus, .btn-warning.focus {
-	background-color:  #f5bd12ba;
+	background-color: #f5bd12ba;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
@@ -691,7 +697,7 @@ a#showLeftPush.hiddenclass {
 	padding-top: .13em;
 }
 .shell h2 span {
-	dipslay:block;
+	dipslay: block;
 }
 .feedAtom div {
 	float: left;
@@ -709,26 +715,23 @@ a#showLeftPush.hiddenclass {
 	clear: both;
 	padding: .5em .5em 0 .5em;
 	display: block;
-	
 }
 .updatedAtom {
 	background-color: lightgoldenrodyellow;
 	padding: 2px .5em;
 	height: 1.75em;
-	margin: 0 5px 0 0;	
+	margin: 0 5px 0 0;
 }
 .loginMessage {
-	color:#a51c30;
+	color: #a51c30;
 	background-color: #ffedeb;
 	border-radius: .25em;
 	border: 1px solid #A51c30;
-	font-style:italic;
-	display:inline-block; 
-	margin:.75em .5em .5em 0;
-	padding:.5em;
+	font-style: italic;
+	display: inline-block;
+	margin: .75em .5em .5em 0;
+	padding: .5em;
 }
-
-
 /*************************************/
 /*****BELOW:  ???
 /*************************************/
@@ -978,13 +981,13 @@ table.inputTable tr {
 }
 .custom-select-sm {
 	height: calc(1.5em + .5rem + 2px);
-    padding-top: .25rem;
-    padding-bottom: .25rem;
-    padding-left: .5rem;
-    font-size: .875rem;
-    border: 1px solid #ccc;
-    border-radius: .2em;
-    width: 100%;
+	padding-top: .25rem;
+	padding-bottom: .25rem;
+	padding-left: .5rem;
+	font-size: .875rem;
+	border: 1px solid #ccc;
+	border-radius: .2em;
+	width: 100%;
 }
 /************************
 *************************
@@ -1049,7 +1052,6 @@ BELOW: Search Form - Home page
 .custom-select:hover {
 	border: black;
 }*/
-
 /*.input-xs {
 	line-height: 1.1em;
 	padding: 0px .5em;
@@ -1068,9 +1070,7 @@ BELOW: Search Form - Home page
 	height: calc(1.5em + .5rem + 1px);
 	border-radius: .2em;
 }
-.input-group-append {
-	
-}
+.input-group-append {}
 .tab-card-main {
 	background-color: #f5f5f5;
 }
@@ -1303,18 +1303,18 @@ table#pairs th, table#pairs td {
 }
 .data-entry-input {
 	display: block;
-    width: 100%;
-    font-size: .875em;
-    line-height: .875em;
-    padding: .25em .5em;
-    color: rgba(0, 0, 0, .8);
-    height: calc(1.25em + .43rem + 2px);
-    border: 1px solid #ced4da;
-    background-clip: padding-box;
-    background-color: #fff;
-    border-radius: .2em;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    font-weight: 450;
+	width: 100%;
+	font-size: .875em;
+	line-height: .875em;
+	padding: .25em .5em;
+	color: rgba(0, 0, 0, .8);
+	height: calc(1.25em + .43rem + 2px);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
+	border-radius: .2em;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font-weight: 450;
 }
 .data-entry-select option {
 	background-color: white;
@@ -1339,26 +1339,25 @@ input::placeholder {
 .data-entry-input:focus {
 	color: #495057;
 	background-color: #fff;
-	border-color:#ced4da;
+	border-color: #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .data-entry-select {
-    display: block;
-    width: 100%;
-    font-size: .875em;
-    line-height: .875em;
+	display: block;
+	width: 100%;
+	font-size: .875em;
+	line-height: .875em;
 	padding: .25em .5em;
 	height: calc(.875em + .8rem + 1px);
-    color: rgba(0, 0, 0, .8);
-    border: 1px solid #ced4da;
-    background-clip: padding-box;
-    background-color: white;
-    border-radius: .2em;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	color: rgba(0, 0, 0, .8);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: white;
+	border-radius: .2em;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-
 .data-entry-select:focus, .data-entry-select.focus {
 	color: #495057;
 	background-color: #fff;
@@ -1371,7 +1370,6 @@ input::placeholder {
 	background: white;
 	border: 1px solid #ced4da;
 }
-
 .data-entry-prepend-select {
 	display: block;
 	width: 100%;
@@ -1395,14 +1393,13 @@ input::placeholder {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-
 .data-entry-select-input {
 	display: block;
 	width: 100%;
 	font-size: .875em;
 	line-height: .875em;
-    height: calc(.875em + .8rem + 1px);
-    padding: .2em .5em;
+	height: calc(.875em + .8rem + 1px);
+	padding: .2em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1464,7 +1461,6 @@ input::placeholder {
 }
 textarea {
 	padding: .5em;
-
 }
 .data-entry-textarea {
 	width: 100%;
@@ -1479,8 +1475,9 @@ textarea {
 	background-clip: padding-box;
 	font-weight: 450;
 }
-
-.smaller-text {font-size: 90%;}
+.smaller-text {
+	font-size: 90%;
+}
 .border-fill { /* This is for each square on the data entry full form */
 	border: 1px solid #bac5c6 !important;
 	background-color: #fff;
@@ -1495,27 +1492,25 @@ textarea {
 .shipments {
 	border: 1px solid #bac5c6;
 	padding: 1em;
-	margin-bottom: 1em; 
+	margin-bottom: 1em;
 }
 .shipments td {
 	background-color: white;
 }
-.permitshipul li, .permitshipul2 li{
+.permitshipul li, .permitshipul2 li {
 	display: inline;
 	list-style: none;
 }
-
 .barbershop-pole {
-/*	width: 100%;*/
+	/*	width: 100%;*/
 	height: 100%;
 	margin: 0 auto;
 	background-color: #fff;
 	background-color: #c9d7e0;
 	background-repeat: repeat;
 	background-position: 0% 0%;
-	
 	background-image: repeating-linear-gradient(-40deg, #fff, #fff 2px, #f5f5f5 2px, #f8f9fa 4px, #fff 4px, #fff 4px, #f5f5f5 6px, #f8f9fa 8px);
-/*	animation: barberpole 4s linear infinite;*/
+	/*	animation: barberpole 4s linear infinite;*/
 }
 .fas-info {
 	position: absolute;
@@ -1529,7 +1524,6 @@ textarea {
 	top: 40px;
 	color: #46a1dc;
 }
-
 /****************end small form fields*********************/
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
@@ -1600,7 +1594,7 @@ and also iPads specifically.
 	table, thead, tbody, th, td, tr {
 		/*	display: block;*/ /* This needs to be removed in order for the calendar to work on mobile devices.*/
 	}
-/*	.table-bordered thead td, .table-bordered thead th {
+	/*	.table-bordered thead td, .table-bordered thead th {
 		border-bottom-width: 1px;
 	}
 	table thead th {
