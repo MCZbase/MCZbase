@@ -1048,11 +1048,7 @@ BELOW: Search Form - Home page
 .custom-select:hover {
 	border: black;
 }*/
-/*.custom-select1 {
-	border: none;
-	height: calc(1.25em + .75rem + 1px);
-	border-radius: 5px;
-}*/
+
 /*.input-xs {
 	line-height: 1.1em;
 	padding: 0px .5em;
@@ -1065,6 +1061,11 @@ BELOW: Search Form - Home page
 	right: 58px;
 	top: 12px;
 	margin: 0;
+}
+.custom-select1 {
+	border: none;
+	height: calc(1.25em + .75rem + 1px);
+	border-radius: 5px;
 }
 .input-group-append {
 	
