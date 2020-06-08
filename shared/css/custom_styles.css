@@ -1210,7 +1210,8 @@ table#pairs th, table#pairs td {
   right: 10px;
   width: 0;
   height: 0;
-  border: 6px solid transparent;
+  border: 6px solid #ccc;
+	background-color: #ccc !important;
   border-color: #fff transparent transparent transparent;
 }
 
@@ -1232,7 +1233,7 @@ table#pairs th, table#pairs td {
 /* Style items (options): */
 .select-items {
   position: absolute;
-  background-color: #ced4da;
+  background-color: #ced4da !important;
   top: 100%;
   left: 0;
   right: 0;
