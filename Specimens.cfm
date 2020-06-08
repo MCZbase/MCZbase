@@ -114,8 +114,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											$("##col-multi-select").multiselect({
 												header: !0,
 												height: 175,
-												minWidth: "310px",
-												classes: "float-sm-left col-sm-12 mx-0 w-300",
+												minWidth: "350px",
+												classes: "float-sm-left col-sm-12 mx-0 w-350",
 												checkAllText: "Check all",
 												uncheckAllText: "Uncheck all",
 												noneSelectedText: "All Collections ",
@@ -382,8 +382,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													$("##collmultiselect2").multiselect({
 													header: !0,
 													height: 175,
-													minWidth: "300px",
-													classes: "col-sm-12 text-muted w-300",
+													minWidth: "350px",
+													classes: "col-sm-12 text-muted w-350",
 													checkAllText: "Check all",
 													uncheckAllText: "Uncheck all",
 													noneSelectedText: "All Collections ",
