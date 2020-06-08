@@ -732,34 +732,6 @@ a#showLeftPush.hiddenclass {
 	margin: .75em .5em .5em 0;
 	padding: .5em;
 }
-/*************************************/
-/*****BELOW:  ???
-/*************************************/
-/*.fas {
-	width: 32px;
-}*/
-/*input.jqx-button-light, input.jqx-button, input.jqx-fill-state-normal, input.jqx-rc-all, input.jqx-rc-all-light, input.jqx-widget-light, input.jqx-fill-state-normal-light, input[type=button] {
-	background: buttonface;
-	padding: .48rem .75rem;
-	border-radius: .2rem;
-	line-height: 1.5;
-	transition: none;
-	border: 1px solid hsl(0, 0%, 62%);
-	color: buttontext;
-	margin-top: 0;
-}*/
-/*.nav-fill .nav-item {
-	text-align: left;
-}
-.form-group:last-child {
-	margin-bottom: 0;
-}
-.parent {
-	font-family: Anziano, Benton Sans, Hoefler Text, Georgia, Cambria, Helvetica, Garamond, Constantia, 'Lucida Bright', 'DejaVu Serif', 'serif';
-	text-transform: uppercase;
-	color: white;
-	letter-spacing: .08em;
-}*/
 code {
 	font-size: 80%;
 }
@@ -838,9 +810,6 @@ override Bootstrap styles
 .ui-widget-header {
 	font-weight: bold;
 }
-/*.ui-widget {
-	font-size: .875em;
-}*/
 button.detail-edit-cell {
 	width: auto;
 	margin-top: -1.9em;
@@ -923,11 +892,6 @@ ul.list-unstyled li.list-group-item:last-child {
 	margin-top: 0px;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
-/*.faux-jqxwidget-header { 
-	border-color: #c5c5c5; 
-	border-style: solid; 
-	border-width: 1px;
-}*/
 .jqx-grid-load {
 	background-position: 0% 0%;
 }
@@ -1259,7 +1223,6 @@ table#pairs th, table#pairs td {
 
 .form-control-sm {
 	width: 100%;
-	/*	font-size: .8em;*/
 	border: 1px solid #ccc;
 	line-height: 1.1em;
 }
