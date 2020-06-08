@@ -146,7 +146,7 @@ button.ui-multiselect.ui-state-default.multiselect2 {
 }
 button.ui-multiselect.ui-state-default {
 	border-color: #bac5c6;
-	background-color: transparent;
+	background-color: white
 }
 button.ui-multiselect.ui-state-active {
 	color: #333;
