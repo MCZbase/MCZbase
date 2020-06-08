@@ -671,11 +671,14 @@ limitations under the License.
 										<cfloop query="loanAgents">
 											<tr>
 												<td><input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-													<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" value="#agent_name#"
-		  					onchange="getAgent('agent_id_#i#','trans_agent_#i#','editloan',this.value); return false;"
-		  					onKeyPress="return noenter(event);">
+													<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" value="#agent_name#">
 													<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
-                                                    onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "></td>
+														onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "></td>
+													<script>
+														$(document).ready(function() {
+															$(makeAgentPicker('trans_agent_#i#','trans_agent_id_#i#'));
+														});
+													</script>
 												<td style=" min-width: 3.5em; "><span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
 													<cfif loanAgents.worstagentrank EQ 'A'>
 														&nbsp;

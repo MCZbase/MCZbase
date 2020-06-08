@@ -286,32 +286,35 @@ function addTransAgentToForm (id,name,role,formid) {
 			var i=parseInt($('#numAgents').val())+1;
 			var d='<tr><td>';
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
-			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" class="reqdClr" size="30" value="' + name + '"';
-  			d+=' onchange="getAgent(\'agent_id_' + i + '\',\'trans_agent_' + i + '\',\'' + formid + '\',this.value);"';
-  			d+=' return false;"	onKeyPress="return noenter(event);">';
-  			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" class="reqdClr" size="30" value="' + name + '" >';
+			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
-  			d+='</td><td><span id="agentViewLink_' + i + '"></span></td><td>';
-  			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '">';
-  			for (a=0; a<data.ROWCOUNT; ++a) {
+			d+='</td><td><span id="agentViewLink_' + i + '"></span></td><td>';
+			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '">';
+			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option ';
 				if(role==data.DATA.TRANS_AGENT_ROLE[a]){
 					d+=' selected="selected"';
 				}
 				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-  			d+='</td><td>';
-  			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1">';
-  			d+='</td><td>';
-  			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
-  			d+='<option value=""></option>';
-  			for (a=0; a<data.ROWCOUNT; ++a) {
+			d+='</td><td>';
+			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1">';
+			d+='</td><td>';
+			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
+			d+='<option value=""></option>';
+			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
 			d+='</select>';
-  			d+='</td></tr>';
-  			$('#numAgents').val(i);
-  			jQuery('#loanAgents tr:last').after(d);
+			d+='</td></tr>';
+			d+='<script>';
+			d+=' $(document).ready(function() {';
+			d+='   $(makeAgentPicker("trans_agent_'+i'","trans_agent_id'+i'"));';
+			d+=' });';
+			d+='</script>';
+			$('#numAgents').val(i);
+			jQuery('#loanAgents tr:last').after(d);
 		}
 	);
 }
