@@ -659,6 +659,18 @@ limitations under the License.
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<!------------------------------------------------------->
+<cffunction name="getTrans_agent_role" access="remote">
+	<!---  obtain the list of transaction agent roles, used to populate agent role picklist for new agent rows in edit transaction forms --->
+	<!---  TODO: Add ability to restrict roles by transaction type --->
+	<cfargument name="transaction_type" type="string" required="no">
+	<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select trans_agent_role from cttrans_agent_role where trans_agent_role != 'entered by' order by trans_agent_role
+	</cfquery>
+	<cfreturn k>
+</cffunction>
+
 </cfcomponent>
 
 <!----------------------------------------------------------------------------------------------------------------->
