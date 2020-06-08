@@ -1180,7 +1180,7 @@ table#pairs th, table#pairs td {
 }
 
 .custom-select-sm {
-	height: calc(1.5em + .5rem + 2px);
+	height: calc(1.5em + .5rem + 1px);
 	padding-top: .25rem;
 	padding-bottom: .25rem;
 	padding-left: .5rem;
