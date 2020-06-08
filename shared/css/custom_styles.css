@@ -120,7 +120,7 @@ label {
 	font-size: .875em;
 }*/
 .ui-multiselect {
-	padding: .25em .5em;
+	padding: .2em .5em;
 	margin: 0;
 	font-size: .875rem;
 	border-radius: .2em;
@@ -146,7 +146,7 @@ button.ui-multiselect.ui-state-default.multiselect2 {
 }
 button.ui-multiselect.ui-state-default {
 	border-color: #bac5c6;
-	background-color: white;
+	background-color: transparent;
 }
 button.ui-multiselect.ui-state-active {
 	color: #333;

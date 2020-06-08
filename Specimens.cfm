@@ -155,7 +155,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
 													<div class="col-md-3 col-sm-12 p-0 mx-1">
 														<label for="selectType" class="sr-only">Select type</label>
-														<select title="Select Type..." name="selectType" id="selectType" class="custom-select1 form-control-sm border d-flex">
+														<select title="Select Type..." name="selectType" id="selectType" class="custom-select form-control-sm border d-flex">
 															<option>Select Type...</option>
 															<optgroup label="Identifiers">
 																<option>MCZ Catalog (Collection)</option>
