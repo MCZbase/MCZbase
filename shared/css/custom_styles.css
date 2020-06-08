@@ -1190,15 +1190,7 @@ table#pairs th, table#pairs td {
 	background-color: white;
 	width: 100%;
 }
-.custom-select {
-  position: relative;
-  font-family: Arial;
-  	border: none;
-	height: calc(1.5em + .5rem + 1px);
-	border-radius: .2em;
-}
-
-.custom-select select {
+.custom-select1 select {
   display: none; /*hide original SELECT element: */
 }
 
@@ -1207,7 +1199,7 @@ table#pairs th, table#pairs td {
 }
 
 /* Style the arrow inside the select element: */
-.select-selected:after {
+.custom-select1:after {
   position: absolute;
   content: "";
   top: 14px;
@@ -1220,7 +1212,7 @@ table#pairs th, table#pairs td {
 }
 
 /* Point the arrow upwards when the select box is open (active): */
-.select-selected.select-arrow-active:after {
+.custom-select1.select-arrow-active:after {
   border-color: white;
   top: 7px;
 }
