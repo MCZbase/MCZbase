@@ -1155,15 +1155,15 @@ table#pairs th, table#pairs td {
 	width: 100%;
 }
 .custom-select1 select {
-  display: none; /*hide original SELECT element: */
+ /* display: none;*/ /*hide original SELECT element: */
 }
 
 .select-selected {
-  background-color: #ced4da;
+/*  background-color: #ced4da;*/
 }
-.custom-select1 {background-color: white}
+/*.custom-select1 {background-color: white}*/
 /* Style the arrow inside the select element: */
-.custom-select1:after {
+/*.custom-select1:after {
   position: absolute;
   content: "";
   top: 14px;
@@ -1173,7 +1173,7 @@ table#pairs th, table#pairs td {
   border: 6px solid #ccc;
 	background-color: #ccc !important;
   border-color: white;
-}
+}*/
 
 /* Point the arrow upwards when the select box is open (active): */
 .custom-select1.select-arrow-active:after {
@@ -1215,11 +1215,11 @@ table#pairs th, table#pairs td {
 	top: 12px;
 	margin: 0;
 }
-.custom-select1 {
+/*.custom-select1 {
 	border: none;
 	height: calc(1.5em + .5rem + 1px);
 	border-radius: .2em;
-}
+}*/
 
 .form-control-sm {
 	width: 100%;
@@ -1455,17 +1455,6 @@ textarea {
 	display: inline;
 	list-style: none;
 }
-.barbershop-pole {
-	/*	width: 100%;*/
-	height: 100%;
-	margin: 0 auto;
-	background-color: #fff;
-	background-color: #c9d7e0;
-	background-repeat: repeat;
-	background-position: 0% 0%;
-	background-image: repeating-linear-gradient(-40deg, #fff, #fff 2px, #f5f5f5 2px, #f8f9fa 4px, #fff 4px, #fff 4px, #f5f5f5 6px, #f8f9fa 8px);
-	/*	animation: barberpole 4s linear infinite;*/
-}
 .w-350 {width: 350px;}
  .fas-info {
 	position: absolute;
@@ -1481,52 +1470,8 @@ textarea {
 }
 /****************end small form fields*********************/
 /**********************************************************/
-/*Small Form fields--example: Data Entry page *************/
-/**********************************************************/
-/*.search-form-builder {
-	border: 1px solid #ccc;
-}
-.filter-option-inner-inner {
-	font-size: 14px;
-}
-li, li:hover, li:active {
-	cursor: pointer;
-}
-.list-reset {
-	list-style: none;
-	padding-left: 0;
-}
-.panel-group {
-	margin-bottom: .5em;
-	border-bottom: 2px solid #444;
-	padding-bottom: .5em;
-	width: 100%;
-	margin-left: 2em;
-}
-.panel {}
-.panel-default {}
-.panel-heading {}
-h4.panel-title {
-	font-size: 1.2em;
-	color: red;
-}
-.panel-title a {
-	color: red;
-}
-.panel-title a:hover {
-	color: red;
-}
-.fa-chevron-circle-right, .fa-chevron-circle-down {
-	color: red;
-}
-.panel-collapse {}
-.collapse {}
-ul.list-group {}
-.list-group-item {}
-.panel-footer {}
-.panel-footer h3 {
-	font-size: 1.1em;
-}*/
+
+
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
@@ -1547,49 +1492,8 @@ and also iPads specifically.
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
 	/* Force table to not be like tables anymore */
 	table, thead, tbody, th, td, tr {
-		/*	display: block;*/ /* This needs to be removed in order for the calendar to work on mobile devices.*/
 	}
-	/*	.table-bordered thead td, .table-bordered thead th {
-		border-bottom-width: 1px;
-	}
-	table thead th {
-		border-bottom: 1px solid #dee2e6;
-	}*/
-	/* Hide table headers (but not display: none;, for accessibility) */
-	/*table thead tr {
-		position: absolute;
-		left: 0px;
-		width: 33%;
-		border-bottom: none;
-	}
-	tbody tr {
-		position: relative;
-		top: 0;
-		left: 33%;
-		width: 66.5%;
-	}
-	th {
-		min-height: 50px;
-		font-weight: normal;
-		font-weight: 16px;
-		border: none;
-	}
-	td {
-		border: none;
-		position: relative;
-		padding-left: 50%;
-		min-height: 50px;
-		font-weight: 16px;
-	}
-	td:before {
-		position: absolute;
-		top: 6px;
-		left: 2px;
-		width: 40%;
-		padding-right: 10px;
-		white-space: nowrap;
-	}*/
-	.step-arrow {
+.step-arrow {
 		background-color: #deebec;
 		border-bottom: 1px solid #aaa;
 	}

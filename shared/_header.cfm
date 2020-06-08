@@ -33,12 +33,12 @@ limitations under the License.
 </cfif>
 <title>#pageTitle# | MCZbase</title>
 <cfinclude template="/shared/functionLib.cfm">
-<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.4.1-dist/css/bootstrap.min.css"><!---needed for overall look--->
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css"><!--- TODO: Remove? don't know not in 4.1.3--->
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
+<!---<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css">---><!--- TODO: Remove? don't know not in 4.1.3--->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.classic.css"><!--- TODO: Remove? don't know--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css"><!--- TODO: Remove? don't know but tabs work--->
+<!---<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css">---><!--- TODO: Remove? don't know but tabs work--->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
@@ -46,11 +46,11 @@ limitations under the License.
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
-<script type="text/javascript" src="/lib/jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. --->
-<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>
-<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>
+<!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>--->
+<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle--->
+<!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>--->
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdata.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdata.export.js"></script>
@@ -107,38 +107,6 @@ limitations under the License.
 <cfif not isdefined("session.header_color")>
 	<cfset setDbUser()>
 </cfif>
-
-<script type="text/javascript">
-
-//setTimeout(function(){
-	// alert('Session will end in 5 minutes due to inactivity. Click to continue session.');
-//}, 1000*90*85); // 5 minutes
-</script>
-<script>
-// On dropdown open
-//$(document).on('shown.bs.dropdown', function(event) {
-	 // var dropdown = $(event.target);
-		
-		// Set aria-expanded to true
- //   dropdown.find('.dropdown-menu').attr('aria-expanded', true);
-		
-		// Set focus on the first link in the dropdown
- //   setTimeout(function() {
-		 //   dropdown.find('.dropdown-menu li:first-child a').focus();
-	 // }, 10);
-//});
-
-// On dropdown close
-//$(document).on('hidden.bs.dropdown', function(event) {
- //   var dropdown = $(event.target);
-		
-		// Set aria-expanded to false        
-	//  dropdown.find('.dropdown-menu').attr('aria-expanded', false);
-		
-		// Set focus back to dropdown toggle
-	//  dropdown.find('.dropdown-toggle').focus();
-//});	
-</script>
 </head>
 <body class="default">
 
