@@ -1069,6 +1069,9 @@ input[type="button"]#addmorePOIbutton {
 select#lngbox::after {
 	border-left: 0;
 }
+select, select::after {
+	background-color:#f5f5f5;
+}
 table#POITable {
 	line-height: 24px;
 }
@@ -1308,7 +1311,7 @@ table#pairs th, table#pairs td {
 	font-weight: 450;
 }
 .data-entry-select option {
-	background-color: white;
+	background-color: white !important;
 	color: black;
 	padding: .25em .5em;
 }
@@ -1357,7 +1360,7 @@ input::placeholder {
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .data-entry-select:hover, .data-entry-select.hover {
-	background-color: white;
+	background-color: white !important;
 	background: white;
 	border: 1px solid #ced4da;
 }
