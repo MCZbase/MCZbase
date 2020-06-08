@@ -258,7 +258,7 @@ limitations under the License.
 									(#getTaxa.source_authority#)
 								</cfif>
 							</label>
-							<select name="source_authority" id="source_authority" class="reqdClr data-entry-select w-75">
+							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select w-75">
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									<option value="" selected="selected"></option>
 								</cfif>
@@ -270,14 +270,14 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
-							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select w-75">
+							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select w-75">
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 							</select>
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr data-entry-select w-75">
+							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select w-75">
 								<cfloop query="ctnomenclatural_code">
 									<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
 							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
@@ -483,7 +483,7 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
 							<div class="col-sm-7 float-left">
-								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
+								<input type="text" name="infraspecific_author" id="infraspecific_author" class="custom-select data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical"
 					onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </div>
 						</div>
@@ -735,7 +735,7 @@ limitations under the License.
 							<div class="p-2 border bg-light rounded mt-3">
 								<h4 class="mt-0">Related Taxa:</h4>
 								<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
-								<select name="taxon_relationship" class="reqdClr data-entry-select">
+								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select">
 									<cfloop query="ctRelation">
 										<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
 									</cfloop>
@@ -756,7 +756,7 @@ limitations under the License.
 								<input type="hidden" name="Action">
 								<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
 								<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
-								<select name="taxon_relationship" class="reqdClr data-entry-select">
+								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select">
 									<cfloop query="ctRelation">
 										<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
 									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
@@ -936,7 +936,7 @@ limitations under the License.
 									<div class="col-12 col-sm-6">
 										<input type="hidden" name="Action" value="saveNewTaxa">
 										<label for="source_authority">Source</label>
-										<select name="source_authority" id="source_authority" class="reqdClr data-entry-select w-75">
+										<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select w-75">
 											<cfloop query="ctSourceAuth">
 												<option
 								<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
@@ -946,14 +946,14 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-sm-3">
 										<label for="valid_catalog_term_fg">Valid?</label>
-										<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select w-75">
+										<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select w-75">
 											<option <cfif valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 											<option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 										</select>
 									</div>
 									<div class="col-12 col-sm-3">
 										<label for="nomenclatural_code">Nomenclatural Code</label>
-										<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr data-entry-select w-75">
+										<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr custom-select data-entry-select w-75">
 											<cfloop query="ctnomenclatural_code">
 												<option
 								<cfif #form.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
@@ -980,7 +980,7 @@ limitations under the License.
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-2 px-0 float-left">
-									<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
+									<select name="taxonid_guid_type" id="taxonid_guid_type" class="custom-select data-entry-select">
 										<cfif searchtext EQ "">
 											<option value=""></option>
 										</cfif>
@@ -1058,7 +1058,7 @@ limitations under the License.
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-2 px-0 float-left">
-									<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select">
+									<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="custom-select data-entry-select">
 										<cfif searchtext EQ "">
 											<option value=""></option>
 										</cfif>
@@ -1160,7 +1160,7 @@ limitations under the License.
 									<div class="col-6 px-0">
 										<label for="infraspecific_rank" class="col-sm-4 col-form-label float-left">Infraspecific Rank</label>
 										<div class="col-sm-8 float-left">
-											<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select my-2">
+											<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-select my-2">
 												<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
 												<cfloop query="ctInfRank">
 													<option
@@ -1174,7 +1174,7 @@ limitations under the License.
 									<div class="col-6 px-0">
 										<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
 										<div class="col-sm-8 float-left">
-											<select name="taxon_status" id="taxon_status" class="data-entry-select my-2">
+											<select name="taxon_status" id="taxon_status" class="custom-select data-entry-select my-2">
 												<option value=""></option>
 												<cfloop query="cttaxon_status">
 													<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
