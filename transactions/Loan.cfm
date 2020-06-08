@@ -643,7 +643,7 @@ limitations under the License.
 									<thead class="thead-light">
 										<tr>
 											<th colspan="2"> <span>Agent&nbsp;Name&nbsp;
-												<button class="ui-button btn-primary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick="addTransAgentToForm('','','','editLoan')"> Add Row </button>
+												<button type="button" class="ui-button btn-primary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoan');"> Add Row </button>
 												</span> </th>
 											<th>Role</th>
 											<th>Delete?</th>
