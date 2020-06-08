@@ -409,7 +409,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 											<label for="otherID" class="col-sm-2 data-entry-label text-right">Other ID Type</label>
 												<div class="col-sm-4">
-													<select title="otherID" name="otherID" id="otherID" class="custom-select1 data-entry-select col-sm-12 pl-2">
+													<select title="otherID" name="otherID" id="otherID" class="data-entry-select col-sm-12 pl-2">
 														<option value="">Other ID Type</option>
 														<option value="Collector Number">Collector Number </option>
 														<option value="field number">Field Number</option>
