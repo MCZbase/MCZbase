@@ -40,7 +40,7 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css"><!--- TODO: Remove? don't know but tabs work--->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >
+<!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
