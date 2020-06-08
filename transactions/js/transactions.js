@@ -276,7 +276,7 @@ function addTransAgentToForm (id,name,role,formid) {
 	if (typeof role == "undefined") {
 		role = "";
 	 }
-	jQuery.getJSON("/component/functions.cfc",
+	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getTrans_agent_role",
 			returnformat : "json",
@@ -333,7 +333,7 @@ function addTransAgentDeacc (id,name,role) {
 	if (typeof role == "undefined") {
 		role = "";
 	 }
-	jQuery.getJSON("/component/functions.cfc",
+	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getTrans_agent_role",
 			returnformat : "json",
