@@ -1193,6 +1193,9 @@ table#pairs th, table#pairs td {
 .custom-select {
   position: relative;
   font-family: Arial;
+  	border: none;
+	height: calc(1.5em + .5rem + 1px);
+	border-radius: .2em;
 }
 
 .custom-select select {
