@@ -253,3 +253,168 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	});
 }
 
+function cloneTransAgent(i){
+	var id=jQuery('#agent_id_' + i).val();
+	var name=jQuery('#trans_agent_' + i).val();
+	var role=jQuery('#cloneTransAgent_' + i).val();
+	jQuery('#cloneTransAgent_' + i).val('');
+	addTransAgentToForm(id,name,role,'editLoan');
+}
+
+/** Add an agent to a transaction edit form.
+ *
+ * Assumes the presence of an input numAgents holding a count of the number of agents in the transaction.
+ * Assumes the presence of an html table with an id loanAgents, to which the new agent line is added as the last row.
+ */
+function addTransAgentToForm (id,name,role,formid) {
+	if (typeof id == "undefined") {
+		id = "";
+	 }
+	if (typeof name == "undefined") {
+		name = "";
+	 }
+	if (typeof role == "undefined") {
+		role = "";
+	 }
+	jQuery.getJSON("/component/functions.cfc",
+		{
+			method : "getTrans_agent_role",
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (data) {
+			var i=parseInt($('#numAgents').val())+1;
+			var d='<tr><td>';
+			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
+			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" class="reqdClr" size="30" value="' + name + '"';
+  			d+=' onchange="getAgent(\'agent_id_' + i + '\',\'trans_agent_' + i + '\',\'' + formid + '\',this.value);"';
+  			d+=' return false;"	onKeyPress="return noenter(event);">';
+  			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
+  			d+='</td><td><span id="agentViewLink_' + i + '"></span></td><td>';
+  			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '">';
+  			for (a=0; a<data.ROWCOUNT; ++a) {
+				d+='<option ';
+				if(role==data.DATA.TRANS_AGENT_ROLE[a]){
+					d+=' selected="selected"';
+				}
+				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
+			}
+  			d+='</td><td>';
+  			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1">';
+  			d+='</td><td>';
+  			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
+  			d+='<option value=""></option>';
+  			for (a=0; a<data.ROWCOUNT; ++a) {
+				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
+			}
+			d+='</select>';
+  			d+='</td></tr>';
+  			$('#numAgents').val(i);
+  			jQuery('#loanAgents tr:last').after(d);
+		}
+	);
+}
+
+function cloneTransAgentDeacc(i){
+	var id=jQuery('#agent_id_' + i).val();
+	var name=jQuery('#trans_agent_' + i).val();
+	var role=jQuery('#cloneTransAgent_' + i).val();
+	jQuery('#cloneTransAgent_' + i).val('');
+	addTransAgentDeacc (id,name,role);
+}
+function addTransAgentDeacc (id,name,role) {
+	if (typeof id == "undefined") {
+		id = "";
+	 }
+	if (typeof name == "undefined") {
+		name = "";
+	 }
+	if (typeof role == "undefined") {
+		role = "";
+	 }
+	jQuery.getJSON("/component/functions.cfc",
+		{
+			method : "getTrans_agent_role",
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (data) {
+			var i=parseInt(document.getElementById('numAgents').value)+1;
+			var d='<tr><td>';
+			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
+			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" class="reqdClr" size="30" value="' + name + '"';
+  			d+=' onchange="getAgent(\'agent_id_' + i + '\',\'trans_agent_' + i + '\',\'editDeacc\',this.value);"';
+  			d+=' return false;"	onKeyPress="return noenter(event);">';
+  			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '">';
+  			d+='</td><td>';
+  			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '">';
+  			for (a=0; a<data.ROWCOUNT; ++a) {
+				d+='<option ';
+				if(role==data.DATA.TRANS_AGENT_ROLE[a]){
+					d+=' selected="selected"';
+				}
+				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
+			}
+  			d+='</td><td>';
+  			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1">';
+  			d+='</td><td>';
+  			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
+  			d+='<option value=""></option>';
+  			for (a=0; a<data.ROWCOUNT; ++a) {
+				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
+			}
+			d+='</select>';
+  			d+='</td><td>-</td></tr>';
+  			document.getElementById('numAgents').value=i;
+  			jQuery('#deaccAgents tr:last').after(d);
+		}
+	);
+}
+
+function addLendersObject (transaction_id,catalog_number,sci_name,no_of_spec,spec_prep,type_status,country_of_origin,object_remarks) {
+
+	if (typeof catalog_number == "undefined") {
+		catalog_number = "";
+	 }
+	if (typeof sci_name == "undefined") {
+		sci_name = "";
+	 }
+    if (typeof no_of_spec == "undefined") {
+		no_of_spec = "";
+	 }
+     if (typeof spec_prep == "undefined") {
+		spec_prep = "";
+	 }
+     if (typeof type_status == "undefined") {
+		type_status = "";
+	 }
+    if (typeof country_of_origin == "undefined") {
+		country_of_origin = "";
+	 }
+      if (typeof object_remarks == "undefined") {
+		object_remarks = "";
+	 }
+
+	jQuery.getJSON("/component/functions.cfc",
+		{
+			method : "getLenders_Object",
+			returnformat : "json",
+			queryformat : 'column'
+		},
+                   	function (data) {
+			var i=parseInt(document.getElementById('numObject').value)+1;
+			var d='<input type="hidden" name="transaction_id_' + i + '" id="transaction_id_' + i + '" value="newLender_Object">';
+			d+='<label for "catalog_number_' + i + '"><input type="text" id="catalog_number_' + i + '" name="catalog_number_' + i + '" value="catalog_number_' + i + '"></label>';
+  			d+='<label for "sci_name_' + i + '"><input type="text" id="sci_name_' + i + '" name="sci_name_' + i + '" value="sci_name_' + i + '"></label>';
+  			d+='<label for "no_of_spec_' + i + '"><input type="text" id="no_of_spec_' + i + '" name="no_of_spec_' + i + '" value="no_of_spec_' + i + '"></label>';
+  			d+='<label for "spec_prep_' + i + '"><input type="text" id="spec_prep_' + i + '" name="spec_prep_' + i + '" value="spec_prep_' + i + '"></label>';
+  			d+='<label for "type_status_' + i + '"><input type="text" id="type_status_' + i + '" name="type_status_' + i + '" value="type_status_' + i + '"></label>';
+  			d+='<label for "country_of_origin_' + i + '"><input type="text" id="country_of_origin_' + i + '" name="country_of_origin_' + i + '" value="country_of_origin_' + i + '"></label>';
+            d+='<label for "object_remarks_' + i + '"><input type="text" id="object_remarks_' + i + '" name="object_remarks_' + i + '" value="object_remarks_' + i + '"></label>';
+  			document.getElementById('numObject').value=i;
+  			jQuery('#addLender_Object label:last').after(d);
+		}
+
+	);
+}
