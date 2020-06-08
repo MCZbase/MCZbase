@@ -1161,7 +1161,7 @@ table#pairs th, table#pairs td {
 .select-selected {
   background-color: #ced4da;
 }
-
+.custom-select1 {background-color: white}
 /* Style the arrow inside the select element: */
 .custom-select1:after {
   position: absolute;
