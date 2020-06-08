@@ -989,64 +989,75 @@ table.inputTable tr {
 	border-radius: .2em;
 	width: 100%;
 }
+/************************
+*************************
+BELOW: Search Form - Home page
+************************/
+/*.search-form-div {
+	color: #1b1b1b;
+	z-index: -1;
+	margin-bottom: 0;
+	padding-bottom: 2em;
+	padding-top: .5em;
+}
+.form-div {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	color: #1b1b1b;
+	background-color: #f5fbfc;
+	background-color: #f8f9fa;
+	z-index: -1;
+	margin-bottom: 0;
+	padding-bottom: 2em;
+	padding-top: .5em;
+}*/
+/*.input-group-text {
+	background-color: #BAC5C6;
+}
+#formLogin {
+	right: 0;
+	width: auto;
+}
+.ui-icon.ui-icon-triangle-2-n-s {
+	background-position: -124px -16px;
+}*/
+/*#localityForm .col-md-4 input, #localityForm .col-12 input {
+	width: 100%;
+	margin-left: 0;
+}*/
+/*.menu-tabs ul {
+	width: 100%;
+	margin-top: 5px;
+	background-color: #E1E1E1;
+	padding: 4px 0;
+}
+.menu-tabs ul li {
+	display: inline-flex;
+	justify-content: space-between;
+	list-style: none;
+	padding: 3px 10px;
+	margin: 3px 4px;
+	background-color: #edf0e3;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}*/
+/*select {
+	border: 1px solid #ccc;
+}
 .custom-select {
-  position: relative;
-  font-family: Arial;
+	border: none;
+	height: calc(1.5em + .75rem + 2px);
+	border-radius: 5px;
 }
-
-.custom-select select {
-  display: none; /*hide original SELECT element: */
-}
-
-.select-selected {
-  background-color: DodgerBlue;
-}
-
-/* Style the arrow inside the select element: */
-.select-selected:after {
-  position: absolute;
-  content: "";
-  top: 14px;
-  right: 10px;
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
-  border-color: #fff transparent transparent transparent;
-}
-
-/* Point the arrow upwards when the select box is open (active): */
-.select-selected.select-arrow-active:after {
-  border-color: transparent transparent #fff transparent;
-  top: 7px;
-}
-
-/* style the items (options), including the selected item: */
-.select-items div,.select-selected {
-  color: #ffffff;
-  padding: 8px 16px;
-  border: 1px solid transparent;
-  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-  cursor: pointer;
-}
-
-/* Style items (options): */
-.select-items {
-  position: absolute;
-  background-color: DodgerBlue;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 99;
-}
-
-/* Hide the items when the select box is closed: */
-.select-hide {
-  display: none;
-}
-
-.select-items div:hover, .same-as-selected {
-  background-color: rgba(0, 0, 0, 0.1);
-}
+.custom-select:hover {
+	border: black;
+}*/
+/*.input-xs {
+	line-height: 1.1em;
+	padding: 0px .5em;
+	border-radius: 3px;
+	color: rgba(0, 0, 0, .6);
+}*/
 #clear {
 	cursor: pointer;
 	position: absolute;
