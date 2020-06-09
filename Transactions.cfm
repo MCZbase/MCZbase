@@ -229,7 +229,7 @@ limitations under the License.
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
 											<label for="status" class="data-entry-label">Status:</label>
-											<select name="status" id="status" class="data-entry-select">
+											<select name="status" id="status" class="custom-select data-entry-select">
 												<option aria-labelledby="status" value=""></option>
 												<cfloop query="ctStatus">
 													<cfif pstatus eq ctStatus.status>
@@ -246,7 +246,7 @@ limitations under the License.
 									<div class="form-row mb-2 mx-0">
 											<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
+												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="custom-select data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
@@ -389,7 +389,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
 											<label for="loan_type" class="data-entry-label mb-0">Type:</label>
-											<select name="loan_type" id="loan_type" class="data-entry-select">
+											<select name="loan_type" id="loan_type" class="custom-select data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctLoanType">
 													<cfif ploan_type eq ctLoanType.loan_type>
@@ -404,7 +404,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 											<cfset ploan_status = loan_status>
 											<label for="loan_status" class="data-entry-label mb-0">Status:</label>
-											<select name="loan_status" id="loan_status" class="data-entry-select" >
+											<select name="loan_status" id="loan_status" class="custom-select data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctLoanStatus">
 													<cfif ploan_status eq ctLoanStatus.loan_status>

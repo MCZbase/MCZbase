@@ -116,17 +116,18 @@ limitations under the License.
 <cfif  action is "newLoan">
 	<cfset title="New Loan">
 	<cfoutput>
-		<div class="container-fluid form-div">
-			<div class="container">
-				<h2 class="wikilink m-0" >Create New Loan <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h2>
+		<div class="container-fluid">
+			<div class="row">
+			<div class="col-12">
+				<h2 class="wikilink mt-2 mb-0" >Create New Loan <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h2>
 				<div class="form-row mb-2">
-					<div class="col-sm-8">
+					<div class="col-12 col-md-9 col-xl-7 offset-xl-1">
 						<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 							<input type="hidden" name="action" value="makeLoan">
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
 									<label for="collection_id">Collection</label>
-									<select name="collection_id" size="1" id="collection_id" class="reqdClr custom-select1 form-control-sm">
+									<select name="collection_id" size="1" id="collection_id" class="reqdClr custom-select form-control-sm">
 										<cfloop query="ctcollection">
 											<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 										</cfloop>
@@ -418,7 +419,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-		</div>
+		
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
