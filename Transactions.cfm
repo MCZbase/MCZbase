@@ -368,7 +368,7 @@ limitations under the License.
 											<div class="input-group">
 												<div class="col-6 px-0">
 													<label for="loan_collection_id" class="data-entry-label">Collection Name:</label>
-													<select name="collection_id" size="1" class="data-entry-select" id="loan_collection_id">
+													<select name="collection_id" size="1" class="data-entry-prepend-select" id="loan_collection_id">
 														<option value="-1">any collection</option>
 														<cfloop query="ctcollection">
 															<cfif ctcollection.collection eq selectedCollection>
