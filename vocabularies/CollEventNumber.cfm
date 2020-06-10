@@ -55,7 +55,7 @@ limitations under the License.
 			<h2>Number Series (#numSeriesList.RecordCount#)</h2>
 			<ul>
 			<cfloop query="numSeriesList">
-				<li><a href="/vocabularies/CollEventNumber.cfm?action=edit&coll_event_num_series=#coll_event_num_series_id#">#number_series#</a>(#agentname#)</li>
+				<li><a href="/vocabularies/CollEventNumber.cfm?action=edit&coll_event_num_series_id=#coll_event_num_series_id#">#number_series#</a> (#agentname#)</li>
 			</cfloop>
 			</ul>
 		</cfoutput>	
@@ -205,7 +205,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="col-12 col-md-6"> 
-									<input type="button" value="Create" class="insBtn" onClick="if (checkFormValidity($('##editNumSeries')[0])) { submit();  } ">
+									<input type="button" value="Save" class="insBtn" onClick="if (checkFormValidity($('##editNumSeries')[0])) { submit();  } ">
 								</div>
 							</div>
 						</form>
