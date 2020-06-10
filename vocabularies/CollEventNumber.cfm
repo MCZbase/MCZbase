@@ -67,8 +67,8 @@ limitations under the License.
 			<div class="container-fluid form-div">
 				<div class="container">
 					<h2>New Collecting Event Number Series</h2>
-					<form name="newNumSeries" id="newNumSeries" action="/vocabularies/component/functions.cfc" method="post"> 
-						<input type="hidden" id="method" name="method" value="saveNumSeries" >
+					<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumber.cfm" method="post"> 
+						<input type="hidden" id="method" name="method" value="saveNew" >
 						<div class="form-row mb-2">
 							<div class="col-md-12">
 								<label for="number_series">Name for the Collector Number Series</label>
@@ -78,13 +78,13 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-md-12">
 								<label for="pattern">Pattern for numbers in this series</label>
-								<input type="text" id="pattern" name="pattern" class="reqdClr form-control-sm" value="" >
+								<input type="text" id="pattern" name="pattern" class="form-control-sm" value="" >
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-md-12">
 								<label for="remarks">Remarks</label>
-								<input type="text" id="remarks" name="remarks" class="reqdClr form-control-sm" value="" >
+								<input type="text" id="remarks" name="remarks" class="form-control-sm" value="" >
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -93,7 +93,7 @@ limitations under the License.
 									<label for="collector_agent_name">This is a number series of</label>
 									<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input name="collector_agent_name" id="collector_agent_name" class="reqdClr form-control-sm" value="" >
+								<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="" >
 								<input type="hidden" name="collector_agent_id" id="collector_agent_id" value=""  >
 								<script>
 									$(document).ready(function() {
@@ -101,11 +101,52 @@ limitations under the License.
 									});
 								</script>
 							</div>
+							<div class="col-12 col-md-6 ui-widget">
+								<div class="col-12 col-md-6"> 
+									<input type="button" value="Create" class="insBtn" onClick="if (checkFormValidity($('##editNumSeries')[0])) { submit();  } ">
+								</div>
+							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 		</cfoutput>
+	</cfcase>
+	<cfcase value="saveNew">
+		<cftry>
+			<cfif not isdefined("number_series") OR len(trim(#number_series#)) EQ 0 >
+				<cfthrow type="Application" message="Error: No value provided for required value number_series">
+			</cfif>
+			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into coll_event_num_series (
+					number_series
+					<cfif isdefined("pattern")>
+						,pattern
+					</cfif>
+					<cfif isdefined("remarks")>
+						,remarks
+					</cfif>
+					<cfif isdefined("collector_agent_id")>
+						,collector_agent_id
+					</cfif>
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number_series#">
+					<cfif isdefined("pattern")>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern#">
+					</cfif>
+					<cfif isdefined("remarks")>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+					</cfif>
+					<cfif isdefined("collector_agent_id")>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+					</cfif>
+				)
+			</cfquery>
+			<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#nextTransId.nextTransactionId#" addtoken="false">
+		<cfcatch>
+			<cfthrow type="Application" message="Error Saving new Collecting Event Number Series: #cfcatch.details#">
+		</cfcatch>
+		</cftry>
 	</cfcase>
 	<cfcase value="edit">
 		<cfif not isDefined("coll_event_num_series_id")>
@@ -133,13 +174,13 @@ limitations under the License.
 							<div class="form-row mb-2">
 								<div class="col-md-12">
 									<label for="pattern">Pattern for numbers in this series</label>
-									<input type="text" id="pattern" name="pattern" class="reqdClr form-control-sm" value="#pattern#" >
+									<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" >
 								</div>
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-md-12">
 									<label for="remarks">Remarks</label>
-									<input type="text" id="remarks" name="remarks" class="reqdClr form-control-sm" value="#remarks#" >		
+									<input type="text" id="remarks" name="remarks" class="form-control-sm" value="#remarks#" >		
 								</div>
 							</div>
 							<div class="form-row mb-2">
@@ -148,13 +189,19 @@ limitations under the License.
 										<label for="collector_agent_name">This is a number series of</label>
 										<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</span>
-									<input name="collector_agent_name" id="collector_agent_name" class="reqdClr form-control-sm" value="#agentname#" >
+									<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="#agentname#" >
 									<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#collector_agent_id#"  >
 									<script>
 										$(document).ready(function() {
 											$(makeAgentPicker('collector_agent_name','collector_agent_id'));
 										});
+										function saveChanges(){ 
+											// TODO: Submit form, report save.
+										};
 									</script>
+								</div>
+								<div class="col-12 col-md-6"> 
+									<input type="button" value="Create" class="insBtn" onClick="if (checkFormValidity($('##editNumSeries')[0])) { submit();  } ">
 								</div>
 							</div>
 						</form>
