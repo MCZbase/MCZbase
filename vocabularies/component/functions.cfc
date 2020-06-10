@@ -20,6 +20,13 @@ limitations under the License.
 
 <!--- function saveNumberSeries 
 Update an existing collecting event number series record.
+
+@param coll_event_num_series_id primary key of record to update
+@param number_series the brief human readable description of the number series, must not be blank.
+@param pattern pattern expected of values in the number series
+@param remarks remarks about the number series
+@param collector_agent_id the collector for whom this is a number series
+@return json structure with status and id or http status 500
 --->
 <cffunction name="saveNumSeries" access="remote" returntype="any" returnformat="json">
 	<cfargument name="coll_event_num_series_id" type="string" required="yes">
@@ -28,22 +35,50 @@ Update an existing collecting event number series record.
 	<cfargument name="remarks" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 
-			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update coll_event_num_series set
-					number_series = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number_series#">
-					<cfif isdefined("pattern")>
-						,pattern = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern#">
-					</cfif>
-					<cfif isdefined("remarks")>
-						,remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
-					</cfif>
-					<cfif isdefined("collector_agent_id")>
-						,collector_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
-					</cfif>
-				where 
-					coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
-			</cfquery>
-
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfif len(trim(#number_series#) EQ 0)>
+			<cfthrow type="Application" message="Number Series must contain a value.">
+		</cfif>
+		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update coll_event_num_series set
+				number_series = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number_series#">
+				<cfif isdefined("pattern")>
+					,pattern = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern#">
+				</cfif>
+				<cfif isdefined("remarks")>
+					,remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+				</cfif>
+				<cfif isdefined("collector_agent_id")>
+					,collector_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+				</cfif>
+			where 
+				coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
+		</cfquery>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "saved">
+		<cfset row["id"] = "#coll_event_num_series_id#">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing getPermitsJSON: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!---
@@ -59,7 +94,7 @@ Function getNumSeriesList.  Search for collector number series returning json su
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				coll_event_number_series_id, number_series, pattern, remarks,
@@ -81,82 +116,19 @@ Function getNumSeriesList.  Search for collector number series returning json su
 			<cfset row["remarks"] = "#search.remarks#">
 			<cfset row["preferred_agent_name"] = "#search.preferred_agent_name#">
 			<cfset row["id_link"] = "<a href='/vocabularies/CollEventNumber.cfm?method=edit&coll_event_num_series_id#search.coll_event_num_series_id#' target='_blank'>#search.number_series#</a>">
-			<cfset data[i]  = row>
+			<cfset data[i] = row>
 			<cfset i = i + 1>
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getAgentList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfset message = trim("Error processing getAgentList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
 				<div class="container">
 					<div class="row">
 						<div class="alert alert-danger" role="alert">
 							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<!---
-Function getAgentAutocomplete.  Search for agents by name with a substring match on any name, returning json suitable for jquery-ui autocomplete.
-
-@param term agent name to search for.
-@return a json structure containing id and value, with matching agents with matched name in value and agent_id in id.
---->
-<cffunction name="getAgentAutocomplete" access="remote" returntype="any" returnformat="json">
-	<cfargument name="term" type="string" required="yes">
-	<!--- perform wildcard search anywhere in agent_name.agent_name --->
-	<cfset name = "%#term#%"> 
-
-	<cfset data = ArrayNew(1)>
-	<cftry>
-      <cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
-				searchname.agent_id, searchname.agent_name, searchname.agent_name_type,
-				agent.agent_type, agent.edited,
-				prefername.agent_name as preferred_agent_name
-			FROM 
-				agent_name searchname
-				left join agent on searchname.agent_id = agent.agent_id
-				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
-			WHERE
-				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
-		</cfquery>
-	<cfset rows = search_result.recordcount>
-		<cfset i = 1>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
-			<cfset row["id"] = "#search.agent_id#">
-			<cfif search.preferred_agent_name EQ search.agent_name >
-				<cfset row["value"] = "#search.agent_name# #edited_marker#" >
-			<cfelse>
-				<cfset row["value"] = "#search.agent_name# (#search.preferred_agent_name#)#edited_marker#" >
-			</cfif>
-			<cfset data[i]  = row>
-			<cfset i = i + 1>
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getAgentList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-		<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
