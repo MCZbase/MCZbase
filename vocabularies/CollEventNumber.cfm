@@ -103,7 +103,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6 ui-widget">
 								<div class="col-12 col-md-6"> 
-									<input type="button" value="Create" class="insBtn" onClick="if (checkFormValidity($('##editNumSeries')[0])) { submit();  } ">
+									<input type="button" value="Create" class="insBtn" onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } ">
 								</div>
 							</div>
 						</div>
