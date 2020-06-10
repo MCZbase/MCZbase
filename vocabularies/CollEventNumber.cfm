@@ -214,7 +214,7 @@ limitations under the License.
 												success : function (data) {
 													$('##saveResultDiv').html('Saved.');
 												},
-												fail: function(jqXHR,textStatus){
+												error: function(jqXHR,textStatus){
 													$('##saveResultDiv').html('Error.');
 													messageDialog('Error saving collecting event number series.','Error: ' + textStatus);
 												}
