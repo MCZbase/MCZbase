@@ -68,7 +68,7 @@ limitations under the License.
 				<div class="container">
 					<h2>New Collecting Event Number Series</h2>
 					<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumber.cfm" method="post"> 
-						<input type="hidden" id="method" name="method" value="saveNew" >
+						<input type="hidden" id="action" name="action" value="saveNew" >
 						<div class="form-row mb-2">
 							<div class="col-md-12">
 								<label for="number_series">Name for the Collector Number Series</label>
@@ -117,7 +117,7 @@ limitations under the License.
 			<cfif not isdefined("number_series") OR len(trim(#number_series#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value number_series">
 			</cfif>
-			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
 				insert into coll_event_num_series (
 					number_series
 					<cfif isdefined("pattern")>
@@ -142,7 +142,10 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cflocation url="Loan.cfm?Action=editLoan&transaction_id=#nextTransId.nextTransactionId#" addtoken="false">
+			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+				select coll_event_num_series_id from coll_event_num_series where rowid = #insertResult.GENERATEDKEY#
+			</cfquery>
+			<cflocation url="/vocabularies/CollEventNumber.cfm?action=edit&coll_event_num_series_id=#savePK.coll_event_num_series_id#" addtoken="false">
 		<cfcatch>
 			<cfthrow type="Application" message="Error Saving new Collecting Event Number Series: #cfcatch.details#">
 		</cfcatch>
