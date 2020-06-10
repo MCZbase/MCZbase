@@ -110,7 +110,7 @@ limitations under the License.
 	<cfcase value="edit">
 		<cfif not isDefined("coll_event_num_series_id")>
 			<cfthrow type="Application" message="Error: No value provided for coll_event_num_series_id">
-		</cfelse>
+		<cfelse>
 			<cfquery name="numSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
 					MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') as agentname
