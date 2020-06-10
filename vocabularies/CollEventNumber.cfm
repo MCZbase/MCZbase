@@ -143,7 +143,8 @@ limitations under the License.
 				)
 			</cfquery>
 			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
-				select coll_event_num_series_id from coll_event_num_series where rowid = #insertResult.GENERATEDKEY#
+				select coll_event_num_series_id from coll_event_num_series 
+				where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertResult.GENERATEDKEY#">
 			</cfquery>
 			<cflocation url="/vocabularies/CollEventNumber.cfm?action=edit&coll_event_num_series_id=#savePK.coll_event_num_series_id#" addtoken="false">
 		<cfcatch>
