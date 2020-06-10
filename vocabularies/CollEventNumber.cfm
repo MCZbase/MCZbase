@@ -166,13 +166,13 @@ limitations under the License.
 				<div class="container-fluid form-div">
 					<div class="container">
 						<h2>Edit Collecting Event Number Series</h2>
-						<form name="editNumSeries" id="editNumSeries" action="/vocabularies/component/functions.cfc" method="post"> 
+						<form name="editNumSeries" id="editNumSeries"> 
 							<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
 							<input type="hidden" id="method" name="method" value="saveNumSeries" >
 							<div class="form-row mb-2">
 								<div class="col-md-12">
 									<label for="number_series">Name for the Collector Number Series</label>
-									<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="#number_series#" >					
+									<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="#number_series#" >	
 								</div>
 							</div>
 							<div class="form-row mb-2">
@@ -196,16 +196,34 @@ limitations under the License.
 									<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="#agentname#" >
 									<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#collector_agent_id#"  >
 									<script>
+										function changed(){
+											$('##saveResultDiv').html('Unsaved changes.');
+										}
 										$(document).ready(function() {
 											$(makeAgentPicker('collector_agent_name','collector_agent_id'));
+											$('form##editNumSeries input[type=text]').on("change",changed());
 										});
 										function saveChanges(){ 
-											// TODO: Submit form, report save.
+											$('##saveResultDiv').html('Saving....');
+											jQuery.ajax({
+												url : "/vocabularies/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data :  $('##editNumSeries').serialize(),
+												success : function (data) {
+													$('##saveResultDiv').html('Saved.');
+												},
+												fail: function(jqXHR,textStatus){
+													$('##saveResultDiv').html('Error.');
+													messageDialog('Error saving collecting event number series.','Error: ' + textStatus);
+												}
+											});
 										};
 									</script>
 								</div>
 								<div class="col-12 col-md-6"> 
-									<input type="button" value="Save" class="insBtn" onClick="if (checkFormValidity($('##editNumSeries')[0])) { submit();  } ">
+									<div id="saveResultDiv">&nbsp;</div>
+									<input type="button" value="Save" class="insBtn" onClick="if (checkFormValidity($('##editNumSeries')[0])) { saveChanges();  } ">
 								</div>
 							</div>
 						</form>
