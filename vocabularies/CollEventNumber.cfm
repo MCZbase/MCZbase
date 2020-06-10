@@ -132,13 +132,13 @@ limitations under the License.
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number_series#">
 					<cfif isdefined("pattern")>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern#">
 					</cfif>
 					<cfif isdefined("remarks")>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 					</cfif>
 					<cfif isdefined("collector_agent_id")>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
 					</cfif>
 				)
 			</cfquery>
@@ -147,7 +147,7 @@ limitations under the License.
 			</cfquery>
 			<cflocation url="/vocabularies/CollEventNumber.cfm?action=edit&coll_event_num_series_id=#savePK.coll_event_num_series_id#" addtoken="false">
 		<cfcatch>
-			<cfthrow type="Application" message="Error Saving new Collecting Event Number Series: #cfcatch.details#">
+			<cfthrow type="Application" message="Error Saving new Collecting Event Number Series: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
 		</cftry>
 	</cfcase>
