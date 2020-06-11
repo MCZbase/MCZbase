@@ -597,7 +597,7 @@ limitations under the License.
 										</div>
 										</div>
 									<style> 
-input.ab {
+div.jqx-grid-cell-left-align {
   white-space: nowrap; 
   width: 100px; 
   overflow: hidden;
@@ -605,7 +605,7 @@ input.ab {
   border: 1px solid ##000000;
 }
 
-input.ab:hover {
+div.jqx-grid-cell-left-align:hover {
   overflow: visible;
 }
 </style>
@@ -613,7 +613,7 @@ input.ab:hover {
 											<div class="border bg-light rounded px-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
-													<input type="text" name="nature_of_material" class="data-entry-input ab" value="#nature_of_material#" id="nature_of_material">
+													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
 												<div class="col-md-12">
 													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description: </label>
