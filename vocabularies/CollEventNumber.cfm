@@ -201,7 +201,7 @@ limitations under the License.
 										};
 										$(document).ready(function() {
 											$(makeAgentPicker('collector_agent_name','collector_agent_id'));
-											$('##editNumSeries input[type=text]').on("change",changed());
+											$('##editNumSeries input[type=text]').on("change",changed);
 											$('##saveResultDiv').html('');
 										});
 										function saveChanges(){ 
