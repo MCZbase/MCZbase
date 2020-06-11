@@ -599,10 +599,9 @@ limitations under the License.
 									<style> 
 div.jqx-grid-cell-left-align {
   white-space: nowrap; 
-  max-width: 300px; 
+  max-width: 500px; 
   overflow: hidden;
   text-overflow: ellipsis;
-  border: 1px solid ##000000;
 }
 
 div.jqx-grid-cell-left-align:hover {
