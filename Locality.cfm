@@ -1456,8 +1456,8 @@ You deleted a collecting event.
 			insert into coll_event_number
 			(coll_event_number, coll_event_num_series_id, collecting_event_id) 
 			values (
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_series#">,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_event_number#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_series#">,
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 			)
 		</cfquery>
