@@ -998,16 +998,19 @@ You do not have permission to create Higher Geographies
 				</td>
 			</tr>
 		</table>
-		<div>
+		<div style="border:1px solid LightGray;">
 			<h3>Collector/Field Numbers (identifying collecting events)</h3>
+			<!--- Current --->
 			<ul>
-			<cfset patternvalue = "">
 			<cfloop query="colEventNumbers">
 				<li>#coll_event_number# (#number_series#, #collector_agent#)</li>
-				<cfset patternvalue = colEventNumbers.pattern >
 			</cfloop>
 			</ul>
-			<div style="border:1px solid LightGray;">
+			<!--- Add new --->
+			<!--- TODO: Rework into dialog, along with edit dialog --->
+			<cfset patternvalue = "">
+			<div>
+				<h3>Add</h3>
 				<label for="coll_event_number_series">Collecting Event Number Series</label>
 				<select id="coll_event_number_series" name="coll_event_number_series">
 					<option value=""></option>
@@ -1023,7 +1026,7 @@ You do not have permission to create Higher Geographies
 						$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
 					});
 				</script>
-				<label for="coll_event_number">Collector/Field Number <span id="pattern_span">#patternvalue#</span></label>
+				<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
 				<input type="text" name="coll_event_number" id="coll_event_number" size=50>
 			</div>
 		</div>
