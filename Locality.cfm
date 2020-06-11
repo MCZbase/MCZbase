@@ -1020,7 +1020,7 @@ You do not have permission to create Higher Geographies
 				<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
 				<script>
 					$( document ).ready(function() {
-						$('##coll_event_number_series').on('change' function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
+						$('##coll_event_number_series').on('change', function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
 					});
 				</script>
 				<label for="coll_event_number">Collector/Field Number <span id="pattern_span">#patternvalue#</span></label>
