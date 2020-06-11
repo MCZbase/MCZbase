@@ -1010,7 +1010,7 @@ You do not have permission to create Higher Geographies
 				<select id="coll_event_number_series" name="coll_event_number_series">
 					<option value=""></option>
 					<cfloop query="colEventNumSeries">
-						<option value="#colEventNumSeries.coll_event_number_series_id#">#colEventNumSeries.number_series# (#colEventNumSeries.collector_agent#)</option>
+						<option value="#colEventNumSeries.coll_event_num_series_id#">#colEventNumSeries.number_series# (#colEventNumSeries.collector_agent#)</option>
 					</cfloop>
 				</select>
 				<label for="coll_event_number">Collector/Field Number</label>
