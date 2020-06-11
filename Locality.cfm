@@ -1001,19 +1001,29 @@ You do not have permission to create Higher Geographies
 		<div>
 			<h3>Collector/Field Numbers (identifying collecting events)</h3>
 			<ul>
+			<cfset patternvalue = "">
 			<cfloop query="colEventNumbers">
 				<li>#coll_event_number# (#number_series#, #collector_agent#)</li>
+				<cfset patternvalue = colEventNumbers.pattern >
 			</cfloop>
 			</ul>
-			<div>
+			<div style="border:1px solid LightGray;">
 				<label for="coll_event_number_series">Collecting Event Number Series</label>
 				<select id="coll_event_number_series" name="coll_event_number_series">
 					<option value=""></option>
+					<cfset ifbit = "">
 					<cfloop query="colEventNumSeries">
 						<option value="#colEventNumSeries.coll_event_num_series_id#">#colEventNumSeries.number_series# (#colEventNumSeries.collector_agent#)</option>
+						<cfset ifbit = ifbit & "if (selectedid=#colEventNumSeries.coll_event_num_series_id#) { $('##pattern_span').html('#colEventNumSeries.pattern#'); }; ">
 					</cfloop>
 				</select>
-				<label for="coll_event_number">Collector/Field Number</label>
+				<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
+				<script>
+					$( document ).ready(function() {
+						$('##coll_event_number_series').on('change' function() { selectedid = $('#coll_event_number_series#').val(); #ifbit# } );
+					});
+				</script>
+				<label for="coll_event_number">Collector/Field Number <span id="pattern_span">#patternvalue#</span></label>
 				<input type="text" name="coll_event_number" id="coll_event_number" size=50>
 			</div>
 		</div>
