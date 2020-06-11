@@ -2174,7 +2174,7 @@ You deleted a collecting event.
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLocality">
-	<div style="width: 90%; margin:0 auto; padding: 1em 0 3em 0;">
+	<div style="width: 98%; margin:0 auto; padding: 1em 0 3em 0;">
 	<cfoutput>
 
 	<cf_findLocality>
@@ -2242,7 +2242,7 @@ You deleted a collecting event.
 			<td rowspan="2">
 				<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
 			</td>
-			<td style="min-width: 600px;">
+			<td style="min-width: 500px;">
 				<b>#spec_locality#</b>
 				<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
 			</td>
