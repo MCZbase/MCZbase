@@ -828,7 +828,8 @@ You do not have permission to create Higher Geographies
 	<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT number_series, 
 			MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
-			coll_event_number
+			coll_event_number,
+			coll_event_number_id
 		FROM 
 			coll_event_number
 			left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
@@ -1001,9 +1002,37 @@ You do not have permission to create Higher Geographies
 		<div style="border:1px solid LightGray;">
 			<h3>Collector/Field Numbers (identifying collecting events)</h3>
 			<!--- Current --->
+			<script>
+				function deleteCollEventNumber(id) { 
+					$('##collEventNumber_' + id ).append('Deleting...');
+					$.ajax({
+						url : "/localities/component/functions.cfc",
+						type : "post",
+						dataType : "json",
+						data : {
+							method: "deleteCollEventNumber",
+							returnformat: "json",
+							coll_event_number_id: id
+						},
+						success : function (data) {
+							$('##collEventNumber_' + id ).html('Deleted.');
+						},
+						error: function(jqXHR,textStatus,error){
+							$('##collEventNumber_' + id ).append('Error.');
+							var message = "";
+							if (error == 'timeout') {
+								message = ' Server took too long to respond.';
+							} else {
+								message = jqXHR.responseText;
+							}
+							messageDialog('Error deleting collecting event number: '+message, 'Error: '+error);
+						}
+					});
+				};
+			</script>
 			<ul>
 			<cfloop query="colEventNumbers">
-				<li>#coll_event_number# (#number_series#, #collector_agent#)</li>
+				<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#) <input type="button" value="Delete" class="delBtn" onclick=" deleteCollEventNumber(#coll_event_number_id#); "></span></li>
 			</cfloop>
 			</ul>
 			<!--- Add new --->
