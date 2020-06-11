@@ -1041,14 +1041,17 @@ You do not have permission to create Higher Geographies
 			<div>
 				<h3>Add</h3>
 				<label for="coll_event_number_series">Collecting Event Number Series</label>
-				<select id="coll_event_number_series" name="coll_event_number_series">
-					<option value=""></option>
-					<cfset ifbit = "">
-					<cfloop query="colEventNumSeries">
-						<option value="#colEventNumSeries.coll_event_num_series_id#">#colEventNumSeries.number_series# (#colEventNumSeries.collector_agent#)</option>
-						<cfset ifbit = ifbit & "if (selectedid=#colEventNumSeries.coll_event_num_series_id#) { $('##pattern_span').html('#colEventNumSeries.pattern#'); }; ">
-					</cfloop>
-				</select>
+				<span>
+					<select id="coll_event_number_series" name="coll_event_number_series">
+						<option value=""></option>
+						<cfset ifbit = "">
+						<cfloop query="colEventNumSeries">
+							<option value="#colEventNumSeries.coll_event_num_series_id#">#colEventNumSeries.number_series# (#colEventNumSeries.collector_agent#)</option>
+							<cfset ifbit = ifbit & "if (selectedid=#colEventNumSeries.coll_event_num_series_id#) { $('##pattern_span').html('#colEventNumSeries.pattern#'); }; ">
+						</cfloop>
+					</select>
+					<a href="/vocabularies/CollEventNumber.cfm?action=new" target="_blank">Add new number series</a>
+				</span>
 				<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
 				<script>
 					$( document ).ready(function() {
