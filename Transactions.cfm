@@ -596,18 +596,7 @@ limitations under the License.
 											</div>
 										</div>
 										</div>
-									<style> 
-div.jqx-grid-cell-left-align {
-  white-space: nowrap; 
-  max-width: 500px; 
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
-div.jqx-grid-cell-left-align:hover {
-  overflow: visible;
-}
-</style>
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
