@@ -1451,7 +1451,7 @@ You deleted a collecting event.
 	</cfif>
 	 where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collecting_event_id#">
 	</cfquery>
-	<cfif isdefined("coll_event_number_series") and isdefined("coll_event_number") and len(trim(coll_event_num_series)) GT 0 and len(trim(coll_event_num)) GT 0 >
+	<cfif isdefined("coll_event_number_series") and isdefined("coll_event_number") and len(trim(coll_event_number_series)) GT 0 and len(trim(coll_event_number)) GT 0 >
 		<cfquery>
 			insert into coll_event_number
 			(coll_event_number, coll_event_num_series_id, collecting_event_id) 
