@@ -602,7 +602,7 @@ input.ab {
   width: 100px; 
   overflow: hidden;
   text-overflow: ellipsis;
-  border: 1px solid #000000;
+  border: 1px solid ##000000;
 }
 
 input.ab:hover {
