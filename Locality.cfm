@@ -2242,8 +2242,8 @@ You deleted a collecting event.
 			<td rowspan="2">
 				<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
 			</td>
-			<td>
-				#spec_locality#
+			<td style="min-width: 600px;">
+				<b>#spec_locality#</b>
 				<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
 			</td>
 			<td rowspan="2">
