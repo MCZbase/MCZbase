@@ -599,7 +599,7 @@ limitations under the License.
 									<style> 
 div.jqx-grid-cell-left-align {
   white-space: nowrap; 
-  width: 100px; 
+  max-width: 300px; 
   overflow: hidden;
   text-overflow: ellipsis;
   border: 1px solid ##000000;
