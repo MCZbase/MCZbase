@@ -214,9 +214,15 @@ limitations under the License.
 												success : function (data) {
 													$('##saveResultDiv').html('Saved.');
 												},
-												error: function(jqXHR,textStatus){
+												error: function(jqXHR,textStatus,error){
 													$('##saveResultDiv').html('Error.');
-													messageDialog('Error saving collecting event number series.','Error: ' + textStatus);
+													var message = "";
+													if (error == 'timeout') {
+														message = ' Server took too long to respond.';
+													} else {
+														message = jqXHR.responseText;
+													}
+													messageDialog('Error saving collecting event number series: '+message, 'Error: '+error);
 												}
 											});
 										};
