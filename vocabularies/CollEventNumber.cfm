@@ -65,26 +65,26 @@ limitations under the License.
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
 			<div class="container-fluid form-div">
-				<div class="container">
-					<h2>New Collecting Event Number Series</h2>
+				<div class="container" role="region" aria-labelledby="formheading">
+					<h2 id="formheading">New Collecting Event Number Series</h2>
 					<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumber.cfm" method="post"> 
 						<input type="hidden" id="action" name="action" value="saveNew" >
 						<div class="form-row mb-2">
 							<div class="col-md-12">
-								<label for="number_series">Name for the Collector Number Series</label>
-								<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="" >					
+								<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
+								<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="" aria-labelledby="number_series_label" >					
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-md-12">
-								<label for="pattern">Pattern for numbers in this series</label>
-								<input type="text" id="pattern" name="pattern" class="form-control-sm" value="" >
+								<label for="pattern" id="pattern_label">Pattern for numbers in this series</label>
+								<input type="text" id="pattern" name="pattern" class="form-control-sm" value="" aria-labelledby="pattern_label" >
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-md-12">
-								<label for="remarks">Remarks</label>
-								<input type="text" id="remarks" name="remarks" class="form-control-sm" value="" >
+								<label for="remarks" id="remarks_label">Remarks</label>
+								<input type="text" id="remarks" name="remarks" class="form-control-sm" value="" aria-labelledby="remarks_label" >
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -93,7 +93,7 @@ limitations under the License.
 									<label for="collector_agent_name">This is a number series of</label>
 									<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
-								<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="" >
+								<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="" aria-label="This is a number series of collector: " >
 								<input type="hidden" name="collector_agent_id" id="collector_agent_id" value=""  >
 								<script>
 									$(document).ready(function() {
@@ -103,7 +103,11 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6 ui-widget">
 								<div class="col-12 col-md-6"> 
-									<input type="button" value="Create" class="insBtn" onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } ">
+									<input type="button" 
+										value="Create" title="Create" aria-label="Create"
+										class="btn btn-xs btn-primary"
+										onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } " 
+										>
 								</div>
 							</div>
 						</div>
@@ -164,36 +168,36 @@ limitations under the License.
 			</cfquery>
 			<cfoutput query="numSeries">
 				<div class="container-fluid form-div">
-					<div class="container">
-						<h2>Edit Collecting Event Number Series</h2>
+					<div class="container" role="region" aria-labelledby="formheading">
+						<h2 id="formheading">Edit Collecting Event Number Series</h2>
 						<form name="editNumSeries" id="editNumSeries"> 
 							<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
 							<input type="hidden" id="method" name="method" value="saveNumSeries" >
 							<div class="form-row mb-2">
 								<div class="col-md-12">
-									<label for="number_series">Name for the Collector Number Series</label>
-									<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="#number_series#" >	
+									<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
+									<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="#number_series#" aria-labelledby="number_series_label">	
 								</div>
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-md-12">
-									<label for="pattern">Pattern for numbers in this series</label>
-									<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" >
+									<label for="pattern" id="pattern_label">Pattern for numbers in this series</label>
+									<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >
 								</div>
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-md-12">
-									<label for="remarks">Remarks</label>
-									<input type="text" id="remarks" name="remarks" class="form-control-sm" value="#remarks#" >		
+									<label for="remarks" id="remarks_label">Remarks</label>
+									<input type="text" id="remarks" name="remarks" class="form-control-sm" value="#remarks#" aria-labelledby="remarks_label" >		
 								</div>
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-6 ui-widget"> 
 									<span>
-										<label for="collector_agent_name">This is a number series of</label>
+										<label for="collector_agent_name" id="collector_agent_name_label">This is a number series of</label>
 										<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</span>
-									<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="#agentname#" >
+									<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="#agentname#" aria-labelledby="collector_agent_name_label" >
 									<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#collector_agent_id#"  >
 									<script>
 										function changed(){
@@ -229,7 +233,11 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-6"> 
 									<div id="saveResultDiv">&nbsp;</div>
-									<input type="button" value="Save" class="insBtn" onClick="if (checkFormValidity($('##editNumSeries')[0])) { saveChanges();  } ">
+									<input type="button" 
+										value="Save" title="Save" aria-label="Save"
+										class="btn btn-xs btn-primary"
+										onClick="if (checkFormValidity($('##editNumSeries')[0])) { saveChanges();  } " 
+										>
 								</div>
 							</div>
 						</form>
