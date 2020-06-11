@@ -37,7 +37,7 @@ Update an existing collecting event number series record.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfif len(trim(#number_series#) EQ 0)>
+		<cfif len(trim(#number_series#)) EQ 0>
 			<cfthrow type="Application" message="Number Series must contain a value.">
 		</cfif>
 		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -61,7 +61,7 @@ Update an existing collecting event number series record.
 		<cfset data[1] = row>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getPermitsJSON: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset message = trim("Error processing saveNumSeries: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 		<cfoutput>
 			<div class="container">
