@@ -1377,6 +1377,7 @@ You deleted a collecting event.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveCollEventEdit">
 	<cfoutput>
+	<cftransaction>
 	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE collecting_event SET
 		BEGAN_DATE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BEGAN_DATE#">
@@ -1450,6 +1451,18 @@ You deleted a collecting event.
 	</cfif>
 	 where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collecting_event_id#">
 	</cfquery>
+	<cfif isdefined("coll_event_number_series") and isdefined("coll_event_number") and len(trim(coll_event_num_series)) GT 0 and len(trim(coll_event_num)) GT 0)>
+		<cfquery>
+			insert into coll_event_number
+			(coll_event_number, coll_event_num_series_id, collecting_event_id) 
+			values (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_series#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_event_number#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+			)
+		</cfquery>
+	</cfif>
+	</cftransaction>
 	<cfif #cgi.HTTP_REFERER# contains "editCollEvnt">
 		<cfset refURL = "#cgi.HTTP_REFERER#">
 	<cfelse>
