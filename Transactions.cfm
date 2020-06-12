@@ -206,7 +206,7 @@ limitations under the License.
 									<div class="form-row mb-2 mx-0">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
-											<select name="collection_id" size="1" class="data-entry-prepend-select  custom-select pr-0" aria-label="collection">
+											<select name="collection_id" size="1" class="data-entry-prepend-select  pr-0" aria-label="collection">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
@@ -229,7 +229,7 @@ limitations under the License.
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
 											<label for="status" class="data-entry-label">Status:</label>
-											<select name="status" id="status" class="custom-select data-entry-select">
+											<select name="status" id="status" class="data-entry-select">
 												<option aria-labelledby="status" value=""></option>
 												<cfloop query="ctStatus">
 													<cfif pstatus eq ctStatus.status>
@@ -246,7 +246,7 @@ limitations under the License.
 									<div class="form-row mb-2 mx-0">
 											<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="custom-select data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
+												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
