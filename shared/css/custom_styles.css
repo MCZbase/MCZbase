@@ -1341,8 +1341,8 @@ input::placeholder {
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .data-entry-select:hover, .data-entry-select.hover,.custom-select:hover, .custom-select.hover {
-	background-color: white !important;
-	background: white;
+/*	background-color: white !important;
+	background: white;*/
 	border: 1px solid #ced4da;
 }
 .data-entry-prepend-select {
