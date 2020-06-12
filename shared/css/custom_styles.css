@@ -1278,29 +1278,29 @@ table#pairs th, table#pairs td {
 }
 .data-entry-select option {
 	background-color: white !important;
-	color: black;
+	color: rgba(0, 0, 0, .8);
 	padding: .25em .5em;
 }
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    font-weight: 680;
+    font-weight: 450;
     line-height: 1.5em;
     color: silver;
     font-size: 14px;
 }
 input::-moz-placeholder { /* Firefox 19+ */
-    font-weight: 680;
+    font-weight: 450;
     line-height: 1.5em;
     color: silver;
     font-size: 14px;
 }
 input:-ms-input-placeholder { /* IE 10+ */
-    font-weight: 680;
+    font-weight: 450;
     line-height: 1.5em;
     color: silver;
     font-size: 14px;
 }
 input:-moz-placeholder { /* Firefox 18- */
-    font-weight: 680;
+    font-weight: 450;
     line-height: 1.5em;
     color: silver;
     font-size: 14px;
