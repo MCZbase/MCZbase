@@ -1567,6 +1567,16 @@ and also iPads specifically.
 		margin-top: .25em;
 	}
 }
+@media(max-width:414px){
+	a.btn-sm {
+		 height: calc(1.5em + .5rem + 1px);
+		
+	}
+	.btn-sm {
+		font-size: .78em;
+		height: 5em;
+	}
+}
 @media(max-width:576px) {
 	.count {
 		display: block;
