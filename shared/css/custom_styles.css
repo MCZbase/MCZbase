@@ -1254,6 +1254,7 @@ table#pairs th, table#pairs td {
 	margin-bottom: .15em;
 	margin-top: .25em;
 	font-weight: 470;
+	text-align: right;
 }
 .data-entry-input {
 	display: block;
@@ -1581,6 +1582,9 @@ and also iPads specifically.
 	.count {
 		display: block;
 		line-height: 1em;
+	}
+	.data-entry-label {
+		text-align: right;
 	}
 	
 }
