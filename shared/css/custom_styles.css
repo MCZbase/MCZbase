@@ -1548,6 +1548,9 @@ and also iPads specifically.
 	.offset-md-2 {
 		margin-left: 12%;
 	}
+	.data-entry-label {
+		line-height: 1em;
+	}
 }
 @media(min-width:576px) {
 	.card-columns {
@@ -1570,6 +1573,7 @@ and also iPads specifically.
 		display: block;
 		line-height: 1em;
 	}
+	
 }
 @media(max-width:1024px) {
 	.card-columns {
@@ -1580,5 +1584,6 @@ and also iPads specifically.
 	}
 	.font-dot-8 {
 		font-size: 0.8em;
+		text-align: right;
 	}
 }

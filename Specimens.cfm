@@ -367,7 +367,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							<div class="tab-pane fade p-3 my-2" id="three" aria-label="tab 3">
 							<div class="container">
 								<form id="searchForm3">
-									<div class="container">
+								
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 												<label for="collmultiselect2" class="col-sm-2 data-entry-label text-right">Collection</label>
 												<div class="col-sm-4">
@@ -429,7 +429,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											</div>
 										</div>
 										<div class="form-row col-12 px-0 mx-0 mb-2">
-											<label for="collectors_prep" class="col-sm-2 data-entry-label font-dot-8">Collectors/Preparators</label>
+											<label for="collectors_prep" class="col-sm-2 data-entry-label font-dot-8">Collectors/ Preparators</label>
 											<div class="col-sm-4">
 												<input id="collectors_prep" type="text" class="data-entry-input">
 											</div>
@@ -454,7 +454,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											<button type="submit" class="btn-xs mr-2 px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
 											</div>
 										</div>	
-									</div>
+								
 										<div class="menu_results"> </div>
 								</form>
 						</div>
