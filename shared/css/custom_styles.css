@@ -1483,6 +1483,10 @@ textarea {
 		-moz-transition: all 0.3s ease;
 		transition: all 0.3s ease;
 	}
+	.w-350 {
+		width: 100%;
+	}
+	
 }
 /* 
 Max width before this PARTICULAR table gets nasty
