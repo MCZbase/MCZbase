@@ -1150,6 +1150,7 @@ table#pairs th, table#pairs td {
 	height: calc(1.5em + .5rem + 1px);
 	padding-top: .25rem;
 	padding-bottom: .25rem;
+	color: rgba(0, 0, 0, .67);
 	padding-left: .5rem;
 	font-size: .875rem;
 	border: 1px solid #ccc;
@@ -1314,7 +1315,7 @@ input::placeholder {
 	line-height: .875em;
 	padding: .25em .5em;
 	height: calc(.875em + .8rem + 1px);
-	color: rgba(0, 0, 0, .8);
+	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: white;
@@ -1341,7 +1342,7 @@ input::placeholder {
 	line-height: .875em;
 	padding: .25em .5em;
 	height: calc(.875em + .8rem + 1px);
-	color: rgba(0, 0, 0, .8);
+	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
 	border-right: none;
 	background-clip: padding-box;
