@@ -120,12 +120,13 @@ label {
 	font-size: .875em;
 }*/
 .ui-multiselect {
-	padding: .2em .5em;
+	padding: .3em .5em;
 	margin: 0;
 	font-size: .875rem;
 	border-radius: .2em;
 	font-weight: 500;
 	padding-left: 12px;
+	line-height: 1.5em;
 	color: #495057;
 }
 button.multiselect2 {
