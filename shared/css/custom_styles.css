@@ -1321,11 +1321,11 @@ input::placeholder {
 .data-entry-select, .custom-select {
 	display: block;
 	width: 100%;
-	font-size: .875em;
-	line-height: .875em;
-	padding: .25em .5em;
-	height: calc(.875em + .8rem + 1px);
-	color: rgba(0, 0, 0, .67);
+font-size: .875em;
+    line-height: 1em;
+    padding: .25em .5em;
+    height: calc(1em + .375rem + .5em);
+    color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: white;
@@ -1570,6 +1570,7 @@ and also iPads specifically.
 	}
 	.data-entry-label {
 		line-height: 1em;
+		text-align:left;
 	}
 }
 @media(min-width:576px) {
