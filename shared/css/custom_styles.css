@@ -1572,7 +1572,7 @@ and also iPads specifically.
 		 height: calc(1.5em + .5rem + 1px);
 		
 	}
-	.btn-sm {
+	#searchbuilder-search.btn-sm,#save-account.btn-sm,#save-fixed-search.btn-sm {
 		font-size: .78em;
 		height: 5em;
 	}

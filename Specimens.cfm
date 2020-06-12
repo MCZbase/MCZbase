@@ -355,19 +355,19 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												</div>
 											</div>
 												<span class="d-flex justify-content-center col-sm-12 px-1">
-												<button class="btn-sm px-3 btn-primary m-1 ml-0" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
-												<button class="btn-sm px-3 btn-primary m-1 ml-0" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
-												<button class="btn-sm px-3 btn-primary m-1 ml-0" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
+												<button class="btn-sm px-3 btn-primary m-1 ml-0" id="searchbuilder-search" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
+												<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
+												<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-fixed-search" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
 												</span>
 										</div>
-							</div>
+									</div>
 									</div>
 							
 							<!---custom fixed search--->
 							<div class="tab-pane fade p-3 my-2" id="three" aria-label="tab 3">
 							<div class="container">
 								<form id="searchForm3">
-								
+									<div class="container">
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 												<label for="collmultiselect2" class="col-sm-2 data-entry-label text-right">Collection</label>
 												<div class="col-sm-4">
@@ -382,7 +382,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													$("##collmultiselect2").multiselect({
 													header: !0,
 													height: 175,
-													minWidth: "325px",
+													minWidth: "350px",
 													classes: "col-sm-12 text-muted w-350",
 													checkAllText: "Check all",
 													uncheckAllText: "Uncheck all",
@@ -454,7 +454,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											<button type="submit" class="btn-xs mr-2 px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
 											</div>
 										</div>	
-								
+									</div>
 										<div class="menu_results"> </div>
 								</form>
 						</div>
