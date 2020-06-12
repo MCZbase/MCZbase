@@ -206,7 +206,7 @@ limitations under the License.
 									<div class="form-row mb-2 mx-0">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
-											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
+											<select name="collection_id" size="1" class="data-entry-prepend-select  custom-select pr-0" aria-label="collection">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
