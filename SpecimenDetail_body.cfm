@@ -879,6 +879,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							</cfloop>
 						</ul></td>
 					</tr>
+					</cfif>
 				</table>
 			</div>
 
