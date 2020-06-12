@@ -954,6 +954,7 @@ $(document).ready(function(){
 		$(this).parent().parent().remove();
 		});
 	});
+});
 </script>
 <script>
 //// script for DatePicker
