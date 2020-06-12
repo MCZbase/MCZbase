@@ -1282,31 +1282,31 @@ table#pairs th, table#pairs td {
 	padding: .25em .5em;
 }
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-	font-weight: 320;
+	font-weight: 360;
 	color:lightgray;
 	line-height: 1.5em;
 	font-size: 11px;
 }
 input::-moz-placeholder { /* Firefox 19+ */
-	font-weight: 320;
+	font-weight: 360;
 	line-height: 1.5em;
 	color: lightgray;
 	font-size: 11px;
 }
 input:-ms-input-placeholder { /* IE 10+ */
-	font-weight: 320;
+	font-weight: 360;
 	line-height: 1.5em;
 	color: lightgray;
 	font-size: 11px;
 }
 input:-moz-placeholder { /* Firefox 18- */
-	font-weight: 320;
+	font-weight: 360;
 	line-height: 1.5em;
 		color: lightgray;
 	font-size: 11px;
 }
 input::placeholder {
-	font-weight: 320;
+	font-weight: 360;
 	line-height: 1.5em;
 		color:lightgray;
 	font-size: 11px;
