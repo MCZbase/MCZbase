@@ -102,7 +102,7 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="row mb-3">
 				<div class="col-md-12 col-sm-12 col-lg-11">
-					<h1 class="h3 smallcaps my-1">Search Taxonomy <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+					<h1 class="h3 smallcaps my-1 pl-1">Search Taxonomy <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 pb-2 tab-card"> 
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100">
@@ -120,7 +120,7 @@ limitations under the License.
 							
 								<div class="row mx-2">
 									<div class="col-12 col-xl-4">
-										<h2 class="h3 card-title px-0 mx-1 mb-0">Search All Taxonomy</h2>
+										<h2 class="h3 card-title px-0 mx-0 mb-0">Search All Taxonomy</h2>
 										<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 										<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 										<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;" aria-label="Find only taxa for which specimens exist?">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
