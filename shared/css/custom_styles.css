@@ -1488,6 +1488,9 @@ textarea {
 	.w-350 {
 		width: 100%;
 	}
+	.multiselect-width {
+		width: 325px;
+	}
 	
 }
 /* 
