@@ -1455,7 +1455,9 @@ textarea {
 	display: inline;
 	list-style: none;
 }
-.w-350 {width: 350px;}
+.w-350 {
+	width: 100%;
+}
  .fas-info {
 	position: absolute;
 	right: 9px;
