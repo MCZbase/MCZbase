@@ -1578,4 +1578,7 @@ and also iPads specifically.
 	.card-body h5 {
 		margin-top: -0.5em;
 	}
+	.font-dot-8 {
+		font-size: 0.8em;
+	}
 }
