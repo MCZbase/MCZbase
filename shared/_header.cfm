@@ -149,10 +149,10 @@ limitations under the License.
 	<cfset collection_link_color = "white">
 	<cfif Application.serverName contains "-test">
 		<cfset header_color = "##ADE1EA" >
-		<cfset collectionlinkcolor = "##94131C" >
+		<cfset collection_link_color = "##94131C" >
 	<cfelseif Application.serverName contains "-dev">
 		<cfset header_color = "##CAEAAD">
-		<cfset collectionlinkcolor = "##94131C" />
+		<cfset collection_link_color = "##94131C" />
 	</cfif>
 </cfif>
 <!--- End workaround --->
