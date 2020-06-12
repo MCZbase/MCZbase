@@ -1166,9 +1166,9 @@ table#pairs th, table#pairs td {
 .select-selected {
 /*  background-color: #ced4da;*/
 }
-/*.custom-select1 {background-color: white}*/
+.custom-select {background-color: white}
 /* Style the arrow inside the select element: */
-/*.custom-select1:after {
+.custom-select:after {
   position: absolute;
   content: "";
   top: 14px;
@@ -1178,10 +1178,10 @@ table#pairs th, table#pairs td {
   border: 6px solid #ccc;
 	background-color: #ccc !important;
   border-color: white;
-}*/
+}
 
 /* Point the arrow upwards when the select box is open (active): */
-.custom-select1.select-arrow-active:after {
+.custom-select.select-arrow-active:after {
   border-color: white;
   top: 7px;
 }
