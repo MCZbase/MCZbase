@@ -1288,25 +1288,25 @@ input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-size: 11px;
 }
 input::-moz-placeholder { /* Firefox 19+ */
-	font-weight: 360;
+	font-weight: 400;
 	line-height: 1.5em;
 	color: lightgray;
 	font-size: 11px;
 }
 input:-ms-input-placeholder { /* IE 10+ */
-	font-weight: 360;
+	font-weight: 400;
 	line-height: 1.5em;
 	color: lightgray;
 	font-size: 11px;
 }
 input:-moz-placeholder { /* Firefox 18- */
-	font-weight: 360;
+	font-weight: 400;
 	line-height: 1.5em;
 		color: lightgray;
 	font-size: 11px;
 }
 input::placeholder {
-	font-weight: 360;
+	font-weight: 400;
 	line-height: 1.5em;
 		color:lightgray;
 	font-size: 11px;
