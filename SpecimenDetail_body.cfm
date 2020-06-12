@@ -863,6 +863,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 							case collector_agent_id
 								when null then '[No Agent]'
 								else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') 
+							end
 							as collector_agent_name
 						from
 							coll_event_number
