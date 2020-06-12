@@ -633,7 +633,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						from
 							media_relations
 						where
-							RELATED_PRIMARY_KEY=#one.locality_id# and
+							RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.locality_id#"> and
 							MEDIA_RELATIONSHIP like '% locality'
 					</cfquery>
 					<cfif len(one.spec_locality) gt 0>
@@ -653,7 +653,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						from
 							media_relations
 						where
-							RELATED_PRIMARY_KEY=#one.collecting_event_id# and
+							RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collecting_event_id#"> and
 							MEDIA_RELATIONSHIP like '% collecting_event'
 					</cfquery>
 					<cfif one.verbatim_locality is not one.spec_locality>
@@ -857,6 +857,28 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<td id="SDCellRight">#coll_event_remarks#</td>
 					</tr>
 					</cfif>
+					<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select
+							coll_event_number, number_series, 
+							case collector_agent_id
+								when null then '[No Agent]'
+								else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') 
+							as collector_agent_name
+						from
+							coll_event_number
+							left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+						where
+							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collecting_event_id#"> 
+					</cfquery>
+					<cfif len(one.coll_event_remarks) gt 0>
+					<tr class="detailData">
+						<td id="SDCellLeft" class="innerDetailLabel" nowrap>Collecting Event/Field Number:</td>
+						<td id="SDCellRight"><ul>
+							<cfloop query="collEventNumbers">
+								<li>#coll_event_number# (#number_series# of #collector_agent_name#)</li>
+							</cfloop>
+						</ul></td>
+					</tr>
 				</table>
 			</div>
 

@@ -43,7 +43,10 @@ limitations under the License.
 	<cfcase value="findAll">
 		<cfquery name="numSeriesList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select number_series, coll_event_num_series_id,
-				MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') as agentname
+				case collector_agent_id
+					when null then '[No Agent]'
+					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') 
+				as agentname
 			from coll_event_num_series
 		</cfquery>
 		<!--- Search Form --->
