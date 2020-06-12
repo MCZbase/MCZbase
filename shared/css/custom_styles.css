@@ -1306,7 +1306,7 @@ input:-moz-placeholder { /* Firefox 18- */
     font-size: 14px;
 }
 input::placeholder {
-    font-weight: 680;
+    font-weight: 450;
     line-height: 1.5em;
     color: silver;
     font-size: 14px;
