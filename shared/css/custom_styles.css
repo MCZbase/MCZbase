@@ -1283,8 +1283,8 @@ table#pairs th, table#pairs td {
 }
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 320;
-	padding-top: 1px;
 	color:gray;
+	line-height: 1.5em;
 	font-size: 11px;
 }
 input::-moz-placeholder { /* Firefox 19+ */
