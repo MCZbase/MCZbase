@@ -389,7 +389,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
 											<label for="loan_type" class="data-entry-label mb-0">Type:</label>
-											<select name="loan_type" id="loan_type" class="custom-select data-entry-select">
+											<select name="loan_type" id="loan_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctLoanType">
 													<cfif ploan_type eq ctLoanType.loan_type>
@@ -404,7 +404,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 											<cfset ploan_status = loan_status>
 											<label for="loan_status" class="data-entry-label mb-0">Status:</label>
-											<select name="loan_status" id="loan_status" class="custom-select data-entry-select" >
+											<select name="loan_status" id="loan_status" class="data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctLoanStatus">
 													<cfif ploan_status eq ctLoanStatus.loan_status>
