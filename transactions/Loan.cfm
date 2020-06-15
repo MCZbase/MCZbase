@@ -858,22 +858,16 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="lbl_nature_of_material"></span>)</label>
-								<textarea name="nature_of_material" id="nature_of_material" rows="4" 
+								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 							class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
 								<label for="loan_description" class="data-entry-label">Description (<span id="lbl_loan_description"></span>)</label>
-								<textarea name="loan_description" id="loan_description" rows="4"
+								<textarea name="loan_description" id="loan_description" rows="2"
 							class="autogrow border rounded w-100">#loanDetails.loan_description#</textarea>
 							</div>
-							<script>
-						// make selected textareas autogrow as text is entered.
-						$(document).ready(function() {
-							$('textarea.autogrow').keyup(autogrow);
-						});
-					</script> 
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
@@ -886,6 +880,15 @@ limitations under the License.
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="lbl_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="2" class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
 							</div>
+							<script>
+								// make selected textareas autogrow as text is entered.
+								$(document).ready(function() {
+									// bind the autogrow function to the keyup event
+									$('textarea.autogrow').keyup(autogrow);
+									// trigger keyup event to size textareas to existing text
+									$('textarea.autogrow').keyup();
+								});
+							</script> 
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
