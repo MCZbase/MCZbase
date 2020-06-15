@@ -42,7 +42,7 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
-<link rel="stylesheet" href="/lib/jquery/jquery.multiselect2.css" />	
+<link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
@@ -93,7 +93,7 @@ limitations under the License.
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
-<script type="text/javascript" src="/lib/jquery/jquery.multiselect.2.js"></script>	
+<script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>	
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script>
