@@ -1107,17 +1107,17 @@ window.classie = {
 //});
 
 
-//this.button.addEventListener('keydown', function (e) {
-//    if (e.keyCode === 40) {
-//        this.open();
-//    }
-//}.bind(this));
-//	
-//document.onkeydown = function(e) {
-//  if(e.keyCode === 13) { // The Enter/Return key
-//    document.activeElement.onclick(e);
-//  }
-//};
+this.button.addEventListener('keydown', function (e) {
+    if (e.keyCode === 40) {
+        this.open();
+    }
+}.bind(this));
+	
+document.onkeydown = function(e) {
+  if(e.keyCode === 13) { // The Enter/Return key
+    document.activeElement.onclick(e);
+  }
+};
 </script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
