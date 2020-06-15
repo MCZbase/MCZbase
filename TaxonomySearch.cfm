@@ -149,37 +149,37 @@ limitations under the License.
 											</div>
 										<div class="form-row bg-light border rounded px-2 pb-2">
 											<div class="col-md-3">
-												<label for="taxonomic_scientific_name" class="data-entry-label">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match where (=) is in the label.">(=) </span></label>
+												<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match where (=) is in the label.">(=) </span></label>
 												<input type="text" class="data-entry-input" id="scientific_name" placeholder="scientific name">
 											</div>
 											<div class="col-md-3">
-												<label for="full_taxon_name" class="data-entry-label">Any Category</label>
+												<label for="full_taxon_name" class="data-entry-label align-left-center">Any Category</label>
 												<input type="text" class="data-entry-input" id="full_taxon_name" placeholder="any category">
 											</div>
 											<div class="col-md-2">
-												<label for="author_text" class="data-entry-label">Author Text <span class="small text-success" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> (=) </span> </label>
+												<label for="author_text" class="data-entry-label align-left-center">Author Text <span class="small text-success" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> (=) </span> </label>
 												<input type="text" class="data-entry-input" id="author_text" placeholder="author text">
 											</div>
 											<div class="col-md-2">
-												<label for="infraspecific_author" class="data-entry-label">Infra. Author <span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
+												<label for="infraspecific_author" class="data-entry-label align-left-center">Infra. Author <span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
 											</div>
 												<div class="col-md-2">
-												<label for="common_name" class="data-entry-label">Common Name</label>
+												<label for="common_name" class="data-entry-label align-left-center">Common Name</label>
 												<input type="text" class="data-entry-input" id="common_name" placeholder="common name" aria-label="common name">
 											</div>
 										</div>
 										<div class="form-row mt-2">
 											<div class="form-group col-md-2">
-												<label for="genus" class="data-entry-label">Genus <span class="small text-success" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> (=) </span></label>
+												<label for="genus" class="data-entry-label align-left-center">Genus <span class="small text-success" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="genus" placeholder="genus">
 											</div>
 											<div class="form-group col-md-2">
-												<label for="species" class="data-entry-label">Species <span class="small text-success" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</span> </label>
+												<label for="species" class="data-entry-label align-left-center">Species <span class="small text-success" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</span> </label>
 												<input type="text" class="data-entry-input" id="species" placeholder="species">
 											</div>
 											<div class="form-group col-md-2">
-												<label for="subspecies" class="data-entry-label">Subspecies <span class="small text-success" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </span></label>
+												<label for="subspecies" class="data-entry-label align-left-center">Subspecies <span class="small text-success" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="subspecies" placeholder="subspecies">
 											</div>
 											<div class="form-group col-md-2"> </div>
@@ -187,27 +187,27 @@ limitations under the License.
 										</div>
 										<div class="form-row mb-1">
 											<div class="col-md-2">
-												<label for="kingdom" class="data-entry-label">Kingdom <span class="small text-success" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
+												<label for="kingdom" class="data-entry-label align-left-center">Kingdom <span class="small text-success" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
 												<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
 											</div>
 											<div class="col-md-2">
-												<label for="phylum" class="data-entry-label">Phylum <span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
+												<label for="phylum" class="data-entry-label align-left-center">Phylum <span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="phylum" placeholder="phylum">
 											</div>
 											<div class="col-md-2">
-												<label for="subphylum" class="data-entry-label">Subphylum</label>
+												<label for="subphylum" class="data-entry-label align-left-center">Subphylum</label>
 												<input type="small" class="data-entry-input" id="subphylum" placeholder="subphylum">
 											</div>
 											<div class="col-md-2">
-												<label for="superclass" class="data-entry-label">Superclass</label>
+												<label for="superclass" class="data-entry-label align-left-center">Superclass</label>
 												<input type="small" class="data-entry-input" id="superclass" placeholder="superclass">
 											</div>
 											<div class="col-md-2">
-												<label for="phylclass" class="data-entry-label">Class <span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
+												<label for="phylclass" class="data-entry-label align-left-center">Class <span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="phylclass" placeholder="phylclass">
 											</div>
 													<div class="col-md-2">
-												<label for="subclass" class="data-entry-label">Subclass <span class="small text-success" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
+												<label for="subclass" class="data-entry-label align-left-center">Subclass <span class="small text-success" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
 												<input type="text" class="data-entry-input" id="subclass" placeholder="subclass">
 											</div>
 										</div>
@@ -215,46 +215,46 @@ limitations under the License.
 									
 											<div class="col-md-2">
 												<label for="superorder" class="data-entry-label">Superorder</label>
-												<input type="text" class="data-entry-input" id="superorder" placeholder="superorder">
+												<input type="text" class="data-entry-input align-left-center" id="superorder" placeholder="superorder">
 											</div>
 											<div class="col-md-2">
-												<label for="phylorder" class="data-entry-label">Order <span class="small text-success" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </span></label>
+												<label for="phylorder" class="data-entry-label align-left-center">Order <span class="small text-success" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="phylorder" placeholder="phylorder">
 											</div>
 											<div class="col-md-2">
-												<label for="suborder" class="data-entry-label">Suborder <span class="small text-success" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </span></label>
+												<label for="suborder" class="data-entry-label align-left-center">Suborder <span class="small text-success" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="suborder" placeholder="suborder">
 											</div>
 											<div class="col-md-2">
-												<label for="infraorder" class="data-entry-label">Infraorder </label>
+												<label for="infraorder" class="data-entry-label align-left-center">Infraorder </label>
 												<input type="text" class="data-entry-input" id="infraorder" placeholder="infraorder">
 											</div>
 										</div>
 										<div class="form-row mb-1">
 											<div class="col-md-2">
-												<label for="superfamily" class="data-entry-label">Superfamily</label>
+												<label for="superfamily" class="data-entry-label align-left-center">Superfamily</label>
 												<input type="text text-success" class="data-entry-input" id="superfamily" placeholder="superfamily">
 											</div>
 											<div class="col-md-2">
-												<label for="subphylum" class="data-entry-label">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </span></label>
+												<label for="subphylum" class="data-entry-label align-left-center">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="family" placeholder="family">
 											</div>
 											<div class="col-md-2">
-												<label for="subfamily" class="data-entry-label">Subfamily <span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
+												<label for="subfamily" class="data-entry-label align-left-center">Subfamily <span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="subfamily" placeholder="subfamily">
 											</div>
 											<div class="col-md-2">
-												<label for="tribe" class="data-entry-label">Tribe <span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </span></label>
+												<label for="tribe" class="data-entry-label align-left-center">Tribe <span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="tribe" placeholder="tribe">
 											</div>
 											<div class="col-md-2">
-												<label for="subgenus" class="data-entry-label">Subgenus <span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
+												<label for="subgenus" class="data-entry-label align-left-center">Subgenus <span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
 												<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
 											</div>
 										</div>
 										<div class="form-row mb-2">
 											<div class="col-md-3">
-												<label for="nomenclatural_code" class="data-entry-label">Nomenclatural Code</label>
+												<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
 												<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
 													<option></option>
 													<cfloop query="ctnomenclatural_code">
@@ -263,7 +263,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-md-4">
-												<label for="source_authority" class="data-entry-label">Authority</label>
+												<label for="source_authority" class="data-entry-label align-left-center">Authority</label>
 												<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
 													<option></option>
 													<cfloop query="CTTAXONOMIC_AUTHORITY">
@@ -272,7 +272,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-md-2">
-												<label for="taxon_status" class="data-entry-label">Taxon Status</label>
+												<label for="taxon_status" class="data-entry-label align-left-center">Taxon Status</label>
 												<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
 													<option></option>
 													<cfloop query="cttaxon_status">

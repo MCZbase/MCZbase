@@ -1215,6 +1215,11 @@ table#pairs th, table#pairs td {
 	margin-bottom: .15em;
 	margin-top: .25em;
 	font-weight: 470;
+}
+.align-left-center {
+	text-align: left;
+}
+.align-right-center {
 	text-align: right;
 }
 .data-entry-input {
@@ -1511,9 +1516,7 @@ and also iPads specifically.
 		font-size: 75%;
 		height: 90px;
 	}
-	.data-entry-label {
-		text-align: center;
-	}
+
 }
 @media screen and (max-height: 26.375em) {
 	.cbp-spmenu-vertical {
@@ -1536,7 +1539,6 @@ and also iPads specifically.
 	}
 	.data-entry-label {
 		line-height: 1em;
-		text-align:right;
 	}
 }
 @media(min-width:576px) {
@@ -1574,9 +1576,12 @@ and also iPads specifically.
 		display: block;
 		line-height: 1em;
 	}
-	.data-entry-label {
-		text-align: center;
-	}
+.align-left-center {
+	text-align: center;
+}
+.align-right-center {
+	text-align: center;
+}
 	.col-form-label {
 		padding-bottom: 0;
 		line-height: 1;
