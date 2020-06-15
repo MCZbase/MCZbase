@@ -101,7 +101,7 @@ limitations under the License.
 	<div id="search-form-div" class="search-form-div pb-3 px-3">
 		<div class="container-fluid">
 			<div class="row mb-3">
-				<div class="col-md-12 col-sm-12 col-lg-11">
+				<div class="col-12">
 					<h1 class="h3 smallcaps my-1 pl-1">Search Taxonomy <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 pb-2 tab-card"> 
 						<!--- Tab header div --->
