@@ -110,8 +110,16 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													<ul>
 													<li>
 														<label>
-															<input type="checkbox" name="selected" value="#collSearch.collection#"/>
-															#collSearch.collection# (#collSearch.guid_prefix#)
+															<input type="checkbox" name="selected" value="0"/>
+															Cryogeneic (MCZ:Cryo)
+														</label>
+															<label>
+														<input type="checkbox" name="selected" value="1"/>
+															Herpetology (MCZ:Herp)
+														</label>
+															<label>
+														<input type="checkbox" name="selected" value="2"/>
+															Mammalogy (MCZ:Mamm)
 														</label>
 													</li>
 													
