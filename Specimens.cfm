@@ -369,7 +369,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 								<form id="searchForm3">
 									<div class="container">
 										<div class="form-row col-12 px-0 mx-0 mb-2">
-												<label for="collmultiselect2" class="col-sm-2 data-entry-label text-right">Collection</label>
+												<label for="collmultiselect2" class="col-sm-2 data-entry-label ">Collection</label>
 												<div class="col-sm-4">
 													<select name="selectCollection" class="custom-select-sm bg-white mb-2 col-3 col-multi-select" id="collmultiselect2" multiple="multiple">
 													<cfloop query="collSearch">

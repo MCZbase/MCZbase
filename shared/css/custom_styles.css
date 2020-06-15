@@ -1529,7 +1529,7 @@ and also iPads specifically.
 	}
 	.data-entry-label {
 		line-height: 1em;
-		text-align:left;
+		text-align:right;
 	}
 }
 @media(min-width:576px) {
