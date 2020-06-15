@@ -407,7 +407,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a> </div>
-							<div class="col-12 col-md=auto w-50 px-0 float-left">
+							<div class="col-12 col-sm-6 px-0 float-left">
 								<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
 							pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -567,7 +567,7 @@ limitations under the License.
 					<div class="form-row col-12 px-0">
 						<div class="col-6 px-0">
 							<label for="subclass" class="col-sm-3 col-form-label float-left">SubClass</label>
-							<div class="col-9 float-left">
+							<div class="col-12 col-sm-9 float-left">
 								<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input my-2">
 							</div>
 						</div>
@@ -702,9 +702,9 @@ limitations under the License.
 								<input type="hidden" name="Action" value="newTaxonPub">
 								<input type="hidden" name="new_publication_id" id="new_publication_id">
 								<label for="new_pub" class="data-entry-label">Pick Publication</label>
-								<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-sm-8 col-xl-8 float-left">
-								<div class="col-12 col-sm-4 float-left">
-									<input type="submit" value="Add Publication" class="insBtn btn-xs btn-secondary">
+								<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
+								<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
+									<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
 								</div>
 							</div>
 						</div>
