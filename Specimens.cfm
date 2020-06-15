@@ -101,32 +101,34 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									<div class="row">
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
-											<!--	<label for="col-multi-select" class="sr-only">Collection</label>-->
-												<div id="multi-select-plugin" aria-labeledby="multi-select-plugin-label">
-													<span class="toggle">
-														<label>Select a value</label>
-														<span class="chevron">&lt;</span>
-													</span>
-													<ul>
-													<li>
-														<label>
-															<input type="checkbox" name="selected" value="0"/>
-															Cryogeneic (MCZ:Cryo)
-														</label>
-															<label>
-														<input type="checkbox" name="selected" value="1"/>
-															Herpetology (MCZ:Herp)
-														</label>
-															<label>
-														<input type="checkbox" name="selected" value="2"/>
-															Mammalogy (MCZ:Mamm)
-														</label>
-													</li>
-													
-												</ul>
-												</div>
+												<label for="col-multi-select" class="sr-only">Collection</label>
+												<select class="custom-select-sm bg-white" name="col-multi-select" id="col-multi-select" multiple="multiple" style="padding: .2em .5em">
+													<cfloop query="collSearch">
+														<option value="#collSearch.collection#" aria-label="collections"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
+													</cfloop>
+												</select>
 											</div>
-										
+											<script>
+											//// script for multiselect dropdown for collections
+											//// on keyword
+											$("##col-multi-select").multiselect({
+												header: !0,
+												height: 175,
+												minWidth: 350,
+												classes: "float-sm-left col-sm-12 mx-0 w-350",
+												checkAllText: "Check all",
+												uncheckAllText: "Uncheck all",
+												noneSelectedText: "All Collections ",
+												selectedText: "## selected",
+												fontFamily: "apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif",
+												selectedList: 0,
+												show: null,
+												hide: null,
+												autoOpen: !1,
+												multiple: !0,
+												position: {}
+											});
+											</script>	
 											<div class="col-sm-12 col-md-5 col-lg-5">
 												<label for="searchText" class="sr-only">Keyword input field </label>
 											<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text"> 
@@ -369,7 +371,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 												<label for="collmultiselect2" class="col-sm-2 data-entry-label ">Collection</label>
 												<div class="col-sm-4">
-													<select name="selectCollection" class="custom-select-sm bg-white mb-2 col-3" id="collmultiselect2" multiple="multiple">
+													<select name="selectCollection" class="custom-select-sm bg-white mb-2 col-3 " id="collmultiselect2" multiple="multiple">
 													<cfloop query="collSearch">
 														<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
 													</cfloop>
