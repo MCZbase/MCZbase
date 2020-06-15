@@ -1096,28 +1096,5 @@ window.classie = {
 
 })( window );
 </script>
-
-<script>
-//var navButton = document.querySelector('nav a');
-//navButton.addEventListener('click', function() {
-//    let expanded = this.getAttribute('aria-expanded') === 'true' || false;
-//    this.setAttribute('aria-expanded', !expanded);
-//    let menu = this.nextElementSibling;
-//    menu.hidden = !menu.hidden;
-//});
-
-
-this.button.addEventListener('keydown', function (e) {
-    if (e.keyCode === 40) {
-        this.open();
-    }
-}.bind(this));
-	
-document.onkeydown = function(e) {
-  if(e.keyCode === 13) { // The Enter/Return key
-    document.activeElement.onclick(e);
-  }
-};
-</script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
