@@ -451,7 +451,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row mt-1">
 											<label class="sr-only col-sm-2 position-col-form-label" for="submitbtn" style="position:static;">Submit button</label>
 											<div class="col-sm-10">
-											<button type="submit" class="btn-xs mr-1 px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
+											<button type="submit" class="btn-sm mr-1 px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
 											</div>
 										</div>	
 									</div>
