@@ -1438,6 +1438,10 @@ textarea {
 .w-350 {
 	width: 100%;
 }
+#col-multi-select, #collmultiselect2,.ui-multiselect-menu  {
+	width: 350px;
+}
+
  .fas-info {
 	position: absolute;
 	right: 9px;
@@ -1507,6 +1511,9 @@ and also iPads specifically.
 		font-size: 75%;
 		height: 90px;
 	}
+	.data-entry-label {
+		text-align: center;
+	}
 }
 @media screen and (max-height: 26.375em) {
 	.cbp-spmenu-vertical {
@@ -1529,7 +1536,7 @@ and also iPads specifically.
 	}
 	.data-entry-label {
 		line-height: 1em;
-		text-align:left;
+		text-align:right;
 	}
 }
 @media(min-width:576px) {
@@ -1547,6 +1554,10 @@ and also iPads specifically.
 		float: right;
 		margin-top: .25em;
 	}
+	#col-multi-select, #collmultiselect2, .ui-multiselect-menu  {
+	width: 30px;
+	}
+
 }
 @media(max-width:414px){
 	a.btn-sm {
