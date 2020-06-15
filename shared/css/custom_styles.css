@@ -1438,7 +1438,7 @@ textarea {
 .w-350 {
 	width: 100%;
 }
-#col-multi-select, #collmultiselect2 {
+#col-multi-select, #collmultiselect2,.ui-multiselect-menu  {
 	width: 350px;
 }
 
@@ -1554,7 +1554,7 @@ and also iPads specifically.
 		float: right;
 		margin-top: .25em;
 	}
-	#col-multi-select, #collmultiselect2 {
+	#col-multi-select, #collmultiselect2, .ui-multiselect-menu  {
 	width: 30px;
 	}
 
