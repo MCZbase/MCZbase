@@ -95,6 +95,45 @@ function updateAgentLink(agent_id,targetLinkDiv) {
    );
 };
 
+/** Compose a text field for entering a name, an id to hold the agent id, 
+ * and a control for a view agent link into an agent autocomplete picker control.
+ *
+ * @param nameControl the id, without a leading # selector, of the text field to hold the agent name.
+ * @param idControl the id, without a leading # selector, of the hidden field to hold the selected agent id.
+ * @param viewControl the id, without a leading # selector of a span that is to hold a view agent link and 
+ *   flags for problematic agents.
+ */
+function makeTransAgentPicker(nameControl, idControl, viewControl) { 
+	$('##'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/agents/component/search.cfc",
+				data: { term: request.term, method: 'getAgentAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+            										var message = "";      
+					if (error == 'timeout') { 
+   	            message = ' Server took too long to respond.';
+	            } else { 
+	               message = jqXHR.responseText;
+	            }
+                									messageDialog('Error:' + message ,'Error: ' + error);
+					$('##'+nameControl).toggleClass('reqdClr',true);
+					$('##'+nameControl).toggleClass('badPick',true);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('##'+idControl).val(result.item.id);
+			updateAgentLink($('##'+idControl).val(),viewControl);
+			$('##'+nameControl).toggleClass('reqdClr',false);
+			$('##'+nameControl).toggleClass('goodPick',true);
+		},
+		minLength: 3
+	});
+}
+
 /* Update the content of a div containing a count of the items in a Loan.
  * @param transactionId the transaction_id of the Loan to lookup
  * @param targetDiv the id div for which to replace the contents (without a leading #).

@@ -145,37 +145,6 @@ limitations under the License.
 									<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
 									<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 									<script>
-									function makeTransAgentPicker(nameControl, idControl, viewControl) { 
-										$('##'+nameControl).autocomplete({
-											source: function (request, response) { 
-												$.ajax({
-													url: "/agents/component/search.cfc",
-													data: { term: request.term, method: 'getAgentAutocomplete' },
-													dataType: 'json',
-													success : function (data) { response(data); },
-													error : function (jqXHR, status, error) {
-            										var message = "";      
-														if (error == 'timeout') { 
-									   	            message = ' Server took too long to respond.';
-										            } else { 
-										               message = jqXHR.responseText;
-										            }
-                									messageDialog('Error:' + message ,'Error: ' + error);
-														$('##'+nameControl).toggleClass('reqdClr',true);
-														$('##'+nameControl).toggleClass('badPick',true);
-													}
-												})
-											},
-											select: function (event, result) {
-												$('##'+idControl).val(result.item.id);
-												updateAgentLink($('##'+idControl).val(),viewControl);
-												$('##'+nameControl).toggleClass('reqdClr',false);
-												$('##'+nameControl).toggleClass('goodPick',true);
-											},
-											minLength: 3
-										});
-										
-									}
 									$(makeTransAgentPicker('auth_agent_name','auth_agent_id','auth_agent_view'));
 								</script> 
 								</div>
@@ -673,7 +642,7 @@ limitations under the License.
 														onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "><!--- Link to the agent record --->
 													<script>
 														$(document).ready(function() {
-															$(makeAgentPicker('trans_agent_#i#','agent_id_#i#'));  // human readable picks id for link to agent
+															$(makeTransAgentPicker('trans_agent_#i#','agent_id_#i#','agentViewLink_#i#'));  // human readable picks id for link to agent
 														});
 													</script>
 												</td>
