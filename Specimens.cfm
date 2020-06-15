@@ -101,7 +101,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									<div class="row">
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
-												<label for="col-multi-select" class="sr-only">Collection</label>
+											<!--	<label for="col-multi-select" class="sr-only">Collection</label>-->
 												<div id="multi-select-plugin" aria-labeledby="multi-select-plugin-label">
 													<span class="toggle">
 														<label>Select a value</label>
