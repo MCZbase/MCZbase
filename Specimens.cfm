@@ -398,14 +398,14 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												});
 												</script>
 												</div>
-										<label for="catalogNum" class="col-sm-2 data-entry-label font-dot-8">Catalog Number</label>
+										<label for="catalogNum" class="col-sm-2 data-entry-label">Catalog Number</label>
 											<div class="col-sm-4">
 												<input id="catalogNum" type="text" rows="1" name="cat_num" class="data-entry-input" placeholder="Catalog ##(s)"></input>
 											</div>
 										</div>
 									
 										<div class="form-row col-12 px-0 mx-0 mb-2">
-											<label for="otherID" class="col-sm-2 data-entry-label font-dot-8">Other ID Type</label>
+											<label for="otherID" class="col-sm-2 data-entry-label">Other ID Type</label>
 												<div class="col-sm-4">
 													<select title="otherID" name="otherID" id="otherID" class="data-entry-select col-sm-12 pl-2">
 														<option value="">Other ID Type</option>
@@ -413,37 +413,37 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 														<option value="field number">Field Number</option>
 													</select>
 										</div>
-											<label for="otherIDnumber" class="col-sm-2 data-entry-label font-dot-8">Other ID Text</label>
+											<label for="otherIDnumber" class="col-sm-2 data-entry-label">Other ID Text</label>
 											<div class="col-sm-4">
 												<input type="text" class="data-entry-input" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
 											</div>
 										</div>
 										<div class="form-row col-12 px-0 mx-0 mb-2">
-											<label for="taxa" class="mb-1 col-sm-2 data-entry-label font-dot-8">Any Taxonomy</label>
+											<label for="taxa" class="mb-1 col-sm-2 data-entry-label">Any Taxonomy</label>
 											<div class="col-sm-4">
 												<input id="taxa" class="data-entry-input" aria-label="any taxonomy" >
 											</div>
-											<label for="geography" class="col-sm-2 data-entry-label font-dot-8">Any Geography</label>
+											<label for="geography" class="col-sm-2 data-entry-label">Any Geography</label>
 											<div class="col-sm-4">
 												<input type="text" class="data-entry-input" id="geography" aria-label="any geography">
 											</div>
 										</div>
 										<div class="form-row col-12 px-0 mx-0 mb-2">
-											<label for="collectors_prep" class="col-sm-2 data-entry-label font-dot-8">Collectors/ Preparators</label>
+											<label for="collectors_prep" class="col-sm-2 data-entry-label">Collectors/ Preparators</label>
 											<div class="col-sm-4">
 												<input id="collectors_prep" type="text" class="data-entry-input">
 											</div>
-											<label for="part_name" class="col-sm-2 data-entry-label font-dot-8">Part Name</label>
+											<label for="part_name" class="col-sm-2 data-entry-label">Part Name</label>
 											<div class="col-sm-4">
 												<input type="text" id="part_name" name="part_name" class="data-entry-input">
 											</div>
 										</div>	
 										<div class="form-row col-12 px-0 mx-0 mb-2">
-											<label for="place" class="col-sm-2 data-entry-label font-dot-8">Loan Number</label>
+											<label for="place" class="col-sm-2 data-entry-label">Loan Number</label>
 											<div class="col-sm-4">
 												<input type="text" name="place" class="data-entry-input" id="place">
 											</div>
-											<label class="col-sm-2 data-entry-label font-dot-8" for="when">Verbatim Date</label>
+											<label class="col-sm-2 data-entry-label" for="when">Verbatim Date</label>
 											<div class="col-sm-4">
 												<input type="text" class="data-entry-input" id="when">
 											</div>

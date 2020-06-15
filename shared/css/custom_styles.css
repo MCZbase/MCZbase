@@ -1507,6 +1507,9 @@ and also iPads specifically.
 		font-size: 75%;
 		height: 90px;
 	}
+	.data-entry-label {
+		text-align: center;
+	}
 }
 @media screen and (max-height: 26.375em) {
 	.cbp-spmenu-vertical {
