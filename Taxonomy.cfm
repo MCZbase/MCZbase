@@ -407,7 +407,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a> </div>
-							<div class="col-12 col-md=auto w-50 px-0 float-left">
+							<div class="col-12 col-sm-6 px-0 float-left">
 								<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
 							pattern="#pattern#" title="Enter a guid in the form #placeholder#">
