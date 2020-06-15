@@ -567,7 +567,7 @@ limitations under the License.
 					<div class="form-row col-12 px-0">
 						<div class="col-6 px-0">
 							<label for="subclass" class="col-sm-3 col-form-label float-left">SubClass</label>
-							<div class="col-9 float-left">
+							<div class="col-12 col-sm-9 float-left">
 								<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input my-2">
 							</div>
 						</div>

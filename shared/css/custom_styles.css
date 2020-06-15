@@ -1566,6 +1566,10 @@ and also iPads specifically.
 	.data-entry-label {
 		text-align: center;
 	}
+	.col-form-label {
+		padding-bottom: 0;
+		line-height: 1;
+	}
 	
 }
 @media(max-width:1024px) {
