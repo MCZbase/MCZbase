@@ -1440,7 +1440,6 @@ textarea {
 }
 #col-multi-select {
 	width: 350px;
-	
 }
 
  .fas-info {
@@ -1555,6 +1554,9 @@ and also iPads specifically.
 		float: right;
 		margin-top: .25em;
 	}
+	#col-multi-select {
+	width: 30px;
+}
 }
 @media(max-width:414px){
 	a.btn-sm {
