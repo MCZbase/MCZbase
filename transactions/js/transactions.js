@@ -104,7 +104,7 @@ function updateAgentLink(agent_id,targetLinkDiv) {
  *   flags for problematic agents.
  */
 function makeTransAgentPicker(nameControl, idControl, viewControl) { 
-	$('##'+nameControl).autocomplete({
+	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
 				url: "/agents/component/search.cfc",
@@ -119,16 +119,16 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
 	               message = jqXHR.responseText;
 	            }
                 									messageDialog('Error:' + message ,'Error: ' + error);
-					$('##'+nameControl).toggleClass('reqdClr',true);
-					$('##'+nameControl).toggleClass('badPick',true);
+					$('#'+nameControl).toggleClass('reqdClr',true);
+					$('#'+nameControl).toggleClass('badPick',true);
 				}
 			})
 		},
 		select: function (event, result) {
-			$('##'+idControl).val(result.item.id);
+			$('#'+idControl).val(result.item.id);
 			updateAgentLink($('##'+idControl).val(),viewControl);
-			$('##'+nameControl).toggleClass('reqdClr',false);
-			$('##'+nameControl).toggleClass('goodPick',true);
+			$('#'+nameControl).toggleClass('reqdClr',false);
+			$('#'+nameControl).toggleClass('goodPick',true);
 		},
 		minLength: 3
 	});
