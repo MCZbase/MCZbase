@@ -310,7 +310,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+='</td></tr>';
 			d+='<script>';
 			d+=' $(document).ready(function() {';
-			d+='   $(makeAgentPicker("trans_agent_'+i'","trans_agent_id'+i'"));';
+			d+='   $(makeAgentPicker("trans_agent_'+i+'","trans_agent_id'+i+'"));';
 			d+=' });';
 			d+='</script>';
 			$('#numAgents').val(i);
