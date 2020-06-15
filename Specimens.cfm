@@ -382,8 +382,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													$("##collmultiselect2").multiselect({
 													header: !0,
 													height: 175,
-													minWidth: 350,
-													classes: "col-sm-12 text-muted w-350",
+													//minWidth: 350,
+													classes: "col-sm-12 text-muted",
 													checkAllText: "Check all",
 													uncheckAllText: "Uncheck all",
 													noneSelectedText: "All Collections ",

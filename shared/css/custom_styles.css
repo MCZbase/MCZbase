@@ -1438,6 +1438,11 @@ textarea {
 .w-350 {
 	width: 100%;
 }
+#col-multi-select {
+	width: 350px;
+	
+}
+
  .fas-info {
 	position: absolute;
 	right: 9px;
