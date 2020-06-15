@@ -1216,12 +1216,7 @@ table#pairs th, table#pairs td {
 	margin-top: .25em;
 	font-weight: 470;
 }
-.align-left-center {
-	text-align: left;
-}
-.align-right-center {
-	text-align: right;
-}
+
 .data-entry-input {
 	display: block;
 	width: 100%;
@@ -1413,6 +1408,12 @@ textarea {
 	background-color: #fff;
 	background-clip: padding-box;
 	font-weight: 450;
+}
+.align-left-center {
+	text-align: left;
+}
+.align-right-center {
+	text-align: right;
 }
 .smaller-text {
 	font-size: 90%;

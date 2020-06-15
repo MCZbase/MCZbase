@@ -252,7 +252,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
 											</div>
 										</div>
-										<div class="form-row mb-2">
+										<div class="form-row mb-2 mt-2">
 											<div class="col-md-3">
 												<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
 												<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
