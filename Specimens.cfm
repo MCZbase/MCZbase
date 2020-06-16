@@ -86,7 +86,7 @@ $(function(){
 });
 </script>
 
-<p>
+<!---<p>
    <select title="Basic example" multiple="multiple" name="example-basic" size="5">
    <option value="option1">Option 1</option>
    <option value="option2">Option 2</option>
@@ -111,7 +111,7 @@ $(function(){
       <option value="option7">Option 7</option>
    </optgroup>
    </select>
-</p>
+</p>--->
 	<div id="search-form-div" class="search-form-div px-3">
 		<div class="container-fluid" id="content" tabindex="-1">
 			<div class="row">
