@@ -29,7 +29,7 @@ function makePermitPicker(valueControl, idControl) {
 };
 
 /** Check an agent to see if the agent has a flag on the agent, if so alert a message
-  * @param agent_id the agent_id of the agent to check for rank flags.  
+  * @param agent_id the agent_id of the agent to check for rank flags.
   **/
 function checkAgent(agent_id) {
 	jQuery.ajax(
@@ -53,6 +53,10 @@ function checkAgent(agent_id) {
 						messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
 					}
 				}
+			},
+			error : function (jqXHR, status, error) {
+				console.log(status); // log error to console
+				console.log(jqXHR.responseText);
 			}
 		}
 	);
@@ -64,35 +68,33 @@ function checkAgent(agent_id) {
   * @param targetLinkDiv the id (without a leading # for the div the contents of which to replace with the View link.
   */
 function updateAgentLink(agent_id,targetLinkDiv) {
-    jQuery.ajax(
-        {
-				dataType: "json",
-        		url: "/transactions/component/functions.cfc",
-				data: { 
-	            method : "checkAgentFlag",
-   	         agent_id : agent_id,
-      	      returnformat : "json",
-         	   queryformat : 'column'
-				},
-				error: function (jqXHR, status, message) {
-					messageDialog("Error updating agent link: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-				},
-	        	success: function (result) {
-	           var rank = result.DATA.AGENTRANK[0];
-   	        if (rank=='A') {
-      	          $('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
-         	  } else {
-            	  if (rank=='F') {
-	                $('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/agents/images/flag-red.svg.png' width='16'>");
-   	             messageDialog('Please speak to Collections Ops about this loan agent before proceeding.','Agent with an F Rank');
-      	        } else {
-         	       $('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/agents/images/flag-yellow.svg.png' width='16'>");
-            	    messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
-           	   	}
-      	     }
-        	}
+	jQuery.ajax({
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "checkAgentFlag",
+			agent_id : agent_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating agent link: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			var rank = result.DATA.AGENTRANK[0];
+			if (rank=='A') {
+				$('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
+			} else {
+				if (rank=='F') {
+					$('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/agents/images/flag-red.svg.png' width='16'>");
+					messageDialog('Please speak to Collections Ops about this loan agent before proceeding.','Agent with an F Rank');
+				} else {
+					$('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/agents/images/flag-yellow.svg.png' width='16'>");
+					messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
+				}
+			}
 		}
-   );
+	});
 };
 
 /** Compose a text field for entering a name, an id to hold the agent id, 
@@ -286,8 +288,14 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		success: function(data) {
 			$("#"+dialogid+"_div").html(data);
 		},
-		fail: function(jqXHR, textStatus) {
-			$("#"+dialogid+"_div").html("Error:" + textStatus);
+		error: function (jqXHR, status, message) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
+			}
+			$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
 		}
 	});
 }

@@ -122,7 +122,7 @@ function openlinkmediadialog(dialogid, related_value, related_id, relationship, 
 		close: function(event,ui) {
 			if (jQuery.type(okcallback)==='function') {
 				okcallback();
-			}  
+			}
 			$("#"+dialogid+"_div").html("");
 	 		$("#"+dialogid).dialog('destroy');
 		}
@@ -141,8 +141,14 @@ function openlinkmediadialog(dialogid, related_value, related_id, relationship, 
 		success: function (data) {
 			$("#"+dialogid+"_div").html(data);
 		}, 
-		fail: function (jqXHR, textStatus) {
-			$("#"+dialogid+"_div").html("Error:" + textStatus);
-		}  
+		error : function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
+			}
+			$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+		}
 	});
 }
