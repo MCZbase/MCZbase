@@ -88,3 +88,61 @@ function messageDialog(dialogText, dialogTitle) {
   });
 };
 
+/** openlinkmediadialog, create and open a dialog to find and link existing media records with a provided relationship
+ * @param dialogid id to give to the dialog
+ * @param related_value human readable name of the object to link the media to
+ * @param related_id primary key valuue of the object to link the media to
+ * @param relationship type of relationship to create
+ * @param okcallback callback function to invoke on closing dialog
+ */
+function openlinkmediadialog(dialogid, related_value, related_id, relationship, okcallback) {
+	var title = "Link Media record to " + related_value;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 400,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}  
+			$("#"+dialogid+"_div").html("");
+	 		$("#"+dialogid).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/shared/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "linkMediaHtml",
+			returnformat: "plain",
+			relationship: relationship,
+			related_value: related_value,
+			related_id: related_id
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		fail: function (jqXHR, textStatus) {
+			$("#"+dialogid+"_div").html("Error:" + textStatus);
+		}  
+	});
+}
