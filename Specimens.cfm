@@ -120,10 +120,10 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 .ui-multiselect-measure > .ui-multiselect-checkboxes { float: left; }
 .ui-multiselect-measure > .ui-multiselect-checkboxes { margin: 4px; overflow-y: scroll; }
 
-.ui-multiselect-resize { border: 2px dotted #00F }
+.ui-multiselect-resize { border: 2px dotted ##00F }
 .ui-multiselect-hasfilter ul { position:relative; top:2px }
 .ui-multiselect-filter { float:left; margin-right:10px; font-size:1em; width:100%; }
-.ui-multiselect-header .ui-multiselect-filter input { width:100px; font-size:.9em; margin-left:5px; height:15px; padding:2px; border:1px solid #292929; -webkit-appearance:textfield; -webkit-box-sizing:content-box; }
+.ui-multiselect-header .ui-multiselect-filter input { width:100px; font-size:.9em; margin-left:5px; height:15px; padding:2px; border:1px solid ##292929; -webkit-appearance:textfield; -webkit-box-sizing:content-box; }
 .ui-multiselect-excluded {display: none}
 	</style>
 	<div id="search-form-div" class="search-form-div px-3">
