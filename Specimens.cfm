@@ -79,8 +79,10 @@ select media_type from ctmedia_type order by media_type
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <style>
-	.ui-multiselect {box-sizing: border-box; padding:2px 0 2px 4px; text-align:left; width: auto;}
+.ui-multiselect {box-sizing: border-box; padding:2px 0 2px 4px; text-align:left; width: auto;}
 .ui-multiselect .ui-multiselect-open { float:right }
 
 .ui-multiselect-menu { display:none; box-sizing:border-box; position:absolute; text-align:left; z-index: 101; width:auto; height:auto; padding:3px; }
@@ -119,6 +121,10 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 .ui-multiselect-measure > .ui-multiselect-checkboxes { margin: 4px; overflow-y: scroll; }
 
 .ui-multiselect-resize { border: 2px dotted #00F }
+.ui-multiselect-hasfilter ul { position:relative; top:2px }
+.ui-multiselect-filter { float:left; margin-right:10px; font-size:1em; width:100%; }
+.ui-multiselect-header .ui-multiselect-filter input { width:100px; font-size:.9em; margin-left:5px; height:15px; padding:2px; border:1px solid #292929; -webkit-appearance:textfield; -webkit-box-sizing:content-box; }
+.ui-multiselect-excluded {display: none}
 	</style>
 	<div id="search-form-div" class="search-form-div px-3">
 		<div class="container-fluid" id="content" tabindex="-1">
