@@ -79,58 +79,56 @@ select media_type from ctmedia_type order by media_type
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<style>
-.ui-multiselect {box-sizing: border-box; padding:2px 0 2px 4px; text-align:left; width: auto;}
-.ui-multiselect .ui-multiselect-open { float:right }
 
-.ui-multiselect-menu { display:none; box-sizing:border-box; position:absolute; text-align:left; z-index: 101; width:auto; height:auto; padding:3px; }
-.ui-multiselect-menu.ui-multiselect-listbox {position:relative; z-index: 0;}
+  <script type="text/javascript">
+$(function(){
+   $("select").multiselect();
+});
+</script>
+<h2>Basic Demos</h2>
 
-.ui-multiselect-header { display:block; box-sizing:border-box; position:relative; width:auto; padding:3px 0 3px 4px; margin-bottom:2px;}
-.ui-multiselect-header > ul { font-size:0.9em }
-.ui-multiselect-header li { float:left; margin:0 10px 0 0;}
-.ui-multiselect-header a { text-decoration:none; }
-.ui-multiselect-header a:hover { text-decoration:underline; cursor: pointer;}
-.ui-multiselect-header .ui-icon { float:left; }
-.ui-multiselect-header .ui-multiselect-close { float:right; margin-right:0; text-align:right; }
-
-.ui-multiselect-checkboxes { display:block; box-sizing:border-box; position:relative; overflow:auto; width: auto; border: 0; padding: 4px 0 8px;}
-.ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup) { clear:both; font-size:0.9em; list-style: none; padding-right:3px;}
-.ui-multiselect-checkboxes label { border:1px solid transparent; cursor:default; display:block; padding:3px 1px 3px 21px; text-indent: -20px;}
-.ui-multiselect-checkboxes input { position:relative; top:1px; cursor: pointer;}
-.ui-multiselect-checkboxes img { height: 30px; vertical-align: middle; margin-right: 3px;}
-.ui-multiselect-grouplabel { border-bottom:1px solid; display:block; font-weight:bold; margin:1px 0; padding:3px; text-align:center; text-decoration:none; }
-.ui-multiselect-selectable { cursor: pointer; }
-.ui-multiselect-optgroup > ul { padding: 3px; }
-.ui-multiselect-columns { display: inline-block; vertical-align: top; }
-.ui-multiselect-collapser { float: left; padding: 0 1px; margin: 0; }
-.ui-multiselect-collapsed > ul { display:none }
-
-.ui-multiselect-single .ui-multiselect-checkboxes input { left:-9999px; position:absolute !important; top: auto !important; }
-.ui-multiselect-single .ui-multiselect-checkboxes label { padding:5px !important; text-indent: 0 !important; }
-
-.ui-multiselect.ui-multiselect-nowrap { white-space: nowrap }
-.ui-multiselect.ui-multiselect-nowrap > span { display: inline-block }
-.ui-multiselect-checkboxes.ui-multiselect-nowrap li,
-.ui-multiselect-checkboxes.ui-multiselect-nowrap a { white-space: nowrap }
-
-.ui-multiselect-measure > .ui-multiselect-header,
-.ui-multiselect-measure > .ui-multiselect-checkboxes { float: left; }
-.ui-multiselect-measure > .ui-multiselect-checkboxes { margin: 4px; overflow-y: scroll; }
-
-.ui-multiselect-resize { border: 2px dotted ##00F }
-.ui-multiselect-hasfilter ul { position:relative; top:2px }
-.ui-multiselect-filter { float:left; margin-right:10px; font-size:1em; width:100%; }
-.ui-multiselect-header .ui-multiselect-filter input { width:100px; font-size:.9em; margin-left:5px; height:15px; padding:2px; border:1px solid ##292929; -webkit-appearance:textfield; -webkit-box-sizing:content-box; }
-.ui-multiselect-excluded {display: none}
-	</style>
-	<script>
-	$(function(){
+<p>Both multiselects are created with the following one-liner.  Optgroup support is built in out of the box:</p>
+<pre class="prettyprint">
+$(function(){
    $("select").multiselect(); 
 });
-	</script>
+</pre>
+
+<h3>Basic</h3>
+<p>
+   <select title="Basic example" multiple="multiple" name="example-basic" size="5">
+   <option value="option1">Option 1</option>
+   <option value="option2">Option 2</option>
+   <option value="option3">Option 3</option>
+   <option value="option4">Option 4</option>
+   <option value="option5">Option 5</option>
+   <option value="option6">Option 6</option>
+   <option value="option7">Option 7</option>
+   <option value="option8">Option 8</option>
+   <option value="option9">Option 9</option>
+   <option value="option10">Option 10</option>
+   <option value="option11">Option 11</option>
+   <option value="option12">Option 12</option>
+   </select>
+</p>
+
+<h3>With Optgroups</h3>
+<p>Click on an optgroup's heading to toggle the checked state of the entire group.</p>
+<p>
+   <select name="example-optgroup" multiple="multiple" size="5">
+   <optgroup label="Group One">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+   </optgroup>
+   <optgroup label="Group Two">
+      <option value="option4">Option 4</option>
+      <option value="option5">Option 5</option>
+      <option value="option6">Option 6</option>
+      <option value="option7">Option 7</option>
+   </optgroup>
+   </select>
+</p>
 	<div id="search-form-div" class="search-form-div px-3">
 		<div class="container-fluid" id="content" tabindex="-1">
 			<div class="row">
