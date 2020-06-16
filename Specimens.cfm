@@ -85,16 +85,7 @@ $(function(){
    $("select").multiselect();
 });
 </script>
-<h2>Basic Demos</h2>
 
-<p>Both multiselects are created with the following one-liner.  Optgroup support is built in out of the box:</p>
-<pre class="prettyprint">
-$(function(){
-   $("select").multiselect(); 
-});
-</pre>
-
-<h3>Basic</h3>
 <p>
    <select title="Basic example" multiple="multiple" name="example-basic" size="5">
    <option value="option1">Option 1</option>
@@ -112,8 +103,7 @@ $(function(){
    </select>
 </p>
 
-<h3>With Optgroups</h3>
-<p>Click on an optgroup's heading to toggle the checked state of the entire group.</p>
+
 <p>
    <select name="example-optgroup" multiple="multiple" size="5">
    <optgroup label="Group One">
@@ -151,7 +141,7 @@ $(function(){
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
 												<label for="col-multi-select" class="sr-only">Collection</label>
-													<select name="selectCollection" title="collection select" multiple="multiple" size="5">
+													<select name="selectCollection" class="w-350" title="collection select" multiple="multiple" size="5">
 														<cfloop query="collSearch">
 															<option value="#collSearch.collection#" aria-label="collections"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 														</cfloop>
