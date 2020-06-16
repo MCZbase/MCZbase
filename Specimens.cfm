@@ -82,7 +82,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 
   <script type="text/javascript">
 $(function(){
-   $("select").multiselect();
+   $("select.multiselect-collection").multiselect();
 });
 </script>
 
@@ -92,14 +92,7 @@ $(function(){
    <option value="option2">Option 2</option>
    <option value="option3">Option 3</option>
    <option value="option4">Option 4</option>
-   <option value="option5">Option 5</option>
-   <option value="option6">Option 6</option>
-   <option value="option7">Option 7</option>
-   <option value="option8">Option 8</option>
-   <option value="option9">Option 9</option>
-   <option value="option10">Option 10</option>
-   <option value="option11">Option 11</option>
-   <option value="option12">Option 12</option>
+
    </select>
 </p>
 
@@ -141,7 +134,7 @@ $(function(){
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
 												<label for="col-multi-select" class="sr-only">Collection</label>
-													<select name="selectCollection" class="w-350" title="collection select" multiple="multiple" size="5">
+													<select name="selectCollection" class="multiselect-collection" title="collection select" multiple="multiple" size="5">
 														<cfloop query="collSearch">
 															<option value="#collSearch.collection#" aria-label="collections"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 														</cfloop>
@@ -389,7 +382,7 @@ $(function(){
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 												<label for="collmultiselect2" class="col-sm-2 data-entry-label align-right-center">Collection</label>
 												<div class="col-sm-4">
-													<select name="selectCollection" title="collection select" multiple="multiple" size="5">
+													<select name="selectCollection" class="multiselect-collection" title="collection select" multiple="multiple" size="5">
 														<cfloop query="collSearch">
 															<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
 														</cfloop>
