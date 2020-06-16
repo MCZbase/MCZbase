@@ -90,7 +90,7 @@ limitations under the License.
            }
 	}
    function countCharsLeft(elementid, maxsize, outputelementid){ 
-      var current = $('##'+elementid).value.length;
+      var current = $('##'+elementid).val().length;
       var remaining = maxsize - current;
       var result = current + " characters, " + remaining + " left";
       $('##'+outputelementid).html(result);
