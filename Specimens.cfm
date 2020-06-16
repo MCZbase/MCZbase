@@ -134,7 +134,7 @@ $(function(){
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
 												<label for="col-multi-select" class="sr-only">Collection</label>
-													<select name="selectCollection" class="multiselect-collection" title="collection select" multiple="multiple" size="5">
+													<select name="selectCollection1" class="multiselect-collection" title="collection select" multiple="multiple" size="5">
 														<cfloop query="collSearch">
 															<option value="#collSearch.collection#" aria-label="collections"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 														</cfloop>
@@ -373,9 +373,7 @@ $(function(){
 										</div>
 									</div>
 									</div>
-							<style>
-								.w-350 {width:350px;}
-							</style>
+						
 							<!---custom fixed search--->
 							<div class="tab-pane fade p-3 my-2" id="three" aria-label="tab 3">
 							<div class="container">
@@ -384,7 +382,7 @@ $(function(){
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 												<label for="collmultiselect2" class="col-sm-2 data-entry-label align-right-center">Collection</label>
 												<div class="col-sm-4">
-													<select name="selectCollection" class="multiselect-collection w-350" title="collection select" multiple="multiple" size="5">
+													<select name="selectCollection2" class="multiselect-collection" title="collection select" multiple="multiple" size="5">
 														<cfloop query="collSearch">
 															<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
 														</cfloop>
