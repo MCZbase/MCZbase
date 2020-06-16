@@ -126,6 +126,11 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 .ui-multiselect-header .ui-multiselect-filter input { width:100px; font-size:.9em; margin-left:5px; height:15px; padding:2px; border:1px solid ##292929; -webkit-appearance:textfield; -webkit-box-sizing:content-box; }
 .ui-multiselect-excluded {display: none}
 	</style>
+	<script>
+	$(function(){
+   $("select").multiselect(); 
+});
+	</script>
 	<div id="search-form-div" class="search-form-div px-3">
 		<div class="container-fluid" id="content" tabindex="-1">
 			<div class="row">
