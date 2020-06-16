@@ -80,26 +80,7 @@ select media_type from ctmedia_type order by media_type
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
   <script type="text/javascript">
-$(function(){
-   $("select").multiselect();
-});
-</script>
-<p>
-   <select title="Basic example" multiple="multiple" name="example-basic" size="5">
-   <option value="option1">Option 1</option>
-   <option value="option2">Option 2</option>
-   <option value="option3">Option 3</option>
-   <option value="option4">Option 4</option>
-   <option value="option5">Option 5</option>
-   <option value="option6">Option 6</option>
-   <option value="option7">Option 7</option>
-   <option value="option8">Option 8</option>
-   <option value="option9">Option 9</option>
-   <option value="option10">Option 10</option>
-   <option value="option11">Option 11</option>
-   <option value="option12">Option 12</option>
-   </select>
-</p>
+
 	<div id="search-form-div" class="search-form-div px-3">
 		<div class="container-fluid" id="content" tabindex="-1">
 			<div class="row">
