@@ -49,14 +49,23 @@ limitations under the License.
 			<cfelse>
 				<cfset message = "Internal Server Error">
 			</cfif>
+			<cfif isdefined("exception.cause.message")>
+				<cfset causemessage = exception.cause.message>
+			<cfelse>
+				<cfset causemessage = "">
+			</cfif>
 			<cfheader statuscode="500" statustext="Error: #message#"/>
 			<cfoutput>
 				<div class="container">
 					<div class="row">
 						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
+							<p>#causemessage#</p>
+                		<!--- cfif  Application.productionServer EQ false >
+								<cfdump var="#exception#" label="exception" />
+							</cfif --->
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 						</div>
 					</div>
