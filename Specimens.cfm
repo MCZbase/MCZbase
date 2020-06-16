@@ -394,7 +394,15 @@ $(function(){
 												<input id="catalogNum" type="text" rows="1" name="cat_num" class="data-entry-input" placeholder="Catalog ##(s)"></input>
 											</div>
 										</div>
-									
+									<p>
+   <select title="Basic example" multiple="multiple" name="example-basic" size="5">
+   <option value="option1">Option 1</option>
+   <option value="option2">Option 2</option>
+   <option value="option3">Option 3</option>
+   <option value="option4">Option 4</option>
+
+   </select>
+</p>
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 											<label for="otherID" class="col-sm-2 data-entry-label align-right-center">Other ID Type</label>
 												<div class="col-sm-4">
