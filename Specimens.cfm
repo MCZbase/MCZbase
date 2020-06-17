@@ -96,10 +96,10 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							<!---Keyword Search--->
 							<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
 								<form id="searchForm">
-									<div class="col-sm-12 col-md-11 col-lg-11 mt-2 pl-3">
+									<div class="col-12 col-md-12 col-lg-11 mt-2 pl-3">
 										<div class="row">
 											<div class="input-group mt-1 px-3">
-												<div class="input-group-btn col-md-4 pr-md-0 col-sm-12">
+												<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
 													<label for="col-multi-select" class="sr-only">Collection</label>
 													<select class="custom-select-sm bg-white multiselect2" name="col-multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
 														<cfloop query="collSearch">
@@ -107,11 +107,11 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-sm-12 col-md-5 pl-md-0">
+												<div class="col-12 col-sm-5 col-md-6 pl-md-0">
 													<label for="searchText" class="sr-only">Keyword input field </label>
 													<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text">
 												</div>
-												<div class="col-sm-12 col-md-3 input-group-btn">
+												<div class="col-12 col-sm-3 col-md-3 input-group-btn">
 													<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
 													<button class="btn-sm btn-primary px-3 float-right w-100" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
 												</div>
