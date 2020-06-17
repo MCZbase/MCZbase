@@ -289,7 +289,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		success: function(data) {
 			$("#"+dialogid+"_div").html(data);
 		},
-		error: function (jqXHR, status, message) {
+		error: function (jqXHR, status, error) {
 			var message = "";
 			if (error == 'timeout') { 
 				message = ' Server took too long to respond.';
@@ -456,7 +456,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 								okcallback();
 								$("#"+dialogid+"_div").html(data);
 							},
-							error: function (jqXHR, status, message) {
+							error: function (jqXHR, status, error) {
 								var message = "";
 								if (error == 'timeout') { 
 									message = ' Server took too long to respond.';
@@ -491,7 +491,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 	});
 	thedialog.dialog('open');
 	jQuery.ajax({
-		url: "/component/functions.cfc",
+		url: "/shared/component/functions.cfc",
 		type: "post",
 		data: {
 			method: "createMediaHtml",
@@ -503,7 +503,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 		success: function (data) { 
 			$("#"+dialogid+"_div").html(data);
 		}, 
-		error: function (jqXHR, status, message) {
+		error: function (jqXHR, status, error) {
 			var message = "";
 			if (error == 'timeout') { 
 				message = ' Server took too long to respond.';
