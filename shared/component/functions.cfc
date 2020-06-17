@@ -195,7 +195,7 @@ limitations under the License.
 			<input type='hidden' name='Action' value='addThisOne'>
 			<div><a href='#uri#'>#uri#</a></div><div>#description# #mime_type# #media_type#</div><div><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
 		<div id='pickResponse#target_id#_#i#'>
-			<input type='button' 
+			<input type='button' class='btn-secondary'
 				onclick='linkmedia(#media_id#,#target_id#,""#target_relation#"",""pickResponse#target_id#_#i#"");' value='Add this media'>
 		</div>
 		<hr>
