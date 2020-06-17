@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 
-<cfinclude template = "/includes/functionLib.cfm">
+<cfinclude template = "/shared/functionLib.cfm">
 
 <cffunction name="checkAgentFlag" access="remote">
 	<cfargument name="agent_id" type="numeric" required="yes">
