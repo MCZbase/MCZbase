@@ -101,7 +101,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											<div class="input-group mt-1 px-3">
 												<div class="input-group-btn col-md-4 col-sm-12">
 													<label for="col-multi-select" class="sr-only">Collection</label>
-													<select class="custom-select-sm bg-white multiselect" name="col-multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
+													<select class="custom-select-sm bg-white multiselect2" name="col-multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
 														<cfloop query="collSearch">
 															<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 														</cfloop>
@@ -422,6 +422,16 @@ $("select.multiselect").multiselect({
 selectedList: 10 // 0-based index
 });
 $("select.multiselect").multiselect({
+	selectedText: function(numChecked, numTotal, checkedItems){
+		return numChecked + ' of ' + numTotal + ' checked';
+	}
+});	
+		
+
+$("select.multiselect2").multiselect({
+selectedList: 10 // 0-based index
+});
+$("select.multiselect2").multiselect({
 	selectedText: function(numChecked, numTotal, checkedItems){
 		return numChecked + ' of ' + numTotal + ' checked';
 	}
