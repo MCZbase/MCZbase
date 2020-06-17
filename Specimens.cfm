@@ -80,38 +80,6 @@ select media_type from ctmedia_type order by media_type
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
 
-  <script type="text/javascript">
-$(function(){
-   $("select.multiselect-collection").multiselect();
-});
-</script>
-
-<!---<p>
-   <select title="Basic example" multiple="multiple" name="example-basic" size="5">
-   <option value="option1">Option 1</option>
-   <option value="option2">Option 2</option>
-   <option value="option3">Option 3</option>
-   <option value="option4">Option 4</option>
-
-   </select>
-</p>
-
-
-<p>
-   <select name="example-optgroup" multiple="multiple" size="5">
-   <optgroup label="Group One">
-      <option value="option1">Option 1</option>
-      <option value="option2">Option 2</option>
-      <option value="option3">Option 3</option>
-   </optgroup>
-   <optgroup label="Group Two">
-      <option value="option4">Option 4</option>
-      <option value="option5">Option 5</option>
-      <option value="option6">Option 6</option>
-      <option value="option7">Option 7</option>
-   </optgroup>
-   </select>
-</p>--->
 	<div id="search-form-div" class="search-form-div px-3">
 		<div class="container-fluid" id="content" tabindex="-1">
 			<div class="row">
@@ -133,13 +101,39 @@ $(function(){
 									<div class="row">
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
+												
+												
+
+												
+												
 												<label for="col-multi-select" class="sr-only">Collection</label>
-													<select name="selectCollection" class="multiselect-collection" title="collection select" multiple="multiple" size="5">
-														<cfloop query="collSearch">
-															<option value="#collSearch.collection#" aria-label="collections"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
-														</cfloop>
+												<select class="custom-select-sm bg-white multiselect" name="col-multi-select" multiple="multiple" style="padding: .2em .5em">
+													<cfloop query="collSearch">
+														<option value="#collSearch.collection#" aria-label="collections"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
+													</cfloop>
 												</select>
 											</div>
+											<script>
+											//// script for multiselect dropdown for collections
+											//// on keyword
+											$("select.multiselect").multiselect({
+												header: !0,
+												height: 175,
+												minWidth: 350,
+												classes: "float-sm-left col-sm-12 mx-0 w-350",
+												checkAllText: "Check all",
+												uncheckAllText: "Uncheck all",
+												noneSelectedText: "All Collections ",
+												selectedText: "## selected",
+												fontFamily: "apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif",
+												selectedList: 0,
+												show: null,
+												hide: null,
+												autoOpen: !1,
+												multiple: !0,
+												position: {}
+											});
+											</script>	
 											<div class="col-sm-12 col-md-5 col-lg-5">
 												<label for="searchText" class="sr-only">Keyword input field </label>
 											<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text"> 
@@ -373,9 +367,7 @@ $(function(){
 										</div>
 									</div>
 									</div>
-							<style>
-								.w-350 {width:350px;}
-							</style>
+							
 							<!---custom fixed search--->
 							<div class="tab-pane fade p-3 my-2" id="three" aria-label="tab 3">
 							<div class="container">
@@ -384,12 +376,32 @@ $(function(){
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 												<label for="collmultiselect2" class="col-sm-2 data-entry-label align-right-center">Collection</label>
 												<div class="col-sm-4">
-													<select name="selectCollection" class="multiselect-collection w-350" title="collection select" multiple="multiple" size="5">
-														<cfloop query="collSearch">
-															<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
-														</cfloop>
+													<select name="selectCollection" class="custom-select-sm bg-white mb-2 col-3 " id="collmultiselect2" multiple="multiple">
+													<cfloop query="collSearch">
+														<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
+													</cfloop>
 													</select>
-							
+													<script>
+													//// script for multiselect dropdown for collections
+													//// on custom fixed search
+													$("##collmultiselect2").multiselect({
+													header: !0,
+													height: 175,
+													minWidth: 350,
+													classes: "col-sm-12 text-muted",
+													checkAllText: "Check all",
+													uncheckAllText: "Uncheck all",
+													noneSelectedText: "All Collections ",
+													selectedText: "## selected",
+													fontFamily: "Arial",
+													selectedList: 0,
+													show: null,
+													hide: null,
+													autoOpen: !1,
+													multiple: !0,
+													position: {}
+												});
+												</script>
 												</div>
 										<label for="catalogNum" class="col-sm-2 data-entry-label align-right-center">Catalog Number</label>
 											<div class="col-sm-4">
