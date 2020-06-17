@@ -116,10 +116,10 @@ label {
 /*   BELOW: override for collection    */
 /*  dropdown (JQuery) taken from Arctos*/
 /***************************************/
-/*.ui-widget {
+.ui-widget {
 	font-size: .875em;
-}*/
-/*.ui-multiselect {
+}
+.ui-multiselect {
 	padding: .25em .5em;
 	margin: 0;
 	font-size: .875rem;
@@ -162,7 +162,7 @@ button.ui-multiselect.ui-state-hover {
 	border-color: #bac5c6;
 	border-radius: 5px;
 	background-color: white;
-}*/
+}
 span.ui-icon {
 	color: #555;
 	margin-top: 1px;
