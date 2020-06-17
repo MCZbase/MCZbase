@@ -102,14 +102,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
 	<script>
-$("select").multiselect({
-   selectedList: 4 // 0-based index
-});
-$("select").multiselect({
-   selectedText: function(numChecked, numTotal, checkedItems){
-      return numChecked + ' of ' + numTotal + ' checked';
-   }
-});											
+										
 </script>											
 												
 
@@ -126,22 +119,31 @@ $("select").multiselect({
 											//// script for multiselect dropdown for collections
 											//// on keyword
 											$("select.multiselect").multiselect({
-												header: !0,
-												height: 175,
-												minWidth: 350,
-												classes: "float-sm-left col-sm-12 mx-0 w-350",
-												checkAllText: "Check all",
-												uncheckAllText: "Uncheck all",
-												noneSelectedText: "All Collections ",
-												selectedText: "## selected",
-												fontFamily: "apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif",
-												selectedList: 0,
-												show: null,
-												hide: null,
-												autoOpen: !1,
-												multiple: !0,
-												position: {}
+//												header: !0,
+//												height: 175,
+//												minWidth: 350,
+//												classes: "float-sm-left col-sm-12 mx-0 w-350",
+//												checkAllText: "Check all",
+//												uncheckAllText: "Uncheck all",
+//												noneSelectedText: "All Collections ",
+//												selectedText: "## selected",
+//												fontFamily: "apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif",
+//												selectedList: 0,
+//												show: null,
+//												hide: null,
+//												autoOpen: !1,
+//												multiple: !0,
+//												position: {}
 											});
+												
+											$("select.multiselect").multiselect({
+   												selectedList: 4 // 0-based index
+											});
+												$("select.multiselect").multiselect({
+													selectedText: function(numChecked, numTotal, checkedItems){
+														return numChecked + ' of ' + numTotal + ' checked';
+   													}
+												});	
 											</script>	
 											<div class="col-sm-12 col-md-5 col-lg-5">
 												<label for="searchText" class="sr-only">Keyword input field </label>
