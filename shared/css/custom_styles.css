@@ -129,21 +129,11 @@ label {
 	line-height: 1.45em;
 	color: #495057;
 }
-button.multiselect2 {
-	padding: .5em;
-	right: 5%;
-	margin-left: 0;
-	width: 100%;
+button.multiselect {
+	width: 100% !important;
 }
-/*ul.ui-multiselect-checkboxes input {
-	display: inline;
-	float: left;
-}*/
 .ui-multiselect-header span.ui-icon {
 	top: -1px;
-}
-button.ui-multiselect.ui-state-default.multiselect2 {
-	padding: 4px 12px 4px 12px;
 }
 button.ui-multiselect.ui-state-default {
 	border-color: #bac5c6;
