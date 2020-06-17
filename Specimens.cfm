@@ -120,6 +120,16 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									</div>
 								</form>
 							</div>
+							<script>
+							$("select.multiselect2").multiselect({
+selectedList: 10 // 0-based index
+});
+$("select.multiselect2").multiselect({
+	selectedText: function(numChecked, numTotal, checkedItems){
+		return numChecked + ' of ' + numTotal + ' checked';
+	}
+});	
+</script> 
 							<!---Search Builder--->
 							<div class="tab-pane fade show py-3 mx-3" id="two" role="tabpanel" aria-label="tab 2">
 							<form id="searchForm2">
@@ -428,15 +438,7 @@ $("select.multiselect").multiselect({
 });	
 		
 
-$("select.multiselect2").multiselect({
-selectedList: 10 // 0-based index
-});
-$("select.multiselect2").multiselect({
-	selectedText: function(numChecked, numTotal, checkedItems){
-		return numChecked + ' of ' + numTotal + ' checked';
-	}
-});	
-</script> 
+		</script>
 	<!--Grid Related code below along with search handler for keyword search-->
 	<div class="container-fluid">
 	<div class="row">
