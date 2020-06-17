@@ -1,3 +1,5 @@
+/** Scripts specific to transactions pages. **/
+
 /** Make a paired hidden permit_id and text permit_name control into an autocomplete permit picker
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected permit_id (without a leading # selector).
@@ -166,7 +168,6 @@ function updateLoanItemCount(transactionId,targetDiv) {
 	},
 	)
 };
-/** Scripts specific to transactions pages. **/
 
 function loadTransactionFormMedia(transaction_id,transaction_type) {
 	jQuery.ajax({
@@ -422,3 +423,94 @@ function addTransAgentDeacc (id,name,role) {
 	);
 }
 
+// Create and open a dialog to create a new media record adding a provided relationship to the media record 
+function opencreatemediadialog(dialogid, related_value, related_id, relationship, okcallback) { 
+	var title = "Add new Media record to " + related_value;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 400,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Save Media Record": function(){ 
+				if (jQuery.type(okcallback)==='function') {
+					if ($('#newMedia')[0].checkValidity()) {
+						$.ajax({
+							url: 'media.cfm',
+							type: 'post',
+		  					returnformat: 'plain',
+							data: $('#newMedia').serialize(),
+							success: function(data) { 
+								okcallback();
+								$("#"+dialogid+"_div").html(data);
+							},
+							error: function (jqXHR, status, message) {
+								var message = "";
+								if (error == 'timeout') { 
+									message = ' Server took too long to respond.';
+								} else { 
+									message = jqXHR.responseText;
+								}
+								$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+							}
+						});
+					} else { 
+						messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
+					}
+				}
+			},
+			"Close Dialog": function() { 
+				$(this).dialog('close'); 
+			}
+	  },
+	  close: function(event,ui) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			if (dialogid.startsWith("addMediaDlg")) { 
+				$("#"+dialogid+"_div").remove();
+			  	$("#"+dialogid).empty();
+			  	$("#"+dialogid).remove();
+			} else { 
+				$("#"+dialogid+"_div").html("");
+				$("#"+dialogid).dialog('destroy');
+			}
+	 	}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "createMediaHtml",
+			returnformat: "plain",
+			relationship: relationship,
+			related_value: related_value,
+			related_id: related_id
+		}, 
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, status, message) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
+			}
+			$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+		}
+  });
+}
