@@ -1450,6 +1450,9 @@ textarea {
 	top: 40px;
 	color: #46a1dc;
 }
+.nav-tabs .nav-item {
+    margin-bottom: -1px;
+}
 /****************end small form fields*********************/
 /**********************************************************/
 
