@@ -123,7 +123,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							<script>
 							$("select.multiselect2").multiselect({
 selectedList: 10, // 0-based index
-buttonWidth: 250
+title: 'Collection'
 });
 $("select.multiselect2").multiselect({
 	selectedText: function(numChecked, numTotal, checkedItems){
