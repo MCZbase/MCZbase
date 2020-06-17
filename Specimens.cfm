@@ -107,11 +107,11 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-sm-12 col-md-6 pl-md-0 col-lg-6">
+												<div class="col-sm-12 col-md-6 pl-md-0">
 													<label for="searchText" class="sr-only">Keyword input field </label>
 													<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text">
 												</div>
-												<div class="col-sm-12 col-md-3 col-lg-3 input-group-btn">
+												<div class="col-sm-12 col-md-3 input-group-btn">
 													<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
 													<button class="btn-sm btn-primary px-3 float-right w-100" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
 												</div>
