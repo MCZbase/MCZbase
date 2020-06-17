@@ -61,6 +61,7 @@ limitations under the License.
 	      return r;
 	</cfscript>
 </cffunction>
+<!------------------------------------------------------------------------------------->
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
 	<cfargument name="mt" required="false" type="string">
