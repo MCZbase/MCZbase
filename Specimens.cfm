@@ -101,13 +101,6 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									<div class="row">
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-md-4 col-sm-12">
-	<script>
-										
-</script>											
-												
-
-												
-												
 												<label for="col-multi-select" class="sr-only">Collection</label>
 												<select class="custom-select-sm bg-white multiselect" name="col-multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
 													<cfloop query="collSearch">
@@ -115,19 +108,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													</cfloop>
 												</select>
 											</div>
-											<script>
-											//// script for multiselect dropdown for collections
-											//// on keyword
-
-											$("select.multiselect").multiselect({
-   												selectedList: 4 // 0-based index
-											});
-												$("select.multiselect").multiselect({
-													selectedText: function(numChecked, numTotal, checkedItems){
-														return numChecked + ' of ' + numTotal + ' checked';
-   													}
-												});	
-											</script>	
+	
 											<div class="col-sm-12 col-md-5 col-lg-5">
 												<label for="searchText" class="sr-only">Keyword input field </label>
 											<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text"> 
@@ -370,32 +351,12 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										<div class="form-row col-12 px-0 mx-0 mb-2">
 												<label for="collmultiselect2" class="col-sm-2 data-entry-label align-right-center">Collection</label>
 												<div class="col-sm-4">
-													<select name="selectCollection" class="custom-select-sm bg-white mb-2 col-3 " id="collmultiselect2" multiple="multiple">
+														<select class="custom-select-sm bg-white multiselect" name="col-multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
 													<cfloop query="collSearch">
-														<option value="#collSearch.guid_prefix#"> &nbsp;&nbsp; #collSearch.collection# (#collSearch.guid_prefix#)</option>				
+														<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 													</cfloop>
-													</select>
-													<script>
-													//// script for multiselect dropdown for collections
-													//// on custom fixed search
-													$("##collmultiselect2").multiselect({
-													header: !0,
-													height: 175,
-													minWidth: 350,
-													classes: "col-sm-12 text-muted",
-													checkAllText: "Check all",
-													uncheckAllText: "Uncheck all",
-													noneSelectedText: "All Collections ",
-													selectedText: "## selected",
-													fontFamily: "Arial",
-													selectedList: 0,
-													show: null,
-													hide: null,
-													autoOpen: !1,
-													multiple: !0,
-													position: {}
-												});
-												</script>
+												</select>
+					
 												</div>
 										<label for="catalogNum" class="col-sm-2 data-entry-label align-right-center">Catalog Number</label>
 											<div class="col-sm-4">
@@ -466,6 +427,19 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 		</div>
 	</div>
 		</div>
+<script>
+//// script for multiselect dropdown for collections
+//// on keyword
+
+$("select.multiselect").multiselect({
+selectedList: 10 // 0-based index
+});
+$("select.multiselect").multiselect({
+	selectedText: function(numChecked, numTotal, checkedItems){
+		return numChecked + ' of ' + numTotal + ' checked';
+	}
+});	
+</script>
 	<!--Grid Related code below along with search handler for keyword search-->
 	<div class="container-fluid">
 		<div class="row">
