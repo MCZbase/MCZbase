@@ -349,9 +349,9 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 								<form id="searchForm3">
 									<div class="container">
 										<div class="form-row col-12 px-0 mx-0 mb-2">
-												<label for="collmultiselect2" class="col-sm-2 data-entry-label align-right-center">Collection</label>
+												<label for="multi-select" class="col-sm-2 data-entry-label align-right-center">Collection</label>
 												<div class="col-sm-4">
-														<select class="custom-select-sm bg-white multiselect" name="col-multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
+														<select class="custom-select-sm bg-white multiselect" name="multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
 													<cfloop query="collSearch">
 														<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 													</cfloop>

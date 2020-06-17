@@ -129,7 +129,7 @@ label {
 	line-height: 1.5em;
 	color: #495057;
 }
-button.ui.multiselect,.ui-multiselect-menu {
+button.ui.multiselect{
 	width: 100% !important;
 }
 .ui-multiselect-header span.ui-icon {
