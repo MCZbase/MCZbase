@@ -18,7 +18,6 @@ limitations under the License.
 --->
 <cfcomponent>
 
-
 <!---
 	linkMediaHtml create dialog content to link media to an object 
 	@see findMediaSearchResults 
@@ -48,15 +47,15 @@ limitations under the License.
 			<input type='hidden' name='returnformat' value='plain'>
 			<input type='hidden' name='target_id' value='#target_id#'>
 			<input type='hidden' name='target_relation' value='#target_relation#'>
-			<table>
-				<tr>
-					<td colspan='3'>
+			<div class='container-fluid'>
+				<div class='form-row'>
+					<div class='col-md-12>
 						<label for='media_uri'>Media URI</label>
 			 			<input type='text' name='media_uri' id='media_uri' size='90' value=''>
-					</td>
-				</tr>
-				<tr>
-					<td>
+					</div>
+				</div>
+				<div class='form-row'>
+					<div class='col-6'>
 						<label for='mimetype'>MIME Type</label>
 						<select name='mimetype' id='mimetype'>
 							<option value=''></option>
@@ -66,8 +65,8 @@ limitations under the License.
 							</cfloop>
 		<cfset result = result & "
 						</select>
-			 		</td>
-			 		<td>
+			 		</div>
+					<div class='col-6'>
 			 			<label for='mediatype'>Media Type</label>
 						<select name='mediatype' id='mediatype'>
 							<option value=''></option>
@@ -77,25 +76,25 @@ limitations under the License.
 							</cfloop>
 		 <cfset result = result & "
 						</select>
-			 		</td>
-			 		<td></td>
-				</tr>
-				<tr>
-					<td>
+			 		</div>
+				</div>
+				<div class='form-row'>
+					<div class='col-4'>
 						<span>
 							<input type='checkbox' name='unlinked' id='unlinked' value='true'>
 							<label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
 						</span>
-					</td>
-					<td>
-						<input type='submit' value='Search' class='schBtn'>
-					</td>
-					<td>
-						<span ><input type='reset' value='Clear' class='clrBtn'>
-							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" value='Create Media' class='lnkBtn' >&nbsp;
+					</div>
+					<div class='col-4'>
+						<input type='submit' value='Search' class='btn-primary'>
+					</div>
+					<div class='col-4'>
+						<span ><input type='reset' value='Clear' class='btn-warning px-3'>
+							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
+								value='Create Media' class='btn-primary px-3' >&nbsp;
 						</span>
-					</td>
-				</tr>
+					</div>
+				</div>
 			</table>
 		</form>
 		</div>
@@ -103,14 +102,20 @@ limitations under the License.
 			function searchformedia(event) { 
 				event.preventDefault();
 				jQuery.ajax({
-					url: '/component/functions.cfc',
+					url: '/shared/component/functions.cfc',
 					type: 'post',
 					data: $('##findMediaForm').serialize(),
 					success: function (data) {
 						$('##mediaSearchResults').html(data);
 					},
-					fail: function (jqXHR, textStatus) {
-						$('##mediaSearchResults').html('Error:' + textStatus);
+					error : function (jqXHR, status, error) {
+						var message = "";
+						if (error == 'timeout') {
+							message = ' Server took too long to respond.';
+						} else {
+							message = jqXHR.responseText;
+						}
+						$('##mediaSearchResults').html('Error (' + error + '): ' + message);
 					}
 				});
 				return false; 
@@ -126,6 +131,7 @@ limitations under the License.
 
 	<cfreturn result>
 </cffunction>
+
 <!------------------------------------->
 <!--- Given some basic query parameters for media records, find matching media records and return
 		a list with controls to link those media records in a provided relation to a provided target 
@@ -198,7 +204,7 @@ limitations under the License.
 		$('##pickForm#target_id#_#i#').removeClass('ui-widget-content');
 		function linkmedia(media_id, target_id, target_relation, div_id) { 
 			jQuery.ajax({
-				url: '/component/functions.cfc',
+				url: '/shared/component/functions.cfc',
 				type: 'post',
 				data: {
 					method: 'linkMediaRecord',
