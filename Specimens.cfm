@@ -99,7 +99,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									<div class="col-sm-12 col-md-11 col-lg-11 mt-2 pl-3">
 										<div class="row">
 											<div class="input-group mt-1 px-3">
-												<div class="input-group-btn col-md-4 col-sm-12">
+												<div class="input-group-btn col-md-3 pr-0 col-sm-12">
 													<label for="col-multi-select" class="sr-only">Collection</label>
 													<select class="custom-select-sm bg-white multiselect2" name="col-multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
 														<cfloop query="collSearch">
@@ -107,7 +107,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-sm-12 col-md-5 col-lg-5">
+												<div class="col-sm-12 col-md-6 pl-0 col-lg-6">
 													<label for="searchText" class="sr-only">Keyword input field </label>
 													<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text">
 												</div>
