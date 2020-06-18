@@ -87,6 +87,7 @@ nav .navbar-nav li a.nav-link {
 .navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
 	color: #000000;
 	background-color: #ffffff;
+	background-color: #ddd
 	border-right: 2px solid aliceblue;
 	border-left: 2px solid aliceblue;
 }

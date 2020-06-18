@@ -225,7 +225,9 @@ span.data-entry-addon {
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-	box-shadow: none;
+	box-shadow: none;	border-color: #ced4da;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .btn-primary.disabled, .btn-primary:disabled {
 	background-color: #deebec;
