@@ -590,6 +590,12 @@ limitations under the License.
 													];
 													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
 													setDispositionValues();
+													
+													    JQXElements.settings["comboBoxSettings"] =
+        											{
+             											source:items, dropDownVerticalAlignment:"top", theme:"light";
+															myComboBox.showArrow = true;
+													}
 												});
 											</script> 
 												</div>
