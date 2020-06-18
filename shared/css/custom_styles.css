@@ -1182,6 +1182,7 @@ table#pairs th, table#pairs td {
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
+select, select: hover {background:white;border:white;}
 .data-entry-title {
 	font-weight: 500;
 	font-size: 15px;
