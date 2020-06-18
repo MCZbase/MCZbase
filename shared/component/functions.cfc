@@ -310,20 +310,20 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-md-12">
 						<label for="media_uri">Media URI</label>
-						<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr" required>
+						<input type="text" name="media_uri" id="media_uri" class="reqdClr w-100" required>
 						<!--- <span class="infoLink" id="uploadMedia">Upload</span> --->
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md-12">
 						<label for="preview_uri">Preview URI</label>
-		 				<input type="text" name="preview_uri" id="preview_uri" size="105">
+		 				<input type="text" name="preview_uri" id="preview_uri" class="w-100">
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md-4">
 						<label for="mime_type">MIME Type</label>
-	 			 		<select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;" required>
+	 			 		<select name="mime_type" id="mime_type" class="reqdClr w-75" required>
 							<option value=""></option>'>
 							<cfloop query="ctmime_type">
 								<cfset result = result & "<option value='#mime_type#'>#mime_type#</option>">
@@ -333,7 +333,7 @@ limitations under the License.
 					</div>
 					<div class="col-md-4">
 						<label for="media_type">Media Type</label>
-							<select name="media_type" id="media_type" class="reqdClr" style="width: 160px;" required>
+							<select name="media_type" id="media_type" class="reqdClr w-75"  required>
 								<option value=""></option>'>
 								<cfloop query="ctmedia_type">
 									<cfset result = result & '<option value="#media_type#">#media_type#</option>' >
@@ -343,7 +343,7 @@ limitations under the License.
 					</div>
 					<div class="col-md-4">
 						<label for="mask_media_fg">Media Record Visibility</label>
-						<select name="mask_media_fg" value="mask_media_fg">
+						<select name="mask_media_fg" value="mask_media_fg" class="w-75">
 							<option value="0" selected="selected">Public</option>
 							<option value="1">Hidden</option>
 						</select>
@@ -374,6 +374,12 @@ limitations under the License.
 				</div>
 				<div class="form-row">
 					<div class="col-md-12">
+						<label for="description">Description</label>
+		 				<input type="text" name="description" id="description" class="w-100 reqdClr" required>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-md-12">
 						<label for="relationships" style="margin-top:.5em;">Media Relationships</label>
 						<div id="relationships" class="graydot">
 							<div id="relationshiperror"></div>
@@ -388,14 +394,13 @@ limitations under the License.
 								<input type="text" name="related_value__1" id="related_value__1" size="70" readonly>
 								<input type="hidden" name="related_id__1" id="related_id__1">
 								<br>
-								<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
+								<button class="btn-xs btn-primary" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
 							</div>
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md-12">
 						<label for="labels" style="margin-top:.5em;">Media Labels</label>
-						<p>Note: For media of permits, correspondence, and other transaction related documents, please enter a "description" media label.</p>
 						<div id="labels" class="graydot">
 							<div id="labelsDiv__1">
 								<select name="label__1" id="label__1" size="1" style="width: 200px;">
@@ -406,9 +411,9 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 								:&nbsp;
-								<input type="text" name="label_value__1" id="label_value__1" size="70">&nbsp;
+								<input type="text" name="label_value__1" id="label_value__1" class="w-75">&nbsp;
 								<br>
-								<span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
+								<button class="btn-xs btn-primary" id="addLabel" onclick="addLabel(2)" aria-label="Add a media label">Add Label</button>
 							</div>
 					</div>
 				</div>
