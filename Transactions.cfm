@@ -756,7 +756,7 @@ limitations under the License.
     <option value="">Select one...</option>
    <cfloop query="ctCollObjDisp">
 													<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-													$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+													$("##coll_obj_disposition").combobox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
 													</cfif>
 													</cfloop>
   </select>
