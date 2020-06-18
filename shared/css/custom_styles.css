@@ -1418,6 +1418,12 @@ textarea {
 }
 .infoLink {
 	cursor: pointer;
+	color:blue;
+   text-decoration:underline;
+}
+.infoLink:hover {
+   text-decoration:none;
+	text-shadow: 1px 1px 1px #555;
 }
 .shipments {
 	border: 1px solid #bac5c6;
