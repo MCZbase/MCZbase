@@ -53,27 +53,27 @@ limitations under the License.
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>--->
 <script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle--->
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>--->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdata.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdata.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.filter.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.edit.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.sort.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.selection.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.storage.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdata.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.filter.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.edit.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.selection.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.storage.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcombobox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.pager.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.grouping.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.aggregates.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxscrollbar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/globalization/globalize.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.pager.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.grouping.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.aggregates.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/globalization/globalize.js"></script>
 <!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
 <!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxlistbox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdropdownlist.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdropdownlist.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxmenu.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxwindow.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdatetimeinput.js"></script>
@@ -84,9 +84,9 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdragdrop.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsresize.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsreorder.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcalendar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxtree.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcalendar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxtree.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxinput.js"></script>
 <!--- End supspect block --->
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
