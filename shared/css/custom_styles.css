@@ -1265,7 +1265,7 @@ input::placeholder {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-select.data-entry-select {
+select.data-entry-select, select.custom-select {
 	display: block;
 	width: 100%;
 	font-size: .875em;
@@ -1282,14 +1282,14 @@ select.data-entry-select {
 	font-weight: 450;
 	background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .75rem center/8px 10px;
 }
-select.data-entry-select:focus, select.data-entry-select.focus{
+select.data-entry-select:focus, select.data-entry-select.focus, select.custom-select:focus, select.custom-select.focus {
 	color: #495057;
 	background-color: #fff;
 	border-color: #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-.data-entry-select:hover, .data-entry-select.hover {
+.data-entry-select:hover, .data-entry-select.hover, .custom-select:hover, .custom-select.hover {
 	/*	background-color: white !important;
 	background: white;*/
 	border: 1px solid #ced4da;
