@@ -742,9 +742,9 @@ limitations under the License.
       }
     });
  
-    $( "#combobox" ).combobox();
-    $( "#toggle" ).on( "click", function() {
-      $( "#combobox" ).toggle();
+    $( "##combobox" ).combobox();
+    $( "##toggle" ).on( "click", function() {
+      $( "##combobox" ).toggle();
     });
   } );
   </script>
