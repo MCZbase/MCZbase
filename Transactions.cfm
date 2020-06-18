@@ -588,14 +588,10 @@ limitations under the License.
 															,"#ctCollObjDisp.coll_obj_disposition#"
 														</cfloop>
 													];
-													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
+													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, dropDownVerticalAlignment:"top",theme:"light", showArrow=true; });
 													setDispositionValues();
 													
-													    JQXElements.settings["comboBoxSettings"] =
-        											{
-             											source:items, dropDownVerticalAlignment:"top", theme:"light";
-															myComboBox.showArrow = true;
-													}
+												
 												});
 											</script> 
 												</div>
