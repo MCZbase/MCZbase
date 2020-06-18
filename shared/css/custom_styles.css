@@ -1416,7 +1416,7 @@ textarea {
 	font-size: 1.05em;
 	height: 1.05em;
 }
-.infoLink, .botanical {
+.infoLink {
 	cursor: pointer;
 }
 .shipments {
