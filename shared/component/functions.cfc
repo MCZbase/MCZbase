@@ -321,7 +321,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<label for="mime_type">MIME Type</label>
 	 			 		<select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;" required>
 							<option value=""></option>'>
@@ -331,7 +331,7 @@ limitations under the License.
 							<cfset result = result & '
 						</select>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<label for="media_type">Media Type</label>
 							<select name="media_type" id="media_type" class="reqdClr" style="width: 160px;" required>
 								<option value=""></option>'>
@@ -341,9 +341,16 @@ limitations under the License.
 								<cfset result = result & '
 							</select>
 					</div>
+					<div class="col-md-4">
+						<label for="mask_media_fg">Media Record Visibility</label>
+						<select name="mask_media_fg" value="mask_media_fg">
+							<option value="0" selected="selected">Public</option>
+							<option value="1">Hidden</option>
+						</select>
+					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<label for="media_license_id">License</label>
 						<select name="media_license_id" id="media_license_id" style="width:300px;">
 							<option value="">Research copyright &amp; then choose...</option>'>
@@ -352,8 +359,6 @@ limitations under the License.
 							</cfloop>
 							<cfset result = result & '
 						</select>
-					</div>
-					<div class="col-md-6">
 						<a class="infoLink" onClick="popupDefine()">Define Licenses</a><br/>
 					</div>
 				</div>
@@ -368,14 +373,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-4">
-						<label for="mask_media_fg">Media Record Visibility</label>
-						<select name="mask_media_fg" value="mask_media_fg">
-							<option value="0" selected="selected">Public</option>
-							<option value="1">Hidden</option>
-						</select>
-					</div>
-					<div class="col-md-8">
+					<div class="col-md-12">
 						<label for="relationships" style="margin-top:.5em;">Media Relationships</label>
 						<div id="relationships" class="graydot">
 							<div id="relationshiperror"></div>
