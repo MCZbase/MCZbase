@@ -394,7 +394,7 @@ limitations under the License.
 								<input type="text" name="related_value__1" id="related_value__1" size="70" readonly>
 								<input type="hidden" name="related_id__1" id="related_id__1">
 								<br>
-								<button class="btn-xs btn-primary" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
+								<button type="button" class="btn-xs btn-primary" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
 							</div>
 					</div>
 				</div>
@@ -413,7 +413,7 @@ limitations under the License.
 								:&nbsp;
 								<input type="text" name="label_value__1" id="label_value__1" class="w-75">&nbsp;
 								<br>
-								<button class="btn-xs btn-primary" id="addLabel" onclick="addLabel(2)" aria-label="Add a media label">Add Label</button>
+								<button type="button" class="btn-xs btn-primary" id="addLabel" onclick="addLabel(2)" aria-label="Add a media label">Add Label</button>
 							</div>
 					</div>
 				</div>
