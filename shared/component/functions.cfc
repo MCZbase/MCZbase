@@ -195,7 +195,7 @@ limitations under the License.
 			<input type='hidden' name='Action' value='addThisOne'>
 			<div><a href='#uri#'>#uri#</a></div><div>#description# #mime_type# #media_type#</div><div><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
 		<div id='pickResponse#target_id#_#i#'>
-			<input type='button' class='btn-secondary'
+			<input type='button' class='btn-xs btn-secondary'
 				onclick='linkmedia(#media_id#,#target_id#,""#target_relation#"",""pickResponse#target_id#_#i#"");' value='Add this media'>
 		</div>
 		<hr>
@@ -343,7 +343,7 @@ limitations under the License.
 					</div>
 					<div class="col-md-4">
 						<label for="mask_media_fg">Media Record Visibility</label>
-						<select name="mask_media_fg" value="mask_media_fg" class="w-75">
+						<select name="mask_media_fg" value="mask_media_fg" class="w-50">
 							<option value="0" selected="selected">Public</option>
 							<option value="1">Hidden</option>
 						</select>
