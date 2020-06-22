@@ -571,7 +571,7 @@ limitations under the License.
 												<div class="col-9 px-0">
 													<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
 													<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-													<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
+													<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
 													<script>
 												function setDispositionValues() {
 													$('##coll_obj_disposition').jqxComboBox('clearSelection');
