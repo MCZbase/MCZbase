@@ -42,9 +42,9 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
-<!---<link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />--->	
-<link rel="stylesheet" href="/lib/jquery/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.css" />	
-<link rel="stylesheet" href="/lib/jquery/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.filter.css" />	
+<!--- Library supporting a multiselect widget based on jquery-ui.  --->	
+<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.css" />	
+<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.filter.css" />	
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
