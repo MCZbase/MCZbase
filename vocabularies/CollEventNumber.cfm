@@ -93,7 +93,7 @@ limitations under the License.
 								<input type="text" id="remarks" name="remarks" class="form-control-sm" value="" aria-labelledby="remarks_label" >
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-5">
 							<div class="col-12 col-md-6 ui-widget">
 								<span>
 									<label for="collector_agent_name">This is a number series of</label>
@@ -108,13 +108,11 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 col-md-6 ui-widget">
-								<div class="col-12 col-md-6"> 
 									<input type="button" 
 										value="Create" title="Create" aria-label="Create"
 										class="btn btn-xs btn-primary"
 										onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } " 
 										>
-								</div>
 							</div>
 						</div>
 					</form>
@@ -195,7 +193,7 @@ limitations under the License.
 									<input type="text" id="remarks" name="remarks" class="form-control-sm" value="#remarks#" aria-labelledby="remarks_label" >		
 								</div>
 							</div>
-							<div class="form-row mb-2">
+							<div class="form-row mb-5">
 								<div class="col-12 col-md-6 ui-widget"> 
 									<span>
 										<label for="collector_agent_name" id="collector_agent_name_label">This is a number series of</label>
