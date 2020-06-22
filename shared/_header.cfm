@@ -196,7 +196,7 @@ limitations under the License.
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
+						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
@@ -215,7 +215,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Searches
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink1">
+					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink1">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Specimens">active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
 						<a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
 						<a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
@@ -228,7 +228,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Entry
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink2">
+					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
 						<a class="dropdown-item <cfif pageTitle EQ "Data Entry">active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
 						<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
 						<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
@@ -241,7 +241,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Manage Data
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink3">
+					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink3">
 						<a class="dropdown-item" name="projects" href="##">Projects</a>
 						<a class="dropdown-item" name="statistics" href="##">Statistics</a>
 						<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
@@ -256,7 +256,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Transactions
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink4">
+					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink4">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
 						<a class="dropdown-item" name="accessions" href="##">Accessions</a>
 						<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
@@ -270,7 +270,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Help
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink5">
+					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink5">
 						<a class="dropdown-item" name="MCZbase Wiki" href="##">MCZbase Wiki</a>
 						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
@@ -289,7 +289,7 @@ limitations under the License.
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
+						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
@@ -297,8 +297,8 @@ limitations under the License.
 								</form>
 							</cfif>
 							<cfif session.roles contains "public">
-								<a class="dropdown-item pl-5 pl-md-2" href="/customSettings.cfm">Custom Settings</a> 
-								<a class="dropdown-item pl-5 pl-md-2" href="/saveSearch.cfm?action=manage">Saved Searches</a>
+								<a class="dropdown-item pl-5 pl-xl-2" href="/customSettings.cfm">Custom Settings</a> 
+								<a class="dropdown-item pl-5 pl-xl-2" href="/saveSearch.cfm?action=manage">Saved Searches</a>
 							</cfif>
 						</div>
 					</li>
