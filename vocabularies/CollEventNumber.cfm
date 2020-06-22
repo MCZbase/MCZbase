@@ -39,6 +39,9 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------->
+<div class="container">
+	<div class="row">
+		<div class="col-12">
 <cfswitch expression="#action#">
 	<cfcase value="findAll">
 		<cfquery name="numSeriesList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -68,8 +71,7 @@ limitations under the License.
 	<cfcase value="new">
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
-			<div class="container-fluid form-div">
-				<div class="container" role="region" aria-labelledby="formheading">
+				<div role="region" aria-labelledby="formheading">
 					<h2 id="formheading">New Collecting Event Number Series</h2>
 					<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumber.cfm" method="post"> 
 						<input type="hidden" id="action" name="action" value="saveNew" >
@@ -117,7 +119,6 @@ limitations under the License.
 						</div>
 					</form>
 				</div>
-			</div>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="saveNew">
@@ -171,8 +172,7 @@ limitations under the License.
 				where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
 			</cfquery>
 			<cfoutput query="numSeries">
-				<div class="container-fluid form-div">
-					<div class="container" role="region" aria-labelledby="formheading">
+					<div role="region" aria-labelledby="formheading">
 						<h2 id="formheading">Edit Collecting Event Number Series</h2>
 						<form name="editNumSeries" id="editNumSeries"> 
 							<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
@@ -246,7 +246,6 @@ limitations under the License.
 							</div>
 						</form>
 					</div>
-				</div>
 			</cfoutput>
 		</cfif>
 	</cfcase>
@@ -254,6 +253,8 @@ limitations under the License.
 		<cfthrow type="Application" message="Unknown action.">
 	</cfdefaultcase>
 </cfswitch>
-
+		</div>
+	</div>
+</div>
 <!---------------------------------------------------------------------->
 <cfinclude template = "/shared/_footer.cfm">
