@@ -413,7 +413,7 @@ limitations under the License.
 								:&nbsp;
 								<input type="text" name="label_value__1" id="label_value__1" class="w-75">&nbsp;
 								<br>
-								<button type="button" class="btn-xs btn-primary" id="addLabel" onclick="addLabel(2)" aria-label="Add a media label">Add Label</button>
+								<button type="button" class="btn-xs btn-primary" id="addLabel" onclick="addLabel(2);" aria-label="Add a media label">Add Label</button>
 							</div>
 					</div>
 				</div>
