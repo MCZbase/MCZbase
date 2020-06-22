@@ -107,8 +107,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-6 ui-widget">
-								<div id="createButton"></div>
+							<div class="col-12 col-md-6 ui-widget px-2 my-3 px-sm-2 my-4">   								
 									<input type="button" 
 										value="Create" title="Create" aria-label="Create"
 										class="btn btn-xs btn-primary"
