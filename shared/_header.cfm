@@ -35,8 +35,8 @@ limitations under the License.
 <cfinclude template="/shared/functionLib.cfm"><!---Easy to overlook this shared function file--->
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
 <!---<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css">---><!--- TODO: Remove? don't know not in 4.1.3--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/styles/jqx.light.css"><!--- TODO: Remove? don't know--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.light.css"><!--- TODO: Remove? don't know--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
 <!---<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css">---><!--- TODO: Remove? don't know but tabs work--->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
@@ -53,40 +53,40 @@ limitations under the License.
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>--->
 <script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle--->
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>--->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdata.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdata.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.filter.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.edit.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.sort.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.selection.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.storage.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcombobox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.pager.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.grouping.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.aggregates.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxscrollbar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/globalization/globalize.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.filter.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.edit.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.selection.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.storage.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcombobox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.pager.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.grouping.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.aggregates.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/globalization/globalize.js"></script>
 <!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
 <!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxlistbox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdropdownlist.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxmenu.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxwindow.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdatetimeinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdate.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxslider.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdragdrop.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.columnsresize.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.columnsreorder.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcalendar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxtree.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdropdownlist.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxmenu.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxwindow.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdatetimeinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdate.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxslider.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdragdrop.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsresize.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsreorder.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcalendar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxtree.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script>
 <!--- End supspect block --->
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
