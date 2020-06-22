@@ -94,7 +94,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-5">
-							<div class="col-12 col-md-6 ui-widget">
+							<div class="col-12 col-md-6">
 								<span>
 									<label for="collector_agent_name">This is a number series of</label>
 									<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -107,7 +107,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-6 ui-widget px-2 my-3 px-sm-2 my-4">   								
+							<div class="col-12 col-md-6 px-2 my-3 px-sm-2 my-4">   								
 									<input type="button" 
 										value="Create" title="Create" aria-label="Create"
 										class="btn btn-xs btn-primary"
@@ -194,7 +194,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mb-5">
-								<div class="col-12 col-md-6 ui-widget"> 
+								<div class="col-12 col-md-6"> 
 									<span>
 										<label for="collector_agent_name" id="collector_agent_name_label">This is a number series of</label>
 										<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
