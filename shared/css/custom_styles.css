@@ -715,6 +715,7 @@ a#showLeftPush.hiddenclass {
 	padding: 2px .5em;
 	height: 1.75em;
 	margin: 0 5px 0 0;
+	border: 1px solid palegoldenrod;
 }
 .loginMessage {
 	color: #a51c30;
