@@ -1518,7 +1518,8 @@
         media.media_uri,
         media.mime_type,
         media.media_type,
-        media.preview_uri
+        media.preview_uri,
+		 mczbase.get_media_descriptor(media.media_id) as media_descriptor 
      from
          media,
          media_relations,
@@ -1566,6 +1567,7 @@
 				<!---div class="thumbs"--->
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="media">
+						<cfset altText = media.media_descriptor>
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
 		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select
@@ -1576,6 +1578,7 @@
 							where
 								media_id=#media_id#
 						</cfquery>
+						
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
 						</cfquery>
@@ -1584,7 +1587,7 @@
 							<cfset alt=desc.label_value>
 						</cfif>
 		               <div class="one_thumb">
-			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
+			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
 			                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
