@@ -319,6 +319,17 @@ body > .container {
 	font-weight: 600;
 	color: #046aa2 !important;
 	line-height: 2.2em;
+		padding: .15em .4em;
+}
+.helplinks a:hover {
+	padding: .15em .4em;	
+	border-color:transparent;
+}
+.helplinks a:focus {
+	padding: .15em .4em;
+	border-color: #ced4da;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .headerCollectionTextSmall {
 	font-size: smaller;
