@@ -29,6 +29,9 @@ form input.anchor-button:hover {
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
+:focus:not(:focus-visible) {
+    outline: none;
+}
 h1, h2, h3, h4, h5, h6 {
 	line-height: 1.25;
 	margin-top: 1em;
@@ -73,6 +76,9 @@ h6, .h6 {
 #resultLink a {padding: .15em .25em; outline:0;}
 #resultLink a.hover, #resultLink a:hover {padding: .15em .25em; outline:0;}
 #resultLink a.focus, #resultLink a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
+.jqx-grid-cell-left-align a {padding: .15em .25em; outline:0;}
+.jqx-grid-cell-left-align a.hover, .jqx-grid-cell-left-align a:hover {padding: .15em .25em; outline:0;}
+.jqx-grid-cell-left-align a.focus, .jqx-grid-cell-left-align a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
 p {
 	margin-bottom: .75em;
 	line-height: normal;
