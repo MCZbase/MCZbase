@@ -844,7 +844,6 @@ $(document).ready(function() {
          var row = boundrows[rowindexes[i]];
          selectedrows.push(row);
      }
-     alert("Selected Rows: " + JSON.stringify(selectedrows));
  });
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
