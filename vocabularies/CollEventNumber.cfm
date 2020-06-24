@@ -102,7 +102,7 @@ limitations under the License.
 								<div class="form-row mb-5">
 									<div class="col-12 col-md-6">
 										<span>
-											<label for="collector_agent_name">This is a number series of</label>
+											<label for="collector_agent_name">Numbers in this series assigned by Agent</label>
 											<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
 										<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="" aria-label="This is a number series of collector: " >
@@ -208,7 +208,7 @@ limitations under the License.
 									<div class="form-row mb-5">
 										<div class="col-12 col-md-6"> 
 											<span>
-												<label for="collector_agent_name" id="collector_agent_name_label">This is a number series of</label>
+												<label for="collector_agent_name" id="collector_agent_name_label">Numbers in this series assigned by Agent</label>
 												<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</span>
 											<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="#agentname#" aria-labelledby="collector_agent_name_label" >
@@ -222,26 +222,33 @@ limitations under the License.
 													$('##editNumSeries input[type=text]').on("change",changed);
 												});
 												function saveChanges(){ 
-													$('##saveResultDiv').html('Saving....');
-													jQuery.ajax({
-														url : "/vocabularies/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data :  $('##editNumSeries').serialize(),
-														success : function (data) {
-															$('##saveResultDiv').html('Saved.');
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveResultDiv').html('Error.');
-															var message = "";
-															if (error == 'timeout') {
-																message = ' Server took too long to respond.';
-															} else {
-																message = jqXHR.responseText;
+													var agenttext = $('##collector_agent_name').val();
+													var agentid = $('##collector_agent_id').val();
+													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0)) { 
+														$('##saveResultDiv').html('Saving....');
+														jQuery.ajax({
+															url : "/vocabularies/component/functions.cfc",
+															type : "post",
+															dataType : "json",
+															data :  $('##editNumSeries').serialize(),
+															success : function (data) {
+																$('##saveResultDiv').html('Saved.');
+															},
+															error: function(jqXHR,textStatus,error){
+																$('##saveResultDiv').html('Error.');
+																var message = "";
+																if (error == 'timeout') {
+																	message = ' Server took too long to respond.';
+																} else {
+																	message = jqXHR.responseText;
+																}
+																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error);
 															}
-															messageDialog('Error saving collecting event number series: '+message, 'Error: '+error);
-														}
-													});
+														});
+													} else { 
+														messageDialog('Error saving collecting event number series: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+														$('##saveResultDiv').html('Fix error in Agent field.');
+													}
 												};
 											</script>
 										</div>
