@@ -70,6 +70,9 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem
 }
+a {padding: .15em .25em; outline:0;}
+a.hover, a:hover {padding: .15em .25em; outline:0;}
+a.focus, a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
 p {
 	margin-bottom: .75em;
 	line-height: normal;
@@ -312,10 +315,7 @@ span.data-entry-addon {
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 }
-a {padding: .15em .25em; outline:0;}
-a.hover, a:hover {padding: .15em .25em; outline:0;}
-a.focus, a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
-#tab-headers a {padding: inherit;outline:0;box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
+
 .jqx-grid-cell a.focus, .jqx-grid-cell a:focus {text-decoration: underline;	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;}
 /************************
