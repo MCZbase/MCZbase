@@ -101,7 +101,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											<div class="input-group mt-1 px-3">
 												<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
 													<label for="col-multi-select" class="sr-only">Collection</label>
-													<select class="custom-select-sm bg-white multiselect2 w-100" name="col-multi-select" multiple="multiple" size="10">
+													<select class="custom-select-sm bg-white multiselect2 w-100" name="col-multi-select" multiple="multiple" size="10" style="padding:.3em .5em">
 														<cfloop query="collSearch">
 															<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 														</cfloop>
