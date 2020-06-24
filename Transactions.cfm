@@ -786,7 +786,10 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-
+			     ready: function () {
+					 $("#jqxgrid").jqxGrid('selectrow', 0);
+					 $("#jqxgrid").jqxGrid('selectrow', 1);
+				 },
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -833,6 +836,17 @@ $(document).ready(function() {
 			var rowIndex = args.rowindex;
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
+		 $("#button").on('click', function () {
+     var rowindexes = $('##searchResultsGrid').jqxGrid('getselectedrowindexes');
+     var boundrows = $('##searchResultsGrid').jqxGrid('getboundrows');
+     var selectedrows = new Array();
+     for(var i =0; i < rowindexes.length; i++)
+     {
+         var row = boundrows[rowindexes[i]];
+         selectedrows.push(row);
+     }
+     alert("Selected Rows: " + JSON.stringify(selectedrows));
+ });
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
 
