@@ -80,6 +80,10 @@ nav .navbar-nav li a.nav-link {
 	text-decoration: none;
 	background-color: #ddd;
 }
+.navbar-nav li.show:focus, .navbar-nav li:show:focus, .navbar-nav li.show:focus {
+	text-decoration: none;
+	background-color: #ddd;
+}
 .navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
 	border-right: 2px solid transparent;
 	border-left: 2px solid transparent;
@@ -89,6 +93,10 @@ nav .navbar-nav li a.nav-link {
 	background-color: #ffffff;
     border-left: 3px solid #deebec;
     border-right: 3px solid #deebec;
+}
+.navbar-light .navbar-nav li:focus > .nav-link, .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav li.active:focus > .nav-link, .navbar-light .navbar-nav .nav-link.active:focus {
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .2);
 }
 .dropdown-item:active, .dropdown-item.active {
 	background-color: #ffffff;
