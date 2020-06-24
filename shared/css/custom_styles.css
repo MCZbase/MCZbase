@@ -70,9 +70,9 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem
 }
-a {padding: .15em .25em; outline:0;}
-a.hover, a:hover {padding: .15em .25em; outline:0;}
-a.focus, a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
+#resultLink a {padding: .15em .25em; outline:0;}
+#resultLink a.hover, #resultLink a:hover {padding: .15em .25em; outline:0;}
+#resultLink a.focus, #resultLink a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
 p {
 	margin-bottom: .75em;
 	line-height: normal;
