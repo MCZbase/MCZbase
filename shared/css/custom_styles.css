@@ -315,7 +315,7 @@ span.data-entry-addon {
 a {padding: .15em .25em; outline:0;}
 a.hover, a:hover {padding: .15em .25em; outline:0;}
 a.focus, a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
-#tab-headers a {padding: inherit,outline:0;box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
+#tab-headers a {padding: inherit;outline:0;box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
 .jqx-grid-cell a.focus, .jqx-grid-cell a:focus {text-decoration: underline;	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;}
 /************************
