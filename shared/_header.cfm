@@ -216,7 +216,7 @@ limitations under the License.
 						Data Searches
 					</a>
 					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink1">
-						<a class="dropdown-item <cfif pageTitle EQ 'Search Specimens'>active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
+						<a class="dropdown-item <cfif pageTitle EQ "Search Specimens">active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
 						<a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
 						<a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
 						<a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
@@ -228,8 +228,8 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Entry
 					</a>
-					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink2">
-						<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
+					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
+						<a class="dropdown-item <cfif pageTitle EQ "Data Entry">active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
 						<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
 						<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
 						<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
@@ -257,12 +257,12 @@ limitations under the License.
 						Transactions
 					</a>
 					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink4">
-						<a class="dropdown-item <cfif pageTitle EQ 'Search Transactions'>active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
+						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
 						<a class="dropdown-item" name="accessions" href="##">Accessions</a>
 						<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
 						<a class="dropdown-item" name="borrows" href="##">Borrows</a>
 						<a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/transactions/Loan.cfm?action=newLoan">New Loan</a>
-						<a class="dropdown-item <cfif pageTitle EQ 'Search Loans'>active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
+						<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
 						<a class="dropdown-item" name="permits" href="##">Permits</a>
 					</div>
 				</li>
@@ -359,7 +359,7 @@ limitations under the License.
 	// for sidebar menu entirely but not cover treeview 
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
 	// for treeview 
-	$('ul.navbar-nav li a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .nav-link").addClass('active');
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
 	
 	$(".navbar-nav .nav-link a").on("click", function(){
