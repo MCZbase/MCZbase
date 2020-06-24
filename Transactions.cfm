@@ -840,11 +840,7 @@ $(document).ready(function() {
     		var row = event.args.rowindex;
     		var columntext = $("##searchResultsGrid").jqxGrid('getcolumn', event.args.datafield).text;
 		 });
-		$("##searchResultsGrid").on('cellunselect', function (event) {
-			var datafield = event.args.datafield;
-    		var row = event.args.rowindex;
-    		var columntext = $("##searchResultsGrid").jqxGrid('getcolumn', event.args.datafield).text;
-		});
+	
  });
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
