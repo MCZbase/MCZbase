@@ -90,7 +90,6 @@ nav .navbar-nav li a.nav-link {
     border-left: 3px solid #deebec;
     border-right: 3px solid #deebec;
 }
-
 .dropdown-item:active, .dropdown-item.active {
 	background-color: #ffffff;
 	color: #000000;
