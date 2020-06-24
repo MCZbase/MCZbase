@@ -786,12 +786,7 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-			$("##jqxgrid").bind('rowselect', function (event) {
-    var selectedRowIndex = event.args.rowindex;
-});
-$("##jqxgrid").bind('rowunselect', function (event) {
-    var unselectedRowIndex = event.args.rowindex;
-});
+
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
