@@ -835,8 +835,6 @@ $(document).ready(function() {
 			var rowIndex = args.rowindex;
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
-	
-
 
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
@@ -931,9 +929,12 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+				     ready: function () {
+					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
+					 },
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
