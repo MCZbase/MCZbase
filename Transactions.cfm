@@ -783,9 +783,15 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
-			showtoolbar: false,		
+			showtoolbar: false,
+			$("##jqxgrid").bind('rowselect', function (event) {
+    var selectedRowIndex = event.args.rowindex;
+});
+$("##jqxgrid").bind('rowunselect', function (event) {
+    var unselectedRowIndex = event.args.rowindex;
+});
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
