@@ -787,8 +787,8 @@ $(document).ready(function() {
 			altrows: true,
 			showtoolbar: false,
 			     ready: function () {
-					 $("#jqxgrid").jqxGrid('selectrow', 0);
-					 $("#jqxgrid").jqxGrid('selectrow', 1);
+					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
+					 $("##searchResultsGrid").jqxGrid('selectrow', 1);
 				 },
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
