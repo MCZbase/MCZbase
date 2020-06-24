@@ -29,7 +29,18 @@ form input.anchor-button:hover {
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
-
+option:hover {
+    font-weight: normal;
+    display: block;
+    white-space: pre;
+    min-height: 1.2em;
+    padding: .25em .5em;
+	outline: #ccc auto 1px;
+}
+select:focus {
+    outline-offset: 0;
+	outline:0;
+}
 h1, h2, h3, h4, h5, h6 {
 	line-height: 1.25;
 	margin-top: 1em;

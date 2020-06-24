@@ -11,33 +11,7 @@
 	border: 1px solid rgba(0, 34, 51, 0.1);
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 }
-option:hover {
-    font-weight: normal;
-    display: block;
-    white-space: pre;
-    min-height: 1.2em;
-    padding: .25em .5em;
-	outline: #ccc auto 1px;
-}
-select:focus {
-    outline-offset: 0;
-	outline:0;
-}
-select {
--webkit-writing-mode: horizontal-tb !important;
-    text-rendering: auto;
-    color: -internal-light-dark-color(black, white);
-    letter-spacing: normal;
-    word-spacing: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    text-align: start;
-    white-space: pre;
-    -webkit-rtl-ordering: logical;
-    cursor: default;
-    font: 400 13.3333px Arial;
-}
+
 .navbar-collapse {
 	font-size: .9em;
 }
