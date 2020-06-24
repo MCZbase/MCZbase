@@ -1029,7 +1029,7 @@ table.inputTable tr {
 	border:0;
 	border-color: #ced4da;
 	outline: 0;
-	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+	box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, .2);
 }
 .tab-card-header > .tab-content {
 	padding-bottom: 0;
@@ -1194,6 +1194,7 @@ table#pairs th, table#pairs td {
 	border: 6px solid #ccc;
 	background-color: #ccc !important;
 	border-color: white;
+	outline:0;
 }
 #clear {
 	cursor: pointer;
@@ -1257,7 +1258,9 @@ select.data-entry-select option {
 	background-color: white !important;
 	color: rgba(0, 0, 0, .8);
 	padding: .25em .5em;
+	outline:0;
 }
+select.data-entry-select option:focus {outline: 0;}
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 450;
 	line-height: 1.5em;
@@ -1311,7 +1314,7 @@ select.data-entry-select, select.custom-select {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-select.data-entry-select:focus, select.data-entry-select.focus, select.custom-select:focus, select.custom-select.focus {
+select.data-entry-select:focus, select.data-entry-select.focus, select.custom-select:focus, select.custom-select.focus,select.data-entry-select option:focus, select.data-entry-select option.focus, select.custom-select option:focus, select.custom-select option.focus  {
 	color: #495057;
 	background-color: #fff;
 	border-color: #ced4da;
@@ -1340,7 +1343,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-.data-entry-prepend-select:focus, .data-entry-prepend-select.focus {
+.data-entry-prepend-select:focus, .data-entry-prepend-select.focus, .data-entry-prepend-select option:focus, .data-entry-prepend-select option.focus {
 	color: #495057;
 	background-color: #fff;
 	border-color: #ced4da;
