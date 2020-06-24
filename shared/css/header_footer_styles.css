@@ -73,6 +73,10 @@ nav .navbar-nav li a.nav-link {
 	color: #000;
 	width: 100%;
 }
+.dropdown-menu a.dropdown-item:focus {
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .2);
+}
 .dropdown:hover .dropdown-menu {
 	display: block;
 }
