@@ -3,6 +3,9 @@
 /*.menu-div, .bg-light {
 	background-color: #f8f9fa;
 }*/
+:focus:not(:focus-visible) {
+    outline:0;
+}
 :focus {
     outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
@@ -13,7 +16,7 @@ option {
     display: block;
     white-space: pre;
     min-height: 1.2em;
-    padding: 2px 2px;
+    padding: .25em .5em;
 	outline: #ccc auto 1px;
 }
 .navbar-collapse {
