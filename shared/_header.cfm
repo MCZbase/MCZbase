@@ -228,7 +228,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Entry
 					</a>
-					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink2">
 						<a class="dropdown-item <cfif pageTitle EQ "Data Entry">active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
 						<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
 						<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
