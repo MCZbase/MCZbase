@@ -8,6 +8,14 @@
 	border: 1px solid rgba(0, 34, 51, 0.1);
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 }
+option {
+    font-weight: normal;
+    display: block;
+    white-space: pre;
+    min-height: 1.2em;
+    padding: 2px 2px;
+	outline: #ccc auto 1px;
+}
 .navbar-collapse {
 	font-size: .9em;
 }
