@@ -835,12 +835,21 @@ $(document).ready(function() {
 			var rowIndex = args.rowindex;
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
-		 $("##searchResultsGrid").on('rowselect', function (event) {
-    		var datafield = event.args.datafield;
-    		var row = event.args.rowindex;
-    		var columntext = $("##searchResultsGrid").jqxGrid('getcolumn', event.args.datafield).text;
-		 });
-	
+	$("##button").jqxButton({
+     theme: 'energyblue',
+     height: 30
+ });
+
+ $("##button").on('keypress', function () {
+     var rowindexes = $('##searchResultsGrid').jqxGrid('getselectedrowindexes');
+     var boundrows = $('##searchResultsGrid').jqxGrid('getboundrows');
+     var selectedrows = new Array();
+     for(var i =0; i < rowindexes.length; i++)
+     {
+         var row = boundrows[rowindexes[i]];
+         selectedrows.push(row);
+     }
+     alert("Selected Rows: " + JSON.stringify(selectedrows));
  });
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
