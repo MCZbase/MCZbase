@@ -3,6 +3,11 @@
 /*.menu-div, .bg-light {
 	background-color: #f8f9fa;
 }*/
+:focus {
+    outline: #ccc auto 1px;
+	border: 1px solid rgba(0, 34, 51, 0.1);
+	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+}
 .navbar-collapse {
 	font-size: .9em;
 }
