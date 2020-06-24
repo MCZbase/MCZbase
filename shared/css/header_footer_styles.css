@@ -312,6 +312,12 @@ body > .container {
 	color: #004870;
 	text-decoration: none;
 }
+.copyright_background a.policy_link:focus {
+	color: #004870;
+	text-decoration: none;
+		outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
 .ui-icon.ui-icon-triangle-2-n-s {
 	background-position: -124px -16px;
 }
