@@ -362,10 +362,10 @@ limitations under the License.
 //	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 //	
 //	
-//	$(".navbar-nav .nav-link a").on("click", function(){
-//	 $(".nav-link").find(".show").removeClass("show");
-//	 $(this).addClass("show");
-//});
+	$(".navbar-nav .nav-link a").on("click", function(){
+	 $(".nav-link").find(".show").removeClass("show");
+	 $(this).addClass("show");
+});
 </script>
 <cf_rolecheck>
 </cfoutput>
