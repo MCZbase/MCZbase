@@ -354,12 +354,12 @@ limitations under the License.
 </nav>
 </header>
 <script type="text/javascript"> 
-//	/** add active class and stay opened when selected */ 
-//	var url = window.location; 
-//	// for sidebar menu entirely but not cover treeview 
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
-//	// for treeview 
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+	/** add active class and stay opened when selected */ 
+	var url = window.location; 
+	// for sidebar menu entirely but not cover treeview 
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
+	// for treeview 
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .nav-link").addClass('active');
 	
 	
 	$(".navbar-nav .nav-link a").on("click", function(){
