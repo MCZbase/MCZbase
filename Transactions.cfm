@@ -788,8 +788,7 @@ $(document).ready(function() {
 			showtoolbar: false,
 			     ready: function () {
 					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
-					 $("##searchResultsGrid").jqxGrid('selectrow', 1);
-				 },
+					 },
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -836,7 +835,7 @@ $(document).ready(function() {
 			var rowIndex = args.rowindex;
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
-		 $(".jqx-grid-cell-left-align a").on('keypress', function () {
+		 $("##contentsearchResultsGrid a").on('keypress', function () {
      var rowindexes = $('##searchResultsGrid').jqxGrid('getselectedrowindexes');
      var boundrows = $('##searchResultsGrid').jqxGrid('getboundrows');
      var selectedrows = new Array();
