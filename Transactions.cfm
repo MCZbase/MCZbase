@@ -836,7 +836,7 @@ $(document).ready(function() {
 			var rowIndex = args.rowindex;
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
-		 $("#button").on('click', function () {
+		 $("##button").on('click', function () {
      var rowindexes = $('##searchResultsGrid').jqxGrid('getselectedrowindexes');
      var boundrows = $('##searchResultsGrid').jqxGrid('getboundrows');
      var selectedrows = new Array();
