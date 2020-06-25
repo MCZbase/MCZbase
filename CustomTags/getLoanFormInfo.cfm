@@ -443,6 +443,9 @@ select
 		accn_status,
 		estimated_count,
 		'' as value,
+
+		-- shipments (note, one row per shipment)
+		shipment.shipment_id,
 		replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
 		shipped_carrier_method,
 		shipment.no_of_packages as no_of_packages,
@@ -452,9 +455,11 @@ select
 		sponsor_name.agent_name project_sponsor_name,
 		acknowledgement,
 		collection.collection,
-		shipment.shipment_id,
 		shipment.print_flag,
 		shipment.carriers_tracking_number, 
+		replace(replace(MCZBASE.get_permits_for_shipment(shipment.shipment_id),'|','<BR>'),'&','&amp;') as shipping_permits,
+
+		-- media and permits on the accession
 		replace(MCZBASE.get_media_for_trans(trans.transaction_id,'documents accn'),'&','&amp;') as media,
 		replace(MCZBASE.get_permits_for_trans(trans.transaction_id),'&','&amp;') as permits
 	FROM
