@@ -445,13 +445,14 @@ select
 		'' as value,
 
 		-- shipments (note, one row per shipment)
+		MCZBASE.count_shipments_for_trans(trans.transaction_id) as shipment_count,
 		shipment.shipment_id,
 		replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
 		shipped_carrier_method,
 		shipment.no_of_packages as no_of_packages,
 		ship_to_addr.formatted_addr  shipped_to_address   ,
 		ship_from_addr.formatted_addr  shipped_from_address  ,
-		MCZBASE.get_agentnameoftype(shipment.PACKED_BY_AGENT_ID, 'preferred') as processed_by_name,
+		replace(MCZBASE.get_agentnameoftype(shipment.PACKED_BY_AGENT_ID, 'preferred'),'[Error]','') as processed_by_name,
 		sponsor_name.agent_name project_sponsor_name,
 		acknowledgement,
 		collection.collection,
