@@ -34,62 +34,70 @@ function messageDialog(dialogText, dialogTitle) {
 	messageDialog.dialog('moveToTop');
 };
 
-function confirmDialog(dialogText, dialogTitle, okFunction) {
-  $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
-    modal: true,
-    resizable: false,
-    draggable: true,
-    width: 'auto',
-    minHeight: 80,
-    title: dialogTitle,
-    buttons: {
-      OK: function () {
-         setTimeout(okFunction, 30);
-         $(this).dialog('destroy');
-      },
-      Cancel: function () {
-         $(this).dialog('destroy');
-      }
-    },
-    close: function() {
-       $(this).dialog( "destroy" );
-    }
-  });
-};
-
-/** Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
- * function to the ok button.
+/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
+ * types it as a jquery-ui modal dialog and displays it, invokes the specified callback 
+ * function when OK is pressed.
  *
- * @param page uri for the page to load into the dialog
- * @param id an id for a div on the calling page which will have its content replaced with the dialog, iframe 
- *    in the dialog is also given the id {id}_iframe
- * @param title to display in the dialog's heading
- * @param okcallback callback function to execute when the OK button is clicked.
- * @param dialogHeight the height of the dialog, 650 may be a good default value
- * @param dialogWidth the width of the dialog, 800 may be a good default value
-*/
-function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
-	var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%" id="' + id +	'_iframe"></iframe>';
-	var adialog = $("#"+id)
-	.html(content)
-	.dialog({
-		title: title,
-		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+ * @param dialogText the text to place in the dialog.
+ * @prarm dialogTitle for the dialog header.
+ * @param okFunction callback function to invoke upon a press of the OK button.
+ */
+function confirmDialog(dialogText, dialogTitle, okFunction) {
+	$('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
-		stack: true,
-		zindex: 2000,
-		height: dialogHeight,
-		width: dialogWidth,
-		minWidth: 400,
-		minHeight: 450,
-		draggable:true,
+		resizable: false,
+		draggable: true,
+		width: 'auto',
+		minHeight: 80,
+		title: dialogTitle,
 		buttons: {
-			"Ok": function(){ if (jQuery.type(okcallback)==='function') okcallback();} ,
-			"Cancel": function() { $("#"+id).html('').dialog('destroy'); }
+			OK: function () {
+				 setTimeout(okFunction, 30);
+				 $(this).dialog('destroy');
+			},
+			Cancel: function () {
+				 $(this).dialog('destroy');
+			}
+		},
+		close: function() {
+			 $(this).dialog( "destroy" );
 		}
 	});
-	adialog.dialog('open');
+};
+
+
+// Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
+// function to the ok button.
+//
+// @param page uri for the page to load into the dialog
+// @param id an id for a div on the calling page which will have its content replaced with the dialog, iframe 
+//    in the dialog is also given the id {id}_iframe
+// @param title to display in the dialog's heading
+// @param okcallback callback function to execute when the OK button is clicked.
+// @param dialogHeight the height of the dialog, 650 may be a good default value
+// @param dialogWidth the width of the dialog, 800 may be a good default value
+function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
+  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%" id="' + id +  '_iframe"></iframe>';
+  var adialog = $("#"+id)
+  .html(content)
+  .dialog({
+    title: title,
+    autoOpen: false,
+    dialogClass: 'dialog_fixed,ui-widget-header',
+    modal: true,
+    stack: true,
+    zindex: 2000,
+    height: dialogHeight,
+    width: dialogWidth,
+    minWidth: 400,
+    minHeight: 450,
+    draggable:true,
+    buttons: {
+        "Ok": function(){ if (jQuery.type(okcallback)==='function') okcallback();} ,
+        "Cancel": function() {  $("#"+id).html('').dialog('destroy'); }
+    }
+  });
+  adialog.dialog('open');
 };
 
 
