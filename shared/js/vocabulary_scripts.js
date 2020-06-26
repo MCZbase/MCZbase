@@ -41,6 +41,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			var guid = $('#'+inputControl).val();
 			$('#'+inputControl).attr("pattern",data[0].pattern_regex);
 			$('#'+inputControl).attr("placeholder",data[0].placeholder);
+			$('#'+inputControl).attr("title","Enter a guid in the form " +  data[0].placeholder);
 			var valid = false;
 			if (guid != "") { 
 				// validate input control content against the regex
@@ -53,14 +54,23 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			console.log(newlink);
 			if (valid===true) { 
 				// update link
+				$('#'+linkControl).show(); 
 				$('#'+linkControl).attr("href",newlink); 
 				$('#'+linkControl).html(guid); 
-			}
-			$('#'+searchControl).attr("href",data[0].search_uri + searchText); 
+				// hide input
+				$('#'+inputControl).hide();
+			} 
+			$('#'+searchControl).attr("href",data[0].search_uri + encodeURIComponent(searchText)); 
 			if (searchText && searchText.length > 0) { 
-				$('#'+searchControl).html("Search"); 
+				if (guid.length > 0) { 
+					$('#'+searchControl).html("Replace"); 
+				} else { 
+					$('#'+searchControl).html("Find GUID"); 
+				}
+				$('#'+searchControl).addClass("smallBtn external");
 			} else {
 				$('#'+searchControl).html(""); 
+				$('#'+searchControl).removeClass("smallBtn external");
 			}
 		},
 		error : function (jqXHR, status, error) {
@@ -70,7 +80,14 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			} else {
 				message = jqXHR.responseText;
 			}
-			messageDialog('Error:' + message ,'Error: ' + error);
+			if (message=="" && error =="") { 
+				// Case of empty error when guid input is modal and save is pressed, closing page 
+				// and triggering empty error dialog briefly before page closes (at least on firefox)
+				console.log(status);
+				console.log("ajax request for getGuidTypeInfo failed with no error or message");
+			} else { 
+			   messageDialog('Error:' + message ,'Error: ' + error);
+			}
 		}
 	});
 };
