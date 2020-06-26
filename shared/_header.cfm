@@ -32,66 +32,73 @@ limitations under the License.
 	 <cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/shared/functionLib.cfm">
-<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.4.1-dist/css/bootstrap.min.css"><!---needed for overall look--->
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css"><!--- TODO: Remove? don't know not in 4.1.3--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.classic.css"><!--- TODO: Remove? don't know--->
+<cfinclude template="/shared/functionLib.cfm"><!--- Easy to overlook this shared function file --->
+<!--- include stylesheets and javascript library files --->
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.light.css"><!--- TODO: Remove? don't know--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css"><!--- TODO: Remove? don't know but tabs work--->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >
+<!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
-<link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />	
+<!--- Library supporting a multiselect widget based on jquery-ui.  --->	
+<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.css" />	
+<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.filter.css" />	
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
-<script type="text/javascript" src="/lib/jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. --->
-<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>
-<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdata.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdata.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.filter.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.edit.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.sort.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.selection.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.storage.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcombobox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.pager.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.grouping.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.aggregates.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxscrollbar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/globalization/globalize.js"></script>
+<!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>--->
+<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle--->
+<!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>--->
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.filter.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.edit.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.selection.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.storage.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcombobox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.pager.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.grouping.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.aggregates.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/globalization/globalize.js"></script>
 <!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
 <!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxlistbox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdropdownlist.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxmenu.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxwindow.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdatetimeinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdate.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxslider.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxdragdrop.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsresize.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxgrid.columnsreorder.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxcalendar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxtree.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdropdownlist.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxmenu.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxwindow.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdatetimeinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdate.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxslider.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdragdrop.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsresize.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsreorder.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcalendar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxtree.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script>
 <!--- End supspect block --->
+
+<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
+	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
-<script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>	
+
+<!--- Multiselect widget used on specimen search, probably not needed everywhere --->
+<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script>	
+<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>	
+
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script>
@@ -105,38 +112,6 @@ limitations under the License.
 <cfif not isdefined("session.header_color")>
 	<cfset setDbUser()>
 </cfif>
-
-<script type="text/javascript">
-
-//setTimeout(function(){
-	// alert('Session will end in 5 minutes due to inactivity. Click to continue session.');
-//}, 1000*90*85); // 5 minutes
-</script>
-<script>
-// On dropdown open
-//$(document).on('shown.bs.dropdown', function(event) {
-	 // var dropdown = $(event.target);
-		
-		// Set aria-expanded to true
- //   dropdown.find('.dropdown-menu').attr('aria-expanded', true);
-		
-		// Set focus on the first link in the dropdown
- //   setTimeout(function() {
-		 //   dropdown.find('.dropdown-menu li:first-child a').focus();
-	 // }, 10);
-//});
-
-// On dropdown close
-//$(document).on('hidden.bs.dropdown', function(event) {
- //   var dropdown = $(event.target);
-		
-		// Set aria-expanded to false        
-	//  dropdown.find('.dropdown-menu').attr('aria-expanded', false);
-		
-		// Set focus back to dropdown toggle
-	//  dropdown.find('.dropdown-toggle').focus();
-//});	
-</script>
 </head>
 <body class="default">
 
@@ -157,10 +132,10 @@ limitations under the License.
 </cfif>
 <!--- End workaround --->
 
-<a href="##content" class="sr-only sr-only-focusable" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
-<header id="header" aria-level="1" role="heading" class="border-bottom">
+<a href="##content" class="sr-only sr-only-focusable mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+<header id="header" role="heading" class="border-bottom">
 <!--- TODO: [Michelle] Move (this fixed) background-color for this top black bar to a stylesheet. --->
-<div class="branding clearfix" style="background-color: ##1b1b1b;">
+<div class="branding clearfix bg-black">
 	<div class="branding-left justify-content-start">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
 			<img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield">
@@ -199,7 +174,7 @@ limitations under the License.
 	</button>
 
 	<div class="collapse navbar-collapse" id="navbarToggler1">
-		<ul class="navbar-nav mr-auto mt-0 mt-lg-0 pl-0">
+		<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
 			<cfif isdefined("Application.header_image")>
 				<!---  Redesign menu for integration on production --->
 				<li class="nav-item dropdown">
@@ -229,7 +204,7 @@ limitations under the License.
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
@@ -237,7 +212,7 @@ limitations under the License.
 								</form>
 							</cfif>
 							<cfif session.roles contains "public">
-								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
 							</cfif>
 						</div>
 					</li>
@@ -248,21 +223,21 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Searches
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink1">
-						<a class="dropdown-item <cfif pageTitle EQ "Search Specimens">active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink1">
+						<a class="dropdown-item <cfif pageTitle EQ 'Search Specimens'>active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
 						<a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
 						<a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
 						<a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
 						<a class="dropdown-item" aria-label="agent search" name="agents" href="##">Agents</a>
-						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="##">Taxonomy</a>
+						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Entry
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink2">
-						<a class="dropdown-item <cfif pageTitle EQ "Data Entry">active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
+					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
+						<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
 						<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
 						<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
 						<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
@@ -274,7 +249,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Manage Data
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-5" aria-labelledby="navbarDropdownMenuLink3">
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
 						<a class="dropdown-item" name="projects" href="##">Projects</a>
 						<a class="dropdown-item" name="statistics" href="##">Statistics</a>
 						<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
@@ -289,13 +264,13 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Transactions
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink4">
-						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink4">
+						<a class="dropdown-item <cfif pageTitle EQ 'Search Transactions'>active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
 						<a class="dropdown-item" name="accessions" href="##">Accessions</a>
 						<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
 						<a class="dropdown-item" name="borrows" href="##">Borrows</a>
 						<a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/transactions/Loan.cfm?action=newLoan">New Loan</a>
-						<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
+						<a class="dropdown-item <cfif pageTitle EQ 'Search Loans'>active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
 						<a class="dropdown-item" name="permits" href="##">Permits</a>
 					</div>
 				</li>
@@ -303,13 +278,16 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Help
 					</a>
-					<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLink5">
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
 						<a class="dropdown-item" name="MCZbase Wiki" href="##">MCZbase Wiki</a>
 						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 					</div>
 				</li>
+			
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				</ul>
+				<ul class="navbar-nav ml-auto mt-0 mt-lg-0">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
@@ -319,7 +297,7 @@ limitations under the License.
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<div class="dropdown-menu pl-5 pl-md-0" aria-labelledby="navbarDropdownMenuLinka">
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
@@ -327,11 +305,13 @@ limitations under the License.
 								</form>
 							</cfif>
 							<cfif session.roles contains "public">
-								<a class="dropdown-item pl-3" href="/customSettings.cfm" class="px-3">Custom Settings</a> 
-								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage" class="px-3">Saved Searches</a>
+								<a class="dropdown-item pl-5 pl-lg-2" href="/customSettings.cfm">Custom Settings</a> 
+								<a class="dropdown-item pl-5 pl-lg-2" href="/saveSearch.cfm?action=manage">Saved Searches</a>
 							</cfif>
 						</div>
 					</li>
+				</ul>
+				
 				</cfif>	
 			</cfif> <!--- End of Menu for redesign --->
 		</ul><!--- end of menu ul --->
