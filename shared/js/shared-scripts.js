@@ -8,9 +8,6 @@
  * @param dialogText the text to place in the dialog.
  * @prarm dialogTitle
  */
-
-
-
 function messageDialog(dialogText, dialogTitle) {
 	var messageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
@@ -36,6 +33,38 @@ function messageDialog(dialogText, dialogTitle) {
 	});
 	messageDialog.dialog('moveToTop');
 };
+
+/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
+ * types it as a jquery-ui modal dialog and displays it, invokes the specified callback 
+ * function when OK is pressed.
+ *
+ * @param dialogText the text to place in the dialog.
+ * @prarm dialogTitle for the dialog header.
+ * @param okFunction callback function to invoke upon a press of the OK button.
+ */
+function confirmDialog(dialogText, dialogTitle, okFunction) {
+	$('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+		modal: true,
+		resizable: false,
+		draggable: true,
+		width: 'auto',
+		minHeight: 80,
+		title: dialogTitle,
+		buttons: {
+			OK: function () {
+				 setTimeout(okFunction, 30);
+				 $(this).dialog('destroy');
+			},
+			Cancel: function () {
+				 $(this).dialog('destroy');
+			}
+		},
+		close: function() {
+			 $(this).dialog( "destroy" );
+		}
+	});
+};
+
 
 // Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
 // function to the ok button.
