@@ -186,36 +186,40 @@ limitations under the License.
 						<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a>
 						<!---old---><a class="dropdown-item" aria-label="places search" name="places" href="/showLocality.cfm">Places</a>
 						<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
-						<cfif session.roles contains "coldfusion_user">
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
 						</cfif>
 						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
 					</div>
 				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Data Entry
-					</a>
-					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-						<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Transactions
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
-						<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a>
-						<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a>
-						<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
-						<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a>
-						<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a>
-						<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a>
-						<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a>
-						<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a>
-					</div>
-				</li>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Data Entry
+						</a>
+						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
+							<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
+						</div>
+					</li>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Transactions
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
+							<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
+							<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a>
+							<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a>
+							<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
+							<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a>
+							<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a>
+							<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a>
+							<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a>
+							<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a>
+						</div>
+					</li>
+				</cfif>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -255,48 +259,54 @@ limitations under the License.
 						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/Taxa.cfm">Taxonomy</a>
 					</div>
 				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Data Entry
-					</a>
-					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-						<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
-						<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
-						<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
-						<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
-						<a class="dropdown-item" name="bulkloader status" href="##">Bulkloader Status</a>
-						<a class="dropdown-item" name="batch tools" href="##">Batch Tools</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Manage Data
-					</a>
-					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
-						<a class="dropdown-item" name="projects" href="##">Projects</a>
-						<a class="dropdown-item" name="statistics" href="##">Statistics</a>
-						<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
-						<a class="dropdown-item" name="recently georeferenced localities" href="##">Recently Georefereced Localities</a>
-						<a class="dropdown-item" name="taxonomy review" href="##">Taxonomy Review</a>
-						<a class="dropdown-item" name="object tracking" href="##">Object Tracking</a>
-						<a class="dropdown-item" name="encumbrances" href="##">Encumbrances</a>
-						<a class="dropdown-item" name="record review" href="##">Record Review</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Transactions
-					</a>
-					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink4">
-						<a class="dropdown-item <cfif pageTitle EQ 'Search Transactions'>active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
-						<a class="dropdown-item" name="accessions" href="##">Accessions</a>
-						<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
-						<a class="dropdown-item" name="borrows" href="##">Borrows</a>
-						<a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/transactions/Loan.cfm?action=newLoan">New Loan</a>
-						<a class="dropdown-item <cfif pageTitle EQ 'Search Loans'>active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
-						<a class="dropdown-item" name="permits" href="##">Permits</a>
-					</div>
-				</li>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Data Entry
+						</a>
+						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
+							<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
+							<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
+							<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
+							<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
+							<a class="dropdown-item" name="bulkloader status" href="##">Bulkloader Status</a>
+							<a class="dropdown-item" name="batch tools" href="##">Batch Tools</a>
+						</div>
+					</li>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Manage Data
+						</a>
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
+							<a class="dropdown-item" name="projects" href="##">Projects</a>
+							<a class="dropdown-item" name="statistics" href="##">Statistics</a>
+							<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
+							<a class="dropdown-item" name="recently georeferenced localities" href="##">Recently Georefereced Localities</a>
+							<a class="dropdown-item" name="taxonomy review" href="##">Taxonomy Review</a>
+							<a class="dropdown-item" name="object tracking" href="##">Object Tracking</a>
+							<a class="dropdown-item" name="encumbrances" href="##">Encumbrances</a>
+							<a class="dropdown-item" name="record review" href="##">Record Review</a>
+						</div>
+					</li>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Transactions
+						</a>
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink4">
+							<a class="dropdown-item <cfif pageTitle EQ 'Search Transactions'>active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
+							<a class="dropdown-item" name="accessions" href="##">Accessions</a>
+							<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
+							<a class="dropdown-item" name="borrows" href="##">Borrows</a>
+							<a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/transactions/Loan.cfm?action=newLoan">New Loan</a>
+							<a class="dropdown-item <cfif pageTitle EQ 'Search Loans'>active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
+							<a class="dropdown-item" name="permits" href="##">Permits</a>
+						</div>
+					</li>
+				</cfif>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Help
