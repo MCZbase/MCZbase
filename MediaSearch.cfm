@@ -1,6 +1,6 @@
 <cfset pageTitle = "Search Media">
 <!--
-TaxonomySearch.cfm
+MediaSearch.cfm
 
 Copyright 2019 President and Fellows of Harvard College
 

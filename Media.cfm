@@ -242,7 +242,7 @@ limitations under the License.
 			taxon_habitat=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orighabitatName#">
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 

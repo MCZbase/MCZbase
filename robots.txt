@@ -102,7 +102,7 @@ Disallow: /SpecimenContainerLabels.cfm
 Disallow: /SpecimenQuickSearch.cfm
 Disallow: /specLocality.cfm
 Disallow: /TAG.cfm
-Disallow: /Taxonomy.cfm
+Disallow: /taxonomy/Taxonomy.cfm
 Disallow: /userBrowseBulked.cfm
 Disallow: /userBrowseBulkedGrid.cfm
 Disallow: /wideLabels.cfm

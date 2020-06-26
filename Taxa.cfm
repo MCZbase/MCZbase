@@ -1,6 +1,6 @@
 <cfset pageTitle = "Search Taxonomy">
 <!--
-TaxonomySearch.cfm
+Taxa.cfm
 
 Copyright 2019 President and Fellows of Harvard College
 

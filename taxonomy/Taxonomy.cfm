@@ -1,6 +1,6 @@
 <cfset pageTitle = "Edit Taxon">
 <!--
-Taxonomy.cfm
+taxonomy/Taxonomy.cfm
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2020 President and Fellows of Harvard College
@@ -211,7 +211,7 @@ limitations under the License.
 <!------------------------------------------------>
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
-	<cfheader name="Location" value="TaxonomySearch.cfm">
+	<cfheader name="Location" value="/Taxa.cfm">
 	<cfabort>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -248,7 +248,7 @@ limitations under the License.
 						<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 					</div>
 				</div>
-				<form name="taxa" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
+				<form name="taxa" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
 					<div class="tInput form-row mx-2 mb-2">
 						<div class="col-12 col-sm-6">
 							<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
@@ -695,7 +695,7 @@ limitations under the License.
 					</cfquery>
 					<cfset i = 1>
 					<h4>Related Publications</h4>
-					<form name="newPub" method="post" action="Taxonomy.cfm">
+					<form name="newPub" method="post" action="/taxonomy/Taxonomy.cfm">
 						<div class="form-row mx-0">
 							<div class="col-12 px-0 my-2">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
@@ -711,7 +711,7 @@ limitations under the License.
 					</form>
 					<cfif tax_pub.recordcount gt 0>
 						<cfloop query="tax_pub">
-							<div class="col-12 my-2 px-1"> #formatted_publication# <a class="btn-xs btn-secondary mx-1" href="Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> <a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> </div>
+							<div class="col-12 my-2 px-1"> #formatted_publication# <a class="btn-xs btn-secondary mx-1" href="/taxonomy/Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> <a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> </div>
 						</cfloop>
 					</cfif>
 					<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -729,7 +729,7 @@ limitations under the License.
 					</cfquery>
 					<cfset i = 1>
 					<div class="col-12 px-0">
-						<form name="newRelation" method="post" action="Taxonomy.cfm">
+						<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" name="Action" value="newTaxonRelation">
 							<div class="p-2 border bg-light rounded mt-3">
@@ -751,7 +751,7 @@ limitations under the License.
 							</div>
 						</form>
 						<cfloop query="relations">
-							<form name="relation#i#" method="post" action="/Taxonomy.cfm">
+							<form name="relation#i#" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="Action">
 								<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
@@ -781,7 +781,7 @@ limitations under the License.
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
 						<cfloop query="common">
-							<form name="common#i#" method="post" action="Taxonomy.cfm">
+							<form name="common#i#" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="Action">
 								<input type="hidden" name="origCommonName" value="#common_name#">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
@@ -792,7 +792,7 @@ limitations under the License.
 							<cfset i=i+1>
 						</cfloop>
 						<div class="">
-							<form name="newCommon" method="post" action="Taxonomy.cfm">
+							<form name="newCommon" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="Action" value="newCommon">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="common_name" class="data-entry-label float-left mt-2">New Common Name</label>
@@ -814,7 +814,7 @@ limitations under the License.
 		delete from taxonomy_publication 
 		where taxonomy_publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxonomy_publication_id#">
 	</cfquery>
-	<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxonPub">
@@ -825,7 +825,7 @@ limitations under the License.
 			(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_publication_id#"> )
 	</cfquery>
-	<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newCommon">
@@ -837,7 +837,7 @@ limitations under the License.
 			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> , 
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> )
 	</cfquery>
-		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -850,7 +850,7 @@ limitations under the License.
 			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
 	</cfquery>
-		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -874,7 +874,7 @@ limitations under the License.
 			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#"> 
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -889,7 +889,7 @@ limitations under the License.
 			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#">
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -902,7 +902,7 @@ limitations under the License.
 			taxon_habitat=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orighabitatName#">
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 
@@ -930,7 +930,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<form name="taxa" method="post" action="/Taxonomy.cfm" class="float-left w-100">
+						<form name="taxa" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100">
 								
 								<div class="tInput form-row mx-2 mb-2">
 									<div class="col-12 col-sm-6">
@@ -1546,7 +1546,7 @@ limitations under the License.
 			)
 		</cfquery>
 		</cftransaction>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1565,7 +1565,7 @@ limitations under the License.
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATION_AUTHORITY#">
 		)
 	</cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1579,7 +1579,7 @@ limitations under the License.
 		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origtaxon_relationship#">
 		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
 		</cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1603,7 +1603,7 @@ limitations under the License.
 		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origTaxon_relationship#">
 		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
 </cfquery>
-		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1788,7 +1788,7 @@ limitations under the License.
 	WHERE taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 			</cftransaction>
-			<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
+			<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
 		</cfif>
 	</cfoutput>
 </cfif>
