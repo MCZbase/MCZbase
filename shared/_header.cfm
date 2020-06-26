@@ -94,9 +94,11 @@ limitations under the License.
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
-<!---<script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>--->
-	<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script>	
-	<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>	
+
+<!--- Multiselect widget used on specimen search, probably not needed everywhere --->
+<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script>	
+<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>	
+
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script>
