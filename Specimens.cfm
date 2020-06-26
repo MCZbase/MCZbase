@@ -101,13 +101,13 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											<div class="input-group mt-1 px-3">
 												<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
 													<label for="col-multi-select" class="sr-only">Collection</label>
-													<select class="custom-select-sm bg-white multiselect2" name="col-multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
+													<select class="custom-select-sm bg-white multiselect2 w-100" name="col-multi-select" multiple="multiple" size="10" style="padding:.3em .5em">
 														<cfloop query="collSearch">
 															<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-sm-5 col-md-6 pl-md-0">
+												<div class="col-12 col-sm-5 col-md-6 px-md-0">
 													<label for="searchText" class="sr-only">Keyword input field </label>
 													<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text">
 												</div>
@@ -351,7 +351,7 @@ $("select.multiselect2").multiselect({
 									<div class="form-row col-12 px-0 mx-0 mb-2">
 										<label for="multi-select" class="col-sm-2 data-entry-label align-right-center">Collection</label>
 										<div class="col-sm-4">
-											<select class="custom-select-sm bg-white multiselect" name="multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
+											<select class="custom-select-sm bg-white multiselect w-100" name="multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
 												<cfloop query="collSearch">
 													<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 												</cfloop>

@@ -3,6 +3,15 @@
 /*.menu-div, .bg-light {
 	background-color: #f8f9fa;
 }*/
+:focus:not(:focus-visible) {
+    outline:0;
+}
+:focus {
+    outline: #ccc auto 1px;
+	border: 1px solid rgba(0, 34, 51, 0.1);
+	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+}
+
 .navbar-collapse {
 	font-size: .9em;
 }
@@ -312,6 +321,12 @@ body > .container {
 	color: #004870;
 	text-decoration: none;
 }
+.copyright_background a.policy_link:focus {
+	color: #004870;
+	text-decoration: none;
+		outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
 .ui-icon.ui-icon-triangle-2-n-s {
 	background-position: -124px -16px;
 }
@@ -319,6 +334,17 @@ body > .container {
 	font-weight: 600;
 	color: #046aa2 !important;
 	line-height: 2.2em;
+		padding: .15em .4em;
+}
+.helplinks a:hover {
+	padding: .15em .4em;	
+	border-color:transparent;
+}
+.helplinks a:focus {
+	padding: .15em .4em;
+	border-color: #ced4da;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .headerCollectionTextSmall {
 	font-size: smaller;

@@ -35,15 +35,15 @@ limitations under the License.
 <cfinclude template="/shared/functionLib.cfm"><!--- Easy to overlook this shared function file --->
 <!--- include stylesheets and javascript library files --->
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/styles/jqx.light.css"><!--- TODO: Remove? don't know--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.light.css"><!--- TODO: Remove? don't know--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
-<!---<link rel="stylesheet" href="/lib/jquery/jquery.multiselect.css" />--->	
-<link rel="stylesheet" href="/lib/jquery/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.css" />	
-<link rel="stylesheet" href="/lib/jquery/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.filter.css" />	
+<!--- Library supporting a multiselect widget based on jquery-ui.  --->	
+<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.css" />	
+<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.filter.css" />	
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
 <script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
@@ -52,40 +52,40 @@ limitations under the License.
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>--->
 <script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle--->
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>--->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdata.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdata.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.filter.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.edit.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.sort.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.selection.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.storage.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcombobox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.pager.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.grouping.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.aggregates.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxscrollbar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/globalization/globalize.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.js"></script>  <!--- jqxgrid is the primary reason we are including jqwidgets --->
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.filter.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.edit.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.selection.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.export.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.storage.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcombobox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.pager.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.grouping.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.aggregates.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/globalization/globalize.js"></script>
 <!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
 <!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxlistbox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdropdownlist.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxmenu.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxwindow.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdatetimeinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdate.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxslider.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxdragdrop.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.columnsresize.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxgrid.columnsreorder.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxcalendar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxtree.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/jqxinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdropdownlist.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxmenu.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxwindow.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdatetimeinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdate.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxslider.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdragdrop.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsresize.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsreorder.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcalendar.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxtree.js"></script>
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script>
 <!--- End supspect block --->
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
@@ -95,8 +95,8 @@ limitations under the License.
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
 <!---<script type="text/javascript" src="/lib/jquery/jquery.multiselect.min.js"></script>--->
-	<script type="text/javascript" src="/lib/jquery/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script>	
-	<script type="text/javascript" src="/lib/jquery/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>	
+	<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script>	
+	<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>	
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script>
@@ -195,7 +195,7 @@ limitations under the License.
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLinka">
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
@@ -214,8 +214,8 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Data Searches
 					</a>
-					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink1">
-						<a class="dropdown-item <cfif pageTitle EQ "Search Specimens">active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink1">
+						<a class="dropdown-item <cfif pageTitle EQ 'Search Specimens'>active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
 						<a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
 						<a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
 						<a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
@@ -228,7 +228,7 @@ limitations under the License.
 						Data Entry
 					</a>
 					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-						<a class="dropdown-item <cfif pageTitle EQ "Data Entry">active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
+						<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
 						<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
 						<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
 						<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
@@ -240,7 +240,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Manage Data
 					</a>
-					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink3">
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
 						<a class="dropdown-item" name="projects" href="##">Projects</a>
 						<a class="dropdown-item" name="statistics" href="##">Statistics</a>
 						<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
@@ -255,13 +255,13 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Transactions
 					</a>
-					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink4">
-						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink4">
+						<a class="dropdown-item <cfif pageTitle EQ 'Search Transactions'>active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
 						<a class="dropdown-item" name="accessions" href="##">Accessions</a>
 						<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
 						<a class="dropdown-item" name="borrows" href="##">Borrows</a>
 						<a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/transactions/Loan.cfm?action=newLoan">New Loan</a>
-						<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
+						<a class="dropdown-item <cfif pageTitle EQ 'Search Loans'>active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
 						<a class="dropdown-item" name="permits" href="##">Permits</a>
 					</div>
 				</li>
@@ -269,7 +269,7 @@ limitations under the License.
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Help
 					</a>
-					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink5">
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
 						<a class="dropdown-item" name="MCZbase Wiki" href="##">MCZbase Wiki</a>
 						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
@@ -288,7 +288,7 @@ limitations under the License.
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLinka">
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
@@ -296,8 +296,8 @@ limitations under the License.
 								</form>
 							</cfif>
 							<cfif session.roles contains "public">
-								<a class="dropdown-item pl-5 pl-xl-2" href="/customSettings.cfm">Custom Settings</a> 
-								<a class="dropdown-item pl-5 pl-xl-2" href="/saveSearch.cfm?action=manage">Saved Searches</a>
+								<a class="dropdown-item pl-5 pl-lg-2" href="/customSettings.cfm">Custom Settings</a> 
+								<a class="dropdown-item pl-5 pl-lg-2" href="/saveSearch.cfm?action=manage">Saved Searches</a>
 							</cfif>
 						</div>
 					</li>

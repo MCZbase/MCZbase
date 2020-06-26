@@ -29,6 +29,18 @@ form input.anchor-button:hover {
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
+option:hover {
+    font-weight: normal;
+    display: block;
+    white-space: pre;
+    min-height: 1.2em;
+    padding: .25em .5em;
+	outline: #ccc auto 1px;
+}
+select:focus {
+    outline-offset: 0;
+	outline:0;
+}
 h1, h2, h3, h4, h5, h6 {
 	line-height: 1.25;
 	margin-top: 1em;
@@ -70,6 +82,12 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem
 }
+#resultLink a {padding: .15em .25em; outline:0;}
+#resultLink a.hover, #resultLink a:hover {padding: .15em .25em; outline:0;}
+#resultLink a.focus, #resultLink a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
+.jqx-grid-cell-left-align a {padding: .15em .25em; outline:0;}
+.jqx-grid-cell-left-align a.hover, .jqx-grid-cell-left-align a:hover {padding: .15em .25em; outline:0;}
+.jqx-grid-cell-left-align a.focus, .jqx-grid-cell-left-align a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
 p {
 	margin-bottom: .75em;
 	line-height: normal;
@@ -137,7 +155,8 @@ button.ui.multiselect {
 }
 button.ui-multiselect.ui-state-default {
 	border-color: #bac5c6;
-	background-color: white
+	background-color: white;
+	width:100%;
 }
 button.ui-multiselect.ui-state-active {
 	color: #333;
@@ -220,7 +239,7 @@ span.data-entry-addon {
 	background: #deebec;
 	border: 1px solid hsl(0, 2%, 47%);
 }
-.btn-primary:focus, .btn-primary.focus {
+.btn-primary:focus, .btn-primary.focus, span.data-entry-addon.focus, span.data-entry-addon:focus {
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
@@ -231,7 +250,7 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .btn-primary.disabled, .btn-primary:disabled {
-	background-color: #deebec;
+	background-color: #deebec;	
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
@@ -261,6 +280,9 @@ span.data-entry-addon {
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 	box-shadow: none;
+	border-color: #ced4da;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .btn-secondary.disabled, .btn-secondary:disabled {
 	background-color: #d7d7d7;
@@ -290,8 +312,9 @@ span.data-entry-addon {
 	background-color: #f5bd12ba;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
-	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-	box-shadow: none;
+	border-color: #ced4da;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .btn-warning.disabled, .btn-warning:disabled {
 	background-color: #f5bd12ba;
@@ -305,6 +328,9 @@ span.data-entry-addon {
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 }
+
+.jqx-grid-cell a.focus, .jqx-grid-cell a:focus {text-decoration: underline;	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
+	box-shadow: none;}
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -715,6 +741,7 @@ a#showLeftPush.hiddenclass {
 	padding: 2px .5em;
 	height: 1.75em;
 	margin: 0 5px 0 0;
+	border: 1px solid palegoldenrod;
 }
 .loginMessage {
 	color: #a51c30;
@@ -972,6 +999,7 @@ table.inputTable tr {
 .tab-card-header > .nav-tabs > li > a.active {
 	background-color: #f5f5f5;
 	border-bottom: 2px solid #f5f5f5;
+	outline:0;
 }
 .tab-card-header > .nav-tabs > li > a {
 	border: 0;
@@ -980,6 +1008,8 @@ table.inputTable tr {
 	/*	padding: 2px 15px;*/
 	background-color: #deebec;
 	font-size: .95em;
+	outline: 0;
+	
 }
 .tab-card-main {
 	border: 2px solid #3E6F7D;
@@ -1000,6 +1030,12 @@ table.inputTable tr {
 .tab-card-header > .nav-tabs > li > a:hover {
 	color: #3E657D;
 	background-color: #f5f5f5;
+}
+.tab-card-header > .nav-tabs > li > a:focus {
+	color: #3E657D;
+	background-color: #f5f5f5;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .2);
 }
 .tab-card-header > .tab-content {
 	padding-bottom: 0;
@@ -1164,6 +1200,7 @@ table#pairs th, table#pairs td {
 	border: 6px solid #ccc;
 	background-color: #ccc !important;
 	border-color: white;
+	outline:0;
 }
 #clear {
 	cursor: pointer;
@@ -1227,7 +1264,9 @@ select.data-entry-select option {
 	background-color: white !important;
 	color: rgba(0, 0, 0, .8);
 	padding: .25em .5em;
+	outline:0;
 }
+select.data-entry-select option:focus {outline: 0;}
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 450;
 	line-height: 1.5em;
@@ -1281,7 +1320,7 @@ select.data-entry-select, select.custom-select {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-select.data-entry-select:focus, select.data-entry-select.focus, select.custom-select:focus, select.custom-select.focus {
+select.data-entry-select:focus, select.data-entry-select.focus, select.custom-select:focus, select.custom-select.focus,select.data-entry-select option:focus, select.data-entry-select option.focus, select.custom-select option:focus, select.custom-select option.focus  {
 	color: #495057;
 	background-color: #fff;
 	border-color: #ced4da;
@@ -1310,7 +1349,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-.data-entry-prepend-select:focus, .data-entry-prepend-select.focus {
+.data-entry-prepend-select:focus, .data-entry-prepend-select.focus, .data-entry-prepend-select option:focus, .data-entry-prepend-select option.focus {
 	color: #495057;
 	background-color: #fff;
 	border-color: #ced4da;

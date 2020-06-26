@@ -571,7 +571,7 @@ limitations under the License.
 												<div class="col-9 px-0">
 													<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
 													<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-													<div name="coll_obj_disposition" id="coll_obj_disposition"></div>
+													<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
 													<script>
 												function setDispositionValues() {
 													$('##coll_obj_disposition').jqxComboBox('clearSelection');
@@ -783,9 +783,12 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
-			showtoolbar: false,		
+			showtoolbar: false,
+			     ready: function () {
+					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
+					 },
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -832,6 +835,7 @@ $(document).ready(function() {
 			var rowIndex = args.rowindex;
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
+
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
 
@@ -925,9 +929,12 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+				     ready: function () {
+					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
+					 },
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
