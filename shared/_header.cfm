@@ -187,7 +187,7 @@ limitations under the License.
 						<!---old---><a class="dropdown-item" aria-label="places search" name="places" href="/showLocality.cfm">Places</a>
 						<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
 						<cfif session.roles contains "coldfusion_user">
-							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="agents.cfm">Agents</a>
+							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
 						</cfif>
 						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
 					</div>
