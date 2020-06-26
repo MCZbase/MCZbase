@@ -522,16 +522,15 @@ limitations under the License.
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handleCommand1()" onclick="handleCommand1()" aria-labelledby="permit_picklist">Pick</span> </div>
-													
+													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
+													<script>
+														function handlePermitPickAction(event) {
+															openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
+														}
+													</script>
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
-											<script>
-												function handleCommand1(event) {
-													openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
-												}
-											</script>
 											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-4">
 											<div class="form-row mx-0 mb-1 px-3">
 												<div class="col-3 px-0">
@@ -774,8 +773,8 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
-			pagesize: '25',
-			pagesizeoptions: ['25','50','100'],
+			pagesize: '50',
+			pagesizeoptions: ['50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: true,
@@ -920,8 +919,8 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
-			pagesize: '25',
-			pagesizeoptions: ['25','50','100'],
+			pagesize: '50',
+			pagesizeoptions: ['50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: true,
@@ -1018,9 +1017,9 @@ function gridLoaded(gridId, searchType) {
 	}
 	// set maximum page size
 	if (rowcount > 100) { 
-	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['25', '50', '100', rowcount]});
-	} else if (rowcount > 25) { 
-	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['25', rowcount]});
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+	} else if (rowcount > 50) { 
+	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
 	} else { 
 	   $('##' + gridId).jqxGrid({ pageable: false });
 	}
