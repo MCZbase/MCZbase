@@ -188,10 +188,10 @@ limitations under the License.
 						</cfswitch>
 						
 						<!--- Tab header div --->
-						<div class="card-header tab-card-header pb-0 w-100">
+						<div class="card-header tab-card-header pb-0 w-100" id="content">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="All" aria-selected="true" >All</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></li>
-								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Loans" aria-selected="false" >Loans</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i></li>
+								<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loan tab" aria-selected="false" >Loans</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
@@ -200,13 +200,13 @@ limitations under the License.
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-								<h2 class="h3 card-title px-0 mx-1 mb-0">Search All Transactions</h2>
+								<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions</h2>
 								<form id="searchForm">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
-											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0">
+											<select name="collection_id" size="1" class="data-entry-prepend-select  pr-0" aria-label="collection">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
@@ -223,14 +223,14 @@ limitations under the License.
 												<cfset number="">
 											</cfif>
 											<label for="number" class="data-entry-label">Number:</label>
-											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
+											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
 										</div>
 										<div class="col-12 col-md-6"> 
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
 											<label for="status" class="data-entry-label">Status:</label>
-											<select name="status" id="status" class="data-entry-select" >
-												<option value=""></option>
+											<select name="status" id="status" class="data-entry-select">
+												<option aria-labelledby="status" value=""></option>
 												<cfloop query="ctStatus">
 													<cfif pstatus eq ctStatus.status>
 														<cfset selected="selected">
@@ -246,7 +246,7 @@ limitations under the License.
 									<div class="form-row mb-2 mx-0">
 											<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
+												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
@@ -263,7 +263,7 @@ limitations under the License.
 										</div>
 											<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
+												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for second agent">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
@@ -280,7 +280,7 @@ limitations under the License.
 										</div>
 											<div class="col-12 col-md-4">
 											<div class="input-group">
-												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
+												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for third agent">
 													<option value="">agent role...</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
@@ -368,7 +368,7 @@ limitations under the License.
 											<div class="input-group">
 												<div class="col-6 px-0">
 													<label for="loan_collection_id" class="data-entry-label">Collection Name:</label>
-													<select name="collection_id" size="1" class="data-entry-select" id="loan_collection_id">
+													<select name="collection_id" size="1" class="data-entry-prepend-select" id="loan_collection_id">
 														<option value="-1">any collection</option>
 														<cfloop query="ctcollection">
 															<cfif ctcollection.collection eq selectedCollection>
@@ -485,28 +485,28 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="trans_date">Loan Date:</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start yyyy-mm-dd" value="#trans_date#">
-												<div class="col-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to"></label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input"  placeholder="end yyyy-mm-dd" aria-label="loan date search range to" aria-described="trans_date_to">
+												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
+												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
+												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input"  placeholder="end yyyy-mm-dd">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="return_due_date">Due Date:</label>
-												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#return_due_date#">
-												<div class="col-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to"></label>
-												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4" aria-label="due date search range to" aria-described="return_due_date_to_marker">
+												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#return_due_date#" aria-label="start of range for due date">
+												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to">end of range for due date</label>
+												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4" aria-label="due date search range to">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="closed_date">Close Date:</label>
-												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start yyyy-mm-dd" value="#closed_date#" >
-												<div class="col-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_closed_date"> </label>
-												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4" aria-label="closed date search range to" aria-described="closed_date_to">
+												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start yyyy-mm-dd" value="#closed_date#" aria-label="start of range for closed date">
+												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
+												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
 											</div>
 										</div>
 									</div>
@@ -517,18 +517,24 @@ limitations under the License.
 									</script>
 									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-3">
-												<label for="permit_num" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+											<div class="border bg-light rounded pt-1 mb-2 pb-3 px-4">
+												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#">
-													<div class="input-group-append"> <span class="data-entry-addon py-0" onclick=" openfindpermitdialog('permit_num','permit_id','permitpickerdialog'); " aria-label="Pick a Permit">Pick</span> </div>
+													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
+													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
+													<script>
+														function handlePermitPickAction(event) {
+															openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
+														}
+													</script>
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
-											<div class="form-row mx-0 mb-1">
+											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-4">
+											<div class="form-row mx-0 mb-1 px-3">
 												<div class="col-3 px-0">
-													<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
+													<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
 													<cfif part_name_oper IS "is">
 														<cfset isselect = "selected">
 														<cfset containsselect = "">
@@ -546,9 +552,9 @@ limitations under the License.
 													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 												</div>
 											</div>
-											<div class="form-row mx-0">
+											<div class="form-row mx-0 px-3">
 												<div class="col-3 px-0">
-													<label for="part_disp_oper" class="data-entry-label mb-0">Disp. Match</label>
+													<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
 													<cfif part_disp_oper IS "is">
 														<cfset isselect = "selected">
 														<cfset notselect = "">
@@ -588,6 +594,8 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
+										</div>
+
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
@@ -609,68 +617,9 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<!---			<div class="form-row border rounded pt-0 px-2 pb-2 mt-2 mb-2 mx-1 bg-light">
-										<div class="col-12 col-md-3">
-											<label for="part_name_oper" class="data-entry-label mb-0">Part Match</label>
-											<cfif part_name_oper IS "is">
-												<cfset isselect = "selected">
-												<cfset containsselect = "">
-												<cfelse>
-												<cfset isselect = "">
-												<cfset containsselect = "selected">
-											</cfif>
-											<select id="part_name_oper" name="part_name_oper" class="data-entry-select-prepend-select input-group-prepend">
-												<option value="is" #isselect#>is</option>
-												<option value="contains" #containsselect#>contains</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="part_name" class="data-entry-label mb-0">Part Name</label>
-											<input type="text" id="part_name" name="part_name" class="data-entry-select-input" value="#part_name#">
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="part_disp_oper" class="data-entry-label mb-0">Disposition Match</label>
-											<cfif part_disp_oper IS "is">
-												<cfset isselect = "selected">
-												<cfset notselect = "">
-												<cfelse>
-												<cfset isselect = "">
-												<cfset notselect = "selected">
-											</cfif>
-											<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-slect input-group-prepend">
-												<option value="is" #isselect#>is</option>
-												<option value="isnot" #notselect#>is not</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-											<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-											<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
-											<script>
-												function setDispositionValues() {
-													$('##coll_obj_disposition').jqxComboBox('clearSelection');
-													<cfloop query="ctCollObjDisp">
-														<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-															$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
-														</cfif>
-													</cfloop>
-												};
-												$(document).ready(function () {
-													var dispositionsource = [
-														""
-														<cfloop query="ctCollObjDisp">
-															,"#ctCollObjDisp.coll_obj_disposition#"
-														</cfloop>
-													];
-													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
-													setDispositionValues();
-												});
-											</script> 
-										</div>
-									</div>--->
 									<div class="form-row my-2 mx-0">
 										<div class="col-12 text-left">
-											<button class="btn-xs btn-primary px-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
 										</div>
@@ -708,7 +657,7 @@ limitations under the License.
 						<div class="row mt-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
-							<div id="searchResultsGrid" class="jqxGrid"></div>
+							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 							<div id="enableselection"></div>
 						</div>
 					</div>
@@ -833,9 +782,12 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			     ready: function () {
+					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
+					 },
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -882,6 +834,7 @@ $(document).ready(function() {
 			var rowIndex = args.rowindex;
 			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 		});
+
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
 
@@ -951,7 +904,7 @@ $(document).ready(function() {
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
-			details.html("<div id='rowDetailsTarget" + index + "'></div>");
+			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
 			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
@@ -975,9 +928,12 @@ $(document).ready(function() {
 			autoshowloadelement: false,  // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+				     ready: function () {
+					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
+					 },
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
@@ -1046,7 +1002,6 @@ $(document).ready(function() {
 
 });
 
-
 function gridLoaded(gridId, searchType) { 
 	$("##overlay").hide();
 	var now = new Date();
@@ -1109,7 +1064,7 @@ function gridLoaded(gridId, searchType) {
 		} 
 	});
 	$("##columnPickDialogButton").html(
-		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
+		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
 	);
 	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 	// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -1117,12 +1072,12 @@ function gridLoaded(gridId, searchType) {
 	$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 	$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 	$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 
 	</script> 
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
-		<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 3em; padding: 5px; color: ##767676; border-color: ##898989; border-style: solid; margin-left: -6em; opacity: 1;">
+		<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -10em; opacity: 1;">
 			<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
 			<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
 		</div>
