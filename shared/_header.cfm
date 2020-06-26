@@ -183,6 +183,21 @@ limitations under the License.
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a>
+						<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a>
+						<!---old---><a class="dropdown-item" aria-label="places search" name="places" href="/ShowLocality.cfm">Places</a>
+						<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
+						<cfif session.roles contains "coldfusion_user">
+							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="agents.cfm">Agents</a>
+						</cfif>
+						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Data Entry
+					</a>
+					<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
+						<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
@@ -191,7 +206,14 @@ limitations under the License.
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
+						<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a>
+						<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a>
 						<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
+						<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a>
+						<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a>
+						<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a>
+						<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a>
+						<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a>
 					</div>
 				</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -199,7 +221,7 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i> 
+								<i class="fas fa-user-check color-green"></i>_
 							<cfelse>
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
@@ -217,6 +239,7 @@ limitations under the License.
 						</div>
 					</li>
 				</cfif>	
+				<!---  End Redesign menu for integration on production --->
 			<cfelse>
 				<!---  Redesign menu for the redesign --->
 				<li class="nav-item dropdown">
