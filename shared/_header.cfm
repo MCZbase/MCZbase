@@ -32,13 +32,12 @@ limitations under the License.
 	 <cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/shared/functionLib.cfm"><!---Easy to overlook this shared function file--->
+<cfinclude template="/shared/functionLib.cfm"><!--- Easy to overlook this shared function file --->
+<!--- include stylesheets and javascript library files --->
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
-<!---<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-multiselect.css">---><!--- TODO: Remove? don't know not in 4.1.3--->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/styles/jqx.base.css"><!---TODO: Remove? don't know--->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets=ver9.1.6/jqwidgets/styles/jqx.light.css"><!--- TODO: Remove? don't know--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
-<!---<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-select.min.css">---><!--- TODO: Remove? don't know but tabs work--->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
