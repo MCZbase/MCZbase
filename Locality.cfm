@@ -128,6 +128,12 @@
    from ctguid_type 
    where applies_to like '%geog_auth_rec.highergeographyid%'
 </cfquery>
+<cfquery name="colEventNumSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id, 
+		CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
+	from coll_event_num_series
+	order by number_series, mczbase.get_agentnameoftype(collector_agent_id)
+</cfquery>
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
@@ -819,6 +825,17 @@ You do not have permission to create Higher Geographies
 			left outer join preferred_agent_name on (accepted_lat_long.determined_by_agent_id = preferred_agent_name.agent_id)
 		where collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
     </cfquery>
+	<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT number_series, 
+			MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
+			coll_event_number,
+			coll_event_number_id
+		FROM 
+			coll_event_number
+			left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+		WHERE
+			coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
 	  	SELECT
 	  		count(cat_num) as numOfSpecs,
@@ -982,6 +999,69 @@ You do not have permission to create Higher Geographies
 				</td>
 			</tr>
 		</table>
+		<div style="border:1px solid LightGray;">
+			<h3>Collector/Field Numbers (identifying collecting events)</h3>
+			<!--- Current --->
+			<script>
+				function deleteCollEventNumber(id) { 
+					$('##collEventNumber_' + id ).append('Deleting...');
+					$.ajax({
+						url : "/localities/component/functions.cfc",
+						type : "post",
+						dataType : "json",
+						data : {
+							method: "deleteCollEventNumber",
+							returnformat: "json",
+							coll_event_number_id: id
+						},
+						success : function (data) {
+							$('##collEventNumber_' + id ).html('Deleted.');
+						},
+						error: function(jqXHR,textStatus,error){
+							$('##collEventNumber_' + id ).append('Error.');
+							var message = "";
+							if (error == 'timeout') {
+								message = ' Server took too long to respond.';
+							} else {
+								message = jqXHR.responseText;
+							}
+							messageDialog('Error deleting collecting event number: '+message, 'Error: '+error);
+						}
+					});
+				};
+			</script>
+			<ul>
+			<cfloop query="colEventNumbers">
+				<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#) <input type="button" value="Delete" class="delBtn" onclick=" deleteCollEventNumber(#coll_event_number_id#); "></span></li>
+			</cfloop>
+			</ul>
+			<!--- Add new --->
+			<!--- TODO: Rework into dialog, along with edit dialog --->
+			<cfset patternvalue = "">
+			<div>
+				<h3>Add</h3>
+				<label for="coll_event_number_series">Collecting Event Number Series</label>
+				<span>
+					<select id="coll_event_number_series" name="coll_event_number_series">
+						<option value=""></option>
+						<cfset ifbit = "">
+						<cfloop query="colEventNumSeries">
+							<option value="#colEventNumSeries.coll_event_num_series_id#">#colEventNumSeries.number_series# (#colEventNumSeries.collector_agent#)</option>
+							<cfset ifbit = ifbit & "if (selectedid=#colEventNumSeries.coll_event_num_series_id#) { $('##pattern_span').html('#colEventNumSeries.pattern#'); }; ">
+						</cfloop>
+					</select>
+					<a href="/vocabularies/CollEventNumber.cfm?action=new" target="_blank">Add new number series</a>
+				</span>
+				<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
+				<script>
+					$( document ).ready(function() {
+						$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
+					});
+				</script>
+				<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
+				<input type="text" name="coll_event_number" id="coll_event_number" size=50>
+			</div>
+		</div>
 		<label for="coll_event_remarks">Remarks</label>
 		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#stripquotes(locDet.COLL_EVENT_REMARKS)#" size="115">
 		<table>
@@ -1329,6 +1409,7 @@ You deleted a collecting event.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveCollEventEdit">
 	<cfoutput>
+	<cftransaction>
 	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE collecting_event SET
 		BEGAN_DATE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BEGAN_DATE#">
@@ -1402,6 +1483,18 @@ You deleted a collecting event.
 	</cfif>
 	 where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collecting_event_id#">
 	</cfquery>
+	<cfif isdefined("coll_event_number_series") and isdefined("coll_event_number") and len(trim(coll_event_number_series)) GT 0 and len(trim(coll_event_number)) GT 0 >
+		<cfquery name="addCollEvNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into coll_event_number
+			(coll_event_number, coll_event_num_series_id, collecting_event_id) 
+			values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_event_number#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_series#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+			)
+		</cfquery>
+	</cfif>
+	</cftransaction>
 	<cfif #cgi.HTTP_REFERER# contains "editCollEvnt">
 		<cfset refURL = "#cgi.HTTP_REFERER#">
 	<cfelse>
