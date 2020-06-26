@@ -4,8 +4,8 @@
 		<form name="searchForPub" action="findPublication.cfm" method="post">
 			<label for="publication_title">Publication Title</label>
 			<input type="text" name="publication_title" id="publication_title">
-			<input type="submit" 
-				value="Search" 
+			<input type="submit"
+				value="Search"
 				class="lnkBtn"
 				onmouseover="this.className='lnkBtn btnhov'"
 				onmouseout="this.className='lnkBtn'">
@@ -19,7 +19,7 @@
 	</cfif>
 	<cfoutput>
 		<cfquery name="getPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
+			SELECT
 				publication_id,
 				formatted_publication
 			FROM
@@ -49,7 +49,7 @@
 			<tr>
 				<td>
 					<a href="##" onClick="javascript: opener.document.#formName#.#pubIdFld#.value='#publication_id#';
-						opener.document.#formName#.#pubStringFld#.value='#formatted_publication#';self.close();">#formatted_publication#</a>
+						opener.document.#formName#.#pubStringFld#.value='#stripQuotes(formatted_publication)#';self.close();">#stripQuotes(formatted_publication)#</a>
 				</td>
 			</tr>
 		</cfif>

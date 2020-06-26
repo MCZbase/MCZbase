@@ -2463,7 +2463,7 @@ p.topspace {margin: 0; padding: 1px 0 0 0; line-height: 5px;}
 .detailCell {
 	border: 1px dotted #666;
 	text-align: left;
-	padding: 2px 3px 0 15px;
+	padding: 2px 3px 7px 15px;
 	position: relative;
 	margin: 1px 6px 8px 6px;
 	border-radius: 5px;
