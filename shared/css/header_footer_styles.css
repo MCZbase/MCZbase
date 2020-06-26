@@ -3,6 +3,15 @@
 /*.menu-div, .bg-light {
 	background-color: #f8f9fa;
 }*/
+:focus:not(:focus-visible) {
+    outline:0;
+}
+:focus {
+    outline: #ccc auto 1px;
+	border: 1px solid rgba(0, 34, 51, 0.1);
+	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+}
+
 .navbar-collapse {
 	font-size: .9em;
 }
@@ -16,6 +25,7 @@
 	background-color:#ddd;
 	box-shadow: none;
 }
+.bg-black {background-color: #1b1b1b;}
 .anchor-button:hover {
 	background-color:#ddd;
 	box-shadow: none;
@@ -86,8 +96,8 @@ nav .navbar-nav li a.nav-link {
 .navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
 	color: #000000;
 	background-color: #ffffff;
-	border-right: 2px solid aliceblue;
-	border-left: 2px solid aliceblue;
+    border-left: 3px solid #deebec;
+    border-right: 3px solid #deebec;
 }
 .dropdown-item:active, .dropdown-item.active {
 	background-color: #ffffff;
@@ -163,7 +173,7 @@ img.shield {
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 	letter-spacing: .02em;
 	font-weight: 400;
-	font-size: 1em;
+	font-size: .9em;
 	line-height: 1em;
 }
 .mczbase a:hover {
@@ -223,12 +233,14 @@ nav button {
 	border: 1px solid #ddd;
 }
 .logout {
-	padding: 0 .5em .1em .5em;
-    font-size: .9em;
-	font-weight: 500;
-	position: absolute;
-	right: 15px;
-	top:3px;
+	padding: 0 .45em;
+    font-size: .88em;
+	font-weight: bold;
+	/*position: absolute;*/
+	right: 10px;
+	top: 3px;
+	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	letter-spacing: .02em;
 }
 .footer {
 	line-height: 1em;
@@ -284,6 +296,7 @@ body {
 body > .container {
 	padding: 30px 15px 0;
 }
+
 .footer > .container {
 	padding-right: 15px;
 	padding-left: 15px;
@@ -308,6 +321,12 @@ body > .container {
 	color: #004870;
 	text-decoration: none;
 }
+.copyright_background a.policy_link:focus {
+	color: #004870;
+	text-decoration: none;
+		outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
 .ui-icon.ui-icon-triangle-2-n-s {
 	background-position: -124px -16px;
 }
@@ -315,6 +334,17 @@ body > .container {
 	font-weight: 600;
 	color: #046aa2 !important;
 	line-height: 2.2em;
+		padding: .15em .4em;
+}
+.helplinks a:hover {
+	padding: .15em .4em;	
+	border-color:transparent;
+}
+.helplinks a:focus {
+	padding: .15em .4em;
+	border-color: #ced4da;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .headerCollectionTextSmall {
 	font-size: smaller;
@@ -337,16 +367,15 @@ body > .container {
     padding: .25rem 1rem;
 }
 input#Username {
-	width: 105px;
+	width: 100px;
 }
 input#Password {
-	width: 70px;
+	width: 75px;
 }
 @media only screen and (max-width: 990px) {
-	nav.navbar {
-/*		padding-top: .5em;
-		padding-bottom: .5em;*/
-	}
+	.logout {
+	padding: 0.3em .45em;
+}
 }
 @media(min-width:991px) {
 	.mcz-center {
@@ -442,4 +471,7 @@ input#Password {
 	line-height: 1.15em;
 	border-radius: .2rem;
 }*/
+	.file-os-file-medium{
+	max-width: 350px;
+}
 }
