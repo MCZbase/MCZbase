@@ -57,6 +57,42 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
   });
 };
 
+/** Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
+ * function to the ok button.
+ *
+ * @param page uri for the page to load into the dialog
+ * @param id an id for a div on the calling page which will have its content replaced with the dialog, iframe 
+ *    in the dialog is also given the id {id}_iframe
+ * @param title to display in the dialog's heading
+ * @param okcallback callback function to execute when the OK button is clicked.
+ * @param dialogHeight the height of the dialog, 650 may be a good default value
+ * @param dialogWidth the width of the dialog, 800 may be a good default value
+*/
+function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
+	var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%" id="' + id +	'_iframe"></iframe>';
+	var adialog = $("#"+id)
+	.html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: dialogHeight,
+		width: dialogWidth,
+		minWidth: 400,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Ok": function(){ if (jQuery.type(okcallback)==='function') okcallback();} ,
+			"Cancel": function() { $("#"+id).html('').dialog('destroy'); }
+		}
+	});
+	adialog.dialog('open');
+};
+
+
 
 /** Allow textarea controls to grow in size as text is entered into them 
  *  to bind to all textareas currently defined on a page use:
