@@ -409,9 +409,12 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="edit">
 		<cfif not isDefined("coll_event_num_series_id")>
+			<Cfset coll_event_num_series_id = "">
+		</cfif>
+		<cfif len("coll_event_num_series_id") EQ 0>
 			<cfthrow type="Application" message="Error: No value provided for coll_event_num_series_id">
 		<cfelse>
-			<cfquery name="numSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="numSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeries_result">
 				select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
 					MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') as agentname
 				from coll_event_num_series 
@@ -506,6 +509,22 @@ limitations under the License.
 					</div><!--- row --->
 				</div><!--- container --->
 			</cfoutput>
+			<cfif numSeries_result.recordcount GT 0>
+				<!--- list instances of the collecting event number, link out to specimen search --->
+				<cfquery name="numSeriesUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeriesUse_result">
+					select coll_event_number, collecting_event_id 
+					from coll_event_number
+					where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
+					order by coll_event_number
+				</cfquery>
+				<cfoutput>
+					<ul>
+					<cfloop query="numSeriesUse">
+						<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#">#coll_event_number#</a>
+					</cfloop>
+					</ul>
+				</cfoutput>
+			</cfif>
 		</cfif>
 	</cfcase>
 	<cfdefaultcase>
