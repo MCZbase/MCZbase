@@ -17,7 +17,8 @@
 		 order by table_name
 	</cfquery>
 	<cfloop query="getCTName">
-		<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#getCTName.table_name#</a><br>
+		<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+		<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><br>
 	</cfloop>
 <cfelseif action is "edit">
 	<p>
