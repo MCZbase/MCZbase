@@ -41,6 +41,11 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="findAll">
+		<!--- ensure fields have empty values present if not defined. --->
+		<cfif not isdefined("number_series")><cfset number_series=""></cfif>
+		<cfif not isdefined("number")><cfset number=""></cfif>
+		<cfif not isdefined("pattern")><cfset pattern=""></cfif>
+		<cfif not isdefined("remarks")><cfset remarks=""></cfif>
 		<!--- Search Form --->
 		<cfoutput>
 			<div class="container">
@@ -53,17 +58,17 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-6">
 										<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
-										<input type="text" id="number_series" name="number_series" class="form-control-sm" value="" aria-labelledby="number_series_label" >					
+										<input type="text" id="number_series" name="number_series" class="form-control-sm" value="#number_series#" aria-labelledby="number_series_label" >					
 									</div>
 									<div class="col-md-6">
 										<label for="pattern" id="pattern_label">Pattern</label>
-										<input type="text" id="pattern" name="pattern" class="form-control-sm" value="" aria-labelledby="pattern_label" >					
+										<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >					
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="number" id="number_label">A number in the Series</label>
-										<input type="text" id="number" name="number" class="form-control-sm" value="" aria-labelledby="number_label" >					
+										<input type="text" id="number" name="number" class="form-control-sm" value="#number#" aria-labelledby="number_label" >					
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
@@ -187,12 +192,12 @@ limitations under the License.
 							altrows: true,
 							showtoolbar: false,
 							columns: [
-								{text: 'Series', datafield: 'number_series', width:100, hideable: true, hidden: true },
-								{text: 'Number Series', datafield: 'id_link', width: 100},
-								{text: 'Pattern', datafield: 'pattern', width:110, hideable: true, hidden: false },
-								{text: 'Collector', datafield: 'agentname', width:110, hideable: true, hidden: false },
-								{text: 'AgentID', datafield: 'collector_agent_id', width:110, hideable: true, hidden: true },
-								{text: 'Number Count', datafield: 'number_count', width:110, hideable: true, hidden: false },
+								{text: 'Series', datafield: 'number_series', width:150, hideable: true, hidden: true },
+								{text: 'Number Series', datafield: 'id_link', width: 150},
+								{text: 'Pattern', datafield: 'pattern', width:120, hideable: true, hidden: false },
+								{text: 'Collector', datafield: 'agentname', width:150, hideable: true, hidden: false },
+								{text: 'AgentID', datafield: 'collector_agent_id', width:100, hideable: true, hidden: true },
+								{text: 'Number Count', datafield: 'number_count', width:150, hideable: true, hidden: false },
 								{text: 'Remarks', datafield: 'remarks', hideable: true, hidden: false },
 							],
 							rowdetails: true,
@@ -205,7 +210,7 @@ limitations under the License.
 						$("##searchResultsGrid").on("bindingcomplete", function(event) {
 							// add a link out to this search, serializing the form as http get parameters
 							$('##resultLink').html('<a href="/vocabularies/CollEventNumberSeries.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-							gridLoaded('searchResultsGrid','transaction');
+							gridLoaded('searchResultsGrid','collecting event number');
 						});
 						$('##searchResultsGrid').on('rowexpand', function (event) {
 							//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -222,7 +227,85 @@ limitations under the License.
 						});
 					});
 					/* End Setup jqxgrid for number series Search ******************************/
-				});
+	
+					// If requested in uri, execute search immediately.
+					<cfif isdefined("execute")>
+						$('##searchForm').submit();
+					</cfif>
+				}); /* End document.ready */
+
+				function gridLoaded(gridId, searchType) { 
+					$("##overlay").hide();
+					var now = new Date();
+					var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+					var filename = searchType + '_results_' + nowstring + '.csv';
+					// display the number of rows found
+					var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+					var rowcount = datainformation.rowscount;
+					if (rowcount == 1) {
+						$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+					} else { 
+						$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+					}
+					// set maximum page size
+					if (rowcount > 100) { 
+					   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+					} else if (rowcount > 50) { 
+					   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+					} else { 
+					   $('##' + gridId).jqxGrid({ pageable: false });
+					}
+					// add a control to show/hide columns
+					var columns = $('##' + gridId).jqxGrid('columns').records;
+					var columnListSource = [];
+					for (i = 0; i < columns.length; i++) {
+						var text = columns[i].text;
+						var datafield = columns[i].datafield;
+						var hideable = columns[i].hideable;
+						var hidden = columns[i].hidden;
+						var show = ! hidden;
+						if (hideable == true) { 
+							var listRow = { label: text, value: datafield, checked: show };
+							columnListSource.push(listRow);
+						}
+					} 
+					$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+					$("##columnPick").on('checkChange', function (event) {
+						$("##" + gridId).jqxGrid('beginupdate');
+						if (event.args.checked) {
+							$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+						} else {
+							$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+						}
+						$("##" + gridId).jqxGrid('endupdate');
+					});
+					$("##columnPickDialog").dialog({ 
+						height: 'auto', 
+						title: 'Show/Hide Columns',
+						autoOpen: false,  
+						modal: true, 
+						reszable: true, 
+						buttons: { 
+							Ok: function(){ $(this).dialog("close"); }
+						},
+						open: function (event, ui) { 
+							var maxZIndex = getMaxZIndex();
+							// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+							$('.ui-dialog').css({'z-index': maxZIndex + 4 });  
+							$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+						} 
+					});
+					$("##columnPickDialogButton").html(
+						"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
+					);
+					// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+					// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+					var maxZIndex = getMaxZIndex();
+					$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+					$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+					$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+					$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				}
 			</script>
 		</cfoutput>
 
