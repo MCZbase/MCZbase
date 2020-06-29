@@ -192,8 +192,8 @@ limitations under the License.
 							altrows: true,
 							showtoolbar: false,
 							columns: [
-								{text: 'Series', datafield: 'number_series', width:150, hideable: true, hidden: true },
-								{text: 'Number Series', datafield: 'id_link', width: 150},
+								{text: 'Number Series', datafield: 'number_series', width:150, hideable: true, hidden: true },
+								{text: 'Number Series Link', datafield: 'id_link', width: 150},
 								{text: 'Pattern', datafield: 'pattern', width:120, hideable: true, hidden: false },
 								{text: 'Collector', datafield: 'agentname', width:150, hideable: true, hidden: false },
 								{text: 'AgentID', datafield: 'collector_agent_id', width:100, hideable: true, hidden: true },
