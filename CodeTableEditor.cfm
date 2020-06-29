@@ -657,7 +657,7 @@
 							<input type="text" name="ordinal" value="#ordinal#">
 						</td>
 						<td>
-							<input type="description" name="description" value="#description#">
+							<input type="description" name="description" value="#stripQuotes(description)#">
 						</td>
 						<td>
 							<input type="button" 
@@ -1369,11 +1369,11 @@
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctcoll_other_id_type set 
-				OTHER_ID_TYPE='#other_id_type#',
-				DESCRIPTION='#description#',
-				base_URL='#base_url#'
+				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				BASE_URL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />
 			where
-				OTHER_ID_TYPE='#origData#'
+				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1555,10 +1555,10 @@
 			VALUES 
 				('#newData#'
 				<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-					 ,'#collection_cde#'
+					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>,
 				</cfif>
 				<cfif isdefined("description") and len(description) gt 0>
-					 ,'#description#'
+					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
 				</cfif>
 			)
 		</cfquery>
