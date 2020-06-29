@@ -38,7 +38,6 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="findAll">
 		<!--- ensure fields have empty values present if not defined. --->
@@ -310,6 +309,7 @@ limitations under the License.
 		</cfoutput>
 
 	</cfcase>
+	<!---------------------------------------------------------------------------------->
 	<cfcase value="new">
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
@@ -367,6 +367,7 @@ limitations under the License.
 			</div><!--- container --->
 		</cfoutput>
 	</cfcase>
+	<!---------------------------------------------------------------------------------->
 	<cfcase value="saveNew">
 		<cftry>
 			<cfif not isdefined("number_series") OR len(trim(#number_series#)) EQ 0 >
@@ -407,6 +408,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfcase>
+	<!---------------------------------------------------------------------------------->
 	<cfcase value="edit">
 		<cfif not isDefined("coll_event_num_series_id")>
 			<Cfset coll_event_num_series_id = "">
@@ -520,18 +522,23 @@ limitations under the License.
 				<cfoutput>
 					<div class="container">
 						<div role="region" aria-labelledby="existingvalues">
-							<h2 id="existingvalues">Instances of this Collecting Event Number Series</h2>
-							<ul>
-							<cfloop query="numSeriesUse">
-								<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
-							</cfloop>
-							</ul>
+							<cfif numSeriesUse_result.recordcount EQ 0>
+								<h2 id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
+							<cfelse>
+								<h2 id="existingvalues">Instances of this Collecting Event Number Series</h2>
+								<ul>
+									<cfloop query="numSeriesUse">
+										<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
+									</cfloop>
+								</ul>
+							</cfif>
 						</div>
 					</div>
 				</cfoutput>
 			</cfif>
 		</cfif>
 	</cfcase>
+	<!---------------------------------------------------------------------------------->
 	<cfdefaultcase>
 		<cfthrow type="Application" message="Unknown action.">
 	</cfdefaultcase>
