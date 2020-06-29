@@ -718,25 +718,6 @@ limitations under the License.
 	</div>
 	<script>
 
-function exportGridToCSV (idOfGrid, filename) {
-	var exportHeader = true;
-	var rows = null; // null for all rows
-	var exportHiddenColumns = true;
-	var csvStringData = $('##' + idOfGrid).jqxGrid('exportdata', 'csv',null,exportHeader,rows,exportHiddenColumns);
-	exportToCSV(csvStringData, filename);	
-};
-
-function exportToCSV (csvStringData, filename) {
-	var downloadLink = document.createElement("a");
-	var csvblob = new Blob(["\ufeff", csvStringData]);
-	var url = URL.createObjectURL(csvblob);
-	downloadLink.href = url;
-	downloadLink.download = filename;
-	document.body.appendChild(downloadLink);
-	downloadLink.click();
-	document.body.removeChild(downloadLink);
-}; 
-
 $(document).ready(function() {
 	/* Setup date time input controls */
 	$(".datetimeinput").datepicker({ 
