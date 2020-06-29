@@ -30,7 +30,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select count(*) as number_count, number_series, coll_event_number.coll_event_num_series_id, pattern, remarks,
+			select count(*) as number_count, number_series, coll_event_number.coll_event_num_series_id as id, pattern, remarks,
 				collector_agent_id,
 				case collector_agent_id
 					when null then '[No Agent]'
@@ -65,14 +65,14 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["coll_event_num_series_id"] = "#search.coll_event_num_series_id#">
+			<cfset row["coll_event_num_series_id"] = "#search.id#">
 			<cfset row["number_series"] = "#search.number_series#">
 			<cfset row["pattern"] = "#search.pattern#">
 			<cfset row["remarks"] = "#search.remarks#">
 			<cfset row["agentname"] = "#search.agentname#">
 			<cfset row["collector_agent_id"] = "#search.collector_agent_id#">
 			<cfset row["number_count"] = "#search.number_count#">
-			<cfset row["id_link"] = "<a href='/vocabularies/CollEventNum.cfm?action=edit&coll_event_num_series_id=#search.coll_event_num_series_id#' target='_blank'>#search.number_series#</a>">
+			<cfset row["id_link"] = "<a href='/vocabularies/CollEventNumberSeries.cfm?action=edit&coll_event_num_series_id=#search.id#' target='_blank'>#search.number_series#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>

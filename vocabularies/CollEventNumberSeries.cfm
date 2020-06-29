@@ -51,9 +51,13 @@ limitations under the License.
 							<form name="searchForm" id="searchForm"> 
 								<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
 								<div class="form-row mb-2">
-									<div class="col-md-12">
+									<div class="col-md-6">
 										<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
 										<input type="text" id="number_series" name="number_series" class="form-control-sm" value="" aria-labelledby="number_series_label" >					
+									</div>
+									<div class="col-md-6">
+										<label for="pattern" id="pattern_label">Pattern</label>
+										<input type="text" id="pattern" name="pattern" class="form-control-sm" value="" aria-labelledby="pattern_label" >					
 									</div>
 								</div>
 								<div class="form-row mb-2">
@@ -183,13 +187,13 @@ limitations under the License.
 							altrows: true,
 							showtoolbar: false,
 							columns: [
-								{text: 'Number Series', datafield: 'number_series', width:100, hideable: true, hidden: false },
-								{text: 'Transaction', datafield: 'id_link', width: 100},
+								{text: 'Series', datafield: 'number_series', width:100, hideable: true, hidden: true },
+								{text: 'Number Series', datafield: 'id_link', width: 100},
 								{text: 'Pattern', datafield: 'pattern', width:110, hideable: true, hidden: false },
 								{text: 'Collector', datafield: 'agentname', width:110, hideable: true, hidden: false },
 								{text: 'AgentID', datafield: 'collector_agent_id', width:110, hideable: true, hidden: true },
 								{text: 'Number Count', datafield: 'number_count', width:110, hideable: true, hidden: false },
-								{text: 'Remarks', datafield: 'remarks', width:110, hideable: true, hidden: false },
+								{text: 'Remarks', datafield: 'remarks', hideable: true, hidden: false },
 							],
 							rowdetails: true,
 							rowdetailstemplate: {
