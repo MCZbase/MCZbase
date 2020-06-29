@@ -1050,7 +1050,7 @@ You do not have permission to create Higher Geographies
 							<cfset ifbit = ifbit & "if (selectedid=#colEventNumSeries.coll_event_num_series_id#) { $('##pattern_span').html('#colEventNumSeries.pattern#'); }; ">
 						</cfloop>
 					</select>
-					<a href="/vocabularies/CollEventNumber.cfm?action=new" target="_blank">Add new number series</a>
+					<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
 				</span>
 				<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
 				<script>

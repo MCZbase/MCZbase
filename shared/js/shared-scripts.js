@@ -100,6 +100,34 @@ function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
   adialog.dialog('open');
 };
 
+/** exportGridToCSV given the id of a jqxgrid control and a filename, export the coutent of the grid to a csv file
+ * with the specified filename for direct download.
+ * @param idOfGrid the id of the jqx grid control, without a leading # selector.
+ * @param filename the filename to provide the user for the downloaded data.
+ */
+function exportGridToCSV (idOfGrid, filename) {
+   var exportHeader = true;
+   var rows = null; // null for all rows
+   var exportHiddenColumns = true;
+   var csvStringData = $('#' + idOfGrid).jqxGrid('exportdata', 'csv',null,exportHeader,rows,exportHiddenColumns);
+   exportToCSV(csvStringData, filename);  
+};
+
+/** exportToCSV given csv data as from an exportdata from a jqxgrid, provide the data to the user for download 
+ * with the specified filename.
+ * @param csvStringData the csv data to export to a file.
+ * @param filename the name to provide to the user for download of the data.
+ */
+function exportToCSV (csvStringData, filename) {
+   var downloadLink = document.createElement("a");
+   var csvblob = new Blob(["\ufeff", csvStringData]);
+   var url = URL.createObjectURL(csvblob);
+   downloadLink.href = url;
+   downloadLink.download = filename;
+   document.body.appendChild(downloadLink);
+   downloadLink.click();
+   document.body.removeChild(downloadLink);
+}; 
 
 
 /** Allow textarea controls to grow in size as text is entered into them 
