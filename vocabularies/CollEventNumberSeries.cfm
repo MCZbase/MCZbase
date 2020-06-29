@@ -1,5 +1,5 @@
 <!---
-CollEventNumber.cfm
+CollEventNumberSeries.cfm
 
 For managing collecting event number series.
 
@@ -103,8 +103,9 @@ limitations under the License.
 			</div>
 		</div>
 	
+		<cfoutput>
 		<script>
-		/* Setup jqxgrid for Transactions Search */
+		/* Setup jqxgrid for Search */
 		$('##searchForm').bind('submit', function(evt){
 			evt.preventDefault();
 	
@@ -198,7 +199,7 @@ limitations under the License.
 			});
 			$("##searchResultsGrid").on("bindingcomplete", function(event) {
 				// add a link out to this search, serializing the form as http get parameters
-				$('##resultLink').html('<a href="/vocabularies/CollEventNumber.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+				$('##resultLink').html('<a href="/vocabularies/CollEventNumberSeries.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 				gridLoaded('searchResultsGrid','transaction');
 			});
 			$('##searchResultsGrid').on('rowexpand', function (event) {
@@ -217,6 +218,7 @@ limitations under the License.
 		});
 		/* End Setup jqxgrid for number series Search ******************************/
 		</script>
+		<cfoutput>
 
 	</cfcase>
 	<cfcase value="new">
@@ -227,7 +229,7 @@ limitations under the License.
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
 							<h2 id="formheading">New Collecting Event Number Series</h2>
-							<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumber.cfm" method="post"> 
+							<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mb-2">
 									<div class="col-md-12">
@@ -310,7 +312,7 @@ limitations under the License.
 				select coll_event_num_series_id from coll_event_num_series 
 				where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertResult.GENERATEDKEY#">
 			</cfquery>
-			<cflocation url="/vocabularies/CollEventNumber.cfm?action=edit&coll_event_num_series_id=#savePK.coll_event_num_series_id#" addtoken="false">
+			<cflocation url="/vocabularies/CollEventNumberSeries.cfm?action=edit&coll_event_num_series_id=#savePK.coll_event_num_series_id#" addtoken="false">
 		<cfcatch>
 			<cfthrow type="Application" message="Error Saving new Collecting Event Number Series: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>

@@ -115,7 +115,7 @@ Function getNumSeriesList.  Search for collector number series returning json su
 			<cfset row["pattern"] = "#search.pattern#">
 			<cfset row["remarks"] = "#search.remarks#">
 			<cfset row["preferred_agent_name"] = "#search.preferred_agent_name#">
-			<cfset row["id_link"] = "<a href='/vocabularies/CollEventNumber.cfm?method=edit&coll_event_num_series_id#search.coll_event_num_series_id#' target='_blank'>#search.number_series#</a>">
+			<cfset row["id_link"] = "<a href='/vocabularies/CollEventNumberSeries.cfm?method=edit&coll_event_num_series_id#search.coll_event_num_series_id#' target='_blank'>#search.number_series#</a>">
 			<cfset data[i] = row>
 			<cfset i = i + 1>
 		</cfloop>
