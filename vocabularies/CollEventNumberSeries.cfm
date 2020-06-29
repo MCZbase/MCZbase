@@ -218,7 +218,7 @@ limitations under the License.
 		});
 		/* End Setup jqxgrid for number series Search ******************************/
 		</script>
-		<cfoutput>
+		</cfoutput>
 
 	</cfcase>
 	<cfcase value="new">
