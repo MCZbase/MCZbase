@@ -1,5 +1,5 @@
 <!---
-specimens/component/records_search.cfc
+transaction/component/search.cfc
 
 Copyright 2019 President and Fellows of Harvard College
 

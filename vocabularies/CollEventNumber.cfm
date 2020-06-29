@@ -41,34 +41,182 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="findAll">
-		<cfquery name="numSeriesList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select number_series, coll_event_num_series_id,
-				case collector_agent_id
-					when null then '[No Agent]'
-					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') 
-				end
-				as agentname
-			from coll_event_num_series
-		</cfquery>
 		<!--- Search Form --->
-		
-		<!--- Results table --->
-
-		<!--- TODO: Make search/results form/jqxgrid --->
 		<cfoutput>
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h2>Number Series (#numSeriesList.RecordCount#)</h2>
-						<ul>
-							<cfloop query="numSeriesList">
-								<li><a href="/vocabularies/CollEventNumber.cfm?action=edit&coll_event_num_series_id=#coll_event_num_series_id#">#number_series#</a> (#agentname#)</li>
-							</cfloop>
-						</ul>
+						<div role="region" aria-labelledby="formheading">
+							<h2 id="formheading">Find Collecting Event Number Series</h2>
+							<form name="searchForm"> 
+								<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
+								<div class="form-row mb-2">
+									<div class="col-md-12">
+										<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
+										<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="" aria-labelledby="number_series_label" >					
+									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-md-12">
+										<label for="number" id="number_label">A number in the Series</label>
+										<input type="text" id="number" name="number" class="reqdClr form-control-sm" required value="" aria-labelledby="number_label" >					
+									</div>
+								</div>
+								<div class="form-row my-2 mx-0">
+									<div class="col-12 text-left">
+										<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+										<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
+										<button type="button" class="btn-xs btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
-		</cfoutput>	
+		</cfoutput>
+
+		<!--- Results table as a jqxGrid. --->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="text-left col-md-12">
+					<main role="main">
+						<div class="pl-2 mb-5"> 
+							
+							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+								<h4>Results: </h4>
+								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+								<div id="columnPickDialog">
+									<div id="columnPick" class="px-1"></div>
+								</div>
+								<div id="columnPickDialogButton"></div>
+								<div id="resultDownloadButtonContainer"></div>
+							</div>
+							<div class="row mt-0">
+								<!--- Grid Related code is below along with search handlers --->
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="enableselection"></div>
+							</div>
+						</div>
+					</main>
+				</div>
+			</div>
+		</div>
+	
+		<script>
+		/* Setup jqxgrid for Transactions Search */
+		$('##searchForm').bind('submit', function(evt){
+			evt.preventDefault();
+	
+			$("##overlay").show();
+	
+			$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+			$('##resultCount').html('');
+			$('##resultLink').html('');
+	
+			var search =
+			{
+				datatype: "json",
+				datafields:
+				[
+					{ name: 'number_series', type: 'string' },
+					{ name: 'coll_event_num_series_id', type: 'string' },
+					{ name: 'pattern', type: 'string' },
+					{ name: 'remarks', type: 'string' },
+					{ name: 'agentname', type: 'string' },
+					{ name: 'collector_agent_id', type: 'string' },
+					{ name: 'number_count', type: 'string' },
+					{ name: 'id_link', type: 'string' }
+				],
+				updaterow: function (rowid, rowdata, commit) {
+					commit(true);
+				},
+				root: 'numberSeriesRecord',
+				id: 'coll_event_num_series_id',
+				url: '/vocabularies/component/search.cfc?' + $('##searchForm').serialize(),
+				timeout: 30000,  // units not specified, miliseconds? 
+				loadError: function(jqXHR, status, error) { 
+					$("##overlay").hide();
+	            var message = "";      
+					if (error == 'timeout') { 
+	               message = ' Server took too long to respond.';
+	            } else { 
+	               message = jqXHR.responseText;
+	            }
+	            messageDialog('Error:' + message ,'Error: ' + error);
+				},
+				async: true
+			};
+	
+			var dataAdapter = new $.jqx.dataAdapter(search);
+			var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+				// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+				var details = $($(parentElement).children()[0]);
+				details.html("<div id='rowDetailsTarget" + index + "'></div>");
+	
+				createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+				// Workaround, expansion sits below row in zindex.
+				var maxZIndex = getMaxZIndex();
+				$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+			}
+	
+			$("##searchResultsGrid").jqxGrid({
+				width: '100%',
+				autoheight: 'true',
+				source: dataAdapter,
+				filterable: true,
+				sortable: true,
+				pageable: true,
+				editable: false,
+				pagesize: '50',
+				pagesizeoptions: ['50','100'],
+				showaggregates: true,
+				columnsresize: true,
+				autoshowfiltericon: true,
+				autoshowcolumnsmenubutton: false,
+				autoshowloadelement: false,  // overlay acts as load element for form+results
+				columnsreorder: true,
+				groupable: true,
+				selectionmode: 'none',
+				altrows: true,
+				showtoolbar: false,
+				columns: [
+					{text: 'Number Series', datafield: 'number_series', width:100, hideable: true, hidden: false },
+					{text: 'Transaction', datafield: 'id_link', width: 100},
+					{text: 'Pattern', datafield: 'pattern', width:110, hideable: true, hidden: false },
+					{text: 'Collector', datafield: 'agentname', width:110, hideable: true, hidden: false },
+					{text: 'AgentID', datafield: 'collector_agent_id', width:110, hideable: true, hidden: true },
+					{text: 'Number Count', datafield: 'number_count', width:110, hideable: true, hidden: false },
+					{text: 'Remarks', datafield: 'remarks', width:110, hideable: true, hidden: false },
+				],
+				rowdetails: true,
+				rowdetailstemplate: {
+					rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+					rowdetailsheight:  1 // row details will be placed in popup dialog
+				},
+				initrowdetails: initRowDetails
+			});
+			$("##searchResultsGrid").on("bindingcomplete", function(event) {
+				// add a link out to this search, serializing the form as http get parameters
+				$('##resultLink').html('<a href="/vocabularies/CollEventNumber.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+				gridLoaded('searchResultsGrid','transaction');
+			});
+			$('##searchResultsGrid').on('rowexpand', function (event) {
+				//  Create a content div, add it to the detail row, and make it into a dialog.
+				var args = event.args;
+				var rowIndex = args.rowindex;
+				var datarecord = args.owner.source.records[rowIndex];
+				createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			});
+			$('##searchResultsGrid').on('rowcollapse', function (event) {
+				// remove the dialog holding the row details
+				var args = event.args;
+				var rowIndex = args.rowindex;
+				$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+			});
+		});
+		/* End Setup jqxgrid for number series Search ******************************/
+		</script>
 
 	</cfcase>
 	<cfcase value="new">

@@ -142,4 +142,5 @@ Function getNumSeriesList.  Search for collector number series returning json su
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+
 </cfcomponent>
