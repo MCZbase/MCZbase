@@ -22,7 +22,9 @@ limitations under the License.
 <cffunction name="getCollEventNumberSeries" access="remote" returntype="any" returnformat="json">
 	<cfargument name="number_series" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
-	<cfargument name="number" type="numeric" required="no">
+	<cfargument name="number" type="string" required="no">
+	<cfargument name="pattern" type="string" required="no">
+	<cfargument name="remarks" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -43,7 +45,13 @@ limitations under the License.
 					and number_series like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number_series#%">
 				</cfif>
 				<cfif isDefined("number") and len(number) gt 0>
-					and number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#">
+					and number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#">
+				</cfif>
+				<cfif isDefined("pattern") and len(pattern) gt 0>
+					and pattern like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern#">
+				</cfif>
+				<cfif isDefined("remarks") and len(remarks) gt 0>
+					and remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 				</cfif>
 			group by 
 				number_series, coll_event_num_series_id, pattern, remarks,
