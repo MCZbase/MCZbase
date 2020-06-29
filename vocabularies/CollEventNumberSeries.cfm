@@ -518,11 +518,16 @@ limitations under the License.
 					order by coll_event_number
 				</cfquery>
 				<cfoutput>
-					<ul>
-					<cfloop query="numSeriesUse">
-						<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#">#coll_event_number#</a>
-					</cfloop>
-					</ul>
+					<div class="container">
+						<div role="region" aria-labelledby="existingvalues">
+							<h2 id="existingvalues">Instances of this Collecting Event Number Series</h2>
+							<ul>
+							<cfloop query="numSeriesUse">
+								<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
+							</cfloop>
+							</ul>
+						</div>
+					</div>
 				</cfoutput>
 			</cfif>
 		</cfif>
