@@ -45,7 +45,7 @@ limitations under the License.
 					and number_series like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number_series#%">
 				</cfif>
 				<cfif isDefined("number") and len(number) gt 0>
-					and number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#">
+					and coll_event_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#">
 				</cfif>
 				<cfif isDefined("pattern") and len(pattern) gt 0>
 					and pattern like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern#">
