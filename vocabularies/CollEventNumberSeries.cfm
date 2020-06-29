@@ -53,13 +53,13 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
-										<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="" aria-labelledby="number_series_label" >					
+										<input type="text" id="number_series" name="number_series" class="form-control-sm" value="" aria-labelledby="number_series_label" >					
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="number" id="number_label">A number in the Series</label>
-										<input type="text" id="number" name="number" class="reqdClr form-control-sm" required value="" aria-labelledby="number_label" >					
+										<input type="text" id="number" name="number" class="form-control-sm" value="" aria-labelledby="number_label" >					
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
