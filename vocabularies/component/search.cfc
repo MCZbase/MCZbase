@@ -30,7 +30,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select count(*) as number_count, number_series, coll_event_num_series_id, pattern, remarks,
+			select count(*) as number_count, number_series, coll_event_number.coll_event_num_series_id, pattern, remarks,
 				collector_agent_id,
 				case collector_agent_id
 					when null then '[No Agent]'
@@ -38,7 +38,7 @@ limitations under the License.
 					end
 				as agentname
 			from coll_event_num_series
-					left join coll_event_number on coll_event_number.coll_event_number_series_id = coll_event_num_series.coll_event_num_series_id
+					left join coll_event_number on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
 			WHERE
 				coll_event_num_series.coll_event_num_series_id is not null
 				<cfif isDefined("number_series") and len(number_series) gt 0>
@@ -54,13 +54,12 @@ limitations under the License.
 					and remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 				</cfif>
 			group by 
-				number_series, coll_event_num_series_id, pattern, remarks,
+				number_series, coll_event_number.coll_event_num_series_id, pattern, remarks,
 				collector_agent_id,
 				case collector_agent_id
 					when null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
 					end
-				as agentname
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
