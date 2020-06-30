@@ -79,8 +79,8 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["id_link"] = "<a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#search.taxon_name_id#' target='_blank'>#search.display_name#</a>">
 			<cfset columnNames = ArrayToList(search.getColumnList())>
-			<cfloop array="#columnNames#" index="col">
-				<cfset row["#col#"] = "#search[columnName][currentrow]#">
+			<cfloop array="#columnNames#" index="columnName">
+				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
 			</cfloop>
 			<cfset data[i] = row>
 			<cfset i = i + 1>
