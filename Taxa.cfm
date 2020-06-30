@@ -116,175 +116,175 @@ limitations under the License.
 							<div class="tab-content pb-0" id="myTabContent">
 								<!---Keyword Search--->
 								<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
-								
-									<div class="row mx-2">
-										<form name="searchForm" id="searchForm">
-										<div class="col-12 col-xl-4">
-											<h2 class="h3 card-title px-0 mx-0 mb-0">Search All Taxonomy</h2>
-											<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
-											<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
-											<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;" aria-label="Find only taxa for which specimens exist?">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
-											<input type="hidden" name="action" value="search">
-											<ul class="list-group list-group-flush pb-3">
-												<li class="list-group-item pb-0">
-													<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
-													<a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;">Display all matches?</a></li>
-												<li class="list-group-item pb-0"> <a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;">
-													<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
-													Display only taxa currently accepted for identification?</a></li>
-												<li class="list-group-item pb-0">
-													<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
-													<a href="javascript:void(0)" class="smaller-text" onClick="taxa.we_have_some.checked=true;">Find only taxa for which specimens exist?</a></li>
-													<cfif isdefined("session.username") and #session.username# is "#session.dbuser#">
-														<script type="text/javascript" language="javascript">
-															document.getElementById('we_have_some').checked=false;
-														</script>
-													</cfif>
-												</li>
-											</ul>
+									<form name="searchForm" id="searchForm">
+										<div class="row mx-2">
+											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
+											<div class="col-12 col-xl-4">
+												<h2 class="h3 card-title px-0 mx-0 mb-0">Search All Taxonomy</h2>
+												<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
+												<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
+												<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;" aria-label="Find only taxa for which specimens exist?">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
+												<input type="hidden" name="action" value="search">
+												<ul class="list-group list-group-flush pb-3">
+													<li class="list-group-item pb-0">
+														<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
+														<a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;">Display all matches?</a></li>
+													<li class="list-group-item pb-0"> <a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;">
+														<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
+														Display only taxa currently accepted for identification?</a></li>
+													<li class="list-group-item pb-0">
+														<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
+														<a href="javascript:void(0)" class="smaller-text" onClick="taxa.we_have_some.checked=true;">Find only taxa for which specimens exist?</a></li>
+														<cfif isdefined("session.username") and #session.username# is "#session.dbuser#">
+															<script type="text/javascript" language="javascript">
+																document.getElementById('we_have_some').checked=false;
+															</script>
+														</cfif>
+													</li>
+												</ul>
+											</div>
+											<div class="col-12 col-xl-8">
+												<div class="col-12">
+													<p class="small text-success" aria-label="input info">Add equals sign for exact match where (=) is in the label.</p>
+												</div>
+												<div class="form-row bg-light border rounded px-2 pb-2">
+													<div class="col-md-4">
+														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match where (=) is in the label.">(=) </span></label>
+														<input type="text" class="data-entry-input" id="scientific_name" placeholder="scientific name">
+													</div>
+													<div class="col-md-4">
+														<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
+														<input type="text" class="data-entry-input" id="full_taxon_name" placeholder="name at any rank">
+													</div>
+													<div class="col-md-4">
+														<label for="common_name" class="data-entry-label align-left-center">Common Name</label>
+														<input type="text" class="data-entry-input" id="common_name" placeholder="common name" aria-label="common name">
+													</div>
+												</div>
+												<div class="form-row mt-2">
+													<div class="form-group col-md-2">
+														<label for="genus" class="data-entry-label align-left-center">Genus <span class="small text-success" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="genus" placeholder="generic name">
+													</div>
+													<div class="form-group col-md-2">
+														<label for="species" class="data-entry-label align-left-center">Species <span class="small text-success" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</span> </label>
+														<input type="text" class="data-entry-input" id="species" placeholder="specific name">
+													</div>
+													<div class="form-group col-md-2">
+														<label for="subspecies" class="data-entry-label align-left-center">Subspecies <span class="small text-success" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="subspecies" placeholder="subspecific name">
+													</div>
+													<div class="col-md-2">
+														<label for="author_text" class="data-entry-label align-left-center">Authorship <span class="small text-success" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> (=) </span> </label>
+														<input type="text" class="data-entry-input" id="author_text" placeholder="author text">
+													</div>
+													<div class="form-group col-md-2"> </div>
+												</div>
+												<div class="form-row mb-1">
+													<div class="col-md-2">
+														<label for="kingdom" class="data-entry-label align-left-center">Kingdom <span class="small text-success" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
+														<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
+													</div>
+													<div class="col-md-2">
+														<label for="phylum" class="data-entry-label align-left-center">Phylum <span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="phylum" placeholder="phylum">
+													</div>
+													<div class="col-md-2">
+														<label for="subphylum" class="data-entry-label align-left-center">Subphylum</label>
+														<input type="small" class="data-entry-input" id="subphylum" placeholder="subphylum">
+													</div>
+													<div class="col-md-2">
+														<label for="superclass" class="data-entry-label align-left-center">Superclass</label>
+														<input type="small" class="data-entry-input" id="superclass" placeholder="superclass">
+													</div>
+													<div class="col-md-2">
+														<label for="phylclass" class="data-entry-label align-left-center">Class <span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="phylclass" placeholder="phylclass">
+													</div>
+													<div class="col-md-2">
+														<label for="subclass" class="data-entry-label align-left-center">Subclass <span class="small text-success" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
+														<input type="text" class="data-entry-input" id="subclass" placeholder="subclass">
+													</div>
+												</div>
+												<div class="form-row mb-1">
+											
+													<div class="col-md-2">
+														<label for="superorder" class="data-entry-label">Superorder</label>
+														<input type="text" class="data-entry-input align-left-center" id="superorder" placeholder="superorder">
+													</div>
+													<div class="col-md-2">
+														<label for="phylorder" class="data-entry-label align-left-center">Order <span class="small text-success" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="phylorder" placeholder="phylorder">
+													</div>
+													<div class="col-md-2">
+														<label for="suborder" class="data-entry-label align-left-center">Suborder <span class="small text-success" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="suborder" placeholder="suborder">
+													</div>
+													<div class="col-md-2">
+														<label for="infraorder" class="data-entry-label align-left-center">Infraorder </label>
+														<input type="text" class="data-entry-input" id="infraorder" placeholder="infraorder">
+													</div>
+												</div>
+												<div class="form-row mb-1">
+													<div class="col-md-2">
+														<label for="superfamily" class="data-entry-label align-left-center">Superfamily</label>
+														<input type="text text-success" class="data-entry-input" id="superfamily" placeholder="superfamily">
+													</div>
+													<div class="col-md-2">
+														<label for="subphylum" class="data-entry-label align-left-center">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="family" placeholder="family">
+													</div>
+													<div class="col-md-2">
+														<label for="subfamily" class="data-entry-label align-left-center">Subfamily <span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="subfamily" placeholder="subfamily">
+													</div>
+													<div class="col-md-2">
+														<label for="tribe" class="data-entry-label align-left-center">Tribe <span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="tribe" placeholder="tribe">
+													</div>
+													<div class="col-md-2">
+														<label for="subgenus" class="data-entry-label align-left-center">Subgenus <span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
+													</div>
+												</div>
+												<div class="form-row mb-2 mt-2">
+													<div class="col-md-3">
+														<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
+														<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
+															<option></option>
+															<cfloop query="ctnomenclatural_code">
+																<option value="#nomenclatural_code#">#nomenclatural_code#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-md-3">
+														<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
+														<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
+															<option></option>
+															<cfloop query="CTTAXONOMIC_AUTHORITY">
+																<option value="#source_authority#">#source_authority#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-md-3">
+														<label for="taxon_status" class="data-entry-label align-left-center">Taxon Status</label>
+														<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
+															<option></option>
+															<cfloop query="cttaxon_status">
+																<option value="#taxon_status#">#taxon_status#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-md-3">
+														<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecifc Author<span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
+														<input type="text" class="data-entry-input" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
+													</div>
+												</div>
+												<input type="submit" value="Search" class="schBtn btn btn-primary btn-xs mr-2">
+												<input type="reset" value="Reset" class="clrBtn btn btn-xs btn-warning">
+											</div>
 										</div>
-										<div class="col-12 col-xl-8">
-											<div class="col-12">
-												<p class="small text-success" aria-label="input info">Add equals sign for exact match where (=) is in the label.</p>
-											</div>
-											<div class="form-row bg-light border rounded px-2 pb-2">
-												<div class="col-md-4">
-													<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match where (=) is in the label.">(=) </span></label>
-													<input type="text" class="data-entry-input" id="scientific_name" placeholder="scientific name">
-												</div>
-												<div class="col-md-4">
-													<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
-													<input type="text" class="data-entry-input" id="full_taxon_name" placeholder="name at any rank">
-												</div>
-												<div class="col-md-4">
-													<label for="common_name" class="data-entry-label align-left-center">Common Name</label>
-													<input type="text" class="data-entry-input" id="common_name" placeholder="common name" aria-label="common name">
-												</div>
-											</div>
-											<div class="form-row mt-2">
-												<div class="form-group col-md-2">
-													<label for="genus" class="data-entry-label align-left-center">Genus <span class="small text-success" onclick="var e=document.getElementById('genus');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="genus" placeholder="generic name">
-												</div>
-												<div class="form-group col-md-2">
-													<label for="species" class="data-entry-label align-left-center">Species <span class="small text-success" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</span> </label>
-													<input type="text" class="data-entry-input" id="species" placeholder="specific name">
-												</div>
-												<div class="form-group col-md-2">
-													<label for="subspecies" class="data-entry-label align-left-center">Subspecies <span class="small text-success" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="subspecies" placeholder="subspecific name">
-												</div>
-												<div class="col-md-2">
-													<label for="author_text" class="data-entry-label align-left-center">Authorship <span class="small text-success" onclick="var e=document.getElementById('author_text');e.value='='+e.value;"> (=) </span> </label>
-													<input type="text" class="data-entry-input" id="author_text" placeholder="author text">
-												</div>
-												<div class="form-group col-md-2"> </div>
-											</div>
-											<div class="form-row mb-1">
-												<div class="col-md-2">
-													<label for="kingdom" class="data-entry-label align-left-center">Kingdom <span class="small text-success" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </span></label>
-													<input type="text" class="data-entry-input" id="kingdom" placeholder="kingdom">
-												</div>
-												<div class="col-md-2">
-													<label for="phylum" class="data-entry-label align-left-center">Phylum <span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="phylum" placeholder="phylum">
-												</div>
-												<div class="col-md-2">
-													<label for="subphylum" class="data-entry-label align-left-center">Subphylum</label>
-													<input type="small" class="data-entry-input" id="subphylum" placeholder="subphylum">
-												</div>
-												<div class="col-md-2">
-													<label for="superclass" class="data-entry-label align-left-center">Superclass</label>
-													<input type="small" class="data-entry-input" id="superclass" placeholder="superclass">
-												</div>
-												<div class="col-md-2">
-													<label for="phylclass" class="data-entry-label align-left-center">Class <span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="phylclass" placeholder="phylclass">
-												</div>
-												<div class="col-md-2">
-													<label for="subclass" class="data-entry-label align-left-center">Subclass <span class="small text-success" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </span></label>
-													<input type="text" class="data-entry-input" id="subclass" placeholder="subclass">
-												</div>
-											</div>
-											<div class="form-row mb-1">
-										
-												<div class="col-md-2">
-													<label for="superorder" class="data-entry-label">Superorder</label>
-													<input type="text" class="data-entry-input align-left-center" id="superorder" placeholder="superorder">
-												</div>
-												<div class="col-md-2">
-													<label for="phylorder" class="data-entry-label align-left-center">Order <span class="small text-success" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="phylorder" placeholder="phylorder">
-												</div>
-												<div class="col-md-2">
-													<label for="suborder" class="data-entry-label align-left-center">Suborder <span class="small text-success" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="suborder" placeholder="suborder">
-												</div>
-												<div class="col-md-2">
-													<label for="infraorder" class="data-entry-label align-left-center">Infraorder </label>
-													<input type="text" class="data-entry-input" id="infraorder" placeholder="infraorder">
-												</div>
-											</div>
-											<div class="form-row mb-1">
-												<div class="col-md-2">
-													<label for="superfamily" class="data-entry-label align-left-center">Superfamily</label>
-													<input type="text text-success" class="data-entry-input" id="superfamily" placeholder="superfamily">
-												</div>
-												<div class="col-md-2">
-													<label for="subphylum" class="data-entry-label align-left-center">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="family" placeholder="family">
-												</div>
-												<div class="col-md-2">
-													<label for="subfamily" class="data-entry-label align-left-center">Subfamily <span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="subfamily" placeholder="subfamily">
-												</div>
-												<div class="col-md-2">
-													<label for="tribe" class="data-entry-label align-left-center">Tribe <span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="tribe" placeholder="tribe">
-												</div>
-												<div class="col-md-2">
-													<label for="subgenus" class="data-entry-label align-left-center">Subgenus <span class="small text-success" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="subgenus" placeholder="subgenus">
-												</div>
-											</div>
-											<div class="form-row mb-2 mt-2">
-												<div class="col-md-3">
-													<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
-													<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
-														<option></option>
-														<cfloop query="ctnomenclatural_code">
-															<option value="#nomenclatural_code#">#nomenclatural_code#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-md-3">
-													<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
-													<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
-														<option></option>
-														<cfloop query="CTTAXONOMIC_AUTHORITY">
-															<option value="#source_authority#">#source_authority#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-md-3">
-													<label for="taxon_status" class="data-entry-label align-left-center">Taxon Status</label>
-													<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
-														<option></option>
-														<cfloop query="cttaxon_status">
-															<option value="#taxon_status#">#taxon_status#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-md-3">
-													<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecifc Author<span class="small text-success" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </span></label>
-													<input type="text" class="data-entry-input" id="infraspecific_author" placeholder="infraspecific author" aria-label="infraspecific author">
-												</div>
-											</div>
-											<input type="submit" value="Search" class="schBtn btn btn-primary btn-xs mr-2">
-											<input type="reset" value="Reset" class="clrBtn btn btn-xs btn-warning">
-										</div>
-										</form>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
