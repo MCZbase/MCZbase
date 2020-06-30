@@ -320,7 +320,48 @@ limitations under the License.
 			</div>
 		</div>
 
+
+<!--- TODO, columns 
+
+				id_link,
+				taxon_name_id,
+				FULL_TAXON_NAME,
+				kingdom,
+				phylum,
+				SUBPHYLUM,
+				SUPERCLASS,
+				PHYLCLASS,
+				SUBCLASS,
+				SUPERORDER,
+				PHYLORDER,
+				SUBORDER,
+				INFRAORDER,
+				SUPERFAMILY,
+				FAMILY,
+				SUBFAMILY,
+				TRIBE,
+				GENUS,
+				SUBGENUS,
+				SPECIES,
+				SUBSPECIES,
+				INFRASPECIFIC_RANK,
+				SCIENTIFIC_NAME,
+				AUTHOR_TEXT,
+				display_name,
+				NOMENCLATURAL_CODE,
+				DIVISION,
+				SUBDIVISION,
+				INFRASPECIFIC_AUTHOR,
+				VALID_CATALOG_TERM_FG,
+				SOURCE_AUTHORITY,
+				scientificnameid,
+				taxonid,
+				taxon_status,
+				TAXON_REMARKS
+
+--->
 		<script>
+
 
 		</script>
 
