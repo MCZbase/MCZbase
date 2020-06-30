@@ -1,5 +1,8 @@
 <cfset pageTitle="Change Password">
 <cfinclude template = "/shared/_header.cfm">
+<cfif NOT isDefined('initSession')>
+	<cfinclude template="/shared/loginFunctions.cfm">
+</cfif>
 <!---------------------------------------------------------------------------------->
 <script>
 	function pwc(p,u){

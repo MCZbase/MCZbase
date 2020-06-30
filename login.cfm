@@ -1,6 +1,9 @@
 <cfset pageTitle = "Login">
 <!--- Login handler and login page delivery --->
 <cfinclude template = "shared/_header.cfm">
+<cfif NOT isDefined('initSession')>
+	<cfinclude template="/shared/loginFunctions.cfm">
+</cfif>
 <cfif isdefined("session.username") and len(#session.username#) gt 0 and #action# neq "signOut">
 	<cflocation url="UserProfile.cfm" addtoken="false">
 </cfif>

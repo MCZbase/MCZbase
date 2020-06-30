@@ -110,6 +110,9 @@ limitations under the License.
 </cfif>
 
 <cfif not isdefined("session.header_color")>
+	<cfif NOT isDefined('setDbUser')>
+		<cfinclude template="/shared/loginFunctions.cfm">
+	</cfif>
 	<cfset setDbUser()>
 </cfif>
 </head>
