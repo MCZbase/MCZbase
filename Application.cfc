@@ -320,7 +320,8 @@ limitations under the License.
 
 	<!-------------------------------------------------------------->
 
-	<cffunction name="onSessionStart" output="false"><cfinclude template="/shared/loginFunctions.cfm">
+	<cffunction name="onSessionStart" output="false">
+		<cfinclude template="/shared/loginFunctions.cfm">
 		<cfset initSession() />
 		<cfif (isdefined("session.roles") and
 			session.roles contains "coldfusion_user") and
