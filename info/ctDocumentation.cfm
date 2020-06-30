@@ -1,7 +1,7 @@
 <cfoutput>
 <cfinclude template="/includes/_frameHeader.cfm">
 <cfif not isdefined("table")>
-   <h2>MCZbase controled vocabulary tables</h2>
+   <h2>MCZbase controlled vocabulary tables</h2>
    <cfquery name="getCTName" datasource="uam_god">
       select
          distinct(table_name) table_name
@@ -11,9 +11,12 @@
          table_name like 'CT%'
        order by table_name
    </cfquery>
+	<ul>
    <cfloop query="getCTName">
-      <a href="/info/ctDocumentation.cfm?table=#getCTName.table_name#">#getCTName.table_name#</a><br>
+		<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+      <li><a href="/info/ctDocumentation.cfm?table=#getCTName.table_name#">#name#</a></li>
    </cfloop>
+	</ul>
 	<cfabort>
 </cfif>
 <cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
