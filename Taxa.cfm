@@ -35,65 +35,65 @@ limitations under the License.
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
 <cfoutput>
-<script type="text/javascript" language="javascript">
-	jQuery(document).ready(function() {
-		jQuery("##phylclass").autocomplete("/ajax/phylclass.cfm", {
-			width: 320,
-			max: 50,
-			autofill: false,
-			multiple: false,
-			scroll: true,
-			scrollHeight: 300,
-			matchContains: true,
-			minChars: 1,
-			selectFirst:false
+	<script type="text/javascript" language="javascript">
+		jQuery(document).ready(function() {
+			jQuery("##phylclass").autocomplete("/ajax/phylclass.cfm", {
+				width: 320,
+				max: 50,
+				autofill: false,
+				multiple: false,
+				scroll: true,
+				scrollHeight: 300,
+				matchContains: true,
+				minChars: 1,
+				selectFirst:false
+			});
+			jQuery("##kingdom").autocomplete("/ajax/kingdom.cfm", {
+				width: 320,
+				max: 50,
+				autofill: false,
+				multiple: false,
+				scroll: true,
+				scrollHeight: 300,
+				matchContains: true,
+				minChars: 1,
+				selectFirst:false
+			});
+			jQuery("##phylum").autocomplete("/ajax/phylum.cfm", {
+				width: 320,
+				max: 50,
+				autofill: false,
+				multiple: false,
+				scroll: true,
+				scrollHeight: 300,
+				matchContains: true,
+				minChars: 1,
+				selectFirst:false
+			});
+			jQuery("##phylorder").autocomplete("/ajax/phylorder.cfm", {
+				width: 320,
+				max: 50,
+				autofill: false,
+				multiple: false,
+				scroll: true,
+				scrollHeight: 300,
+				matchContains: true,
+				minChars: 1,
+				selectFirst:false
+			});
+			jQuery("##family").autocomplete("/ajax/family.cfm", {
+				width: 320,
+				max: 50,
+				autofill: false,
+				multiple: false,
+				scroll: true,
+				scrollHeight: 300,
+				matchContains: true,
+				minChars: 1,
+				selectFirst:false
+			});
 		});
-		jQuery("##kingdom").autocomplete("/ajax/kingdom.cfm", {
-			width: 320,
-			max: 50,
-			autofill: false,
-			multiple: false,
-			scroll: true,
-			scrollHeight: 300,
-			matchContains: true,
-			minChars: 1,
-			selectFirst:false
-		});
-		jQuery("##phylum").autocomplete("/ajax/phylum.cfm", {
-			width: 320,
-			max: 50,
-			autofill: false,
-			multiple: false,
-			scroll: true,
-			scrollHeight: 300,
-			matchContains: true,
-			minChars: 1,
-			selectFirst:false
-		});
-		jQuery("##phylorder").autocomplete("/ajax/phylorder.cfm", {
-			width: 320,
-			max: 50,
-			autofill: false,
-			multiple: false,
-			scroll: true,
-			scrollHeight: 300,
-			matchContains: true,
-			minChars: 1,
-			selectFirst:false
-		});
-		jQuery("##family").autocomplete("/ajax/family.cfm", {
-			width: 320,
-			max: 50,
-			autofill: false,
-			multiple: false,
-			scroll: true,
-			scrollHeight: 300,
-			matchContains: true,
-			minChars: 1,
-			selectFirst:false
-		});
-	});
-</script>
+	</script>
 	
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
@@ -118,12 +118,12 @@ limitations under the License.
 								<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
 								
 									<div class="row mx-2">
+										<form name="searchForm" id="searchForm">
 										<div class="col-12 col-xl-4">
 											<h2 class="h3 card-title px-0 mx-0 mb-0">Search All Taxonomy</h2>
 											<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 											<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 											<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;" aria-label="Find only taxa for which specimens exist?">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
-											<form ACTION="TaxonomyResults.cfm" METHOD="post" name="taxa">
 											<input type="hidden" name="action" value="search">
 											<ul class="list-group list-group-flush pb-3">
 												<li class="list-group-item pb-0">
@@ -282,8 +282,8 @@ limitations under the License.
 											</div>
 											<input type="submit" value="Search" class="schBtn btn btn-primary btn-xs mr-2">
 											<input type="reset" value="Reset" class="clrBtn btn btn-xs btn-warning">
-											</form>
 										</div>
+										</form>
 									</div>
 								</div>
 							</div>
