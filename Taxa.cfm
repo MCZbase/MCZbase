@@ -320,11 +320,6 @@ limitations under the License.
 			</div>
 		</div>
 
-
-<!--- TODO, columns 
-
-
---->
 		<script>
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -342,40 +337,40 @@ limitations under the License.
 						datatype: "json",
 						datafields:
 						[
-							{ name: 'TAXON_NAME_ID', type: 'int' } 
-							{ name: 'FULL_TAXON_NAME', type: 'string' }
-							{ name: 'KINGDOM', type: 'string' }
-							{ name: 'PHYLUM', type: 'string' }
-							{ name: 'SUBPHYLUM', type: 'string' }
-							{ name: 'SUPERCLASS', type: 'string' }
-							{ name: 'PHYLCLASS', type: 'string' }
-							{ name: 'SUBCLASS', type: 'string' }
-							{ name: 'SUPERORDER', type: 'string' }
-							{ name: 'PHYLORDER', type: 'string' }
-							{ name: 'SUBORDER', type: 'string' }
-							{ name: 'INFRAORDER', type: 'string' }
-							{ name: 'SUPERFAMILY', type: 'string' }
-							{ name: 'FAMILY', type: 'string' }
-							{ name: 'SUBFAMILY', type: 'string' }
-							{ name: 'TRIBE', type: 'string' }
-							{ name: 'GENUS', type: 'string' }
-							{ name: 'SUBGENUS', type: 'string' }
-							{ name: 'SPECIES', type: 'string' }
-							{ name: 'SUBSPECIES', type: 'string' }
-							{ name: 'INFRASPECIFIC_RANK', type: 'string' }
-							{ name: 'SCIENTIFIC_NAME', type: 'string' }
-							{ name: 'AUTHOR_TEXT', type: 'string' }
-							{ name: 'DISPLAY_NAME', type: 'string' }
-							{ name: 'NOMENCLATURAL_CODE', type: 'string' }
-							{ name: 'DIVISION', type: 'string' }
-							{ name: 'SUBDIVISION', type: 'string' }
-							{ name: 'INFRASPECIFIC_AUTHOR', type: 'string' }
-							{ name: 'VALID_CATALOG_TERM_FG', type: 'int' }
-							{ name: 'SOURCE_AUTHORITY', type: 'string' }
-							{ name: 'SCIENTIFICNAMEID', type: 'string' }
-							{ name: 'TAXONID', type: 'string' }
-							{ name: 'TAXON_STATUS', type: 'string' }
-							{ name: 'TAXON_REMARKS', type: 'string' }
+							{ name: 'TAXON_NAME_ID', type: 'int' }, 
+							{ name: 'FULL_TAXON_NAME', type: 'string' },
+							{ name: 'KINGDOM', type: 'string' },
+							{ name: 'PHYLUM', type: 'string' },
+							{ name: 'SUBPHYLUM', type: 'string' },
+							{ name: 'SUPERCLASS', type: 'string' },
+							{ name: 'PHYLCLASS', type: 'string' },
+							{ name: 'SUBCLASS', type: 'string' },
+							{ name: 'SUPERORDER', type: 'string' },
+							{ name: 'PHYLORDER', type: 'string' },
+							{ name: 'SUBORDER', type: 'string' },
+							{ name: 'INFRAORDER', type: 'string' },
+							{ name: 'SUPERFAMILY', type: 'string' },
+							{ name: 'FAMILY', type: 'string' },
+							{ name: 'SUBFAMILY', type: 'string' },
+							{ name: 'TRIBE', type: 'string' },
+							{ name: 'GENUS', type: 'string' },
+							{ name: 'SUBGENUS', type: 'string' },
+							{ name: 'SPECIES', type: 'string' },
+							{ name: 'SUBSPECIES', type: 'string' },
+							{ name: 'INFRASPECIFIC_RANK', type: 'string' },
+							{ name: 'SCIENTIFIC_NAME', type: 'string' },
+							{ name: 'AUTHOR_TEXT', type: 'string' },
+							{ name: 'DISPLAY_NAME', type: 'string' },
+							{ name: 'NOMENCLATURAL_CODE', type: 'string' },
+							{ name: 'DIVISION', type: 'string' },
+							{ name: 'SUBDIVISION', type: 'string' },
+							{ name: 'INFRASPECIFIC_AUTHOR', type: 'string' },
+							{ name: 'VALID_CATALOG_TERM_FG', type: 'int' },
+							{ name: 'SOURCE_AUTHORITY', type: 'string' },
+							{ name: 'SCIENTIFICNAMEID', type: 'string' },
+							{ name: 'TAXONID', type: 'string' },
+							{ name: 'TAXON_STATUS', type: 'string' },
+							{ name: 'TAXON_REMARKS', type: 'string' },
 							{ name: 'id_link', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
