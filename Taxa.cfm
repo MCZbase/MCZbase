@@ -323,46 +323,256 @@ limitations under the License.
 
 <!--- TODO, columns 
 
-				id_link,
-				taxon_name_id,
-				FULL_TAXON_NAME,
-				kingdom,
-				phylum,
-				SUBPHYLUM,
-				SUPERCLASS,
-				PHYLCLASS,
-				SUBCLASS,
-				SUPERORDER,
-				PHYLORDER,
-				SUBORDER,
-				INFRAORDER,
-				SUPERFAMILY,
-				FAMILY,
-				SUBFAMILY,
-				TRIBE,
-				GENUS,
-				SUBGENUS,
-				SPECIES,
-				SUBSPECIES,
-				INFRASPECIFIC_RANK,
-				SCIENTIFIC_NAME,
-				AUTHOR_TEXT,
-				display_name,
-				NOMENCLATURAL_CODE,
-				DIVISION,
-				SUBDIVISION,
-				INFRASPECIFIC_AUTHOR,
-				VALID_CATALOG_TERM_FG,
-				SOURCE_AUTHORITY,
-				scientificnameid,
-				taxonid,
-				taxon_status,
-				TAXON_REMARKS
 
 --->
 		<script>
+			$(document).ready(function() {
+				/* Setup jqxgrid for Search */
+				$('##searchForm').bind('submit', function(evt){
+					evt.preventDefault();
+			
+					$("##overlay").show();
+			
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+					$('##resultCount').html('');
+					$('##resultLink').html('');
+			
+					var search =
+					{
+						datatype: "json",
+						datafields:
+						[
+							{ name: 'TAXON_NAME_ID', type: 'int' } 
+							{ name: 'FULL_TAXON_NAME', type: 'string' }
+							{ name: 'KINGDOM', type: 'string' }
+							{ name: 'PHYLUM', type: 'string' }
+							{ name: 'SUBPHYLUM', type: 'string' }
+							{ name: 'SUPERCLASS', type: 'string' }
+							{ name: 'PHYLCLASS', type: 'string' }
+							{ name: 'SUBCLASS', type: 'string' }
+							{ name: 'SUPERORDER', type: 'string' }
+							{ name: 'PHYLORDER', type: 'string' }
+							{ name: 'SUBORDER', type: 'string' }
+							{ name: 'INFRAORDER', type: 'string' }
+							{ name: 'SUPERFAMILY', type: 'string' }
+							{ name: 'FAMILY', type: 'string' }
+							{ name: 'SUBFAMILY', type: 'string' }
+							{ name: 'TRIBE', type: 'string' }
+							{ name: 'GENUS', type: 'string' }
+							{ name: 'SUBGENUS', type: 'string' }
+							{ name: 'SPECIES', type: 'string' }
+							{ name: 'SUBSPECIES', type: 'string' }
+							{ name: 'INFRASPECIFIC_RANK', type: 'string' }
+							{ name: 'SCIENTIFIC_NAME', type: 'string' }
+							{ name: 'AUTHOR_TEXT', type: 'string' }
+							{ name: 'DISPLAY_NAME', type: 'string' }
+							{ name: 'NOMENCLATURAL_CODE', type: 'string' }
+							{ name: 'DIVISION', type: 'string' }
+							{ name: 'SUBDIVISION', type: 'string' }
+							{ name: 'INFRASPECIFIC_AUTHOR', type: 'string' }
+							{ name: 'VALID_CATALOG_TERM_FG', type: 'int' }
+							{ name: 'SOURCE_AUTHORITY', type: 'string' }
+							{ name: 'SCIENTIFICNAMEID', type: 'string' }
+							{ name: 'TAXONID', type: 'string' }
+							{ name: 'TAXON_STATUS', type: 'string' }
+							{ name: 'TAXON_REMARKS', type: 'string' }
+							{ name: 'id_link', type: 'string' }
+						],
+						updaterow: function (rowid, rowdata, commit) {
+							commit(true);
+						},
+						root: 'taxonRecord',
+						id: 'taxon_name_id',
+						url: '/taxonomy/component/search.cfc?' + $('##searchForm').serialize(),
+						timeout: 30000,  // units not specified, miliseconds? 
+						loadError: function(jqXHR, status, error) { 
+							$("##overlay").hide();
+			            var message = "";      
+							if (error == 'timeout') { 
+			               message = ' Server took too long to respond.';
+			            } else { 
+			               message = jqXHR.responseText;
+			            }
+			            messageDialog('Error:' + message ,'Error: ' + error);
+						},
+						async: true
+					};
+			
+					var dataAdapter = new $.jqx.dataAdapter(search);
+					var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+						// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+						var details = $($(parentElement).children()[0]);
+						details.html("<div id='rowDetailsTarget" + index + "'></div>");
+			
+						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+						// Workaround, expansion sits below row in zindex.
+						var maxZIndex = getMaxZIndex();
+						$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+					}
+			
+					$("##searchResultsGrid").jqxGrid({
+						width: '100%',
+						autoheight: 'true',
+						source: dataAdapter,
+						filterable: true,
+						sortable: true,
+						pageable: true,
+						editable: false,
+						pagesize: '50',
+						pagesizeoptions: ['50','100'],
+						showaggregates: true,
+						columnsresize: true,
+						autoshowfiltericon: true,
+						autoshowcolumnsmenubutton: false,
+						autoshowloadelement: false,  // overlay acts as load element for form+results
+						columnsreorder: true,
+						groupable: true,
+						selectionmode: 'none',
+						altrows: true,
+						showtoolbar: false,
+						columns: [
+							{ text: 'Link', datafield: 'id_link', width:100, hideable: true, hidden: false },
+							{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: true }, 
+							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:200, hideable: true, hidden: true },
+							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
+							{ text: 'Phylum', datafield: 'PHYLUM', width:100, hideable: true, hidden: false },
+							{ text: 'Subphylum', datafield: 'SUBPHYLUM', width:100, hideable: true, hidden: true },
+							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
+							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
+							{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: true },
+							{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: true },
+							{ text: 'Order', datafield: 'PHYLORDER', width:100, hideable: true, hidden: false },
+							{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: true },
+							{ text: 'Infraorder', datafield: 'INFRAORDER', width:100, hideable: true, hidden: true },
+							{ text: 'Superfamily', datafield: 'SUPERFAMILY', width:100, hideable: true, hidden: true },
+							{ text: 'Family', datafield: 'FAMILY', width:100, hideable: true, hidden: false },
+							{ text: 'Subfamily', datafield: 'SUBFAMILY', width:100, hideable: true, hidden: true },
+							{ text: 'Tribe', datafield: 'TRIBE', width:100, hideable: true, hidden: true },
+							{ text: 'Genus', datafield: 'GENUS', width:100, hideable: true, hidden: true },
+							{ text: 'Subgenus', datafield: 'SUBGENUS', width:100, hideable: true, hidden: true },
+							{ text: 'Species', datafield: 'SPECIES', width:100, hideable: true, hidden: true },
+							{ text: 'Subsepecies', datafield: 'SUBSPECIES', width:100, hideable: true, hidden: true },
+							{ text: 'Infraspecific Rank', datafield: 'INFRASPECIFIC_RANK', width:100, hideable: true, hidden: true },
+							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: false },
+							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:100, hideable: true, hidden: false },
+							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:100, hideable: true, hidden: true },
+							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
+							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
+							{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: true },
+							{ text: 'Infraspecific Author', datafield: 'INFRASPECIFIC_AUTHOR', width:100, hideable: true, hidden: true },
+							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM_FG', width:80, hideable: true, hidden: true },
+							{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY', width:100, hideable: true, hidden: true },
+							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
+							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
+							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: false },
+							{ text: 'Remarks', datafield: 'TAXON_REMARKS', width:200, hideable: true, hidden: true }
+						],
+						rowdetails: true,
+						rowdetailstemplate: {
+							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+							rowdetailsheight:  1 // row details will be placed in popup dialog
+						},
+						initrowdetails: initRowDetails
+					});
+					$("##searchResultsGrid").on("bindingcomplete", function(event) {
+						// add a link out to this search, serializing the form as http get parameters
+						$('##resultLink').html('<a href="/Taxa.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+						gridLoaded('searchResultsGrid','collecting event number');
+					});
+					$('##searchResultsGrid').on('rowexpand', function (event) {
+						//  Create a content div, add it to the detail row, and make it into a dialog.
+						var args = event.args;
+						var rowIndex = args.rowindex;
+						var datarecord = args.owner.source.records[rowIndex];
+						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+					});
+					$('##searchResultsGrid').on('rowcollapse', function (event) {
+						// remove the dialog holding the row details
+						var args = event.args;
+						var rowIndex = args.rowindex;
+						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+					});
+				});
+				/* End Setup jqxgrid for number series Search ******************************/
 
+				// If requested in uri, execute search immediately.
+				<cfif isdefined("execute")>
+					$('##searchForm').submit();
+				</cfif>
+			}); /* End document.ready */
 
+			function gridLoaded(gridId, searchType) { 
+				$("##overlay").hide();
+				var now = new Date();
+				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+				var filename = searchType + '_results_' + nowstring + '.csv';
+				// display the number of rows found
+				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				if (rowcount == 1) {
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+				} else { 
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+				}
+				// set maximum page size
+				if (rowcount > 100) { 
+				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+				} else if (rowcount > 50) { 
+				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+				} else { 
+				   $('##' + gridId).jqxGrid({ pageable: false });
+				}
+				// add a control to show/hide columns
+				var columns = $('##' + gridId).jqxGrid('columns').records;
+				var columnListSource = [];
+				for (i = 0; i < columns.length; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) { 
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource.push(listRow);
+					}
+				} 
+				$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+				$("##columnPick").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+				$("##columnPickDialog").dialog({ 
+					height: 'auto', 
+					title: 'Show/Hide Columns',
+					autoOpen: false,  
+					modal: true, 
+					reszable: true, 
+					buttons: { 
+						Ok: function(){ $(this).dialog("close"); }
+					},
+					open: function (event, ui) { 
+						var maxZIndex = getMaxZIndex();
+						// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+						$('.ui-dialog').css({'z-index': maxZIndex + 4 });  
+						$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+					} 
+				});
+				$("##columnPickDialogButton").html(
+					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
+				);
+				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+				var maxZIndex = getMaxZIndex();
+				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+			}
 		</script>
 
 	</div>
