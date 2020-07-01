@@ -221,7 +221,7 @@ limitations under the License.
 					<cfif left(genus,1) is "=">
 						AND upper(taxonomy.genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(genus,len(genus)-1))#">
 					<cfelse>
-						<cfif contains(genus,',')>
+						<cfif find(',',genus) GT 0>
 							AND upper(taxonomy.genus) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(genus)#">)
 						<cfelse>
 							AND upper(taxonomy.genus) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(genus)#%">
