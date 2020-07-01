@@ -1456,63 +1456,63 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						</cfif>
 					</cfif>
 				</div>
-                                    </div>
-<!------------------------------------ accession ---------------------------------------------->
-			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					media.media_id,
-					media.media_uri,
-					media.mime_type,
-					media.media_type,
-					media.preview_uri,
-					label_value descr,
-					mczbase.get_media_descriptor(media.media_id) as media_descriptor
-				from
-					media,
-					media_relations,
-					(select media_id,label_value from media_labels where media_label='description') media_labels
-				where
-					media.media_id=media_relations.media_id and
-					media.media_id=media_labels.media_id (+) and
-					media_relations.media_relationship like '% accn' and
-					media_relations.related_primary_key= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
-			</cfquery>
-			<cfif oneOfUs is 1 and vpdaccn is 1>
-			<div class="detailCell">
-				<div class="detailLabel">Accession
-					<cfif oneOfUs is 1>
-						<span class="detailEditCell" onclick="window.parent.loadEditApp('addAccn');">Edit</span>
-					</cfif>
-				</div>
-				<div class="detailBlock">
-					<span class="detailData">
-						<cfif oneOfUs is 1>
-							<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
-						<cfelse>
-							#accession#
-						</cfif>
-						<cfif accnMedia.recordcount gt 0>
-							<div class="thumbs">
-								<div class="thumb_spcr">&nbsp;</div>
-								<cfloop query="accnMedia">
-									<cfset altText = accnMedia.media_descriptor>
-									<div class="one_thumb">
-										<a href="#media_uri#" target="_blank">
-											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
-										</a>
-										<p>
-											#media_type# (#mime_type#)
-											<br><a href="/media/#media_id#" target="_blank">Media Details</a>
-											<br>#descr#
-										</p>
-									</div>
-								</cfloop>
-								<div class="thumb_spcr">&nbsp;</div>
-							</div>
-						</cfif>
-					</span>
-				</div>
 			</div>
+<!------------------------------------ accession ---------------------------------------------->
+			<cfif oneOfUs is 1 and vpdaccn is 1>
+				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media.media_id,
+						media.media_uri,
+						media.mime_type,
+						media.media_type,
+						media.preview_uri,
+						label_value descr,
+						mczbase.get_media_descriptor(media.media_id) as media_descriptor
+					from
+						media,
+						media_relations,
+						(select media_id,label_value from media_labels where media_label='description') media_labels
+					where
+						media.media_id=media_relations.media_id and
+						media.media_id=media_labels.media_id (+) and
+						media_relations.media_relationship like '% accn' and
+						media_relations.related_primary_key= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+				</cfquery>
+				<div class="detailCell">
+					<div class="detailLabel">Accession
+						<cfif oneOfUs is 1>
+							<span class="detailEditCell" onclick="window.parent.loadEditApp('addAccn');">Edit</span>
+						</cfif>
+					</div>
+					<div class="detailBlock">
+						<span class="detailData">
+							<cfif oneOfUs is 1>
+								<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+							<cfelse>
+								#accession#
+							</cfif>
+							<cfif accnMedia.recordcount gt 0>
+								<div class="thumbs">
+									<div class="thumb_spcr">&nbsp;</div>
+									<cfloop query="accnMedia">
+										<cfset altText = accnMedia.media_descriptor>
+										<div class="one_thumb">
+											<a href="#media_uri#" target="_blank">
+												<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
+											</a>
+											<p>
+												#media_type# (#mime_type#)
+												<br><a href="/media/#media_id#" target="_blank">Media Details</a>
+												<br>#descr#
+											</p>
+										</div>
+									</cfloop>
+									<div class="thumb_spcr">&nbsp;</div>
+								</div>
+							</cfif>
+						</span>
+					</div>
+				</div>
 			</cfif>
 <!------------------------------------ usage ---------------------------------------------->
 		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or
