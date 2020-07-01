@@ -2,7 +2,7 @@
 <!--
 Taxa.cfm
 
-Copyright 2019 President and Fellows of Harvard College
+Copyright 2020 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,7 +34,11 @@ limitations under the License.
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
+<!--- set default search field values if not passed in --->
+<cfif NOT isDefined("scientific_name")><cfset scientific_name=""></cfif>
+
 <cfoutput>
+	<!--- TODO: Fix backing methods 
 	<script type="text/javascript" language="javascript">
 		jQuery(document).ready(function() {
 			jQuery("##phylclass").autocomplete("/ajax/phylclass.cfm", {
@@ -94,6 +98,7 @@ limitations under the License.
 			});
 		});
 	</script>
+	--->
 	
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
@@ -150,7 +155,7 @@ limitations under the License.
 												<div class="form-row bg-light border rounded px-2 pb-2">
 													<div class="col-md-4">
 														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match where (=) is in the label.">(=) </span></label>
-														<input type="text" class="data-entry-input" id="scientific_name" placeholder="scientific name">
+														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#">
 													</div>
 													<div class="col-md-4">
 														<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
