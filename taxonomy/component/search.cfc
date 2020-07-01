@@ -101,7 +101,8 @@ limitations under the License.
 				count(#session.flatTableName#.collection_object_id) as specimen_count
 			 from taxonomy
 				left join common_name on taxonomy.taxon_name_id = common_name.taxon_name_id
-				left join #session.flatTableName# on taxonomy.taxon_name_id = #session.flatTableName#.taxon_name_id
+				left join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.identification_id
+				left join #session.flatTableName# on identificaiton_taxonomy.identification_id = #session.flatTableName#.identification_id
 			WHERE
 				taxonomy.TAXON_NAME_ID is not null
 				<cfif isdefined("scientific_name") AND len(scientific_name) gt 0>
