@@ -184,6 +184,13 @@ limitations under the License.
 						AND upper(genus) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(genus)#%">
 					</cfif>
 				</cfif>
+				<cfif isdefined("subgenus") AND len(subgenus) gt 0>
+					<cfif left(subgenus,1) is "=">
+						AND upper(subgenus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subgenus,len(subgenus)-1))#">
+					<cfelse>
+						AND upper(subgenus) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subgenus)#%">
+					</cfif>
+				</cfif>
 				<cfif isdefined("species") AND len(species) gt 0>
 					<cfif left(species,1) is "=">
 						AND upper(species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">

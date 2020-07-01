@@ -53,9 +53,11 @@ limitations under the License.
 <cfif NOT isDefined("subfamily")><cfset subfamily=""></cfif>
 <cfif NOT isDefined("tribe")><cfset tribe=""></cfif>
 <cfif NOT isDefined("genus")><cfset genus=""></cfif>
+<cfif NOT isDefined("subgenus")><cfset genus=""></cfif>
 <cfif NOT isDefined("species")><cfset species=""></cfif>
 <cfif NOT isDefined("subspecies")><cfset subspecies=""></cfif>
 <cfif NOT isDefined("author_text")><cfset author_text=""></cfif>
+<cfif NOT isDefined("infraspecific_author")><cfset infraspecific_author=""></cfif>
 
 <cfoutput>
 	<!--- TODO: Fix backing methods 
