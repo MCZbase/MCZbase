@@ -421,7 +421,7 @@ limitations under the License.
 							{ name: 'TAXONID', type: 'string' },
 							{ name: 'TAXON_STATUS', type: 'string' },
 							{ name: 'TAXON_REMARKS', type: 'string' },
-							{ name: 'id_link', type: 'string' }
+							{ name: 'id_link', type: 'string' },
 							{ name: 'SPECIMEN_COUNT', type: 'int' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
