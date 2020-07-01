@@ -57,7 +57,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT DISTINCT
+			SELECT 
 				taxonomy.TAXON_NAME_ID as taxon_name_id,
 				taxonomy.FULL_TAXON_NAME,
 				taxonomy.kingdom,
@@ -101,7 +101,7 @@ limitations under the License.
 				count(#session.flatTableName#.collection_object_id) as specimen_count
 			 from taxonomy
 				left join common_name on taxonomy.taxon_name_id = common_name.taxon_name_id
-				left join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.identification_id
+				left join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
 				left join #session.flatTableName# on identification_taxonomy.identification_id = #session.flatTableName#.identification_id
 			WHERE
 				taxonomy.TAXON_NAME_ID is not null
