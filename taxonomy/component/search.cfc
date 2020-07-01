@@ -91,9 +91,11 @@ limitations under the License.
 				scientificnameid,
 				taxonid,
 				taxon_status,
-				TAXON_REMARKS
+				TAXON_REMARKS,
+				count(#session.flatTableName#.collection_object_id) as specimen_count
 			 from taxonomy
 				left join common_name on taxonomy.taxon_name_id = common_name.taxon_name_id
+				left join #session.flatTableName# on taxonomy.taxon_name_id = #session.flatTableName#.taxon_name_id
 			WHERE
 				taxonomy.TAXON_NAME_ID is not null
 				<cfif isdefined("scientific_name") AND len(scientific_name) gt 0>
@@ -259,6 +261,41 @@ limitations under the License.
 				<cfif isdefined("valid_catalog_term_fg") AND len(valid_catalog_term_fg) gt 0>
 					AND upper(valid_catalog_term_fg) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ucase(right(valid_catalog_term_fg,len(valid_catalog_term_fg)-1))#">
 				</cfif>
+			GROUP BY
+				taxonomy.TAXON_NAME_ID,
+				FULL_TAXON_NAME,
+				kingdom,
+				phylum,
+				SUBPHYLUM,
+				SUPERCLASS,
+				PHYLCLASS,
+				SUBCLASS,
+				SUPERORDER,
+				PHYLORDER,
+				SUBORDER,
+				INFRAORDER,
+				SUPERFAMILY,
+				FAMILY,
+				SUBFAMILY,
+				TRIBE,
+				GENUS,
+				SUBGENUS,
+				SPECIES,
+				SUBSPECIES,
+				INFRASPECIFIC_RANK,
+				SCIENTIFIC_NAME,
+				AUTHOR_TEXT,
+				display_name,
+				NOMENCLATURAL_CODE,
+				DIVISION,
+				SUBDIVISION,
+				INFRASPECIFIC_AUTHOR,
+				VALID_CATALOG_TERM_FG,
+				SOURCE_AUTHORITY,
+				scientificnameid,
+				taxonid,
+				taxon_status,
+				TAXON_REMARKS
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>

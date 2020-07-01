@@ -422,6 +422,7 @@ limitations under the License.
 							{ name: 'TAXON_STATUS', type: 'string' },
 							{ name: 'TAXON_REMARKS', type: 'string' },
 							{ name: 'id_link', type: 'string' }
+							{ name: 'SPECIMEN_COUNT', type: 'int' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
 							commit(true);
@@ -509,7 +510,8 @@ limitations under the License.
 							{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
-							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: false },
+							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: true },
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT',  hideable: true, hidden: false },
 							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
 						],
 						rowdetails: true,
@@ -522,7 +524,7 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Taxa.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-						gridLoaded('searchResultsGrid','collecting event number');
+						gridLoaded('searchResultsGrid','taxon records');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
