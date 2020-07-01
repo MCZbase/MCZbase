@@ -454,7 +454,7 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{ text: 'Taxon', datafield: 'id_link', width:200, hideable: true, hidden: false },
+							{ text: 'Taxon', datafield: 'id_link', width:300, hideable: true, hidden: false },
 							{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: true }, 
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
@@ -483,12 +483,12 @@ limitations under the License.
 							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
 							{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: true },
 							{ text: 'Infraspecific Author', datafield: 'INFRASPECIFIC_AUTHOR', width:100, hideable: true, hidden: true },
-							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM_FG', width:80, hideable: true, hidden: true },
+							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM_FG', width:80, hideable: true, hidden: false },
 							{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
 							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: false },
-							{ text: 'Remarks', datafield: 'TAXON_REMARKS', width:200, hideable: true, hidden: true }
+							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
