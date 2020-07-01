@@ -58,6 +58,7 @@ limitations under the License.
 <cfif NOT isDefined("subspecies")><cfset subspecies=""></cfif>
 <cfif NOT isDefined("author_text")><cfset author_text=""></cfif>
 <cfif NOT isDefined("infraspecific_author")><cfset infraspecific_author=""></cfif>
+<cfif NOT isDefined("taxon_remarks")><cfset taxon_remarks=""></cfif>
 <cfif NOT isDefined("nomenclatural_code")>
 	<cfset in_nomenclatural_code="">
 <cfelse>
@@ -67,6 +68,11 @@ limitations under the License.
 	<cfset in_source_authority="">
 <cfelse>
 	<cfset in_source_authority="#source_authority#">
+</cfif>
+<cfif NOT isDefined("taxon_status")>
+	<cfset in_taxon_status="">
+<cfelse>
+	<cfset in_taxon_status="#taxon_status#">
 </cfif>
 
 <cfoutput>
@@ -313,6 +319,7 @@ limitations under the License.
 														<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
 															<option></option>
 															<cfloop query="cttaxon_status">
+																<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 																<option value="#taxon_status#">#taxon_status#</option>
 															</cfloop>
 														</select>
