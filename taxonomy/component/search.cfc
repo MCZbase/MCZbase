@@ -21,6 +21,37 @@ limitations under the License.
 <!---   Function getTaxa  --->
 <cffunction name="getTaxa" access="remote" returntype="any" returnformat="json">
 	<cfargument name="scientific_name" type="string" required="no">
+	<cfargument name="full_taxon_name" type="string" required="no">
+	<cfargument name="common_name" type="string" required="no">
+	<cfargument name="kingdom" type="string" required="no">
+	<cfargument name="phylum" type="string" required="no">
+	<cfargument name="subphylum" type="string" required="no">
+	<cfargument name="superclass" type="string" required="no">
+	<cfargument name="phylclass" type="string" required="no">
+	<cfargument name="subclass" type="string" required="no">
+	<cfargument name="superorder" type="string" required="no">
+	<cfargument name="phylorder" type="string" required="no">
+	<cfargument name="suborder" type="string" required="no">
+	<cfargument name="infraorder" type="string" required="no">
+	<cfargument name="superfamily" type="string" required="no">
+	<cfargument name="family" type="string" required="no">
+	<cfargument name="subfamily" type="string" required="no">
+	<cfargument name="tribe" type="string" required="no">
+	<cfargument name="genus" type="string" required="no">
+	<cfargument name="subgenus" type="string" required="no">
+	<cfargument name="species" type="string" required="no">
+	<cfargument name="subspecies" type="string" required="no">
+	<cfargument name="infraspecific_rank" type="string" required="no">
+	<cfargument name="author_text" type="string" required="no">
+	<cfargument name="taxon_status" type="string" required="no">
+	<cfargument name="taxon_remarks" type="string" required="no">
+	<cfargument name="nomenclatural_code" type="string" required="no">
+	<cfargument name="division" type="string" required="no">
+	<cfargument name="subdivision" type="string" required="no">
+	<cfargument name="infraspecific_author" type="string" required="no">
+	<cfargument name="valid_catalog_term_fg" type="string" required="no">
+	<cfargument name="scientificnameid" type="string" required="no">
+	<cfargument name="taxonid" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -211,6 +242,22 @@ limitations under the License.
 					<cfelse>
 						AND upper(author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author_text)#%">
 					</cfif>
+				</cfif>
+				<cfif isdefined("taxon_remarks") AND len(taxon_remarks) gt 0>
+					<cfif left(taxon_remarks,1) is "=">
+						AND upper(taxon_remarks) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(taxon_remarks,len(taxon_remarks)-1))#">
+					<cfelse>
+						AND upper(taxon_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_remarks)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("taxon_status") AND len(taxon_status) gt 0>
+					AND upper(taxon_status) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(taxon_status,len(taxon_status)-1))#">
+				</cfif>
+				<cfif isdefined("nomenclatural_code") AND len(nomenclatural_code) gt 0>
+					AND upper(nomenclatural_code) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(nomenclatural_code,len(nomenclatural_code)-1))#">
+				</cfif>
+				<cfif isdefined("valid_catalog_term_fg") AND len(valid_catalog_term_fg) gt 0>
+					AND upper(valid_catalog_term_fg) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ucase(right(valid_catalog_term_fg,len(valid_catalog_term_fg)-1))#">
 				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
