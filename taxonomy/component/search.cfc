@@ -86,7 +86,13 @@ limitations under the License.
 				DIVISION,
 				SUBDIVISION,
 				INFRASPECIFIC_AUTHOR,
-				VALID_CATALOG_TERM_FG,
+				case VALID_CATALOG_TERM_FG
+					when null then '[No Flag]'
+					when 1 then 'Yes'
+					when 0 then 'No'
+					else '[Error]'
+					end
+				as VALID_CATALOG_TERM_FG,
 				SOURCE_AUTHORITY,
 				scientificnameid,
 				taxonid,

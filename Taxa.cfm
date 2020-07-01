@@ -415,7 +415,7 @@ limitations under the License.
 							{ name: 'DIVISION', type: 'string' },
 							{ name: 'SUBDIVISION', type: 'string' },
 							{ name: 'INFRASPECIFIC_AUTHOR', type: 'string' },
-							{ name: 'VALID_CATALOG_TERM_FG', type: 'int' },
+							{ name: 'VALID_CATALOG_TERM_FG', type: 'string' },
 							{ name: 'SOURCE_AUTHORITY', type: 'string' },
 							{ name: 'SCIENTIFICNAMEID', type: 'string' },
 							{ name: 'TAXONID', type: 'string' },
