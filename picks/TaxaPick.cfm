@@ -27,7 +27,7 @@
 				from
 					taxonomy
 				where
-					UPPER(scientific_name) LIKE '#ucase(scientific_name)#%'
+					UPPER(scientific_name) LIKE <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(scientific_name)#%'>
 				UNION
 				SELECT
 					a.scientific_name,
@@ -41,7 +41,7 @@
 				where
 					a.taxon_name_id = taxon_relations.taxon_name_id (+) and
 					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
-					UPPER(B.scientific_name) LIKE '#ucase(scientific_name)#%'
+					UPPER(B.scientific_name) LIKE <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(scientific_name)#%'>
 				UNION
 				SELECT
 					b.scientific_name,
@@ -55,7 +55,7 @@
 				where
 					a.taxon_name_id = taxon_relations.taxon_name_id (+) and
 					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
-					UPPER(a.scientific_name) LIKE '#ucase(scientific_name)#%'
+					UPPER(a.scientific_name) LIKE <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(scientific_name)#%'>
 			)
 			where scientific_name is not null
 			ORDER BY scientific_name
