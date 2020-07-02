@@ -92,7 +92,7 @@ limitations under the License.
 					when 0 then 'No'
 					else '[Error]'
 					end
-				as VALID_CATALOG_TERM_FG,
+				as VALID_CATALOG_TERM,
 				taxonomy.SOURCE_AUTHORITY,
 				taxonomy.scientificnameid,
 				taxonomy.taxonid,
