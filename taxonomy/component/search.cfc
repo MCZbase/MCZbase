@@ -120,89 +120,161 @@ limitations under the License.
 					<cfif left(full_taxon_name,1) is "=">
 						AND upper(taxonomy.full_taxon_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(full_taxon_name,len(full_taxon_name)-1))#">
 					<cfelse>
-						AND upper(taxonomy.full_taxon_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(full_taxon_name)#%">
+						<cfif find(',',full_taxon_name) GT 0>
+							AND upper(taxonomy.full_taxon_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(full_taxon_name)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.full_taxon_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(full_taxon_name)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("kingdom") AND len(kingdom) gt 0>
 					<cfif left(kingdom,1) is "=">
 						AND upper(taxonomy.kingdom) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(kingdom,len(kingdom)-1))#">
+					<cfelseif kingdom is "NULL">
+						AND upper(taxonomy.kingdom) is null
 					<cfelse>
-						AND upper(taxonomy.kingdom) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(kingdom)#%">
+						<cfif find(',',kingdom) GT 0>
+							AND upper(taxonomy.kingdom) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(kingdom)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.kingdom) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(kingdom)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("phylum") AND len(phylum) gt 0>
 					<cfif left(phylum,1) is "=">
 						AND upper(taxonomy.phylum) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylum,len(phylum)-1))#">
+					<cfelseif phylum is "NULL">
+						AND upper(taxonomy.phylum) is null
 					<cfelse>
-						AND upper(taxonomy.phylum) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phylum)#%">
+						<cfif find(',',phylum) GT 0>
+							AND upper(taxonomy.phylum) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(phylum)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.phylum) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phylum)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("subphylum") AND len(subphylum) gt 0>
 					<cfif left(subphylum,1) is "=">
 						AND upper(taxonomy.subphylum) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subphylum,len(subphylum)-1))#">
+					<cfelseif subphylum is "NULL">
+						AND upper(taxonomy.subphylum) is null
 					<cfelse>
-						AND upper(taxonomy.subphylum) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subphylum)#%">
+						<cfif find(',',subphylum) GT 0>
+							AND upper(taxonomy.subphylum) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subphylum)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.subphylum) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subphylum)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("superclass") AND len(superclass) gt 0>
 					<cfif left(superclass,1) is "=">
 						AND upper(taxonomy.superclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superclass,len(superclass)-1))#">
+					<cfelseif superclass is "NULL">
+						AND upper(taxonomy.superclass) is null
 					<cfelse>
-						AND upper(taxonomy.superclass) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(superclass)#%">
+						<cfif find(',',superclass) GT 0>
+							AND upper(taxonomy.superclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(superclass)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.superclass) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(superclass)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("phylclass") AND len(phylclass) gt 0>
 					<cfif left(phylclass,1) is "=">
 						AND upper(taxonomy.phylclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-1))#">
+					<cfelseif phylclass is "NULL">
+						AND upper(taxonomy.phylclass) is null
 					<cfelse>
-						AND upper(taxonomy.phylclass) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phylclass)#%">
+						<cfif find(',',phylclass) GT 0>
+							AND upper(taxonomy.phylclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(phylclass)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.phylclass) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phylclass)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("subclass") AND len(subclass) gt 0>
 					<cfif left(subclass,1) is "=">
 						AND upper(taxonomy.subclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subclass,len(subclass)-1))#">
+					<cfelseif subclass is "NULL">
+						AND upper(taxonomy.subclass) is null
 					<cfelse>
-						AND upper(taxonomy.subclass) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subclass)#%">
+						<cfif find(',',subclass) GT 0>
+							AND upper(taxonomy.subclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subclass)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.subclass) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subclass)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("superorder") AND len(superorder) gt 0>
 					<cfif left(superorder,1) is "=">
 						AND upper(taxonomy.superorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superorder,len(superorder)-1))#">
+					<cfelseif superorder is "NULL">
+						AND upper(taxonomy.superorder) is null
 					<cfelse>
-						AND upper(taxonomy.superorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(superorder)#%">
+						<cfif find(',',superorder) GT 0>
+							AND upper(taxonomy.superorder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(superorder)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.superorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(superorder)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("phylorder") AND len(phylorder) gt 0>
 					<cfif left(phylorder,1) is "=">
 						AND upper(taxonomy.phylorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
+					<cfelseif phylorder is "NULL">
+						AND upper(taxonomy.phylorder) is null
 					<cfelse>
-						AND upper(taxonomy.phylorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phylorder)#%">
+						<cfif find(',',phylorder) GT 0>
+							AND upper(taxonomy.phylorder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(phylorder)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.phylorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phylorder)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("suborder") AND len(suborder) gt 0>
 					<cfif left(suborder,1) is "=">
 						AND upper(taxonomy.suborder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suborder,len(suborder)-1))#">
+					<cfelseif suborder is "NULL">
+						AND upper(taxonomy.suborder) is null
 					<cfelse>
-						AND upper(taxonomy.suborder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(suborder)#%">
+						<cfif find(',',suborder) GT 0>
+							AND upper(taxonomy.suborder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(suborder)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.suborder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(suborder)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("infraorder") AND len(infraorder) gt 0>
 					<cfif left(infraorder,1) is "=">
 						AND upper(taxonomy.infraorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraorder,len(infraorder)-1))#">
+					<cfelseif infraorder is "NULL">
+						AND upper(taxonomy.infraorder) is null
 					<cfelse>
-						AND upper(taxonomy.infraorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(infraorder)#%">
+						<cfif find(',',infraorder) GT 0>
+							AND upper(taxonomy.infraorder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(infraorder)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.infraorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(infraorder)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("superfamily") AND len(superfamily) gt 0>
 					<cfif left(superfamily,1) is "=">
 						AND upper(taxonomy.superfamily) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superfamily,len(superfamily)-1))#">
+					<cfelseif superfamily is "NULL">
+						AND upper(taxonomy.superfamily) is null
 					<cfelse>
-						AND upper(taxonomy.superfamily) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(superfamily)#%">
+						<cfif find(',',superfamily) GT 0>
+							AND upper(taxonomy.superfamily) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(superfamily)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.superfamily) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(superfamily)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("family") AND len(family) gt 0>
 					<cfif left(family,1) is "=">
 						AND upper(taxonomy.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
+					<cfelseif family is "NULL">
+						AND upper(taxonomy.family) is null
 					<cfelse>
 						<cfif find(',',family) GT 0>
 							AND upper(taxonomy.family) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(family)#" list="yes"> )
@@ -214,20 +286,34 @@ limitations under the License.
 				<cfif isdefined("subfamily") AND len(subfamily) gt 0>
 					<cfif left(subfamily,1) is "=">
 						AND upper(taxonomy.subfamily) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subfamily,len(subfamily)-1))#">
+					<cfelseif subfamily is "NULL">
+						AND upper(taxonomy.subfamily) is null
 					<cfelse>
-						AND upper(taxonomy.subfamily) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subfamily)#%">
+						<cfif find(',',subfamily) GT 0>
+							AND upper(taxonomy.subfamily) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subfamily)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.subfamily) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subfamily)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("tribe") AND len(tribe) gt 0>
 					<cfif left(tribe,1) is "=">
 						AND upper(taxonomy.tribe) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(tribe,len(tribe)-1))#">
+					<cfelseif tribe is "NULL">
+						AND upper(taxonomy.tribe) is null
 					<cfelse>
-						AND upper(taxonomy.tribe) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(tribe)#%">
+						<cfif find(',',tribe) GT 0>
+							AND upper(taxonomy.tribe) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(tribe)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.tribe) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(tribe)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("genus") AND len(genus) gt 0>
 					<cfif left(genus,1) is "=">
 						AND upper(taxonomy.genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(genus,len(genus)-1))#">
+					<cfelseif genus is "NULL">
+						AND upper(taxonomy.genus) is null
 					<cfelse>
 						<cfif find(',',genus) GT 0>
 							AND upper(taxonomy.genus) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(genus)#" list="yes"> )
@@ -239,13 +325,21 @@ limitations under the License.
 				<cfif isdefined("subgenus") AND len(subgenus) gt 0>
 					<cfif left(subgenus,1) is "=">
 						AND upper(taxonomy.subgenus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subgenus,len(subgenus)-1))#">
+					<cfelseif subgenus is "NULL">
+						AND upper(taxonomy.subgenus) is null
 					<cfelse>
-						AND upper(taxonomy.subgenus) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subgenus)#%">
+						<cfif find(',',subgenus) GT 0>
+							AND upper(taxonomy.subgenus) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subgenus)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.subgenus) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subgenus)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("species") AND len(species) gt 0>
 					<cfif left(species,1) is "=">
 						AND upper(taxonomy.species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
+					<cfelseif species is "NULL">
+						AND upper(taxonomy.species) is null
 					<cfelse>
 						<cfif find(',',species) GT 0>
 							AND upper(taxonomy.species) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(species)#" list="yes"> )
@@ -257,22 +351,40 @@ limitations under the License.
 				<cfif isdefined("subspecies") AND len(subspecies) gt 0>
 					<cfif left(subspecies,1) is "=">
 						AND upper(taxonomy.subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subspecies,len(subspecies)-1))#">
+					<cfelseif subspecies is "NULL">
+						AND upper(taxonomy.subspecies) is null
 					<cfelse>
-						AND upper(taxonomy.subspecies) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subspecies)#%">
+						<cfif find(',',subspecies) GT 0>
+							AND upper(taxonomy.subspecies) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subspecies)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.subspecies) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subspecies)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("author_text") AND len(author_text) gt 0>
 					<cfif left(author_text,1) is "=">
 						AND upper(taxonomy.author_text) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
+					<cfelseif author_text is "NULL">
+						AND upper(taxonomy.author_text) is null
 					<cfelse>
-						AND upper(taxonomy.author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author_text)#%">
+						<cfif find(',',author_text) GT 0>
+							AND upper(taxonomy.author_text) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(author_text)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author_text)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("taxon_remarks") AND len(taxon_remarks) gt 0>
 					<cfif left(taxon_remarks,1) is "=">
 						AND upper(taxonomy.taxon_remarks) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(taxon_remarks,len(taxon_remarks)-1))#">
+					<cfelseif taxon_remarks is "NULL">
+						AND upper(taxonomy.taxon_remarks) is null
 					<cfelse>
-						AND upper(taxonomy.taxon_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_remarks)#%">
+						<cfif find(',',taxon_remarks) GT 0>
+							AND upper(taxonomy.taxon_remarks) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(taxon_remarks)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.taxon_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_remarks)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("taxon_status") AND len(taxon_status) gt 0>
