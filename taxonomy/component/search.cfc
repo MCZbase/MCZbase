@@ -88,8 +88,8 @@ limitations under the License.
 				taxonomy.INFRASPECIFIC_AUTHOR,
 				case taxonomy.VALID_CATALOG_TERM_FG
 					when null then '[No Flag]'
-					when 1 then 'Yes'
-					when 0 then 'No'
+					when 1 then 'Yes '
+					when 0 then 'No '
 					else '[Error]'
 					end
 				as VALID_CATALOG_TERM,
