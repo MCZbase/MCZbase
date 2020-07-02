@@ -109,7 +109,11 @@ limitations under the License.
 					<cfif left(scientific_name,1) is "=">
 						AND upper(taxonomy.scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(scientific_name,len(scientific_name)-1))#">
 					<cfelse>
-						AND upper(taxonomy.scientific_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(scientific_name)#%">
+						<cfif find(',',scientific_name) GT 0>
+							AND upper(taxonomy.scientific_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(scientific_name)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.scientific_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(scientific_name)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("full_taxon_name") AND len(full_taxon_name) gt 0>
@@ -200,7 +204,11 @@ limitations under the License.
 					<cfif left(family,1) is "=">
 						AND upper(taxonomy.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
 					<cfelse>
-						AND upper(taxonomy.family) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(family)#%">
+						<cfif find(',',family) GT 0>
+							AND upper(taxonomy.family) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(family)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.family) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(family)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("subfamily") AND len(subfamily) gt 0>
@@ -239,7 +247,11 @@ limitations under the License.
 					<cfif left(species,1) is "=">
 						AND upper(taxonomy.species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
 					<cfelse>
-						AND upper(taxonomy.species) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(species)#%">
+						<cfif find(',',species) GT 0>
+							AND upper(taxonomy.species) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(species)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.species) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(species)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("subspecies") AND len(subspecies) gt 0>

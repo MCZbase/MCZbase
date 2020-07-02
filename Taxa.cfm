@@ -192,7 +192,7 @@ limitations under the License.
 												</div>
 												<div class="form-row bg-light border rounded px-2 pb-2">
 													<div class="col-md-4">
-														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match.">(=) </span></label>
+														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match.">(=) </span><span aria-label="accepts comma separated list">(,)</span></label>
 														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#">
 													</div>
 													<div class="col-md-4">
@@ -206,7 +206,7 @@ limitations under the License.
 												</div>
 												<div class="form-row mt-2">
 													<div class="form-group col-md-2">
-														<label for="genus" class="data-entry-label align-left-center">Genus <span class="small text-success" onclick="var e=document.getElementById('genus');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
+														<label for="genus" class="data-entry-label align-left-center">Genus <span class="small text-success" onclick="var e=document.getElementById('genus');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span><span aria-label="accepts comma separated list">(,)</span></label>
 														<input type="text" class="data-entry-input" id="genus" name="genus" value="#genus#" placeholder="generic name">
 													</div>
 													<div class="col-md-2">
@@ -214,7 +214,7 @@ limitations under the License.
 														<input type="text" class="data-entry-input" id="subgenus" name="subgenus" value="#subgenus#" placeholder="subgenus">
 													</div>
 													<div class="form-group col-md-2">
-														<label for="species" class="data-entry-label align-left-center">Species <span class="small text-success" onclick="var e=document.getElementById('species');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=)</span> </label>
+														<label for="species" class="data-entry-label align-left-center">Species <span class="small text-success" onclick="var e=document.getElementById('species');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=)</span><span aria-label="accepts comma separated list">(,)</span> </label>
 														<input type="text" class="data-entry-input" id="species" name="species" value="#species#" placeholder="specific name">
 													</div>
 													<div class="form-group col-md-2">
@@ -277,7 +277,7 @@ limitations under the License.
 														<input type="text text-success" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
 													</div>
 													<div class="col-md-2">
-														<label for="subphylum" class="data-entry-label align-left-center">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
+														<label for="subphylum" class="data-entry-label align-left-center">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span><span aria-label="accepts comma separated list">(,)</span></label>
 														<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
 													</div>
 													<div class="col-md-2">
