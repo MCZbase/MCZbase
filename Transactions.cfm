@@ -206,7 +206,7 @@ limitations under the License.
 									<div class="form-row mb-2 mx-0">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name:</label>
-											<select name="collection_id" size="1" class="data-entry-prepend-select  pr-0" aria-label="collection">
+											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
@@ -324,7 +324,7 @@ limitations under the License.
 								</cfquery>
 								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct(trans_agent_role) 
-									from cttrans_agent_role  
+									from cttrans_agent_role
 									where trans_agent_role != 'associated with agency' 
 										and trans_agent_role != 'received from' 
 										and trans_agent_role != 'borrow overseen by' 
@@ -340,7 +340,7 @@ limitations under the License.
 													dataType: 'json',
 													success : function (data) { response(data); },
 													error : function (jqXHR, status, error) {
-														var message = "";      
+														var message = "";
 														if (error == 'timeout') { 
 															message = ' Server took too long to respond.';
 														} else { 
@@ -485,10 +485,10 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="trans_date">Loan Date:</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
+												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input"  placeholder="end yyyy-mm-dd">
+												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input" placeholder="end yyyy-mm-dd">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
@@ -503,7 +503,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="closed_date">Close Date:</label>
-												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4"  placeholder="start yyyy-mm-dd" value="#closed_date#" aria-label="start of range for closed date">
+												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#closed_date#" aria-label="start of range for closed date">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
 												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
@@ -548,7 +548,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-9 px-0">
-													<label for="part_name" class="data-entry-label  mb-0">Part Name</label>
+													<label for="part_name" class="data-entry-label mb-0">Part Name</label>
 													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 												</div>
 											</div>
@@ -599,7 +599,7 @@ limitations under the License.
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
-													<label for="nature_of_material" class="data-entry-label mb-0  pb-0">Nature of Material:</label>
+													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
 												<div class="col-md-12">
@@ -643,8 +643,6 @@ limitations under the License.
 			<div class="text-left col-md-12">
 				<main role="main">
 					<div class="pl-2 mb-5"> 
-						
-						<!--- TODO: Move border styling to mimic jqx-grid, jqx-widget-content without the side effects of those classes to css file using faux-jqxwidget-header class. [I don't know that this is needed.  I used bootstrap styles.MHK]--->
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
@@ -720,16 +718,16 @@ $(document).ready(function() {
 			root: 'transRecord',
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
-			timeout: 30000,  // units not specified, miliseconds? 
+			timeout: 30000, // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
 				$("##overlay").hide();
-            var message = "";      
+				var message = "";
 				if (error == 'timeout') { 
-               message = ' Server took too long to respond.';
-            } else { 
-               message = jqXHR.responseText;
-            }
-            messageDialog('Error:' + message ,'Error: ' + error);
+					message = ' Server took too long to respond.';
+				} else { 
+					message = jqXHR.responseText;
+				}
+				messageDialog('Error:' + message ,'Error: ' + error);
 			},
 			async: true
 		};
@@ -760,15 +758,15 @@ $(document).ready(function() {
 			columnsresize: true,
 			autoshowfiltericon: true,
 			autoshowcolumnsmenubutton: false,
-			autoshowloadelement: false,  // overlay acts as load element for form+results
+			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-			     ready: function () {
-					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
-					 },
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -793,7 +791,7 @@ $(document).ready(function() {
 			rowdetails: true,
 			rowdetailstemplate: {
 				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-				rowdetailsheight:  1 // row details will be placed in popup dialog
+				rowdetailsheight: 1 // row details will be placed in popup dialog
 			},
 			initrowdetails: initRowDetails
 		});
@@ -803,7 +801,7 @@ $(document).ready(function() {
 			gridLoaded('searchResultsGrid','transaction');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
-			//  Create a content div, add it to the detail row, and make it into a dialog.
+			// Create a content div, add it to the detail row, and make it into a dialog.
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
@@ -868,16 +866,16 @@ $(document).ready(function() {
 			root: 'transRecord',
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##loanSearchForm').serialize(),
-			timeout: 30000,  // units not specified, miliseconds? 
+			timeout: 30000, // units not specified, miliseconds? 
 			loadError: function(jqXHR, status, error) { 
 				$("##overlay").hide();
-            var message = "";      
+				var message = "";
 				if (error == 'timeout') { 
-               message = ' Server took too long to respond.';
-            } else { 
-               message = jqXHR.responseText;
-            }
-            messageDialog('Error:' + message ,'Error: ' + error);
+					message = ' Server took too long to respond.';
+				} else { 
+					message = jqXHR.responseText;
+				}
+				messageDialog('Error:' + message ,'Error: ' + error);
 			},
 			async: true
 		};
@@ -906,15 +904,15 @@ $(document).ready(function() {
 			columnsresize: true,
 			autoshowfiltericon: true,
 			autoshowcolumnsmenubutton: false,
-			autoshowloadelement: false,  // overlay acts as load element for form+results
+			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-				     ready: function () {
-					 $("##searchResultsGrid").jqxGrid('selectrow', 0);
-					 },
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 100},
@@ -955,7 +953,7 @@ $(document).ready(function() {
 			gridLoaded('searchResultsGrid','loan');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
-			//  Create a content div, add it to the detail row, and make it into a dialog.
+			// Create a content div, add it to the detail row, and make it into a dialog.
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
@@ -998,11 +996,11 @@ function gridLoaded(gridId, searchType) {
 	}
 	// set maximum page size
 	if (rowcount > 100) { 
-	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+		$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
 	} else if (rowcount > 50) { 
-	   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+		$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
 	} else { 
-	   $('##' + gridId).jqxGrid({ pageable: false });
+		$('##' + gridId).jqxGrid({ pageable: false });
 	}
 	// add a control to show/hide columns
 	var columns = $('##' + gridId).jqxGrid('columns').records;
@@ -1031,7 +1029,7 @@ function gridLoaded(gridId, searchType) {
 	$("##columnPickDialog").dialog({ 
 		height: 'auto', 
 		title: 'Show/Hide Columns',
-		autoOpen: false,  
+		autoOpen: false,
 		modal: true, 
 		reszable: true, 
 		buttons: { 
@@ -1040,7 +1038,7 @@ function gridLoaded(gridId, searchType) {
 		open: function (event, ui) { 
 			var maxZIndex = getMaxZIndex();
 			// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
-			$('.ui-dialog').css({'z-index': maxZIndex + 4 });  
+			$('.ui-dialog').css({'z-index': maxZIndex + 4 });
 			$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
 		} 
 	});
