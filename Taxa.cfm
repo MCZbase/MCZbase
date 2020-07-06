@@ -530,7 +530,6 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							{ text: 'Taxon', datafield: 'id_pipe_value', width:300, hideable: true, hidden: false, cellsrenderer: linkCellRenderer },
-							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
 							</cfif>
@@ -556,7 +555,7 @@ limitations under the License.
 							{ text: 'Infraspecific Rank', datafield: 'INFRASPECIFIC_RANK', width:100, hideable: true, hidden: false },
 							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: true },
 							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:100, hideable: true, hidden: false },
-							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:200, hideable: true, hidden: true },
+							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
 							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
 							{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: true },
