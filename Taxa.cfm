@@ -76,6 +76,28 @@ limitations under the License.
 </cfif>
 
 <cfoutput>
+	<script type="text/javascript" language="javascript">
+			jQuery("##phylum").autocomplete(
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getPhylumAutocomplete' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : function (jqXHR, status, error) {
+							var message = "";
+							if (error == 'timeout') {
+								message = ' Server took too long to respond.';
+							} else {
+								message = jqXHR.responseText;
+							}
+							messageDialog('Error:' + message ,'Error: ' + error);
+						}
+					})
+				},
+				minLength: 3
+			});
+	</script>
 	<!--- TODO: Fix backing methods 
 	<script type="text/javascript" language="javascript">
 		jQuery(document).ready(function() {
@@ -91,17 +113,6 @@ limitations under the License.
 				selectFirst:false
 			});
 			jQuery("##kingdom").autocomplete("/ajax/kingdom.cfm", {
-				width: 320,
-				max: 50,
-				autofill: false,
-				multiple: false,
-				scroll: true,
-				scrollHeight: 300,
-				matchContains: true,
-				minChars: 1,
-				selectFirst:false
-			});
-			jQuery("##phylum").autocomplete("/ajax/phylum.cfm", {
 				width: 320,
 				max: 50,
 				autofill: false,
