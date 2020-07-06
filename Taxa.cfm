@@ -272,7 +272,7 @@ limitations under the License.
 													</div>
 													<div class="col-md-2">
 														<label for="phylclass" class="data-entry-label align-left-center">Class <span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
-														<input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#phylclass#" placeholder="phylclass">
+														<input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#phylclass#" placeholder="class">
 													</div>
 													<div class="col-md-2">
 														<label for="subclass" class="data-entry-label align-left-center">Subclass <span class="small text-success" onclick="var e=document.getElementById('subclass');e.value='='+e.value;" aria-label="add equals sign before entry for exact match">(=) </span></label>
@@ -287,7 +287,7 @@ limitations under the License.
 													</div>
 													<div class="col-md-2">
 														<label for="phylorder" class="data-entry-label align-left-center">Order <span class="small text-success" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
-														<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#phylorder#" placeholder="phylorder">
+														<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#phylorder#" placeholder="order">
 													</div>
 													<div class="col-md-2">
 														<label for="suborder" class="data-entry-label align-left-center">Suborder <span class="small text-success" onclick="var e=document.getElementById('suborder');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
