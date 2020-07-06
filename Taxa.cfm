@@ -372,7 +372,7 @@ limitations under the License.
 
 		<script>
 			var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				return '<span style="margin: 4px; float: ' + columnproperties.cellsalign + '; "><button type="button" onClick=" window.open(#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + ')">Edit</button></span>';
+				return '<span style="margin: 4px; float: ' + columnproperties.cellsalign + '; "><button type="button" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
 			};
 			
 			var linkCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -487,7 +487,7 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{ text: 'Taxon', datafield: 'id_pipe_value', width:300, hideable: true, hidden: false },
+							{ text: 'Taxon', datafield: 'id_pipe_value', width:300, hideable: true, hidden: false, cellsrenderer: linkCellRenderer },
 							{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
