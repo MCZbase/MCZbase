@@ -515,7 +515,7 @@ Function getPhylumAutocomplete.  Search for phyla by name with a substring match
 </cffunction>
 
 <!---
-Function getClassAutocomplete.  Search for phyla by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
+Function getClassAutocomplete.  Search for taxonomic classes by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
 
 @param term class name to search for.
 @return a json structure containing id and value, with matching with matched name in value and id.
@@ -544,6 +544,89 @@ Function getClassAutocomplete.  Search for phyla by name with a substring match 
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.class#">
 			<cfset row["value"] = "#search.class#" >
+			<cfset row["meta"] = "#search.ct#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing getClassAutocomplete: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+Function getHigherRankAutocomplete.  Search for distinct values of a particular higher taxonomic rank 
+  by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
+
+@param term value of the name to search for.
+@param rank the rank to search
+@return a json structure containing id and value, and meta, with matching with matched name in value and id, 
+  and count metadata in meta.
+--->
+<cffunction name="getHigherRankAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="rank" type="string" required="yes">
+	<!--- perform wildcard search anywhere in taxonomy.class --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+      <cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT count(*) as ct,
+				<cfswitch expression="#rank#">
+					<cfcase value="kingdom">kingdom as name</cfcase>
+					<cfcase value="phylum">phylum as name</cfcase>
+					<cfcase value="subphylum">subphylum as name</cfcase>
+					<cfcase value="superclass">superclass as name</cfcase>
+					<cfcase value="phylorder">phylorder as name</cfcase>
+					<cfcase value="family">family as name</cfcase>
+				</cfswitch>
+			FROM 
+				taxonomy
+			WHERE
+				<cfswitch expression="#rank#">
+					<cfcase value="kingdom">upper (kingdom)</cfcase>
+					<cfcase value="phylum">upper (phylum)</cfcase>
+					<cfcase value="subphylum">upper (subphylum)</cfcase>
+					<cfcase value="superclass">upper (superclass)</cfcase>
+					<cfcase value="phylorder">upper (phylorder)</cfcase>
+					<cfcase value="family">upper (family)</cfcase>
+				</cfswitch>
+				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			GROUP BY 
+				<cfswitch expression="#rank#">
+					<cfcase value="kingdom">kingdom</cfcase>
+					<cfcase value="phylum">phylum</cfcase>
+					<cfcase value="subphylum">subphylum</cfcase>
+					<cfcase value="superclass">superclass</cfcase>
+					<cfcase value="phylorder">phylorder</cfcase>
+					<cfcase value="family">family</cfcase>
+				</cfswitch>
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.name#">
+			<cfset row["value"] = "#search.name#" >
 			<cfset row["meta"] = "#search.ct#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>

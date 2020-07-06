@@ -101,11 +101,67 @@ limitations under the License.
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
       		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
     		};
+			jQuery("##subphylum").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank="subphylum" },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##superclass").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank="superclass" },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
 			jQuery("##phylclass").autocomplete({
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
 						data: { term: request.term, method: 'getClassAutocomplete' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##phylorder").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank="order" },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##family").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank="family" },
 						dataType: 'json',
 						success : function (data) { response(data); },
 						error : handleError
