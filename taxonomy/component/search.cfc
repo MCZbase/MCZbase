@@ -482,7 +482,6 @@ Function getPhylumAutocomplete.  Search for phyla by name with a substring match
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["id"] = "#search.phylum#">
 			<cfset row["value"] = "#search.phylum#" >
 			<cfset data[i]  = row>

@@ -77,7 +77,8 @@ limitations under the License.
 
 <cfoutput>
 	<script type="text/javascript" language="javascript">
-			jQuery("##phylum").autocomplete(
+		jQuery(document).ready(function() {
+			jQuery("##phylum").autocomplete({
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
@@ -97,6 +98,8 @@ limitations under the License.
 				},
 				minLength: 3
 			});
+
+		});
 	</script>
 	<!--- TODO: Fix backing methods 
 	<script type="text/javascript" language="javascript">
