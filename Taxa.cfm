@@ -173,56 +173,6 @@ limitations under the License.
     		};
 		});
 	</script>
-	<!--- TODO: Fix backing methods 
-	<script type="text/javascript" language="javascript">
-		jQuery(document).ready(function() {
-			jQuery("##phylclass").autocomplete("/ajax/phylclass.cfm", {
-				width: 320,
-				max: 50,
-				autofill: false,
-				multiple: false,
-				scroll: true,
-				scrollHeight: 300,
-				matchContains: true,
-				minChars: 1,
-				selectFirst:false
-			});
-			jQuery("##kingdom").autocomplete("/ajax/kingdom.cfm", {
-				width: 320,
-				max: 50,
-				autofill: false,
-				multiple: false,
-				scroll: true,
-				scrollHeight: 300,
-				matchContains: true,
-				minChars: 1,
-				selectFirst:false
-			});
-			jQuery("##phylorder").autocomplete("/ajax/phylorder.cfm", {
-				width: 320,
-				max: 50,
-				autofill: false,
-				multiple: false,
-				scroll: true,
-				scrollHeight: 300,
-				matchContains: true,
-				minChars: 1,
-				selectFirst:false
-			});
-			jQuery("##family").autocomplete("/ajax/family.cfm", {
-				width: 320,
-				max: 50,
-				autofill: false,
-				multiple: false,
-				scroll: true,
-				scrollHeight: 300,
-				matchContains: true,
-				minChars: 1,
-				selectFirst:false
-			});
-		});
-	</script>
-	--->
 	
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
@@ -467,6 +417,10 @@ limitations under the License.
 				var bits = value.split('|');
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + bits[0] + ')">'+bits[1]+'</a></span>';
 			};
+			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchForm").getRowData(row);
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + rowData['Taxon_name_id'] + ')">'+value+'</a></span>';
+			};
 
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -576,6 +530,7 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							{ text: 'Taxon', datafield: 'id_pipe_value', width:300, hideable: true, hidden: false, cellsrenderer: linkCellRenderer },
+							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
 							</cfif>
