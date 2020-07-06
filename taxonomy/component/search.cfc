@@ -525,12 +525,14 @@ Function getClassAutocomplete.  Search for phyla by name with a substring match 
 	<cftry>
       <cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT DISTINCT 
+			SELECT count(*) as ct,
 				phylclass as class
 			FROM 
 				taxonomy
 			WHERE
 				upper(phylclass) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			GROUP BY 
+				phylclass
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -538,6 +540,7 @@ Function getClassAutocomplete.  Search for phyla by name with a substring match 
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.class#">
 			<cfset row["value"] = "#search.class#" >
+			<cfset row["meta"] = "#search.ct#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
