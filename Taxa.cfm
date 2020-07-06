@@ -76,6 +76,16 @@ limitations under the License.
 
 <cfoutput>
 	<script type="text/javascript" language="javascript">
+		var handleError = function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') {
+				message = ' Server took too long to respond.';
+			} else {
+				message = jqXHR.responseText;
+			}
+			messageDialog('Error:' + message ,'Error: ' + error);
+		};
+
 		jQuery(document).ready(function() {
 			jQuery("##phylum").autocomplete({
 				source: function (request, response) {
@@ -84,15 +94,19 @@ limitations under the License.
 						data: { term: request.term, method: 'getPhylumAutocomplete' },
 						dataType: 'json',
 						success : function (data) { response(data); },
-						error : function (jqXHR, status, error) {
-							var message = "";
-							if (error == 'timeout') {
-								message = ' Server took too long to respond.';
-							} else {
-								message = jqXHR.responseText;
-							}
-							messageDialog('Error:' + message ,'Error: ' + error);
-						}
+						error : handleError
+					})
+				},
+				minLength: 3
+			});
+			jQuery("##phylclass").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getClassAutocomplete' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
 					})
 				},
 				minLength: 3
