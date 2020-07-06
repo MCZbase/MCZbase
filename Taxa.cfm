@@ -111,7 +111,7 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +" )</span> ).appendTo( ul );
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
     		};
 		});
 	</script>
