@@ -577,7 +577,7 @@ limitations under the License.
 						columns: [
 							{ text: 'Taxon', datafield: 'id_pipe_value', width:300, hideable: true, hidden: false, cellsrenderer: linkCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-								{ text: 'Edit Details', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
+								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
 							</cfif>
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
