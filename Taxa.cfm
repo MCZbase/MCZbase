@@ -624,7 +624,7 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Taxa.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-						gridLoaded('searchResultsGrid','taxon records');
+						gridLoaded('searchResultsGrid','taxon record');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
