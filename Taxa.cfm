@@ -371,9 +371,11 @@ limitations under the License.
 		</div>
 
 		<script>
-			var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+				var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				return '<span style="margin: 4px; float: ' + columnproperties.cellsalign + '; "><button type="button" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
-			};
+				};
+			</cfif>
 			
 			var linkCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var bits = value.split('|');
@@ -488,7 +490,9 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							{ text: 'Taxon', datafield: 'id_pipe_value', width:300, hideable: true, hidden: false, cellsrenderer: linkCellRenderer },
-							{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
+							</cfif>
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
 							{ text: 'Phylum', datafield: 'PHYLUM', width:100, hideable: true, hidden: false },
