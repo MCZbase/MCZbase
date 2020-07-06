@@ -328,7 +328,7 @@ span.data-entry-addon {
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 }
-
+.jqx-grid-cell { border-width: 0px 1px 1px 1px;border-color: buttonface;}
 .jqx-grid-cell a.focus, .jqx-grid-cell a:focus {text-decoration: underline;	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;}
 /************************
