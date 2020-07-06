@@ -418,7 +418,7 @@ limitations under the License.
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + bits[0] + ')">'+bits[1]+'</a></span>';
 			};
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				var rowData = jQuery("##searchForm").jqxGrid('getrowdata',row);
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + rowData['Taxon_name_id'] + ')">'+value+'</a></span>';
 			};
 
