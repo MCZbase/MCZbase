@@ -436,8 +436,7 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["id_link"] = "<a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#search.taxon_name_id#' target='_blank'>#search.display_name# <span style='font-variant: small-caps;'>#search.author_text#</span></a>">
-			<cfset row["id_pipe_value"] = "#search.taxon_name_id#|#search.display_name# <span style='font-variant: small-caps;'>#search.author_text#</span>">
+			<cfset row["display_name_author"] = "#search.display_name# <span style='font-variant: small-caps;'>#search.author_text#</span>">
 			<cfset columnNames = ListToArray(search.columnList)>
 			<cfloop array="#columnNames#" index="columnName">
 				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">

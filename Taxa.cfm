@@ -413,10 +413,6 @@ limitations under the License.
 				};
 			</cfif>
 			
-			var linkCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				var bits = value.split('|');
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + bits[0] + ')">'+bits[1]+'</a></span>';
-			};
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + rowData['Taxon_name_id'] + ')">'+value+'</a></span>';
@@ -472,8 +468,7 @@ limitations under the License.
 							{ name: 'TAXONID', type: 'string' },
 							{ name: 'TAXON_STATUS', type: 'string' },
 							{ name: 'TAXON_REMARKS', type: 'string' },
-							{ name: 'id_link', type: 'string' },
-							{ name: 'id_pipe_value', type: 'string' },
+							{ name: 'display_name_author', type: 'string' },
 							{ name: 'SPECIMEN_COUNT', type: 'int' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
@@ -529,7 +524,7 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{ text: 'Taxon', datafield: 'id_pipe_value', width:300, hideable: true, hidden: false, cellsrenderer: linkCellRenderer },
+							{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
 							</cfif>
@@ -555,7 +550,7 @@ limitations under the License.
 							{ text: 'Infraspecific Rank', datafield: 'INFRASPECIFIC_RANK', width:100, hideable: true, hidden: false },
 							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: true },
 							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:100, hideable: true, hidden: false },
-							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
 							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
 							{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: true },
