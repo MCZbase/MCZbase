@@ -471,12 +471,15 @@ Function getPhylumAutocomplete.  Search for phyla by name with a substring match
 	<cftry>
       <cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT DISTINCT 
+			SELECT 
+				count(*) as ct,
 				phylum
 			FROM 
 				taxonomy
 			WHERE
 				upper(phylum) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			GROUP BY
+				phylum
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -484,6 +487,7 @@ Function getPhylumAutocomplete.  Search for phyla by name with a substring match
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.phylum#">
 			<cfset row["value"] = "#search.phylum#" >
+			<cfset row["meta"] = "#search.ct#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
