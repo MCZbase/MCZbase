@@ -377,7 +377,7 @@ limitations under the License.
 			
 			var linkCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var bits = value.split('|');
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a=href"/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + bits[0] + ')">'+bits[1]+'</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + bits[0] + ')">'+bits[1]+'</a></span>';
 			};
 
 			$(document).ready(function() {
