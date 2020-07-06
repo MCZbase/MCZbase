@@ -105,7 +105,7 @@ limitations under the License.
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
-						data: { term: request.term, method: 'getHigherRankAutocomplete', rank="subphylum" },
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'subphylum' },
 						dataType: 'json',
 						success : function (data) { response(data); },
 						error : handleError
@@ -119,7 +119,7 @@ limitations under the License.
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
-						data: { term: request.term, method: 'getHigherRankAutocomplete', rank="superclass" },
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'superclass' },
 						dataType: 'json',
 						success : function (data) { response(data); },
 						error : handleError
@@ -147,7 +147,7 @@ limitations under the License.
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
-						data: { term: request.term, method: 'getHigherRankAutocomplete', rank="order" },
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'order' },
 						dataType: 'json',
 						success : function (data) { response(data); },
 						error : handleError
@@ -161,7 +161,7 @@ limitations under the License.
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
-						data: { term: request.term, method: 'getHigherRankAutocomplete', rank="family" },
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'family' },
 						dataType: 'json',
 						success : function (data) { response(data); },
 						error : handleError
