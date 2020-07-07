@@ -811,9 +811,9 @@ limitations under the License.
 					<cfloop query="habitat">
 						<form name="habitat#i#" method="post" action="Taxonomy.cfm">
 							<input type="hidden" name="Action">
-							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
-							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-							<input type="text" name="taxon_habitat" value="#taxon_habitat#" size="30" readonly style="background-color: ##dddddd; border: 0">
+							<input type="hidden" name="orighabitatName" value="#taxon_habitat#" class="data-entry-input my-2">
+							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#"  class="data-entry-input my-2">
+							<input type="text" name="taxon_habitat" value="#taxon_habitat#"  class="data-entry-input my-2">
 							<input type="button" value="Delete" class="btn-xs btn-secondary" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
 						</form>
 						<cfset i=i+1>
