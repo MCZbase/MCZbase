@@ -663,8 +663,8 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>
-					 <button id='commonNameToggle' onclick=\" toggleCommon(); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Common Names</button>"
+					`<button id='columnPickDialogOpener' onclick=" $('##columnPickDialog').dialog('open'); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>
+					 <button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Common Names</button>`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -677,13 +677,13 @@ limitations under the License.
 
 			function toggleCommon() { 
 				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'COMMON_NAMES', 'hidden');
-				$("##" + gridId).jqxGrid('beginupdate');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
 				if (state==true) {
-					$("##" + gridId).jqxGrid('showcolumn', 'COMMON_NAMES');
+					$("##searchResultsGrid").jqxGrid('showcolumn', 'COMMON_NAMES');
 				} else {
-					$("##" + gridId).jqxGrid('hidecolumn', 'COMMON_NAMES');
+					$("##searchResultsGrid").jqxGrid('hidecolumn', 'COMMON_NAMES');
 				}
-				$("##" + gridId).jqxGrid('endupdate');
+				$("##searchResultsGrid").jqxGrid('endupdate');
 			}
 		</script>
 
