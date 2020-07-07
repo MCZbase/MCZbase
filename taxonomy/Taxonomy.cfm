@@ -791,8 +791,6 @@ limitations under the License.
 							</form>
 							<cfset i=i+1>
 						</cfloop>
-							</div>
-						<div class="">
 							<form name="newCommon" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="Action" value="newCommon">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
@@ -801,20 +799,39 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-secondary">
 							</form>
 						</div>
-						<div class="border bg-light p-2 rounded mt-3">
-						<h4 class="mt-0">New Habitat</h4>
-						<form name="newhabitat" method="post" action="Taxonomy.cfm">
-							<input type="hidden" name="Action" value="newhabitat">
+					<div class="border bg-light p-2 rounded mt-3">
+						<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select taxon_habitat 
+							from taxon_habitat 
+							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+						</cfquery>
+						<cfset usedHabitats = valueList(habitat.taxon_habitat)>
+					<h4>Habitat</h4>
+					<cfset i=1>
+					<cfloop query="habitat">
+						<form name="habitat#i#" method="post" action="Taxonomy.cfm">
+							<input type="hidden" name="Action">
+							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-							<label for="taxon_habitat" class="data-entry-label float-left mt-2">New Habitat</label>
-							<select name="taxon_habitat" id="habitat_name" size="1" class="custom-select data-entry-select">
-								<cfloop query="cttaxa_habitat">
-									<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
-									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
-									</cfloop>
-							</select>
-							<input type="submit" value="Add" class="btn-xs btn-secondary">
+							<input type="text" name="taxon_habitat" value="#taxon_habitat#" size="30" readonly style="background-color: ##dddddd; border: 0">
+							<input type="button" value="Delete" class="delBtn" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
 						</form>
+						<cfset i=i+1>
+					</cfloop>
+						<h4 class="mt-0">Habitat</h4>
+						<form name="newhabitat" method="post" action="Taxonomy.cfm">
+					<input type="hidden" name="Action" value="newhabitat">
+					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+					<label for="taxon_habitat">New Habitat</label>
+					<select name="taxon_habitat" id="habitat_name"size="1">
+					<cfloop query="cttaxon_habitat">
+						<option value="">select</option>
+						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
+							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
+						</cfif>
+					</cfloop>
+					<input type="submit" value="Add" class="insBtn">
+				</form>
 						</div>
 					</div>
 				</div>
