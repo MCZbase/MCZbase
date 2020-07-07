@@ -663,8 +663,12 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<button id='columnPickDialogOpener' onclick=" $('##columnPickDialog').dialog('open'); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>
-					 <button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Common Names</button>`
+					`<span class="border rounded p-1">Show/Hide 
+						<button id='columnPickDialogOpener' onclick=" $('##columnPickDialog').dialog('open'); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Select Columns</button>
+					 	<button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Common Names</button>
+					 	<button id='superSubToggle' onclick=" toggleSuperSub(); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Super/Sub/Infra</button>
+					 	<button id='sciNameToggle' onclick=" toggleScientific(); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Scientific Name</button>
+					</span>`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -683,6 +687,42 @@ limitations under the License.
 				} else {
 					$("##searchResultsGrid").jqxGrid('hidecolumn', 'COMMON_NAMES');
 				}
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
+			function toggleSuperSub() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'SUBPHYLUM', 'hidden');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					var action = 'showcolumn';
+				} else {
+					var action = 'hidecolumn';
+				}
+				$("##searchResultsGrid").jqxGrid(action, 'SUBPHYLUM');
+				$("##searchResultsGrid").jqxGrid(action, 'SUPERCLASS');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBCLASS');
+				$("##searchResultsGrid").jqxGrid(action, 'SUPERORDER');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBORDER');
+				$("##searchResultsGrid").jqxGrid(action, 'INFRAORDER');
+				$("##searchResultsGrid").jqxGrid(action, 'SUPERFAMILY');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBFAMILY');
+				$("##searchResultsGrid").jqxGrid(action, 'TRIBE');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBGENUS');
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
+			function toggleScientific() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'SPECIES', 'hidden');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					var action = 'showcolumn';
+				} else {
+					var action = 'hidecolumn';
+				}
+				$("##searchResultsGrid").jqxGrid(action, 'GENUS');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBGENUS');
+				$("##searchResultsGrid").jqxGrid(action, 'SPECIES');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBSPECIES');
+				$("##searchResultsGrid").jqxGrid(action, 'AUTHOR_TEXT');
+				$("##searchResultsGrid").jqxGrid(action, 'INFRASPECIFIC_RANK');
 				$("##searchResultsGrid").jqxGrid('endupdate');
 			}
 		</script>
