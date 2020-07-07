@@ -98,6 +98,7 @@ limitations under the License.
 				taxonomy.taxonid,
 				taxonomy.taxon_status,
 				taxonomy.TAXON_REMARKS,
+				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID) as common_names,
 				count(#session.flatTableName#.collection_object_id) as specimen_count
 			 from taxonomy
 				left join common_name on taxonomy.taxon_name_id = common_name.taxon_name_id
@@ -430,7 +431,8 @@ limitations under the License.
 				taxonomy.scientificnameid,
 				taxonomy.taxonid,
 				taxonomy.taxon_status,
-				taxonomy.TAXON_REMARKS
+				taxonomy.TAXON_REMARKS,
+				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID)
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
