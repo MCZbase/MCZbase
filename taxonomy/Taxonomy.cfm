@@ -800,16 +800,19 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-secondary">
 							</form>
 						</div>
+						<div class="border bg-light p-2 rounded mt-3">
+						<h4 class="mt-0">Common Names</h4>
 						<form name="newhabitat" method="post" action="Taxonomy.cfm">
 							<input type="hidden" name="Action" value="newhabitat">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-							<label for="taxon_habitat">New Habitat</label>
+							<label for="taxon_habitat" class="data-entry-label float-left mt-2">New Habitat</label>
 							<select name="taxon_habitat" id="habitat_name" size="1">
 								<option value="">select</option>
 								<option value="brackish">#taxon_habitat#</option>
 							</select>
-							<input type="submit" value="Add" class="insBtn">
+							<input type="submit" value="Add" class="btn-xs btn-secondary">
 						</form>
+						</div>
 					</div>
 				</div>
 			</div>
