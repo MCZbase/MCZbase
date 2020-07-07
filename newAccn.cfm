@@ -197,7 +197,7 @@
 					</cfif>,
 					is_public_fg
 				) VALUES (
-					#n.n#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#n.n#'>,
 					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(ent_Date,"yyyy-mm-dd")#'>,
 					null,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#collection_id#'>,
@@ -210,68 +210,53 @@
 					</cfif>,
 					null
 				)
-				</cfquery>
-				<cfquery name="newAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO accn (
-						TRANSACTION_ID,
-						ACCN_TYPE
-						,accn_number
-						,RECEIVED_DATE,
-						ACCN_STATUS,
-						estimated_count
-						)
-					VALUES (
-						#n.n#,
-						'#accn_type#'
-						,'#accn_number#'
-						,'#dateformat(rec_date,"yyyy-mm-dd")#',
-						'#accn_status#',
-						<cfif len(estimated_count) gt 0>
-							#estimated_count#
-						<cfelse>
-							null
-						</cfif>
-						)
-				</cfquery>
-				<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			</cfquery>
+			<cfquery name="newAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO accn (
+					TRANSACTION_ID,
+					ACCN_TYPE
+					,accn_number
+					,RECEIVED_DATE,
+					ACCN_STATUS,
+					estimated_count
+					)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#n.n#'>
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_type#'>
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_number#'>
+					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(rec_Date,"yyyy-mm-dd")#'>
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_status#'>
+					<cfif len(estimated_count) gt 0>
+						, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#estimated_count#'>
+					<cfelse>
+						, null
+					</cfif>
+					)
+			</cfquery>
+			<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into trans_agent (
+					transaction_id,
+					agent_id,
+					trans_agent_role
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#n.n#'>,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#received_agent_id#'>,
+					'received from'
+				)
+			</cfquery>
+			<cfif len(#for_use_by#) gt 0>
+				<cfquery name="newAgent" datasource="user_login" username="#session.username#" password="#decrypt(session.epw,cfid)#">
 					insert into trans_agent (
 						transaction_id,
 						agent_id,
 						trans_agent_role
 					) values (
-						#n.n#,
-						#received_agent_id#,
-						'received from'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#n.n#'>,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#for_use_by#'>,
+						'for_use_by'
 					)
 				</cfquery>
-				<cfif len(#for_use_by#) gt 0>
-					<cfquery name="newAgent" datasource="user_login" username="#session.username#" password="#decrypt(session.epw,cfid)#">
-						insert into trans_agent (
-							transaction_id,
-							agent_id,
-							trans_agent_role
-						) values (
-							#n.n#,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#for_use_by#'>,
-							'for_use_by'
-						)
-					</cfquery>
-				</cfif>
-`				<!--- TODO: Remove associated with agency 
-				<cfif isdefined("trans_agency_id") AND len(#trans_agency_id#) gt 0>
-					<cfquery name="newAgent" datasource="user_login" username="#session.username#" password="#decrypt(session.epw,cfid)#">
-						insert into trans_agent (
-							transaction_id,
-							agent_id,
-							trans_agent_role
-						) values (
-							#n.n#,
-							#trans_agency_id#,
-							'associated with agency'
-						)
-					</cfquery>
-				</cfif>
-				--->
+			</cfif>
 		</cftransaction>
 		<cflocation url="editAccn.cfm?Action=edit&transaction_id=#n.n#" addtoken="false">
   </cfoutput>

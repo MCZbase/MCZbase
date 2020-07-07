@@ -325,7 +325,7 @@ limitations under the License.
 								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct(trans_agent_role) 
 									from cttrans_agent_role
-									where trans_agent_role != 'associated with agency' 
+									where trans_agent_role != 'stewardship from agency' 
 										and trans_agent_role != 'received from' 
 										and trans_agent_role != 'borrow overseen by' 
 									order by trans_agent_role
