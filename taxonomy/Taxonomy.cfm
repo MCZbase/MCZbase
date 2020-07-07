@@ -806,7 +806,7 @@ limitations under the License.
 							<input type="hidden" name="Action" value="newhabitat">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 							<label for="taxon_habitat" class="data-entry-label float-left mt-2">New Habitat</label>
-							<select name="taxon_habitat" id="habitat_name" size="1">
+							<select name="taxon_habitat" id="habitat_name" size="1" class="reqdClr custom-select data-entry-select">
 								<option value="">select</option>
 								<option value="brackish">#taxon_habitat#</option>
 							</select>
