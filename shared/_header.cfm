@@ -187,7 +187,7 @@ limitations under the License.
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a>
 						<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a>
-						<!---old---><a class="dropdown-item" aria-label="places search" name="places" href="/showLocality.cfm">Locations</a>
+						<!---old---><a class="dropdown-item" aria-label="places search" name="locations" href="/showLocality.cfm">Locations</a>
 						<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
