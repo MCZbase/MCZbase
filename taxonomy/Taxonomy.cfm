@@ -791,6 +791,7 @@ limitations under the License.
 							</form>
 							<cfset i=i+1>
 						</cfloop>
+							</div>
 						<div class="">
 							<form name="newCommon" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="Action" value="newCommon">
@@ -801,14 +802,16 @@ limitations under the License.
 							</form>
 						</div>
 						<div class="border bg-light p-2 rounded mt-3">
-						<h4 class="mt-0">Common Names</h4>
+						<h4 class="mt-0">New Habitat</h4>
 						<form name="newhabitat" method="post" action="Taxonomy.cfm">
 							<input type="hidden" name="Action" value="newhabitat">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 							<label for="taxon_habitat" class="data-entry-label float-left mt-2">New Habitat</label>
-							<select name="taxon_habitat" id="habitat_name" size="1" class="reqdClr custom-select data-entry-select">
-								<option value="">select</option>
-								<option value="brackish">#taxon_habitat#</option>
+							<select name="taxon_habitat" id="habitat_name" size="1" class="custom-select data-entry-select">
+								<cfloop query="cttaxa_habitat">
+									<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
+									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
+									</cfloop>
 							</select>
 							<input type="submit" value="Add" class="btn-xs btn-secondary">
 						</form>
