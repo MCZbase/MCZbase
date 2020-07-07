@@ -663,11 +663,11 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border rounded p-1">Show/Hide 
-						<button id='columnPickDialogOpener' onclick=" $('##columnPickDialog').dialog('open'); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Select Columns</button>
-					 	<button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Common Names</button>
-					 	<button id='superSubToggle' onclick=" toggleSuperSub(); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Super/Sub/Infra</button>
-					 	<button id='sciNameToggle' onclick=" toggleScientific(); " class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Scientific Name</button>
+					`<span class="border rounded p-1 mx-2">Show/Hide 
+						<button id='columnPickDialogOpener' onclick=" $('##columnPickDialog').dialog('open'); " class='btn-xs btn-secondary px-1 py-1 my-2' >Select Columns</button>
+					 	<button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Common Names</button>
+					 	<button id='superSubToggle' onclick=" toggleSuperSub(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Super/Sub/Infra</button>
+					 	<button id='sciNameToggle' onclick=" toggleScientific(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Scientific Name</button>
 					</span>`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
