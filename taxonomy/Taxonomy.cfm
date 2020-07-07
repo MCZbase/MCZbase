@@ -813,8 +813,8 @@ limitations under the License.
 							<input type="hidden" name="Action">
 							<input type="hidden" name="orighabitatName" value="#taxon_habitat#" class="data-entry-input my-2 w-75">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#"  class="data-entry-input my-2 w-75">
-							<input type="text" name="taxon_habitat" value="#taxon_habitat#"  class="data-entry-input my-2 w-75">
-							<input type="button" value="Delete" class="btn-xs btn-secondary" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
+							<input type="text" name="taxon_habitat" value="#taxon_habitat#"  class="data-entry-input my-2 w-75 float-left">
+							<input type="button" value="Delete" class="btn-xs btn-secondary float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
 						</form>
 						<cfset i=i+1>
 					</cfloop>
