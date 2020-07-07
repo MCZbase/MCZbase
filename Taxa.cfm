@@ -434,7 +434,7 @@ limitations under the License.
 						datatype: "json",
 						datafields:
 						[
-							{ name: 'TAXON_NAME_ID', type: 'int' }, 
+							{ name: 'TAXON_NAME_ID', type: 'n' }, 
 							{ name: 'FULL_TAXON_NAME', type: 'string' },
 							{ name: 'KINGDOM', type: 'string' },
 							{ name: 'PHYLUM', type: 'string' },
