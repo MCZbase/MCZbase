@@ -505,7 +505,7 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
 							<div class="col-sm-8 float-left">
-								<select name="taxon_status" id="taxon_status" class="data-entry-input my-2">
+								<select name="taxon_status" id="taxon_status" class="data-entry-input my-1">
 									<option value=""></option>
 									<cfloop query="cttaxon_status">
 										<option 
@@ -518,7 +518,7 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
 							<div  class="col-sm-9 float-left">
-								<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-2">
+								<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -526,13 +526,13 @@ limitations under the License.
 						<div id="phylum_row" class="col-6 px-0">
 							<label for="phylum" id="phylum_label" class="col-sm-3 col-form-label float-left">Phylum</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-2">
+								<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="subphylum" id="subphylum_label" class="col-sm-3 col-form-label float-left">Subphylum</label>
 							<div  class="col-sm-9 float-left">
-								<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-2">
+								<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -540,13 +540,13 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="division" id="division_label" class="col-sm-3 col-form-label float-left">Division</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-2">
+								<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="subdivision" id="subdivsion_label" class="col-sm-3 col-form-label float-left">SubDivision</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-2">
+								<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -554,13 +554,13 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="superclass" class="col-sm-3 col-form-label float-left">Superclass</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" class="data-entry-input my-2">
+								<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="phylclass" class="col-sm-3 col-form-label float-left">Class</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input my-2">
+								<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -568,13 +568,13 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="subclass" class="col-sm-3 col-form-label float-left">SubClass</label>
 							<div class="col-12 col-sm-9 float-left">
-								<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input my-2">
+								<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="infraclass" class="col-sm-3 col-form-label float-left">InfraClass</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input my-2">
+								<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -582,13 +582,13 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="superorder" class="col-sm-3 col-form-label float-left">Superorder</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" class="data-entry-input my-2">
+								<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="phylorder" class="col-sm-3 col-form-label float-left">Order</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" class="data-entry-input my-2">
+								<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -596,13 +596,13 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="suborder" class="col-sm-3 col-form-label float-left">Suborder</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" class="data-entry-input my-2">
+								<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="infraorder" class="col-sm-3 col-form-label float-left">Infraorder</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" class="data-entry-input my-2">
+								<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -610,13 +610,13 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="superfamily" class="col-sm-3 col-form-label float-left">Superfamily</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" class="data-entry-input my-2">
+								<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="family" class="col-sm-3 col-form-label float-left">Family</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="family" id="family" value="#gettaxa.family#" class="data-entry-input my-2">
+								<input type="text" name="family" id="family" value="#gettaxa.family#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -624,13 +624,13 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="subfamily" class="col-sm-3 col-form-label float-left">Subfamily</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" class="data-entry-input my-2">
+								<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="tribe" class="col-sm-3 col-form-label float-left">Tribe</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-2">
+								<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -638,7 +638,7 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
 							<div class="col-sm-9 float-left"><span class="float-left d-inline brackets">(</span>
-								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-2 w-75 float-left">
+								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-1 w-75 float-left">
 								<span class="float-left d-inline brackets">)</span><small> #subgenus_message# </small> </div>
 						</div>
 						<div class="col-6 px-0">
