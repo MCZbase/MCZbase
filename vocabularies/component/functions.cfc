@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 
-<!--- function saveNumberSeries 
+<!--- function saveNumSeries 
 Update an existing collecting event number series record.
 
 @param coll_event_num_series_id primary key of record to update
@@ -122,7 +122,7 @@ Function getNumSeriesList.  Search for collector number series returning json su
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getAgentList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset message = trim("Error processing getNumSeriesList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
 				<div class="container">
