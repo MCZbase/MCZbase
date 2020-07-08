@@ -752,7 +752,7 @@ limitations under the License.
 								<input type="hidden" name="newRelatedId">
 								<label for="relation_authority" class="data-entry-label">Authority</label>
 								<input type="text" name="relation_authority" class="data-entry-input">
-								<input type="submit" value="Create" class="btn-xs btn-secondary mt-2">
+								<input type="submit" value="Create" class="btn-xs btn-secondary mt-1 ml-1">
 							</div>
 						</form>
 						<cfloop query="relations">
@@ -833,7 +833,7 @@ limitations under the License.
 							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
 						</cfif>
 					</cfloop>
-					<input type="submit" value="Add" class="btn-xs btn-secondary">
+					<input type="submit" value="Add" class="btn-xs btn-secondary ml-1">
 				</form>
 						</div>
 					</div>
