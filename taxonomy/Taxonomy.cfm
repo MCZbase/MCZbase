@@ -1352,7 +1352,7 @@ limitations under the License.
 									<div class="col-12 px-0">
 								<label for="taxon_remarks" class="col-sm-3 col-form-label float-left">Remarks</label>
 								<div class="col-sm-9 float-left">
-									<textarea name="taxon_remarks" id="taxon_remarks" rows="3" class="data-entry-textarea">#taxon_remarks#</textarea>
+									<textarea name="taxon_remarks" id="taxon_remarks" rows="3" class="data-entry-textarea mt-1">#taxon_remarks#</textarea>
 								</div>
 									</div>
 									</div>
