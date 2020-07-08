@@ -835,7 +835,7 @@ limitations under the License.
 					<cfloop query="cttaxon_habitat">
 				
 						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
-									<option value="select">select</option>
+						
 							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
 						</cfif>
 					</cfloop>
