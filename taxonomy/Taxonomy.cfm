@@ -796,7 +796,7 @@ limitations under the License.
 								<input type="text" name="common_name" value="#common_name#" class="data-entry-input my-2">
 								<input type="button" value="Save" class="savBtn btn-xs btn-primary" onClick="common#i#.Action.value='saveCommon';submit();">
 								<input type="button" value="Delete" class="btn-xs btn-warning ml-1" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>#common_name#</b> common name entry');">
-							</form>
+							</form>#origCommonName# #taxon_name_id# #common_name#
 							<cfset i=i+1>
 						</cfloop>
 							<form name="newCommon" method="post" action="/taxonomy/Taxonomy.cfm">
