@@ -831,16 +831,15 @@ limitations under the License.
 					<input type="hidden" name="Action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 					<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
-					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1 w-75">
+					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1 w-75 float-left">
 					<cfloop query="cttaxon_habitat">
 						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
 							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
 						</cfif>
 					</cfloop>
 					</select>
-					
+					<input type="submit" value="Add" class="btn-xs btn-secondary ml-1 float-left">
 				</form>
-						<input type="submit" value="Add" class="btn-xs btn-secondary ml-1 float-left">
 						</div>
 					</div>
 				</div>
