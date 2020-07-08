@@ -785,7 +785,7 @@ limitations under the License.
 							from common_name 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					</cfquery>
-					<div class="border bg-light p-2 rounded mt-3">
+					<div class="border bg-light p-2 rounded mt-3 float-left w-100">
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
 						<cfloop query="common">
@@ -793,9 +793,9 @@ limitations under the License.
 								<input type="hidden" name="Action">
 								<input type="hidden" name="origCommonName" value="#common_name#">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-								<input type="text" name="common_name" value="#common_name#" class="data-entry-input my-2">
-								<input type="button" value="Save" class="btn-xs btn-primary" onClick="common#i#.Action.value='saveCommon';submit();">
-								<input type="button" value="Delete" class="btn-xs btn-warning ml-1" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
+								<input type="text" name="common_name" value="#common_name#" class="data-entry-input my-2 w-75 float-left">
+								<input type="button" value="Save" class="btn-xs btn-primary float-left" onClick="common#i#.Action.value='saveCommon';submit();">
+								<input type="button" value="Delete" class="btn-xs btn-warning ml-1 float-left" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
 							</form>
 							<cfset i=i+1>
 						</cfloop>
