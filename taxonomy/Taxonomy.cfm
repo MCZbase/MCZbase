@@ -805,7 +805,7 @@ limitations under the License.
 								<input type="hidden" name="Action" value="newCommon">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="common_name" class="data-entry-label float-left mt-1">Add New Common Name</label>
-								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-50">
+								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
 								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
@@ -824,7 +824,7 @@ limitations under the License.
 							<input type="hidden" name="Action">
 							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-							<input type="text" name="taxon_habitat" value="#taxon_habitat#" class="data-entry-input mb-1 w-75 float-left">
+							<input type="text" name="taxon_habitat" value="#taxon_habitat#" class="data-entry-input mb-1 w-50 float-left">
 							<input type="button" value="Delete" class="btn-xs btn-warning mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDialog('Delete <b>#taxon_habitat#</b> habitat entry','Delete?');">
 						</form>
 						<cfset i=i+1>
