@@ -696,8 +696,9 @@ limitations under the License.
 					<cfset i = 1>
 				
 					<div class="col-12 px-0">
-					<form name="newPub" method="post" action="/taxonomy/Taxonomy.cfm">
-						<div class="form-row mx-0">
+					<div class="form-row mx-0">
+					<form name="newPub" method="post" action="Taxonomy.cfm">
+						
 							<div class="col-12 px-0 my-1">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="Action" value="newTaxonPub">
