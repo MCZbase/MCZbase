@@ -187,7 +187,7 @@ limitations under the License.
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a>
 						<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a>
-						<!---old---><a class="dropdown-item" aria-label="places search" name="locations" href="/showLocality.cfm">Locations</a>
+						<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a>
 						<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
@@ -256,7 +256,7 @@ limitations under the License.
 					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink1">
 						<a class="dropdown-item <cfif pageTitle EQ 'Search Specimens'>active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
 						<a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
-						<a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
+						<a class="dropdown-item" aria-label="places search" name="locations" href="##">Locations</a>
 						<a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
 						<a class="dropdown-item" aria-label="agent search" name="agents" href="##">Agents</a>
 						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/Taxa.cfm">Taxonomy</a>
