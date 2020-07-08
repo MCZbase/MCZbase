@@ -52,11 +52,11 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 		title: dialogTitle,
 		buttons: {
 			OK: function () {
-				 setTimeout(okFunction, 30);
-				 $(this).dialog('destroy');
+			 setTimeout(okFunction, 30);
+			 $(this).dialog('destroy');
 			},
 			Cancel: function () {
-				 $(this).dialog('destroy');
+			 $(this).dialog('destroy');
 			}
 		},
 		close: function() {
@@ -64,8 +64,10 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 		}
 	});
 };
-//function confirmDelete(formName,msg){var formName;var msg=msg||"this record";
-//confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable")}
+function confirmDelete(formName,msg){
+	var formName;var msg=msg||"this record";
+	confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable")
+}
 /** exportGridToCSV given the id of a jqxgrid control and a filename, export the coutent of the grid to a csv file
  * with the specified filename for direct download.
  * @param idOfGrid the id of the jqx grid control, without a leading # selector.
