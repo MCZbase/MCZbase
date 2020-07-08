@@ -811,7 +811,7 @@ limitations under the License.
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 						</cfquery>
 						<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-					<h4>Habitat</h4>
+					<h4 class="mt-0">Habitat</h4>
 					<cfset i=1>
 					<cfloop query="habitat">
 						<form name="habitat#i#" method="post" action="Taxonomy.cfm">
