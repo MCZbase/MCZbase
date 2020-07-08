@@ -807,7 +807,7 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1">
 							</form>
 						</div>
-					<div class="border bg-light p-2 rounded mt-3">
+					<div class="border bg-light p-2 rounded mt-3 float-left">
 						<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select taxon_habitat 
 							from taxon_habitat 
@@ -838,7 +838,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					</select>
-					<input type="submit" value="Add" class="btn-xs btn-secondary ml-1 float-left">
+					<input type="submit" value="Add" class="btn-xs btn-secondary m-1 float-left">
 				</form>
 						</div>
 					</div>
