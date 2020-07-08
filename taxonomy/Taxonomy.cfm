@@ -833,6 +833,7 @@ limitations under the License.
 					<label for="taxon_habitat" class="data-entry-label float-left mt-2">New Habitat</label>
 					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1">
 					<cfloop query="cttaxon_habitat">
+						<option value="select">select</option>
 						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
 							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
 						</cfif>
