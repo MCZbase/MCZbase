@@ -793,9 +793,11 @@ limitations under the License.
 								<input type="hidden" name="Action">
 								<input type="hidden" name="origCommonName" value="#common_name#">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+								<div class="form-row m-0">
 								<input type="text" name="common_name" value="#common_name#" class="data-entry-input my-2 w-50 float-left">
 								<input type="button" value="Save" class="btn-xs btn-primary float-left" onClick="common#i#.Action.value='saveCommon';submit();">
 								<input type="button" value="Delete" class="btn-xs btn-warning ml-1 float-left" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
+								</div>
 							</form>
 							<cfset i=i+1>
 						</cfloop>
