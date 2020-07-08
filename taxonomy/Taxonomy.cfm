@@ -706,7 +706,7 @@ limitations under the License.
 								<input type="hidden" name="Action" value="newTaxonPub">
 								<input type="hidden" name="new_publication_id" id="new_publication_id">
 
-								<h4 class="mt-0">Related Publications</h4>
+								<h4 class="mt-0 mb-1">Related Publications</h4>
 								<label for="new_pub" class="data-entry-label">Pick Publication</label>
 								<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
 								<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
