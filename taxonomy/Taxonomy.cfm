@@ -826,7 +826,7 @@ limitations under the License.
 				<form name="newhabitat" method="post" action="Taxonomy.cfm">
 					<input type="hidden" name="Action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-					<label for="taxon_habitat">New Habitat</label>
+					<label for="taxon_habitat" class="data-entry-label float-left mt-1">New Habitat</label>
 					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1">
 					<cfloop query="cttaxon_habitat">
 						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
