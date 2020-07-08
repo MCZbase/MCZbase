@@ -799,9 +799,9 @@ limitations under the License.
 							<form name="newCommon" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="Action" value="newCommon">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-								<label for="common_name" class="data-entry-label float-left mt-2">New Common Name</label>
-								<input type="text" name="common_name" class="data-entry-input my-2">
-								<input type="submit" value="Create" class="btn-xs btn-secondary">
+								<label for="common_name" class="data-entry-label float-left mt-1">New Common Name</label>
+								<input type="text" name="common_name" class="data-entry-input my-1">
+								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1">
 							</form>
 						</div>
 					<div class="border bg-light p-2 rounded mt-3">
@@ -816,10 +816,10 @@ limitations under the License.
 					<cfloop query="habitat">
 						<form name="habitat#i#" method="post" action="Taxonomy.cfm">
 							<input type="hidden" name="Action">
-							<input type="hidden" name="orighabitatName" value="#taxon_habitat#" class="data-entry-input my-2 w-75">
-							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#"  class="data-entry-input my-2 w-75">
-							<input type="text" name="taxon_habitat" value="#taxon_habitat#"  class="data-entry-input my-2 w-75 float-left">
-							<input type="button" value="Delete" class="btn-xs btn-secondary float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
+							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
+							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+							<input type="text" name="taxon_habitat" value="#taxon_habitat#"  class="data-entry-input mb-1 w-75 float-left">
+							<input type="button" value="Delete" class="btn-xs btn-secondary mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
 						</form>
 						<cfset i=i+1>
 					</cfloop>
@@ -827,7 +827,7 @@ limitations under the License.
 					<input type="hidden" name="Action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 					<label for="taxon_habitat">New Habitat</label>
-					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select">
+					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select ">
 					<cfloop query="cttaxon_habitat">
 						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
 							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
