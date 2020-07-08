@@ -388,7 +388,7 @@ limitations under the License.
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
-							<div class="col-12 col-md-2 px-0 float-left">
+							<div class="col-12 col-md-3 px-0 float-left">
 								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
 									<cfif searchtext EQ "">
 										<option value=""></option>
