@@ -696,29 +696,28 @@ limitations under the License.
 					<cfset i = 1>
 				
 					<div class="col-12 px-0">
-					<div class="form-row mx-0">
-					<form name="newPub" method="post" action="Taxonomy.cfm">
-						
-							<div class="col-12 px-0 my-1">
+					<div class="form-row mx-0">	
+						<div class="p-2 border bg-light rounded mt-3">
+							<form name="newPub" method="post" action="Taxonomy.cfm">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="Action" value="newTaxonPub">
 								<input type="hidden" name="new_publication_id" id="new_publication_id">
-							<div class="p-2 border bg-light rounded mt-3">
-									<h4>Related Publications</h4>
+
+								<h4>Related Publications</h4>
 								<label for="new_pub" class="data-entry-label">Pick Publication</label>
 								<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newPub')"  class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
 								<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
 									<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
 								</div>
-							</div>
+							</form>
+
+							<cfif tax_pub.recordcount gt 0>
+								<cfloop query="tax_pub">
+									<div class="col-12 my-2 px-1"> #formatted_publication# <a class="btn-xs btn-secondary mx-1" href="/taxonomy/Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> <a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> </div>
+								</cfloop>
+							</cfif>
 						</div>
-					</form>
-						
-					<cfif tax_pub.recordcount gt 0>
-						<cfloop query="tax_pub">
-							<div class="col-12 my-2 px-1"> #formatted_publication# <a class="btn-xs btn-secondary mx-1" href="/taxonomy/Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> <a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> </div>
-						</cfloop>
-					</cfif>
+					</div>
 					</div>
 					<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
