@@ -682,7 +682,7 @@ limitations under the License.
 				</form>
 			</div>
 			<div class="col-12 col-xl-3 float-left px-0 my-5">
-				<div class="border rounded p-2 bg-grayish float-left w-100">
+				<div class="border rounded p-2 bg-grayish">
 					<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
 							taxonomy_publication_id,
@@ -700,7 +700,7 @@ limitations under the License.
 				
 					<div class="col-12 px-0">
 					<div class="form-row mx-0">	
-						<div class="p-2 border bg-light rounded mt-1">
+						<div class="p-2 border bg-light rounded mt-1 w-100 float-left">
 							<form name="newPub" method="post" action="Taxonomy.cfm">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="Action" value="newTaxonPub">
