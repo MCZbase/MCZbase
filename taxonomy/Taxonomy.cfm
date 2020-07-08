@@ -363,6 +363,7 @@ limitations under the License.
 							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 						});
 					});
+					});
 				</script> 
 							</div>
 						</div>
