@@ -324,7 +324,9 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> </div>
+							<div class="col-12 col-md-2 px-0 float-left"> 
+								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
+							</div>
 							<div class="col-12 col-md-7 px-0 float-left">
 								<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
 								<cfif len(regex) GT 0 >
