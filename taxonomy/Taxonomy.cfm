@@ -911,7 +911,7 @@ limitations under the License.
 		DELETE FROM
 			common_name
 		WHERE
-			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#"> 
+			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> 
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
