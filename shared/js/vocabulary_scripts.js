@@ -67,10 +67,10 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 				} else { 
 					$('#'+searchControl).html("Find GUID"); 
 				}
-				$('#'+searchControl).addClass("smallBtn external");
+				$('#'+searchControl).addClass("btn-xs btn-secondary");
 			} else {
 				$('#'+searchControl).html(""); 
-				$('#'+searchControl).removeClass("smallBtn external");
+				$('#'+searchControl).removeClass("btn-xs btn-secondary");
 			}
 		},
 		error : function (jqXHR, status, error) {
