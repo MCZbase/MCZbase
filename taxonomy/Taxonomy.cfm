@@ -741,7 +741,7 @@ limitations under the License.
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" name="Action" value="newTaxonRelation">
 							<div class="p-2 border bg-light rounded mt-3">
-								<h4 class="mt-0">Related Taxa:</h4>
+								<h4 class="mt-0 mb-1">Related Taxa:</h4>
 								<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
 								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select">
 									<cfloop query="ctRelation">
