@@ -810,7 +810,8 @@ limitations under the License.
 							from taxon_habitat 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 						</cfquery>
-						<cfset usedHabitats = valueList(habitat.taxon_habitat)>
+						
+				<cfset usedHabitats = valueList(habitat.taxon_habitat)>
 					<h4 class="mt-0">Habitat</h4>
 					<cfset i=1>
 					<cfloop query="habitat">
@@ -818,7 +819,7 @@ limitations under the License.
 							<input type="hidden" name="Action">
 							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-							<input type="text" name="taxon_habitat" value="#taxon_habitat#"  class="data-entry-input mb-1 w-75 float-left">
+							<input type="text" name="taxon_habitat" value="#taxon_habitat#" class="data-entry-input mb-1 w-75 float-left">
 							<input type="button" value="Delete" class="btn-xs btn-secondary mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDelete('habitat#i#');">
 						</form>
 						<cfset i=i+1>
@@ -826,7 +827,7 @@ limitations under the License.
 				<form name="newhabitat" method="post" action="Taxonomy.cfm">
 					<input type="hidden" name="Action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-					<label for="taxon_habitat" class="data-entry-label float-left mt-1">New Habitat</label>
+					<label for="taxon_habitat" class="data-entry-label float-left mt-2">New Habitat</label>
 					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1">
 					<cfloop query="cttaxon_habitat">
 						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
@@ -886,7 +887,7 @@ limitations under the License.
 			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
 	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -938,7 +939,7 @@ limitations under the License.
 			taxon_habitat=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orighabitatName#">
 			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+		<cflocation url="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 
