@@ -805,8 +805,8 @@ limitations under the License.
 								<input type="hidden" name="Action" value="newCommon">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="common_name" class="data-entry-label float-left mt-1">Add New Common Name</label>
-								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
-								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 float-left">
+								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-50">
+								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
 					<div class="border bg-light p-2 rounded mt-3 float-left w-100">
