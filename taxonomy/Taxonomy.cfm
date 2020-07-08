@@ -697,7 +697,7 @@ limitations under the License.
 				
 					<div class="col-12 px-0">
 					<div class="form-row mx-0">	
-						<div class="p-2 border bg-light rounded mt-3">
+						<div class="p-2 border bg-light rounded mt-1">
 							<form name="newPub" method="post" action="Taxonomy.cfm">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="Action" value="newTaxonPub">
