@@ -838,8 +838,9 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					</select>
-					<input type="submit" value="Add" class="btn-xs btn-secondary ml-1 float-left">
+					
 				</form>
+						<input type="submit" value="Add" class="btn-xs btn-secondary ml-1 float-left">
 						</div>
 					</div>
 				</div>
