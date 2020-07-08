@@ -34,6 +34,7 @@ limitations under the License.
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
 <!--- set default search field values if not passed in --->
+<cfif NOT isDefined("valid_catalog_term_fg")><cfset valid_catalog_term_fg=""></cfif>
 <cfif NOT isDefined("scientific_name")><cfset scientific_name=""></cfif>
 <cfif NOT isDefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
 <cfif NOT isDefined("common_name")><cfset common_name=""></cfif>
@@ -202,18 +203,32 @@ limitations under the License.
 												<h2 class="h3 card-title px-0 mx-0 mb-0">Search All Taxonomy</h2>
 												<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 												<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
-												<p class="smaller-text">Not all taxa in MCZbase have associated specimens. <a href="javascript:void(0)" onClick="taxa.we_have_some.checked=false;" aria-label="Find only taxa for which specimens exist?">Uncheck</a> the "Find only taxa for which specimens exist?" box to see all matches.</p>
+												<p class="smaller-text">Not all taxa in MCZbase have associated specimens. 
+													<span class="btn btn-link" 
+														onClick="$('##we_have_some').attr('checked',false);" 
+														aria-label="Find only taxa for which specimens exist">Uncheck</span> 
+													the "Find only taxa for which specimens exist?" box to see all matches.</p>
 												<input type="hidden" name="action" value="search">
 												<ul class="list-group list-group-flush pb-3">
+													<cfif valid_catalog_term_fg EQ 1>
+														<cfset validFlagAllSelected = ''>
+														<cfset validFlagOnlySelected = 'checked="checked"'>
+													<cfelse>
+														<cfset validFlagAllSelected = 'checked="checked"'>
+														<cfset validFlagOnlySelected = ''>
+													</cfif>
 													<li class="list-group-item pb-0">
-														<input type="radio" name="VALID_CATALOG_TERM_FG" checked="checked" value="">
-														<a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[0].checked=true;">Display all matches?</a></li>
-													<li class="list-group-item pb-0"> <a href="javascript:void(0)" class="smaller-text" onClick="taxa.VALID_CATALOG_TERM_FG[1].checked=true;">
-														<input type="radio" name="VALID_CATALOG_TERM_FG" value="1">
-														Display only taxa currently accepted for identification?</a></li>
+														<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
+														<label for="validFGChecked" class="btn btn-link smaller-text">Display all matches?</label>
+													</li>
+													<li class="list-group-item pb-0"> <a href="javascript:void(0)" class="smaller-text" onClick="taxa.valid_catalog_term_fg[1].checked=true;">
+														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
+														<label for="validFGUnchecked">Display only taxa currently accepted for data entry?</label>
+													</li>
 													<li class="list-group-item pb-0">
 														<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
-														<a href="javascript:void(0)" class="smaller-text" onClick="taxa.we_have_some.checked=true;">Find only taxa for which specimens exist?</a></li>
+														<label class="smaller-text" onClick="$('##we_have_some').attr('checked',true);" for="we_have_some">Find only taxa for which specimens exist?</label>
+													</li>
 														<cfif isdefined("session.username") and #session.username# is "#session.dbuser#">
 															<script type="text/javascript" language="javascript">
 																document.getElementById('we_have_some').checked=false;

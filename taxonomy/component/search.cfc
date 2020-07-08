@@ -52,6 +52,8 @@ limitations under the License.
 	<cfargument name="valid_catalog_term_fg" type="string" required="no">
 	<cfargument name="scientificnameid" type="string" required="no">
 	<cfargument name="taxonid" type="string" required="no">
+	<cfargument name="we_have_some" type="string" required="no"><!--- 1 or empty string, thus type string --->
+	<cfargument name="valid_catalog_term_fg" type="string" required="no"><!--- 1 or empty string, thus type string --->
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -396,6 +398,9 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("valid_catalog_term_fg") AND len(valid_catalog_term_fg) gt 0>
 					AND taxonomy.valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
+				</cfif>
+				<cfif isdefined("we_have_some") AND we_have_some EQ 1>
+					AND #session.flatTableName#.collection_object_id is not null
 				</cfif>
 			GROUP BY
 				taxonomy.TAXON_NAME_ID,
