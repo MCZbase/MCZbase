@@ -644,7 +644,7 @@ limitations under the License.
 						<div class="col-6 px-0">
 							<label for="subsection" class="col-sm-3 col-form-label float-left">SubSection</label>
 							<div class="col-sm-9 float-left">
-								<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" class="data-entry-input my-2">
+								<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
@@ -656,7 +656,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0 justify-content-center mt-2">
+					<div class="form-row col-12 px-0 justify-content-center mt-1">
 						<input type="button" value="Save" class="btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
