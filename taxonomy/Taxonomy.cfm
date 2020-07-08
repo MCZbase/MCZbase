@@ -802,7 +802,7 @@ limitations under the License.
 							<form name="newCommon" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="Action" value="newCommon">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-								<label for="common_name" class="data-entry-label float-left mt-1">New Common Name</label>
+								<label for="common_name" class="data-entry-label float-left mt-1">Add New Common Name</label>
 								<input type="text" name="common_name" class="data-entry-input my-1">
 								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1">
 							</form>
@@ -830,13 +830,16 @@ limitations under the License.
 				<form name="newhabitat" method="post" action="/taxonomy/Taxonomy.cfm">
 					<input type="hidden" name="Action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-					<label for="taxon_habitat" class="data-entry-label float-left mt-2">New Habitat</label>
+					<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
 					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1">
+						
 					<cfloop query="cttaxon_habitat">
-				
+								
 						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
 						
 							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
+							<cfelse>
+								<option value="">select</option>
 						</cfif>
 					</cfloop>
 					<input type="submit" value="Add" class="btn-xs btn-secondary ml-1">
