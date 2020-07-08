@@ -795,7 +795,7 @@ limitations under the License.
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<input type="text" name="common_name" value="#common_name#" class="data-entry-input my-2">
 								<input type="button" value="Save" class="savBtn btn-xs btn-primary" onClick="common#i#.Action.value='saveCommon';submit();">
-								<input type="button" value="Delete" class="btn-xs btn-warning ml-1" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry');">
+								<input type="button" value="Delete" class="btn-xs btn-warning ml-1" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
 							</form>
 							<cfset i=i+1>
 						</cfloop>
@@ -823,7 +823,7 @@ limitations under the License.
 							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 							<input type="text" name="taxon_habitat" value="#taxon_habitat#" class="data-entry-input mb-1 w-75 float-left">
-							<input type="button" value="Delete" class="btn-xs btn-secondary mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDialog('Delete <b>#taxon_habitat#</b> habitat entry','Delete?');">
+							<input type="button" value="Delete" class="btn-xs btn-warning mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDialog('Delete <b>#taxon_habitat#</b> habitat entry','Delete?');">
 						</form>
 						<cfset i=i+1>
 					</cfloop>
