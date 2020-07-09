@@ -361,18 +361,8 @@ limitations under the License.
 														<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry?</label>
 													</li>
 												</ul>
-<<<<<<< HEAD
-												<p class="smaller-text my-2">Not all taxa in MCZbase have associated specimens. 
-													<span class="btn-link" 
-														onClick="$('##wehavesomeAll').prop('checked',true);" 
-														aria-label="Find only taxa for which specimens exist">Select</span> 
-													the "Find all taxa without regard for use?" option to see all matching taxa.
-												</p>
-												<ul class="list-group list-group-flush p-2 border mr-xl-3 rounded">
-=======
 												<p class="smaller-text my-2">Not all taxa in MCZbase have associated specimens.</p>
 												<ul class="list-group list-group-flush p-2 border rounded">
->>>>>>> origin/redesign
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
 														<cfset usedInIdOnlySelected = 'checked="checked"'>
