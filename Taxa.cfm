@@ -332,7 +332,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 											<div class="col-12 col-xl-4">
 												<h2 class="h3 card-title px-0 mx-0 mb-0 mt-0">Search All Taxonomy</h2>
-												<p class="smaller-text">Search the 346843 taxonomic records used in MCZbase for:  common names, synonymies, current identifications, authorities for future identifications, previous identifications (especially where specimens were cited by a now-unaccepted name). They are neither complete nor necessarily authoritative.</p>
+												<p class="smaller-text mt-2">Search taxonomy used in MCZbase for:  common names, synonymies, current identifications, authorities for future identifications, previous identifications (especially where specimens were cited by a now-unaccepted name). They are neither complete nor necessarily authoritative.</p>
 												<input type="hidden" name="action" value="search">
 												<ul class="list-group list-group-flush pb-2 border rounded">
 													<cfif valid_catalog_term_fg EQ 1>
@@ -367,7 +367,7 @@ limitations under the License.
 														aria-label="Find only taxa for which specimens exist">Select</span> 
 													the "Find all taxa without regard for use?" option to see all matching taxa.
 												</p>
-												<ul class="list-group list-group-flush pb-2 border rounded">
+												<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
 														<cfset usedInIdOnlySelected = 'checked="checked"'>
@@ -399,7 +399,7 @@ limitations under the License.
 												<div class="col-12">
 													<p class="small text-success" aria-label="input info">Add equals sign for exact match.  Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
-												<div class="form-row bg-light border rounded px-2 pb-2">
+												<div class="form-row bg-light border rounded p-2">
 													<div class="col-md-4">
 														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match.">(=) </span></label>
 														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#">
