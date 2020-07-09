@@ -278,8 +278,8 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
  *  the results.
  */
 function countCharsLeft(elementid, maxsize, outputelementid){ 
-	var current = $('##'+elementid).val().length;
+	var current = $('#'+elementid).val().length;
 	var remaining = maxsize - current;
 	var result = current + " characters, " + remaining + " left";
-	$('##'+outputelementid).html(result);
+	$('#'+outputelementid).html(result);
 }
