@@ -86,6 +86,7 @@ h6, .h6 {
 #resultLink a {padding: .15em .25em; outline:0;}
 #resultLink a.hover, #resultLink a:hover {padding: .15em .25em; outline:0;}
 #resultLink a.focus, #resultLink a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
+/*.jqx-widget .jqx-grid-cell, .jqx-widget .jqx-grid-column-header, .jqx-widget .jqx-grid-group-cell {border-color: transparent;}*/
 .jqx-grid-cell-left-align a {padding: .15em .25em; outline:0;}
 .jqx-grid-cell-left-align a.hover, .jqx-grid-cell-left-align a:hover {padding: .15em .25em; outline:0;}
 .jqx-grid-cell-left-align a.focus, .jqx-grid-cell-left-align a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
