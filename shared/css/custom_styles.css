@@ -132,6 +132,9 @@ label {
 .bg-grayish {
 	background-color: #F5F5F5;
 }
+.text-grayish {
+	color: #f5f5f5;
+}
 /***************************************/
 /*   BELOW: override for collection    */
 /*  dropdown (JQuery) taken from Arctos*/

@@ -311,15 +311,12 @@ limitations under the License.
 		<div id="search-form-div" class="search-form-div pb-3 px-3">
 			<div class="container-fluid">
 				<div class="row mb-3">
-					<div class="col-12 col-xl-11">
-						<h1 class="h3 smallcaps my-1 pl-1">Search Taxonomy <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+					<div class="col-12">
 						<div class="tab-card-main mt-1 pb-2 tab-card"> 
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
-							<div class="card-header tab-card-header pb-0 w-100">
-								<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
-									<li class="nav-item col-sm-12 col-md-2 px-1"> <a class="nav-link active px-2" id="all-tab" data-toggle="tab" href="##one" role="tab" aria-controls="All Taxonomy" aria-selected="true">Taxonomy</a> <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Taxonomy Search')" aria-label="help link"></i></li>
-								</ul>
+							<div class="card-header tab-card-header pb-0 w-50">
+								<h1 class="h3 smallcaps my-1 pl-1">Search Taxonomy <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span><i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Taxonomy Search')" aria-label="help link"></i></h1>
 							</div>
 							<!--- End tab header div ---> 
 												
@@ -331,7 +328,6 @@ limitations under the License.
 										<div class="row mx-2">
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 											<div class="col-12 col-xl-4">
-												<h2 class="h3 card-title px-0 mx-0 mb-0 mt-0">Search All Taxonomy</h2>
 												<p class="smaller-text mt-2">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
 												<input type="hidden" name="action" value="search">
 												<ul class="list-group list-group-flush p-2 border rounded">
