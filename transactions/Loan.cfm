@@ -89,12 +89,6 @@ limitations under the License.
 					$("##loan_instructions").trigger("keyup");
            }
 	}
-   function countCharsLeft(elementid, maxsize, outputelementid){ 
-      var current = $('##'+elementid).val().length;
-      var remaining = maxsize - current;
-      var result = current + " characters, " + remaining + " left";
-      $('##'+outputelementid).html(result);
-   }
 </script>
 </cfoutput>
 <!-------------------------------------------------------------------------------------------------->

@@ -209,7 +209,7 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/vocabularies/CollEventNumberSeries.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								$('##resultLink').html('<a href="/vocabularies/CollEventNumberSeries.cfm?action=findAll&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 								gridLoaded('searchResultsGrid','collecting event number');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
@@ -341,10 +341,15 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="remarks" id="remarks_label">Remarks</label>
-										<input type="text" id="remarks" name="remarks" class="form-control-sm" value="" aria-labelledby="remarks_label" >
+										<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
+										<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+											rows="3" aria-labelledby="remarks_label" ></textarea>
 									</div>
 								</div>
+								<script>
+									$('##remarks').keyup(autogrow);
+								</script>
 								<div class="form-row mb-5">
 									<div class="col-12 col-md-6">
 										<span>
@@ -452,10 +457,21 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-md-12">
-											<label for="remarks" id="remarks_label">Remarks</label>
-											<input type="text" id="remarks" name="remarks" class="form-control-sm" value="#remarks#" aria-labelledby="remarks_label" >		
+											<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
+											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1 autogrow"
+												onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+												rows="3" aria-labelledby="remarks_label" >#remarks#</textarea>
 										</div>
 									</div>
+									<script>
+										// make selected textareas autogrow as text is entered.
+										$(document).ready(function() {
+											// bind the autogrow function to the keyup event
+											$('textarea.autogrow').keyup(autogrow);
+											// trigger keyup event to size textareas to existing text
+											$('textarea.autogrow').keyup();
+										});
+									</script>
 									<div class="form-row mb-5">
 										<div class="col-12 col-md-6"> 
 											<span>
@@ -471,6 +487,7 @@ limitations under the License.
 												$(document).ready(function() {
 													$(makeAgentPicker('collector_agent_name','collector_agent_id'));
 													$('##editNumSeries input[type=text]').on("change",changed);
+													$('##remarks').on("change",changed);
 												});
 												function saveChanges(){ 
 													var agenttext = $('##collector_agent_name').val();

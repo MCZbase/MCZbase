@@ -207,12 +207,6 @@ limitations under the License.
 		toggleBotanicalVisibility();
 	});  
 
-   function countCharsLeft(elementid, maxsize, outputelementid){ 
-      var current = $('##'+elementid).val().length;
-      var remaining = maxsize - current;
-      var result = current + " characters, " + remaining + " left";
-      $('##'+outputelementid).html(result);
-   }
 </script> 
 </cfoutput> 
 <!------------------------------------------------>

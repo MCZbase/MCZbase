@@ -52,11 +52,11 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 		title: dialogTitle,
 		buttons: {
 			OK: function () {
-			 setTimeout(okFunction, 30);
-			 $(this).dialog('destroy');
+				setTimeout(okFunction, 30);
+				$(this).dialog('destroy');
 			},
 			Cancel: function () {
-			 $(this).dialog('destroy');
+				$(this).dialog('destroy');
 			}
 		},
 		close: function() {
@@ -64,39 +64,14 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 		}
 	});
 };
-function confirmDelete(formName,msg){
-	var formName;var msg=msg||"this record";
-	confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable")
-}
-/** exportGridToCSV given the id of a jqxgrid control and a filename, export the coutent of the grid to a csv file
- * with the specified filename for direct download.
- * @param idOfGrid the id of the jqx grid control, without a leading # selector.
- * @param filename the filename to provide the user for the downloaded data.
- */
-function exportGridToCSV (idOfGrid, filename) {
-   var exportHeader = true;
-   var rows = null; // null for all rows
-   var exportTo = null; // null to export to local variable
-   var exportHiddenColumns = true;
-   var csvStringData = $('#' + idOfGrid).jqxGrid('exportdata', 'csv', exportTo ,exportHeader,rows,exportHiddenColumns);
-   exportToCSV(csvStringData, filename);  
-};
 
-/** exportToCSV given csv data as from an exportdata from a jqxgrid, provide the data to the user for download 
- * with the specified filename.
- * @param csvStringData the csv data to export to a file.
- * @param filename the name to provide to the user for download of the data.
- */
-function exportToCSV (csvStringData, filename) {
-   var downloadLink = document.createElement("a");
-   var csvblob = new Blob(["\ufeff", csvStringData]);
-   var url = URL.createObjectURL(csvblob);
-   downloadLink.href = url;
-   downloadLink.download = filename;
-   document.body.appendChild(downloadLink);
-   downloadLink.click();
-   document.body.removeChild(downloadLink);
-}; 
+function confirmDelete(formName,msg){
+	console.log('TODO: use confirmDialog instead of confirmDelete.');
+	// TODO: Old code, don't use, rewrite invocations to use confirmDialog instead. 
+	// var formName;var msg=msg||"this record";
+	// confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable")
+}
+
 
 // Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
 // function to the ok button.
@@ -132,6 +107,35 @@ function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
   adialog.dialog('open');
 };
 
+/** exportGridToCSV given the id of a jqxgrid control and a filename, export the coutent of the grid to a csv file
+ * with the specified filename for direct download.
+ * @param idOfGrid the id of the jqx grid control, without a leading # selector.
+ * @param filename the filename to provide the user for the downloaded data.
+ */
+function exportGridToCSV (idOfGrid, filename) {
+   var exportHeader = true;
+   var rows = null; // null for all rows
+	var exportTo = null; // null to export to local variable
+   var exportHiddenColumns = true;
+	var csvStringData = $('#' + idOfGrid).jqxGrid('exportdata', 'csv', exportTo ,exportHeader,rows,exportHiddenColumns);
+   exportToCSV(csvStringData, filename);  
+};
+
+/** exportToCSV given csv data as from an exportdata from a jqxgrid, provide the data to the user for download 
+ * with the specified filename.
+ * @param csvStringData the csv data to export to a file.
+ * @param filename the name to provide to the user for download of the data.
+ */
+function exportToCSV (csvStringData, filename) {
+   var downloadLink = document.createElement("a");
+   var csvblob = new Blob(["\ufeff", csvStringData]);
+   var url = URL.createObjectURL(csvblob);
+   downloadLink.href = url;
+   downloadLink.download = filename;
+   document.body.appendChild(downloadLink);
+   downloadLink.click();
+   document.body.removeChild(downloadLink);
+}; 
 
 
 /** Allow textarea controls to grow in size as text is entered into them 
@@ -267,3 +271,23 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
 	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 };
 
+/** function countCharsLeft count the characters available for data entry in an input
+ * (typically a text area) and report used and remaining characters as the content of
+ * a specified control. Example use bound to onkeyup event of a textarea:
+ * 
+ 	<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
+ 	<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+ 		onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+ 		rows="3" aria-labelledby="remarks_label" ></textarea>
+ *
+ * @param elementid the id without a # selector for the input to count characters in.
+ * @param maxsize the maximum number of allowed characters in elementid.
+ * @param outputelementid the id without a # selector for the dom element to display
+ *  the results.
+ */
+function countCharsLeft(elementid, maxsize, outputelementid){ 
+	var current = $('#'+elementid).val().length;
+	var remaining = maxsize - current;
+	var result = current + " characters, " + remaining + " left";
+	$('#'+outputelementid).html(result);
+}
