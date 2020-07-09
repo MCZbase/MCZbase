@@ -603,8 +603,18 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="phylum">phylum as name</cfcase>
 					<cfcase value="subphylum">subphylum as name</cfcase>
 					<cfcase value="superclass">superclass as name</cfcase>
-					<cfcase value="phylorder">phylorder as name</cfcase>
+					<cfcase value="class">phylclass as name</cfcase>
+					<cfcase value="subclass">subclass as name</cfcase>
+					<cfcase value="superorder">superorder as name</cfcase>
+					<cfcase value="order">phylorder as name</cfcase>
+					<cfcase value="suborder">suborder as name</cfcase>
+					<cfcase value="infraorder">infraorder as name</cfcase>
+					<cfcase value="superfamily">superfamily as name</cfcase>
 					<cfcase value="family">family as name</cfcase>
+					<cfcase value="subfamily">subfamily as name</cfcase>
+					<cfcase value="tribe">tribe as name</cfcase>
+					<cfcase value="genus">genus as name</cfcase>
+					<cfcase value="author_text">author_text as name</cfcase>
 				</cfswitch>
 			FROM 
 				taxonomy
@@ -614,8 +624,18 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="phylum">upper (phylum)</cfcase>
 					<cfcase value="subphylum">upper (subphylum)</cfcase>
 					<cfcase value="superclass">upper (superclass)</cfcase>
-					<cfcase value="phylorder">upper (phylorder)</cfcase>
+					<cfcase value="class">upper (phylclass)</cfcase>
+					<cfcase value="subclass">upper (subclass)</cfcase>
+					<cfcase value="superorder">upper (superorder)</cfcase>
+					<cfcase value="order">upper (phylorder)</cfcase>
+					<cfcase value="suborder">upper (suborder)</cfcase>
+					<cfcase value="infraorder">upper (infraorder)</cfcase>
+					<cfcase value="superfamily">upper (superfamily)</cfcase>
 					<cfcase value="family">upper (family)</cfcase>
+					<cfcase value="subfamily">upper (subfamily)</cfcase>
+					<cfcase value="tribe">upper (tribe)</cfcase>
+					<cfcase value="genus">upper (genus)</cfcase>
+					<cfcase value="author_text">upper (author_text)</cfcase>
 				</cfswitch>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY 
@@ -624,8 +644,18 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="phylum">phylum</cfcase>
 					<cfcase value="subphylum">subphylum</cfcase>
 					<cfcase value="superclass">superclass</cfcase>
-					<cfcase value="phylorder">phylorder</cfcase>
+					<cfcase value="class">phylclass</cfcase>
+					<cfcase value="subclass">subclass</cfcase>
+					<cfcase value="superorder">superorder</cfcase>
+					<cfcase value="order">phylorder</cfcase>
+					<cfcase value="suborder">suborder</cfcase>
+					<cfcase value="infraorder">infraorder</cfcase>
+					<cfcase value="superfamily">superfamily</cfcase>
 					<cfcase value="family">family</cfcase>
+					<cfcase value="subfamily">subfamily</cfcase>
+					<cfcase value="tribe">tribe</cfcase>
+					<cfcase value="genus">genus</cfcase>
+					<cfcase value="author_text">author_text</cfcase>
 				</cfswitch>
 		</cfquery>
 	<cfset rows = search_result.recordcount>

@@ -145,6 +145,34 @@ limitations under the License.
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
       		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
     		};
+			jQuery("##subclass").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'subclass' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##superorder").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'superorder' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
 			jQuery("##phylorder").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -159,11 +187,109 @@ limitations under the License.
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
       		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
     		};
+			jQuery("##suborder").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'suborder' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##infraorder").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'infraorder' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##superfamily").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'superfamily' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
 			jQuery("##family").autocomplete({
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
 						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'family' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##subfamily").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'subfamily' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##tribe").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'tribe' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##genus").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'genus' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+    		};
+			jQuery("##author_text").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'author_text' },
 						dataType: 'json',
 						success : function (data) { response(data); },
 						error : handleError
