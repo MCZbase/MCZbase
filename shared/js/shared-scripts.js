@@ -52,11 +52,11 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 		title: dialogTitle,
 		buttons: {
 			OK: function () {
-				 setTimeout(okFunction, 30);
-				 $(this).dialog('destroy');
+				setTimeout(okFunction, 30);
+				$(this).dialog('destroy');
 			},
 			Cancel: function () {
-				 $(this).dialog('destroy');
+				$(this).dialog('destroy');
 			}
 		},
 		close: function() {
