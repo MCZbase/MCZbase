@@ -361,7 +361,7 @@ limitations under the License.
 														<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry?</label>
 													</li>
 												</ul>
-												<p class="smaller-text my-2">Not all taxa in MCZbase have associated specimens.</p>
+												<p class="smaller-text mt-3">Not all taxa in MCZbase have associated specimens.</p>
 												<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
