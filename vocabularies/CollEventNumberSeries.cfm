@@ -341,10 +341,15 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="remarks" id="remarks_label">Remarks</label>
-										<input type="text" id="remarks" name="remarks" class="form-control-sm" value="" aria-labelledby="remarks_label" >
+										<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
+										<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+											rows="3" aria-labelledby="remarks_label" ></textarea>
 									</div>
 								</div>
+								<script>
+									$('##remarks').keyup(autogrow);
+								</script>
 								<div class="form-row mb-5">
 									<div class="col-12 col-md-6">
 										<span>
@@ -452,10 +457,15 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-md-12">
-											<label for="remarks" id="remarks_label">Remarks</label>
-											<input type="text" id="remarks" name="remarks" class="form-control-sm" value="#remarks#" aria-labelledby="remarks_label" >		
+											<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
+											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+												onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+												rows="3" aria-labelledby="remarks_label" >#remarks#</textarea>
 										</div>
 									</div>
+									<script>
+										$('##remarks').keyup(autogrow);
+									</script>
 									<div class="form-row mb-5">
 										<div class="col-12 col-md-6"> 
 											<span>
@@ -471,6 +481,7 @@ limitations under the License.
 												$(document).ready(function() {
 													$(makeAgentPicker('collector_agent_name','collector_agent_id'));
 													$('##editNumSeries input[type=text]').on("change",changed);
+													$('##remarks').on("change",changed);
 												});
 												function saveChanges(){ 
 													var agenttext = $('##collector_agent_name').val();

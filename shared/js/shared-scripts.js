@@ -263,3 +263,23 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
 	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 };
 
+/** function countCharsLeft count the characters available for data entry in an input
+ * (typically a text area) and report used and remaining characters as the content of
+ * a specified control. Example use bound to onkeyup event of a textarea:
+ * 
+ 	<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
+ 	<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+ 		onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+ 		rows="3" aria-labelledby="remarks_label" ></textarea>
+ *
+ * @param elementid the id without a # selector for the input to count characters in.
+ * @param maxsize the maximum number of allowed characters in elementid.
+ * @param outputelementid the id without a # selector for the dom element to display
+ *  the results.
+ */
+function countCharsLeft(elementid, maxsize, outputelementid){ 
+	var current = $('##'+elementid).val().length;
+	var remaining = maxsize - current;
+	var result = current + " characters, " + remaining + " left";
+	$('##'+outputelementid).html(result);
+}
