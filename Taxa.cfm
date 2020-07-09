@@ -332,7 +332,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 											<div class="col-12 col-xl-4">
 												<h2 class="h3 card-title px-0 mx-0 mb-0 mt-0">Search All Taxonomy</h2>
-												<p class="smaller-text mt-2">Search taxonomy used in MCZbase for:  common names, synonymies, current identifications, authorities for future identifications, previous identifications (especially where specimens were cited by a now-unaccepted name). They are neither complete nor necessarily authoritative.</p>
+												<p class="smaller-text mt-2">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
 												<input type="hidden" name="action" value="search">
 												<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif valid_catalog_term_fg EQ 1>
@@ -361,12 +361,7 @@ limitations under the License.
 														<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry?</label>
 													</li>
 												</ul>
-												<p class="smaller-text my-2">Not all taxa in MCZbase have associated specimens. 
-													<span class="btn-link" 
-														onClick="$('##wehavesomeAll').prop('checked',true);" 
-														aria-label="Find only taxa for which specimens exist">Select</span> 
-													the "Find all taxa without regard for use?" option to see all matching taxa.
-												</p>
+												<p class="smaller-text my-2">Not all taxa in MCZbase have associated specimens.</p>
 												<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
