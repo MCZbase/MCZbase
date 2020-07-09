@@ -400,6 +400,8 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("we_have_some") AND we_have_some EQ 1>
 					AND #session.flatTableName#.collection_object_id is not null
+				<cfelseif isdefined("we_have_some") AND we_have_some EQ 0>
+					AND #session.flatTableName#.collection_object_id is null
 				</cfif>
 			GROUP BY
 				taxonomy.TAXON_NAME_ID,

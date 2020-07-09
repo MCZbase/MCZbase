@@ -207,10 +207,10 @@ limitations under the License.
 												<p class="smaller-text">Not all taxa in MCZbase have associated specimens. 
 													<span class="btn-link" 
 														onClick="$('##we_have_some').attr('checked',false);" 
-														aria-label="Find only taxa for which specimens exist">Uncheck</span> 
-													the "Find only taxa for which specimens exist?" box to see all matches.</p>
+														aria-label="Find only taxa for which specimens exist">Select</span> 
+													the "Find all taxa without regard for use?" option to see all matching taxa.</p>
 												<input type="hidden" name="action" value="search">
-												<ul class="list-group list-group-flush pb-3">
+												<ul class="list-group list-group-flush pb-3 border border-secondary">
 													<cfif valid_catalog_term_fg EQ 1>
 														<cfset validFlagAllSelected = ''>
 														<cfset validFlagOnlySelected = 'checked="checked"'>
@@ -236,14 +236,32 @@ limitations under the License.
 														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagNotSelected# value="0">
 														<label for="validFGUnchecked" class="btn-link smaller-text">Display only taxa not accepted for data entry?</label>
 													</li>
+												</ul>
+												<ul class="list-group list-group-flush pb-3 border border-secondary">
+													<cfif we_have_some EQ 1>
+														<cfset usedInIdAllSelected = ''>
+														<cfset usedInIdOnlySelected = 'checked="checked"'>
+														<cfset usedInIdNotSelected = ''>
+													<cfelseif we_have_some EQ 0>
+														<cfset usedInIdAllSelected = ''>
+														<cfset usedInIdOnlySelected = ''>
+														<cfset usedInIdNotSelected = 'checked="checked"'>
+													<cfelse>
+														<cfset usedInIdAllSelected = 'checked="checked"'>
+														<cfset usedInIdOnlySelected = ''>
+														<cfset usedInIdNotSelected = ''>
+													</cfif>
 													<li class="list-group-item pb-0">
-														<cfif we_have_some EQ 1>
-															<cfset wehavesomeChecked = "checked">
-														<cfelse>
-															<cfset wehavesomeChecked = "">
-														</cfif>
-														<input type="checkbox" name="we_have_some" value="1" id="we_have_some" #wehavesomeChecked#>
-														<label class="btn-link smaller-text" onClick="$('##we_have_some').attr('checked',true);" for="we_have_some">Find only taxa for which specimens exist?</label>
+														<input type="radio" name="we_have_some" id="validFGChecked" #usedInIdAllSelected# value="">
+														<label for="validFGChecked" class="btn-link smaller-text">Find all taxa without regard for use?</label>
+													</li>
+													<li class="list-group-item pb-0">
+														<input type="radio" name="we_have_some" id="validFGUnchecked" #usedInIdOnlySelected# value="1">
+														<label for="validFGUnchecked" class="btn-link smaller-text">Find only taxa for which specimens exist?</label>
+													</li>
+													<li class="list-group-item pb-0">
+														<input type="radio" name="we_have_some" id="validFGUnchecked" #usedInIdNotSelected# value="0">
+														<label for="validFGUnchecked" class="btn-link smaller-text">Display only taxa not used in identifications?</label>
 													</li>
 												</ul>
 											</div>
