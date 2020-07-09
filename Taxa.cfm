@@ -204,11 +204,6 @@ limitations under the License.
 												<h2 class="h3 card-title px-0 mx-0 mb-0">Search All Taxonomy</h2>
 												<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 												<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
-												<p class="smaller-text">Not all taxa in MCZbase have associated specimens. 
-													<span class="btn-link" 
-														onClick="$('##we_have_some').attr('checked',false);" 
-														aria-label="Find only taxa for which specimens exist">Select</span> 
-													the "Find all taxa without regard for use?" option to see all matching taxa.</p>
 												<input type="hidden" name="action" value="search">
 												<ul class="list-group list-group-flush pb-3 border border-secondary">
 													<cfif valid_catalog_term_fg EQ 1>
@@ -233,10 +228,16 @@ limitations under the License.
 														<label for="validFGUnchecked" class="btn-link smaller-text">Display only taxa currently accepted for data entry?</label>
 													</li>
 													<li class="list-group-item pb-0">
-														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagNotSelected# value="0">
-														<label for="validFGUnchecked" class="btn-link smaller-text">Display only taxa not accepted for data entry?</label>
+														<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
+														<label for="validFGNot" class="btn-link smaller-text">Display only taxa not accepted for data entry?</label>
 													</li>
 												</ul>
+												<p class="smaller-text">Not all taxa in MCZbase have associated specimens. 
+													<span class="btn-link" 
+														onClick="$('##wehavesomeAll').prop('checked',true);" 
+														aria-label="Find only taxa for which specimens exist">Select</span> 
+													the "Find all taxa without regard for use?" option to see all matching taxa.
+												</p>
 												<ul class="list-group list-group-flush pb-3 border border-secondary">
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
@@ -252,16 +253,16 @@ limitations under the License.
 														<cfset usedInIdNotSelected = ''>
 													</cfif>
 													<li class="list-group-item pb-0">
-														<input type="radio" name="we_have_some" id="validFGChecked" #usedInIdAllSelected# value="">
-														<label for="validFGChecked" class="btn-link smaller-text">Find all taxa without regard for use?</label>
+														<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
+														<label for="wehavesomeAll" class="btn-link smaller-text">Find all taxa without regard for use?</label>
 													</li>
 													<li class="list-group-item pb-0">
-														<input type="radio" name="we_have_some" id="validFGUnchecked" #usedInIdOnlySelected# value="1">
-														<label for="validFGUnchecked" class="btn-link smaller-text">Find only taxa for which specimens exist?</label>
+														<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
+														<label for="wehavesomeHave" class="btn-link smaller-text">Find only taxa for which specimens exist?</label>
 													</li>
 													<li class="list-group-item pb-0">
-														<input type="radio" name="we_have_some" id="validFGUnchecked" #usedInIdNotSelected# value="0">
-														<label for="validFGUnchecked" class="btn-link smaller-text">Display only taxa not used in identifications?</label>
+														<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
+														<label for="wehavesomeNot" class="btn-link smaller-text">Display only taxa not used in identifications?</label>
 													</li>
 												</ul>
 											</div>
