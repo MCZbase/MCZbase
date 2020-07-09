@@ -214,9 +214,15 @@ limitations under the License.
 													<cfif valid_catalog_term_fg EQ 1>
 														<cfset validFlagAllSelected = ''>
 														<cfset validFlagOnlySelected = 'checked="checked"'>
+														<cfset validFlagNotSelected = ''>
+													<cfelseif valid_catalog_term_fg EQ 0>
+														<cfset validFlagAllSelected = ''>
+														<cfset validFlagOnlySelected = ''>
+														<cfset validFlagNotSelected = 'checked="checked"'>
 													<cfelse>
 														<cfset validFlagAllSelected = 'checked="checked"'>
 														<cfset validFlagOnlySelected = ''>
+														<cfset validFlagNotSelected = ''>
 													</cfif>
 													<li class="list-group-item pb-0">
 														<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
@@ -225,6 +231,10 @@ limitations under the License.
 													<li class="list-group-item pb-0">
 														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
 														<label for="validFGUnchecked" class="btn-link smaller-text">Display only taxa currently accepted for data entry?</label>
+													</li>
+													<li class="list-group-item pb-0">
+														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagNotSelected# value="0">
+														<label for="validFGUnchecked" class="btn-link smaller-text">Display only taxa not accepted for data entry?</label>
 													</li>
 													<li class="list-group-item pb-0">
 														<cfif we_have_some EQ 1>
