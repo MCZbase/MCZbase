@@ -108,8 +108,9 @@ function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
 function exportGridToCSV (idOfGrid, filename) {
    var exportHeader = true;
    var rows = null; // null for all rows
+	var exportTo = null; // null to export to local variable
    var exportHiddenColumns = true;
-   var csvStringData = $('#' + idOfGrid).jqxGrid('exportdata', 'csv',null,exportHeader,rows,exportHiddenColumns);
+	var csvStringData = $('#' + idOfGrid).jqxGrid('exportdata', 'csv', exportTo ,exportHeader,rows,exportHiddenColumns);
    exportToCSV(csvStringData, filename);  
 };
 
