@@ -459,7 +459,7 @@ limitations under the License.
 					</script> 
 						</div>
 					</div>
-					<div class="form-row col-12 pl-1 pr-2 mt-3 mb-2 mr-2 ml-0">
+					<div class="form-row col-12 pl-1 pr-3 mt-3 mb-2 mr-3 ml-0">
 						<div class="col px-1 bg-light border ml-1">
 						
 							<label for="genus" class="ml-1"> Genus 
