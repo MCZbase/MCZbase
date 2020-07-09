@@ -334,7 +334,7 @@ limitations under the License.
 												<h2 class="h3 card-title px-0 mx-0 mb-0 mt-0">Search All Taxonomy</h2>
 												<p class="smaller-text mt-2">Search taxonomy used in MCZbase for:  common names, synonymies, current identifications, authorities for future identifications, previous identifications (especially where specimens were cited by a now-unaccepted name). They are neither complete nor necessarily authoritative.</p>
 												<input type="hidden" name="action" value="search">
-												<ul class="list-group list-group-flush pb-2 border rounded">
+												<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif valid_catalog_term_fg EQ 1>
 														<cfset validFlagAllSelected = ''>
 														<cfset validFlagOnlySelected = 'checked="checked"'>
