@@ -312,7 +312,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row mb-3">
 					<div class="col-12">
-						<div class="tab-card-main mt-1 pb-2 tab-card"> 
+						<div class="tab-card-main mt-4 pb-2 tab-card"> 
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
 							<div class="card-header tab-card-header pb-0 w-100">
