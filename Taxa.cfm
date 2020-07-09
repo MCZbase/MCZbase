@@ -204,7 +204,7 @@ limitations under the License.
 												<p class="smaller-text">Search the taxonomy used in MCZbase for:	common names, synonymies, taxa used for current identifications, taxa used as authorities for future identifications, taxa used in previous identifications	(especially where specimens were cited by a now-unaccepted name).</p>
 												<p class="smaller-text">These #getCount.cnt# records represent current and past taxonomic treatments in MCZbase. They are neither complete nor necessarily authoritative.</p>
 												<p class="smaller-text">Not all taxa in MCZbase have associated specimens. 
-													<span class="btn btn-link" 
+													<span class="btn-link" 
 														onClick="$('##we_have_some').attr('checked',false);" 
 														aria-label="Find only taxa for which specimens exist">Uncheck</span> 
 													the "Find only taxa for which specimens exist?" box to see all matches.</p>
@@ -221,7 +221,7 @@ limitations under the License.
 														<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
 														<label for="validFGChecked" class="btn btn-link smaller-text">Display all matches?</label>
 													</li>
-													<li class="list-group-item pb-0"> <a href="javascript:void(0)" class="smaller-text" onClick="taxa.valid_catalog_term_fg[1].checked=true;">
+													<li class="list-group-item pb-0">
 														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
 														<label for="validFGUnchecked">Display only taxa currently accepted for data entry?</label>
 													</li>

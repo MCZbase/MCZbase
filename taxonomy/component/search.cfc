@@ -49,7 +49,6 @@ limitations under the License.
 	<cfargument name="division" type="string" required="no">
 	<cfargument name="subdivision" type="string" required="no">
 	<cfargument name="infraspecific_author" type="string" required="no">
-	<cfargument name="valid_catalog_term_fg" type="string" required="no">
 	<cfargument name="scientificnameid" type="string" required="no">
 	<cfargument name="taxonid" type="string" required="no">
 	<cfargument name="we_have_some" type="string" required="no"><!--- 1 or empty string, thus type string --->
@@ -454,7 +453,7 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset message = trim("Error processing getTaxa: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 		<cfabort>
 	</cfcatch>
