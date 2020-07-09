@@ -552,7 +552,7 @@ limitations under the License.
 			<div class="row mx-0">
 				<div class="text-left col-md-12">
 					<main role="main">
-						<div class="pl-2 mb-5"> 
+						<div class="pl-0 mb-5"> 
 							
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 								<h4>Results: </h4>
