@@ -395,7 +395,7 @@ limitations under the License.
 													</li>
 												</ul>
 											</div>
-											<div class="col-12 col-xl-8 mt-2">
+											<div class="col-12 col-xl-8 mt-4">
 												<div class="col-12">
 													<p class="small text-success" aria-label="input info">Add equals sign for exact match.  Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
