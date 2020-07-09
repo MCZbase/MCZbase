@@ -35,6 +35,7 @@ limitations under the License.
 </cfquery>
 <!--- set default search field values if not passed in --->
 <cfif NOT isDefined("valid_catalog_term_fg")><cfset valid_catalog_term_fg=""></cfif>
+<cfif NOT isDefined("we_have_some")><cfset we_have_some=""></cfif>
 <cfif NOT isDefined("scientific_name")><cfset scientific_name=""></cfif>
 <cfif NOT isDefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
 <cfif NOT isDefined("common_name")><cfset common_name=""></cfif>
