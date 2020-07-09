@@ -296,7 +296,7 @@ limitations under the License.
 					})
 				},
 				select: function (event,ui) { 
-					$("##author_text").value("="+ui.item.value);
+					$("##author_text").val("="+ui.item.value);
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
