@@ -369,11 +369,7 @@ limitations under the License.
 					<cfelseif author_text is "NULL">
 						AND upper(taxonomy.author_text) is null
 					<cfelse>
-						<cfif find(',',author_text) GT 0>
-							AND upper(taxonomy.author_text) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(author_text)#" list="yes"> )
-						<cfelse>
-							AND upper(taxonomy.author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author_text)#%">
-						</cfif>
+						AND upper(taxonomy.author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author_text)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("taxon_remarks") AND len(taxon_remarks) gt 0>
@@ -382,11 +378,7 @@ limitations under the License.
 					<cfelseif taxon_remarks is "NULL">
 						AND upper(taxonomy.taxon_remarks) is null
 					<cfelse>
-						<cfif find(',',taxon_remarks) GT 0>
-							AND upper(taxonomy.taxon_remarks) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(taxon_remarks)#" list="yes"> )
-						<cfelse>
-							AND upper(taxonomy.taxon_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_remarks)#%">
-						</cfif>
+						AND upper(taxonomy.taxon_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_remarks)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("taxon_status") AND len(taxon_status) gt 0>

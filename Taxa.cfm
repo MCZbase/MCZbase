@@ -295,6 +295,9 @@ limitations under the License.
 						error : handleError
 					})
 				},
+				select: function (event,ui) { 
+					$("##author_text").value("="+ui.item.value);
+				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
       		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
@@ -394,7 +397,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-xl-8">
 												<div class="col-12">
-													<p class="small text-success" aria-label="input info">Add equals sign for exact match.  Fields accept comma separated lists.  NULL finds blanks.</p>
+													<p class="small text-success" aria-label="input info">Add equals sign for exact match.  Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
 												<div class="form-row bg-light border rounded px-2 pb-2">
 													<div class="col-md-4">
