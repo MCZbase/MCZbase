@@ -459,8 +459,9 @@ limitations under the License.
 					</script> 
 						</div>
 					</div>
-					<div class="form-row col-12 px-2 mt-3 mr-1">
+					<div class="form-row col-12 pl-1 pr-2 mt-3 mb-2 mr-2 ml-0">
 						<div class="col px-1 bg-light border ml-1">
+						
 							<label for="genus" class="ml-1"> Genus 
 								<span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">
 									<small class="link-color">Add &##215;</small>
