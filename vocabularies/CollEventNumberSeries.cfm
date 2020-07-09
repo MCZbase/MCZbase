@@ -341,7 +341,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
+										<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
 										<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
 											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
 											rows="3" aria-labelledby="remarks_label" ></textarea>
@@ -458,13 +458,19 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-md-12">
 											<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
-											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1 autogrow"
 												onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
 												rows="3" aria-labelledby="remarks_label" >#remarks#</textarea>
 										</div>
 									</div>
 									<script>
-										$('##remarks').keyup(autogrow);
+										// make selected textareas autogrow as text is entered.
+										$(document).ready(function() {
+											// bind the autogrow function to the keyup event
+											$('textarea.autogrow').keyup(autogrow);
+											// trigger keyup event to size textareas to existing text
+											$('textarea.autogrow').keyup();
+										});
 									</script>
 									<div class="form-row mb-5">
 										<div class="col-12 col-md-6"> 
