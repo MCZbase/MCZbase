@@ -293,7 +293,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12">
-						<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
+						<div class="col-12 border rounded mt-2 mb-0 pt-0 pb-2 pl-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -459,8 +459,8 @@ limitations under the License.
 					</script> 
 						</div>
 					</div>
-					<div class="form-row col-12 px-2 mt-3">
-						<div class="col pl-1 pr-0">
+					<div class="form-row col-12 px-2 mt-3 mr-1">
+						<div class="col px-1 bg-light border ml-1">
 							<label for="genus" class="ml-1"> Genus 
 								<span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">
 									<small class="link-color">Add &##215;</small>
@@ -470,7 +470,7 @@ limitations under the License.
 								<input name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
-						<div class="col px-0">
+						<div class="col px-1 bg-light border ml-1">
 							<label for="species" class="ml-1"> Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
 							<div class="">
@@ -478,13 +478,13 @@ limitations under the License.
 							</div>
 						</div>
 					
-						<div class="col px-0">
+						<div class="col px-1 bg-light border ml-1">
 							<label for="subspecies" class="ml-1">Subspecies</label>
 							<div class="">
 								<input name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col pl-0 pr-2">
+						<div class="col px-1 bg-light border ml-1">
 							<label for="author_text" class="ml-1">Author</label>
 							<div class="">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
