@@ -453,30 +453,29 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 mt-3">
-						<div class="col-6 px-0">
-							<label for="genus" class="col-sm-3 col-form-label float-left"> Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;"><small class="link-color">Add &##215;</small></span></label>
-							<div class="col-sm-9 float-left">
+						<div class="col px-0">
+							<label for="genus" class=""> Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;"><small class="link-color">Add &##215;</small></span></label>
+							<div class="">
 								<input name="genus" id="genus" class="ml-1 data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
-						<div class="col-6 px-0">
-							<label for="species" class="col-sm-2 col-form-label float-left"> Species<!--- <span class="likeLink"
+						<div class="col px-0">
+							<label for="species" class=""> Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
-							<div class="col-sm-10 float-left">
+							<div class="">
 								<input name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
 						</div>
-					</div>
-					<div class="form-row col-12 px-0">
-						<div class="col-6 px-0">
-							<label for="subspecies" class="col-sm-3 col-form-label float-left">Subspecies</label>
+					
+						<div class="col px-0">
+							<label for="subspecies" class="">Subspecies</label>
 							<div class="col-sm-9 float-left">
 								<input name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="ml-1 data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-6 px-0">
-							<label for="author_text" class="col-sm-2 col-form-label float-left">Author</label>
-							<div class="col-sm-10 float-left">
+						<div class="col px-0">
+							<label for="author_text" class="">Author</label>
+							<div class="">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
 					onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </span> </div>
