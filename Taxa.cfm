@@ -332,7 +332,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 											<div class="col-12 col-xl-4">
 												<h2 class="h3 card-title px-0 mx-0 mb-0 mt-0">Search All Taxonomy</h2>
-												<p class="smaller-text mt-2">Search taxonomy used in MCZbase for:  common names, synonymies, current identifications, authorities for future identifications, previous identifications (especially where specimens were cited by a now-unaccepted name). They are neither complete nor necessarily authoritative.</p>
+												<p class="smaller-text mt-2">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
 												<input type="hidden" name="action" value="search">
 												<ul class="list-group list-group-flush p-2 border mr-xl-3 rounded">
 													<cfif valid_catalog_term_fg EQ 1>
@@ -361,6 +361,7 @@ limitations under the License.
 														<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry?</label>
 													</li>
 												</ul>
+<<<<<<< HEAD
 												<p class="smaller-text my-2">Not all taxa in MCZbase have associated specimens. 
 													<span class="btn-link" 
 														onClick="$('##wehavesomeAll').prop('checked',true);" 
@@ -368,6 +369,10 @@ limitations under the License.
 													the "Find all taxa without regard for use?" option to see all matching taxa.
 												</p>
 												<ul class="list-group list-group-flush p-2 border mr-xl-3 rounded">
+=======
+												<p class="smaller-text my-2">Not all taxa in MCZbase have associated specimens.</p>
+												<ul class="list-group list-group-flush p-2 border rounded">
+>>>>>>> origin/redesign
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
 														<cfset usedInIdOnlySelected = 'checked="checked"'>
@@ -749,7 +754,7 @@ limitations under the License.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/Taxa.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/Taxa.cfm?action=findAll&execute=true&' + $('##searchForm :input[value!=""]').serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','taxon record');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
