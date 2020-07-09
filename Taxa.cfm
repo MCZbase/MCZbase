@@ -334,7 +334,7 @@ limitations under the License.
 												<h2 class="h3 card-title px-0 mx-0 mb-0 mt-0">Search All Taxonomy</h2>
 												<p class="smaller-text mt-2">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
 												<input type="hidden" name="action" value="search">
-												<ul class="list-group list-group-flush p-2 border mr-xl-3 rounded">
+												<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif valid_catalog_term_fg EQ 1>
 														<cfset validFlagAllSelected = ''>
 														<cfset validFlagOnlySelected = 'checked="checked"'>
@@ -348,15 +348,15 @@ limitations under the License.
 														<cfset validFlagOnlySelected = ''>
 														<cfset validFlagNotSelected = ''>
 													</cfif>
-													<li class="list-group-item px-0 pb-0 pt-1 px-xl-3">
+													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
 														<label for="validFGChecked" class="btn-link smaller-text">Show all matches?</label>
 													</li>
-													<li class="list-group-item px-0 pb-0 pt-1 px-xl-3">
+													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
 														<label for="validFGUnchecked" class="btn-link smaller-text">Show only taxa currently accepted for data entry?</label>
 													</li>
-													<li class="list-group-item px-0 py-1 px-xl-3">
+													<li class="list-group-item px-0 py-1">
 														<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
 														<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry?</label>
 													</li>
@@ -376,15 +376,15 @@ limitations under the License.
 														<cfset usedInIdOnlySelected = ''>
 														<cfset usedInIdNotSelected = ''>
 													</cfif>
-													<li class="list-group-item px-0 pb-0 pt-1 px-xl-3">
+													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
 														<label for="wehavesomeAll" class="btn-link smaller-text">Find all taxa without regard for use?</label>
 													</li>
-													<li class="list-group-item px-0 pb-0 pt-1 px-xl-3">
+													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
 														<label for="wehavesomeHave" class="btn-link smaller-text">Find only taxa for which specimens exist?</label>
 													</li>
-													<li class="list-group-item px-0 py-1 px-xl-3">
+													<li class="list-group-item px-0 py-1">
 														<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
 														<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications?</label>
 													</li>
