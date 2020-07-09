@@ -219,21 +219,20 @@ limitations under the License.
 													</cfif>
 													<li class="list-group-item pb-0">
 														<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-														<label for="validFGChecked" class="btn btn-link smaller-text">Display all matches?</label>
+														<label for="validFGChecked" class="btn-link smaller-text">Display all matches?</label>
 													</li>
 													<li class="list-group-item pb-0">
 														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-														<label for="validFGUnchecked">Display only taxa currently accepted for data entry?</label>
+														<label for="validFGUnchecked" class="btn-link smaller-text">Display only taxa currently accepted for data entry?</label>
 													</li>
 													<li class="list-group-item pb-0">
-														<input type="checkbox" name="we_have_some" value="1" id="we_have_some">
-														<label class="smaller-text" onClick="$('##we_have_some').attr('checked',true);" for="we_have_some">Find only taxa for which specimens exist?</label>
-													</li>
-														<cfif isdefined("session.username") and #session.username# is "#session.dbuser#">
-															<script type="text/javascript" language="javascript">
-																document.getElementById('we_have_some').checked=false;
-															</script>
+														<cfif we_have_some EQ 1>
+															<cfset wehavesomeChecked = "checked">
+														<cfelse>
+															<cfset wehavesomeChecked = "">
 														</cfif>
+														<input type="checkbox" name="we_have_some" value="1" id="we_have_some" #wehavesomeChecked#>
+														<label class="btn-link smaller-text" onClick="$('##we_have_some').attr('checked',true);" for="we_have_some">Find only taxa for which specimens exist?</label>
 													</li>
 												</ul>
 											</div>
