@@ -304,9 +304,9 @@ limitations under the License.
 								</div>
 							</div>
 							<script>
-							// Make all textareas currently defined autogrow as text is entered.
-							$("textarea").keyup(autogrow);  
-						</script>
+								// Make all textareas currently defined autogrow as text is entered.
+								$("textarea").keyup(autogrow);  
+							</script>
 							<div class="form-row my-2">
 								<div class="ml-auto">
 									<input type="button" value="Create Loan" class="insBtn"

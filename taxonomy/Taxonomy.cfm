@@ -206,6 +206,13 @@ limitations under the License.
 		});
 		toggleBotanicalVisibility();
 	});  
+
+   function countCharsLeft(elementid, maxsize, outputelementid){ 
+      var current = $('##'+elementid).val().length;
+      var remaining = maxsize - current;
+      var result = current + " characters, " + remaining + " left";
+      $('##'+outputelementid).html(result);
+   }
 </script> 
 </cfoutput> 
 <!------------------------------------------------>
@@ -652,12 +659,18 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-12 px-0">
-							<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks</label>
+							<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks (<span id="length_taxon_remarks"></span>)</label>
 							<div class="col-sm-10 float-left">
-								<textarea name="taxon_remarks" id="taxon_remarks" rows="3" class="data-entry-textarea mt-1">#gettaxa.taxon_remarks#</textarea>
+								<textarea name="taxon_remarks" id="taxon_remarks" 
+									onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
+									rows="3" class="data-entry-textarea mt-1">#gettaxa.taxon_remarks#</textarea>
 							</div>
 						</div>
 					</div>
+					<script>
+						// Make all textareas currently defined autogrow as text is entered.
+						$("textarea").keyup(autogrow);  
+					</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
 						<input type="button" value="Save" class="btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
