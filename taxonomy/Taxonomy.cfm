@@ -287,7 +287,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12">
-						<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
+						<div class="col-12 border rounded mt-2 mb-0 pt-0 pb-2 pl-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -307,7 +307,7 @@ limitations under the License.
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
-							<div class="col-12 col-md-2 px-0 float-left">
+							<div class="col-7 col-md-3 px-0 float-left">
 								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -325,10 +325,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 px-0 float-left"> 
+							<div class="col-5 col-md-2 px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-md-7 px-0 float-left">
+							<div class="col-12 col-md-7 pl-0 float-left">
 								<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
@@ -392,7 +392,7 @@ limitations under the License.
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
-							<div class="col-12 col-md-3 px-0 float-left">
+							<div class="col-7 col-md-3 px-0 float-left">
 								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -410,8 +410,8 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a> </div>
-							<div class="col-12 col-sm-6 px-0 float-left">
+							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a> </div>
+							<div class="col-12 col-sm-7 pl-0 float-left">
 								<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
 							pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -453,14 +453,19 @@ limitations under the License.
 					</script> 
 						</div>
 					</div>
-					<div class="form-row col-12 px-2 mt-3">
-						<div class="col pl-1 pr-0">
-							<label for="genus" class="ml-1"> Genus <span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;"><small class="link-color">Add &##215;</small></span></label>
+					<div class="form-row col-12 pl-1 pr-3 mt-3 mb-2 mr-3 ml-0">
+						<div class="col px-1 bg-light border ml-1">
+						
+							<label for="genus" class="ml-1"> Genus 
+								<span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">
+									<small class="link-color">Add &##215;</small>
+								</span>
+							</label>
 							<div class="">
-								<input name="genus" id="genus" class="ml-1 data-entry-input my-1" value="#gettaxa.genus#">
+								<input name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
-						<div class="col px-0">
+						<div class="col px-1 bg-light border ml-1">
 							<label for="species" class="ml-1"> Species<!--- <span class="likeLink"
 					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
 							<div class="">
@@ -468,13 +473,13 @@ limitations under the License.
 							</div>
 						</div>
 					
-						<div class="col px-0">
+						<div class="col px-1 bg-light border ml-1">
 							<label for="subspecies" class="ml-1">Subspecies</label>
 							<div class="">
 								<input name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col pl-0 pr-2">
+						<div class="col px-1 bg-light border ml-1">
 							<label for="author_text" class="ml-1">Author</label>
 							<div class="">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
