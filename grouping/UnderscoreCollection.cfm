@@ -536,7 +536,7 @@ limitations under the License.
 										<div class="col-md-10">
 											<label for="guid_list" id="guid_list_label">Collection objects to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 											<input type="text" id="guid_list" name="guid_list" class="form-control-sm " 
-												value="" aria-labelledby="guid_list_label" pattern="MCZ:Dept:1111,MCZ:Dept:1112" >					
+												value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >					
 										</div>
 										<script>
 											function addCollectionObjects(){ 
