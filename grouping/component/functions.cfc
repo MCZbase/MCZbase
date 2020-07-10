@@ -155,13 +155,17 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="guid_list" type="string" required="yes">
 	<cfset guids = "">
-	<cfset guidArray = guid_list.Split(',')>
-	<cfset separator ="">
-	<cfloop array="#guidArray#" index=#idx#>
-		<!--- trim to prevent guid, guid from failing --->
-		<cfset guids = guids & separator & trim(idx)>
-		<cfset separator = ",">
-	</cfloop>
+	<cfif Find(',', guid_list) GT 0>
+		<cfset guidArray = guid_list.Split(',')>
+		<cfset separator ="">
+		<cfloop array="#guidArray#" index=#idx#>
+			<!--- trim to prevent guid, guid from failing --->
+			<cfset guids = guids & separator & trim(idx)>
+			<cfset separator = ",">
+		</cfloop>
+	<cfelse>
+		<cfset guids = trim(guid_list)>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>

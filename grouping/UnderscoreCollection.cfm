@@ -555,7 +555,7 @@ limitations under the License.
 																$('##divListOfContainedObjects').html(data2);
 															}
 														});
-														$('##addResultDiv').html("Added " + data.added);
+														$('##addResultDiv').html("Added " + data[0].added);
 													},
 													error: function(jqXHR,textStatus,error){
 														var message = "";
@@ -564,7 +564,7 @@ limitations under the License.
 														} else {
 															message = jqXHR.responseText;
 														}
-														messageDialog('Error saving ____ collection: '+message, 'Error: '+error);
+														messageDialog('Error: ' + error, 'Error saving ____ collection: '+message);
 														$('##addResultDiv').html("Error.");
 													}
 												});
