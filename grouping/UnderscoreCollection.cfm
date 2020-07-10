@@ -53,7 +53,7 @@ limitations under the License.
 							<div role="region" aria-labelledby="formheading">
 								<h2 id="formheading">Find "Collections" (arbitrary groups of collection objects)</h2>
 								<form name="searchForm" id="searchForm"> 
-									<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
+									<input type="hidden" name="method" value="getCollections" class="keeponclear">
 									<div class="form-row mb-2">
 										<div class="col-md-6">
 											<label for="collection_name" id="collection_name_label">Name for the Collection</label>
