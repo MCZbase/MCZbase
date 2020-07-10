@@ -9,13 +9,14 @@
  * @prarm dialogTitle
  */
 function messageDialog(dialogText, dialogTitle) {
+	var titleTrimmed = dialogTitle.substring(0,50);
 	var messageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
 		draggable: true,
 		width: 'auto',
 		minHeight: 80,
-		title: dialogTitle.substring(0,50),
+		title: titleTrimmed,
 		buttons: {
 			OK: function () {
 				$(this).dialog('destroy');

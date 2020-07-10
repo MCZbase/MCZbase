@@ -514,7 +514,7 @@ limitations under the License.
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error.substring(0.50));
+																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error.substring(0,50));
 															}
 														});
 													} else { 
