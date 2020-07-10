@@ -343,10 +343,15 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="description" id="description_label">Description</label>
-										<input type="text" id="description" name="description" class="form-control-sm" aria-labelledby="description_label" >					
+										<label for="description" id="description_label">Description (<span id="length_description">0 characters, 4000 left</span>)</label>
+										<textarea id="description" name="description" class="data-entry-textarea mt-1"
+											onkeyup="countCharsLeft('description',4000,'length_description');"
+											rows="3" aria-labelledby="description_label" ></textarea>
 									</div>
 								</div>
+								<script>
+									$('##description').keyup(autogrow);
+								</script>
 								<div class="form-row mb-5">
 									<div class="col-12 col-md-6">
 										<span>
@@ -443,10 +448,21 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-md-12">
-											<label for="description" id="description_label">Description</label>
-											<input type="text" id="description" name="description" class="form-control-sm" value="#description#" aria-labelledby="description_label" >					
+											<label for="description" id="description_label">Description (<span id="length_description"></span>)</label>
+											<textarea id="description" name="description" class="data-entry-textarea mt-1 autogrow"
+												onkeyup="countCharsLeft('description',4000,'length_description');"
+												rows="3" aria-labelledby="description_label" >#description#</textarea>
 										</div>
 									</div>
+									<script>
+										// make selected textareas autogrow as text is entered.
+										$(document).ready(function() {
+											// bind the autogrow function to the keyup event
+											$('textarea.autogrow').keyup(autogrow);
+											// trigger keyup event to size textareas to existing text
+											$('textarea.autogrow').keyup();
+										});
+									</script>
 									<div class="form-row mb-5">
 										<div class="col-12 col-md-6"> 
 											<span>
