@@ -44,7 +44,7 @@ Update an existing arbitrary collection record (underscore_collection).
 				<cfif isdefined("description")>
 					,description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 				</cfif>
-				<cfif isdefined("underscore_agent_id") and length(underscore_agent_id) GT 0>
+				<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0>
 					,underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
 				<cfelse>
 					,underscore_agent_id = NULL
