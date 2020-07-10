@@ -455,7 +455,7 @@ limitations under the License.
 												<div class="form-row mb-1">
 											
 													<div class="col-md-2">
-														<label for="superorder" class="data-entry-label ">Superorder <span class="small text-success" onclick="var e=document.getElementById('superorder');e.value='='+e.value;" aria-label="Add equals sign for exact match">(=) </span></label>
+														<label for="superorder" class="data-entry-label align-left-center">Superorder <span class="small text-success" onclick="var e=document.getElementById('superorder');e.value='='+e.value;" aria-label="Add equals sign for exact match">(=) </span></label>
 														<input type="text" class="data-entry-input" id="superorder" name="superorder" value="#superorder#" placeholder="superorder">
 													</div>
 													<div class="col-md-2">
