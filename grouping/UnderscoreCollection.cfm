@@ -79,7 +79,7 @@ limitations under the License.
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=search';" >New Search</button>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-												<button type="button" class="btn-xs btn-secondary" aria-label="Create a new arbitrary collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=new';" >Create new Collection</button>
+												<button type="button" class="btn-xs btn-secondary" aria-label="Create a new arbitrary collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=new';" >Create new "Collection"</button>
 											</cfif>
 										</div>
 									</div>
@@ -561,7 +561,11 @@ limitations under the License.
 				where
 				 	underscore_collection_id<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
-			<cflocation url="/grouping/UnderscoreCollection.cfm" addtoken="false">
+			<h2>"Collection" successfully deleted.</h2>
+			<ul>
+				<li><a href="/grouping/UnderscoreCollection.cfm">Search for "Collections"</a> (arbitrary groupings of collection objects).</li>
+				<li><a href="/grouping/UnderscoreCollection.cfm?action=new">Create a new "Collection"</a> (arbitrary grouping of collection objects).</li>
+			</ul>
 		<cfcatch>
 			<cfthrow type="Application" message="Error deleting _____ Collection: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
