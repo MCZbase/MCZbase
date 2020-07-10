@@ -427,7 +427,11 @@ limitations under the License.
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
 				select underscore_collection_id, collection_name, description, underscore_agent_id,
-					MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred') as agentname
+					case underscore_agent_id
+						when null then '[No Agent]'
+						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
+						end
+					as agentname
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
