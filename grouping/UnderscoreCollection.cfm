@@ -27,6 +27,9 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="new">
 		<cfset pageTitle = "Add New ____ Collection">
+		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+			<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
+		</cfif>
 	</cfcase>
 	<cfcase value="edit">
 		<cfset pageTitle = "Edit an ______ Collection">
