@@ -333,7 +333,7 @@ limitations under the License.
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
 							<h2 id="formheading">New "Collection" (arbitrary grouping of specimens)</h2>
-							<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
+							<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/UnderscoreCollection.cfm" method="post"> 
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mb-2">
 									<div class="col-md-12">
