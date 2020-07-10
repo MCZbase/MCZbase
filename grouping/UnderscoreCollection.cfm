@@ -534,7 +534,7 @@ limitations under the License.
 									<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
 									<div class="form-row mb-2">
 										<div class="col-md-10">
-											<label for="guid_list" id="guid_list_label">GUIDs to add to this collection (comma separated list of MCZ:Dept:number)</label>
+											<label for="guid_list" id="guid_list_label">Collection objects to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 											<input type="text" id="guid_list" name="guid_list" class="form-control-sm " 
 												value="" aria-labelledby="guid_list_label" >					
 										</div>
