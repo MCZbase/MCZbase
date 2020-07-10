@@ -54,7 +54,8 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<div role="region" aria-labelledby="formheading">
-								<h2 id="formheading">Find "Collections" (arbitrary groups of collection objects)</h2>
+								<h2 id="formheading">Find "______ Collections" (arbitrary groups of collection objects)</h2>
+								<p>Can represent collections by workers in natural history, as in <a href="http://id.lib.harvard.edu/alma/990011227530203941/catalog">Sherborn, 1940.</a> "Where is the _______ collection? An account of the various natural history collections which have come under the notice of the compiler", or any arbitrary grouping of cataloged items in MCZbase.</p>
 								<form name="searchForm" id="searchForm"> 
 									<input type="hidden" name="method" value="getCollections" class="keeponclear">
 									<div class="form-row mb-2">
@@ -69,7 +70,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-md-12">
-											<label for="guid" id="guid_label">A cataloged item in the collection</label>
+											<label for="guid" id="guid_label">A cataloged item which is a member of the collection</label>
 											<input type="text" id="guid" name="guid" class="form-control-sm" value="#guid#" aria-labelledby="guid_label" >					
 										</div>
 									</div>
