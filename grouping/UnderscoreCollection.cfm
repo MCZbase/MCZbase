@@ -75,7 +75,9 @@ limitations under the License.
 											<button class="btn-xs btn-primary px-2" id="searchButton" type="submit" aria-label="Search for arbitrary collections">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=search';" >New Search</button>
-											<button type="button" class="btn-xs btn-secondary" aria-label="Create a new arbitrary collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=new';" >Create new Collection</button>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+												<button type="button" class="btn-xs btn-secondary" aria-label="Create a new arbitrary collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=new';" >Create new Collection</button>
+											</cfif>
 										</div>
 									</div>
 								</form>
