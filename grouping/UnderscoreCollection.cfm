@@ -523,16 +523,16 @@ limitations under the License.
 						<div role="region" aria-labelledby="existingvalues">
 							<cfif undCollUse_result.recordcount EQ 0>
 								<h2 id="existingvalues">There are no collection objects in this (arbitrary) collection</h2>
-								<form action="grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
+								<form action="/grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
 									<input type="hidden" name="action" value="delete">
 									<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-									<input type="submit" value="Delete" aria-label="Delete this collection.">
+									<button class="btn btn-warning" id="deleteButton" aria-label="Delete this collection.">Delete</button>
 									<script>
 										$(document).ready(function() {
-											$('##deleteForm').bind('submit', function(event){
-												event.preventDefault();
+											$('##deleteButton').bind('click', function(evt){
+												evt.preventDefault();
 												confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
-											};
+											});
 										});
 									</script>
 								</form>
@@ -559,7 +559,7 @@ limitations under the License.
 			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
 				delete from underscore_collection 
 				where
-				 	underscore_collection_id<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				 	underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
 			<h2>"Collection" successfully deleted.</h2>
 			<ul>
