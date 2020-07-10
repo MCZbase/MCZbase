@@ -339,7 +339,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="collection_name" id="collection_name_label">Name for the Collection</label>
-										<input type="text" id="collection_name" name="collection_name" class="form-control-sm" required aria-labelledby="collection_name_label" >					
+										<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" required aria-labelledby="collection_name_label" >					
 									</div>
 								</div>
 								<div class="form-row mb-2">
@@ -394,7 +394,7 @@ limitations under the License.
 					<cfif isdefined("description")>
 						,description
 					</cfif>
-					<cfif isdefined("underscore_agent_id")>
+					<cfif isdefined("underscore_agent_id") and length(underscore_agent_id) GT 0 >
 						,underscore_agent_id
 					</cfif>
 				) values (
@@ -402,7 +402,7 @@ limitations under the License.
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 					</cfif>
-					<cfif isdefined("underscore_agent_id")>
+					<cfif isdefined("underscore_agent_id") and length(underscore_agent_id) GT 0 >
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
 					</cfif>
 				)
@@ -444,7 +444,8 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-md-12">
 											<label for="collection_name" id="collection_name_label">Name for the Collection</label>
-											<input type="text" id="collection_name" name="collection_name" class="form-control-sm" value="#collection_name#" aria-labelledby="collection_name_label" >					
+											<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" 
+												required value="#collection_name#" aria-labelledby="collection_name_label" >					
 										</div>
 									</div>
 									<div class="form-row mb-2">
