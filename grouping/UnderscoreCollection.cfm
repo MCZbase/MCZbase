@@ -478,7 +478,7 @@ limitations under the License.
 												$(document).ready(function() {
 													$(makeAgentPicker('underscore_agent_name','underscore_agent_id'));
 													$('##editUndColl input[type=text]').on("change",changed);
-													$('##editUndColl description').on("change",changed);
+													$('##description').on("change",changed);
 												});
 												function saveChanges(){ 
 													var agenttext = $('##underscore_agent_name').val();
