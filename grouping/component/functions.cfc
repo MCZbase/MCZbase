@@ -166,6 +166,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
+		<cftransaction>
 		<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
 			select distinct 
 				collection_object_id from #session.flatTableName# 
@@ -185,9 +186,10 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					)
 			</cfquery>
 		
-			<cfset rows = rows + search_result.recordcount>
+			<cfset rows = rows + add_result.recordcount>
 		</cfloop>
 		</cfif>
+		</cftransaction>
 
 		<cfset i = 1>
 		<cfset row = StructNew()>
