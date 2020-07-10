@@ -426,6 +426,7 @@ limitations under the License.
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
 			<cfoutput query="undColl">
+				<cfset collname = collection_name><!--- save name for later use outside this output section --->
 				<div class="container">
 					<div class="row">
 						<div class="col-12">
@@ -530,7 +531,7 @@ limitations under the License.
 										$(document).ready(function() {
 											$('##deleteForm').bind('submit', function(event){
 												event.preventDefault();
-												confirmDialog('Delete the #collection_name# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
+												confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
 											};
 										});
 									</script>
