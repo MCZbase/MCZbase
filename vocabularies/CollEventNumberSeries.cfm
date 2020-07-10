@@ -430,8 +430,8 @@ limitations under the License.
 		<cfelse>
 			<cfquery name="numSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeries_result">
 				select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
-					case collector_agent_id
-						when null then '[No Agent]'
+					case 
+						when collector_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
 						end
 					as agentname

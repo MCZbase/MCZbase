@@ -99,8 +99,8 @@ Function getNumSeriesList.  Search for collector number series returning json su
 			SELECT 
 				coll_event_number_series_id, number_series, pattern, remarks,
 				collector_agent_id, 
-				case collector_agent_id
-					when null then '[No Agent]'
+				case 
+					when collector_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
 					end
 				as agentname

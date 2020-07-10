@@ -427,8 +427,8 @@ limitations under the License.
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
 				select underscore_collection_id, collection_name, description, underscore_agent_id,
-					case underscore_agent_id
-						when null then '[No Agent]'
+					case 
+						when underscore_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 						end
 					as agentname
