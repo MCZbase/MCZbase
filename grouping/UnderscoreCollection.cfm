@@ -430,7 +430,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<div role="region" aria-labelledby="formheading">
-								<h2 id="formheading">Edit Collecting Event Number Series</h2>
+								<h2 id="formheading">Edit "Collection" (arbitrary grouping of collection objects)</h2>
 								<form name="editUndColl" id="editUndColl"> 
 									<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 									<input type="hidden" id="method" name="method" value="saveUndColl" >
@@ -522,6 +522,19 @@ limitations under the License.
 						<div role="region" aria-labelledby="existingvalues">
 							<cfif undCollUse_result.recordcount EQ 0>
 								<h2 id="existingvalues">There are no collection objects in this (arbitrary) collection</h2>
+								<form action="grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
+									<input type="hidden" name="action" value="delete">
+									<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
+									<input type="submit" value="Delete" aria-label="Delete this collection.">
+									<script>
+										$(document).ready(function() {
+											$('##deleteForm').bind('submit', function(event){
+												event.preventDefault();
+												confirmDialog('Delete the #collection_name# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
+											};
+										});
+									</script>
+								</form>
 							<cfelse>
 								<h2 id="existingvalues">Collection objects in this (arbitrary) collection</h2>
 								<ul>
@@ -535,6 +548,23 @@ limitations under the License.
 				</cfoutput>
 			</cfif>
 		</cfif>
+	</cfcase>
+	<!---------------------------------------------------------------------------------->
+	<cfcase value="delete">
+		<cftry>
+			<cfif not isdefined("underscore_collection_id") OR len(trim(#underscore_collection_id#)) EQ 0 >
+				<cfthrow type="Application" message="Error: No value provided for required value underscore_collection_id">
+			</cfif>
+			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
+				delete from underscore_collection 
+				where
+				 	underscore_collection_id<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+			</cfquery>
+			<cflocation url="/grouping/UnderscoreCollection.cfm" addtoken="false">
+		<cfcatch>
+			<cfthrow type="Application" message="Error deleting _____ Collection: #cfcatch.Message# #cfcatch.Detail#">
+		</cfcatch>
+		</cftry>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfdefaultcase>
