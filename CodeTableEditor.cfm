@@ -147,7 +147,7 @@
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-							  	onclick="att#i#.action.value='deleteValue';submit();">	
+								onclick="att#i#.action.value='deleteValue';submit();">	
 						</td>
 					</tr>
 				</form>
@@ -208,7 +208,7 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -296,7 +296,7 @@
 				</tr>
 			</table>
 		</form>
-      <br>
+		<br>
 		<table>
 			<cfset i = 1>
 			<cfloop query="q">
@@ -368,7 +368,7 @@
 								<input type="button" 
 									value="Save" 
 									class="savBtn"
-								   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+									onclick="#tbl##i#.action.value='saveEdit';submit();">
 							</td>
 							<td>
 								<input type="button" 
@@ -457,7 +457,7 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -469,14 +469,14 @@
 			</cfloop>
 		</table>
 	<cfelseif tbl is "ctspecific_permit_type">
-        <!---------------------------------------------------->
+		<!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from ctspecific_permit_type order by specific_type
 		</cfquery>
 		<cfquery name="ptypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select permit_type from ctpermit_type order by permit_type
 		</cfquery>
-        <h2>Specific Types of Permissions and Rights documents (permits)</h2>
+		<h2>Specific Types of Permissions and Rights documents (permits)</h2>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="ctspecific_permit_type">
@@ -525,9 +525,9 @@
 				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
 						<input type="hidden" name="action" value="">
-			            <input type="hidden" name="tbl" value="ctspecific_permit_type">
+						<input type="hidden" name="tbl" value="ctspecific_permit_type">
 						<input type="hidden" name="origData" value="#q.specific_type#">
-				                <input type="hidden" name="fld" value="specific_type">
+						<input type="hidden" name="fld" value="specific_type">
 						<td>
 							<input type="text" name="specific_type" value="#q.specific_type#" size="66">
 						</td>
@@ -549,7 +549,7 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -565,7 +565,7 @@
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select type_status, description, category, ordinal from ctcitation_type_status order by category, ordinal, type_status
 		</cfquery>
-                <h2>Citation type, type status terms and other kinds of citation</h2>
+		<h2>Citation type, type status terms and other kinds of citation</h2>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
@@ -651,7 +651,7 @@
 								<option value="Primary" #scopepriselected# >Primary</option>
 								<option value="Secondary" #scopesecselected# >Secondary</option>
 								<option value="Voucher" #scopevouselected# >Voucher (non-type)</option>
-							    <option value="Voucher Not" #scopenvouselected#>Not Voucher (non-type)</option>
+								<option value="Voucher Not" #scopenvouselected#>Not Voucher (non-type)</option>
 							</select>
 						</td>
 						<td>
@@ -664,7 +664,7 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -746,7 +746,7 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -780,11 +780,11 @@
 							<input type="text" name="inverse_relation" size="50">
 						</td>
 						<td>
-						    <select name="rel_type">
-							    <option value="biological" selected='selected'>Biological</option>
-    							<option value="curatorial">Curatorial</option>
-	    						<option value="functional">Functional</option>
-						    </select>
+							<select name="rel_type">
+								<option value="biological" selected='selected'>Biological</option>
+								<option value="curatorial">Curatorial</option>
+								<option value="functional">Functional</option>
+							</select>
 						</td>				
 					<td>
 						<input type="submit" 
@@ -797,8 +797,8 @@
 		<cfset i = 1>
 		<table>
 			<tr>
-			    <th>Relationship</th>
-		        <th>Inverse Relation</th>
+				<th>Relationship</th>
+				<th>Inverse Relation</th>
 				<th>Type</th>
 			</tr>
 			<cfloop query="q">
@@ -814,30 +814,30 @@
 							<input type="text" name="inverse_relation" value="#inverse_relation#" size="50">
 						</td>
 						<td>
-                            <cfif rel_type EQ "biological">
-                                <cfset scopepriselected = "selected='selected'">
-                                <cfset scopesecselected = "">
-                                <cfset scopevouselected = "">
-                            <cfelseif rel_type EQ "curatorial">
-                                <cfset scopepriselected = "">
-                                <cfset scopesecselected = "selected='selected'">
-                                <cfset scopevouselected = "">
-                            <cfelse>
-                                <cfset scopepriselected = "">
-                                <cfset scopesecselected = "">
-                                <cfset scopevouselected = "selected='selected'">
-                            </cfif>
-                            <select name="rel_type">
-                                <option value="biological" #scopepriselected# >Biological</option>
-                                <option value="curatorial" #scopesecselected# >Curatorial</option>
-                                <option value="functional" #scopevouselected# >Functional</option>
-                            </select>
+							<cfif rel_type EQ "biological">
+								<cfset scopepriselected = "selected='selected'">
+								<cfset scopesecselected = "">
+								<cfset scopevouselected = "">
+							<cfelseif rel_type EQ "curatorial">
+								<cfset scopepriselected = "">
+								<cfset scopesecselected = "selected='selected'">
+								<cfset scopevouselected = "">
+							<cfelse>
+								<cfset scopepriselected = "">
+								<cfset scopesecselected = "">
+								<cfset scopevouselected = "selected='selected'">
+							</cfif>
+							<select name="rel_type">
+								<option value="biological" #scopepriselected# >Biological</option>
+								<option value="curatorial" #scopesecselected# >Curatorial</option>
+								<option value="functional" #scopevouselected# >Functional</option>
+							</select>
 						</td>				
 						<td>
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -907,7 +907,7 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -976,7 +976,7 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -1252,7 +1252,7 @@
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctbiol_relations
 			where
-                BIOL_INDIV_RELATIONSHIP='#origData#'
+				BIOL_INDIV_RELATIONSHIP='#origData#'
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1556,10 +1556,10 @@
 			VALUES 
 				('#newData#'
 				<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>,
+					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>
 				</cfif>
 				<cfif isdefined("description") and len(description) gt 0>
-					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
+					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>
 				</cfif>
 			)
 		</cfquery>
