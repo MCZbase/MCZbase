@@ -528,6 +528,56 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!--- region --->
+							<div role="region" aria-labelledby="formheading">
+								<form name="addCollObjectsUndColl" id="addCollObjectsUndColl"> 
+									<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
+									<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
+									<div class="form-row mb-2">
+										<div class="col-md-10">
+											<label for="guid_list" id="guid_list_label">GUIDs to add to this collection (comma separated list of MCZ:Dept:number)</label>
+											<input type="text" id="guid_list" name="guid_list" class="form-control-sm " 
+												value="#guid_list#" aria-labelledby="guid_list_label" >					
+										</div>
+										<script>
+											function addCollectionObject(){ 
+												jQuery.ajax({
+													url : "/grouping/component/functions.cfc",
+													type : "post",
+													dataType : "json",
+													data :  $('##addCollObjectsUndColl').serialize(),
+													success : function (data) {
+														$.ajax({
+															url : "/grouping/component/functions.cfc?method=getUndCollObjectsHTML&underscore_collection_id=#underscore_collection_id#",
+															type : "get",
+															dataType : "html",
+															success : function(data2){
+																$('##divListOfContainedObjects').html(data2);
+															}
+														}
+													},
+													error: function(jqXHR,textStatus,error){
+														var message = "";
+														if (error == 'timeout') {
+															message = ' Server took too long to respond.';
+														} else {
+															message = jqXHR.responseText;
+														}
+														messageDialog('Error saving ____ collection: '+message, 'Error: '+error);
+													}
+												});
+											};
+										</script>
+										<div class="col-md-2">
+											<input type="button" 
+												value="Save" title="Save" aria-label="Save"
+												class="btn btn-xs btn-primary"
+												onClick=" addCollectionObjects(); " 
+												>
+										</div>
+									</div>
+									<div class="form-row mb-2">
+								</form>
+							</div>
 						</div><!--- col --->
 					</div><!--- row --->
 				</div><!--- container --->
@@ -543,7 +593,7 @@ limitations under the License.
 				</cfquery>
 				<cfoutput>
 					<div class="container">
-						<div role="region" aria-labelledby="existingvalues">
+						<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 							<cfif undCollUse_result.recordcount EQ 0>
 								<h2 id="existingvalues">There are no collection objects in this (arbitrary) collection</h2>
 								<form action="/grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">

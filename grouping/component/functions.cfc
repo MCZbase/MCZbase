@@ -143,5 +143,98 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---- function addOIbjectToUndColl 
+  Given an underscore_collection_id and a string delimited list of guids, look up the collection object id 
+  values for the guids and insert the underscore_collection_id - collection_object_id relationships into
+  underscore_relation.  
+	@param underscore_collection_id the pk of the collection to add the collection objects to.
+	@param guid_list a comma delimited list of guids in the form MCZ:Col:catnum
+	@return a json structure containing added=nummber of added relations.
+--->
+<cffunction name="addObjectsToUndColl" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="guid_list" type="string" required="yes">
+	<cfset guids = "">
+	<cfset guidArray = guid_list.Split(',')>
+	<cfset separator ="">
+	<cfloop array="#guidArray#" index=#idx#>
+		<!--- trim to prevent guid, guid from failing --->
+		<cfset guids = guids & separator & trim(idx)>
+		<cfset separator = ",">
+	</cfloop>
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+			select distinct 
+				collection_object_id from #session.flatTableName# 
+			where 
+				guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#" list="yes" >)
+		</cfquery>
+		<cfif find_result.recordcount GT 1>
+			<cfloop query=find>
+			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+				insert into underscore_relation
+					( 
+						underscore_collection_id, 
+						collection_object_id
+					) values ( 
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
+					)
+			</cfquery>
+		
+			<cfset rows = rows + search_result.recordcount>
+		</cfloop>
+		</cfif>
+
+		<cfset i = 1>
+		<cfset row = StructNew()>
+		<cfset row["added"] = "#search.rows#">
+		<cfset data[i] = row>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing getUndCollList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!--- Given an underscore_collection_id return an html rendering of the collection objects in that collection.  --->
+<!--- TODO: Replace with json to populate grid. --->
+<cffunction name="getUndCollObjectsHTML" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cfset result = "">
+	<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
+		select guid
+			from #session.flatTableName#
+				left join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
+			where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+			order by guid
+	</cfquery>
+	<cfset result="<h2 id='existingvalues'>Collection objects in this (arbitrary) collection</h2><ul>" >
+	<cfloop query="undCollUse">
+		<cfset result =  result & "<li><a href='/guid/#undCollUse.guid#' target='_blank'>#undCollUse.guid#</a>" >
+	</cfloop>
+	<cfset result=result & '</ul>'>
+
+	<cfreturn result>
+</cffunction>
 
 </cfcomponent>
